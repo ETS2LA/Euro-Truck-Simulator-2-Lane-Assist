@@ -39,6 +39,8 @@ class RouteSection:
     last_actual_points: list[c.Position] = []
     _start_node: c.Node = None
     _end_node: c.Node = None
+    _first_set_done: bool = False
+    """Used to override some checks in the lane_index setter until the function is run once."""
     
     @property
     def start_node(self) -> c.Node:
@@ -62,8 +64,10 @@ class RouteSection:
     
     @lane_index.setter
     def lane_index(self, value: int):
-        if value == self._lane_index:
+        if value == self._lane_index and self._first_set_done:
             return
+        elif not self._first_set_done:
+            self._first_set_done = True
         
         if type(self.items[0].item) == c.Prefab:
             self._lane_index = value
@@ -210,3 +214,6 @@ class RouteSection:
                 
         self.last_actual_points = new_points
         return new_points
+    
+    def __str__(self):
+        return f"RouteSection: {self.start_node.uid} -> {self.end_node.uid}\nLane index: {self.lane_index}\nDistance left: {self.distance_left():.0f}m\nLane changing: {self.is_lane_changing}\nIs ended: {self.is_ended}"

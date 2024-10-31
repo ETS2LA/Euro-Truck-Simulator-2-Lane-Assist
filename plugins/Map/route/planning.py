@@ -67,6 +67,7 @@ def RoadToRouteSection(road: c.Road, lane_index: int) -> rc.RouteSection:
         route_item.item = list_road
         route_item.lane_index = lane_index
         route_section.items.append(route_item)
+    
     route_section.lane_index = lane_index
     return route_section
                 
