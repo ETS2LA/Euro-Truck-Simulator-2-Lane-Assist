@@ -148,11 +148,26 @@ def GetClosestLanesForPrefab(next_item: c.Prefab, end_point: c.Position) -> list
     
     return closest_lane_ids
         
-def GetNextRouteSection() -> rc.RouteSection:
-    if len(data.route_plan) == 0:
+def IsRoadValid(road: c.Road) -> bool:
+    if road.hidden:
+        return False
+    
+    if road.lanes == []:
+        return False
+    
+    if "traffic_lane.no_vehicles" in road.road_look.lanes_left or "traffic_lane.no_vehicles" in road.road_look.lanes_right:
+        return False
+    
+    return True
+        
+def GetNextRouteSection(route: list[rc.RouteSection] = []) -> rc.RouteSection:
+    if len(route) == 0:
+        route = data.route_plan
+        
+    if len(route) == 0:
         return None # No route sections found
     
-    current_section = data.route_plan[-1]
+    current_section = route[-1]
 
     if type(current_section.items[0].item) == c.Road:
         end_node = current_section.end_node
@@ -185,6 +200,31 @@ def GetNextRouteSection() -> rc.RouteSection:
             elif len(closest_lane_ids) == 1:
                 return PrefabToRouteSection(next_item, closest_lane_ids[0])
             
+            # Verify that the next road piece is not hidden (not drivable in game)
+            candidate_sections = [PrefabToRouteSection(next_item, lane_id) for lane_id in closest_lane_ids]
+            for section in candidate_sections: section.get_points()
+            next_roads = [GetNextRouteSection(route + [section]) for section in candidate_sections]
+            
+            verified_lane_ids = []
+            for i, section in enumerate(next_roads):
+                if section is not None:
+                    if type(section.items[0].item) != c.Prefab and not IsRoadValid(section.items[0].item):
+                        continue
+                    if type(section.items[0].item) == c.Prefab:
+                        section.get_points()
+                        next_section = GetNextRouteSection(route + [section])
+                        if type(next_section.items[0].item) == c.Road:
+                            if not IsRoadValid(next_section.items[0].item):
+                                continue
+
+                    verified_lane_ids.append(closest_lane_ids[i])
+                    
+            if len(verified_lane_ids) == 0:
+                return None
+            
+            closest_lane_ids = verified_lane_ids
+            
+            # Get the lane that is most in the direction of the truck
             end_positions = [next_item.nav_routes[lane_id].points[-1].tuple() for lane_id in closest_lane_ids]
             direction = "left" if data.truck_indicating_left else "right" if data.truck_indicating_right else "straight"
             best_lane = math_helpers.GetMostInDirection(end_positions, data.truck_rotation, (data.truck_x, data.truck_y, data.truck_z), direction=direction)

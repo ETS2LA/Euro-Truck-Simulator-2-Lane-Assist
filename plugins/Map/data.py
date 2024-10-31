@@ -47,6 +47,8 @@ route_plan: list[RouteSection] = []
 route_points: list[Position] = []
 
 # MARK: Options
+amount_of_points: int = 75
+"""How many points will the map calculate ahead. More points = more overhead moving data."""
 heavy_calculations_this_frame: int = -1
 """How many heavy calculations map has done this frame."""
 allowed_heavy_calculations: int = 500
@@ -55,7 +57,7 @@ lane_change_distance_per_kph: float = 1
 """Over how many meters distance will the truck change lanes per kph of speed. Basically at 50kph, the truck will change lanes over 25m, assuming a value of 0.5."""
 minimum_lane_change_distance: float = 10
 """The minimum distance the truck will change lanes over."""
-route_plan_length: int = 3
+route_plan_length: int = 4
 """How many route sections the planner will plan ahead for."""
 internal_map = settings.Get("Map", "InternalVisualisation", False)
 """Whether the internal map is enabled or not."""

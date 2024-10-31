@@ -71,7 +71,7 @@ def GetSteering():
     
     points = []
     for section in data.route_plan:
-        if len(points) > 50:
+        if len(points) > data.amount_of_points:
             break
         
         if section is None:
@@ -79,7 +79,7 @@ def GetSteering():
         
         section_points = section.get_points()[:-1]
         for point in section_points:
-            if len(points) > 50:
+            if len(points) > data.amount_of_points:
                 break
             points.append(point)
 

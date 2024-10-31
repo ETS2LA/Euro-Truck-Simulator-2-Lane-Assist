@@ -216,4 +216,9 @@ class RouteSection:
         return new_points
     
     def __str__(self):
-        return f"RouteSection: {self.start_node.uid} -> {self.end_node.uid}\nLane index: {self.lane_index}\nDistance left: {self.distance_left():.0f}m\nLane changing: {self.is_lane_changing}\nIs ended: {self.is_ended}"
+        return f"RouteSection: {self.start_node.uid} -> {self.end_node.uid}\n\
+                Lane index: {self.lane_index}\n\
+                Distance left: {self.distance_left():.0f}m\n\
+                Lane changing: {self.is_lane_changing}\n\
+                Is ended: {self.is_ended}\n\
+                Type: {type(self.items[0].item)}"
