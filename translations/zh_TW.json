@@ -322,6 +322,8 @@
     "global.settings.12.description": "設定透明模式下視窗的透明度。1 表示完全不透明，0 表示完全透明，可以調整數值來控制透明度。",
     "global.settings.13.name": "顯示器 ID",
     "global.settings.13.description": "用於視覺插件（如物體辨識等）的顯示器 ID。應設定為執行 ETS2 的顯示器。需要重新啟動以套用更改！",
+    "global.settings.14.name": "視野（FOV）",
+    "global.settings.14.description": "錯過了彈出視窗？在這裡調整你的視野（FOV）。",
 
     "map.settings.1.title": "地圖設定",
     "map.settings.1.description": "這些是地圖插件的設定。",
