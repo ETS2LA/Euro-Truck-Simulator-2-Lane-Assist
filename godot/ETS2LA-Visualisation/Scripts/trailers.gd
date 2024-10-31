@@ -38,7 +38,7 @@ func _process(delta: float) -> void:
 				var api_position = Vector3(float(trailer["x"]), float(trailer["y"]), float(trailer["z"]))
 				trailer_object.position = trailer_object.position.lerp(api_position + offset.rotated(Vector3(0,1,0), trailer_object.rotation.y), delta * followSpeed)
 				
-				var api_rotation = Vector3(-float(trailer["ry"]), float(trailer["rx"]), float(trailer["rz"]))
+				var api_rotation = Vector3(float(trailer["ry"]), float(trailer["rx"]), float(trailer["rz"]))
 				trailer_object.rotation_degrees = api_rotation
 				
 				index += 1
