@@ -1749,6 +1749,7 @@ class MapData:
 
     _by_uid = {}
     _model_descriptions_by_token = {}
+    _prefab_descriptions_by_token = {}
     """
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
@@ -1850,33 +1851,20 @@ class MapData:
 
     def build_dictionary(self) -> None:
         self._by_uid = {}
-        for node in self.nodes:
-            uid = node.uid
-            uid_str = str(uid)
-            parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._by_uid, parts, node)
-
-        for road in self.roads:
-            uid = road.uid
-            uid_str = str(uid)
-            parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._by_uid, parts, road)
-
-        for prefab in self.prefabs:
-            uid = prefab.uid
-            uid_str = str(uid)
-            parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._by_uid, parts, prefab)
-
-        for model in self.models:
-            uid = model.uid
-            uid_str = str(uid)
-            parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._by_uid, parts, model)
+        items = self.nodes + self.roads + self.prefabs + self.models
+        for item in items:
+            uid_str = str(item.uid)
+            parts = [uid_str]
+            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
+            set_nested_item(self._by_uid, parts, item)
 
         self._model_descriptions_by_token = {}
         for model_description in self.model_descriptions:
             self._model_descriptions_by_token[model_description.token] = model_description
+            
+        self._prefab_descriptions_by_token = {}
+        for prefab_description in self.prefab_descriptions:
+            self._prefab_descriptions_by_token[prefab_description.token] = prefab_description
 
     def get_sector_from_coordinates(self, x: float, z: float) -> tuple[int, int]:
         return (int(x // self._sector_width), int(z // self._sector_height))
@@ -1917,7 +1905,8 @@ class MapData:
                 uid = parse_string_to_int(uid)
 
             uid_str = str(uid)
-            parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
+            parts = [uid_str]
+            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
             return get_nested_item(self._by_uid, parts)
         except:
             return None
@@ -1930,7 +1919,8 @@ class MapData:
                 return None
 
             uid_str = str(uid)
-            parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
+            parts = [uid_str]
+            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
             return get_nested_item(self._by_uid, parts)
         except:
             logging.warning(f"Error getting item by UID: {uid}")
@@ -1949,10 +1939,7 @@ class MapData:
 
     def match_prefabs_to_descriptions(self) -> None:
         for prefab in self.prefabs:
-            for description in self.prefab_descriptions:
-                if prefab.token == description.token:
-                    prefab.prefab_description = description
-                    break
+            prefab.prefab_description = self._prefab_descriptions_by_token.get(prefab.token, None)
                 
     def get_sectors_for_coordinate_and_distance(self, x: float, z: float, distance: float) -> list[tuple[int, int]]:
         sectors = []

@@ -73,8 +73,11 @@ def GetMaximumSpeed():
                 )
                 curvatures.append(angle * percentage)
 
-        curvature = max(curvatures)
-        curvature = abs(math.degrees(curvature))
+        try:
+            curvature = max(curvatures)
+            curvature = abs(math.degrees(curvature))
+        except:
+            curvature = 0
         return MapCurvatureToSpeed(curvature)
     except Exception as e:
         logging.exception("Failed to calculate curvature")

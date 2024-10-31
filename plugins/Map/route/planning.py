@@ -39,6 +39,8 @@ def PrefabToRouteSection(prefab: c.Prefab, lane_index: int) -> rc.RouteSection:
     route_section.items = [route_item]
     route_section.lane_index = lane_index
     points = route_section.lane_points
+    if len(points) == 0:
+        return None
     nodes = [data.map.get_node_by_uid(node_uid) for node_uid in prefab.node_uids]
     closest_to_start = min(nodes, key=lambda n: math_helpers.DistanceBetweenPoints((n.x, n.y), (points[0].x, points[0].z)))
     closest_to_end = min(nodes, key=lambda n: math_helpers.DistanceBetweenPoints((n.x, n.y), (points[-1].x, points[-1].z)))

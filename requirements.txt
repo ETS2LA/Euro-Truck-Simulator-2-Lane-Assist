@@ -32,6 +32,7 @@ sv_ttk
 mouse
 scipy
 torch
+ujson
 ftfy
 rich
 rpyc
