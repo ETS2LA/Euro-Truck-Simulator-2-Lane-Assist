@@ -20,6 +20,8 @@
     "unknown": "未知",
     "download": "下載",
     "downloading": "正在下載 {0}...",
+    "clear": "清除",
+    "search": "搜尋",
 
     "_BACKEND": "請在此處保留一個空格以區分不同的翻譯部分。",
 
@@ -218,6 +220,15 @@
     "frontend.mainmenu.updates": "查看開發人員的最新更新！",
     "frontend.mainmenu.stats": "以下是您的統計數據！",
     "frontend.mainmenu.plugins": "在這裡管理您的插件。",
+    "frontend.plugins.name": "名稱",
+    "frontend.plugins.authors": "作者",
+    "frontend.plugins.tags": "標籤",
+    "frontend.plugins.select_tags": "搜尋標籤",
+    "frontend.plugins.select_authors": "搜尋作者",
+    "frontend.plugins.selected_tags": "已選擇 {0} 個標籤",
+    "frontend.plugins.selected_authors": "已選擇 {0} 位作者",
+    "frontend.plugins.end_list": "已達列表底部",
+    "frontend.plugins.hidden": "已隱藏 {0} 個插件",
     "frontend.pluginlist.failed_to_fetch": "獲取插件失敗",
     "frontend.pluginlist.name": "插件快速存取™",
     "frontend.pluginlist.small_text": "（實際上並非如此）",
@@ -266,7 +277,7 @@
     "_LIST_OF_PLUGINS": "以下將列出所有允許名稱翻譯的插件。",
 
     "plugins.adaptivecruisecontrol": "主動式巡航控制 (ACC)",
-    "plugins.adaptivecruisecontrol.description": "使用車輛位置數據和速度限制的巡航控制。",
+    "plugins.adaptivecruisecontrol.description": "插件會對前方車輛減速（如果啟用了物體辨識插件）。也會對彎道減速（如果啟用了地圖駕駛插件）。",
     "plugins.ar": "虛擬實境 (AR)",
     "plugins.ar.description": "插件會在遊戲中繪製形狀，使它們看起來像是在遊戲世界中。",
     "plugins.cruisecontrol": "巡航控制",
