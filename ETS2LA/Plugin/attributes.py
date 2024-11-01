@@ -181,13 +181,14 @@ class PluginDescription:
     name: str
     version: str
     description: str
+    tags: list[str]
     dependencies: list[str]
     modules: list[str]
     compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"]
     compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"]
     update_log: dict[str, str] = {}
     
-    def __init__(self, name: str = "", version: str = "", description: str = "", dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = []) -> None:
+    def __init__(self, name: str = "", version: str = "", description: str = "", tags: list[str] = [], dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = []) -> None:
         self.name = name
         self.version = version
         self.description = description
@@ -196,3 +197,4 @@ class PluginDescription:
         self.compatible_game = compatible_game
         self.update_log = update_log
         self.modules = modules
+        self.tags = tags

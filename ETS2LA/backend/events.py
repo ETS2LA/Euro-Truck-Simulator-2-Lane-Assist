@@ -139,6 +139,7 @@ class VehicleChange():
                 "default": settings.Get("global", "FOV", 77)
             }
         }]
+        sounds.Play('info')
         newFOV = value("Vehicle Change Detected", dict)
         if newFOV != 0 and newFOV != None:
             settings.Set("global", "FOV", newFOV["value"])

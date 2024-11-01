@@ -19,6 +19,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="plugins.sockets.description",
         modules=["TruckSimAPI"],
+        tags=["Base", "Visualization", "Frontend"]
     )
     
     author = Author(

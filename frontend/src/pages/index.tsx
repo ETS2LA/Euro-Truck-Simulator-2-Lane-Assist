@@ -78,6 +78,8 @@ export default function Home({ip} : {ip: string}) {
                                 <ResizablePanel defaultSize={75} className="flex flex-col text-left gap-[18px]  transition-all">
                                     <p className="text-xs text-muted-foreground pl-3">{translate("frontend.mainmenu.plugins")}</p>
                                     <div className="border rounded-lg h-[calc(100%-34px)]">
+                                        <Button onClick={() => push("/plugins")} variant={"ghost"} className="text-sm w-full rounded-none rounded-t-md opacity-50 hover:opacity-100 hover:bg-background transition-all">{translate("frontend.mainmenu.open_plugins")}</Button>
+                                        <Separator />
                                         <PluginList ip={ip} />
                                     </div>
                                 </ResizablePanel>

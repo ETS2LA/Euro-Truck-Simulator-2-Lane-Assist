@@ -61,7 +61,8 @@ class Plugin(ETS2LAPlugin):
         name="plugins.adaptivecruisecontrol",
         version="1.0",
         description="plugins.adaptivecruisecontrol.description",
-        modules=["SDKController", "ShowImage", "TruckSimAPI"]
+        modules=["SDKController", "ShowImage", "TruckSimAPI"],
+        tags=["Base", "Speed Control"]
     )
     
     author = Author(

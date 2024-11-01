@@ -167,8 +167,12 @@ def get_plugins():
         # Create the json
         return_data = {}
         for plugin in plugins:
-            name, description, _, _ = plugin
+            name, description, authors, _ = plugin
+            if type(authors) != list:
+                authors = [authors]
+                
             return_data[name] = {
+                "authors": [author.__dict__ for author in authors],
                 "description": description.__dict__,
                 "settings": plugin_settings[name],
             }
