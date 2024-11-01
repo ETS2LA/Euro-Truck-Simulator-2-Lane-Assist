@@ -71,7 +71,7 @@ export default function ETS2LAUserStats() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">{formatValue(totalDistance)}km</div>
+                    <div className="text-2xl font-bold">{formatValue(Math.round(totalDistance))}km</div>
                     <p className="text-xs text-muted-foreground">
                         in the US that's {formatValue(Math.round(totalDistance*0.621371), ",")} miles
                     </p>
@@ -110,7 +110,7 @@ export default function ETS2LAUserStats() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">{formatValue(totalRevenue)}€</div>
+                    <div className="text-2xl font-bold">{formatValue(Math.round(totalRevenue))}€</div>
                     <p className="text-xs text-muted-foreground">
                         or ${formatValue(Math.round(totalRevenue*1.18), ",")} (very rough estimate)
                     </p>
@@ -162,7 +162,7 @@ export default function ETS2LAUserStats() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">{formatValue(heaviestJob)}kg</div>
+                    <div className="text-2xl font-bold">{formatValue(Math.round(heaviestJob))}kg</div>
                     <p className="text-xs text-muted-foreground">
                         or {formatValue(Math.round(heaviestJob*2.20462), ",")}lbs
                     </p>
