@@ -93,7 +93,8 @@ export default function Home({ ip }: { ip: string }) {
                 continue;
 
             // Search Text
-            if(search != "" && !key.toLowerCase().includes(search.toLowerCase())){
+            const name = translate(data[key].description.name)
+            if(search != "" && !name.toLowerCase().includes(search.toLowerCase())){
                 hidden++;
                 continue;
             }
