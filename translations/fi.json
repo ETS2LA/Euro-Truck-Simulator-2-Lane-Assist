@@ -20,6 +20,8 @@
     "unknown": "Tuntematon",
     "download": "Lataa",
     "downloading": "Ladataan {0}...",
+    "clear": "Tyhjennä",
+    "search": "Etsi",
 
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -168,6 +170,7 @@
     "frontend.mainmenu.visualisation": "Käynnistä visualisaatio",
     "frontend.mainmenu.open_in_browser": "Avaa visualisaatio selaimessa",
     "frontend.mainmenu.basic_mode": "Avaa perustila",
+    "frontend.mainmenu.open_plugins": "Avaa laajennusten hallinta",
     "frontend.pluginlist.failed_to_fetch": "Laajennuksia ei voitu hakea",
     "frontend.pluginlist.name": "Laajennukset",
     "frontend.pluginlist.small_text": " ",
@@ -217,6 +220,15 @@
     "frontend.mainmenu.updates": "Tässä kehittäjien tekemiä päivityksiä!",
     "frontend.mainmenu.stats": "Katso omia tilastojasi tästä!",
     "frontend.mainmenu.plugins": "Hallitse laajennuksia täällä.",
+    "frontend.plugins.name": "Nimi",
+    "frontend.plugins.authors": "Tekijät",
+    "frontend.plugins.tags": "Kategoriat",
+    "frontend.plugins.select_tags": "Etsi kategorioilla",
+    "frontend.plugins.select_authors": "Etsi tekijöillä",
+    "frontend.plugins.selected_tags": "{0} kategoria(a) valittu",
+    "frontend.plugins.selected_authors": "{0} tekijä(ä) valittu",
+    "frontend.plugins.end_list": "Oho, nyt loppu laajennukset, käyppäs lataamassa lisää.",
+    "frontend.plugins.hidden": "{0} laajennus(ta) piilotettu",
 
     "_LIST_OF_PLUGINS": "Following will be a list of all plugins that allow translation of their names.",
 
