@@ -1,12 +1,13 @@
 {
-    "iso_code": "hu",
-    "language_credits": " A magyar fordítást készítette: h4ck3r_pr0_g4m3r és Deli Levente",
-    "name_en": "Hungarian",
     "name": "Magyar",
+    "name_en": "Hungarian",
+    "iso_code": "hu",
+    "language_credits": "A magyar fordítást készítitte: H4ck3r_pr0_g4m3r és delilevente.",
 
     "_GLOBALS": "Please leave a space here to seperate the different sections of the translations.",
 
     "cancel": "Mégsem",
+    "clear": "Törlés",
     "confirm": "Megerősít",
     "continue": "Folytatás",
     "done": "Kész!",
@@ -15,6 +16,7 @@
     "error": "Hiba",
     "loading": "Betöltés...",
     "no": "Nem",
+    "search": "Keresés",
     "set": "Beállít",
     "setting": "Beállítás...",
     "success": "Sikeres",
@@ -174,9 +176,10 @@
     "frontend.immediate.update_available": "{0} frissítés(ek) van(nak) még",
     "frontend.immediate.update_check_error": "Hiba: {0}",
     "frontend.logged_out": "Kijelentkezve.",
-    "frontend.mainmenu.basic_mode": "Alap módba lépés",
+    "frontend.mainmenu.basic_mode": "Alap módba lépés (ajánlott)",
     "frontend.mainmenu.open_in_browser": "Megnyitás böngészőben",
     "frontend.mainmenu.plugins": "Itt kezelje a pluginokat.",
+    "frontend.mainmenu.open_plugins": "Plugin menedzser megnyitása",
     "frontend.mainmenu.stats": "Itt van pár statisztikád!",
     "frontend.mainmenu.updates": "Nézd meg ezeket a frissítéseket a fejlesztőinktől!",
     "frontend.mainmenu.visualisation": "Vizualizáció indítása",
@@ -227,10 +230,19 @@
     "frontend.pluginlist.plugin.enable": "Engedélyezés",
     "frontend.pluginlist.plugin.view": "Megtekintés",
     "frontend.pluginlist.small_text": "(nem igazán)",
+    "frontend.plugins.authors": "Készítők",
     "frontend.plugins.button_may_take_second_to_update": "Elterthat, egy másodhtpercig a frissítés.",
+    "frontend.plugins.end_list": "Ez a lista vége.",
+    "frontend.plugins.hidden": "{0} plugin(ok) elrejtve.",
+    "frontend.plugins.name": "Név",
     "frontend.plugins.no_description": "Nincs leírás.",
     "frontend.plugins.open_interface": "Kezelőfelület megnyitása",
     "frontend.plugins.plugin_running": "Plugin ennyi FPSel fut: {0}",
+    "frontend.plugins.select_authors": "Keresés készítők alapján",
+    "frontend.plugins.select_tags": "Keresés címkék alapján",
+    "frontend.plugins.selected_authors": "{0} keszító(k) kiválasztva",
+    "frontend.plugins.selected_tags": "{0} címke(ék) kiválasztva",
+    "frontend.plugins.tags": "Címkék",
     "frontend.settings": "Beállítások",
     "frontend.settings.array.add": "Elem hozzáadása",
     "frontend.settings.array.added_element": "Tömb elem hozzáadva",
@@ -292,6 +304,7 @@
     "plugins.truckstats": "Kamion Statisztika",
     "plugins.truckstats.description": "Ez a plugin megjelenít statisztikákat a kamionról, az útról és a játékról.",
 
+
     "_PLUGIN_SETTINGS": "Please leave a space here to seperate the different sections of the translations.",
 
     
@@ -301,6 +314,11 @@
     "acc.settings.2.description": "Hány másodpercre az ellöttünk lévőre legyünk.",
     "acc.settings.3.name": "Sebesség Eltérés",
     "acc.settings.3.description": "Ennyi százalékkal vezessen a megengedett sebességhatár felett.",
+    "acc.settings.4.name": "Követési távolság",
+    "acc.settings.4.description": "Milyen távolságot tartson az allkalmazás a dolgoktól.",
+    "acc.settings.5.name": "Beállított érték eltérésének tipusa",
+    "acc.settings.5.description": "A beállított érték százalékával vezetünk a megengedett sebességhatár felett, vagy annyival (km/h) vezetünk a sebbeséghatár felett.?",
+
 
     "global.settings.1.title": "Globális Beállítások",
     "global.settings.1.description": "Ezek elsősorban az alkalmazás egészét érintő beállítások.",
@@ -326,6 +344,10 @@
     "global.settings.11.description": "Meghatározza az ablak magasságát.",
     "global.settings.12.name": "Átlátszó mód alfa",
     "global.settings.12.description": "Az ablak átlátszóságát állítja 1 = nem átlátszó, 0 = teljesen átlátszó.",
+    "global.settings.13.name": "Kijelző ID",
+    "global.settings.13.description": "A kijelző azonosítója, amelyet a látó alkalmazásokhoz (objektumfelismerés stb.) használni kell. Ezt arra a monitorra kell beállítani, amelyen az ETS2 fut. Újra kell indítani a módosítások alkalmazásához!",
+    "global.settings.14.name": "Látószög",
+    "global.settings.14.description": "Nem jelent meg a felugró ablak? Akkor változtasd meg itt a látószögedet.",
 
     "map.settings.1.title": "Térképi Beállítások",
     "map.settings.1.description": "Ezek a beállítások a térkép pluginra vonatkoznak.",
