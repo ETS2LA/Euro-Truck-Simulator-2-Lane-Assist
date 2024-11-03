@@ -1,8 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://dr8t84av2gfh"]
 
-[ext_resource type="PackedScene" uid="uid://ckihy4t716rl" path="res://Models/SedanEdited.tscn" id="1_k3psm"]
+[ext_resource type="ArrayMesh" uid="uid://dsls67ttvw0kx" path="res://Models/traffic_car.obj" id="1_ssvic"]
 
 [node name="Truck" type="Node3D"]
 
-[node name="Sedan" parent="." instance=ExtResource("1_k3psm")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="TrafficCar" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.585, 0, -5.11423e-08, 0, 0.585, 0, 5.11423e-08, 0, -0.585, 0, 0, 0)
+mesh = ExtResource("1_ssvic")
