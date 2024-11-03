@@ -38,8 +38,12 @@ import favicon from "@/assets/favicon.png"
 import { ChevronUp } from "lucide-react"
 import Image from "next/image"
 import { Button } from "./ui/button"
+import { useRouter } from "next/navigation"
 
 export function ETS2LASidebar() {
+
+    const router = useRouter()
+
     return (
         <Sidebar className="border-none font-geist" variant="inset">
             <SidebarHeader className="bg-sidebarbg">
@@ -56,8 +60,10 @@ export function ETS2LASidebar() {
                     <SidebarGroupLabel className="font-semibold" >
                         Main
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className="font-medium">
-                        <a href="/">Dashboard</a>
+                    <SidebarMenuButton className="font-medium" onClick={
+                        () => router.push('/')
+                    }>
+                        Dashboard
                     </SidebarMenuButton>
                     <SidebarMenuButton className="font-medium">
                         Visualization
@@ -78,15 +84,17 @@ export function ETS2LASidebar() {
                     <SidebarGroupLabel className="font-semibold">
                         Help
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className="font-medium">
-                        <a href="/wiki">Wiki</a>
+                    <SidebarMenuButton className="font-medium" onClick={
+                        () => router.push('/wiki')
+                    }>
+                        Wiki
                     </SidebarMenuButton>
                     <SidebarMenuButton className="font-medium">
                         Chat
                     </SidebarMenuButton>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarRail className="top-4 bottom-4" />
+            <SidebarRail className="top-8 bottom-4" />
             <SidebarFooter className="bg-sidebarbg">
                 <SidebarMenuButton className="font-medium">
                     Settings
@@ -104,7 +112,7 @@ export function ETS2LASidebar() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                                 side="top"
-                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-brightness-75"
+                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
                             >
                                 <DropdownMenuItem>
                                     <span>Account</span>
