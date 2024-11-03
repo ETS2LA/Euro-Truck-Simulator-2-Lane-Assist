@@ -247,10 +247,10 @@ export default function Home({ ip }: { ip: string }) {
                                     <div className="flex col-span-2 gap-2 text-center items-center">
                                         <Tooltip delayDuration={100}>
                                             <TooltipTrigger className="col-span-2 text-start">
-                                                <p className="text-sm text-muted-foreground group-hover:text-foreground">{translate(data[plugin].description.name)}</p>
+                                                <p className="text-sm">{translate(data[plugin].description.name)}</p>
                                             </TooltipTrigger>
                                             <TooltipContent>
-                                                <div className="rounded-md max-w-72 bg-background p-4 border">
+                                                <div className="rounded-md max-w-72 bg-background p-4 border text-left">
                                                     <p className="text-sm">{translate(data[plugin].description.description)}</p>
                                                 </div>
                                             </TooltipContent>
