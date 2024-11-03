@@ -22,6 +22,7 @@
     "downloading": "Ladataan {0}...",
     "clear": "Tyhjennä",
     "search": "Etsi",
+    "submit": "Lähetä",
 
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -229,6 +230,7 @@
     "frontend.plugins.selected_authors": "{0} tekijä(ä) valittu",
     "frontend.plugins.end_list": "Oho, nyt loppu laajennukset, käyppäs lataamassa lisää.",
     "frontend.plugins.hidden": "{0} laajennus(ta) piilotettu",
+    "frontend.dialog.not_supported": "{0} ei tueta dialogissa.",
 
     "_LIST_OF_PLUGINS": "Following will be a list of all plugins that allow translation of their names.",
 

@@ -224,7 +224,7 @@ class Form():
                     has_submit = True
         
         if not has_submit:
-            Button("Submit", "", "submit", border=False)
+            Button("submit", "", "submit", border=False)
         
         self.previous_ui.append({"form": {
             "components": ui
