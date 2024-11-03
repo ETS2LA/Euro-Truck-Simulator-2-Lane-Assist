@@ -42,7 +42,6 @@ import { useRouter } from "next/navigation"
 
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const router = useRouter()
-
     return (
         <Sidebar className="border-none font-geist" variant="inset">
             <SidebarHeader className="bg-sidebarbg">
