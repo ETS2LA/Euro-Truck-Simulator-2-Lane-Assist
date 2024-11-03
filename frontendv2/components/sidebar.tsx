@@ -40,8 +40,7 @@ import Image from "next/image"
 import { Button } from "./ui/button"
 import { useRouter } from "next/navigation"
 
-export function ETS2LASidebar() {
-
+export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const router = useRouter()
 
     return (
@@ -94,7 +93,9 @@ export function ETS2LASidebar() {
                     </SidebarMenuButton>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarRail className="top-8 bottom-4" />
+            <SidebarRail className="z-[999]" onClick={() => {
+                toggleSidebar()
+            }} />
             <SidebarFooter className="bg-sidebarbg">
                 <SidebarMenuButton className="font-medium">
                     Settings
