@@ -2,16 +2,18 @@ from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
 from modules.SDKController.main import SCSController
 from ETS2LA.utils.translator import Translate
 from ETS2LA.utils.values import SmoothedValue
-from ETS2LA.frontend.immediate import value
-import ETS2LA.backend.settings as settings
+from ETS2LA.frontend.immediate import dialog
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
 import ETS2LA.networking.cloud as cloud
 import ETS2LA.backend.sounds as sounds
 import modules.TruckSimAPI.main as API
+from ETS2LA.UI import *
 import threading
 import logging
 import time
+
+import ETS2LA.backend.settings as settings
 
 API = API.Module("global")
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
@@ -130,20 +132,19 @@ class VehicleChange():
             self.firstRun = False
             return
         
+        class FOVDialog(ETS2LADialog):
+            def render(self):
+                with Form():
+                    Title("events.vehicle_change.vehicle_change")
+                    Description("events.vehicle_change.vehicle_change_description")
+                    Input("events.vehicle_change.vehicle_change", "fov", "number", default=settings.Get("global", "FOV", 77))
+                return RenderUI()
+        
         # Try to get new FOV value from user
-        dict = [{
-            "name": "events.vehicle_change.vehicle_change",
-            "description": "events.vehicle_change.vehicle_change_description",
-            "type": {
-                "type": "number",
-                "default": settings.Get("global", "FOV", 77)
-            }
-        }]
-        sounds.Play('info')
-        newFOV = value("Vehicle Change Detected", dict)
-        if newFOV != 0 and newFOV != None:
-            settings.Set("global", "FOV", newFOV["value"])
-            logging.info("New FOV value set to: " + str(newFOV))
+        return_data = dialog(FOVDialog())
+        if return_data is not None and "fov" in return_data:
+            settings.Set("global", "FOV", return_data["fov"])
+            logging.info("New FOV value set to: " + str(return_data))
         
     def ApiCallback(self, data):
         if data["configString"]["truckLicensePlate"] != self.lastLicensePlate:

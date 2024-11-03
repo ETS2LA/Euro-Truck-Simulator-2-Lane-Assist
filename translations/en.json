@@ -22,6 +22,7 @@
     "downloading": "Downloading {0}...",
     "clear": "Clear",
     "search": "Search",
+    "submit": "Submit",
 
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -229,6 +230,7 @@
     "frontend.plugins.selected_authors": "{0} author(s) selected",
     "frontend.plugins.end_list": "This is the end of the list",
     "frontend.plugins.hidden": "{0} plugin(s) hidden",
+    "frontend.dialog.not_supported": "{0} is not supported in a dialog.",
 
     "_LIST_OF_PLUGINS": "Following will be a list of all plugins that allow translation of their names.",
 

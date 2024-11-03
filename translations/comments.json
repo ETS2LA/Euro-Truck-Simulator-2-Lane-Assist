@@ -47,6 +47,7 @@
     "frontend.404.button": "You can go wild here, I'd like to see some fun jokes in the 404 page! (at least make this something about the main menu)",
     "frontend.settings.error": "{0} is the error message that happened.",
     "frontend.settings.unknown_data_type": "{0} is the data type that was unknown.\nExample: 'Unknown data type: string'",
+    "frontend.dialog.not_supported": "{0} is the function that is not supported.\nExample: 'EnabledLock is not supported in a dialog.'",
     "object_detection.settings.2.description": "This has three options, CPU, GPU and Automatic. The others are probably self explanatory but if you think people can't understand 'Automatic' then you should explain it here.",
     "object_detection.settings.3.description": "This two options, Performance and Quality. These cannot be translated. If you think people can't understand them then you should explain them here.",
     "frontend.performance.error_fetching": "{0} is the local IP address that we tried to fetch data from.\nExample: 'Error fetching data from 192.168.1.106'",

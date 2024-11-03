@@ -1,4 +1,5 @@
 from ETS2LA.utils.translator import Translate
+from ETS2LA.backend import sounds
 from typing import Literal
 import websockets
 import threading
@@ -100,11 +101,10 @@ def page(page:str):
     asyncio.run(send_page(page))
 
 
-async def send_value(title:str, jsonData:str):
+async def send_dialog(jsonData:str):
     global connected
     message_dict = {
-        "value": {
-            "title": title, 
+        "dialog": {
             "json": jsonData
         }
     }
@@ -125,11 +125,9 @@ async def send_value(title:str, jsonData:str):
         
     return response
 
-def value(title:str, json:str):
-    if json == "":
-        logging.error(Translate("immediate.empty_value"))
-        return
-    response = asyncio.run(send_value(title, json))
+def dialog(ui:str):
+    sounds.Play('info')
+    response = asyncio.run(send_dialog(ui))
     return response
 
 async def start():

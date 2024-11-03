@@ -83,6 +83,7 @@ def ETS2LAProcess(exception_queue: Queue):
         ETS2LA = importlib.import_module("ETS2LA.core")
         ETS2LA.run()
     except Exception as e:
+        traceback.print_exc()
         exception_queue.put(e)
 
 if __name__ == "__main__":

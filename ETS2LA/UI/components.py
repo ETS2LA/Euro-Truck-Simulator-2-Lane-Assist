@@ -31,7 +31,7 @@ class Description():
         })
 
 class Button():
-    def __init__(self, text: str, title: str, target: object, description: str = "", border: bool = True):
+    def __init__(self, text: str, title: str, target: object | Literal["submit"], description: str = "", border: bool = True):
         global ui
         ui.append({
             "button": {
@@ -39,7 +39,7 @@ class Button():
                 "title": title,
                 "description": description,
                 "options": {
-                    "target": target.__name__,
+                    "target": target.__name__ if hasattr(target, "__name__") else target,
                     "border": border
                 }
             }
@@ -198,6 +198,35 @@ class Group():
             "direction": self.direction,
             "gap": self.gap,
             "border": self.border,
+            "components": ui
+        }})
+        ui = self.previous_ui
+
+class Form():
+    """
+    Form for dialogs.
+    
+    **NOTE**: You can override the submit button by adding a custom button with the target set to "submit".
+    """
+    def __enter__(self):
+        global ui
+        self.previous_ui = ui
+        ui = []
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global ui
+        
+        has_submit = False
+        for element in ui:
+            if "button" in element:
+                if element["button"]["options"]["target"] == "submit":
+                    has_submit = True
+        
+        if not has_submit:
+            Button("Submit", "", "submit", border=False)
+        
+        self.previous_ui.append({"form": {
             "components": ui
         }})
         ui = self.previous_ui

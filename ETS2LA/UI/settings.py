@@ -1,6 +1,4 @@
 from ETS2LA.Plugin.settings import Settings
-import sys
-import os
 
 class ETS2LASettingsMenu:
     """This is a base class for all settings pages.

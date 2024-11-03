@@ -38,7 +38,6 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
     const [dialogOptions, setDialogOptions] = useState<string[]>([]);
     const [dialogDescription, setDialogDescription] = useState("");
     const [valueDialogOpen, setValueDialogOpen] = useState(true);
-    const [valueDialogTitle, setValueDialogTitle] = useState("Test");
     const [valueDialogJson, setValueDialogJson] = useState("");
     const [returnValue, setReturnValue] = useState(null)
     const returnValueRef = useRef(returnValue);
@@ -88,11 +87,10 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                     }
                 };
             }
-            else if ("value" in message) {
-                let title = message["value"]["title"]
-                let jsonData = message["value"]["json"]
+            else if ("dialog" in message) {
+                console.log(message)
+                let jsonData = message["dialog"]["json"]
                 setValueDialogJson(jsonData)
-                setValueDialogTitle(title)
                 setValueDialogOpen(true)
                 setReturnValue(null)
                 console.log(returnValue)
@@ -100,7 +98,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
                 let listener = setInterval(() => {
                     if (returnValueRef.current !== null) { // Use the ref here
                         if (socket !== null) {
-                            socket.send(JSON.stringify({value: returnValueRef.current})); // Use the ref here
+                            socket.send(JSON.stringify(returnValueRef.current)); // Use the ref here
                         }
                         setReturnValue(null)
                         clearInterval(listener)
@@ -238,7 +236,7 @@ export function ETS2LAImmediateServer({ip, collapsed}: {ip: string, collapsed?: 
             </DialogContent>
         </Dialog>
 
-        <ValueDialog open={valueDialogOpen} onClose={handleReturnValue} title={valueDialogTitle} json={valueDialogJson} />
+        <ValueDialog open={valueDialogOpen} onClose={handleReturnValue} json={valueDialogJson} />
 
         { error && <Badge variant={"destructive"} className="gap-1 pl-1 rounded-sm"><WifiOff className="w-5 h-5" />{translate("frontend.immediate.update_check_error", error.message)}</Badge> }
         {   isLoading && 

@@ -22,6 +22,7 @@ Components:
     **RefreshRate** - Set the refresh rate of the plugin.
     **ProgressBar** - A progress bar component. NOTE: Only works with dynamic pages.
     **EnabledLock** - A lock to disable the page (after the lock) if the plugin is disabled.
+    **Form** - A form component, used only as a wrapper for dialogs.
     
 Example:
 ```python
@@ -50,8 +51,9 @@ class Plugin(ETS2LAPlugin):
         print("Button clicked!")
 ```
 """
+from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector, Form
 from ETS2LA.UI.settings import ETS2LASettingsMenu
-from ETS2LA.UI.pages import ETS2LAPage
-from ETS2LA.UI.components import Title, Description, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector
+from ETS2LA.UI.dialog import ETS2LADialog
 from ETS2LA.UI.components import RenderUI
+from ETS2LA.UI.pages import ETS2LAPage
 from ETS2LA.UI.utils import SendPopup

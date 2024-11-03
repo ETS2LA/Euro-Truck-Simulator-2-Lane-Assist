@@ -159,7 +159,7 @@
     "frontend.menubar.enter_normal_mode": "\u9032\u5165\u666e\u901a\u6a21\u5f0f",
     "frontend.menubar.about": "\u95dc\u65bc ETS2LA",
     "frontend.menubar.plugins": "\u63d2\u4ef6",
-    "frontend.menubar.plugins.plugin_picker": "\u63d2\u4ef6\u5217\u8868",
+    "frontend.menubar.plugins.plugin_picker": "\u63d2\u4ef6\u7ba1\u7406\u5668",
     "frontend.menubar.plugin.disabling": "\u6b63\u5728\u505c\u7528 {0}...",
     "frontend.menubar.plugin.disabled": "\u63d2\u4ef6 {0} \u5df2\u505c\u7528",
     "frontend.menubar.plugin.error_disabling": "\u505c\u7528 {0} \u6642\u767c\u751f\u932f\u8aa4\uff01",

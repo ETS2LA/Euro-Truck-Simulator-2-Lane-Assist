@@ -1,7 +1,6 @@
 from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
-from ETS2LA.Module import ETS2LAModule
 
 from ETS2LA.utils.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue
@@ -267,6 +266,13 @@ class ETS2LAPlugin(object):
             }
         })
         return self.immediate_return_queue.get()["response"]
+
+    def dialog(self, dialog: object) -> dict:
+        self.immediate_queue.put({
+            "operation": "dialog", 
+            "options": dialog.build()
+        })
+        return self.immediate_return_queue.get()
 
     def plugin(self) -> None:
         self.before()

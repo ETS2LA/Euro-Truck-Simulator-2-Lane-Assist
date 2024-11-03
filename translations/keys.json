@@ -1,5 +1,6 @@
 [
     "language_credits",
+
     "confirm",
     "cancel",
     "yes",
@@ -14,6 +15,7 @@
     "downloading",
     "clear",
     "search",
+    "submit",
 
     "main.errors_and_warnings",
     "main.errors",
@@ -216,6 +218,7 @@
     "frontend.plugins.selected_authors",
     "frontend.plugins.end_list",
     "frontend.plugins.hidden",
+    "frontend.dialog.not_supported",
 
     "plugins.adaptivecruisecontrol",
     "plugins.adaptivecruisecontrol.description",
