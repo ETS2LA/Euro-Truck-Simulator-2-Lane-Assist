@@ -22,6 +22,7 @@
     "downloading": "正在下載 {0}...",
     "clear": "清除",
     "search": "搜尋",
+    "submit": "提交",
 
     "_BACKEND": "請在此處保留一個空格以區分不同的翻譯部分。",
 
@@ -179,6 +180,7 @@
     "frontend.menubar.plugins.plugin.enable": "啟用",
     "frontend.menubar.plugins.plugin.disable": "停用",
     "frontend.menubar.plugins.performance": "效能",
+    "frontend.dialog.not_supported": "{0} 不被支援於對話框中。",
     "frontend.menubar.theme": "主題",
     "frontend.menubar.settings": "設定",
     "frontend.menubar.help": "幫助",
