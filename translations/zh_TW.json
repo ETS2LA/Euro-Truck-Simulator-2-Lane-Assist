@@ -168,7 +168,7 @@
     "frontend.menubar.enter_normal_mode": "進入普通模式",
     "frontend.menubar.about": "關於 ETS2LA",
     "frontend.menubar.plugins": "插件",
-    "frontend.menubar.plugins.plugin_picker": "插件列表",
+    "frontend.menubar.plugins.plugin_picker": "插件管理器",
     "frontend.menubar.plugin.disabling": "正在停用 {0}...",
     "frontend.menubar.plugin.disabled": "插件 {0} 已停用",
     "frontend.menubar.plugin.error_disabling": "停用 {0} 時發生錯誤！",
