@@ -62,7 +62,7 @@ class Space():
         })
         
 class Input():
-    def __init__(self, name: str, key: str, type: Literal["string", "number"], default: any = None, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, type: Literal["string", "number", "password"], default: any = None, description: str = "", requires_restart: bool = False):
         global ui
         ui.append({
             "input": {

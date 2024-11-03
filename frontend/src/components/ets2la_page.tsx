@@ -194,10 +194,18 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 			}
 		}
 
-		if (data.options.type == "string") {
+		if (data.options.type == "string" || data.options.type == "password") {
+			const type = data.options.type == "password" ? "password" : "text"
+			let placeholder = ""
+			if (type == "password") {
+				placeholder = "•".repeat(pluginSettings[data.key].length)
+			}
+			else {
+				placeholder = pluginSettings[data.key]
+			}
 			return <div className="flex flex-col gap-2 w-full">
 				<h4>{translate(data.name)}</h4>
-				<Input type="text" placeholder={pluginSettings[data.key]} onChange={(e) => {
+				<Input type={type} placeholder={placeholder} onChange={(e) => {
 					SetSettingByKey(plugin, data.key, e.target.value, ip).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
