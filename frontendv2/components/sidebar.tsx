@@ -89,7 +89,11 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </SidebarMenuButton>
                     <SidebarMenuButton className="font-medium" onClick={
                         () => {
-                            toast.success("Coming soon!")
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/visualization')
+                                await new Promise(resolve => setTimeout(resolve, 50))
+                            })
                         }
                     }>
                         <TvMinimal /> Visualization
@@ -144,7 +148,11 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
             <SidebarFooter className="bg-sidebarbg">
                 <SidebarMenuButton className="font-medium" onClick={
                         () => {
-                            toast.success("Coming soon!")
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/settings')
+                                await new Promise(resolve => setTimeout(resolve, 50))
+                            })
                         }
                     }>
                     <Bolt /> Settings
@@ -155,7 +163,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             <DropdownMenuTrigger asChild>
                             <SidebarMenuButton className="w-full flex justify-between">
                                 <div className="flex items-center gap-2">
-                                    <span>Tumppi066</span>
+                                    <span>Anonymous</span>
                                 </div>
                                 <ChevronUp className="w-4 h-4 justify-self-end" />
                             </SidebarMenuButton>

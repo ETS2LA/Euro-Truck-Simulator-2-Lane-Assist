@@ -1,3 +1,4 @@
+import { CloseBackend, MinimizeBackend, SetStayOnTop } from "@/apis/backend";
 import {
     Tooltip,
     TooltipContent,
@@ -6,11 +7,13 @@ import {
 } from "@/components/ui/tooltip"
 
 import { useState, useEffect } from "react"
+import { toast } from "sonner";
 
 export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }) {
     const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 });
     const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
     const [isMouseInDragArea, setIsMouseInDragArea] = useState(false)
+    const [stayOnTop, setStayOnTop] = useState(false);
     const [dragging, setDragging] = useState(false);
 
     useEffect(() => {
@@ -94,7 +97,12 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                 )}
                 <TooltipProvider>
                     <Tooltip delayDuration={250}>
-                        <TooltipTrigger>
+                        <TooltipTrigger onClick={() => {
+                            setStayOnTop(!stayOnTop)
+                            SetStayOnTop(stayOnTop).then(() => {
+                                toast.success(`${stayOnTop ? "Window is now on top" : "Window is no longer on top"}`)
+                            })
+                        }}>
                             <div className="w-3 h-3 bg-green-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
@@ -104,7 +112,9 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                 </TooltipProvider>
                 <TooltipProvider>
                     <Tooltip delayDuration={250}>
-                        <TooltipTrigger>
+                        <TooltipTrigger onClick={() => {
+                            MinimizeBackend()
+                        }}>
                             <div className="w-3 h-3 bg-yellow-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
@@ -112,7 +122,9 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                         </TooltipContent>
                     </Tooltip>
                     <Tooltip delayDuration={250}>
-                        <TooltipTrigger>
+                        <TooltipTrigger onClick={() => {
+                            CloseBackend()
+                        }}>
                             <div className="w-3 h-3 bg-red-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
