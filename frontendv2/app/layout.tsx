@@ -6,7 +6,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import localFont from "next/font/local";
 import "./globals.css";
 import WindowControls from "@/components/window-controls";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -26,6 +28,7 @@ export default function RootLayout({
 }>) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const isMobile = useIsMobile();
+    const [progress, setProgress] = useState(0);
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
@@ -45,14 +48,18 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <WindowControls isCollapsed={isCollapsed} />
-                    <SidebarProvider open={!isCollapsed}>
-                        <ETS2LASidebar toggleSidebar={toggleSidebar} />
-                        <SidebarInset className="relative transition-all">
-                            {isMobile && <SidebarTrigger className="absolute top-2 left-2" />}
-                            {children}
-                        </SidebarInset>
-                    </SidebarProvider>
+                    <ProgressBarProvider>
+                        <Toaster position={isCollapsed ? "bottom-center" : "bottom-right"} />
+                        <WindowControls isCollapsed={isCollapsed} />
+                        <SidebarProvider open={!isCollapsed}>
+                            <ETS2LASidebar toggleSidebar={toggleSidebar} />
+                            <SidebarInset className="relative transition-all">
+                                <ProgressBar className="absolute h-2 z-20 rounded-tl-lg shadow-lg shadow-sky-500/20 bg-sky-500 top-0 left-0" />
+                                {isMobile && <SidebarTrigger className="absolute top-2 left-2" />}
+                                {children}
+                            </SidebarInset>
+                        </SidebarProvider>
+                    </ProgressBarProvider>
                 </ThemeProvider>
             </body>
         </html>

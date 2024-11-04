@@ -35,12 +35,30 @@ import {
 
 import favicon from "@/assets/favicon.png"
 
-import { ChevronUp } from "lucide-react"
+import { useProgress } from "react-transition-progress"
+import { startTransition } from "react"
+
+import { 
+    ChevronUp, 
+    House,
+    TvMinimal,
+    ChartNoAxesGantt,
+    ChartArea,
+    BookText,
+    MessageSquare,
+    Bolt,
+    User,
+    UserCog,
+    UserRoundMinus
+} from "lucide-react"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { useRouter } from "next/navigation"
 
+import { toast } from "sonner"
+
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
+    const startProgress = useProgress()
     const router = useRouter()
     return (
         <Sidebar className="border-none font-geist" variant="inset">
@@ -59,23 +77,41 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                         Main
                     </SidebarGroupLabel>
                     <SidebarMenuButton className="font-medium" onClick={
-                        () => router.push('/')
+                        () => {
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/')
+                                await new Promise(resolve => setTimeout(resolve, 50))
+                            })
+                        }
                     }>
-                        Dashboard
+                        <House /> Dashboard
                     </SidebarMenuButton>
-                    <SidebarMenuButton className="font-medium">
-                        Visualization
+                    <SidebarMenuButton className="font-medium" onClick={
+                        () => {
+                            toast.success("Coming soon!")
+                        }
+                    }>
+                        <TvMinimal /> Visualization
                     </SidebarMenuButton>
                 </SidebarGroup>
                 <SidebarGroup>
                     <SidebarGroupLabel className="font-semibold">
                         Plugins
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className="font-medium">
-                        Manager
+                    <SidebarMenuButton className="font-medium" onClick={
+                        () => {
+                            toast.success("Coming soon!")
+                        }
+                    }>
+                        <ChartNoAxesGantt /> Manager
                     </SidebarMenuButton>
-                    <SidebarMenuButton className="font-medium">
-                        Performance
+                    <SidebarMenuButton className="font-medium" onClick={
+                        () => {
+                            toast.success("Coming soon!")
+                        }
+                    }>
+                        <ChartArea /> Performance
                     </SidebarMenuButton>
                 </SidebarGroup>
                 <SidebarGroup>
@@ -83,12 +119,22 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                         Help
                     </SidebarGroupLabel>
                     <SidebarMenuButton className="font-medium" onClick={
-                        () => router.push('/wiki')
+                        () => {
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/wiki')
+                                await new Promise(resolve => setTimeout(resolve, 50))
+                            })
+                        }
                     }>
-                        Wiki
+                        <BookText /> Wiki
                     </SidebarMenuButton>
-                    <SidebarMenuButton className="font-medium">
-                        Chat
+                    <SidebarMenuButton className="font-medium" onClick={
+                        () => {
+                            toast.success("Coming soon!")
+                        }
+                    }>
+                        <MessageSquare /> Chat
                     </SidebarMenuButton>
                 </SidebarGroup>
             </SidebarContent>
@@ -96,8 +142,12 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                 toggleSidebar()
             }} />
             <SidebarFooter className="bg-sidebarbg">
-                <SidebarMenuButton className="font-medium">
-                    Settings
+                <SidebarMenuButton className="font-medium" onClick={
+                        () => {
+                            toast.success("Coming soon!")
+                        }
+                    }>
+                    <Bolt /> Settings
                 </SidebarMenuButton>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -115,10 +165,10 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                 className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
                             >
                                 <DropdownMenuItem>
-                                    <span>Account</span>
+                                    <UserCog /> <span>Account</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <span>Sign out</span>
+                                    <UserRoundMinus /> <span>Sign out</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

@@ -86,7 +86,7 @@ def start_webpage(queue: JoinableQueue):
     
     def load_website(window:webview.Window):
         time.sleep(3)
-        window.load_url('http://localhost:' + str(FRONTEND_PORT))
+        window.load_url('http://localhost:3000')# + str(FRONTEND_PORT))
         while True:
             time.sleep(0.01)
             try:
