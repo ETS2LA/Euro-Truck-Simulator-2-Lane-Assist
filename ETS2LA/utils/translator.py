@@ -8,7 +8,7 @@ import sys
 import os
 
 DATA_FOLDER = "translations"
-FRONTEND_DATA_FOLDER = "frontend/src/translations"
+FRONTEND_DATA_FOLDER = "frontend/translations"
 
 FILES = os.listdir(DATA_FOLDER)
 FILES.remove("keys.json")

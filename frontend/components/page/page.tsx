@@ -1,9 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import useSWR, { mutate } from "swr"
 import { GetPlugins, PluginFunctionCall, DisablePlugin, EnablePlugin } from "@/apis/backend"
-import { Separator } from "./ui/separator"
+import { Separator } from "../ui/separator"
 import { set } from "date-fns"
-import { Input } from "./ui/input"
+import { Input } from "../ui/input"
 import { GetSettingsJSON, SetSettingByKey, SetSettingByKeys } from "@/apis/settings"
 import {
 	Select,
@@ -19,21 +19,21 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Toggle } from "@/components/ui/toggle"
-import { Switch } from "./ui/switch"
-import { Button } from "./ui/button"
+import { Switch } from "../ui/switch"
+import { Button } from "../ui/button"
 import { toast } from "sonner"
 import { useEffect } from "react"
-import { Slider } from "./ui/slider"
+import { Slider } from "../ui/slider"
 import { useState } from "react"
 import { translate } from "@/apis/translation"
 import React, { Component } from 'react';
-import { SkeletonItem } from "@/components/skeleton_item"
+import { SkeletonItem } from "@/components/page/skeleton_item"
 import {
 	Check,
 	X
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "./ui/progress"
+import { Progress } from "../ui/progress"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -205,7 +205,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 			return <div className="flex flex-col gap-2 w-full">
 				<h4>{translate(data.name)}</h4>
 				<Input type={type} placeholder={placeholder} onChange={(e) => {
-					SetSettingByKey(plugin, data.key, e.target.value, ip).then(() => {
+					SetSettingByKey(plugin, data.key, e.target.value).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
 						mutate("settings")
@@ -223,7 +223,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 				<div className="flex flex-col gap-2 w-full">
 					<h4>{translate(data.name)}</h4>	
 					<Input type="number" placeholder={pluginSettings[data.key]} className="font-customMono" onChange={(e) => {
-						SetSettingByKey(plugin, data.key, parseFloat(e.target.value), ip).then(() => {
+						SetSettingByKey(plugin, data.key, parseFloat(e.target.value)).then(() => {
 							if (data.requires_restart)
 								setNeedsRestart(true)
 							mutate("settings");
@@ -265,7 +265,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 				</div>
 				<Switch checked={pluginSettings[data.key] && pluginSettings[data.key] || false} onCheckedChange={(bool) => {
-					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
+					SetSettingByKey(plugin, data.key, bool).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
 						mutate("settings")
@@ -290,7 +290,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 		return <div className="flex flex-col gap-2">
 					<h4>{translate(data.name)}</h4>
 					<Select defaultValue={pluginSettings[data.key]} onValueChange={(value) => {
-						SetSettingByKey(plugin, data.key, value, ip).then(() => {
+						SetSettingByKey(plugin, data.key, value).then(() => {
 							if (data.requires_restart)
 								setNeedsRestart(true)
 							mutate("settings")
@@ -315,7 +315,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 	const ToggleRenderer = (data:any) => {
 		return <div className="flex gap-4 w-full items-center">
 				<Toggle pressed={pluginSettings[data.key] && pluginSettings[data.key] || false} onPressedChange={(bool) => {
-					SetSettingByKey(plugin, data.key, bool, ip).then(() => {
+					SetSettingByKey(plugin, data.key, bool).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
 						mutate("settings")

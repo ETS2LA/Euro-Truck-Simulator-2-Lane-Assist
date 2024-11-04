@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  transpilePackages: ["geist"]
-}
+const nextConfig = {};
 
 export default nextConfig;

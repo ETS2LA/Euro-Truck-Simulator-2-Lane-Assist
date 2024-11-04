@@ -1,4 +1,4 @@
-import { ETS2LAPage } from "@/components/page";
+import { ETS2LAPage } from "@/components/page/page";
 import { GetPages } from "@/apis/backend";
 import useSWR from "swr";
 

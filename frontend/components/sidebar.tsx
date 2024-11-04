@@ -53,13 +53,24 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "./ui/button"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 
 import { toast } from "sonner"
 
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const startProgress = useProgress()
     const router = useRouter()
+    const path = usePathname()
+    console.log(path)
+
+    const buttonClassName = (targetPath: string) => {
+        if(path == targetPath) {
+            return "font-medium border-l-2 rounded-l-none"
+        } else {
+            return "font-medium"
+        }
+    }
+
     return (
         <Sidebar className="border-none font-geist" variant="inset">
             <SidebarHeader className="bg-sidebarbg">
@@ -71,12 +82,12 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </div>
                 </div>
             </SidebarHeader>
-            <SidebarContent className="bg-sidebarbg pt-2" >
+            <SidebarContent className="bg-sidebarbg pt-2 custom-scrollbar" >
                 <SidebarGroup>
                     <SidebarGroupLabel className="font-semibold" >
                         Main
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className="font-medium" onClick={
+                    <SidebarMenuButton className={buttonClassName("/")} onClick={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -87,7 +98,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     }>
                         <House /> Dashboard
                     </SidebarMenuButton>
-                    <SidebarMenuButton className="font-medium" onClick={
+                    <SidebarMenuButton className={buttonClassName("/visualization")} onClick={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -103,14 +114,14 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarGroupLabel className="font-semibold">
                         Plugins
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className="font-medium" onClick={
+                    <SidebarMenuButton className={buttonClassName("/plugins")} onClick={
                         () => {
                             toast.success("Coming soon!")
                         }
                     }>
                         <ChartNoAxesGantt /> Manager
                     </SidebarMenuButton>
-                    <SidebarMenuButton className="font-medium" onClick={
+                    <SidebarMenuButton className={buttonClassName("/performance")} onClick={
                         () => {
                             toast.success("Coming soon!")
                         }
@@ -122,7 +133,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarGroupLabel className="font-semibold">
                         Help
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className="font-medium" onClick={
+                    <SidebarMenuButton className={buttonClassName("/wiki")} onClick={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -133,7 +144,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     }>
                         <BookText /> Wiki
                     </SidebarMenuButton>
-                    <SidebarMenuButton className="font-medium" onClick={
+                    <SidebarMenuButton className={buttonClassName("/chat")} onClick={
                         () => {
                             toast.success("Coming soon!")
                         }
@@ -146,7 +157,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                 toggleSidebar()
             }} />
             <SidebarFooter className="bg-sidebarbg">
-                <SidebarMenuButton className="font-medium" onClick={
+                <SidebarMenuButton className={buttonClassName("/settings")} onClick={
                         () => {
                             startTransition(async () => {
                                 startProgress()

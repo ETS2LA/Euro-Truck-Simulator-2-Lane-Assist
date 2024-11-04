@@ -75,13 +75,13 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
         }
     };
 
-    const containerClassName = "flex gap-1 absolute h-6 w-[59px] rounded-bl-lg top-0 right-0 items-center justify-end pr-2 z-50 bg-sidebar transition-all pywebview-drag-region";
+    const containerClassName = "flex gap-1 absolute h-6 w-[59px] rounded-bl-lg top-0 right-0 items-center justify-center p-0 z-50 bg-sidebar transition-all pywebview-drag-region";
 
     return (
         <>
             <div className={containerClassName} onMouseDown={handleMouseDown}>
                 {isCollapsed && (
-                    <div className={`absolute right-0 top-0 h-6 flex items-center pl-2 pr-12 transition-all bg-sidebar rounded-bl-lg z-[-10] duration-150 ${isMouseInDragArea ? 'w-96 opacity-100' : 'w-0 opacity-0'}`}>
+                    <div className={`absolute right-0 top-0 h-6 flex items-center pl-2.5 pr-12 transition-all bg-sidebar rounded-bl-lg z-[-10] duration-150 ${isMouseInDragArea ? 'w-96 opacity-100' : 'w-0 opacity-0'}`}>
                         <div
                             className="flex-grow h-1 bg-repeat bg-center text-muted font-geist-mono text-[12px] text-center"
                             style={{
@@ -103,7 +103,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                                 toast.success(`${stayOnTop ? "Window is now on top" : "Window is no longer on top"}`)
                             })
                         }}>
-                            <div className="w-3 h-3 bg-green-500 rounded-full flex items-center justify-center" />
+                            <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
                             <p>Stay on top</p>
@@ -115,7 +115,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                         <TooltipTrigger onClick={() => {
                             MinimizeBackend()
                         }}>
-                            <div className="w-3 h-3 bg-yellow-500 rounded-full flex items-center justify-center" />
+                            <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
                             <p>Minimize</p>
@@ -125,7 +125,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                         <TooltipTrigger onClick={() => {
                             CloseBackend()
                         }}>
-                            <div className="w-3 h-3 bg-red-500 rounded-full flex items-center justify-center" />
+                            <div className="w-2.5 h-2.5 bg-red-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
                             <p>Close</p>

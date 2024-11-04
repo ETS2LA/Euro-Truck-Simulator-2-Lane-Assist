@@ -92,3 +92,19 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #29292c;
+}

@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/resizable"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ETS2LAPage } from "@/components/page"
+import { ETS2LAPage } from "@/components/page/page"
 import { translate } from "@/apis/translation"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import RenderPage from "@/components/render_page"
+import RenderPage from "@/components/page/render_page"
 
 export default function Home({ ip }: { ip: string }) {
     const { push } = useRouter()
@@ -61,7 +61,7 @@ export default function Home({ ip }: { ip: string }) {
             <div className="h-full pt-0 p-1 overflow-auto">
                 <TooltipProvider>
                     <ResizablePanelGroup direction="horizontal" className="text-center gap-4 pr-4 h-full">
-                        <ResizablePanel defaultSize={20}>
+                        <ResizablePanel defaultSize={25}>
                             <ScrollArea className="h-full pt-4 relative" type="hover">
                                 <div className="absolute bottom-0 z-10 right-0 top-0 w-12 bg-gradient-to-l from-background pointer-events-none" />
                                 <div className="flex flex-col gap-2 text-start relative">
@@ -104,7 +104,7 @@ export default function Home({ ip }: { ip: string }) {
                                 </div>
                             </ScrollArea>
                         </ResizablePanel>
-                        <ResizablePanel defaultSize={80} className="h-full w-full relative">
+                        <ResizablePanel defaultSize={75} className="h-full w-full relative">
                             <ScrollArea className="h-full" type="hover">
                                 <div className="h-4" />
                                 {renderPluginPage()}
