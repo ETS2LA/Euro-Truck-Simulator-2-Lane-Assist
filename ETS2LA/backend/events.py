@@ -141,7 +141,7 @@ class VehicleChange():
                 return RenderUI()
         
         # Try to get new FOV value from user
-        return_data = dialog(FOVDialog())
+        return_data = dialog(FOVDialog().build())
         if return_data is not None and "fov" in return_data:
             settings.Set("global", "FOV", return_data["fov"])
             logging.info("New FOV value set to: " + str(return_data))

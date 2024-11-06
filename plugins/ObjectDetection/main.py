@@ -160,18 +160,20 @@ class Plugin(ETS2LAPlugin):
             dimensions = settings.Get("ObjectDetection", "dimensions", None)
             
             def SetScreenCaptureDimensions():
-                height_scale = screen.height / 1080
-                width_scale = screen.width / 1920
+                scale = screen.height / 1080
+                width = 1920 * scale
+                width_offset = (screen.width - width) / 2
 
-                capture_x = round(600 * width_scale)
-                capture_y = round(200 * height_scale)
-                capture_width = 1020
-                capture_height = round(480 * height_scale)
+                capture_x = round(600 * scale) + round(width_offset)
+                capture_y = round(200 * scale)
+                capture_width = round(1020 * scale)
+                capture_height = round(480 * scale)
 
                 self.notify(Translate("object_detection.screen_capture_profile", [f"{screen.width}x{screen.height}"]))
                 settings.Set("ObjectDetection", "dimensions", [capture_x, capture_y, capture_width, capture_height])  
                 self.time.sleep(0.5) # Let the profile text show for a bit
 
+                print(f"Automatic Screen Capture Profile: {capture_x}, {capture_y}, {capture_width}, {capture_height}")
                 return capture_x, capture_y, capture_width, capture_height
             
             # Set the capture dimensions based on the screen resolution
@@ -214,8 +216,10 @@ class Plugin(ETS2LAPlugin):
                             downloaded_mb = downloaded_size / (chunk_size ** 2)  # Convert to MB
                             self.state.text = f"{translated_downloading} ({round(downloaded_mb, 2)} / {round(total_mb, 2)} MB)"
                             self.state.progress = downloaded_size / total_size
+                    
                     self.state.reset()
                 else:
+                    self.state.reset()
                     self.terminate()
                     return False
                 
