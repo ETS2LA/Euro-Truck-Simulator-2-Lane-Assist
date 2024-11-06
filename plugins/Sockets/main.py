@@ -13,6 +13,21 @@ class SettingsMenu(ETS2LASettingsMenu):
         Slider("Data FPS", "update_rate", 30, 10, 60, 1, description="How many times per second the data being sent to the clients is updated.", requires_restart=True)
         return RenderUI()
 
+class WebSocketConnection:
+    def __init__(self, websocket):
+        self.websocket = websocket
+        self.queue = asyncio.Queue()
+        self.sender_task = asyncio.create_task(self.send_messages())
+
+    async def send_messages(self):
+        try:
+            while True:
+                message = await self.queue.get()
+                await self.websocket.send(message)
+                await asyncio.sleep(1/60)  # Limit to 60 fps
+        except Exception as e:
+            print("Client disconnected due to exception in send_messages.", str(e))
+
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
         name="plugins.sockets",
@@ -30,9 +45,10 @@ class Plugin(ETS2LAPlugin):
     
     settings_menu = SettingsMenu()
     
-    send = ""
-    connected_clients = []
-    
+    def init(self):
+        self.connected_clients = {}
+        self.loop = None
+
     def imports(self):
         global multiprocessing, websockets, threading, logging, asyncio, json, os, zlib, time
         import multiprocessing
@@ -47,24 +63,18 @@ class Plugin(ETS2LAPlugin):
 
     async def server(self, websocket):
         print("Client Connected!")
-        self.connected_clients.append(websocket)  # Step 2: Add a client to the list when they connect
+        connection = WebSocketConnection(websocket)
+        self.connected_clients[websocket] = connection
         print("Number of connected clients: ", len(self.connected_clients))
         try:
-            while True:
-                if self.send:
-                    await websocket.send(self.send)
-                    # Wait for acknowledgment from client
-                    try:
-                        ack = await websocket.recv()
-                    except Exception as e:
-                        print("Client disconnected while receiving data.", str(e))
-                        break
-                    if ack != "ok":
-                        print(f"Unexpected message from client: {ack}")
+            async for message in websocket:
+                pass  # Handle incoming messages if necessary
         except Exception as e:
             print("Client disconnected due to exception.", str(e))
         finally:
-            self.connected_clients.remove(websocket)  # Step 3: Remove a client from the list when they disconnect
+            connection.sender_task.cancel()
+            del self.connected_clients[websocket]
+            print("Client disconnected. Number of connected clients: ", len(self.connected_clients))
 
     def position(self, data):
         send = ""
@@ -354,15 +364,13 @@ class Plugin(ETS2LAPlugin):
         except:
             return ""
 
-    async def start_server(self, func):
-        async with websockets.serve(func, "localhost", 37522):
-            await asyncio.Future() # run forever
-            
+    async def start(self):
+        self.loop = asyncio.get_running_loop()
+        async with websockets.serve(self.server, "localhost", 37522):
+            await asyncio.Future()  # run forever
+
     def run_server_thread(self):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(self.start_server(self.server))
-        loop.run_forever()
+        asyncio.run(self.start())
 
     def Initialize(self):
         global TruckSimAPI
@@ -410,6 +418,12 @@ class Plugin(ETS2LAPlugin):
 
         #Switch to zlib when on windows
         if os.name == "nt":
-            self.send = zlib.compress(tempSend.encode("utf-8"), wbits=28)
+            compressed_message = zlib.compress(tempSend.encode("utf-8"), wbits=28)
         else:
-            self.send = self.compress_data(tempSend.encode("utf-8"))
+            compressed_message = self.compress_data(tempSend.encode("utf-8"))
+            
+        # Enqueue the message to all connected clients
+        for connection in list(self.connected_clients.values()):
+            asyncio.run_coroutine_threadsafe(connection.queue.put(compressed_message), self.loop)
+
+        time.sleep(1 / self.fps_cap)
