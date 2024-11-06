@@ -1,3 +1,5 @@
+from ETS2LA.UI import *
+
 from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
 from modules.SDKController.main import SCSController
 from ETS2LA.utils.translator import Translate
@@ -8,7 +10,6 @@ import ETS2LA.backend.backend as backend
 import ETS2LA.networking.cloud as cloud
 import ETS2LA.backend.sounds as sounds
 import modules.TruckSimAPI.main as API
-from ETS2LA.UI import *
 import threading
 import logging
 import time
@@ -79,9 +80,74 @@ class JobFinished():
             job.cargo = last_started_job.cargo
             job.unit_count = last_started_job.unit_count
             job.unit_mass = last_started_job.unit_mass
+            
+        class CargoDialog(ETS2LADialog):
+            def render(self):
+                with Form():
+                    Title("Job finished!")
+                    Description(f"Here are some stats:")
+                    with TabView():
+                        with Tab("General"):
+                            Space(1)
+                            with Group("vertical"):
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Cargo")
+                                        Description(job.cargo)
+                                    with Group("vertical"):
+                                        Label("Cargo ID")
+                                        Description(job.cargo_id)
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Unit mass")
+                                        Description(round(job.unit_mass))
+                                    with Group("vertical"):
+                                        Label("Unit count")
+                                        Description(round(job.unit_count))
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Starting time")
+                                        Description(round(job.starting_time))
+                                    with Group("vertical"):
+                                        Label("Finished time")
+                                        Description(round(job.finished_time))
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Delivery time")
+                                        Description(round(job.delivered_delivery_time))
+                                    with Group("vertical"):
+                                        Label("Autoload used")
+                                        Description(str(job.delivered_autoload_used))
+                                        
+                        with Tab("Computed"):
+                            with Group("vertical"):
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Total weight")
+                                        Description(str(round(job.unit_mass * job.unit_count)) + " kg")
+                                    with Group("vertical"):
+                                        Label("Total revenue")
+                                        Description(str(round(job.delivered_revenue)) + " €")
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Revenue per km")
+                                        Description(str(round(job.delivered_revenue / job.delivered_distance_km, 2)) + " €")
+                                    with Group("vertical"):
+                                        Label("Revenue per hour")
+                                        Description(str(round(job.delivered_revenue / (job.finished_time / 60))) + " €")
+                                with Group("horizontal"):
+                                    with Group("vertical"):
+                                        Label("Revenue per ton")
+                                        Description(str(round(job.delivered_revenue / (job.unit_mass * job.unit_count))) + " €")
+                                    with Group("vertical"):
+                                        Label("Average speed")
+                                        Description(str(round(job.delivered_distance_km / (job.finished_time / 60), 1)) + " km/h")
+                            
+                return RenderUI()
         backend.call_event('JobFinished', job, {})
         logging.info("Triggered event: JobFinished")
         cloud.FinishedJob(job)
+        dialog(CargoDialog().build())
     def __init__(self):
         API.listen('jobFinished', self.JobFinished)
         
