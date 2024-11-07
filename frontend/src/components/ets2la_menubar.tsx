@@ -243,6 +243,8 @@ export function ETS2LAMenubar({ ip, onLogout, isCollapsed }: { ip: string, onLog
                 </MenubarTrigger>
                 <MenubarContent>
                     <MenubarItem onClick={() => push("/settings")}>{translate("frontend.menubar.settings")}</MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem onClick={() => push("/setup/sdk")}>{translate("frontend.menubar.setup_sdk")}</MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>

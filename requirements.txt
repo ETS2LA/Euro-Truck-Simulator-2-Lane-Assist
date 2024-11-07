@@ -36,4 +36,5 @@ ujson
 ftfy
 rich
 rpyc
+vdf
 mss

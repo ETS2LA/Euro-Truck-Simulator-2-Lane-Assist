@@ -390,6 +390,7 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 		if (!Array.isArray(data)) {
 			data = [data]
 		}
+		console.log(data)
 		const result = [];
 		for (const item of data) {
 			const key = Object.keys(item)[0];
@@ -431,13 +432,14 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 			}
 			if (key == "group") {
 				const direction = key_data.direction
+				const gap = key_data.gap != 0 ? key_data.gap : 16
 				if(direction == "horizontal"){
-					result.push(<div className={"flex gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex w-full rounded-md" + GetBorderClassname(key_data.border)} style={{gap: gap}}>
 						{PageRenderer(key_data.components)}
 					</div>)
 				}
 				else{
-					result.push(<div className={"flex flex-col gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex flex-col w-full rounded-md" + GetBorderClassname(key_data.border)} style={{gap: gap}}>
 						{PageRenderer(key_data.components)}
 					</div>)
 				}
@@ -458,6 +460,17 @@ export function ETS2LAPage({ ip, data, plugin, enabled }: { ip: string, data: an
 			}
 			if (key == "tab"){
 				result.push(PageRenderer(key_data.components))
+			}
+			if (key == "padding"){
+				result.push(<div style={{padding: key_data.padding}}>
+					{PageRenderer(key_data.components)}
+				</div>
+				)
+			}
+			if (key == "geist"){
+				result.push(<div className="flex flex-col gap-4 font-customSans">
+					{PageRenderer(key_data.components)}
+				</div>)
 			}
 
 			// Live Data

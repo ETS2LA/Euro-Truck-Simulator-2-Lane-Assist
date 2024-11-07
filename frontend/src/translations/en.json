@@ -21,6 +21,8 @@
     "clear": "Clear",
     "search": "Search",
     "submit": "Submit",
+    "install": "Install",
+    "uninstall": "Uninstall",
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
     "main.errors_and_warnings": "Errors and warnings in the log files:",
     "main.errors": "Errors:",
@@ -139,6 +141,7 @@
     "frontend.menubar.development.board": "Development Board",
     "frontend.menubar.development.become": "Become a Developer",
     "frontend.menubar.development.wiki": "Development Wiki",
+    "frontend.menubar.setup_sdk": "Setup SDKs",
     "frontend.immediate.connected": "Connected to the ETS2LA backend",
     "frontend.immediate.disconnected": "Disconnected from the ETS2LA backend",
     "frontend.immediate.update_check_error": "Error: {0}",
@@ -347,5 +350,15 @@
     "object_detection.screen_capture_profile": "Object Detection is using screen capture profile: {0}",
     "object_detection.loaded_model": "Object Detection model loaded on {0}",
     "object_detection.tracking_failed": "Tracking failed for {0} with confidence {1}",
-    "object_detection.processing_error": "Error while processing vehicle data"
+    "object_detection.processing_error": "Error while processing vehicle data",
+    "sdk_install.title": "SDK Setup",
+    "sdk_install.description": "Check that you have the necessary DLLs installed for us to communicate with the game.",
+    "sdk_install.no_games": "We could not find any games on your system. You'll have to install the SDKs manually.",
+    "sdk_install.games": "We found the following games on your system:",
+    "sdk_install.install": "Install SDKs",
+    "sdk_install.install_description": "This button will install the SDKs for all the games listed above. It might take some time to refresh the page after the installation is complete.",
+    "sdk_install.uninstall": "Uninstall SDKs",
+    "sdk_install.uninstall_description": "This button will uninstall the SDKs for all the games listed above. It might take some time to refresh the page after the uninstallation is complete.",
+    "sdk_install.installed": "- Installed",
+    "sdk_install.not_installed": "- Not Installed"
 }

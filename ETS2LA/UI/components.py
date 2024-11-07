@@ -201,6 +201,42 @@ class Group():
             "components": ui
         }})
         ui = self.previous_ui
+        
+class Padding():
+    def __init__(self, padding: int):
+        """Add padding to the UI.
+
+        :param int padding: Padding in pixels.
+        """
+        self.padding = padding
+        
+    def __enter__(self):
+        global ui
+        self.previous_ui = ui
+        ui = []
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global ui
+        self.previous_ui.append({"padding": {
+            "padding": self.padding,
+            "components": ui
+        }})
+        ui = self.previous_ui
+        
+class Geist():
+    def __enter__(self):
+        global ui
+        self.previous_ui = ui
+        ui = []
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global ui
+        self.previous_ui.append({"geist": {
+            "components": ui
+        }})
+        ui = self.previous_ui
 
 class Form():
     """
