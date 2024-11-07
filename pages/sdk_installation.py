@@ -69,7 +69,7 @@ class Page(ETS2LAPage):
                             for game in games:
                                 with Group("horizontal", border=True):
                                     with Group("vertical"):
-                                        title = "ETS2" if "Euro Truck Simulator 2" in game else "ATS"
+                                        title = "ETS2 " if "Euro Truck Simulator 2" in game else "ATS "
                                         title += Translate("sdk_install.installed") if CheckIfInstalled(game) else Translate("sdk_install.not_installed")
                                         Label(title)
                                         Description(game)
