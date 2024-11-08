@@ -61,9 +61,9 @@ def get_theme():
                         return hex_color
     except:
         try:
-            return "#ffffff" if settings.Get("global", "theme", "dark") == "light" else "#09090b"
+            return "#ffffff" if settings.Get("global", "theme", "dark") == "light" else "#18181b"
         except:
-            return "#09090b"
+            return "#18181b"
 
 def set_window_icon(image_path):
     hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
