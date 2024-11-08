@@ -16,6 +16,8 @@
     "clear",
     "search",
     "submit",
+    "install",
+    "uninstall",
 
     "main.errors_and_warnings",
     "main.errors",
@@ -134,6 +136,7 @@
     "frontend.menubar.development.board",
     "frontend.menubar.development.become",
     "frontend.menubar.development.wiki",
+    "frontend.menubar.setup_sdk",
     "frontend.immediate.connected",
     "frontend.immediate.disconnected",
     "frontend.immediate.update_check_error",
@@ -347,5 +350,16 @@
     "object_detection.screen_capture_profile",
     "object_detection.loaded_model",
     "object_detection.tracking_failed",
-    "object_detection.processing_error"
+    "object_detection.processing_error",
+
+    "sdk_install.title",
+    "sdk_install.description",
+    "sdk_install.no_games",
+    "sdk_install.games",
+    "sdk_install.install",
+    "sdk_install.install_description",
+    "sdk_install.uninstall",
+    "sdk_install.uninstall_description",
+    "sdk_install.installed",
+    "sdk_install.not_installed"
 ]

@@ -5,6 +5,7 @@ var lastDataEntry = Time.get_ticks_usec()
 var connectRetryTime = 2000 # msec
 var connectingSince = Time.get_ticks_msec()
 var status = ""
+var last_packet_size = 0
 
 @onready var Notifications = $/root/Node3D/UI/Notifications
 
@@ -57,6 +58,7 @@ func _process(delta):
 		var tempData = {}
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet()
+			last_packet_size = packet.size()
 			packet = gzip_decode(packet)
 			packet = packet.split(";")
 			for packetData in packet:

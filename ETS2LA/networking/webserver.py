@@ -220,11 +220,16 @@ def call_plugin_function(plugin: str, data: PluginCallData = None):
         if data is None:
             data = PluginCallData()
         
-        index = [plugin.plugin_name for plugin in backend.RUNNING_PLUGINS].index(plugin)
+        try:
+            index = [plugin.plugin_name for plugin in backend.RUNNING_PLUGINS].index(plugin)
+            plugin = backend.RUNNING_PLUGINS[index]
+            return plugin.call_function(data.target, data.args, data.kwargs)
+        except:
+            index = pages.get_page_names().index(plugin)
+            return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
         
-        plugin = backend.RUNNING_PLUGINS[index]
-        return plugin.call_function(data.target, data.args, data.kwargs)
     except:
+        logging.exception("Failed to call plugin function")
         return {"status": "error", "message": "Plugin not found"}
 
 # endregion

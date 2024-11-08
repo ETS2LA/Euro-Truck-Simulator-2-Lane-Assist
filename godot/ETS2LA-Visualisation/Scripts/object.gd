@@ -36,7 +36,8 @@ func _process(delta: float) -> void:
 	if type == "dynamic":
 		position = position.lerp(_target, delta * (_cur_target_time - _last_target_time))
 		scale = scale.lerp(_target_scale, delta)
-		rotation.y=lerp(rotation.y,atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z)),delta*10)
+		rotation.y = atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z))
+		#rotation.y=lerp(rotation.y,atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z)),delta*10)
 		#self.look_at_from_position(_last_target, _target)
 	else:
 		return

@@ -23,6 +23,8 @@
     "clear": "Tyhjennä",
     "search": "Etsi",
     "submit": "Lähetä",
+    "install": "Asenna",
+    "uninstall": "Poista",
 
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
 
@@ -147,6 +149,7 @@
     "frontend.menubar.development.board": "Kehityksen seuranta",
     "frontend.menubar.development.become": "Liity kehittäjäksi",
     "frontend.menubar.development.wiki": "Kehittäjien wiki",
+    "frontend.menubar.setup_sdk": "SDK asennus",
     "frontend.immediate.connected": "Yhdistetty ETS2LA:n taustaprosessiin",
     "frontend.immediate.disconnected": "Yhteys taustaprosessiin katkaistu",
     "frontend.immediate.update_check_error": "Virhe: {0}",
@@ -366,5 +369,16 @@
     "object_detection.screen_capture_profile": "Objektien tunnistus käyttää profiilia: {0}",
     "object_detection.loaded_model": "Objektien tunnistus ladattu laitteella: {0}",
     "object_detection.tracking_failed": "{0} seuraaminen epäonnistui. Mallin luottamus: {1}",
-    "object_detection.processing_error": "Virhe käsitellessä ajoneuvon dataa."
+    "object_detection.processing_error": "Virhe käsitellessä ajoneuvon dataa.",
+
+    "sdk_install.title": "SDK Asennus",
+    "sdk_install.description": "Tarkista että tarvittavat DLL:t on asennettu jotta voimme kommunikoida pelin kanssa.",
+    "sdk_install.no_games": "Emme löytäneet pelejäsi automaattisesti. Sinun täytyy asentaa SDK:t käsin.",
+    "sdk_install.games": "Löysimme seuraavat pelit:",
+    "sdk_install.install": "Asenna SDK:t",
+    "sdk_install.install_description": "Nappia painamalla asennat SDK:n kaikkiin listattuihin peleihin. Huomaa että sivun päivitys voi kestää hetken asennuksen jälkeen.",
+    "sdk_install.uninstall": "Poista SDK:t",
+    "sdk_install.uninstall_description": "Nappia painamalla poistat SDK:n kaikista listatuista peleistä. Huomaa että sivun päivitys voi kestää hetken asennuksen jälkeen.",
+    "sdk_install.installed": "- Asennettu",
+    "sdk_install.not_installed": "- Ei asennettu"
 }

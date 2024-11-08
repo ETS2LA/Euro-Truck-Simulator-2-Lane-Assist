@@ -1,0 +1,5 @@
+scs_sdk_controller.dll - https://github.com/ETS2LA/scs-sdk-controller
+Plugin developed by mimi89999, will interface with the game to send input data with no virtual controller.
+
+scs-telemetry.dll - https://github.com/RenCloud/scs-sdk-plugin
+Plugin developed by RenCloud, provides data from the game to the app. (stuff like speed, location etc...)

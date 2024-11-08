@@ -21,6 +21,8 @@
     "clear": "Tyhjenn\u00e4",
     "search": "Etsi",
     "submit": "L\u00e4het\u00e4",
+    "install": "Asenna",
+    "uninstall": "Poista",
     "_BACKEND": "Please leave a space here to seperate the different sections of the translations.",
     "main.errors_and_warnings": "Virheet ja varoitukset lokitiedostoissa:",
     "main.errors": "Virheit\u00e4:",
@@ -139,6 +141,7 @@
     "frontend.menubar.development.board": "Kehityksen seuranta",
     "frontend.menubar.development.become": "Liity kehitt\u00e4j\u00e4ksi",
     "frontend.menubar.development.wiki": "Kehitt\u00e4jien wiki",
+    "frontend.menubar.setup_sdk": "SDK asennus",
     "frontend.immediate.connected": "Yhdistetty ETS2LA:n taustaprosessiin",
     "frontend.immediate.disconnected": "Yhteys taustaprosessiin katkaistu",
     "frontend.immediate.update_check_error": "Virhe: {0}",
@@ -347,5 +350,15 @@
     "object_detection.screen_capture_profile": "Objektien tunnistus k\u00e4ytt\u00e4\u00e4 profiilia: {0}",
     "object_detection.loaded_model": "Objektien tunnistus ladattu laitteella: {0}",
     "object_detection.tracking_failed": "{0} seuraaminen ep\u00e4onnistui. Mallin luottamus: {1}",
-    "object_detection.processing_error": "Virhe k\u00e4sitelless\u00e4 ajoneuvon dataa."
+    "object_detection.processing_error": "Virhe k\u00e4sitelless\u00e4 ajoneuvon dataa.",
+    "sdk_install.title": "SDK Asennus",
+    "sdk_install.description": "Tarkista ett\u00e4 tarvittavat DLL:t on asennettu jotta voimme kommunikoida pelin kanssa.",
+    "sdk_install.no_games": "Emme l\u00f6yt\u00e4neet pelej\u00e4si automaattisesti. Sinun t\u00e4ytyy asentaa SDK:t k\u00e4sin.",
+    "sdk_install.games": "L\u00f6ysimme seuraavat pelit:",
+    "sdk_install.install": "Asenna SDK:t",
+    "sdk_install.install_description": "Nappia painamalla asennat SDK:n kaikkiin listattuihin peleihin. Huomaa ett\u00e4 sivun p\u00e4ivitys voi kest\u00e4\u00e4 hetken asennuksen j\u00e4lkeen.",
+    "sdk_install.uninstall": "Poista SDK:t",
+    "sdk_install.uninstall_description": "Nappia painamalla poistat SDK:n kaikista listatuista peleist\u00e4. Huomaa ett\u00e4 sivun p\u00e4ivitys voi kest\u00e4\u00e4 hetken asennuksen j\u00e4lkeen.",
+    "sdk_install.installed": "- Asennettu",
+    "sdk_install.not_installed": "- Ei asennettu"
 }
