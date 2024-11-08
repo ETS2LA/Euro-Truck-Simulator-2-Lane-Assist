@@ -23,6 +23,8 @@
     "clear": "清除",
     "search": "搜尋",
     "submit": "提交",
+    "install": "安裝",
+    "uninstall": "解除安裝",
 
     "_BACKEND": "請在此處保留一個空格以區分不同的翻譯部分。",
 
@@ -191,6 +193,7 @@
     "frontend.menubar.development.board": "開發板",
     "frontend.menubar.development.become": "成為開發者",
     "frontend.menubar.development.wiki": "維基百科  ",
+    "frontend.menubar.setup_sdk": "設定 SDK",
     "frontend.immediate.connected": "已連接到 ETS2LA 伺服器端",
     "frontend.immediate.disconnected": "與 ETS2LA 伺服器端斷開連接",
     "frontend.immediate.update_check_error": "錯誤：{0}",
@@ -410,5 +413,16 @@
     "object_detection.screen_capture_profile": "物體辨識使用螢幕擷取設定檔：{0}",
     "object_detection.loaded_model": "物體辨識模型已載入於 {0}",
     "object_detection.tracking_failed": "對 {0} 的追蹤失敗，置信度為 {1}",
-    "object_detection.processing_error": "處理車輛數據時發生錯誤"    
+    "object_detection.processing_error": "處理車輛數據時發生錯誤",
+
+    "sdk_install.title": "SDK 設定",
+    "sdk_install.description": "檢查您是否已安裝必要的 DLL 以便我們與遊戲進行連接。",
+    "sdk_install.no_games": "我們無法在您的系統中找到任何遊戲。您將需要手動安裝 SDK。",
+    "sdk_install.games": "我們在您的系統中找到了以下遊戲：",
+    "sdk_install.install": "安裝 SDK",
+    "sdk_install.install_description": "此按鈕將為上方列出的所有遊戲安裝 SDK。安裝完成後，頁面可能需要一段時間來重新整理。",
+    "sdk_install.uninstall": "移除 SDK",
+    "sdk_install.uninstall_description": "此按鈕將為上方列出的所有遊戲移除 SDK。移除完成後，頁面可能需要一段時間來重新整理。",
+    "sdk_install.installed": "- 已安裝",
+    "sdk_install.not_installed": "- 未安裝"
 }
