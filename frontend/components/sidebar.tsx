@@ -49,7 +49,8 @@ import {
     Bolt,
     User,
     UserCog,
-    UserRoundMinus
+    UserRoundMinus,
+    ArrowLeftToLine
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "./ui/button"
@@ -80,6 +81,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                         <p className="text-sm font-semibold">ETS2LA</p>
                         <p className="text-[10px] font-normal">Version 2.0.0</p>
                     </div>
+                    <ArrowLeftToLine className="ml-auto w-6 h-6W" onClick={toggleSidebar} />
                 </div>
             </SidebarHeader>
             <SidebarContent className="bg-sidebarbg pt-2 custom-scrollbar" >
@@ -146,7 +148,11 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </SidebarMenuButton>
                     <SidebarMenuButton className={buttonClassName("/chat")} onClick={
                         () => {
-                            toast.success("Coming soon!")
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/chat')
+                                await new Promise(resolve => setTimeout(resolve, 50))
+                            })
                         }
                     }>
                         <MessageSquare /> Chat
