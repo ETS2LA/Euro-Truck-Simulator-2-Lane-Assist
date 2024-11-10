@@ -1750,6 +1750,7 @@ class MapData:
     _by_uid = {}
     _model_descriptions_by_token = {}
     _prefab_descriptions_by_token = {}
+    _companies_by_token = {}
     """
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
@@ -1865,6 +1866,10 @@ class MapData:
         self._prefab_descriptions_by_token = {}
         for prefab_description in self.prefab_descriptions:
             self._prefab_descriptions_by_token[prefab_description.token] = prefab_description
+            
+        self._companies_by_token = {}
+        for company in self.companies:
+            self._companies_by_token[company.token] = company
 
     def get_sector_from_coordinates(self, x: float, z: float) -> tuple[int, int]:
         return (int(x // self._sector_width), int(z // self._sector_height))
@@ -1891,6 +1896,16 @@ class MapData:
 
     def get_sector_prefabs_by_sector(self, sector: tuple[int, int]) -> list[Prefab]:
         return self._prefabs_by_sector.get(sector[0], {}).get(sector[1], [])
+
+    def get_sector_items_by_sector(self, sector: tuple[int, int]) -> list[Item]:
+        items = []
+        items += self._prefabs_by_sector.get(sector[0], {}).get(sector[1], [])
+        items += self._roads_by_sector.get(sector[0], {}).get(sector[1], [])
+        return items
+
+    def get_sector_items_by_coordinates(self, x: float, z: float) -> list[Item]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_items_by_sector(sector)
 
     def get_sector_models_by_coordinates(self, x: float, z: float) -> list[Model]:
         sector = self.get_sector_from_coordinates(x, z)
@@ -1927,8 +1942,23 @@ class MapData:
             #logging.exception(f"Error getting item by UID: {uid}")
             return None
 
+    def get_company_item_by_token_and_city(self, token: str, city_token: str) -> CompanyItem:
+        # TODO: Optimize this, use the dictionary and add the companies as a list based on the token
+        return_item = None
+        for company in self.companies:
+            if company.token == token and company.city_token == city_token:
+                return_item = company
+                break
+        return return_item
+
     def get_model_description_by_token(self, token: str) -> ModelDescription:
         return self._model_descriptions_by_token.get(token, None)
+
+    def get_city_by_token(self, token: str) -> City:
+        for city in self.cities:
+            if city.token == token:
+                return city
+        return None
 
     def match_roads_to_looks(self) -> None:
         for road in self.roads:
@@ -1953,3 +1983,17 @@ class MapData:
                 sectors.append((sector_x, sector_z))
         
         return sectors
+    
+    def get_closest_item(self, x: float, z: float) -> Item:
+        # TODO: Use actual points instead of just the item position
+        sector = self.get_sector_from_coordinates(x, z)
+        sector_items = self.get_sector_items_by_sector(sector)
+        closest_item_distance = 0
+        closest_item = None
+        for item in sector_items:
+            distance = math_helpers.DistanceBetweenPoints((x, z), (item.x, item.y))
+            if closest_item is None or distance < closest_item_distance:
+                closest_item = item
+                closest_item_distance = distance
+                
+        return closest_item

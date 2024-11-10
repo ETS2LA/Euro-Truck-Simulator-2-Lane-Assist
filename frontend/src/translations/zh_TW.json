@@ -21,6 +21,8 @@
     "clear": "\u6e05\u9664",
     "search": "\u641c\u5c0b",
     "submit": "\u63d0\u4ea4",
+    "install": "\u5b89\u88dd",
+    "uninstall": "\u89e3\u9664\u5b89\u88dd",
     "_BACKEND": "\u8acb\u5728\u6b64\u8655\u4fdd\u7559\u4e00\u500b\u7a7a\u683c\u4ee5\u5340\u5206\u4e0d\u540c\u7684\u7ffb\u8b6f\u90e8\u5206\u3002",
     "main.errors_and_warnings": "\u65e5\u8a8c\u4e2d\u7684\u932f\u8aa4\u548c\u8b66\u544a\uff1a",
     "main.errors": "\u932f\u8aa4\uff1a",
@@ -182,6 +184,7 @@
     "frontend.menubar.development.board": "\u958b\u767c\u677f",
     "frontend.menubar.development.become": "\u6210\u70ba\u958b\u767c\u8005",
     "frontend.menubar.development.wiki": "\u7dad\u57fa\u767e\u79d1  ",
+    "frontend.menubar.setup_sdk": "\u8a2d\u5b9a SDK",
     "frontend.immediate.connected": "\u5df2\u9023\u63a5\u5230 ETS2LA \u4f3a\u670d\u5668\u7aef",
     "frontend.immediate.disconnected": "\u8207 ETS2LA \u4f3a\u670d\u5668\u7aef\u65b7\u958b\u9023\u63a5",
     "frontend.immediate.update_check_error": "\u932f\u8aa4\uff1a{0}",
@@ -389,5 +392,15 @@
     "object_detection.screen_capture_profile": "\u7269\u9ad4\u8fa8\u8b58\u4f7f\u7528\u87a2\u5e55\u64f7\u53d6\u8a2d\u5b9a\u6a94\uff1a{0}",
     "object_detection.loaded_model": "\u7269\u9ad4\u8fa8\u8b58\u6a21\u578b\u5df2\u8f09\u5165\u65bc {0}",
     "object_detection.tracking_failed": "\u5c0d {0} \u7684\u8ffd\u8e64\u5931\u6557\uff0c\u7f6e\u4fe1\u5ea6\u70ba {1}",
-    "object_detection.processing_error": "\u8655\u7406\u8eca\u8f1b\u6578\u64da\u6642\u767c\u751f\u932f\u8aa4"
+    "object_detection.processing_error": "\u8655\u7406\u8eca\u8f1b\u6578\u64da\u6642\u767c\u751f\u932f\u8aa4",
+    "sdk_install.title": "SDK \u8a2d\u5b9a",
+    "sdk_install.description": "\u6aa2\u67e5\u60a8\u662f\u5426\u5df2\u5b89\u88dd\u5fc5\u8981\u7684 DLL \u4ee5\u4fbf\u6211\u5011\u8207\u904a\u6232\u9032\u884c\u9023\u63a5\u3002",
+    "sdk_install.no_games": "\u6211\u5011\u7121\u6cd5\u5728\u60a8\u7684\u7cfb\u7d71\u4e2d\u627e\u5230\u4efb\u4f55\u904a\u6232\u3002\u60a8\u5c07\u9700\u8981\u624b\u52d5\u5b89\u88dd SDK\u3002",
+    "sdk_install.games": "\u6211\u5011\u5728\u60a8\u7684\u7cfb\u7d71\u4e2d\u627e\u5230\u4e86\u4ee5\u4e0b\u904a\u6232\uff1a",
+    "sdk_install.install": "\u5b89\u88dd SDK",
+    "sdk_install.install_description": "\u6b64\u6309\u9215\u5c07\u70ba\u4e0a\u65b9\u5217\u51fa\u7684\u6240\u6709\u904a\u6232\u5b89\u88dd SDK\u3002\u5b89\u88dd\u5b8c\u6210\u5f8c\uff0c\u9801\u9762\u53ef\u80fd\u9700\u8981\u4e00\u6bb5\u6642\u9593\u4f86\u91cd\u65b0\u6574\u7406\u3002",
+    "sdk_install.uninstall": "\u79fb\u9664 SDK",
+    "sdk_install.uninstall_description": "\u6b64\u6309\u9215\u5c07\u70ba\u4e0a\u65b9\u5217\u51fa\u7684\u6240\u6709\u904a\u6232\u79fb\u9664 SDK\u3002\u79fb\u9664\u5b8c\u6210\u5f8c\uff0c\u9801\u9762\u53ef\u80fd\u9700\u8981\u4e00\u6bb5\u6642\u9593\u4f86\u91cd\u65b0\u6574\u7406\u3002",
+    "sdk_install.installed": "- \u5df2\u5b89\u88dd",
+    "sdk_install.not_installed": "- \u672a\u5b89\u88dd"
 }

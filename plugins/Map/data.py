@@ -1,4 +1,4 @@
-from plugins.Map.classes import MapData, Road, Prefab, Position, Model
+from plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem
 from modules.SDKController.main import SCSController
 from plugins.Map.route.classes import RouteSection
 import ETS2LA.backend.settings as settings
@@ -32,6 +32,14 @@ enabled: bool = False
 """Whether the map steering is enabled or not."""
 last_sector: tuple[int, int] = None
 """The last sector the truck was in."""
+dest_city: City = None
+"""The destination city."""
+dest_city_token: str = None
+"""The destination city token."""
+dest_company: CompanyItem = None
+"""The destination company."""
+dest_company_token: str = None
+"""The destination company token."""
 
 # MARK: Data variables
 map: MapData = None
@@ -88,6 +96,7 @@ def UpdateData(api_data):
     global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
+    global dest_city, dest_company, dest_city_token, dest_company_token
 
     heavy_calculations_this_frame = 0
     
@@ -131,6 +140,17 @@ def UpdateData(api_data):
     angle = rotationX * 360
     if angle < 0: angle = 360 + angle
     truck_rotation = math.radians(angle)
+    
+    dst_city_token = api_data["configString"]["cityDstId"]
+    dst_company_token = api_data["configString"]["compDstId"]
+    if dst_city_token != dest_city_token:
+        dest_city_token = dst_city_token
+        dest_city = map.get_city_by_token(dst_city_token)
+
+    if dst_company_token != dest_company_token:
+        dest_company_token = dst_company_token
+        dest_company = map.get_company_item_by_token_and_city(dst_company_token, dst_city_token)
+    
     
 def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size
