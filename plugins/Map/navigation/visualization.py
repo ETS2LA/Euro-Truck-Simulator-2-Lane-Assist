@@ -3,8 +3,8 @@ import plugins.Map.data as data
 import numpy as np
 import cv2
 
-cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
-cv2.resizeWindow("Route", 1024, 1024)
+#cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
+#cv2.resizeWindow("Route", 1024, 1024)
 
 map_image = cv2.imread("plugins/Map/navigation/map.png")
 map_image = cv2.resize(map_image, (1024, 1024))

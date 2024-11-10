@@ -55,7 +55,7 @@ route_plan: list[RouteSection] = []
 route_points: list[Position] = []
 
 # MARK: Options
-amount_of_points: int = 75
+amount_of_points: int = 50
 """How many points will the map calculate ahead. More points = more overhead moving data."""
 heavy_calculations_this_frame: int = -1
 """How many heavy calculations map has done this frame."""
