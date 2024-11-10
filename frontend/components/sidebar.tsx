@@ -55,6 +55,8 @@ import {
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { useRouter, usePathname } from "next/navigation"
+import { useTheme } from "next-themes"
+import QRCode from 'qrcode.react';
 
 import { toast } from "sonner"
 
@@ -62,6 +64,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const startProgress = useProgress()
     const router = useRouter()
     const path = usePathname()
+    const { theme } = useTheme();
     console.log(path)
 
     const buttonClassName = (targetPath: string) => {
@@ -163,6 +166,37 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                 toggleSidebar()
             }} />
             <SidebarFooter className="bg-sidebarbg">
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <SidebarMenuButton className="w-full flex justify-between">
+                                <div className="flex items-center gap-2">
+                                    <span>ETS2LA Mobile</span>
+                                </div>
+                                <ChevronUp className="w-4 h-4 justify-self-end" />
+                            </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                side="top"
+                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75 text-center"
+                            >
+                                <span className="text-sm ">ETS2LA on your mobile device:</span>
+                                <QRCode value={"https://example.com"} />
+                                <div className="flex items-center w-full justify-center">
+                                    <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
+                                    <span className="text-xs whitespace-nowrap text-muted-foreground">OR</span>
+                                    <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
+                                </div>
+                                <p className="text-xs">Use your device's browser to open{' '}
+                                    <a href="https://example.com" className="underline" target="_blank" rel="noopener noreferrer">
+                                        example.com
+                                    </a>
+                                </p>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuItem>
+                </SidebarMenu>
                 <SidebarMenuButton className={buttonClassName("/settings")} onClick={
                         () => {
                             startTransition(async () => {
