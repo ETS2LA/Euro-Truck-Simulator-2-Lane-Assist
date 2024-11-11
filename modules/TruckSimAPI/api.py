@@ -11,7 +11,7 @@ LINUX = os.path.exists("/etc/os-release")
 if LINUX:
     mmapName = "/dev/shm/SCS/SCSTelemetry"
 else:
-    mmapName = "Local\SCSTelemetry"
+    mmapName = "Local\\SCSTelemetry"
 mmapSize = 32*1024
 
 stringSize = 64
