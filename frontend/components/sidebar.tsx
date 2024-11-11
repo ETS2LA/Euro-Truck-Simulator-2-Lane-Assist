@@ -71,7 +71,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
 
     const buttonClassName = (targetPath: string) => {
         if(path == targetPath) {
-            return "font-medium border-l-2 rounded-l-none"
+            return "font-medium bg-secondary"
         } else {
             return "font-medium"
         }
@@ -168,36 +168,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                 toggleSidebar()
             }} />
             <SidebarFooter className="bg-sidebarbg">
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                            <SidebarMenuButton className="w-full flex justify-between">
-                                <div className="flex items-center gap-2">
-                                    <span>ETS2LA Mobile</span>
-                                </div>
-                                <ChevronUp className="w-4 h-4 justify-self-end" />
-                            </SidebarMenuButton>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                side="top"
-                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-md backdrop-brightness-90 text-center p-3"
-                            >
-                                <QRCodeSVG value={"https://example.com"} className="justify-self-center pb-1" />
-                                <div className="flex items-center w-full justify-center">
-                                    <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
-                                    <span className="text-xs whitespace-nowrap text-muted-foreground">OR</span>
-                                    <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
-                                </div>
-                                <p className="text-xs">Use your device's browser to open{' '}
-                                    <a href={"http://" + ip + ":3005"} className="underline" target="_blank" rel="noopener noreferrer">
-                                        {"http://" + ip + ":3005"}
-                                    </a>
-                                </p>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </SidebarMenuItem>
-                </SidebarMenu>
                 <SidebarMenuButton className={buttonClassName("/settings")} onClick={
                         () => {
                             startTransition(async () => {
@@ -230,6 +200,35 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                 <DropdownMenuItem>
                                     <UserRoundMinus /> <span>Sign out</span>
                                 </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuItem>
+
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <SidebarMenuButton className="w-full flex justify-between">
+                                <div className="flex items-center gap-2">
+                                    <span>ETS2LA Mobile</span>
+                                </div>
+                                <ChevronUp className="w-4 h-4 justify-self-end" />
+                            </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                side="top"
+                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-md backdrop-brightness-90 text-center p-3"
+                            >
+                                <QRCodeSVG value={"https://example.com"} className="justify-self-center pb-1" />
+                                <div className="flex items-center w-full justify-center">
+                                    <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
+                                    <span className="text-xs whitespace-nowrap text-muted-foreground">OR</span>
+                                    <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
+                                </div>
+                                <p className="text-xs">Use your device's browser to open{' '}
+                                    <a href={"http://" + ip + ":3005"} className="underline" target="_blank" rel="noopener noreferrer">
+                                        {"http://" + ip + ":3005"}
+                                    </a>
+                                </p>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
