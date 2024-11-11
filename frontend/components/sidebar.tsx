@@ -38,6 +38,8 @@ import favicon from "@/assets/favicon.png"
 import { useProgress } from "react-transition-progress"
 import { startTransition } from "react"
 
+import { ip } from "@/apis/backend"
+
 import { 
     ChevronUp, 
     House,
@@ -56,7 +58,7 @@ import Image from "next/image"
 import { Button } from "./ui/button"
 import { useRouter, usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 
 import { toast } from "sonner"
 
@@ -179,18 +181,17 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                                 side="top"
-                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75 text-center"
+                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-md backdrop-brightness-90 text-center p-3"
                             >
-                                <span className="text-sm ">ETS2LA on your mobile device:</span>
-                                <QRCode value={"https://example.com"} />
+                                <QRCodeSVG value={"https://example.com"} className="justify-self-center pb-1" />
                                 <div className="flex items-center w-full justify-center">
                                     <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
                                     <span className="text-xs whitespace-nowrap text-muted-foreground">OR</span>
                                     <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
                                 </div>
                                 <p className="text-xs">Use your device's browser to open{' '}
-                                    <a href="https://example.com" className="underline" target="_blank" rel="noopener noreferrer">
-                                        example.com
+                                    <a href={"http://" + ip + ":3005"} className="underline" target="_blank" rel="noopener noreferrer">
+                                        {"http://" + ip + ":3005"}
                                     </a>
                                 </p>
                             </DropdownMenuContent>
