@@ -131,17 +131,29 @@ class JobFinished():
                                 with Group("horizontal"):
                                     with Group("vertical"):
                                         Label("Revenue per km")
-                                        Description(str(round(job.delivered_revenue / job.delivered_distance_km, 2)) + " €")
+                                        if job.delivered_distance_km == 0 or job.delivered_revenue == 0:
+                                            Description("0 €")
+                                        else:
+                                            Description(str(round(job.delivered_revenue / job.delivered_distance_km, 2)) + " €")
                                     with Group("vertical"):
                                         Label("Revenue per hour")
-                                        Description(str(round(job.delivered_revenue / (job.finished_time / 60))) + " €")
+                                        if job.finished_time == 0 or job.delivered_revenue == 0:
+                                            Description("0 €")
+                                        else:
+                                            Description(str(round(job.delivered_revenue / (job.finished_time / 60))) + " €")
                                 with Group("horizontal"):
                                     with Group("vertical"):
                                         Label("Revenue per ton")
-                                        Description(str(round(job.delivered_revenue / (job.unit_mass * job.unit_count))) + " €")
+                                        if job.unit_mass == 0 or job.unit_count == 0:
+                                            Description("0 €")
+                                        else:
+                                            Description(str(round(job.delivered_revenue / (job.unit_mass * job.unit_count))) + " €")
                                     with Group("vertical"):
                                         Label("Average speed")
-                                        Description(str(round(job.delivered_distance_km / (job.finished_time / 60), 1)) + " km/h")
+                                        if job.finished_time == 0 or job.delivered_distance_km == 0:
+                                            Description("0 km/h")
+                                        else:
+                                            Description(str(round(job.delivered_distance_km / (job.finished_time / 60), 1)) + " km/h")
                             
                 return RenderUI()
         backend.call_event('JobFinished', job, {})
@@ -209,7 +221,7 @@ class VehicleChange():
         # Try to get new FOV value from user
         return_data = dialog(FOVDialog().build())
         if return_data is not None and "fov" in return_data:
-            settings.Set("global", "FOV", return_data["fov"])
+            settings.Set("global", "FOV", int(return_data["fov"]))
             logging.info("New FOV value set to: " + str(return_data))
         
     def ApiCallback(self, data):

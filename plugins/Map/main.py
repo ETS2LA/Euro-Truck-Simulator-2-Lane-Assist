@@ -16,6 +16,11 @@ import ETS2LA.backend.settings as settings
 import plugins.Map.utils.speed as speed
 import plugins.Map.classes as c
 
+import threading
+import importlib
+navigation = importlib.import_module("plugins.Map.navigation.navigation")
+last_nav_hash = hash(open(navigation.__file__).read())
+
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "Map"
@@ -102,6 +107,16 @@ class Plugin(ETS2LAPlugin):
         import math
         import sys
         
+    def CheckNavHash(self):
+        global last_nav_hash
+        while True:
+            new_hash = hash(open(navigation.__file__).read())
+            if new_hash != last_nav_hash:
+                last_nav_hash = new_hash
+                importlib.reload(navigation)
+                logging.info("Reloaded navigation module")
+            time.sleep(1)
+        
     def ToggleSteering(self, state:bool, *args, **kwargs):
         data.enabled = state
         self.globals.tags.status = {"Map": state}
@@ -136,6 +151,8 @@ class Plugin(ETS2LAPlugin):
         self.state.reset()
         
         self.globals.tags.status = {"Map": data.enabled}
+        
+        threading.Thread(target=self.CheckNavHash, daemon=True).start()
     
     
     def UpdateSteeringSettings(self, settings: dict):
@@ -170,6 +187,8 @@ class Plugin(ETS2LAPlugin):
         
         if data.internal_map:
             im.DrawMap()
+            
+        #navigation.get_path_to_destination()
         
         if data.external_data_changed:
             external_data = json.dumps(data.external_data)
