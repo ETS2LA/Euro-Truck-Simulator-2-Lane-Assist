@@ -86,7 +86,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                         <p className="text-sm font-semibold">ETS2LA</p>
                         <p className="text-[10px] font-normal">Version 2.0.0</p>
                     </div>
-                    <ArrowLeftToLine className="ml-auto w-6 h-6W" onClick={toggleSidebar} />
                 </div>
             </SidebarHeader>
             <SidebarContent className="bg-sidebarbg pt-2 custom-scrollbar" >
