@@ -122,7 +122,11 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </SidebarGroupLabel>
                     <SidebarMenuButton className={buttonClassName("/plugins")} onClick={
                         () => {
-                            toast.success("Coming soon!")
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/plugins')
+                                await new Promise(resolve => setTimeout(resolve, 50))
+                            })
                         }
                     }>
                         <ChartNoAxesGantt /> Manager
