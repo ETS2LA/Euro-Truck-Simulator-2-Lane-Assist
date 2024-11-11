@@ -106,7 +106,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                                 toast.success(`${stayOnTop ? "Window is now on top" : "Window is no longer on top"}`)
                             })
                         }}>
-                            <div className="w-2.5 h-2.5 bg-green-500 rounded-full flex items-center justify-center" />
+                            <div className="w-[11px] h-[11px] bg-green-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
                             <p>Stay on top</p>
@@ -118,7 +118,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                         <TooltipTrigger onClick={() => {
                             MinimizeBackend()
                         }}>
-                            <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full flex items-center justify-center" />
+                            <div className="w-[11px] h-[11px] bg-yellow-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
                             <p>Minimize</p>
@@ -128,7 +128,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                         <TooltipTrigger onClick={() => {
                             CloseBackend()
                         }}>
-                            <div className="w-2.5 h-2.5 bg-red-500 rounded-full flex items-center justify-center" />
+                            <div className="w-[11px] h-[11px] bg-red-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
                             <p>Close</p>
