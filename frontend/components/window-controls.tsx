@@ -75,11 +75,14 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
         }
     };
 
+
+
+    const collapsedContainerClassName = "flex gap-1 absolute h-6 w-[59px] rounded-bl-lg top-0 right-0 items-center justify-center p-0 z-50 bg-sidebar transition-all pywebview-drag-region opacity-75 hover:opacity-100";
     const containerClassName = "flex gap-1 absolute h-6 w-[59px] rounded-bl-lg top-0 right-0 items-center justify-center p-0 z-50 bg-sidebar transition-all pywebview-drag-region";
 
     return (
         <>
-            <div className={containerClassName} onMouseDown={handleMouseDown}>
+            <div className={isCollapsed && collapsedContainerClassName || containerClassName} onMouseDown={handleMouseDown}>
                 {isCollapsed && (
                     <div className={`absolute right-0 top-0 h-6 flex items-center pl-2.5 pr-12 transition-all bg-sidebar rounded-bl-lg z-[-10] duration-150 ${isMouseInDragArea ? 'w-96 opacity-100' : 'w-0 opacity-0'}`}>
                         <div

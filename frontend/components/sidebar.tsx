@@ -71,9 +71,9 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
 
     const buttonClassName = (targetPath: string) => {
         if(path == targetPath) {
-            return "font-medium bg-secondary"
+            return "font-medium bg-secondary transition-all hover:shadow-md"
         } else {
-            return "font-medium"
+            return "font-medium transition-all hover:shadow-md"
         }
     }
 
@@ -182,7 +182,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                            <SidebarMenuButton className="w-full flex justify-between">
+                            <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
                                 <div className="flex items-center gap-2">
                                     <span>Anonymous</span>
                                 </div>
@@ -206,7 +206,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                            <SidebarMenuButton className="w-full flex justify-between">
+                            <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
                                 <div className="flex items-center gap-2">
                                     <span>ETS2LA Mobile</span>
                                 </div>
@@ -223,7 +223,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                     <span className="text-xs whitespace-nowrap text-muted-foreground">OR</span>
                                     <div className="flex-1 h-px bg-muted-foreground mx-2"></div>
                                 </div>
-                                <p className="text-xs">Use your device's browser to open{' '}
+                                <p className="text-xs">
                                     <a href={"http://" + ip + ":3005"} className="underline" target="_blank" rel="noopener noreferrer">
                                         {"http://" + ip + ":3005"}
                                     </a>
