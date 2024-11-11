@@ -26,14 +26,20 @@ def UpdateChecker():
             print("Failed to check for updates")
             print("Please check your internet connection and try again later")
             return
-    if int(currentVer[0]) < int(remoteVer[0]):
-        update = True
-    elif int(currentVer[1]) < int(remoteVer[1]):
-        update = True
-    elif int(currentVer[2]) < int(remoteVer[2]):
-        update = True
-    else:
-        update = False
+    
+    try:
+        if int(currentVer[0]) < int(remoteVer[0]):
+            update = True
+        elif int(currentVer[1]) < int(remoteVer[1]):
+            update = True
+        elif int(currentVer[2]) < int(remoteVer[2]):
+            update = True
+        else:
+            update = False
+    except:
+        print("Failed to check for updates")
+        print("Your PC cannot access github")
+        return
     
     if remote == "github":
         url = githubUrl

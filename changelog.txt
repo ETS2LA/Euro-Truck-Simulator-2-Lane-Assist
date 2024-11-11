@@ -1,1 +1,1 @@
-Fix crash when profile folder does not exist yet.
+Fix crash in countries where you cannot access github.
