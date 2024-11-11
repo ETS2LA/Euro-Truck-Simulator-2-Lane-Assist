@@ -429,7 +429,7 @@ export default function Home() {
   }, [showSearchBox]);
 
   return (
-    <div className="flex flex-col w-full h-full overflow-auto rounded-t-md items-center">
+    <div className="flex flex-col w-full h-full overflow-auto rounded-t-md items-center p-4 pt-6">
       {showSearchBox && (
         <SearchBox searchText={searchText} setSearchText={setSearchText} currentMatch={currentMatch} totalMatches={totalMatches} handleNextMatch={handleNextMatch} handlePreviousMatch={handlePreviousMatch} setShowSearchBox={setShowSearchBox} />
       )}
