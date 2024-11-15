@@ -26,83 +26,89 @@ export async function GetVersion() {
 
 export async function CheckWindow(window:string) {
     console.log("Checking window")
-    const response = await fetch("http://" + ip + ":37520/api/window/exists/" + window)
+    const response = await fetch("http://" + ip + ":37520/window/exists/" + window)
     const data = await response.json()
     return data
 }
 
 export async function CheckForUpdate() {
     console.log("Checking for update")
-    const response = await fetch("http://" + ip + ":37520/api/check/updates")
+    const response = await fetch("http://" + ip + ":37520/backend/updates")
     const data = await response.json()
     return data
 }
 
 export async function Update() {
     console.log("Updating")
-    const response = await fetch("http://" + ip + ":37520/api/update")
+    const response = await fetch("http://" + ip + ":37520/backend/update")
     const data = await response.json()
 }
 
 export async function CloseBackend() {
     console.log("Closing backend")
-    const response = await fetch("http://" + ip + ":37520/api/quit")
+    const response = await fetch("http://" + ip + ":37520/backend/quit")
     const data = await response.json()
 }
 
 export async function RestartBackend() {
     console.log("Restarting backend")
-    const response = await fetch("http://" + ip + ":37520/api/restart")
+    const response = await fetch("http://" + ip + ":37520/backend/restart")
     const data = await response.json()
 }
 
 export async function MinimizeBackend() {
     console.log("Minimizing backend")
-    const response = await fetch("http://" + ip + ":37520/api/minimize")
+    const response = await fetch("http://" + ip + ":37520/window/minimize")
     const data = await response.json()
 }
 
 export async function GetFrametimes() {
     console.log("Getting frametimes")
-    const response = await fetch("http://" + ip + ":37520/api/frametimes")
+    const response = await fetch("http://" + ip + ":37520/backend/frametimes")
     const data = await response.json()
     return data
 }
 
 export async function GetPlugins(): Promise<string[]> {
-    const response = await fetch("http://" + ip + ":37520/api/plugins")
+    const response = await fetch("http://" + ip + ":37520/backend/plugins")
     const data = await response.json()
     return data
 }
 
 export async function GetStates() {
-    const response = await fetch("http://" + ip + ":37520/api/plugins/states")
+    const response = await fetch("http://" + ip + ":37520/backend/plugins/states")
     const data = await response.json()
     return data
 }
 
 export async function DisablePlugin(plugin: string) {
     console.log("Disabling plugin")
-    const response = await fetch("http://" + ip + `:37520/api/plugins/${plugin}/disable`)
+    const response = await fetch("http://" + ip + `:37520/backend/plugins/${plugin}/disable`)
     const data = await response.json()
 }
 
 export async function EnablePlugin(plugin: string) {
     console.log("Enabling plugin")
-    const response = await fetch("http://" + ip + `:37520/api/plugins/${plugin}/enable`)
+    const response = await fetch("http://" + ip + `:37520/backend/plugins/${plugin}/enable`)
     const data = await response.json()
 }
 
 export async function GetIP(): Promise<string> {
-    const response = await fetch(`http://${ip}:37520/api/server/ip`)
+    const response = await fetch(`http://${ip}:37520/backend/ip`)
     const data = await response.json()
     await sleep(Math.floor(Math.random() * 1000) + 1000)
     return data
 }
 
+export async function GetMetadata(): Promise<any> {
+    const response = await fetch(`http://${ip}:37520/api/metadata`)
+    const data = await response.json()
+    return data
+}
+
 export async function PluginFunctionCall(plugin:string, method:string, args:any, kwargs:any) {
     console.log(method)
-    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/function/call`, {
+    const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/function/call`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -118,7 +124,7 @@ export async function PluginFunctionCall(plugin:string, method:string, args:any,
 }
 
 export async function RelievePlugin(plugin:string, relieveData:any) {
-    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/relieve`, {
+    const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/relieve`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -141,7 +147,7 @@ export async function GetGitHistory() {
 }
 
 export async function GetPerformance() {
-    const response = await fetch(`http://${ip}:37520/api/plugins/performance`, {
+    const response = await fetch(`http://${ip}:37520/backend/plugins/performance`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -178,7 +184,7 @@ export async function PlaySound(sound="boot") {
 }
 
 export async function GetStayOnTop() {
-    const response = await fetch(`http://${ip}:37520/api/window/stay_on_top`, {
+    const response = await fetch(`http://${ip}:37520/window/stay_on_top`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -189,7 +195,7 @@ export async function GetStayOnTop() {
 }
 
 export async function SetStayOnTop(top=true) {
-    const response = await fetch(`http://${ip}:37520/api/window/stay_on_top/${top}`, {
+    const response = await fetch(`http://${ip}:37520/window/stay_on_top/${top}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -200,7 +206,7 @@ export async function SetStayOnTop(top=true) {
 }
 
 export async function SetTransparent(transparent=true) {
-    const response = await fetch(`http://${ip}:37520/api/window/transparency/${transparent}`, {
+    const response = await fetch(`http://${ip}:37520/window/transparency/${transparent}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -211,7 +217,7 @@ export async function SetTransparent(transparent=true) {
 }
 
 export async function GetTransparent() {
-    const response = await fetch(`http://${ip}:37520/api/window/transparency`, {
+    const response = await fetch(`http://${ip}:37520/window/transparency`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -244,7 +250,7 @@ export async function GetPages() {
 }
 
 export async function GetDevmode() {
-    const response = await fetch(`http://${ip}:37520/api/devmode`, {
+    const response = await fetch(`http://${ip}:37520/backend/devmode`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'

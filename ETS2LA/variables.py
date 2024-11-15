@@ -1,3 +1,4 @@
+import json
 import os
 
 YEAR = 2024
@@ -29,3 +30,5 @@ CONSOLENAME = None
 
 DEVELOPMENT_MODE = False
 """Whether the application is running in development mode. Will be set to True when running the main.py with the --dev flag."""
+
+METADATA = json.loads(open(PATH + "metadata.json", "r").read())

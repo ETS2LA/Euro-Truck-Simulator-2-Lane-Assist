@@ -1,13 +1,13 @@
 // Communicate with the ETS2LA backend to get and set settings
 
 export async function GetSettingsJSON(plugin:string, ip="localhost") {
-    const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings`);
+    const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings`);
     return await response.json();
 }
 
 export async function GetSettingByKey(plugin: string, key: string, ip = "localhost") {
     try {
-        const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings/${key}`);
+        const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/${key}`);
         
         if (!response.ok) {
             console.error(`Failed to fetch: HTTP status ${response.status}`);
@@ -27,7 +27,7 @@ export async function GetSettingByKey(plugin: string, key: string, ip = "localho
 }
 export async function SetSettingByKey(plugin:string, key:string, value:any, ip="localhost") {
     try {
-        const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings/${key}/set`, {
+        const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/${key}/set`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -48,7 +48,7 @@ export async function SetSettingByKey(plugin:string, key:string, value:any, ip="
 // Set setting multiple keys deep.
 export async function SetSettingByKeys(plugin:string, keys:string[], setting:any, ip="localhost") {
     try {
-        const response = await fetch(`http://${ip}:37520/api/plugins/${plugin}/settings/set`, {
+        const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/set`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

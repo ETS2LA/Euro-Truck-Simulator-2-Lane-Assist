@@ -69,17 +69,17 @@ def login(code):
         logging.error(exception)
         return exception
 
-@app.get("/api/quit")
+@app.get("/backend/quit")
 def quitApp():
     variables.CLOSE = True
     return {"status": "ok"}
 
-@app.get("/api/restart")
+@app.get("/backend/restart")
 def restartApp():
     variables.RESTART = True
     return {"status": "ok"}
 
-@app.get("/api/minimize")
+@app.get("/window/minimize")
 def minimizeApp():
     variables.MINIMIZE = True
     return {"status": "ok"}
@@ -88,11 +88,11 @@ def minimizeApp():
 def get_map_style():
     return json.loads(open("ETS2LA/assets/map_style.json").read())
 
-@app.get("/api/check/updates")
+@app.get("/backend/updates")
 def check_updates():
     return git.CheckForUpdate()
 
-@app.get("/api/update")
+@app.get("/backend/update")
 def update():
     page("updater")
     #mainThreadQueue.append([git.Update, [], {}])
@@ -115,31 +115,35 @@ def set_theme(theme: str):
     except:
         return False
 
-@app.get("/api/server/ip")
+@app.get("/backend/ip")
 def get_IP():
     return IP
 
-@app.get("/api/devmode")
+@app.get("/backend/devmode")
 def get_devmode():
     return variables.DEVELOPMENT_MODE
+
+@app.get("/api/metadata")
+def get_metadata():
+    return variables.METADATA
 
 #endregion
 # region Window
 
-@app.get("/api/window/exists/{name}")
+@app.get("/window/exists/{name}")
 def check_window(name: str):
     return CheckIfWindowOpen(name)
 
-@app.get("/api/window/stay_on_top")
+@app.get("/window/stay_on_top")
 def get_stay_on_top():
     return get_on_top()
 
-@app.get("/api/window/stay_on_top/{state}")
+@app.get("/window/stay_on_top/{state}")
 def stay_on_top(state: bool):
     newState = set_on_top(state)
     return newState
 
-@app.get("/api/window/transparency/{state}")
+@app.get("/window/transparency/{state}")
 def set_transparency_to(state: bool):
     try:
         newState = set_transparency(state)
@@ -148,18 +152,18 @@ def set_transparency_to(state: bool):
         logging.exception("Failed to set transparency")
         return False
 
-@app.get("/api/window/transparency")
+@app.get("/window/transparency")
 def get_transparency_state():
     return get_transparency()
 
 # endregion
 # region Plugins
 
-@app.get("/api/frametimes")
+@app.get("/backend/frametimes")
 def get_frametimes():
     return backend.get_latest_frametimes()
 
-@app.get("/api/plugins")
+@app.get("/backend/plugins")
 def get_plugins():
     try:
         # Get data
@@ -191,25 +195,25 @@ def get_plugins():
         logging.exception("Failed to get plugins")
         return False
 
-@app.get("/api/plugins/{plugin}/enable")
+@app.get("/backend/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
     logging.info(Translate(f"webserver.enabling_plugin", values=[plugin]))
     return backend.enable_plugin(plugin)
 
-@app.get("/api/plugins/{plugin}/disable")
+@app.get("/backend/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
     logging.info(Translate(f"webserver.disabling_plugin", values=[plugin]))
     return backend.disable_plugin(plugin)
 
-@app.get("/api/plugins/performance")
+@app.get("/backend/plugins/performance")
 def get_performance():
     return backend.get_performances()
 
-@app.get("/api/plugins/states")
+@app.get("/backend/plugins/states")
 def get_states():
     return backend.get_states()
 
-@app.post("/api/plugins/{plugin}/relieve")
+@app.post("/backend/plugins/{plugin}/relieve")
 def relieve_plugin(plugin: str, data: RelieveData = None):
     if data is None:
         data = RelieveData()
@@ -217,7 +221,7 @@ def relieve_plugin(plugin: str, data: RelieveData = None):
         
     return backend.RelieveWaitForFrontend(plugin, data.map)
 
-@app.post("/api/plugins/{plugin}/function/call")
+@app.post("/backend/plugins/{plugin}/function/call")
 def call_plugin_function(plugin: str, data: PluginCallData = None):
     try:
         if data is None:
@@ -253,23 +257,23 @@ def popup(data: PopupData):
 # endregion
 # region Settings
 
-@app.post("/api/plugins/{plugin}/settings/{key}/set")
+@app.post("/backend/plugins/{plugin}/settings/{key}/set")
 def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
     success = settings.Set(plugin, key, value["value"])
     return success
 
-@app.post("/api/plugins/{plugin}/settings/set")
+@app.post("/backend/plugins/{plugin}/settings/set")
 def set_plugin_settings(plugin: str, data: dict = Body(...)):
     keys = data["keys"]
     setting = data["setting"]
     success = settings.Set(plugin, keys, setting)
     return success
     
-@app.get("/api/plugins/{plugin}/settings/{key}")
+@app.get("/backend/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
     return settings.Get(plugin, key)
 
-@app.get("/api/plugins/{plugin}/settings")
+@app.get("/backend/plugins/{plugin}/settings")
 def get_plugin_settings(plugin: str):
     return settings.GetJSON(plugin)
 
