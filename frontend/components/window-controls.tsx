@@ -15,6 +15,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
     const [isMouseInDragArea, setIsMouseInDragArea] = useState(false)
     const [stayOnTop, setStayOnTop] = useState(false);
     const [dragging, setDragging] = useState(false);
+    const [overlayRef, setOverlayRef] = useState<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const initialWindowPosition = { x: window.screenX, y: window.screenY };
@@ -80,6 +81,17 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
 
     return (
         <>
+            <div 
+                ref={setOverlayRef}
+                className="fixed top-0 left-0 right-0 h-[40px] z-30" // Only cover top 40px
+                style={{ backgroundColor: 'transparent' }}
+                onMouseMove={(e) => {
+                    setIsMouseInDragArea(true);
+                }}
+                onMouseLeave={() => {
+                    setIsMouseInDragArea(false);
+                }}
+            />
             <div className={isCollapsed && collapsedContainerClassName || containerClassName} onMouseDown={handleMouseDown}>
                 {isCollapsed && (
                     <div className={`absolute right-0 top-0 h-6 flex items-center pl-2.5 pr-12 transition-all bg-sidebar rounded-bl-lg z-[-10] duration-150 ${isMouseInDragArea ? 'w-96 opacity-100' : 'w-0 opacity-0'}`}>
