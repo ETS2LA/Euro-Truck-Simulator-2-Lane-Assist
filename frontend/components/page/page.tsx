@@ -34,8 +34,7 @@ import {
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "../ui/progress"
-import { remark } from "remark"
-import html from "remark-html"
+import Markdown from "react-markdown"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -189,8 +188,8 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
-	const MarkdownRenderer = (data:string) => {
-		return <div dangerouslySetInnerHTML={{__html: remark().use(html).processSync(translate(data)).toString()}}></div>
+	function MarkdownRenderer(data:string) {
+		return <Markdown>{data}</Markdown>
 	}
 
 	const SeparatorRenderer = () => {
@@ -463,6 +462,8 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			}
 			if (key == "markdown") {
 				result.push(MarkdownRenderer(key_data.text))
+				// Print the innerhtml of the markdown
+				//console.log(MarkdownRenderer(key_data.text))
 			}
 			if (key == "separator") {
 				result.push(SeparatorRenderer())
