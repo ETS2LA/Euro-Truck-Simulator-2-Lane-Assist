@@ -1,5 +1,5 @@
 try:
-    from ETS2LA.utils.translator import Translate 
+    from ETS2LA.utils.translator import Translate
 except:
     import sys
     import os
