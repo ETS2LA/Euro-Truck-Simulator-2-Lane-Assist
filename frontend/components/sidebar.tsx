@@ -67,7 +67,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const router = useRouter()
     const path = usePathname()
     const { theme } = useTheme();
-    console.log(path)
 
     const buttonClassName = (targetPath: string) => {
         if(path == targetPath) {

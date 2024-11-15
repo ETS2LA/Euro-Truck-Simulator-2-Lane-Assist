@@ -24,7 +24,6 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
     const handleMouseCallback = (event: MouseEvent) => {
         // Check if the Y position is within 40px from the top
         if (event.clientY <= 40) {
-            console.log("Mouse is in drag area")
             setIsMouseInDragArea(true)
         } else {
             setIsMouseInDragArea(false)
@@ -74,7 +73,6 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
             setLastMousePosition({ x: e.screenX, y: e.screenY });
         }
     };
-
 
 
     const collapsedContainerClassName = "flex gap-1 absolute h-6 w-[59px] rounded-bl-lg top-0 right-0 items-center justify-center p-0 z-50 bg-sidebar transition-all pywebview-drag-region opacity-75 hover:opacity-100";
