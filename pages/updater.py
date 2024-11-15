@@ -1,6 +1,7 @@
 from ETS2LA.backend import settings
 from ETS2LA.UI import *
 
+from ETS2LA.networking.webserver import mainThreadQueue
 from ETS2LA.utils.git import CheckForUpdate, Update
 
 import time
@@ -11,7 +12,7 @@ class Page(ETS2LAPage):
     settings_target = "updater"
     
     def update(self, *args, **kwargs):
-        Update()
+        mainThreadQueue.append([Update, [], {}])
     
     def render(self):
         updates = CheckForUpdate()
