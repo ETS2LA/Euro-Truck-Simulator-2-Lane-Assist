@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://phm7gnh1yxow"]
+
+[ext_resource type="PackedScene" uid="uid://bvq04e78ymnks" path="res://Objects/traffic_bus_export.tscn" id="1_x1qak"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_snh8x"]
+albedo_color = Color(0, 1, 0, 1)
+
+[node name="Truck" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+visible = false
+material = SubResource("StandardMaterial3D_snh8x")
+
+[node name="traffic_bus_export" parent="." instance=ExtResource("1_x1qak")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -0.390894)
