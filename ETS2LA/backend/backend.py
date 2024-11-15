@@ -217,7 +217,7 @@ class PluginHandler:
             return_data = self.frontend_return_queue.get(timeout=0.25)
         except:
             logging.exception(f"Failed to call function {name} in plugin {self.plugin_name}.")
-            return_data = None
+            return None
             
         self.frontend_return_queue.task_done()
         return return_data

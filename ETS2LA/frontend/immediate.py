@@ -80,6 +80,7 @@ async def send_ask(text, options, description):
     return response
     
 def ask(text:str, options:list, description:str=""):
+    sounds.Play('info')
     response = asyncio.run(send_ask(text, options, description))
     return response
 
