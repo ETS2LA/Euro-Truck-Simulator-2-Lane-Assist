@@ -1,7 +1,7 @@
 from ETS2LA.backend import settings
 from ETS2LA.UI import *
 
-from ETS2LA.utils.git import CheckForUpdate
+from ETS2LA.utils.git import CheckForUpdate, Update
 
 import time
 
@@ -10,8 +10,8 @@ class Page(ETS2LAPage):
     url = "/updater"
     settings_target = "updater"
     
-    def update(self):
-        ...
+    def update(self, *args, **kwargs):
+        Update()
     
     def render(self):
         updates = CheckForUpdate()
