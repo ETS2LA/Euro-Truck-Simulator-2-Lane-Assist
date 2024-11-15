@@ -41,6 +41,15 @@ class Description():
                 }
             }
         })
+        
+class Markdown():
+    def __init__(self, text: str):
+        global ui
+        ui.append({
+            "markdown": {
+                "text": text
+            }
+        })
 
 class Button():
     def __init__(self, text: str, title: str, target: object | Literal["submit"], description: str = "", border: bool = True):

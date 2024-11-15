@@ -34,8 +34,8 @@ class Page(ETS2LAPage):
                                 with Group("horizontal"):
                                     Description(update["author"], size="xs")
                                     Label(update["message"], size="sm", weight="semibold")
-                                Label(update["description"])
+                                if update["description"] != "":
+                                    Markdown(update["description"])
                                 Description(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(update["time"])), size="xs")
                 
-        
         return RenderUI()

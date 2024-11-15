@@ -32,10 +32,12 @@ def CheckForUpdate():
                         "description": commit.message.replace(commit.summary, "").strip(),
                         "time": commit.committed_date
                     })
-                if len(updates) >= 1:
+                if len(updates) >= 10:
                     break
             
-            updates.insert(0, {
+            updates = updates[::-1]
+            
+            updates.append({
                 "author": "Backend",
                 "message": "DO NOT UPDATE!",
                 "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",

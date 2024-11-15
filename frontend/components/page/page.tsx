@@ -34,6 +34,8 @@ import {
 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "../ui/progress"
+import { remark } from "remark"
+import html from "remark-html"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -185,6 +187,10 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 	const LabelRenderer = (data:string) => {
 		// @ts-ignore
 		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
+	}
+
+	const MarkdownRenderer = (data:string) => {
+		return <div dangerouslySetInnerHTML={{__html: remark().use(html).processSync(translate(data)).toString()}}></div>
 	}
 
 	const SeparatorRenderer = () => {
@@ -454,6 +460,9 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			}
 			if (key == "label") {
 				result.push(LabelRenderer(key_data))
+			}
+			if (key == "markdown") {
+				result.push(MarkdownRenderer(key_data.text))
 			}
 			if (key == "separator") {
 				result.push(SeparatorRenderer())
