@@ -130,7 +130,7 @@ def start_webpage(queue: JoinableQueue):
         background_color=get_theme(),
         resizable=True, 
         zoomable=True,
-        confirm_close=False, 
+        confirm_close=True, 
         text_select=True,
         frameless=FRAMELESS, 
         easy_drag=False
