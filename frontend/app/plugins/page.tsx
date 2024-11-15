@@ -60,7 +60,6 @@ export default function Home({ ip }: { ip: string }) {
         if (isNaN(parseInt(key))){
             // @ts-ignore
             for(const tag in data[key].description.tags){
-                console.log(tag)
                 // @ts-ignore
                 if(!tags.includes(data[key].description.tags[tag])){
                     // @ts-ignore

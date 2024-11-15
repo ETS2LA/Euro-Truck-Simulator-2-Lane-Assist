@@ -26,6 +26,18 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
-        #return_values = self.dialog(FOVDialog())
-        #print(return_values)
-        time.sleep(5)
+        self.state.text = "Doing something..."
+        self.state.progress = 0
+        time.sleep(1)
+        self.state.progress = 20
+        time.sleep(1)
+        self.state.progress = 40
+        time.sleep(1)
+        self.state.progress = 60
+        time.sleep(1)
+        self.state.progress = 80
+        time.sleep(1)
+        self.state.progress = 100
+        time.sleep(1)
+        self.state.reset()
+        time.sleep(3)

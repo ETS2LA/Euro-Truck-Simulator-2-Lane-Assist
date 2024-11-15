@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 import { Toaster } from "@/components/ui/sonner"
 import { Suspense } from "react";
+import { States } from "@/components/states";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -48,7 +49,13 @@ export default function RootLayout({
                         disableTransitionOnChange
                     >
                         <ProgressBarProvider>
-                            <Toaster position={isCollapsed ? "bottom-center" : "bottom-right"} />
+                            <Toaster position={isCollapsed ? "bottom-center" : "bottom-right"} toastOptions={{
+                                unstyled: true,
+                                classNames: {
+                                    toast: "rounded-lg shadow-lg backdrop-blur-md backdrop-brightness-90 w-[354px] border p-4 flex gap-2 items-center text-sm",
+                                }
+                            }} />
+                            <States />
                             <WindowControls isCollapsed={isCollapsed} />
                             <SidebarProvider open={!isCollapsed}>
                                 <ETS2LASidebar toggleSidebar={toggleSidebar} />
