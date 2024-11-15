@@ -1,8 +1,10 @@
+from ETS2LA.UI import * 
+
 from ETS2LA.frontend.webpage import set_on_top, get_on_top, set_transparency, get_transparency
 from ETS2LA.frontend.webpageExtras.utils import ColorTitleBar
+from ETS2LA.frontend.immediate import sonner, page
 from ETS2LA.utils.window import CheckIfWindowOpen
 from ETS2LA.utils.translator import Translate
-from ETS2LA.frontend.immediate import sonner
 import ETS2LA.utils.translator as translator
 from ETS2LA.networking.data_models import *
 from ETS2LA.utils.dictionaries import merge
@@ -92,7 +94,8 @@ def check_updates():
 
 @app.get("/api/update")
 def update():
-    mainThreadQueue.append([git.Update, [], {}])
+    page("updater")
+    #mainThreadQueue.append([git.Update, [], {}])
     return True
 
 @app.get("/api/sounds/play/{sound}")
@@ -365,7 +368,7 @@ def get_list_of_pages():
 # region Session
 
 def RunFrontend():
-    os.system(f"cd frontend && npm run dev -- -p {FRONTEND_PORT}")
+    os.system(f"cd frontend && npm run dev --turbo -- -p {FRONTEND_PORT}")
     
 def ExtractIP():
     global IP

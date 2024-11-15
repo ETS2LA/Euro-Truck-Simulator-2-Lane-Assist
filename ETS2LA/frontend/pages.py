@@ -1,7 +1,8 @@
-import os
 import importlib
-import sys
+import logging
 import time
+import sys
+import os
 
 PAGES_PATH = "pages"
 last_modified_times = {}
@@ -40,10 +41,14 @@ def get_pages():
                 last_modified_times.get(module_name) == last_modified_time) and time.time() - last_update_time < 10:
                 module = sys.modules[module_name]
             else:
-                module = importlib.import_module(module_name)
-                importlib.reload(module)
-                last_modified_times[module_name] = last_modified_time
-                did_update = True
+                try:
+                    module = importlib.import_module(module_name)
+                    importlib.reload(module)
+                    last_modified_times[module_name] = last_modified_time
+                    did_update = True
+                except:
+                    logging.exception(f"Failed to import module {module_name}")
+                    continue
             
             page = module.Page()
             pages[page.url] = page.build()

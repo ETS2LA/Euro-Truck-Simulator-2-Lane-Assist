@@ -21,25 +21,11 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 
-import { 
-    Avatar,
-    AvatarImage,
-    AvatarFallback
-} from "./ui/avatar"
-
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger
-} from "@/components/ui/collapsible"
-
-import favicon from "@/assets/favicon.png"
+import { Update, CheckForUpdate } from "@/apis/backend"
 
 import { useProgress } from "react-transition-progress"
 import { startTransition } from "react"
-
 import { ip } from "@/apis/backend"
-
 import { 
     ChevronUp, 
     House,
@@ -54,15 +40,17 @@ import {
     UserRoundMinus,
     ArrowLeftToLine
 } from "lucide-react"
-import Image from "next/image"
+
 import { Button } from "./ui/button"
 import { useRouter, usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { QRCodeSVG } from 'qrcode.react';
-
 import { toast } from "sonner"
 
+import useSWR from "swr"
+
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
+    const { data: update_data } = useSWR("update", CheckForUpdate)
     const startProgress = useProgress()
     const router = useRouter()
     const path = usePathname()
@@ -78,16 +66,20 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
 
     return (
         <Sidebar className="border-none font-geist" variant="inset">
-            <SidebarHeader className="bg-sidebarbg">
-                <div className="flex gap-2 items-center">
-                    <Image src={favicon} alt="ETS2LA" width={40} height={40} className="p-1 rounded-md" />
-                    <div className="flex flex-col gap-0">
-                        <p className="text-sm font-semibold">ETS2LA</p>
-                        <p className="text-[10px] font-normal">Version 2.0.0</p>
+            <SidebarHeader className="bg-sidebarbg w-full">
+                <div className="flex flex-col gap-4 items-center w-full">
+                    <div className="flex flex-col gap-1 w-full">
+                        <p className="text-sm font-semibold pl-2">ETS2LA</p>
+                        <p className="text-xs pl-2 font-semibold text-muted-foreground">v2.0.0</p>
                     </div>
+                    { update_data && 
+                        <Button size={"sm"} variant={"outline"} className="w-full" onClick={() => { Update() }}>
+                            Updates Available
+                        </Button>
+                    }
                 </div>
             </SidebarHeader>
-            <SidebarContent className="bg-sidebarbg pt-2 custom-scrollbar" >
+            <SidebarContent className="bg-sidebarbg custom-scrollbar" >
                 <SidebarGroup>
                     <SidebarGroupLabel className="font-semibold" >
                         Main
@@ -205,7 +197,8 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
-
+                    
+                    {/*
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -234,6 +227,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>
+                    */}
                 </SidebarMenu>
             </SidebarFooter>
         </Sidebar>

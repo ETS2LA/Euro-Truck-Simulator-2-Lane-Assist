@@ -4,29 +4,41 @@ ui = []
 id = 0
 
 class Title():
-    def __init__(self, text: str):
+    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "lg", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "semibold"):
         global ui
         ui.append({
             "title": {
-                "text": text
+                "text": text,
+                "options": {
+                    "weight": weight,
+                    "size": size,
+                }
             }
         })
         
 class Label():
-    def __init__(self, text: str):
+    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal"):
         global ui
         ui.append({
             "label": {
-                "text": text
+                "text": text,
+                "options": {
+                    "weight": weight,
+                    "size": size,
+                }
             }
         })
 
 class Description():
-    def __init__(self, text: str):
+    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold", "black"] = "normal"):
         global ui
         ui.append({
             "description": {
-                "text": text
+                "text": text,
+                "options": {
+                    "weight": weight,
+                    "size": size,
+                }
             }
         })
 

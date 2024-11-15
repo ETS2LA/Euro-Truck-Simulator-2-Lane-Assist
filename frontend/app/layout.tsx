@@ -29,6 +29,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const isMobile = useIsMobile();
 
     const toggleSidebar = () => {
@@ -58,7 +59,7 @@ export default function RootLayout({
                         <Popups />
                         <SidebarProvider open={!isCollapsed}>
                             <ETS2LASidebar toggleSidebar={toggleSidebar} />
-                            <SidebarInset className={`relative transition-all overflow-hidden ${!isCollapsed && "max-h-[97.6vh]" || "max-h-[100vh]"}`}>
+                            <SidebarInset className={`relative transition-all overflow-hidden ${isCollapsed ? "max-h-[100vh]" : "max-h-[97.6vh]"}`}>
                                 <ProgressBar className="absolute h-2 z-20 rounded-tl-lg shadow-lg shadow-sky-500/20 bg-sky-500 top-0 left-0" />
                                 {isMobile && <SidebarTrigger className="absolute top-2 left-2" />}
                                 {children}

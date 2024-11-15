@@ -101,7 +101,6 @@ def page(page:str):
         return
     asyncio.run(send_page(page))
 
-
 async def send_dialog(jsonData:str):
     global connected
     message_dict = {

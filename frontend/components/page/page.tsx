@@ -106,7 +106,7 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
     }
 }
 
-export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: string, enabled?: boolean }) {
+export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, plugin: string, enabled?: boolean, className?: string }) {
 	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR("settings", () => GetSettingsJSON(plugin))
 	const [needsRestart, setNeedsRestart] = useState(false)
 
@@ -153,16 +153,38 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 
 	const settings = data
 
+	const text_sizes = {
+		"xs": "text-xs",
+		"sm": "text-sm",
+		"md": "text-base",
+		"lg": "text-lg",
+		"xl": "text-xl",
+		"2xl": "text-2xl",
+	}
+
+	// Literal["thin", "light", "normal", "medium", "semibold", "bold"]
+	const weights = {
+		"thin": "font-thin",
+		"light": "font-light",
+		"normal": "font-normal",
+		"medium": "font-medium",
+		"semibold": "font-semibold",
+		"bold": "font-bold"
+	}
+
 	const TitleRenderer = (data:string) => {
-		return <h3 className="font-medium">{translate(data)}</h3>
+		// @ts-ignore
+		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
 	const DescriptionRenderer = (data:string) => {
-		return <p className="text-sm text-muted-foreground">{translate(data)}</p>
+		// @ts-ignore
+		return <p className={weights[data.options.weight] + " text-muted-foreground " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
 	const LabelRenderer = (data:string) => {
-		return <p>{translate(data)}</p>
+		// @ts-ignore
+		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
 	const SeparatorRenderer = () => {
@@ -335,6 +357,17 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 	}
 
 	const ButtonRenderer = (data:any) => {
+		if (data.title == ""){
+			return <div className={"flex justify-between items-center w-full" + GetBorderClassname(data.options.border)}>
+				<Button variant={"outline"} onClick={() => {
+					PluginFunctionCall(plugin, data.options.target, [], {}).then(() => {
+						toast.success(translate(data.success), {
+							duration: 500
+						})
+					})
+				}} className="min-w-32 w-full">{translate(data.text)}</Button>
+			</div>
+		}
 		return <div className={"flex justify-between p-4 items-center" + GetBorderClassname(data.options.border)}>
 				<div className="flex flex-col gap-1 pr-12">
 					<h4 className="font-semibold">{translate(data.title)}</h4>
@@ -414,13 +447,13 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 
 			// Page looks
 			if(key == "title"){
-				result.push(TitleRenderer(key_data.text))
+				result.push(TitleRenderer(key_data))
 			}
 			if(key == "description"){
-				result.push(DescriptionRenderer(key_data.text))
+				result.push(DescriptionRenderer(key_data))
 			}
 			if (key == "label") {
-				result.push(LabelRenderer(key_data.text))
+				result.push(LabelRenderer(key_data))
 			}
 			if (key == "separator") {
 				result.push(SeparatorRenderer())
@@ -431,7 +464,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 			if (key == "group") {
 				const direction = key_data.direction
 				if(direction == "horizontal"){
-					result.push(<div className={"flex gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex gap-4 w-full rounded-md items-center text-center" + GetBorderClassname(key_data.border)}>
 						{PageRenderer(key_data.components)}
 					</div>)
 				}
@@ -457,6 +490,17 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 			}
 			if (key == "tab"){
 				result.push(PageRenderer(key_data.components))
+			}
+			if (key == "padding"){
+				result.push(<div style={{padding: key_data.padding}}>
+					{PageRenderer(key_data.components)}
+				</div>
+				)
+			}
+			if (key == "geist"){
+				result.push(<div className="flex flex-col gap-4 font-geist">
+					{PageRenderer(key_data.components)}
+				</div>)
 			}
 
 			// Live Data
@@ -492,7 +536,7 @@ export function ETS2LAPage({ data, plugin, enabled }: { data: any, plugin: strin
 
 	return (
 		<TooltipProvider delayDuration={0}>
-			<div className="text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6 relative">
+			<div className={"text-left flex flex-col w-full max-w-[calc(60vw-64px)] gap-6 relative " + className}>
 				{PageRenderer(settings)}
 				<div className="h-12"></div>
 			</div>
