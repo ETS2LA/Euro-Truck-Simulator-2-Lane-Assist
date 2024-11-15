@@ -4,6 +4,7 @@ extends Node
 var ObjectScript = preload("res://Scripts/object.gd")
 var truckScene = preload("res://Objects/truck.tscn")
 var carScene = preload("res://Objects/car.tscn")
+var busScene = preload("res://Objects/bus.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -52,7 +53,7 @@ func _process(delta: float) -> void:
 					car.set_script(ObjectScript)
 					car.id = int(vehicle["id"])
 					newObjects.append(car)
-				if type == "truck" or type == "bus":
+				if type == "truck":
 					var truck = truckScene.instantiate()
 					truck.name = str(vehicle["id"])
 					truck.position = Vector3(x,y,z)
@@ -60,6 +61,14 @@ func _process(delta: float) -> void:
 					truck.set_script(ObjectScript)
 					truck.id = int(vehicle["id"])
 					newObjects.append(truck)
+				if type == "bus":
+					var bus = busScene.instantiate()
+					bus.name = str(vehicle["id"])
+					bus.position = Vector3(x,y,z)
+					bus.scale = Vector3(distance, distance, distance)
+					bus.set_script(ObjectScript)
+					bus.id = int(vehicle["id"])
+					newObjects.append(bus)
 	
 		for object in newObjects:
 			if not curObjectNames.has(object.name):
