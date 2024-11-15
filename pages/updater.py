@@ -18,16 +18,18 @@ class Page(ETS2LAPage):
         updates = CheckForUpdate()
         with Geist():
             with Padding(24):
-                if not updates:
+                if updates == []:
+                    Description("You have a local commit that is waiting to be pushed.")
+                elif not updates:
                     Description("No updates available.")
                 else:
                     reversed_updates = updates[::-1]
                     Button("Update", "", self.update, border=False)
                     Space(8)
-                    Separator()
-                    Space(8)
-                    for update in reversed_updates:
-                        with Padding(8):
+                    Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
+                    Space(6)
+                    with Group("vertical", gap=8):
+                        for update in reversed_updates:
                             with Group("vertical", border=True):
                                 with Group("horizontal"):
                                     Description(update["author"], size="xs")

@@ -70,7 +70,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                 <div className="flex flex-col gap-4 items-center w-full">
                     <div className="flex flex-col gap-1 w-full">
                         <p className="text-sm font-semibold pl-2">ETS2LA</p>
-                        <p className="text-xs pl-2 font-semibold text-muted-foreground">{metadata && "v" + metadata.version || "ERROR: please purge .next/cache"}</p>
+                        <p className="text-xs pl-2 font-semibold text-muted-foreground">{metadata && "v" + metadata.version || "ERROR: please refresh the page or purge .next/cache"}</p>
                     </div>
                     { update_data && 
                         <Button size={"sm"} variant={"outline"} className="w-full" onClick={() => { Update() }}>

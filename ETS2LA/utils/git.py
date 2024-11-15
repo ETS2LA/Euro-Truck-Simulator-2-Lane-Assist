@@ -22,6 +22,26 @@ def CheckForUpdate():
                     "description": commit.message.replace(commit.summary, "").strip(),
                     "time": commit.committed_date
                 })
+        
+        if updates == []: # local commit(s) waiting to be pushed, send those instead
+            for commit in repo.iter_commits():
+                if "Merge" not in commit.summary:
+                    updates.append({
+                        "author": commit.author.name,
+                        "message": commit.summary,
+                        "description": commit.message.replace(commit.summary, "").strip(),
+                        "time": commit.committed_date
+                    })
+                if len(updates) >= 1:
+                    break
+            
+            updates.insert(0, {
+                "author": "Backend",
+                "message": "DO NOT UPDATE!",
+                "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",
+                "time": time.time()
+            })
+            
         return updates
     else:
         return False
