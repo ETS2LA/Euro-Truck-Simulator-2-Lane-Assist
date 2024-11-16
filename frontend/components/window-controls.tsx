@@ -131,8 +131,8 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                             <div className="w-[11px] h-[11px] bg-green-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-foreground font-geist">
-                            <p><span className="font-semibold text-muted-foreground">LMB</span> Stay on top</p>
-                            <p><span className="font-semibold text-muted-foreground">RMB</span> Transparency</p>
+                            <p className="text-xs"><span className="font-semibold text-muted-foreground">LMB</span> Stay on top</p>
+                            <p className="text-xs"><span className="font-semibold text-muted-foreground">RMB</span> Transparency</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
@@ -144,7 +144,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                             <div className="w-[11px] h-[11px] bg-yellow-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
-                            <p>Minimize</p>
+                            <p className="text-xs">Minimize</p>
                         </TooltipContent>
                     </Tooltip>
                     <Tooltip delayDuration={250}>
@@ -154,7 +154,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                             <div className="w-[11px] h-[11px] bg-red-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
                         <TooltipContent className="bg-sidebar border text-white">
-                            <p>Close</p>
+                            <p className="text-xs">Close</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
