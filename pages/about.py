@@ -10,7 +10,7 @@ contributors = [
     {"name": "DylDev", "description": "Various additions and improvements, Object Detection AI models & development", "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
     {"name": "truckersmudgeon", "description": "Game data extraction and processing", "links": []},
     {"name": "DTheIcyDragon", "description": "Bug fixes", "links": []},
-    {"name": "Roman Sonnik", "description": "Bug fixes", "links": []},
+    {"name": "Roman Sonnik", "description": "Bug fixes", "links": [["Github", "https://github.com/RomanSonnik"]]},
     {"name": "Lun", "description": "Chinese translation, bug fixes", "links": []},
     {"name": "atac_helicopter", "description": "Bug fixes", "links": []},
     {"name": "ғʟᴇxғʟᴇxᴇɴ", "description": "Bug fixes", "links": []},
@@ -18,7 +18,7 @@ contributors = [
     {"name": "mimi89999", "description": "scs-sdk-controller developer", "links": []},
     {"name": "zhaoyj", "description": "3D models for the visualization", "links": []},
     {"name": "MRUIAW", "description": "Bug fixes, Chinese translations", "links": []},
-    {"name": "Vszke", "description": "Bug fixes", "links": []},
+    {"name": "ViSzKe", "description": "Bug fixes", "links": []},
     {"name": "ziakhan4505", "description": "C++ support, Linux & Unix Port, bug fixes", "links": []},
     {"name": "Piotrke", "description": "Game hooks", "links": []},
 ]
