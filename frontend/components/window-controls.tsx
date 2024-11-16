@@ -1,4 +1,4 @@
-import { CloseBackend, MinimizeBackend, SetStayOnTop } from "@/apis/backend";
+import { CloseBackend, MinimizeBackend, SetStayOnTop, SetTransparent } from "@/apis/backend";
 import {
     Tooltip,
     TooltipContent,
@@ -14,6 +14,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
     const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
     const [isMouseInDragArea, setIsMouseInDragArea] = useState(false)
     const [stayOnTop, setStayOnTop] = useState(false);
+    const [transparency, setTransparency] = useState(false);
     const [dragging, setDragging] = useState(false);
     const [overlayRef, setOverlayRef] = useState<HTMLDivElement | null>(null);
 
@@ -110,16 +111,28 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                 )}
                 <TooltipProvider>
                     <Tooltip delayDuration={250}>
-                        <TooltipTrigger onClick={() => {
-                            setStayOnTop(!stayOnTop)
-                            SetStayOnTop(stayOnTop).then(() => {
-                                toast.success(`${stayOnTop ? "Window is now on top" : "Window is no longer on top"}`)
-                            })
-                        }}>
+                        <TooltipTrigger 
+                            onClick={(e) => {
+                                // Left click
+                                setStayOnTop(!stayOnTop)
+                                SetStayOnTop(stayOnTop).then(() => {
+                                    toast.success(`${stayOnTop ? "Window is now on top" : "Window is no longer on top"}`)
+                                })
+                            }}
+                            onContextMenu={(e) => {
+                                // Right click
+                                e.preventDefault() // Prevent default context menu
+                                setTransparency(!transparency)
+                                SetTransparent(transparency).then(() => {
+                                    toast.success(`${transparency ? "Window is now transparent" : "Window is no longer transparent"}`)
+                                })
+                            }}
+                        >
                             <div className="w-[11px] h-[11px] bg-green-500 rounded-full flex items-center justify-center" />
                         </TooltipTrigger>
-                        <TooltipContent className="bg-sidebar border text-white">
-                            <p>Stay on top</p>
+                        <TooltipContent className="bg-sidebar border text-foreground font-geist">
+                            <p><span className="font-semibold text-muted-foreground">LMB</span> Stay on top</p>
+                            <p><span className="font-semibold text-muted-foreground">RMB</span> Transparency</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
