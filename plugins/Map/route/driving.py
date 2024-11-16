@@ -63,6 +63,19 @@ def CheckForLaneChange():
     elif not data.truck_indicating_left and not data.truck_indicating_right:
         was_indicating = False  
 
+def GetPointDistance(points_so_far: int):
+    if points_so_far < data.amount_of_points/5:
+        return 0.25
+    elif points_so_far < data.amount_of_points/5*2:
+        return 1
+    elif points_so_far < data.amount_of_points/5*3:
+        return 2
+    elif points_so_far < data.amount_of_points/5*4:
+        return 4
+    else:
+        return 8
+    
+
 def GetSteering():
     if len(data.route_plan) == 0:
         return 0
@@ -81,24 +94,18 @@ def GetSteering():
         for point in section_points:
             if len(points) > data.amount_of_points:
                 break
-            points.append(point)
+            
+            if len(points) == 0:
+                points.append(point)
+                continue
+                
+            if math_helpers.DistanceBetweenPoints(point.tuple(), points[-1].tuple()) >= GetPointDistance(len(points)):
+                points.append(point)
 
     if len(points) == 0:
         return 0
 
-    min_distance = 0.25
-    last_point_position = points[0].tuple()
-    accepted_points = [points[0]]
-    for i in range(1, len(points)):
-        point_position = points[i].tuple()
-        distance = math_helpers.DistanceBetweenPoints(last_point_position, point_position)
-        if distance < min_distance:
-            continue
-
-        accepted_points.append(points[i])
-        last_point_position = point_position
-
-    points = accepted_points
+    points = points
     speed = max(data.truck_speed * 3.6, 10)  # Convert to kph
     speed = min(speed, 80)
     # Multiplier is 8 at 10kph and 2 at 80kph
