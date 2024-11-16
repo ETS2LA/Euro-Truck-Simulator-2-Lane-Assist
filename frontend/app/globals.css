@@ -110,6 +110,10 @@ body {
 }
 
 /* Re add all the classes tailwind removed */
+p {
+  @apply text-sm;
+}
+
 h1 {
   @apply text-2xl font-bold;
 }
