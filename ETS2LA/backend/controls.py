@@ -260,7 +260,8 @@ def ChangeKeybind(name:str, callback=None):
     if os.name == "nt":
         from ctypes import windll, byref, sizeof, c_int
         windll.dwmapi.DwmSetWindowAttribute(windll.user32.GetParent(window.winfo_id()), 35, byref(c_int(int(int(BackgroundColor[5:7] + BackgroundColor[3:5] + BackgroundColor[1:3], 16)))), sizeof(c_int))
-        window.iconbitmap(default=f"{variables.PATH}frontend/src/assets/favicon.ico")
+        # TODO - Add favicon back
+        #window.iconbitmap(default=f"{variables.PATH}frontend/src/assets/favicon.ico")
 
     # Try to grab focus
     try:
