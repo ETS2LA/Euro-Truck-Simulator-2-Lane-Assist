@@ -42,6 +42,20 @@ class Description():
             }
         })
         
+class Link():
+    def __init__(self, text: str, url: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal"):
+        global ui
+        ui.append({
+            "link": {
+                "text": text,
+                "url": url,
+                "options": {
+                    "weight": weight,
+                    "size": size,
+                }
+            }
+        })
+        
 class Markdown():
     def __init__(self, text: str):
         global ui

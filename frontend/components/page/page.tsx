@@ -184,6 +184,11 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
+	const LinkRenderer = (data:string) => {
+		// @ts-ignore
+		return <a href={data.url} className={weights[data.options.weight] + " text-accent-foreground " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}} target="_blank">{translate(data.text)}</a>
+	}
+
 	function MarkdownRenderer(data:string) {
 		return <Markdown>{data}</Markdown>
 	}
@@ -455,6 +460,9 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			}
 			if (key == "label") {
 				result.push(LabelRenderer(key_data))
+			}
+			if (key == "link") {
+				result.push(LinkRenderer(key_data))
 			}
 			if (key == "markdown") {
 				result.push(MarkdownRenderer(key_data.text))

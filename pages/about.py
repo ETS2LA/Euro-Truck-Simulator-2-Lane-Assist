@@ -20,72 +20,92 @@ class Page(ETS2LAPage):
                         Title("Developers / Contributors")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("Tumppi066")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("Tumppi066")
+                                Link("github", "https://github.com/Tumppi066", size="xs")
+                                Link("youtube", "https://www.youtube.com/@Tumppi066", size="xs")
                             Description("Lead developer and creator of ETS2LA")
                         
                         with Group("vertical", gap=6, padding=0):
-                            Label("Glas42")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("Glas42")
                             Description('Navigation Detection, Traffic Light Detection, ETS2LA Lite, "co-owner"')
                         
                         with Group("vertical", gap=6, padding=0):
-                            Label("Cloud")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("Cloud")
                             Description("Linux port, various improvements and bug fixes")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("DylDev")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("DylDev")
+                                Link("github", "https://github.com/DylDevs", size="xs")
                             Description("Various additions and improvements, Object Detection AI models & development")
                         
                         with Group("vertical", gap=6, padding=0):
-                            Label("truckersmudgeon")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("truckersmudgeon")
                             Description("Game data extraction and processing")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("DTheIcyDragon")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("DTheIcyDragon")
                             Description("Bug fixes")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("Roman Sonnik")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("Roman Sonnik")
                             Description("Bug fixes")
                             
                         
                         with Group("vertical", gap=6, padding=0):
-                            Label("Lun")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("Lun")
                             Description("Chinese translations, bug fixes")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("atac_helicopter")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("atac_helicopter")
                             Description("Bug fixes")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("ғʟᴇxғʟᴇxᴇɴ")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("ғʟᴇxғʟᴇxᴇɴ")
                             Description("Bug fixes")
                            
                         with Group("vertical", gap=6, padding=0):
-                            Label("LookAtYourSkill")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("LookAtYourSkill")
                             Description("Bug fixes") 
                         
                         with Group("vertical", gap=6, padding=0):
-                            Label("mimi89999")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("mimi89999")
                             Description("scs-sdk-controller developer")
                         
                         with Group("vertical", gap=6, padding=0):
-                            Label("zhaoyj")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("zhaoyj")
                             Description("3D models for the visualization")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("MRUIAW")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("MRUIAW")
                             Description("Bug fixes, Chinese translations")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("ViSzKe")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("ViSzKe")
                             Description("Bug fixes")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("ziakhan4505")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("ziakhan4505")
                             Description("C++ support, bug fixes")
                             
                         with Group("vertical", gap=6, padding=0):
-                            Label("Piotrke")
+                            with Group("horizontal", gap=10, padding=0):
+                                Label("Piotrke")
                             Description("Game hooks")
                     
         return RenderUI()
