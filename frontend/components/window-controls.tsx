@@ -84,7 +84,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
         <>
             <div 
                 ref={setOverlayRef}
-                className="fixed top-0 left-0 right-0 h-[40px] z-30" // Only cover top 40px
+                className="fixed top-0 left-[80px] right-0 h-[40px] z-30" // Only cover top 40px
                 style={{ backgroundColor: 'transparent' }}
                 onMouseMove={(e) => {
                     setIsMouseInDragArea(true);
@@ -161,7 +161,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
             </div>
             {!isCollapsed && (
                 <>
-                    <div className="absolute top-0 right-0 left-0 h-6 z-40" onMouseDown={handleMouseDown} />
+                    <div className="absolute top-0 right-0 left-[80px] h-6 z-40" onMouseDown={handleMouseDown} />
                     {/* Bottom side outer rounding */}
                     <div className="top-0 right-0 absolute z-50 w-4 h-4 my-[16px] mx-[-0.5px]">
                         <svg viewBox="4 -4 8 8" xmlns="http://www.w3.org/2000/svg">

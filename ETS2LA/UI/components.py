@@ -202,10 +202,11 @@ class Tab():
         ui = self.previous_ui
         
 class Group():
-    def __init__(self, direction: Literal["horizontal", "vertical"] = "horizontal", gap: int = 2, border: bool = False):
+    def __init__(self, direction: Literal["horizontal", "vertical"] = "horizontal", gap: int = 16, border: bool = False, padding: int = 16):
         self.direction = direction
         self.gap = gap
         self.border = border
+        self.padding = padding
     
     def __enter__(self):
         global ui
@@ -219,6 +220,7 @@ class Group():
             "direction": self.direction,
             "gap": self.gap,
             "border": self.border,
+            "padding": self.padding,
             "components": ui
         }})
         ui = self.previous_ui

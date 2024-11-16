@@ -415,7 +415,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		if(border){
 			return " p-4 border rounded-md"
 		}
-		return "p-4"
+		return " p-4"
 	}
 
     // @ts-ignore
@@ -470,12 +470,18 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			if (key == "group") {
 				const direction = key_data.direction
 				if(direction == "horizontal"){
-					result.push(<div className={"flex gap-4 w-full rounded-md items-center text-center" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex w-full rounded-md items-center text-center" + GetBorderClassname(key_data.border)} style={{
+						gap: key_data.gap + "px",
+						padding: key_data.padding + "px"
+					}}>
 						{PageRenderer(key_data.components)}
 					</div>)
 				}
 				else{
-					result.push(<div className={"flex flex-col gap-4 w-full rounded-md" + GetBorderClassname(key_data.border)}>
+					result.push(<div className={"flex flex-col w-full rounded-md" + GetBorderClassname(key_data.border)} style={{
+						gap: key_data.gap + "px",
+						padding: key_data.padding + "px"
+					}}>
 						{PageRenderer(key_data.components)}
 					</div>)
 				}

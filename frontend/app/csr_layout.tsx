@@ -23,7 +23,7 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
     return (
         <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
         >
