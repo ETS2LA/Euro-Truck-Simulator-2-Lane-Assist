@@ -1,27 +1,19 @@
 "use client"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+    Card
 } from "@/components/ui/card"  
 
 import { toast } from "sonner"
 import useSWR, { mutate } from "swr"
 import { GetPlugins, EnablePlugin, DisablePlugin } from "@/apis/backend"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
-import { useRouter } from "next/navigation"
 import { Menu, Check, X } from "lucide-react"
 import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { translate } from "@/apis/translation"
-import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useState } from "react"
@@ -31,15 +23,13 @@ import {
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tooltip, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { TooltipContent } from "@radix-ui/react-tooltip"
+import { ip } from "@/apis/backend"
 
-export default function Home({ ip }: { ip: string }) {
-    const { push } = useRouter()
+export default function Home() {
     const [ search, setSearch ] = useState<string>("")
     const [ searchTags, setSearchTags ] = useState<string[]>([])
     const [ searchAuthors, setSearchAuthors ] = useState<string[]>([])
@@ -102,7 +92,7 @@ export default function Home({ ip }: { ip: string }) {
 
             // Search Tags
             if(searchTags.length > 0){
-                let found = [];
+                const found = [];
                 // @ts-ignore
                 for(const tag in data[key].description.tags){
                     // @ts-ignore

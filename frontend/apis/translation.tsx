@@ -1,3 +1,15 @@
+declare var require: {
+    context(
+        directory: string,
+        useSubdirectories: boolean,
+        regExp: RegExp
+    ): {
+        keys(): string[];
+        <T>(id: string): T;
+        resolve(id: string): string;
+    };
+};
+
 interface Translation {
     [key: string]: string;
 }
@@ -10,19 +22,17 @@ const loadTranslations = async () => {
     const translationFiles: { [key: string]: Translation } = {};
   
     context.keys().forEach((key: string) => {
-      const language = key.replace('./', '').replace('.json', '');
-      translationFiles[language] = context(key) as Translation;
+        const language = key.replace('./', '').replace('.json', '');
+        translationFiles[language] = context(key);
     });
 
     Object.assign(translations, translationFiles);
-
 };
 
 loadTranslations();
 
-// Take the key and a list of values (to replace {0}, {1}, etc. in the translation)
 export const translate = (key: string, ...values: any[]): string => {
-    const translation = translations[currentLanguage][key];
+    const translation = translations[currentLanguage]?.[key];
     if (!translation) {
         return key;
     }
@@ -34,4 +44,4 @@ export const translate = (key: string, ...values: any[]): string => {
 
 export const changeLanguage = async (language: string) => {
     currentLanguage = language;
-}
+};

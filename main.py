@@ -122,7 +122,11 @@ if __name__ == "__main__":
                         try:
                             os.system("update.bat")
                         except: # Used Installer
-                            os.system("cd code && cd app && update.bat")
+                            try:
+                                os.system("cd code && cd app && update.bat")
+                            except: 
+                                # Backup for old installers
+                                os.system("cd .. && cd .. && cd code && cd app && update.bat")
                     else:
                         os.system("sh update.sh")
                 

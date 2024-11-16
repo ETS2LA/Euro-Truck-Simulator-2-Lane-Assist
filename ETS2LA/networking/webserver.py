@@ -371,9 +371,26 @@ def get_list_of_pages():
 # endregion
 # region Session
 
+def BuildFrontend():
+    result = os.system(f"cd frontend && npm run build")
+    if result != 0:
+        os.system(f"cd frontend && npm install")
+        result = os.system(f"cd frontend && npm run build")
+        if result != 0:
+            logging.error("Failed to build frontend")
+
+def RunFrontendDev():
+    os.system(f"cd frontend && npm run dev -- -p {FRONTEND_PORT}")
+
 def RunFrontend():
-    os.system(f"cd frontend && npm run dev --turbo -- -p {FRONTEND_PORT}")
-    
+    result = os.system(f"cd frontend && npm start -- -p {FRONTEND_PORT}")
+    if result != 0:
+        logging.info("Building frontend... please wait...")
+        BuildFrontend()
+        result = os.system(f"cd frontend && npm start -- -p {FRONTEND_PORT}")
+        if result != 0:
+            logging.error("Failed to start frontend")
+        
 def ExtractIP():
     global IP
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -388,7 +405,7 @@ def run():
     threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
     logging.info(Translate("webserver.webserver_started", values=[f"http://{IP}:37520", "http://localhost:37520"]))
 
-    p = multiprocessing.Process(target=RunFrontend, daemon=True)
+    p = multiprocessing.Process(target=RunFrontend if not variables.DEVELOPMENT_MODE else RunFrontendDev, daemon=True)
     p.start()
     logging.info(Translate("webserver.frontend_started", values=[f"http://{IP}:{FRONTEND_PORT}", f"http://localhost:{FRONTEND_PORT}"]))
     

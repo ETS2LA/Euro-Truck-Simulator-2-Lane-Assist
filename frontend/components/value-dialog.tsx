@@ -38,9 +38,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "./ui/progress"
 
 export default function ValueDialog({onClose, open, json}: {onClose: any, open: boolean, json: string}) {
-    if (!json) return <div />
-
     const [returnValue, setReturnValue] = useState({})
+    
+	if (!json) return <div />
 
     const TitleRenderer = (data:string) => {
 		return <h3 className="font-medium">{translate(data)}</h3>

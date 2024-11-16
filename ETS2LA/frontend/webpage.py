@@ -5,6 +5,7 @@ import ETS2LA.backend.settings as settings
 from multiprocessing import JoinableQueue
 import ETS2LA.variables as variables
 import multiprocessing  
+import requests
 import logging
 import webview
 import time
@@ -85,7 +86,23 @@ def start_webpage(queue: JoinableQueue):
     global webview_window
     
     def load_website(window:webview.Window):
-        time.sleep(3)
+        # Wait until the server is ready
+        RETRY_INTERVAL = 0.5
+        HAS_STARTED = False
+        while not HAS_STARTED:
+            try:
+                response = requests.get(
+                    f'http://localhost:{FRONTEND_PORT}',
+                    timeout=2
+                )
+                if response.ok:
+                    HAS_STARTED = True
+                    break
+            except:
+                pass  # Handle timeout
+            
+            time.sleep(RETRY_INTERVAL)
+            
         window.load_url('http://localhost:' + str(FRONTEND_PORT))
         while True:
             time.sleep(0.01)

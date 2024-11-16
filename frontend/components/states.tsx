@@ -18,7 +18,7 @@ export function States() {
     const [toastNames, setToastNames] = useState<string[]>([]);
 
     useEffect(() => {
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
             mutate("states");
         }, 1000);
         return () => clearInterval(interval);
@@ -40,7 +40,7 @@ export function States() {
 
         */
         if (data) {
-            let indexesToNotRemove: number[] = [];
+            const indexesToNotRemove: number[] = [];
             // Loop through the plugins
             for (const plugin in data) {
                 const plugin_name = plugin;
@@ -55,7 +55,7 @@ export function States() {
                 }
                 if(toastNames.includes(plugin_name) && state_progress != -1)
                 {
-                    let index = toastNames.indexOf(plugin_name);
+                    const index = toastNames.indexOf(plugin_name);
                     indexesToNotRemove.push(index);
 
                     // Update the toast
@@ -81,7 +81,7 @@ export function States() {
                 }
                 else if(toastNames.includes(plugin_name) && state != "")
                 {
-                    let index = toastNames.indexOf(plugin_name);
+                    const index = toastNames.indexOf(plugin_name);
                     indexesToNotRemove.push(index);
 
                     // Update the toast

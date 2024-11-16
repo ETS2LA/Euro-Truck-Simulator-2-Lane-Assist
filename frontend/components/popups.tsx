@@ -2,10 +2,6 @@
 import { useEffect } from "react";
 import { useState, useRef } from "react";
 import {toast} from "sonner"
-import { Badge } from "./ui/badge"
-import { Plug, Unplug, Rss, ArrowDownToLine, Check, WifiOff, X, Minimize2, Pin, PinOff, Eye, EyeOff} from "lucide-react";
-import { CheckForUpdate, Update, GetStayOnTop, SetStayOnTop, CloseBackend, MinimizeBackend, SetTransparent, GetTransparent } from "@/apis/backend";
-import useSWR, { mutate } from "swr";
 import {
     Dialog,
     DialogContent,
@@ -16,14 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { translate } from "@/apis/translation";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 import ValueDialog from "./value-dialog";
 import { ip } from "@/apis/backend";
 
@@ -59,9 +48,9 @@ export function Popups() {
             if (lastMessage === message) return;
             lastMessage = message;
             if ("ask" in message) {
-                let text = message["ask"]["text"]
-                let options = message["ask"]["options"]
-                let description = message["ask"]["description"]
+                const text = message["ask"]["text"]
+                const options = message["ask"]["options"]
+                const description = message["ask"]["description"]
                 setDialogObject({__html: "<div>" + text + "</div>"})
                 setDialogOptions(options)
                 setDialogDescription(description)
@@ -81,13 +70,12 @@ export function Popups() {
                 };
             }
             else if ("dialog" in message) {
-                console.log(message)
-                let jsonData = message["dialog"]["json"]
+                const jsonData = message["dialog"]["json"]
                 setValueDialogJson(jsonData)
                 setValueDialogOpen(true)
                 setReturnValue(null)
                 // Wait for the return value to be set
-                let listener = setInterval(() => {
+                const listener = setInterval(() => {
                     if (returnValueRef.current !== null) { // Use the ref here
                         if (socket !== null) {
                             socket.send(JSON.stringify(returnValueRef.current)); // Use the ref here
@@ -101,8 +89,8 @@ export function Popups() {
                 push(message["page"])
             }
             else {
-                let toastType = message["type"]
-                let toastMessage = message["text"]
+                const toastType = message["type"]
+                const toastMessage = message["text"]
                 if (toastType === "error") {
                     toast.error(toastMessage)
                 } else if (toastType === "success") {

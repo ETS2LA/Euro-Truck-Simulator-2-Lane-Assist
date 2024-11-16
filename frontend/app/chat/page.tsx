@@ -198,7 +198,7 @@ const ChatMessage = ({message, message_index, messages, reply_func, searchText, 
 };
 
 
-function SearchBox({searchText, setSearchText, currentMatch, totalMatches, handleNextMatch, handlePreviousMatch, setShowSearchBox,}: any) {
+function SearchBox({searchText, setSearchText, currentMatch, totalMatches, handleNextMatch, handlePreviousMatch,}: any) {
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -234,7 +234,6 @@ function SearchBox({searchText, setSearchText, currentMatch, totalMatches, handl
 }
 
 export default function Home() {
-  const { theme } = useTheme();
   const [conversations, setConversations] = useState<Conversation[]>([
     new Conversation('Broken Steering', 1, ['You', 'Developer'], conv1_messages, ['Bugs','Closed']),
     new Conversation('Uploading Images', 2, ['You', 'Developer'], conv2_messages, ['Feedback', 'Open',])
@@ -431,7 +430,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full h-full overflow-auto rounded-t-md items-center p-4 pt-6 font-geist">
       {showSearchBox && (
-        <SearchBox searchText={searchText} setSearchText={setSearchText} currentMatch={currentMatch} totalMatches={totalMatches} handleNextMatch={handleNextMatch} handlePreviousMatch={handlePreviousMatch} setShowSearchBox={setShowSearchBox} />
+        <SearchBox searchText={searchText} setSearchText={setSearchText} currentMatch={currentMatch} totalMatches={totalMatches} handleNextMatch={handleNextMatch} handlePreviousMatch={handlePreviousMatch} />
       )}
 
       <ResizablePanelGroup direction="horizontal">
@@ -486,7 +485,7 @@ export default function Home() {
             <div className="relative w-full">
               {replyingTo && (
                 <div className={`absolute p-2 rounded-md flex justify-between items-center border bg-background`} style={{width: 'calc(100% - 101px)', top: '-80%', left: '0%', height: '60%'}}>
-                  <span className="text-xs">Replying to {replyingTo.username}: "{replyingTo.text}"</span>
+                  <span className="text-xs">Replying to {replyingTo.username}: {replyingTo.text}</span>
                   <Button className="-mx-2" variant="ghost" onClick={() => setReplyingTo(null)}>X</Button>
                 </div>
               )}

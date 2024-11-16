@@ -6,7 +6,7 @@ import { ETS2LASidebar } from "@/components/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import "./globals.css";
 import WindowControls from "@/components/window-controls";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 import { Toaster } from "@/components/ui/sonner"
 import { States } from "@/components/states";
@@ -14,7 +14,6 @@ import { Popups } from "@/components/popups";
 
 export default function CSRLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
     const isMobile = useIsMobile();
 
     const toggleSidebar = () => {

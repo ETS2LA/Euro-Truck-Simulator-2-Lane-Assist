@@ -1,8 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import useSWR, { mutate } from "swr"
-import { GetPlugins, PluginFunctionCall, DisablePlugin, EnablePlugin } from "@/apis/backend"
+import { PluginFunctionCall, EnablePlugin } from "@/apis/backend"
 import { Separator } from "../ui/separator"
-import { set } from "date-fns"
 import { Input } from "../ui/input"
 import { GetSettingsJSON, SetSettingByKey, SetSettingByKeys } from "@/apis/settings"
 import {
@@ -13,10 +12,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select"
 import {
-	Tooltip,
-	TooltipContent,
 	TooltipProvider,
-	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Toggle } from "@/components/ui/toggle"
 import { Switch } from "../ui/switch"
@@ -51,8 +47,8 @@ interface SliderComponentProps {
             suffix?: string;
         };
     };
+	toast: any;
     plugin: string;
-    ip: string;
     setNeedsRestart: (needsRestart: boolean) => void;
     mutate: (key: string) => void;
     translate: (key: string) => string;
@@ -78,8 +74,8 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
     }
 
     handleValueCommit = (value: number[]) => {
-        const { plugin, data, ip, setNeedsRestart, mutate, translate } = this.props;
-        SetSettingByKey(plugin, data.key, value[0], ip).then(() => {
+        const { plugin, data, setNeedsRestart, mutate, translate } = this.props;
+        SetSettingByKey(plugin, data.key, value[0]).then(() => {
             if (data.requires_restart)
                 setNeedsRestart(true);
             mutate("settings");
@@ -403,7 +399,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		return <div className="flex justify-between p-4 items-center border rounded-md backdrop-blur-md gap-10">
 			<div>
 				<h4>Please enable the plugin.</h4>
-				<p className="text-xs text-muted-foreground">This plugin is disabled. Enable it to access the rest of this plugin's settings.</p>
+				<p className="text-xs text-muted-foreground">{"This plugin is disabled. Enable it to access the rest of this plugin's settings."}</p>
 			</div>
 			<Button variant={"outline"} onClick={() => {
 				EnablePlugin(plugin).then(() => {

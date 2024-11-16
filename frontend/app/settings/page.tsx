@@ -1,15 +1,9 @@
 "use client";
-import { toast } from "sonner"
 import useSWR from "swr"
-import { mutate } from "swr"
-import { GetSettingsJSON, SetSettingByKey } from "@/apis/settings"
 import { GetPlugins } from "@/apis/backend"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
-import React, { useState, useEffect } from 'react';
-import { Gauge, LineChart } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import React, { useState } from 'react';
 import {
     ResizablePanel,
     ResizablePanelGroup,
@@ -21,11 +15,9 @@ import { translate } from "@/apis/translation"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import RenderPage from "@/components/page/render_page"
 
-export default function Home({ ip }: { ip: string }) {
-    const { push } = useRouter()
-    const { data, error, isLoading } = useSWR("plugin_ui_plugins", () => GetPlugins())
+export default function Home() {
+    const { data } = useSWR("plugin_ui_plugins", () => GetPlugins())
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
-    const [scrolledDown, setScrolledDown] = useState(false)
 
 
     const plugins:string[] = [];

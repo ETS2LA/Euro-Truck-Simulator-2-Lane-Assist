@@ -1,11 +1,12 @@
+import { ip } from "./backend";
 // Communicate with the ETS2LA backend to get and set settings
 
-export async function GetSettingsJSON(plugin:string, ip="localhost") {
+export async function GetSettingsJSON(plugin:string) {
     const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings`);
     return await response.json();
 }
 
-export async function GetSettingByKey(plugin: string, key: string, ip = "localhost") {
+export async function GetSettingByKey(plugin: string, key: string) {
     try {
         const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/${key}`);
         
@@ -25,7 +26,7 @@ export async function GetSettingByKey(plugin: string, key: string, ip = "localho
         return null;
     }
 }
-export async function SetSettingByKey(plugin:string, key:string, value:any, ip="localhost") {
+export async function SetSettingByKey(plugin:string, key:string, value:any) {
     try {
         const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/${key}/set`, {
             method: "POST",
@@ -46,7 +47,7 @@ export async function SetSettingByKey(plugin:string, key:string, value:any, ip="
 }
 
 // Set setting multiple keys deep.
-export async function SetSettingByKeys(plugin:string, keys:string[], setting:any, ip="localhost") {
+export async function SetSettingByKeys(plugin:string, keys:string[], setting:any) {
     try {
         const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/set`, {
             method: "POST",
@@ -69,7 +70,7 @@ export async function SetSettingByKeys(plugin:string, keys:string[], setting:any
     }
 }
 
-export async function TriggerControlChange(control:string, ip="localhost") {
+export async function TriggerControlChange(control:string) {
     try {
         const response = await fetch(`http://${ip}:37520/api/controls/${control}/change`, {
             method: "POST",
@@ -88,7 +89,7 @@ export async function TriggerControlChange(control:string, ip="localhost") {
     }
 }
 
-export async function UnbindControl(control:string, ip="localhost") {
+export async function UnbindControl(control:string) {
     try {
         const response = await fetch(`http://${ip}:37520/api/controls/${control}/unbind`, {
             method: "POST",
