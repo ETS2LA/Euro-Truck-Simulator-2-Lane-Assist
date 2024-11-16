@@ -129,9 +129,18 @@ class RouteSection:
                 continue
             
             new_points.append(point)
-            
+                
         new_points = sorted(new_points, key=lambda x: math_helpers.DistanceBetweenPoints(x.tuple(), (data.truck_x, data.truck_y, data.truck_z)))
-        temp_points = new_points
+        
+        temp_points = []
+        for point in new_points:
+            index = new_points.index(point)
+            if index == 0:
+                temp_points.append(point)
+                continue
+            
+            if math_helpers.DistanceBetweenPoints(point.tuple(), new_points[index-1].tuple()) < 10:
+                temp_points.append(point)
 
         if temp_points == []:
             return []
