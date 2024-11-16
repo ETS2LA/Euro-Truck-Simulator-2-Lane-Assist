@@ -139,7 +139,7 @@ class RouteSection:
                 temp_points.append(point)
                 continue
             
-            if math_helpers.DistanceBetweenPoints(point.tuple(), new_points[index-1].tuple()) < 10:
+            if math_helpers.DistanceBetweenPoints(point.tuple(), temp_points[-1].tuple()) < 4:
                 temp_points.append(point)
 
         if temp_points == []:
