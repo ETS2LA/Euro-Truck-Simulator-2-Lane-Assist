@@ -39,7 +39,7 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
                 <Popups />
                 <SidebarProvider open={!isCollapsed}>
                     <ETS2LASidebar toggleSidebar={toggleSidebar} />
-                    <SidebarInset className={`relative transition-all overflow-hidden ${isCollapsed ? "max-h-[100vh]" : "max-h-[97.6vh]"}`}>
+                    <SidebarInset className={`relative transition-all duration-300 overflow-hidden ${isCollapsed ? "max-h-[100vh]" : "max-h-[97.6vh]"}`}>
                         <ProgressBar className="absolute h-2 z-20 rounded-tl-lg shadow-lg shadow-sky-500/20 bg-sky-500 top-0 left-0" />
                         {isMobile && <SidebarTrigger className="absolute top-2 left-2" />}
                         {children}
