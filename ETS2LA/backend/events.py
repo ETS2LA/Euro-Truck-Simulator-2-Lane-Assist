@@ -147,13 +147,13 @@ class JobFinished():
                                         if job.unit_mass == 0 or job.unit_count == 0:
                                             Description("0 €")
                                         else:
-                                            Description(str(round(job.delivered_revenue / (job.unit_mass * job.unit_count))) + " €")
+                                            Description(str(round(job.delivered_revenue / (job.unit_mass * job.unit_count / 1000))) + " €")
                                     with Group("vertical"):
                                         Label("Average speed")
                                         if job.finished_time == 0 or job.delivered_distance_km == 0:
                                             Description("0 km/h")
                                         else:
-                                            Description(str(round(job.delivered_distance_km / (job.finished_time / 60), 1)) + " km/h")
+                                            Description(str(round(job.delivered_distance_km / ((job.finished_time - job.starting_time) / 60), 1)) + " km/h")
                             
                 return RenderUI()
         backend.call_event('JobFinished', job, {})
