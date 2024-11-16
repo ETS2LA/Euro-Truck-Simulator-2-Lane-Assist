@@ -35,7 +35,7 @@ class Page(ETS2LAPage):
 
 		Separator()
 
-		with Group("vertical", gap=0):
+		with Group("vertical", gap=0, padding=0):
 			Selector("global.settings.8.name",
 				"language",
 				"English",

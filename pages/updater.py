@@ -33,7 +33,7 @@ class Page(ETS2LAPage):
                     with Group("vertical", gap=8):
                         for update in reversed_updates:
                             with Group("vertical", border=True):
-                                with Group("horizontal"):
+                                with Group("horizontal", padding=0):
                                     Description(update["author"], size="xs")
                                     Label(update["message"], size="sm", weight="semibold")
                                 if update["description"] != "":
