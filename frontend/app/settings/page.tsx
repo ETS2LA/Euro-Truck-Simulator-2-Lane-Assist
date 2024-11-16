@@ -14,6 +14,7 @@ import { ETS2LAPage } from "@/components/page/page"
 import { translate } from "@/apis/translation"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import RenderPage from "@/components/page/render_page"
+import ControlsPage from "./controls/page";
 
 export default function Home() {
     const { data } = useSWR("plugin_ui_plugins", () => GetPlugins())
@@ -32,8 +33,7 @@ export default function Home() {
         if (selectedPlugin === "Global") {
             return <RenderPage url="/settings/global" />;
         } else if (selectedPlugin === "Controls") {
-            return null
-            //return <ControlsPage ip={ip} />;
+            return <ControlsPage />;
             // @ts-ignore
         } else if (data && data[selectedPlugin] && data[selectedPlugin].settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
