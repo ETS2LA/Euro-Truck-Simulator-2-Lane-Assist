@@ -103,7 +103,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
                                 backgroundSize: "10px 10px"
                             }}
                         >
-                            <p className="bg-sidebar w-16 justify-self-center -my-1.5 pointer-events-none">
+                            <p className="bg-sidebar w-16 justify-self-center -my-1.5 pointer-events-none text-xs">
                                 move
                             </p>
                         </div>

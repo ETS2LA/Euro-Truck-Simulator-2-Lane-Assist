@@ -128,9 +128,14 @@ class RouteSection:
             if angle > 90 or angle < -90:
                 continue
             
-            new_points.append(point)
+            if len(new_points) > 0:
+                if math_helpers.DistanceBetweenPoints(point.tuple(), new_points[-1].tuple()) > 10:
+                    continue
             
+            new_points.append(point)
+                
         new_points = sorted(new_points, key=lambda x: math_helpers.DistanceBetweenPoints(x.tuple(), (data.truck_x, data.truck_y, data.truck_z)))
+        
         temp_points = new_points
 
         if temp_points == []:
