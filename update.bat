@@ -47,10 +47,8 @@ call npm run build || (
 
 cd %start_dir%
 echo Update completed successfully
-pause
 exit /b 0
 
 :error
 echo Update failed
-pause
 exit /b 1
