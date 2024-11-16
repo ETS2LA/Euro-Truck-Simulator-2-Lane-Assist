@@ -31,7 +31,7 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
                 <Toaster position={isCollapsed ? "bottom-center" : "bottom-right"} toastOptions={{
                     unstyled: true,
                     classNames: {
-                        toast: "rounded-lg shadow-lg backdrop-blur-sm backdrop-brightness-90 w-[354px] border p-4 flex gap-2 items-center text-sm",
+                        toast: "rounded-lg shadow-lg backdrop-blur-md backdrop-brightness-75 w-[354px] border p-4 flex gap-2 items-center text-sm",
                     }
                 }} />
                 <WindowControls isCollapsed={isCollapsed} />
