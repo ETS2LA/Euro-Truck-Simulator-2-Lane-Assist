@@ -139,9 +139,9 @@ h6 {
 }
 
 ul {
-  @apply list-disc;
+  @apply list-disc text-sm;
 }
 
 li {
-  @apply ml-4;
+  @apply ml-4 text-sm;
 }
