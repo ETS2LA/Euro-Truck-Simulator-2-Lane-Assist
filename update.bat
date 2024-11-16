@@ -1,7 +1,7 @@
 @echo off
 git stash
 git pull
-pip install -r requirements.txt --quiet
+pip install -r requirements.txt
 echo "Clearing cache, prepare to login again."
 RMDIR /S /Q "cache"
 echo "Cache cleared"
