@@ -22,6 +22,8 @@ class Page(ETS2LAPage):
                     Description("You have a local commit that is waiting to be pushed.")
                 elif not updates:
                     Description("No updates available.")
+                    Space(8)
+                    Button("Update Anyway", "", self.update, border=False)
                 else:
                     reversed_updates = updates[::-1]
                     Button("Update", "", self.update, border=False)

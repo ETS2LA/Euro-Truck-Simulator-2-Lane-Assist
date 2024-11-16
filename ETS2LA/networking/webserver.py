@@ -95,7 +95,6 @@ def check_updates():
 @app.get("/backend/update")
 def update():
     page("updater")
-    #mainThreadQueue.append([git.Update, [], {}])
     return True
 
 @app.get("/api/sounds/play/{sound}")
