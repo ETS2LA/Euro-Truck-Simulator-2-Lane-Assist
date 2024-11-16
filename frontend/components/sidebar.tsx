@@ -177,19 +177,19 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                            <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
-                                <div className="flex items-center gap-2">
-                                    <span>Anonymous</span>
-                                </div>
-                                <ChevronUp className="w-4 h-4 justify-self-end" />
-                            </SidebarMenuButton>
+                                <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
+                                    <div className="flex items-center gap-2">
+                                        <span>Anonymous</span>
+                                    </div>
+                                    <ChevronUp className="w-4 h-4 justify-self-end" />
+                                </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                                 side="top"
                                 className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
                             >
                                 <DropdownMenuItem>
-                                    <UserCog /> <span>Account</span>
+                                    <UserCog size={20} /> <span>Account</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
                                     <UserRoundMinus /> <span>Sign out</span>
