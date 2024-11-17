@@ -62,8 +62,17 @@ def CheckLanguageDatabase():
                     not_found.append(key)
                 except:
                     pass # Probably encoding issue
+                
+        not_in_keys = []
+        for key in LANGUAGE_DATA[language]:
+            if key not in KEYS:
+                if not key.startswith("_"):
+                    not_in_keys.append(key)
+        
         if len(not_found) > 0:
-            logging.error(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['name_en']}: {not_found}")
+            logging.warning(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['name_en']}: {not_found}")
+        if len(not_in_keys) > 0:
+            logging.warning(f"Found keys that are not in the keys.json file in {LANGUAGE_DATA[language]['name_en']}: {not_in_keys}")
 
 def GetCodeForLanguage(language: str):
     if language in LANGUAGES:

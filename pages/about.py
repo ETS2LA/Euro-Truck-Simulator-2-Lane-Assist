@@ -5,8 +5,6 @@ import ETS2LA.utils.translator as translator
 import webbrowser
 import time
 
-
-
 contributors = [
     {"name": "Tumppi066", "description": "Lead developer and creator of ETS2LA", "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
     {"name": "Glas42", "description": 'Navigation Detection, Traffic Light Detection, ETS2LA Lite, "co-owner"', "links": [["Github", "https://github.com/Glas42"]]},

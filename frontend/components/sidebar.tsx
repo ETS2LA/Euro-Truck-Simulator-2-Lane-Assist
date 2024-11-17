@@ -25,7 +25,7 @@ import { Update, CheckForUpdate, GetMetadata } from "@/apis/backend"
 
 import { useProgress } from "react-transition-progress"
 import { startTransition } from "react"
-import { ip } from "@/apis/backend"
+import { translate } from "@/apis/translation"
 import { 
     ChevronUp, 
     House,
@@ -80,7 +80,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </div>
                     { update_data && 
                         <Button size={"sm"} variant={"outline"} className="w-full" onClick={() => { Update() }}>
-                            Updates Available
+                            {translate("frontend.sidebar.updates_available")}
                         </Button>
                     }
                 </div>
@@ -88,7 +88,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
             <SidebarContent className="bg-sidebarbg custom-scrollbar" >
                 <SidebarGroup>
                     <SidebarGroupLabel className="font-semibold" >
-                        Main
+                        {translate("frontend.sidebar.main")}
                     </SidebarGroupLabel>
                     <SidebarMenuButton className={buttonClassName("/")} onClick={
                         () => {
@@ -99,7 +99,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             })
                         }
                     }>
-                        <House /> Dashboard
+                        <House /> {translate("frontend.sidebar.dashboard")}
                     </SidebarMenuButton>
                     <SidebarMenuButton className={buttonClassName("/visualization")} onClick={
                         () => {
@@ -110,12 +110,12 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             })
                         }
                     }>
-                        <TvMinimal /> Visualization
+                        <TvMinimal /> {translate("frontend.sidebar.visualization")}
                     </SidebarMenuButton>
                 </SidebarGroup>
                 <SidebarGroup>
                     <SidebarGroupLabel className="font-semibold">
-                        Plugins
+                        {translate("frontend.sidebar.plugins")}
                     </SidebarGroupLabel>
                     <SidebarMenuButton className={buttonClassName("/plugins")} onClick={
                         () => {
@@ -126,19 +126,19 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             })
                         }
                     }>
-                        <ChartNoAxesGantt /> Manager
+                        <ChartNoAxesGantt /> {translate("frontend.sidebar.manager")}
                     </SidebarMenuButton>
                     <SidebarMenuButton className={buttonClassName("/performance")} onClick={
                         () => {
                             toast.success("Coming soon!")
                         }
                     }>
-                        <ChartArea /> Performance
+                        <ChartArea /> {translate("frontend.sidebar.performance")}
                     </SidebarMenuButton>
                 </SidebarGroup>
                 <SidebarGroup>
                     <SidebarGroupLabel className="font-semibold">
-                        Help
+                        {translate("frontend.sidebar.help")}
                     </SidebarGroupLabel>
                     <SidebarMenuButton className={buttonClassName("/wiki")} onClick={
                         () => {
@@ -149,7 +149,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             })
                         }
                     }>
-                        <BookText /> Wiki
+                        <BookText /> {translate("frontend.sidebar.wiki")}
                     </SidebarMenuButton>
                     <SidebarMenuButton className={buttonClassName("/chat")} onClick={
                         () => {
@@ -160,7 +160,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             })
                         }
                     }>
-                        <MessageSquare /> Chat
+                        <MessageSquare /> {translate("frontend.sidebar.chat")}
                     </SidebarMenuButton>
                 </SidebarGroup>
             </SidebarContent>
@@ -177,7 +177,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             })
                         }
                     }>
-                    <Bolt /> Settings
+                    <Bolt /> {translate("frontend.sidebar.settings")}
                 </SidebarMenuButton>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -185,7 +185,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
                                     <div className="flex items-center gap-2">
-                                        <span>Anonymous</span>
+                                        <span>{translate("frontend.sidebar.anonymous")}</span>
                                     </div>
                                     <ChevronUp className="w-4 h-4 justify-self-end" />
                                 </SidebarMenuButton>
@@ -195,10 +195,10 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                 className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
                             >
                                 <DropdownMenuItem>
-                                    <UserCog size={20} /> <span>Account</span>
+                                    <UserCog size={20} /> <span>{translate("frontend.sidebar.account")}</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <UserRoundMinus /> <span>Sign out</span>
+                                    <UserRoundMinus /> <span>{translate("frontend.sidebar.sign_out")}</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
