@@ -170,7 +170,7 @@
     "_ABOUT": "由於「關於」頁面需要翻譯的內容較多，因此我為其設置了一個專屬分類。",
 
     "about.about": "關於",
-    "about.description": "ETS2LA 是一個專案，旨在為 ETS2 和 ATS 提供一個易於使用的自駕解決方案。如果您想了解更多，可以透過側邊欄前往 GitHub 頁面或維基百科。",
+    "about.description": "ETS2LA 是一個專案，旨在為 ETS2 和 ATS 提供一個易於使用的自動駕駛軟體。如果您想了解更多，可以透過側邊欄前往 GitHub 頁面或維基百科。",
     "about.developers": "開發者 / 貢獻者",
     "about.translation_credits": "翻譯資訊",
     "about.no_credits": "此語言目前沒有提供翻譯相關的描述。",
@@ -179,8 +179,8 @@
     "about.contribute_description": "• 如果您希望參與貢獻，建議加入 Discord 伺服器並查看 GitHub 頁面。",
     "about.translate_description": "• 如果您想為翻譯做出貢獻，可以加入 Discord。",
 
-    "about.tumppi066.description": "ETS2LA 的首席開發者與創作者",
-    "about.glas42.description": "導航偵測、交通信號燈偵測、ETS2LA Lite，共同擁有者",
+    "about.tumppi066.description": "ETS2LA 的主要開發者與擁有者",
+    "about.glas42.description": "導航辨識、紅綠燈辨識、ETS2LA Lite，共同擁有者",
     "about.cloud.description": "Linux & Unix 移植，各種改進與錯誤修復",
     "about.dyldev.description": "多項改進與功能新增、物體辨識 AI 模型與開發",
     "about.truckersmudgeon.description": "遊戲數據取得與處理",
