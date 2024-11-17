@@ -6,15 +6,25 @@ import { ETS2LASidebar } from "@/components/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import "./globals.css";
 import WindowControls from "@/components/window-controls";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 import { Toaster } from "@/components/ui/sonner"
 import { States } from "@/components/states";
 import { Popups } from "@/components/popups";
+import { changeLanguage } from "@/apis/translation";
+import { GetCurrentLanguage } from "@/apis/backend";
+import useSWR from "swr";
 
 export default function CSRLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+    const { data: language } = useSWR("language", GetCurrentLanguage, { refreshInterval: 1000 });
     const [isCollapsed, setIsCollapsed] = useState(false);
     const isMobile = useIsMobile();
+
+    useEffect(() => {
+        if (language) {
+            changeLanguage(language);
+        }
+    }, [language]);
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
