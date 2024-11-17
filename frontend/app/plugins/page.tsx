@@ -153,7 +153,7 @@ export default function Home() {
                                     </p>
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56">
+                            <DropdownMenuContent className="w-56 bg-background font-geist">
                                 {tags.map((tag, index) => (
                                     <DropdownMenuCheckboxItem key={index} checked={searchTags.includes(tag)} onClick={() => {
                                         if(searchTags.includes(tag)){
@@ -175,7 +175,7 @@ export default function Home() {
                                     </p>
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56">
+                            <DropdownMenuContent className="w-56 bg-background font-geist">
                                 {authors.map((author, index) => (
                                     <DropdownMenuCheckboxItem key={index} checked={searchAuthors.includes(author)} onClick={() => {
                                         if(searchAuthors.includes(author)){
