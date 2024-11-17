@@ -174,6 +174,7 @@ def Capture(ImageType:str = "both"):
 
             fullMonitor = sct.monitors[(Display + 1)]
             img = np.array(sct.grab(fullMonitor))
+            img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
             if ImageType.lower() == "both":
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
                 return croppedImg, img
