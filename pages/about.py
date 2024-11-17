@@ -13,7 +13,7 @@ contributors = [
     {"name": "truckersmudgeon", "description": "Game data extraction and processing", "links": []},
     {"name": "DTheIcyDragon", "description": "Bug fixes", "links": []},
     {"name": "Roman Sonnik", "description": "Bug fixes", "links": [["Github", "https://github.com/RomanSonnik"]]},
-    {"name": "Lun", "description": "Chinese translation, bug fixes", "links": []},
+    {"name": "Lun", "description": "Chinese translation, bug fixes", "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
     {"name": "atac_helicopter", "description": "Bug fixes", "links": []},
     {"name": "ғʟᴇxғʟᴇxᴇɴ", "description": "Bug fixes", "links": []},
     {"name": "LookAtYourSkill", "description": "Bug fixes", "links": []},
