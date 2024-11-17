@@ -16,7 +16,28 @@ import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 import rich
 import time
+import sys
 import os
+
+# Check that Python version is supported
+supported_versions = [(3, 11, "x"), (3, 12, "x")]
+reccomended_version = (3, 12, 7)
+
+major, minor, micro = sys.version_info[:3]
+accepted = [False] * 3 # Major, Minor, Micro
+for version in supported_versions:
+    if version[0] == major: accepted[0] = True # Major version accepted
+    if version[1] == minor: accepted[1] = True # Minor version accepted
+    if version[2] == "x" and version[1] == minor: accepted[2] = True # Any micro version of a minor version accepted
+    if version[2] == micro: accepted[2] = True # Micro version accepted
+
+if not all(accepted):
+    current_version_formatted = f"{major}.{minor}.{micro}"
+    recomended_version_formatted = f"{reccomended_version[0]}.{reccomended_version[1]}.{reccomended_version[2]}"
+    recomended_link = f"https://www.python.org/ftp/python/{recomended_version_formatted}/python-{recomended_version_formatted}-amd64.exe"
+    error = f"Your Python version is {current_version_formatted}, which is not supported by ETS2LA. Download the reccomended version ({recomended_version_formatted}) here:\n{recomended_link}"
+    logging.error(error)
+    raise Exception("exit")
 
 # Initialize the backend
 translator.CheckLanguageDatabase()          # Check if all languages have all keys
