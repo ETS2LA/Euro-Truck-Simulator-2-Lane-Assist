@@ -141,7 +141,7 @@ export default function Home() {
         >
             <div className="flex flex-col gap-2 p-5 pb-0 pt-2">
                 <div className="flex gap-3 items-center pr-10">
-                    <p className="text-lg font-semibold pr-2">{translate("frontend.sidebar.plugins")}</p>
+                    <p className="text-lg font-semibold pr-2 min-w-20">{translate("frontend.sidebar.plugins")}</p>
                     {/* Search options */}
                     <Input placeholder={translate("search")} value={search} onChange={(e) => setSearch(e.target.value)} />
                         <div className="p-0 h-3"></div> {/* Makeshift separator */}
