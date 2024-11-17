@@ -84,8 +84,10 @@ def ETS2LAProcess(exception_queue: Queue):
         ETS2LA.run()
     except Exception as e:
         if str(e) != "exit" and str(e) != "restart":
-            traceback.print_exc()
-        exception_queue.put(e)
+            trace = traceback.format_exc()
+            exception_queue.put((e, trace))
+        else:
+            exception_queue.put((e, None))
 
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
@@ -98,7 +100,8 @@ if __name__ == "__main__":
         
         try:
             # Check if there is an exception in the queue
-            e = exception_queue.get_nowait()
+            e, trace = exception_queue.get_nowait()
+
             # Handle the exception from the child process here
             if e.args[0] == "exit":
                 CloseNode()
@@ -140,11 +143,10 @@ if __name__ == "__main__":
             try:
                 console.print_exception()
             except:
-                error = traceback.format_exception(type(e), e, e.__traceback__)
-                traceback.print_exception(type(e), e, e.__traceback__)
+                print(trace)
                 print(Translate("main.legacy_traceback"))
             try:
-                cloud.SendCrashReport("ETS2LA 2.0 - Main", str(error))
+                cloud.SendCrashReport("ETS2LA 2.0 - Main", trace)
             except: pass
             print(Translate("main.send_report"))
             CloseNode()
