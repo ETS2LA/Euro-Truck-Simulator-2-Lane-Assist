@@ -58,9 +58,9 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
 
     const buttonClassName = (targetPath: string) => {
         if(path == targetPath) {
-            return "font-medium bg-secondary transition-all hover:shadow-md"
+            return "font-medium bg-secondary transition-all hover:shadow-md active:scale-95 duration-200"
         } else {
-            return "font-medium transition-all hover:shadow-md"
+            return "font-medium transition-all hover:shadow-md active:scale-95 duration-200"
         }
     }
 
@@ -73,7 +73,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/about')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }}>ETS2LA</p>
                         <p className="text-xs pl-2 font-semibold text-muted-foreground">{metadata && "v" + metadata.version || "ERROR: please refresh the page or purge .next/cache"}</p>
@@ -95,7 +94,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }
                     }>
@@ -106,7 +104,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/visualization')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }
                     }>
@@ -122,7 +119,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/plugins')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }
                     }>
@@ -145,7 +141,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/wiki')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }
                     }>
@@ -156,7 +151,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/chat')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }
                     }>
@@ -173,7 +167,6 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/settings')
-                                await new Promise(resolve => setTimeout(resolve, 50))
                             })
                         }
                     }>

@@ -331,7 +331,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 						<SelectTrigger>
 							<SelectValue placeholder={pluginSettings[data.key]}>{pluginSettings[data.key]}</SelectValue>
 						</SelectTrigger>
-						<SelectContent>
+						<SelectContent className="bg-background font-geist">
 							{data.options.options.map((value:any) => (
 								<SelectItem key={value} value={value}>{value}</SelectItem>
 							))}
