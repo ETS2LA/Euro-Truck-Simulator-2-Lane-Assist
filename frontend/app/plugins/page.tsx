@@ -133,7 +133,12 @@ export default function Home() {
     }
 
     return (
-        <div className="h-full font-geist p-2">
+        <motion.div className="h-full font-geist p-2" 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+        >
             <div className="flex flex-col gap-2 p-5 pb-0 pt-2">
                 <div className="flex gap-3 items-center pr-10">
                     <p className="text-lg font-semibold pr-2">{translate("frontend.sidebar.plugins")}</p>
@@ -413,6 +418,6 @@ export default function Home() {
                     </ResizablePanelGroup>
                 </TooltipProvider>
             </div>
-        </div>
+        </motion.div>
     )
 }

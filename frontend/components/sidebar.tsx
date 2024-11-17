@@ -69,7 +69,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
             <SidebarHeader className="bg-sidebarbg w-full">
                 <div className="flex flex-col gap-4 items-center w-full">
                     <div className="flex flex-col gap-1 w-full">
-                        <p className="text-sm font-semibold pl-2 cursor-pointer" onClick={() => {
+                        <p className="text-sm font-semibold pl-2 cursor-pointer" onMouseDown={() => {
                             startTransition(async () => {
                                 startProgress()
                                 router.push('/about')
@@ -79,7 +79,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                         <p className="text-xs pl-2 font-semibold text-muted-foreground">{metadata && "v" + metadata.version || "ERROR: please refresh the page or purge .next/cache"}</p>
                     </div>
                     { update_data && 
-                        <Button size={"sm"} variant={"outline"} className="w-full" onClick={() => { Update() }}>
+                        <Button size={"sm"} variant={"outline"} className="w-full" onMouseDown={() => { Update() }}>
                             {translate("frontend.sidebar.updates_available")}
                         </Button>
                     }
@@ -90,7 +90,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarGroupLabel className="font-semibold" >
                         {translate("frontend.sidebar.main")}
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className={buttonClassName("/")} onClick={
+                    <SidebarMenuButton className={buttonClassName("/")} onMouseDown={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -101,7 +101,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     }>
                         <House /> {translate("frontend.sidebar.dashboard")}
                     </SidebarMenuButton>
-                    <SidebarMenuButton className={buttonClassName("/visualization")} onClick={
+                    <SidebarMenuButton className={buttonClassName("/visualization")} onMouseDown={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -117,7 +117,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarGroupLabel className="font-semibold">
                         {translate("frontend.sidebar.plugins")}
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className={buttonClassName("/plugins")} onClick={
+                    <SidebarMenuButton className={buttonClassName("/plugins")} onMouseDown={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -128,7 +128,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     }>
                         <ChartNoAxesGantt /> {translate("frontend.sidebar.manager")}
                     </SidebarMenuButton>
-                    <SidebarMenuButton className={buttonClassName("/performance")} onClick={
+                    <SidebarMenuButton className={buttonClassName("/performance")} onMouseDown={
                         () => {
                             toast.success("Coming soon!")
                         }
@@ -140,7 +140,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     <SidebarGroupLabel className="font-semibold">
                         {translate("frontend.sidebar.help")}
                     </SidebarGroupLabel>
-                    <SidebarMenuButton className={buttonClassName("/wiki")} onClick={
+                    <SidebarMenuButton className={buttonClassName("/wiki")} onMouseDown={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -151,7 +151,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     }>
                         <BookText /> {translate("frontend.sidebar.wiki")}
                     </SidebarMenuButton>
-                    <SidebarMenuButton className={buttonClassName("/chat")} onClick={
+                    <SidebarMenuButton className={buttonClassName("/chat")} onMouseDown={
                         () => {
                             startTransition(async () => {
                                 startProgress()
@@ -164,11 +164,11 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </SidebarMenuButton>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarRail className="z-[999]" onClick={() => {
+            <SidebarRail className="z-[999]" onMouseDown={() => {
                 toggleSidebar()
             }} />
             <SidebarFooter className="bg-sidebarbg">
-                <SidebarMenuButton className={buttonClassName("/settings")} onClick={
+                <SidebarMenuButton className={buttonClassName("/settings")} onMouseDown={
                         () => {
                             startTransition(async () => {
                                 startProgress()

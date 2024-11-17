@@ -31,6 +31,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "../ui/progress"
 import Markdown from "react-markdown"
+import { motion } from "framer-motion"
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
