@@ -60,7 +60,6 @@ def CheckLanguageDatabase():
             if key not in LANGUAGE_DATA[language]:
                 try:
                     not_found.append(key)
-                    #logging.error(f"Did not find a value for {key} in {LANGUAGES[LANGUAGE_CODES.index(language)]}!")
                 except:
                     pass # Probably encoding issue
         if len(not_found) > 0:
@@ -85,6 +84,29 @@ def CheckKey(key: str):
         return True
     else:
         return False
+
+def TranslateToLanguage(key: str, language: str, values: list = None) -> str:
+    if not CheckKey(key):
+        logging.error(f"{key} is not a valid key.")
+        return ""
+    
+    if values is None:
+        values = []
+    
+    if language not in LANGUAGE_DATA:
+        logging.error(f"{language} is not a valid language.")
+        return ""
+    
+    if key not in LANGUAGE_DATA[language]:
+        if language == "en":
+            logging.error(f"Did not find a value for {key} in English!")
+            return ""
+        if key not in LANGUAGE_DATA["en"]:
+            logging.error(f"Did not find a value for {key} in English!")
+            return ""
+        return LANGUAGE_DATA["en"][key].format(*values)
+    
+    return ftfy.fix_text(LANGUAGE_DATA[language][key].format(*values))
 
 def Translate(key: str, values: list = None) -> str:
     if not CheckKey(key):

@@ -1,10 +1,12 @@
 from ETS2LA.backend import settings
 from ETS2LA.UI import *
 
+import ETS2LA.utils.translator as translator
 import time
 
+
 contributors = [
-    {"name": "Tumppi066", "description": "Lead developer and creator of ETS2LA", "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"]]},
+    {"name": "Tumppi066", "description": "Lead developer and creator of ETS2LA", "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
     {"name": "Glas42", "description": 'Navigation Detection, Traffic Light Detection, ETS2LA Lite, "co-owner"', "links": [["Github", "https://github.com/Glas42"]]},
     {"name": "Cloud", "description": "Linux & Unix Port, various improvements and bug fixes", "links": []},
     {"name": "DylDev", "description": "Various additions and improvements, Object Detection AI models & development", "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
@@ -46,5 +48,19 @@ class Page(ETS2LAPage):
                                     for link in contributor["links"]:
                                         Link(link[0], link[1], size="xs")
                                 Description(contributor["description"])
+                    
+                    Space(8)
+                    with Group("vertical", padding=0, gap=24):
+                        Title("Translation Credits")
+                        
+                        for language in translator.LANGUAGES:
+                            with Group("vertical", gap=6, padding=0):
+                                with Group("horizontal", gap=10, padding=0):
+                                    Label(language)
+                                    Description("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", size="xs")
+                                credits = translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage(language))
+                                if language != "English" and credits == translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage("English")):
+                                    credits = "Language has no credits."
+                                Description(credits)
                     
         return RenderUI()
