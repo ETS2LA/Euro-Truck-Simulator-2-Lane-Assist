@@ -10,7 +10,7 @@ contributors = [
     {"name": "Glas42", "description": Translate("about.glas42.description"), "links": [["Github", "https://github.com/Glas42"]]},
     {"name": "Cloud", "description": Translate("about.cloud.description"), "links": []},
     {"name": "DylDev", "description": Translate("about.dyldev.description"), "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
-    {"name": "truckersmudgeon", "description": Translate("about.truckersmudgeon.description"), "links": []},
+    {"name": "truckermudgeon", "description": Translate("about.truckersmudgeon.description"), "links": []},
     {"name": "mimi89999", "description": Translate("about.mimi89999.description"), "links": []},
     {"name": "zhaoyj", "description": Translate("about.zhaoyj.description"), "links": []},
     {"name": "Lun", "description": Translate("about.lun.description"), "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
