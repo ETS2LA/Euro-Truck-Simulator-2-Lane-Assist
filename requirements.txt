@@ -13,6 +13,7 @@ ultralytics
 torchvision
 setuptools
 screeninfo
+webbrowser
 pyautogui
 gitpython
 dearpygui

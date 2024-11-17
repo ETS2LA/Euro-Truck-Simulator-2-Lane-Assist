@@ -2,7 +2,9 @@ from ETS2LA.backend import settings
 from ETS2LA.UI import *
 
 import ETS2LA.utils.translator as translator
+import webbrowser
 import time
+
 
 
 contributors = [
@@ -37,7 +39,7 @@ class Page(ETS2LAPage):
                 with Group("vertical"):
                     Title("About")
                     Description("ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar.")
-                    Space(4)
+                    Space(2)
                     with Group("vertical", padding=0):
                         Title("Developers / Contributors")
 
@@ -49,7 +51,7 @@ class Page(ETS2LAPage):
                                         Link(link[0], link[1], size="xs")
                                 Description(contributor["description"])
                     
-                    Space(8)
+                    Space(12)
                     with Group("vertical", padding=0, gap=24):
                         Title("Translation Credits")
                         
@@ -62,5 +64,19 @@ class Page(ETS2LAPage):
                                 if language != "English" and credits == translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage("English")):
                                     credits = "Language has no credits."
                                 Description(credits)
+                                
+                    Space(12)
+                    with Group("vertical", padding=0, gap=16):
+                        Title("Support Development")
+                        with Group("vertical", gap=6, padding=0):
+                            Description("• If you like the project and want to support the development, you can do so by donating via Ko-Fi.")
+                            Link("  Ko-Fi", "https://ko-fi.com/tumppi066")
+                        with Group("vertical", gap=6, padding=0):
+                            Description("• If you want to contribute, then I recommend joining the discord server and checking out the github page.")
+                            Link("  Discord", "https://discord.gg/ETS2LA")
+                            Link("  Github", "https://github.com/ETS2LA")
+                        with Group("vertical", gap=6, padding=0):
+                            Description("• If you want to contribute to the translations, then you can do so by joining the discord.")
+                            Link("  Discord", "https://discord.gg/ETS2LA")
                     
         return RenderUI()
