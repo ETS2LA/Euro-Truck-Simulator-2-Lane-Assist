@@ -84,7 +84,7 @@ export default function WindowControls({ isCollapsed }: { isCollapsed: boolean }
         <>
             <div 
                 ref={setOverlayRef}
-                className="fixed top-0 left-[80px] right-0 h-[40px] z-30" // Only cover top 40px
+                className="fixed top-0 left-[80px] right-0 h-[26px] z-30" // Only cover top 40px
                 style={{ backgroundColor: 'transparent' }}
                 onMouseMove={(e) => {
                     setIsMouseInDragArea(true);
