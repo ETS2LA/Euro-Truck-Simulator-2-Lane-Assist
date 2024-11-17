@@ -4,6 +4,7 @@ from ETS2LA.UI import *
 from ETS2LA.networking.webserver import mainThreadQueue
 from ETS2LA.utils.git import CheckForUpdate, Update
 
+from datetime import datetime
 import time
 
 class Page(ETS2LAPage):
@@ -38,6 +39,7 @@ class Page(ETS2LAPage):
                                     Label(update["message"], size="sm", weight="semibold")
                                 if update["description"] != "":
                                     Markdown(update["description"])
-                                Description(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(update["time"])), size="xs")
+                                local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
+                                Description(local_time, size="xs")
                 
         return RenderUI()
