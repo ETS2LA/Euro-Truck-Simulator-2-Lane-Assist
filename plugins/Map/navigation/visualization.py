@@ -1,7 +1,9 @@
+import plugins.Map.navigation.classes as nc
 import plugins.Map.classes as c
 import plugins.Map.data as data
 import numpy as np
 import cv2
+from plugins.Map.navigation.classes import RoadSection
 
 #cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
 #cv2.resizeWindow("Route", 1024, 1024)
@@ -29,17 +31,38 @@ def convert_from_map_to_world(x: int, y: int) -> tuple[float, float]:
 def draw_map_image() -> None:
     return map_image.copy()
 
-def visualize_route(destination_item: c.Item, start_item: c.Item, route_plan: list[c.Node]) -> None:
+def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item | RoadSection, route_plan: list[nc.NavigationLane]) -> None:
     image = draw_map_image()
     
     # Draw a red dot at the destination
     if destination_item is not None:
-        dest_x, dest_y = convert_from_world_to_map(destination_item.x, destination_item.y)
-        cv2.circle(image, (dest_x, dest_y), 5, (0, 0, 255), -1)
+        if isinstance(destination_item, RoadSection):
+            # Use average position of first and last road for visualization
+            dest_x = (destination_item.start.x + destination_item.end.x) / 2
+            dest_y = (destination_item.start.y + destination_item.end.y) / 2
+        else:
+            dest_x, dest_y = destination_item.x, destination_item.y
+            
+        map_x, map_y = convert_from_world_to_map(dest_x, dest_y)
+        cv2.circle(image, (map_x, map_y), 5, (0, 0, 255), -1)
     
     # Draw a green dot at the start
-    start_x, start_y = convert_from_world_to_map(start_item.x, start_item.y)
-    cv2.circle(image, (start_x, start_y), 5, (0, 255, 0), -1)
+    if isinstance(start_item, RoadSection):
+        start_x = (start_item.start.x + start_item.end.x) / 2
+        start_y = (start_item.start.y + start_item.end.y) / 2
+    else:
+        start_x, start_y = start_item.x, start_item.y
+        
+    map_x, map_y = convert_from_world_to_map(start_x, start_y)
+    cv2.circle(image, (map_x, map_y), 5, (0, 255, 0), -1)
+    
+    # Draw the route
+    points = [item.start for item in route_plan]
+    if route_plan:  # Add the end point of last item
+        points.append(route_plan[-1].end)
+    points = [(convert_from_world_to_map(point.x, point.y)) for point in points]
+    if points:
+        cv2.polylines(image, [np.array(points)], False, (255, 0, 0), 2)
     
     cv2.imshow("Route", image)
     cv2.waitKey(1)

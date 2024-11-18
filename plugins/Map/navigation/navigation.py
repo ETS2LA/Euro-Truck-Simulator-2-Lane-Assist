@@ -7,10 +7,12 @@ from plugins.Map.navigation.classes import *
 import plugins.Map.utils.prefab_helpers as prefab_helpers
 import plugins.Map.utils.road_helpers as road_helpers
 
+import numpy as np
+
 last_item = None
 last_position = None
 last_destination_company = None
-def get_destination_item() -> tuple[c.Prefab | c.Road, c.Position]:
+def get_destination_item() -> tuple[c.Prefab | RoadSection, c.Position]:
     global last_destination_company, last_item, last_position
     
     if data.dest_company is None:
@@ -35,52 +37,153 @@ def get_destination_item() -> tuple[c.Prefab | c.Road, c.Position]:
         position.y
     )
     
+    closest_item = preprocess_item(closest_item)
     last_item = closest_item
     last_position = position
     return closest_item, position
 
 def get_start_item():
-    return data.map.get_closest_item(
+    item = data.map.get_closest_item(
         data.truck_x,
         data.truck_z
     )
+    return preprocess_item(item)
     
-def get_nav_lane(item: c.Prefab | c.Road, x: float, z: float) -> NavigationLane:
-    if type(item) == c.Prefab:
+def get_nav_lanes(item: c.Prefab | RoadSection, x: float, z: float) -> list[NavigationLane]:
+    if isinstance(item, c.Prefab):
         closest_lane = prefab_helpers.get_closest_lane(
             item,
             x,
             z
         )
-        return NavigationLane(
+        
+        return [NavigationLane(
             lane=item.nav_routes[closest_lane],
             item=item,
             start=item.nav_routes[closest_lane].points[0],
             end=item.nav_routes[closest_lane].points[-1],
             length=item.nav_routes[closest_lane].distance
-        )
+        )]
         
-    elif type(item) == c.Road:
+    elif isinstance(item, RoadSection):
+        # Check if the start or end is in front of the truck
+        forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
+        point_forward_vector = [item.end.x - data.truck_x, item.end.z - data.truck_z]
+        angle = np.arccos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
+        end_angle = math.degrees(angle)
+        
+        point_forward_vector = [item.start.x - data.truck_x, item.start.z - data.truck_z]
+        angle = np.arccos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
+        start_angle = math.degrees(angle)
+        
+        # Get the closest lane id
         closest_lane = road_helpers.get_closest_lane(
             item,
             x,
             z
         )
-        return NavigationLane(
-            lane=item.lanes[closest_lane],
-            item=item,
-            start=item.lanes[closest_lane].points[0],
-            end=item.lanes[closest_lane].points[-1],
-            length=item.lanes[closest_lane].length
-        )
+        
+        side = item.lanes[closest_lane].side
+        
+        if abs(end_angle) < abs(start_angle):
+            # End is closer
+            return [NavigationLane(
+                lane=lane,
+                item=item,
+                start=lane.points[0],
+                end=item.points[-1],
+                length=lane.length
+            ) for lane in item.lanes if lane.side == side]
+        
+        else:
+            # Start is closer
+            return [NavigationLane(
+                lane=lane,
+                item=item,
+                start=lane.points[1],
+                end=item.points[0],
+                length=lane.length
+            ) for lane in item.lanes if lane.side == side]
+
+def _heuristic(lane: NavigationLane, goal_lane: NavigationLane) -> float:
+    """Estimates distance between current lane and goal"""
+    return math_helpers.DistanceBetweenPoints(
+        lane.end.tuple(),
+        goal_lane.start.tuple()
+    )
+
+def _reconstruct_path(came_from: dict, current: NavigationLane) -> list[NavigationLane]:
+    """Reconstructs the path from the came_from dict"""
+    path = [current]
+    while current in came_from:
+        current = came_from[current]
+        path.append(current)
+    return path[::-1]
+
+def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> list[NavigationLane]:
+    """A* pathfinding implementation with multiple starting lanes"""
+    print(f"Finding path from {len(start_lanes)} starting lanes to {goal_lane}")
+    
+    # Set of discovered nodes - start with all initial lanes
+    open_set = set(start_lanes)
+    # Dictionary to track path
+    came_from = {}
+    
+    # Cost from start along best known path
+    g_score = {lane: 0 for lane in start_lanes}
+    # Estimated total cost from start to goal through node
+    f_score = {lane: _heuristic(lane, goal_lane) for lane in start_lanes}
+    
+    iteration = 0
+    while open_set:
+        # Get node with lowest f_score
+        current = min(open_set, key=lambda x: f_score.get(x, float('inf')))
+        
+        # Debug current progress
+        print(f"Iteration {iteration}: Current lane {current}")
+        
+        # Visualize progress every 10 iterations
+        iteration += 1
+        if iteration % 10 == 0:
+            current_path = _reconstruct_path(came_from, current)
+            visualize_route(goal_lane.item, start_lanes[0].item, current_path)
+        
+        # Check if we've reached the goal
+        # We check both the item and the end points since RoadSections might have multiple lanes
+        if (current.item.uid == goal_lane.item.uid and 
+            math_helpers.DistanceBetweenPoints(current.end.tuple(), goal_lane.end.tuple()) < 0.1):
+            print("Found path!")
+            return _reconstruct_path(came_from, current)
+            
+        open_set.remove(current)
+        
+        # Check all neighboring lanes
+        next_lanes = current.next_lanes or []
+        print(f"Found {len(next_lanes)} next lanes")
+        for neighbor in next_lanes:
+            tentative_g_score = g_score[current] + neighbor.length
+            
+            if tentative_g_score < g_score.get(neighbor, float('inf')):
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g_score
+                f_score[neighbor] = tentative_g_score + _heuristic(neighbor, goal_lane)
+                open_set.add(neighbor)
+                
+    print("No path found!")
+    return None
 
 def get_path_to_destination():
     dest_item, dest_position = get_destination_item()
-    dest_lane = get_nav_lane(dest_item, dest_position.x, dest_position.z)
+    if not dest_item or not dest_position:
+        print("No destination found")
+        return
+        
+    dest_lane = get_nav_lanes(dest_item, dest_position.x, dest_position.z)[0]  # Take first lane for destination
     
     start_item = get_start_item()
-    start_lane = get_nav_lane(start_item, data.truck_x, data.truck_z)
+    start_lanes = get_nav_lanes(start_item, data.truck_x, data.truck_z)
     
-    print(f"{start_lane.start_node.uid} -> {start_lane.end_node.uid} - distance: {start_lane.length}")
-    
-    visualize_route(dest_item, start_item, [])
+    path = find_path(start_lanes, dest_lane)
+    if path:
+        print(f"Found path with {len(path)} segments")
+    visualize_route(dest_item, start_item, path or [])
