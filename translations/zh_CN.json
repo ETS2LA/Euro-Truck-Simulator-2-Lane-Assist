@@ -28,7 +28,7 @@
 
     "_BACKEND": "请在此处保留一个空格以区分不同的翻译部分.",
 
-    "main.errors_and_warnings": "日志中的错误和警:",
+    "main.errors_and_warnings": "日志中的错误和警告:",
     "main.errors": "错误:",
     "main.warnings": "警告:",
     "main.no_errors_or_warnings": "未发现错误或警告.",
