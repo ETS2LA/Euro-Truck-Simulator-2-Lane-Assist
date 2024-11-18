@@ -4,6 +4,7 @@
 
 # TODO: Clean the code and optimize road generation
 
+import plugins.Map.utils.math_helpers as math_helpers
 import ETS2LA.variables as variables
 import plugins.Map.classes as c
 import numpy as np
@@ -283,3 +284,17 @@ def display_road_lanes(road) -> None:
     cv2.imshow("Road Lanes", img)
     cv2.resizeWindow("Road Lanes", 1000, 1000)
     cv2.waitKey(0)
+    
+def get_closest_lane(item, x: float, z: float) -> int:
+    closest_point_distance = math.inf
+    closest_lane_id = -1
+    for lane_id, lane in enumerate(item.lanes):
+        for point in lane.points:
+            point_tuple = point.tuple()
+            point_tuple = (point_tuple[0], point_tuple[2])
+            distance = math_helpers.DistanceBetweenPoints((x, z), point_tuple)
+            if distance < closest_point_distance:
+                closest_point_distance = distance
+                closest_lane_id = lane_id
+                
+    return closest_lane_id

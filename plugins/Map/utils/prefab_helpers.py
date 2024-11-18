@@ -1,3 +1,4 @@
+import plugins.Map.utils.math_helpers as math_helpers
 from collections import defaultdict
 import plugins.Map.classes as c
 from typing import List, Tuple
@@ -95,3 +96,17 @@ def display_prefab_routes(prefab_description: c.PrefabDescription) -> None:
     cv2.imshow("Nav Routes", img)
     cv2.resizeWindow("Nav Routes", 1000, 1000)
     cv2.waitKey(0)
+    
+def get_closest_lane(item, x: float, z: float) -> int:
+    closest_point_distance = math.inf
+    closest_lane_id = -1
+    for lane_id, lane in enumerate(item.nav_routes):
+        for point in lane.points:
+            point_tuple = point.tuple()
+            point_tuple = (point_tuple[0], point_tuple[2])
+            distance = math_helpers.DistanceBetweenPoints((x, z), point_tuple)
+            if distance < closest_point_distance:
+                closest_point_distance = distance
+                closest_lane_id = lane_id
+        
+    return closest_lane_id
