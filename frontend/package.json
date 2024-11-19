@@ -1,11 +1,11 @@
 {
-  "name": "frontendv2",
+  "name": "ets2la-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start > nul 2>&1",
     "lint": "next lint"
   },
   "dependencies": {
