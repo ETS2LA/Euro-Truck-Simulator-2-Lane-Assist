@@ -50,9 +50,13 @@ current_sector_prefabs: list[Prefab] = []
 """The prefabs in the current sector."""
 current_sector_models: list[Model] = []
 """The models in the current sector."""
+current_sectors: list[tuple[int, int]] = []
+"""The sectors that are currently loaded."""
 route_plan: list[RouteSection] = []
 """The current route plan."""
 route_points: list[Position] = []
+"""The current route points."""
+navigation_points: list[Position] = []
 
 # MARK: Options
 amount_of_points: int = 50
@@ -93,7 +97,7 @@ elevation_data_sent = False
 def UpdateData(api_data):
     global heavy_calculations_this_frame
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation
-    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models
+    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models, current_sectors
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
     global dest_city, dest_company, dest_city_token, dest_company_token
@@ -114,6 +118,7 @@ def UpdateData(api_data):
     if (current_sector_x, current_sector_y) != last_sector:
         last_sector = (current_sector_x, current_sector_y)
         sectors_to_load = map.get_sectors_for_coordinate_and_distance(truck_x, truck_z, load_distance)
+        current_sectors = sectors_to_load
         
         current_sector_prefabs = []
         current_sector_roads = []

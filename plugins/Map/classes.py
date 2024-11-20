@@ -1986,14 +1986,49 @@ class MapData:
     
     def get_closest_item(self, x: float, z: float) -> Item:
         # TODO: Use actual points instead of just the item position
-        sector = self.get_sector_from_coordinates(x, z)
-        sector_items = self.get_sector_items_by_sector(sector)
-        closest_item_distance = 0
-        closest_item = None
-        for item in sector_items:
-            distance = math_helpers.DistanceBetweenPoints((x, z), (item.x, item.y))
-            if closest_item is None or distance < closest_item_distance:
-                closest_item = item
-                closest_item_distance = distance
+        in_bounding_box = []
+        items: list[Prefab | Road] = []
+        sectors = self.get_sectors_for_coordinate_and_distance(x, z, data.load_distance)
+        if sectors == data.current_sectors:
+            items += data.current_sector_prefabs
+            items += data.current_sector_roads
+        else:
+            for sector in sectors:
+                items += self.get_sector_items_by_sector(sector)
                 
+            for item in items:
+                if type(item) in [Road, Prefab]:
+                    if item.bounding_box.is_in(Position(data.truck_x, data.truck_y, data.truck_z)):
+                        in_bounding_box.append(item)
+                
+        if len(in_bounding_box) == 0:
+            # Check all
+            in_bounding_box = [item for item in items if type(item) in [Road, Prefab]]
+                
+        closest_item = None
+        closest_point_distance = math.inf
+        for item in in_bounding_box:
+            if type(item) == Prefab:
+                for lane_id, lane in enumerate(item.nav_routes):
+                    for point in lane.points:
+                        point_tuple = point.tuple()
+                        point_tuple = (point_tuple[0], point_tuple[2])
+                        distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                        if distance < closest_point_distance:
+                            closest_point_distance = distance
+                            closest_item = item
+                            
+            elif type(item) == Road:
+                for lane_id, lane in enumerate(item.lanes):
+                    for point in lane.points:
+                        point_tuple = point.tuple()
+                        point_tuple = (point_tuple[0], point_tuple[2])
+                        distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                        if distance < closest_point_distance:
+                            closest_point_distance = distance
+                            closest_item = item
+
+        if closest_item == None:
+            return None
+                    
         return closest_item

@@ -23,6 +23,17 @@ def convert_from_world_to_map(x: float, y: float) -> tuple[int, int]:
     y = (y - y1) / (y2 - y1) * map_image.shape[0]
     return int(x), int(y)
 
+def convert_from_world_to_zoomed_map(x: float, y: float, min_x: int, min_y: int, scale_x: float, scale_y: float) -> tuple[int, int]:
+    # First convert to original map coordinates
+    map_x = (x - x1) / (x2 - x1) * map_image.shape[1]
+    map_y = (y - y1) / (y2 - y1) * map_image.shape[0]
+    
+    # Then convert to zoomed coordinates
+    zoomed_x = int((map_x - min_x) * scale_x)
+    zoomed_y = int((map_y - min_y) * scale_y)
+    
+    return zoomed_x, zoomed_y
+
 def convert_from_map_to_world(x: int, y: int) -> tuple[float, float]:
     x = x / map_image.shape[1] * (x2 - x1) + x1
     y = y / map_image.shape[0] * (y2 - y1) + y1
@@ -34,35 +45,118 @@ def draw_map_image() -> None:
 def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item | RoadSection, route_plan: list[nc.NavigationLane]) -> None:
     image = draw_map_image()
     
-    # Draw a red dot at the destination
-    if destination_item is not None:
-        if isinstance(destination_item, RoadSection):
-            # Use average position of first and last road for visualization
-            dest_x = (destination_item.start.x + destination_item.end.x) / 2
-            dest_y = (destination_item.start.y + destination_item.end.y) / 2
-        else:
-            dest_x, dest_y = destination_item.x, destination_item.y
-            
-        map_x, map_y = convert_from_world_to_map(dest_x, dest_y)
-        cv2.circle(image, (map_x, map_y), 5, (0, 0, 255), -1)
-    
-    # Draw a green dot at the start
+    # Get coordinates for start/end
     if isinstance(start_item, RoadSection):
         start_x = (start_item.start.x + start_item.end.x) / 2
-        start_y = (start_item.start.y + start_item.end.y) / 2
+        start_y = (start_item.start.z + start_item.end.z) / 2
     else:
-        start_x, start_y = start_item.x, start_item.y
-        
-    map_x, map_y = convert_from_world_to_map(start_x, start_y)
-    cv2.circle(image, (map_x, map_y), 5, (0, 255, 0), -1)
+        start_x, start_y = start_item.x, start_item.z
     
-    # Draw the route
-    points = [item.start for item in route_plan]
-    if route_plan:  # Add the end point of last item
-        points.append(route_plan[-1].end)
-    points = [(convert_from_world_to_map(point.x, point.y)) for point in points]
-    if points:
-        cv2.polylines(image, [np.array(points)], False, (255, 0, 0), 2)
+    if destination_item is not None:
+        if isinstance(destination_item, RoadSection):
+            dest_x = (destination_item.start.x + destination_item.end.x) / 2
+            dest_y = (destination_item.start.z + destination_item.end.z) / 2
+        else:
+            dest_x, dest_y = destination_item.x, destination_item.y
     
-    cv2.imshow("Route", image)
-    cv2.waitKey(1)
+    # Get all points to consider for bounding box
+    all_points = []
+    padding = 100
+    if route_plan:
+        # Include all route points
+        padding = 4
+        for item in route_plan:
+            all_points.extend([(point.x, point.z) for point in item.lane.points])
+    
+    else:
+        all_points.append((start_x, start_y))
+        if destination_item is not None:
+            all_points.append((dest_x, dest_y))
+    
+    # Convert all points to map coordinates
+    map_points = [convert_from_world_to_map(x, y) for x, y in all_points]
+    
+    # Calculate bounding box
+    map_xs, map_ys = zip(*map_points)
+    center_x = (min(map_xs) + max(map_xs)) // 2
+    center_y = (min(map_ys) + max(map_ys)) // 2
+    
+    # Calculate the size needed to encompass all points
+    size = max(
+        max(map_xs) - min(map_xs) + 2 * padding,
+        max(map_ys) - min(map_ys) + 2 * padding
+    )
+    
+    # Calculate square bounds centered on the points
+    min_x = max(0, int(center_x - size/2))
+    max_x = min(image.shape[1], int(center_x + size/2))
+    min_y = max(0, int(center_y - size/2))
+    max_y = min(image.shape[0], int(center_y + size/2))
+    
+    # Ensure square crop by using the smaller dimension
+    crop_size = min(max_x - min_x, max_y - min_y)
+    min_x = center_x - crop_size//2
+    max_x = center_x + crop_size//2
+    min_y = center_y - crop_size//2
+    max_y = center_y + crop_size//2
+    
+    # Adjust if out of bounds
+    if min_x < 0:
+        min_x = 0
+        max_x = crop_size
+    if min_y < 0:
+        min_y = 0
+        max_y = crop_size
+    if max_x > image.shape[1]:
+        max_x = image.shape[1]
+        min_x = max_x - crop_size
+    if max_y > image.shape[0]:
+        max_y = image.shape[0]
+        min_y = max_y - crop_size
+    
+    # Crop the base map image
+    cropped_map = image[min_y:max_y, min_x:max_x]
+    
+    # Calculate zoom factor maintaining aspect ratio
+    WINDOW_SIZE = 800
+    crop_height, crop_width = cropped_map.shape[:2]
+    
+    # Use the larger dimension to determine scale
+    scale = WINDOW_SIZE / max(crop_width, crop_height)
+    
+    # Force square dimensions using the larger scaled size
+    max_scaled_size = max(int(crop_width * scale), int(crop_height * scale))
+    new_width = max_scaled_size
+    new_height = max_scaled_size
+    
+    # Resize the map
+    zoomed_map = cv2.resize(cropped_map, (new_width, new_height), interpolation=cv2.INTER_LINEAR)
+    
+    # Draw overlays using the new conversion function
+    if destination_item is not None:
+        dest_zoomed_x, dest_zoomed_y = convert_from_world_to_zoomed_map(
+            dest_x, dest_y, min_x, min_y, scale, scale
+        )
+        cv2.circle(zoomed_map, (dest_zoomed_x, dest_zoomed_y), 5, (0, 0, 255), -1)
+    
+    start_zoomed_x, start_zoomed_y = convert_from_world_to_zoomed_map(
+        start_x, start_y, min_x, min_y, scale, scale
+    )
+    cv2.circle(zoomed_map, (start_zoomed_x, start_zoomed_y), 5, (0, 255, 0), -1)
+    
+    # Draw route with new conversion
+    if route_plan:
+        points = [item.lane.points for item in route_plan]
+        points = [point for sublist in points for point in sublist]
+        zoomed_points = [
+            convert_from_world_to_zoomed_map(point.x, point.z, min_x, min_y, scale, scale)
+            for point in points
+        ]
+        cv2.polylines(zoomed_map, [np.array(zoomed_points)], False, (255, 0, 0), 2)
+    
+    # Display
+    cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
+    cv2.imshow("Route", zoomed_map)
+    while True:
+        if cv2.waitKey(1) & 0xFF == ord(' '):
+            break

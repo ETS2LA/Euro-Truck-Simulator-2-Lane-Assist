@@ -8,6 +8,9 @@ import plugins.Map.data as data
 from typing import Literal
 import math
 
+DISTANCE_THRESHOLD = 2.25 # meters
+MAX_DISTANCE_THRESHOLD = 4.5 # meters | only if above fails
+
 class RoadSection():
     roads: list[c.Road] = None
     start: c.Position = None
@@ -16,6 +19,9 @@ class RoadSection():
     points: list[c.Position] = None
     lanes: list[c.Lane] = None
     side: Literal["left", "right"] = None
+    x: float = None
+    y: float = None
+    z: float = None
     
     def __init__(self, roads: list[c.Road]):
         self.roads = roads
@@ -31,10 +37,19 @@ class RoadSection():
                 side=roads[0].lanes[i].side,
                 points=[point for road in roads for point in road.lanes[i].points]
             ))
+            
+        # Calculate the center point
+        self.x = sum([point.x for point in self.points]) / len(self.points)
+        self.y = sum([point.y for point in self.points]) / len(self.points)
+        self.z = sum([point.z for point in self.points]) / len(self.points)
     
     @property
     def uid(self):
-        return self.roads[0].uid
+        return self.roads[-1].uid
+    
+    @property
+    def uids(self): 
+        return [road.uid for road in self.roads]
 
     def __str__(self):
         return f"RoadSection({len(self.roads)} roads, start={self.start}, end={self.end})"
@@ -67,7 +82,7 @@ class NavigationLane():
         self._type = type(item)
         
     def __str__(self):
-        return f"NavigationLane({type(self.item)}, {self.start}, {self.end}, {self.length})"
+        return f"NavigationLane({type(self.item).__name__}, {round(self.length, 1)}m)"
     
     def __repr__(self):
         return self.__str__()
@@ -130,82 +145,59 @@ class NavigationLane():
     def next_lanes(self) -> list | None:
         if self._next_lanes is None:
             next_item = None
-            print(f"Finding next lanes for {self}")
-            print(f"End node: {self.end_node}")
-            print(f"Forward item: {self.end_node.forward_item_uid}")
-            print(f"Backward item: {self.end_node.backward_item_uid}")
+            print(f"- Finding next lanes for {self}")
             
-            if self.end_node.forward_item_uid != self.item.uid:
-                next_item = preprocess_item(data.map.get_item_by_uid(self.end_node.forward_item_uid))
-            else:
-                next_item = preprocess_item(data.map.get_item_by_uid(self.end_node.backward_item_uid))
-            
-            print(f"Next item: {next_item}")
-            
-            if next_item is None:
-                return None
-
-            if self._type == RoadSection:
-                if isinstance(next_item, RoadSection):
-                    next_lanes = [lane for lane in next_item.roads[0].lanes if lane.side == self.lane.side]
+            if self._type == RoadSection: # FROM ROAD
+                forward = True
+                if self.end_node.forward_item_uid not in self.item.uids:
+                    forward = True
+                    next_item = preprocess_item(data.map.get_item_by_uid(self.end_node.forward_item_uid))
+                elif self.end_node.backward_item_uid not in self.item.uids:
+                    forward = False
+                    next_item = preprocess_item(data.map.get_item_by_uid(self.end_node.backward_item_uid))
+                
+                print(f" -> Next item: {next_item}")
+                
+                if next_item is None:
+                    return None
+                
+                if isinstance(next_item, RoadSection): # TO ROAD
+                    if len(next_item.roads[0].road_look.lanes_left) == 0 or len(next_item.roads[0].road_look.lanes_right) == 0:
+                        next_lanes = [lane for lane in next_item.lanes]
+                    else:
+                        next_lanes = [lane for lane in next_item.lanes if lane.side == self.lane.side]
+                    
                     self._next_lanes = [NavigationLane(
                         lane=lane,
                         item=next_item,
-                        start=next_item.start,
-                        end=next_item.end,
+                        start=next_item.start if forward else next_item.end,
+                        end=next_item.end if forward else next_item.start,
                         length=next_item.length
                     ) for lane in next_lanes]
                     
-                if isinstance(next_item, c.Prefab):
-                    # Debug distances to each nav route
-                    connection_threshold = 5.0
-                    print(f"Current end point: {self.end}")
+                    for lane in self._next_lanes:
+                        print(f"  -> Found lane: {next_item.lanes.index(lane.lane)} ({round(lane.length)}m)")
                     
+                if isinstance(next_item, c.Prefab): # TO PREFAB
                     next_routes = []
-                    for route in next_item.nav_routes:
+                    for i, route in enumerate(next_item.nav_routes):
                         start_dist = math_helpers.DistanceBetweenPoints(route.points[0].tuple(), self.end.tuple())
-                        print(f"Route distances - Start: {start_dist}")
+                        print(f"  -> Road ({self.lane.side}) -> Prefab ({i})  -  Distance: {start_dist}")
                         
-                        if start_dist < connection_threshold:
-                            next_routes.append((route, start_dist))
+                        if start_dist < DISTANCE_THRESHOLD:
+                            next_routes.append(route)
                             
-                    print(f"Found {len(next_routes)} connecting routes")
-                    self._next_lanes = [NavigationLane(
-                        lane=route,
-                        item=next_item,
-                        start=route.points[0] if forward else route.points[-1],
-                        end=route.points[-1] if forward else route.points[0],
-                        length=route.distance
-                    ) for route, forward in next_routes]
-            
-            if self._type == c.Prefab:
-                if isinstance(next_item, RoadSection):
-                    connection_threshold = 5.0
-                    print(f"Current end point (Prefab): {self.end}")
-                    print(f"RoadSection start: {next_item.start}")
-                    print(f"RoadSection end: {next_item.end}")
-                    
-                    start_dist = math_helpers.DistanceBetweenPoints(next_item.start.tuple(), self.end.tuple())
-                    end_dist = math_helpers.DistanceBetweenPoints(next_item.end.tuple(), self.end.tuple())
-                    print(f"RoadSection distances - Start: {start_dist}, End: {end_dist}")
-                    
-                    nav_lanes = []
-                    if start_dist < connection_threshold or end_dist < connection_threshold:
-                        forward = end_dist < start_dist 
-                        for lane in next_item.lanes:
-                            nav_lanes.append(NavigationLane(
-                                lane=lane,
-                                item=next_item,
-                                start=lane.points[0] if forward else lane.points[-1],
-                                end=lane.points[-1] if forward else lane.points[0],
-                                length=next_item.length
-                            ))
+                    if len(next_routes) == 0:
+                        print("   -> Using backup distances as no routes were found")
+                        distances = [math_helpers.DistanceBetweenPoints(route.points[0].tuple(), self.end.tuple()) for route in next_item.nav_routes]
+                        min_distance = min(distances)
+                        min_index = distances.index(min_distance)
+                        if min_distance < MAX_DISTANCE_THRESHOLD:
+                            next_routes.append(next_item.nav_routes[min_index])
                             
-                    print(f"Found {len(nav_lanes)} connecting lanes to RoadSection")
-                    self._next_lanes = nav_lanes
-                
-                if type(next_item) == c.Prefab:
-                    next_routes = [route for route in next_item.nav_routes if math_helpers.DistanceBetweenPoints(route.points[0].tuple(), self.end.tuple()) < 0.1]
+                    for route in next_routes:
+                        print(f"  -> Found route: {next_item.nav_routes.index(route)} ({round(route.distance)}m)")
+                            
                     self._next_lanes = [NavigationLane(
                         lane=route,
                         item=next_item,
@@ -213,6 +205,64 @@ class NavigationLane():
                         end=route.points[-1],
                         length=route.distance
                     ) for route in next_routes]
+            
+            if self._type == c.Prefab: # FROM PREFAB
+                next_items = []
+                for node_uid in self.item.node_uids:
+                    node = data.map.get_node_by_uid(node_uid)
+                    if node.forward_item_uid != self.item.uid:
+                        next_items.append(preprocess_item(data.map.get_item_by_uid(node.forward_item_uid)))
+                    elif node.backward_item_uid != self.item.uid:
+                        next_items.append(preprocess_item(data.map.get_item_by_uid(node.backward_item_uid)))
+                        
+                if len(next_items) == 0:
+                    return None
+                
+                next_lanes = []
+                for j, next_item in enumerate(next_items):
+                    if isinstance(next_item, RoadSection): # TO ROAD
+                        nav_lanes = []
+                        side = ""
+                        forward = False
+                        for i, lane in enumerate(next_item.lanes):
+                            if side != "":
+                                print(f"  -> Prefab ({self.item.nav_routes.index(self.lane)}) -> Lane ({j})({i})  -  Already confirmed side: {side}")
+                                continue
+                            
+                            start_dist = math_helpers.DistanceBetweenPoints(lane.points[0].tuple(), self.end.tuple())
+                            end_dist = math_helpers.DistanceBetweenPoints(lane.points[-1].tuple(), self.end.tuple())
+                            print(f"  -> Prefab ({self.item.nav_routes.index(self.lane)}) -> Lane ({j})({i})  -  Start: {start_dist}, End: {end_dist}")
+                            if start_dist < DISTANCE_THRESHOLD or end_dist < DISTANCE_THRESHOLD:
+                                forward = start_dist < end_dist
+                                side = lane.side
+                            
+                        nav_lanes = [lane for lane in next_item.lanes if lane.side == side]
+                        
+                        for lane in nav_lanes:
+                            print(f"  -> Found lane: {next_item.lanes.index(lane)} ({round(lane.length)}m)")
+                        
+                        next_lanes.append([NavigationLane(
+                            lane=lane,
+                            item=next_item,
+                            start=lane.points[0] if forward else lane.points[-1],
+                            end=lane.points[-1] if forward else lane.points[0],
+                            length=lane.length
+                        ) for lane in nav_lanes])
+                    
+                    if type(next_item) == c.Prefab: # TO PREFAB
+                        next_routes = [route for route in next_item.nav_routes if math_helpers.DistanceBetweenPoints(route.points[0].tuple(), self.end.tuple()) < DISTANCE_THRESHOLD]
+                        next_lanes.append([NavigationLane(
+                            lane=route,
+                            item=next_item,
+                            start=route.points[0],
+                            end=route.points[-1],
+                            length=route.distance
+                        ) for route in next_routes])
+                        
+                        for route in next_routes:
+                            print(f"  -> Found route: {next_item.nav_routes.index(route)} ({round(route.distance)}m)")
+                        
+                self._next_lanes = [lane for sublist in next_lanes for lane in sublist]
                     
         return self._next_lanes
 
@@ -261,4 +311,13 @@ def preprocess_item(item: c.Road | c.Prefab | None) -> RoadSection | c.Prefab | 
         roads.append(next_item)
         current_road = next_item
     
-    return RoadSection(roads)
+    if len(roads) == 0:
+        return None
+    
+    if len(roads[0].points) == 0:
+        return None
+    
+    try:
+        return RoadSection(roads)
+    except:
+        return None

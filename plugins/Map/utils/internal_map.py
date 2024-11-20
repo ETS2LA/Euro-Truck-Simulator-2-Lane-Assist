@@ -3,8 +3,8 @@ import numpy as np
 import math
 import cv2
 
-WINDOW_WIDTH = 1000
-WINDOW_HEIGHT = 1000
+WINDOW_WIDTH = 500
+WINDOW_HEIGHT = 500
 
 ZOOM = 1
 
@@ -52,8 +52,8 @@ def add_transparent_image(background, foreground, x_offset=None, y_offset=None):
     background[bg_y:bg_y + h, bg_x:bg_x + w] = composite
 
 def ToLocalSectorCoordinates(x: float, z: float, scaling: float = 1) -> tuple[int, int]:
-    sector_x = data.current_sector_x * 4000
-    sector_z = data.current_sector_y * 4000
+    sector_x = (data.current_sector_x - 2) * 200
+    sector_z = (data.current_sector_y - 2) * 200
     local_x = x - sector_x
     local_z = z - sector_z
     return (local_x*scaling, local_z*scaling)
@@ -82,20 +82,20 @@ def DrawStats(image: np.ndarray):
     cv2.putText(image, f"Prefabs: {len(data.current_sector_prefabs)}", (10*4, 120*4), cv2.FONT_HERSHEY_DUPLEX, 0.5*4, (255, 255, 255), 1*4, cv2.LINE_AA)
 
 def DrawBoundingBox(item, image: np.ndarray):
-    scaling_factor = 4000 / 4000 # sector size
+    scaling_factor = 200 / 200 # sector size
     min_x, min_z = ToLocalSectorCoordinates(item.bounding_box.min_x, item.bounding_box.min_y, scaling_factor)
     max_x, max_z = ToLocalSectorCoordinates(item.bounding_box.max_x, item.bounding_box.max_y, scaling_factor)
     cv2.rectangle(image, (int(min_x), int(min_z)), (int(max_x), int(max_z)), (30, 30, 30), 1)
 
-road_image = np.zeros((4000, 4000, 3), np.uint8)
+road_image = np.zeros((2000, 2000, 3), np.uint8)
 roads_done = False
 def DrawRoads(sector_change: bool) -> None:
     global road_image, roads_done
     if not sector_change and road_image is not None and roads_done:
         return road_image
     
-    road_image = np.zeros((4000, 4000, 3), np.uint8)
-    scaling_factor = 4000 / 4000 # sector size
+    road_image = np.zeros((2000, 2000, 3), np.uint8)
+    scaling_factor = 200 / 200 # sector size
     
     # Check for roads done:
     for road in data.current_sector_roads:
@@ -134,14 +134,14 @@ def DrawRoads(sector_change: bool) -> None:
                 
     return road_image
 
-prefab_image = np.zeros((4000, 4000, 3), np.uint8)
+prefab_image = np.zeros((2000, 2000, 3), np.uint8)
 def DrawPrefabs(sector_change: bool) -> np.ndarray:
     global prefab_image
     if not sector_change and prefab_image is not None:
         return prefab_image
     
-    prefab_image = np.zeros((4000, 4000, 3), np.uint8)
-    scaling_factor = 4000 / 4000 # sector size
+    prefab_image = np.zeros((2000, 2000, 3), np.uint8)
+    scaling_factor = 200 / 200 # sector size
     for prefab in data.current_sector_prefabs:
         for route in prefab.nav_routes:
             for curve in route.curves:
@@ -189,9 +189,17 @@ def DrawRoutePlan(image: np.ndarray) -> None:
             cv2.circle(image, (int(x), int(z)), 2, (255, 0, 0), -1)
             count += 1
 
+def DrawNavigation(image: np.ndarray) -> None:
+    points = data.navigation_points
+    new_points = []
+    for point in points:
+        x, z = ToLocalSectorCoordinates(point.x, point.z)
+        new_points.append((int(x), int(z)))
+    
+    cv2.polylines(image, [np.array(new_points, np.int32)], isClosed=False, color=(255, 255, 255), thickness=1, lineType=cv2.LINE_AA)
 
 def DrawPlayerDot(image: np.ndarray) -> None:
-    scaling_factor = 4000 / 4000 # sector size
+    scaling_factor = 200 / 200 # sector size
     x, z = ToLocalSectorCoordinates(data.truck_x, data.truck_z, scaling_factor)
     cv2.circle(image, (int(x), int(z)), 5, (0, 0, 255), 1)
 
@@ -199,21 +207,38 @@ def AddOverlayToImage(image: np.ndarray, overlay: np.ndarray) -> None:
     return cv2.addWeighted(image, 1, overlay, 1, 0)
 
 def ZoomImage(image: np.ndarray) -> np.ndarray:
+    global ZOOM, WINDOW_WIDTH, WINDOW_HEIGHT
+    
+    # Calculate view dimensions based on zoom
+    view_width = int(WINDOW_WIDTH / ZOOM)
+    view_height = int(WINDOW_HEIGHT / ZOOM)
+    
+    # Get truck position
     truck_x, truck_z = ToLocalSectorCoordinates(data.truck_x, data.truck_z)
     
-    x_offset = truck_x - WINDOW_WIDTH // 2
-    y_offset = truck_z - WINDOW_HEIGHT // 2
-    x_offset = max(0, min(x_offset, image.shape[1] - WINDOW_WIDTH))
-    y_offset = max(0, min(y_offset, image.shape[0] - WINDOW_HEIGHT))
+    # Calculate offsets with zoom consideration
+    x_offset = truck_x - view_width // 2
+    y_offset = truck_z - view_height // 2
     
+    # Ensure we don't go out of bounds
+    x_offset = max(0, min(x_offset, image.shape[1] - view_width))
+    y_offset = max(0, min(y_offset, image.shape[0] - view_height))
+    
+    # Convert to integers
     y_offset = int(y_offset)
     x_offset = int(x_offset)
-    cropped_image = image[y_offset:y_offset + WINDOW_HEIGHT, x_offset:x_offset + WINDOW_WIDTH]
-    return cropped_image
+    
+    # Crop the image to the zoomed view size
+    cropped_image = image[y_offset:y_offset + view_height, x_offset:x_offset + view_width]
+    
+    # Resize the cropped image back to window size
+    resized_image = cv2.resize(cropped_image, (WINDOW_WIDTH, WINDOW_HEIGHT), interpolation=cv2.INTER_LINEAR)
+    
+    return resized_image
 
 def DrawMap() -> None:
     sector_change = SectorChanged()
-    image = np.zeros((4000, 4000, 3), np.uint8)
+    image = np.zeros((2000, 2000, 3), np.uint8)
     r_image = DrawRoads(sector_change)
     p_image = DrawPrefabs(sector_change)
     image = AddOverlayToImage(image, r_image)
@@ -221,6 +246,7 @@ def DrawMap() -> None:
     DrawRoutePlan(image)
     #DrawStats(image)
     DrawPlayerDot(image)
+    DrawNavigation(image)
     
     try:
         image = ZoomImage(image)
