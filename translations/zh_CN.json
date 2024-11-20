@@ -297,6 +297,8 @@
     "acc.settings.4.description": "与前方的物体保持多远的距离。",
     "acc.settings.5.name": "速度偏移类型",
     "acc.settings.5.description": "行驶的速度是否要比限速快一定百分比，还是要快一定量？",
+    "acc.settings.6.name": "显示通知/弹出窗口",
+    "acc.settings.6.description": "当程序因任何障碍物而减速时显示一个弹出窗口。",
     
     "_PLUGIN_KEYS": "这些是特定插件所需的键值",
     
