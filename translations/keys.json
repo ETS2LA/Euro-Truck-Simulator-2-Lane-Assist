@@ -284,6 +284,8 @@
     "acc.settings.4.description",
     "acc.settings.5.name",
     "acc.settings.5.description",
+    "acc.settings.6.name",
+    "acc.settings.6.description",
 
     "map.loading.preparing",
     "map.loading.nodes",

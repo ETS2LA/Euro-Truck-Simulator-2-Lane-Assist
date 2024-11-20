@@ -279,6 +279,8 @@
     "acc.settings.4.description": "How far the app should keep from the object in front.",
     "acc.settings.5.name": "Speed Offset type",
     "acc.settings.5.description": "Do we drive a percentage faster than the speed limit, or do we add a set amount?",
+    "acc.settings.6.name": "Show Notifications",
+    "acc.settings.6.description": "Show a popup when the app is slowing down due to any obstructions.",
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
     "map.json_not_found": "No JSON files found in the GameData folder, please unpack the GameData.zip file.",
     "map.loading.preparing": "Map preparing to load data...",

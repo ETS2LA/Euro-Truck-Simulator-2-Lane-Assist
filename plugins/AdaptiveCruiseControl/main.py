@@ -22,15 +22,17 @@ STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 1
 TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
 TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
+SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", True)
 
 def LoadSettings():
-    global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE
+    global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE, SHOW_NOTIFICATIONS
     FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
     OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
     BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60)
     STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15)
     TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5)
     TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
+    SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", True)
     
 # Update settings on change
 settings.Listen("AdaptiveCruiseControl", LoadSettings)
@@ -44,6 +46,7 @@ class SettingsMenu(ETS2LASettingsMenu):
         Separator()
         Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
         Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
+        Switch("acc.settings.6.name", "show_notifications", True, description="acc.settings.6.description")
         Separator()
         with EnabledLock():
             Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
@@ -351,15 +354,15 @@ class Plugin(ETS2LAPlugin):
             SDKController.aforward = float(0)
 
     def GetStatus(self, type) -> str:
-        if type == "time":
+        if type == "time" and SHOW_NOTIFICATIONS:
             self.state.text = "Slowing dow to maintain time gap"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
             return "Slowing dow to maintain time gap" + f" {self.status_data[0]:.1f}s / {self.status_data[1]}s"
-        elif type == "distance":
+        elif type == "distance" and SHOW_NOTIFICATIONS:
             self.state.text = "Slowing down to maintain distance gap"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
             return "Slowing down to maintain distance gap" + f" {self.status_data[0]:.1f}m / {self.status_data[1]}m"
-        elif type == "traffic light":
+        elif type == "traffic light" and SHOW_NOTIFICATIONS:
             self.state.text = "Stopping for traffic light"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
             return f"Slowing down for traffic light in {self.status_data[0]:.1f}m"
