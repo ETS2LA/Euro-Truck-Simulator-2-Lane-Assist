@@ -298,6 +298,8 @@
     "acc.settings.4.description": "Kuinka kaukana edellä menevästä autosta ETS2LA yrittää pysyä.",
     "acc.settings.5.name": "Säädön tyyppi",
     "acc.settings.5.description": "'Percentage' tilassa ajetaan tiettyä prosenttia kovempaa, 'Absolute' tilassa ajetaan annettua arvoa kovempaa.",
+    "acc.settings.6.name": "Näytä Ilmoitukset",
+    "acc.settings.6.description": "Lähettää ilmoituksen kun vakionopeudensäädin hidastaa estettä varten.",
 
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
 
