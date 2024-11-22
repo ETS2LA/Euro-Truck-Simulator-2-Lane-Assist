@@ -304,7 +304,9 @@
     "acc.settings.4.description": "與前方物體保持的距離。",
     "acc.settings.5.name": "速度偏移類型",
     "acc.settings.5.description": "選擇超過限速的百分比，或者直接加上固定速度。",
-    
+    "acc.settings.6.name": "顯示通知",
+    "acc.settings.6.description": "當應用程式因任何障礙物而減速時，顯示通知。",
+
     "_PLUGIN_KEYS": "這些是特定插件所需的鍵值",
 
     "map.json_not_found": "在 GameData 資料夾中找不到 JSON 文件，請解壓縮 GameData.zip 文件。",
