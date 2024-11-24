@@ -4,11 +4,13 @@ import logging
 import zipfile
 import hashlib
 import shutil
-import ujson as json
+import ujson
+import json
 import os
 
 DATA_FILENAME = "plugins/Map/data.zip"
 DATA_HASH = settings.Get("Map", "data_hash", None)
+fallback = False
 
 def ExtractData(path: str) -> None:
     if os.path.exists(path):
@@ -39,5 +41,15 @@ def UpdateData(path: str) -> bool:
     return False
 
 def ReadData(path: str) -> dict:
+    global fallback
     with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        if fallback: 
+            data = json.load(f) 
+            if not data:
+                logging.error(f"Failed to load Map data JSON file: {path}")
+        else: 
+            data = ujson.load(f)
+            if not data:
+                fallback = True
+                data = ReadData(path)
+        return data
