@@ -1,20 +1,20 @@
-import plugins.Map.utils.data_extractor as data_extractor
+"""Data reader utilities for map plugin."""
+from plugins.Map.utils import data_extractor
 import ETS2LA.backend.settings as settings
-import plugins.Map.classes as c
+from plugins.Map import classes as c
 from rich import print
 import logging
 import random
 import time
 import os
 
-DATA_PATH = "plugins/Map/data/"
-
+DATA_PATH = os.path.join(os.path.dirname(__file__).replace("\\utils", ""), "data")
 data_extractor.UpdateData(DATA_PATH)
 
 def FindCategoryFilePath(category: str) -> str:
     for file in os.listdir(DATA_PATH):
-        if file.endswith(f"{category}.json"):
-            return DATA_PATH + file
+        if category in file and file.endswith(".json"):
+            return os.path.join(DATA_PATH, file)
     return None
 
 def TryReadExcept(data: dict, key: str, default: any) -> any:
@@ -41,7 +41,7 @@ def ReadNodes() -> list[c.Node]:
             node["forwardCountryId"],
             node["backwardCountryId"],
         ))
-        
+
     return nodes
 
 def ReadElevations() -> list[tuple[float, float, float]]:
@@ -54,7 +54,7 @@ def ReadElevations() -> list[tuple[float, float, float]]:
             elevation[1],
             elevation[2],
         ))
-        
+
     return elevations
 
 def ReadRoads() -> list[c.Road]:
@@ -68,15 +68,15 @@ def ReadRoads() -> list[c.Road]:
             road["y"],
             road["sectorX"],
             road["sectorY"],
-            road["dlcGuard"],
-            False, # hidden
+            int(TryReadExcept(road, "dlcGuard", -1)),
+            bool(TryReadExcept(road, "hidden", False)),
             road["roadLookToken"],
             road["startNodeUid"],
             road["endNodeUid"],
             road["length"],
-            False, # maybe divided
+            TryReadExcept(road, "maybeDivided", False),
         ))
-        
+
     return roads
 
 def ReadRoadLooks() -> list[c.RoadLook]:
@@ -94,7 +94,7 @@ def ReadRoadLooks() -> list[c.RoadLook]:
             TryReadExcept(road_look, "shoulderSpaceRight", 0),
             TryReadExcept(road_look, "shoulderSpaceLeft", 0),
         ))
-    
+
     return road_looks
 
 def ReadPrefabs() -> list[c.Prefab]:
@@ -110,12 +110,12 @@ def ReadPrefabs() -> list[c.Prefab]:
             prefab["sectorX"],
             prefab["sectorY"],
             prefab["dlcGuard"],
-            False, # hidden
+            TryReadExcept(prefab, "hidden", False),
             prefab["token"],
             [uid for uid in prefab["nodeUids"]],
             prefab["originNodeIndex"]
         ))
-        
+
     return prefabs
 
 import concurrent.futures

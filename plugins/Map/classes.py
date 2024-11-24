@@ -1,15 +1,17 @@
-# General imports
-from typing import Union, Literal, TypeVar, Generic
+"""Map plugin classes."""
+from typing import Union, Literal, TypeVar, Generic, Optional, List, Any
 from enum import Enum, StrEnum, IntEnum
 from dataclasses import dataclass
 import logging
 import math
 
-# ETS2LA imports
+# Import dictionary utilities with fallback to mocks for testing
 from ETS2LA.utils.dictionaries import get_nested_item, set_nested_item
-import plugins.Map.utils.prefab_helpers as prefab_helpers
-import plugins.Map.utils.math_helpers as math_helpers
-import plugins.Map.utils.road_helpers as road_helpers
+
+from plugins.Map.utils.dlc_guard import check_dlc_access
+from plugins.Map.utils import prefab_helpers
+from plugins.Map.utils import math_helpers
+from plugins.Map.utils import road_helpers
 
 # MARK: Constants
 
@@ -18,6 +20,7 @@ data = None
 
 
 def parse_string_to_int(string: str) -> int:
+    if string is None: return None
     if type(string) == int: return string
     return int(string, 16)
 
@@ -243,6 +246,33 @@ class Position:
         }
 
 
+class Point:
+    x: float
+    y: float
+    z: float
+
+    def __init__(self, x: float, y: float, z: float):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def tuple(self) -> tuple[float, float, float]:
+        return (self.x, self.y, self.z)
+
+    def __str__(self) -> str:
+        return f"Point({self.x}, {self.y}, {self.z})"
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def json(self) -> dict:
+        return {
+            "x": self.x,
+            "y": self.y,
+            "z": self.z
+        }
+
+
 class BoundingBox:
     min_x: float
     min_y: float
@@ -288,7 +318,8 @@ class BaseItem:
     sector_y: int
 
     def parse_strings(self):
-        self.uid = parse_string_to_int(self.uid)
+        if not str(self.uid).startswith('prefab_'):
+            self.uid = parse_string_to_int(self.uid)
 
     def __init__(self, uid: int | str, type: ItemType, x: float, y: float, sector_x: int, sector_y: int):
         self.uid = uid
@@ -769,65 +800,122 @@ class Road(BaseItem):
     _lanes: list[Lane] = []
     _points: list[Position] = None
 
+    def check_dlc_access(self) -> bool:
+        """Check if this road's DLC is accessible."""
+        try:
+            return check_dlc_access(self.dlc_guard)
+        except Exception as e:
+            logging.error(f"Failed to check DLC access for road {self.uid}: {e}")
+            return False
+
     def parse_strings(self):
-        self.start_node_uid = parse_string_to_int(self.start_node_uid)
-        self.end_node_uid = parse_string_to_int(self.end_node_uid)
+        # Only parse UIDs if they don't contain 'prefab_' prefix
+        if not str(self.uid).startswith('prefab_'):
+            self.start_node_uid = parse_string_to_int(self.start_node_uid)
+            self.end_node_uid = parse_string_to_int(self.end_node_uid)
 
     def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int,
                  hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str,
                  length: float, maybe_divided: bool | None):
         super().__init__(uid, ItemType.Road, x, y, sector_x, sector_y)
         super().parse_strings()
-        self.dlc_guard = dlc_guard
-        self.hidden = hidden
+        # Ensure dlc_guard is an integer and hidden is a boolean
+        self.dlc_guard = int(dlc_guard) if dlc_guard is not None else -1
+        self.hidden = bool(hidden) if hidden is not None else False
         self.road_look_token = road_look_token
         self.start_node_uid = start_node_uid
         self.end_node_uid = end_node_uid
         self.length = length
         self.maybe_divided = maybe_divided
+        self._lanes = []
+        self._points = None
+        self.start_node = None
+        self.end_node = None
         self.parse_strings()
+
+    def get_nodes(self):
+        """Populate start_node and end_node if not already set."""
+        try:
+            if not hasattr(self, 'start_node_uid') or not hasattr(self, 'end_node_uid'):
+                logging.error(f"Road {self.uid} missing node UIDs")
+                return None, None
+
+            if self.start_node is None:
+                self.start_node = data.map.get_node_by_uid(self.start_node_uid)
+            if self.end_node is None:
+                self.end_node = data.map.get_node_by_uid(self.end_node_uid)
+
+            if self.start_node is None or self.end_node is None:
+                logging.error(f"Road {self.uid} failed to get nodes")
+                return None, None
+
+            return self.start_node, self.end_node
+        except Exception as e:
+            logging.error(f"Error getting nodes for road {self.uid}: {e}")
+            return None, None
 
     def generate_points(self, road_quality: float = 0.5, min_quality: int = 4) -> list[Position]:
         # All this code is copied from the original C# implementation of point calculations
         # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
 
-        start_node = data.map.get_node_by_uid(self.start_node_uid)
-        end_node = data.map.get_node_by_uid(self.end_node_uid)
-        new_points = []
+        try:
+            # Get nodes using the existing method
+            start_node, end_node = self.get_nodes()
+            if not start_node or not end_node:
+                logging.error(f"Failed to get nodes for road {self.uid}")
+                return []
 
-        # Data has Z as the height value, but we need Y
-        sx = start_node.x
-        sy = start_node.z
-        sz = start_node.y
-        ex = end_node.x
-        ey = end_node.z
-        ez = end_node.y
+            new_points = []
 
-        # Get the length of the road
-        length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
-        radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+            # Data has Z as the height value, but we need Y
+            sx = start_node.x
+            sy = start_node.z
+            sz = start_node.y
+            ex = end_node.x
+            ey = end_node.z
+            ez = end_node.y
 
-        tan_sx = math.cos(start_node.rotation) * radius
-        tan_ex = math.cos(end_node.rotation) * radius
-        tan_sz = math.sin(start_node.rotation) * radius
-        tan_ez = math.sin(end_node.rotation) * radius
+            # Get the length of the road
+            length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
+            radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
 
-        needed_points = int(length * road_quality)
-        if needed_points < min_quality:
-            needed_points = min_quality
+            # Add safety checks for rotation values
+            start_rotation = start_node.rotation if hasattr(start_node, 'rotation') else 0
+            end_rotation = end_node.rotation if hasattr(end_node, 'rotation') else 0
 
-        for i in range(needed_points):
-            s = i / (needed_points - 1)
-            x = math_helpers.Hermite(s, sx, ex, tan_sx, tan_ex)
-            y = sy + (ey - sy) * s
-            z = math_helpers.Hermite(s, sz, ez, tan_sz, tan_ez)
-            new_points.append(Position(x, y, z))
+            tan_sx = math.cos(start_rotation) * radius
+            tan_ex = math.cos(end_rotation) * radius
+            tan_sz = math.sin(start_rotation) * radius
+            tan_ez = math.sin(end_rotation) * radius
 
-        return new_points
+            needed_points = int(length * road_quality)
+            if needed_points < min_quality:
+                needed_points = min_quality
+
+            for i in range(needed_points):
+                s = i / (needed_points - 1)
+                x = math_helpers.Hermite(s, sx, ex, tan_sx, tan_ex)
+                y = sy + (ey - sy) * s
+                z = math_helpers.Hermite(s, sz, ez, tan_sz, tan_ez)
+                new_points.append(Position(x, y, z))
+
+            return new_points
+        except Exception as e:
+            logging.error(f"Error generating points for road {self.uid}: {e}")
+            return []
 
     @property
     def points(self) -> list[Position]:
         if self._points is None:
+            # Check DLC access and hidden status before generating points
+            if self.hidden:
+                logging.debug(f"Road {self.uid} is hidden, skipping point generation")
+                return []
+
+            if not check_dlc_access(self.dlc_guard):
+                logging.debug(f"Road {self.uid} DLC not accessible, skipping point generation")
+                return []
+
             if data.heavy_calculations_this_frame >= data.allowed_heavy_calculations:
                 return []
             self._points = self.generate_points()
@@ -882,6 +970,23 @@ class Road(BaseItem):
             "points": [point.json() for point in self.points],
             "lanes": [lane.json() for lane in self.lanes],
             "bounding_box": self.bounding_box.json()
+        }
+
+
+class RoadSection(Road):
+    """A section of road with DLC information."""
+
+    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int,
+                 hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str,
+                 length: float, maybe_divided: bool | None, dlc: str | None = None):
+        super().__init__(uid, x, y, sector_x, sector_y, dlc_guard, hidden, road_look_token,
+                        start_node_uid, end_node_uid, length, maybe_divided)
+        self.dlc = dlc
+
+    def json(self) -> dict:
+        return {
+            **super().json(),
+            "dlc": self.dlc
         }
 
 
@@ -1159,6 +1264,9 @@ class Model(BaseItem):
             "scale": self.scale,
             "description": self.description.json(),
         }
+
+
+
 
 
 class Terrain(BaseItem):
@@ -1830,6 +1938,18 @@ class MapData:
                 self._models_by_sector[sector[0]][sector[1]] = []
             self._models_by_sector[sector[0]][sector[1]].append(model)
 
+    def get_node_by_uid(self, uid: str) -> Optional[Node]:
+        """Get a node by its UID."""
+        # Convert int to hex string if needed
+        if isinstance(uid, int):
+            uid = hex(uid)[2:]  # Remove '0x' prefix
+
+        # Search through nodes
+        for node in self.nodes:
+            if node.uid == uid:
+                return node
+        return None
+
     def calculate_sector_dimensions(self) -> None:
         min_sector_x = self._min_sector_x
         min_sector_x_y = min([key for key in self._nodes_by_sector[min_sector_x].keys()])
@@ -1862,11 +1982,11 @@ class MapData:
         self._model_descriptions_by_token = {}
         for model_description in self.model_descriptions:
             self._model_descriptions_by_token[model_description.token] = model_description
-            
+
         self._prefab_descriptions_by_token = {}
         for prefab_description in self.prefab_descriptions:
             self._prefab_descriptions_by_token[prefab_description.token] = prefab_description
-            
+
         self._companies_by_token = {}
         for company in self.companies:
             self._companies_by_token[company.token] = company
@@ -1995,16 +2115,16 @@ class MapData:
         else:
             for sector in sectors:
                 items += self.get_sector_items_by_sector(sector)
-                
+
             for item in items:
                 if type(item) in [Road, Prefab]:
                     if item.bounding_box.is_in(Position(data.truck_x, data.truck_y, data.truck_z)):
                         in_bounding_box.append(item)
-                
+
         if len(in_bounding_box) == 0:
             # Check all
             in_bounding_box = [item for item in items if type(item) in [Road, Prefab]]
-                
+
         closest_item = None
         closest_point_distance = math.inf
         for item in in_bounding_box:
@@ -2017,8 +2137,13 @@ class MapData:
                         if distance < closest_point_distance:
                             closest_point_distance = distance
                             closest_item = item
-                            
+
             elif type(item) == Road:
+                # Initialize lanes if not already done
+                if not hasattr(item, '_lanes'):
+                    item._lanes = []
+                if not item.lanes:  # If lanes list is empty, generate points
+                    item.generate_points()
                 for lane_id, lane in enumerate(item.lanes):
                     for point in lane.points:
                         point_tuple = point.tuple()
@@ -2030,5 +2155,14 @@ class MapData:
 
         if closest_item == None:
             return None
-                    
+
         return closest_item
+
+    def get_road_between_nodes(self, start_node_uid: int | str, end_node_uid: int | str) -> Road | None:
+        """Get a road that connects two nodes, initializing its nodes if found."""
+        for road in self.roads:
+            if (road.start_node_uid == start_node_uid and road.end_node_uid == end_node_uid) or \
+               (road.start_node_uid == end_node_uid and road.end_node_uid == start_node_uid):
+                road.get_nodes()  # Initialize nodes
+                return road
+        return None

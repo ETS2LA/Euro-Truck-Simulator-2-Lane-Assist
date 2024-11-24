@@ -279,6 +279,8 @@
     "acc.settings.4.description": "Kuinka kaukana edell\u00e4 menev\u00e4st\u00e4 autosta ETS2LA yritt\u00e4\u00e4 pysy\u00e4.",
     "acc.settings.5.name": "S\u00e4\u00e4d\u00f6n tyyppi",
     "acc.settings.5.description": "'Percentage' tilassa ajetaan tietty\u00e4 prosenttia kovempaa, 'Absolute' tilassa ajetaan annettua arvoa kovempaa.",
+    "acc.settings.6.name": "N\u00e4yt\u00e4 Ilmoitukset",
+    "acc.settings.6.description": "L\u00e4hett\u00e4\u00e4 ilmoituksen kun vakionopeudens\u00e4\u00e4din hidastaa estett\u00e4 varten.",
     "_PLUGIN_KEYS": "These are keys that specific plugins need",
     "map.json_not_found": "JSON tietoja ei l\u00f6ytynyt. Pura .zip tiedosto ja yrit\u00e4 uudelleen.",
     "map.loading.preparing": "Kartta valmistautuu lataamaan tiedot...",

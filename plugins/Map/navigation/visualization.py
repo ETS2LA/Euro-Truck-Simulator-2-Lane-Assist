@@ -4,12 +4,19 @@ import plugins.Map.data as data
 import numpy as np
 import cv2
 from plugins.Map.navigation.classes import RoadSection
+import logging
+import os
 
 #cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
 #cv2.resizeWindow("Route", 1024, 1024)
 
-map_image = cv2.imread("plugins/Map/navigation/map.png")
-map_image = cv2.resize(map_image, (1024, 1024))
+# Create a blank map image if the file doesn't exist
+MAP_PATH = "plugins/Map/navigation/map.png"
+if not os.path.exists(MAP_PATH):
+    map_image = np.zeros((1024, 1024, 3), dtype=np.uint8)
+else:
+    map_image = cv2.imread(MAP_PATH)
+    map_image = cv2.resize(map_image, (1024, 1024))
 
 x1 = -94621.8047
 x2 = 79370.13
@@ -42,23 +49,33 @@ def convert_from_map_to_world(x: int, y: int) -> tuple[float, float]:
 def draw_map_image() -> None:
     return map_image.copy()
 
-def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item | RoadSection, route_plan: list[nc.NavigationLane]) -> None:
+def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item | RoadSection, route_plan: list[nc.NavigationLane], mock_mode: bool = False) -> None:
+    """
+    Visualize the route on the map.
+
+    Args:
+        destination_item: The destination item (Item or RoadSection)
+        start_item: The starting item (Item or RoadSection)
+        route_plan: List of navigation lanes forming the route
+        mock_mode: If True, skips window creation and display (for testing)
+    """
+    logging.debug(f"Visualizing route with {len(route_plan) if route_plan else 0} navigation lanes")
     image = draw_map_image()
-    
+
     # Get coordinates for start/end
     if isinstance(start_item, RoadSection):
         start_x = (start_item.start.x + start_item.end.x) / 2
         start_y = (start_item.start.z + start_item.end.z) / 2
     else:
         start_x, start_y = start_item.x, start_item.z
-    
+
     if destination_item is not None:
         if isinstance(destination_item, RoadSection):
             dest_x = (destination_item.start.x + destination_item.end.x) / 2
             dest_y = (destination_item.start.z + destination_item.end.z) / 2
         else:
-            dest_x, dest_y = destination_item.x, destination_item.y
-    
+            dest_x, dest_y = destination_item.x, destination_item.z
+
     # Get all points to consider for bounding box
     all_points = []
     padding = 100
@@ -67,39 +84,39 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
         padding = 4
         for item in route_plan:
             all_points.extend([(point.x, point.z) for point in item.lane.points])
-    
+
     else:
         all_points.append((start_x, start_y))
         if destination_item is not None:
             all_points.append((dest_x, dest_y))
-    
+
     # Convert all points to map coordinates
     map_points = [convert_from_world_to_map(x, y) for x, y in all_points]
-    
+
     # Calculate bounding box
     map_xs, map_ys = zip(*map_points)
     center_x = (min(map_xs) + max(map_xs)) // 2
     center_y = (min(map_ys) + max(map_ys)) // 2
-    
+
     # Calculate the size needed to encompass all points
     size = max(
         max(map_xs) - min(map_xs) + 2 * padding,
         max(map_ys) - min(map_ys) + 2 * padding
     )
-    
+
     # Calculate square bounds centered on the points
     min_x = max(0, int(center_x - size/2))
     max_x = min(image.shape[1], int(center_x + size/2))
     min_y = max(0, int(center_y - size/2))
     max_y = min(image.shape[0], int(center_y + size/2))
-    
+
     # Ensure square crop by using the smaller dimension
     crop_size = min(max_x - min_x, max_y - min_y)
     min_x = center_x - crop_size//2
     max_x = center_x + crop_size//2
     min_y = center_y - crop_size//2
     max_y = center_y + crop_size//2
-    
+
     # Adjust if out of bounds
     if min_x < 0:
         min_x = 0
@@ -113,37 +130,37 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
     if max_y > image.shape[0]:
         max_y = image.shape[0]
         min_y = max_y - crop_size
-    
+
     # Crop the base map image
     cropped_map = image[min_y:max_y, min_x:max_x]
-    
+
     # Calculate zoom factor maintaining aspect ratio
     WINDOW_SIZE = 800
     crop_height, crop_width = cropped_map.shape[:2]
-    
+
     # Use the larger dimension to determine scale
     scale = WINDOW_SIZE / max(crop_width, crop_height)
-    
+
     # Force square dimensions using the larger scaled size
     max_scaled_size = max(int(crop_width * scale), int(crop_height * scale))
     new_width = max_scaled_size
     new_height = max_scaled_size
-    
+
     # Resize the map
     zoomed_map = cv2.resize(cropped_map, (new_width, new_height), interpolation=cv2.INTER_LINEAR)
-    
+
     # Draw overlays using the new conversion function
     if destination_item is not None:
         dest_zoomed_x, dest_zoomed_y = convert_from_world_to_zoomed_map(
             dest_x, dest_y, min_x, min_y, scale, scale
         )
         cv2.circle(zoomed_map, (dest_zoomed_x, dest_zoomed_y), 5, (0, 0, 255), -1)
-    
+
     start_zoomed_x, start_zoomed_y = convert_from_world_to_zoomed_map(
         start_x, start_y, min_x, min_y, scale, scale
     )
     cv2.circle(zoomed_map, (start_zoomed_x, start_zoomed_y), 5, (0, 255, 0), -1)
-    
+
     # Draw route with new conversion
     if route_plan:
         points = [item.lane.points for item in route_plan]
@@ -153,10 +170,17 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
             for point in points
         ]
         cv2.polylines(zoomed_map, [np.array(zoomed_points)], False, (255, 0, 0), 2)
-    
-    # Display
-    cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
-    cv2.imshow("Route", zoomed_map)
-    while True:
-        if cv2.waitKey(1) & 0xFF == ord(' '):
-            break
+
+    # Only show window if not in mock mode
+    if not mock_mode:
+        try:
+            cv2.namedWindow("Route", cv2.WINDOW_NORMAL)
+            cv2.imshow("Route", zoomed_map)
+            while True:
+                if cv2.waitKey(1) & 0xFF == ord(' '):
+                    break
+            cv2.destroyWindow("Route")
+        except Exception as e:
+            logging.warning(f"Failed to display route visualization: {e}")
+
+    return zoomed_map  # Return the image for testing purposes

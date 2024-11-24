@@ -22,16 +22,16 @@ navigation = importlib.import_module("plugins.Map.navigation.navigation")
 last_nav_hash = hash(open(navigation.__file__).read())
 
 class SettingsMenu(ETS2LASettingsMenu):
-    dynamic = True
     plugin_name = "Map"
-    
+    dynamic = True
+
     def get_value_from_data(self, key: str):
         if "data" not in globals():
             return "N/A"
         if key in data.__dict__:
             return data.__dict__[key]
         return "Not Found"
-    
+
     def render(self):
         RefreshRate(0.25)
         Title("map.settings.1.title")
@@ -45,6 +45,14 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Space(12)
                 Title("map.settings.4.title")
                 Switch("map.settings.6.name", "InternalVisualisation", True, description="map.settings.6.description")
+                Space(12)
+                Title("Navigation Settings")
+                routing_mode = settings.Get("Map", "RoutingMode")
+                if not routing_mode or routing_mode not in ["shortest", "smallRoads"]:
+                    routing_mode = "shortest"
+                    settings.Set("Map", "RoutingMode", routing_mode)
+                Selector("Routing Mode", "RoutingMode", routing_mode, ["shortest", "smallRoads"],
+                        description="Choose between fastest routes (shortest) or scenic routes avoiding highways (smallRoads)")
             with Tab("Debug Data"):
                 with EnabledLock():
                     with Group("horizontal", gap=4):
@@ -58,14 +66,17 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Description(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}")
                             try: Description(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}")
                             except: Description(f"Last data update: N/A")
-                            
+
                         with Group("vertical", gap=1):
                             Label("Route data:")
                             Space(0)
                             Description(f"Is steering: {self.get_value_from_data('calculate_steering')}")
                             Description(f"Route points: {len(self.get_value_from_data('route_points'))}")
                             Description(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}")
-                            
+                            Description(f"Routing mode: {settings.Get('Map', 'RoutingMode')}")
+                            Description(f"Navigation points: {len(self.get_value_from_data('navigation_points'))}")
+                            Description(f"Has destination: {self.get_value_from_data('dest_company') is not None}")
+
                         with Group("vertical", gap=1):
                             Label("Backend data:")
                             Space(0)
@@ -74,7 +85,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                             try: Description(f"FPS: {1/self.plugin.performance[-1][1]:.0f}")
                             except: Description("FPS: Still loading...")
 
-                    
+
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
@@ -90,6 +101,7 @@ class Plugin(ETS2LAPlugin):
         modules=["SDKController", "TruckSimAPI", "Steering"],
         tags=["Base", "Steering"]
     )
+    last_dest_company = None
     
     fps_cap = 20
     settings_menu = SettingsMenu()
@@ -106,100 +118,174 @@ class Plugin(ETS2LAPlugin):
         import time
         import math
         import sys
-        
+
+        # Configure logging
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+
     def CheckNavHash(self):
         global last_nav_hash
+        logger = logging.getLogger('navigation.reload')
+        logging.info("Starting navigation module file monitor")
         while True:
-            new_hash = hash(open(navigation.__file__).read())
-            if new_hash != last_nav_hash:
-                last_nav_hash = new_hash
-                importlib.reload(navigation)
-                logging.info("Reloaded navigation module")
+            try:
+                new_hash = hash(open(navigation.__file__).read())
+                if new_hash != last_nav_hash:
+                    last_nav_hash = new_hash
+                    logging.info("Navigation module changed, reloading...")
+                    importlib.reload(navigation)
+                    logging.info("Successfully reloaded navigation module")
+                    if data.dest_company:
+                        logging.info("Recalculating path with reloaded module...")
+                        navigation.get_path_to_destination()
+            except Exception as e:
+                logging.error(f"Error monitoring navigation module: {e}")
             time.sleep(1)
         
     def ToggleSteering(self, state:bool, *args, **kwargs):
         data.enabled = state
         self.globals.tags.status = {"Map": state}
-        
+
     def init(self):
-        self.steering_smoothness = self.settings.SteeringSmoothTime
-        if self.steering_smoothness is None:
-            self.steering_smoothness = 0.2
-            self.settings.SteeringSmoothTime = 0.2
-            
-        data.controller = self.modules.SDKController.SCSController()
-        data.plugin = self
-        
-        global api, steering
-        api = self.modules.TruckSimAPI
-        steering = self.modules.Steering
-        steering.OFFSET = 0
-        steering.SMOOTH_TIME = self.steering_smoothness
-        steering.IGNORE_SMOOTH = False
-        steering.SENSITIVITY = 1
-        
-        settings.Listen("Map", self.UpdateSteeringSettings)
-        
-        self.state.text = "Loading data, please wait..."
-        self.state.progress = 0
-        time.sleep(0.1)
+        """Initialize the plugin"""
         try:
-            data.map = ReadData(state=self.state)
-        except:
-            logging.exception("Failed to read data")
-        c.data = data # set the classes data variable
-        self.state.reset()
-        
-        self.globals.tags.status = {"Map": data.enabled}
-        
-        threading.Thread(target=self.CheckNavHash, daemon=True).start()
-    
-    
+            # Initialize settings with defaults
+            settings.CreateIfNotExists("Map")
+            default_settings = {
+                "ComputeSteeringData": True,
+                "SteeringSmoothTime": 0.2,
+                "InternalVisualisation": True,
+                "RoutingMode": "shortest"
+            }
+
+            # Initialize all settings with defaults
+            for key, default_value in default_settings.items():
+                if not settings.Get("Map", key):
+                    settings.Set("Map", key, default_value)
+
+            self.steering_smoothness = settings.Get("Map", "SteeringSmoothTime")
+
+            data.controller = self.modules.SDKController.SCSController()
+            data.plugin = self
+
+            global api, steering
+            api = self.modules.TruckSimAPI
+            steering = self.modules.Steering
+            steering.OFFSET = 0
+            steering.SMOOTH_TIME = self.steering_smoothness
+            steering.IGNORE_SMOOTH = False
+            steering.SENSITIVITY = 1
+
+            settings.Listen("Map", self.UpdateSteeringSettings)
+
+            # Initialize map data
+            self.state.text = "Loading map data, please wait..."
+            self.state.progress = 0
+            time.sleep(0.1)
+            try:
+                data.map = ReadData(state=self.state)
+                if not data.map:
+                    logging.error("Failed to initialize map data")
+                    return False
+            except Exception as e:
+                logging.error(f"Failed to read map data: {e}", exc_info=True)
+                return False
+
+            c.data = data  # set the classes data variable
+            self.state.reset()
+
+            self.globals.tags.status = {"Map": data.enabled}
+
+            # Initialize routing mode tracking with validation
+            self._last_routing_mode = settings.Get("Map", "RoutingMode")
+            if self._last_routing_mode not in ["shortest", "smallRoads"]:
+                logging.warning(f"Invalid routing mode {self._last_routing_mode}, resetting to 'shortest'")
+                settings.Set("Map", "RoutingMode", "shortest")
+                self._last_routing_mode = "shortest"
+
+            self.settings_menu = SettingsMenu()
+            self.settings_menu.plugin = self
+
+            # Start navigation file monitor
+            threading.Thread(target=self.CheckNavHash, daemon=True).start()
+            logging.info("Map plugin initialized successfully")
+            return True
+        except Exception as e:
+            logging.error(f"Error initializing Map plugin: {e}", exc_info=True)
+            return False
+
+
     def UpdateSteeringSettings(self, settings: dict):
         self.steering_smoothness = self.settings.SteeringSmoothTime
         steering.SMOOTH_TIME = self.steering_smoothness
 
     def run(self):
-        api_data = api.run()
-        data.UpdateData(api_data)
-        
-        max_speed = api_data["truckFloat"]["speedLimit"]
-        if data.calculate_steering:
-            planning.UpdateRoutePlan()
-            
-            steering_value = driving.GetSteering()
-            steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
-            
-            route_max_speed = speed.GetMaximumSpeed()
-            if route_max_speed < max_speed:
-                max_speed = route_max_speed
+        try:
+            api_data = api.run()
+            data.UpdateData(api_data)
 
-        else:
-            data.route_points = []
-        
-        if not data.map_initialized and data.internal_map:
-            im.InitializeMapWindow()
-            self.MAP_INITIALIZED = True
-            
-        if data.map_initialized and not data.internal_map:
-            im.RemoveWindow()
-            self.MAP_INITIALIZED = False
-        
-        if data.internal_map:
-            im.DrawMap()
-            
-        #navigation.get_path_to_destination()
-        
-        if data.external_data_changed:
-            external_data = json.dumps(data.external_data)
-            print(f"External data changed, file size: {sys.getsizeof(external_data)/1000:.0f} KB")
-            self.globals.tags.map = json.loads(external_data)
-            self.globals.tags.map_update_time = data.external_data_time
-            data.external_data_changed = False
+            # Check if routing mode has changed
+            current_routing_mode = settings.Get("Map", "RoutingMode")
+            if current_routing_mode != self._last_routing_mode:
+                logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
+                self._last_routing_mode = current_routing_mode
+                if data.dest_company:
+                    logging.info("Recalculating path with new routing mode...")
+                    navigation.get_path_to_destination()
 
-        if not data.elevation_data_sent:
-            self.globals.tags.elevation_data = data.map.elevations
-            data.elevation_data_sent = True
+            max_speed = api_data["truckFloat"]["speedLimit"]
+            if data.calculate_steering:
+                # Update route plan and steering
+                planning.UpdateRoutePlan()
+                steering_value = driving.GetSteering()
+
+                if steering_value is not None:
+                    steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
+                else:
+                    logging.warning("Invalid steering value received")
+
+                # Update speed limits
+                route_max_speed = speed.GetMaximumSpeed()
+                if route_max_speed and route_max_speed < max_speed:
+                    max_speed = route_max_speed
+            else:
+                data.route_points = []
+
+            # Initialize map visualization if needed
+            if not data.map_initialized and data.internal_map:
+                im.InitializeMapWindow()
+                self.MAP_INITIALIZED = True
+
+            if data.map_initialized and not data.internal_map:
+                im.RemoveWindow()
+                self.MAP_INITIALIZED = False
+
+            if data.internal_map:
+                im.DrawMap()
+
+            # Call navigation when destination company changes
+            if data.dest_company != self.last_dest_company:
+                logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
+                self.last_dest_company = data.dest_company
+                navigation.get_path_to_destination()
+
+            if data.external_data_changed:
+                external_data = json.dumps(data.external_data)
+                print(f"External data changed, file size: {sys.getsizeof(external_data)/1000:.0f} KB")
+                self.globals.tags.map = json.loads(external_data)
+                self.globals.tags.map_update_time = data.external_data_time
+                data.external_data_changed = False
+
+            if not data.elevation_data_sent:
+                self.globals.tags.elevation_data = data.map.elevations
+                data.elevation_data_sent = True
+
+        except Exception as e:
+            logging.error(f"Error in Map plugin run loop: {e}", exc_info=True)
+            data.route_points = []  # Clear route points on error
 
         if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
             if type(data.route_plan[0].items[0].item) == c.Road:
@@ -212,5 +298,5 @@ class Plugin(ETS2LAPlugin):
             self.globals.tags.next_intersection_distance = 1
 
         self.globals.tags.target_speed = max_speed
-        
+
         return [point.tuple() for point in data.route_points]
