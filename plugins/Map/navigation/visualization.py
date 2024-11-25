@@ -185,7 +185,6 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
             while True:
                 if cv2.waitKey(1) & 0xFF == ord(' '):
                     break
-            cv2.destroyWindow("Route")
         except Exception as e:
             logging.warning(f"Failed to display route visualization: {e}")
 

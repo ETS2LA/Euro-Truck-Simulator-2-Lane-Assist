@@ -562,6 +562,12 @@ class RoadLook:
             "shoulder_space_left": self.shoulder_space_left,
             "shoulder_space_right": self.shoulder_space_right
         }
+        
+    def __str__(self) -> str:
+        return f"RoadLook({self.token}, {self.name}, {self.lanes_left}, {self.lanes_right}, {self.offset}, {self.lane_offset}, {self.shoulder_space_left}, {self.shoulder_space_right})"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
 
 
 class ModelDescription:
@@ -903,7 +909,7 @@ class Road(BaseItem):
 
             return new_points
         except Exception as e:
-            logging.error(f"Error generating points for road {self.uid}: {e}")
+            logging.exception(f"Error generating points for road {self.uid}: {e}")
             return []
 
     @property
@@ -917,9 +923,7 @@ class Road(BaseItem):
             if not check_dlc_access(self.dlc_guard):
                 logging.debug(f"Road {self.uid} DLC not accessible, skipping point generation")
                 return []
-
-            if data.heavy_calculations_this_frame >= data.allowed_heavy_calculations:
-                return []
+            
             self._points = self.generate_points()
             data.heavy_calculations_this_frame += 1
 
@@ -932,8 +936,6 @@ class Road(BaseItem):
     @property
     def lanes(self) -> list[Lane]:
         if self._lanes == []:
-            if data.heavy_calculations_this_frame >= data.allowed_heavy_calculations:
-                return []
             self._lanes, self._bounding_box = road_helpers.GetRoadLanes(self, data)
             data.heavy_calculations_this_frame += 1
             data.data_needs_update = True

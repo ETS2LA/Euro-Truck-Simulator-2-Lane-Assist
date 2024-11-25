@@ -90,20 +90,6 @@ def get_nav_lanes(item: c.Prefab | RoadSection, x: float, z: float) -> list[Navi
                     end=lane.points[-1],
                     length=lane.distance
                 ) for lane in item.nav_routes]
-                
-                #closest_lane = prefab_helpers.get_closest_lane(
-                #    item,
-                #    x,
-                #    z
-                #)
-#
-                #return [NavigationLane(
-                #    lane=item.nav_routes[closest_lane],
-                #    item=item,
-                #    start=item.nav_routes[closest_lane].points[0],
-                #    end=item.nav_routes[closest_lane].points[-1],
-                #    length=item.nav_routes[closest_lane].distance
-                #)]
             except Exception as e:
                 logging.error(f"Error processing prefab lanes: {e}")
                 return []
@@ -245,86 +231,39 @@ def reconstruct_path(came_from: dict, current: NavigationLane) -> list[Navigatio
         logging.error(f"Error reconstructing path: {e}", exc_info=True)
         return []
 
-def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane, old_path: list = []) -> list[NavigationLane]:
-    """A* pathfinding implementation with multiple starting lanes"""
+def find_path(start_lanes: list[NavigationLane], goal_lanes: list[NavigationLane], old_path: list = []) -> list[NavigationLane]:
+    """Find optimal path from start lanes to end lanes."""
     try:
         if not isinstance(start_lanes, list) or not start_lanes:
             logging.error("Invalid start_lanes: must be non-empty list")
             return None
 
-        if not isinstance(goal_lane, NavigationLane):
-            logging.error("Invalid goal_lane: must be NavigationLane")
+        if not isinstance(goal_lanes, list) or not goal_lanes:
+            logging.error("Invalid goal_lanes: must be non-empty list")
             return None
 
-        logging.info(f"Finding path from {len(start_lanes)} starting lanes to {goal_lane}")
+        logging.info(f"Finding optimal path from {len(start_lanes)} starting lanes to {len(goal_lanes)} end lanes")
 
-        open_set = set(start_lanes)
-        print(f"Open set: {open_set}")
-        came_from = {}
-
-        g_score = {lane: 0 for lane in start_lanes}
-        f_score = {lane: heuristic(lane, goal_lane) for lane in start_lanes}
-
-        iteration = 0
-        max_iterations = 1000
-        while open_set and iteration < max_iterations:
-            try:
-                current = min(open_set, key=lambda x: f_score.get(x, float('inf')))
-                logging.info(f"Iteration {iteration}: Current lane {current}")
-
-                current_path = reconstruct_path(came_from, current)
-                data.navigation_points = []
-                for item in current_path:
-                    data.navigation_points.extend([point for point in item.lane.points])
-
-                if data.internal_map:
-                    DrawMap()
-
-                visualize_route(goal_lane.item, current.item, old_path + current_path)
-
-                if (current.item.uid == goal_lane.item.uid and math_helpers.DistanceBetweenPoints(current.end.tuple(), goal_lane.end.tuple()) < 0.1):
-                    if len(old_path) > 0:
-                        if (math_helpers.DistanceBetweenPoints(current.start.tuple(xz=True), old_path[-1].end.tuple(xz=True)) < 0.1):
-                            logging.info("Found path!")
-                            return reconstruct_path(came_from, current), old_path + current_path
-                        else:
-                            print("Failed to connect paths", math_helpers.DistanceBetweenPoints(current.start.tuple(xz=True), old_path[-1].end.tuple(xz=True)))
-                    else:
-                        logging.info("Found path!")
-                        return reconstruct_path(came_from, current), old_path + current_path
-
-                open_set.remove(current)
-
-                # Check neighbors
-                next_lanes = current.next_lanes or []
-                logging.debug(f"Found {len(next_lanes)} next lanes")
-
-                for neighbor in next_lanes:
-                    try:
-                        tentative_g_score = g_score[current] + neighbor.length
-
-                        if tentative_g_score < g_score.get(neighbor, float('inf')):
-                            came_from[neighbor] = current
-                            print(f"Neighbor: {neighbor}")
-                            g_score[neighbor] = tentative_g_score
-                            f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal_lane)
-                            open_set.add(neighbor)
-                    except Exception as e:
-                        logging.error(f"Error processing neighbor: {e}")
-                        continue
-
-                iteration += 1
-            except Exception as e:
-                logging.exception(f"Error in pathfinding iteration {iteration}: {e}")
-                break
-
-        if iteration >= max_iterations:
-            logging.warning("Path finding exceeded maximum iterations")
-        else:
-            logging.warning("No path found!")
-        return None, None
+        best_path = None
+        shortest_distance = float('inf')
+        for start_lane in start_lanes:
+            for goal_lane in goal_lanes:
+                logging.debug(f"Finding path from start {start_lanes.index(start_lane)} to end {goal_lanes.index(goal_lane)}")
+                end_distance = math_helpers.DistanceBetweenPoints(start_lane.end.tuple(), goal_lane.end.tuple())
+                start_distance = 0
+                if len(old_path) > 0:
+                    start_distance = math_helpers.DistanceBetweenPoints(old_path[-1].end.tuple(), start_lane.start.tuple())
+                
+                total_distance = end_distance + start_distance
+                if total_distance < shortest_distance:
+                    logging.debug(f"Found new shortest path with distance {total_distance}")
+                    shortest_distance = total_distance
+                    best_path = start_lane
+                    
+        visualize_route(goal_lane.item, best_path.item, old_path + [best_path])
+        return [best_path], old_path + [best_path]
     except Exception as e:
-        logging.error(f"Critical error in path finding: {e}", exc_info=True)
+        logging.exception(f"Critical error in path finding: {e}", exc_info=True)
         return None, None
 
 def get_path_to_destination():

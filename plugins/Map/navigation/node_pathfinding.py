@@ -1,11 +1,12 @@
-from typing import List, Optional, Union, Tuple, Dict
-from functools import lru_cache
-import logging
-from plugins.Map.classes import Node, Prefab
 from plugins.Map.navigation.classes import RoadSection, NavigationLane
-import plugins.Map.data as data
 from plugins.Map.navigation.high_level_routing import HighLevelRouter
+from typing import List, Optional, Union, Tuple, Dict
 import plugins.Map.utils.math_helpers as math_helpers
+from plugins.Map.classes import Node, Prefab
+from functools import lru_cache
+import plugins.Map.classes as c
+import plugins.Map.data as data
+import logging
 
 class NodePathfinder:
     def __init__(self):
@@ -19,60 +20,63 @@ class NodePathfinder:
         self._path_cache.clear()
         logging.info("Path finding cache cleared")
 
-    def get_connected_item(self, node: Node) -> Optional[Union[Prefab, RoadSection]]:
+    def get_connected_items(self, node: Node) -> list[Union[Prefab, RoadSection]]:
         """Find the closest item connected to a node."""
         logging.debug(f"Finding connected item for node {node.uid} at position ({node.x}, {node.z})")
 
+        items = []
+        close_items = []
+        sectors = data.map.get_sectors_for_coordinate_and_distance(node.x, node.y, data.load_distance)
+        for sector in sectors:
+            close_items += data.map.get_sector_items_by_sector(sector)
+            
         # Check roads first
-        for road in data.map.roads:
-            if road.start_node_uid == node.uid or road.end_node_uid == node.uid:
-                logging.debug(f"Found connected road: {road.uid}")
-                road.get_nodes()  # Initialize nodes
-                return road
+        for item in close_items:
+            if type(item) == c.Road:
+                if item.start_node_uid == node.uid or item.end_node_uid == node.uid:
+                    logging.info(f"Found connected road: {item.uid}")
+                    item.get_nodes()  # Initialize nodes
+                    items.append(item)
+                
+            if type(item) == c.Prefab:
+                print(node.uid)
+                print(item.node_uids)
+                if node.uid in item.node_uids:
+                    logging.info(f"Found connected prefab: {item.uid}")
+                    items.append(item)
 
-        # If no road found, check prefabs
-        for prefab in data.map.prefabs:
-            if node.uid in prefab.node_uids:
-                logging.debug(f"Found connected prefab: {prefab.uid}")
-                return prefab
-
-        logging.warning(f"No connected item found for node {node.uid}")
-        return None
+        if len(items) == 0:
+            logging.warning(f"No connected item found for node {node.uid}")
+        return items
 
     def _find_connecting_item(
         self,
         current_node: Node,
         next_node: Node,
         dlc_guard: Optional[List[str]] = None
-    ) -> Optional[Union[Prefab, RoadSection]]:
+    ) -> Optional[Union[Prefab, RoadSection, c.Road]]:
         """Find the item (road or prefab) connecting two nodes with DLC validation."""
         # Get all connected items for both nodes
-        current_item = self.get_connected_item(current_node)
-        next_item = self.get_connected_item(next_node)
+        current_items = self.get_connected_items(current_node)
+        next_items = self.get_connected_items(next_node)
+        
+        print(f"Current items: {[item.uid for item in current_items]}\nNext items: {[item.uid for item in next_items]}")
 
-        if not current_item or not next_item:
+        if current_items == [] or next_items == []:
             return None
 
         # If both nodes are connected to the same item, that's our connecting item
-        if current_item.uid == next_item.uid:
-            # Validate DLC requirements
-            if dlc_guard is not None and hasattr(current_item, 'dlc') and current_item.dlc not in dlc_guard:
-                logging.debug(f"Skipping item {current_item.uid} due to DLC restriction")
-                return None
-            return current_item
-
-        # Otherwise, look for an item connecting the two nodes
-        if current_node.forward_item_uid == next_node.backward_item_uid:
-            item = data.map.get_item_by_uid(current_node.forward_item_uid)
-            if item:
-                return item
-        elif current_node.backward_item_uid == next_node.forward_item_uid:
-            item = data.map.get_item_by_uid(current_node.backward_item_uid)
-            if item:
-                return item
+        for cur_item in current_items:
+            for next_item in next_items:
+                if cur_item.uid == next_item.uid:
+                    # Validate DLC requirements
+                    if dlc_guard is not None and hasattr(cur_item, 'dlc') and cur_item.dlc not in dlc_guard:
+                        logging.debug(f"Skipping item {cur_item.uid} due to DLC restriction")
+                        return None
+                    return cur_item
         
         # Fallback to road search
-        if current_item and next_item:
+        if current_items and next_items:
             road = data.map.get_road_between_nodes(current_node.uid, next_node.uid)
             if road and (dlc_guard is None or not hasattr(road, 'dlc') or road.dlc in dlc_guard):
                 road.get_nodes()  # Initialize nodes
@@ -87,9 +91,9 @@ class NodePathfinder:
 
     def get_nav_lanes_for_node(self, node: Node, item: Union[Prefab, RoadSection]) -> List[NavigationLane]:
         """Get navigation lanes for a node within an item."""
+        from plugins.Map.navigation.navigation import get_nav_lanes
         logging.debug(f"Getting navigation lanes for node {node.uid} in item {item.uid}")
 
-        from plugins.Map.navigation.navigation import get_nav_lanes
         lanes = get_nav_lanes(item, node.x, node.y)
         logging.debug(f"Found {len(lanes)} navigation lanes")
         return lanes
@@ -148,7 +152,7 @@ class NodePathfinder:
 
             # Find the item connecting these nodes using optimized method
             connecting_item = self._find_connecting_item(current_node, next_node, dlc_guard)
-
+            
             if not connecting_item:
                 logging.error(f"Could not find valid connecting item between nodes {current_node.uid} and {next_node.uid}")
                 return None
@@ -163,18 +167,13 @@ class NodePathfinder:
                 start_lanes = self.get_nav_lanes_for_node(current_node, connecting_item)
                 end_lanes = self.get_nav_lanes_for_node(next_node, connecting_item)
 
+                print(start_lanes, end_lanes)
                 if not start_lanes or not end_lanes:
                     logging.error(f"Could not find navigation lanes for segment {current_node.uid} -> {next_node.uid}")
                     return None
 
                 # Find path through this segment
-                segment_path = []
-                for lane in end_lanes:
-                    tmp_segment_path, tmp_old_path = find_path(start_lanes, lane, old_path=old_path)
-                    if tmp_segment_path:
-                        segment_path = tmp_segment_path
-                        old_path = tmp_old_path
-                        break
+                segment_path, old_path = find_path(start_lanes, end_lanes, old_path=old_path)
                     
                 if not segment_path:
                     logging.error(f"Could not find path through segment {current_node.uid} -> {next_node.uid}")
@@ -184,7 +183,7 @@ class NodePathfinder:
                 logging.debug(f"Added {len(segment_path)} lanes for segment {current_node.uid} -> {next_node.uid}")
 
             except Exception as e:
-                logging.error(f"Error processing segment {current_node.uid} -> {next_node.uid}: {str(e)}")
+                logging.exception(f"Error processing segment {current_node.uid} -> {next_node.uid}: {str(e)}")
                 return None
 
         data.plugin.state.reset()
