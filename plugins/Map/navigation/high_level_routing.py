@@ -52,7 +52,6 @@ class HighLevelRouter:
 
     def _get_neighbors(self, node: RouteNode, mode: str = 'shortest') -> List[Tuple[Node, float, int]]:
         """Get neighboring nodes with their distances and DLC guards."""
-        node = node.node
         neighbors = []
         processed_nodes = set()  # Track processed nodes to avoid duplicates
 
@@ -94,7 +93,7 @@ class HighLevelRouter:
             if str(prefab.uid) in problem_uids or prefab.token.lower() in problem_tokens:
                 return None
 
-            base_cost = DistanceBetweenPoints((node.x, node.z), (next_node.x, next_node.z))
+            base_cost = DistanceBetweenPoints((node.node.x, node.node.z), (next_node.x, next_node.z))
 
             # Enhanced prefab cost calculation from truckermudgeon/maps
             if prefab.prefab_description:
@@ -112,70 +111,67 @@ class HighLevelRouter:
                 
             return base_cost, prefab.dlc_guard
 
-        # items = []
-        # 
-        # sectors = self.map_data.get_sectors_for_coordinate_and_distance(node.node.x, node.node.z, data.load_distance)
-        # for sector in sectors:
-        #     items += self.map_data.get_sector_items_by_sector(sector)
 
-        # for item in items:
-        #     if isinstance(item, Road):
-        #         if item.start_node_uid == node.node.uid and not getattr(item, 'hidden', False):
-        #             next_node = self.map_data.get_node_by_uid(item.end_node_uid)
-        #             if next_node and str(next_node.uid) not in processed_nodes:
-        #                 result = process_road(item, next_node)
-        #                 if result:
-        #                     cost, guard = result
-        #                     neighbors.append((next_node, cost, guard))
-        #                     processed_nodes.add(str(next_node.uid))
-        #         elif item.end_node_uid == node.node.uid and not getattr(item, 'hidden', False):
-        #             next_node = self.map_data.get_node_by_uid(item.start_node_uid)
-        #             if next_node and str(next_node.uid) not in processed_nodes:
-        #                 result = process_road(item, next_node)
-        #                 if result:
-        #                     cost, guard = result
-        #                     neighbors.append((next_node, cost, guard))
-        #                     processed_nodes.add(str(next_node.uid))
-        #     elif isinstance(item, Prefab):
-        #         for node_uid in item.node_uids:
-        #             if node_uid != node.node.uid:
-        #                 next_node = self.map_data.get_node_by_uid(node_uid)
-        #                 if next_node and str(next_node.uid) not in processed_nodes:
-        #                     result = process_prefab(item, next_node)
-        #                     if result:
-        #                         cost, guard = result
-        #                         neighbors.append((next_node, cost, guard))
-        #                         processed_nodes.add(str(next_node.uid))
-
-        # Process roads
-        amount = len(self.map_data.roads)
-        for i, road in enumerate(self.map_data.roads):
-            if road.start_node_uid == node.uid and not getattr(road, 'hidden', False):
-                next_node = self.map_data.get_node_by_uid(road.end_node_uid)
-                if next_node and str(next_node.uid) not in processed_nodes:
-                    result = process_road(road, next_node)
-                    if result:
-                        cost, guard = result
-                        neighbors.append((next_node, cost, guard))
-                        processed_nodes.add(str(next_node.uid))
-            elif road.end_node_uid == node.uid and not getattr(road, 'hidden', False):
-                next_node = self.map_data.get_node_by_uid(road.start_node_uid)
-                if next_node and str(next_node.uid) not in processed_nodes:
-                    result = process_road(road, next_node)
-                    if result:
-                        cost, guard = result
-                        neighbors.append((next_node, cost, guard))
-                        processed_nodes.add(str(next_node.uid))
-
-        # Process prefabs
-        amount = len(self.map_data.prefabs)
-        for i, prefab in enumerate(self.map_data.prefabs):
-            if not getattr(prefab, 'hidden', False):
-                for node_uid in prefab.node_uids:
-                    if node_uid != node.uid:
+        forward_item = self.map_data.get_item_by_uid(node.node.forward_item_uid)
+        backward_item = self.map_data.get_item_by_uid(node.node.backward_item_uid)
+        
+        if forward_item:
+            if isinstance(forward_item, Road):
+                next_node = self.map_data.get_node_by_uid(forward_item.end_node_uid)
+                if next_node.uid != node.node.uid:
+                    if next_node and str(next_node.uid) not in processed_nodes:
+                        result = process_road(forward_item, next_node)
+                        if result:
+                            cost, guard = result
+                            neighbors.append((next_node, cost, guard))
+                            processed_nodes.add(str(next_node.uid))
+                
+                previous_node = self.map_data.get_node_by_uid(forward_item.start_node_uid)
+                if previous_node != node.node.uid:
+                    if previous_node and str(previous_node.uid) not in processed_nodes:
+                        result = process_road(forward_item, previous_node)
+                        if result:
+                            cost, guard = result
+                            neighbors.append((previous_node, cost, guard))
+                            processed_nodes.add(str(previous_node.uid))
+                            
+            elif isinstance(forward_item, Prefab):
+                for node_uid in forward_item.node_uids:
+                    if node_uid != node.node.uid:
                         next_node = self.map_data.get_node_by_uid(node_uid)
                         if next_node and str(next_node.uid) not in processed_nodes:
-                            result = process_prefab(prefab, next_node)
+                            result = process_prefab(forward_item, next_node)
+                            if result:
+                                cost, guard = result
+                                neighbors.append((next_node, cost, guard))
+                                processed_nodes.add(str(next_node.uid))
+        
+        if backward_item:
+            if isinstance(backward_item, Road):
+                next_node = self.map_data.get_node_by_uid(backward_item.start_node_uid)
+                if next_node.uid != node.node.uid:
+                    if next_node and str(next_node.uid) not in processed_nodes:
+                        result = process_road(backward_item, next_node)
+                        if result:
+                            cost, guard = result
+                            neighbors.append((next_node, cost, guard))
+                            processed_nodes.add(str(next_node.uid))
+                
+                previous_node = self.map_data.get_node_by_uid(backward_item.end_node_uid)
+                if previous_node != node.node.uid:
+                    if previous_node and str(previous_node.uid) not in processed_nodes:
+                        result = process_road(backward_item, previous_node)
+                        if result:
+                            cost, guard = result
+                            neighbors.append((previous_node, cost, guard))
+                            processed_nodes.add(str(previous_node.uid))
+                            
+            elif isinstance(backward_item, Prefab):
+                for node_uid in backward_item.node_uids:
+                    if node_uid != node.node.uid:
+                        next_node = self.map_data.get_node_by_uid(node_uid)
+                        if next_node and str(next_node.uid) not in processed_nodes:
+                            result = process_prefab(backward_item, next_node)
                             if result:
                                 cost, guard = result
                                 neighbors.append((next_node, cost, guard))
@@ -212,14 +208,19 @@ class HighLevelRouter:
 
         visited: Dict[str, RouteNode] = {str(start_node.uid): start}
         nodes_explored = 0
+        lowest_f_score = float('inf')
         while not open_set.empty():
             current = open_set.get()
             nodes_explored += 1
             
-            # Log progress every 1000 nodes
+            # Log progress every 100 nodes
             current_heuristic = self._heuristic(current.node, end_node, mode)
-            logging.debug(f"Explored {nodes_explored} nodes...")
-            data.plugin.state.text = f"Calculating route... ({nodes_explored}, {current_heuristic:.1f})"
+            if current_heuristic < lowest_f_score:
+                lowest_f_score = current_heuristic
+            
+            if nodes_explored % 100 == 0:
+                logging.debug(f"Explored {nodes_explored} nodes...")
+                data.plugin.state.text = f"Calculating route... ({nodes_explored}, {lowest_f_score:.1f})"
 
             if current.node.uid == end_node.uid:
                 path = self._reconstruct_path(current)

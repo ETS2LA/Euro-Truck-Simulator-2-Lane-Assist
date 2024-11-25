@@ -66,6 +66,9 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
     if isinstance(start_item, RoadSection):
         start_x = (start_item.start.x + start_item.end.x) / 2
         start_y = (start_item.start.z + start_item.end.z) / 2
+    elif isinstance(start_item, c.Road):
+        start_x = start_item.points[0].x
+        start_y = start_item.points[0].z
     else:
         start_x, start_y = start_item.x, start_item.z
 
@@ -73,6 +76,9 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
         if isinstance(destination_item, RoadSection):
             dest_x = (destination_item.start.x + destination_item.end.x) / 2
             dest_y = (destination_item.start.z + destination_item.end.z) / 2
+        elif isinstance(destination_item, c.Road):
+            dest_x = destination_item.points[-1].x
+            dest_y = destination_item.points[-1].z
         else:
             dest_x, dest_y = destination_item.x, destination_item.z
 
@@ -81,7 +87,7 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
     padding = 100
     if route_plan:
         # Include all route points
-        padding = 4
+        padding = 2
         for item in route_plan:
             all_points.extend([(point.x, point.z) for point in item.lane.points])
 

@@ -5,6 +5,7 @@ from plugins.Map.classes import Node, Prefab
 from plugins.Map.navigation.classes import RoadSection, NavigationLane
 import plugins.Map.data as data
 from plugins.Map.navigation.high_level_routing import HighLevelRouter
+import plugins.Map.utils.math_helpers as math_helpers
 
 class NodePathfinder:
     def __init__(self):
@@ -60,11 +61,27 @@ class NodePathfinder:
                 return None
             return current_item
 
-        # Otherwise, look for a road connecting the nodes
-        road = data.map.get_road_between_nodes(current_node.uid, next_node.uid)
-        if road and (dlc_guard is None or not hasattr(road, 'dlc') or road.dlc in dlc_guard):
-            road.get_nodes()  # Initialize nodes
-            return road
+        # Otherwise, look for an item connecting the two nodes
+        if current_node.forward_item_uid == next_node.backward_item_uid:
+            item = data.map.get_item_by_uid(current_node.forward_item_uid)
+            if item:
+                return item
+        elif current_node.backward_item_uid == next_node.forward_item_uid:
+            item = data.map.get_item_by_uid(current_node.backward_item_uid)
+            if item:
+                return item
+        
+        # Fallback to road search
+        if current_item and next_item:
+            road = data.map.get_road_between_nodes(current_node.uid, next_node.uid)
+            if road and (dlc_guard is None or not hasattr(road, 'dlc') or road.dlc in dlc_guard):
+                road.get_nodes()  # Initialize nodes
+                return road
+        
+        distance = math_helpers.DistanceBetweenPoints((current_node.x, current_node.y), (next_node.x, next_node.y))
+        print(distance)
+        if distance < 1:
+            return True
 
         return None
 
@@ -73,7 +90,7 @@ class NodePathfinder:
         logging.debug(f"Getting navigation lanes for node {node.uid} in item {item.uid}")
 
         from plugins.Map.navigation.navigation import get_nav_lanes
-        lanes = get_nav_lanes(item, node.x, node.z)
+        lanes = get_nav_lanes(item, node.x, node.y)
         logging.debug(f"Found {len(lanes)} navigation lanes")
         return lanes
 
@@ -123,7 +140,7 @@ class NodePathfinder:
         data.plugin.state.text = "Processing route..."
         # Convert node path to lane-level navigation
         nav_lanes: List[NavigationLane] = []
-
+        old_path = []
         for i in range(len(node_path) - 1):
             current_node = node_path[i]
             next_node = node_path[i + 1]
@@ -136,6 +153,10 @@ class NodePathfinder:
                 logging.error(f"Could not find valid connecting item between nodes {current_node.uid} and {next_node.uid}")
                 return None
 
+            if type(connecting_item) == bool:
+                logging.info(f"Nodes {current_node.uid} and {next_node.uid} are connected already.")
+                return []
+            
             # Get navigation lanes for this segment
             try:
                 from plugins.Map.navigation.navigation import find_path
@@ -147,7 +168,14 @@ class NodePathfinder:
                     return None
 
                 # Find path through this segment
-                segment_path = find_path(start_lanes, end_lanes[0])
+                segment_path = []
+                for lane in end_lanes:
+                    tmp_segment_path, tmp_old_path = find_path(start_lanes, lane, old_path=old_path)
+                    if tmp_segment_path:
+                        segment_path = tmp_segment_path
+                        old_path = tmp_old_path
+                        break
+                    
                 if not segment_path:
                     logging.error(f"Could not find path through segment {current_node.uid} -> {next_node.uid}")
                     return None

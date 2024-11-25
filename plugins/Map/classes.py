@@ -220,7 +220,9 @@ class Position:
         self.y = y
         self.z = z
 
-    def tuple(self) -> tuple[float, float, float]:
+    def tuple(self, xz=False) -> tuple[float, float, float]:
+        if xz:
+            return (self.x, self.z)
         return (self.x, self.y, self.z)
 
     def list(self) -> list[float]:
@@ -2160,9 +2162,16 @@ class MapData:
 
     def get_road_between_nodes(self, start_node_uid: int | str, end_node_uid: int | str) -> Road | None:
         """Get a road that connects two nodes, initializing its nodes if found."""
-        for road in self.roads:
-            if (road.start_node_uid == start_node_uid and road.end_node_uid == end_node_uid) or \
-               (road.start_node_uid == end_node_uid and road.end_node_uid == start_node_uid):
-                road.get_nodes()  # Initialize nodes
-                return road
+        start_node = self.get_node_by_uid(start_node_uid)
+        sectors = self.get_sectors_for_coordinate_and_distance(start_node.x, start_node.y, 500)
+        items = []
+        for sector in sectors:
+            items += self.get_sector_items_by_sector(sector)
+        
+        for road in items:
+            if type(road) == Road:
+                if (road.start_node_uid == start_node_uid and road.end_node_uid == end_node_uid) or \
+                   (road.start_node_uid == end_node_uid and road.end_node_uid == start_node_uid):
+                    road.get_nodes()  # Initialize nodes
+                    return road
         return None

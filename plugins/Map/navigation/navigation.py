@@ -83,21 +83,76 @@ def get_nav_lanes(item: c.Prefab | RoadSection, x: float, z: float) -> list[Navi
 
         if isinstance(item, c.Prefab):
             try:
-                closest_lane = prefab_helpers.get_closest_lane(
+                return [NavigationLane(
+                    lane=lane,
+                    item=item,
+                    start=lane.points[0],
+                    end=lane.points[-1],
+                    length=lane.distance
+                ) for lane in item.nav_routes]
+                
+                #closest_lane = prefab_helpers.get_closest_lane(
+                #    item,
+                #    x,
+                #    z
+                #)
+#
+                #return [NavigationLane(
+                #    lane=item.nav_routes[closest_lane],
+                #    item=item,
+                #    start=item.nav_routes[closest_lane].points[0],
+                #    end=item.nav_routes[closest_lane].points[-1],
+                #    length=item.nav_routes[closest_lane].distance
+                #)]
+            except Exception as e:
+                logging.error(f"Error processing prefab lanes: {e}")
+                return []
+
+        elif isinstance(item, c.Road):
+            try:
+                # Check if the start or end is in front of the truck
+                forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
+                if len(item.points) < 2:
+                    logging.error(f"Road {item.uid} has less than 2 points")
+                    return []
+                point_forward_vector = [item.points[-1].x - data.truck_x, item.points[-1].z - data.truck_z]
+                angle = np.arccos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
+                end_angle = math.degrees(angle)
+
+                point_forward_vector = [item.points[0].x - data.truck_x, item.points[0].z - data.truck_z]
+                angle = np.arccos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
+                start_angle = math.degrees(angle)
+
+                # Get the closest lane id
+                closest_lane = road_helpers.get_closest_lane(
                     item,
                     x,
                     z
                 )
 
-                return [NavigationLane(
-                    lane=item.nav_routes[closest_lane],
-                    item=item,
-                    start=item.nav_routes[closest_lane].points[0],
-                    end=item.nav_routes[closest_lane].points[-1],
-                    length=item.nav_routes[closest_lane].distance
-                )]
+                side = item.lanes[closest_lane].side
+
+                if abs(end_angle) < abs(start_angle):
+                    # End is closer
+                    return [NavigationLane(
+                        lane=lane,
+                        item=item,
+                        start=lane.points[0],
+                        end=item.points[-1],
+                        length=lane.length
+                    ) for lane in item.lanes if lane.side == side]
+
+                else:
+                    # Start is closer
+                    return [NavigationLane(
+                        lane=lane,
+                        item=item,
+                        start=lane.points[1],
+                        end=item.points[0],
+                        length=lane.length
+                    ) for lane in item.lanes if lane.side == side]
             except Exception as e:
-                logging.error(f"Error processing prefab lanes: {e}")
+                logging.exception(f"Error processing road lanes: {e}")
                 return []
 
         elif isinstance(item, RoadSection):
@@ -172,9 +227,12 @@ def heuristic(lane: NavigationLane, goal_lane: NavigationLane) -> float:
 def reconstruct_path(came_from: dict, current: NavigationLane) -> list[NavigationLane]:
     """Reconstructs the path from the came_from dict"""
     try:
-        if not came_from or current is None:
-            logging.error("Invalid input: came_from or current is None")
+        if current is None:
+            logging.error("Invalid input: current is None")
             return []
+        if not came_from:
+            #logging.error("Invalid input: came_from is empty")
+            return [current]
 
         path = [current]
         while current in came_from:
@@ -187,7 +245,7 @@ def reconstruct_path(came_from: dict, current: NavigationLane) -> list[Navigatio
         logging.error(f"Error reconstructing path: {e}", exc_info=True)
         return []
 
-def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> list[NavigationLane]:
+def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane, old_path: list = []) -> list[NavigationLane]:
     """A* pathfinding implementation with multiple starting lanes"""
     try:
         if not isinstance(start_lanes, list) or not start_lanes:
@@ -201,6 +259,7 @@ def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> l
         logging.info(f"Finding path from {len(start_lanes)} starting lanes to {goal_lane}")
 
         open_set = set(start_lanes)
+        print(f"Open set: {open_set}")
         came_from = {}
 
         g_score = {lane: 0 for lane in start_lanes}
@@ -211,7 +270,7 @@ def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> l
         while open_set and iteration < max_iterations:
             try:
                 current = min(open_set, key=lambda x: f_score.get(x, float('inf')))
-                logging.debug(f"Iteration {iteration}: Current lane {current}")
+                logging.info(f"Iteration {iteration}: Current lane {current}")
 
                 current_path = reconstruct_path(came_from, current)
                 data.navigation_points = []
@@ -221,12 +280,18 @@ def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> l
                 if data.internal_map:
                     DrawMap()
 
-                visualize_route(goal_lane.item, start_lanes[0].item, current_path)
+                visualize_route(goal_lane.item, current.item, old_path + current_path)
 
-                if (current.item.uid == goal_lane.item.uid and
-                    math_helpers.DistanceBetweenPoints(current.end.tuple(), goal_lane.end.tuple()) < 0.1):
-                    logging.info("Found path!")
-                    return reconstruct_path(came_from, current)
+                if (current.item.uid == goal_lane.item.uid and math_helpers.DistanceBetweenPoints(current.end.tuple(), goal_lane.end.tuple()) < 0.1):
+                    if len(old_path) > 0:
+                        if (math_helpers.DistanceBetweenPoints(current.start.tuple(xz=True), old_path[-1].end.tuple(xz=True)) < 0.1):
+                            logging.info("Found path!")
+                            return reconstruct_path(came_from, current), old_path + current_path
+                        else:
+                            print("Failed to connect paths", math_helpers.DistanceBetweenPoints(current.start.tuple(xz=True), old_path[-1].end.tuple(xz=True)))
+                    else:
+                        logging.info("Found path!")
+                        return reconstruct_path(came_from, current), old_path + current_path
 
                 open_set.remove(current)
 
@@ -240,6 +305,7 @@ def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> l
 
                         if tentative_g_score < g_score.get(neighbor, float('inf')):
                             came_from[neighbor] = current
+                            print(f"Neighbor: {neighbor}")
                             g_score[neighbor] = tentative_g_score
                             f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal_lane)
                             open_set.add(neighbor)
@@ -249,17 +315,17 @@ def find_path(start_lanes: list[NavigationLane], goal_lane: NavigationLane) -> l
 
                 iteration += 1
             except Exception as e:
-                logging.error(f"Error in pathfinding iteration {iteration}: {e}")
+                logging.exception(f"Error in pathfinding iteration {iteration}: {e}")
                 break
 
         if iteration >= max_iterations:
             logging.warning("Path finding exceeded maximum iterations")
         else:
             logging.warning("No path found!")
-        return None
+        return None, None
     except Exception as e:
         logging.error(f"Critical error in path finding: {e}", exc_info=True)
-        return None
+        return None, None
 
 def get_path_to_destination():
     """Find a path from current position to destination"""
@@ -287,8 +353,8 @@ def get_path_to_destination():
 
         # Get node UIDs based on item type
         try:
-            start_node_uid = start_item.roads[0].start_node_uid if isinstance(start_item, RoadSection) else start_item.node_uid
-            end_node_uid = dest_item.roads[0].start_node_uid if isinstance(dest_item, RoadSection) else dest_item.node_uid
+            start_node_uid = start_item.roads[0].start_node_uid if isinstance(start_item, RoadSection) else start_item.uid
+            end_node_uid = dest_item.roads[0].start_node_uid if isinstance(dest_item, RoadSection) else dest_item.uid
 
             start_node = data.map.get_node_by_uid(start_node_uid)
             end_node = data.map.get_node_by_uid(end_node_uid)
