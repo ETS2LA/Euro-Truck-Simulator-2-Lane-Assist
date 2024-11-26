@@ -41,6 +41,18 @@ def get_destination_item() -> tuple[c.Prefab | RoadSection, c.Position]:
             logging.error(f"Could not find node for company {data.dest_company.token}")
             return None, None
 
+        if dest_node.forward_item_uid:
+            dest_item = data.map.get_item_by_uid(dest_node.forward_item_uid)
+            logging.warning(f"Found forward item: {type(dest_item).__name__}")
+            if type(dest_item) == c.Prefab or type(dest_item) == RoadSection or type(dest_item) == c.Road:
+                return dest_item, c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
+        
+        if dest_node.backward_item_uid:
+            dest_item = data.map.get_item_by_uid(dest_node.backward_item_uid)
+            logging.warning(f"Found backward item: {type(dest_item).__name__}")
+            if type(dest_item) == c.Prefab or type(dest_item) == RoadSection or type(dest_item) == c.Road:
+                return dest_item, c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
+        
         position = c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
 
         closest_item = data.map.get_closest_item(position.x, position.y)
@@ -108,7 +120,7 @@ def get_nav_lanes(item: c.Prefab | RoadSection, x: float, z: float) -> list[Navi
                 point_forward_vector = [item.points[0].x - data.truck_x, item.points[0].z - data.truck_z]
                 angle = np.arccos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
                 start_angle = math.degrees(angle)
-
+                
                 # Get the closest lane id
                 closest_lane = road_helpers.get_closest_lane(
                     item,
@@ -137,6 +149,7 @@ def get_nav_lanes(item: c.Prefab | RoadSection, x: float, z: float) -> list[Navi
                         end=item.points[0],
                         length=lane.length
                     ) for lane in item.lanes if lane.side == side]
+                    
             except Exception as e:
                 logging.exception(f"Error processing road lanes: {e}")
                 return []
@@ -246,6 +259,7 @@ def find_path(start_lanes: list[NavigationLane], goal_lanes: list[NavigationLane
 
         best_path = None
         shortest_distance = float('inf')
+        goal_side = "left"
         for start_lane in start_lanes:
             for goal_lane in goal_lanes:
                 logging.debug(f"Finding path from start {start_lanes.index(start_lane)} to end {goal_lanes.index(goal_lane)}")
@@ -259,6 +273,15 @@ def find_path(start_lanes: list[NavigationLane], goal_lanes: list[NavigationLane
                     logging.debug(f"Found new shortest path with distance {total_distance}")
                     shortest_distance = total_distance
                     best_path = start_lane
+                    if type(goal_lane.item) == c.Road or type(goal_lane.item) == RoadSection:
+                        goal_side = goal_lane.lane.side
+                        
+                elif total_distance == shortest_distance: # prefer the right side
+                    if type(goal_lane.item) == c.Road or type(goal_lane.item) == RoadSection:
+                        if goal_side == "left":
+                            if goal_lane.lane.side == "right":
+                                best_path = start_lane
+                                goal_side = goal_lane.lane.side
                     
         visualize_route(goal_lane.item, best_path.item, old_path + [best_path])
         return [best_path], old_path + [best_path]
@@ -318,20 +341,10 @@ def get_path_to_destination():
         logging.info(f"Found complete path with {len(complete_path)} segments")
 
         # Update navigation points
-        data.navigation_points = []
-        for item in complete_path:
-            data.navigation_points.extend([point for point in item.lane.points])
-
-        # Update visualization
-        try:
-            if data.internal_map:
-                logging.debug("Drawing route on internal map...")
-                DrawMap()
-
-            logging.debug("Visualizing route...")
-            visualize_route(dest_item, start_item, complete_path)
-        except Exception as e:
-            logging.error(f"Error in visualization: {e}", exc_info=True)
+        data.navigation_plan = complete_path
+        data.circles = []
+        for node in data.navigation_plan:
+            data.circles.append(c.Position(node.x, node.z, node.y))
 
         return complete_path
 

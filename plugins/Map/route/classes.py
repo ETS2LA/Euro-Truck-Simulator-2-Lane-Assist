@@ -36,6 +36,7 @@ class RouteSection:
     is_lane_changing: bool = False
     lane_change_distance: float = 0 
     is_ended: bool = False
+    invert: bool = False
     last_actual_points: list[c.Position] = []
     _start_node: c.Node = None
     _end_node: c.Node = None
@@ -105,7 +106,7 @@ class RouteSection:
                 accepted_points.append(point)
                 last_point = point
         
-        self.lane_points = accepted_points
+        self.lane_points = accepted_points if not self.invert else accepted_points[::-1]
         self._lane_index = value
 
     def distance_left(self) -> float:

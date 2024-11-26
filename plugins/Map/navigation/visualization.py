@@ -175,7 +175,9 @@ def visualize_route(destination_item: c.Item | RoadSection, start_item: c.Item |
             convert_from_world_to_zoomed_map(point.x, point.z, min_x, min_y, scale, scale)
             for point in points
         ]
-        cv2.polylines(zoomed_map, [np.array(zoomed_points)], False, (255, 0, 0), 2)
+        for point in zoomed_points:
+            cv2.circle(zoomed_map, point, 2, (255, 0, 0), -1)
+        #cv2.polylines(zoomed_map, [np.array(zoomed_points)], False, (255, 0, 0), 2)
 
     # Only show window if not in mock mode
     if not mock_mode:

@@ -32,7 +32,6 @@ class ToggleSteering():
     game_braking = SmoothedValue("time", 0.5)
     def ToggleSteering(self):
         try:
-            print("Toggling steering")
             if time.time() - self.last_toggle < 1: return
             self.last_toggle = time.time()
             self.steering = not self.steering

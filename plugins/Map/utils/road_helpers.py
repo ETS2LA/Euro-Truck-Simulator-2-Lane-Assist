@@ -312,7 +312,7 @@ def display_road_lanes(road) -> None:
     cv2.resizeWindow("Road Lanes", 1000, 1000)
     cv2.waitKey(0)
 
-def get_closest_lane(item, x: float, z: float) -> int:
+def get_closest_lane(item, x: float, z: float, return_distance:bool = False) -> int:
     closest_point_distance = math.inf
     closest_lane_id = -1
     for lane_id, lane in enumerate(item.lanes):
@@ -324,4 +324,7 @@ def get_closest_lane(item, x: float, z: float) -> int:
                 closest_point_distance = distance
                 closest_lane_id = lane_id
 
+    if return_distance:
+        return closest_lane_id, closest_point_distance
+    
     return closest_lane_id

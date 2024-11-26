@@ -141,3 +141,15 @@ def RotateAroundPoint(x: float, y: float, angle: float, origin_x: float, origin_
     new_y = x * s + y * c
     
     return new_x + origin_x, new_y + origin_y
+
+def VectorBetweenPoints(p1: tuple[float, float] | tuple[float, float, float], p2: tuple[float, float] | tuple[float, float, float]) -> tuple[float, float]:
+    """Get the vector between two points.
+
+    :param tuple[float, float] | tuple[float, float, float] p1: Point 1.
+    :param tuple[float, float] | tuple[float, float, float] p2: Point 2.
+    :return tuple[float, float]: The vector between the two points.
+    """
+    if len(p1) == 2:
+        return p2[0] - p1[0], p2[1] - p1[1]
+    else:
+        return p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]

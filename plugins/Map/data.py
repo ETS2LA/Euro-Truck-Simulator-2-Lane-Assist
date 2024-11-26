@@ -1,4 +1,4 @@
-from plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem
+from plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Node
 from modules.SDKController.main import SCSController
 from plugins.Map.route.classes import RouteSection
 import ETS2LA.backend.settings as settings
@@ -56,7 +56,10 @@ route_plan: list[RouteSection] = []
 """The current route plan."""
 route_points: list[Position] = []
 """The current route points."""
-navigation_points: list[Position] = []
+navigation_plan: list[Node] = []
+"""List of nodes that will drive the truck to the destination."""
+circles: list[Position] = []
+"""Circles to draw on the map."""
 
 # MARK: Options
 amount_of_points: int = 50
@@ -81,18 +84,25 @@ sector_size = settings.Get("Map", "SectorSize", 200)
 """The size of each sector in meters."""
 load_distance = settings.Get("Map", "LoadDistance", 500)
 """The radius around the truck in meters that should be loaded."""
+use_navigation = settings.Get("Map", "UseNavigation", False)
+"""Whether we should drive along the navigation path or just use the basic route planner."""
 
 # MARK: Return values
 external_data = {}
 """Data that will be sent to other plugins and the frontend."""
+external_data_time = 0
+"""Time the external data was last updated."""
+
+# MARK: Flags
 data_needs_update = False
 """Does the external data need to be updated?"""
 external_data_changed = False
 """Flag for the main file to update the external data in the main process."""
-external_data_time = 0
-"""Time the external data was last updated."""
 elevation_data_sent = False
 """Whether the elevation data has been sent to the main process or not."""
+update_navigation_plan = False
+"""Whether we should calculate a new plan to drive to the destination."""
+
 
 def UpdateData(api_data):
     global heavy_calculations_this_frame
@@ -158,10 +168,11 @@ def UpdateData(api_data):
     
     
 def UpdateSettings(settings: dict):
-    global internal_map, calculate_steering, sector_size
+    global internal_map, calculate_steering, sector_size, use_navigation
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
     load_distance = settings["LoadDistance"]
+    use_navigation = settings["UseNavigation"]
     
 settings.Listen("Map", UpdateSettings)

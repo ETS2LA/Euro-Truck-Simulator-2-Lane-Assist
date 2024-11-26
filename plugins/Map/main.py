@@ -47,6 +47,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Switch("map.settings.6.name", "InternalVisualisation", True, description="map.settings.6.description")
                 Space(12)
                 Title("Navigation Settings")
+                Switch("Navigate on ETS2LA", "UseNavigation", True, description="Enable the automatic navigation features of ETS2LA.")
                 routing_mode = settings.Get("Map", "RoutingMode")
                 if not routing_mode or routing_mode not in ["shortest", "smallRoads"]:
                     routing_mode = "shortest"
@@ -138,7 +139,7 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Navigation module changed, reloading...")
                     importlib.reload(navigation)
                     logging.info("Successfully reloaded navigation module")
-                    if data.dest_company:
+                    if data.dest_company and data.use_navigation:
                         logging.info("Recalculating path with reloaded module...")
                         navigation.get_path_to_destination()
             except Exception as e:
@@ -229,7 +230,7 @@ class Plugin(ETS2LAPlugin):
 
             # Check if routing mode has changed
             current_routing_mode = settings.Get("Map", "RoutingMode")
-            if current_routing_mode != self._last_routing_mode:
+            if current_routing_mode != self._last_routing_mode and data.use_navigation:
                 logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
                 self._last_routing_mode = current_routing_mode
                 if data.dest_company:
@@ -267,10 +268,10 @@ class Plugin(ETS2LAPlugin):
                 im.DrawMap()
 
             # Call navigation when destination company changes
-            # if data.dest_company != self.last_dest_company:
-            #     logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
-            #     self.last_dest_company = data.dest_company
-            #     navigation.get_path_to_destination()
+            if (data.dest_company != self.last_dest_company or data.update_navigation_plan) and data.use_navigation:
+                logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
+                self.last_dest_company = data.dest_company
+                navigation.get_path_to_destination()
 
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)

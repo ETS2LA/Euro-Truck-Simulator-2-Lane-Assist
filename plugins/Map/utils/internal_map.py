@@ -3,8 +3,8 @@ import numpy as np
 import math
 import cv2
 
-WINDOW_WIDTH = 500
-WINDOW_HEIGHT = 500
+WINDOW_WIDTH = 750
+WINDOW_HEIGHT = 750
 
 ZOOM = 1
 
@@ -189,14 +189,12 @@ def DrawRoutePlan(image: np.ndarray) -> None:
             cv2.circle(image, (int(x), int(z)), 2, (255, 0, 0), -1)
             count += 1
 
-def DrawNavigation(image: np.ndarray) -> None:
-    points = data.navigation_points
-    new_points = []
-    for point in points:
-        x, z = ToLocalSectorCoordinates(point.x, point.z)
-        new_points.append((int(x), int(z)))
-    
-    cv2.polylines(image, [np.array(new_points, np.int32)], isClosed=False, color=(255, 255, 255), thickness=1, lineType=cv2.LINE_AA)
+def DrawCircles(image: np.ndarray) -> None:
+    circles = data.circles
+    for i, circle in enumerate(circles):
+        x, z = ToLocalSectorCoordinates(circle.x, circle.z)
+        cv2.circle(image, (int(x), int(z)), 3, (255, 255, 255), -1)
+        cv2.putText(image, f"{i}", (int(x), int(z)), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
 def DrawPlayerDot(image: np.ndarray) -> None:
     scaling_factor = 200 / 200 # sector size
@@ -246,7 +244,7 @@ def DrawMap() -> None:
     DrawRoutePlan(image)
     #DrawStats(image)
     DrawPlayerDot(image)
-    DrawNavigation(image)
+    DrawCircles(image)
     
     try:
         image = ZoomImage(image)
