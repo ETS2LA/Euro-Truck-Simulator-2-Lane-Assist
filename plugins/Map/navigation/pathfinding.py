@@ -11,11 +11,13 @@ logger = logging.getLogger(__name__)
 class RouteNode:
     """Node wrapper for A* algorithm."""
     def __init__(self, node: Node, g_score: float = float('inf'),
-                 f_score: float = float('inf'), parent: Optional['RouteNode'] = None):
+                 f_score: float = float('inf'), parent: Optional['RouteNode'] = None,
+                 prev_road: Optional[Road] = None):
         self.node = node
         self.g_score = g_score
         self.f_score = f_score
         self.parent = parent
+        self.prev_road = prev_road  # Track previous road for transition costs
 
     def __lt__(self, other: 'RouteNode') -> bool:
         return self.f_score < other.f_score
@@ -130,20 +132,32 @@ class PathFinder:
 
         return check_dlc_access(road.dlc_guard)
 
-    def _calculate_cost(self, road: Road, mode: str = "fastest") -> float:
+    def _calculate_cost(self, road: Road, mode: str = "fastest", current_node: Optional[RouteNode] = None) -> float:
+        """Calculate cost of traversing a road segment, including transition costs between different road types."""
+
+    def _calculate_cost(self, road: Road, mode: str = "fastest", current_node: Optional[RouteNode] = None) -> float:
         """Calculate cost of traversing a road segment."""
         base_cost = road.length
 
+        # Check for road type transitions
+        is_highway = "highway" in road.road_look_token.lower()
+        transition_cost = 0
+
+        # Get previous road type from RouteNode if available
+        if current_node and current_node.prev_road:
+            was_highway = "highway" in current_node.prev_road.road_look_token.lower()
+            if is_highway != was_highway:
+                transition_cost = base_cost * 0.3
+
         if mode == "fastest":
-            # Prefer highways
-            if "highway" in road.road_look_token.lower():
-                return base_cost * 0.7  # 30% bonus for highways
-            return base_cost
+            # Gradual highway preference
+            if is_highway:
+                return (base_cost * 0.7) + transition_cost  # 30% bonus + transition cost
+            return base_cost + transition_cost
         else:  # smallRoads mode
-            # Avoid highways, prefer small roads
-            if "highway" in road.road_look_token.lower():
-                return base_cost * 2.5  # 150% penalty for highways
-            return base_cost * 0.7  # 30% bonus for small roads
+            if is_highway:
+                return (base_cost * 2.5) + transition_cost  # 150% penalty + transition cost
+            return (base_cost * 0.7) + transition_cost  # 30% bonus + transition cost
 
     def _heuristic(self, node: Node, goal: Node) -> float:
         """Calculate heuristic distance between nodes."""
@@ -203,10 +217,10 @@ class PathFinder:
                     continue
 
                 tentative_g_score = (current.g_score +
-                                   self._calculate_cost(road, mode))
+                                   self._calculate_cost(road, mode, current))
 
                 if str(neighbor.uid) not in node_lookup:
-                    neighbor_route_node = RouteNode(neighbor)
+                    neighbor_route_node = RouteNode(neighbor, prev_road=road)
                     node_lookup[str(neighbor.uid)] = neighbor_route_node
                     heapq.heappush(open_set, neighbor_route_node)
                 else:
@@ -215,6 +229,7 @@ class PathFinder:
                         continue
 
                 neighbor_route_node.parent = current
+                neighbor_route_node.prev_road = road
                 neighbor_route_node.g_score = tentative_g_score
                 neighbor_route_node.f_score = (tentative_g_score +
                                              self._heuristic(neighbor, goal))
