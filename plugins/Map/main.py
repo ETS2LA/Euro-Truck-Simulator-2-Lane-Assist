@@ -44,7 +44,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")
                 Space(12)
                 Title("map.settings.4.title")
-                Switch("map.settings.6.name", "InternalVisualisation", True, description="map.settings.6.description")
+                Switch("map.settings.6.name", "InternalVisualisation", False, description="map.settings.6.description")
                 Space(12)
                 Title("Navigation Settings")
                 Switch("Navigate on ETS2LA", "UseNavigation", True, description="Enable the automatic navigation features of ETS2LA.")
@@ -153,21 +153,7 @@ class Plugin(ETS2LAPlugin):
     def init(self):
         """Initialize the plugin"""
         try:
-            # Initialize settings with defaults
-            settings.CreateIfNotExists("Map")
-            default_settings = {
-                "ComputeSteeringData": True,
-                "SteeringSmoothTime": 0.2,
-                "InternalVisualisation": True,
-                "RoutingMode": "shortest"
-            }
-
-            # Initialize all settings with defaults
-            for key, default_value in default_settings.items():
-                if not settings.Get("Map", key):
-                    settings.Set("Map", key, default_value)
-
-            self.steering_smoothness = settings.Get("Map", "SteeringSmoothTime")
+            self.steering_smoothness = settings.Get("Map", "SteeringSmoothTime", 0.3)
 
             data.controller = self.modules.SDKController.SCSController()
             data.plugin = self
