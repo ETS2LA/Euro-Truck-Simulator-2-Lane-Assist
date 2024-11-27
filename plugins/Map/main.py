@@ -300,4 +300,9 @@ class Plugin(ETS2LAPlugin):
 
         self.globals.tags.target_speed = max_speed
 
+        #if len(data.route_points) > 0:
+        #    if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 10:
+        #        if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[-1].x, data.route_points[-1].z)) > 10:
+        #            data.update_navigation_plan = True
+
         return [point.tuple() for point in data.route_points]

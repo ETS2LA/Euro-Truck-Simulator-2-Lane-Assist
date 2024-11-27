@@ -334,6 +334,7 @@ def GetCurrentNavigationPlan():
     in_front = [math_helpers.IsInFront((node.x, node.y), data.truck_rotation, (data.truck_x, data.truck_z)) for node in closest]
     try:
         last = closest[in_front.index(False)]
+        next = closest[in_front.index(True)]
     except:
         back_item = data.map.get_item_by_uid(closest[0].backward_item_uid)
         forward_item = data.map.get_item_by_uid(closest[0].forward_item_uid)
@@ -387,8 +388,6 @@ def GetCurrentNavigationPlan():
             end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
             invert = start_distance > end_distance
             return PrefabToRouteSection(closest_item, closest_lane, invert=invert)
-            
-    next = closest[in_front.index(True)]
     
 
     # find the item that connects both of the nodes
@@ -425,9 +424,11 @@ def GetNextNavigationItem():
     index = path.index(closest)
     next = path[index + 1]
     
+    dir = "forward"
     if closest.forward_item_uid == next.backward_item_uid:
         next_item = data.map.get_item_by_uid(closest.forward_item_uid)
     elif closest.backward_item_uid == next.forward_item_uid:
+        dir = "backward"
         next_item = data.map.get_item_by_uid(closest.backward_item_uid)
         
     if type(next_item) == c.Road:
@@ -440,8 +441,21 @@ def GetNextNavigationItem():
         if len(closest_lanes) == 0:
             return None
         
-        closest_lane = closest_lanes[0]
-        return PrefabToRouteSection(next_item, closest_lane)
+        next_next = path[index + 2]
+        
+        best_lane = math.inf
+        best_distance = math.inf
+        for lane in closest_lanes:
+            points = next_item.nav_routes[lane].points
+            distance = math_helpers.DistanceBetweenPoints((points[-1].x, points[-1].z), (next_next.x, next_next.y))
+            if distance < best_distance:
+                best_distance = distance
+                best_lane = lane
+                
+        if best_lane == math.inf:
+            return None
+        
+        return PrefabToRouteSection(next_item, best_lane)
     
         
 was_indicating = False

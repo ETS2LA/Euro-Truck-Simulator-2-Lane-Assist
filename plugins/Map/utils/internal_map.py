@@ -193,8 +193,9 @@ def DrawCircles(image: np.ndarray) -> None:
     circles = data.circles
     for i, circle in enumerate(circles):
         x, z = ToLocalSectorCoordinates(circle.x, circle.z)
-        cv2.circle(image, (int(x), int(z)), 3, (255, 255, 255), -1)
-        cv2.putText(image, f"{i}", (int(x), int(z)), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        if x < WINDOW_WIDTH and x > 0 and z < WINDOW_HEIGHT and z > 0:
+            cv2.circle(image, (int(x), int(z)), 3, (255, 255, 255), -1)
+            cv2.putText(image, f"{i}", (int(x), int(z)), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
 def DrawPlayerDot(image: np.ndarray) -> None:
     scaling_factor = 200 / 200 # sector size
