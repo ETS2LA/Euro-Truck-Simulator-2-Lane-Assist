@@ -131,6 +131,54 @@ class SpawnPointType(IntEnum):
 
 # MARK: Base Classes
 
+class NavigationNode:
+    node_id: int | str
+    distance: float
+    direction: Literal["forward", "backward"]
+    is_one_lane_road: bool
+    dlc_guard: int
+    
+    def parse_strings(self):
+        self.node_id = parse_string_to_int(self.node_id)
+        
+    def __init__(self, node_id: int | str, distance: float, direction: Literal["forward", "backward"], is_one_lane_road: bool, dlc_guard: int):
+        self.node_id = node_id
+        self.distance = distance
+        self.direction = direction
+        self.is_one_lane_road = is_one_lane_road
+        self.dlc_guard = dlc_guard
+        self.parse_strings()
+        
+    def json(self) -> dict:
+        return {
+            "node_id": self.node_id,
+            "distance": self.distance,
+            "direction": self.direction,
+            "is_one_lane_road": self.is_one_lane_road,
+            "dlc_guard": self.dlc_guard
+        }
+
+class NavigationEntry:
+    uid: int | str
+    forward: list[NavigationNode]
+    backward: list[NavigationNode]
+    
+    def parse_strings(self):
+        self.uid = parse_string_to_int(self.uid)
+        
+    def __init__(self, uid: int | str, forward: list[NavigationNode], backward: list[NavigationNode]):
+        self.uid = uid
+        self.forward = forward
+        self.backward = backward
+        self.parse_strings()
+        
+    def json(self) -> dict:
+        return {
+            "uid": self.uid,
+            "forward": [node.json() for node in self.forward],
+            "backward": [node.json() for node in self.backward]
+        }
+
 class Node:
     uid: int | str
     x: float
@@ -1846,6 +1894,7 @@ class MapData:
     road_looks: list[RoadLook]
     prefab_descriptions: list[PrefabDescription]
     model_descriptions: list[ModelDescription]
+    navigation: list[NavigationEntry]
 
     _nodes_by_sector: dict[dict[Node]]
     _roads_by_sector: dict[dict[Road]]
@@ -1863,6 +1912,7 @@ class MapData:
     _model_descriptions_by_token = {}
     _prefab_descriptions_by_token = {}
     _companies_by_token = {}
+    _navigation_by_node_uid = {}
     """
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
@@ -1994,6 +2044,13 @@ class MapData:
         self._companies_by_token = {}
         for company in self.companies:
             self._companies_by_token[company.token] = company
+            
+        self._navigation_by_node_uid = {}
+        for nav in self.navigation:
+            self._navigation_by_node_uid[nav.uid] = nav
+
+    def get_node_navigation(self, uid: str) -> NavigationEntry:
+        return self._navigation_by_node_uid.get(uid, None)
 
     def get_sector_from_coordinates(self, x: float, z: float) -> tuple[int, int]:
         return (int(x // self._sector_width), int(z // self._sector_height))

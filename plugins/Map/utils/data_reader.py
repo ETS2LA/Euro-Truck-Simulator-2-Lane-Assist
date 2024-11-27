@@ -44,6 +44,31 @@ def ReadNodes() -> list[c.Node]:
 
     return nodes
 
+def ReadNodeGraph() -> list[c.NavigationEntry]: # None since this will just update the existing nodes
+    path = FindCategoryFilePath("graph")
+    if path is None: return []
+    graph: list[c.NavigationEntry] = []
+    for entry in data_extractor.ReadData(path):
+        graph.append(c.NavigationEntry(
+            entry[0],
+            [c.NavigationNode(
+                node["nodeId"],
+                node["distance"],
+                node["direction"],
+                bool(TryReadExcept(node, "isOneLaneRoad", False)),
+                node["dlcGuard"],
+            ) for node in entry[1]["forward"]],
+            [c.NavigationNode(
+                node["nodeId"],
+                node["distance"],
+                node["direction"],
+                bool(TryReadExcept(node, "isOneLaneRoad", False)),
+                node["dlcGuard"],
+            ) for node in entry[1]["backward"]],
+        ))
+    
+    return graph
+
 def ReadElevations() -> list[tuple[float, float, float]]:
     path = FindCategoryFilePath("elevation")
     if path is None: return []
@@ -498,7 +523,7 @@ def ReadCities() -> list[c.City]:
     return cities
 
 state_object = None
-total_steps = 19
+total_steps = 20
 progress = 0
 def PrintState(start_time: float, message: str):
     global progress
@@ -529,6 +554,10 @@ def ReadData(state = None) -> c.MapData:
     PrintState(start_time, "Nodes")
     data.nodes = ReadNodes()
     UpdateState(start_time, f"Loaded {len(data.nodes)} nodes")
+    
+    PrintState(start_time, "Navigation")
+    data.navigation = ReadNodeGraph()
+    UpdateState(start_time, f"Loaded {len(data.navigation)} navigation entries")
     
     PrintState(start_time, "Elevations")
     data.elevations = ReadElevations()
