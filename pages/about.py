@@ -11,6 +11,7 @@ contributors = [
     {"name": "Cloud", "description": Translate("about.cloud.description"), "links": []},
     {"name": "DylDev", "description": Translate("about.dyldev.description"), "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
     {"name": "truckermudgeon", "description": Translate("about.truckersmudgeon.description"), "links": []},
+    {"name": "WhyTrevorWhy", "description": Translate("about.whytrevorwhy.description"), "links": []},
     {"name": "mimi89999", "description": Translate("about.mimi89999.description"), "links": []},
     {"name": "zhaoyj", "description": Translate("about.zhaoyj.description"), "links": []},
     {"name": "Lun", "description": Translate("about.lun.description"), "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
