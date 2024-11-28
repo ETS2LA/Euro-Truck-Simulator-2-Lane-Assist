@@ -6,24 +6,28 @@ export async function GetSettingsJSON(plugin:string) {
     return await response.json();
 }
 
-export async function GetSettingByKey(plugin: string, key: string) {
+export async function GetSettingByKey(plugin: string, key: string, fallback: any = null) {
     try {
         const response = await fetch(`http://${ip}:37520/backend/plugins/${plugin}/settings/${key}`);
         
         if (!response.ok) {
             console.error(`Failed to fetch: HTTP status ${response.status}`);
-            return null;
+            return fallback;
         }
 
         try {
-            return await response.json();
+            let data = await response.json();
+            if (data === null) {
+                return fallback;
+            }
+            return data;
         } catch (jsonError) {
             console.error("Failed to parse JSON response:", jsonError);
-            return null;
+            return fallback;
         }
     } catch (error) {
         console.error("An error occurred while getting the setting by key:", error);
-        return null;
+        return fallback;
     }
 }
 export async function SetSettingByKey(plugin:string, key:string, value:any) {

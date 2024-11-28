@@ -288,12 +288,22 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 	}
 
 	const SwitchRenderer = (data:any) => {
+		const checked = pluginSettings[data.key]
+		if (checked == null || typeof checked != "boolean") {
+			if (data.options.default != undefined) {
+				console.log("Setting default value for", data.key)
+				pluginSettings[data.key] = data.options.default
+			}
+			else {
+				pluginSettings[data.key] = false
+			}
+		}
 		return <div className={"flex justify-between p-0 items-center" + GetBorderClassname(data.options.border)}>
 				<div className="flex flex-col gap-1 pr-12">
 					<h4 className="font-semibold">{translate(data.name)}</h4>
 					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
 				</div>
-				<Switch checked={pluginSettings[data.key] && pluginSettings[data.key] || false} onCheckedChange={(bool) => {
+				<Switch checked={checked} onCheckedChange={(bool) => {
 					SetSettingByKey(plugin, data.key, bool).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)

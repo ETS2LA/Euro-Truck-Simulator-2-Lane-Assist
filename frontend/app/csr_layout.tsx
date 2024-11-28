@@ -13,12 +13,16 @@ import { States } from "@/components/states";
 import { Popups } from "@/components/popups";
 import { changeLanguage } from "@/apis/translation";
 import { GetCurrentLanguage } from "@/apis/backend";
+import { Fireworks } from "@fireworks-js/react";
+import { GetSettingByKey } from "@/apis/settings";
 import Snowfall from "react-snowfall"
 import useSWR from "swr";
 
 export default function CSRLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     const { data: language } = useSWR("language", GetCurrentLanguage, { refreshInterval: 1000 });
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isSnowAllowed, setIsSnowAllowed] = useState(false);
+    const [areFireworksAllowed, setAreFireworksAllowed] = useState(false);
     const isMobile = useIsMobile();
 
     useEffect(() => {
@@ -27,6 +31,18 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
         }
     }, [language]);
 
+    useEffect(() => {
+        GetSettingByKey("global", "snow", true).then((snow) => {
+            setIsSnowAllowed(snow === true);
+        });
+        GetSettingByKey("global", "fireworks", true).then((fireworks) => {
+            setAreFireworksAllowed(fireworks === true);
+        });
+    });
+
+    const isNewYear = ((new Date().getMonth() === 0 && new Date().getDate() === 1) || (new Date().getMonth() === 11 && new Date().getDate() === 31)) && areFireworksAllowed;
+    const isSnowing = (new Date().getMonth() >= 10 || new Date().getMonth() === 0) && isSnowAllowed;
+
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     }
@@ -34,7 +50,12 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
     return (
         <div className="h-screen w-screen flex overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-50">
-                <Snowfall snowflakeCount={50} speed={[-0.5, 0.5]} wind={[-0.5, 0.5]} radius={[0, 0.5]} />
+                {isSnowing && <Snowfall snowflakeCount={50} speed={[-0.5, 0.5]} wind={[-0.5, 0.5]} radius={[0, 0.5]} />}
+                {isNewYear && <Fireworks className="w-full h-full" options={{
+                    rocketsPoint: { min: 0, max: 100 },
+                    delay: { min: 500, max: 2000 },
+                }} />
+                }
             </div>
             <ThemeProvider
                 attribute="class"

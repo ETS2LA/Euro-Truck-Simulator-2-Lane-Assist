@@ -120,5 +120,11 @@ class Page(ETS2LAPage):
 			True,
 			description="global.settings.7.description"
 		)
+  
+		Separator()
+  
+		Switch("Fireworks", "fireworks", True, description="Launch fireworks between December 31st and January 1st")
+  
+		Switch("Snow", "snow", True, description="Snowfall during December and January.")
 
 		return RenderUI()
