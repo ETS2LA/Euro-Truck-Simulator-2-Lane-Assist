@@ -964,13 +964,13 @@ class Road(BaseItem):
     def points(self) -> list[Position]:
         if self._points is None:
             # Check DLC access and hidden status before generating points
-            if self.hidden:
-                logging.debug(f"Road {self.uid} is hidden, skipping point generation")
-                return []
-
-            if not check_dlc_access(self.dlc_guard):
-                logging.debug(f"Road {self.uid} DLC not accessible, skipping point generation")
-                return []
+            # if self.hidden:
+            #     logging.debug(f"Road {self.uid} is hidden, skipping point generation")
+            #     return []
+            
+            # if not check_dlc_access(self.dlc_guard):
+            #     logging.debug(f"Road {self.uid} DLC not accessible, skipping point generation")
+            #     return []
             
             self._points = self.generate_points()
             data.heavy_calculations_this_frame += 1

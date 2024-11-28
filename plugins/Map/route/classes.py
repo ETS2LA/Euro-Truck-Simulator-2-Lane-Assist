@@ -22,9 +22,12 @@ class RouteItem:
                 self.lane_points = self.item.lanes[value].points
             elif type(self.item) == c.Prefab:
                 self.lane_points = self.item.nav_routes[value].points
+            else:
+                print("Invalid item type")
+                print(type(self.item))
             self._lane_index = value
         except:
-            logging.warning(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteItem[/dim] only has {len(self.item.lanes)} lanes.")
+            logging.exception(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteItem[/dim] only has {len(self.item.lanes)} lanes.")
             pass
             
 class RouteSection:

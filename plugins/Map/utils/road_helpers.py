@@ -181,13 +181,13 @@ def GetRoadLanes(road, data):
         get_rules()
 
     try:
-        if hasattr(road, 'dlc') and not DLCChecker.has_access(road.dlc):
-            logging.info(f"Road {road.uid} skipped - DLC not available")
-            return [], c.BoundingBox(0, 0, 0, 0)
+        # if hasattr(road, 'dlc') and not DLCChecker.has_access(road.dlc):
+        #     logging.info(f"Road {road.uid} skipped - DLC not available")
+        #     return [], c.BoundingBox(0, 0, 0, 0)
 
-        if hasattr(road, 'hidden') and road.hidden:
-            logging.info(f"Road {road.uid} skipped - hidden road")
-            return [], c.BoundingBox(0, 0, 0, 0)
+        # if hasattr(road, 'hidden') and road.hidden:
+        #     logging.info(f"Road {road.uid} skipped - hidden road")
+        #     return [], c.BoundingBox(0, 0, 0, 0)
 
         start_node, end_node = road.get_nodes()
         if not start_node or not end_node:

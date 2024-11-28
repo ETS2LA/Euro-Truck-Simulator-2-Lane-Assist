@@ -135,11 +135,15 @@ class NodePathfinder:
         try:
             node_path = self.router.find_route(start_node, end_node, mode)
             if not node_path:
+                data.plugin.state.reset()
+                data.plugin.notify("Unable to find route to the destination.", type="warning")
                 logging.warning("No high-level route found between nodes")
                 return None
 
             logging.debug(f"Found high-level route through nodes: {[n.uid for n in node_path]}")
         except Exception as e:
+            data.plugin.state.reset()
+            data.plugin.notify("Unable to find route to the destination.", type="warning")
             logging.error(f"Error finding high-level route: {str(e)}")
             return None
 

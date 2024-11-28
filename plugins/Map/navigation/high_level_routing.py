@@ -154,6 +154,8 @@ class HighLevelRouter:
         visited: Dict[str, RouteNode] = {str(start_node.uid): start}
         nodes_explored = 0
         lowest_f_score = float('inf')
+        start_score = self._heuristic(start_node, end_node, mode)
+        print(f"Start score: {start_score}")
         while not open_set.empty():
             current = open_set.get()
             nodes_explored += 1
@@ -165,6 +167,7 @@ class HighLevelRouter:
             
             if nodes_explored % 100 == 0:
                 logging.debug(f"Explored {nodes_explored} nodes...")
+                data.plugin.state.progress = 1 - lowest_f_score / start_score
                 data.plugin.state.text = f"Calculating route... ({nodes_explored}, {lowest_f_score:.1f})"
 
             if current.node.uid == end_node.uid:
