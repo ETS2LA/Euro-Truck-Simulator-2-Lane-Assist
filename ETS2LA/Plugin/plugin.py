@@ -1,9 +1,10 @@
 from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
+import ETS2LA.Events as Events
 
 from ETS2LA.utils.logging import SetupProcessLogging
-from multiprocessing import JoinableQueue
+from multiprocessing import JoinableQueue, Queue
 from types import SimpleNamespace
 from typing import Literal
 import threading
@@ -45,6 +46,8 @@ class ETS2LAPlugin(object):
     state_queue: JoinableQueue
     performance_queue: JoinableQueue
     performance_return_queue: JoinableQueue
+    event_queue: JoinableQueue
+    event_return_queue: Queue
     
     performance: list[tuple[float, float]] = []
     
@@ -133,7 +136,8 @@ class ETS2LAPlugin(object):
                                 frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
                                 immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
                                 state_queue: JoinableQueue,
-                                performance_queue: JoinableQueue, performance_return_queue: JoinableQueue
+                                performance_queue: JoinableQueue, performance_return_queue: JoinableQueue,
+                                event_queue: JoinableQueue, event_return_queue: Queue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
@@ -150,6 +154,8 @@ class ETS2LAPlugin(object):
         instance.state_queue = state_queue
         instance.performance_queue = performance_queue
         instance.performance_return_queue = performance_return_queue
+        instance.event_queue = event_queue
+        instance.event_return_queue = event_return_queue
         
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
@@ -164,6 +170,8 @@ class ETS2LAPlugin(object):
         return instance
    
     def load_modules(self) -> None:
+        Events.events.plugin_object = self
+        
         self.modules = SimpleNamespace()
         module_names = self.description.modules
         for module_name in module_names:
@@ -185,6 +193,7 @@ class ETS2LAPlugin(object):
         threading.Thread(target=self.settings_menu_thread, daemon=True).start()
         threading.Thread(target=self.frontend_thread, daemon=True).start()
         threading.Thread(target=self.performance_thread, daemon=True).start()
+        threading.Thread(target=self.event_listener, daemon=True).start()
 
         self.imports()
         
@@ -210,6 +219,16 @@ class ETS2LAPlugin(object):
                 self.settings_menu_queue.get()
                 self.settings_menu_queue.task_done()
                 self.settings_menu_return_queue.put(self.settings_menu.render())
+    
+    def event_listener(self):
+        while True:
+            data = self.event_queue.get()
+            args = data["args"]
+            kwargs = data["kwargs"]
+            kwargs.update({"queue": False})
+            
+            Events.events.emit(data["name"], *args, **kwargs)
+            self.event_queue.task_done()
     
     def frontend_thread(self):
         while True:
@@ -302,7 +321,8 @@ class PluginRunner:
                     frontend_queue: JoinableQueue, frontend_return_queue: JoinableQueue,
                     immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
                     state_queue: JoinableQueue,
-                    performance_queue: JoinableQueue, performance_return_queue: JoinableQueue
+                    performance_queue: JoinableQueue, performance_return_queue: JoinableQueue,
+                    event_queue: JoinableQueue, event_return_queue: Queue
                     ):
         
         SetupProcessLogging(
@@ -328,6 +348,10 @@ class PluginRunner:
         self.state_queue = state_queue
         self.performance_queue = performance_queue
         self.performance_return_queue = performance_return_queue
+        self.event_queue = event_queue  
+        self.event_return_queue = event_return_queue
+        
+        Events.events = Events.EventSystem(plugin_object=None, queue=self.event_return_queue)
 
         sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
 
@@ -344,7 +368,8 @@ class PluginRunner:
                                                                 frontend_queue, frontend_return_queue,
                                                                 immediate_queue, immediate_return_queue,
                                                                 state_queue,
-                                                                performance_queue, performance_return_queue
+                                                                performance_queue, performance_return_queue,
+                                                                event_queue, event_return_queue
                                                                 )
             else:
                 raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")

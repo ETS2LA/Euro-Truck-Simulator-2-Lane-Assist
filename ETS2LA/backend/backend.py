@@ -58,6 +58,8 @@ class PluginHandler:
         self.state_queue = multiprocessing.JoinableQueue()
         self.performance_queue = multiprocessing.JoinableQueue()
         self.performance_return_queue = multiprocessing.JoinableQueue()
+        self.event_queue = multiprocessing.JoinableQueue()
+        self.event_return_queue = multiprocessing.Queue()
         
         try:
             RUNNING_PLUGINS.append(self)
@@ -67,6 +69,7 @@ class PluginHandler:
             threading.Thread(target=self.immediate_handler, daemon=True).start()
             threading.Thread(target=self.state_handler, daemon=True).start()
             threading.Thread(target=self.change_listener, daemon=True).start()
+            threading.Thread(target=self.event_listener, daemon=True).start()
             
             self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                             self.return_queue,
@@ -76,7 +79,8 @@ class PluginHandler:
                                                                             self.frontend_queue, self.frontend_return_queue,
                                                                             self.immediate_queue, self.immediate_return_queue,
                                                                             self.state_queue,
-                                                                            self.performance_queue, self.performance_return_queue
+                                                                            self.performance_queue, self.performance_return_queue,
+                                                                            self.event_queue, self.event_return_queue
                                                                             ), daemon=True)
             self.process.start()
         except:
@@ -106,6 +110,25 @@ class PluginHandler:
                                                                             ), daemon=True)
                 self.process.start()
             time.sleep(1)
+        
+    def event_listener(self):
+        while True:
+            if self.stop:
+                break
+            try:
+                data = self.event_return_queue.get(timeout=1)
+            except:
+                continue
+            
+            try:
+                call_event(
+                    data["name"],
+                    data["args"],
+                    data["kwargs"],
+                    called_from=self.plugin_name
+                )
+            except:
+                logging.exception(f"Failed to call event {data['name']} in plugin {self.plugin_name}.")
         
     def tags_handler(self):
         while True:
@@ -366,14 +389,20 @@ def get_tag_data(tag: str):
             tag_dict[plugin.plugin_name] = plugin.tags[tag]
     return tag_dict
 
-def call_event(event: str, args: list, kwargs: dict):
+def call_event(event: str, args: list, kwargs: dict, called_from: str = ""):
     if type(args) != list:
         args = [args]
     if type(kwargs) != dict:
         kwargs = {}
     for plugin in RUNNING_PLUGINS:
+        if plugin.plugin_name == called_from:
+            continue
         try:
-            plugin.call_function(event, *args, **kwargs)
+            plugin.event_queue.put({
+                "name": event,
+                "args": args,
+                "kwargs": kwargs
+            })
         except:
             logging.exception("Error in event call.")
 

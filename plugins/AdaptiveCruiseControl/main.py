@@ -1,4 +1,5 @@
 # Framework
+from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 
@@ -113,6 +114,7 @@ class Plugin(ETS2LAPlugin):
         logging.warning("AdaptiveCruiseControl plugin initialized")
         self.globals.tags.status = {"AdaptiveCruiseControl": ACC_ENABLED}
     
+    @events.on("ToggleSteering")
     def ToggleSteering(self, state:bool, *args, **kwargs):
         global ACC_ENABLED
         ACC_ENABLED = state

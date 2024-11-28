@@ -1,3 +1,4 @@
+from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
@@ -151,6 +152,7 @@ class Plugin(ETS2LAPlugin):
                 logging.error(f"Error monitoring navigation module: {e}")
             time.sleep(1)
         
+    @events.on("ToggleSteering")
     def ToggleSteering(self, state:bool, *args, **kwargs):
         data.enabled = state
         self.globals.tags.status = {"Map": state}

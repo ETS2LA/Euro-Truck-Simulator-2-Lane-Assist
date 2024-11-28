@@ -13,6 +13,7 @@ import { States } from "@/components/states";
 import { Popups } from "@/components/popups";
 import { changeLanguage } from "@/apis/translation";
 import { GetCurrentLanguage } from "@/apis/backend";
+import Snowfall from "react-snowfall"
 import useSWR from "swr";
 
 export default function CSRLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
@@ -32,6 +33,9 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
 
     return (
         <div className="h-screen w-screen flex overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-50">
+                <Snowfall snowflakeCount={50} speed={[-0.5, 0.5]} wind={[-0.5, 0.5]} radius={[0, 0.5]} />
+            </div>
             <ThemeProvider
                 attribute="class"
                 defaultTheme="dark"

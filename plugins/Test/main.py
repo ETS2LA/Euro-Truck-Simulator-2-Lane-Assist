@@ -1,4 +1,5 @@
 # Framework
+from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 
@@ -6,16 +7,8 @@ from ETS2LA.UI import *
 import ETS2LA.backend.settings as settings
 import time
 
-class FOVDialog(ETS2LADialog):
-    def render(self):
-        with Form():
-            Title("events.vehicle_change.vehicle_change")
-            Description("events.vehicle_change.vehicle_change_description")
-            Input("events.vehicle_change.vehicle_change", "fov", "number", default=settings.Get("global", "FOV", 77))
-        return RenderUI()        
-
 class Plugin(ETS2LAPlugin):
-    fps_cap = 15
+    fps_cap = 10
     
     description = PluginDescription(
         name="Test",
@@ -29,24 +22,16 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
+    steering = False
+    
+    @events.on("ToggleSteering")
+    def on_toggle_steering(self, state):
+        print("Steering toggled:", state)
+        self.steering = state
+    
     def imports(self):
         ...
 
     def run(self):
-        print(self.ask("Keep going?", ["Yes", "No"], "pls say yes"))
-        print(self.dialog(FOVDialog()))
-        self.state.text = "Doing something..."
-        self.state.progress = 0
         time.sleep(1)
-        self.state.progress = 20
-        time.sleep(1)
-        self.state.progress = 40
-        time.sleep(1)
-        self.state.progress = 60
-        time.sleep(1)
-        self.state.progress = 80
-        time.sleep(1)
-        self.state.progress = 100
-        time.sleep(1)
-        self.state.reset()
-        time.sleep(3)
+        events.emit("ToggleSteering", not self.steering)
