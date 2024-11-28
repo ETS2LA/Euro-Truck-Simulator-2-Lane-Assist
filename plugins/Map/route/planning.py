@@ -430,6 +430,8 @@ def GetNextNavigationItem():
     elif closest.backward_item_uid == next.forward_item_uid:
         dir = "backward"
         next_item = data.map.get_item_by_uid(closest.backward_item_uid)
+    else:
+        return None
         
     if type(next_item) == c.Road:
         closest_lane = rh.get_closest_lane(next_item, last_points[-1].x, last_points[-1].z)
