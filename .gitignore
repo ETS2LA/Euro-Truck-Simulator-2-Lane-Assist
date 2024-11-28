@@ -15,7 +15,8 @@ cache
 /godot/GoDot Export/*
 
 # Ignore Object Detection models
-
+/ETS2LA/plugins/ObjectDetection/models
+/plugins/ObjectDetection/models
 
 # Ignore Map data
 /ETS2LA/plugins/Map/data
