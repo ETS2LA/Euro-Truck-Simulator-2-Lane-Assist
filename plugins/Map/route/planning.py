@@ -508,6 +508,9 @@ def UpdateRoutePlan():
         if data.route_plan[0].is_ended:
             data.route_plan.pop(0)
             
+        if len(data.route_plan) == 0:
+            return
+            
         if len(data.route_plan) < data.route_plan_length:
             try:
                 next_route_section = GetNextNavigationItem()
