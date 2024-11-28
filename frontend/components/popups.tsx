@@ -144,7 +144,7 @@ export function Popups() {
                         <div dangerouslySetInnerHTML={dialogObject} />
                     </DialogTitle>
                 </DialogHeader>
-                <DialogDescription>
+                <DialogDescription style={{whiteSpace: "pre-wrap"}}>
                     {dialogDescription}
                 </DialogDescription>
                 <div className="flex gap-2">

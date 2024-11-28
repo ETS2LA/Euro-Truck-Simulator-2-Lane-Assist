@@ -1,3 +1,4 @@
+from ETS2LA.UI import *
 from typing import List, Optional, Dict, Set, Tuple
 from dataclasses import dataclass
 from ..classes import Node, Position, Road, Prefab
@@ -153,6 +154,7 @@ class HighLevelRouter:
 
         visited: Dict[str, RouteNode] = {str(start_node.uid): start}
         nodes_explored = 0
+        lowest_f_score_path = []
         lowest_f_score = float('inf')
         start_score = self._heuristic(start_node, end_node, mode)
         print(f"Start score: {start_score}")
@@ -163,6 +165,7 @@ class HighLevelRouter:
             # Log progress every 100 nodes
             current_heuristic = self._heuristic(current.node, end_node, mode)
             if current_heuristic < lowest_f_score:
+                lowest_f_score_path = self._reconstruct_path(current)
                 lowest_f_score = current_heuristic
             
             if nodes_explored % 100 == 0:
@@ -219,4 +222,11 @@ class HighLevelRouter:
             f"No path found after exploring {nodes_explored} nodes from "
             f"{start_node.uid} to {end_node.uid}"
         )
+        
+        yes_no = data.plugin.ask("Could not find path to destination.", options=["Yes", "No"], description="Do you want to try to path to the nearest node we could get to?\nThe heuristic distance from the target is " + str(round(lowest_f_score, 1)) + ".")
+        
+        if yes_no == "Yes":
+            logging.warning("Using path to the nearest node we could get to.")
+            return lowest_f_score_path
+        
         return None
