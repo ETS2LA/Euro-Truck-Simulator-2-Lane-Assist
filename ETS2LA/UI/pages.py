@@ -1,3 +1,5 @@
+from ETS2LA.UI import *
+
 class ETS2LAPage:
     """This is a base class for all ETS2LA pages.
 
@@ -21,6 +23,8 @@ class ETS2LAPage:
         
     def build(self):
         if self.dynamic:
+            RenderUI()  # Clear the UI system
+            
             data = self.render()
             data.insert(0, {
                 "settings": self.settings_target
@@ -28,6 +32,8 @@ class ETS2LAPage:
             return data
         
         if self._json == {}:
+            RenderUI()  # Clear the UI system
+            
             self._json = self.render()
             self._json.insert(0, {
                 "settings": self.settings_target

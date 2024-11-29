@@ -1,3 +1,4 @@
+from ETS2LA.UI import *
 import importlib
 import logging
 import time
