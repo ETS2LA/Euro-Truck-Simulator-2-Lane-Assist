@@ -1,1 +1,1 @@
-Fix crash in countries where you cannot access github.
+Removed the optional (disabled by default) feature of the traffic light detection to help with data collection.

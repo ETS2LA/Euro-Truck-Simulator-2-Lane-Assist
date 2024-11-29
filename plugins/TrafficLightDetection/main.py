@@ -45,7 +45,7 @@ try:
 except:
     TorchAvailable = False
     exc = traceback.format_exc()
-    #SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
+    SendCrashReport("TrafficLightDetection - PyTorch import error.", str(exc))
     print("\033[91m" + f"TrafficLightDetection - PyTorch import Error:\n" + "\033[0m" + str(exc))
     pytorch.CheckPyTorch()
     console.RestoreConsole()
@@ -68,55 +68,7 @@ upper_yellow = np.array([255, 240, 170])
 last_GetGamePosition = 0, screen_x, screen_y, screen_width, screen_height
 
 
-
-##################################################################################################
-# Start: Code to send traffic light images to drive if enabled
-##################################################################################################
-last_traffic_light_image = 0
-last_drive_connection_check = 0
-drive_connection_available = "unknown"
-last_drive_connection_check = 0
-def CheckConnectionToDrive():
-    try:
-        headers = {
-            "Content-Type": "application/json"
-        }
-        requests.get("https://api.tumppi066.fi/heartbeat", headers=headers)
-        return True
-    except:
-        return False
-def SendImage(image, x, y, w, h):
-    global drive_connection_available
-    global last_drive_connection_check
-    if drive_connection_available != True:
-        if last_drive_connection_check + 180 < time.time():
-            drive_connection_available = CheckConnectionToDrive()
-            last_drive_connection_check = time.time()
-    if drive_connection_available == True:
-        try:
-            encoded_string = base64.b64encode(cv2.imencode('.png', image)[1]).decode()
-            url = "https://api.tumppi066.fi/image/save"
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            data = {
-                "text": f"{x},{y},{w},{h}",
-                "image": encoded_string,
-                "category": "TrafficLightDetectionDataset",
-            }
-            requests.post(url, headers=headers, json=data)
-        except:
-            drive_connection_available = CheckConnectionToDrive()
-            last_drive_connection_check = time.time()
-##################################################################################################
-# End: Code to send traffic light images to drive if enabled
-##################################################################################################
-
-
-
 def UpdateSettings():
-    global send_traffic_light_images  # Code to send traffic light images to drive if enabled
-
     global UseAI
     global UseCUDA
     global AIDevice
@@ -194,8 +146,6 @@ def UpdateSettings():
     AIDevice = torch.device('cuda' if torch.cuda.is_available() and UseCUDA == True else 'cpu') if TorchAvailable else None
     LoadAILabel = "Loading..."
     LoadAIProgress = 0
-
-    send_traffic_light_images = settings.GetSettings("TrafficLightDetection", "send_traffic_light_images", False)
 
     finalwindow = settings.GetSettings("TrafficLightDetection", "finalwindow", True)
     grayscalewindow = settings.GetSettings("TrafficLightDetection", "grayscalewindow", False)
@@ -727,8 +677,6 @@ def plugin(data):
     global trafficlights
     global reset_window
 
-    global last_traffic_light_image  # Code to send traffic light images to drive if enabled
-
     try:
         frameFull = data["frameFull"].copy()
         if x1 < x2 and y1 < y2:
@@ -1250,45 +1198,6 @@ def plugin(data):
                             approved = ClassifyImage(image_classification)
                         else:
                             approved = True
-
-                        ##################################################################################################
-                        # Start: Code to send traffic light images to drive if enabled
-                        ##################################################################################################
-                        if send_traffic_light_images == True:
-                            try:
-                                if last_traffic_light_image + 0.5 < time.time() and len(coordinates) > 0:
-                                    for x, y, w, h, state in coordinates:
-                                        tld_y1 = round(y1 + y - h*4)
-                                        if tld_y1 < 0:
-                                            tld_y1 = 0
-                                        elif tld_y1 > frameFull.shape[0]:
-                                            tld_y1 = frameFull.shape[0]
-                                        tld_y2 = round(y1 + y + h * 4)
-                                        if tld_y2 < 0:
-                                            tld_y2 = 0
-                                        elif tld_y2 > frameFull.shape[0]:
-                                            tld_y2 = frameFull.shape[0]
-                                        tld_x1 = round(x1 + x - w * 2.5)
-                                        if tld_x1 < 0:
-                                            tld_x1 = 0
-                                        elif tld_x1 > frameFull.shape[1]:
-                                            tld_x1 = frameFull.shape[1]
-                                        tld_x2 = round(x1 + x + w * 2.5)
-                                        if tld_x2 < 0:
-                                            tld_x2 = 0
-                                        elif tld_x2 > frameFull.shape[1]:
-                                            tld_x2 = frameFull.shape[1]
-                                        traffic_light_image = frameFull[tld_y1:tld_y2, tld_x1:tld_x2].copy()
-                                        threading.Thread(target=SendImage, args=(traffic_light_image, round(x1 - tld_x1 + x), round(y1 - tld_y1 + y), w, h,), daemon=True).start()
-                                    last_traffic_light_image = time.time()
-                            except Exception as e:
-                                exc = traceback.format_exc()
-                                SendCrashReport("TrafficLightDetection - TrafficLightDetectionAI data collection error.", str(exc))
-                                print("TrafficLightDetection - TrafficLightDetectionAI data collection error: " + str(exc))
-                        ##################################################################################################
-                        # end: Code to send traffic light images to drive if enabled
-                        ##################################################################################################
-
                         trafficlights.append((nearestpoint, ((None, None, None), (head_x, head_z, angle, head_rotation_degrees_x), (head_x, head_z, angle, head_rotation_degrees_x)), new_id, approved))
 
         # Remove lost traffic lights from the list, the traffic light which has the highest distance to the nearest traffic light in the current frame gets removed
@@ -1625,8 +1534,6 @@ class UI():
             notebook = ttk.Notebook(self.root)
             notebook.pack(anchor="center", fill="both", expand=True)
 
-            tld_datasetFrame = ttk.Frame(notebook)  # Code to send traffic light images to drive if enabled
-            tld_datasetFrame.pack()  # Code to send traffic light images to drive if enabled
             generalFrame = ttk.Frame(notebook)
             generalFrame.pack()
             screencaptureFrame = ttk.Frame(notebook)
@@ -1658,11 +1565,6 @@ class UI():
             filtersFrame.columnconfigure(2, weight=1)
             helpers.MakeLabel(filtersFrame, "Filters", 0, 0, font=("Robot", 12, "bold"), columnspan=3)
 
-            tld_datasetFrame.columnconfigure(0, weight=1)  # Code to send traffic light images to drive if enabled
-            tld_datasetFrame.columnconfigure(1, weight=1)  # Code to send traffic light images to drive if enabled
-            tld_datasetFrame.columnconfigure(2, weight=1)  # Code to send traffic light images to drive if enabled
-            helpers.MakeLabel(tld_datasetFrame, "Help us Developers", 0, 0, font=("Robot", 12, "bold"), columnspan=3)  # Code to send traffic light images to drive if enabled
-
             generalFrame.columnconfigure(0, weight=1)
             generalFrame.columnconfigure(1, weight=1)
             generalFrame.columnconfigure(2, weight=1)
@@ -1689,7 +1591,6 @@ class UI():
             helpers.MakeLabel(advancedFrame, "Advanced", 0, 0, font=("Robot", 12, "bold"), columnspan=7)
             
 
-            notebook.add(tld_datasetFrame, text=Translate("TrafficLightDataset"))  # Code to send traffic light images to drive if enabled
             notebook.add(generalFrame, text=Translate("General"))
             notebook.add(screencaptureFrame, text=Translate("ScreenCapture"))
             notebook.add(outputwindowFrame, text=Translate("OutputWindow"))
@@ -1708,41 +1609,6 @@ class UI():
             helpers.MakeEmptyLine(outputwindowFrame,5,0)
             helpers.MakeEmptyLine(outputwindowFrame,6,0)
             helpers.MakeCheckButton(outputwindowFrame, "Position Estimation Window\n----------------------------------\nIf enabled, the app creates a window which shows the estimated position of the traffic light.", "TrafficLightDetection", "positionestimationwindow", 7, 0, width=80, callback=lambda:UpdateSettings())
-
-
-
-            ##################################################################################################
-            # Start: Code to send traffic light images to drive if enabled
-            ##################################################################################################
-            helpers.MakeLabel(tld_datasetFrame, "We need your help to automatically collect images of traffic lights for a future AI which will be able to\ndetect traffic lights.  The images and the model will be available for everyone at https://huggingface.co\n/Glas42/TrafficLightDetectionAI when we've collected enough images.", 1, 0)
-            helpers.MakeLabel(tld_datasetFrame, "Example images:", 2, 0)
-            example_image_paths = ["datasetexample_1.png", "datasetexample_2.png", "datasetexample_3.png"]
-            for i, image_path in enumerate(example_image_paths):
-                image_path = os.path.join(variables.PATH, "assets", "TrafficLightDetection", image_path)
-                image = cv2.imread(image_path)
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                image = Image.fromarray(image)
-                image = image.resize((200, 200), resample=Image.BILINEAR)
-                photo = ImageTk.PhotoImage(image)
-                image_label = tk.Label(tld_datasetFrame, image=photo)
-                image_label.grid(row=3, column=0, padx=10, pady=10, sticky="nw" if i == 0 else "n" if i == 1 else "ne")
-                image_label.image = photo
-            helpers.MakeEmptyLine(tld_datasetFrame, 4, 0)
-            helpers.MakeCheckButton(tld_datasetFrame, "Help collecting anonymous traffic light images", "TrafficLightDetection", "send_traffic_light_images", 5, 0, width=80, callback=lambda:UpdateSettings())
-            helpers.MakeButton(tld_datasetFrame, "Open Website", lambda: OpenWebsite(), 6, 0, width=100, sticky="nw")
-            def OpenWebsite():
-                browser = helpers.Dialog("Traffic Light Detection Dataset","In which brower should the website be opened?", ["In-app browser", "External browser"], "In-app browser", "External Browser")
-                if browser == "In-app browser":
-                    from src.mainUI import closeTabName
-                    from plugins.Wiki.main import LoadURL
-                    closeTabName("Wiki")
-                    LoadURL("https://huggingface.co/Glas42/TrafficLightDetectionAI")
-                else:
-                    helpers.OpenInBrowser("https://huggingface.co/Glas42/TrafficLightDetectionAI")
-            ##################################################################################################
-            # End: Code to send traffic light images to drive if enabled
-            ##################################################################################################
-
 
 
             helpers.MakeCheckButton(generalFrame, "Yellow Light Detection (not recommended)\n-------------------------------------------------------------\nIf enabled, the trafficlight detection tries to detect yellow traffic\nlights, but it is not recommended because it causes more wrong\ndetected traffic lights.", "TrafficLightDetection", "detectyellowlight", 4, 0, width=60, callback=lambda:UpdateSettings())
@@ -1794,7 +1660,7 @@ class UI():
 
             helpers.MakeLabel(screencaptureFrame, "Simple Setup:", 1, 0, sticky="nw", font=("Segoe UI", 12))
             helpers.MakeButton(screencaptureFrame, "Screen Capture Setup", self.open_screencapture_setup, 2, 0, width=40, sticky="nw")
-            helpers.MakeLabel(screencaptureFrame, "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　", 3, 0, sticky="nw", translate=False)
+            helpers.MakeLabel(screencaptureFrame, "　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　", 3, 0, sticky="nw", translate=False)
             helpers.MakeLabel(screencaptureFrame, "Advanced Setup:", 4, 0, sticky="nw", font=("Segoe UI", 12))
             
             self.x1ofscSlider = tk.Scale(screencaptureFrame, from_=0, to=screen_width-1, resolution=1, orient=tk.HORIZONTAL, length=430, command=lambda x: self.UpdateSliderValue_x1ofsc())
