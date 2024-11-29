@@ -90,9 +90,10 @@ class Plugin(ETS2LAPlugin):
         global SDKController
         global TruckSimAPI
 
-        print(f"\n{PURPLE}Make sure to set the FOV in the settings for End-To-End!{NORMAL}\n")
-
         FOV = self.globals.settings.FOV
+        if FOV == None:
+            print(f"\n{PURPLE}Make sure to set the FOV in the settings for End-To-End! The plugin will disable itself.{NORMAL}\n")
+            self.terminate()
         Enabled = True
         EnableKey = settings.Get("Steering", "EnableKey", "n")
         EnableKeyPressed = False
