@@ -125,7 +125,7 @@ class Plugin(ETS2LAPlugin):
             MODEL_DOWNLOAD_TITLE = "Object Detection - Model Download"
             MODEL_DOWNLOAD_DESC = f"{Translate('object_detection.not_found.1')}\n{MODEL_NAME}\n\n{Translate('object_detection.not_found.2')} Hugging Face"
             CONNECTION_FAILED_TITLE = "Object Detection - Connection Failed"
-            CONNECTION_FAILED_DESC = f"{Translate("object_detection.connection_failed.1")}\n{Translate('object_detection.connection_failed.2')}\n{Translate('object_detection.connection_failed.3')}\n{Translate('object_detection.connection_failed.4')}"
+            CONNECTION_FAILED_DESC = f"{Translate('object_detection.connection_failed.1')}\n{Translate('object_detection.connection_failed.2')}\n{Translate('object_detection.connection_failed.3')}\n{Translate('object_detection.connection_failed.4')}"
 
             self.ShowImage = self.modules.ShowImage
             self.TruckSimAPI = self.modules.TruckSimAPI
