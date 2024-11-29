@@ -57,8 +57,12 @@ def Play(sound: str):
     filename = GetFilenameForSound(sound)
     if filename is None: return False
     
-    pygame.mixer.music.set_volume(VOLUME)
-    pygame.mixer.music.load(filename)
-    pygame.mixer.music.play()
+    try:
+        pygame.mixer.music.set_volume(VOLUME)
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play()
+    except pygame.error as e:
+        logging.error(f"No sound device available: {e}")
+        return False
     
     return True
