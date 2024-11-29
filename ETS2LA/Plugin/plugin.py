@@ -252,6 +252,11 @@ class ETS2LAPlugin(object):
             
             self.frontend_queue.task_done()
             self.frontend_return_queue.put(None)
+           
+    def terminate(self):
+        self.immediate_queue.put({
+            "operation": "terminate"
+        })
             
     def performance_thread(self):
         while True:

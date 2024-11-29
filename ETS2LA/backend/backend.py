@@ -179,6 +179,11 @@ class PluginHandler:
                 data = self.immediate_queue.get(timeout=1)
             except:
                 continue
+            if data["operation"] == "terminate":
+                self.process.terminate()
+                self.stop = True
+                disable_plugin(self.plugin_name, from_plugin=True)
+                
             if data["operation"] == "notify":
                 type = data["options"]["type"]
                 text = data["options"]["text"]
@@ -285,7 +290,7 @@ def enable_plugin(plugin_name: str):
     runner = threading.Thread(target=PluginHandler, args=(plugin_name, PluginDescription()), daemon=True)
     runner.start()
     
-def disable_plugin(plugin_name: str):
+def disable_plugin(plugin_name: str, from_plugin: bool = False):
     for plugin in RUNNING_PLUGINS:
         if plugin.plugin_name == plugin_name:
             try:
@@ -294,8 +299,11 @@ def disable_plugin(plugin_name: str):
                 logging.warning(f"Failed to terminate plugin {plugin_name}, this could be because the plugin has already been terminated.")
             plugin.stop = True
             RUNNING_PLUGINS.remove(plugin)
-            return True
-    return False
+            
+            if not from_plugin:
+                return True
+    if not from_plugin:
+        return False
     
 def get_plugin_data(plugin_name: str):
     for plugin in RUNNING_PLUGINS:

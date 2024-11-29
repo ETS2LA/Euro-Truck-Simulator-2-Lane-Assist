@@ -35,3 +35,4 @@ class Plugin(ETS2LAPlugin):
     def run(self):
         time.sleep(1)
         events.emit("ToggleSteering", not self.steering)
+        self.terminate()
