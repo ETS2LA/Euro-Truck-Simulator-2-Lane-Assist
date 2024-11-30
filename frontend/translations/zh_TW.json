@@ -154,6 +154,7 @@
     "frontend.sidebar.settings": "\u8a2d\u5b9a",
     "frontend.sidebar.anonymous": "\u8a2a\u5ba2",
     "frontend.sidebar.account": "\u5e33\u865f",
+    "frontend.sidebar.sign_in": "\u767b\u5165",
     "frontend.sidebar.sign_out": "\u767b\u51fa",
     "frontend.menubar.plugins.plugin.enable": "\u555f\u7528\u63d2\u4ef6",
     "frontend.menubar.plugins.plugin.disable": "\u505c\u7528\u63d2\u4ef6",
