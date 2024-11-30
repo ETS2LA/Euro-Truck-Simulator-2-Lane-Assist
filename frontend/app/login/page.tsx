@@ -4,13 +4,17 @@ import { open_login_window } from "@/apis/account";
 import { GetSettingsJSON } from "@/apis/settings";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/loader";
-import { use, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-export default function Page() {
+export default function LoginPage() {
     const { data: settings } = useSWR("global", GetSettingsJSON, { refreshInterval: 1000 });
     const [loading, setLoading] = useState(false);
+
+    if (!settings) {
+        return <div className="w-full h-full font-geist pl-28 pr-20 pt-20 flex flex-col gap-6">Loading...</div>;
+    }
 
     const user_id = settings?.user_id;
     const token = settings?.token;

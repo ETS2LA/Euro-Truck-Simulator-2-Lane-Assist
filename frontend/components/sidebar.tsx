@@ -54,7 +54,7 @@ import useSWR from "swr"
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const { data: update_data } = useSWR("update", CheckForUpdate)
     const { data: metadata } = useSWR("metadata", GetMetadata)
-    const { token, username } = useAuth()
+    const { token, username, setToken, setUsername } = useAuth()
     const startProgress = useProgress()
     const router = useRouter()
     const path = usePathname()
@@ -215,8 +215,8 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                             () => {
                                                 SetSettingByKey("global", "token", "")
                                                 SetSettingByKey("global", "user_id", "")
-                                                useAuth.getState().setToken("")
-                                                useAuth.getState().setUsername("")
+                                                setToken("")
+                                                setUsername("")
                                                 toast.success("Sign out successful.", { description: "You can log back in at any time." })
                                             }
                                         }>
