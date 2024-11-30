@@ -47,31 +47,26 @@ class Page(ETS2LAPage):
                     os.remove(game + target_path + "\\" + file)
     
     def render(self):
-        RefreshRate(1)
         with Geist():
-            with Padding(20):
-                with Group("vertical", gap=40):
-                    with Group("vertical", gap=10):
-                        Title(Translate("sdk_install.title"))
-                        Description(Translate("sdk_install.description"))
-                    with Group("vertical"):
-                        if games == []:
-                            Label(Translate("sdk_install.no_games"))
-                        else:
-                            Description(Translate("sdk_install.games"))
-                            Space(1)
-                            all_installed = [CheckIfInstalled(game) for game in games] == [True] * len(games)
-                            if not all_installed:
-                                Button(Translate("install"), Translate("sdk_install.install"), self.InstallSDKs, description=Translate("sdk_install.install_description"))
-                            else:
-                                Button(Translate("uninstall"), Translate("sdk_install.uninstall"), self.UninstallSDKs, description=Translate("sdk_install.uninstall_description"))
-                            Space(3)
-                            for game in games:
-                                with Group("horizontal", border=True):
-                                    with Group("vertical"):
-                                        title = "ETS2 " if "Euro Truck Simulator 2" in game else "ATS "
-                                        title += Translate("sdk_install.installed") if CheckIfInstalled(game) else Translate("sdk_install.not_installed")
-                                        Label(title)
-                                        Description(game)
+            with Group("vertical", gap=14, padding=4):
+                Title(Translate("sdk_install.title"))
+                Description(Translate("sdk_install.description"))
+            if games != []:
+                all_installed = [CheckIfInstalled(game) for game in games] == [True] * len(games)
+                if not all_installed:
+                    Button(Translate("install"), Translate("sdk_install.install"), self.InstallSDKs, description=Translate("sdk_install.install_description"))
+                else:
+                    Button(Translate("uninstall"), Translate("sdk_install.uninstall"), self.UninstallSDKs, description=Translate("sdk_install.uninstall_description"))
+            with Group("vertical", padding=4):
+                if games == []:
+                    Label(Translate("sdk_install.no_games"))
+                else:
+                    Description(Translate("sdk_install.games"))
+                    for game in games:
+                        with Group("horizontal", border=True):
+                            title = "ETS2 " if "Euro Truck Simulator 2" in game else "ATS "
+                            title += Translate("sdk_install.installed") if CheckIfInstalled(game) else Translate("sdk_install.not_installed")
+                            Label(title)
+                            Description(game)
                                         
         return RenderUI()

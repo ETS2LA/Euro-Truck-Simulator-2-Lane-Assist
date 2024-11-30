@@ -35,6 +35,8 @@ export default function Home() {
             return <RenderPage url="/settings/global" />;
         } else if (selectedPlugin === "Controls") {
             return <ControlsPage />;
+        } else if (selectedPlugin === "SDK") {
+            return <RenderPage url="/setup/sdk" />;
             // @ts-ignore
         } else if (data && data[selectedPlugin] && data[selectedPlugin].settings) {
             // Ensure data is correctly passed to ETS2LASettingsPage
@@ -63,6 +65,9 @@ export default function Home() {
                                     </Button>
                                     <Button key={"Controls"} className="items-center justify-start text-sm rounded-r-none" variant={selectedPlugin == "Controls" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("Controls")}>
                                         {translate("frontend.settings.controls")}
+                                    </Button>
+                                    <Button key={"SDK"} className="items-center justify-start text-sm rounded-r-none" variant={selectedPlugin == "SDK" && "secondary" || "ghost"} onClick={() => setSelectedPlugin("SDK")}>
+                                        SDK
                                     </Button>
                                     <br />
                                     {plugins.map((plugin:any, index) => (

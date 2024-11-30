@@ -151,6 +151,8 @@
     "frontend.sidebar.anonymous": "Anonymous",
     "frontend.sidebar.account": "Account",
     "frontend.sidebar.sign_out": "Sign Out",
+    "frontend.sidebar.sign_out_successful": "Sign out successful.",
+    "frontend.sidebar.sign_out_description": "You can log back in at any time.",
     "frontend.sidebar.sign_in": "Sign In",
     "frontend.login": "Login",
     "frontend.login.disclaimer": "We currently only support logging in via discord, this is so that we don't have to store any sensitive information like passwords.",
