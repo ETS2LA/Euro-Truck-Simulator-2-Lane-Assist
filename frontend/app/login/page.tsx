@@ -26,7 +26,7 @@ export default function Page() {
         <div className="w-full h-full font-geist pl-28 pr-20 pt-20 flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <p className="text-xl font-semibold">Login</p>
-                <p className="max-w-96 text-muted-foreground">We currently only support logging in via discord, this is so that we don't have to store any sensitive information like passwords.</p>
+                <p className="max-w-96 text-muted-foreground">{"We currently only support logging in via discord, this is so that we don't have to store any sensitive information like passwords."}</p>
             </div>
             <Button className="max-w-96" variant={"outline"} onClick={() =>{
                 open_login_window();
