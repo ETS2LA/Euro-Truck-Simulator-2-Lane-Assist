@@ -159,6 +159,15 @@
     "frontend.sidebar.anonymous": "Tuntematon",
     "frontend.sidebar.account": "Tilin hallinta",
     "frontend.sidebar.sign_out": "Kirjaudu ulos",
+    "frontend.sidebar.sign_in": "Kirjaudu sisään",
+    "frontend.login": "Kirjautuminen",
+    "frontend.login.disclaimer": "Tuemme tällä hetkellä vain Discord kirjautumista. Tämä johtuu yksinkertaisesti tietosuojasta, emme halua tallentaa mitään arkaluotoista tietoa.",
+    "frontend.login.discord": "Kirjaudu Discordilla",
+    "frontend.login.privacy_policy": "Yksityisyyskäytäntö",
+    "frontend.login.already_logged_in": "HUOMIO: Olet jo kirjautunut sisään. Voit kuitenkin kirjautua uudelleen ja ylikirjoittaa nykyisen kirjautumisen.",
+    "frontend.login.successful": "Kirjautuminen onnistui!",
+    "frontend.login.successful_description": "Voit kirjautua ulos painamalla nimeäsi vasemmassa alakulmassa.",
+
 
     "_ABOUT": "Since the about page has so much to translate, I've given it it's own category.",
 

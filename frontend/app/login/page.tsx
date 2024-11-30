@@ -3,6 +3,7 @@
 import { open_login_window } from "@/apis/account";
 import { GetSettingsJSON } from "@/apis/settings";
 import { Button } from "@/components/ui/button";
+import { translate } from "@/apis/translation";
 import Loader from "@/components/loader";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -22,31 +23,31 @@ export default function LoginPage() {
     if (user_id && token) {
         if (loading) {
             setLoading(false);
-            toast.success("Successfully logged in!", { description: "Log out using the context menu under your username in the bottom left." });
+            toast.success(translate("frontend.login.successful"), { description: translate("frontend.login.successful_description") });
         }
     }
 
     return (
         <div className="w-full h-full font-geist pl-28 pr-20 pt-20 flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-                <p className="text-xl font-semibold">Login</p>
-                <p className="max-w-96 text-muted-foreground">{"We currently only support logging in via discord, this is so that we don't have to store any sensitive information like passwords."}</p>
+                <p className="text-xl font-semibold">{translate("frontend.login")}</p>
+                <p className="max-w-96 text-muted-foreground">{translate("frontend.login.disclaimer")}</p>
             </div>
             <Button className="max-w-96" variant={"outline"} onClick={() =>{
                 open_login_window();
                 setLoading(true);
             }}>
-                Login with Discord {loading && <Loader className="ml-2" />}
+                {translate("frontend.login.discord")} {loading && <Loader className="ml-2" />}
             </Button>
             <div>
                 <p className="max-w-96 text-muted-foreground text-xs cursor-pointer" onClick={() => {
                     window.open("https://ets2la.github.io/documentation/privacy-policy/", "_blank");
-                }}>Privacy Policy</p>
+                }}>{translate("frontend.login.privacy_policy")}</p>
             </div>
             {user_id && token && (
                 <div className="flex flex-col gap-1">
                     <p className="text-muted-foreground max-w-96">
-                        NOTE: You have already logged in, you can override it by logging in again.
+                        {translate("frontend.login.already_logged_in")}
                     </p>
                     <p className="text-muted-foreground max-w-96">
                         {`User ID: ${user_id}`}

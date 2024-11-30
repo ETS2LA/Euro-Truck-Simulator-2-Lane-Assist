@@ -217,7 +217,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                                 SetSettingByKey("global", "user_id", "")
                                                 setToken("")
                                                 setUsername("")
-                                                toast.success("Sign out successful.", { description: "You can log back in at any time." })
+                                                toast.success(translate("frontend.sidebar.sign_out_successful"), { description: translate("frontend.sidebar.sign_out_description") })
                                             }
                                         }>
                                             <UserRoundMinus /> <span>{translate("frontend.sidebar.sign_out")}</span>
