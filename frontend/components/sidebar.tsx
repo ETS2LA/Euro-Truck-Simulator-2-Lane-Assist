@@ -38,19 +38,23 @@ import {
     User,
     UserCog,
     UserRoundMinus,
-    ArrowLeftToLine
+    ArrowLeftToLine,
+    Drill
 } from "lucide-react"
 
-import { Button } from "./ui/button"
+import { SetSettingByKey } from "@/apis/settings"
 import { useRouter, usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
+import { useAuth } from '@/apis/auth'
+import { Button } from "./ui/button"
+import { useEffect } from "react"
 import { toast } from "sonner"
-
 import useSWR from "swr"
 
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const { data: update_data } = useSWR("update", CheckForUpdate)
     const { data: metadata } = useSWR("metadata", GetMetadata)
+    const { token, username } = useAuth()
     const startProgress = useProgress()
     const router = useRouter()
     const path = usePathname()
@@ -178,7 +182,11 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
                                     <div className="flex items-center gap-2">
-                                        <span>{translate("frontend.sidebar.anonymous")}</span>
+                                        {token == "" ?
+                                            <span>{translate("frontend.sidebar.anonymous")}</span>
+                                            :
+                                            <span>{username}</span>
+                                        }
                                     </div>
                                     <ChevronUp className="w-4 h-4 justify-self-end" />
                                 </SidebarMenuButton>
@@ -187,12 +195,35 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                                 side="top"
                                 className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
                             >
-                                <DropdownMenuItem>
-                                    <UserCog size={20} /> <span>{translate("frontend.sidebar.account")}</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <UserRoundMinus /> <span>{translate("frontend.sidebar.sign_out")}</span>
-                                </DropdownMenuItem>
+                                {token == "" ?
+                                    <DropdownMenuItem onMouseDown={
+                                        () => {
+                                            startTransition(async () => {
+                                                startProgress()
+                                                router.push('/login')
+                                            })
+                                        }
+                                    }>
+                                        <ArrowLeftToLine size={20} /> <span>{translate("frontend.sidebar.sign_in")}</span>
+                                    </DropdownMenuItem>
+                                    :
+                                    <>
+                                        <DropdownMenuItem>
+                                            <UserCog size={20} /> <span>{translate("frontend.sidebar.account")}</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onMouseDown={
+                                            () => {
+                                                SetSettingByKey("global", "token", "")
+                                                SetSettingByKey("global", "user_id", "")
+                                                useAuth.getState().setToken("")
+                                                useAuth.getState().setUsername("")
+                                                toast.success("Sign out successful.", { description: "You can log back in at any time." })
+                                            }
+                                        }>
+                                            <UserRoundMinus /> <span>{translate("frontend.sidebar.sign_out")}</span>
+                                        </DropdownMenuItem>
+                                    </>
+                                }
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </SidebarMenuItem>

@@ -15,6 +15,7 @@ import { changeLanguage } from "@/apis/translation";
 import { GetCurrentLanguage } from "@/apis/backend";
 import { Fireworks } from "@fireworks-js/react";
 import { GetSettingByKey } from "@/apis/settings";
+import AccountHandler from "@/apis/account";
 import Snowfall from "react-snowfall"
 import useSWR from "swr";
 
@@ -57,6 +58,7 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
                 }} />
                 }
             </div>
+            <AccountHandler />
             <ThemeProvider
                 attribute="class"
                 defaultTheme="dark"
