@@ -159,6 +159,8 @@
     "frontend.sidebar.anonymous": "Tuntematon",
     "frontend.sidebar.account": "Tilin hallinta",
     "frontend.sidebar.sign_out": "Kirjaudu ulos",
+    "frontend.sidebar.sign_out_successful": "Uloskirjautuminen onnistui.",
+    "frontend.sidebar.sign_out_description": "Voit kirjautua uudelleen milloin vain.",
     "frontend.sidebar.sign_in": "Kirjaudu sisään",
     "frontend.login": "Kirjautuminen",
     "frontend.login.disclaimer": "Tuemme tällä hetkellä vain Discord kirjautumista. Tämä johtuu yksinkertaisesti tietosuojasta, emme halua tallentaa mitään arkaluotoista tietoa.",
