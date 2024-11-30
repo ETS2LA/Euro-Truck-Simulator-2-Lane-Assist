@@ -165,6 +165,7 @@
     "frontend.sidebar.settings": "設定",
     "frontend.sidebar.anonymous": "訪客",
     "frontend.sidebar.account": "帳號",
+    "frontend.sidebar.sign_in": "登入",
     "frontend.sidebar.sign_out": "登出",
 
     "frontend.menubar.plugins.plugin.enable": "啟用插件",
