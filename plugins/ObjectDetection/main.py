@@ -456,12 +456,8 @@ class Plugin(ETS2LAPlugin):
                         bottomRightPoint = (int(x2r), int(y2r))
                         middlePoint = (int((x1r + x2r) / 2), int((y1r + y2r) / 2))
                         
-                        if label in ['car', "van"]:
-                            carPoints.append((bottomLeftPoint, bottomRightPoint, "car", object.id))
-                        elif label in ['truck']:
-                            carPoints.append((bottomLeftPoint, bottomRightPoint, "truck", object.id))
-                        elif label in ['bus']:
-                            carPoints.append((bottomLeftPoint, bottomRightPoint, "bus", object.id))
+                        if label in ['car', 'van', 'truck', 'bus']:
+                            carPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
                         elif label in ["road_marker"]:
                             objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
                         elif label in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"]:
