@@ -10,7 +10,7 @@ Lane assist and plugin based interface program for SCS truck simulators.
 
 <img alt="SourceForge Downloads" src="https://img.shields.io/sourceforge/dt/eurotrucksimulator2-laneassist?style=for-the-badge&logo=Sourceforge&label=SourceForge%20Downloads">
 <img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist/total?style=for-the-badge&logo=Github&label=Github%20Downloads">
-<img alt="GitHub commits" src="https://img.shields.io/github/commit-activity/m/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/rewrite
+<img alt="GitHub commits" src="https://img.shields.io/github/commit-activity/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/rewrite
 ?style=for-the-badge&logo=Github">
 <img alt="GitHub stars" src="https://img.shields.io/github/stars/Tumppi066/Euro-Truck-Simulator-2-Lane-Assist?style=for-the-badge&logo=github&label=Github%20Stars">
 <img alt="Discord" src="https://img.shields.io/discord/1120719484982939790?style=for-the-badge&logo=discord">
