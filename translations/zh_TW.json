@@ -62,7 +62,6 @@
     "events.vehicle_change.vehicle_change": "偵測到車輛改變。",
     "events.vehicle_change.vehicle_change_description": "我們偵測到一輛新車。請在駕駛艙視角中按下 F4，打開「調整座椅」選項，並輸入新的視野 (FOV) 值。",
 
-
     "_RUNNER": "請在這裡留空以分隔不同的翻譯區段。",
 
     "runner.could_not_import": "無法導入插件",
@@ -99,11 +98,7 @@
     "frontend.immediate.enable_transparent": "啟用透明效果",
     "frontend.immediate.disable_transparent": "停用透明效果",
     "frontend.immediate.minimize": "最小化",
-    "frontend.immediate.close": "關閉",
-    "frontend.plugins.plugin_running": "插件正在運行",
-    "frontend.plugins.no_description": "無說明",
-    "frontend.plugins.button_may_take_second_to_update": "載入可能需要幾秒鐘",
-    "frontend.plugins.open_interface": "插件設定",   
+    "frontend.immediate.close": "關閉",  
     "frontend.plugins.name": "名稱",
     "frontend.plugins.authors": "開發者",
     "frontend.plugins.tags": "標籤",
@@ -165,8 +160,17 @@
     "frontend.sidebar.settings": "設定",
     "frontend.sidebar.anonymous": "訪客",
     "frontend.sidebar.account": "帳號",
-    "frontend.sidebar.sign_in": "登入",
     "frontend.sidebar.sign_out": "登出",
+    "frontend.sidebar.sign_out_successful": "登出成功。",
+    "frontend.sidebar.sign_out_description": "您隨時可以重新登入。",
+    "frontend.sidebar.sign_in": "登入",
+    "frontend.login": "登入",
+    "frontend.login.disclaimer": "目前我們僅支援透過 Discord 登入，這樣可以避免儲存密碼等隱私資訊。",
+    "frontend.login.discord": "使用 Discord 登入",
+    "frontend.login.privacy_policy": "隱私權政策",
+    "frontend.login.already_logged_in": "注意：您已經登入，若要切換帳號，可以再次登入來覆蓋目前的登入狀態。",
+    "frontend.login.successful": "成功登入！",
+    "frontend.login.successful_description": "您可以透過左下角用戶名稱的選單登出。",
 
     "frontend.menubar.plugins.plugin.enable": "啟用插件",
     "frontend.menubar.plugins.plugin.disable": "停用插件",
@@ -307,7 +311,7 @@
     "acc.settings.5.name": "速度偏移類型",
     "acc.settings.5.description": "選擇超過限速的百分比，或者直接加上固定速度。",
     "acc.settings.6.name": "顯示通知",
-    "acc.settings.6.description": "當應用程式因任何障礙物而減速時，顯示通知。",
+    "acc.settings.6.description": "當應用程式因任何障礙物而減速時，彈出通知視窗。",
 
     "_PLUGIN_KEYS": "這些是特定插件所需的鍵值",
 
