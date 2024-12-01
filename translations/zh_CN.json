@@ -159,6 +159,16 @@
     "frontend.sidebar.anonymous": "匿名",
     "frontend.sidebar.account": "账户",
     "frontend.sidebar.sign_out": "注销",
+    "frontend.sidebar.sign_out_successful": "注销成功。",
+    "frontend.sidebar.sign_out_description": "您可以随时重新登录。",
+    "frontend.sidebar.sign_in": "登录",
+    "frontend.login": "注册",
+    "frontend.login.disclaimer": "我们目前只支持通过 discord 登录，这样我们就不必存储密码等敏感信息。",
+    "frontend.login.discord": "使用 Discord 登录",
+    "frontend.login.privacy_policy": "隐私政策",
+    "frontend.login.already_logged_in": "注意：您已经登录，可以通过重新登录来覆盖它。",
+    "frontend.login.successful": "已成功登录！",
+    "frontend.login.successful_description": "使用左下角用户名下的右键菜单注销。",
 
     "_ABOUT": "由于“关于”页面有很多内容需要翻译，我为其指定了一个单独的类别。",
 
