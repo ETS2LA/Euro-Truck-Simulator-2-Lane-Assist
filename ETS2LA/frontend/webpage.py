@@ -16,6 +16,7 @@ if os.name == 'nt':
     import win32con
     import winxpgui
     import win32api
+    import ctypes
 
 DEBUG_MODE = settings.Get("global", "debug_mode", False)
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
@@ -47,9 +48,27 @@ def get_on_top():
     queue.task_done()
     return value
 
-def resize_window(width:int, height:int):
-    queue.put({"type": "resize", "width": width, "height": height})
-    queue.join() # Wait for the queue to be processed
+if os.name == 'nt':
+    def get_windows_scaling_factor() -> float:
+        try:
+            scale_factor = ctypes.windll.shcore.GetScaleFactorForDevice(0)
+            return scale_factor / 100.0
+        except:
+            logging.exception("Failed to get Windows scaling factor")
+            return 1.0  # Fallback to no scaling
+
+def resize_window(width: int, height: int):
+    # Get system scaling and adjust dimensions
+    if os.name == 'nt':
+        scaling = get_windows_scaling_factor()
+        scaled_width = int(width * scaling)
+        scaled_height = int(height * scaling)
+    else:
+        scaled_width = width
+        scaled_height = height
+
+    queue.put({"type": "resize", "width": scaled_width, "height": scaled_height})
+    queue.join()  # Wait for the queue to be processed
     value = queue.get()
     queue.task_done()
     return value
