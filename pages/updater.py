@@ -7,6 +7,7 @@ from datetime import datetime
 import time
 
 last_update_check = 0
+last_updates = []
 class Page(ETS2LAPage):
     dynamic = True
     url = "/updater"
@@ -16,12 +17,14 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
     
     def render(self):
-        global last_update_check
+        global last_update_check, last_updates
+        
         if time.time() - last_update_check > 60:
             last_update_check = time.time()
             updates = CheckForUpdate()
+            last_updates = updates
         else:
-            updates = []
+            updates = last_updates
             
         with Geist():
             with Padding(24):

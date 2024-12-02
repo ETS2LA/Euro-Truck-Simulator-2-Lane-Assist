@@ -48,6 +48,7 @@ interface SliderComponentProps {
             suffix?: string;
         };
     };
+	default: number;
 	toast: any;
     plugin: string;
     setNeedsRestart: (needsRestart: boolean) => void;
@@ -63,7 +64,7 @@ interface SliderComponentState {
 class SliderComponent extends Component<SliderComponentProps, SliderComponentState> {
     constructor(props: SliderComponentProps) {
         super(props);
-        const value = props.pluginSettings[props.data.key] ? parseFloat(props.pluginSettings[props.data.key]) : 0;
+        const value = props.pluginSettings[props.data.key] ? parseFloat(props.pluginSettings[props.data.key]) : props.default;
         this.state = {
             curSliderValue: value,
             tempSliderValue: null
@@ -90,12 +91,12 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
     render() {
         const { data, translate, pluginSettings } = this.props;
         const { curSliderValue, tempSliderValue } = this.state;
-        const value = pluginSettings[data.key] ? parseFloat(pluginSettings[data.key]) : 0;
+        const value = pluginSettings[data.key] ? parseFloat(pluginSettings[data.key]) : curSliderValue;
         const step = data.options.step || 1;
         const suffix = data.options.suffix || "";
 
         return (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-full">
                 <h4>{translate(data.name)}  —  {value}{suffix}{tempSliderValue !== null ? tempSliderValue != value ? ` → ${tempSliderValue}${suffix}` : `` : ``}</h4>
                 <Slider min={data.options.min} max={data.options.max} defaultValue={[value]} step={step} onValueChange={this.handleValueChange} onValueCommit={this.handleValueCommit} />
                 <p className="text-xs text-muted-foreground">{translate(data.description)}</p>
@@ -201,11 +202,11 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 	}
 
 	const SpaceRenderer = (data:number) => {
+		// data = height in px
 		if (data) {
-			return <div>
-				{Array(data).fill(0).map((_, index) => (
-					<div key={index} className="h-1"></div>
-				))}
+			return <div style={{
+				height: data + "px"
+			}}>
 			</div>
 		}
 		return <div className="h-4"></div>
@@ -268,12 +269,12 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 	}
 
 	const SliderRenderer = (data:any) => {
-		if(pluginSettings[data.key] == undefined){
-			return <div className="flex flex-col gap-2">
-				<SkeletonItem />
-				<p className="text-muted-foreground/50 text-xs">Stuck? Try and enable the plugin and see if opening the page again fixes this.</p>
-			</div>
-		}
+		//if(pluginSettings[data.key] == undefined){
+		//	return <div className="flex flex-col gap-2">
+		//		<SkeletonItem />
+		//		<p className="text-muted-foreground/50 text-xs">Stuck? Try and enable the plugin and see if opening the page again fixes this.</p>
+		//	</div>
+		//}
 		return ( // Add return statement here
 			<SliderComponent
 				pluginSettings={pluginSettings}
@@ -283,6 +284,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 				mutate={mutate}
 				toast={toast}
 				translate={translate}
+				default={data.options.default}
 			/>
 		);
 	}
@@ -484,12 +486,12 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 				result.push(SeparatorRenderer())
 			}
 			if (key == "space") {
-				result.push(SpaceRenderer(key_data.amount))
+				result.push(SpaceRenderer(key_data.height))
 			}
 			if (key == "group") {
 				const direction = key_data.direction
 				if(direction == "horizontal"){
-					result.push(<div className={"flex w-full rounded-md items-center text-center" + GetBorderClassname(key_data.border)} style={{
+					result.push(<div className={"flex w-full rounded-md items-center text-center" + GetBorderClassname(key_data.border) + " " + key_data.classname} style={{
 						gap: key_data.gap + "px",
 						padding: key_data.padding + "px"
 					}}>
@@ -497,7 +499,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 					</div>)
 				}
 				else{
-					result.push(<div className={"flex flex-col w-full rounded-md" + GetBorderClassname(key_data.border)} style={{
+					result.push(<div className={"flex flex-col w-full rounded-md" + GetBorderClassname(key_data.border) + " " + key_data.classname} style={{
 						gap: key_data.gap + "px",
 						padding: key_data.padding + "px"
 					}}>
@@ -506,18 +508,20 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 				}
 			}
 			if (key == "tabview") {
-				result.push(<Tabs className="w-full" defaultValue={key_data.components[0].tab.name}>
-					<TabsList className="w-full bg-transparent border">
+				result.push(
+					<Tabs className="w-full" defaultValue={key_data.components[0].tab.name}>
+						<TabsList className="w-full bg-transparent border">
+							{key_data.components.map((tab:any, index:number) => (
+								<TabsTrigger key={index} value={tab.tab.name}>{translate(tab.tab.name)}</TabsTrigger>
+							))}
+						</TabsList>
 						{key_data.components.map((tab:any, index:number) => (
-							<TabsTrigger key={index} value={tab.tab.name}>{translate(tab.tab.name)}</TabsTrigger>
+							<TabsContent key={index} value={tab.tab.name} className="w-full rounded-md p-2 flex gap-6 flex-col data-[state=inactive]:hidden">
+								{PageRenderer(tab)}
+							</TabsContent>
 						))}
-					</TabsList>
-					{key_data.components.map((tab:any, index:number) => (
-						<TabsContent key={index} value={tab.tab.name} className="w-full rounded-md p-2 flex gap-6 flex-col">
-							{PageRenderer(tab)}
-						</TabsContent>
-					))}
-				</Tabs>)
+					</Tabs>
+				)
 			}
 			if (key == "tab"){
 				result.push(PageRenderer(key_data.components))

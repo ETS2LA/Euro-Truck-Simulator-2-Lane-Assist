@@ -64,6 +64,26 @@ def minimize_window():
 def get_transparency():
     return IS_TRANSPARENT
 
+def set_resizable(value: bool):
+    if os.name == 'nt':
+        HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+        style = win32gui.GetWindowLong(HWND, win32con.GWL_STYLE)
+        
+        ColorTitleBar()
+        
+        if value:
+            new_style = style | win32con.WS_THICKFRAME
+        else:
+            # Reset the window style to the default
+            new_style = style & ~win32con.WS_THICKFRAME
+            
+        win32gui.SetWindowLong(HWND, win32con.GWL_STYLE, new_style)
+        # Force window to redraw
+        win32gui.SetWindowPos(HWND, None, 0, 0, 0, 0,
+            win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
+    else:
+        logging.warning(f"Window style modification not supported on this platform. ({os.name})")
+
 def set_transparency(value: bool):
     global IS_TRANSPARENT
     if os.name == 'nt':
@@ -103,6 +123,7 @@ def start_webpage(queue: JoinableQueue):
             
             time.sleep(RETRY_INTERVAL)
             
+        #set_resizable(True)
         window.load_url('http://localhost:' + str(FRONTEND_PORT))
         while True:
             time.sleep(0.01)

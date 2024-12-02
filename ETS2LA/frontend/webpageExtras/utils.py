@@ -78,7 +78,7 @@ def ColorTitleBar(theme:str="dark"):
     sinceStart = time.time()
     
     colors = {
-        "dark": 0x0b0909,
+        "dark": 0x1b1818,
         "light": 0xFFFFFF
     }
 
