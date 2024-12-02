@@ -50,6 +50,7 @@ import { Button } from "./ui/button"
 import { useEffect } from "react"
 import { toast } from "sonner"
 import useSWR from "swr"
+import RenderPage from "./page/render_page"
 
 export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
     const { data: update_data } = useSWR("update", CheckForUpdate)
@@ -166,67 +167,70 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                 toggleSidebar()
             }} />
             <SidebarFooter className="bg-sidebarbg">
-                <SidebarMenuButton className={buttonClassName("/settings")} onMouseDown={
-                        () => {
-                            startTransition(async () => {
-                                startProgress()
-                                router.push('/settings')
-                            })
-                        }
-                    }>
-                    <Bolt /> {translate("frontend.sidebar.settings")}
-                </SidebarMenuButton>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
-                                    <div className="flex items-center gap-2">
-                                        {token == "" ?
-                                            <span>{translate("frontend.sidebar.anonymous")}</span>
-                                            :
-                                            <span>{username}</span>
-                                        }
-                                    </div>
-                                    <ChevronUp className="w-4 h-4 justify-self-end" />
-                                </SidebarMenuButton>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                side="top"
-                                className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
-                            >
-                                {token == "" ?
-                                    <DropdownMenuItem onMouseDown={
-                                        () => {
-                                            startTransition(async () => {
-                                                startProgress()
-                                                router.push('/login')
-                                            })
-                                        }
-                                    }>
-                                        <ArrowLeftToLine size={20} /> <span>{translate("frontend.sidebar.sign_in")}</span>
-                                    </DropdownMenuItem>
-                                    :
-                                    <>
-                                        <DropdownMenuItem>
-                                            <UserCog size={20} /> <span>{translate("frontend.sidebar.account")}</span>
-                                        </DropdownMenuItem>
+                <div>
+                    <SidebarMenuButton className={buttonClassName("/settings")} onMouseDown={
+                            () => {
+                                startTransition(async () => {
+                                    startProgress()
+                                    router.push('/settings')
+                                })
+                            }
+                        }>
+                        <Bolt /> {translate("frontend.sidebar.settings")}
+                    </SidebarMenuButton>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <SidebarMenuButton className="w-full flex justify-between hover:shadow-md transition-all">
+                                        <div className="flex items-center gap-2">
+                                            {token == "" ?
+                                                <span>{translate("frontend.sidebar.anonymous")}</span>
+                                                :
+                                                <span>{username}</span>
+                                            }
+                                        </div>
+                                        <ChevronUp className="w-4 h-4 justify-self-end" />
+                                    </SidebarMenuButton>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    side="top"
+                                    className="w-[--radix-popper-anchor-width] bg-transparent backdrop-blur-lg backdrop-brightness-75"
+                                >
+                                    {token == "" ?
                                         <DropdownMenuItem onMouseDown={
                                             () => {
-                                                SetSettingByKey("global", "token", "")
-                                                SetSettingByKey("global", "user_id", "")
-                                                setToken("")
-                                                setUsername("")
-                                                toast.success(translate("frontend.sidebar.sign_out_successful"), { description: translate("frontend.sidebar.sign_out_description") })
+                                                startTransition(async () => {
+                                                    startProgress()
+                                                    router.push('/login')
+                                                })
                                             }
                                         }>
-                                            <UserRoundMinus /> <span>{translate("frontend.sidebar.sign_out")}</span>
+                                            <ArrowLeftToLine size={20} /> <span>{translate("frontend.sidebar.sign_in")}</span>
                                         </DropdownMenuItem>
-                                    </>
-                                }
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </SidebarMenuItem>
+                                        :
+                                        <>
+                                            <DropdownMenuItem>
+                                                <UserCog size={20} /> <span>{translate("frontend.sidebar.account")}</span>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onMouseDown={
+                                                () => {
+                                                    SetSettingByKey("global", "token", "")
+                                                    SetSettingByKey("global", "user_id", "")
+                                                    setToken("")
+                                                    setUsername("")
+                                                    toast.success(translate("frontend.sidebar.sign_out_successful"), { description: translate("frontend.sidebar.sign_out_description") })
+                                                }
+                                            }>
+                                                <UserRoundMinus /> <span>{translate("frontend.sidebar.sign_out")}</span>
+                                            </DropdownMenuItem>
+                                        </>
+                                    }
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </div>
                     
                     {/* DO NOT UNCOMMENT - This breaks the app on startup
                     <SidebarMenuItem>
@@ -258,7 +262,8 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                         </DropdownMenu>
                     </SidebarMenuItem>
                     */}
-                </SidebarMenu>
+                    
+                <RenderPage url="/stats" className="w-full h-4" />
             </SidebarFooter>
         </Sidebar>
     )

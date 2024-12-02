@@ -20,6 +20,10 @@ class ETS2LAPage:
         if self.url == "":
             raise TypeError("You must set the 'url' variable to the relative URL of the page.")
         self._json = {}
+        try:
+            self.init()
+        except:
+            pass
         
     def build(self):
         if self.dynamic:

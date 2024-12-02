@@ -80,7 +80,7 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
         SetSettingByKey(plugin, data.key, value[0]).then(() => {
             if (data.requires_restart)
                 setNeedsRestart(true);
-            mutate("settings");
+            mutate(plugin + "settings");
             toast.success(translate("frontend.settings.number.updated"), {
                 duration: 500
             });
@@ -106,13 +106,13 @@ class SliderComponent extends Component<SliderComponentProps, SliderComponentSta
 }
 
 export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, plugin: string, enabled?: boolean, className?: string }) {
-	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR("settings", () => GetSettingsJSON(plugin))
+	const { data: pluginSettings, error: pluginSettingsError, isLoading: pluginSettingsLoading } = useSWR(plugin + "settings", () => GetSettingsJSON(plugin))
 	const [needsRestart, setNeedsRestart] = useState(false)
 
 	// Update the settings when the plugin changes
 	useEffect(() => {
 		setNeedsRestart(false)
-		mutate("settings")
+		mutate(plugin + "settings")
 	}, [plugin])
 
 	useEffect(() => {
@@ -120,6 +120,9 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			let interval = null;
 			if(enabled){
 				const item = data[0]
+				if(item["refresh_rate"] == undefined){
+					item["refresh_rate"] = 2
+				}
 				interval = setInterval(() => {
 					mutate("plugin_ui_plugins")
 				}, item["refresh_rate"] * 1000)
@@ -238,7 +241,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 					SetSettingByKey(plugin, data.key, e.target.value).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
-						mutate("settings")
+						mutate(plugin + "settings")
 						toast.success(translate("frontend.settings.string.updated"), {
 							duration: 500
 						})
@@ -256,7 +259,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 						SetSettingByKey(plugin, data.key, parseFloat(e.target.value)).then(() => {
 							if (data.requires_restart)
 								setNeedsRestart(true)
-							mutate("settings");
+							mutate(plugin + "settings");
 							toast.success(translate("frontend.settings.number.updated"), {
 								duration: 500
 							});
@@ -309,7 +312,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 					SetSettingByKey(plugin, data.key, bool).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
-						mutate("settings")
+						mutate(plugin + "settings")
 						toast.success(translate("frontend.settings.boolean.updated"), {
 							duration: 500
 						})
@@ -334,7 +337,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 						SetSettingByKey(plugin, data.key, value).then(() => {
 							if (data.requires_restart)
 								setNeedsRestart(true)
-							mutate("settings")
+							mutate(plugin + "settings")
 							toast.success(translate("frontend.settings.enum.updated"), {
 								duration: 500
 							})
@@ -359,7 +362,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 					SetSettingByKey(plugin, data.key, bool).then(() => {
 						if (data.requires_restart)
 							setNeedsRestart(true)
-						mutate("settings")
+						mutate(plugin + "settings")
 						toast.success(translate("frontend.settings.boolean.updated"), {
 							duration: 500
 						})

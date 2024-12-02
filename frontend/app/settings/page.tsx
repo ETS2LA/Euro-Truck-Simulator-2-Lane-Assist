@@ -18,7 +18,7 @@ import ControlsPage from "./controls/page";
 import { motion } from "framer-motion";
 
 export default function Home() {
-    const { data } = useSWR("plugin_ui_plugins", () => GetPlugins())
+    const { data } = useSWR("plugin_ui_plugins", () => GetPlugins());
     const [selectedPlugin, setSelectedPlugin] = useState("Global")
 
 
