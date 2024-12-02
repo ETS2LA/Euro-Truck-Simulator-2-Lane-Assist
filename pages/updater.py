@@ -38,7 +38,7 @@ class Page(ETS2LAPage):
     def render(self):
         global last_update_check, last_updates
         
-        if time.time() - last_update_check > 60:
+        if time.time() - last_update_check > 10:
             last_update_check = time.time()
             updates = CheckForUpdate()
             last_updates = updates
