@@ -8,8 +8,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { useState } from "react";
-import { translate } from "@/apis/translation";
+import { useState, useEffect } from "react";
+import { translate, currentLanguage } from "@/apis/translation";
 import { Button } from "./ui/button";
 
 export function Disclaimer() {

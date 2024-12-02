@@ -17,7 +17,7 @@ interface Translation {
 export const translations: { [key: string]: Translation } = {};
 export var currentLanguage: string = "en";
 
-const loadTranslations = async () => {
+export const loadTranslations = async () => {
     const context = require.context('@/translations', false, /\.json$/);
     const translationFiles: { [key: string]: Translation } = {};
   
@@ -28,8 +28,6 @@ const loadTranslations = async () => {
 
     Object.assign(translations, translationFiles);
 };
-
-loadTranslations();
 
 export const translate = (key: string, ...values: any[]): string => {
     const translation = translations[currentLanguage]?.[key];
