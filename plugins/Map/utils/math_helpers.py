@@ -1,5 +1,6 @@
 from typing import Literal
 import numpy as np
+import logging
 import math
 
 def DistanceBetweenPoints(p1: tuple[float, float] | tuple[float, float, float], p2: tuple[float, float] | tuple[float, float, float]) -> float:
@@ -121,6 +122,48 @@ def Hermite(s, x, z, tanX, tanZ):
     h4 = math.pow(s, 3) - math.pow(s, 2)
     return h1 * x + h2 * z + h3 * tanX + h4 * tanZ
 
+def Hermite3D(s, start_pos, end_pos, start_euler, end_euler):
+    """Hermite interpolation function in 3D space.
+
+    :param float s: The interpolation value between 0 and 1.
+    :param tuple start_pos: The starting position (x,y,z).
+    :param tuple end_pos: The ending position (x,y,z).
+    :param tuple start_euler: The starting euler angles (rx,ry,rz) in radians.
+    :param tuple end_euler: The ending euler angles (rx,ry,rz) in radians.
+    :return tuple: The hermite interpolated position (x,y,z).
+    """
+    x1, y1, z1 = start_pos
+    x2, y2, z2 = end_pos
+    
+    # Calculate XZ plane path length for horizontal curves
+    xz_length = math.sqrt((x2-x1)**2 + (z2-z1)**2)
+    
+    # Calculate separate Y scale (smaller to reduce extreme curves)
+    y_scale = math.sqrt((y2-y1)**2)
+    
+    # Calculate tangents for XZ plane using yaw
+    tan_sx = math.cos(start_euler[1]) * (xz_length + y_scale * 2)
+    tan_ex = math.cos(end_euler[1]) * (xz_length + y_scale * 2)
+    tan_sz = math.sin(start_euler[1]) * (xz_length + y_scale * 2)
+    tan_ez = math.sin(end_euler[1]) * (xz_length + y_scale * 2)
+    
+    # Calculate Y tangents using pitch only
+    tan_sy = math.sin(start_euler[0]) * y_scale
+    tan_ey = math.sin(end_euler[0]) * y_scale
+    
+    # Hermite basis functions
+    h1 = 2 * s**3 - 3 * s**2 + 1
+    h2 = -2 * s**3 + 3 * s**2
+    h3 = s**3 - 2 * s**2 + s
+    h4 = s**3 - s**2
+    
+    # Direct interpolation
+    x = h1 * x1 + h2 * x2 + h3 * tan_sx + h4 * tan_ex
+    y = h1 * y1 + h2 * y2 + h3 * tan_sy + h4 * tan_ey
+    z = h1 * z1 + h2 * z2 + h3 * tan_sz + h4 * tan_ez
+    
+    return (x, y, z)
+
 def RotateAroundPoint(x: float, y: float, angle: float, origin_x: float, origin_y: float) -> tuple[float, float]:
     """Rotate a point around another point.
 
@@ -153,3 +196,26 @@ def VectorBetweenPoints(p1: tuple[float, float] | tuple[float, float, float], p2
         return p2[0] - p1[0], p2[1] - p1[1]
     else:
         return p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]
+    
+
+def QuatToEuler(quat: list[float]) -> list[float]:
+    """Convert quaternion to Euler angles with game-specific adjustments.
+    
+    :param list[float] quat: Quaternion in [w,x,y,z] format
+    :return list[float]: Euler angles [pitch, yaw, roll] in radians
+    """
+    try:
+        qw, qx, qy, qz = quat
+        
+        # Pitch (X rotation)
+        pitch = math.atan2(-qx, qw) * 2 - math.pi / 2
+        
+        # Yaw (Y rotation) - from original code
+        yaw = math.atan2(-qy, qw) * 2 - math.pi / 2
+        
+        # Roll (Z rotation)
+        roll = math.atan2(-qz, qw) * 2 - math.pi / 2
+        
+        return [pitch, yaw, roll]
+    except:
+        return [0, 0, 0]

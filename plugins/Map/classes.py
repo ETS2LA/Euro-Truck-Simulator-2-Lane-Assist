@@ -185,6 +185,9 @@ class Node:
     y: float
     z: float
     rotation: float
+    """NOTE: This variable is not to be used. It is only here for compatibility, please use `.euler` instead."""
+    rotationQuat: list[float]
+    euler: list[float]
     forward_item_uid: int | str
     backward_item_uid: int | str
     sector_x: int
@@ -199,20 +202,28 @@ class Node:
         self.forward_country_id = parse_string_to_int(self.forward_country_id)
         self.backward_country_id = parse_string_to_int(self.backward_country_id)
 
-    def __init__(self, uid: int | str, x: float, y: float, z: float, rotation: float, forward_item_uid: int | str,
-                 backward_item_uid: int | str, sector_x: int, sector_y: int, forward_country_id: int | str,
-                 backward_country_id: int | str):
+    def __init__(self, uid: int | str, x: float, y: float, z: float, rotation: float, rotationQuat: list[float], 
+                 forward_item_uid: int | str, backward_item_uid: int | str, sector_x: int, sector_y: int, 
+                 forward_country_id: int | str, backward_country_id: int | str):
         self.uid = uid
+        
         self.x = x
         self.y = y
         self.z = z
+        
         self.rotation = rotation
+        self.rotationQuat = rotationQuat
+        self.euler = math_helpers.QuatToEuler(rotationQuat)
+        
         self.forward_item_uid = forward_item_uid
         self.backward_item_uid = backward_item_uid
+        
         self.sector_x = sector_x
         self.sector_y = sector_y
+        
         self.forward_country_id = forward_country_id
         self.backward_country_id = backward_country_id
+        
         self.parse_strings()
 
     def json(self) -> dict:
@@ -236,6 +247,7 @@ class Transform:
     y: float
     z: float
     rotation: float
+    euler: list[float]
 
     def __init__(self, x: float, y: float, z: float, rotation: float):
         self.x = x
@@ -911,50 +923,33 @@ class Road(BaseItem):
             return None, None
 
     def generate_points(self, road_quality: float = 0.5, min_quality: int = 4) -> list[Position]:
-        # All this code is copied from the original C# implementation of point calculations
-        # ts-map-lane-assist/TsMap/TsMapRenderer.cs -> 473 (after foreach(var road in _mapper.Roads))
-
         try:
             # Get nodes using the existing method
             start_node, end_node = self.get_nodes()
             if not start_node or not end_node:
                 logging.error(f"Failed to get nodes for road {self.uid}")
                 return []
-
+    
             new_points = []
-
-            # Data has Z as the height value, but we need Y
-            sx = start_node.x
-            sy = start_node.z
-            sz = start_node.y
-            ex = end_node.x
-            ey = end_node.z
-            ez = end_node.y
-
-            # Get the length of the road
-            length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
-            radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
-
-            # Add safety checks for rotation values
-            start_rotation = start_node.rotation if hasattr(start_node, 'rotation') else 0
-            end_rotation = end_node.rotation if hasattr(end_node, 'rotation') else 0
-
-            tan_sx = math.cos(start_rotation) * radius
-            tan_ex = math.cos(end_rotation) * radius
-            tan_sz = math.sin(start_rotation) * radius
-            tan_ez = math.sin(end_rotation) * radius
-
-            needed_points = int(length * road_quality)
-            if needed_points < min_quality:
-                needed_points = min_quality
-
+    
+            # Create position tuples in proper order (x,y,z)
+            start_pos = (start_node.x, start_node.z, start_node.y)
+            end_pos = (end_node.x, end_node.z, end_node.y)
+    
+            # Get euler angles from nodes
+            start_euler = start_node.euler if hasattr(start_node, 'euler') else (0, 0, 0)
+            end_euler = end_node.euler if hasattr(end_node, 'euler') else (0, 0, 0)
+    
+            # Calculate needed points based on length
+            length = math.sqrt(sum((e - s) ** 2 for s, e in zip(start_pos, end_pos)))
+            needed_points = max(int(length * road_quality), min_quality)
+    
+            # Generate points using Hermite3D
             for i in range(needed_points):
                 s = i / (needed_points - 1)
-                x = math_helpers.Hermite(s, sx, ex, tan_sx, tan_ex)
-                y = sy + (ey - sy) * s
-                z = math_helpers.Hermite(s, sz, ez, tan_sz, tan_ez)
+                x, y, z = math_helpers.Hermite3D(s, start_pos, end_pos, start_euler, end_euler)
                 new_points.append(Position(x, y, z))
-
+    
             return new_points
         except Exception as e:
             logging.exception(f"Error generating points for road {self.uid}: {e}")
@@ -1578,7 +1573,7 @@ class PrefabNavCurve:
         ex = self.end.x
         ey = self.end.z
         ez = self.end.y
-
+        
         length = math.sqrt(math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2))
         radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
 

@@ -34,6 +34,7 @@ def ReadNodes() -> list[c.Node]:
             node["y"],
             node["z"],
             node["rotation"],
+            node["rotationQuat"],
             node["forwardItemUid"],
             node["backwardItemUid"],
             node["sectorX"],
