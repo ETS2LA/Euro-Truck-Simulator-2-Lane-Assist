@@ -491,7 +491,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			if (key == "group") {
 				const direction = key_data.direction
 				if(direction == "horizontal"){
-					result.push(<div className={"flex w-full overflow-x-scroll rounded-md items-center text-center" + GetBorderClassname(key_data.border) + " " + key_data.classname} style={{
+					result.push(<div className={"flex w-full overflow-x-auto rounded-md items-center text-center" + GetBorderClassname(key_data.border) + " " + key_data.classname} style={{
 						gap: key_data.gap + "px",
 						padding: key_data.padding + "px"
 					}}>
@@ -499,7 +499,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 					</div>)
 				}
 				else{
-					result.push(<div className={"flex flex-col overflow-x-scroll w-full rounded-md" + GetBorderClassname(key_data.border) + " " + key_data.classname} style={{
+					result.push(<div className={"flex flex-col overflow-x-auto w-full rounded-md" + GetBorderClassname(key_data.border) + " " + key_data.classname} style={{
 						gap: key_data.gap + "px",
 						padding: key_data.padding + "px"
 					}}>

@@ -70,6 +70,6 @@ class Page(ETS2LAPage):
                                 if update["description"] != "":
                                     Markdown(update["description"])
                                 local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
-                                Description(local_time + f"  -  {self.time_since(update["time"])}", size="xs")
+                                Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
                 
         return RenderUI()

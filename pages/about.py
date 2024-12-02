@@ -41,7 +41,6 @@ class Page(ETS2LAPage):
                     Space(2)
                     with Group("vertical", padding=0):
                         Title(Translate("about.developers"))
-
                         for contributor in contributors:
                             with Group("vertical", gap=6, padding=0):
                                 with Group("horizontal", gap=10, padding=0):
