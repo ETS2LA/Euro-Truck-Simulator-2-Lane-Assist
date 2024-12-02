@@ -58,5 +58,5 @@ from ETS2LA.UI.components import Title, Link, Description, Geist, Button, TabVie
 from ETS2LA.UI.settings import ETS2LASettingsMenu
 from ETS2LA.UI.dialog import ETS2LADialog
 from ETS2LA.UI.components import RenderUI
-from ETS2LA.UI.pages import ETS2LAPage
+from ETS2LA.UI.page import ETS2LAPage
 from ETS2LA.UI.utils import SendPopup

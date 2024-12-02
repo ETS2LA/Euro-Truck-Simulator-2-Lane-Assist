@@ -32,3 +32,6 @@ DEVELOPMENT_MODE = False
 """Whether the application is running in development mode. Will be set to True when running the main.py with the --dev flag."""
 
 METADATA = json.loads(open(PATH + "metadata.json", "r").read())
+
+IS_UI_UPDATING = False
+"""Used by all UIs in the current process to wait for each other to complete updating before continuing."""

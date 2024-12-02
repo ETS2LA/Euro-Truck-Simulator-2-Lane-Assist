@@ -3,6 +3,7 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 import multiprocessing
 import threading
+import ETS2LA.variables as variables
 import logging
 import inspect
 import time
@@ -313,6 +314,12 @@ def get_plugin_data(plugin_name: str):
 
 def get_plugin_settings() -> dict[str, None | list]:
     settings_dict = {}
+    
+    while variables.IS_UI_UPDATING:
+        time.sleep(0.01)
+    
+    variables.IS_UI_UPDATING = True
+    
     for name, desc, author, settings in AVAILABLE_PLUGINS:
         if settings is None:
             settings_dict[name] = None
@@ -333,6 +340,7 @@ def get_plugin_settings() -> dict[str, None | list]:
         else:
             settings_dict[name] = None
             
+    variables.IS_UI_UPDATING = False
     return settings_dict
 
 def get_state(plugin: str):

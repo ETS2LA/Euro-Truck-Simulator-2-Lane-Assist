@@ -1,4 +1,4 @@
-from ETS2LA.UI import *
+import ETS2LA.variables as variables
 import importlib
 import logging
 import time
@@ -7,7 +7,7 @@ import os
 
 PAGES_PATH = "pages"
 last_modified_times = {}
-last_update_time = 0
+last_update_times = {}
 
 def get_page_names():
     files = [f for f in os.listdir(PAGES_PATH) if os.path.isfile(os.path.join(PAGES_PATH, f)) and f.endswith(".py") and f != "__init__.py"]
@@ -27,26 +27,32 @@ def page_function_call(page_name: str, function_name: str, *args, **kwargs):
     return function(*args, **kwargs)
 
 def get_pages():
-    global last_modified_times, last_update_time
+    global last_modified_times, last_update_times
     files = [f for f in os.listdir(PAGES_PATH) if os.path.isfile(os.path.join(PAGES_PATH, f))]
     pages = {}
     
-    did_update = False
+    while variables.IS_UI_UPDATING:
+        time.sleep(0.01)
+    
+    variables.IS_UI_UPDATING = True
+    
     for f in files:
         if f.endswith(".py") and f != "__init__.py":
+            page = None
+            module = None
+            
             file_path = os.path.join(PAGES_PATH, f)
             last_modified_time = os.path.getmtime(file_path)
             
             module_name = f"{PAGES_PATH}.{f[:-3]}"
-            if (module_name in sys.modules and 
-                last_modified_times.get(module_name) == last_modified_time) and time.time() - last_update_time < 10:
+            if (module_name in sys.modules and last_modified_times.get(module_name) == last_modified_time) and module_name in last_update_times and time.time() - last_update_times.get(module_name) < 10:
                 module = sys.modules[module_name]
             else:
                 try:
                     module = importlib.import_module(module_name)
                     importlib.reload(module)
                     last_modified_times[module_name] = last_modified_time
-                    did_update = True
+                    last_update_times[module_name] = time.time()
                 except:
                     logging.exception(f"Failed to import module {module_name}")
                     continue
@@ -54,7 +60,5 @@ def get_pages():
             page = module.Page()
             pages[page.url] = page.build()
     
-    if did_update:
-        last_update_time = time.time()
-    
+    variables.IS_UI_UPDATING = False
     return pages

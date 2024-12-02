@@ -1,4 +1,3 @@
-from ETS2LA.UI.components import ui, id
 from ETS2LA.UI import *
 
 class ETS2LAPage:
@@ -25,8 +24,6 @@ class ETS2LAPage:
     def build(self):
         if self.dynamic:
             RenderUI()  # Clear the UI system
-            ui = []
-            id = []
             data = self.render()
             data.insert(0, {
                 "settings": self.settings_target
@@ -35,8 +32,6 @@ class ETS2LAPage:
         
         if self._json == {}:
             RenderUI()  # Clear the UI system
-            ui = []
-            id = []
             self._json = self.render()
             self._json.insert(0, {
                 "settings": self.settings_target

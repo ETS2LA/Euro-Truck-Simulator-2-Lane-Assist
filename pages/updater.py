@@ -1,4 +1,3 @@
-from ETS2LA.backend import settings
 from ETS2LA.UI import *
 
 from ETS2LA.networking.webserver import mainThreadQueue
@@ -7,6 +6,7 @@ from ETS2LA.utils.git import CheckForUpdate, Update
 from datetime import datetime
 import time
 
+last_update_check = 0
 class Page(ETS2LAPage):
     dynamic = True
     url = "/updater"
@@ -16,13 +16,19 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
     
     def render(self):
-        updates = CheckForUpdate()
+        global last_update_check
+        if time.time() - last_update_check > 60:
+            last_update_check = time.time()
+            updates = CheckForUpdate()
+        else:
+            updates = []
+            
         with Geist():
             with Padding(24):
                 if updates == []:
                     Description("You have a local commit that is waiting to be pushed.")
                 elif not updates:
-                    Description("No updates available.")
+                    Description("No updates available. (It might take up to a minute for the page to update after a new commit)")
                     Space(8)
                     Button("Update Anyway", "", self.update, border=False)
                 else:
