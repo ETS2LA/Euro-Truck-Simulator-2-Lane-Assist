@@ -262,7 +262,14 @@
     "global.settings.13.description": "Havaitsimme monta näyttöä, valitse millä näytöllä ETS2/ATS avataan/on. (Windows asetuksista näkee näytön numeron) Vaatii uudelleenkäynnistyksen!",
     "global.settings.14.name": "FOV",
     "global.settings.14.description": "Jäikö ilmoitus huomaamatta? Aseta FOV manuaalisesti tässä.",
-
+    "global.settings.15.name": "Lumi",
+    "global.settings.15.description": "Talvella näytöllä sataa lunta.",
+    "global.settings.16.name": "Ilotulitteet",
+    "global.settings.16.description": "Ilotulitteita laukaistaan näytöllä 31 Joulukuuta - 1 Tammikuuta.",
+    "global.settings.ui": "Käyttöliittymä",
+    "global.settings.audio": "Äänet",
+    "global.settings.variables": "Muuttujat",
+    "global.settings.misc": "Sekalaiset",
 
     "map.settings.1.title": "Kartan asetukset",
     "map.settings.1.description": "Nämä asetukset vaikuttavat karttaan ja sen karttatietoihin.",
