@@ -11,10 +11,29 @@ last_updates = []
 class Page(ETS2LAPage):
     dynamic = True
     url = "/updater"
-    settings_target = "updater"
+    settings_target = "updater" 
     
     def update(self, *args, **kwargs):
         mainThreadQueue.append([Update, [], {}])
+        
+    def time_since(self, target_time):
+        diff = time.time() - target_time
+        if diff < 60:
+            if int(diff) == 1:
+                return "1 second ago"
+            return f"{int(diff)} seconds ago"
+        elif diff < 3600:
+            if int(diff / 60) == 1:
+                return "1 minute ago"
+            return f"{int(diff / 60)} minutes ago"
+        elif diff < 86400:
+            if int(diff / 3600) == 1:
+                return "1 hour ago"
+            return f"{int(diff / 3600)} hours ago"
+        else:
+            if int(diff / 86400) == 1:
+                return "1 day ago"
+            return f"{int(diff / 86400)} days ago"
     
     def render(self):
         global last_update_check, last_updates
@@ -45,10 +64,12 @@ class Page(ETS2LAPage):
                             with Group("vertical", border=True):
                                 with Group("horizontal", padding=0):
                                     Description(update["author"], size="xs")
-                                    Label(update["message"], size="sm", weight="semibold")
+                                    with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
+                                        Label(update["message"], size="sm", weight="semibold")
+                                        Link("View Changes", update["url"], size="xs", weight="light")
                                 if update["description"] != "":
                                     Markdown(update["description"])
                                 local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
-                                Description(local_time, size="xs")
+                                Description(local_time + f"  -  {self.time_since(update["time"])}", size="xs")
                 
         return RenderUI()

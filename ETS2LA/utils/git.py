@@ -7,6 +7,29 @@ import os
 CACHE_DIR = f"{variables.PATH}cache"
 CACHE_FILE = os.path.join(CACHE_DIR, "avatar_urls.txt")
 
+def GetCommitURL(repo, commit_hash):
+    try:
+        # Get the remote URL
+        remote_url = repo.remotes.origin.url
+        
+        # Remove .git extension if present
+        remote_url = remote_url.replace('.git', '')
+        
+        # Handle SSH format (git@github.com:user/repo.git)
+        if remote_url.startswith('git@'):
+            remote_url = remote_url.replace(':', '/')
+            remote_url = remote_url.replace('git@', 'https://')
+        
+        # Determine platform and create URL
+        if 'github.com' in remote_url:
+            return f"{remote_url}/commit/{commit_hash}"
+        elif 'gitlab.com' in remote_url:
+            return f"{remote_url}/-/commit/{commit_hash}"
+        else:
+            return ""
+    except:
+        return ""
+
 def CheckForUpdate():
     repo = git.Repo()
     current_hash = repo.head.object.hexsha
@@ -27,7 +50,8 @@ def CheckForUpdate():
                     "author": commit.author.name,
                     "message": commit.summary,
                     "description": commit.message.replace(commit.summary, "").strip(),
-                    "time": commit.committed_date
+                    "time": commit.committed_date,
+                    "url": GetCommitURL(repo, commit.hexsha)
                 })
         
         if updates == []: # local commit(s) waiting to be pushed, send those instead
@@ -37,7 +61,8 @@ def CheckForUpdate():
                         "author": commit.author.name,
                         "message": commit.summary,
                         "description": commit.message.replace(commit.summary, "").strip(),
-                        "time": commit.committed_date
+                        "time": commit.committed_date,
+                        "url": GetCommitURL(repo, commit.hexsha)
                     })
                 if len(updates) >= 10:
                     break
@@ -48,7 +73,8 @@ def CheckForUpdate():
                 "author": "Backend",
                 "message": "DO NOT UPDATE!",
                 "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",
-                "time": time.time()
+                "time": time.time(),
+                "url": ""
             })
             
         return updates
