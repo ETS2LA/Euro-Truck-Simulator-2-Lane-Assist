@@ -8,7 +8,17 @@ import {
 } from "@/components/ui/chart"
 import { GetStatistics } from "@/apis/backend";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { Label, Pie, PieChart } from "recharts"
+import { 
+    Label, 
+    Pie, 
+    PieChart, 
+    Bar, 
+    BarChart,
+    RadialBar,
+    RadialBarChart,
+    PolarGrid,
+    PolarRadiusAxis,
+} from "recharts"
 import { useState } from "react";
 import useSWR from "swr";
 import {
@@ -19,6 +29,8 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button";
+import { Tooltip } from "@radix-ui/react-tooltip";
+import { plugin } from "postcss";
 
 const chartConfig = {
 } satisfies ChartConfig;
@@ -47,6 +59,8 @@ export default function LoginPage() {
 
     const global = data?.global;
     const plugins = data?.plugins;
+
+    const plugin_names = Object.keys(plugins);
     
     // Convert the dictionary to a list of dictionaries where each of their key is added as a new value called "name"
     let graph_data = Object.keys(plugins).map((key) => {
@@ -59,21 +73,32 @@ export default function LoginPage() {
     });
 
     const backend_ram = global.python - graph_data.reduce((acc, plugin) => acc + plugin.memory, 0);
-    graph_data = graph_data.concat([{name: "Backend", memory: backend_ram, cpu: 0, performance: 0}])
-    graph_data = graph_data.concat([{name: "Frontend", memory: global.node, cpu: 0, performance: 0}])
+    graph_data = [
+      { name: "Other", memory: global.other, cpu: 0, performance: 0 },
+      { name: "Frontend", memory: global.node, cpu: 0, performance: 0 },
+      { name: "Backend", memory: backend_ram, cpu: 0, performance: 0 },
+      ...graph_data,
+      { name: "Free", memory: global.free, cpu: 0, performance: 0 }
+    ];
 
     // Define a grayscale palette generator
     const getGrayscaleShade = (index: number, total: number) => {
-        // Base values from example rgb(92, 92, 103)
-        const base = 92;
-        const bbase = 103;
-        const ratio = base / bbase;
-        const step = -10;
-
-        // Calculate the shade based on the ratio
-        const shade = base + step * index;
-        const bshade = bbase + step * index * ratio;
-        return `rgb(${shade}, ${shade}, ${bshade})`;
+        if (index == 0) {
+            return "#6c757d"; // Other software
+        }
+        else if (index == 1) {
+            return "#007bff"; // Frontend
+        }
+        else if (index == 2) {
+            return "#17a2b8"; // Backend
+        }
+        else if (index == total - 1) {
+            return "#28a745"; // Free
+        }
+        else{
+            index -= 2;
+            return `rgb(${Math.floor(255 - 255 * index / total)}, ${Math.floor(165 - 165 * index / total)}, ${Math.floor(0 - 0 * index / total)})`;
+        }
     };
 
     // In your component
@@ -95,19 +120,17 @@ export default function LoginPage() {
         };
     }
 
-    // Render the dictionary recursively
     return (
         <div className="w-full h-full font-geist flex flex-col gap-6 p-10 relative">
             <ChartContainer config={chartConfig} className="absolute w-72 h-72 -my-8">
-                <PieChart width={200} height={200}>
-                    <Pie 
-                        dataKey="memory" 
-                        nameKey="name"
+                <PieChart width={300} height={300}>
+                    <Pie
                         data={graph_data_with_colors}
-                        innerRadius={60} 
+                        dataKey="memory"
+                        nameKey="name"
+                        innerRadius={90}
+                        outerRadius={110}
                         paddingAngle={2}
-                        // @ts-ignore
-                        fill={({ fill }) => fill}
                     >
                         <Label
                             content={({ viewBox }) => {
@@ -124,7 +147,7 @@ export default function LoginPage() {
                                             y={viewBox.cy}
                                             className="fill-foreground text-3xl font-bold"
                                         >
-                                            {Math.round((global.total) * 10) / 10}%
+                                            {Math.round((100 - global.free) * 10) / 10}%
                                         </tspan>
                                         <tspan
                                             x={viewBox.cx}
@@ -141,7 +164,9 @@ export default function LoginPage() {
                     </Pie>
                     <ChartTooltip content={
                         <ChartTooltipContent className="" indicator="line" />
-                    } />
+                        // @ts-ignore
+                    } formatter={(value, name) => `${name} - ${Math.round(value * 10) / 10 + "%"}`} />
+                    <Tooltip />
                 </PieChart>
             </ChartContainer>
             <div className="w-full h-full flex flex-col gap-6 pt-64">
@@ -150,9 +175,9 @@ export default function LoginPage() {
                         <SelectValue>{selected || "Select a plugin"}</SelectValue>
                     </SelectTrigger>
                     <SelectContent className="bg-background font-geist">
-                        {graph_data.map((item) => (
-                            <SelectItem key={item.name} value={item.name}>
-                                {item.name}
+                        {plugin_names.map((plugin_name) => (
+                            <SelectItem key={plugin_name} value={plugin_name}>
+                                {plugin_name}
                             </SelectItem>
                         ))}
                     </SelectContent>

@@ -434,7 +434,10 @@ def get_main_process_mem_usages():
     return {
         "total": total,
         "python": python,
-        "node": node
+        "node": node,
+        "free": psutil.virtual_memory().available / psutil.virtual_memory().total * 100,
+        "other": psutil.virtual_memory().used / psutil.virtual_memory().total * 100 - total,
+        "capacity": psutil.virtual_memory().total
     }
 
 def get_statistics():
