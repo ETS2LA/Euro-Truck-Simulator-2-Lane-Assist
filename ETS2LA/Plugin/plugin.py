@@ -234,7 +234,6 @@ class ETS2LAPlugin(object):
     def frontend_thread(self):
         while True:
             data = self.frontend_queue.get()
-            
             try:
                 if data["operation"] == "function":
                     args = data["args"]
@@ -267,14 +266,12 @@ class ETS2LAPlugin(object):
             self.performance = [x for x in self.performance if x[0] > last_60_seconds]
             
             return_performance = []
-            # Get the closest datapoint to the last 60 seconds
-            if len(self.performance) == 0:
-                return_performance = [0]
-            
-            for i in range(min(60, len(self.performance))):
-                time_to_check = last_60_seconds + i + ((60 - len(self.performance)) if len(self.performance) < 60 else 0)
-                closest = min(self.performance, key=lambda x: abs(x[0] - time_to_check))
-                return_performance.append(closest)
+            # Prepare 60 datapoints for the last 60 seconds
+            if len(self.performance) < 60:
+                return_performance = self.performance
+            else:
+                for i in range(60):
+                    return_performance.append(self.performance[math.floor(i * len(self.performance) / 60)])
             
             self.performance_queue.task_done()
             self.performance_return_queue.put(return_performance)

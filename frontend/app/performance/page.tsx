@@ -87,17 +87,17 @@ export default function LoginPage() {
             return "#6c757d"; // Other software
         }
         else if (index == 1) {
-            return "#007bff"; // Frontend
+            return "#00b4d8 "; // Frontend
         }
         else if (index == 2) {
-            return "#17a2b8"; // Backend
+            return "#00b4d8 "; // Backend
         }
         else if (index == total - 1) {
-            return "#28a745"; // Free
+            return "#50C878"; // Free
         }
         else{
             index -= 2;
-            return `rgb(${Math.floor(255 - 255 * index / total)}, ${Math.floor(165 - 165 * index / total)}, ${Math.floor(0 - 0 * index / total)})`;
+            return `#FFA500`;
         }
     };
 
@@ -131,6 +131,7 @@ export default function LoginPage() {
                         innerRadius={90}
                         outerRadius={110}
                         paddingAngle={2}
+                        cornerRadius={5}
                     >
                         <Label
                             content={({ viewBox }) => {
