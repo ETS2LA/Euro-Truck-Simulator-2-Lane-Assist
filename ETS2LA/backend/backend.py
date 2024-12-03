@@ -422,6 +422,12 @@ def call_event(event: str, args: list, kwargs: dict, called_from: str = ""):
         except:
             logging.exception("Error in event call.")
 
+def get_all_process_pids():
+    pids = {}
+    for plugin in RUNNING_PLUGINS:
+        pids[plugin.plugin_name] = plugin.process.pid
+    return pids
+
 def run():
     global AVAILABLE_PLUGINS
     AVAILABLE_PLUGINS = find_plugins()

@@ -26,6 +26,7 @@ Components:
     **Padding** - A padding component.
     **Geist** - Import the Geist font.
     **Markdown** - Render markdown text.
+    **Tooltip** - Render a tooltip on hover.
     
 Example:
 ```python
@@ -54,7 +55,7 @@ class Plugin(ETS2LAPlugin):
         print("Button clicked!")
 ```
 """
-from ETS2LA.UI.components import Title, Link, Description, Geist, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector, Form, Padding, Markdown
+from ETS2LA.UI.components import Title, Link, Tooltip, Description, Geist, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector, Form, Padding, Markdown
 from ETS2LA.UI.settings import ETS2LASettingsMenu
 from ETS2LA.UI.dialog import ETS2LADialog
 from ETS2LA.UI.components import RenderUI

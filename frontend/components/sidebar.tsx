@@ -166,7 +166,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
             <SidebarRail className="z-[999]" onMouseDown={() => {
                 toggleSidebar()
             }} />
-            <SidebarFooter className="bg-sidebarbg">
+            <SidebarFooter className="bg-sidebarbg pb-10">
                 <div>
                     <SidebarMenuButton className={buttonClassName("/settings")} onMouseDown={
                             () => {
@@ -263,7 +263,7 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </SidebarMenuItem>
                     */}
                     
-                <RenderPage url="/stats" className="w-full h-4" />
+                <RenderPage url="/stats" className="w-full h-8 -my-4 pt-4" />
             </SidebarFooter>
         </Sidebar>
     )

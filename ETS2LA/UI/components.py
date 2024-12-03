@@ -241,6 +241,31 @@ class Group():
         }})
         ui = self.previous_ui
         
+class Tooltip():
+    def __init__(self, text: str, classname: str = ""):
+        """Add a tooltip to any UI element.
+
+        :param str text: The text to display on hover.
+        :param str classname: The tailwind classname, defaults to ""
+        """
+        self.text = text
+        self.classname = classname
+        
+    def __enter__(self):
+        global ui
+        self.previous_ui = ui
+        ui = []
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global ui
+        self.previous_ui.append({"tooltip": {
+            "text": self.text,
+            "classname": self.classname,
+            "components": ui
+        }})
+        ui = self.previous_ui
+        
 class Padding():
     def __init__(self, padding: int):
         """Add padding to the UI.

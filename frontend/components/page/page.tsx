@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/select"
 import {
 	TooltipProvider,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger
 } from "@/components/ui/tooltip"
 import { Toggle } from "@/components/ui/toggle"
 import { Switch } from "../ui/switch"
@@ -533,6 +536,18 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 				result.push(<div style={{padding: key_data.padding}}>
 					{PageRenderer(key_data.components)}
 				</div>
+				)
+			}
+			if (key == "tooltip"){
+				result.push(
+					<Tooltip>
+						<TooltipTrigger>
+							{PageRenderer(key_data.components)}
+						</TooltipTrigger>
+						<TooltipContent className={key_data.classname} style={{whiteSpace: "pre-wrap"}}>
+							{MarkdownRenderer(key_data.text)}
+						</TooltipContent>
+					</Tooltip>
 				)
 			}
 			if (key == "geist"){
