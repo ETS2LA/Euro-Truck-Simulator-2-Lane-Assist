@@ -62,15 +62,15 @@ export async function MinimizeBackend() {
     const data = await response.json()
 }
 
-export async function GetFrametimes() {
-    console.log("Getting frametimes")
-    const response = await fetch("http://" + ip + ":37520/backend/frametimes")
+
+export async function GetPlugins(): Promise<string[]> {
+    const response = await fetch("http://" + ip + ":37520/backend/plugins")
     const data = await response.json()
     return data
 }
 
-export async function GetPlugins(): Promise<string[]> {
-    const response = await fetch("http://" + ip + ":37520/backend/plugins")
+export async function GetStatistics() {
+    const response = await fetch("http://" + ip + ":37520/backend/statistics")
     const data = await response.json()
     return data
 }

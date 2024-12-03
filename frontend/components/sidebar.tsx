@@ -131,7 +131,10 @@ export function ETS2LASidebar({toggleSidebar} : {toggleSidebar: () => void}) {
                     </SidebarMenuButton>
                     <SidebarMenuButton className={buttonClassName("/performance")} onMouseDown={
                         () => {
-                            toast.success("Coming soon!")
+                            startTransition(async () => {
+                                startProgress()
+                                router.push('/performance')
+                            })
                         }
                     }>
                         <ChartArea /> {translate("frontend.sidebar.performance")}

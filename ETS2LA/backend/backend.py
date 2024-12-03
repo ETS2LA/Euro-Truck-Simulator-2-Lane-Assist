@@ -6,6 +6,7 @@ import threading
 import ETS2LA.variables as variables
 import logging
 import inspect
+import psutil
 import time
 import os
 
@@ -32,6 +33,9 @@ class PluginHandler:
     last_performance: list[tuple[float, float]] = []
     last_performance_time: float = 0
     
+    statistics: dict[str, any] = {}
+    last_statistics_time: float = 0
+    
     def __init__(self, plugin_name: str, plugin_description: PluginDescription):
         self.tags = {}
         self.plugin_name = plugin_name
@@ -44,6 +48,13 @@ class PluginHandler:
         
         self.last_performance = []
         self.last_performance_time = 0
+        
+        self.statistics = {
+            "memory": [],
+            "cpu": [],
+            "performance": []
+        }
+        self.last_statistics_time = 0
         
         self.return_queue = multiprocessing.JoinableQueue()
         self.plugins_queue = multiprocessing.JoinableQueue()
@@ -84,6 +95,8 @@ class PluginHandler:
                                                                             self.event_queue, self.event_return_queue
                                                                             ), daemon=True)
             self.process.start()
+            
+            threading.Thread(target=self.statistics_thread, daemon=True).start()
         except:
             logging.exception(f"Failed to start plugin {plugin_name}.")
         
@@ -229,6 +242,26 @@ class PluginHandler:
                     self.tags[tag] = data[1][tag]
             else:
                 self.data = data
+                
+    def statistics_thread(self):
+        while True:
+            if self.stop:
+                break
+            
+            if time.time() - self.last_statistics_time > 1:
+                process = psutil.Process(self.process.pid)
+                self.statistics["memory"].append(process.memory_percent())
+                self.statistics["cpu"].append(process.cpu_percent())
+                self.statistics["performance"] = self.get_performance()
+                
+                if len(self.statistics["memory"]) > 60:
+                    self.statistics["memory"].pop(0)
+                if len(self.statistics["cpu"]) > 60:    
+                    self.statistics["cpu"].pop(0)
+                
+                self.last_statistics_time = time.time()
+                
+            time.sleep(0.1)
                 
     def get_settings(self):
         self.settings_menu_queue.put(True)
@@ -382,6 +415,38 @@ def get_latest_frametime(plugin_name: str):
                 return performances[-1]
             return 0
     return 0
+
+def get_main_process_mem_usages():
+    total = 0
+    python = 0
+    node = 0
+    for proc in psutil.process_iter():
+        try:
+            if "python" in proc.name().lower(): # backend
+                total += proc.memory_percent()
+                python += proc.memory_percent()
+            if "node" in proc.name().lower():   # frontend
+                total += proc.memory_percent()
+                node += proc.memory_percent()
+                
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return {
+        "total": total,
+        "python": python,
+        "node": node
+    }
+
+def get_statistics():
+    main = get_main_process_mem_usages()
+    stats = {
+        "global": main,
+        "plugins": {}
+    }
+    for plugin in RUNNING_PLUGINS:
+        stats["plugins"][plugin.plugin_name] = plugin.statistics
+        
+    return stats
 
 def get_tag_list():
     tags = []

@@ -126,6 +126,10 @@ def get_devmode():
 def get_metadata():
     return variables.METADATA
 
+@app.get("/backend/statistics")
+def get_statistics():
+    return backend.get_statistics()
+
 #endregion
 # region Window
 
@@ -157,10 +161,6 @@ def get_transparency_state():
 
 # endregion
 # region Plugins
-
-@app.get("/backend/frametimes")
-def get_frametimes():
-    return backend.get_latest_frametimes()
 
 @app.get("/backend/plugins")
 def get_plugins():

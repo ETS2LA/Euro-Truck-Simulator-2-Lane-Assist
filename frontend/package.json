@@ -59,7 +59,7 @@
     "react-resizable-panels": "^2.1.6",
     "react-snowfall": "^2.2.0",
     "react-transition-progress": "^0.0.4",
-    "recharts": "^2.13.3",
+    "recharts": "^2.14.1",
     "sonner": "^1.6.1",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.4",

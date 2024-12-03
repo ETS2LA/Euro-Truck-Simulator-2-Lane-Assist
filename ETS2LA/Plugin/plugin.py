@@ -11,6 +11,7 @@ import threading
 import importlib
 import logging
 import json
+import math
 import time
 import sys
 import os
@@ -262,11 +263,21 @@ class ETS2LAPlugin(object):
         while True:
             self.performance_queue.get()
             
-            last_30_seconds = time.time() - 30
-            self.performance = [x for x in self.performance if x[0] > last_30_seconds]
+            last_60_seconds = math.floor(time.time() - 60)
+            self.performance = [x for x in self.performance if x[0] > last_60_seconds]
+            
+            return_performance = []
+            # Get the closest datapoint to the last 60 seconds
+            if len(self.performance) == 0:
+                return_performance = [0]
+            
+            for i in range(min(60, len(self.performance))):
+                time_to_check = last_60_seconds + i + ((60 - len(self.performance)) if len(self.performance) < 60 else 0)
+                closest = min(self.performance, key=lambda x: abs(x[0] - time_to_check))
+                return_performance.append(closest)
             
             self.performance_queue.task_done()
-            self.performance_return_queue.put(self.performance)
+            self.performance_return_queue.put(return_performance)
             
     def notify(self, text: str, type: Literal["info", "warning", "error", "success"] = "info"):
         self.immediate_queue.put({
