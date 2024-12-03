@@ -120,7 +120,7 @@
     "frontend.settings.data_missing": "插件數據無效或缺失。",
     "frontend.settings": "設定",
     "frontend.settings.global": "系統",
-    "frontend.settings.controls": "控制",
+    "frontend.settings.controls": "按鍵綁定",
     "frontend.settings.global_info": "此列表僅包括支援系統設定檔案的插件。",
     "frontend.settings.error": "錯誤：{0}",
     "frontend.settings.backend_no_data": "從伺服器端未獲取到數據。",
@@ -208,7 +208,7 @@
 
     "_LIST_OF_PLUGINS": "以下將列出所有允許名稱翻譯的插件。",
 
-    "plugins.adaptivecruisecontrol": "主動式巡航控制 (ACC)",
+    "plugins.adaptivecruisecontrol": "主動式巡航控制",
     "plugins.adaptivecruisecontrol.description": "插件會對前方車輛減速（如果啟用了物體辨識插件）。也會對彎道減速（如果啟用了地圖駕駛插件）。",
     "plugins.ar": "虛擬實境 (AR)",
     "plugins.ar.description": "插件會在遊戲中繪製形狀，使它們看起來像是在遊戲世界中。",
@@ -267,6 +267,15 @@
     "global.settings.13.description": "用於視覺插件（如物體辨識等）的顯示器 ID。應設定為執行 ETS2 的顯示器。需要重新啟動以套用更改！",
     "global.settings.14.name": "視野（FOV）",
     "global.settings.14.description": "錯過了彈出視窗？在這裡調整你的視野（FOV）。",
+    "global.settings.15.name": "雪花",
+    "global.settings.15.description": "是否啟用介面上的雪花粒子效果。",
+    "global.settings.16.name": "煙火",
+    "global.settings.16.description": "是否啟用介面上的煙火效果。",
+    "global.settings.ui": "使用者介面",
+    "global.settings.audio": "音訊",
+    "global.settings.variables": "遊戲數值",
+    "global.settings.misc": "其他",
+
 
     "map.settings.1.title": "地圖設定",
     "map.settings.1.description": "這些是地圖插件的設定。",
@@ -310,7 +319,7 @@
     "acc.settings.4.description": "與前方物體保持的距離。",
     "acc.settings.5.name": "速度偏移類型",
     "acc.settings.5.description": "選擇超過限速的百分比，或者直接加上固定速度。",
-    "acc.settings.6.name": "顯示通知",
+    "acc.settings.6.name": "減速通知",
     "acc.settings.6.description": "當應用程式因任何障礙物而減速時，彈出通知視窗。",
 
     "_PLUGIN_KEYS": "這些是特定插件所需的鍵值",
