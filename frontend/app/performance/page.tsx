@@ -86,7 +86,7 @@ export default function LoginPage() {
     if (selected_data != undefined) {
         selected_data = {
             ...selected_data,
-            metrics: selected_data.memory.map((_, index) => ({
+            metrics: selected_data.memory.map((_:any, index:any) => ({
                 time: index,
                 ram: selected_data.memory[index] || 0,
                 cpu: selected_data.cpu[index] || 0,
@@ -106,6 +106,7 @@ export default function LoginPage() {
                         data={graph_data_with_colors}
                         innerRadius={60} 
                         paddingAngle={2}
+                        // @ts-ignore
                         fill={({ fill }) => fill}
                     >
                         <Label
