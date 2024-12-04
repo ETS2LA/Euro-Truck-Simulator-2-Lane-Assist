@@ -78,10 +78,30 @@ def get_start_item():
     try:
         logging.info(f"Finding start item at position ({data.truck_x}, {data.truck_z})")
         item = data.map.get_closest_item(data.truck_x, data.truck_z)
+        dir = "forward"
+        
         if not item:
             logging.error("Could not find closest item to truck position")
             return None
-        return preprocess_item(item)
+        
+        if type(item) == c.Road:
+            start_node = data.map.get_node_by_uid(item.start_node_uid)
+            end_node = data.map.get_node_by_uid(item.end_node_uid)
+            start_in_front = math_helpers.IsInFront((start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+            end_in_front = math_helpers.IsInFront((end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+            if start_in_front and end_in_front:
+                start_distance = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
+                end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
+                if start_distance < end_distance:
+                    dir = "forward"
+                else:
+                    dir = "backward"
+            elif start_in_front:
+                dir = "backward"
+            elif end_in_front:
+                dir = "forward"
+        
+        return preprocess_item(item), dir
     except Exception as e:
         logging.error(f"Error finding start item: {e}", exc_info=True)
         return None
@@ -298,7 +318,7 @@ def get_path_to_destination():
             return None
 
         # Get start information
-        start_item = get_start_item()
+        start_item, dir = get_start_item()
         if not start_item:
             logging.error("Could not find valid start item near truck position")
             return None
@@ -331,7 +351,7 @@ def get_path_to_destination():
         routing_mode = getattr(data.plugin.settings, 'RoutingMode', 'shortest')
         logging.info(f"Finding path from {start_node.uid} to {end_node.uid} using `{routing_mode}` mode")
         pathfinder = NodePathfinder()
-        complete_path = pathfinder.find_path_between_nodes(start_node, end_node, mode=routing_mode)
+        complete_path = pathfinder.find_path_between_nodes(start_node, end_node, dir, mode=routing_mode)
 
         if not complete_path:
             logging.warning("No path found")

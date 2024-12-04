@@ -104,6 +104,7 @@ class NodePathfinder:
         self,
         start_node: Node,
         end_node: Node,
+        dir: str = 'forward',
         mode: str = 'shortest',
         dlc_guard: Optional[List[str]] = None
     ) -> Optional[List[NavigationLane]]:
@@ -133,7 +134,7 @@ class NodePathfinder:
 
         # Get high-level route
         try:
-            node_path = self.router.find_route(start_node, end_node, mode)
+            node_path = self.router.find_route(start_node, end_node, mode, dir)
             if not node_path:
                 data.plugin.state.reset()
                 data.plugin.notify("Unable to find route to the destination.", type="warning")

@@ -51,7 +51,7 @@ class HighLevelRouter:
         else:
             return distance * 1.2  # Default case with slight penalty
 
-    def _get_neighbors(self, node: RouteNode, mode: str = 'shortest') -> List[Tuple[Node, float, int]]:
+    def _get_neighbors(self, node: RouteNode, mode: str = 'shortest', dir: str = "forward") -> List[Tuple[Node, float, int]]:
         """Get neighboring nodes with their distances and DLC guards."""
         neighbors = []
         processed_nodes = set()  # Track processed nodes to avoid duplicates
@@ -117,11 +117,24 @@ class HighLevelRouter:
         if not navigation:
             return neighbors
         
-        for nav_node in navigation.forward + navigation.backward:
-            cost = nav_node.distance
-            guard = nav_node.dlc_guard
-            neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
-            processed_nodes.add(str(nav_node.node_id))
+        if dir == "forward":
+            for nav_node in navigation.forward:
+                cost = nav_node.distance
+                guard = nav_node.dlc_guard
+                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
+                processed_nodes.add(str(nav_node.node_id))
+        elif dir == "backward":
+            for nav_node in navigation.backward:
+                cost = nav_node.distance
+                guard = nav_node.dlc_guard
+                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
+                processed_nodes.add(str(nav_node.node_id))
+        else:
+            for nav_node in navigation.forward + navigation.backward:
+                cost = nav_node.distance
+                guard = nav_node.dlc_guard
+                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
+                processed_nodes.add(str(nav_node.node_id))
 
         return neighbors
 
@@ -137,7 +150,8 @@ class HighLevelRouter:
         self,
         start_node: Node,
         end_node: Node,
-        mode: str = 'shortest'
+        mode: str = 'shortest',
+        dir: str = 'forward'
     ) -> Optional[List[Node]]:
         """Find a route between nodes using optimized A* pathfinding."""
         if not (start_node and end_node):
@@ -187,7 +201,7 @@ class HighLevelRouter:
                 )
                 return path
 
-            neighbors = self._get_neighbors(current, mode)
+            neighbors = self._get_neighbors(current, mode, dir)
             for neighbor_node, cost, dlc_guard in neighbors:
                 #if dlc_guard not in self.enabled_dlc_guards:
                 #    print(f"Skipping node {neighbor_node.uid} due to DLC guard {dlc_guard}")
@@ -223,7 +237,10 @@ class HighLevelRouter:
             f"{start_node.uid} to {end_node.uid}"
         )
         
-        yes_no = data.plugin.ask("Could not find path to destination.", options=["Yes", "No"], description="Do you want to try to path to the nearest node we could get to?\nThe heuristic distance from the target is " + str(round(lowest_f_score, 1)) + ".")
+        if lowest_f_score < 500:
+            yes_no = data.plugin.ask("Could not find path to destination.", options=["Yes", "No"], description="Do you want to try to path to the nearest node we could get to?\nThe heuristic distance from the target is " + str(round(lowest_f_score, 1)) + ".")
+        else:
+            yes_no = "No"
         
         if yes_no == "Yes":
             logging.warning("Using path to the nearest node we could get to.")
