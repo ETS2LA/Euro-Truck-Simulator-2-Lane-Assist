@@ -319,6 +319,7 @@ def get_path_to_destination():
 
         # Get start information
         start_item, dir = get_start_item()
+        print(dir)
         if not start_item:
             logging.error("Could not find valid start item near truck position")
             return None
@@ -355,6 +356,7 @@ def get_path_to_destination():
 
         if not complete_path:
             logging.warning("No path found")
+            data.navigation_plan = []
             return None
 
         logging.info(f"Found complete path with {len(complete_path)} segments")

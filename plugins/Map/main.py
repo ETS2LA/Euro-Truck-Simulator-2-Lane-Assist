@@ -274,10 +274,12 @@ class Plugin(ETS2LAPlugin):
                 im.DrawMap()
 
             # Call navigation when destination company changes
-            if (data.dest_company != self.last_dest_company or data.update_navigation_plan) and data.use_navigation:
+            if (data.dest_company != self.last_dest_company or data.update_navigation_plan) and data.use_navigation and time.time() - data.last_navigation_update > 5:
                 logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
                 self.last_dest_company = data.dest_company
+                data.update_navigation_plan = False
                 navigation.get_path_to_destination()
+                data.last_navigation_update = time.time()
 
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)

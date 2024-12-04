@@ -60,6 +60,8 @@ navigation_plan: list[Node] = []
 """List of nodes that will drive the truck to the destination."""
 circles: list[Position] = []
 """Circles to draw on the map."""
+last_navigation_update: float = 0
+"""The last time the navigation plan was updated."""
 
 # MARK: Options
 amount_of_points: int = 50

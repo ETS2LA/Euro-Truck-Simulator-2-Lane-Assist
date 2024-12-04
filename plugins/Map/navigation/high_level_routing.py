@@ -234,13 +234,14 @@ class HighLevelRouter:
 
         logging.warning(
             f"No path found after exploring {nodes_explored} nodes from "
-            f"{start_node.uid} to {end_node.uid}"
+            f"{start_node.uid} to {end_node.uid}, lowest f-score: {lowest_f_score:.1f}"
         )
         
         if lowest_f_score < 500:
             yes_no = data.plugin.ask("Could not find path to destination.", options=["Yes", "No"], description="Do you want to try to path to the nearest node we could get to?\nThe heuristic distance from the target is " + str(round(lowest_f_score, 1)) + ".")
         else:
             yes_no = "No"
+            return lowest_f_score
         
         if yes_no == "Yes":
             logging.warning("Using path to the nearest node we could get to.")
