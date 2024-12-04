@@ -2174,7 +2174,7 @@ class MapData:
 
             for item in items:
                 if type(item) in [Road, Prefab]:
-                    if item.bounding_box.is_in(Position(data.truck_x, data.truck_y, data.truck_z)):
+                    if item.bounding_box.is_in(Position(x, 0, z)):
                         in_bounding_box.append(item)
 
         if len(in_bounding_box) == 0:
@@ -2189,7 +2189,7 @@ class MapData:
                     for point in lane.points:
                         point_tuple = point.tuple()
                         point_tuple = (point_tuple[0], point_tuple[2])
-                        distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                        distance = math_helpers.DistanceBetweenPoints((x, z), point_tuple)
                         if distance < closest_point_distance:
                             closest_point_distance = distance
                             closest_item = item
@@ -2204,7 +2204,7 @@ class MapData:
                     for point in lane.points:
                         point_tuple = point.tuple()
                         point_tuple = (point_tuple[0], point_tuple[2])
-                        distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                        distance = math_helpers.DistanceBetweenPoints((x, z), point_tuple)
                         if distance < closest_point_distance:
                             closest_point_distance = distance
                             closest_item = item

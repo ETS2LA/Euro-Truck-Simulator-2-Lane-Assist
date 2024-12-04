@@ -43,19 +43,18 @@ def get_destination_item() -> tuple[c.Prefab | RoadSection, c.Position]:
 
         if dest_node.forward_item_uid:
             dest_item = data.map.get_item_by_uid(dest_node.forward_item_uid)
-            logging.warning(f"Found forward item: {type(dest_item).__name__}")
             if type(dest_item) == c.Prefab or type(dest_item) == RoadSection or type(dest_item) == c.Road:
+                logging.warning(f"Found forward item: {type(dest_item).__name__}")
                 return dest_item, c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
         
         if dest_node.backward_item_uid:
             dest_item = data.map.get_item_by_uid(dest_node.backward_item_uid)
-            logging.warning(f"Found backward item: {type(dest_item).__name__}")
             if type(dest_item) == c.Prefab or type(dest_item) == RoadSection or type(dest_item) == c.Road:
+                logging.warning(f"Found backward item: {type(dest_item).__name__}")
                 return dest_item, c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
         
-        position = c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
-
-        closest_item = data.map.get_closest_item(position.x, position.y)
+        position = c.Position(x=dest_node.x, y=dest_node.z, z=dest_node.y)
+        closest_item = data.map.get_closest_item(position.x, position.z)
         if not closest_item:
             logging.error("Could not find closest item to destination")
             return None, None
@@ -330,7 +329,7 @@ def get_path_to_destination():
 
         # Initialize pathfinder and find path
         routing_mode = getattr(data.plugin.settings, 'RoutingMode', 'shortest')
-        logging.info(f"Finding path from {start_node.uid} to {end_node.uid} using {routing_mode} mode")
+        logging.info(f"Finding path from {start_node.uid} to {end_node.uid} using `{routing_mode}` mode")
         pathfinder = NodePathfinder()
         complete_path = pathfinder.find_path_between_nodes(start_node, end_node, mode=routing_mode)
 

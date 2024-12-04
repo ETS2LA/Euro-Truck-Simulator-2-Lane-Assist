@@ -72,6 +72,8 @@ def RoadToRouteSection(road: c.Road, lane_index: int, invert: bool = False) -> r
         route_section.items.append(route_item)
     
     route_section.invert = invert
+    if (lane_index > len(route_section.items[0].lane_points)):
+        return None
     route_section.lane_index = lane_index
     return route_section
                 
@@ -422,7 +424,10 @@ def GetNextNavigationItem():
     
     closest = distance_ordered[0]
     index = path.index(closest)
-    next = path[index + 1]
+    try:
+        next = path[index + 1]
+    except:
+        return None
     
     dir = "forward"
     if closest.forward_item_uid == next.backward_item_uid:
