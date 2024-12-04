@@ -72,13 +72,15 @@ export default function LoginPage() {
         };
     });
 
-    const backend_ram = global.python - graph_data.reduce((acc, plugin) => acc + plugin.memory, 0);
+    const backend_ram = global.ram.python - graph_data.reduce((acc, plugin) => acc + plugin.memory, 0);
+    const backend_cpu = global.cpu.python
+    const plugin_cpu_total = graph_data.reduce((acc, plugin) => acc + plugin.cpu, 0);
     graph_data = [
-      { name: "Other", memory: global.other, cpu: 0, performance: 0 },
-      { name: "Frontend", memory: global.node, cpu: 0, performance: 0 },
-      { name: "Backend", memory: backend_ram, cpu: 0, performance: 0 },
+      { name: "Other", memory: global.ram.other, cpu: global.cpu.other, performance: 0 },
+      { name: "Frontend", memory: global.ram.node, cpu: global.cpu.node, performance: 0 },
+      { name: "Backend", memory: backend_ram, cpu: backend_cpu, performance: 0 },
       ...graph_data,
-      { name: "Free", memory: global.free, cpu: 0, performance: 0 }
+      { name: "Free", memory: global.ram.free, cpu: 100-plugin_cpu_total, performance: 0 }
     ];
 
     // Define a grayscale palette generator
@@ -148,7 +150,7 @@ export default function LoginPage() {
                                             y={viewBox.cy}
                                             className="fill-foreground text-3xl font-bold"
                                         >
-                                            {Math.round((100 - global.free) * 10) / 10}%
+                                            {Math.round((100 - global.ram.free) * 10) / 10}%
                                         </tspan>
                                         <tspan
                                             x={viewBox.cx}
@@ -156,6 +158,55 @@ export default function LoginPage() {
                                             className="fill-muted-foreground"
                                         >
                                             Total RAM %
+                                        </tspan>
+                                    </text>
+                                    )
+                                }
+                            }}
+                        />
+                    </Pie>
+                    <ChartTooltip content={
+                        <ChartTooltipContent className="" indicator="line" />
+                        // @ts-ignore
+                    } formatter={(value, name) => `${name} - ${Math.round(value * 10) / 10 + "%"}`} />
+                    <Tooltip />
+                </PieChart>
+            </ChartContainer>
+            <ChartContainer config={chartConfig} className="absolute w-72 h-72 -my-8 right-12">
+                <PieChart width={300} height={300}>
+                    <Pie
+                        data={graph_data_with_colors}
+                        dataKey="cpu"
+                        nameKey="name"
+                        innerRadius={90}
+                        outerRadius={110}
+                        paddingAngle={2}
+                        cornerRadius={5}
+                    >
+                        <Label
+                            content={({ viewBox }) => {
+                                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                                    return (
+                                    <text
+                                        x={viewBox.cx}
+                                        y={viewBox.cy}
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                    >
+                                        <tspan
+                                            x={viewBox.cx}
+                                            y={viewBox.cy}
+                                            className="fill-foreground text-3xl font-bold"
+                                        >
+                                            {Math.round((plugin_cpu_total) * 10) / 10}%
+                                        </tspan>
+                                        <tspan
+                                            x={viewBox.cx}
+                                            y={(viewBox.cy || 0) + 24}
+                                            className="fill-muted-foreground"
+                                            style={{ whiteSpace: "pre-line" }}
+                                        >
+                                            ~ ETS2LA CPU %
                                         </tspan>
                                     </text>
                                     )

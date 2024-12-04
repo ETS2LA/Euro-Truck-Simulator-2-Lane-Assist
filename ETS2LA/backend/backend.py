@@ -10,6 +10,10 @@ import psutil
 import time
 import os
 
+if os.name == "nt":
+    import win32pdh
+    from collections import defaultdict
+
 plugin_path = "plugins"
 plugin_target_class = "Plugin"
 
@@ -444,10 +448,69 @@ def get_main_process_mem_usages():
         "capacity": psutil.virtual_memory().total
     }
 
+
+def get_main_process_cpu_usages():
+    if os.name == "nt":
+        try:
+            # Initialize counter dictionary
+            counters = defaultdict(float)
+            counter_handles = []
+            
+            # Open query
+            hq = win32pdh.OpenQuery()
+            
+            # Add python and node process counters
+            for process in win32pdh.EnumObjectItems(None, None, "Process", win32pdh.PERF_DETAIL_WIZARD)[0]:
+                if "python" in process.lower() or "node" in process.lower():
+                    try:
+                        path = win32pdh.MakeCounterPath((None, "Process", process, None, 0, "% Processor Time"))
+                        handle = win32pdh.AddCounter(hq, path)
+                        counter_handles.append((process.lower(), handle))
+                    except:
+                        continue
+            
+            # First collection to establish baseline
+            win32pdh.CollectQueryData(hq)
+            time.sleep(0.1)  # Small delay for next sample
+            win32pdh.CollectQueryData(hq)
+            
+            # Get the values using stored handles
+            for process_type, handle in counter_handles:
+                try:
+                    value = win32pdh.GetFormattedCounterValue(handle, win32pdh.PDH_FMT_DOUBLE)[1]
+                    if "python" in process_type:
+                        counters["python"] += value
+                    elif "node" in process_type:
+                        counters["node"] += value
+                except:
+                    continue
+            
+            # Clean up handles
+            for _, handle in counter_handles:
+                win32pdh.RemoveCounter(handle)
+            win32pdh.CloseQuery(hq)
+            
+            total_usage = counters["python"] + counters["node"]
+
+            return {
+                "total": total_usage,
+                "python": counters["python"],
+                "node": counters["node"],
+                "other": 0,
+                "free": max(0, 100 - total_usage)
+            }
+
+        except:
+            return {"total": 0, "python": 0, "node": 0, "other": 0, "free": 100}
+    else:
+        return {"total": 0, "python": 0, "node": 0, "other": 0, "free": 100}
+
 def get_statistics():
-    main = get_main_process_mem_usages()
     stats = {
-        "global": main,
+        "global": {
+            "ram": get_main_process_mem_usages(),
+            "cpu": get_main_process_cpu_usages()
+        },
         "plugins": {}
     }
     for plugin in RUNNING_PLUGINS:
