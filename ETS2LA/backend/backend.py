@@ -95,7 +95,7 @@ class PluginHandler:
                                                                             self.event_queue, self.event_return_queue
                                                                             ), daemon=True)
             self.process.start()
-            
+            self.psutil_process = psutil.Process(self.process.pid)
             threading.Thread(target=self.statistics_thread, daemon=True).start()
         except:
             logging.exception(f"Failed to start plugin {plugin_name}.")
@@ -124,6 +124,7 @@ class PluginHandler:
                                                                             self.event_queue, self.event_return_queue
                                                                             ), daemon=True)
                 self.process.start()
+                self.psutil_process = psutil.Process(self.process.pid)
             time.sleep(1)
         
     def event_listener(self):
@@ -250,9 +251,11 @@ class PluginHandler:
                 break
             
             if time.time() - self.last_statistics_time > 1:
-                process = psutil.Process(self.process.pid)
-                self.statistics["memory"].append(process.memory_percent())
-                self.statistics["cpu"].append(process.cpu_percent())
+                logical_cores = psutil.cpu_count(logical=True)
+                physical_cores = psutil.cpu_count(logical=False)
+                multiplier = logical_cores / physical_cores
+                self.statistics["memory"].append(self.psutil_process.memory_percent())
+                self.statistics["cpu"].append(self.psutil_process.cpu_percent() / multiplier)
                 self.statistics["performance"] = self.get_performance()
                 
                 if len(self.statistics["memory"]) > 60:
