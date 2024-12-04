@@ -419,6 +419,18 @@ def GetNextNavigationItem():
     last_item = data.route_plan[-1]
     last_points = last_item.lane_points
     
+    start_in_front = math_helpers.IsInFront((last_points[0].x, last_points[0].z), data.truck_rotation, (data.truck_x, data.truck_z))
+    end_in_front = math_helpers.IsInFront((last_points[-1].x, last_points[-1].z), data.truck_rotation, (data.truck_x, data.truck_z))
+    
+    if start_in_front and not end_in_front:
+        last_points = last_points[::-1]
+        
+    if start_in_front and end_in_front:
+        start_distance = math_helpers.DistanceBetweenPoints((last_points[0].x, last_points[0].z), (data.truck_x, data.truck_z))
+        end_distance = math_helpers.DistanceBetweenPoints((last_points[-1].x, last_points[-1].z), (data.truck_x, data.truck_z))
+        if end_distance < start_distance:
+            last_points = last_points[::-1]
+    
     path = data.navigation_plan
     distance_ordered = sorted(path, key=lambda node: math_helpers.DistanceBetweenPoints((node.x, node.y), (last_points[-1].x, last_points[-1].z)))
     
@@ -468,9 +480,14 @@ def GetNextNavigationItem():
 was_indicating = False
 def UpdateRoutePlan():
     global was_indicating
-    
     if not data.enabled:
         data.route_plan = []
+        
+    if len(data.route_plan) > 0:
+        #for i, section in enumerate(data.route_plan):
+        #    print(i, section)
+        #print(data.route_plan[-1])
+        ...
     
     if not data.use_navigation or len(data.navigation_plan) == 0: # No navigation plan / use only route planner
         if len(data.route_plan) == 0:

@@ -120,7 +120,8 @@ class PluginHandler:
                                                                             self.frontend_queue, self.frontend_return_queue,
                                                                             self.immediate_queue, self.immediate_return_queue,
                                                                             self.state_queue,
-                                                                            self.performance_queue, self.performance_return_queue
+                                                                            self.performance_queue, self.performance_return_queue,
+                                                                            self.event_queue, self.event_return_queue
                                                                             ), daemon=True)
                 self.process.start()
             time.sleep(1)

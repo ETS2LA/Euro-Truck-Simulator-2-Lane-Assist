@@ -229,9 +229,14 @@ class RouteSection:
         return new_points
     
     def __str__(self):
-        return f"RouteSection: {self.start_node.uid} -> {self.end_node.uid}\n\
+        return f"RouteSection: {self.start_node.uid} ({math_helpers.DistanceBetweenPoints((self.start_node.x, self.start_node.y), (data.truck_x, data.truck_z))}) -> {self.end_node.uid} ({math_helpers.DistanceBetweenPoints((self.end_node.x, self.end_node.y), (data.truck_x, data.truck_z))})\n\
                 Lane index: {self.lane_index}\n\
                 Distance left: {self.distance_left():.0f}m\n\
                 Lane changing: {self.is_lane_changing}\n\
                 Is ended: {self.is_ended}\n\
                 Type: {type(self.items[0].item)}"
+                
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, RouteSection):
+            return False
+        return self.start_node.uid == value.start_node.uid and self.end_node.uid == value.end_node.uid and self.lane_index == value.lane_index

@@ -11,8 +11,6 @@ import plugins.Map.utils.internal_map as im
 # ETS2LA imports
 from plugins.Map.utils.data_reader import ReadData
 from ETS2LA.utils.translator import Translate
-import plugins.Map.route.planning as planning
-import plugins.Map.route.driving as driving
 import ETS2LA.backend.settings as settings
 import plugins.Map.utils.speed as speed
 import plugins.Map.classes as c
@@ -20,6 +18,10 @@ import plugins.Map.classes as c
 import threading
 import importlib
 navigation = importlib.import_module("plugins.Map.navigation.navigation")
+planning = importlib.import_module("plugins.Map.route.planning")
+driving = importlib.import_module("plugins.Map.route.driving")
+last_plan_hash = hash(open(planning.__file__).read())
+last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
 
 class SettingsMenu(ETS2LASettingsMenu):
@@ -133,21 +135,32 @@ class Plugin(ETS2LAPlugin):
             datefmt='%Y-%m-%d %H:%M:%S'
         )
 
-    def CheckNavHash(self):
-        global last_nav_hash
-        logger = logging.getLogger('navigation.reload')
+    def CheckHashes(self):
+        global last_nav_hash, last_drive_hash, last_plan_hash
         logging.info("Starting navigation module file monitor")
         while True:
             try:
-                new_hash = hash(open(navigation.__file__).read())
-                if new_hash != last_nav_hash:
-                    last_nav_hash = new_hash
+                new_nav_hash = hash(open(navigation.__file__).read())
+                new_drive_hash = hash(open(driving.__file__).read())
+                new_plan_hash = hash(open(planning.__file__).read())
+                if new_nav_hash != last_nav_hash:
+                    last_nav_hash = new_nav_hash
                     logging.info("Navigation module changed, reloading...")
                     importlib.reload(navigation)
                     logging.info("Successfully reloaded navigation module")
                     if data.dest_company and data.use_navigation:
                         logging.info("Recalculating path with reloaded module...")
                         navigation.get_path_to_destination()
+                if new_drive_hash != last_drive_hash:
+                    last_drive_hash = new_drive_hash
+                    logging.info("Driving module changed, reloading...")
+                    importlib.reload(driving)
+                    logging.info("Successfully reloaded driving module")
+                if new_plan_hash != last_plan_hash:
+                    last_plan_hash = new_plan_hash
+                    logging.info("Planning module changed, reloading...")
+                    importlib.reload(planning)
+                    logging.info("Successfully reloaded planning module")
             except Exception as e:
                 logging.error(f"Error monitoring navigation module: {e}")
             time.sleep(1)
@@ -204,7 +217,7 @@ class Plugin(ETS2LAPlugin):
             self.settings_menu.plugin = self
 
             # Start navigation file monitor
-            threading.Thread(target=self.CheckNavHash, daemon=True).start()
+            threading.Thread(target=self.CheckHashes, daemon=True).start()
             logging.info("Map plugin initialized successfully")
             return True
         except Exception as e:

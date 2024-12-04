@@ -57,7 +57,7 @@ def get_destination_item() -> tuple[c.Prefab | RoadSection, c.Position]:
         closest_item = data.map.get_closest_item(position.x, position.z)
         if not closest_item:
             logging.error("Could not find closest item to destination")
-            return None, None
+            return None, None 
 
         # Ensure the item is properly preprocessed before using it
         closest_item = preprocess_item(closest_item)
