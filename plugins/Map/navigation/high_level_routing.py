@@ -255,10 +255,11 @@ class HighLevelRouter:
         
         print(f"End score: {lowest_f_score}")
         
-        if lowest_f_score < 500:
+        if lowest_f_score < data.auto_accept_threshold:
+            yes_no = "Yes"
+        elif lowest_f_score < data.auto_deny_threshold:
             yes_no = data.plugin.ask("Could not find path to destination.", options=["Yes", "No"], description="Do you want to try to path to the nearest node we could get to?\nThe heuristic distance from the target is " + str(round(lowest_f_score, 1)) + ".")
         else:
-            yes_no = "No"
             return lowest_f_score
         
         if yes_no == "Yes":

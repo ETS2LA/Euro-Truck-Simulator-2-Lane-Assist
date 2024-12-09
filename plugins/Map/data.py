@@ -88,6 +88,10 @@ load_distance = settings.Get("Map", "LoadDistance", 500)
 """The radius around the truck in meters that should be loaded."""
 use_navigation = settings.Get("Map", "UseNavigation", False)
 """Whether we should drive along the navigation path or just use the basic route planner."""
+auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 10)
+"""The distance in meters from the destination where the truck will automatically accept the current navigation plan."""
+auto_deny_threshold = settings.Get("Map", "AutoDenyThreshold", 100)
+"""The distance in meters from the destination where the truck will automatically deny the current navigation plan."""
 
 # MARK: Return values
 external_data = {}
@@ -171,10 +175,13 @@ def UpdateData(api_data):
     
 def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
+    global auto_accept_threshold, auto_deny_threshold, load_distance
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
     load_distance = settings["LoadDistance"]
     use_navigation = settings["UseNavigation"]
+    auto_accept_threshold = settings["AutoAcceptThreshold"]
+    auto_deny_threshold = settings["AutoDenyThreshold"]
     
 settings.Listen("Map", UpdateSettings)

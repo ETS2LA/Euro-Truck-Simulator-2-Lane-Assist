@@ -169,6 +169,14 @@ class Plugin(ETS2LAPlugin):
     def ToggleSteering(self, state:bool, *args, **kwargs):
         data.enabled = state
         self.globals.tags.status = {"Map": state}
+        
+    @events.on("JobFinished")
+    def JobFinished(self, *args, **kwargs):
+        data.dest_company = None
+        data.route_plan = []
+        data.navigation_plan = []
+        data.update_navigation_plan = True
+        data.last_navigation_update = 0
 
     def init(self):
         """Initialize the plugin"""
