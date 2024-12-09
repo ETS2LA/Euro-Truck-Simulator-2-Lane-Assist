@@ -1,7 +1,10 @@
+"use client";
+
 import localFont from "next/font/local";
 import "./globals.css";
 import CSRLayout from "./csr_layout";
 import { AuthProvider } from "@/apis/auth";
+import { CollapsedProvider } from "@/contexts/collapsed";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -25,7 +28,9 @@ export default function RootLayout({ children, } : Readonly<{ children: React.Re
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-sidebarbg overflow-hidden`}>
                 <AuthProvider>
-                    <CSRLayout>{children}</CSRLayout>
+                    <CollapsedProvider>
+                        <CSRLayout>{children}</CSRLayout>
+                    </CollapsedProvider>
                 </AuthProvider>
             </body>
         </html>

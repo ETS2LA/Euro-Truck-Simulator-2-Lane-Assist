@@ -31,32 +31,22 @@ def GetCommitURL(repo, commit_hash):
         return ""
 
 def CheckForUpdate():
-    repo = git.Repo()
-    current_hash = repo.head.object.hexsha
-    
-    o = repo.remotes.origin
-    origin_hash = o.fetch()
-    
-    if len(origin_hash) > 0:
-        origin_hash = origin_hash[0].commit.hexsha
-    else:
-        origin_hash = current_hash
+    try:
+        repo = git.Repo()
+        current_hash = repo.head.object.hexsha
         
-    if current_hash != origin_hash:
-        updates = []
-        for commit in repo.iter_commits(f"{current_hash}..{origin_hash}"):
-            if "Merge" not in commit.summary: # Ignore merge commits
-                updates.append({
-                    "author": commit.author.name,
-                    "message": commit.summary,
-                    "description": commit.message.replace(commit.summary, "").strip(),
-                    "time": commit.committed_date,
-                    "url": GetCommitURL(repo, commit.hexsha)
-                })
+        o = repo.remotes.origin
+        origin_hash = o.fetch()
         
-        if updates == []: # local commit(s) waiting to be pushed, send those instead
-            for commit in repo.iter_commits():
-                if "Merge" not in commit.summary:
+        if len(origin_hash) > 0:
+            origin_hash = origin_hash[0].commit.hexsha
+        else:
+            origin_hash = current_hash
+            
+        if current_hash != origin_hash:
+            updates = []
+            for commit in repo.iter_commits(f"{current_hash}..{origin_hash}"):
+                if "Merge" not in commit.summary: # Ignore merge commits
                     updates.append({
                         "author": commit.author.name,
                         "message": commit.summary,
@@ -64,21 +54,36 @@ def CheckForUpdate():
                         "time": commit.committed_date,
                         "url": GetCommitURL(repo, commit.hexsha)
                     })
-                if len(updates) >= 10:
-                    break
             
-            updates = updates[::-1]
-            
-            updates.append({
-                "author": "Backend",
-                "message": "DO NOT UPDATE!",
-                "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",
-                "time": time.time(),
-                "url": ""
-            })
-            
-        return updates
-    else:
+            if updates == []: # local commit(s) waiting to be pushed, send those instead
+                for commit in repo.iter_commits():
+                    if "Merge" not in commit.summary:
+                        updates.append({
+                            "author": commit.author.name,
+                            "message": commit.summary,
+                            "description": commit.message.replace(commit.summary, "").strip(),
+                            "time": commit.committed_date,
+                            "url": GetCommitURL(repo, commit.hexsha)
+                        })
+                    if len(updates) >= 10:
+                        break
+                
+                updates = updates[::-1]
+                
+                updates.append({
+                    "author": "Backend",
+                    "message": "DO NOT UPDATE!",
+                    "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",
+                    "time": time.time(),
+                    "url": ""
+                })
+                
+            return updates
+        else:
+            return False
+    except:
+        import traceback
+        traceback.print_exc()
         return False
     
 commits_save = []

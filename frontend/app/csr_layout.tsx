@@ -6,7 +6,7 @@ import { ETS2LASidebar } from "@/components/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import "./globals.css";
 import WindowControls from "@/components/window-controls";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
 import { Toaster } from "@/components/ui/sonner"
 import { States } from "@/components/states";
@@ -20,10 +20,11 @@ import AccountHandler from "@/apis/account";
 import Snowfall from "react-snowfall"
 import useSWR from "swr";
 import Loader from "@/components/loader";
+import { useCollapsed } from "@/contexts/collapsed";
 
 export default function CSRLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     const { data: language, isLoading: loadingLanguage } = useSWR("language", GetCurrentLanguage, { refreshInterval: 1000 });
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { isCollapsed, setIsCollapsed } = useCollapsed();
     const [isSnowAllowed, setIsSnowAllowed] = useState(false);
     const [areFireworksAllowed, setAreFireworksAllowed] = useState(false);
     const [loadingTranslations, setLoadingTranslations] = useState(true);
