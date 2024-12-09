@@ -68,18 +68,20 @@ class NavigationLane():
     end: c.Position = None
     item: c.Prefab | RoadSection | c.Road = None
     lane: c.Lane | c.PrefabNavRoute = None
+    direction: Literal["forward", "backward"] = None
     _type: type = None
     _next_lanes: list = None
     _start_node: c.Node = None
     _end_node: c.Node = None
     
-    def __init__(self, lane: c.Lane | c.PrefabNavRoute, item: c.Prefab | RoadSection, start: c.Position, end: c.Position, length: float):
+    def __init__(self, lane: c.Lane | c.PrefabNavRoute, item: c.Prefab | RoadSection, start: c.Position, end: c.Position, length: float, direction: Literal["forward", "backward"] = "forward"):
         self.lane = lane
         self.item = item
         self.start = start
         self.end = end
         self.length = length
         self._type = type(item)
+        self.direction = direction
         
     def __str__(self):
         return f"NavigationLane({type(self.item).__name__}, {round(self.length, 1)}m)"

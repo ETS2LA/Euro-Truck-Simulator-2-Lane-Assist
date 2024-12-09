@@ -176,7 +176,7 @@ def GetOffset(road):
         logging.error(f"Error getting offset for road {getattr(road, 'uid', 'unknown')}: {e}")
         return 4.5
 
-def GetRoadLanes(road, data):
+def GetRoadLanes(road, data):    
     if offsets == {} and per_name == {} and rules == {}:
         get_rules()
 
@@ -209,7 +209,10 @@ def GetRoadLanes(road, data):
         if hasattr(end_node, 'forward_item_uid'):
             try:
                 next_road = data.map.get_item_by_uid(end_node.forward_item_uid)
-                custom_offset_next = GetOffset(next_road) if next_road else custom_offset
+                if type(next_road) == c.Road:
+                    custom_offset_next = GetOffset(next_road) if next_road else custom_offset
+                else:
+                    custom_offset_next = custom_offset
             except Exception as e:
                 logging.debug(f"Could not get next road offset: {e}")
                 custom_offset_next = custom_offset
@@ -220,7 +223,10 @@ def GetRoadLanes(road, data):
         if hasattr(start_node, 'backward_item_uid'):
             try:
                 prev_road = data.map.get_item_by_uid(start_node.backward_item_uid)
-                custom_offset_prev = GetOffset(prev_road) if prev_road else custom_offset
+                if type(prev_road) == c.Road:
+                    custom_offset_prev = GetOffset(prev_road) if prev_road else custom_offset
+                else:
+                    custom_offset_prev = custom_offset
             except Exception as e:
                 logging.debug(f"Could not get previous road offset: {e}")
                 custom_offset_prev = custom_offset
@@ -237,10 +243,6 @@ def GetRoadLanes(road, data):
             side = 1
 
         try:
-            if not hasattr(road.road_look, 'lanes_left') or not hasattr(road.road_look, 'lanes_right'):
-                logging.error(f"Road {road.uid} missing lanes information")
-                return [], c.BoundingBox(0, 0, 0, 0)
-
             lanes = calculate_lanes(road.points, 4.5, len(road.road_look.lanes_left), len(road.road_look.lanes_right),
                                road, custom_offset=custom_offset, next_offset=next_offset, side=side)
         except Exception as e:

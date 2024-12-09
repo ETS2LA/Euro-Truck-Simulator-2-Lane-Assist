@@ -17,6 +17,7 @@ class RouteNode:
     f_score: float
     came_from: Optional['RouteNode'] = None
     dlc_guard: int = -1
+    direction: str = "unknown"
 
     def __hash__(self):
         return hash((self.node.uid, id(self)))
@@ -51,9 +52,10 @@ class HighLevelRouter:
         else:
             return distance * 1.2  # Default case with slight penalty
 
-    def _get_neighbors(self, node: RouteNode, mode: str = 'shortest', dir: str = "forward") -> List[Tuple[Node, float, int]]:
+    def _get_neighbors(self, node: RouteNode, mode: str = 'shortest') -> List[Tuple[Node, float, int]]:
         """Get neighboring nodes with their distances and DLC guards."""
         neighbors = []
+        dir = node.direction
         processed_nodes = set()  # Track processed nodes to avoid duplicates
 
         def process_road(road: Road, next_node: Node) -> Optional[Tuple[float, int]]:
@@ -113,7 +115,6 @@ class HighLevelRouter:
             return base_cost, prefab.dlc_guard
 
         navigation = data.map.get_node_navigation(node.node.uid)
-        # TODO: Track the direction to fix some routing errors!
         if not navigation:
             return neighbors
         
@@ -121,21 +122,26 @@ class HighLevelRouter:
             for nav_node in navigation.forward:
                 cost = nav_node.distance
                 guard = nav_node.dlc_guard
-                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
+                direction = nav_node.direction
+                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard, direction))
                 processed_nodes.add(str(nav_node.node_id))
+                
         elif dir == "backward":
             for nav_node in navigation.backward:
                 cost = nav_node.distance
                 guard = nav_node.dlc_guard
-                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
+                direction = nav_node.direction
+                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard, direction))
                 processed_nodes.add(str(nav_node.node_id))
+                
         else:
             for nav_node in navigation.forward + navigation.backward:
                 cost = nav_node.distance
                 guard = nav_node.dlc_guard
-                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard))
+                direction = nav_node.direction
+                neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard, direction))
                 processed_nodes.add(str(nav_node.node_id))
-
+                
         return neighbors
 
     def _reconstruct_path(self, current: RouteNode) -> List[Node]:
@@ -162,8 +168,10 @@ class HighLevelRouter:
         start = RouteNode(
             node=start_node,
             g_score=0,
-            f_score=self._heuristic(start_node, end_node, mode)
+            f_score=self._heuristic(start_node, end_node, mode),
+            direction=dir
         )
+        
         open_set.put(start.f_score, start)
 
         visited: Dict[str, RouteNode] = {str(start_node.uid): start}
@@ -199,10 +207,14 @@ class HighLevelRouter:
                     f"explored {nodes_explored} nodes ({(nodes_explored/len(visited))*100:.1f}% "
                     f"of visited nodes), cost: {current.g_score:.1f}"
                 )
+                
+                print(f"Path found: {len(path)} nodes, {path_length:.1f}m, "
+                    f"explored {nodes_explored} nodes ({(nodes_explored/len(visited))*100:.1f}% "
+                    f"of visited nodes), cost: {current.g_score:.1f}")
                 return path
 
-            neighbors = self._get_neighbors(current, mode, dir)
-            for neighbor_node, cost, dlc_guard in neighbors:
+            neighbors = self._get_neighbors(current, mode)
+            for neighbor_node, cost, dlc_guard, direction in neighbors:
                 #if dlc_guard not in self.enabled_dlc_guards:
                 #    print(f"Skipping node {neighbor_node.uid} due to DLC guard {dlc_guard}")
                 #    continue
@@ -215,7 +227,8 @@ class HighLevelRouter:
                         node=neighbor_node,
                         g_score=float('inf'),
                         f_score=float('inf'),
-                        dlc_guard=dlc_guard
+                        dlc_guard=dlc_guard,
+                        direction=direction
                     )
                     visited[neighbor_key] = neighbor
                 else:
@@ -228,7 +241,8 @@ class HighLevelRouter:
                         g_score=tentative_g_score,
                         f_score=tentative_g_score + self._heuristic(neighbor_node, end_node, mode),
                         came_from=current,
-                        dlc_guard=dlc_guard
+                        dlc_guard=dlc_guard,
+                        direction=direction
                     )
                     open_set.put(visited[neighbor_key].f_score, visited[neighbor_key])
 
@@ -236,6 +250,8 @@ class HighLevelRouter:
             f"No path found after exploring {nodes_explored} nodes from "
             f"{start_node.uid} to {end_node.uid}, lowest f-score: {lowest_f_score:.1f}"
         )
+        
+        print(f"End score: {lowest_f_score}")
         
         if lowest_f_score < 500:
             yes_no = data.plugin.ask("Could not find path to destination.", options=["Yes", "No"], description="Do you want to try to path to the nearest node we could get to?\nThe heuristic distance from the target is " + str(round(lowest_f_score, 1)) + ".")
