@@ -211,6 +211,8 @@ class HighLevelRouter:
                 print(f"Path found: {len(path)} nodes, {path_length:.1f}m, "
                     f"explored {nodes_explored} nodes ({(nodes_explored/len(visited))*100:.1f}% "
                     f"of visited nodes), cost: {current.g_score:.1f}")
+                
+                data.plugin.notify(f"Found {path_length/1000:.1f}km path to destination.")
                 return path
 
             neighbors = self._get_neighbors(current, mode)

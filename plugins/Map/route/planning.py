@@ -436,6 +436,7 @@ def GetNextNavigationItem():
     
     closest = distance_ordered[0]
     index = path.index(closest)
+    
     try:
         next = path[index + 1]
     except:
@@ -447,7 +448,14 @@ def GetNextNavigationItem():
     elif closest.backward_item_uid == next.forward_item_uid:
         dir = "backward"
         next_item = data.map.get_item_by_uid(closest.backward_item_uid)
+    elif closest.backward_item_uid == next.backward_item_uid:
+        next_item = data.map.get_item_by_uid(closest.backward_item_uid)
+    elif closest.forward_item_uid == next.forward_item_uid:
+        next_item = data.map.get_item_by_uid(closest.forward_item_uid)
     else:
+        print(f"No connection between nodes {closest.uid} and {next.uid}")
+        print(f"Forward: {closest.forward_item_uid} {next.backward_item_uid}")
+        print(f"Backward: {closest.backward_item_uid} {next.forward_item_uid}")
         return None
         
     if type(next_item) == c.Road:
