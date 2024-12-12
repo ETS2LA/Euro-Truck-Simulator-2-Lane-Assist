@@ -101,7 +101,7 @@ def CheckUltralyticsPackage():
         for module in modules.splitlines():
             if "ultralytics " in module:
                 version = str(module.replace(" ", "").replace("ultralytics", ""))
-                if version in "8.3.41 8.3.42 8.3.45 8.3.46 8.2.82":
+                if version in "8.3.41 8.3.42 8.3.45 8.3.46":
                     print(RED + f"Your installed version of the 'ultralytics' package contains a crypto miner! Trying to remove it... (Package Version: {version})" + NORMAL)
                     subprocess.run("cd " + PATH + "venv\\Scripts & " + PATH + "venv\\Scripts\\activate.bat & cd " + PATH + " & pip uninstall ultralytics -y & pip cache purge & pip install ultralytics", shell=True)
                     SendCrashReport("Successfully updated the 'ultralytics' package. (Crypto miner problem!)", "Successfull!")
