@@ -1,1 +1,2 @@
 Removed the optional (disabled by default) feature of the traffic light detection to help with data collection.
+Added a check of the ultralytics package version to automatically update because a crypto miner was found in certain versions of the ultralytics package!

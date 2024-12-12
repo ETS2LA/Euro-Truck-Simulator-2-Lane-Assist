@@ -85,6 +85,34 @@ def CheckAnomalousFrames():
 
 threading.Thread(target=CheckAnomalousFrames, daemon=True).start()
 
+
+def CheckUltralyticsPackage():
+    try:
+        print(f"Checking the version of the 'ultralytics' package...")
+        import subprocess
+        RED = "\033[91m"
+        NORMAL = "\033[0m"
+        PATH = variables.PATH
+        if PATH.endswith("\\") or PATH.endswith("/"):
+            PATH = PATH[:-1]
+        PATH = os.path.dirname(PATH) + "\\"
+        result = subprocess.run("cd " + PATH + "venv/Scripts & .\\activate.bat & cd " + PATH + " & pip list", shell=True, capture_output=True, text=True)
+        modules = result.stdout
+        for module in modules.splitlines():
+            if "ultralytics " in module:
+                version = str(module.replace(" ", "").replace("ultralytics", ""))
+                if version in "8.3.41 8.3.42 8.3.45 8.3.46 8.2.82":
+                    print(RED + f"Your installed version of the 'ultralytics' package contains a crypto miner! Trying to remove it... (Package Version: {version})" + NORMAL)
+                    subprocess.run("cd " + PATH + "venv\\Scripts & " + PATH + "venv\\Scripts\\activate.bat & cd " + PATH + " & pip uninstall ultralytics -y & pip cache purge & pip install ultralytics", shell=True)
+                    SendCrashReport("Successfully updated the 'ultralytics' package. (Crypto miner problem!)", "Successfull!")
+                else:
+                    print(f"No problems with your installed version of the 'ultralytics' package. (Package Version: {version})")
+    except:
+        SendCrashReport("Update Ultralytics package error. (Crypto miner problem!)", traceback.format_exc())
+        print(RED + f"Unable to check the version of the 'ultralytics' package. Please update your 'ultralytics' package manually if you have one of these versions installed: 8.3.41, 8.3.42, 8.3.45, 8.3.46" + NORMAL)
+CheckUltralyticsPackage()
+
+
 thread = threading.Thread(target=CheckTkWebview2InstallVersion)
 thread.start()
 thread.join()
