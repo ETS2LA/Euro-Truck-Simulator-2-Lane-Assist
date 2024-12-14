@@ -8,6 +8,7 @@ except:
     
 from modules.SDKController.main import SCSController
 import ETS2LA.networking.cloud as cloud
+from importlib.metadata import version
 import ETS2LA.variables as variables
 from multiprocessing import Queue
 from rich.console import Console
@@ -17,7 +18,6 @@ import importlib
 import queue
 import sys
 import os
-
 
 LOG_FILE_FOLDER = "logs"    
 GREEN = "\033[92m"
@@ -31,6 +31,23 @@ NORMAL = "\033[0m"
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 console = Console()
 controller = SCSController()
+
+malicious_packages = {
+    "ultralytics": ["8.3.41", "8.3.42", "8.3.45", "8.3.46"]
+}
+
+def CheckForMaliciousPackages():
+    for package in malicious_packages.keys():
+        try:
+            ver = version(package)
+            if ver in malicious_packages[package]:
+                print(RED + f"Your installed version of the '{package}' package might be malicious! Trying to remove it... (Package Version: {ver})" + NORMAL)
+                os.system(f"pip uninstall {package} -y & pip cache purge & pip install {package} --force-reinstall")
+                cloud.SendCrashReport(package, f"Successfully updated a malicious package.", f"From version {ver} to the latest version.")
+                print(GREEN + f"Successfully updated the '{package}' package to the latest version." + NORMAL)
+        except:
+            cloud.SendCrashReport(package, "Update malicious package error.", traceback.format_exc())
+            print(RED + f"Unable to check the version of the '{package}' package. Please update your '{package}' package manually if you have one of these versions installed: {malicious_packages[package]}" + NORMAL)
 
 def CloseNode():
     if os.name == "nt":
@@ -92,6 +109,8 @@ def ETS2LAProcess(exception_queue: Queue):
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
     print(f"{BLUE}{Translate('main.overseer_started')}{NORMAL}\n")
+    CheckForMaliciousPackages()
+    
     # Make sure NodeJS isn't already running and clear logs
     while True:
         process = multiprocessing.Process(target=ETS2LAProcess, args=(exception_queue,))
