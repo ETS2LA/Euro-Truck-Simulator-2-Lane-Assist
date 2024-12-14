@@ -40,6 +40,8 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
+    fps_cap = 500
+
     def imports(self):
         global SCSTelemetry, SCSController, ScreenCapture, ShowImage, variables, settings, pytorch, np, keyboard, time, cv2
 

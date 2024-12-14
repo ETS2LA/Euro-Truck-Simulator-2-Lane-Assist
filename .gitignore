@@ -25,3 +25,6 @@ cache
 # Pycharm
 .idea
 /plugins/ETS2LA-OpenShock-main
+
+# Ignore the Data Collection End-To-End Driving folder
+/Data-Collection-End-To-End-Driving
