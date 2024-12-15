@@ -10,9 +10,15 @@ def CheckForUploads():
     CurrentTime = time.time()
     for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
         if str(File).endswith(".json") and str(File).replace(".json", ".png") not in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
-            os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+            try:
+                os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+            except:
+                pass
         if str(File).endswith(".png") and str(File).replace(".png", ".json") not in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
-            os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+            try:
+                os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+            except:
+                pass
 
     FilesReadyForUpload = []
     for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
@@ -23,9 +29,17 @@ def CheckForUploads():
                     Time = float(Data["Time"])
                     if Time + 604800 < CurrentTime:
                         FilesReadyForUpload.append(str(File))
+
+                    # MARK: This can be removed in some days:
+                    if "Game" not in Data:
+                        1/0
+
             except:
                 try:
                     os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+                except:
+                    pass
+                try:
                     os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
                 except:
                     pass
@@ -35,12 +49,21 @@ def CheckForUploads():
             # MARK: Here the code for the uploading to the ets2la server
 
             # For now, just delete the files, because the cloud code is not ready yet
-            os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
-            os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
+            try:
+                os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+            except:
+                pass
+            try:
+                os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
+            except:
+                pass
         except:
             pass
         try:
             os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+        except:
+            pass
+        try:
             os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
         except:
             pass
@@ -164,6 +187,8 @@ class Plugin(ETS2LAPlugin):
             return
 
 
+        GameValue = str(APIDATA["scsValues"]["game"]).lower()
+
         SpeedValue = float(APIDATA["truckFloat"]["speed"])
         SpeedLimitValue = float(APIDATA["truckFloat"]["speedLimit"])
         CruiseControlEnabledValue = bool(APIDATA["truckBool"]["cruiseControl"])
@@ -216,6 +241,7 @@ class Plugin(ETS2LAPlugin):
         Data = {
             "Time": CurrentTime,
             "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "Game": GameValue,
             "SpeedValue": SpeedValue,
             "SpeedLimitValue": SpeedLimitValue,
             "CruiseControlEnabledValue": CruiseControlEnabledValue,
