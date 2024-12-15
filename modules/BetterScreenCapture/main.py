@@ -28,7 +28,7 @@ LastWindowPositions = {}
 LastForegroundWindows = {}
 
 
-def Initialize():
+def Initialize(Screen=None, Area=(None, None, None, None)):
     global Display
     global Monitor
     global MonitorX1
@@ -41,12 +41,12 @@ def Initialize():
     global RouteAdvisorZoomCorrect
     global RouteAdvisorTabCorrect
 
-    Display = 0
+    Display = Screen if Screen != None else 0
     Monitor = sct.monitors[(Display + 1)]
-    MonitorX1 = Monitor["left"]
-    MonitorY1 = Monitor["top"]
-    MonitorX2 = Monitor["width"]
-    MonitorY2 = Monitor["height"]
+    MonitorX1 = Area[0] if Area[0] != None else Monitor["left"]
+    MonitorY1 = Area[1] if Area[1] != None else Monitor["top"]
+    MonitorX2 = Area[2] if Area[2] != None else Monitor["width"]
+    MonitorY2 = Area[3] if Area[3] != None else Monitor["height"]
     Cam = None
     CaptureLibrary = None
     RouteAdvisorSide = "Right"

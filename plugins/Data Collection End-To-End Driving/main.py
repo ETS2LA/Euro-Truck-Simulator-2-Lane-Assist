@@ -120,7 +120,6 @@ class Plugin(ETS2LAPlugin):
 
         global FOV
         global TruckSimAPI
-        global LastScreenCaptureCheck
     
         global LastCaptureTime
         global LastCaptureLocation
@@ -131,12 +130,13 @@ class Plugin(ETS2LAPlugin):
             self.terminate()
 
         TruckSimAPI = SCSTelemetry()
-        LastScreenCaptureCheck = 0
 
         LastCaptureTime = 0
         LastCaptureLocation = 0, 0, 0
 
-        ScreenCapture.Initialize()
+        X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
+        Screen = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
+        ScreenCapture.Initialize(Screen=Screen - 1, Area=(X1, Y1, X2, Y2))
 
         threading.Thread(target=CheckForUploads, daemon=True).start()
 
@@ -144,7 +144,6 @@ class Plugin(ETS2LAPlugin):
         CurrentTime = time.time()
 
         global TruckSimAPI
-        global LastScreenCaptureCheck
 
         global LastCaptureTime
         global LastCaptureLocation
@@ -155,7 +154,7 @@ class Plugin(ETS2LAPlugin):
         CurrentLocation = APIDATA["truckPlacement"]["coordinateX"], APIDATA["truckPlacement"]["coordinateY"], APIDATA["truckPlacement"]["coordinateZ"]
 
 
-        if (CurrentTime - LastScreenCaptureCheck < 3 or
+        if (CurrentTime - LastCaptureTime < 3 or
             ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False or
             APIDATA["sdkActive"] == False or
             APIDATA["pause"] == True or
@@ -168,19 +167,17 @@ class Plugin(ETS2LAPlugin):
         LastCaptureLocation = APIDATA["truckPlacement"]["coordinateX"], APIDATA["truckPlacement"]["coordinateY"], APIDATA["truckPlacement"]["coordinateZ"]
 
 
-        if LastScreenCaptureCheck + 0.5 < CurrentTime:
-            X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
-            ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
-            if ScreenCapture.MonitorX1 != X1 - ScreenX or ScreenCapture.MonitorY1 != Y1 - ScreenY or ScreenCapture.MonitorX2 != X2 - ScreenX or ScreenCapture.MonitorY2 != Y2 - ScreenY:
-                ScreenIndex = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
-                if ScreenCapture.Display != ScreenIndex - 1:
-                    if ScreenCapture.CaptureLibrary == "WindowsCapture":
-                        ScreenCapture.StopWindowsCapture = True
-                        while ScreenCapture.StopWindowsCapture == True:
-                            time.sleep(0.01)
-                    ScreenCapture.Initialize()
-                ScreenCapture.MonitorX1, ScreenCapture.MonitorY1, ScreenCapture.MonitorX2, ScreenCapture.MonitorY2 = ScreenCapture.ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
-            LastScreenCaptureCheck = CurrentTime
+        X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
+        ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
+        if ScreenCapture.MonitorX1 != X1 - ScreenX or ScreenCapture.MonitorY1 != Y1 - ScreenY or ScreenCapture.MonitorX2 != X2 - ScreenX or ScreenCapture.MonitorY2 != Y2 - ScreenY:
+            ScreenIndex = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
+            if ScreenCapture.Display != ScreenIndex - 1:
+                if ScreenCapture.CaptureLibrary == "WindowsCapture":
+                    ScreenCapture.StopWindowsCapture = True
+                    while ScreenCapture.StopWindowsCapture == True:
+                        time.sleep(0.01)
+            MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ScreenCapture.ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
+            ScreenCapture.Initialize(Screen=ScreenIndex - 1, Area=(MonitorX1, MonitorY1, MonitorX2, MonitorY2))
 
         Frame = ScreenCapture.Capture(ImageType="cropped")
         if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:
