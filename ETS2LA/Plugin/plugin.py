@@ -231,6 +231,16 @@ class ETS2LAPlugin(object):
             Events.events.emit(data["name"], *args, **kwargs)
             self.event_queue.task_done()
     
+    def try_call(self, function_name: str, *args, **kwargs):
+        if args == ([], {}):
+            args = []
+            
+        if hasattr(self, function_name):
+            return getattr(self, function_name)(*args, **kwargs)
+        if hasattr(self.settings_menu, function_name):
+            return getattr(self.settings_menu, function_name)(*args, **kwargs)
+        return None
+    
     def frontend_thread(self):
         while True:
             data = self.frontend_queue.get()
@@ -238,16 +248,9 @@ class ETS2LAPlugin(object):
                 if data["operation"] == "function":
                     args = data["args"]
                     kwargs = data["kwargs"]
-                    if args != ([], {}):
-                        if kwargs != {}:
-                            getattr(self, data["target"])(*args, **kwargs)
-                        else:
-                            getattr(self, data["target"])(*args)
-                    elif kwargs != {}:
-                        getattr(self, data["target"])(**kwargs)
-                    else:
-                        getattr(self, data["target"])()
+                    self.try_call(data["target"], *args, **kwargs)
             except:
+                logging.exception("Error calling frontend function")
                 pass
             
             self.frontend_queue.task_done()

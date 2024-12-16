@@ -386,7 +386,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 			return <div className={"flex justify-between items-center w-full" + GetBorderClassname(data.options.border)}>
 				<Button variant={"outline"} onClick={() => {
 					PluginFunctionCall(plugin, data.options.target, [], {}).then(() => {
-						toast.success(translate(data.success), {
+						toast.success(translate("Success"), {
 							duration: 500
 						})
 					})
@@ -400,7 +400,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 				</div>
 				<Button variant={"outline"} onClick={() => {
 					PluginFunctionCall(plugin, data.options.target, [], {}).then(() => {
-						toast.success(translate(data.success), {
+						toast.success(translate("Success"), {
 							duration: 500
 						})
 					})

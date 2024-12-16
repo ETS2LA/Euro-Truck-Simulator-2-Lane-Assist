@@ -8,6 +8,9 @@ NORMAL = "\033[0m"
 
 def CheckForUploads():
     CurrentTime = time.time()
+    if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving") == False:
+        os.mkdir(f"{variables.PATH}Data-Collection-End-To-End-Driving")
+    
     for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
         if str(File).endswith(".json") and str(File).replace(".json", ".png") not in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
             try:
@@ -72,18 +75,22 @@ def CheckForUploads():
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "Data Collection End-To-End Driving"
-    def Callback(self):
-        print("test")
-        self.plugin.DeleteAllData()
+    
     def DeleteAllData(self):
         print("This is what is called when you press with this setup")
+        
     def render(self):
         import ETS2LA.variables as variables
         Title("Data Collection End-To-End Driving")
-        Label("This plugins sends annoymous driving data for our end-to-end driving model.\nAll the collected data will be available open source on Hugging Face:")
+        Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
         Link("-> View current datasets on Huggingface", "https://huggingface.co/Glas42/End-To-End/tree/main/files")
         Separator()
-        Label(f"The plugin sends images of your game window with data like current steering angle or driving speed to our server.\nIf you play your game in windowed mode, the plugin will still only capture the game. The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window. Be aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before being uploaded to our server.\n\nThe data will be saved for the 7 days in this folder on your PC:\n{variables.PATH}Data-Collection-End-To-End-Driving\n\nIf you want to delete the data, just delete the files or the entire folder and they won't be uploaded to our server.")
+        Label(f"• This plugin will send images of your game window with data like current steering angle or driving speed to our server.\n• If you play your game in windowed mode, the plugin will still only capture the game.\n• The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window.\nBe aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before it will be uploaded to our server.")
+        with Group("vertical", gap=4, padding=0):
+            Label(f"The data will be saved for the 7 days in this folder on your PC:")
+            Description(f"{variables.PATH}Data-Collection-End-To-End-Driving")
+        Label(f"If you want to delete the data, press the button below. You can also delete the files or the entire folder and they won't be uploaded to our server.")
+        Button("Delete", "Delete all data", self.DeleteAllData, description="Using this button will delete all data that we've gathered so far from your computer.")
         return RenderUI()
 
 
@@ -91,7 +98,7 @@ class Plugin(ETS2LAPlugin):
     description = PluginDescription(
         name="Data Collection End-To-End Driving",
         version="1.0",
-        description="This plugins sends annoymous driving data for our end-to-end driving model. All the collected data will be open source.",
+        description="This plugins sends anonymous driving data for our end-to-end driving model. All the collected data will be open source.",
         modules=["TruckSimAPI"],
     )
 

@@ -29,3 +29,8 @@ class ETS2LASettingsMenu:
             self._json = self.render()
         
         return self._json
+    
+    def call_function(self, name, args=[], kwargs={}):
+        if hasattr(self, name):
+            return getattr(self, name)(*args, **kwargs)
+        return None
