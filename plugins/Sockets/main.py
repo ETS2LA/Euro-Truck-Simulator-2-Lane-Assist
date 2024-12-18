@@ -425,5 +425,3 @@ class Plugin(ETS2LAPlugin):
         # Enqueue the message to all connected clients
         for connection in list(self.connected_clients.values()):
             asyncio.run_coroutine_threadsafe(connection.queue.put(compressed_message), self.loop)
-
-        time.sleep(1 / self.fps_cap)
