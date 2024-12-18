@@ -118,14 +118,14 @@ class Plugin(ETS2LAPlugin):
         import cv2
         import os
 
-        global FOV
+        global FOVValue
         global TruckSimAPI
-    
+
         global LastCaptureTime
         global LastCaptureLocation
 
-        FOV = self.globals.settings.FOV
-        if FOV == None:
+        FOVValue = self.globals.settings.FOV
+        if FOVValue == None:
             print(f"\n{PURPLE}Make sure to set the FOV in the settings for the 'Data Collection End-To-End Driving' plugin! The plugin will disable itself.{NORMAL}\n")
             self.terminate()
 
@@ -239,6 +239,7 @@ class Plugin(ETS2LAPlugin):
             "Time": CurrentTime,
             "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "Game": GameValue,
+            "FOVValue": FOVValue,
             "SpeedValue": SpeedValue,
             "SpeedLimitValue": SpeedLimitValue,
             "CruiseControlEnabledValue": CruiseControlEnabledValue,
