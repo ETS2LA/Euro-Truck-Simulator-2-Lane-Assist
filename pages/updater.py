@@ -58,10 +58,23 @@ class Page(ETS2LAPage):
                     Button("Update", "", self.update, border=False)
                     Space(8)
                     Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
-                    Space(6)
-                    with Group("vertical", gap=8):
+                    Space(8)
+                    with Group("vertical", gap=12):
+                        current_day = None
                         for update in reversed_updates:
-                            with Group("vertical", border=True):
+                            local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
+                            if local_time.split(" ")[0] != current_day:
+                                current_day = local_time.split(" ")[0]
+                                Space(20)
+                                with Group("horizontal", padding=0, classname="flex items-center", gap=0):
+                                    with Group("horizontal", padding=0, gap=0, classname="border-b"):
+                                        ...
+                                    with Group("vertical", padding=0, gap=0, classname="items-center"):
+                                        Description(local_time.split(" ")[0], size="xs", weight="bold")
+                                    with Group("horizontal", padding=0, gap=0, classname="border-b"):
+                                        ...
+                                Space(20)
+                            with Group("vertical", border=True, classname=""):
                                 with Group("horizontal", padding=0):
                                     Description(update["author"], size="xs")
                                     with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
@@ -69,7 +82,6 @@ class Page(ETS2LAPage):
                                         Link("View Changes", update["url"], size="xs", weight="light")
                                 if update["description"] != "":
                                     Markdown(update["description"])
-                                local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
                                 Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
                 
         return RenderUI()
