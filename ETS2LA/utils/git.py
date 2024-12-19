@@ -90,69 +90,61 @@ commits_save = []
 def GetHistory():
     global commits_save
     try:
-        # If the git history has already been retrieved, then return that instead of searching again
-        if commits_save == []:
-            # Vars
-            api_requests = 0
-            commits = []
-            authors = {}
+        # Return cached results if available
+        if commits_save != []:
+            return commits_save
 
-            # Get the git history as json
-            repo = git.Repo(search_parent_directories=True)
-            
-            for commit in repo.iter_commits():
-                # Add the commit to the list
-                commits.append({
+        # Vars
+        api_requests = 0
+        commits = []
+        authors = {}
+
+        # Get the git history as json
+        repo = git.Repo(search_parent_directories=True)
+        
+        for commit in repo.iter_commits():
+            if "Merge" not in commit.summary:  # Ignore merge commits like in CheckForUpdate
+                commit_data = {
                     "author": commit.author.name,
                     "message": commit.summary,
                     "description": commit.message.replace(commit.summary, "").strip(),
-                    "time": commit.committed_date
-                })
-            
-            count = len(commits)
-            index = 0
-            for commit in commits:
-                if index <= 100: # Only get images for the first 100 commits
-                    if commit["author"] not in authors:
-                        if commit["author"] == "DylDev": # Hardcoded because of usernames
-                            url = f"https://api.github.com/users/DylDevs"
-                        elif commit["author"] == "Lun":
-                            url = f"https://api.github.com/users/Lun011666"
-                        else:
-                            url = f"https://api.github.com/users/{commit['author']}"
+                    "time": commit.committed_date,
+                    "url": GetCommitURL(repo, commit.hexsha)  # Add URL like CheckForUpdate
+                }
 
-                        # Check if the avatar URL is cached
-                        cached_url = load_cached_avatar_url(commit["author"])
+                # Handle avatar URLs for first 100 commits
+                if len(commits) < 100:
+                    if commit.author.name not in authors:
+                        if commit.author.name == "DylDev":
+                            url = "https://api.github.com/users/DylDevs"
+                        elif commit.author.name == "Lun":
+                            url = "https://api.github.com/users/Lun011666"
+                        else:
+                            url = f"https://api.github.com/users/{commit.author.name}"
+
+                        cached_url = load_cached_avatar_url(commit.author.name)
                         if cached_url:
-                            authors[commit["author"]] = cached_url
+                            authors[commit.author.name] = cached_url
                         else:
                             try:
                                 response = requests.get(url, timeout=6)
-                                success = True
-                            except:
-                                success = False
-                                print(f"Github API request was unsuccessful for author: {commit['author']}. (Timed out)")
-                                continue
-
-                            if success:
-                                api_requests += 1
                                 if response.status_code == 200:
                                     data = response.json()
                                     avatar_url = data["avatar_url"]
-                                    authors[commit["author"]] = avatar_url
-                                    save_avatar_url_to_cache(commit["author"], avatar_url)
+                                    authors[commit.author.name] = avatar_url
+                                    save_avatar_url_to_cache(commit.author.name, avatar_url)
                                 else:
-                                    authors[commit["author"]] = "https://github.com/favicon.ico"
-                            else:
-                                authors[commit["author"]] = "https://github.com/favicon.ico"
-                    commit["picture"] = authors[commit["author"]]
-                
-                index += 1
+                                    authors[commit.author.name] = "https://github.com/favicon.ico"
+                            except:
+                                print(f"Github API request was unsuccessful for author: {commit.author.name}. (Timed out)")
+                                authors[commit.author.name] = "https://github.com/favicon.ico"
+                    
+                    commit_data["picture"] = authors[commit.author.name]
 
-            commits_save = commits
-            return commits
-        else:
-            return commits_save
+                commits.append(commit_data)
+
+        commits_save = commits
+        return commits
     except:
         import traceback
         traceback.print_exc()

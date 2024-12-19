@@ -35,6 +35,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "../ui/progress"
 import Markdown from "react-markdown"
 import { motion } from "framer-motion"
+// @ts-expect-error
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// @ts-expect-error
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 
 interface SliderComponentProps {
     pluginSettings: Record<string, any>;
@@ -197,8 +202,49 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		return <a href={data.url} className={weights[data.options.weight] + " text-accent-foreground " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}} target="_blank">{translate(data.text)}</a>
 	}
 
-	function MarkdownRenderer(data:string) {
-		return <Markdown>{data}</Markdown>
+	function MarkdownRenderer(data: string) {
+	  return (
+		<Markdown
+		  components={{
+			// @ts-expect-error
+			code({node, inline, className, children, ...props}) {
+				const hasLineBreaks = String(children).includes('\n');
+				const match = /language-(\w+)/.exec(className || '');
+				const lang = match ? match[1] : 'json';
+			  
+				// For inline code (no line breaks)
+				if (!hasLineBreaks) {
+					return (
+					<code
+						className="rounded-md bg-zinc-800 p-1 font-geist-mono text-xs"
+						{...props}
+					>
+						{children}
+					</code>
+					);
+				}
+			
+				// For code blocks (has line breaks)
+				return (
+				  <SyntaxHighlighter
+					language={lang}
+					style={vscDarkPlus}
+					customStyle={{
+					  margin: '1rem 0',
+					  padding: '1rem',
+					  borderRadius: '0.5rem',
+					  fontSize: '0.75rem',
+					  fontFamily: 'var(--font-geist-mono)'
+					}}
+				  >
+					{String(children).replace(/\n$/, '')}
+				  </SyntaxHighlighter>
+				);
+			}
+		}}>
+		  {data}
+		</Markdown>
+	  );
 	}
 
 	const SeparatorRenderer = () => {
