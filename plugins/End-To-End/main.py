@@ -131,7 +131,7 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
 
-        if pytorch.Loaded("End-To-End") == False: return
+        if pytorch.Loaded("End-To-End") == False: time.sleep(0.1); return
 
         if LastScreenCaptureCheck + 0.5 < time.time():
             X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])

@@ -34,7 +34,7 @@ MODELS = {}
 def Initialize(Owner="", Model="", Self=None, Threaded=True):
     MODELS[Model] = {}
     MODELS[Model]["Device"] = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    MODELS[Model]["Path"] = f"{variables.PATH}cache/{Model}"
+    MODELS[Model]["Path"] = f"{variables.PATH}model-cache/{Model}"
     MODELS[Model]["Threaded"] = Threaded
     MODELS[Model]["ModelOwner"] = str(Owner)
 
@@ -258,21 +258,29 @@ def CheckForUpdates(Model):
     try:
         def CheckForUpdatesFunction(Model):
             try:
+
+                Popup(Model=Model, Text="Checking for model updates...", Progress=0)
+                print(DARK_GREY + f"[{Model}] " + GREEN + "Checking for model updates..." + NORMAL)
+
+                if settings.Get("PyTorch", f"{Model}-LastUpdateCheck", 0) + 600 > time.time():
+                    if settings.Get("PyTorch", f"{Model}-LatestModel", "unset") == GetName(Model):
+                        print(DARK_GREY + f"[{Model}] " + GREEN + "No model updates available!" + NORMAL)
+                        return
+
                 try:
-                    Response = requests.get("https://huggingface.co/", timeout=3)
-                    Response = Response.status_code
-                except requests.exceptions.RequestException:
-                    Response = None
+                    HuggingFaceResponse = requests.get("https://huggingface.co/", timeout=3)
+                    HuggingFaceResponse = HuggingFaceResponse.status_code
+                    ETS2LAResponse = None
+                except:
+                    try:
+                        ETS2LAResponse = requests.get("https://cdn.ets2la.com/", timeout=3)
+                        ETS2LAResponse = ETS2LAResponse.status_code
+                        HuggingFaceResponse = None
+                    except:
+                        HuggingFaceResponse = None
+                        ETS2LAResponse = None
 
-                if Response == 200:
-                    Popup(Model=Model, Text="Checking for model updates...", Progress=0)
-                    print(DARK_GREY + f"[{Model}] " + GREEN + "Checking for model updates..." + NORMAL)
-
-                    if settings.Get("PyTorch", f"{Model}-LastUpdateCheck", 0) + 600 > time.time():
-                        if settings.Get("PyTorch", f"{Model}-LatestModel", "unset") == GetName(Model):
-                            print(DARK_GREY + f"[{Model}] " + GREEN + "No model updates available!" + NORMAL)
-                            return
-
+                if HuggingFaceResponse == 200:
                     Url = f'https://huggingface.co/{MODELS[Model]["ModelOwner"]}/{Model}/tree/main/model'
                     Response = requests.get(Url)
                     Soup = BeautifulSoup(Response.content, 'html.parser')
@@ -293,16 +301,54 @@ def CheckForUpdates(Model):
                         Popup(Model=Model, Text="Updating the model...", Progress=0)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Model)
-                        Response = requests.get(f'https://huggingface.co/{MODELS[Model]["ModelOwner"]}/{Model}/resolve/main/model/{LatestModel}?download=true', stream=True)
+                        StartTime = time.time()
+                        Response = requests.get(f'https://huggingface.co/{MODELS[Model]["ModelOwner"]}/{Model}/resolve/main/model/{LatestModel}?download=true', stream=True, timeout=15)
                         with open(os.path.join(MODELS[Model]["Path"], f"{LatestModel}"), "wb") as ModelFile:
-                            TotalSize = int(Response.headers.get('content-length', 0))
+                            TotalSize = int(Response.headers.get('content-length', 1))
                             DownloadedSize = 0
                             ChunkSize = 1024
                             for Data in Response.iter_content(chunk_size=ChunkSize):
                                 DownloadedSize += len(Data)
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
-                                Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%", Progress=Progress)
+                                ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
+                                Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%\nETA: {ETA}", Progress=Progress)
+                        Popup(Model=Model, Text="Successfully updated the model!", Progress=100)
+                        print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully updated the model!" + NORMAL)
+                    else:
+                        Popup(Model=Model, Text="No model updates available!", Progress=100)
+                        print(DARK_GREY + f"[{Model}] " + GREEN + "No model updates available!" + NORMAL)
+                    settings.Set("PyTorch", f"{Model}-LastUpdateCheck", time.time())
+
+                elif ETS2LAResponse == 200:
+                    Url = f'https://cdn.ets2la.com/models/{MODELS[Model]["ModelOwner"]}/{Model}'
+                    Response = requests.get(Url).json()
+
+                    LatestModel = None
+                    if "success" in Response:
+                        LatestModel = Response["success"]
+                        settings.Set("PyTorch", f"{Model}-LatestModel", LatestModel)
+                    if LatestModel == None:
+                        LatestModel = settings.Get("PyTorch", f"{Model}-LatestModel", "unset")
+
+                    CurrentModel = GetName(Model)
+
+                    if str(LatestModel) != str(CurrentModel):
+                        Popup(Model=Model, Text="Updating the model...", Progress=0)
+                        print(DARK_GREY + f"[{Model}] " + GREEN + "Updating the model..." + NORMAL + " (Limited Download Speed)")
+                        Delete(Model)
+                        StartTime = time.time()
+                        Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Model]["ModelOwner"]}/{Model}/download', stream=True, timeout=15)
+                        with open(os.path.join(MODELS[Model]["Path"], f"{LatestModel}"), "wb") as ModelFile:
+                            TotalSize = int(Response.headers.get('content-length', 1))
+                            DownloadedSize = 0
+                            ChunkSize = 1024
+                            for Data in Response.iter_content(chunk_size=ChunkSize):
+                                DownloadedSize += len(Data)
+                                ModelFile.write(Data)
+                                Progress = (DownloadedSize / TotalSize) * 100
+                                ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
+                                Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%\nETA: {ETA}", Progress=Progress)
                         Popup(Model=Model, Text="Successfully updated the model!", Progress=100)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
@@ -313,8 +359,8 @@ def CheckForUpdates(Model):
                 else:
 
                     console.RestoreConsole()
-                    Popup(Model=Model, Text="Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for model updates.", Progress=0)
-                    print(DARK_GREY + f"[{Model}] " + RED + "Connection to https://huggingface.co/ is most likely not available in your country. Unable to check for model updates." + NORMAL)
+                    Popup(Model=Model, Text="Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates.", Progress=0)
+                    print(DARK_GREY + f"[{Model}] " + RED + "Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates." + NORMAL)
 
             except:
                 SendCrashReport("PyTorch - Error in function CheckForUpdatesFunction.", str(traceback.format_exc()))

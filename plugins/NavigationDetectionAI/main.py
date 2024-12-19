@@ -119,7 +119,7 @@ class Plugin(ETS2LAPlugin):
         APIDATA = TruckSimAPI.update()
         Frame = ScreenCapture.Capture(ImageType="cropped")
 
-        if pytorch.Loaded("NavigationDetectionAI") == False: return
+        if pytorch.Loaded("NavigationDetectionAI") == False: time.sleep(0.1); return
         if type(Frame) == type(None): return
 
         FrameWidth = Frame.shape[1]
