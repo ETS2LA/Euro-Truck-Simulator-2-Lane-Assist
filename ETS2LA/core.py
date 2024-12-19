@@ -11,7 +11,7 @@ import ETS2LA.backend.controls as controls
 import ETS2LA.frontend.webpage as webpage
 import ETS2LA.networking.godot as godot
 import ETS2LA.networking.cloud as cloud
-import ETS2LA.backend.events as events
+import ETS2LA.Events.base_events as base_events
 import ETS2LA.backend.sounds as sounds
 import ETS2LA.variables as variables
 import rich
@@ -47,7 +47,7 @@ immediate.run()  # Websockets server for immediate data
 webserver.run()  # External webserver for the UI
 godot.run()      # Godot server for the visualisation
 webpage.run()    # Webview to the website.
-events.run()     # Event handlers
+base_events.run()     # Event handlers
 controls.run()   # Control handlers
 
 logging.info(Translate("core.backend_started"))

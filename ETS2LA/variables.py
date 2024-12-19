@@ -5,10 +5,11 @@ YEAR = 2024
 """This year will be displayed in the window title. The year in the LICENSE file must be set manually!"""
 
 PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
+"""The path to the ETS2LA folder."""
+
 if PATH.endswith("/ETS2LA"):
     PATH = PATH[:-7]
 PATH += "/"
-"""The path to the ETS2LA folder."""
 
 OS = os.name
 """The users operating system. Windows = 'nt'"""
@@ -32,6 +33,61 @@ DEVELOPMENT_MODE = False
 """Whether the application is running in development mode. Will be set to True when running the main.py with the --dev flag."""
 
 METADATA = json.loads(open(PATH + "metadata.json", "r").read())
+"""Current version metadata."""
 
 IS_UI_UPDATING = False
 """Used by all UIs in the current process to wait for each other to complete updating before continuing."""
+
+DOCUMENTS_PATH = ""
+"""The path to the documents folder of the user."""
+
+ETS2_LOG_PATH = ""
+"""The path to the ETS2 log file."""
+
+ATS_LOG_PATH = ""
+"""The path to the ATS log file."""
+
+ATS_DLC = []
+"""List of all ATS DLCs currently installed."""
+
+ETS2_DLC = []
+"""List of all ETS2 DLCs currently installed."""
+
+
+if os.name == "nt":
+    import ctypes.wintypes
+    _CSIDL_PERSONAL = 5       # My Documents
+    _SHGFP_TYPE_CURRENT = 0   # Get current, not default value
+    _buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
+    ctypes.windll.shell32.SHGetFolderPathW(None, _CSIDL_PERSONAL, None, _SHGFP_TYPE_CURRENT, _buf)
+    DOCUMENTS_PATH = f"{_buf.value}"
+    
+    DOCUMENTS_PATH = DOCUMENTS_PATH.replace('\\', '/')
+    ETS2_LOG_PATH = f"{DOCUMENTS_PATH}/Euro Truck Simulator 2/game.log.txt"
+    ATS_LOG_PATH = f"{DOCUMENTS_PATH}/American Truck Simulator/game.log.txt"
+else:
+    # TODO: No clue if this works.
+    DOCUMENTS_PATH = f"{os.path.expanduser('~')}/Documents"
+    ETS2_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/Euro Truck Simulator 2/game.log.txt"
+    ATS_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/American Truck Simulator/game.log.txt"    
+    
+    
+try:
+    with open(ATS_LOG_PATH, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            if "[hashfs] dlc_" in line:
+                dlc = line.split(".scs")[0].split("dlc_")[1]
+                dlc = "dlc_" + dlc
+                ATS_DLC.append(dlc)
+except: pass
+
+try:
+    with open(ETS2_LOG_PATH, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            if "[hashfs] dlc_" in line:
+                dlc = line.split(".scs")[0].split("dlc_")[1]
+                dlc = "dlc_" + dlc
+                ETS2_DLC.append(dlc)
+except: pass

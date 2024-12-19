@@ -4,6 +4,7 @@ from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
 from modules.SDKController.main import SCSController
 from ETS2LA.utils.translator import Translate
 from ETS2LA.utils.values import SmoothedValue
+import ETS2LA.Events.log_reader as log_reader
 from ETS2LA.frontend.immediate import dialog
 import ETS2LA.backend.controls as controls
 import ETS2LA.backend.backend as backend
@@ -18,7 +19,8 @@ import ETS2LA.backend.settings as settings
 
 API = API.Module("global")
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
-callbacks = []
+api_callbacks = []
+log_callbacks = []
 controller = SCSController()
 
 steering_threshold = settings.Get("global", "steering_threshold", 0.1)
@@ -42,20 +44,11 @@ class ToggleSteering():
             logging.exception("Error in ToggleSteering")
         
     def CheckForUserInput(self, data):
-        ...
-        #if self.steering:
-        #    app_braking = self.app_braking(controller.abackward)
-        #    game_braking = self.game_braking(data["truckFloat"]["userBrake"])
-        #    if game_braking == 1.111: game_braking = 0 # Virtual API in use
-        #    need_to_disable_via_braking = abs(app_braking - game_braking) > braking_threshold
-        #    if braking_threshold >= 0 and braking_threshold <= 1:
-        #        if need_to_disable_via_braking:
-        #            print("Braking: " + str(app_braking) + " - " + str(game_braking) + " = " + str(abs(app_braking - game_braking)))
-        #            self.ToggleSteering()
+        ... # This is a placeholder for the actual code that will be added later
                 
     def __init__(self):
         controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n")
-        callbacks.append(self.CheckForUserInput)
+        api_callbacks.append(self.CheckForUserInput)
         
 last_started_job = None # This is used to fill out the data for the Job events
 class JobStarted():
@@ -229,18 +222,108 @@ class VehicleChange():
             self.VehicleChange(data)
         
     def __init__(self):
-        callbacks.append(self.ApiCallback)
+        api_callbacks.append(self.ApiCallback)
+        
+class GameShutdown():
+    def GameShutdown(self, lines):
+        start_found = False
+        end_found = False
+        for line in lines:
+            if "[sys] running on" in line:
+                start_found = True
+            if "[sys] Process manager shutdown" in line:
+                end_found = True
+        
+        if end_found and not start_found:
+            backend.call_event('GameShutdown', None, {})
+            logging.info("Triggered event: GameShutdown")
+            SendPopup("Detected game shutdown", "info")
+            return
+    
+    def __init__(self):
+        log_callbacks.append(self.GameShutdown)
+        
+class GameStart():
+    def GameStart(self, lines):
+        start_found = False
+        end_found = False
+        for line in lines:
+            if "[sys] running on" in line:
+                start_found = True
+            if "[sys] Process manager shutdown" in line:
+                end_found = True
+                
+        if start_found and not end_found:
+            backend.call_event('GameStart', None, {})
+            logging.info("Triggered event: GameStart")
+            SendPopup("Detected game start", "info")
+    
+    def __init__(self):
+        log_callbacks.append(self.GameStart)
+        
+class DetectCrackedGame():
+    def DetectCrackedGame(self, lines):
+        identifier = "0000007E"
+        for line in lines:
+            if identifier in line:
+                backend.call_event('DetectCrackedGame', None, {})
+                logging.info("Triggered event: DetectCrackedGame")
+                class CrackedDialog(ETS2LADialog):
+                    def render(self):
+                        with Form():
+                            Title("Detected Cracked Game")
+                            Description("ETS2LA will not work on cracked games (or DLCs). Please purchase the game on steam. This is due to a limitation in the way the cracked games are made. We can't do anything about it.")
+                            Space(8)
+                            
+                        return RenderUI()
+                    
+                dialog(CrackedDialog().build())
+                return
+            
+    def __init__(self):
+        log_callbacks.append(self.DetectCrackedGame)
+        
+class DetourGenerated():
+    def DetourGenerated(self, lines):
+        identifier = "[detour] Detour generation started at item:"
+        for line in lines:
+            if identifier in line:
+                item = line.split(identifier)[1].strip()
+                backend.call_event('DetourGenerated', item, {})
+                logging.info("Triggered event: DetourGenerated({})".format(item))
+                SendPopup("Detour generated, original route might be invalid.", "warning")
+                return
+        
+    def __init__(self):
+        log_callbacks.append(self.DetourGenerated)
         
 # Start monitoring
 def ApiThread():
     while True:
         data = API.run()
-        for callback in callbacks:
+        for callback in api_callbacks:
             try:
                 callback(data)
             except:
                 logging.exception("Error in callback")
                 
+        time.sleep(0.1)
+        
+def LogThread():
+    first_time = True
+    while True:
+        new_lines = log_reader.update()
+        if first_time and len(new_lines) > 0:
+            first_time = False
+            logging.info("Log reader started")
+            SendPopup("Started reading game logs.", "info")
+            
+        for callback in log_callbacks:
+            try:
+                callback(new_lines)
+            except:
+                logging.exception("Error in callback")
+        
         time.sleep(0.1)
 
 def run():
@@ -252,6 +335,11 @@ def run():
     RefuelStarted()
     RefuelPayed()
     VehicleChange()
+    GameShutdown()
+    GameStart()
+    DetectCrackedGame()
+    DetourGenerated()
     
     threading.Thread(target=ApiThread, daemon=True).start()
+    threading.Thread(target=LogThread, daemon=True).start()
     logging.info("Event monitor started.")
