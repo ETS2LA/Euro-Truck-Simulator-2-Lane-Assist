@@ -29,5 +29,9 @@ model-cache
 .idea
 /plugins/ETS2LA-OpenShock-main
 
-# Ignore the Data Collection End-To-End Driving folder
+# VSCode
+.vscode
+
+# Ignore the Data Collection End-To-End Driving folder and the ID file
 /Data-Collection-End-To-End-Driving
+/End-To-End-Data-ID.txt

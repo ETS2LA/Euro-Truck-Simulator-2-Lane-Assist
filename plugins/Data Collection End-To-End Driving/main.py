@@ -2,15 +2,33 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
 
-PURPLE = "\033[95m"
+RED = "\033[91m"
 NORMAL = "\033[0m"
 
 
+def DeletePair(Name=""):
+    try:
+        os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(Name)}")
+    except:
+        pass
+    try:
+        os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(Name).replace('.json', '.png')}")
+    except:
+        pass    
+
+
 def CheckForUploads():
+    try:
+        Response = requests.get("https://cdn.ets2la.com/", timeout=3)
+        if Response.status_code != 200:
+            raise Exception("Couldn't connect to the server.")
+    except:
+        return
+
     CurrentTime = time.time()
     if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving") == False:
         os.mkdir(f"{variables.PATH}Data-Collection-End-To-End-Driving")
-    
+
     for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
         if str(File).endswith(".json") and str(File).replace(".json", ".png") not in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
             try:
@@ -29,68 +47,121 @@ def CheckForUploads():
             try:
                 with open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}", "r") as F:
                     Data = json.load(F)
-                    Time = float(Data["Time"])
-                    if Time + 604800 < CurrentTime:
-                        FilesReadyForUpload.append(str(File))
 
-                    # MARK: This can be removed in some days:
-                    if "Game" not in Data:
-                        1/0
+                Time = float(Data["Time"])
+                if Time + 604800 < CurrentTime:
+                    FilesReadyForUpload.append(str(File))
+
+                # MARK: This can be removed in a few days:
+                if "SessionID" not in Data:
+                    raise Exception("The data file is missing the 'SessionID' key. Can't upload the data.")
 
             except:
-                try:
-                    os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
-                except:
-                    pass
-                try:
-                    os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
-                except:
-                    pass
+                DeletePair(Name=File)
 
     for File in FilesReadyForUpload:
         try:
-            # MARK: Here the code for the uploading to the ets2la server
+            print(f"Uploading {File}...")
+            Files = [
+                ("files", open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}", "r")),
+                ("files", open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}", "rb"))
+            ]
+            Response = requests.post(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/upload/{DataID}", files=Files, timeout=30)
+            for F in Files:
+                F[1].close()
+            if "success" in Response.json():
+                DeletePair(Name=File)
+                print(f"Uploaded {File}!")
+        except:
+            DeletePair(Name=File)
 
-            # For now, just delete the files, because the cloud code is not ready yet
+
+def GetDataID():
+    import ETS2LA.variables as variables
+    import requests
+    import os
+    DataID = None
+    if os.path.exists(f"{variables.PATH}End-To-End-Data-ID.txt"):
+        try:
+            with open(f"{variables.PATH}End-To-End-Data-ID.txt", "r") as File:
+                Content = File.read()
+                DataID = Content.replace("\n", "").replace(" ", "").split(">")[0]
+        except:
             try:
-                os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+                os.remove(f"{variables.PATH}End-To-End-Data-ID.txt")
             except:
                 pass
-            try:
-                os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
-            except:
-                pass
-        except:
-            pass
+            DataID = None
+    if DataID == None:
         try:
-            os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+            Response = requests.get(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/get-id").json()
+            if "success" in Response:
+                DataID = Response["success"]
+            else:
+                raise Exception("Couldn't get an ID from the server.")
         except:
-            pass
-        try:
-            os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}")
-        except:
-            pass
+            print(f"\n{RED}Unable to do data collection, couldn't get an response from the server.  The plugin will disable itself.{NORMAL}\n")
+            return "None"
+        with open(f"{variables.PATH}End-To-End-Data-ID.txt", "w") as File:
+            File.write(DataID + """
+> DO NOT EDIT THIS FILE <
+This is the ID used to request the deletion of your data from the End-To-End Driving dataset.
+This ID is not public, you can request to delete all data that was collected with this ID by going to https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{your_data_id} or by deleting in the Data Collection End-To-End Driving plugin settings.
+If other people get this ID, they can request to delete your data. No personal information is saved with this ID.
+If you lose your data ID, you can't request to delete the data collected by you with that ID.
+Server side code can be found at https://github.com/ETS2LA/cdn""")
+    return DataID
 
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "Data Collection End-To-End Driving"
     
-    def DeleteAllData(self):
-        print("This is what is called when you press with this setup")
-        
+    def DeleteDataOnPC(self):
+        try:
+            import ETS2LA.variables as variables
+            import os
+            SendPopup("Deleting data, could take a while...")
+            if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
+                for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
+                    try:
+                        os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+                    except:
+                        pass
+            SendPopup("Data deleted successfully!")
+        except:
+            SendPopup("Couldn't delete the data.")
+
+    def DeleteDataOnServer(self):
+        try:
+            import requests
+            SendPopup("Deleting data, could take a while...")
+            Response = requests.get(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}", timeout=3)
+            if "success" in Response.json() and Response.status_code == 200:
+                SendPopup("Data deleted successfully!")
+            else:
+                SendPopup("Couldn't delete the data.")
+        except:
+            SendPopup("Couldn't delete the data.")
+
     def render(self):
         import ETS2LA.variables as variables
         Title("Data Collection End-To-End Driving")
         Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
         Link("-> View current datasets on Huggingface", "https://huggingface.co/Glas42/End-To-End/tree/main/files")
         Separator()
-        Label(f"• This plugin will send images of your game window with data like current steering angle or driving speed to our server.\n• If you play your game in windowed mode, the plugin will still only capture the game.\n• The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window.\n• Be aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before it will be uploaded to our server.")
+        Label(f"• This plugin will send images of your game window with data like current steering angle or driving speed to our server.\n• If you play your game in windowed mode, the plugin will still only capture the game.\n• The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window.\n• Be aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before it will be uploaded to our server.\nIf the data is already on the server, you can still delete the data if you still have the ID used to upload the data.\n\nNo personal information is saved with the ID.\nIf you lost your ID, you can't request to delete the data collected with that ID.\nIf other people have your ID, the only thing they can do with it is request to delete your data.")
         with Group("vertical", gap=4, padding=0):
             Label(f"The data will be saved for the 7 days in this folder on your PC:")
             Description(f"{variables.PATH}Data-Collection-End-To-End-Driving")
-        Label(f"If you want to delete the data, press the button below. You can also delete the files or the entire folder and they won't be uploaded to our server.")
-        Button("Delete", "Delete all data", self.DeleteAllData, description="Using this button will delete all data that we've gathered so far from your computer.")
+            Label(f"Your current ID is:")
+            Description(f"{GetDataID()}")
+            Label("Manual deletion can be requested by opening this URL in your browser:")
+            Description(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}")
+        Button("Delete", "Delete collected, not yet uploaded data", self.DeleteDataOnPC, description="This will delete all the data that was collected by the plugin but not yet uploaded to the server.")
+        Button("Delete", "Delete already uploaded data", self.DeleteDataOnServer, description="This will delete all the data that was collected by the plugin and already uploaded to the server.\nNot possible to delete all the data if the data ID got lost at some point and replaced with a new one.")
+        Separator()
+        Description("Server code can be found at https://github.com/ETS2LA/cdn")
         return RenderUI()
 
 
@@ -112,18 +183,24 @@ class Plugin(ETS2LAPlugin):
     settings_menu = SettingsMenu()
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, variables, datetime, json, math, time, cv2, os
+        global SCSTelemetry, ScreenCapture, variables, datetime, requests, json, math, time, cv2, os
 
         from modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import modules.BetterScreenCapture.main as ScreenCapture
         import ETS2LA.variables as variables
         import threading
         import datetime
+        import requests
+        import random
+        import string
         import json
         import math
         import time
         import cv2
         import os
+
+        global DataID
+        global SessionID
 
         global FOVValue
         global TruckSimAPI
@@ -131,9 +208,21 @@ class Plugin(ETS2LAPlugin):
         global LastCaptureTime
         global LastCaptureLocation
 
+
+        # This ID is not public, you can request to delete all data that was collected with this ID by going to https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{your_data_id}
+        # If other people get this ID, they can request to delete your data. No personal information is saved with this ID.
+        # If you lose your data ID, you can't request to delete the data collected by you with that ID.
+        # Server side code can be found at https://github.com/ETS2LA/cdn
+        DataID = GetDataID()
+
+
+        # This ID is saved with the data publicly, it's used to make sorting data easier
+        SessionID = str("".join(random.choices(str(string.ascii_letters + string.digits + "-_"), k=15)))
+
+
         FOVValue = self.globals.settings.FOV
         if FOVValue == None:
-            print(f"\n{PURPLE}Make sure to set the FOV in the settings for the 'Data Collection End-To-End Driving' plugin! The plugin will disable itself.{NORMAL}\n")
+            print(f"\n{RED}Make sure to set the FOV in the settings for the 'Data Collection End-To-End Driving' plugin! The plugin will disable itself.{NORMAL}\n")
             self.terminate()
 
         TruckSimAPI = SCSTelemetry()
@@ -245,8 +334,9 @@ class Plugin(ETS2LAPlugin):
         Data = {
             "Time": CurrentTime,
             "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "Game": GameValue,
+            "SessionID": SessionID,
             "FOVValue": FOVValue,
+            "GameValue": GameValue,
             "SpeedValue": SpeedValue,
             "SpeedLimitValue": SpeedLimitValue,
             "CruiseControlEnabledValue": CruiseControlEnabledValue,
