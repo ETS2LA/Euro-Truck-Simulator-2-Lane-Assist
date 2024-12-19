@@ -312,7 +312,7 @@ def CheckForUpdates(Model):
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
                                 ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
-                                Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%\nETA: {ETA}", Progress=Progress)
+                                Popup(Model=Model, Text=f"Downloading the model:\n{round(Progress)}% - ETA: {ETA}", Progress=Progress)
                         Popup(Model=Model, Text="Successfully updated the model!", Progress=100)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
@@ -348,7 +348,7 @@ def CheckForUpdates(Model):
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
                                 ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
-                                Popup(Model=Model, Text=f"Downloading the model: {round(Progress)}%\nETA: {ETA}", Progress=Progress)
+                                Popup(Model=Model, Text=f"Downloading the model:\n{round(Progress)}% - ETA: {ETA}", Progress=Progress)
                         Popup(Model=Model, Text="Successfully updated the model!", Progress=100)
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
