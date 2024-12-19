@@ -1,6 +1,8 @@
+from ETS2LA.UI.utils import SendPopup
 from ETS2LA.backend import settings
 from ETS2LA.UI import *
 
+from modules.SDKController.main import SCSController
 from ETS2LA.utils.translator import Translate
 import ETS2LA.utils.translator as translator
 import time
@@ -30,6 +32,20 @@ class Page(ETS2LAPage):
     dynamic = True
     url = "/about"
     settings_target = "about"
+    
+    def fix_wipers(self):
+        print("Fixing wipers (5s timer)")
+        controller = SCSController()
+        start_time = time.time()
+        while time.time() - start_time < 5:
+            SendPopup(f"Fixing wipers in {5 - int(time.time() - start_time)} seconds...", "info")
+            time.sleep(1)
+        controller.wipers0 = True
+        time.sleep(0.5)
+        controller.wipers0 = False
+        print("Wipers should be fixed now.")
+        SendPopup("Wipers should be fixed now.", "success")
+        
     
     def render(self):
         with Geist():
@@ -76,5 +92,10 @@ class Page(ETS2LAPage):
                         with Group("vertical", gap=6, padding=0):
                             Description(Translate("about.translate_description"))
                             Link("  Discord", "https://discord.gg/ETS2LA")
+                            
+                    Space(12)
+                    with Group("vertical", padding=0, gap=16):
+                        Title("Utils")
+                        Button("Activate", "Fix wipers", self.fix_wipers, description="Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.")
                     
         return RenderUI()

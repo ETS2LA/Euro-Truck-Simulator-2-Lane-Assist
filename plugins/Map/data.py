@@ -109,7 +109,7 @@ elevation_data_sent = False
 update_navigation_plan = False
 """Whether we should calculate a new plan to drive to the destination."""
 
-
+# MARK: Update functions
 def UpdateData(api_data):
     global heavy_calculations_this_frame
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation

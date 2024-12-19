@@ -21,6 +21,9 @@ def page_function_call(page_name: str, function_name: str, *args, **kwargs):
         module = importlib.import_module(module_name)
         importlib.reload(module)
     
+    if args == ([], {}):
+        args = []
+    
     page = module.Page()
     page.build()
     function = getattr(page, function_name)
