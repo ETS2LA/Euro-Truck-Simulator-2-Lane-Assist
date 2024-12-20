@@ -12,8 +12,8 @@ import asyncio
 import time
 
 steps = [
-    {"name": "Save", "command": ""},
-    {"name": "Update", "command": ""},
+    {"name": "Save", "command": "git stash"},
+    {"name": "Update", "command": "git pull"},
     {"name": "Requirements", "command": "pip install -r requirements.txt"},
     {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'},
     {"name": "Frontend", "command": "cd frontend && npm install && npm run build"}
