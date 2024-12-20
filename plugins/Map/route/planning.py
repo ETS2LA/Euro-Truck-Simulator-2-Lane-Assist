@@ -546,6 +546,42 @@ def UpdateRoutePlan():
         if len(data.route_plan) == 0:
             return
             
+        # Check for lane changes
+        cur = data.route_plan[0]
+        if type(cur.items[0].item) in [c.Road, c.RoadSection]:
+            try: start_index = data.navigation_plan.index(cur.start_node) 
+            except: start_index = 0
+            try: end_index = data.navigation_plan.index(cur.end_node)
+            except: end_index = 0
+            index = max(start_index, end_index)
+            
+            try:
+                next_node = data.navigation_plan[index + 3] # + 3 to make it work at offramps too (road end (0) -> offramp start (+1) -> offramp road (+2) -> offramp end (+3))
+            except:
+                next_node = None
+                
+            if next_node is not None:
+                closest_index = rh.get_closest_lane(cur.items[-1].item, next_node.x, next_node.y)
+                current_index = data.route_plan[0].lane_index
+                lanes = data.route_plan[0].items[0].item.lanes
+                side = lanes[current_index].side
+                left_lanes = len([lane for lane in lanes if lane.side == "left"])
+                
+                # Apply lane change
+                if closest_index < current_index:
+                    if side == "right":
+                        data.route_plan[0].lane_index = left_lanes
+                    if side == "left":
+                        data.route_plan[0].lane_index = 0
+                if closest_index > current_index:
+                    if side == "left":
+                        data.route_plan[0].lane_index = left_lanes - 1
+                    if side == "right":
+                        data.route_plan[0].lane_index = len(lanes) - 1
+                
+                # Reset
+                data.route_plan = [data.route_plan[0]]
+            
         if len(data.route_plan) < data.route_plan_length:
             try:
                 next_route_section = GetNextNavigationItem()
