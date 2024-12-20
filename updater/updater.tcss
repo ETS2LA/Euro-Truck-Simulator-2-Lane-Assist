@@ -1,0 +1,49 @@
+Screen {
+    layout: horizontal;
+}
+
+Header {
+    background: $background;
+    border: solid gray;
+    height: 3
+}
+
+HeaderClock {
+    background: $background;
+}
+
+.sidebar {
+    width: 20;
+    height: 1fr;
+    border: solid gray;
+    align: left top;
+    padding-left: 1;
+}
+
+.box {
+    width: 1fr;
+    height: 1fr;
+    border: solid gray;
+}
+
+.log {
+    background: black;
+    overflow-x: hidden;
+}
+
+.done {
+    color: white;
+}
+
+.doing {
+    color: yellow;
+}
+
+.not-done {
+    color: gray;
+}
+
+.error {
+    color: red;
+    background: $background;
+}

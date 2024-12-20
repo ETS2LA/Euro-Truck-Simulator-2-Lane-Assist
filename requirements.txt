@@ -20,6 +20,7 @@ bettercam
 keyboard
 requests
 norfair
+textual
 ipython
 pywin32
 fastapi
