@@ -418,29 +418,35 @@ def GetCurrentNavigationPlan():
 def GetNextNavigationItem():
     last_item = data.route_plan[-1]
     last_points = last_item.lane_points
+    end_node = last_item.end_node
+    start_node = last_item.start_node
     
-    start_in_front = math_helpers.IsInFront((last_points[0].x, last_points[0].z), data.truck_rotation, (data.truck_x, data.truck_z))
-    end_in_front = math_helpers.IsInFront((last_points[-1].x, last_points[-1].z), data.truck_rotation, (data.truck_x, data.truck_z))
+    start_in_front = math_helpers.IsInFront((start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+    end_in_front = math_helpers.IsInFront((end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+    
+    selected_node = None
     
     if start_in_front and not end_in_front:
+        selected_node = start_node
         last_points = last_points[::-1]
+    elif end_in_front and not start_in_front:
+        selected_node = end_node
         
     if start_in_front and end_in_front:
-        start_distance = math_helpers.DistanceBetweenPoints((last_points[0].x, last_points[0].z), (data.truck_x, data.truck_z))
-        end_distance = math_helpers.DistanceBetweenPoints((last_points[-1].x, last_points[-1].z), (data.truck_x, data.truck_z))
-        if end_distance < start_distance:
-            last_points = last_points[::-1]
+        return None
     
     path = data.navigation_plan
-    distance_ordered = sorted(path, key=lambda node: math_helpers.DistanceBetweenPoints((node.x, node.y), (last_points[-1].x, last_points[-1].z)))
-    
-    closest = distance_ordered[0]
-    index = path.index(closest)
-    
-    try:
-        next = path[index + 1]
+    try: index = path.index(selected_node)
     except:
+        logging.warning("Failed to find selected node in path")
         return None
+    
+    try: next = path[index + 1]
+    except:
+        logging.warning("Failed to get next node in path (probably because the navigation has ended)")
+        return None
+    
+    closest = path[index]
     
     dir = "forward"
     if closest.forward_item_uid == next.backward_item_uid:
@@ -529,7 +535,6 @@ def UpdateRoutePlan():
     else: # We have a navigation plan that we can drive on.
         if len(data.route_plan) == 0:
             data.route_plan.append(GetCurrentNavigationPlan())
-            # TODO: Check if off the path (distance > 10)
             
         if data.route_plan[0] is None:
             data.route_plan = []
