@@ -1,9 +1,11 @@
-git+https://github.com/rodjjo/filterpy.git
+# norfair @ git+https://github.com/Tumppi066/norfair@8f34b5ac523f6dcda5032c0d6d94c88e360998c6
+# filterpy @ git+https://github.com/rodjjo/filterpy.git
 opencv-contrib-python
 ultralytics>=8.3.47
 websockets==13.1
 tkinter-tooltip
 windows-capture==1.3.6; platform_system == "Windows"
+textual==1.0.0
 beautifulsoup4
 pywebview==5.1
 opencv-python
@@ -19,8 +21,6 @@ dearpygui
 bettercam
 keyboard
 requests
-norfair
-textual
 ipython
 pywin32
 fastapi
