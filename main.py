@@ -532,18 +532,30 @@ def CheckForONNXRuntimeChange():
     global splash
     change = settings.GetSettings("SwitchLaneDetectionDevice", "switchTo")
     if change != None:
-        if not splash or splash == None:
-            splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
-            splash.updateProgress(text="Initializing...", step=1)
+        try:
+            if not splash or splash == None:
+                splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+                splash.updateProgress(text="Initializing...", step=1)
+        except:
+            try:
+                splash = helpers.SplashScreen(mainUI.root, totalSteps=4)
+                splash.updateProgress(text="Initializing...", step=1)
+            except:
+                pass
+            
         if change == "GPU":
-            splash.updateProgress(text="Uninstalling ONNX...")
+            try: splash.updateProgress(text="Uninstalling ONNX...")
+            except: pass
             os.system("pip uninstall onnxruntime -y")
-            splash.updateProgress(text="Installing ONNX GPU...")
+            try: splash.updateProgress(text="Installing ONNX GPU...")
+            except: pass
             os.system("pip install onnxruntime-gpu")
         else:
-            splash.updateProgress(text="Uninstalling ONNX GPU...")
+            try: splash.updateProgress(text="Uninstalling ONNX GPU...")
+            except: pass
             os.system("pip uninstall onnxruntime-gpu -y")
-            splash.updateProgress(text="Installing ONNX...")
+            try: splash.updateProgress(text="Installing ONNX...")
+            except: pass
             os.system("pip install onnxruntime")
             
     settings.CreateSettings("SwitchLaneDetectionDevice", "switchTo", None)
