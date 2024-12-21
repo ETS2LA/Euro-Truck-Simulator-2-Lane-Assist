@@ -53,8 +53,10 @@ def CheckForMaliciousPackages():
 needed_version = "2.2.1"
 try:
     if version("norfair") < needed_version:
+        print("Please wait, we need to install the correct version of norfair...")
         os.system("pip install git+https://github.com/Tumppi066/norfair.git")
 except:
+    print("Please wait, we need to install the correct version of norfair...")
     os.system("pip install git+https://github.com/Tumppi066/norfair.git")
 
 needed_version = "1.4.5"
