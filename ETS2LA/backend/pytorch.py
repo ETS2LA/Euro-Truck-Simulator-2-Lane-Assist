@@ -321,7 +321,7 @@ def CheckForUpdates(Model):
                     settings.Set("PyTorch", f"{Model}-LastUpdateCheck", time.time())
 
                 elif ETS2LAResponse == 200:
-                    Url = f'https://cdn.ets2la.com/models/{MODELS[Model]["ModelOwner"]}/{Model}'
+                    Url = f'https://cdn.ets2la.com/models/{MODELS[Model]["ModelOwner"]}/{Model}/model'
                     Response = requests.get(Url).json()
 
                     LatestModel = None
@@ -338,7 +338,7 @@ def CheckForUpdates(Model):
                         print(DARK_GREY + f"[{Model}] " + GREEN + "Updating the model..." + NORMAL + " (Limited Download Speed)")
                         Delete(Model)
                         StartTime = time.time()
-                        Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Model]["ModelOwner"]}/{Model}/download', stream=True, timeout=15)
+                        Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Model]["ModelOwner"]}/{Model}/model/download', stream=True, timeout=15)
                         with open(os.path.join(MODELS[Model]["Path"], f"{LatestModel}"), "wb") as ModelFile:
                             TotalSize = int(Response.headers.get('content-length', 1))
                             DownloadedSize = 0
