@@ -280,7 +280,6 @@ def CheckForUpdates(Identifier):
                     HuggingFaceResponse = requests.get("https://huggingface.co/", timeout=3)
                     HuggingFaceResponse = HuggingFaceResponse.status_code
                     ETS2LAResponse = None
-                    1/0
                 except:
                     try:
                         ETS2LAResponse = requests.get("https://cdn.ets2la.com/", timeout=3)
