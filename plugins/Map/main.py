@@ -311,8 +311,15 @@ class Plugin(ETS2LAPlugin):
                 self.globals.tags.next_intersection_distance = data.route_plan[1].distance_left()
             else:
                 self.globals.tags.next_intersection_distance = 1
+                
+            if type(data.route_plan[0].items[0].item) == c.Road:
+                self.globals.tags.road_type = "highway" if "hw" in data.route_plan[0].items[0].item.road_look.name else "normal"
+            else:
+                self.globals.tags.road_type = "normal"
+                
         else:
             self.globals.tags.next_intersection_distance = 1
+            self.globals.tags.road_type = "none"
 
         self.globals.tags.target_speed = max_speed
 

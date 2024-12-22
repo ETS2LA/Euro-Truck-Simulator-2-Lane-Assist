@@ -1,6 +1,7 @@
 import ETS2LA.variables as variables
 import ETS2LA.backend.settings as settings
 import colorsys  
+import logging
 import time
 import mss
 import os
@@ -88,7 +89,8 @@ def ColorTitleBar(theme:str="dark"):
         returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
         import ETS2LA.frontend.webpageExtras.utils as utils
         utils.set_window_icon('ETS2LA/frontend/webpageExtras/favicon.ico')
-        if time.time() - sinceStart > 5:
+        if time.time() - sinceStart > 10:
+            logging.warning("Couldn't find / start the ETS2LA window.")
             break
 
 def CheckIfWindowStillOpen():

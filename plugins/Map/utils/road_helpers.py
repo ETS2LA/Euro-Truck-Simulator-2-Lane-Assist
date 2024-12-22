@@ -77,30 +77,34 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
             direction_vector = normalize(direction_vector)
             perp_vector = perpendicular_vector(direction_vector)
 
-            if num_left_lanes == 0:
+            if num_left_lanes == 0: # lanes on only right side
                 custom_offset = 999
                 middle_offset = -perp_vector * lane_width * num_right_lanes / 2
                 if num_right_lanes % 2 == 0:
                     middle_offset -= perp_vector * lane_width / 2
                 point1 -= middle_offset
                 point2 -= middle_offset
-            elif num_right_lanes == 0:
+                
+            elif num_right_lanes == 0: # lanes on only left side
                 custom_offset = 999
                 middle_offset = perp_vector * lane_width * num_left_lanes / 2
                 if num_right_lanes % 2 == 0:
                     middle_offset += perp_vector * lane_width / 2
                 point1 -= middle_offset
                 point2 -= middle_offset
-            elif num_left_lanes > num_right_lanes:
-                middle_offset = perp_vector * lane_width * (num_left_lanes + 1 - num_right_lanes) / 2
-                point1 -= middle_offset
-                point2 -= middle_offset
-            elif num_right_lanes > num_left_lanes:
-                middle_offset = -perp_vector * lane_width * (num_right_lanes + 1 - num_left_lanes) / 2
-                point1 -= middle_offset
-                point2 -= middle_offset
+                
+            # elif num_left_lanes > num_right_lanes: # more lanes on left side
+            #     #               sideways    * 4.5        * (2              + 1 - 1              ) / 2 
+            #     middle_offset = perp_vector * lane_width * (num_left_lanes + 1 - num_right_lanes) / 2
+            #     point1 -= middle_offset
+            #     point2 -= middle_offset
+            #     
+            # elif num_right_lanes > num_left_lanes: # more lanes on right side
+            #     middle_offset = -perp_vector * lane_width * (num_right_lanes + 1 - num_left_lanes) / 2
+            #     point1 -= middle_offset
+            #     point2 -= middle_offset
 
-            for lane in range(num_left_lanes):
+            for lane in range(num_left_lanes): # left lanes
                 if custom_offset == 999 or (num_left_lanes == 1 and num_right_lanes == 0):
                     offset = perp_vector * (lane_width * (lane + 1))
                 else:
@@ -112,7 +116,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
                 if i == len(points) - 2:
                     lanes['left'][lane].append(left_point2.tolist())
 
-            for lane in range(num_right_lanes):
+            for lane in range(num_right_lanes): # right lanes
                 if custom_offset == 999 or (num_left_lanes == 0 and num_right_lanes == 1):
                     offset = perp_vector * (lane_width * (lane + 1))
                 else:

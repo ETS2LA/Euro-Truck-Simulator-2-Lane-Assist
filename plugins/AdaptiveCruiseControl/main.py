@@ -291,9 +291,18 @@ class Plugin(ETS2LAPlugin):
             self.last_target_speed = targetSpeed
             self.last_target_speed_time = time.time() 
             
-        if targetSpeed != 0:
+        if targetSpeed > 0:
             targetSpeed += 0.5 / 3.6
-                
+        else:
+            road_type = self.globals.tags.road_type
+            road_type = self.globals.tags.merge(road_type)
+            if road_type == "normal":
+                targetSpeed = 30 / 3.6
+            elif road_type == "highway":
+                targetSpeed = 80 / 3.6
+            else:
+                targetSpeed = 0
+                    
         return targetSpeed
 
     def RedLightExists(self) -> bool:

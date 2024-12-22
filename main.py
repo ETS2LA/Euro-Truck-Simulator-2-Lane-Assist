@@ -49,6 +49,24 @@ def CheckForMaliciousPackages():
             cloud.SendCrashReport(package, "Update malicious package error.", traceback.format_exc())
             print(RED + f"Unable to check the version of the '{package}' package. Please update your '{package}' package manually if you have one of these versions installed: {malicious_packages[package]}" + NORMAL)
 
+# Fix norfair and filterpy
+needed_version = "2.2.1"
+try:
+    if version("norfair") < needed_version:
+        print("Please wait, we need to install the correct version of norfair...")
+        os.system("pip install git+https://github.com/Tumppi066/norfair.git")
+except:
+    print("Please wait, we need to install the correct version of norfair...")
+    os.system("pip install git+https://github.com/Tumppi066/norfair.git")
+
+needed_version = "1.4.5"
+try:
+    if version("filterpy") < needed_version:
+        os.system("pip install git+https://github.com/rodjjo/filterpy.git")
+except:
+    os.system("pip install git+https://github.com/rodjjo/filterpy.git")
+
+
 def CloseNode():
     if os.name == "nt":
         os.system("taskkill /F /IM node.exe > nul 2>&1")
