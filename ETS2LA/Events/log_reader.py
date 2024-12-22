@@ -18,7 +18,7 @@ ats_lines = []
 def update_logs(game: Literal["ets2", "ats"]):
     global ets2_lines, ats_lines
     if game == "ets2":
-        with open(ets2_path, "r") as f:
+        with open(ets2_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
             if len(lines) < len(ets2_lines):
                 ets2_lines = lines
@@ -29,7 +29,7 @@ def update_logs(game: Literal["ets2", "ats"]):
             return new_lines
             
     elif game == "ats":
-        with open(ats_path, "r") as f:
+        with open(ats_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
             if len(lines) < len(ats_lines):
                 ats_lines = lines
