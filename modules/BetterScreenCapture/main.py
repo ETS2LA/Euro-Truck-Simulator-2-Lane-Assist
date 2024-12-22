@@ -331,10 +331,11 @@ def GetRouteAdvisorPosition(Side="Automatic"):
         global RouteAdvisorZoomCorrect
         global RouteAdvisorTabCorrect
 
-        if "RouteAdvisorClassification" not in pytorch.MODELS:
-            pytorch.Initialize(Owner="Glas42", Model="RouteAdvisorClassification")
-            pytorch.Load("RouteAdvisorClassification")
-        if pytorch.Loaded("RouteAdvisorClassification") == False:
+        if pytorch.IsInitialized(Model="RouteAdvisorClassification", Folder="model") == False:
+            global Identifier
+            Identifier = pytorch.Initialize(Owner="Glas42", Model="RouteAdvisorClassification", Folder="model")
+            pytorch.Load(Identifier)
+        if pytorch.Loaded(Identifier) == False:
             return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
 
         Outputs = []
@@ -343,31 +344,31 @@ def GetRouteAdvisorPosition(Side="Automatic"):
                 return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
             if Image.shape[1] <= 0 or Image.shape[0] <= 0:
                 return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
-            if pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'Binarize':
+            if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
                 Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-            if pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'RG':
+            if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
                 Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-            elif pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'GB':
+            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
                 Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-            elif pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'RB':
+            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
                 Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-            elif pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'R':
+            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
                 Image = Image[:, :, 0]
                 Image = np.expand_dims(Image, axis=2)
-            elif pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'G':
+            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
                 Image = Image[:, :, 1]
                 Image = np.expand_dims(Image, axis=2)
-            elif pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'B':
+            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
                 Image = Image[:, :, 2]
                 Image = np.expand_dims(Image, axis=2)
-            Image = cv2.resize(Image, (pytorch.MODELS["RouteAdvisorClassification"]["IMG_WIDTH"], pytorch.MODELS["RouteAdvisorClassification"]["IMG_HEIGHT"]))
+            Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
             Image = Image / 255.0
-            if pytorch.MODELS["RouteAdvisorClassification"]["IMG_CHANNELS"] == 'Binarize':
+            if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
                 Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS["RouteAdvisorClassification"]["Device"])
+            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
             with pytorch.torch.no_grad():
-                Output = np.array(pytorch.MODELS["RouteAdvisorClassification"]["Model"](Image)[0].tolist())
+                Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
             Outputs.append(Output)
 
         RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"

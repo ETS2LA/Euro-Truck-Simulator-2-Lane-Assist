@@ -87,6 +87,8 @@ class Plugin(ETS2LAPlugin):
         global LastScreenCaptureCheck
         global SteeringHistory
 
+        global Identifier
+
         global SDKController
         global TruckSimAPI
 
@@ -101,8 +103,8 @@ class Plugin(ETS2LAPlugin):
         LastScreenCaptureCheck = 0
         SteeringHistory = []
 
-        pytorch.Initialize(Owner="Glas42", Model="End-To-End", Self=self)
-        pytorch.Load("End-To-End")
+        Identifier = pytorch.Initialize(Owner="Glas42", Model="End-To-End", Folder="model", Self=self)
+        pytorch.Load(Identifier)
 
         SDKController = SCSController()
         TruckSimAPI = SCSTelemetry()
@@ -131,7 +133,7 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
 
-        if pytorch.Loaded("End-To-End") == False: time.sleep(0.1); return
+        if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
 
         if LastScreenCaptureCheck + 0.5 < time.time():
             X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
@@ -289,28 +291,28 @@ class Plugin(ETS2LAPlugin):
 
 
         Image = np.array(Frame, dtype=np.float32)
-        if pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'Binarize':
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
             Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-        if pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'RG':
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
             Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-        elif pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'GB':
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
             Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-        elif pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'RB':
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
             Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-        elif pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'R':
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
             Image = Image[:, :, 0]
             Image = np.expand_dims(Image, axis=2)
-        elif pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'G':
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
             Image = Image[:, :, 1]
             Image = np.expand_dims(Image, axis=2)
-        elif pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'B':
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
             Image = Image[:, :, 2]
             Image = np.expand_dims(Image, axis=2)
-        Image = cv2.resize(Image, (pytorch.MODELS["End-To-End"]["IMG_WIDTH"], pytorch.MODELS["End-To-End"]["IMG_HEIGHT"]))
+        Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
         Image = Image / 255.0
-        if pytorch.MODELS["End-To-End"]["IMG_CHANNELS"] == 'Binarize':
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
             Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
-        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS["End-To-End"]["Device"])
+        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
 
 
         EnableKeyPressed = keyboard.is_pressed(EnableKey)
@@ -318,12 +320,12 @@ class Plugin(ETS2LAPlugin):
             Enabled = not Enabled
         LastEnableKeyPressed = EnableKeyPressed
 
-        Output = [[0] * pytorch.MODELS["End-To-End"]["OUTPUTS"]]
+        Output = [[0] * pytorch.MODELS[Identifier]["OUTPUTS"]]
 
         if Enabled == True:
-            if pytorch.MODELS["End-To-End"]["ModelLoaded"] == True:
+            if pytorch.MODELS[Identifier]["ModelLoaded"] == True:
                 with pytorch.torch.no_grad():
-                    Output = pytorch.MODELS["End-To-End"]["Model"](Image)
+                    Output = pytorch.MODELS[Identifier]["Model"](Image)
                     Output = Output.tolist()
 
         Steering = float(Output[0][0]) / -20
