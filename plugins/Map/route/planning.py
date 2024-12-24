@@ -548,7 +548,7 @@ def UpdateRoutePlan():
             
         # Check for lane changes
         cur = data.route_plan[0]
-        if type(cur.items[0].item) in [c.Road, c.RoadSection]:
+        if type(cur.items[0].item) in [c.Road]:
             try: start_index = data.navigation_plan.index(cur.start_node) 
             except: start_index = 0
             try: end_index = data.navigation_plan.index(cur.end_node)
