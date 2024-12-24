@@ -1002,23 +1002,6 @@ class Road(BaseItem):
         }
 
 
-class RoadSection(Road):
-    """A section of road with DLC information."""
-
-    def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int,
-                 hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str,
-                 length: float, maybe_divided: bool | None, dlc: str | None = None):
-        super().__init__(uid, x, y, sector_x, sector_y, dlc_guard, hidden, road_look_token,
-                        start_node_uid, end_node_uid, length, maybe_divided)
-        self.dlc = dlc
-
-    def json(self) -> dict:
-        return {
-            **super().json(),
-            "dlc": self.dlc
-        }
-
-
 class MapArea(BaseItem):
     dlc_guard: int
     draw_over: bool | None

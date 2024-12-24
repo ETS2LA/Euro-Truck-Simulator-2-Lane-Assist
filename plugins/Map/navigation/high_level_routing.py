@@ -5,7 +5,6 @@ from ..classes import Node, Position, Road, Prefab
 from ..utils.math_helpers import DistanceBetweenPoints
 import plugins.Map.data as data
 import logging
-from .dlc_guard import DLCGuard
 from .enhanced_queue import EnhancedPriorityQueue
 
 # High-level routing module
@@ -25,17 +24,8 @@ class RouteNode:
 class HighLevelRouter:
     def __init__(self, map_data=None):
         """Initialize the router with default DLC settings."""
-        self.dlc_guard = DLCGuard(['base'])  # Start with base game only
-        self.enabled_dlc_guards: Set[int] = {-1}  # Default DLC guard is always enabled
         self.map_data = map_data or data.map
 
-    def set_enabled_dlc_guards(self, dlc_guards: Set[int]) -> None:
-        """Set the enabled DLC guards."""
-        self.enabled_dlc_guards = dlc_guards | {-1}  # Always include default guard
-        # Update DLCGuard with corresponding DLC names
-        dlc_mapping = {0: 'base', 1: 'scandinavia', 2: 'italia', 3: 'baltic', 4: 'black_sea', 5: 'iberia'}
-        enabled_dlcs = ['base'] + [dlc_mapping[guard] for guard in dlc_guards if guard in dlc_mapping]
-        self.dlc_guard = DLCGuard(enabled_dlcs)
 
     def _heuristic(self, node: Node, goal: Node, mode: str = 'shortest') -> float:
         """Calculate heuristic distance between nodes."""
@@ -60,7 +50,7 @@ class HighLevelRouter:
 
         def process_road(road: Road, next_node: Node) -> Optional[Tuple[float, int]]:
             """Process a road and return cost and DLC guard if valid."""
-            if not self.dlc_guard.is_road_allowed(road) or getattr(road, 'hidden', False):
+            if getattr(road, 'hidden', False):
                 return None
 
             base_cost = road.length
