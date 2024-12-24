@@ -40,7 +40,7 @@ class Page(ETS2LAPage):
         with Padding(0):
             with Geist():
                 with Group("horizontal", gap=4, padding=8, classname="flex w-full border shadow-md"):
-                    with Tooltip(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```", classname="bg-sidebar text-muted-foreground border"):
+                    with Tooltip(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```", classname="bg-[#1e1e1e] text-muted-foreground border"):
                         Description(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", size="xs")
                     process_mem, per_type = self.get_all_python_process_mem_usage_percent()
                     tooltip_text = f"```\n┏ Python: {round(per_type[0] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
@@ -50,7 +50,7 @@ class Page(ETS2LAPage):
                     tooltip_text += f"┣ Node: {round(per_type[1] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
                     tooltip_text += "┃\n"
                     tooltip_text += f"┗ Total: {round(process_mem * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n```"
-                    with Tooltip(tooltip_text, classname="bg-sidebar text-muted-foreground border"):
+                    with Tooltip(tooltip_text, classname="bg-sidebar text-muted-foreground border bg-[#1e1e1e]"):
                         Description(f"<- {round(process_mem, 1)}% ETS2LA", size="xs")
                     
         return RenderUI()

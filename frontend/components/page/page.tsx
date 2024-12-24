@@ -202,7 +202,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		return <a href={data.url} className={weights[data.options.weight] + " text-accent-foreground " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}} target="_blank">{translate(data.text)}</a>
 	}
 
-	function MarkdownRenderer(data: string) {
+	function MarkdownRenderer(data: string, no_padding?: boolean) {
 	  return (
 		<Markdown
 		  components={{
@@ -230,7 +230,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 					language={lang}
 					style={vscDarkPlus}
 					customStyle={{
-					  margin: '1rem 0',
+					  margin: (no_padding ? '0 0' : '1rem 0'),
 					  padding: '1rem',
 					  borderRadius: '0.5rem',
 					  fontSize: '0.75rem',
@@ -591,7 +591,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 							{PageRenderer(key_data.components)}
 						</TooltipTrigger>
 						<TooltipContent className={key_data.classname} style={{whiteSpace: "pre-wrap"}}>
-							{MarkdownRenderer(key_data.text)}
+							{MarkdownRenderer(key_data.text, true)}
 						</TooltipContent>
 					</Tooltip>
 				)
