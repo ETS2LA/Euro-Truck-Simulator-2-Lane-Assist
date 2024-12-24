@@ -7,7 +7,6 @@ from plugins.Map.navigation.node_pathfinding import NodePathfinder
 from plugins.Map.utils.internal_map import DrawMap
 from plugins.Map.navigation.visualization import visualize_route
 from plugins.Map.navigation.classes import *
-from plugins.Map.navigation.high_level_routing import HighLevelRouter
 
 import plugins.Map.utils.prefab_helpers as prefab_helpers
 import plugins.Map.utils.road_helpers as road_helpers

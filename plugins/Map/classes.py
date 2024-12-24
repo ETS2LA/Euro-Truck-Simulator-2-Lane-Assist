@@ -8,7 +8,6 @@ import math
 # Import dictionary utilities with fallback to mocks for testing
 from ETS2LA.utils.dictionaries import get_nested_item, set_nested_item
 
-from plugins.Map.utils.dlc_guard import check_dlc_access
 from plugins.Map.utils import prefab_helpers
 from plugins.Map.utils import math_helpers
 from plugins.Map.utils import road_helpers
@@ -868,14 +867,6 @@ class Road(BaseItem):
     _lanes: list[Lane] = []
     _points: list[Position] = None
 
-    def check_dlc_access(self) -> bool:
-        """Check if this road's DLC is accessible."""
-        try:
-            return check_dlc_access(self.dlc_guard)
-        except Exception as e:
-            logging.error(f"Failed to check DLC access for road {self.uid}: {e}")
-            return False
-
     def parse_strings(self):
         # Only parse UIDs if they don't contain 'prefab_' prefix
         if not str(self.uid).startswith('prefab_'):
@@ -958,15 +949,6 @@ class Road(BaseItem):
     @property
     def points(self) -> list[Position]:
         if self._points is None:
-            # Check DLC access and hidden status before generating points
-            # if self.hidden:
-            #     logging.debug(f"Road {self.uid} is hidden, skipping point generation")
-            #     return []
-            
-            # if not check_dlc_access(self.dlc_guard):
-            #     logging.debug(f"Road {self.uid} DLC not accessible, skipping point generation")
-            #     return []
-            
             self._points = self.generate_points()
             data.heavy_calculations_this_frame += 1
 

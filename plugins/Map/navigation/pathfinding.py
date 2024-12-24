@@ -2,7 +2,6 @@
 from typing import List, Optional, Tuple, Dict
 from plugins.Map.classes import Node, Road, Prefab, Position
 from plugins.Map.utils.data_reader import ReadRoads, ReadNodes, ReadPrefabs
-from plugins.Map.utils.dlc_guard import check_dlc_access
 import heapq
 import logging
 
@@ -77,7 +76,7 @@ class PathFinder:
 
         # Process prefabs
         for prefab in self.prefabs:
-            if prefab.hidden or not check_dlc_access(prefab.dlc_guard):
+            if prefab.hidden:
                 continue
 
             # Connect all nodes in the prefab
@@ -129,8 +128,6 @@ class PathFinder:
             return False
 
         return dlc_name in self.enabled_dlcs
-
-        return check_dlc_access(road.dlc_guard)
 
     def _calculate_cost(self, road: Road, mode: str = "fastest", current_node: Optional[RouteNode] = None) -> float:
         """Calculate cost of traversing a road segment, including transition costs between different road types."""
