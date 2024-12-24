@@ -1,6 +1,6 @@
-from ETS2LA.utils.values import SmoothedValue
-import plugins.Map.utils.math_helpers as math_helpers
-import plugins.Map.data as data
+from ETS2LA.Utils.Values.numbers import SmoothedValue
+import Plugins.Map.utils.math_helpers as math_helpers
+import Plugins.Map.data as data
 import numpy as np
 import logging
 import math

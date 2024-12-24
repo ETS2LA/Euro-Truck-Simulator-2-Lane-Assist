@@ -1,5 +1,5 @@
-import ETS2LA.backend.settings as settings
-import ETS2LA.backend.classes as classes
+import ETS2LA.Utils.settings as settings
+import ETS2LA.Events.classes as classes
 import ETS2LA.variables as variables
 import requests
 import logging

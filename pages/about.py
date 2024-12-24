@@ -1,10 +1,10 @@
 from ETS2LA.UI.utils import SendPopup
-from ETS2LA.backend import settings
+from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
-from modules.SDKController.main import SCSController
-from ETS2LA.utils.translator import Translate
-import ETS2LA.utils.translator as translator
+from Modules.SDKController.main import SCSController
+from ETS2LA.Utils.translator import Translate
+import ETS2LA.Utils.translator as translator
 import time
 
 contributors = [

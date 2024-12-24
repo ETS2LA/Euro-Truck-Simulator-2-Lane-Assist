@@ -6,7 +6,7 @@ class Module(ETS2LAModule):
         import numpy as np
         import cv2
         import ETS2LA.variables as variables
-        import ETS2LA.backend.settings as settings
+        import ETS2LA.Utils.settings as settings
         import logging
 
     def init(self):

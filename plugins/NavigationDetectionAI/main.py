@@ -45,12 +45,12 @@ class Plugin(ETS2LAPlugin):
     def imports(self):
         global SCSTelemetry, SCSController, ScreenCapture, ShowImage, variables, settings, pytorch, np, keyboard, time, cv2
 
-        from modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
-        import modules.BetterScreenCapture.main as ScreenCapture
-        from modules.SDKController.main import SCSController
-        import modules.BetterShowImage.main as ShowImage
-        import ETS2LA.backend.settings as settings
-        import ETS2LA.backend.pytorch as pytorch
+        from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
+        import Modules.BetterScreenCapture.main as ScreenCapture
+        from Modules.SDKController.main import SCSController
+        import Modules.BetterShowImage.main as ShowImage
+        import ETS2LA.Utils.settings as settings
+        import ETS2LA.Handlers.pytorch as pytorch
         import ETS2LA.variables as variables
         import numpy as np
         import keyboard

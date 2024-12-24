@@ -1,21 +1,21 @@
 from ETS2LA.UI import *
 
-from ETS2LA.backend.classes import Job, CancelledJob, FinishedJob, Refuel
-from modules.SDKController.main import SCSController
-from ETS2LA.utils.translator import Translate
-from ETS2LA.utils.values import SmoothedValue
+from ETS2LA.Events.classes import Job, CancelledJob, FinishedJob, Refuel
+from Modules.SDKController.main import SCSController
+from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 import ETS2LA.Events.log_reader as log_reader
-from ETS2LA.frontend.immediate import dialog
-import ETS2LA.backend.controls as controls
-import ETS2LA.backend.backend as backend
-import ETS2LA.networking.cloud as cloud
-import ETS2LA.backend.sounds as sounds
-import modules.TruckSimAPI.main as API
+from ETS2LA.Networking.Servers.notifications import dialog
+import ETS2LA.Handlers.controls as controls
+import ETS2LA.Handlers.plugins as plugins
+import ETS2LA.Networking.cloud as cloud
+import ETS2LA.Handlers.sounds as sounds
+import Modules.TruckSimAPI.main as API
 import threading
 import logging
 import time
 
-import ETS2LA.backend.settings as settings
+import ETS2LA.Utils.settings as settings
 
 API = API.Module("global")
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
@@ -38,7 +38,7 @@ class ToggleSteering():
             self.last_toggle = time.time()
             self.steering = not self.steering
             sounds.Play('start' if self.steering else 'end')
-            backend.call_event('ToggleSteering', self.steering, {})
+            plugins.call_event('ToggleSteering', self.steering, {})
             logging.info("Triggered event: ToggleSteering")
         except:
             logging.exception("Error in ToggleSteering")
@@ -56,7 +56,7 @@ class JobStarted():
         global last_started_job
         job = Job()
         job.fromAPIData(data)
-        backend.call_event('JobStarted', job, {})
+        plugins.call_event('JobStarted', job, {})
         logging.info("Triggered event: JobStarted")
         cloud.StartedJob(job)
         last_started_job = job
@@ -148,7 +148,7 @@ class JobFinished():
                                             Description(str(round(job.delivered_distance_km / ((job.finished_time - job.starting_time) / 60), 1)) + " km/h")
                             
                 return RenderUI()
-        backend.call_event('JobFinished', job, {})
+        plugins.call_event('JobFinished', job, {})
         logging.info("Triggered event: JobFinished")
         cloud.FinishedJob(job)
         dialog(CargoDialog().build())
@@ -159,7 +159,7 @@ class JobDelivered():
     def JobDelivered(self, data):
         job = FinishedJob()
         job.fromAPIData(data)
-        backend.call_event('JobDelivered', job, {})
+        plugins.call_event('JobDelivered', job, {})
         logging.info("Triggered event: JobDelivered")
     def __init__(self):
         API.listen('jobDelivered', self.JobDelivered)
@@ -168,7 +168,7 @@ class JobCancelled():
     def JobCancelled(self, data):
         job = CancelledJob()
         job.fromAPIData(data)
-        backend.call_event('JobCancelled', job, {})
+        plugins.call_event('JobCancelled', job, {})
         logging.info("Triggered event: JobCancelled")
         cloud.CancelledJob(job)
     def __init__(self):
@@ -178,7 +178,7 @@ class RefuelStarted():
     def RefuelStarted(self, data):
         refuel = Refuel()
         refuel.fromAPIData(data)
-        backend.call_event('RefuelStarted', refuel, {})
+        plugins.call_event('RefuelStarted', refuel, {})
         logging.info("Triggered event: RefuelStarted")
     def __init__(self):
         API.listen('refuelStarted', self.RefuelStarted)
@@ -187,7 +187,7 @@ class RefuelPayed():
     def RefuelPayed(self, data):
         refuel = Refuel()
         refuel.fromAPIData(data)
-        backend.call_event('RefuelPayed', refuel, {})
+        plugins.call_event('RefuelPayed', refuel, {})
         logging.info("Triggered event: RefuelPayed")
     def __init__(self):
         API.listen('refuelPayed', self.RefuelPayed)
@@ -196,7 +196,7 @@ class VehicleChange():
     lastLicensePlate = ""
     firstRun = True
     def VehicleChange(self, data):
-        backend.call_event('VehicleChange', data["configString"]["truckLicensePlate"], {})
+        plugins.call_event('VehicleChange', data["configString"]["truckLicensePlate"], {})
         logging.info("Triggered event: VehicleChange")
         if self.firstRun: # Ignore the first run as the frontend has not yet started
             self.firstRun = False
@@ -235,7 +235,7 @@ class GameShutdown():
                 end_found = True
         
         if end_found and not start_found:
-            backend.call_event('GameShutdown', None, {})
+            plugins.call_event('GameShutdown', None, {})
             logging.info("Triggered event: GameShutdown")
             SendPopup("Detected game shutdown", "info")
             return
@@ -254,7 +254,7 @@ class GameStart():
                 end_found = True
                 
         if start_found and not end_found:
-            backend.call_event('GameStart', None, {})
+            plugins.call_event('GameStart', None, {})
             logging.info("Triggered event: GameStart")
             SendPopup("Detected game start", "info")
     
@@ -266,7 +266,7 @@ class DetectCrackedGame():
         identifier = "0000007E"
         for line in lines:
             if identifier in line:
-                backend.call_event('DetectCrackedGame', None, {})
+                plugins.call_event('DetectCrackedGame', None, {})
                 logging.info("Triggered event: DetectCrackedGame")
                 class CrackedDialog(ETS2LADialog):
                     def render(self):
@@ -289,7 +289,7 @@ class DetourGenerated():
         for line in lines:
             if identifier in line:
                 item = line.split(identifier)[1].strip()
-                backend.call_event('DetourGenerated', item, {})
+                plugins.call_event('DetourGenerated', item, {})
                 logging.info("Triggered event: DetourGenerated({})".format(item))
                 SendPopup("Detour generated, original route might be invalid.", "warning")
                 return

@@ -3,23 +3,23 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
 # Imports to fix circular imports
-import plugins.Map.utils.prefab_helpers as ph
-import plugins.Map.utils.road_helpers as rh
-import plugins.Map.utils.math_helpers as mh
-import plugins.Map.utils.internal_map as im
+import Plugins.Map.utils.prefab_helpers as ph
+import Plugins.Map.utils.road_helpers as rh
+import Plugins.Map.utils.math_helpers as mh
+import Plugins.Map.utils.internal_map as im
 
 # ETS2LA imports
-from plugins.Map.utils.data_reader import ReadData
-from ETS2LA.utils.translator import Translate
-import ETS2LA.backend.settings as settings
-import plugins.Map.utils.speed as speed
-import plugins.Map.classes as c
+from Plugins.Map.utils.data_reader import ReadData
+from ETS2LA.Utils.translator import Translate
+import ETS2LA.Utils.settings as settings
+import Plugins.Map.utils.speed as speed
+import Plugins.Map.classes as c
 
 import threading
 import importlib
-navigation = importlib.import_module("plugins.Map.navigation.navigation")
-planning = importlib.import_module("plugins.Map.route.planning")
-driving = importlib.import_module("plugins.Map.route.driving")
+navigation = importlib.import_module("Plugins.Map.navigation.navigation")
+planning = importlib.import_module("Plugins.Map.route.planning")
+driving = importlib.import_module("Plugins.Map.route.driving")
 last_plan_hash = hash(open(planning.__file__).read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
@@ -121,7 +121,7 @@ class Plugin(ETS2LAPlugin):
     def imports(self):
         global json, data, time, math, sys, logging
         # General imports
-        import plugins.Map.data as data
+        import Plugins.Map.data as data
         import logging
         import json
         import time

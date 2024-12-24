@@ -3,7 +3,7 @@ from typing import List, Optional, Dict, Set, Tuple
 from dataclasses import dataclass
 from ..classes import Node, Position, Road, Prefab
 from ..utils.math_helpers import DistanceBetweenPoints
-import plugins.Map.data as data
+import Plugins.Map.data as data
 import logging
 from .enhanced_queue import EnhancedPriorityQueue
 

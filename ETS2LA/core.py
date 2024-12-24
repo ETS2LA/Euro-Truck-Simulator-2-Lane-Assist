@@ -1,18 +1,18 @@
-from ETS2LA.utils.logging import *
+from ETS2LA.Utils.Console.logging import *
 logger = SetupGlobalLogging()
 
-from ETS2LA.frontend.webpageExtras.utils import CheckIfWindowStillOpen
-import ETS2LA.networking.webserver as webserver
-import ETS2LA.frontend.immediate as immediate
-from ETS2LA.utils.translator import Translate
-import ETS2LA.utils.translator as translator
-import ETS2LA.backend.backend as backend
-import ETS2LA.backend.controls as controls
-import ETS2LA.frontend.webpage as webpage
-import ETS2LA.networking.godot as godot
-import ETS2LA.networking.cloud as cloud
+from ETS2LA.Window.utils import CheckIfWindowStillOpen
+import ETS2LA.Networking.Servers.webserver as webserver
+import ETS2LA.Networking.Servers.notifications as notifications
+from ETS2LA.Utils.translator import Translate
+import ETS2LA.Utils.translator as translator
+import ETS2LA.Handlers.plugins as plugins
+import ETS2LA.Handlers.controls as controls
+import ETS2LA.Window.window as window
+import ETS2LA.Networking.Servers.godot as godot
+import ETS2LA.Networking.cloud as cloud
 import ETS2LA.Events.base_events as base_events
-import ETS2LA.backend.sounds as sounds
+import ETS2LA.Handlers.sounds as sounds
 import ETS2LA.variables as variables
 import rich
 import time
@@ -42,11 +42,11 @@ if not all(accepted):
 # Initialize the backend
 translator.CheckLanguageDatabase()          # Check if all languages have all keys
 translator.UpdateFrontendTranslations()     # Update the frontend translations
-backend.run()    # Run the backend
-immediate.run()  # Websockets server for immediate data
+plugins.run()    # Run the backend
+notifications.run()  # Websockets server for immediate data
 webserver.run()  # External webserver for the UI
 godot.run()      # Godot server for the visualisation
-webpage.run()    # Webview to the website.
+window.run()    # Webview to the website.
 base_events.run()     # Event handlers
 controls.run()   # Control handlers
 
@@ -74,7 +74,7 @@ def run():
             raise Exception("restart")
         
         if variables.MINIMIZE:
-            webpage.minimize_window()
+            window.minimize_window()
             variables.MINIMIZE = False
         
         if frameCounter % 100 == 0: # 1 second 

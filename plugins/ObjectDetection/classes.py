@@ -1,4 +1,4 @@
-from modules.Raycasting.main import RaycastResponse as Raycast
+from Modules.Raycasting.main import RaycastResponse as Raycast
 from typing import Literal, List, Tuple
 
 class Object:

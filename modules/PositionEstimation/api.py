@@ -1,4 +1,4 @@
-from modules.PositionEstimation.classes import HeadTranslation, Position
+from Modules.PositionEstimation.classes import HeadTranslation, Position
 import math
 
 def GetHeadTranslation(data):

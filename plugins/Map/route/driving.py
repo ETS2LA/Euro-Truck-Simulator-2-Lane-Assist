@@ -1,8 +1,8 @@
 # TODO: Fix this file, it's still using the old steering system!
-import plugins.Map.utils.math_helpers as math_helpers
-import plugins.Map.route.classes as rc
-import plugins.Map.classes as c
-import plugins.Map.data as data
+import Plugins.Map.utils.math_helpers as math_helpers
+import Plugins.Map.route.classes as rc
+import Plugins.Map.classes as c
+import Plugins.Map.data as data
 import numpy as np
 import logging
 import math

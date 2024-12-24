@@ -1,9 +1,9 @@
-import plugins.Map.utils.prefab_helpers as prefab_helpers
-import plugins.Map.utils.road_helpers as road_helpers
-import plugins.Map.utils.math_helpers as math_helpers
+import Plugins.Map.utils.prefab_helpers as prefab_helpers
+import Plugins.Map.utils.road_helpers as road_helpers
+import Plugins.Map.utils.math_helpers as math_helpers
 
-import plugins.Map.classes as c
-import plugins.Map.data as data
+import Plugins.Map.classes as c
+import Plugins.Map.data as data
 
 from typing import Literal
 import math

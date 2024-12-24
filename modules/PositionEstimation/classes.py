@@ -1,4 +1,4 @@
-import ETS2LA.backend.settings as settings
+import ETS2LA.Utils.settings as settings
 import time
 import math
 import os

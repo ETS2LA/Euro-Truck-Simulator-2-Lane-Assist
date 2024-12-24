@@ -1,9 +1,9 @@
-import plugins.Map.navigation.classes as nc
-import plugins.Map.classes as c
-import plugins.Map.data as data
+import Plugins.Map.navigation.classes as nc
+import Plugins.Map.classes as c
+import Plugins.Map.data as data
 import numpy as np
 import cv2
-from plugins.Map.navigation.classes import RoadSection
+from Plugins.Map.navigation.classes import RoadSection
 import logging
 import os
 

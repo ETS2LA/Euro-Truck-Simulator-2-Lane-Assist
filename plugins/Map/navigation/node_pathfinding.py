@@ -1,11 +1,11 @@
-from plugins.Map.navigation.classes import RoadSection, NavigationLane
-from plugins.Map.navigation.high_level_routing import HighLevelRouter
+from Plugins.Map.navigation.classes import RoadSection, NavigationLane
+from Plugins.Map.navigation.high_level_routing import HighLevelRouter
 from typing import List, Optional, Union, Tuple, Dict
-import plugins.Map.utils.math_helpers as math_helpers
-from plugins.Map.classes import Node, Prefab
+import Plugins.Map.utils.math_helpers as math_helpers
+from Plugins.Map.classes import Node, Prefab
 from functools import lru_cache
-import plugins.Map.classes as c
-import plugins.Map.data as data
+import Plugins.Map.classes as c
+import Plugins.Map.data as data
 import logging
 
 class NodePathfinder:

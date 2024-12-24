@@ -1,7 +1,7 @@
 """Data extraction utilities for map plugin."""
 try:
-    from ETS2LA.utils.translator import Translate
-    import ETS2LA.backend.settings as settings
+    from ETS2LA.Utils.translator import Translate
+    import ETS2LA.Utils.settings as settings
 except ImportError:
     def Translate(text): return text
     settings = None

@@ -1,4 +1,4 @@
-import ETS2LA.backend.settings as settings
+import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
 import hashlib
 import logging
@@ -7,8 +7,8 @@ import ftfy
 import sys
 import os
 
-DATA_FOLDER = "translations"
-FRONTEND_DATA_FOLDER = "frontend/translations"
+DATA_FOLDER = "Translations"
+FRONTEND_DATA_FOLDER = "Interface/translations"
 
 FILES = os.listdir(DATA_FOLDER)
 FILES.remove("keys.json")

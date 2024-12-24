@@ -1,1 +1,1 @@
-python updater/updater.py
+python Updater/updater.py

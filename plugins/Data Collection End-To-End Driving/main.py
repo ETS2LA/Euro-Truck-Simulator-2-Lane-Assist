@@ -185,8 +185,8 @@ class Plugin(ETS2LAPlugin):
     def imports(self):
         global SCSTelemetry, ScreenCapture, variables, datetime, requests, json, math, time, cv2, os
 
-        from modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
-        import modules.BetterScreenCapture.main as ScreenCapture
+        from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
+        import Modules.BetterScreenCapture.main as ScreenCapture
         import ETS2LA.variables as variables
         import threading
         import datetime

@@ -6,11 +6,11 @@ import logging
 import math
 
 # Import dictionary utilities with fallback to mocks for testing
-from ETS2LA.utils.dictionaries import get_nested_item, set_nested_item
+from ETS2LA.Utils.Values.dictionaries import get_nested_item, set_nested_item
 
-from plugins.Map.utils import prefab_helpers
-from plugins.Map.utils import math_helpers
-from plugins.Map.utils import road_helpers
+from Plugins.Map.utils import prefab_helpers
+from Plugins.Map.utils import math_helpers
+from Plugins.Map.utils import road_helpers
 
 # MARK: Constants
 

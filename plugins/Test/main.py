@@ -4,7 +4,7 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 
 # General imports
-import ETS2LA.backend.settings as settings
+import ETS2LA.Utils.settings as settings
 import time
 
 class Plugin(ETS2LAPlugin):

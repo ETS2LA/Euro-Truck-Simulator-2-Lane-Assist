@@ -1,17 +1,17 @@
 from typing import List, Optional, Tuple, Union
 import logging
-from plugins.Map.classes import Node, Position, Road, Prefab
-from plugins.Map.navigation.classes import NavigationLane
-from plugins.Map.navigation.preprocessing import preprocess_item
-from plugins.Map.navigation.node_pathfinding import NodePathfinder
-from plugins.Map.utils.internal_map import DrawMap
-from plugins.Map.navigation.visualization import visualize_route
-from plugins.Map.navigation.classes import *
+from Plugins.Map.classes import Node, Position, Road, Prefab
+from Plugins.Map.navigation.classes import NavigationLane
+from Plugins.Map.navigation.preprocessing import preprocess_item
+from Plugins.Map.navigation.node_pathfinding import NodePathfinder
+from Plugins.Map.utils.internal_map import DrawMap
+from Plugins.Map.navigation.visualization import visualize_route
+from Plugins.Map.navigation.classes import *
 
-import plugins.Map.utils.prefab_helpers as prefab_helpers
-import plugins.Map.utils.road_helpers as road_helpers
-import plugins.Map.utils.math_helpers as math_helpers
-import plugins.Map.data as data
+import Plugins.Map.utils.prefab_helpers as prefab_helpers
+import Plugins.Map.utils.road_helpers as road_helpers
+import Plugins.Map.utils.math_helpers as math_helpers
+import Plugins.Map.data as data
 
 import numpy as np
 import time

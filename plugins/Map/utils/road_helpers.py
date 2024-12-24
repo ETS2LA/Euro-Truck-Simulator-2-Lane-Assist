@@ -4,9 +4,9 @@
 
 # TODO: Clean the code and optimize road generation
 
-from plugins.Map.utils import math_helpers
+from Plugins.Map.utils import math_helpers
 import ETS2LA.variables as variables
-from plugins.Map import classes as c
+from Plugins.Map import classes as c
 import numpy as np
 import logging
 import math

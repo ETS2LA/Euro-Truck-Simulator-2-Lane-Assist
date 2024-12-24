@@ -1,7 +1,7 @@
 from ETS2LA.UI import *
 
-from ETS2LA.networking.webserver import mainThreadQueue
-from ETS2LA.utils.git import GetHistory
+from ETS2LA.Networking.Servers.webserver import mainThreadQueue
+from ETS2LA.Utils.version import GetHistory
 
 from datetime import datetime
 import time

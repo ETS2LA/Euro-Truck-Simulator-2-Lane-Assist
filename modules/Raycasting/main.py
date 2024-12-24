@@ -19,7 +19,7 @@ class RaycastResponse:
 class Module(ETS2LAModule):
     def imports(self):
         global settings, screeninfo, mouse, numpy, time, math, os
-        import ETS2LA.backend.settings as settings
+        import ETS2LA.Utils.settings as settings
         import screeninfo
         import mouse
         import numpy

@@ -1,9 +1,9 @@
-from ETS2LA.backend import settings
+from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
-from ETS2LA.utils.translator import Translate
-import ETS2LA.backend.sounds as sounds 
-from ETS2LA.utils import game
+from ETS2LA.Utils.translator import Translate
+import ETS2LA.Handlers.sounds as sounds 
+from ETS2LA.Utils.Game import path as game
 
 import logging
 import os
@@ -11,7 +11,7 @@ import os
 games = game.FindSCSGames()
 target_path = "\\bin\\win_x64\\plugins"
 
-files = os.listdir("ETS2LA/assets/ETS2")
+files = os.listdir("ETS2LA/Assets/DLLs")
 files.pop(files.index("sources.txt"))
 
 def CheckIfInstalled(path: str):
@@ -35,7 +35,7 @@ class Page(ETS2LAPage):
                 logging.info(f"Installing SDKs for {game}")
                 os.makedirs(game + target_path, exist_ok=True)
                 for file in files:
-                    with open(f"ETS2LA/assets/ETS2/{file}", "rb") as f:
+                    with open(f"ETS2LA/Assets/DLLs/{file}", "rb") as f:
                         with open(game + target_path + "\\" + file, "wb") as g:
                             g.write(f.read())
         

@@ -1,8 +1,8 @@
-from plugins.Map.navigation.classes import RoadSection
-from plugins.Map.utils import road_helpers
+from Plugins.Map.navigation.classes import RoadSection
+from Plugins.Map.utils import road_helpers
 from typing import Union, Optional
-import plugins.Map.classes as c
-import plugins.Map.data as data
+import Plugins.Map.classes as c
+import Plugins.Map.data as data
 import logging
 
 def preprocess_item(item: Union[c.Prefab, RoadSection, c.Road]) -> Optional[Union[c.Prefab, RoadSection, c.Road]]:
@@ -33,7 +33,7 @@ def preprocess_item(item: Union[c.Prefab, RoadSection, c.Road]) -> Optional[Unio
 
             # Ensure road_look is properly initialized
             if not item.road_look:
-                from plugins.Map.data import map
+                from Plugins.Map.data import map
                 item.road_look = map.get_road_look_by_token(item.road_look_token)
                 if not item.road_look:
                     logging.error(f"Road {item.uid} failed to get road_look for token {item.road_look_token}")

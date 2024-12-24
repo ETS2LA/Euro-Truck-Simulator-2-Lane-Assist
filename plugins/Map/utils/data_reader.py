@@ -1,7 +1,7 @@
 """Data reader utilities for map plugin."""
-from plugins.Map.utils import data_extractor
-import ETS2LA.backend.settings as settings
-from plugins.Map import classes as c
+from Plugins.Map.utils import data_extractor
+import ETS2LA.Utils.settings as settings
+from Plugins.Map import classes as c
 from rich import print
 import logging
 import random

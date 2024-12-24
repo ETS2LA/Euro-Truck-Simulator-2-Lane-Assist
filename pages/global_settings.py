@@ -1,8 +1,8 @@
-from ETS2LA.backend import settings
+from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
-import ETS2LA.utils.translator as translator
-import ETS2LA.backend.sounds as sounds 
+import ETS2LA.Utils.translator as translator
+import ETS2LA.Handlers.sounds as sounds 
 
 import screeninfo
 

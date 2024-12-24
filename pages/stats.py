@@ -1,4 +1,4 @@
-from ETS2LA.backend import backend
+from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
 import psutil
 
@@ -26,7 +26,7 @@ class Page(ETS2LAPage):
     
     def get_all_plugin_mem_usage_percent(self):
         by_plugin = {}
-        pids = backend.get_all_process_pids()
+        pids = plugins.get_all_process_pids()
         for key, value in pids.items():
             by_plugin[key] = 0
             try:

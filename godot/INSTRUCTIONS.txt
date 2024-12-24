@@ -1,8 +1,0 @@
-Download godot 4.3 from here:
-https://godotengine.org/download
-(or later)
-
-And then open one of the projects in this folder (there's a file in the project folder)
-
-To build the project you can go to: Project -> Export -> Web
-If you are missing the templates, then you can download them using the button (~1gb)

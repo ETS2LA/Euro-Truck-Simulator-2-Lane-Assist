@@ -1,4 +1,4 @@
-import ETS2LA.backend.pytorch as pytorch
+import ETS2LA.Handlers.pytorch as pytorch
 import ETS2LA.variables as variables
 import numpy as np
 import traceback

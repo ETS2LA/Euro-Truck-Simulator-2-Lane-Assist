@@ -1,13 +1,13 @@
 try:
-    from ETS2LA.utils.translator import Translate 
+    from ETS2LA.Utils.translator import Translate 
 except:
     import sys
     import os
     sys.path.append(os.path.dirname(__file__))
-    from ETS2LA.utils.translator import Translate
+    from ETS2LA.Utils.translator import Translate
     
-from modules.SDKController.main import SCSController
-import ETS2LA.networking.cloud as cloud
+from Modules.SDKController.main import SCSController
+import ETS2LA.Networking.cloud as cloud
 from importlib.metadata import version
 import ETS2LA.variables as variables
 from multiprocessing import Queue

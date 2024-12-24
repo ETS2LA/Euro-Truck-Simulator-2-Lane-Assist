@@ -11,11 +11,11 @@ model-cache
 **/__pycache__
 **/settings.json
 /ETS2LA/global.json
-/ETS2LA/backend/settings/*.json
+/ETS2LA/controls.json
 
-# Ignore GoDot exports and export config
-/godot/ETS2LA-Visualisation/export_presets.cfg
-/godot/GoDot Export/*
+# Ignore Godot exports and export config
+/Visualization/ETS2LA-Visualisation/export_presets.cfg
+/Visualization/GoDot Export/*
 
 # Ignore Object Detection models
 /ETS2LA/plugins/ObjectDetection/models

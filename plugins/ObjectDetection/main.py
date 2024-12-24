@@ -1,14 +1,14 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
-from ETS2LA.utils.translator import Translate
-from ETS2LA.utils.values import SmoothedValue
-import ETS2LA.backend.settings as settings
-from ETS2LA.utils.logging import logging
+from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.Values.numbers import SmoothedValue
+import ETS2LA.Utils.settings as settings
+from ETS2LA.Utils.Console.logging import logging
 import ETS2LA.variables as variables
 
-from plugins.ObjectDetection.vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
-from plugins.ObjectDetection.classes import Vehicle, RoadMarker, Sign, TrafficLight
+from Plugins.ObjectDetection.vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
+from Plugins.ObjectDetection.classes import Vehicle, RoadMarker, Sign, TrafficLight
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
@@ -77,7 +77,7 @@ class Plugin(ETS2LAPlugin):
                 self.terminate()
 
             try:
-                from plugins.AR.main import ScreenLine, Text # type: ignore (Ignore import errors)
+                from Plugins.AR.main import ScreenLine, Text # type: ignore (Ignore import errors)
             except ImportError:
                 ScreenLine = Text = None
 

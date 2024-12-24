@@ -4,11 +4,11 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 
 # ETS2LA imports
-from plugins.ObjectDetection.classes import Vehicle
-from ETS2LA.networking.cloud import SendCrashReport
-import ETS2LA.backend.controls as controls
-import ETS2LA.backend.settings as settings
-from ETS2LA.utils.logging import logging
+from Plugins.ObjectDetection.classes import Vehicle
+from ETS2LA.Networking.cloud import SendCrashReport
+import ETS2LA.Handlers.controls as controls
+import ETS2LA.Utils.settings as settings
+from ETS2LA.Utils.Console.logging import logging
 import ETS2LA.variables as variables
 
 # Python imports
@@ -95,7 +95,7 @@ class Plugin(ETS2LAPlugin):
     
     def imports(self):
         global Controller, np, screeninfo, pyautogui, torch, json, cv2, os
-        from modules.SDKController.main import SCSController as Controller
+        from Modules.SDKController.main import SCSController as Controller
         import numpy as np
         import screeninfo
         import pyautogui

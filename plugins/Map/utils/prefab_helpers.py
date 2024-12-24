@@ -1,5 +1,5 @@
 """Prefab helper utilities for map plugin."""
-from plugins.Map.utils import math_helpers
+from Plugins.Map.utils import math_helpers
 from collections import defaultdict
 from typing import List, Tuple
 import numpy as np
@@ -8,7 +8,7 @@ import cv2
 
 def find_starting_curves(prefab_description) -> list:
     """Find all starting nav curves in a prefab description."""
-    from plugins.Map.classes import PrefabDescription, PrefabNavCurve
+    from Plugins.Map.classes import PrefabDescription, PrefabNavCurve
     assert isinstance(prefab_description, PrefabDescription)
     starting_curves = []
     for curve in prefab_description.nav_curves:
@@ -18,7 +18,7 @@ def find_starting_curves(prefab_description) -> list:
 
 def traverse_curve_till_end(curve, prefab_description) -> List[List]:
     """Traverse nav curves until reaching end points."""
-    from plugins.Map.classes import PrefabDescription, PrefabNavCurve
+    from Plugins.Map.classes import PrefabDescription, PrefabNavCurve
     assert isinstance(prefab_description, PrefabDescription)
     assert isinstance(curve, PrefabNavCurve)
     routes: List[List[PrefabNavCurve]] = []
@@ -67,7 +67,7 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
 
 def display_prefab_routes(prefab_description) -> None:
     """Display navigation routes for a prefab."""
-    from plugins.Map.classes import PrefabDescription
+    from Plugins.Map.classes import PrefabDescription
     assert isinstance(prefab_description, PrefabDescription)
     cv2.namedWindow("Nav Routes", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("Nav Routes", 1000, 1000)

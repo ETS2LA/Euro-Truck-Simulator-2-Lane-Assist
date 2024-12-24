@@ -1,7 +1,7 @@
-from plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Node
-from modules.SDKController.main import SCSController
-from plugins.Map.route.classes import RouteSection
-import ETS2LA.backend.settings as settings
+from Plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Node
+from Modules.SDKController.main import SCSController
+from Plugins.Map.route.classes import RouteSection
+import ETS2LA.Utils.settings as settings
 import math
 import time
 

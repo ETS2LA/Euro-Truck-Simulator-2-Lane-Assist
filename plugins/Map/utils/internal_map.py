@@ -1,4 +1,4 @@
-import plugins.Map.data as data
+import Plugins.Map.data as data
 import numpy as np
 import math
 import cv2

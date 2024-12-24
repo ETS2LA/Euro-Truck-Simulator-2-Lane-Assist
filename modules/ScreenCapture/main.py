@@ -1,7 +1,7 @@
 from ETS2LA.Module import *
 import os
 
-import ETS2LA.backend.settings as settings
+import ETS2LA.Utils.settings as settings
 display = settings.Get("Global", "display", 0)
 
 class Module(ETS2LAModule):

@@ -1,4 +1,4 @@
-from ETS2LA.utils.values import SmoothedValue
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 from typing import Union
 import math
 import time

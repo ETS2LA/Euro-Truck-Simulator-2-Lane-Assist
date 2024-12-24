@@ -1,5 +1,5 @@
 from ETS2LA.Module import *
-from modules.PositionEstimation.classes import (
+from Modules.PositionEstimation.classes import (
     UpdateGamePosition,
     HeadTranslation,
     Position,
@@ -7,13 +7,13 @@ from modules.PositionEstimation.classes import (
     ObjectTrack,
     ConvertToAngle
 )
-from modules.PositionEstimation.api import GetHeadTranslation, GetPosition
+from Modules.PositionEstimation.api import GetHeadTranslation, GetPosition
 
 
 class Module(ETS2LAModule):
     def imports(self):
         global settings, variables, np, logging, time, math, cv2, os
-        import ETS2LA.backend.settings as settings
+        import ETS2LA.Utils.settings as settings
         import ETS2LA.variables as variables
         import numpy as np
         import logging

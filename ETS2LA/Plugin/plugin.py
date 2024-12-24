@@ -3,7 +3,7 @@ from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
 import ETS2LA.Events as Events
 
-from ETS2LA.utils.logging import SetupProcessLogging
+from ETS2LA.Utils.Console.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue, Queue
 from types import SimpleNamespace
 from typing import Literal
@@ -176,7 +176,7 @@ class ETS2LAPlugin(object):
         self.modules = SimpleNamespace()
         module_names = self.description.modules
         for module_name in module_names:
-            module_path = f"modules/{module_name}/main.py"
+            module_path = f"Modules/{module_name}/main.py"
             if os.path.exists(module_path):
                 python_object = importlib.import_module(module_path.replace("/", ".").replace(".py", ""))
                 module = python_object.Module(self)
@@ -369,15 +369,15 @@ class PluginRunner:
         
         Events.events = Events.EventSystem(plugin_object=None, queue=self.event_return_queue)
 
-        sys.path.append(os.path.join(os.getcwd(), "plugins", plugin_name))
+        sys.path.append(os.path.join(os.getcwd(), "Plugins", plugin_name))
 
         try:
             # Import the plugin module
-            plugin_module = importlib.import_module(f"plugins.{plugin_name}.main")
+            plugin_module = importlib.import_module(f"Plugins.{plugin_name}.main")
 
             # Instantiate the Plugin class
             if hasattr(plugin_module, 'Plugin'):
-                self.plugin_instance = plugin_module.Plugin(f"plugins/{plugin_name}", return_queue, 
+                self.plugin_instance = plugin_module.Plugin(f"Plugins/{plugin_name}", return_queue, 
                                                                 plugins_queue, plugins_return_queue, 
                                                                 tags_queue, tags_return_queue,
                                                                 settings_menu_queue, settings_menu_return_queue,

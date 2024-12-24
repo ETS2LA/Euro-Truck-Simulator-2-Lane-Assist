@@ -1,4 +1,4 @@
-from ETS2LA.utils.dictionaries import merge
+from ETS2LA.Utils.Values.dictionaries import merge
 from multiprocessing import JoinableQueue
 from typing import Literal
 import threading
