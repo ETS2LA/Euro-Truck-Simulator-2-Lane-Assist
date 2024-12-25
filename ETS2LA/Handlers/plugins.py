@@ -105,6 +105,7 @@ class PluginHandler:
             logging.exception(f"Failed to start plugin {plugin_name}.")
         
     def change_listener(self):
+        # TODO: Switch to use time instead of calculating the hash of the file.
         plugin_file_path = f"{plugin_path}/{self.plugin_name}/main.py"
         file_hash = hash(open(plugin_file_path, "rb").read())
         while True:
@@ -273,7 +274,10 @@ class PluginHandler:
                 
     def get_settings(self):
         self.settings_menu_queue.put(True)
-        return self.settings_menu_return_queue.get()
+        try:
+            return self.settings_menu_return_queue.get(timeout=1)
+        except:
+            return None
     
     def call_function(self, name: str, *args, **kwargs):
         self.frontend_queue.put({
@@ -373,6 +377,8 @@ def get_plugin_settings() -> dict[str, None | list]:
             for plugin in RUNNING_PLUGINS:
                 if plugin.plugin_name == name:
                     settings_dict[name] = plugin.get_settings()
+                    if settings_dict[name] is None:
+                        settings_dict[name] = []
                     break
                 
         elif name not in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:

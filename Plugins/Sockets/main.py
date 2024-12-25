@@ -395,8 +395,8 @@ class Plugin(ETS2LAPlugin):
     def run(self):
         self.fps_cap = self.settings.update_rate
         if self.fps_cap is None:
-            self.fps_cap = 30
-            self.settings.update_rate = 30
+            self.fps_cap = 20
+            self.settings.update_rate = 20
         
         data = TruckSimAPI.run()
 

@@ -388,6 +388,12 @@ class PluginRunner:
                                                                 event_queue, event_return_queue
                                                                 )
             else:
-                raise ImportError(f"No class 'Plugin' found in module 'plugins.{plugin_name}.main'")
+                immediate_queue.put({
+                    "operation": "terminate"
+                })
+                raise ImportError(f"No class 'Plugin' found in module 'Plugins.{plugin_name}.main'")
         except:
             logging.exception(f"Error loading plugin '{plugin_name}'")
+            immediate_queue.put({
+                "operation": "terminate"
+            })
