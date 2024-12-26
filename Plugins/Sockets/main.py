@@ -3,7 +3,6 @@ from ETS2LA.UI import *
 
 import math
 
-
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = False
     plugin_name = "Sockets"

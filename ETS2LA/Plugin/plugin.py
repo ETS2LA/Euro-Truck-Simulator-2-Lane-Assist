@@ -327,12 +327,6 @@ class ETS2LAPlugin(object):
             time.sleep(time_to_sleep)
         
         self.performance.append((self.start_time, time.perf_counter() - self.start_time))
-        try:
-            fps = 1 / (self.end_time - self.start_time)
-        except ZeroDivisionError:
-            fps = float("inf")
-        if fps < self.fps_cap:
-            print(f"FPS: {fps} (Cap: {self.fps_cap})")
 
 class PluginRunner:
     def __init__(self, plugin_name: str, plugin_description: PluginDescription, 
