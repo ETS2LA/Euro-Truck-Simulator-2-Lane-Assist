@@ -8,7 +8,7 @@ import ETS2LA.Utils.settings as settings
 import time
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 10
+    fps_cap = 5
     
     description = PluginDescription(
         name="Test",
@@ -33,6 +33,4 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
-        time.sleep(1)
-        events.emit("ToggleSteering", not self.steering)
-        self.terminate()
+        ...

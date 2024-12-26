@@ -35,15 +35,17 @@ export default function Home() {
     const [ searchTags, setSearchTags ] = useState<string[]>([])
     const [ searchAuthors, setSearchAuthors ] = useState<string[]>([])
     const { data, error, isLoading } = useSWR("plugins", () => GetPlugins(), { refreshInterval: 1000 }) as any
-    if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">{translate("loading")}</p></Card>
+    if (isLoading) return <p className="absolute left-5 top-5 font-semibold text-xs text-stone-400">{translate("loading")}</p>
     if (error){
         toast.error(translate("frontend.menubar.error_fetching_plugins", ip), {description: error.message})
-        return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">{error.message}</p></Card>
+        return <p className="absolute left-5 top-5 font-semibold text-xs text-stone-400">{error.message}</p>
     } 
 
     if (!data){
-        return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="absolute left-5 font-semibold text-xs text-stone-400">{translate("frontend.menubar.error_fetching_plugins", ip)}</p></Card>
+        return <p className="absolute left-5 top-5 font-semibold text-xs text-stone-400">{translate("frontend.menubar.error_fetching_plugins", ip)}</p>
     }
+
+    console.log(data)
 
     const tags:string[] = [];
     for (const key in data) {

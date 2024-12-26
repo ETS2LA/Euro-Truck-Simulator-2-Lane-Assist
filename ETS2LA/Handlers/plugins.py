@@ -116,7 +116,7 @@ class PluginHandler:
                 logging.info(f"Plugin {self.plugin_name} has been updated, restarting.")
                 file_hash = new_hash
                 self.process.terminate()
-                self.process.join()
+                self.process.join(timeout=1)
                 self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                             self.return_queue,
                                                                             self.plugins_queue, self.plugins_return_queue,
@@ -299,7 +299,12 @@ class PluginHandler:
     def get_performance(self):
         if time.perf_counter() - self.last_performance_time > 1:
             self.performance_queue.put(True)
-            data = self.performance_return_queue.get()
+            
+            try:
+                data = self.performance_return_queue.get(timeout=1)
+            except:
+                return self.last_performance
+            
             self.performance_return_queue.task_done()
             self.last_performance = data
             self.last_performance_time = time.perf_counter()
@@ -509,6 +514,7 @@ def get_main_process_cpu_usages():
         except:
             return {"total": 0, "python": 0, "node": 0, "other": 0, "free": 100}
     else:
+        # TODO: Add linux support
         return {"total": 0, "python": 0, "node": 0, "other": 0, "free": 100}
 
 def get_statistics():

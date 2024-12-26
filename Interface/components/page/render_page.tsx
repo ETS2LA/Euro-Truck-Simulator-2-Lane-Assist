@@ -7,7 +7,7 @@ export default function RenderPage({ url, className }: { url: string, className?
     const {data: pages} = useSWR("pages", () => GetPages(), {refreshInterval: 1000});
     if (!pages) return <div></div>;
     if (!pages[url]) return <div></div>;
-    console.log(pages[url]);
+
     return (
         <motion.div 
             initial={{ opacity: 0 }}
