@@ -4,7 +4,7 @@ import time
 import sys
 import os
 
-start_time = time.time()
+start_time = time.perf_counter()
 
 ets2_path = variables.ETS2_LOG_PATH
 ats_path = variables.ATS_LOG_PATH
@@ -60,7 +60,7 @@ def get_new_lines():
 
 def update():
     # Wait for the application to start
-    if time.time() - start_time > 10:
+    if time.perf_counter() - start_time > 10:
         return get_new_lines()
     else:
         return []

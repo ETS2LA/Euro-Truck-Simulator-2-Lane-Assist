@@ -80,7 +80,7 @@ class Plugin(ETS2LAPlugin):
     status_data = (0, 0)
     last_vehicle_distance = math.inf
     last_time_to_vehicle = math.inf
-    last_vehicle_time = time.time()
+    last_vehicle_time = time.perf_counter()
     vehicle_speed = math.inf
     vehicle_id = 0
     
@@ -91,7 +91,7 @@ class Plugin(ETS2LAPlugin):
     last_red_light_time = 0
     
     last_intersection_distance = math.inf
-    last_intersection_distance_time = time.time()
+    last_intersection_distance_time = time.perf_counter()
     
     def imports(self):
         global Controller, np, screeninfo, pyautogui, torch, json, cv2, os
@@ -169,7 +169,7 @@ class Plugin(ETS2LAPlugin):
         vehicles = self.globals.tags.merge(vehicles)
 
         if vehicles is None:
-            if time.time() - self.last_vehicle_time < 1:
+            if time.perf_counter() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
             self.vehicle_speed = math.inf
             self.last_vehicle_distance = math.inf
@@ -187,7 +187,7 @@ class Plugin(ETS2LAPlugin):
         points = self.plugins.Map
         
         if type(points) != list or len(points) == 0 or (type(points[0]) != list and type(points[0]) != tuple):
-            if time.time() - self.last_vehicle_time < 1:
+            if time.perf_counter() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
             self.vehicle_speed = math.inf
             self.last_vehicle_distance = math.inf
@@ -206,7 +206,7 @@ class Plugin(ETS2LAPlugin):
             points = [[x1 + (x2 - x1) * i / 10, y1 + (y2 - y1) * i / 10] for i in range(10)]
         
         if type(vehicles) != list:
-            if time.time() - self.last_vehicle_time < 1:
+            if time.perf_counter() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
             self.vehicle_speed = math.ifn
             self.last_vehicle_distance = math.inf
@@ -244,11 +244,11 @@ class Plugin(ETS2LAPlugin):
                 index += 1
                     
             if closestPointDistance < 2: # Road is 4.5m wide, want to check 4m
-                self.last_vehicle_time = time.time()
+                self.last_vehicle_time = time.perf_counter()
                 vehiclesInFront.append((self.GetDistanceToPoint([averageX, averageY], [truckX, truckY]), vehicle))
                 
         if len(vehiclesInFront) == 0:
-            if time.time() - self.last_vehicle_time < 1:
+            if time.perf_counter() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
             self.vehicle_speed = math.inf
             self.last_vehicle_distance = math.inf
@@ -277,10 +277,10 @@ class Plugin(ETS2LAPlugin):
         targetSpeed = self.globals.tags.merge(targetSpeed)
         
         if targetSpeed is None or not isinstance(targetSpeed, float):
-            if time.time() - self.last_target_speed_time > 1:
+            if time.perf_counter() - self.last_target_speed_time > 1:
                 targetSpeed = apiData['truckFloat']['speedLimit']
                 self.last_target_speed = targetSpeed
-                self.last_target_speed_time = time.time()
+                self.last_target_speed_time = time.perf_counter()
             else: 
                 targetSpeed = self.last_target_speed
         else:
@@ -289,7 +289,7 @@ class Plugin(ETS2LAPlugin):
             else:
                 targetSpeed = targetSpeed + OVERSPEED / 3.6
             self.last_target_speed = targetSpeed
-            self.last_target_speed_time = time.time() 
+            self.last_target_speed_time = time.perf_counter() 
             
         if targetSpeed > 0:
             targetSpeed += 0.5 / 3.6
@@ -310,12 +310,12 @@ class Plugin(ETS2LAPlugin):
         trafficLights = self.globals.tags.merge(trafficLights)
         
         if trafficLights is None:
-            if time.time() - self.last_red_light_time < .5:
+            if time.perf_counter() - self.last_red_light_time < .5:
                 return True
             return False
         else:
             if type(trafficLights) != list:
-                if time.time() - self.last_red_light_time < .5:
+                if time.perf_counter() - self.last_red_light_time < .5:
                     return True
                 return False
             for light in trafficLights:
@@ -323,12 +323,12 @@ class Plugin(ETS2LAPlugin):
                     if type(light) != dict:
                         continue
                     if light["state"] == "red":
-                        self.last_red_light_time = time.time()
+                        self.last_red_light_time = time.perf_counter()
                         return True
                 except:
                     continue
                 
-        if time.time() - self.last_red_light_time < .5:
+        if time.perf_counter() - self.last_red_light_time < .5:
             return True
         
         return False
@@ -338,16 +338,16 @@ class Plugin(ETS2LAPlugin):
             data = self.globals.tags.next_intersection_distance
             data = self.globals.tags.merge(data)
         except:
-            if time.time() - self.last_intersection_distance_time < 0.5:
+            if time.perf_counter() - self.last_intersection_distance_time < 0.5:
                 return self.last_intersection_distance
             return math.inf
         
         if type(data) != str and type(data) not in [int, float]:
-            if time.time() - self.last_intersection_distance_time < 0.5:
+            if time.perf_counter() - self.last_intersection_distance_time < 0.5:
                 return self.last_intersection_distance
             return math.inf
 
-        self.last_intersection_distance_time = time.time()
+        self.last_intersection_distance_time = time.perf_counter()
         self.last_intersection_distance = float(data)
         return float(data)
 
@@ -416,7 +416,7 @@ class Plugin(ETS2LAPlugin):
         
         self.globals.tags.acc_status = self.GetStatus(type)
         self.globals.tags.acc = self.target_speed
-        self.globals.tags.highlights = [self.vehicle_id if time.time() - self.last_vehicle_time < 1 else None]
+        self.globals.tags.highlights = [self.vehicle_id if time.perf_counter() - self.last_vehicle_time < 1 else None]
 
         if type == "traffic light":
             self.globals.tags.stopping_distance = intersectionDistance

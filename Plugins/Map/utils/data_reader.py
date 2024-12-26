@@ -535,7 +535,7 @@ def PrintState(start_time: float, message: str):
         state_object.progress = progress / total_steps
     
 def UpdateState(start_time: float, message: str):
-    milliseconds = (time.time() - start_time) * 100
+    milliseconds = (time.perf_counter() - start_time) * 100
     if milliseconds < 1000:
         time_string = f"{milliseconds:.0f}ms  |"
     else:
@@ -547,7 +547,7 @@ def ReadData(state = None) -> c.MapData:
     global progress, state_object
     progress = 0
     state_object = state
-    start_time = time.time()
+    start_time = time.perf_counter()
     print("[yellow]Please wait for map to load the necessary data.[/yellow]")
     
     data = c.MapData()
@@ -633,6 +633,6 @@ def ReadData(state = None) -> c.MapData:
     data.match_roads_to_looks()
     UpdateState(start_time, f"Linked roads to looks")
     
-    print(f"[green]Data read in {time.time() - start_time:.2f} seconds.[/green]")
+    print(f"[green]Data read in {time.perf_counter() - start_time:.2f} seconds.[/green]")
     
     return data

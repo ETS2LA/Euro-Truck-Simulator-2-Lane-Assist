@@ -30,7 +30,7 @@ class SmoothedValue:
                 self.valueArray.pop(0)
             return sum(self.valueArray) / len(self.valueArray)
         elif self.smoothingType == "time":
-            self.valueArray.append([time.time(), value])
+            self.valueArray.append([time.perf_counter(), value])
             while self.valueArray[-1][0] - self.valueArray[0][0] > self.smoothingAmount:
                 self.valueArray.pop(0)
             return sum([v for t, v in self.valueArray]) / len(self.valueArray)

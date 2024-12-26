@@ -17,7 +17,7 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
         
     def time_since(self, target_time):
-        diff = time.time() - target_time
+        diff = time.perf_counter() - target_time
         if diff < 60:
             if int(diff) == 1:
                 return "1 second ago"
@@ -38,8 +38,8 @@ class Page(ETS2LAPage):
     def render(self):
         global last_update_check, last_updates
         
-        if time.time() - last_update_check > 10:
-            last_update_check = time.time()
+        if time.perf_counter() - last_update_check > 10:
+            last_update_check = time.perf_counter()
             updates = CheckForUpdate()
             last_updates = updates
         else:

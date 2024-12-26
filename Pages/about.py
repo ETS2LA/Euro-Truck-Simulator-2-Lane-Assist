@@ -36,9 +36,9 @@ class Page(ETS2LAPage):
     def fix_wipers(self):
         print("Fixing wipers (5s timer)")
         controller = SCSController()
-        start_time = time.time()
-        while time.time() - start_time < 5:
-            SendPopup(f"Fixing wipers in {5 - int(time.time() - start_time)} seconds...", "info")
+        start_time = time.perf_counter()
+        while time.perf_counter() - start_time < 5:
+            SendPopup(f"Fixing wipers in {5 - int(time.perf_counter() - start_time)} seconds...", "info")
             time.sleep(1)
         controller.wipers0 = True
         time.sleep(0.5)

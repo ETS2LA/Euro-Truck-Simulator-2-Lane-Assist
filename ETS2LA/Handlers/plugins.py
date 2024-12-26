@@ -255,7 +255,7 @@ class PluginHandler:
             if self.stop:
                 break
             
-            if time.time() - self.last_statistics_time > 1:
+            if time.perf_counter() - self.last_statistics_time > 1:
                 logical_cores = psutil.cpu_count(logical=True)
                 physical_cores = psutil.cpu_count(logical=False)
                 multiplier = logical_cores / physical_cores
@@ -268,7 +268,7 @@ class PluginHandler:
                 if len(self.statistics["cpu"]) > 60:    
                     self.statistics["cpu"].pop(0)
                 
-                self.last_statistics_time = time.time()
+                self.last_statistics_time = time.perf_counter()
                 
             time.sleep(0.1)
                 
@@ -297,12 +297,12 @@ class PluginHandler:
         return return_data
     
     def get_performance(self):
-        if time.time() - self.last_performance_time > 1:
+        if time.perf_counter() - self.last_performance_time > 1:
             self.performance_queue.put(True)
             data = self.performance_return_queue.get()
             self.performance_return_queue.task_done()
             self.last_performance = data
-            self.last_performance_time = time.time()
+            self.last_performance_time = time.perf_counter()
             return data
         else:
             return self.last_performance

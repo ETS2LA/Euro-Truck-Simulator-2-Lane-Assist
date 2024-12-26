@@ -102,7 +102,7 @@ class State:
     state_queue: JoinableQueue
     
     def timeout_thread_func(self):
-        while time.time() - self.last_update < self.timeout:
+        while time.perf_counter() - self.last_update < self.timeout:
             time.sleep(0.1)
         self.reset()
     
@@ -113,7 +113,7 @@ class State:
     
     def __setattr__(self, name, value):
         if name in ["text", "status", "state"]:
-            self.last_update = time.time()
+            self.last_update = time.perf_counter()
             state_dict = {
                 "status": value
             }
@@ -122,7 +122,7 @@ class State:
             return 
         
         if name in ["value", "progress"]:
-            self.last_update = time.time()
+            self.last_update = time.perf_counter()
             state_dict = {
                 "progress": value
             }
@@ -131,7 +131,7 @@ class State:
             return 
         
         if name in ["timeout"]:
-            self.last_update = time.time()
+            self.last_update = time.perf_counter()
             super().__setattr__("timeout", value)
             if self.timeout_thread is None:
                 print("Starting timeout thread")

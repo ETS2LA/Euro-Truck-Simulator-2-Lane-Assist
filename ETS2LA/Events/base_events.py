@@ -34,8 +34,8 @@ class ToggleSteering():
     game_braking = SmoothedValue("time", 0.5)
     def ToggleSteering(self):
         try:
-            if time.time() - self.last_toggle < 1: return
-            self.last_toggle = time.time()
+            if time.perf_counter() - self.last_toggle < 1: return
+            self.last_toggle = time.perf_counter()
             self.steering = not self.steering
             sounds.Play('start' if self.steering else 'end')
             plugins.call_event('ToggleSteering', self.steering, {})

@@ -70,7 +70,7 @@ class Module(ETS2LAModule):
         global window_height
         global last_window_position
 
-        current_time = time.time()
+        current_time = time.perf_counter()
         if last_window_position[0] + 3 < current_time:
             if os.name == "nt":
                 # Windows-specific code

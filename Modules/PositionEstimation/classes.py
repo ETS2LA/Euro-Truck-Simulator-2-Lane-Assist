@@ -33,7 +33,7 @@ def ConvertToAngle(x, y):
 
 def UpdateGamePosition():
     global window_x, window_y, window_width, window_height, last_window_position
-    current_time = time.time()
+    current_time = time.perf_counter()
     
     if last_window_position[0] + 3 < current_time:
         if os.name == "nt":
@@ -173,7 +173,7 @@ class ObjectTrack():
         self.head_translation = head_translation
         self.first_head_translation = head_translation
         self.position = None
-        self.last_update_time = time.time()
+        self.last_update_time = time.perf_counter()
         
     def update(self, detection: ObjectDetection, head_translation: HeadTranslation):
         # This function is originally made by Glas42 for the TLD plugin.
@@ -233,7 +233,7 @@ class ObjectTrack():
                 object_z = previous_object_z + (object_z - previous_object_z)
                 
             self.position = Position(object_x, object_y, object_z)
-            self.last_update_time = time.time()
+            self.last_update_time = time.perf_counter()
         
     def json(self):
         return {"id": self.id, "detection": self.detection.json()}

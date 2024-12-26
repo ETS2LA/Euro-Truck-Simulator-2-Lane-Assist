@@ -125,9 +125,9 @@ class Module(ETS2LAModule):
         global SDK
         # Add the newest value to the list
         if value is not None:
-            self.steeringValues.append(SteeringValue(value, time.time()))
+            self.steeringValues.append(SteeringValue(value, time.perf_counter()))
         else:
-            self.steeringValues.append(SteeringValue(0, time.time())) # Slowly return to 0 naturally
+            self.steeringValues.append(SteeringValue(0, time.perf_counter())) # Slowly return to 0 naturally
         
         if API is not None and not self.IGNORE_GAME:
             data = API.run()
@@ -142,7 +142,7 @@ class Module(ETS2LAModule):
         
         # Remove all values that are older than SMOOTH_TIME
         if self.SMOOTH_TIME > 0:
-            while self.steeringValues[0].IsOlderThan(time.time() - self.SMOOTH_TIME):
+            while self.steeringValues[0].IsOlderThan(time.perf_counter() - self.SMOOTH_TIME):
                 self.steeringValues.pop(0)
         else:
             while len(self.steeringValues) > 1:

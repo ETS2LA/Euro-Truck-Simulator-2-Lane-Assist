@@ -265,7 +265,7 @@ class ETS2LAPlugin(object):
         while True:
             self.performance_queue.get()
             
-            last_60_seconds = math.floor(time.time() - 60)
+            last_60_seconds = math.floor(time.perf_counter() - 60)
             self.performance = [x for x in self.performance if x[0] > last_60_seconds]
             
             return_performance = []
@@ -315,18 +315,24 @@ class ETS2LAPlugin(object):
         self.after(data)
             
     def before(self) -> None:
-        self.start_time = time.time()
+        self.start_time = time.perf_counter()
         
     def after(self, data) -> None:
         if data is not None:
             self.return_queue.put(data, block=True)
 
-        self.end_time = time.time()
+        self.end_time = time.perf_counter()
         time_to_sleep = max(1/self.fps_cap - (self.end_time - self.start_time), 0)
         if time_to_sleep > 0:
             time.sleep(time_to_sleep)
         
-        self.performance.append((self.start_time, time.time() - self.start_time))
+        self.performance.append((self.start_time, time.perf_counter() - self.start_time))
+        try:
+            fps = 1 / (self.end_time - self.start_time)
+        except ZeroDivisionError:
+            fps = float("inf")
+        if fps < self.fps_cap:
+            print(f"FPS: {fps} (Cap: {self.fps_cap})")
 
 class PluginRunner:
     def __init__(self, plugin_name: str, plugin_description: PluginDescription, 

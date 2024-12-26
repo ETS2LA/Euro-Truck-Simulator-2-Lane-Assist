@@ -100,7 +100,7 @@ class Plugin(ETS2LAPlugin):
         ShowImage.Initialize(Name="NavigationDetectionAI", TitleBarColor=(0, 0, 0))
 
     def run(self):
-        CurrentTime = time.time()
+        CurrentTime = time.perf_counter()
 
         global Enabled
         global EnableKey

@@ -74,7 +74,7 @@ def CheckForUpdate():
                     "author": "Backend",
                     "message": "DO NOT UPDATE!",
                     "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",
-                    "time": time.time(),
+                    "time": time.perf_counter(),
                     "url": ""
                 })
                 
@@ -164,7 +164,7 @@ def load_cached_avatar_url(username):
                 if parts[0] == username:
                     # Check if the cached URL is older than 24 hours
                     cached_time = float(parts[1])
-                    if time.time() - cached_time < 24 * 3600:
+                    if time.perf_counter() - cached_time < 24 * 3600:
                         return parts[2]
     return None
 
@@ -179,13 +179,13 @@ def save_avatar_url_to_cache(username, url):
                 parts = line.strip().split(": ")
                 if parts[0] == username:
                     # Update the existing entry for the user
-                    cached_urls.append(f"{username}: {time.time()}: {url}")
+                    cached_urls.append(f"{username}: {time.perf_counter()}: {url}")
                 else:
                     cached_urls.append(line.strip())
 
     # If the user was not found in the cache, add a new entry
     if username not in [line.split(": ")[0] for line in cached_urls]:
-        cached_urls.append(f"{username}: {time.time()}: {url}")
+        cached_urls.append(f"{username}: {time.perf_counter()}: {url}")
 
     with open(CACHE_FILE, "w") as f:
         f.write("\n".join(cached_urls))

@@ -246,7 +246,7 @@ class Plugin(ETS2LAPlugin):
             self.smoothedRaycastTime = SmoothedValue("time", 1)
             
             self.boxes = None
-            self.start_time = self.time.time()
+            self.start_time = self.time.perf_counter()
             self.cur_yolo_fps = 0
             self.frame_counter = 0
             self.fps_values = []
@@ -281,7 +281,7 @@ class Plugin(ETS2LAPlugin):
                     continue
                 
                 # Run YOLO model
-                startTime = self.time.time()
+                startTime = self.time.perf_counter()
                 try:
                     results = self.model(self.yolo_frame)
                 except:
@@ -289,10 +289,10 @@ class Plugin(ETS2LAPlugin):
                     continue  # Model is not ready
 
                 self.boxes = results.pandas().xyxy[0]
-                timeToSleep = 1 / self.YOLO_FPS - (self.time.time() - startTime)
+                timeToSleep = 1 / self.YOLO_FPS - (self.time.perf_counter() - startTime)
                 if timeToSleep > 0:
                     self.time.sleep(timeToSleep)
-                self.cur_yolo_fps = round(1 / (self.time.time() - startTime), 1)
+                self.cur_yolo_fps = round(1 / (self.time.perf_counter() - startTime), 1)
         except Exception as e:
             logging.exception(f"Error in Object Detection - detection_thread: {e}")
             self.terminate()
@@ -354,11 +354,11 @@ class Plugin(ETS2LAPlugin):
             self.ScreenCapture.monitor_x2 = self.capture_x + self.capture_width
             self.ScreenCapture.monitor_y2 = self.capture_y + self.capture_height
             
-            inputTime = self.time.time()
+            inputTime = self.time.perf_counter()
             data = {}
             data["api"] = self.TruckSimAPI.run()
             data["frame"] = self.ScreenCapture.run(imgtype="cropped")
-            inputTime = self.time.time() - inputTime
+            inputTime = self.time.perf_counter() - inputTime
             
             truckX = data["api"]["truckPlacement"]["coordinateX"]
             truckY = data["api"]["truckPlacement"]["coordinateY"]
@@ -377,7 +377,7 @@ class Plugin(ETS2LAPlugin):
                 self.frame_counter = 0
                 self.cur_yolo_fps = self.fps / self.YOLO_FPS
 
-            trackTime = self.time.time()
+            trackTime = self.time.perf_counter()
             
             if self.MODE == "Performance":
                 tracked_boxes = self.track_cars(self.boxes, self.yolo_frame)
@@ -419,7 +419,7 @@ class Plugin(ETS2LAPlugin):
                 else:
                     tracked_boxes = self.tracker.update()
             
-            trackTime = self.time.time() - trackTime
+            trackTime = self.time.perf_counter() - trackTime
 
             carPoints = []
             objectPoints = []
@@ -427,7 +427,7 @@ class Plugin(ETS2LAPlugin):
             vehicles = []
             objects = []
             trafficLights = []
-            visualTime = self.time.time()
+            visualTime = self.time.perf_counter()
             
             try:
                 for tracked_object in tracked_boxes:
@@ -438,8 +438,8 @@ class Plugin(ETS2LAPlugin):
             except:
                 pass
             
-            visualTime = self.time.time() - visualTime
-            raycastTime = self.time.time()
+            visualTime = self.time.perf_counter() - visualTime
+            raycastTime = self.time.perf_counter()
             
             if tracked_boxes is not None:
                 try:
@@ -555,15 +555,15 @@ class Plugin(ETS2LAPlugin):
                     logging.exception(f"Error tracking cars: {e}")
                     pass
                 
-            raycastTime = self.time.time() - raycastTime
+            raycastTime = self.time.perf_counter() - raycastTime
 
             # Calculate FPS
-            self.fps = round(1 / (self.time.time() - self.start_time))
+            self.fps = round(1 / (self.time.perf_counter() - self.start_time))
             self.fps_values.append(self.fps)
             if self.fps_values.__len__() > 10:
                 self.fps_values.pop(0)
             self.fps = round(sum(self.fps_values) / len(self.fps_values), 1)
-            self.start_time = self.time.time()
+            self.start_time = self.time.perf_counter()
 
             # Display FPS values
             self.cv2.putText(frame, f"FPS: {round(self.smoothedFPS(self.fps), 1)}", (20, 60), self.cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, self.cv2.LINE_AA)   

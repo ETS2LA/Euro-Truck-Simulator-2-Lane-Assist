@@ -76,7 +76,7 @@ def set_window_icon(image_path):
 
 def ColorTitleBar(theme:str="dark"):
     returnCode = 1
-    sinceStart = time.time()
+    sinceStart = time.perf_counter()
     
     colors = {
         "dark": 0x1b1818,
@@ -89,7 +89,7 @@ def ColorTitleBar(theme:str="dark"):
         returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
         import ETS2LA.Window.utils as utils
         utils.set_window_icon('ETS2LA/Window/favicon.ico')
-        if time.time() - sinceStart > 10:
+        if time.perf_counter() - sinceStart > 10:
             logging.warning("Couldn't find / start the ETS2LA window.")
             break
 
@@ -101,13 +101,13 @@ def CheckIfWindowStillOpen():
         if hwnd == 0:
             return False
         else:
-            if last_window_position_time + 1 < time.time():
+            if last_window_position_time + 1 < time.perf_counter():
                 rect = win32gui.GetClientRect(hwnd)
                 tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
                 if (tl[0], tl[1]) != window_position:
                     window_position = (tl[0], tl[1])
                     settings.Set("global", "window_position", window_position)
-                last_window_position_time = time.time()
+                last_window_position_time = time.perf_counter()
             return True
     else:
         return True

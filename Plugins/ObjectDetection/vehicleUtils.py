@@ -23,7 +23,7 @@ def UpdateVehicleSpeed(id, position) -> float | Union[float, float]:
             return 0
         lastPosition = lastPositionArray[id]["xyz"]
         lastTime = lastPositionArray[id]["time"]
-        currentTime = time.time()
+        currentTime = time.perf_counter()
         distance = math.sqrt((position[0] - lastPosition[0])**2 + (position[1] - lastPosition[1])**2 + (position[2] - lastPosition[2])**2)
         timeDifference = currentTime - lastTime
         speed = distance / timeDifference
@@ -38,6 +38,6 @@ def UpdateVehicleSpeed(id, position) -> float | Union[float, float]:
         lastPositionArray[id] = {
             "xyz": position,
             "speed": SmoothedValue("time", 2),
-            "time": time.time()
+            "time": time.perf_counter()
         }
         return 0

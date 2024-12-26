@@ -241,7 +241,7 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
         Key = f"{Name}{Blacklist}"
         if Key not in LastForegroundWindows:
             LastForegroundWindows[Key] = [0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight]
-        if LastForegroundWindows[Key][0] + 1 < time.time():
+        if LastForegroundWindows[Key][0] + 1 < time.perf_counter():
             HWND = None
             TopWindows = []
             IsForeground = LastForegroundWindows[Key][1]
@@ -249,7 +249,7 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
             for HWND, WindowText in TopWindows:
                 if Name in WindowText and all(BlacklistItem not in WindowText for BlacklistItem in Blacklist):
                     IsForeground = (HWND == win32gui.GetForegroundWindow())
-            LastForegroundWindows[Key] = time.time(), IsForeground
+            LastForegroundWindows[Key] = time.perf_counter(), IsForeground
             return IsForeground
         else:
             return LastForegroundWindows[Key][1]
@@ -263,7 +263,7 @@ def GetWindowPosition(Name="", Blacklist=[""]):
         Key = f"{Name}{Blacklist}"
         if Key not in LastWindowPositions:
             LastWindowPositions[Key] = [0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight]
-        if LastWindowPositions[Key][0] + 1 < time.time():
+        if LastWindowPositions[Key][0] + 1 < time.perf_counter():
             HWND = None
             TopWindows = []
             Window = LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]
@@ -275,7 +275,7 @@ def GetWindowPosition(Name="", Blacklist=[""]):
                     BottomRight = win32gui.ClientToScreen(HWND, (RECT[2], RECT[3]))
                     Window = (TopLeft[0], TopLeft[1], BottomRight[0] - TopLeft[0], BottomRight[1] - TopLeft[1])
                     break
-            LastWindowPositions[Key] = time.time(), Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
+            LastWindowPositions[Key] = time.perf_counter(), Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
             return Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
         else:
             return LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]

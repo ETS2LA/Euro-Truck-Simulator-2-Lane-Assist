@@ -44,7 +44,7 @@ class Module(ETS2LAModule):
         
 
     def DeleteOldObjects(self) -> None:
-        current_time = time.time()
+        current_time = time.perf_counter()
         self.objects = [obj for obj in self.objects if current_time - obj.last_update_time <= self.time_to_retain_objects]
 
 

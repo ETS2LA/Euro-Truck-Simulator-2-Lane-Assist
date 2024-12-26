@@ -14,7 +14,7 @@ class CancelledJob(BaseModel):
         return self.model_dump()
         
     def fromAPIData(self, data):
-        self.timestamp = time.time()
+        self.timestamp = time.perf_counter()
         self.special = data["configBool"]["specialJob"]
         self.started_time = data["gameplayUI"]["jobStartingTime"]
         self.cancelled_time = data["gameplayUI"]["jobFinishedTime"]
@@ -48,7 +48,7 @@ class FinishedJob(BaseModel):
         return self.model_dump()
         
     def fromAPIData(self, data):
-        self.timestamp = time.time()
+        self.timestamp = time.perf_counter()
         
         self.special = data["configBool"]["specialJob"]
         
@@ -102,7 +102,7 @@ class Job(BaseModel):
         return self.model_dump()
     
     def fromAPIData(self, data):
-        self.timestamp = time.time()
+        self.timestamp = time.perf_counter()
         
         self.special = data["configBool"]["specialJob"]
         
@@ -142,7 +142,7 @@ class Refuel(BaseModel):
         return self.model_dump()
         
     def fromAPIData(self, data):
-        self.timestamp = time.time()
+        self.timestamp = time.perf_counter()
         if data["specialBool"]["refuelPayed"] == True:
             self.type = "payed"
         self.refuelAmount = data["gameplayFloat"]["refuelAmount"]

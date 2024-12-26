@@ -154,7 +154,7 @@ def UpdateData(api_data):
         }
         
         external_data_changed = True
-        external_data_time = time.time()
+        external_data_time = time.perf_counter()
         data_needs_update = False
     
     rotationX = api_data["truckPlacement"]["rotationX"]

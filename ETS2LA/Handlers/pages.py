@@ -48,14 +48,14 @@ def get_pages():
             last_modified_time = os.path.getmtime(file_path)
             
             module_name = f"{PAGES_PATH}.{f[:-3]}"
-            if (module_name in sys.modules and last_modified_times.get(module_name) == last_modified_time) and module_name in last_update_times and time.time() - last_update_times.get(module_name) < 10:
+            if (module_name in sys.modules and last_modified_times.get(module_name) == last_modified_time) and module_name in last_update_times and time.perf_counter() - last_update_times.get(module_name) < 10:
                 module = sys.modules[module_name]
             else:
                 try:
                     module = importlib.import_module(module_name)
                     importlib.reload(module)
                     last_modified_times[module_name] = last_modified_time
-                    last_update_times[module_name] = time.time()
+                    last_update_times[module_name] = time.perf_counter()
                 except:
                     logging.exception(f"Failed to import module {module_name}")
                     continue

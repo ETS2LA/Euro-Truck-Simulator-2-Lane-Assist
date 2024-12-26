@@ -81,8 +81,8 @@ def run():
             translator.CheckForLanguageUpdates()
             frameCounter = 0
         
-        # if lastPingTime + 60 < time.time():
-        #     lastPingTime = time.time()
+        # if lastPingTime + 60 < time.perf_counter():
+        #     lastPingTime = time.perf_counter()
         #     try:
         #         cloud.Ping()
         #     except:
