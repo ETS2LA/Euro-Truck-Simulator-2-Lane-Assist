@@ -15,19 +15,6 @@ class Title():
                 }
             }
         })
-        
-class Label():
-    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal"):
-        global ui
-        ui.append({
-            "label": {
-                "text": text,
-                "options": {
-                    "weight": weight,
-                    "size": size,
-                }
-            }
-        })
 
 class Description():
     def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold", "black"] = "normal"):
@@ -38,6 +25,19 @@ class Description():
                 "options": {
                     "weight": weight,
                     "size": size,
+                }
+            }
+        })
+
+class Label():
+    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal"):
+        global ui
+        ui.append({
+            "label": {
+                "text": text,
+                "options": {
+                    "weight": weight,
+                    "size": size
                 }
             }
         })
