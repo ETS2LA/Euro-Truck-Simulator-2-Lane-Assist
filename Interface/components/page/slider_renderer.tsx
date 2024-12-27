@@ -3,7 +3,7 @@ import { Slider as ShadCNSlider } from "@/components/ui/slider";
 import { Component } from "react";
 import { toast } from "sonner";
 
-interface SliderComponentProps {
+export interface SliderProps {
     pluginSettings: Record<string, any>;
 	data: { name: string, description: string, setting_key: string, setting_default: number, setting_min: number, setting_max: number, setting_step: number, classname: string, requires_restart: boolean }
 	default: number;
@@ -14,13 +14,13 @@ interface SliderComponentProps {
     translate: (key: string) => string;
 }
 
-interface SliderComponentState {
+interface SliderState {
     curSliderValue: number;
     tempSliderValue: number | null;
 }
 
-class Slider extends Component<SliderComponentProps, SliderComponentState> {
-    constructor(props: SliderComponentProps) {
+export default class Slider extends Component<SliderProps, SliderState> {
+    constructor(props: SliderProps) {
         super(props);
         const value = props.pluginSettings[props.data.setting_key] ? parseFloat(props.pluginSettings[props.data.setting_key]) : props.default;
         this.state = {
