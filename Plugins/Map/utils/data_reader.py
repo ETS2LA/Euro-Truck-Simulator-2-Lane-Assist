@@ -524,7 +524,7 @@ def ReadCities() -> list[c.City]:
     return cities
 
 state_object = None
-total_steps = 20
+total_steps = 21
 progress = 0
 def PrintState(start_time: float, message: str):
     global progress
@@ -632,6 +632,10 @@ def ReadData(state = None) -> c.MapData:
     PrintState(start_time, "Linking objects (roads)")
     data.match_roads_to_looks()
     UpdateState(start_time, f"Linked roads to looks")
+    
+    PrintState(start_time, "Computing Navigation Graph")
+    #data.compute_navigation_data()
+    UpdateState(start_time, f"Computed navigation graph")
     
     print(f"[green]Data read in {time.perf_counter() - start_time:.2f} seconds.[/green]")
     

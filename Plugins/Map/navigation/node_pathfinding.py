@@ -19,7 +19,7 @@ class NodePathfinder:
         end_node: Node,
         dir: str = 'forward',
         mode: str = 'shortest'
-    ) -> Optional[List[NavigationLane]]:
+    ) -> Optional[List[Node]]:
         """Find a path between two nodes using lane-level navigation.
 
         Args:

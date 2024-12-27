@@ -1,6 +1,7 @@
 """Prefab helper utilities for map plugin."""
 from Plugins.Map.utils import math_helpers
 from collections import defaultdict
+import Plugins.Map.classes as c
 from typing import List, Tuple
 import numpy as np
 import math
@@ -52,15 +53,11 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
 
     # Only accept the shortest route from each start curve to each end curve
     accepted_routes = []
-    for start_curve in routes_by_start_curve:
-        for end_curve in routes_by_end_curve:
-            shortest_route = None
-            shortest_route_length = math.inf
-            for route in routes_by_start_curve[start_curve]:
-                if route in routes_by_end_curve[end_curve] and route_lengths[route] < shortest_route_length:
-                    shortest_route = route
-                    shortest_route_length = route_lengths[route]
-            if shortest_route is not None:
+    for start_curve, start_routes in routes_by_start_curve.items():
+        for end_curve, end_routes in routes_by_end_curve.items():
+            common_routes = set(start_routes) & set(end_routes)
+            if common_routes:
+                shortest_route = min(common_routes, key=lambda route: route_lengths[route])
                 accepted_routes.append(list(shortest_route))
 
     return accepted_routes
@@ -120,3 +117,14 @@ def get_closest_lane(item, x: float, z: float) -> int:
                 closest_lane_id = lane_id
         
     return closest_lane_id
+
+def convert_point_to_relative(point, origin_node, map_origin):
+    prefab_start_x = origin_node.x - map_origin.x
+    prefab_start_y = origin_node.z - map_origin.z
+    prefab_start_z = origin_node.y - map_origin.y
+
+    rot = float(origin_node.rotation - map_origin.rotation)
+
+    new_point_pos = math_helpers.RotateAroundPoint(point.x + prefab_start_x, point.z + prefab_start_z, rot,
+                                                    origin_node.x, origin_node.y)
+    return c.Transform(new_point_pos[0], point.y + prefab_start_y, new_point_pos[1], point.rotation + rot)

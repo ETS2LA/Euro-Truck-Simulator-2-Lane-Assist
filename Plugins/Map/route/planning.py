@@ -266,6 +266,10 @@ def GetNextRouteSection(route: list[rc.RouteSection] = []) -> rc.RouteSection:
         
         forward_item = data.map.get_item_by_uid(node.forward_item_uid)
         backward_item = data.map.get_item_by_uid(node.backward_item_uid)
+        
+        if forward_item is None or backward_item is None:
+            return None
+        
         if forward_item.uid != current_section.items[-1].item.uid and forward_item.uid != current_section.items[0].item.uid:
             next_item = forward_item
         elif backward_item.uid != current_section.items[0].item.uid and backward_item.uid != current_section.items[-1].item.uid:
@@ -448,11 +452,9 @@ def GetNextNavigationItem():
     
     closest = path[index]
     
-    dir = "forward"
     if closest.forward_item_uid == next.backward_item_uid:
         next_item = data.map.get_item_by_uid(closest.forward_item_uid)
     elif closest.backward_item_uid == next.forward_item_uid:
-        dir = "backward"
         next_item = data.map.get_item_by_uid(closest.backward_item_uid)
     elif closest.backward_item_uid == next.backward_item_uid:
         next_item = data.map.get_item_by_uid(closest.backward_item_uid)
@@ -489,6 +491,56 @@ def GetNextNavigationItem():
             return None
         
         return PrefabToRouteSection(next_item, best_lane)
+    
+def UpdateNavigatedLanes():
+    lookahead = 6 # how many nodes ahead should we plan.
+    
+    last_item = data.route_plan[-1]
+    last_points = last_item.lane_points
+    end_node = last_item.end_node
+    start_node = last_item.start_node
+    
+    start_in_front = math_helpers.IsInFront((start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+    end_in_front = math_helpers.IsInFront((end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
+    
+    selected_node = None
+    
+    if start_in_front and not end_in_front:
+        selected_node = start_node
+        last_points = last_points[::-1]
+    elif end_in_front and not start_in_front:
+        selected_node = end_node
+        
+    if start_in_front and end_in_front:
+        return None
+    
+    path = data.navigation_plan
+    try: 
+        index = path.index(selected_node)
+    except:
+        logging.warning("Failed to find selected node in path")
+        return None
+    
+    end_index = min(index + lookahead, len(path))
+    selected_path = path[index:end_index]
+    selected_items = []
+    for i in range(len(selected_path) - 1):
+        node = selected_path[i]
+        next_node = selected_path[i + 1]
+        if node.forward_item_uid == next_node.backward_item_uid:
+            selected_items.append(data.map.get_item_by_uid(node.forward_item_uid))
+        elif node.backward_item_uid == next_node.forward_item_uid:
+            selected_items.append(data.map.get_item_by_uid(node.backward_item_uid))
+        elif node.backward_item_uid == next_node.backward_item_uid:
+            selected_items.append(data.map.get_item_by_uid(node.backward_item_uid))
+        elif node.forward_item_uid == next_node.forward_item_uid:
+            selected_items.append(data.map.get_item_by_uid(node.forward_item_uid))
+        else:
+            logging.warning("No connection between nodes")
+            return None
+        
+    
+    #print(selected_items)
     
         
 was_indicating = False
@@ -546,47 +598,5 @@ def UpdateRoutePlan():
         if len(data.route_plan) == 0:
             return
             
-        # Check for lane changes
-        cur = data.route_plan[0]
-        if type(cur.items[0].item) in [c.Road]:
-            try: start_index = data.navigation_plan.index(cur.start_node) 
-            except: start_index = 0
-            try: end_index = data.navigation_plan.index(cur.end_node)
-            except: end_index = 0
-            index = max(start_index, end_index)
-            
-            try:
-                next_node = data.navigation_plan[index + 3] # + 3 to make it work at offramps too (road end (0) -> offramp start (+1) -> offramp road (+2) -> offramp end (+3))
-            except:
-                next_node = None
-                
-            if next_node is not None:
-                closest_index = rh.get_closest_lane(cur.items[-1].item, next_node.x, next_node.y)
-                current_index = data.route_plan[0].lane_index
-                lanes = data.route_plan[0].items[0].item.lanes
-                side = lanes[current_index].side
-                left_lanes = len([lane for lane in lanes if lane.side == "left"])
-                
-                # Apply lane change
-                if closest_index < current_index:
-                    if side == "right":
-                        data.route_plan[0].lane_index = left_lanes
-                    if side == "left":
-                        data.route_plan[0].lane_index = 0
-                if closest_index > current_index:
-                    if side == "left":
-                        data.route_plan[0].lane_index = left_lanes - 1
-                    if side == "right":
-                        data.route_plan[0].lane_index = len(lanes) - 1
-                
-                # Reset
-                data.route_plan = [data.route_plan[0]]
-            
-        if len(data.route_plan) < data.route_plan_length:
-            try:
-                next_route_section = GetNextNavigationItem()
-            except:
-                logging.exception("Failed to get next navigation item")
-                next_route_section = None
-            if next_route_section is not None:
-                data.route_plan.append(next_route_section)
+        UpdateNavigatedLanes()
+        

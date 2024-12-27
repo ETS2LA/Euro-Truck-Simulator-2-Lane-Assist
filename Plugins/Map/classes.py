@@ -11,6 +11,7 @@ from ETS2LA.Utils.Values.dictionaries import get_nested_item, set_nested_item
 from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
 from Plugins.Map.utils import road_helpers
+from Plugins.Map.utils import node_helpers
 
 # MARK: Constants
 
@@ -136,6 +137,10 @@ class NavigationNode:
     direction: Literal["forward", "backward"]
     is_one_lane_road: bool
     dlc_guard: int
+    item_uid: int | str = ""
+    item_type = None
+    lane_indices: list[int] = []
+    """This is a list of the lane indices that go through this navigation node."""
     
     def parse_strings(self):
         self.node_id = parse_string_to_int(self.node_id)
@@ -177,6 +182,41 @@ class NavigationEntry:
             "forward": [node.json() for node in self.forward],
             "backward": [node.json() for node in self.backward]
         }
+        
+    def calculate_node_data(self, map_data):
+        this = map_data.get_node_by_uid(self.uid)
+        for node in self.forward:
+            map_data.total += 1
+            other = map_data.get_node_by_uid(node.node_id)
+            if other == this:
+                continue
+            
+            node.item_uid = node_helpers.get_connecting_item_uid(this, other)
+            if node.item_uid is None:
+                logging.debug(f"Failed to get connecting item UID for nodes {this.uid} and {other.uid}")
+                map_data.not_found += 1
+                continue
+            
+            item = map_data.get_item_by_uid(node.item_uid)
+            node.item_type = type(item)
+            node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
+            if node.lane_indices == []:
+                map_data.lanes_invalid += 1
+        
+        for node in self.backward:
+            other = map_data.get_node_by_uid(node.node_id)
+            node.item_uid = node_helpers.get_connecting_item_uid(this, other)
+            if node.item_uid is None:
+                logging.debug(f"Failed to get connecting item UID for nodes {this.uid} and {other.uid}")
+                map_data.not_found += 1
+                continue
+            
+            item = map_data.get_item_by_uid(node.item_uid)
+            node.item_type = type(item)
+            node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
+            if node.lane_indices == []:
+                map_data.lanes_invalid += 1
+            
 
 class Node:
     uid: int | str
@@ -193,6 +233,7 @@ class Node:
     sector_y: int
     forward_country_id: int | str
     backward_country_id: int | str
+    _navigation: NavigationEntry = None
 
     def parse_strings(self):
         self.uid = parse_string_to_int(self.uid)
@@ -224,6 +265,12 @@ class Node:
         self.backward_country_id = backward_country_id
         
         self.parse_strings()
+        
+    @property
+    def navigation(self) -> NavigationEntry:
+        if self._navigation is None:
+            self._navigation = data.map.get_navigation_entry(self.uid)
+        return self._navigation
 
     def json(self) -> dict:
         return {
@@ -2194,3 +2241,20 @@ class MapData:
                     road.get_nodes()  # Initialize nodes
                     return road
         return None
+
+    total = 0
+    not_found = 0
+    lanes_invalid = 0
+    def compute_navigation_data(self):
+        amount = len(self.navigation)
+        count = 0
+        for node in self.navigation:
+            node.calculate_node_data(self)
+            if count % 100 == 0:
+                print(f"Processed {count}/{amount} nodes ({count / amount * 100:.2f}%)", end="\r")
+            count += 1
+        
+        print(f"Total: {self.total}")
+        print(f"> Not found: {self.not_found} ({self.not_found / self.total * 100:.2f}%)")
+        print(f"> Lanes invalid: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
+        print(f"> Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")
