@@ -1,17 +1,14 @@
-# Ignore the logs
+# Ignore cache and log files
+cache
+model-cache
+**/__pycache__
 logs
 
-# Ignore the cache
-cache
-
-# Ignore the PyTorch models
-model-cache
-
-# Ignore the python cache and settings
-**/__pycache__
+# Ignore settings
 **/settings.json
 /ETS2LA/global.json
 /ETS2LA/controls.json
+/ETS2LA/backend/settings/controls.json
 
 # Ignore Godot exports and export config
 /Visualization/ETS2LA-Visualisation/export_presets.cfg
@@ -27,11 +24,10 @@ model-cache
 
 # Pycharm
 .idea
-/plugins/ETS2LA-OpenShock-main
 
 # VSCode
 .vscode
 
-# Ignore the Data Collection End-To-End Driving folder and the ID file
+# Ignore End to End files
 /Data-Collection-End-To-End-Driving
 /End-To-End-Data-ID.txt
