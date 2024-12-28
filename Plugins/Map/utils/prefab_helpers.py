@@ -9,8 +9,8 @@ import cv2
 
 def find_starting_curves(prefab_description) -> list:
     """Find all starting nav curves in a prefab description."""
-    from Plugins.Map.classes import PrefabDescription, PrefabNavCurve
-    assert isinstance(prefab_description, PrefabDescription)
+    assert isinstance(prefab_description, c.PrefabDescription)
+    
     starting_curves = []
     for curve in prefab_description.nav_curves:
         if curve.prev_lines == []:
@@ -19,12 +19,12 @@ def find_starting_curves(prefab_description) -> list:
 
 def traverse_curve_till_end(curve, prefab_description) -> List[List]:
     """Traverse nav curves until reaching end points."""
-    from Plugins.Map.classes import PrefabDescription, PrefabNavCurve
-    assert isinstance(prefab_description, PrefabDescription)
-    assert isinstance(curve, PrefabNavCurve)
-    routes: List[List[PrefabNavCurve]] = []
+    assert isinstance(prefab_description, c.PrefabDescription)
+    assert isinstance(curve, c.PrefabNavCurve)
+    
+    routes: List[List[c.PrefabNavCurve]] = []
 
-    def traverse(curve: PrefabNavCurve, route: List[PrefabNavCurve], depth: int):
+    def traverse(curve: c.PrefabNavCurve, route: List[c.PrefabNavCurve], depth: int):
         route.append(curve)
         if not curve.next_lines:
             routes.append(route[:])
@@ -64,8 +64,7 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
 
 def display_prefab_routes(prefab_description) -> None:
     """Display navigation routes for a prefab."""
-    from Plugins.Map.classes import PrefabDescription
-    assert isinstance(prefab_description, PrefabDescription)
+    assert isinstance(prefab_description, c.PrefabDescription)
     cv2.namedWindow("Nav Routes", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("Nav Routes", 1000, 1000)
     img = np.zeros((1000, 1000, 3), np.uint8)

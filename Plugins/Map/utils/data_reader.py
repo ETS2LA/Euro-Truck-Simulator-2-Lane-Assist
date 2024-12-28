@@ -164,8 +164,8 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                     node["y"],
                     node["z"],
                     node["rotation"],
-                    node.get("input_lanes", []),
-                    node.get("output_lanes", []),
+                    node.get("inputLanes", []),
+                    node.get("outputLanes", []),
                 )
                 for node in prefab_description["nodes"]
             ],
@@ -634,7 +634,7 @@ def ReadData(state = None) -> c.MapData:
     UpdateState(start_time, f"Linked roads to looks")
     
     PrintState(start_time, "Computing Navigation Graph")
-    #data.compute_navigation_data()
+    # data.compute_navigation_data()
     UpdateState(start_time, f"Computed navigation graph")
     
     print(f"[green]Data read in {time.perf_counter() - start_time:.2f} seconds.[/green]")

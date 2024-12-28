@@ -33,12 +33,30 @@ def get_connecting_item_uid(node_1, node_2) -> int:
     
     return None
 
+
 def rotate_left(arr: List[T], count: int) -> List[T]:
+    """Rotate an array to the left by a specified count.
+
+    :param List[T] arr: The array to rotate.
+    :param int count: The number of positions to rotate the array to the left.
+    :return List[T]: The rotated array.
+    """
     assert 0 <= count < len(arr), "count must be within the range of the array length"
     if count == 0:
         return arr
+    return arr[count:] + arr[:count]
+
 
 def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
+    """Get the connecting lanes between two nodes based on the item type.
+
+
+    :param c.Node node_1: The starting node.
+    :param c.Node node_2: The ending node.
+    :param Item item: The type of the item.
+    :param MapData map_data: A mapdata instance to use.
+    :return list[int]: The list of connecting lane ids.
+    """
     if type(item) == c.Road:
         left_lanes = len(item.road_look.lanes_left)
         right_lanes = len(item.road_look.lanes_right)
@@ -58,6 +76,30 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
             item_nodes, item.origin_node_index
         )
         
+        node_1_index = [i for i, n in enumerate(rotated_nodes) if n.uid == node_1.uid][0]
+        start_prefab_node = description.nodes[node_1_index]
+        node_2_index = [i for i, n in enumerate(rotated_nodes) if n.uid == node_2.uid][0]
+        end_prefab_node = description.nodes[node_2_index]
         
+        routes = description.nav_routes
+            
+        accepted_routes = []
+        start_found = False
+        end_found = False
+        for route in routes:
+            for curve in route.curves:
+                index = description.nav_curves.index(curve)
+
+                if index in start_prefab_node.input_lanes:
+                    start_found = True
+                if index in end_prefab_node.output_lanes and start_found:
+                    end_found = True
+                    break
+            
+            if start_found and end_found:
+                accepted_routes.append(routes.index(route))
+     
+        return accepted_routes
+    
     else:
         return []

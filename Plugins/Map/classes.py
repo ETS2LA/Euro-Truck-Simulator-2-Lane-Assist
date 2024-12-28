@@ -1681,12 +1681,21 @@ class PrefabNavNode:
 
 class PrefabNavRoute:
     curves: list[PrefabNavCurve]
-    points: list[Position] = []
     distance: float = 0
+    _points: list[Position] = []
 
     def __init__(self, curves: list[PrefabNavCurve]):
         self.curves = curves
-        self.points = self.generate_points()
+        
+    @property
+    def points(self):
+        if self._points == []:
+            self._points = self.generate_points()
+        return self._points
+
+    @points.setter
+    def points(self, value):
+        self._points = value
 
     def generate_points(self) -> list[Position]:
         new_points = []
