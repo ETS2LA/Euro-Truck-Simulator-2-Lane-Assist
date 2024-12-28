@@ -5,7 +5,7 @@ model-cache
 logs
 
 # Ignore translations on the frontend
-
+/Interface/translations
 
 # Ignore settings
 **/settings.json
