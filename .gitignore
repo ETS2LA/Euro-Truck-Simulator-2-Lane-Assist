@@ -4,6 +4,9 @@ model-cache
 **/__pycache__
 logs
 
+# Ignore translations on the frontend
+/Interface/translations/*
+
 # Ignore settings
 **/settings.json
 /ETS2LA/global.json
