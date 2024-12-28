@@ -119,8 +119,9 @@ class Plugin(ETS2LAPlugin):
             MODEL_NAME = "YOLOv7-tiny.pt" if MODEL_TYPE == "YoloV7" else "YOLOv5s.pt"
             MODELS_DIR = self.os.path.join(self.os.path.dirname(__file__), "models")
             MODEL_PATH = self.os.path.join(MODELS_DIR, MODEL_NAME)
+            # https://huggingface.co/ets2la-org/object-detection/resolve/445ec31ddaccfefa4cca52582243abea9b4a2369/YOLOv5s.pt?download=true
             MODEL_REPO = "https://huggingface.co/ets2la-org/object-detection"
-            MODEL_DOWNLOAD_LINK = f"{MODEL_REPO}/resolve/main/{MODEL_NAME}?download=true"
+            MODEL_DOWNLOAD_LINK = f"{MODEL_REPO}/resolve/445ec31ddaccfefa4cca52582243abea9b4a2369/{MODEL_NAME}?download=true"
             
             MODEL_DOWNLOAD_TITLE = "Object Detection - Model Download"
             MODEL_DOWNLOAD_DESC = f"{Translate('object_detection.not_found.1')}\n{MODEL_NAME}\n\n{Translate('object_detection.not_found.2')} Hugging Face"
