@@ -10,18 +10,45 @@ import ETS2LA.variables as variables
 from Plugins.ObjectDetection.vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
 from Plugins.ObjectDetection.classes import Vehicle, RoadMarker, Sign, TrafficLight
 
+models = {
+    "downloaded": [
+        {"name": "YOLOv5s", "desc": "Currently the best model, Trained on the newly annotated dataset.", "benchmark_fps": 2.5, "status": "Active"},
+    ],
+    "available": [
+        {"name": "YOLOv7-tiny", "desc": "Outdated and old model, this was used for testing v7 and most likely won't even work. The dataset is an ancient, badly annotated version.", "benchmark_fps": 4, "status": "Outdated"}
+    ],
+}
+
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "ObjectDetection"
+
+    def ModelDetails(self, *args, **kwargs):
+        print(args)
+
     def render(self):
-        Title("object_detection.settings.1.title")
-        Description("object_detection.settings.1.description")
-        Separator()
-        Selector("object_detection.settings.2.name", "device", "Automatic", ["Automatic", "CPU", "GPU"], description="object_detection.settings.2.description", requires_restart=True)
-        Selector("object_detection.settings.3.name", "mode", "Performance", ["Performance", "Quality"], description="object_detection.settings.3.description", requires_restart=True)
-        Input("object_detection.settings.4.name", "yolo_fps", "number", 2, description="object_detection.settings.4.description", requires_restart=True)
-        Selector("object_detection.settings.5.name", "model", "YoloV5", ["YoloV5", "YoloV7"], description="object_detection.settings.5.description", requires_restart=True)
-        # TODO: Add array element back
+        Label(Translate("object_detection.settings.title"), classname_preset=TitleClassname)
+        Label(Translate("object_detection.settings.description"), classname_preset=DescriptionClassname)
+
+        with TabView():
+            with Tab("Settings"):
+                Separator()
+                Selector(Translate("object_detection.settings.1.name"), "mode", "Performance", ["Performance", "Quality"], description=Translate("object_detection.settings.1.description"), requires_restart=True)
+                Input(Translate("object_detection.settings.2.name"), "number", "yolo_fps", 2, description=Translate("object_detection.settings.2.description"), requires_restart=True)
+            
+            with Tab("Models"):
+                Separator()
+                with Group("vertical"):
+                    Label("Model Manager", classname_preset=TitleClassname)
+                    Label("Choose from trained models to use for object detection.", classname_preset=DescriptionClassname)
+
+                Label("Downloaded Models:")
+                for i, model in enumerate(models["downloaded"]):
+                    ButtonGroup(model["name"], model["desc"], "Details", self.ModelDetails, target_args=["downloaded", i])
+                Label("Available Models:")
+                for i, model in enumerate(models["available"]):
+                    ButtonGroup(model["name"], model["desc"], "Details", self.ModelDetails, target_args=["available", i])
+                    
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
@@ -32,7 +59,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="plugins.objectdetection.description",
         modules=["TruckSimAPI", "ScreenCapture", "ShowImage", "Raycasting", "PositionEstimation"],
-        tags=["Base", "Traffic Lights", "Objects"]
+        tags=["Base", "Traffic Lights", "Objects", "AI"]
     )
     
     author = [
@@ -77,7 +104,7 @@ class Plugin(ETS2LAPlugin):
                 self.terminate()
 
             try:
-                from Plugins.AR.main import ScreenLine, Text # type: ignore (Ignore import errors)
+                from plugins.AR.main import ScreenLine, Text # type: ignore (Ignore import errors)
             except ImportError:
                 ScreenLine = Text = None
 
@@ -246,7 +273,7 @@ class Plugin(ETS2LAPlugin):
             self.smoothedRaycastTime = SmoothedValue("time", 1)
             
             self.boxes = None
-            self.start_time = self.time.perf_counter()
+            self.start_time = self.time.time()
             self.cur_yolo_fps = 0
             self.frame_counter = 0
             self.fps_values = []
@@ -271,7 +298,9 @@ class Plugin(ETS2LAPlugin):
                 )
         except Exception as e:
             logging.exception(f"Error in Object Detection - init: {e}")
-            self.terminate()
+            while True:
+                pass
+            #self.terminate()
 
     def detection_thread(self):
         try:
@@ -281,7 +310,7 @@ class Plugin(ETS2LAPlugin):
                     continue
                 
                 # Run YOLO model
-                startTime = self.time.perf_counter()
+                startTime = self.time.time()
                 try:
                     results = self.model(self.yolo_frame)
                 except:
@@ -289,10 +318,10 @@ class Plugin(ETS2LAPlugin):
                     continue  # Model is not ready
 
                 self.boxes = results.pandas().xyxy[0]
-                timeToSleep = 1 / self.YOLO_FPS - (self.time.perf_counter() - startTime)
+                timeToSleep = 1 / self.YOLO_FPS - (self.time.time() - startTime)
                 if timeToSleep > 0:
                     self.time.sleep(timeToSleep)
-                self.cur_yolo_fps = round(1 / (self.time.perf_counter() - startTime), 1)
+                self.cur_yolo_fps = round(1 / (self.time.time() - startTime), 1)
         except Exception as e:
             logging.exception(f"Error in Object Detection - detection_thread: {e}")
             self.terminate()
@@ -354,11 +383,11 @@ class Plugin(ETS2LAPlugin):
             self.ScreenCapture.monitor_x2 = self.capture_x + self.capture_width
             self.ScreenCapture.monitor_y2 = self.capture_y + self.capture_height
             
-            inputTime = self.time.perf_counter()
+            inputTime = self.time.time()
             data = {}
             data["api"] = self.TruckSimAPI.run()
             data["frame"] = self.ScreenCapture.run(imgtype="cropped")
-            inputTime = self.time.perf_counter() - inputTime
+            inputTime = self.time.time() - inputTime
             
             truckX = data["api"]["truckPlacement"]["coordinateX"]
             truckY = data["api"]["truckPlacement"]["coordinateY"]
@@ -377,7 +406,7 @@ class Plugin(ETS2LAPlugin):
                 self.frame_counter = 0
                 self.cur_yolo_fps = self.fps / self.YOLO_FPS
 
-            trackTime = self.time.perf_counter()
+            trackTime = self.time.time()
             
             if self.MODE == "Performance":
                 tracked_boxes = self.track_cars(self.boxes, self.yolo_frame)
@@ -419,7 +448,7 @@ class Plugin(ETS2LAPlugin):
                 else:
                     tracked_boxes = self.tracker.update()
             
-            trackTime = self.time.perf_counter() - trackTime
+            trackTime = self.time.time() - trackTime
 
             carPoints = []
             objectPoints = []
@@ -427,7 +456,7 @@ class Plugin(ETS2LAPlugin):
             vehicles = []
             objects = []
             trafficLights = []
-            visualTime = self.time.perf_counter()
+            visualTime = self.time.time()
             
             try:
                 for tracked_object in tracked_boxes:
@@ -438,8 +467,8 @@ class Plugin(ETS2LAPlugin):
             except:
                 pass
             
-            visualTime = self.time.perf_counter() - visualTime
-            raycastTime = self.time.perf_counter()
+            visualTime = self.time.time() - visualTime
+            raycastTime = self.time.time()
             
             if tracked_boxes is not None:
                 try:
@@ -555,15 +584,15 @@ class Plugin(ETS2LAPlugin):
                     logging.exception(f"Error tracking cars: {e}")
                     pass
                 
-            raycastTime = self.time.perf_counter() - raycastTime
+            raycastTime = self.time.time() - raycastTime
 
             # Calculate FPS
-            self.fps = round(1 / (self.time.perf_counter() - self.start_time))
+            self.fps = round(1 / (self.time.time() - self.start_time))
             self.fps_values.append(self.fps)
             if self.fps_values.__len__() > 10:
                 self.fps_values.pop(0)
             self.fps = round(sum(self.fps_values) / len(self.fps_values), 1)
-            self.start_time = self.time.perf_counter()
+            self.start_time = self.time.time()
 
             # Display FPS values
             self.cv2.putText(frame, f"FPS: {round(self.smoothedFPS(self.fps), 1)}", (20, 60), self.cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, self.cv2.LINE_AA)   
