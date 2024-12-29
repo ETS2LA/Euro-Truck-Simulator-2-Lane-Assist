@@ -37,59 +37,59 @@ class SettingsMenu(ETS2LASettingsMenu):
 
     def render(self):
         RefreshRate(0.25)
-        Title("map.settings.1.title")
-        Description("map.settings.1.description")
+        Label("map.settings.1.title", classname_preset=TitleClassname)
+        Label("map.settings.1.description", classname_preset=DescriptionClassname)
         Separator()
         with TabView():
             with Tab("Settings"):
-                Title("map.settings.10.title")
+                Label("map.settings.10.title", classname_preset=TitleClassname)
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")
                 Space(12)
-                Title("map.settings.4.title")
+                Label("map.settings.4.title", classname_preset=TitleClassname)
                 Switch("map.settings.6.name", "InternalVisualisation", False, description="map.settings.6.description")
                 Space(12)
-                Title("Navigation Settings")
+                Label("Navigation Settings", classname_preset=TitleClassname)
                 Switch("Navigate on ETS2LA", "UseNavigation", True, description="Enable the automatic navigation features of ETS2LA.")
+
                 routing_mode = settings.Get("Map", "RoutingMode")
                 if not routing_mode or routing_mode not in ["shortest", "smallRoads"]:
                     routing_mode = "shortest"
                     settings.Set("Map", "RoutingMode", routing_mode)
                 Selector("Routing Mode", "RoutingMode", routing_mode, ["shortest", "smallRoads"],
                         description="Choose between fastest routes (shortest) or scenic routes avoiding highways (smallRoads)")
+                
             with Tab("Debug Data"):
                 with EnabledLock():
-                    with Group("horizontal", gap=4):
-                        with Group("vertical", gap=1):
+                    with Group("horizontal", classname="gap-[4px]"):
+                        with Group("vertical", classname="gap-[4px]"):
                             Label("Map data:")
                             Space(0)
-                            Description(f"Current coordinates: ({self.get_value_from_data('truck_x')}, {self.get_value_from_data('truck_z')})")
-                            Description(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})")
-                            Description(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}")
-                            Description(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}")
-                            Description(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}")
-                            try: Description(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}")
-                            except: Description(f"Last data update: N/A")
+                            Label(f"Current coordinates: ({self.get_value_from_data('truck_x')}, {self.get_value_from_data('truck_z')})", classname_preset=DescriptionClassname)
+                            Label(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})", classname_preset=DescriptionClassname)
+                            Label(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}", classname_preset=DescriptionClassname)
+                            Label(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}", classname_preset=DescriptionClassname)
+                            Label(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}", classname_preset=DescriptionClassname)
+                            try: Label(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}", classname_preset=DescriptionClassname)
+                            except: Label(f"Last data update: N/A", classname_preset=DescriptionClassname)
 
-                        with Group("vertical", gap=1):
+                        with Group("vertical", classname="gap-[4px]"):
                             Label("Route data:")
                             Space(0)
-                            Description(f"Is steering: {self.get_value_from_data('calculate_steering')}")
-                            Description(f"Route points: {len(self.get_value_from_data('route_points'))}")
-                            Description(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}")
-                            Description(f"Routing mode: {settings.Get('Map', 'RoutingMode')}")
-                            Description(f"Navigation points: {len(self.get_value_from_data('navigation_points'))}")
-                            Description(f"Has destination: {self.get_value_from_data('dest_company') is not None}")
+                            Label(f"Is steering: {self.get_value_from_data('calculate_steering')}", classname_preset=DescriptionClassname)
+                            Label(f"Route points: {len(self.get_value_from_data('route_points'))}", classname_preset=DescriptionClassname)
+                            Label(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}", classname_preset=DescriptionClassname)
+                            Label(f"Routing mode: {settings.Get('Map', 'RoutingMode')}", classname_preset=DescriptionClassname)
+                            Label(f"Navigation points: {len(self.get_value_from_data('navigation_points'))}", classname_preset=DescriptionClassname)
+                            Label(f"Has destination: {self.get_value_from_data('dest_company') is not None}", classname_preset=DescriptionClassname)
 
-                        with Group("vertical", gap=1):
+                        with Group("vertical", classname="gap-[4px]"):
                             Label("Backend data:")
                             Space(0)
-                            try: Description(f"State: {self.plugin.state.text}, {self.plugin.state.progress:.0f}")
-                            except: Description("State: N/A")
-                            try: Description(f"FPS: {1/self.plugin.performance[-1][1]:.0f}")
-                            except: Description("FPS: Still loading...")
-
-
+                            try: Label(f"State: {self.plugin.state.text}, {self.plugin.state.progress:.0f}", classname_preset=DescriptionClassname)
+                            except: Label("State: N/A", classname_preset=DescriptionClassname)
+                            try: Label(f"FPS: {1/self.plugin.performance[-1][1]:.0f}", classname_preset=DescriptionClassname)
+                            except: Label("FPS: Still loading..., 0", classname_preset=DescriptionClassname)
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
