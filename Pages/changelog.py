@@ -1,7 +1,5 @@
-from ETS2LA.UI import *
-
-from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from ETS2LA.Utils.version import GetHistory
+from ETS2LA.UI import *
 
 from datetime import datetime
 import time
@@ -43,34 +41,8 @@ class Page(ETS2LAPage):
             updates = last_updates
 
         with Geist():
-            with Padding(24):
-                Space(8)
-                with Group("vertical", gap=12):
-                    current_day = None
-                    for update in updates[:100]:
-                        local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
-                        if local_time.split(" ")[0] != current_day:
-                            current_day = local_time.split(" ")[0]
-                            Space(20)
-                            with Group("horizontal", padding=0, classname="flex items-center", gap=0):
-                                with Group("horizontal", padding=0, gap=0, classname="border-b"):
-                                    ...
-                                with Group("vertical", padding=0, gap=0, classname="items-center"):
-                                    Description(local_time.split(" ")[0], size="xs", weight="bold")
-                                with Group("horizontal", padding=0, gap=0, classname="border-b"):
-                                    ...
-                            Space(20)
-                        with Group("vertical", border=True, classname=""):
-                            with Group("horizontal", padding=0):
-                                Description(update["author"], size="xs")
-                                with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
-                                    Label(update["message"], size="sm", weight="semibold")
-                                    Link("View Changes", update["url"], size="xs", weight="light")
-                            if update["description"] != "":
-                                Markdown(update["description"])
-                            Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
-                            
-                    with Padding(8):
-                        Description("This list will only display the 100 most recent commits.", size="xs", weight="light")
-                
+            with Padding(20):
+                Label("Changelog", classname_preset=TitleClassname)
+                Label("This page will shwo the 100 latest commits, currently under construction", classname_preset=DescriptionClassname)
+
         return RenderUI()
