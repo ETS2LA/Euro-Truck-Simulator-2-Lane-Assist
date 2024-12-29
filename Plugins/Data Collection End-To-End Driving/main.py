@@ -1,10 +1,12 @@
+import ETS2LA.variables as variables
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+import requests
+import os
 
 RED = "\033[91m"
 NORMAL = "\033[0m"
-
 
 def DeletePair(Name=""):
     try:
@@ -15,7 +17,6 @@ def DeletePair(Name=""):
         os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(Name).replace('.json', '.png')}")
     except:
         pass    
-
 
 def CheckForUploads():
     try:
@@ -77,9 +78,6 @@ def CheckForUploads():
 
 
 def GetDataID():
-    import ETS2LA.variables as variables
-    import requests
-    import os
     DataID = None
     if os.path.exists(f"{variables.PATH}End-To-End-Data-ID.txt"):
         try:
@@ -119,8 +117,6 @@ class SettingsMenu(ETS2LASettingsMenu):
     
     def DeleteDataOnPC(self):
         try:
-            import ETS2LA.variables as variables
-            import os
             SendPopup("Deleting data, could take a while...")
             if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
                 for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
@@ -134,7 +130,6 @@ class SettingsMenu(ETS2LASettingsMenu):
 
     def DeleteDataOnServer(self):
         try:
-            import requests
             SendPopup("Deleting data, could take a while...")
             Response = requests.get(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}", timeout=3)
             if "success" in Response.json() and Response.status_code == 200:
@@ -145,23 +140,24 @@ class SettingsMenu(ETS2LASettingsMenu):
             SendPopup("Couldn't delete the data.")
 
     def render(self):
-        import ETS2LA.variables as variables
-        Title("Data Collection End-To-End Driving")
+        Label("Data Collection End-To-End Driving", classname_preset=TitleClassname)
         Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
-        Link("-> View current datasets on Huggingface", "https://huggingface.co/Glas42/End-To-End/tree/main/files")
+        Label("-> View current datasets on Huggingface", url="https://huggingface.co/Glas42/End-To-End/tree/main/files")
         Separator()
         Label(f"• This plugin will send images of your game window with data like current steering angle or driving speed to our server.\n• If you play your game in windowed mode, the plugin will still only capture the game.\n• The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window.\n• Be aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before it will be uploaded to our server.\nIf the data is already on the server, you can still delete the data if you still have the ID used to upload the data.\n\nNo personal information is saved with the ID.\nIf you lost your ID, you can't request to delete the data collected with that ID.\nIf other people have your ID, the only thing they can do with it is request to delete your data.")
-        with Group("vertical", gap=4, padding=0):
+        with Group("vertical", classname="p-4"):
             Label(f"The data will be saved for the 7 days in this folder on your PC:")
-            Description(f"{variables.PATH}Data-Collection-End-To-End-Driving")
+            Label(f"{variables.PATH}Data-Collection-End-To-End-Driving", classname_preset=DescriptionClassname)
             Label(f"Your current ID is:")
-            Description(f"{GetDataID()}")
+            Label(f"{GetDataID()}", classname_preset=DescriptionClassname)
             Label("Manual deletion can be requested by opening this URL in your browser:")
-            Description(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}")
-        Button("Delete", "Delete collected, not yet uploaded data", self.DeleteDataOnPC, description="This will delete all the data that was collected by the plugin but not yet uploaded to the server.")
-        Button("Delete", "Delete already uploaded data", self.DeleteDataOnServer, description="This will delete all the data that was collected by the plugin and already uploaded to the server.\nNot possible to delete all the data if the data ID got lost at some point and replaced with a new one.")
+            Label(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}", classname_preset=DescriptionClassname)
+        
+        ButtonGroup("Delete collected, not yet uploaded data", "This will delete all the data that was collected by the plugin but not yet uploaded to the server.", "Delete", self.DeleteDataOnPC)
+        ButtonGroup("Delete collected and uploaded data", "This will delete all the data that was collected by the plugin and already uploaded to the server.", "Delete", self.DeleteDataOnServer)
         Separator()
-        Description("Server code can be found at https://github.com/ETS2LA/cdn")
+        Label("Server code can be found at https://github.com/ETS2LA/cdn", classname_preset=DescriptionClassname)
+        
         return RenderUI()
 
 
