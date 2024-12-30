@@ -315,18 +315,18 @@ class ETS2LAPlugin(object):
         self.after(data)
             
     def before(self) -> None:
-        self.start_time = time.perf_counter()
+        self.plugin_run_start_time = time.perf_counter()
         
     def after(self, data) -> None:
         if data is not None:
             self.return_queue.put(data, block=True)
 
-        self.end_time = time.perf_counter()
-        time_to_sleep = max(1/self.fps_cap - (self.end_time - self.start_time), 0)
+        self.plugin_run_end_time = time.perf_counter()
+        time_to_sleep = max(1/self.fps_cap - (self.plugin_run_end_time - self.plugin_run_start_time), 0)
         if time_to_sleep > 0:
             time.sleep(time_to_sleep)
         
-        self.performance.append((self.start_time, time.perf_counter() - self.start_time))
+        self.performance.append((self.plugin_run_start_time, time.perf_counter() - self.plugin_run_start_time))
 
 class PluginRunner:
     def __init__(self, plugin_name: str, plugin_description: PluginDescription, 
