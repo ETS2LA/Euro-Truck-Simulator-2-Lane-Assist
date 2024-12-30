@@ -95,7 +95,7 @@ class Plugin(ETS2LAPlugin):
 
         LastScreenCaptureCheck = 0
 
-        Identifier = pytorch.Initialize(Owner="Glas42", Model="TrafficLightDetection", Folder="model", Self=self)
+        Identifier = pytorch.Initialize(Owner="Glas42", Model="TrafficLightDetectionAI", Folder="model", Self=self)
         pytorch.Load(Identifier)
 
         TruckSimAPI = SCSTelemetry()
