@@ -47,7 +47,7 @@ class Page(ETS2LAPage):
         tooltip_text += f"┗ Total: {round(process_mem * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n```"
 
         with Geist():
-            with Group("horizontal", classname="w-full border shadow-md gap-[4px] p-2 rounded-md"):
+            with Group("horizontal", classname="w-full border shadow-md gap-1 p-2 rounded-md"):
                 with Tooltip(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```", "bg-sidebar text-muted-foreground border"):
                     Label(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", "text-xs text-muted-foreground")
                 with Tooltip(tooltip_text, "text-muted-foreground border bg-sidebar"):

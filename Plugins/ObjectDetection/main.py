@@ -298,9 +298,7 @@ class Plugin(ETS2LAPlugin):
                 )
         except Exception as e:
             logging.exception(f"Error in Object Detection - init: {e}")
-            while True:
-                pass
-            #self.terminate()
+            self.terminate()
 
     def detection_thread(self):
         try:
