@@ -4,11 +4,16 @@ ui = []
 id = 0
 
 class Title():
-    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "lg", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "semibold"):
+    def __init__(self, 
+                 text: str, 
+                 size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "lg", 
+                 weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "semibold", 
+                 classname: str = ""):
         global ui
         ui.append({
             "title": {
                 "text": text,
+                "classname": classname,
                 "options": {
                     "weight": weight,
                     "size": size,
@@ -17,11 +22,16 @@ class Title():
         })
 
 class Description():
-    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold", "black"] = "normal"):
+    def __init__(self, 
+                 text: str, 
+                 size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", 
+                 weight: Literal["thin", "light", "normal", "medium", "semibold", "bold", "black"] = "normal", 
+                 classname: str = ""):
         global ui
         ui.append({
             "description": {
                 "text": text,
+                "classname": classname,
                 "options": {
                     "weight": weight,
                     "size": size,
@@ -30,11 +40,16 @@ class Description():
         })
 
 class Label():
-    def __init__(self, text: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal"):
+    def __init__(self, 
+                 text: str, 
+                 size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", 
+                 weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal", 
+                 classname: str = ""):
         global ui
         ui.append({
             "label": {
                 "text": text,
+                "classname": classname,
                 "options": {
                     "weight": weight,
                     "size": size
@@ -43,12 +58,17 @@ class Label():
         })
         
 class Link():
-    def __init__(self, text: str, url: str, size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal"):
+    def __init__(self, text: str, 
+                 url: str, 
+                 size: Literal["xs", "sm", "md", "lg", "xl", "2xl"] = "sm", 
+                 weight: Literal["thin", "light", "normal", "medium", "semibold", "bold"] = "normal", 
+                 classname: str = ""):
         global ui
         ui.append({
             "link": {
                 "text": text,
                 "url": url,
+                "classname": classname,
                 "options": {
                     "weight": weight,
                     "size": size,
@@ -66,13 +86,14 @@ class Markdown():
         })
 
 class Button():
-    def __init__(self, text: str, title: str, target: object | Literal["submit"], description: str = "", border: bool = True):
+    def __init__(self, text: str, title: str, target: object | Literal["submit"], description: str = "", border: bool = True, classname: str = ""):
         global ui
         ui.append({
             "button": {
                 "text": text,
                 "title": title,
                 "description": description,
+                "classname": classname,
                 "options": {
                     "target": target.__name__ if hasattr(target, "__name__") else target,
                     "border": border

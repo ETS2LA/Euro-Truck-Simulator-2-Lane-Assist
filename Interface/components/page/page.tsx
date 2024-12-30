@@ -184,22 +184,22 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 
 	const TitleRenderer = (data:string) => {
 		// @ts-ignore
-		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
+		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
 	const DescriptionRenderer = (data:string) => {
 		// @ts-ignore
-		return <p className={weights[data.options.weight] + " text-muted-foreground " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
+		return <p className={weights[data.options.weight] + " text-muted-foreground " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
 	const LabelRenderer = (data:string) => {
 		// @ts-ignore
-		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
+		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
 	const LinkRenderer = (data:string) => {
 		// @ts-ignore
-		return <a href={data.url} className={weights[data.options.weight] + " text-accent-foreground " + text_sizes[data.options.size]} style={{whiteSpace: "pre-wrap"}} target="_blank">{translate(data.text)}</a>
+		return <a href={data.url} className={weights[data.options.weight] + " text-accent-foreground " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}} target="_blank">{translate(data.text)}</a>
 	}
 
 	function MarkdownRenderer(data: string, no_padding?: boolean) {
@@ -436,10 +436,10 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 							duration: 500
 						})
 					})
-				}} className="min-w-32 w-full">{translate(data.text)}</Button>
+				}} className={"min-w-32 w-full " + data.classname}>{translate(data.text)}</Button>
 			</div>
 		}
-		return <div className={"flex justify-between p-4 items-center" + GetBorderClassname(data.options.border)}>
+		return <div className={"flex justify-between p-4 items-center" + GetBorderClassname(data.options.border) + " " + data.classname}>
 				<div className="flex flex-col gap-1 pr-12">
 					<h4 className="font-semibold">{translate(data.title)}</h4>
 					<p className="text-xs text-muted-foreground">{translate(data.description)}</p>
