@@ -14,8 +14,8 @@ import { Badge } from "@/components/ui/badge"
 import { ip } from "@/apis/backend"
 
 export default function ControlsPage() {
-    const { push } = useRouter() //                                            ETS2LA / backend / settings / controls.json
-    const {data, error, isLoading} = useSWR("controls", () => GetSettingsJSON("ETS2LA%5Cbackend%5Csettings%5Ccontrols.json"));
+    const { push } = useRouter() //                                            ETS2LA / controls.json
+    const {data, error, isLoading} = useSWR("controls", () => GetSettingsJSON("ETS2LA%5Ccontrols.json"));
     if (isLoading) return <Card className="flex flex-col content-center text-center pt-10 space-y-5 pb-0 h-[calc(100vh-72px)] overflow-auto"><p className="font-semibold text-xs text-stone-400">Loading...</p></Card>
     if (error){
         toast.error("Error fetching settings from " + ip, {description: error.message})
