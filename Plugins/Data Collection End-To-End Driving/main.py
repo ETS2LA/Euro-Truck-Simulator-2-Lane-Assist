@@ -146,6 +146,7 @@ class SettingsMenu(ETS2LASettingsMenu):
 
     def render(self):
         import ETS2LA.variables as variables
+        return RenderUI()
         Title("Data Collection End-To-End Driving")
         Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
         Link("-> View current datasets on Huggingface", "https://huggingface.co/Glas42/End-To-End/tree/main/files")
@@ -183,6 +184,9 @@ class Plugin(ETS2LAPlugin):
     settings_menu = SettingsMenu()
 
     def imports(self):
+        self.notify("Data Collection End-To-End Driving currently not available. (Too lazy to fix the UI)")
+        self.terminate()
+        return
         global SCSTelemetry, ScreenCapture, variables, datetime, requests, json, math, time, cv2, os
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry

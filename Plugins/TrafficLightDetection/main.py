@@ -105,7 +105,7 @@ class Plugin(ETS2LAPlugin):
 
 
     def run(self):
-        CurrentTime = time.perf_counter()
+        CurrentTime = time.time()
 
         global LastScreenCaptureCheck
 
