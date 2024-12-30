@@ -14,7 +14,7 @@ class Page(ETS2LAPage):
     settings_target = "changelog" 
         
     def time_since(self, target_time):
-        diff = time.perf_counter() - target_time
+        diff = time.time() - target_time
         if diff < 60:
             if int(diff) == 1:
                 return "1 second ago"
