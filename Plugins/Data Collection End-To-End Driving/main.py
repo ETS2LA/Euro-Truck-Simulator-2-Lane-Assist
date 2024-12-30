@@ -25,7 +25,7 @@ def CheckForUploads():
     except:
         return
 
-    CurrentTime = time.time()
+    CurrentTime = time.perf_counter()
     if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving") == False:
         os.mkdir(f"{variables.PATH}Data-Collection-End-To-End-Driving")
 
@@ -146,7 +146,6 @@ class SettingsMenu(ETS2LASettingsMenu):
 
     def render(self):
         import ETS2LA.variables as variables
-        return RenderUI()
         Title("Data Collection End-To-End Driving")
         Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
         Link("-> View current datasets on Huggingface", "https://huggingface.co/Glas42/End-To-End/tree/main/files")
@@ -184,9 +183,6 @@ class Plugin(ETS2LAPlugin):
     settings_menu = SettingsMenu()
 
     def imports(self):
-        self.notify("Data Collection End-To-End Driving currently not available. (Too lazy to fix the UI)")
-        self.terminate()
-        return
         global SCSTelemetry, ScreenCapture, variables, datetime, requests, json, math, time, cv2, os
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
@@ -241,7 +237,7 @@ class Plugin(ETS2LAPlugin):
         threading.Thread(target=CheckForUploads, daemon=True).start()
 
     def run(self):
-        CurrentTime = time.time()
+        CurrentTime = time.perf_counter()
 
         global TruckSimAPI
 

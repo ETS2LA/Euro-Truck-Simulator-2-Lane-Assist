@@ -7,8 +7,8 @@ class SettingsMenu(ETS2LASettingsMenu):
     dynamic = False
     plugin_name = "Sockets"
     def render(self):
-        Label("Sockets Settings", classname=TITLE_CLASSNAME)
-        Label("This is the plugin that sends data to the visualization sockets.", classname=DESCRIPTION_CLASSNAME)
+        Title("Sockets Settings")
+        Description("This is the plugin that sends data to the visualization sockets.")
         Slider("Data FPS", "update_rate", 30, 10, 60, 1, description="How many times per second the data being sent to the clients is updated.", requires_restart=True)
         return RenderUI()
 

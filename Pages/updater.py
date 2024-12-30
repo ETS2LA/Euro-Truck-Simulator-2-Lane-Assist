@@ -38,8 +38,8 @@ class Page(ETS2LAPage):
     def render(self):
         global last_update_check, last_updates
         
-        if time.perf_counter() - last_update_check > 10:
-            last_update_check = time.perf_counter()
+        if time.time() - last_update_check > 10:
+            last_update_check = time.time()
             updates = CheckForUpdate()
             last_updates = updates
         else:
@@ -52,36 +52,36 @@ class Page(ETS2LAPage):
                 elif not updates:
                     Description("No updates available. (It might take up to a minute for the page to update after a new commit)")
                     Space(8)
-                    Button("Update Anyway", self.update, variant="outline")
+                    Button("Update Anyway", "", self.update, border=False)
                 else:
                     reversed_updates = updates[::-1]
-                    Button("Update", self.update, variant="outline")
+                    Button("Update", "", self.update, border=False)
                     Space(8)
                     Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
                     Space(8)
-                    with Group("vertical", classname="gap-3"):
+                    with Group("vertical", gap=12):
                         current_day = None
                         for update in reversed_updates:
                             local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
                             if local_time.split(" ")[0] != current_day:
                                 current_day = local_time.split(" ")[0]
                                 Space(20)
-                                with Group("horizontal", classname="flex items-center p-0 gap-0"):
-                                    with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                with Group("horizontal", padding=0, classname="flex items-center", gap=0):
+                                    with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                         ...
-                                    with Group("vertical", classname="items-center p-0 gap-0 w-full"):
-                                        Description(local_time.split(" ")[0], classname="text-xs font-bold")
-                                    with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                    with Group("vertical", padding=0, gap=0, classname="items-center"):
+                                        Description(local_time.split(" ")[0], size="xs", weight="bold")
+                                    with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                         ...
                                 Space(20)
-                            with Group("vertical", border=True, classname="p-3 flex flex-col gap-6"):
-                                with Group("horizontal", classname="flex w-full gap-2 items-center"):
-                                    Description(update["author"], classname="text-xs")
-                                    with Group("horizontal", classname="flex justify-between p-0 gap-0 w-full"):
-                                        Label(update["message"], classname="text-sm font-semibold")
-                                        Label("View Changes", url=update["url"], classname="text-xs font-light pr-1")
+                            with Group("vertical", border=True, classname=""):
+                                with Group("horizontal", padding=0):
+                                    Description(update["author"], size="xs")
+                                    with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
+                                        Label(update["message"], size="sm", weight="semibold")
+                                        Link("View Changes", update["url"], size="xs", weight="light")
                                 if update["description"] != "":
                                     Markdown(update["description"])
-                                Description(local_time + f"  -  {self.time_since(update['time'])}", classname="text-xs")
+                                Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
                 
         return RenderUI()

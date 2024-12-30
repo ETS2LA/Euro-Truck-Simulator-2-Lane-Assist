@@ -1,5 +1,7 @@
-from ETS2LA.Utils.version import GetHistory
 from ETS2LA.UI import *
+
+from ETS2LA.Networking.Servers.webserver import mainThreadQueue
+from ETS2LA.Utils.version import GetHistory
 
 from datetime import datetime
 import time
@@ -12,7 +14,7 @@ class Page(ETS2LAPage):
     settings_target = "changelog" 
         
     def time_since(self, target_time):
-        diff = time.time() - target_time
+        diff = time.perf_counter() - target_time
         if diff < 60:
             if int(diff) == 1:
                 return "1 second ago"
@@ -43,32 +45,32 @@ class Page(ETS2LAPage):
         with Geist():
             with Padding(24):
                 Space(8)
-                with Group("vertical", classname="gap-3"):
+                with Group("vertical", gap=12):
                     current_day = None
                     for update in updates[:100]:
                         local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
                         if local_time.split(" ")[0] != current_day:
                             current_day = local_time.split(" ")[0]
                             Space(20)
-                            with Group("horizontal", classname="flex items-center p-0 gap-0"):
-                                with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                            with Group("horizontal", padding=0, classname="flex items-center", gap=0):
+                                with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                     ...
-                                with Group("vertical", classname="items-center p-0 gap-0 w-full"):
-                                    Description(local_time.split(" ")[0], classname="text-xs font-bold")
-                                with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                with Group("vertical", padding=0, gap=0, classname="items-center"):
+                                    Description(local_time.split(" ")[0], size="xs", weight="bold")
+                                with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                     ...
                             Space(20)
-                        with Group("vertical", border=True, classname="p-3 flex flex-col gap-6"):
-                            with Group("horizontal", classname="flex w-full gap-2 items-center"):
-                                Description(update["author"], classname="text-xs")
-                                with Group("horizontal", classname="flex justify-between p-0 gap-0 w-full"):
-                                    Label(update["message"], classname="text-sm font-semibold")
-                                    Label("View Changes", url=update["url"], classname="text-xs font-light pr-1")
+                        with Group("vertical", border=True, classname=""):
+                            with Group("horizontal", padding=0):
+                                Description(update["author"], size="xs")
+                                with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
+                                    Label(update["message"], size="sm", weight="semibold")
+                                    Link("View Changes", update["url"], size="xs", weight="light")
                             if update["description"] != "":
                                 Markdown(update["description"])
-                            Description(local_time + f"  -  {self.time_since(update['time'])}", classname="text-xs")
+                            Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
                             
                     with Padding(8):
-                        Description("This list will only display the 100 most recent commits.", classname="text-xs font-light")
-
+                        Description("This list will only display the 100 most recent commits.", size="xs", weight="light")
+                
         return RenderUI()

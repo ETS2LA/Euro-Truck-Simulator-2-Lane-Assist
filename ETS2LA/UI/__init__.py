@@ -55,9 +55,9 @@ class Plugin(ETS2LAPlugin):
         print("Button clicked!")
 ```
 """
-from ETS2LA.UI.components import Title, Description, Label, Markdown, Button, Separator, Space, Input, Switch, Toggle, Slider, Selector, TabView, Tab, Group, Tooltip, Padding, Geist, Form, RefreshRate, ProgressBar, EnabledLock, ButtonGroup, RenderUI
-from ETS2LA.UI.presets import TITLE_CLASSNAME, DESCRIPTION_CLASSNAME
+from ETS2LA.UI.components import Title, Link, Tooltip, Description, Geist, Button, TabView, Tab, Group, Input, Switch, Toggle, Slider, Label, Separator, Space, RefreshRate, ProgressBar, EnabledLock, Selector, Form, Padding, Markdown
 from ETS2LA.UI.settings import ETS2LASettingsMenu
 from ETS2LA.UI.dialog import ETS2LADialog
+from ETS2LA.UI.components import RenderUI
 from ETS2LA.UI.page import ETS2LAPage
 from ETS2LA.UI.utils import SendPopup

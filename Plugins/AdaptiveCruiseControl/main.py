@@ -42,19 +42,19 @@ class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "AdaptiveCruiseControl"
     def render(self):
-        Label("acc.settings.1.title", classname=TITLE_CLASSNAME)
-        Label("acc.settings.1.description", classname=DESCRIPTION_CLASSNAME)
+        Title("acc.settings.1.title")
+        Description("acc.settings.1.description")
         Separator()
-        Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, description="acc.settings.2.description")
-        Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, description="acc.settings.4.description")
+        Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
+        Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
         Switch("acc.settings.6.name", "show_notifications", True, description="acc.settings.6.description")
         Separator()
         with EnabledLock():
-            Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], "acc.settings.5.description")
+            Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
             if self.settings.type is not None and self.settings.type == "Percentage":
-                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, description="acc.settings.3.description")
+                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="%", description="acc.settings.3.description")
             else:
-                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, description="acc.settings.3.description")
+                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="km/h", description="acc.settings.3.description")
         return RenderUI()
         
 

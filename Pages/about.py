@@ -1,10 +1,10 @@
-from ETS2LA.Utils.translator import Translate
-import ETS2LA.Utils.translator as translator
 from ETS2LA.UI.utils import SendPopup
+from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
 from Modules.SDKController.main import SCSController
-
+from ETS2LA.Utils.translator import Translate
+import ETS2LA.Utils.translator as translator
 import time
 
 contributors = [
@@ -34,68 +34,68 @@ class Page(ETS2LAPage):
     settings_target = "about"
     
     def fix_wipers(self):
-        print("Fixing wipers in 5s")
-        start_time = time.perf_counter()
+        print("Fixing wipers (5s timer)")
         controller = SCSController()
+        start_time = time.perf_counter()
         while time.perf_counter() - start_time < 5:
             SendPopup(f"Fixing wipers in {5 - int(time.perf_counter() - start_time)} seconds...", "info")
             time.sleep(1)
         controller.wipers0 = True
         time.sleep(0.5)
         controller.wipers0 = False
-        print("Fixed wipers!")
-        SendPopup("Fixed wipers!", "success")
+        print("Wipers should be fixed now.")
+        SendPopup("Wipers should be fixed now.", "success")
         
+    
     def render(self):
         with Geist():
-            Space(64)
+            Space(20)
             with Padding(20):
                 with Group("vertical"):
-                    Label(Translate("about.about"), classname=TITLE_CLASSNAME)
-                    Space(5)
-                    Label(Translate("about.description"), classname=DESCRIPTION_CLASSNAME)
-
-                    Space(30)
-                    with Group("vertical", classname="gap-4"):
-                        Label(Translate("about.developers"), classname=TITLE_CLASSNAME)
+                    Title(Translate("about.about"))
+                    Description(Translate("about.description"))
+                    Space(2)
+                    with Group("vertical", padding=0):
+                        Title(Translate("about.developers"))
                         for contributor in contributors:
-                            with Group("vertical", classname="gap-2"):
-                                with Group("horizontal", classname="gap-4"):
+                            with Group("vertical", gap=6, padding=0):
+                                with Group("horizontal", gap=10, padding=0):
                                     Label(contributor["name"])
                                     for link in contributor["links"]:
-                                        Label(link[0], url=link[1], classname="text-xs")
-                                Label(contributor["description"], classname=DESCRIPTION_CLASSNAME)
+                                        Link(link[0], link[1], size="xs")
+                                Description(contributor["description"])
                     
-                    Space(30)
-                    with Group("vertical", classname="gap-4"):
-                        Label(Translate("about.translation_credits"), classname=TITLE_CLASSNAME)
+                    Space(12)
+                    with Group("vertical", padding=0, gap=24):
+                        Title(Translate("about.translation_credits"))
+                        
                         for language in translator.LANGUAGES:
-                            with Group("vertical", classname="gap-2"):
-                                with Group("horizontal", classname="gap-3 items-center"):
+                            with Group("vertical", gap=6, padding=0):
+                                with Group("horizontal", gap=10, padding=0):
                                     Label(language)
-                                    Label("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", classname="text-xs")
+                                    Description("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", size="xs")
                                 credits = translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage(language))
                                 if language != "English" and credits == translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage("English")):
                                     credits = Translate("about.no_credits")
-                                Label(credits, classname=DESCRIPTION_CLASSNAME)
+                                Description(credits)
                                 
-                    Space(30)
-                    with Group("vertical", classname="gap-2"):
-                        Label(Translate("about.support_development"), classname=TITLE_CLASSNAME)
-                        with Group("vertical", classname="gap-2"):
-                            Label(Translate("about.kofi_description"), classname=DESCRIPTION_CLASSNAME)
-                            Label("  Ko-Fi", url="https://ko-fi.com/tumppi066", classname="text-xs pl-2")
-                        with Group("vertical", classname="gap-2"):
-                            Label(Translate("about.contribute_description"), classname=DESCRIPTION_CLASSNAME)
-                            Label("  Discord", url="https://discord.gg/ETS2LA", classname="text-xs pl-2")
-                            Label("  Github", url="https://github.com/ETS2LA", classname="text-xs pl-2")
-                        with Group("vertical", classname="gap-2"):
-                            Label(Translate("about.translate_description"), classname=DESCRIPTION_CLASSNAME)
-                            Label("  Discord", url="https://discord.gg/ETS2LA", classname="text-xs pl-2")
+                    Space(12)
+                    with Group("vertical", padding=0, gap=16):
+                        Title(Translate("about.support_development"))
+                        with Group("vertical", gap=6, padding=0):
+                            Description(Translate("about.kofi_description"))
+                            Link("  Ko-Fi", "https://ko-fi.com/tumppi066")
+                        with Group("vertical", gap=6, padding=0):
+                            Description(Translate("about.contribute_description"))
+                            Link("  Discord", "https://discord.gg/ETS2LA")
+                            Link("  Github", "https://github.com/ETS2LA")
+                        with Group("vertical", gap=6, padding=0):
+                            Description(Translate("about.translate_description"))
+                            Link("  Discord", "https://discord.gg/ETS2LA")
                             
-                    Space(30)
-                    with Group("vertical", classname="gap-4"):
-                        Label("Utils", classname=TITLE_CLASSNAME)
-                        ButtonGroup("Fix Wipers", "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.", "Fix", self.fix_wipers)
+                    Space(12)
+                    with Group("vertical", padding=0, gap=16):
+                        Title("Utils")
+                        Button("Activate", "Fix wipers", self.fix_wipers, description="Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.")
                     
         return RenderUI()

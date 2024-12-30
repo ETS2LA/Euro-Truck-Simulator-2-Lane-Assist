@@ -40,13 +40,13 @@ def Initialize(Owner="", Model="", Folder="", Self=None, Threaded=True):
     MODELS[Identifier]["ModelOwner"] = str(Owner)
 
     def PopupReset(Identifier=""):
-        StopTime = time.time() + 5
+        StopTime = time.perf_counter() + 5
         FirstPopupValues = MODELS[Identifier]["PopupValues"]
-        while time.time() < StopTime:
+        while time.perf_counter() < StopTime:
             time.sleep(0.1)
             if FirstPopupValues != MODELS[Identifier]["PopupValues"]:
                 FirstPopupValues = MODELS[Identifier]["PopupValues"]
-                StopTime = time.time() + 5
+                StopTime = time.perf_counter() + 5
         MODELS[Identifier]["PopupHandler"].state.text = ""
         MODELS[Identifier]["PopupHandler"].state.progress = -1
     MODELS[Identifier]["PopupResetThread"] = threading.Thread(target=PopupReset, args=(Identifier,), daemon=True)
@@ -271,7 +271,7 @@ def CheckForUpdates(Identifier):
                 Popup(Identifier=Identifier, Text="Checking for model updates...", Progress=0)
                 print(DARK_GREY + f"[{Identifier}] " + GREEN + "Checking for model updates..." + NORMAL)
 
-                if settings.Get("PyTorch", f"{Identifier}-LastUpdateCheck", 0) + 600 > time.time():
+                if settings.Get("PyTorch", f"{Identifier}-LastUpdateCheck", 0) + 600 > time.perf_counter():
                     if settings.Get("PyTorch", f"{Identifier}-LatestModel", "unset") == GetName(Identifier):
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
                         return
@@ -310,7 +310,7 @@ def CheckForUpdates(Identifier):
                         Popup(Identifier=Identifier, Text="Updating the model...", Progress=0)
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Identifier)
-                        StartTime = time.time()
+                        StartTime = time.perf_counter()
                         Response = requests.get(f'https://huggingface.co/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/resolve/main/{Identifier.split("/")[1]}/{LatestModel}?download=true', stream=True, timeout=15)
                         with open(os.path.join(MODELS[Identifier]["Path"], f"{LatestModel}"), "wb") as ModelFile:
                             TotalSize = int(Response.headers.get('content-length', 1))
@@ -320,14 +320,14 @@ def CheckForUpdates(Identifier):
                                 DownloadedSize += len(Data)
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
-                                ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
+                                ETA = time.strftime('%H:%M:%S' if (time.perf_counter() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.perf_counter() - StartTime) / Progress * (100 - Progress)))
                                 Popup(Identifier=Identifier, Text=f"Downloading the model:\n{round(Progress)}% - ETA: {ETA}", Progress=Progress)
                         Popup(Identifier=Identifier, Text="Successfully updated the model!", Progress=100)
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
                         Popup(Identifier=Identifier, Text="No model updates available!", Progress=100)
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
-                    settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.time())
+                    settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.perf_counter())
 
                 elif ETS2LAResponse == 200:
                     Url = f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{Identifier.split("/")[1]}'
@@ -346,7 +346,7 @@ def CheckForUpdates(Identifier):
                         Popup(Identifier=Identifier, Text="Updating the model...", Progress=0)
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL + " (Limited Download Speed)")
                         Delete(Identifier)
-                        StartTime = time.time()
+                        StartTime = time.perf_counter()
                         Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{Identifier.split("/")[1]}/download', stream=True, timeout=15)
                         with open(os.path.join(MODELS[Identifier]["Path"], f"{LatestModel}"), "wb") as ModelFile:
                             TotalSize = int(Response.headers.get('content-length', 1))
@@ -356,14 +356,14 @@ def CheckForUpdates(Identifier):
                                 DownloadedSize += len(Data)
                                 ModelFile.write(Data)
                                 Progress = (DownloadedSize / TotalSize) * 100
-                                ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
+                                ETA = time.strftime('%H:%M:%S' if (time.perf_counter() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.perf_counter() - StartTime) / Progress * (100 - Progress)))
                                 Popup(Identifier=Identifier, Text=f"Downloading the model:\n{round(Progress)}% - ETA: {ETA}", Progress=Progress)
                         Popup(Identifier=Identifier, Text="Successfully updated the model!", Progress=100)
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
                         Popup(Identifier=Identifier, Text="No model updates available!", Progress=100)
                         print(DARK_GREY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
-                    settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.time())
+                    settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.perf_counter())
 
                 else:
 
