@@ -46,7 +46,7 @@ class Page(ETS2LAPage):
             
         with Geist():
             with Padding(24):
-                Label("Updater", classname_preset=TitleClassname)
-                Label("This page will show you the updates available. Currently under construction", classname_preset=DescriptionClassname)
+                Label("Updater", classname=TITLE_CLASSNAME)
+                Label("This page will show you the updates available. Currently under construction", classname=DESCRIPTION_CLASSNAME)
                 
         return RenderUI()

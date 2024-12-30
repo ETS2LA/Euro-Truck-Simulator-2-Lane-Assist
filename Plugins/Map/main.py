@@ -37,19 +37,19 @@ class SettingsMenu(ETS2LASettingsMenu):
 
     def render(self):
         RefreshRate(0.25)
-        Label("map.settings.1.title", classname_preset=TitleClassname)
-        Label("map.settings.1.description", classname_preset=DescriptionClassname)
+        Label("map.settings.1.title", classname=TITLE_CLASSNAME)
+        Label("map.settings.1.description", classname=DESCRIPTION_CLASSNAME)
         Separator()
         with TabView():
             with Tab("Settings"):
-                Label("map.settings.10.title", classname_preset=TitleClassname)
+                Label("map.settings.10.title", classname=TITLE_CLASSNAME)
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")
                 Space(12)
-                Label("map.settings.4.title", classname_preset=TitleClassname)
+                Label("map.settings.4.title", classname=TITLE_CLASSNAME)
                 Switch("map.settings.6.name", "InternalVisualisation", False, description="map.settings.6.description")
                 Space(12)
-                Label("Navigation Settings", classname_preset=TitleClassname)
+                Label("Navigation Settings", classname=TITLE_CLASSNAME)
                 Switch("Navigate on ETS2LA", "UseNavigation", True, description="Enable the automatic navigation features of ETS2LA.")
 
                 routing_mode = settings.Get("Map", "RoutingMode")
@@ -65,31 +65,31 @@ class SettingsMenu(ETS2LASettingsMenu):
                         with Group("vertical", classname="gap-[4px]"):
                             Label("Map data:")
                             Space(0)
-                            Label(f"Current coordinates: ({self.get_value_from_data('truck_x')}, {self.get_value_from_data('truck_z')})", classname_preset=DescriptionClassname)
-                            Label(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})", classname_preset=DescriptionClassname)
-                            Label(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}", classname_preset=DescriptionClassname)
-                            Label(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}", classname_preset=DescriptionClassname)
-                            Label(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}", classname_preset=DescriptionClassname)
-                            try: Label(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}", classname_preset=DescriptionClassname)
-                            except: Label(f"Last data update: N/A", classname_preset=DescriptionClassname)
+                            Label(f"Current coordinates: ({self.get_value_from_data('truck_x')}, {self.get_value_from_data('truck_z')})", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Current sector: ({self.get_value_from_data('current_sector_x')}, {self.get_value_from_data('current_sector_y')})", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Roads in sector: {len(self.get_value_from_data('current_sector_roads'))}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Prefabs in sector: {len(self.get_value_from_data('current_sector_prefabs'))}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Models in sector: {len(self.get_value_from_data('current_sector_models'))}", classname=DESCRIPTION_CLASSNAME)
+                            try: Label(f"Last data update: {time.strftime('%H:%M:%S', time.localtime(self.get_value_from_data('external_data_time')))}", classname=DESCRIPTION_CLASSNAME)
+                            except: Label(f"Last data update: N/A", classname=DESCRIPTION_CLASSNAME)
 
                         with Group("vertical", classname="gap-[4px]"):
                             Label("Route data:")
                             Space(0)
-                            Label(f"Is steering: {self.get_value_from_data('calculate_steering')}", classname_preset=DescriptionClassname)
-                            Label(f"Route points: {len(self.get_value_from_data('route_points'))}", classname_preset=DescriptionClassname)
-                            Label(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}", classname_preset=DescriptionClassname)
-                            Label(f"Routing mode: {settings.Get('Map', 'RoutingMode')}", classname_preset=DescriptionClassname)
-                            Label(f"Navigation points: {len(self.get_value_from_data('navigation_points'))}", classname_preset=DescriptionClassname)
-                            Label(f"Has destination: {self.get_value_from_data('dest_company') is not None}", classname_preset=DescriptionClassname)
+                            Label(f"Is steering: {self.get_value_from_data('calculate_steering')}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Route points: {len(self.get_value_from_data('route_points'))}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Route plan elements: {len(self.get_value_from_data('route_plan'))}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Routing mode: {settings.Get('Map', 'RoutingMode')}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Navigation points: {len(self.get_value_from_data('navigation_points'))}", classname=DESCRIPTION_CLASSNAME)
+                            Label(f"Has destination: {self.get_value_from_data('dest_company') is not None}", classname=DESCRIPTION_CLASSNAME)
 
                         with Group("vertical", classname="gap-[4px]"):
                             Label("Backend data:")
                             Space(0)
-                            try: Label(f"State: {self.plugin.state.text}, {self.plugin.state.progress:.0f}", classname_preset=DescriptionClassname)
-                            except: Label("State: N/A", classname_preset=DescriptionClassname)
-                            try: Label(f"FPS: {1/self.plugin.performance[-1][1]:.0f}", classname_preset=DescriptionClassname)
-                            except: Label("FPS: Still loading..., 0", classname_preset=DescriptionClassname)
+                            try: Label(f"State: {self.plugin.state.text}, {self.plugin.state.progress:.0f}", classname=DESCRIPTION_CLASSNAME)
+                            except: Label("State: N/A", classname=DESCRIPTION_CLASSNAME)
+                            try: Label(f"FPS: {1/self.plugin.performance[-1][1]:.0f}", classname=DESCRIPTION_CLASSNAME)
+                            except: Label("FPS: Still loading..., 0", classname=DESCRIPTION_CLASSNAME)
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):

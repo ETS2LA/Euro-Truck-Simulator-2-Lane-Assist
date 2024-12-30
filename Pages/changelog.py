@@ -42,7 +42,7 @@ class Page(ETS2LAPage):
 
         with Geist():
             with Padding(20):
-                Label("Changelog", classname_preset=TitleClassname)
-                Label("This page will shwo the 100 latest commits, currently under construction", classname_preset=DescriptionClassname)
+                Label("Changelog", classname=TITLE_CLASSNAME)
+                Label("This page will shwo the 100 latest commits, currently under construction", classname=DESCRIPTION_CLASSNAME)
 
         return RenderUI()

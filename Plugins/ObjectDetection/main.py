@@ -27,8 +27,8 @@ class SettingsMenu(ETS2LASettingsMenu):
         print(args)
 
     def render(self):
-        Label(Translate("object_detection.settings.title"), classname_preset=TitleClassname)
-        Label(Translate("object_detection.settings.description"), classname_preset=DescriptionClassname)
+        Label(Translate("object_detection.settings.title"), classname=TITLE_CLASSNAME)
+        Label(Translate("object_detection.settings.description"), classname=DESCRIPTION_CLASSNAME)
 
         with TabView():
             with Tab("Settings"):
@@ -39,8 +39,8 @@ class SettingsMenu(ETS2LASettingsMenu):
             with Tab("Models"):
                 Separator()
                 with Group("vertical"):
-                    Label("Model Manager", classname_preset=TitleClassname)
-                    Label("Choose from trained models to use for object detection.", classname_preset=DescriptionClassname)
+                    Label("Model Manager", classname=TITLE_CLASSNAME)
+                    Label("Choose from trained models to use for object detection.", classname=DESCRIPTION_CLASSNAME)
 
                 Label("Downloaded Models:")
                 for i, model in enumerate(models["downloaded"]):

@@ -8,29 +8,20 @@ toggle_variants = Literal["default", "outline"]
 input_types = Literal["string", "number", "password"]
 group_directions = Literal["horizontal", "vertical"]
 
-def TitleClassname():
-    """Returns the classname for a title."""
-    return "text-lg font-semibold"
-
-def DescriptionClassname():
-    """Returns the classname for a description."""
-    return "text-sm text-muted-foreground"
-
 class Label:
     """Represents a label UI component."""
-    def __init__(self, text: str, classname: str = "", url: str = "", classname_preset: Union[TitleClassname, DescriptionClassname] = None):
+    def __init__(self, text: str, classname: str = "", url: str = ""):
         """
         Args:
             text (str): The text for the label.
             classname (str): Additional CSS classnames.
             url (str): Optional URL for the label.
-            classname_preset (TitleClassname | DescriptionClassname): Optional preset classname for the label.
         """
         global ui
         ui.append({
             "label": {
                 "text": text,
-                "classname": classname if not classname_preset else f"{classname_preset()} {classname}",
+                "classname": classname,
                 "url": url                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
             }
         })

@@ -11,8 +11,8 @@ class Page(ETS2LAPage):
     monitors = len(screeninfo.get_monitors()) - 1
     def render(self):
         with Group("vertical",classname="gap-[14px]"):
-            Label("global.settings.1.title", classname_preset=TitleClassname)
-            Label("global.settings.1.description", classname_preset=DescriptionClassname)
+            Label("global.settings.1.title", classname=TITLE_CLASSNAME)
+            Label("global.settings.1.description", classname=DESCRIPTION_CLASSNAME)
 
         with TabView():
             with Tab("global.settings.ui"):
@@ -26,7 +26,7 @@ class Page(ETS2LAPage):
 
                 with Group("vertical"):
                     Selector("global.settings.8.name", "language", "English", translator.LANGUAGES, description="global.settings.8.description")
-                    Label("language_credits", classname_preset=DescriptionClassname)
+                    Label("language_credits", classname=DESCRIPTION_CLASSNAME)
 
             with Tab("global.settings.audio"):
                 Space(2)

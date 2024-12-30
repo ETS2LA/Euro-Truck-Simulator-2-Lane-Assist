@@ -42,8 +42,8 @@ class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
     plugin_name = "AdaptiveCruiseControl"
     def render(self):
-        Label("acc.settings.1.title", classname_preset=TitleClassname)
-        Label("acc.settings.1.description", classname_preset=DescriptionClassname)
+        Label("acc.settings.1.title", classname=TITLE_CLASSNAME)
+        Label("acc.settings.1.description", classname=DESCRIPTION_CLASSNAME)
         Separator()
         Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, description="acc.settings.2.description")
         Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, description="acc.settings.4.description")

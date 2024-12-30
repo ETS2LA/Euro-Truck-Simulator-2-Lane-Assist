@@ -48,54 +48,54 @@ class Page(ETS2LAPage):
         
     def render(self):
         with Geist():
-            Space(30)
+            Space(64)
             with Padding(20):
                 with Group("vertical"):
-                    Label(Translate("about.about"), classname_preset=TitleClassname)
+                    Label(Translate("about.about"), classname=TITLE_CLASSNAME)
                     Space(5)
-                    Label(Translate("about.description"), classname_preset=DescriptionClassname)
+                    Label(Translate("about.description"), classname=DESCRIPTION_CLASSNAME)
 
-                    Space(20)
+                    Space(30)
                     with Group("vertical", classname="gap-4"):
-                        Label(Translate("about.developers"), classname_preset=TitleClassname)
+                        Label(Translate("about.developers"), classname=TITLE_CLASSNAME)
                         for contributor in contributors:
                             with Group("vertical", classname="gap-2"):
                                 with Group("horizontal", classname="gap-4"):
                                     Label(contributor["name"])
                                     for link in contributor["links"]:
                                         Label(link[0], url=link[1], classname="text-xs")
-                                Label(contributor["description"], classname_preset=DescriptionClassname)
+                                Label(contributor["description"], classname=DESCRIPTION_CLASSNAME)
                     
-                    Space(20)
+                    Space(30)
                     with Group("vertical", classname="gap-4"):
-                        Label(Translate("about.translation_credits"), classname_preset=TitleClassname)
+                        Label(Translate("about.translation_credits"), classname=TITLE_CLASSNAME)
                         for language in translator.LANGUAGES:
                             with Group("vertical", classname="gap-2"):
-                                with Group("horizontal", classname="gap-3"):
+                                with Group("horizontal", classname="gap-3 items-center"):
                                     Label(language)
                                     Label("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", classname="text-xs")
                                 credits = translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage(language))
                                 if language != "English" and credits == translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage("English")):
                                     credits = Translate("about.no_credits")
-                                Label(credits, classname_preset=DescriptionClassname)
+                                Label(credits, classname=DESCRIPTION_CLASSNAME)
                                 
-                    Space(20)
+                    Space(30)
                     with Group("vertical", classname="gap-2"):
-                        Label(Translate("about.support_development"), classname_preset=TitleClassname)
+                        Label(Translate("about.support_development"), classname=TITLE_CLASSNAME)
                         with Group("vertical", classname="gap-2"):
-                            Label(Translate("about.kofi_description"), classname_preset=DescriptionClassname)
-                            Label("  Ko-Fi", url="https://ko-fi.com/tumppi066")
+                            Label(Translate("about.kofi_description"), classname=DESCRIPTION_CLASSNAME)
+                            Label("  Ko-Fi", url="https://ko-fi.com/tumppi066", classname="text-xs pl-2")
                         with Group("vertical", classname="gap-2"):
-                            Label(Translate("about.contribute_description"), classname_preset=DescriptionClassname)
-                            Label("  Discord", url="https://discord.gg/ETS2LA")
-                            Label("  Github", url="https://github.com/ETS2LA")
+                            Label(Translate("about.contribute_description"), classname=DESCRIPTION_CLASSNAME)
+                            Label("  Discord", url="https://discord.gg/ETS2LA", classname="text-xs pl-2")
+                            Label("  Github", url="https://github.com/ETS2LA", classname="text-xs pl-2")
                         with Group("vertical", classname="gap-2"):
-                            Label(Translate("about.translate_description"), classname_preset=DescriptionClassname)
-                            Label("  Discord", url="https://discord.gg/ETS2LA")
+                            Label(Translate("about.translate_description"), classname=DESCRIPTION_CLASSNAME)
+                            Label("  Discord", url="https://discord.gg/ETS2LA", classname="text-xs pl-2")
                             
-                    Space(20)
+                    Space(30)
                     with Group("vertical", classname="gap-4"):
-                        Label("Utils", classname_preset=TitleClassname)
+                        Label("Utils", classname=TITLE_CLASSNAME)
                         ButtonGroup("Fix Wipers", "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.", "Fix", self.fix_wipers)
                     
         return RenderUI()

@@ -140,23 +140,23 @@ class SettingsMenu(ETS2LASettingsMenu):
             SendPopup("Couldn't delete the data.")
 
     def render(self):
-        Label("Data Collection End-To-End Driving", classname_preset=TitleClassname)
+        Label("Data Collection End-To-End Driving", classname=TITLE_CLASSNAME)
         Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
         Label("-> View current datasets on Huggingface", url="https://huggingface.co/Glas42/End-To-End/tree/main/files")
         Separator()
         Label(f"• This plugin will send images of your game window with data like current steering angle or driving speed to our server.\n• If you play your game in windowed mode, the plugin will still only capture the game.\n• The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window.\n• Be aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before it will be uploaded to our server.\nIf the data is already on the server, you can still delete the data if you still have the ID used to upload the data.\n\nNo personal information is saved with the ID.\nIf you lost your ID, you can't request to delete the data collected with that ID.\nIf other people have your ID, the only thing they can do with it is request to delete your data.")
         with Group("vertical", classname="p-4"):
             Label(f"The data will be saved for the 7 days in this folder on your PC:")
-            Label(f"{variables.PATH}Data-Collection-End-To-End-Driving", classname_preset=DescriptionClassname)
+            Label(f"{variables.PATH}Data-Collection-End-To-End-Driving", classname=DESCRIPTION_CLASSNAME)
             Label(f"Your current ID is:")
-            Label(f"{GetDataID()}", classname_preset=DescriptionClassname)
+            Label(f"{GetDataID()}", classname=DESCRIPTION_CLASSNAME)
             Label("Manual deletion can be requested by opening this URL in your browser:")
-            Label(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}", classname_preset=DescriptionClassname)
+            Label(f"https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{GetDataID()}", classname=DESCRIPTION_CLASSNAME)
         
         ButtonGroup("Delete collected, not yet uploaded data", "This will delete all the data that was collected by the plugin but not yet uploaded to the server.", "Delete", self.DeleteDataOnPC)
         ButtonGroup("Delete collected and uploaded data", "This will delete all the data that was collected by the plugin and already uploaded to the server.", "Delete", self.DeleteDataOnServer)
         Separator()
-        Label("Server code can be found at https://github.com/ETS2LA/cdn", classname_preset=DescriptionClassname)
+        Label("Server code can be found at https://github.com/ETS2LA/cdn", classname=DESCRIPTION_CLASSNAME)
         
         return RenderUI()
 
