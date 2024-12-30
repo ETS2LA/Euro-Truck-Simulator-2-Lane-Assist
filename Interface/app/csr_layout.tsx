@@ -23,7 +23,7 @@ import Loader from "@/components/loader";
 import { useCollapsed } from "@/contexts/collapsed";
 
 export default function CSRLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
-    const { data: language, isLoading: loadingLanguage } = useSWR("language", GetCurrentLanguage, { refreshInterval: 1000 });
+    const { data: language, isLoading: loadingLanguage } = useSWR("language", GetCurrentLanguage, { refreshInterval: 2000 });
     const { isCollapsed, setIsCollapsed } = useCollapsed();
     const [isSnowAllowed, setIsSnowAllowed] = useState(false);
     const [areFireworksAllowed, setAreFireworksAllowed] = useState(false);
