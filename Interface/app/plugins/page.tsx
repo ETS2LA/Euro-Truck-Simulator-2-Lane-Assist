@@ -248,7 +248,7 @@ export default function Home() {
                                                     <TooltipTrigger className="col-span-2 text-start">
                                                         <p className="text-sm">{translate(data[plugin].description.name)}</p>
                                                     </TooltipTrigger>
-                                                    <TooltipContent>
+                                                    <TooltipContent side="right" className="z-50">
                                                         <div className="rounded-md max-w-72 bg-background p-4 border text-left">
                                                             <p className="text-sm">{translate(data[plugin].description.description)}</p>
                                                         </div>
@@ -348,7 +348,7 @@ export default function Home() {
                                                 <TooltipTrigger className="col-span-2 text-start">
                                                     <p className="text-sm text-muted-foreground group-hover:text-foreground">{translate(data[plugin].description.name)}</p>
                                                 </TooltipTrigger>
-                                                <TooltipContent>
+                                                <TooltipContent side="right" className="z-50">
                                                     <div className="rounded-md max-w-72 bg-background p-4 border">
                                                         <p className="text-sm">{translate(data[plugin].description.description)}</p>
                                                     </div>
