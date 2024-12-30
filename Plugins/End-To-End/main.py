@@ -95,6 +95,7 @@ class Plugin(ETS2LAPlugin):
         FOV = self.globals.settings.FOV
         if FOV == None:
             print(f"\n{PURPLE}Make sure to set the FOV in the settings for End-To-End! The plugin will disable itself.{NORMAL}\n")
+            self.notify("No FOV set, disabling End-To-End...")
             self.terminate()
         Enabled = True
         EnableKey = settings.Get("Steering", "EnableKey", "n")
