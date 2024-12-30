@@ -182,27 +182,27 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 		"bold": "font-bold"
 	}
 
-	const TitleRenderer = (data:string) => {
+	const TitleRenderer = (data: any) => {
 		// @ts-ignore
 		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
-	const DescriptionRenderer = (data:string) => {
+	const DescriptionRenderer = (data: any) => {
 		// @ts-ignore
 		return <p className={weights[data.options.weight] + " text-muted-foreground " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
-	const LabelRenderer = (data:string) => {
+	const LabelRenderer = (data: any) => {
 		// @ts-ignore
 		return <p className={weights[data.options.weight] + " " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}}>{translate(data.text)}</p>
 	}
 
-	const LinkRenderer = (data:string) => {
+	const LinkRenderer = (data: any) => {
 		// @ts-ignore
 		return <a href={data.url} className={weights[data.options.weight] + " text-accent-foreground " + text_sizes[data.options.size] + " " + data.classname} style={{whiteSpace: "pre-wrap"}} target="_blank">{translate(data.text)}</a>
 	}
 
-	function MarkdownRenderer(data: string, no_padding?: boolean) {
+	function MarkdownRenderer(data: any, no_padding?: boolean) {
 	  return (
 		<Markdown
 		  components={{
@@ -241,7 +241,7 @@ export function ETS2LAPage({ data, plugin, enabled, className }: { data: any, pl
 				  </SyntaxHighlighter>
 				);
 			}
-		}}>
+		}} className={data.classname}>
 		  {data}
 		</Markdown>
 	  );

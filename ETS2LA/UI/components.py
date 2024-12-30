@@ -77,11 +77,12 @@ class Link():
         })
         
 class Markdown():
-    def __init__(self, text: str):
+    def __init__(self, text: str, classname: str = ""):
         global ui
         ui.append({
             "markdown": {
-                "text": text
+                "text": text,
+                "classname": classname
             }
         })
 
