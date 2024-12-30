@@ -113,7 +113,7 @@ class Plugin(ETS2LAPlugin):
         ShowImage.Initialize(Name="End-To-End", TitleBarColor=(0, 0, 0))
 
     def run(self):
-        CurrentTime = time.perf_counter()
+        CurrentTime = time.time()
 
         global Enabled
         global EnableKey
@@ -135,7 +135,7 @@ class Plugin(ETS2LAPlugin):
 
         if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
 
-        if LastScreenCaptureCheck + 0.5 < time.perf_counter():
+        if LastScreenCaptureCheck + 0.5 < time.time():
             X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
             ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
             if ScreenCapture.MonitorX1 != X1 - ScreenX or ScreenCapture.MonitorY1 != Y1 - ScreenY or ScreenCapture.MonitorX2 != X2 - ScreenX or ScreenCapture.MonitorY2 != Y2 - ScreenY:

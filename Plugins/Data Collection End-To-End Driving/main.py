@@ -25,7 +25,7 @@ def CheckForUploads():
     except:
         return
 
-    CurrentTime = time.perf_counter()
+    CurrentTime = time.time()
     if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving") == False:
         os.mkdir(f"{variables.PATH}Data-Collection-End-To-End-Driving")
 
@@ -237,7 +237,7 @@ class Plugin(ETS2LAPlugin):
         threading.Thread(target=CheckForUploads, daemon=True).start()
 
     def run(self):
-        CurrentTime = time.perf_counter()
+        CurrentTime = time.time()
 
         global TruckSimAPI
 
