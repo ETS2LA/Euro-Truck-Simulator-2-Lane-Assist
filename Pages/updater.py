@@ -1,6 +1,7 @@
+from ETS2LA.UI import *
+
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from ETS2LA.Utils.version import CheckForUpdate, Update
-from ETS2LA.UI import *
 
 from datetime import datetime
 import time
@@ -37,8 +38,8 @@ class Page(ETS2LAPage):
     def render(self):
         global last_update_check, last_updates
         
-        if time.time() - last_update_check > 10:
-            last_update_check = time.time()
+        if time.perf_counter() - last_update_check > 10:
+            last_update_check = time.perf_counter()
             updates = CheckForUpdate()
             last_updates = updates
         else:
@@ -46,7 +47,41 @@ class Page(ETS2LAPage):
             
         with Geist():
             with Padding(24):
-                Label("Updater", classname=TITLE_CLASSNAME)
-                Label("This page will show you the updates available. Currently under construction", classname=DESCRIPTION_CLASSNAME)
+                if updates == []:
+                    Description("You have a local commit that is waiting to be pushed.")
+                elif not updates:
+                    Description("No updates available. (It might take up to a minute for the page to update after a new commit)")
+                    Space(8)
+                    Button("Update Anyway", self.update, variant="outline")
+                else:
+                    reversed_updates = updates[::-1]
+                    Button("Update", self.update, variant="outline")
+                    Space(8)
+                    Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
+                    Space(8)
+                    with Group("vertical", classname="gap-3"):
+                        current_day = None
+                        for update in reversed_updates:
+                            local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
+                            if local_time.split(" ")[0] != current_day:
+                                current_day = local_time.split(" ")[0]
+                                Space(20)
+                                with Group("horizontal", classname="flex items-center p-0 gap-0"):
+                                    with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                        ...
+                                    with Group("vertical", classname="items-center p-0 gap-0 w-full"):
+                                        Description(local_time.split(" ")[0], classname="text-xs font-bold")
+                                    with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                        ...
+                                Space(20)
+                            with Group("vertical", border=True, classname="p-3 flex flex-col gap-6"):
+                                with Group("horizontal", classname="flex w-full gap-2 items-center"):
+                                    Description(update["author"], classname="text-xs")
+                                    with Group("horizontal", classname="flex justify-between p-0 gap-0 w-full"):
+                                        Label(update["message"], classname="text-sm font-semibold")
+                                        Label("View Changes", url=update["url"], classname="text-xs font-light pr-1")
+                                if update["description"] != "":
+                                    Markdown(update["description"])
+                                Description(local_time + f"  -  {self.time_since(update['time'])}", classname="text-xs")
                 
         return RenderUI()

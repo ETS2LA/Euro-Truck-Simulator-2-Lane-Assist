@@ -1,3 +1,4 @@
+from ETS2LA.UI.presets import TITLE_CLASSNAME, DESCRIPTION_CLASSNAME
 from typing import Literal, Union
 
 ui = []
@@ -23,6 +24,40 @@ class Label:
                 "text": text,
                 "classname": classname,
                 "url": url                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+            }
+        })
+
+class Title:
+    """Represents a title UI component."""
+    def __init__(self, text: str, classname: str = ""):
+        """
+        Args:
+            text (str): The title text.
+            classname (str): Additional CSS classnames.
+        """
+        global ui
+        ui.append({
+            "label": {
+                "text": text,
+                "classname": TITLE_CLASSNAME + f" {classname}",
+                "url": ""
+            }
+        })
+
+class Description:
+    """Represents a description UI component."""
+    def __init__(self, text: str, classname: str = ""):
+        """
+        Args:
+            text (str): The description text.
+            classname (str): Additional CSS classnames.
+        """
+        global ui
+        ui.append({
+            "label": {
+                "text": text,
+                "classname": DESCRIPTION_CLASSNAME + f" {classname}",
+                "url": ""
             }
         })
 

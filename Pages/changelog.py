@@ -12,7 +12,7 @@ class Page(ETS2LAPage):
     settings_target = "changelog" 
         
     def time_since(self, target_time):
-        diff = time.perf_counter() - target_time
+        diff = time.time() - target_time
         if diff < 60:
             if int(diff) == 1:
                 return "1 second ago"
@@ -41,8 +41,34 @@ class Page(ETS2LAPage):
             updates = last_updates
 
         with Geist():
-            with Padding(20):
-                Label("Changelog", classname=TITLE_CLASSNAME)
-                Label("This page will shwo the 100 latest commits, currently under construction", classname=DESCRIPTION_CLASSNAME)
+            with Padding(24):
+                Space(8)
+                with Group("vertical", classname="gap-3"):
+                    current_day = None
+                    for update in updates[:100]:
+                        local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
+                        if local_time.split(" ")[0] != current_day:
+                            current_day = local_time.split(" ")[0]
+                            Space(20)
+                            with Group("horizontal", classname="flex items-center p-0 gap-0"):
+                                with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                    ...
+                                with Group("vertical", classname="items-center p-0 gap-0 w-full"):
+                                    Description(local_time.split(" ")[0], classname="text-xs font-bold")
+                                with Group("horizontal", classname="border-b p-0 gap-0 w-full"):
+                                    ...
+                            Space(20)
+                        with Group("vertical", border=True, classname="p-3 flex flex-col gap-6"):
+                            with Group("horizontal", classname="flex w-full gap-2 items-center"):
+                                Description(update["author"], classname="text-xs")
+                                with Group("horizontal", classname="flex justify-between p-0 gap-0 w-full"):
+                                    Label(update["message"], classname="text-sm font-semibold")
+                                    Label("View Changes", url=update["url"], classname="text-xs font-light pr-1")
+                            if update["description"] != "":
+                                Markdown(update["description"])
+                            Description(local_time + f"  -  {self.time_since(update['time'])}", classname="text-xs")
+                            
+                    with Padding(8):
+                        Description("This list will only display the 100 most recent commits.", classname="text-xs font-light")
 
         return RenderUI()
