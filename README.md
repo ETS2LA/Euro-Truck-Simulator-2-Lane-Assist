@@ -18,5 +18,5 @@ If you don't want to use the official installer on the [discord](https://discord
  
 OR
 
-3. Install the frontend dependencies with `npm i` in the `frontend` folder. Then install the python dependencies with `pip install -r requirements.txt` in the root folder.
+3. Install the frontend dependencies with `npm i` in the `Interface` folder. Then install the python dependencies with `pip install -r requirements.txt` in the root folder.
 4. Run the app with `python main.py` in the root folder. Use `python main.py --dev` to run the frontend in development mode.
