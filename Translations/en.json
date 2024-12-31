@@ -208,7 +208,7 @@
     "plugins.ar": "AR (Augmented Reality)",
     "plugins.ar.description": "In development... The plugin will draw shapes over your game, to make it seem like they are in the game world.",
     "plugins.cruisecontrol": "Cruise Control",
-    "plugins.cruisecontrol.description": "Sets the in-game cruise control to the correct speed.",
+    "plugins.cruisecontrol.description": "Use the In-Game cruise control to control speed and keep distance between vehicles in front. Can't work with ACC plugin!",
     "plugins.datacollection": "Data Collection",
     "plugins.datacollection.description": "Data collection for vehicle detection plugin.",
     "plugins.depthprediction": "Depth Prediction",
