@@ -58,7 +58,7 @@ class Page(ETS2LAPage):
                         description="global.settings.8.description"
                     )
         
-                    Description("language_credits")
+                    Description("language_credits", size="xs")
 
             with Tab("global.settings.audio"):
                 Space(2)
