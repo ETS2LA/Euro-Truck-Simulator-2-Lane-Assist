@@ -15,6 +15,7 @@ from rich.console import Console
 import multiprocessing
 import traceback
 import importlib
+import requests
 import queue
 import sys
 import os
@@ -112,6 +113,18 @@ def ETS2LAProcess(exception_queue: Queue):
             import ETS2LA.variables
             ETS2LA.variables.DEVELOPMENT_MODE = True
             print(f"{PURPLE}{Translate('main.development_mode')}{NORMAL}\n")
+        
+        if "--local" in sys.argv:
+            import ETS2LA.variables
+            ETS2LA.variables.LOCAL_MODE = True
+            print(f"{PURPLE}{'Running UI locally'}{NORMAL}\n")
+        else:
+            try:
+                requests.get("https://app.ets2la.com", timeout=1)
+            except:
+                print(f"{RED}{'No connection to remote UI (github). Running locally.'}{NORMAL}\n")
+                import ETS2LA.variables
+                ETS2LA.variables.LOCAL_MODE = True
         
         CloseNode()
         ClearLogFiles()

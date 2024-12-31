@@ -32,6 +32,9 @@ CONSOLENAME = None
 DEVELOPMENT_MODE = False
 """Whether the application is running in development mode. Will be set to True when running the main.py with the --dev flag."""
 
+LOCAL_MODE = False
+"""Whether the user interface is run locally or gotten from the server."""
+
 METADATA = json.loads(open(PATH + "metadata.json", "r").read())
 """Current version metadata."""
 

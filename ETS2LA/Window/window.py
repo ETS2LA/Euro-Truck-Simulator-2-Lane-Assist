@@ -1,9 +1,9 @@
 from ETS2LA.Window.utils import ColorTitleBar, CheckIfWindowStillOpen, get_screen_dimensions, check_valid_window_position, get_theme, window_position
-from ETS2LA.Window.html import html
 from ETS2LA.Utils.translator import Translate
-import ETS2LA.Utils.settings as settings
 from multiprocessing import JoinableQueue
+import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
+from ETS2LA.Window.html import html
 import multiprocessing  
 import requests
 import logging
@@ -121,29 +121,33 @@ def set_transparency(value: bool):
         logging.warning(f"Transparency is not supported on this platform. ({os.name})")
     return IS_TRANSPARENT
 
-def start_webpage(queue: JoinableQueue):
+def start_webpage(queue: JoinableQueue, local_mode: bool):
     global webview_window
     
     def load_website(window:webview.Window):
         # Wait until the server is ready
-        RETRY_INTERVAL = 0.5
-        HAS_STARTED = False
-        while not HAS_STARTED:
-            try:
-                response = requests.get(
-                    f'http://localhost:{FRONTEND_PORT}',
-                    timeout=2
-                )
-                if response.ok:
-                    HAS_STARTED = True
-                    break
-            except:
-                pass  # Handle timeout
+        if local_mode:
+            RETRY_INTERVAL = 0.5
+            HAS_STARTED = False
+            while not HAS_STARTED:
+                try:
+                    response = requests.get(
+                        f'http://localhost:{FRONTEND_PORT}',
+                        timeout=2
+                    )
+                    if response.ok:
+                        HAS_STARTED = True
+                        break
+                except:
+                    pass  # Handle timeout
+                
+                time.sleep(RETRY_INTERVAL)
+                
+            #set_resizable(True)
+            window.load_url('http://localhost:' + str(FRONTEND_PORT))
+        else:
+            window.load_url("https://app.ets2la.com")
             
-            time.sleep(RETRY_INTERVAL)
-            
-        #set_resizable(True)
-        window.load_url('http://localhost:' + str(FRONTEND_PORT))
         while True:
             time.sleep(0.01)
             try:
@@ -216,7 +220,7 @@ def check_for_size_change(settings):
 settings.Listen("global", check_for_size_change)
 
 def run():
-    p = multiprocessing.Process(target=start_webpage, args=(queue, ), daemon=True)
+    p = multiprocessing.Process(target=start_webpage, args=(queue, variables.LOCAL_MODE, ), daemon=True)
     p.start()
     if os.name == 'nt':
         ColorTitleBar()
