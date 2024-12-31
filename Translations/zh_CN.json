@@ -208,7 +208,7 @@
     "plugins.ar": "AR (增强现实)",
     "plugins.ar.description": "开发中... 插件会在游戏画面上绘制形状，使它们看起来像是在游戏里一样。",
     "plugins.cruisecontrol": "巡航控制 (CC)",
-    "plugins.cruisecontrol.description": "将游戏内的巡航控制设置为正确的速度。",
+    "plugins.cruisecontrol.description": "基于游戏内自动巡航来控制速度与保持车距。无法与ACC插件一起使用！",
     "plugins.datacollection": "数据收集",
     "plugins.datacollection.description": "用于车辆检测插件的数据收集。",
     "plugins.depthprediction": "深度预测",
