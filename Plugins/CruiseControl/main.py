@@ -30,7 +30,7 @@ class Plugin(ETS2LAPlugin):
         tags=["Base", "Speed Control"]
     )
     
-    author = Author(
+    author = [Author(
         name="MRUIAW",
         url="https://github.com/MRUIAW",
         icon="https://avatars.githubusercontent.com/u/119018519?v=4"
@@ -39,9 +39,7 @@ class Plugin(ETS2LAPlugin):
         name="Tumppi066",
         url="https://github.com/Tumppi066",
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
-    )
-
-
+    )]
 
     last_target_speed_time = 0
     last_target_speed = 0
