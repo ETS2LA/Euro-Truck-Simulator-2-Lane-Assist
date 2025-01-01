@@ -167,7 +167,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
-    fps_cap = 500
+    fps_cap = 1000
 
 
     def imports(self):
