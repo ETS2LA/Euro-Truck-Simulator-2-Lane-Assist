@@ -32,6 +32,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="NavigationDetectionAI works by following the route on the route advisor using a ML model which generates a steering value from the image.",
         modules=["TruckSimAPI", "SDKController"],
+        tags=["Steering"]
     )
 
     author = Author(

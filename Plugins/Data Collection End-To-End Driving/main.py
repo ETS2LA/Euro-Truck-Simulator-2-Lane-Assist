@@ -170,7 +170,7 @@ class Plugin(ETS2LAPlugin):
         name="Data Collection End-To-End Driving",
         version="1.0",
         description="This plugins sends anonymous driving data for our end-to-end driving model. All the collected data will be open source.",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI"]
     )
 
     author = Author(

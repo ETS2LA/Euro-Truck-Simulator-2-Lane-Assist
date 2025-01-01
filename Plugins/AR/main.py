@@ -158,7 +158,7 @@ class Plugin(ETS2LAPlugin):
         name="AR",
         version="1.0",
         description="In Development.",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI"]
     )
 
     author = Author(

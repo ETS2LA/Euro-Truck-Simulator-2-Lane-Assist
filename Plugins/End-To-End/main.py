@@ -53,6 +53,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="End-To-End works by following the current lane using a ML model which generates a steering value from the image.",
         modules=["TruckSimAPI", "SDKController"],
+        tags=["Steering"]
     )
 
     author = Author(

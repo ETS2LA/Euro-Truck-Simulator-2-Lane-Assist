@@ -79,6 +79,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="In Development.",
         modules=["TruckSimAPI"],
+        tags=["Traffic Lights"]
     )
 
     author = Author(
