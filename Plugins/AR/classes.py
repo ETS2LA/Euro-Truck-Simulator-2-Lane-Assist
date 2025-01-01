@@ -1,3 +1,5 @@
+import math
+
 class Point:
     """Representation of a 2D point.
 
@@ -122,6 +124,8 @@ class Rectangle:
     :param Color color: The color of the rectangle.
     :param Color fill: The fill color of the rectangle.
     :param int thickness: The thickness of the rectangle.
+    :param Fade fade: The fade effect applied to the rectangle. (Only affects 3D objects)
+    :param float custom_distance: A custom distance to be used for fade calculations
     
     Usage:
     >>> rect = Rectangle(Point(1, 2), Point(3, 4))
@@ -133,6 +137,7 @@ class Rectangle:
     fill: Color = Color(0, 0, 0, 0)
     thickness: int = 1
     fade: Fade = Fade()
+    custom_distance: float | None = None
     
     def __init__(self, 
                  start: Point | Coordinate, 
@@ -140,13 +145,25 @@ class Rectangle:
                  color: Color = Color(255, 255, 255, 255), 
                  fill: Color = Color(0, 0, 0, 0), 
                  thickness: int = 1,
-                 fade: Fade = Fade()):
+                 fade: Fade = Fade(),
+                 custom_distance: float = None):
         self.start = start
         self.end = end
         self.color = color
         self.fill = fill
         self.thickness = thickness
         self.fade = fade
+        self.custom_distance = custom_distance
+        
+    def is_3D(self):
+        return isinstance(self.start, Coordinate)
+    
+    def get_distance(self, x: float, y: float, z: float):
+        if self.custom_distance is not None:
+            return self.custom_distance
+        if self.is_3D():
+            return ((self.start.x - x) ** 2 + (self.start.y - y) ** 2 + (self.start.z - z) ** 2) ** 0.5 + ((self.end.x - x) ** 2 + (self.end.y - y) ** 2 + (self.end.z - z) ** 2) ** 0.5
+        return 0
         
     def json(self):
         return {
@@ -165,6 +182,8 @@ class Line:
     :param Point | Coordinate end: The end point of the line.
     :param Color color: The color of the line.
     :param int thickness: The thickness of the line.
+    :param Fade fade: The fade effect applied to the line. (Only affects 3D objects)
+    :param float custom_distance: A custom distance to be used for fade calculations
     
     Usage:
     >>> line = Line(Point(1, 2), Point(3, 4))
@@ -174,18 +193,31 @@ class Line:
     color: Color = Color(255, 255, 255, 255)
     thickness: int = 1
     fade: Fade = Fade()
+    custom_distance: float | None = None
     
     def __init__(self, 
                  start: Point | Coordinate, 
                  end: Point | Coordinate, 
                  color: Color = Color(255, 255, 255, 255), 
                  thickness: int = 1,
-                 fade: Fade = Fade()):
+                 fade: Fade = Fade(),
+                 custom_distance: float = None):
         self.start = start
         self.end = end
         self.color = color
         self.thickness = thickness
         self.fade = fade
+        self.custom_distance = custom_distance
+        
+    def is_3D(self):
+        return isinstance(self.start, Coordinate)
+    
+    def get_distance(self, x: float, y: float, z: float):
+        if self.custom_distance is not None:
+            return self.custom_distance
+        if self.is_3D():
+            return ((self.start.x - x) ** 2 + (self.start.y - y) ** 2 + (self.start.z - z) ** 2) ** 0.5 + ((self.end.x - x) ** 2 + (self.end.y - y) ** 2 + (self.end.z - z) ** 2) ** 0.5
+        return 0
         
     def json(self):
         return {
@@ -204,6 +236,8 @@ class Polygon:
     :param Color fill: The fill color of the polygon.
     :param int thickness: The thickness of the polygon.
     :param bool closed: Whether the polygon is closed or not. (ie. the last point is connected to the first point)
+    :param Fade fade: The fade effect applied to the polygon. (Only affects 3D objects)
+    :param float custom_distance: A custom distance to be used for fade calculations
     
     Usage:
     >>> polygon = Polygon([Point(1, 2), Point(3, 4), Point(5, 6)])
@@ -214,6 +248,7 @@ class Polygon:
     thickness: int = 1
     closed: bool = True
     fade: Fade = Fade()
+    custom_distance: float | None = None
     
     def __init__(self, 
                  points: list[Point | Coordinate], 
@@ -221,13 +256,25 @@ class Polygon:
                  fill: Color = Color(0, 0, 0, 0), 
                  thickness: int = 1, 
                  closed: bool = True,
-                 fade: Fade = Fade()):
+                 fade: Fade = Fade(),
+                 custom_distance: float = None):
         self.points = points
         self.color = color
         self.fill = fill
         self.thickness = thickness
         self.closed = closed
         self.fade = fade
+        self.custom_distance = custom_distance
+        
+    def is_3D(self):
+        return isinstance(self.points[0], Coordinate)
+    
+    def get_distance(self, x: float, y: float, z: float):
+        if self.custom_distance is not None:
+            return self.custom_distance
+        if self.is_3D():
+            return sum([((point.x - x) ** 2 + (point.y - y) ** 2 + (point.z - z) ** 2) ** 0.5 for point in self.points])
+        return 0
         
     def json(self):
         return {
@@ -247,6 +294,8 @@ class Circle:
     :param Color color: The color of the circle.
     :param Color fill: The fill color of the circle.
     :param int thickness: The thickness of the circle.
+    :param Fade fade: The fade effect applied to the circle. (Only affects 3D objects)
+    :param float custom_distance: A custom distance to be used for fade calculations
     
     Usage:
     >>> circle = Circle(Point(1, 2), radius=150)
@@ -257,6 +306,7 @@ class Circle:
     fill: Color = Color(0, 0, 0, 0)
     thickness: int = 1
     fade: Fade = Fade()
+    custom_distance: float | None = None
     
     def __init__(self, 
                  center: Point | Coordinate, 
@@ -264,13 +314,25 @@ class Circle:
                  color: Color = Color(255, 255, 255, 255), 
                  fill: Color = Color(0, 0, 0, 0), 
                  thickness: int = 1,
-                 fade: Fade = Fade()):
+                 fade: Fade = Fade(),
+                 custom_distance: float = None):
         self.center = center
         self.radius = radius
         self.color = color
         self.fill = fill
         self.thickness = thickness
         self.fade = fade
+        self.custom_distance = custom_distance
+        
+    def is_3D(self):
+        return isinstance(self.center, Coordinate)
+    
+    def get_distance(self, x: float, y: float, z: float):
+        if self.custom_distance is not None:
+            return self.custom_distance
+        if self.is_3D():
+            return ((self.center.x - x) ** 2 + (self.center.y - y) ** 2 + (self.center.z - z) ** 2) ** 0.5
+        return 0
         
     def json(self):
         return {

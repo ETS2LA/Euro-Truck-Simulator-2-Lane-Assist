@@ -37,8 +37,15 @@ def Resize():
 def Render(Items=[]):
     global FRAME
     dpg.delete_item(FRAME)
+    
+    distances = []
+    for item in Items:
+        distances.append(item.get_distance(HeadX, HeadY, HeadZ))
+        
+    sorted_items = [item for _, item in sorted(zip(distances, Items), key=lambda pair: pair[0], reverse=True)]
+    
     with dpg.viewport_drawlist(label="draw") as FRAME:
-        for Item in Items:
+        for Item in sorted_items:
             if type(Item) == Rectangle:
                 points = [Item.start, Item.end]
                 if type(points[0]) == Point:
