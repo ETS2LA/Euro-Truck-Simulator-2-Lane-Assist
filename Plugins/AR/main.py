@@ -174,15 +174,20 @@ class Plugin(ETS2LAPlugin):
     description = PluginDescription(
         name="AR",
         version="1.0",
-        description="In Development.",
-        modules=["TruckSimAPI"]
+        description="Overlays data on top of the game screen. Supports all plugins tagged with 'AR' (click the tag on the right). Still in development.",
+        modules=["TruckSimAPI"],
+        tags=["Visualization", "AR"]
     )
 
-    author = Author(
+    author = [Author(
         name="Glas42",
         url="https://github.com/Glas42",
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
-    )
+    ), Author(
+        name="Tumppi066",
+        url="https://github.com/Tumppi066",
+        icon="https://avatars.githubusercontent.com/u/83072683?v=4"
+    )]
 
     fps_cap = 1000
 
