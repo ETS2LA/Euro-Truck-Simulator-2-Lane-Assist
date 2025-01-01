@@ -1,10 +1,11 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+from Plugins.AR.classes import *
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
-
+DRAWLIST = []
 
 def InitializeWindow():
     WindowX1, WindowY1, WindowX2, WindowY2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
@@ -33,66 +34,38 @@ def Resize():
     dpg.set_viewport_height(WindowPosition[3] - WindowPosition[1])
 
 
-def DrawRectangle(Start=[0, 0], End=[100, 100], Color=[255, 255, 255, 255], FillColor=[0, 0, 0, 0], Thickness=1):
-    global DRAWLIST
-    FillColor = list(FillColor)
-    Color = list(Color)
-    if len(FillColor) <= 3:
-        FillColor.append(255)
-    if len(Color) <= 3:
-        Color.append(255)
-    DRAWLIST.append(("Rectangle", Start, End, Color, FillColor, Thickness))
-
-
-def DrawLine(Start=[0, 0], End=[100, 100], Color=[255, 255, 255, 255], Thickness=1):
-    global DRAWLIST
-    Color = list(Color)
-    if len(Color) <= 3:
-        Color.append(255)
-    DRAWLIST.append(("Line", Start, End, Color, Thickness))
-
-
-def DrawPolygon(Points=[(100, 0), (100, 100), (0, 100)], Color=[255, 255, 255, 255], FillColor=[0, 0, 0, 0], Thickness=1, Closed=False):
-    global DRAWLIST
-    FillColor = list(FillColor)
-    Color = list(Color)
-    if len(FillColor) <= 3:
-        FillColor.append(255)
-    if len(Color) <= 3:
-        Color.append(255)
-    Points = [(X, Y) for X, Y in Points if X != None and Y != None]
-    if len(Points) <= 1:
-        return
-    if Closed:
-        if Points[0] != Points[-1]:
-            Points.append(Points[0])
-    DRAWLIST.append(("Polygon", Points, Color, FillColor, Thickness))
-
-
-def DrawCircle(Center=[0, 0], R=100, Color=[255, 255, 255, 255], FillColor=[0, 0, 0, 0], Thickness=1):
-    global DRAWLIST
-    Color = list(Color)
-    if len(Color) <= 3:
-        Color.append(255)
-    DRAWLIST.append(("Circle", Center, R, Color, FillColor, Thickness))
-
-
-def Render():
+def Render(Items=[]):
     global FRAME
-    global DRAWLIST
     dpg.delete_item(FRAME)
     with dpg.viewport_drawlist(label="draw") as FRAME:
-        for Item in DRAWLIST:
-            if Item[0] == "Rectangle":
-                dpg.draw_rectangle(pmin=Item[1], pmax=Item[2], color=Item[3], fill=Item[4], thickness=Item[5])
-            elif Item[0] == "Line":
-                dpg.draw_line(p1=Item[1], p2=Item[2], color=Item[3], thickness=Item[4])
-            elif Item[0] == "Polygon":
-                dpg.draw_polygon(points=Item[1], color=Item[2], fill=Item[3], thickness=Item[4])
-            elif Item[0] == "Circle":
-                dpg.draw_circle(center=Item[1], radius=Item[2], color=Item[3], fill=Item[4], thickness=Item[5])
+        for Item in Items:
+            if type(Item) == Rectangle:
+                start = Item.start.tuple() if type(Item.start) == Point else ConvertToScreenCoordinate(*Item.start.tuple())
+                end = Item.end.tuple() if type(Item.end) == Point else ConvertToScreenCoordinate(*Item.end.tuple())
+                if start is None or end is None:
+                    continue
+                dpg.draw_rectangle(pmin=start, pmax=end, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
+                
+            elif type(Item) == Line:
+                start = Item.start.tuple() if type(Item.start) == Point else ConvertToScreenCoordinate(*Item.start.tuple())
+                end = Item.end.tuple() if type(Item.end) == Point else ConvertToScreenCoordinate(*Item.end.tuple())
+                if start is None or end is None:
+                    continue
+                dpg.draw_line(p1=start, p2=end, color=Item.color.tuple(), thickness=Item.thickness)
+                
+            elif type(Item) == Polygon:
+                points = [(point.tuple() if type(point) == Point else ConvertToScreenCoordinate(*point.tuple())) for point in Item.points]
+                if (None, None) in points or (None, None, None) in points:
+                    continue
+                dpg.draw_polygon(points=points, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
+                
+            elif type(Item) == Circle:
+                center = Item.center.tuple() if type(Item.center) == Point else ConvertToScreenCoordinate(*Item.center.tuple())
+                if center is None:
+                    continue
+                dpg.draw_circle(center=center, radius=Item.radius, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
+                
     dpg.render_dearpygui_frame()
-    DRAWLIST = []
 
 
 def CalculateAlpha(Distances=[]):
@@ -169,7 +142,6 @@ class Plugin(ETS2LAPlugin):
 
     fps_cap = 1000
 
-
     def imports(self):
         global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
 
@@ -197,7 +169,7 @@ class Plugin(ETS2LAPlugin):
         FRAME = None
         FOV = self.globals.settings.FOV
         if FOV == None:
-            print(f"\n{PURPLE}Make sure to set the FOV in the settings for AR! The plugin will disable itself.{NORMAL}\n")
+            print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables)! The plugin will disable itself.{NORMAL}\n")
             self.notify("No FOV set, disabling AR...")
             self.terminate()
 
@@ -205,6 +177,7 @@ class Plugin(ETS2LAPlugin):
 
 
     def run(self):
+        global DRAWLIST
         global LastWindowPosition
         global WindowPosition
 
@@ -224,6 +197,7 @@ class Plugin(ETS2LAPlugin):
 
         WindowPosition = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         if LastWindowPosition != WindowPosition:
+            LastWindowPosition = WindowPosition
             Resize()
 
 
@@ -257,7 +231,7 @@ class Plugin(ETS2LAPlugin):
 
         HeadRotationDegreesY = (TruckRotationY + CabinOffsetRotationY + HeadOffsetRotationY) * 360
 
-        HeadRotationDegreesZ = (TruckRotationZ + CabinOffsetRotationZ + HeadOffsetRotationZ) * 360
+        HeadRotationDegreesZ = (-TruckRotationZ + CabinOffsetRotationZ + HeadOffsetRotationZ) * 360
 
         PointX = HeadOffsetX
         PointY = HeadOffsetY
@@ -281,7 +255,14 @@ class Plugin(ETS2LAPlugin):
             PointY = TruckY + TruckWheelPointsY[i]
             PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
             X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
-            DrawCircle(Center=(X, Y), R=10, Color=(255, 255, 255), FillColor=(127, 127, 127, 127), Thickness=2)
+            
+            DRAWLIST.append(Circle(
+                center=Point(X, Y),
+                radius=10,
+                color=Color(255, 255, 255, 255),
+                fill=Color(127, 127, 127, 127),
+                thickness=2
+            ))
 
 
         # The arrow at the berlin spawn
@@ -289,7 +270,12 @@ class Plugin(ETS2LAPlugin):
         X2, Y2, D2 = ConvertToScreenCoordinate(X=10352.160, Y=47.543, Z=-9224.122)
         X3, Y3, D3 = ConvertToScreenCoordinate(X=10353.160, Y=46.543, Z=-9228.122)
         Alpha = CalculateAlpha(Distances=[D1, D2, D3])
-        DrawPolygon(Points=[(X1, Y1), (X2, Y2), (X3, Y3)], Color=(255, 255, 255, Alpha), FillColor=(127, 127, 127, Alpha / 2), Thickness=2, Closed=True)
+        DRAWLIST.append(Polygon(
+            points=[Point(X1, Y1), Point(X2, Y2), Point(X3, Y3), Point(X1, Y1)],
+            color=Color(255, 255, 255, Alpha),
+            fill=Color(127, 127, 127, Alpha / 2),
+            thickness=2
+        ))
 
-
-        Render()
+        Render(Items=DRAWLIST)
+        DRAWLIST = []
