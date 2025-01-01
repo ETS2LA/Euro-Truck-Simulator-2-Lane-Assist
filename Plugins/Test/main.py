@@ -37,21 +37,27 @@ class Plugin(ETS2LAPlugin):
         self.globals.tags.AR = [
             Polygon(
                 points=[
-                    Coordinate(10363.160, 48.543, -9228.122),
-                    Coordinate(10362.160, 47.543, -9224.122),
-                    Coordinate(10363.160, 46.543, -9228.122),
-                    Coordinate(10363.160, 48.543, -9228.122)
+                    Coordinate(10358.160, 48.543, -9228.122),
+                    Coordinate(10357.160, 47.543, -9224.122),
+                    Coordinate(10358.160, 46.543, -9228.122),
+                    Coordinate(10358.160, 48.543, -9228.122)
                 ],
                 color=Color(255, 255, 255, 255),
                 fill=Color(127, 127, 127, 255 / 2),
-                thickness=2
+                thickness=2,
+                fade=Fade(
+                    prox_fade_end=0,
+                    prox_fade_start=0,
+                    dist_fade_start=200,
+                    dist_fade_end=200
+                )
             ),
             Polygon(
                 points=[
-                    Coordinate(10343.160, 48.543, -9228.122),
-                    Coordinate(10342.160, 47.543, -9224.122),
-                    Coordinate(10343.160, 46.543, -9228.122),
-                    Coordinate(10343.160, 48.543, -9228.122)
+                    Coordinate(10348.160, 48.543, -9228.122),
+                    Coordinate(10347.160, 47.543, -9224.122),
+                    Coordinate(10348.160, 46.543, -9228.122),
+                    Coordinate(10348.160, 48.543, -9228.122)
                 ],
                 color=Color(255, 255, 255, 255),
                 fill=Color(127, 127, 127, 255 / 2),

@@ -49,6 +49,40 @@ class Coordinate:
         return {"x": self.x, "y": self.y, "z": self.z}
     
 
+class Fade:
+    """A fade effect applied to a renderable 3D object. 2D objects are not affected.
+
+    :param float prox_fade_end: The distance at which the proximity fade ends (opacity is 0).
+    :param float prox_fade_start: The distance at which the proximity fade starts (opacity starts to decrease).
+    :param float dist_fade_start: The distance at which the distance fade starts (opacity starts to decrease).
+    :param float dist_fade_end: The distance at which the distance fade ends (opacity is 0).
+    """
+    prox_fade_end: float = 10
+    prox_fade_start: float = 30
+    dist_fade_start: float = 150
+    dist_fade_end: float = 170
+    
+    def __init__(self,
+                 prox_fade_end: float = 10,
+                 prox_fade_start: float = 30,
+                 dist_fade_start: float = 150,
+                 dist_fade_end: float = 170):
+            self.prox_fade_end = prox_fade_end
+            self.prox_fade_start = prox_fade_start
+            self.dist_fade_start = dist_fade_start
+            self.dist_fade_end = dist_fade_end
+            
+    def json(self):
+        return {
+            "prox_fade_end": self.prox_fade_end,
+            "prox_fade_start": self.prox_fade_start,
+            "dist_fade_start": self.dist_fade_start,
+            "dist_fade_end": self.dist_fade_end
+        }
+        
+    def tuple(self):
+        return (self.prox_fade_end, self.prox_fade_start, self.dist_fade_start, self.dist_fade_end)
+
 class Color:
     """A color with r,g,b and a values.
 
@@ -98,18 +132,21 @@ class Rectangle:
     color: Color = Color(255, 255, 255, 255)
     fill: Color = Color(0, 0, 0, 0)
     thickness: int = 1
+    fade: Fade = Fade()
     
     def __init__(self, 
                  start: Point | Coordinate, 
                  end: Point | Coordinate, 
                  color: Color = Color(255, 255, 255, 255), 
                  fill: Color = Color(0, 0, 0, 0), 
-                 thickness: int = 1):
+                 thickness: int = 1,
+                 fade: Fade = Fade()):
         self.start = start
         self.end = end
         self.color = color
         self.fill = fill
         self.thickness = thickness
+        self.fade = fade
         
     def json(self):
         return {
@@ -136,16 +173,19 @@ class Line:
     end: Point | Coordinate
     color: Color = Color(255, 255, 255, 255)
     thickness: int = 1
+    fade: Fade = Fade()
     
     def __init__(self, 
                  start: Point | Coordinate, 
                  end: Point | Coordinate, 
                  color: Color = Color(255, 255, 255, 255), 
-                 thickness: int = 1):
+                 thickness: int = 1,
+                 fade: Fade = Fade()):
         self.start = start
         self.end = end
         self.color = color
         self.thickness = thickness
+        self.fade = fade
         
     def json(self):
         return {
@@ -173,18 +213,21 @@ class Polygon:
     fill: Color = Color(0, 0, 0, 0)
     thickness: int = 1
     closed: bool = True
+    fade: Fade = Fade()
     
     def __init__(self, 
                  points: list[Point | Coordinate], 
                  color: Color = Color(255, 255, 255, 255), 
                  fill: Color = Color(0, 0, 0, 0), 
                  thickness: int = 1, 
-                 closed: bool = True):
+                 closed: bool = True,
+                 fade: Fade = Fade()):
         self.points = points
         self.color = color
         self.fill = fill
         self.thickness = thickness
         self.closed = closed
+        self.fade = fade
         
     def json(self):
         return {
@@ -213,18 +256,21 @@ class Circle:
     color: Color = Color(255, 255, 255, 255)
     fill: Color = Color(0, 0, 0, 0)
     thickness: int = 1
+    fade: Fade = Fade()
     
     def __init__(self, 
                  center: Point | Coordinate, 
                  radius: float = 100,
                  color: Color = Color(255, 255, 255, 255), 
                  fill: Color = Color(0, 0, 0, 0), 
-                 thickness: int = 1):
+                 thickness: int = 1,
+                 fade: Fade = Fade()):
         self.center = center
         self.radius = radius
         self.color = color
         self.fill = fill
         self.thickness = thickness
+        self.fade = fade
         
     def json(self):
         return {

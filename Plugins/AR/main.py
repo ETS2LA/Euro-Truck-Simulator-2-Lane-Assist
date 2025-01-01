@@ -40,27 +40,57 @@ def Render(Items=[]):
     with dpg.viewport_drawlist(label="draw") as FRAME:
         for Item in Items:
             if type(Item) == Rectangle:
-                start = Item.start.tuple() if type(Item.start) == Point else ConvertToScreenCoordinate(*Item.start.tuple())
-                end = Item.end.tuple() if type(Item.end) == Point else ConvertToScreenCoordinate(*Item.end.tuple())
+                points = [Item.start, Item.end]
+                if type(points[0]) == Point:
+                    start = points[0].tuple()
+                    end = points[1].tuple()
+                if type(points[0]) == Coordinate:
+                    start = ConvertToScreenCoordinate(*points[0].tuple())
+                    end = ConvertToScreenCoordinate(*points[1].tuple())
+                    alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
+                    Item.color.a *= alpha / 255
+                    Item.fill.a *= alpha / 255
+
                 if start is None or end is None:
                     continue
                 dpg.draw_rectangle(pmin=start, pmax=end, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
                 
             elif type(Item) == Line:
-                start = Item.start.tuple() if type(Item.start) == Point else ConvertToScreenCoordinate(*Item.start.tuple())
-                end = Item.end.tuple() if type(Item.end) == Point else ConvertToScreenCoordinate(*Item.end.tuple())
+                points = [Item.start, Item.end]
+                if type(points[0]) == Point:
+                    start = points[0].tuple()
+                    end = points[1].tuple()
+                if type(points[0]) == Coordinate:
+                    start = ConvertToScreenCoordinate(*points[0].tuple())
+                    end = ConvertToScreenCoordinate(*points[1].tuple())
+                    alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
+                    Item.color.a *= alpha / 255
                 if start is None or end is None:
                     continue
                 dpg.draw_line(p1=start, p2=end, color=Item.color.tuple(), thickness=Item.thickness)
                 
             elif type(Item) == Polygon:
-                points = [(point.tuple() if type(point) == Point else ConvertToScreenCoordinate(*point.tuple())) for point in Item.points]
+                points = Item.points
+                if type(points[0]) == Point:
+                    points = [point.tuple() for point in Item.points]
+                if type(points[0]) == Coordinate:
+                    points = [ConvertToScreenCoordinate(*point.tuple()) for point in Item.points]
+                    alpha = CalculateAlpha(Distances=[point[2] for point in points], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
+                    Item.color.a *= alpha / 255
+                    Item.fill.a *= alpha / 255
                 if (None, None) in points or (None, None, None) in points:
                     continue
                 dpg.draw_polygon(points=points, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
                 
             elif type(Item) == Circle:
-                center = Item.center.tuple() if type(Item.center) == Point else ConvertToScreenCoordinate(*Item.center.tuple())
+                center = Item.center
+                if type(center) == Point:
+                    center = center.tuple()
+                if type(center) == Coordinate:
+                    center = ConvertToScreenCoordinate(*center.tuple())
+                    alpha = CalculateAlpha(Distances=[center[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
+                    Item.color.a *= alpha / 255
+                    Item.fill.a *= alpha / 255
                 if center is None:
                     continue
                 dpg.draw_circle(center=center, radius=Item.radius, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
@@ -68,19 +98,26 @@ def Render(Items=[]):
     dpg.render_dearpygui_frame()
 
 
-def CalculateAlpha(Distances=[]):
-    Distances = [Distance for Distance in Distances if Distance != None]
+def CalculateAlpha(Distances=[], fade_end=10, fade_start=30, max_fade_start=150, max_fade_end=170):
+    # Filter out None values from the Distances list
+    Distances = [Distance for Distance in Distances if Distance is not None]
+    
+    # If no valid distances, return 0
     if len(Distances) == 0:
         return 0
+    
+    # Calculate the average distance
     AverageDistance = sum(Distances) / len(Distances)
-    if AverageDistance < 10:
+    
+    # Determine the alpha value based on the average distance
+    if AverageDistance < fade_end:
         return 0
-    elif 10 <= AverageDistance < 30:
-        return (255 * (AverageDistance - 10) / 20)
-    elif 30 <= AverageDistance < 150:
+    elif fade_end <= AverageDistance < fade_start:
+        return (255 * (AverageDistance - fade_end) / (fade_start - fade_end))
+    elif fade_start <= AverageDistance < max_fade_start:
         return 255
-    elif 150 <= AverageDistance < 170:
-        return (255 * (170 - AverageDistance) / 20)
+    elif max_fade_start <= AverageDistance < max_fade_end:
+        return (255 * (max_fade_end - AverageDistance) / (max_fade_end - max_fade_start))
     else:
         return 0
 
@@ -264,15 +301,15 @@ class Plugin(ETS2LAPlugin):
             ))
 
 
-        # The arrow at the berlin spawn
-        X1, Y1, D1 = ConvertToScreenCoordinate(X=10353.160, Y=48.543, Z=-9228.122)
-        X2, Y2, D2 = ConvertToScreenCoordinate(X=10352.160, Y=47.543, Z=-9224.122)
-        X3, Y3, D3 = ConvertToScreenCoordinate(X=10353.160, Y=46.543, Z=-9228.122)
-        Alpha = CalculateAlpha(Distances=[D1, D2, D3])
         DRAWLIST.append(Polygon(
-            points=[Point(X1, Y1), Point(X2, Y2), Point(X3, Y3), Point(X1, Y1)],
-            color=Color(255, 255, 255, Alpha),
-            fill=Color(127, 127, 127, Alpha / 2),
+            points=[
+                Coordinate(10353.160, 48.543, -9228.122),
+                Coordinate(10352.160, 47.543, -9224.122),
+                Coordinate(10353.160, 46.543, -9228.122),
+                Coordinate(10353.160, 48.543, -9228.122)
+            ],
+            color=Color(255, 255, 255, 255),
+            fill=Color(127, 127, 127, 255 / 2),
             thickness=2
         ))
 
