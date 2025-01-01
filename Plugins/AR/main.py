@@ -200,7 +200,6 @@ class Plugin(ETS2LAPlugin):
             LastWindowPosition = WindowPosition
             Resize()
 
-
         TruckX = APIDATA["truckPlacement"]["coordinateX"]
         TruckY = APIDATA["truckPlacement"]["coordinateY"]
         TruckZ = APIDATA["truckPlacement"]["coordinateZ"]
@@ -276,6 +275,12 @@ class Plugin(ETS2LAPlugin):
             fill=Color(127, 127, 127, Alpha / 2),
             thickness=2
         ))
+
+        other_plugins = self.globals.tags.AR
+        if other_plugins is not None:
+            for plugin in other_plugins:
+                if type(other_plugins[plugin]) == list:
+                    DRAWLIST.extend(other_plugins[plugin])
 
         Render(Items=DRAWLIST)
         DRAWLIST = []
