@@ -49,8 +49,8 @@ class Plugin(ETS2LAPlugin):
         import Modules.BetterScreenCapture.main as ScreenCapture
         from Modules.SDKController.main import SCSController
         import Modules.BetterShowImage.main as ShowImage
-        import ETS2LA.Utils.settings as settings
         import ETS2LA.Handlers.pytorch as pytorch
+        import ETS2LA.Utils.settings as settings
         import ETS2LA.variables as variables
         import numpy as np
         import keyboard

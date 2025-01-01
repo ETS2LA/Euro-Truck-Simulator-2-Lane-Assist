@@ -98,8 +98,8 @@ class Plugin(ETS2LAPlugin):
         from Modules.SDKController.main import SCSController
         from ETS2LA.Networking.cloud import SendCrashReport
         import Modules.BetterShowImage.main as ShowImage
-        import ETS2LA.Utils.settings as settings
         import ETS2LA.Handlers.pytorch as pytorch
+        import ETS2LA.Utils.settings as settings
         import ETS2LA.variables as variables
         import numpy as np
         import traceback
