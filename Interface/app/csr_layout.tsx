@@ -49,8 +49,11 @@ export default function CSRLayout({ children, }: Readonly<{ children: React.Reac
         });
     });
 
-    const isNewYear = ((new Date().getMonth() === 0 && new Date().getDate() === 1) || (new Date().getMonth() === 11 && new Date().getDate() === 31)) && areFireworksAllowed;
-    const isSnowing = (new Date().getMonth() >= 10 || new Date().getMonth() === 0) && isSnowAllowed;
+    const date = new Date();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const isNewYear = ((month === 0 && day === 1) || (month === 11 && day === 31)) && areFireworksAllowed;
+    const isSnowing = (month >= 10 || month === 0) && isSnowAllowed;
 
     useEffect(() => {
         loadTranslations().then(() => {
