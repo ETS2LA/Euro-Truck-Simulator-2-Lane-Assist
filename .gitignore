@@ -34,3 +34,7 @@ logs
 # Ignore End to End files
 /Data-Collection-End-To-End-Driving
 /End-To-End-Data-ID.txt
+
+# Submodules
+/Translations
+/Interface

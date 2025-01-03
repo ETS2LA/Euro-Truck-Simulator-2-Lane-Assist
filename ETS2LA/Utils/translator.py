@@ -13,7 +13,9 @@ import os
 DATA_FOLDER = "Translations"
 FRONTEND_DATA_FOLDER = "Interface/translations"
 
-EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git", download_updates=True)
+EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
+                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main", 
+                      download_updates=True)
 
 FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".yaml")]
 FILES.remove("keys.yaml")
