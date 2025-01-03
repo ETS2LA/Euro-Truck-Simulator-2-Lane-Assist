@@ -1,4 +1,8 @@
 {
+    "name": "The name of the language in it's own language.\nExample: 'Suomi'",
+    "name_en": "The name of the language in english.\nExample: 'Finnish'",
+    "iso_code": "The ISO code of the language.\nExample: 'fi'",
+    "credits": "Language credits. Can be anything, most of the time it's the name of the translators.",
     "downloading": "{0} is the name of what is being downloaded.\nExample: 'Downloading model...'",
     "main.errors": "Here the text is before a count of errors. For example a print could be 'Errors: 5'",
     "main.warnings": "Here the text is before a count of warnings. For example a print could be 'Warnings: 5'",

@@ -10,7 +10,7 @@ import os
 DATA_FOLDER = "Translations"
 FRONTEND_DATA_FOLDER = "Interface/translations"
 
-FILES = os.listdir(DATA_FOLDER)
+FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".json")]
 FILES.remove("keys.json")
 FILES.remove("comments.json")
 KEYS = json.load(open(os.path.join(DATA_FOLDER, "keys.json"), "r", encoding="utf-8"))
