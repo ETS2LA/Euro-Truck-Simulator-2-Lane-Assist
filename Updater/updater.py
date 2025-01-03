@@ -15,8 +15,7 @@ steps = [
     {"name": "Save", "command": "git stash"},
     {"name": "Update", "command": "git pull"},
     {"name": "Requirements", "command": "pip install -r requirements.txt"},
-    {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'},
-    {"name": "Frontend", "command": "cd Interface && npm install && npm run build"}
+    {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'}
 ]
 
 needed_version = "2.2.1"
