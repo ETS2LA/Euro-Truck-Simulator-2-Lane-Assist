@@ -1,14 +1,17 @@
 try:
-    from ETS2LA.Utils.translator import Translate 
+    from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
 except:
     import sys
     import os
     sys.path.append(os.path.dirname(__file__))
-    from ETS2LA.Utils.translator import Translate
+    from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
     
+from ETS2LA.Utils.Console.logs import CountErrorsAndWarnings, ClearLogFiles
+from ETS2LA.Utils.packages import CheckForMaliciousPackages, FixModule
+from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 from Modules.SDKController.main import SCSController
+from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Networking.cloud as cloud
-from importlib.metadata import version
 import ETS2LA.variables as variables
 from multiprocessing import Queue
 from rich.console import Console
@@ -21,108 +24,47 @@ import sys
 import os
 
 LOG_FILE_FOLDER = "logs"    
-GREEN = "\033[92m"
-RED = "\033[91m"
-YELLOW = "\033[93m"
-BLUE = "\033[94m"
-PURPLE = "\033[95m"
-DARK_GRAY = "\033[90m"
-NORMAL = "\033[0m"
-
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 console = Console()
 controller = SCSController()
 
-malicious_packages = {
-    "ultralytics": ["8.3.41", "8.3.42", "8.3.45", "8.3.46"]
-}
-
-def CheckForMaliciousPackages():
-    for package in malicious_packages.keys():
-        try:
-            ver = version(package)
-            if ver in malicious_packages[package]:
-                print(RED + f"Your installed version of the '{package}' package might be malicious! Trying to remove it... (Package Version: {ver})" + NORMAL)
-                os.system(f"pip uninstall {package} -y & pip cache purge & pip install {package} --force-reinstall")
-                cloud.SendCrashReport(package, f"Successfully updated a malicious package.", f"From version {ver} to the latest version.")
-                print(GREEN + f"Successfully updated the '{package}' package to the latest version." + NORMAL)
-        except:
-            cloud.SendCrashReport(package, "Update malicious package error.", traceback.format_exc())
-            print(RED + f"Unable to check the version of the '{package}' package. Please update your '{package}' package manually if you have one of these versions installed: {malicious_packages[package]}" + NORMAL)
-
-# Fix norfair and filterpy
-needed_version = "2.2.1"
-try:
-    if version("norfair") < needed_version:
-        print("Please wait, we need to install the correct version of norfair...")
-        os.system("pip install git+https://github.com/Tumppi066/norfair.git")
-except:
-    print("Please wait, we need to install the correct version of norfair...")
-    os.system("pip install git+https://github.com/Tumppi066/norfair.git")
-
-needed_version = "1.4.5"
-try:
-    if version("filterpy") < needed_version:
-        os.system("pip install git+https://github.com/rodjjo/filterpy.git")
-except:
-    os.system("pip install git+https://github.com/rodjjo/filterpy.git")
-
+FixModule("norfair", "2.2.1", "git+https://github.com/Tumppi066/norfair.git")
+FixModule("filterpy", "1.4.5", "git+https://github.com/rodjjo/filterpy.git")
 
 def CloseNode():
     if os.name == "nt":
         os.system("taskkill /F /IM node.exe > nul 2>&1")
     else:
         os.system("pkill -f node > /dev/null 2>&1")
-    
-def ClearLogFiles():
-    if not os.path.exists(LOG_FILE_FOLDER):
-        os.makedirs(LOG_FILE_FOLDER)
-    for file in os.listdir(LOG_FILE_FOLDER):
-        if file.endswith(".log"):
-            os.remove(os.path.join(LOG_FILE_FOLDER, file))
-            
-def CountErrorsAndWarnings():
-    print("\n" + Translate("main.errors_and_warnings"))
-    if not os.path.exists(LOG_FILE_FOLDER):
-        os.makedirs(LOG_FILE_FOLDER)
-    
-    count = 0
-    for file in os.listdir(LOG_FILE_FOLDER):
-        if file.endswith(".log"):
-            with open(os.path.join(LOG_FILE_FOLDER, file), "r", encoding="utf-8") as f:
-                content = f.read()
-                errors = content.count("ERR")
-                warnings = content.count("WRN")
-                if errors != 0 or warnings != 0:
-                    count += 1
-                    print()
-                    print(f"{DARK_GRAY}┌─── {file}{NORMAL}")
-                if errors != 0:
-                    print(f"{DARK_GRAY}│{RED} {Translate('main.errors')} {errors} {NORMAL}")
-                if warnings != 0:
-                    print(f"{DARK_GRAY}│{YELLOW} {Translate('main.warnings')} {warnings} {NORMAL}")
-                if errors != 0 or warnings != 0:
-                    print(f"{DARK_GRAY}└───{NORMAL}")
-                    
-    if count == 0:
-        print(f"{GREEN}{Translate('main.no_errors_or_warnings')}{NORMAL}")
+
+def Reset(clear_logs=True):
+    CloseNode()
+    CountErrorsAndWarnings()
+    controller.reset()
+    if clear_logs:
+        ClearLogFiles()
 
 def ETS2LAProcess(exception_queue: Queue):
     try:
         if "--dev" in sys.argv:
             import ETS2LA.variables
             ETS2LA.variables.DEVELOPMENT_MODE = True
-            print(f"{PURPLE}{Translate('main.development_mode')}{NORMAL}\n")
+            print(f"{PURPLE}{Translate('main.development_mode')}{END}\n")
         
         if "--local" in sys.argv:
             import ETS2LA.variables
+            did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True)
+            if did_update:
+                print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Translations {GREEN} -- {END}")
+                UpdateFrontendTranslations()
+                os.system("cd Interface && npm install && npm run build-local")
             ETS2LA.variables.LOCAL_MODE = True
-            print(f"{PURPLE}{'Running UI locally'}{NORMAL}\n")
+            print(f"{PURPLE}{'Running UI locally'}{END}\n")
         else:
             try:
                 requests.get("https://app.ets2la.com", timeout=1)
             except:
-                print(f"{RED}{'No connection to remote UI (github). Running locally.'}{NORMAL}\n")
+                print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
                 import ETS2LA.variables
                 ETS2LA.variables.LOCAL_MODE = True
         
@@ -139,7 +81,7 @@ def ETS2LAProcess(exception_queue: Queue):
 
 if __name__ == "__main__":
     exception_queue = Queue()  # Create a queue for exceptions
-    print(f"{BLUE}{Translate('main.overseer_started')}{NORMAL}\n")
+    print(f"{BLUE}{Translate('main.overseer_started')}{END}\n")
     CheckForMaliciousPackages()
     
     # Make sure NodeJS isn't already running and clear logs
@@ -154,23 +96,18 @@ if __name__ == "__main__":
 
             # Handle the exception from the child process here
             if e.args[0] == "exit":
-                CloseNode()
-                CountErrorsAndWarnings()
-                controller.reset()
+                Reset(clear_logs=False)
                 sys.exit(0)
 
             if e.args[0] == "restart":
-                CloseNode()
-                CountErrorsAndWarnings()
-                ClearLogFiles()
-                controller.reset()
-                print(YELLOW + Translate("main.restarting") + NORMAL)
+                Reset()
+                print(YELLOW + Translate("main.restarting") + END)
                 continue
             
             if e.args[0] == "Update":
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
                 if variables.DEVELOPMENT_MODE == False:
-                    print(YELLOW + Translate("main.updating") + NORMAL)
+                    print(YELLOW + Translate("main.updating") + END)
                     if os.name == "nt":
                         try:
                             os.system("update.bat")
@@ -183,26 +120,24 @@ if __name__ == "__main__":
                     else:
                         os.system("sh update.sh")
                 
-                CountErrorsAndWarnings()
-                controller.reset()
-                print("\n" + GREEN + Translate("main.update_done") + NORMAL + "\n")
-                CloseNode()
+                Reset()
+                print("\n" + GREEN + Translate("main.update_done") + END + "\n")
                 continue
             
             print(Translate("main.crashed"))
+            
             try:
                 console.print_exception()
             except:
                 print(trace)
                 print(Translate("main.legacy_traceback"))
-            try:
-                cloud.SendCrashReport("ETS2LA 2.0 - Main", trace)
+            
+            try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace)
             except: pass
+            
             print(Translate("main.send_report"))
-            CloseNode()
-            CountErrorsAndWarnings()
-            print(RED + Translate("main.closed") + NORMAL)
-            controller.reset()
+            Reset()
+            print(RED + Translate("main.closed") + END)
             input(Translate("main.press_enter"))
             sys.exit(0)
         

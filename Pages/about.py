@@ -74,8 +74,8 @@ class Page(ETS2LAPage):
                                 with Group("horizontal", gap=10, padding=0):
                                     Label(language)
                                     Description("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", size="xs")
-                                credits = translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage(language))
-                                if language != "English" and credits == translator.TranslateToLanguage("language_credits", translator.GetCodeForLanguage("English")):
+                                credits = translator.TranslateToLanguage("credits", translator.GetCodeForLanguage(language))
+                                if language != "English" and credits == translator.TranslateToLanguage("credits", translator.GetCodeForLanguage("English")):
                                     credits = Translate("about.no_credits")
                                 Description(credits)
                                 

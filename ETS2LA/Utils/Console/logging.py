@@ -1,8 +1,8 @@
 from rich.highlighter import NullHighlighter, Highlighter
 from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Utils.settings as settings
 from rich.logging import RichHandler
-from ETS2LA.Utils.Console.colors import *
 import logging
 import os
 
@@ -65,7 +65,7 @@ def SetupProcessLogging(name, console_level=logging.INFO, filepath=""):
     logging.getLogger().setLevel(logging.DEBUG)
     
     # Print levels in color
-    logging.addLevelName(logging.DEBUG, f"{DARK_GREY}[DBG]{END}")
+    logging.addLevelName(logging.DEBUG, f"{DARK_GRAY}[DBG]{END}")
     logging.addLevelName(logging.INFO, f"{DARK_GREEN}[INF]{END}")
     logging.addLevelName(logging.WARNING, f"{DARK_YELLOW}[WRN]{END}")
     logging.addLevelName(logging.ERROR, f"{DARK_RED}[ERR]{END}")
