@@ -73,7 +73,7 @@ def RoadToRouteSection(road: c.Road, lane_index: int, invert: bool = False) -> r
         route_section.items.append(route_item)
     
     route_section.invert = invert
-    if (lane_index > len(route_section.items[0].lane_points)):
+    if (lane_index > len(route_section.items[0].item.lanes) - 1):
         return None
     route_section.lane_index = lane_index
     return route_section

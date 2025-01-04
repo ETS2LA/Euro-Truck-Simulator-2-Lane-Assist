@@ -188,6 +188,9 @@ class RouteSection:
             self.last_actual_points = current_lane_points
             return current_lane_points
         
+        if self.lane_change_distance == 0:
+            self.lane_change_distance = 1
+        
         lane_change_factor = math_helpers.DistanceBetweenPoints(self.lane_change_start.tuple(), (data.truck_x, data.truck_y, data.truck_z)) / self.lane_change_distance
         lane_change_factor = math_helpers.InOut(lane_change_factor)
         if lane_change_factor > 0.98:

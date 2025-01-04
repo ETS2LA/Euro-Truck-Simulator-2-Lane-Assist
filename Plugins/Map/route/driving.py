@@ -140,39 +140,52 @@ def GetSteering():
                 z += points[i].z
             x /= 4
             z /= 4
-            
+
             point_forward_vector = [points[len(points)-1].x - points[0].x, points[len(points)-1].z - points[0].z]
-            
+
             if np.cross(forward_vector, point_forward_vector) < 0:
                 isLeft = True
-            else: isLeft = False
-            
+            else: 
+                isLeft = False
+
             centerline = [points[-1].x - points[0].x, points[-1].z - points[0].z]
             truck_position_vector = [data.truck_x - points[0].x, data.truck_z - points[0].z]
-            
+
             lateral_offset = np.cross(truck_position_vector, centerline) / np.linalg.norm(centerline)
             data.plugin.globals.tags.lateral_offset = lateral_offset
-            
-            angle = np.arccos(np.dot(forward_vector, centerline) / (np.linalg.norm(forward_vector) * np.linalg.norm(centerline)))
+
+            # Calculate the dot product and the norms
+            dot_product = np.dot(forward_vector, centerline)
+            norm_forward = np.linalg.norm(forward_vector)
+            norm_centerline = np.linalg.norm(centerline)
+
+            # Calculate the cosine of the angle
+            cos_angle = dot_product / (norm_forward * norm_centerline)
+
+            # Clamp the value to the valid range [-1, 1] to avoid numerical inaccuracies
+            cos_angle = np.clip(cos_angle, -1.0, 1.0)
+
+            # Calculate the angle
+            angle = np.arccos(cos_angle)
             angle = math.degrees(angle)
-            
+
             if np.cross(forward_vector, centerline) < 0:
                 angle = -angle
-            
+
             if angle > 140:
                 angle = 0
             if angle < -140:
                 angle = 0
-            
+
             angle = angle * ANGLE_MULTIPLIER
-            
+
             offset_correction = lateral_offset * 5
             offset_correction = offset_correction
             if isLeft:
                 angle += offset_correction * OFFSET_MULTIPLIER
             else:
                 angle += offset_correction * OFFSET_MULTIPLIER
-            
+
             return angle * multiplier
         elif len(points) == 2:
             x = points[len(points)-1].x
