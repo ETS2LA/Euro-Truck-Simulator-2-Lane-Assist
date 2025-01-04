@@ -22,6 +22,11 @@ def CheckForMaliciousPackages():
             print(RED + f"Unable to check the version of the '{package}' package. Please update your '{package}' package manually if you have one of these versions installed: {malicious_packages[package]}" + END)
 
 def FixModule(module, ver, url):
-    if version(module) < ver:
+    try:
+        cur_ver = version(module)
+    except:
+        cur_ver = "0.0.0"
+        
+    if cur_ver < ver:
         print(f"Please wait, we need to install the correct version of {module}...")
         os.system(f"pip install {url}")
