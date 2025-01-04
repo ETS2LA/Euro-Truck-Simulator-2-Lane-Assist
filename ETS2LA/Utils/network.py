@@ -4,8 +4,78 @@ It supports downloading files from one or more CDNs, returning the downloaded fi
 """
 
 from pathlib import Path
+import tempfile
+import time
 import requests
 import tqdm
+import ctypes
+import ctypes.wintypes
+
+
+class WINHTTP_PROXY_INFO(ctypes.Structure):
+    _fields_ = [("dwAccessType", ctypes.wintypes.DWORD),
+                ("lpszProxy", ctypes.wintypes.LPWSTR),
+                ("lpszProxyBypass", ctypes.wintypes.LPWSTR)]
+
+
+class WINHTTP_CURRENT_USER_IE_PROXY_CONFIG(ctypes.Structure):
+    _fields_ = [("fAutoDetect", ctypes.wintypes.BOOL),
+                ("lpszAutoConfigUrl", ctypes.wintypes.LPWSTR),
+                ("lpszProxy", ctypes.wintypes.LPWSTR),
+                ("lpszProxyBypass", ctypes.wintypes.LPWSTR)]
+
+
+def GetSystemProxy() -> str | None:
+    # winhttp.h
+    # WinHttpGetDefaultProxyConfiguration
+    proxy_info = WINHTTP_PROXY_INFO()
+    assert ctypes.windll.winhttp.WinHttpGetDefaultProxyConfiguration(
+        ctypes.byref(proxy_info))
+    res1 = proxy_info.dwAccessType, proxy_info.lpszProxy, proxy_info.lpszProxyBypass
+
+    proxy_config = WINHTTP_CURRENT_USER_IE_PROXY_CONFIG()
+    assert ctypes.windll.winhttp.WinHttpGetIEProxyConfigForCurrentUser(
+        ctypes.byref(proxy_config))
+    res2 = proxy_config.fAutoDetect, proxy_config.lpszAutoConfigUrl, proxy_config.lpszProxy, proxy_config.lpszProxyBypass
+
+    return res1[1] or res2[2] or None
+
+
+if __name__ == "__main__":
+    print(GetSystemProxy())
+
+
+def ChooseBestProvider(urls: list[str], timeout: int | float = 3):
+    """Chooses the best provider for downloading a file from a list of URLs.
+
+    Args:
+        urls (list[str]): List of URLs to choose from.
+
+    Returns:
+        str: The best provider URL.
+    """
+
+    results: list[tuple[str, int]] = []
+
+    with tempfile.TemporaryFile("wb", suffix=".tmpdat") as tempf:
+        tempf.seek(0)
+        for url in urls:
+            try:
+                st = time.perf_counter_ns()
+                with requests.get(url, stream=True, timeout=timeout) as r:
+                    r.raise_for_status()
+                    tempf.seek(0)
+                    tempf.write(r.content)
+                endt = time.perf_counter_ns()
+                results.append((url, endt - st))
+            except requests.exceptions.RequestException:
+                continue
+
+    if not results:
+        raise requests.exceptions.RequestException(
+            "Failed to download file from any source.")
+
+    return sorted(results, key=lambda x: x[1])[0][0]
 
 
 def DownloadFile(url: str,
