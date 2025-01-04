@@ -62,6 +62,10 @@ circles: list[Position] = []
 """Circles to draw on the map."""
 last_navigation_update: float = 0
 """The last time the navigation plan was updated."""
+last_sound_played: float = 0
+"""The last time a sound was played."""
+sound_play_interval: float = 10 # seconds
+"""The interval between each sound play."""
 
 # MARK: Options
 amount_of_points: int = 50

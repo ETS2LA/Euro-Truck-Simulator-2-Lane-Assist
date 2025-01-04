@@ -2,11 +2,13 @@ import Plugins.Map.utils.math_helpers as math_helpers
 import Plugins.Map.utils.prefab_helpers as ph
 import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.utils.node_helpers as nh
+import ETS2LA.Handlers.sounds as sounds
 import Plugins.Map.route.classes as rc
 import Plugins.Map.data as data
 import Plugins.Map.classes as c
 import logging
 import math
+import time
 
 def GetRoadsBehindRoad(road: c.Road, include_self:bool = True) -> list[c.Road]:
     if include_self: roads = [road]
@@ -608,13 +610,20 @@ def UpdateNavigatedLanes():
         
     data.route_plan = [data.route_plan[0], *route]
     
+def ResetState():
+    if "indicate" in data.plugin.state.text:
+        data.plugin.state.text = ""
+    
 def CheckForLaneChange():
     if len(data.route_plan) < 2:
+        ResetState()
         return
     current = data.route_plan[0]
     if type(current.items[0].item) != c.Road:
+        ResetState()
         return
     if current.is_lane_changing:
+        ResetState()
         return
     
     current_start = current.lane_points[0]
@@ -638,6 +647,7 @@ def CheckForLaneChange():
         # Check the closest lane
         closest = rh.get_closest_lane(current.items[0].item, next_point.x, next_point.z)
         if closest == -1:
+            ResetState()
             return
         
         # Go to the lane closest to the closest lane on our side of the road
@@ -659,7 +669,10 @@ def CheckForLaneChange():
             planned = current.get_planned_lane_change_distance()
             left = current.distance_left()
             if left > planned and not (data.truck_indicating_right or data.truck_indicating_left):
-                data.plugin.state.text = f"Please indicate to confirm lane change from lane {current_index} to {target}."
+                data.plugin.state.text = f"Please indicate to confirm lane change."
+                if time.time() - data.last_sound_played > data.sound_play_interval:
+                    sounds.Play("info")
+                    data.last_sound_played = time.time()
                 return
             else:
                 data.plugin.state.text = ""
@@ -669,8 +682,9 @@ def CheckForLaneChange():
                 current.lane_index = target
                 data.route_plan = [current]
         else:
-            if "indicate" in data.plugin.state.text:
-                data.plugin.state.text = ""
+            ResetState()
+    else:
+        ResetState()
         
 was_indicating = False
 def UpdateRoutePlan():
