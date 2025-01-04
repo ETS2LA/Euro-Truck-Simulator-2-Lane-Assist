@@ -159,8 +159,11 @@ def Hermite3D(s, start_pos, end_pos, start_euler, end_euler):
     
     # Direct interpolation
     x = h1 * x1 + h2 * x2 + h3 * tan_sx + h4 * tan_ex
-    y = h1 * y1 + h2 * y2 + h3 * tan_sy + h4 * tan_ey
+    # TODO: Fix this
+    #y = h1 * y1 + h2 * y2 + h3 * tan_sy + h4 * tan_ey
     z = h1 * z1 + h2 * z2 + h3 * tan_sz + h4 * tan_ez
+    # Linear for Y
+    y = y1 + s * (y2 - y1)
     
     return (x, y, z)
 

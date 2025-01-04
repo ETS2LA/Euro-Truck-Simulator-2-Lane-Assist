@@ -634,7 +634,7 @@ def ReadData(state = None) -> c.MapData:
     UpdateState(start_time, f"Linked roads to looks")
     
     PrintState(start_time, "Computing Navigation Graph")
-    # data.compute_navigation_data()
+    data.compute_navigation_data()
     UpdateState(start_time, f"Computed navigation graph")
     
     print(f"[green]Data read in {time.perf_counter() - start_time:.2f} seconds.[/green]")

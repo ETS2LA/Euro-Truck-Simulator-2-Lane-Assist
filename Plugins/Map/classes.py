@@ -2263,7 +2263,6 @@ class MapData:
                 print(f"Processed {count}/{amount} nodes ({count / amount * 100:.2f}%)", end="\r")
             count += 1
         
-        print(f"Total: {self.total}")
-        print(f"> Not found: {self.not_found} ({self.not_found / self.total * 100:.2f}%)")
-        print(f"> Lanes invalid: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
+        print(f"> Item missing: {self.not_found} ({self.not_found / self.total * 100:.2f}%)")
+        print(f"> Lanes empty: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
         print(f"> Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")

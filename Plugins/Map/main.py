@@ -6,7 +6,6 @@ from ETS2LA.UI import *
 import Plugins.Map.utils.prefab_helpers as ph
 import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.utils.math_helpers as mh
-import Plugins.Map.utils.internal_map as im
 
 # ETS2LA imports
 from Plugins.Map.utils.data_reader import ReadData
@@ -20,9 +19,11 @@ import importlib
 navigation = importlib.import_module("Plugins.Map.navigation.navigation")
 planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
+im = importlib.import_module("Plugins.Map.utils.internal_map")
 last_plan_hash = hash(open(planning.__file__).read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
+last_im_hash = hash(open(im.__file__).read())
 
 class SettingsMenu(ETS2LASettingsMenu):
     plugin_name = "Map"
@@ -136,13 +137,14 @@ class Plugin(ETS2LAPlugin):
         )
 
     def CheckHashes(self):
-        global last_nav_hash, last_drive_hash, last_plan_hash
+        global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash
         logging.info("Starting navigation module file monitor")
         while True:
             try:
                 new_nav_hash = hash(open(navigation.__file__).read())
                 new_drive_hash = hash(open(driving.__file__).read())
                 new_plan_hash = hash(open(planning.__file__).read())
+                new_im_hash = hash(open(im.__file__).read())
                 if new_nav_hash != last_nav_hash:
                     last_nav_hash = new_nav_hash
                     logging.info("Navigation module changed, reloading...")
@@ -161,8 +163,13 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Planning module changed, reloading...")
                     importlib.reload(planning)
                     logging.info("Successfully reloaded planning module")
+                if new_im_hash != last_im_hash:
+                    last_im_hash = new_im_hash
+                    logging.info("Internal map module changed, reloading...")
+                    importlib.reload(im)
+                    logging.info("Successfully reloaded internal map module")
             except Exception as e:
-                logging.error(f"Error monitoring navigation module: {e}")
+                logging.error(f"Error monitoring modules: {e}")
             time.sleep(1)
         
     @events.on("ToggleSteering")

@@ -41,6 +41,7 @@ class RouteSection:
     is_ended: bool = False
     invert: bool = False
     last_actual_points: list[c.Position] = []
+    force_lane_change: bool = False
     _start_node: c.Node = None
     _end_node: c.Node = None
     _first_set_done: bool = False
@@ -88,8 +89,11 @@ class RouteSection:
                 lane_change_distance = data.minimum_lane_change_distance
             
             if self.distance_left() < lane_change_distance:
-                logging.warning(f"Something tried to do a lane change requiring [dim]{lane_change_distance:.0f}m[/dim], but only [dim]{self.distance_left():.0f}m[/dim] is left.")
-                return
+                if self.force_lane_change:
+                    lane_change_distance = self.distance_left()
+                else:
+                    logging.warning(f"Something tried to do a lane change requiring [dim]{lane_change_distance:.0f}m[/dim], but only [dim]{self.distance_left():.0f}m[/dim] is left.")
+                    return
             
             self.is_lane_changing = True
             self.lane_change_distance = lane_change_distance

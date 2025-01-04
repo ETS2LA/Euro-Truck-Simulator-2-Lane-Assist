@@ -46,6 +46,17 @@ def rotate_left(arr: List[T], count: int) -> List[T]:
         return arr
     return arr[count:] + arr[:count]
 
+def rotate_right(arr: List[T], count: int) -> List[T]:
+    """Rotate an array to the right by a specified count.
+
+    :param List[T] arr: The array to rotate.
+    :param int count: The number of positions to rotate the array to the right.
+    :return List[T]: The rotated array.
+    """
+    assert 0 <= count < len(arr), "count must be within the range of the array length"
+    if count == 0:
+        return arr
+    return arr[-count:] + arr[:-count]
 
 def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
     """Get the connecting lanes between two nodes based on the item type.
@@ -72,7 +83,7 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
     elif type(item) == c.Prefab:
         description = item.prefab_description
         item_nodes = [map_data.get_node_by_uid(uid) for uid in item.node_uids]
-        rotated_nodes = rotate_left( # match the nodes to the nodes in the prefab description
+        rotated_nodes = rotate_right( # match the nodes to the nodes in the prefab description
             item_nodes, item.origin_node_index
         )
         
@@ -103,3 +114,23 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
     
     else:
         return []
+    
+def get_nav_node_for_entry_and_node(entry, node):
+    """Get a navigation node for a node in a given entry.
+
+    :param c.NavigationEntry entry: The navigation entry to use.
+    :param c.Node node: The node to look for.
+    :return c.NavigationNode nav_node: The navigation node for the given node.
+    """
+    possibilities = []
+    if isinstance(entry, c.NavigationEntry):
+        for nav_node in entry.forward:
+            if nav_node.node_id == node.uid:
+                possibilities.append(nav_node)
+        for nav_node in entry.backward:
+            if nav_node.node_id == node.uid:
+                possibilities.append(nav_node)
+    else:
+        raise ValueError("entry must be a NavigationEntry instance")
+    
+    return possibilities

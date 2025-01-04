@@ -67,13 +67,13 @@ def GetPointDistance(points_so_far: int):
     if points_so_far < data.amount_of_points/5:
         return 0.25
     elif points_so_far < data.amount_of_points/5*2:
-        return 1
-    elif points_so_far < data.amount_of_points/5*3:
-        return 2
-    elif points_so_far < data.amount_of_points/5*4:
         return 4
-    else:
+    elif points_so_far < data.amount_of_points/5*3:
         return 8
+    elif points_so_far < data.amount_of_points/5*4:
+        return 16
+    else:
+        return 32
     
 
 def GetSteering():
