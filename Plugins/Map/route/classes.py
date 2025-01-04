@@ -83,10 +83,7 @@ class RouteSection:
             logging.warning(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteSection[/dim] only has {len(self.items[0].item.lanes)} lanes.")
         
         if self.lane_points != []:
-            speed_kph = data.truck_speed * 3.6
-            lane_change_distance = speed_kph * data.lane_change_distance_per_kph
-            if lane_change_distance < data.minimum_lane_change_distance: 
-                lane_change_distance = data.minimum_lane_change_distance
+            lane_change_distance = self.get_planned_lane_change_distance()
             
             if self.distance_left() < lane_change_distance:
                 if self.force_lane_change:
@@ -125,6 +122,13 @@ class RouteSection:
             distance += math_helpers.DistanceBetweenPoints(last_point.tuple(), point.tuple())
             last_point = point
         return distance
+
+    def get_planned_lane_change_distance(self) -> float:
+        speed_kph = data.truck_speed * 3.6
+        lane_change_distance = speed_kph * data.lane_change_distance_per_kph
+        if lane_change_distance < data.minimum_lane_change_distance: 
+            lane_change_distance = data.minimum_lane_change_distance
+        return lane_change_distance
 
     def discard_points_behind(self, points: list[c.Position]) -> list[c.Position]:
         forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]

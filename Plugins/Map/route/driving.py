@@ -59,6 +59,7 @@ def CheckForLaneChange():
             target_index = len(lanes) - 1
                     
         data.route_plan[0].lane_index = target_index
+        data.route_plan = [data.route_plan[0]]
         
     elif not data.truck_indicating_left and not data.truck_indicating_right:
         was_indicating = False  
@@ -90,7 +91,8 @@ def GetSteering():
     if len(data.route_plan) == 0:
         return 0
     
-    CheckForLaneChange()
+    if not data.use_navigation or len(data.navigation_plan) == 0:
+        CheckForLaneChange()
     
     points = []
     for section in data.route_plan:

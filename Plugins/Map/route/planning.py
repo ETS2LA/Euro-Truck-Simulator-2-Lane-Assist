@@ -656,10 +656,21 @@ def CheckForLaneChange():
             target = len(lanes) - 1
                 
         if target != current_index:
-            logging.info(f"Changing lane from {current_index} to {target}")
-            current.force_lane_change = True
-            current.lane_index = target
-            data.route_plan = [current]
+            planned = current.get_planned_lane_change_distance()
+            left = current.distance_left()
+            if left > planned and not (data.truck_indicating_right or data.truck_indicating_left):
+                data.plugin.state.text = f"Please indicate to confirm lane change from lane {current_index} to {target}."
+                return
+            else:
+                data.plugin.state.text = ""
+                data.plugin.notify(f"Lane changing from {current_index} to {target}.", type="warning")
+                logging.info(f"Changing lane from {current_index} to {target}")
+                current.force_lane_change = True
+                current.lane_index = target
+                data.route_plan = [current]
+        else:
+            if "indicate" in data.plugin.state.text:
+                data.plugin.state.text = ""
         
 was_indicating = False
 def UpdateRoutePlan():

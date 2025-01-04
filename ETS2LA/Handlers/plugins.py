@@ -205,6 +205,11 @@ class PluginHandler:
                 self.stop = True
                 disable_plugin(self.plugin_name, from_plugin=True)
                 
+            if data["operation"] == "crash":
+                self.process.terminate()
+                self.stop = True
+                disable_plugin(self.plugin_name, from_plugin=True, show_restart_dialog=True)
+                
             if data["operation"] == "notify":
                 type = data["options"]["type"]
                 text = data["options"]["text"]
@@ -341,7 +346,7 @@ def enable_plugin(plugin_name: str):
     runner = threading.Thread(target=PluginHandler, args=(plugin_name, PluginDescription()), daemon=True)
     runner.start()
     
-def disable_plugin(plugin_name: str, from_plugin: bool = False):
+def disable_plugin(plugin_name: str, from_plugin: bool = False, show_restart_dialog: bool = False):
     for plugin in RUNNING_PLUGINS:
         if plugin.plugin_name == plugin_name:
             try:

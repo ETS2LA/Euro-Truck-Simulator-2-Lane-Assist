@@ -395,5 +395,5 @@ class PluginRunner:
         except:
             logging.exception(f"Error loading plugin '{plugin_name}'")
             immediate_queue.put({
-                "operation": "terminate"
+                "operation": "crash"
             })
