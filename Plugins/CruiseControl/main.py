@@ -27,7 +27,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="plugins.cruisecontrol.description",
         modules=["SDKController", "ShowImage", "TruckSimAPI"],
-        tags=["Base", "Speed Control"]
+        tags=["Speed Control"]
     )
     
     author = [Author(

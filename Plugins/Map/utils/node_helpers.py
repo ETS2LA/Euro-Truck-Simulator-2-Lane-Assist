@@ -95,9 +95,9 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
         routes = description.nav_routes
             
         accepted_routes = []
-        start_found = False
-        end_found = False
         for route in routes:
+            start_found = False
+            end_found = False
             for curve in route.curves:
                 index = description.nav_curves.index(curve)
 
@@ -111,7 +111,6 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
                 accepted_routes.append(routes.index(route))
      
         return accepted_routes
-    
     else:
         return []
     

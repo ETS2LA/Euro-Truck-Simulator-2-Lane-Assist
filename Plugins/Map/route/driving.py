@@ -63,17 +63,27 @@ def CheckForLaneChange():
     elif not data.truck_indicating_left and not data.truck_indicating_right:
         was_indicating = False  
 
-def GetPointDistance(points_so_far: int):
-    if points_so_far < data.amount_of_points/5:
-        return 0.25
-    elif points_so_far < data.amount_of_points/5*2:
-        return 4
-    elif points_so_far < data.amount_of_points/5*3:
-        return 8
-    elif points_so_far < data.amount_of_points/5*4:
-        return 16
-    else:
-        return 32
+def GetPointDistance(points_so_far: int, total_points: int = 50) -> float:
+    key_points = [
+        (0, 0.25),
+        (total_points / 5, 4),
+        (total_points / 5 * 2, 8),
+        (total_points / 5 * 3, 16),
+        (total_points / 5 * 4, 32),
+        (total_points, 32) 
+    ]
+    
+    # Find the segment where points_so_far lies
+    for i in range(len(key_points) - 1):
+        if key_points[i][0] <= points_so_far < key_points[i + 1][0]:
+            x0, y0 = key_points[i]
+            x1, y1 = key_points[i + 1]
+            # Linear interpolation formula
+            distance = y0 + (y1 - y0) * (points_so_far - x0) / (x1 - x0)
+            return distance
+    
+    # If points_so_far is exactly at the last key point
+    return key_points[-1][1]
     
 
 def GetSteering():
@@ -99,7 +109,7 @@ def GetSteering():
                 points.append(point)
                 continue
                 
-            if math_helpers.DistanceBetweenPoints(point.tuple(), points[-1].tuple()) >= GetPointDistance(len(points)):
+            if math_helpers.DistanceBetweenPoints(point.tuple(), points[-1].tuple()) >= GetPointDistance(len(points), data.amount_of_points):
                 points.append(point)
 
     if len(points) == 0:

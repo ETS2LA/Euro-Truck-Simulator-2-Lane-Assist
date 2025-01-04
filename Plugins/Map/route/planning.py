@@ -562,7 +562,9 @@ def UpdateNavigatedLanes():
         
         next_node = selected_path[i + 1]
         nav_node = nh.get_nav_node_for_entry_and_node(navigation, next_node)[0]
+        #print(nav_node.item_uid)
         indices = nav_node.lane_indices
+        #print(indices)
         if len(indices) == 0:
             logging.warning(f"No lane indices found for node {node.uid} to {next_node.uid} ({last_type})")
             return None
@@ -582,6 +584,7 @@ def UpdateNavigatedLanes():
                 route.append(PrefabToRouteSection(selected_items[i], indices[0]))
             else:
                 #print(indices)
+                #print(nav_node.node_id)
                 closest = ph.get_closest_lane_from_indices(selected_items[i], last_point.x, last_point.z, indices)
                 if closest == -1:
                     closest = indices[0]
@@ -610,6 +613,8 @@ def CheckForLaneChange():
         return
     current = data.route_plan[0]
     if type(current.items[0].item) != c.Road:
+        return
+    if current.is_lane_changing:
         return
     
     current_start = current.lane_points[0]
@@ -713,7 +718,7 @@ def UpdateRoutePlan():
         if len(data.route_plan) == 0:
             return
    
-        if update or len(data.route_plan) < data.route_plan_length:
+        if update or len(data.route_plan) < 2:
             UpdateNavigatedLanes()
         
         CheckForLaneChange()
