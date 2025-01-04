@@ -214,6 +214,8 @@ class Plugin(ETS2LAPlugin):
         # If you lose your data ID, you can't request to delete the data collected by you with that ID.
         # Server side code can be found at https://github.com/ETS2LA/cdn
         DataID = GetDataID()
+        if DataID == "None":
+            self.terminate()
 
 
         # This ID is saved with the data publicly, it's used to make sorting data easier
