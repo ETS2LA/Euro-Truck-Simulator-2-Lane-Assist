@@ -4,6 +4,7 @@ Note that they are not actual submodules, instead we git clone them and handle t
 """
 
 from ETS2LA.Utils.Console.colors import *
+from ETS2LA.Utils.network import DownloadFile
 import ETS2LA.Utils.settings as settings 
 import requests
 import zipfile
@@ -15,9 +16,8 @@ import os
 def DownloadSubmoduleViaCDN(folder: str, cdn_url: str, cdn_path: str):
     try:
         print(f"{YELLOW} -- Downloading the submodule from ETS2LA servers due to no github connectivity -- {END}")
-        response = requests.get(f"{cdn_url}")
-        with open(f"download.zip", "wb") as f:
-            f.write(response.content)
+        
+        DownloadFile(f"{cdn_url}", f"download.zip", chunk_size=8192, rich=True)
             
         # Extract the zip file
         with zipfile.ZipFile("download.zip", "r") as zip_ref:
