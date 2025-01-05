@@ -82,6 +82,6 @@ class Page(ETS2LAPage):
                                         Link("View Changes", update["url"], size="xs", weight="light")
                                 if update["description"] != "":
                                     Markdown(update["description"])
-                                Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
+                                Description(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", size="xs")
                 
         return RenderUI()

@@ -56,7 +56,7 @@ def ETS2LAProcess(exception_queue: Queue):
             import ETS2LA.variables
             did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True)
             if did_update:
-                print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Translations {GREEN} -- {END}")
+                print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
                 UpdateFrontendTranslations()
                 ExecuteCommand("cd Interface && npm install && npm run build-local")
             ETS2LA.variables.LOCAL_MODE = True

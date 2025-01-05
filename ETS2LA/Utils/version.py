@@ -111,7 +111,8 @@ def GetHistory():
                     "message": commit.summary,
                     "description": commit.message.replace(commit.summary, "").strip(),
                     "time": commit.committed_date,
-                    "url": GetCommitURL(repo, commit.hexsha)  # Add URL like CheckForUpdate
+                    "url": GetCommitURL(repo, commit.hexsha),  # Add URL like CheckForUpdate,
+                    "hash": commit.hexsha
                 }
 
                 # Handle avatar URLs for first 100 commits

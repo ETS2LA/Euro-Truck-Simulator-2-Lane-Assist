@@ -61,14 +61,15 @@ class Page(ETS2LAPage):
                                     ...
                             Space(20)
                         with Group("vertical", border=True, classname=""):
-                            with Group("horizontal", padding=0):
-                                Description(update["author"], size="xs")
+                            with Group("horizontal", padding=0, classname=""):
+                                Description(update["author"], size="xs", classname="")
                                 with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
                                     Label(update["message"], size="sm", weight="semibold")
                                     Link("View Changes", update["url"], size="xs", weight="light")
                             if update["description"] != "":
                                 Markdown(update["description"])
-                            Description(local_time + f"  -  {self.time_since(update['time'])}", size="xs")
+                            
+                            Description(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", size="xs")
                             
                     with Padding(8):
                         Description("This list will only display the 100 most recent commits.", size="xs", weight="light")
