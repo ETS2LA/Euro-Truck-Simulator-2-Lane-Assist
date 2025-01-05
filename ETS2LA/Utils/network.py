@@ -9,10 +9,9 @@ import tempfile
 import time
 from pathlib import Path
 
+import logging
 import requests
 import tqdm
-from loguru import logger
-
 
 class WINHTTP_PROXY_INFO(ctypes.Structure):
     _fields_ = [("dwAccessType", ctypes.wintypes.DWORD),
@@ -154,4 +153,4 @@ def DownloadFileMultiSource(urls: list[str],
 
 if __name__ == '__main__':
     # Network Debug Page
-    logger.debug("Current system proxy: {}", GetSystemProxy())
+    logging.debug("Current system proxy: {}", GetSystemProxy())
