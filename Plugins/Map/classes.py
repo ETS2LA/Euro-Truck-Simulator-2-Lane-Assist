@@ -3,6 +3,7 @@ from typing import Union, Literal, Optional, Any
 from enum import Enum, StrEnum, IntEnum
 import logging
 import math
+import time
 
 # Import dictionary utilities with fallback to mocks for testing
 from ETS2LA.Utils.Values.dictionaries import get_nested_item, set_nested_item
@@ -11,6 +12,7 @@ from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
 from Plugins.Map.utils import road_helpers
 from Plugins.Map.utils import node_helpers
+
 
 # MARK: Constants
 
@@ -192,6 +194,9 @@ class NavigationEntry:
     def calculate_node_data(self, map_data):
         this = map_data.get_node_by_uid(self.uid)
         for node in self.forward:
+            if node.node_id == self.uid:
+                continue
+            
             map_data.total += 1
             other = map_data.get_node_by_uid(node.node_id)
             if other == this:
@@ -203,21 +208,29 @@ class NavigationEntry:
                 map_data.not_found += 1
                 continue
             
-            item = map_data.get_item_by_uid(node.item_uid)
+            item = map_data.get_item_by_uid(node.item_uid, warn_errors=False)
             node.item_type = type(item)
             node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
             if node.lane_indices == []:
                 map_data.lanes_invalid += 1
+            
         
         for node in self.backward:
+            if node.node_id == self.uid:
+                continue
+            
+            map_data.total += 1
             other = map_data.get_node_by_uid(node.node_id)
+            if other == this:
+                continue
+            
             node.item_uid = node_helpers.get_connecting_item_uid(this, other)
             if node.item_uid is None:
                 logging.debug(f"Failed to get connecting item UID for nodes {this.uid} and {other.uid}")
                 map_data.not_found += 1
                 continue
             
-            item = map_data.get_item_by_uid(node.item_uid)
+            item = map_data.get_item_by_uid(node.item_uid, warn_errors=False)
             node.item_type = type(item)
             node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
             if node.lane_indices == []:
@@ -2191,9 +2204,7 @@ class MapData:
         items = self.nodes + self.roads + self.prefabs + self.models
         for item in items:
             uid_str = str(item.uid)
-            parts = [uid_str]
-            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._by_uid, parts, item)
+            self._by_uid[uid_str] = item
 
         self._model_descriptions_by_token = {}
         for model_description in self.model_descriptions:
@@ -2263,13 +2274,11 @@ class MapData:
                 uid = parse_string_to_int(uid)
 
             uid_str = str(uid)
-            parts = [uid_str]
-            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            return get_nested_item(self._by_uid, parts)
+            return self._by_uid.get(uid_str, None)
         except:
             return None
 
-    def get_item_by_uid(self, uid: int | str) -> Prefab | Road:
+    def get_item_by_uid(self, uid: int | str, warn_errors:bool = True) -> Prefab | Road:
         try:
             if type(uid) == str:
                 uid = parse_string_to_int(uid)
@@ -2279,11 +2288,10 @@ class MapData:
                 return None
 
             uid_str = str(uid)
-            parts = [uid_str]
-            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            return get_nested_item(self._by_uid, parts)
+            return self._by_uid.get(uid_str, None)
         except:
-            logging.warning(f"Error getting item by UID: {uid}")
+            if warn_errors:
+                logging.warning(f"Error getting item by UID: {uid}")
             #logging.exception(f"Error getting item by UID: {uid}")
             return None
 
@@ -2387,11 +2395,15 @@ class MapData:
         amount = len(self.navigation)
         count = 0
         for node in self.navigation:
+            start_time = time.time()
             node.calculate_node_data(self)
-            if count % 100 == 0:
+            end_time = time.time()
+            if end_time - start_time > 0.1:
+                print(f"Node {node.uid} took {end_time - start_time:.2f}s to calculate")
+            if count % 5000 == 0:
                 print(f"Processed {count}/{amount} nodes ({count / amount * 100:.2f}%)", end="\r")
             count += 1
         
-        print(f"> Item missing: {self.not_found} ({self.not_found / self.total * 100:.2f}%)")
-        print(f"> Lanes empty: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
-        print(f"> Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")
+        print(f"         > Item missing: {self.not_found} ({self.not_found / self.total * 100:.2f}%)                      ")
+        print(f"         > Lanes empty: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
+        print(f"         > Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")
