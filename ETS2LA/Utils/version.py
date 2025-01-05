@@ -54,7 +54,8 @@ def CheckForUpdate():
                         "message": commit.summary,
                         "description": commit.message.replace(commit.summary, "").strip(),
                         "time": commit.committed_date,
-                        "url": GetCommitURL(repo, commit.hexsha)
+                        "url": GetCommitURL(repo, commit.hexsha),
+                        "hash": commit.hexsha
                     })
             
             if updates == []: # local commit(s) waiting to be pushed, send those instead
@@ -65,7 +66,8 @@ def CheckForUpdate():
                             "message": commit.summary,
                             "description": commit.message.replace(commit.summary, "").strip(),
                             "time": commit.committed_date,
-                            "url": GetCommitURL(repo, commit.hexsha)
+                            "url": GetCommitURL(repo, commit.hexsha),
+                            "hash": commit.hexsha
                         })
                     if len(updates) >= 10:
                         break
@@ -77,7 +79,8 @@ def CheckForUpdate():
                     "message": "DO NOT UPDATE!",
                     "description": "You have a local commit that is waiting to be pushed. Updating will clear the changes and stash them.",
                     "time": time.perf_counter(),
-                    "url": ""
+                    "url": "",
+                    "hash": "local"
                 })
                 
             return updates
