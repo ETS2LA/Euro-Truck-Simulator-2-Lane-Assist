@@ -34,9 +34,9 @@ FixModule("filterpy", "1.4.5", "git+https://github.com/rodjjo/filterpy.git")
 
 def CloseNode():
     if os.name == "nt":
-        ExecuteCommand("taskkill /F /IM node.exe > nul 2>&1")
+        ExecuteCommand("taskkill /F /IM node.exe", output=False)
     else:
-        ExecuteCommand("pkill -f node > /dev/null 2>&1")
+        ExecuteCommand("pkill -f node", output=False)
 
 def Reset(clear_logs=True):
     CloseNode()
@@ -58,7 +58,7 @@ def ETS2LAProcess(exception_queue: Queue):
             if did_update:
                 print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
                 UpdateFrontendTranslations()
-                ExecuteCommand("cd Interface && npm install && npm run build-local")
+                ExecuteCommand(["npm install", "npm run build-local"], cwd="Interface")
             ETS2LA.variables.LOCAL_MODE = True
             print(f"{PURPLE}{'Running UI locally'}{END}\n")
         else:
@@ -114,10 +114,10 @@ if __name__ == "__main__":
                             ExecuteCommand("update.bat")
                         except: # Used Installer
                             try:
-                                ExecuteCommand("cd code && cd app && update.bat")
+                                ExecuteCommand("update.bat", cwd="code/app")
                             except: 
                                 # Backup for old installers
-                                ExecuteCommand("cd .. && cd .. && cd code && cd app && update.bat")
+                                ExecuteCommand("update.bat", cwd="../../code/app")
                     else:
                         ExecuteCommand("sh update.sh")
                 

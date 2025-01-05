@@ -1,3 +1,4 @@
+from pathlib import Path
 from ETS2LA.Utils.network import GetSystemProxy
 from dataclasses import dataclass
 from urllib.parse import urlparse
@@ -49,7 +50,11 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
 
 
 def ExecuteCommand(commands: str | list[str],
-                    proxy_override: ProxyConfiguration | None = None):
+                   *,
+                   proxy_override: ProxyConfiguration | None = None,
+                   cwd: Path | str | None = None,
+                   output: bool = True,
+                   check: bool = False):
     # execute a command with HTTP_PROXY and HTTPS_PROXY environment variables set
     current_proxy = get_system_proxy_configuration()
     if proxy_override is not None:
@@ -65,14 +70,21 @@ def ExecuteCommand(commands: str | list[str],
         env["HTTPS_PROXY"] = proxy_str
 
     if isinstance(commands, str):
-        if "&" in commands:
-            commands = list(map(lambda x: x.strip(), commands.split("&")))
-        else:
-            commands = [commands]
-    
+        commands = [commands]
+
     result = None
     for command in commands:
         if command.strip():
-            result = subprocess.run(command, shell=True, env=env)
-    
+            result = subprocess.run(
+                command,
+                shell=True,
+                cwd=cwd,
+                env=env,
+                stdout=None if output else subprocess.DEVNULL,
+                stderr=None if output else subprocess.DEVNULL,
+                check=check,
+            )
+            if result.returncode != 0:
+                break
+
     return result.returncode if result is not None else None

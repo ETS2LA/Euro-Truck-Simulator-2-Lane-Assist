@@ -379,22 +379,22 @@ def get_list_of_pages():
 # region Session
 
 def BuildFrontend():
-    result = ExecuteCommand(f"cd Interface && npm run build")
+    result = ExecuteCommand(f"npm run build", cwd="Interface")
     if result != 0:
-        ExecuteCommand(f"cd Interface && npm install")
-        result = ExecuteCommand(f"cd Interface && npm run build")
+        ExecuteCommand(f"npm install", cwd="Interface")
+        result = ExecuteCommand(f"npm run build", cwd="Interface")
         if result != 0:
             logging.error("Failed to build frontend")
 
 def RunFrontendDev():
-    ExecuteCommand(f"cd Interface && npm run dev -- -p {FRONTEND_PORT}")
+    ExecuteCommand(f"npm run dev -- -p {FRONTEND_PORT}", cwd="Interface")
 
 def RunFrontend():
-    result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
+    result = ExecuteCommand(f"npm start -- -p {FRONTEND_PORT}", cwd="Interface")
     if result != 0:
         logging.info("Building frontend... please wait...")
         BuildFrontend()
-        result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
+        result = ExecuteCommand(f"npm start -- -p {FRONTEND_PORT}", cwd="Interface")
         if result != 0:
             logging.error("Failed to start frontend")
         
