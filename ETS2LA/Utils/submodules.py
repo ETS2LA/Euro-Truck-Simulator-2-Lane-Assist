@@ -5,6 +5,7 @@ Note that they are not actual submodules, instead we git clone them and handle t
 
 from ETS2LA.Utils.Console.colors import *
 from ETS2LA.Utils.network import DownloadFile
+from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Utils.settings as settings 
 import requests
 import zipfile
@@ -42,14 +43,14 @@ def EnsureSubmoduleExists(folder: str, url: str, cdn_url: str = "", cdn_path: st
     if not os.path.exists(folder):
         print(f"{GREEN} -- Please wait, we need to download the following submodule: {YELLOW} {folder} {GREEN} -- {END}") 
         try:
-            os.system(f"git clone {url} {folder}")
+            ExecuteCommand(f"git clone {url} {folder}")
         except:
             DownloadSubmoduleViaCDN(folder, cdn_url, cdn_path)
         
         try:
             if post_download_action != "":
                 print(f"{GREEN} -- Running post download action for submodule: {YELLOW} {folder} {GREEN} -- {END}")
-                os.system(post_download_action)
+                ExecuteCommand(post_download_action)
         except:
             print(f"{RED} -- Failed to run post download action for submodule: {YELLOW} {folder} {RED} -- {END}")
             
@@ -59,7 +60,7 @@ def EnsureSubmoduleExists(folder: str, url: str, cdn_url: str = "", cdn_path: st
         did_update = CheckForSubmoduleUpdate(folder, cdn_path=cdn_path, cdn_url=cdn_url)
         if did_update and post_update_action != "":
             print(f"{GREEN} -- Running post update action for submodule: {YELLOW} {folder} {GREEN} -- {END}")
-            os.system(post_update_action)
+            ExecuteCommand(post_update_action)
         return did_update
     
     return False
@@ -91,7 +92,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
             
         if current_hash != origin_hash:
             print(f"{GREEN} -- Please wait, we need to update the following submodule: {YELLOW} {folder} {GREEN} -- {END}")
-            os.system(f"git -C {folder} pull")
+            ExecuteCommand(f"git -C {folder} pull")
             return True
     except:
         print(f"{RED} -- Failed to update / check for updates for the submodule: {YELLOW} {folder} {RED} -- {END}")

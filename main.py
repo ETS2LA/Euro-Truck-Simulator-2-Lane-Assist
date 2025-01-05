@@ -9,6 +9,7 @@ except:
 from ETS2LA.Utils.Console.logs import CountErrorsAndWarnings, ClearLogFiles
 from ETS2LA.Utils.packages import CheckForMaliciousPackages, FixModule
 from ETS2LA.Utils.submodules import EnsureSubmoduleExists
+from ETS2LA.Utils.shell import ExecuteCommand
 from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Networking.cloud as cloud
@@ -33,9 +34,9 @@ FixModule("filterpy", "1.4.5", "git+https://github.com/rodjjo/filterpy.git")
 
 def CloseNode():
     if os.name == "nt":
-        os.system("taskkill /F /IM node.exe > nul 2>&1")
+        ExecuteCommand("taskkill /F /IM node.exe > nul 2>&1")
     else:
-        os.system("pkill -f node > /dev/null 2>&1")
+        ExecuteCommand("pkill -f node > /dev/null 2>&1")
 
 def Reset(clear_logs=True):
     CloseNode()
@@ -57,7 +58,7 @@ def ETS2LAProcess(exception_queue: Queue):
             if did_update:
                 print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Translations {GREEN} -- {END}")
                 UpdateFrontendTranslations()
-                os.system("cd Interface && npm install && npm run build-local")
+                ExecuteCommand("cd Interface && npm install && npm run build-local")
             ETS2LA.variables.LOCAL_MODE = True
             print(f"{PURPLE}{'Running UI locally'}{END}\n")
         else:
@@ -110,15 +111,15 @@ if __name__ == "__main__":
                     print(YELLOW + Translate("main.updating") + END)
                     if os.name == "nt":
                         try:
-                            os.system("update.bat")
+                            ExecuteCommand("update.bat")
                         except: # Used Installer
                             try:
-                                os.system("cd code && cd app && update.bat")
+                                ExecuteCommand("cd code && cd app && update.bat")
                             except: 
                                 # Backup for old installers
-                                os.system("cd .. && cd .. && cd code && cd app && update.bat")
+                                ExecuteCommand("cd .. && cd .. && cd code && cd app && update.bat")
                     else:
-                        os.system("sh update.sh")
+                        ExecuteCommand("sh update.sh")
                 
                 Reset()
                 print("\n" + GREEN + Translate("main.update_done") + END + "\n")
