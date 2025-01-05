@@ -31,12 +31,9 @@ def CreateWindow(Name=""):
     if variables.OS == "nt":
         HWND = win32gui.FindWindow(None, Name)
         windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int((WINDOWS[Name]["TitleBarColor"][0] << 16) | (WINDOWS[Name]["TitleBarColor"][1] << 8) | WINDOWS[Name]["TitleBarColor"][2])), sizeof(c_int))
-        try:
-            hicon = win32gui.LoadImage(None, f"{variables.PATH}Interface/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE)
-            win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
-            win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
-        except:
-            pass
+        hicon = win32gui.LoadImage(None, f"{variables.PATH}ETS2LA/Window/favicon.ico", win32con.IMAGE_ICON, 0, 0, win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE)
+        win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
+        win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
 
 
 def Show(Name="", Frame=None):
