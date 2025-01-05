@@ -665,18 +665,24 @@ def CheckForLaneChange():
         if target > len(lanes) - 1:
             target = len(lanes) - 1
                 
+        end_node_in_front = math_helpers.IsInFront((current.end_node.x, current.end_node.z), data.truck_rotation, (data.truck_x, data.truck_z))
+        if end_node_in_front:
+            indicate_side = "right" if target > current_index else "left"
+        else:
+            indicate_side = "left" if target > current_index else "right"
+            
         if target != current_index:
             planned = current.get_planned_lane_change_distance()
             left = current.distance_left()
             if left > planned and not (data.truck_indicating_right or data.truck_indicating_left):
-                data.plugin.state.text = f"Please indicate to confirm lane change."
+                data.plugin.state.text = f"Please indicate to confirm lane change {indicate_side}."
                 if time.time() - data.last_sound_played > data.sound_play_interval:
                     sounds.Play("info")
                     data.last_sound_played = time.time()
                 return
             else:
                 data.plugin.state.text = ""
-                data.plugin.notify(f"Lane changing from {current_index} to {target}.", type="warning")
+                data.plugin.notify(f"Lane changing {indicate_side}.", type="warning")
                 logging.info(f"Changing lane from {current_index} to {target}")
                 current.force_lane_change = True
                 current.lane_index = target
