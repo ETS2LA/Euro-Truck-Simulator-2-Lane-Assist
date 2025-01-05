@@ -69,7 +69,7 @@ def GetMaximumSpeed():
             if not np.isnan(angle) and angle != 0:
                 distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[i].x, points[i].z))
                 max_effect_distance = 2
-                min_effect_distance = 80
+                min_effect_distance = 50
                 percentage = (distance - min_effect_distance) / (max_effect_distance - min_effect_distance)
                 curvatures.append(angle * percentage)
 

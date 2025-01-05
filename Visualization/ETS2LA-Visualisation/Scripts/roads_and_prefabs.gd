@@ -3,7 +3,9 @@ extends Node
 @export var modelMat = preload("res://Materials/model.tres")
 @export var roadMat = preload("res://Materials/road.tres")
 @export var roadDarkMat = preload("res://Materials/roadDark.tres")
+@export var railDarkMat = preload("res://Materials/railDark.tres")
 @export var markingMat = preload("res://Materials/markings.tres")
+@export var railMarkingsDark = preload("res://Materials/railMarkingsDark.tres")
 @export var markingDashedMat = preload("res://Materials/markingsDashed.tres")
 @export var markingsDarkMat = preload("res://Materials/markingsDark.tres")
 @export var markingsDarkDashed = preload("res://Materials/markingsDarkDashed.tres")
@@ -13,6 +15,7 @@ extends Node
 @export var steeringDisabled = preload("res://Materials/steeringDisabled.tres")
 
 @export var roadObject = preload("res://Objects/road.tscn")
+@export var railObject = preload("res://Objects/rail.tscn")
 @export var roadScript = preload("res://Scripts/road.gd")
 
 @export var markingWidth : float
@@ -202,6 +205,10 @@ func _process(delta: float) -> void:
 					var roadPosition = Vector3(roadX, roadY, roadZ)
 					var overtake = []
 					
+					var road_name = road["road_look"]["name"]
+					var offset = road["road_look"]["offset"]
+					var is_rail = "rail" in road_name
+					
 					# For some reason these need to be inverted
 					var shoulderRight = road["road_look"]["shoulder_space_left"]
 					var shoulderLeft = road["road_look"]["shoulder_space_right"]
@@ -237,9 +244,15 @@ func _process(delta: float) -> void:
 							points.append(Vector3(point["x"], point["y"], point["z"]))
 							counter += 1
 						
-						var roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+						var roadObj = null
+						if is_rail:
+							roadObj = railObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+							print("Rail")
+						else:
+							roadObj = roadObject.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED)
+							
 						roadObj.name = uid + "-" + str(totalLines)
-
+						
 						var right:CSGPolygon3D = roadObj.get_node("Right")
 						
 						if shoulderRight != null and shoulderRight != 0:
@@ -250,10 +263,18 @@ func _process(delta: float) -> void:
 						if shoulderLeft != null and shoulderLeft != 0:
 							left.polygon[2].x -= shoulderLeft
 						
-						var leftSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingRight")
-						var rightSolidLine:CSGPolygon3D = roadObj.get_node("SolidMarkingLeft")
-						var leftDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingRight")
-						var rightDashedLine:CSGPolygon3D = roadObj.get_node("DashedMarkingLeft")
+						var leftSolidLine:CSGPolygon3D = null
+						var rightSolidLine:CSGPolygon3D = null
+						var leftDashedLine:CSGPolygon3D = null
+						var rightDashedLine:CSGPolygon3D = null
+						if not is_rail:
+							leftSolidLine = roadObj.get_node("SolidMarkingRight")
+							rightSolidLine = roadObj.get_node("SolidMarkingLeft")
+							leftDashedLine = roadObj.get_node("DashedMarkingRight")
+							rightDashedLine = roadObj.get_node("DashedMarkingLeft")
+						else:
+							leftSolidLine = roadObj.get_node("SolidMarkingRight")
+							rightSolidLine = roadObj.get_node("SolidMarkingLeft")
 						
 						var pathObj = Path3D.new()
 						pathObj.name = "Path3D"
@@ -271,66 +292,73 @@ func _process(delta: float) -> void:
 						left.set_path_node(roadObj.get_node("Path3D").get_path())
 
 						var drewLanes = false
-
-						# Handle the solid lines
-						if lanesLeft > 0:
-							if index == 0:
-								if lanesLeft != 1 or lanesRight != 1:
-									leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									leftSolidLine.material = markingMat if not dark else markingsDarkMat
-									drewLanes = true
-								
-								if lanesLeft == 1:
-									leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									leftSolidLine.material = markingMat if not dark else markingsDarkMat
-								
-							elif index == lanesLeft - 1:
-								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightSolidLine.material = markingMat if not dark else markingsDarkMat
-								drewLanes = true
 						
-						if lanesRight > 0 and not drewLanes:
-							if index == lanesLeft:
-								if lanesLeft != 1 or lanesRight != 1:
-									leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									leftSolidLine.material = markingMat if not dark else markingsDarkMat
-								
-								if lanesRight == 1:
+						if not is_rail:
+							# Handle the solid lines
+							if lanesLeft > 0:
+								if index == 0:
+									if lanesLeft != 1 or lanesRight != 1:
+										leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										leftSolidLine.material = markingMat if not dark else markingsDarkMat
+										drewLanes = true
+									
+									if lanesLeft == 1:
+										leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										leftSolidLine.material = markingMat if not dark else markingsDarkMat
+									
+								elif index == lanesLeft - 1:
 									rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
 									rightSolidLine.material = markingMat if not dark else markingsDarkMat
-
-							elif index == lanesLeft + lanesRight - 1:
-								rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-								rightSolidLine.material = markingMat if not dark else markingsDarkMat
-								
-						# Handle the dashed lines
-						drewLanes = false
-						if lanesLeft == 1 and lanesRight == 1:
-							if index == 0:
-								if overtake[0]:
-									rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
-									drewLanes = true
-								else:
-									if not overtake[0]:
-										rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
-										rightSolidLine.material = markingMat if not dark else markingsDarkMat
-						
-						elif (lanesLeft + lanesRight) > 1:
-							if lanesLeft > 0:
-								if index < lanesLeft - 1:
-									rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
 									drewLanes = true
 							
 							if lanesRight > 0 and not drewLanes:
-								if index < lanesLeft + lanesRight - 1 and index > lanesLeft - 1:
-									rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
-									rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+								if index == lanesLeft:
+									if lanesLeft != 1 or lanesRight != 1:
+										leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										leftSolidLine.material = markingMat if not dark else markingsDarkMat
+									
+									if lanesRight == 1:
+										rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										rightSolidLine.material = markingMat if not dark else markingsDarkMat
 
+								elif index == lanesLeft + lanesRight - 1:
+									rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+									rightSolidLine.material = markingMat if not dark else markingsDarkMat
+									
+							# Handle the dashed lines
+							drewLanes = false
+							if lanesLeft == 1 and lanesRight == 1:
+								if index == 0:
+									if overtake[0]:
+										rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+										drewLanes = true
+									else:
+										if not overtake[0]:
+											rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+											rightSolidLine.material = markingMat if not dark else markingsDarkMat
+							
+							elif (lanesLeft + lanesRight) > 1:
+								if lanesLeft > 0:
+									if index < lanesLeft - 1:
+										rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+										drewLanes = true
+								
+								if lanesRight > 0 and not drewLanes:
+									if index < lanesLeft + lanesRight - 1 and index > lanesLeft - 1:
+										rightDashedLine.set_path_node(roadObj.get_node("Path3D").get_path())
+										rightDashedLine.material = markingDashedMat if not dark else markingsDarkDashed
+
+							
+							right.material = roadMat if not dark else roadDarkMat
+							left.material = roadMat if not dark else roadDarkMat
 						
-						right.material = roadMat if not dark else roadDarkMat
-						left.material = roadMat if not dark else roadDarkMat
+						else:
+							leftSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							rightSolidLine.set_path_node(roadObj.get_node("Path3D").get_path())
+							rightSolidLine.material = railMarkingsDark
+							leftSolidLine.material = railMarkingsDark
 						
 						totalLines += 1
 						index += 1
