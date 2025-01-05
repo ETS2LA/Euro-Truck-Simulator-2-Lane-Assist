@@ -1,10 +1,9 @@
-import os
-import subprocess
-from dataclasses import dataclass
-from typing import Literal
-from urllib.parse import urlparse
-
 from ETS2LA.Utils.network import GetSystemProxy
+from dataclasses import dataclass
+from urllib.parse import urlparse
+from typing import Literal
+import subprocess
+import os
 
 
 @dataclass

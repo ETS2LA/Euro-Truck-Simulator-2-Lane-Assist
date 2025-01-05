@@ -1,8 +1,8 @@
-from typing import TypeAlias, Union
 from ETS2LA.Utils.Console.colors import *
 from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Networking.cloud as cloud
 from importlib.metadata import version
+from typing import TypeAlias, Union
 import traceback
 import os
 
