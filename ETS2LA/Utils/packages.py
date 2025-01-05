@@ -1,4 +1,5 @@
 from ETS2LA.Utils.Console.colors import *
+from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Networking.cloud as cloud
 from importlib.metadata import version
 import traceback
@@ -14,7 +15,7 @@ def CheckForMaliciousPackages():
             ver = version(package)
             if ver in malicious_packages[package]:
                 print(RED + f"Your installed version of the '{package}' package might be malicious! Trying to remove it... (Package Version: {ver})" + END)
-                os.system(f"pip uninstall {package} -y & pip cache purge & pip install {package} --force-reinstall")
+                ExecuteCommand(f"pip uninstall {package} -y & pip cache purge & pip install {package} --force-reinstall")
                 cloud.SendCrashReport(package, f"Successfully updated a malicious package.", f"From version {ver} to the latest version.")
                 print(GREEN + f"Successfully updated the '{package}' package to the latest version." + END)
         except:
@@ -29,4 +30,4 @@ def FixModule(module, ver, url):
         
     if cur_ver < ver:
         print(f"Please wait, we need to install the correct version of {module}...")
-        os.system(f"pip install {url}")
+        ExecuteCommand(f"pip install {url}")

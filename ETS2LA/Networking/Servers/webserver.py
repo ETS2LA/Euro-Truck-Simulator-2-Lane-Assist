@@ -8,6 +8,7 @@ from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.translator as translator
 from ETS2LA.Networking.Servers.data_models import *
 from ETS2LA.Utils.Values.dictionaries import merge
+from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
@@ -378,22 +379,22 @@ def get_list_of_pages():
 # region Session
 
 def BuildFrontend():
-    result = os.system(f"cd Interface && npm run build")
+    result = ExecuteCommand(f"cd Interface && npm run build")
     if result != 0:
-        os.system(f"cd Interface && npm install")
-        result = os.system(f"cd Interface && npm run build")
+        ExecuteCommand(f"cd Interface && npm install")
+        result = ExecuteCommand(f"cd Interface && npm run build")
         if result != 0:
             logging.error("Failed to build frontend")
 
 def RunFrontendDev():
-    os.system(f"cd Interface && npm run dev -- -p {FRONTEND_PORT}")
+    ExecuteCommand(f"cd Interface && npm run dev -- -p {FRONTEND_PORT}")
 
 def RunFrontend():
-    result = os.system(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
+    result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
     if result != 0:
         logging.info("Building frontend... please wait...")
         BuildFrontend()
-        result = os.system(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
+        result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
         if result != 0:
             logging.error("Failed to start frontend")
         

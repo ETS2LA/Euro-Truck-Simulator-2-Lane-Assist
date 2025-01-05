@@ -4,6 +4,9 @@ model-cache
 **/__pycache__
 logs
 
+# Ignore Python venv
+/venv
+
 # Ignore translations on the frontend
 /Interface/translations
 
