@@ -49,7 +49,7 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
                                   password=seg.password)
 
 
-def ExecuteCommand(command: str,
+def ExecuteCommand(commands: str | list[str],
                     proxy_override: ProxyConfiguration | None = None):
     # execute a command with HTTP_PROXY and HTTPS_PROXY environment variables set
     current_proxy = get_system_proxy_configuration()
@@ -64,5 +64,16 @@ def ExecuteCommand(command: str,
             proxy_str = f"{current_proxy.proto}://{current_proxy.host}:{current_proxy.port}"
         env["HTTP_PROXY"] = proxy_str
         env["HTTPS_PROXY"] = proxy_str
-    result = subprocess.run(command, shell=True, env=env)
-    return result.returncode
+
+    if isinstance(commands, str):
+        if "&" in commands:
+            commands = list(map(lambda x: x.strip(), commands.split("&")))
+        else:
+            commands = [commands]
+    
+    result = None
+    for command in commands:
+        if command.strip():
+            result = subprocess.run(command, shell=True, env=env)
+    
+    return result.returncode if result is not None else None
