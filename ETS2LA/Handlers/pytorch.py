@@ -285,6 +285,7 @@ def CheckForUpdates(Identifier):
                         ETS2LAResponse = requests.get("https://cdn.ets2la.com/", timeout=3)
                         ETS2LAResponse = ETS2LAResponse.status_code
                         HuggingFaceResponse = None
+                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Using cdn.ets2la.com..." + NORMAL)
                     except:
                         HuggingFaceResponse = None
                         ETS2LAResponse = None
@@ -344,7 +345,7 @@ def CheckForUpdates(Identifier):
 
                     if str(LatestModel) != str(CurrentModel):
                         Popup(Identifier=Identifier, Text="Updating the model...", Progress=0)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL + " (Limited Download Speed)")
+                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Identifier)
                         StartTime = time.time()
                         Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{Identifier.split("/")[1]}/download', stream=True, timeout=15)
