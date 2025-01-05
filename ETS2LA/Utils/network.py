@@ -41,10 +41,6 @@ def GetSystemProxy() -> str | None:
     return res1[1] or res2[2] or None
 
 
-if __name__ == "__main__":
-    print(GetSystemProxy())
-
-
 def ChooseBestProvider(urls: list[str], timeout: int | float = 3):
     """Chooses the best provider for downloading a file from a list of URLs.
 
