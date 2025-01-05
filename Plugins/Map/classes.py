@@ -2129,6 +2129,8 @@ class MapData:
                 uid = parse_string_to_int(uid)
             if uid == 0:
                 return None
+            if uid is None:
+                return None
 
             uid_str = str(uid)
             parts = [uid_str]

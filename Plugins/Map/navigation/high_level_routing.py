@@ -1,11 +1,12 @@
-from ETS2LA.UI import *
-from typing import List, Optional, Dict, Set, Tuple
-from dataclasses import dataclass
-from ..classes import Node, Position, Road, Prefab
+import Plugins.Map.utils.prefab_helpers as prefab_helpers
 from ..utils.math_helpers import DistanceBetweenPoints
-import Plugins.Map.data as data
-import logging
+from typing import List, Optional, Dict, Set, Tuple
+from ..classes import Node, Position, Road, Prefab
 from .enhanced_queue import EnhancedPriorityQueue
+from dataclasses import dataclass
+import Plugins.Map.data as data
+from ETS2LA.UI import *
+import logging
 
 # High-level routing module
 
@@ -48,12 +49,12 @@ class HighLevelRouter:
         dir = node.direction
         processed_nodes = set()  # Track processed nodes to avoid duplicates
 
-        def process_road(road: Road, next_node: Node) -> Optional[Tuple[float, int]]:
+        def process_road(road: Road, distance: float) -> Optional[Tuple[float, int]]:
             """Process a road and return cost and DLC guard if valid."""
             if getattr(road, 'hidden', False):
-                return None
+                return 9999999  # Avoid hidden roads
 
-            base_cost = road.length
+            base_cost = distance
             if mode == 'shortest':
                 # Enhanced highway preference based on truckermudgeon/maps
                 if hasattr(road, 'road_look_token') and any(
@@ -73,36 +74,29 @@ class HighLevelRouter:
                 else:
                     base_cost *= 0.6  # 40% bonus for small roads
 
-            return base_cost, road.dlc_guard
+            return base_cost
 
-        def process_prefab(prefab: Prefab, next_node: Node) -> Optional[Tuple[float, int]]:
+        def process_prefab(prefab: Prefab, distance: float) -> Optional[Tuple[float, int]]:
             """Process a prefab and return cost and DLC guard if valid."""
-            if str(next_node.uid) in processed_nodes or getattr(prefab, 'hidden', False):
-                return None
-            
             # for whatever reason, these prefabs cause the pathfinding to hang when getting nav_routes
             problem_uids = []
             problem_tokens = ["ibe276"]
             if str(prefab.uid) in problem_uids or prefab.token.lower() in problem_tokens:
-                return None
+                return 9999999
 
-            base_cost = DistanceBetweenPoints((node.node.x, node.node.z), (next_node.x, next_node.z))
+            base_cost = distance
 
-            # Enhanced prefab cost calculation from truckermudgeon/maps
             if prefab.prefab_description:
-                if prefab.prefab_description.nav_routes == []:
-                    return None  # Skip prefabs with no nav_routes
-                
-                route_count = len(prefab.prefab_description.nav_routes)
-                if route_count > 2:  # Complex intersection
+                count = len(prefab_helpers.find_starting_curves(prefab.prefab_description))
+                if count > 3:  # Complex intersection
                     if mode == 'shortest':
-                        base_cost *= 1.2  # Increased penalty for complex intersections
+                        base_cost *= 1.2 # Increased penalty for complex intersections 
                     else:
-                        base_cost *= 1.5  # Higher penalty for small roads mode
+                        base_cost *= 1.5
                 elif 'roundabout' in prefab.token.lower():
-                    base_cost *= 1.3  # Penalty for roundabouts
+                    base_cost *= 1.2  # Penalty for roundabouts
                 
-            return base_cost, prefab.dlc_guard
+            return base_cost
 
         navigation = data.map.get_node_navigation(node.node.uid)
         if not navigation:
@@ -110,7 +104,14 @@ class HighLevelRouter:
         
         if dir == "forward":
             for nav_node in navigation.forward:
-                cost = nav_node.distance
+                item = data.map.get_item_by_uid(nav_node.item_uid)
+                if isinstance(item, Road):
+                    cost = process_road(item, nav_node.distance)
+                elif isinstance(item, Prefab):
+                    cost = process_prefab(item, nav_node.distance)
+                else:
+                    cost = nav_node.distance
+                    
                 guard = nav_node.dlc_guard
                 direction = nav_node.direction
                 neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard, direction))
@@ -118,7 +119,14 @@ class HighLevelRouter:
                 
         elif dir == "backward":
             for nav_node in navigation.backward:
-                cost = nav_node.distance
+                item = data.map.get_item_by_uid(nav_node.item_uid)
+                if isinstance(item, Road):
+                    cost = process_road(item, nav_node.distance)
+                elif isinstance(item, Prefab):
+                    cost = process_prefab(item, nav_node.distance)
+                else:
+                    cost = nav_node.distance
+                    
                 guard = nav_node.dlc_guard
                 direction = nav_node.direction
                 neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard, direction))
@@ -126,7 +134,14 @@ class HighLevelRouter:
                 
         else:
             for nav_node in navigation.forward + navigation.backward:
-                cost = nav_node.distance
+                item = data.map.get_item_by_uid(nav_node.item_uid)
+                if isinstance(item, Road):
+                    cost = process_road(item, nav_node.distance)
+                elif isinstance(item, Prefab):
+                    cost = process_prefab(item, nav_node.distance)
+                else:
+                    cost = nav_node.distance
+                    
                 guard = nav_node.dlc_guard
                 direction = nav_node.direction
                 neighbors.append((data.map.get_node_by_uid(nav_node.node_id), cost, guard, direction))
