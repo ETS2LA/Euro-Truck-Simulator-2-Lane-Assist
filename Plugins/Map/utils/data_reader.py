@@ -1,10 +1,8 @@
 """Data reader utilities for map plugin."""
 from Plugins.Map.utils import data_extractor
-import ETS2LA.Utils.settings as settings
 from Plugins.Map import classes as c
 from rich import print
-import logging
-import random
+import psutil
 import time
 import os
 
@@ -523,11 +521,13 @@ def ReadCities() -> list[c.City]:
         
     return cities
 
-state_object = None
-total_steps = 21
 progress = 0
+total_steps = 21
+start_ram_usage = psutil.Process(os.getpid()).memory_info().rss
+state_object = None
 def PrintState(start_time: float, message: str):
-    global progress
+    global progress, start_ram_usage
+    start_ram_usage = psutil.Process(os.getpid()).memory_info().rss
     print(f" → {message}", end="\r")
     if state_object != None:
         progress += 1
@@ -536,11 +536,13 @@ def PrintState(start_time: float, message: str):
     
 def UpdateState(start_time: float, message: str):
     milliseconds = (time.perf_counter() - start_time) * 100
+    total_ram_usage = (psutil.Process(os.getpid()).memory_info().rss - start_ram_usage) / 1024 / 1024
     if milliseconds < 1000:
         time_string = f"{milliseconds:.0f}ms  |"
     else:
         time_string = f"{milliseconds:.0f}ms |"
-    print(f"[dim]{time_string}[/dim] {message}", end="\n")
+        
+    print(f"[dim]{time_string}[/dim] {message} [dim] used {total_ram_usage:.0f}mb of RAM [/dim]", end="\n")
 
 # MARK : ReadData()
 def ReadData(state = None) -> c.MapData:
