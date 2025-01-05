@@ -145,6 +145,9 @@ class RouteSection:
             distances.append(distance)
             new_points.append(point)
                 
+        if new_points == [] or distances == []:
+            return []
+        
         paired = list(zip(new_points, distances))
         paired.sort(key=lambda x: x[1])
         new_points, distances = zip(*paired)
