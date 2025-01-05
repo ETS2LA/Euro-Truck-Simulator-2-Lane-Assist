@@ -3,13 +3,15 @@ Network utilities for ETS2LA's other modules.
 It supports downloading files from one or more CDNs, returning the downloaded file path.
 """
 
-from pathlib import Path
-import tempfile
-import time
-import requests
-import tqdm
 import ctypes
 import ctypes.wintypes
+import tempfile
+import time
+from pathlib import Path
+
+import requests
+import tqdm
+from loguru import logger
 
 
 class WINHTTP_PROXY_INFO(ctypes.Structure):
@@ -79,7 +81,8 @@ def DownloadFile(url: str,
                  *,
                  session: requests.Session | None = None,
                  chunk_size: int = 8192,
-                 rich: bool = False):
+                 rich: bool = False,
+                 extra_kwargs: dict | None = None):
     """Downloads a file from a URL to a specified path.
 
     Args:
@@ -87,6 +90,8 @@ def DownloadFile(url: str,
         save_path (str | Path): The path to save the downloaded file to.
         session (requests.Session | None, optional): Optional requests session to use for downloading. If None, a new session will be created. Defaults to None.
         chunk_size (int, optional): The size of each chunk to download in bytes. Defaults to 8192.
+        rich (bool, optional): Whether to use rich progress bar. Defaults to False.
+        extra_kwargs (dict | None, optional): Extra keyword arguments to pass to requests.get(). Defaults to None.
 
     Returns:
         Path: The path to the downloaded file.
@@ -95,7 +100,7 @@ def DownloadFile(url: str,
         save_path = Path(save_path)
     save_path.parent.mkdir(parents=True, exist_ok=True)
 
-    resp = (session or requests).get(url, stream=True)
+    resp = (session or requests).get(url, stream=True, **(extra_kwargs or {}))
 
     resp.raise_for_status()
 
@@ -145,3 +150,8 @@ def DownloadFileMultiSource(urls: list[str],
             pass
     raise requests.exceptions.RequestException(
         "Failed to download file from any source.")
+
+
+if __name__ == '__main__':
+    # Network Debug Page
+    logger.debug("Current system proxy: {}", GetSystemProxy())
