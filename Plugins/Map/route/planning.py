@@ -626,16 +626,16 @@ def CheckForLaneChange():
         ResetState()
         return
     
-    current_start = current.lane_points[0]
-    current_end = current.lane_points[-1]
-    current_point = current_start if math_helpers.DistanceBetweenPoints((current_start.x, current_start.z), (data.truck_x, data.truck_z)) < \
-                                     math_helpers.DistanceBetweenPoints((current_end.x, current_end.z), (data.truck_x, data.truck_z)) else current_end
-    
     next = data.route_plan[1]
     next_start = next.lane_points[0]
     next_end = next.lane_points[-1]
-    next_point = next_start if math_helpers.DistanceBetweenPoints((next_start.x, next_start.z), (current_point.x, current_point.z)) < \
-                               math_helpers.DistanceBetweenPoints((next_end.x, next_end.z), (current_point.x, current_point.z)) else next_end   
+    next_point = next_start if math_helpers.DistanceBetweenPoints((next_start.x, next_start.z), (data.truck_x, data.truck_z)) < \
+                               math_helpers.DistanceBetweenPoints((next_end.x, next_end.z), (data.truck_x, data.truck_z)) else next_end   
+                                      
+    current_start = current.lane_points[0]
+    current_end = current.lane_points[-1]
+    current_point = current_start if math_helpers.DistanceBetweenPoints((current_start.x, current_start.z), (next_point.x, next_point.z)) < \
+                                     math_helpers.DistanceBetweenPoints((current_end.x, current_end.z), (next_point.x, next_point.z)) else current_end
                                
     distance = math_helpers.DistanceBetweenPoints((current_point.x, current_point.z), (next_point.x, next_point.z))
     if distance > 4:
@@ -667,9 +667,9 @@ def CheckForLaneChange():
                 
         end_node_in_front = math_helpers.IsInFront((current.end_node.x, current.end_node.z), data.truck_rotation, (data.truck_x, data.truck_z))
         if end_node_in_front:
-            indicate_side = "right" if target > current_index else "left"
-        else:
             indicate_side = "left" if target > current_index else "right"
+        else:
+            indicate_side = "right" if target > current_index else "left"
             
         if target != current_index:
             planned = current.get_planned_lane_change_distance()

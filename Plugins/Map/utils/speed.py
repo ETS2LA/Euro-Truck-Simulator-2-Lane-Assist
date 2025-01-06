@@ -10,19 +10,19 @@ curvature = SmoothedValue("time", 3)
 # Curvature in degrees
 curvature_to_max_speed = {
     0: 100, # Max speed that ETS2LA is allowed to drive
-    0.1: 90,
-    0.2: 80,
-    0.3: 70,
-    0.4: 60,
-    0.5: 50,
-    0.6: 40,
-    0.7: 35,
-    0.8: 30,
-    0.9: 25,
-    1: 20,
+    5: 95,
+    10: 90,
+    15: 80,
+    20: 70,
+    25: 60,
+    30: 50,
+    35: 40,
+    40: 30,
+    50: 25,
+    60: 20,
 }
 def MapCurvatureToSpeed(curvature):
-    curvature = min(curvature/5, 1)
+    curvature = max(curvature * 8 * 8, 0)
     # Map the curvature to a max speed
     index_below = 0
     index_above = 0
@@ -32,13 +32,16 @@ def MapCurvatureToSpeed(curvature):
             break
         index_below = key
         
-    # Interpolate between the two values
     if index_below == len(curvature_to_max_speed.keys()) and index_above == 0:
+        #data.plugin.state.text = f"Curvature: {curvature:.1f}°, Speed: {curvature_to_max_speed[-1]:.1f} km/h"
         return curvature_to_max_speed[-1] / 3.6 # Convert to m/s
     
+    # Interpolate between the two values
     percentage = (curvature - index_below) / (index_above - index_below)
     if percentage < 0: percentage = 0
-    return (curvature_to_max_speed[index_below] + (curvature_to_max_speed[index_above] - curvature_to_max_speed[index_below]) * percentage) / 3.6 # Convert to m/s
+    speed = (curvature_to_max_speed[index_below] + (curvature_to_max_speed[index_above] - curvature_to_max_speed[index_below]) * percentage)
+    #data.plugin.state.text = f"Curvature: {curvature:.1f}°, Speed: {speed:.1f} km/h"
+    return speed / 3.6 # Convert to m/s
 
 def GetMaximumSpeed():
     points = data.route_points
@@ -68,13 +71,20 @@ def GetMaximumSpeed():
 
             if not np.isnan(angle) and angle != 0:
                 distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[i].x, points[i].z))
-                max_effect_distance = 2
-                min_effect_distance = 50
+                max_effect_distance = 0
+                min_effect_distance = 60
                 percentage = (distance - min_effect_distance) / (max_effect_distance - min_effect_distance)
+                if percentage < 0:
+                    percentage = 0
                 curvatures.append(angle * percentage)
 
         try:
-            curvature = max(curvatures)
+            # Remove anomalous curvatures
+            avg = sum(curvatures) / len(curvatures)
+            while max(curvatures) > avg * 4:
+                curvatures.remove(max(curvatures))
+                
+            curvature = sum(curvatures) / len(curvatures)
             curvature = abs(math.degrees(curvature))
         except:
             curvature = 0
