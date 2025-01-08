@@ -1,3 +1,4 @@
+import logging
 import os
 import subprocess
 from dataclasses import dataclass
@@ -17,36 +18,52 @@ class ProxyConfiguration:
 
 
 def get_system_proxy_configuration() -> ProxyConfiguration | None:
-    proxy_str = GetSystemProxy()
-    if proxy_str is None:
+    try:
+        proxy_str = GetSystemProxy()
+        if proxy_str is None:
+            return None
+
+        seg = urlparse(proxy_str)
+        # check if scheme is ""
+        if seg.scheme == "":
+            sections = proxy_str.split(";")
+            for section in sections:
+                if "=" in section:
+                    key, section = section.split("=")
+                    if key not in ["http", "https"]: continue
+                
+                try:
+                    host, port = section.split(":")
+                except ValueError:
+                    continue
+                if not host: continue
+                if not port.isdigit(): continue
+                # use the first available
+                return ProxyConfiguration(proto="http", host=host, port=int(port))
+            return None
+        else:
+
+            def ensure_scheme(
+                    s: str) -> Literal['http', 'https', "socks5", "socks4"]:
+                if s in ["http", "https", "socks5", "socks4"]:
+                    return s  # type: ignore
+                else:
+                    raise ValueError(f"Invalid scheme: {s}")
+
+            host = seg.hostname
+            if not host:
+                raise ValueError(f"Invalid proxy URL: {proxy_str}")
+            port = seg.port or (443 if seg.scheme == "https" else 80)
+
+            # scheme is http, https, socks5, socks4
+            return ProxyConfiguration(proto=ensure_scheme(seg.scheme),
+                                    host=host,
+                                    port=port,
+                                    username=seg.username,
+                                    password=seg.password)
+    except Exception as e:
+        logging.error(f"Failed to get system proxy configuration: {e}")
         return None
-
-    seg = urlparse(proxy_str)
-    # check if scheme is ""
-    if seg.scheme == "":
-        # whole string is XXX:port format
-        host, port = proxy_str.split(":")
-        return ProxyConfiguration(proto="http", host=host, port=int(port))
-    else:
-
-        def ensure_scheme(
-                s: str) -> Literal['http', 'https', "socks5", "socks4"]:
-            if s in ["http", "https", "socks5", "socks4"]:
-                return s  # type: ignore
-            else:
-                raise ValueError(f"Invalid scheme: {s}")
-
-        host = seg.hostname
-        if not host:
-            raise ValueError(f"Invalid proxy URL: {proxy_str}")
-        port = seg.port or (443 if seg.scheme == "https" else 80)
-
-        # scheme is http, https, socks5, socks4
-        return ProxyConfiguration(proto=ensure_scheme(seg.scheme),
-                                  host=host,
-                                  port=port,
-                                  username=seg.username,
-                                  password=seg.password)
 
 
 def ExecuteCommand(command: str,
