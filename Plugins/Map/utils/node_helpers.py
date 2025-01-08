@@ -1,11 +1,6 @@
-from Plugins.Map.utils import prefab_helpers
-from Plugins.Map.utils import math_helpers
-import ETS2LA.variables as variables
 from Plugins.Map import classes as c
 from typing import List, TypeVar
-import numpy as np
-import logging
-import math
+import time
 
 T = TypeVar('T')
 
@@ -92,10 +87,13 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
         node_2_index = [i for i, n in enumerate(rotated_nodes) if n.uid == node_2.uid][0]
         end_prefab_node = description.nodes[node_2_index]
         
+        if node_1_index == node_2_index:
+            return []
+        
         routes = description.nav_routes
             
         accepted_routes = []
-        for route in routes:
+        for i, route in enumerate(routes):
             start_found = False
             end_found = False
             for curve in route.curves:
@@ -108,7 +106,7 @@ def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
                     break
             
             if start_found and end_found:
-                accepted_routes.append(routes.index(route))
+                accepted_routes.append(i)
      
         return accepted_routes
     else:

@@ -1,9 +1,9 @@
 """Map plugin classes."""
-from typing import Union, Literal, TypeVar, Generic, Optional, List, Any
+from typing import Union, Literal, Optional, Any
 from enum import Enum, StrEnum, IntEnum
-from dataclasses import dataclass
 import logging
 import math
+import time
 
 # Import dictionary utilities with fallback to mocks for testing
 from ETS2LA.Utils.Values.dictionaries import get_nested_item, set_nested_item
@@ -12,6 +12,7 @@ from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
 from Plugins.Map.utils import road_helpers
 from Plugins.Map.utils import node_helpers
+
 
 # MARK: Constants
 
@@ -132,14 +133,16 @@ class SpawnPointType(IntEnum):
 # MARK: Base Classes
 
 class NavigationNode:
-    node_id: int | str
+    __slots__ = ['node_id', 'distance', 'direction', 'is_one_lane_road', 'dlc_guard', 'item_uid', 'item_type', 'lane_indices']
+    
+    node_id: str
     distance: float
     direction: Literal["forward", "backward"]
     is_one_lane_road: bool
     dlc_guard: int
-    item_uid: int | str = ""
-    item_type = None
-    lane_indices: list[int] = []
+    item_uid: str
+    item_type: Any
+    lane_indices: list[int]
     """This is a list of the lane indices that go through this navigation node."""
     
     def parse_strings(self):
@@ -152,6 +155,9 @@ class NavigationNode:
         self.is_one_lane_road = is_one_lane_road
         self.dlc_guard = dlc_guard
         self.parse_strings()
+        self.item_type = None
+        self.item_uid = None
+        self.lane_indices = []
         
     def json(self) -> dict:
         return {
@@ -163,6 +169,8 @@ class NavigationNode:
         }
 
 class NavigationEntry:
+    __slots__ = ['uid', "forward", "backward"]
+    
     uid: int | str
     forward: list[NavigationNode]
     backward: list[NavigationNode]
@@ -186,6 +194,9 @@ class NavigationEntry:
     def calculate_node_data(self, map_data):
         this = map_data.get_node_by_uid(self.uid)
         for node in self.forward:
+            if node.node_id == self.uid:
+                continue
+            
             map_data.total += 1
             other = map_data.get_node_by_uid(node.node_id)
             if other == this:
@@ -197,21 +208,29 @@ class NavigationEntry:
                 map_data.not_found += 1
                 continue
             
-            item = map_data.get_item_by_uid(node.item_uid)
+            item = map_data.get_item_by_uid(node.item_uid, warn_errors=False)
             node.item_type = type(item)
             node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
             if node.lane_indices == []:
                 map_data.lanes_invalid += 1
+            
         
         for node in self.backward:
+            if node.node_id == self.uid:
+                continue
+            
+            map_data.total += 1
             other = map_data.get_node_by_uid(node.node_id)
+            if other == this:
+                continue
+            
             node.item_uid = node_helpers.get_connecting_item_uid(this, other)
             if node.item_uid is None:
                 logging.debug(f"Failed to get connecting item UID for nodes {this.uid} and {other.uid}")
                 map_data.not_found += 1
                 continue
             
-            item = map_data.get_item_by_uid(node.item_uid)
+            item = map_data.get_item_by_uid(node.item_uid, warn_errors=False)
             node.item_type = type(item)
             node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
             if node.lane_indices == []:
@@ -219,21 +238,23 @@ class NavigationEntry:
             
 
 class Node:
-    uid: int | str
+    __slots__ = ['uid', 'x', 'y', 'z', 'rotation', 'rotationQuat', '_euler', 'forward_item_uid', 'backward_item_uid', 'sector_x', 'sector_y', 'forward_country_id', 'backward_country_id', '_navigation']
+    
+    uid: str
     x: float
     y: float
     z: float
     rotation: float
     """NOTE: This variable is not to be used. It is only here for compatibility, please use `.euler` instead."""
     rotationQuat: list[float]
-    euler: list[float]
-    forward_item_uid: int | str
-    backward_item_uid: int | str
+    _euler: list[float]
+    forward_item_uid: str
+    backward_item_uid: str
     sector_x: int
     sector_y: int
-    forward_country_id: int | str
-    backward_country_id: int | str
-    _navigation: NavigationEntry = None
+    forward_country_id: str
+    backward_country_id: str
+    _navigation: NavigationEntry
 
     def parse_strings(self):
         self.uid = parse_string_to_int(self.uid)
@@ -253,7 +274,7 @@ class Node:
         
         self.rotation = rotation
         self.rotationQuat = rotationQuat
-        self.euler = math_helpers.QuatToEuler(rotationQuat)
+        self._euler = None
         
         self.forward_item_uid = forward_item_uid
         self.backward_item_uid = backward_item_uid
@@ -264,7 +285,15 @@ class Node:
         self.forward_country_id = forward_country_id
         self.backward_country_id = backward_country_id
         
+        self._navigation = None
+        
         self.parse_strings()
+        
+    @property
+    def euler(self) -> list[float]:
+        if self._euler is None:
+            self._euler = math_helpers.QuatToEuler(self.rotationQuat)
+        return self._euler
         
     @property
     def navigation(self) -> NavigationEntry:
@@ -289,6 +318,8 @@ class Node:
 
 
 class Transform:
+    __slots__ = ['x', 'y', 'z', 'rotation', 'euler']
+    
     x: float
     y: float
     z: float
@@ -317,6 +348,8 @@ class Transform:
 
 
 class Position:
+    __slots__ = ['x', 'y', 'z']
+    
     x: float
     y: float
     z: float
@@ -355,6 +388,8 @@ class Position:
 
 
 class Point:
+    __slots__ = ['x', 'y', 'z']
+    
     x: float
     y: float
     z: float
@@ -382,6 +417,8 @@ class Point:
 
 
 class BoundingBox:
+    __slots__ = ['min_x', 'min_y', 'max_x', 'max_y']
+    
     min_x: float
     min_y: float
     max_x: float
@@ -418,7 +455,9 @@ class BoundingBox:
 
 
 class BaseItem:
-    uid: int | str
+    __slots__ = ['uid', 'type', 'x', 'y', 'sector_x', 'sector_y']
+    
+    uid: str
     type: ItemType
     x: float
     y: float
@@ -449,6 +488,8 @@ class BaseItem:
 
 
 class CityArea(BaseItem):
+    __slots__ = ['token', 'hidden', 'width', 'height']
+    
     token: str
     hidden: bool
     width: float
@@ -474,9 +515,11 @@ class CityArea(BaseItem):
 
 
 class City:
+    __slots = ['token', 'name', 'name_localized', 'country_token', 'population', 'x', 'y', 'areas']
+    
     token: str
     name: str
-    name_localized: str | None
+    name_localized: str
     country_token: str
     population: int
     x: float
@@ -508,6 +551,8 @@ class City:
 
 
 class Country:
+    __slots__ = ['token', 'name', 'name_localized', 'id', 'x', 'y', 'code']
+    
     token: str
     name: str
     name_localized: str | None
@@ -538,6 +583,8 @@ class Country:
 
 
 class Company:
+    __slots__ = ['token', 'name', 'city_tokens', 'cargo_in_tokens', 'cargo_out_tokens']
+    
     token: str
     name: str
     city_tokens: list[str]
@@ -563,9 +610,11 @@ class Company:
 
 
 class FerryConnection:
+    __slots__ = ['token', 'name', 'name_localized', 'x', 'y', 'z', 'price', 'time', 'distance', 'intermediate_points']
+    
     token: str
     name: str
-    name_localized: str | None
+    name_localized: str
     x: float
     y: float
     z: float
@@ -603,10 +652,12 @@ class FerryConnection:
 
 
 class Ferry:
+    __slots__ = ['token', 'train', 'name', 'name_localized', 'x', 'y', 'z', 'connections']
+    
     token: str
     train: bool
     name: str
-    name_localized: str | None
+    name_localized: str
     x: float
     y: float
     z: float
@@ -637,14 +688,16 @@ class Ferry:
 
 
 class RoadLook:
+    __slots__ = ['token', 'name', 'lanes_left', 'lanes_right', 'offset', 'lane_offset', 'shoulder_space_left', 'shoulder_space_right']
+    
     token: str
     name: str
     lanes_left: list[str]
     lanes_right: list[str]
-    offset: float | None
-    lane_offset: float | None
-    shoulder_space_left: float | None
-    shoulder_space_right: float | None
+    offset: float
+    lane_offset: float
+    shoulder_space_left: float
+    shoulder_space_right: float
 
     def __init__(self, token: str, name: str, lanes_left: list[str], lanes_right: list[str], offset: float | None,
                  lane_offset: float | None, shoulder_space_left: float | None, shoulder_space_right: float | None):
@@ -677,6 +730,8 @@ class RoadLook:
 
 
 class ModelDescription:
+    __slots__ = ['token', 'center', 'start', 'end', 'height', 'width', 'length']
+    
     token: str
     center: Position
     start: Position
@@ -709,7 +764,9 @@ class ModelDescription:
 # MARK: POIs
 
 class BasePOI:
-    uid: int | str
+    __slots__ = ['uid', 'x', 'y', 'z', 'sector_x', 'sector_y', 'icon']
+    
+    uid: str
     x: float
     y: float
     z: float
@@ -742,12 +799,15 @@ class BasePOI:
 
 
 class GeneralPOI(BasePOI):
+    __slots__ = ["type", "label"]
+    
     type: NonFacilityPOI
     label: str
 
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str,
                  label: str):
         super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.type = None # General
         self.label = label
 
     def json(self) -> dict:
@@ -759,10 +819,12 @@ class GeneralPOI(BasePOI):
 
 
 class LandmarkPOI(BasePOI):
+    __slots__ = ["label", "dlc_guard", "node_uid", "type"]
+    
     label: str
     dlc_guard: int
-    node_uid: int | str
-    type: NonFacilityPOI = NonFacilityPOI.LANDMARK
+    node_uid: str
+    type: NonFacilityPOI
 
     def parse_strings(self):
         self.node_uid = parse_string_to_int(self.node_uid)
@@ -770,6 +832,7 @@ class LandmarkPOI(BasePOI):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str,
                  label: str, dlc_guard: int, node_uid: int | str):
         super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.type = NonFacilityPOI.LANDMARK
         self.label = label
         self.dlc_guard = dlc_guard
         self.node_uid = node_uid
@@ -790,9 +853,11 @@ LabeledPOI = Union[GeneralPOI, LandmarkPOI]
 
 
 class RoadPOI(BasePOI):
+    __slots__ = ["dlc_guard", "node_uid", "type"]
+    
     dlc_guard: int
-    node_uid: int | str
-    type: str = "road"
+    node_uid: str
+    type: str
 
     def parse_strings(self):
         self.node_uid = parse_string_to_int(self.node_uid)
@@ -800,6 +865,7 @@ class RoadPOI(BasePOI):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str,
                  dlc_guard: int, node_uid: int | str):
         super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.type = "road"
         self.dlc_guard = dlc_guard
         self.node_uid = node_uid
         self.parse_strings()
@@ -813,10 +879,12 @@ class RoadPOI(BasePOI):
 
 
 class FacilityPOI(BasePOI):
+    __slots__ = ["prefab_uid", "prefab_path", "type"]
+    
     icon: FacilityIcon
-    prefab_uid: int | str
+    prefab_uid: str
     prefab_path: str
-    type: str = "facility"
+    type: str
 
     def parse_strings(self):
         self.prefab_uid = parse_string_to_int(self.prefab_uid)
@@ -824,6 +892,7 @@ class FacilityPOI(BasePOI):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, icon: str,
                  prefab_uid: int | str, prefab_path: str):
         super().__init__(uid, x, y, z, sector_x, sector_y, icon)
+        self.type = "facility"
         self.prefab_uid = prefab_uid
         self.prefab_path = prefab_path
         self.parse_strings()
@@ -838,11 +907,13 @@ class FacilityPOI(BasePOI):
 
 
 class ParkingPOI(BasePOI):
+    __slots__ = ["dlc_guard", "from_item_type", "item_node_uids", "type"]
+    
     dlc_guard: int
     from_item_type: Literal["trigger", "mapOverlay", "prefab"]
     item_node_uids: list[int | str]
-    type: str = "facility"
-    icon: FacilityIcon = FacilityIcon.PARKING
+    type: str
+    icon: FacilityIcon
 
     def parse_strings(self):
         self.item_node_uids = [parse_string_to_int(node) for node in self.item_node_uids]
@@ -854,6 +925,8 @@ class ParkingPOI(BasePOI):
         self.dlc_guard = dlc_guard
         self.from_item_type = from_item_type
         self.item_node_uids = item_node_uids
+        self.type = "facility"
+        self.icon = FacilityIcon.PARKING
         self.parse_strings()
 
     def json(self) -> dict:
@@ -874,9 +947,11 @@ POI = Union[LabeledPOI, UnlabeledPOI]
 # MARK: Map Items
 
 class Lane:
+    __slots__ = ['points', 'side', 'length']
+    
     points: list[Position]
     side: Literal["left", "right"]
-    length: float = 0
+    length: float
 
     def __init__(self, points: list[Position], side: Literal["left", "right"]):
         self.points = points
@@ -900,19 +975,22 @@ class Lane:
 
 
 class Road(BaseItem):
+    __slots__ = ['dlc_guard', 'hidden', 'road_look_token', 'start_node_uid', 'end_node_uid', 'length', 'maybe_divided',
+                 'type', 'road_look', '_bounding_box', '_lanes', '_points', 'start_node', 'end_node']
+    
     dlc_guard: int
-    hidden: bool | None
+    hidden: bool
     road_look_token: str
-    start_node_uid: int | str
-    end_node_uid: int | str
+    start_node_uid: int
+    end_node_uid: int
     length: float
-    maybe_divided: bool | None
-    type: ItemType = ItemType.Road
-    road_look: RoadLook = None
+    maybe_divided: bool
+    type: ItemType
+    road_look: RoadLook
 
-    _bounding_box: BoundingBox = None
-    _lanes: list[Lane] = []
-    _points: list[Position] = None
+    _bounding_box: BoundingBox
+    _lanes: list[Lane]
+    _points: list[Position]
 
     def parse_strings(self):
         # Only parse UIDs if they don't contain 'prefab_' prefix
@@ -925,6 +1003,11 @@ class Road(BaseItem):
                  length: float, maybe_divided: bool | None):
         super().__init__(uid, ItemType.Road, x, y, sector_x, sector_y)
         super().parse_strings()
+        self.type = ItemType.Road
+        self.road_look = None
+        self._bounding_box = None
+        self._lanes = []
+        self._points = None
         # Ensure dlc_guard is an integer and hidden is a boolean
         self.dlc_guard = int(dlc_guard) if dlc_guard is not None else -1
         self.hidden = bool(hidden) if hidden is not None else False
@@ -1050,11 +1133,13 @@ class Road(BaseItem):
 
 
 class MapArea(BaseItem):
+    __slots__ = ['dlc_guard', 'draw_over', 'node_uids', 'color', 'type']
+    
     dlc_guard: int
-    draw_over: bool | None
+    draw_over: bool
     node_uids: list[int | str]
     color: MapColor
-    type: ItemType = ItemType.MapArea
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1063,6 +1148,7 @@ class MapArea(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int,
                  draw_over: bool | None, node_uids: list[int | str], color: MapColor):
         super().__init__(uid, ItemType.MapArea, x, y, sector_x, sector_y)
+        self.type = ItemType.MapArea
         self.dlc_guard = dlc_guard
         self.draw_over = draw_over
         self.node_uids = node_uids
@@ -1086,11 +1172,13 @@ class MapOverlayType(Enum):
 
 
 class MapOverlay(BaseItem):
+    __slots__ = ['dlc_guard', 'overlay_type', 'token', 'node_uid', 'type']
+    
     dlc_guard: int
     overlay_type: MapOverlayType
     token: str
-    node_uid: int | str
-    type: ItemType = ItemType.MapOverlay
+    node_uid: str
+    type: ItemType
 
     def parse_strings(self):
         self.node_uid = parse_string_to_int(self.node_uid)
@@ -1098,6 +1186,7 @@ class MapOverlay(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int,
                  overlay_type: MapOverlayType, token: str, node_uid: int | str):
         super().__init__(uid, ItemType.MapOverlay, x, y, z, sector_x, sector_y)
+        self.type = ItemType.MapOverlay
         self.dlc_guard = dlc_guard
         self.overlay_type = overlay_type
         self.token = token
@@ -1114,10 +1203,12 @@ class MapOverlay(BaseItem):
 
 
 class Building(BaseItem):
+    __slots__ = ['scheme', 'start_node_uid', 'end_node_uid', 'type']
+    
     scheme: str
-    start_node_uid: int | str
-    end_node_uid: int | str
-    type: ItemType = ItemType.Building
+    start_node_uid: str
+    end_node_uid: str
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1127,6 +1218,7 @@ class Building(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, scheme: str,
                  start_node_uid: int | str, end_node_uid: int | str):
         super().__init__(uid, ItemType.Building, x, y, z, sector_x, sector_y)
+        self.type = ItemType.Building
         self.scheme = scheme
         self.start_node_uid = start_node_uid
         self.end_node_uid = end_node_uid
@@ -1141,12 +1233,14 @@ class Building(BaseItem):
 
 
 class Curve(BaseItem):
+    __slots__ = ['model', 'look', 'num_buildings', 'start_node_uid', 'end_node_uid', 'type']
+    
     model: str
     look: str
     num_buildings: int
-    start_node_uid: int | str
-    end_node_uid: int | str
-    type: ItemType = ItemType.Curve
+    start_node_uid: str
+    end_node_uid: str
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1156,6 +1250,7 @@ class Curve(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, model: str,
                  look: str, num_buildings: int, start_node_uid: int | str, end_node_uid: int | str):
         super().__init__(uid, ItemType.Curve, x, y, z, sector_x, sector_y)
+        self.type = ItemType.Curve
         self.model = model
         self.look = look
         self.num_buildings = num_buildings
@@ -1174,11 +1269,13 @@ class Curve(BaseItem):
 
 
 class FerryItem(BaseItem):
+    __slots__ = ['token', 'train', 'prefab_uid', 'node_uid', 'type']
+    
     token: str
     train: bool
-    prefab_uid: int | str
-    node_uid: int | str
-    type: ItemType = ItemType.Ferry
+    prefab_uid: str
+    node_uid: str
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1188,6 +1285,7 @@ class FerryItem(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, token: str,
                  train: bool, prefab_uid: int | str, node_uid: int | str):
         super().__init__(uid, ItemType.Ferry, x, y, z, sector_x, sector_y)
+        self.type = ItemType.Ferry
         self.token = token
         self.train = train
         self.prefab_uid = prefab_uid
@@ -1204,11 +1302,13 @@ class FerryItem(BaseItem):
 
 
 class CompanyItem(BaseItem):
+    __slots__ = ['token', 'city_token', 'prefab_uid', 'node_uid', 'type']
+    
     token: str
     city_token: str
-    prefab_uid: int | str
-    node_uid: int | str
-    type: ItemType = ItemType.Company
+    prefab_uid: str
+    node_uid: str
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1218,6 +1318,7 @@ class CompanyItem(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, token: str, city_token: str,
                  prefab_uid: int | str, node_uid: int | str):
         super().__init__(uid, ItemType.Company, x, y, sector_x, sector_y)
+        self.type = ItemType.Company
         self.token = token
         self.city_token = city_token
         self.prefab_uid = prefab_uid
@@ -1234,10 +1335,12 @@ class CompanyItem(BaseItem):
 
 
 class Cutscene(BaseItem):
+    __slots__ = ['flags', 'tags', 'node_uid', 'type']
+    
     flags: int
     tags: list[str]
     node_uid: int | str
-    type: ItemType = ItemType.Cutscene
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1246,6 +1349,7 @@ class Cutscene(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, flags: int,
                  tags: list[str], node_uid: int | str):
         super().__init__(uid, ItemType.Cutscene, x, y, z, sector_x, sector_y)
+        self.type = ItemType.Cutscene
         self.flags = flags
         self.tags = tags
         self.node_uid = node_uid
@@ -1260,10 +1364,12 @@ class Cutscene(BaseItem):
 
 
 class Trigger(BaseItem):
+    __slots__ = ['dlc_guard', 'action_tokens', 'node_uids', 'type']
+    
     dlc_guard: int
     action_tokens: list[str]
     node_uids: list[int | str]
-    type: ItemType = ItemType.Trigger
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1272,6 +1378,7 @@ class Trigger(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int,
                  action_tokens: list[str], node_uids: list[int | str]):
         super().__init__(uid, ItemType.Trigger, x, y, z, sector_x, sector_y)
+        self.type = ItemType.Trigger
         self.dlc_guard = dlc_guard
         self.action_tokens = action_tokens
         self.node_uids = node_uids
@@ -1286,14 +1393,16 @@ class Trigger(BaseItem):
 
 
 class Model(BaseItem):
+    __slots__ = ['token', 'node_uid', 'scale', 'type', 'vertices', 'description', 'z', 'rotation']
+    
     token: str
-    node_uid: int | str
+    node_uid: str
     scale: tuple[float, float, float]
-    type: ItemType = ItemType.Model
-    vertices: list[Position] = []
-    description: ModelDescription = None
-    z: float = math.inf
-    rotation: float = 0
+    type: ItemType
+    vertices: list[Position]
+    description: ModelDescription
+    z: float
+    rotation: float
 
     def parse_strings(self):
         super().parse_strings()
@@ -1302,6 +1411,11 @@ class Model(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, token: str,
                  node_uid: int | str, scale: tuple[float, float, float]):
         super().__init__(uid, ItemType.Model, x, y, sector_x, sector_y)
+        self.type = ItemType.Model
+        self.vertices = []
+        self.description = None
+        self.z = math.inf
+        self.rotation = 0
         self.token = token
         self.node_uid = node_uid
         self.scale = scale
@@ -1325,14 +1439,13 @@ class Model(BaseItem):
         }
 
 
-
-
-
 class Terrain(BaseItem):
-    start_node_uid: int | str
-    end_node_uid: int | str
+    __slots__ = ['start_node_uid', 'end_node_uid', 'length', 'type']
+    
+    start_node_uid: str
+    end_node_uid: str
     length: float
-    type: ItemType = ItemType.Terrain
+    type: ItemType
 
     def parse_strings(self):
         super().parse_strings()
@@ -1342,6 +1455,7 @@ class Terrain(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int,
                  start_node_uid: int | str, end_node_uid: int | str, length: float):
         super().__init__(uid, ItemType.Terrain, x, y, z, sector_x, sector_y)
+        self.type = ItemType.Terrain
         self.start_node_uid = start_node_uid
         self.end_node_uid = end_node_uid
         self.length = length
@@ -1358,6 +1472,8 @@ class Terrain(BaseItem):
 # MARK: Map Points
 
 class BaseMapPoint:
+    __slots__ = ['x', 'y', 'z', 'neighbors']
+    
     x: float
     y: float
     z: float
@@ -1382,6 +1498,8 @@ class BaseMapPoint:
 
 
 class NavNode:
+    __slots__ = ['node0', 'node1', 'node2', 'node3', 'node4', 'node5', 'node6', 'node_custom']
+    
     node0: bool
     node1: bool
     node2: bool
@@ -1416,6 +1534,8 @@ class NavNode:
 
 
 class NavFlags:
+    __slots__ = ['is_start', 'is_base', 'is_end']
+    
     is_start: bool
     is_base: bool
     is_end: bool
@@ -1434,16 +1554,19 @@ class NavFlags:
 
 
 class RoadMapPoint(BaseMapPoint):
-    lanes_left: int | Literal["auto"]
-    lanes_right: int | Literal["auto"]
+    __slots__ = ['lanes_left', 'lanes_right', 'offset', 'nav_node', 'nav_flags', 'type']
+    
+    lanes_left: Literal["auto"]
+    lanes_right: Literal["auto"]
     offset: float
     nav_node: NavNode
     nav_flags: NavFlags
-    type: str = "road"
+    type: str
 
     def __init__(self, x: float, y: float, z: float, neighbors: list[int | str], lanes_left: int | Literal["auto"],
                  lanes_right: int | Literal["auto"], offset: float, nav_node: NavNode, nav_flags: NavFlags):
         super().__init__(x, y, z, neighbors)
+        self.type = "road"
         self.lanes_left = lanes_left
         self.lanes_right = lanes_right
         self.offset = offset
@@ -1462,12 +1585,15 @@ class RoadMapPoint(BaseMapPoint):
 
 
 class PolygonMapPoint(BaseMapPoint):
+    __slots__ = ['color', 'road_over', 'type']
+    
     color: MapColor
     road_over: bool
-    type: str = "polygon"
+    type: str
 
     def __init__(self, x: float, y: float, z: float, neighbors: list[int | str], color: MapColor, road_over: bool):
         super().__init__(x, y, z, neighbors)
+        self.type = "polygon"
         self.color = color
         self.road_over = road_over
 
@@ -1485,6 +1611,8 @@ MapPoint = Union[RoadMapPoint, PolygonMapPoint]
 # MARK: Prefabs
 
 class PrefabNode:
+    __slots__ = ['x', 'y', 'z', 'rotation', 'input_lanes', 'output_lanes']
+    
     x: float
     y: float
     z: float
@@ -1514,6 +1642,8 @@ class PrefabNode:
 
 
 class PrefabSpawnPoints:
+    __slots__ = ['x', 'y', 'z', 'type']
+    
     x: float
     y: float
     z: float
@@ -1535,6 +1665,8 @@ class PrefabSpawnPoints:
 
 
 class PrefabTriggerPoint:
+    __slots__ = ['x', 'y', 'z', 'action']
+    
     x: float
     y: float
     z: float
@@ -1556,12 +1688,14 @@ class PrefabTriggerPoint:
 
 
 class PrefabNavCurve:
+    __slots__ = ['nav_node_index', 'start', 'end', 'next_lines', 'prev_lines', '_points']
+    
     nav_node_index: int
     start: Transform
     end: Transform
     next_lines: list[int]
     prev_lines: list[int]
-    points: list[Position] = []
+    _points: list[Position]
 
     def __init__(self, nav_node_index: int, start: Transform, end: Transform, next_lines: list[int],
                  prev_lines: list[int], points: list[Position] = []):
@@ -1570,10 +1704,17 @@ class PrefabNavCurve:
         self.end = end
         self.next_lines = next_lines
         self.prev_lines = prev_lines
-        if points != []:
-            self.points = points
-        else:
-            self.points = self.generate_points()
+        self._points = points
+    
+    @property
+    def points(self) -> list[Position]:
+        if self._points == []:
+            self._points = self.generate_points()
+        return self._points
+    
+    @points.setter
+    def points(self, value: list[Position]):
+        self._points = value
 
     def generate_points(self, road_quality: float = 1, min_quality: int = 4) -> list[Position]:
         new_points = []
@@ -1643,6 +1784,8 @@ class PrefabNavCurve:
 
 
 class NavNodeConnection:
+    __slots__ = ['target_nav_node_index', 'curve_indeces']
+    
     target_nav_node_index: int
     curve_indeces: list[int]
 
@@ -1658,6 +1801,8 @@ class NavNodeConnection:
 
 
 class PrefabNavNode:
+    __slots__ = ['type', 'end_index', 'connections']
+    
     type: Literal["physical", "ai"]
     """
     **physical**: the index of the normal node (see nodes array) this navNode ends at.\n
@@ -1680,11 +1825,15 @@ class PrefabNavNode:
 
 
 class PrefabNavRoute:
+    __slots__ = ['curves', 'distance', '_points']
+    
     curves: list[PrefabNavCurve]
-    distance: float = 0
-    _points: list[Position] = []
+    distance: float
+    _points: list[Position]
 
     def __init__(self, curves: list[PrefabNavCurve]):
+        self.distance = 0
+        self._points = []
         self.curves = curves
         
     @property
@@ -1735,18 +1884,22 @@ class PrefabNavRoute:
 
 
 class PrefabDescription:
+    __slots__ = ['token', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', '_nav_routes']
+    
     token: str
     nodes: list[PrefabNode]
-    map_points: RoadMapPoint | PolygonMapPoint
+    map_points: RoadMapPoint # | PolygonMapPoint
+    """Can also be PolygonMapPoint"""
     spawn_points: list[PrefabSpawnPoints]
     trigger_points: list[PrefabTriggerPoint]
     nav_curves: list[PrefabNavCurve]
     nav_nodes: list[PrefabNavNode]
-    _nav_routes: list[PrefabNavRoute] = []
+    _nav_routes: list[PrefabNavRoute]
 
     def __init__(self, token: str, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint,
                  spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint],
                  nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode]):
+        self._nav_routes = []
         self.token = token
         self.nodes = nodes
         self.map_points = map_points
@@ -1789,16 +1942,18 @@ class PrefabDescription:
 
 
 class Prefab(BaseItem):
+    __slots__ = ['dlc_guard', 'hidden', 'token', 'node_uids', 'origin_node_index', 'type', 'prefab_description', 'z', '_nav_routes', '_bounding_box']
+    
     dlc_guard: int
-    hidden: bool | None
+    hidden: bool
     token: str
     node_uids: list[int | str]
     origin_node_index: int
-    type: ItemType = ItemType.Prefab
-    prefab_description: PrefabDescription = None
-    z: float = 0
-    _nav_routes: list[PrefabNavRoute] = []
-    _bounding_box: BoundingBox = None
+    type: ItemType
+    prefab_description: PrefabDescription
+    z: float
+    _nav_routes: list[PrefabNavRoute]
+    _bounding_box: BoundingBox
 
     def parse_strings(self):
         super().parse_strings()
@@ -1807,6 +1962,10 @@ class Prefab(BaseItem):
     def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int,
                  hidden: bool | None, token: str, node_uids: list[int | str], origin_node_index: int):
         super().__init__(uid, ItemType.Prefab, x, y, sector_x, sector_y)
+        self.type = ItemType.Prefab
+        self.prefab_description = None
+        self._nav_routes = []
+        self._bounding_box = None
         self.z = z
         self.dlc_guard = dlc_guard
         self.hidden = hidden
@@ -2045,9 +2204,7 @@ class MapData:
         items = self.nodes + self.roads + self.prefabs + self.models
         for item in items:
             uid_str = str(item.uid)
-            parts = [uid_str]
-            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            set_nested_item(self._by_uid, parts, item)
+            self._by_uid[uid_str] = item
 
         self._model_descriptions_by_token = {}
         for model_description in self.model_descriptions:
@@ -2117,25 +2274,24 @@ class MapData:
                 uid = parse_string_to_int(uid)
 
             uid_str = str(uid)
-            parts = [uid_str]
-            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            return get_nested_item(self._by_uid, parts)
+            return self._by_uid.get(uid_str, None)
         except:
             return None
 
-    def get_item_by_uid(self, uid: int | str) -> Prefab | Road:
+    def get_item_by_uid(self, uid: int | str, warn_errors:bool = True) -> Prefab | Road:
         try:
             if type(uid) == str:
                 uid = parse_string_to_int(uid)
             if uid == 0:
                 return None
+            if uid is None:
+                return None
 
             uid_str = str(uid)
-            parts = [uid_str]
-            #parts = [uid_str[i:i + 4] for i in range(0, len(uid_str), 4)]
-            return get_nested_item(self._by_uid, parts)
+            return self._by_uid.get(uid_str, None)
         except:
-            logging.warning(f"Error getting item by UID: {uid}")
+            if warn_errors:
+                logging.warning(f"Error getting item by UID: {uid}")
             #logging.exception(f"Error getting item by UID: {uid}")
             return None
 
@@ -2230,26 +2386,7 @@ class MapData:
                             closest_point_distance = distance
                             closest_item = item
 
-        if closest_item == None:
-            return None
-
         return closest_item
-
-    def get_road_between_nodes(self, start_node_uid: int | str, end_node_uid: int | str) -> Road | None:
-        """Get a road that connects two nodes, initializing its nodes if found."""
-        start_node = self.get_node_by_uid(start_node_uid)
-        sectors = self.get_sectors_for_coordinate_and_distance(start_node.x, start_node.y, 500)
-        items = []
-        for sector in sectors:
-            items += self.get_sector_items_by_sector(sector)
-        
-        for road in items:
-            if type(road) == Road:
-                if (road.start_node_uid == start_node_uid and road.end_node_uid == end_node_uid) or \
-                   (road.start_node_uid == end_node_uid and road.end_node_uid == start_node_uid):
-                    road.get_nodes()  # Initialize nodes
-                    return road
-        return None
 
     total = 0
     not_found = 0
@@ -2258,11 +2395,15 @@ class MapData:
         amount = len(self.navigation)
         count = 0
         for node in self.navigation:
+            start_time = time.time()
             node.calculate_node_data(self)
-            if count % 100 == 0:
+            end_time = time.time()
+            if end_time - start_time > 0.1:
+                print(f"Node {node.uid} took {end_time - start_time:.2f}s to calculate")
+            if count % 5000 == 0:
                 print(f"Processed {count}/{amount} nodes ({count / amount * 100:.2f}%)", end="\r")
             count += 1
         
-        print(f"> Item missing: {self.not_found} ({self.not_found / self.total * 100:.2f}%)")
-        print(f"> Lanes empty: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
-        print(f"> Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")
+        print(f"         > Item missing: {self.not_found} ({self.not_found / self.total * 100:.2f}%)                      ")
+        print(f"         > Lanes empty: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
+        print(f"         > Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")

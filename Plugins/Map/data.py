@@ -90,7 +90,7 @@ sector_size = settings.Get("Map", "SectorSize", 200)
 """The size of each sector in meters."""
 load_distance = settings.Get("Map", "LoadDistance", 500)
 """The radius around the truck in meters that should be loaded."""
-use_navigation = settings.Get("Map", "UseNavigation", False)
+use_navigation = settings.Get("Map", "UseNavigation", True)
 """Whether we should drive along the navigation path or just use the basic route planner."""
 auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 10)
 """The distance in meters from the destination where the truck will automatically accept the current navigation plan."""

@@ -62,26 +62,30 @@ class Page(ETS2LAPage):
                     with Group("vertical", gap=12):
                         current_day = None
                         for update in reversed_updates:
-                            local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
-                            if local_time.split(" ")[0] != current_day:
-                                current_day = local_time.split(" ")[0]
-                                Space(20)
-                                with Group("horizontal", padding=0, classname="flex items-center", gap=0):
-                                    with Group("horizontal", padding=0, gap=0, classname="border-b"):
-                                        ...
-                                    with Group("vertical", padding=0, gap=0, classname="items-center"):
-                                        Description(local_time.split(" ")[0], size="xs", weight="bold")
-                                    with Group("horizontal", padding=0, gap=0, classname="border-b"):
-                                        ...
-                                Space(20)
-                            with Group("vertical", border=True, classname=""):
-                                with Group("horizontal", padding=0):
-                                    Description(update["author"], size="xs")
-                                    with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
-                                        Label(update["message"], size="sm", weight="semibold")
-                                        Link("View Changes", update["url"], size="xs", weight="light")
-                                if update["description"] != "":
-                                    Markdown(update["description"])
-                                Description(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", size="xs")
+                            try:
+                                local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
+                                if local_time.split(" ")[0] != current_day:
+                                    current_day = local_time.split(" ")[0]
+                                    Space(20)
+                                    with Group("horizontal", padding=0, classname="flex items-center", gap=0):
+                                        with Group("horizontal", padding=0, gap=0, classname="border-b"):
+                                            ...
+                                        with Group("vertical", padding=0, gap=0, classname="items-center"):
+                                            Description(local_time.split(" ")[0], size="xs", weight="bold")
+                                        with Group("horizontal", padding=0, gap=0, classname="border-b"):
+                                            ...
+                                    Space(20)
+                                with Group("vertical", border=True, classname=""):
+                                    with Group("horizontal", padding=0):
+                                        Description(update["author"], size="xs")
+                                        with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
+                                            Label(update["message"], size="sm", weight="semibold")
+                                            Link("View Changes", update["url"], size="xs", weight="light")
+                                    if update["description"] != "":
+                                        Markdown(update["description"])
+                                    Description(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", size="xs")
+                            except:
+                                import traceback
+                                Description(f"An error occurred while rendering this update.\n{traceback.format_exc()}", size="xs")
                 
         return RenderUI()

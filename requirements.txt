@@ -25,6 +25,7 @@ ipython
 pywin32
 fastapi
 uvicorn
+pyproj
 pillow
 gputil
 psutil

@@ -132,33 +132,54 @@ class RouteSection:
 
     def discard_points_behind(self, points: list[c.Position]) -> list[c.Position]:
         forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
+        distances = []
         new_points = []
-        for point in points:
+        for i, point in enumerate(points):
+            distance = math_helpers.DistanceBetweenPoints(point.tuple(), (data.truck_x, data.truck_y, data.truck_z))
             point_forward_vector = [point.x - data.truck_x, point.z - data.truck_z]
             angle = np.arccos(np.dot(forward_vector, point_forward_vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector)))
             angle = math.degrees(angle)
             if angle > 90 or angle < -90:
                 continue
             
+            distances.append(distance)
             new_points.append(point)
                 
-        new_points = sorted(new_points, key=lambda x: math_helpers.DistanceBetweenPoints(x.tuple(), (data.truck_x, data.truck_y, data.truck_z)))
+        if new_points == [] or distances == []:
+            return []
+        
+        paired = list(zip(new_points, distances))
+        paired.sort(key=lambda x: x[1])
+        new_points, distances = zip(*paired)
+
+        new_points = list(new_points)
+        distances = list(distances)
         
         temp_points = []
-        for point in new_points:
-            index = new_points.index(point)
+        distances_to_truck = []
+        distances_to_each_other = []
+        for i, point in enumerate(new_points):
+            index = i
             if index == 0:
                 temp_points.append(point)
+                distances_to_truck.append(distances[0])
+                distances_to_each_other.append(0)
                 continue
             
-            if math_helpers.DistanceBetweenPoints(point.tuple(), temp_points[-1].tuple()) < 4:
+            distance = math_helpers.DistanceBetweenPoints(point.tuple(), temp_points[-1].tuple())
+            if distance < 4:
                 temp_points.append(point)
+                distances_to_truck.append(distances[i])
+                distances_to_each_other.append(distance)
 
         if temp_points == []:
             return []
         
+        if distances_to_each_other == []:
+            return []
+        
         try:
-            average_distance = sum([math_helpers.DistanceBetweenPoints(temp_points[i].tuple(), temp_points[i + 1].tuple()) for i in range(len(temp_points) - 1)]) / len(temp_points)
+            average_distance = sum(distances_to_each_other) / len(distances_to_each_other)
         except:
             average_distance = 1
         
@@ -166,7 +187,7 @@ class RouteSection:
         truck = c.Position(data.truck_x, data.truck_y, data.truck_z)
         closest_id = 0
         for i in range(len(temp_points) - 1):
-            distance = math_helpers.DistanceBetweenPoints(truck.tuple(), temp_points[i].tuple())
+            distance = distances_to_truck[i]
             if distance < closest_distance:
                 closest_distance = distance
                 closest_id = i
@@ -176,8 +197,8 @@ class RouteSection:
         
         new_points = []
         last_point = temp_points[closest_id]
-        for point in temp_points:
-            if math_helpers.DistanceBetweenPoints(last_point.tuple(), point.tuple()) < average_distance * 2:
+        for i, point in enumerate(temp_points):
+            if distances_to_each_other[i] < average_distance * 2:
                 new_points.append(point)
                 last_point = point
         

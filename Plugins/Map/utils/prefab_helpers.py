@@ -2,7 +2,7 @@
 from Plugins.Map.utils import math_helpers
 from collections import defaultdict
 import Plugins.Map.classes as c
-from typing import List, Tuple
+from typing import List, Set
 import numpy as np
 import math
 import cv2
@@ -24,8 +24,15 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
     
     routes: List[List[c.PrefabNavCurve]] = []
 
-    def traverse(curve: c.PrefabNavCurve, route: List[c.PrefabNavCurve], depth: int):
+    def traverse(curve: c.PrefabNavCurve, route: List[c.PrefabNavCurve], depth: int, visited: Set[int]):
+        # Check if the current curve is already in the route (cycle detected)
+        id = prefab_description.nav_curves.index(curve)
+        if id in visited:
+            return
+
         route.append(curve)
+        visited.add(id)
+
         if not curve.next_lines:
             routes.append(route[:])
             return
@@ -33,11 +40,12 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
         if depth > 100:
             return
 
-        for next_curve in curve.next_lines:
-            next_curve = prefab_description.nav_curves[next_curve]
-            traverse(next_curve, route[:], depth + 1)
+        for next_curve_id in curve.next_lines:
+            next_curve = prefab_description.nav_curves[next_curve_id]
+            traverse(next_curve, route[:], depth + 1, visited.copy())
 
-    traverse(curve, [], 0)
+    # Initialize traversal
+    traverse(curve, [], 0, set())
 
     routes_by_start_curve = defaultdict(list)
     routes_by_end_curve = defaultdict(list)
@@ -56,9 +64,10 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
     for start_curve, start_routes in routes_by_start_curve.items():
         for end_curve, end_routes in routes_by_end_curve.items():
             common_routes = set(start_routes) & set(end_routes)
-            if common_routes:
-                shortest_route = min(common_routes, key=lambda route: route_lengths[route])
-                accepted_routes.append(list(shortest_route))
+            accepted_routes.extend(common_routes)
+            # if common_routes:
+            #     shortest_route = min(common_routes, key=lambda route: route_lengths[route])
+            #     accepted_routes.append(list(shortest_route))
 
     return accepted_routes
 

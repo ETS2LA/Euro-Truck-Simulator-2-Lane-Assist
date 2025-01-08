@@ -1,11 +1,10 @@
 """Data reader utilities for map plugin."""
 from Plugins.Map.utils import data_extractor
-import ETS2LA.Utils.settings as settings
 from Plugins.Map import classes as c
 from rich import print
-import logging
-import random
+import psutil
 import time
+import sys
 import os
 
 DATA_PATH = os.path.join(os.path.dirname(__file__).replace("\\utils", ""), "data")
@@ -27,7 +26,8 @@ def ReadNodes() -> list[c.Node]:
     path = FindCategoryFilePath("nodes")
     if path is None: return []
     nodes: list[c.Node] = []
-    for node in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for node in file:
         nodes.append(c.Node(
             node["uid"],
             node["x"],
@@ -49,7 +49,8 @@ def ReadNodeGraph() -> list[c.NavigationEntry]: # None since this will just upda
     path = FindCategoryFilePath("graph")
     if path is None: return []
     graph: list[c.NavigationEntry] = []
-    for entry in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for entry in file:
         graph.append(c.NavigationEntry(
             entry[0],
             [c.NavigationNode(
@@ -74,7 +75,8 @@ def ReadElevations() -> list[tuple[float, float, float]]:
     path = FindCategoryFilePath("elevation")
     if path is None: return []
     elevations: list[tuple[float, float, float]] = []
-    for elevation in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for elevation in file:
         elevations.append((
             elevation[0],
             elevation[1],
@@ -87,7 +89,8 @@ def ReadRoads() -> list[c.Road]:
     path = FindCategoryFilePath("roads")
     if path is None: return []
     roads: list[c.Road] = []
-    for road in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for road in file:
         roads.append(c.Road(
             road["uid"],
             road["x"],
@@ -109,7 +112,8 @@ def ReadRoadLooks() -> list[c.RoadLook]:
     path = FindCategoryFilePath("roadLooks")
     if path is None: return []
     road_looks: list[c.RoadLook] = []
-    for road_look in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for road_look in file:
         road_looks.append(c.RoadLook(
             road_look["token"],
             road_look["name"],
@@ -127,7 +131,8 @@ def ReadPrefabs() -> list[c.Prefab]:
     path = FindCategoryFilePath("prefabs")
     if path is None: return []
     prefabs: list[c.Prefab] = []
-    for prefab in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for prefab in file:
         prefabs.append(c.Prefab(
             prefab["uid"],
             prefab["x"],
@@ -164,8 +169,8 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                     node["y"],
                     node["z"],
                     node["rotation"],
-                    node.get("inputLanes", []),
-                    node.get("outputLanes", []),
+                    TryReadExcept(node, "inputLanes", []),
+                    TryReadExcept(node, "outputLanes", []),
                 )
                 for node in prefab_description["nodes"]
             ],
@@ -213,7 +218,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                 c.PrefabSpawnPoints(
                     spawn_point["x"],
                     spawn_point["y"],
-                    spawn_point.get("z", 0),
+                    TryReadExcept(spawn_point, "z", 0),
                     spawn_point["type"],
                 )
                 for spawn_point in prefab_description["spawnPoints"]
@@ -223,7 +228,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                 c.PrefabTriggerPoint(
                     trigger_point["x"],
                     trigger_point["y"],
-                    trigger_point.get("z", 0),
+                    TryReadExcept(trigger_point, "z", 0),
                     trigger_point["action"],
                 )
                 for trigger_point in prefab_description["triggerPoints"]
@@ -277,7 +282,8 @@ def ReadFerries() -> list[c.Ferry]:
     path = FindCategoryFilePath("ferries")
     if path is None: return []
     ferries: list[c.Ferry] = []
-    for ferry in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for ferry in file:
         ferries.append(c.Ferry(
             ferry["token"],
             ferry["train"],
@@ -311,7 +317,8 @@ def ReadCompanyItems() -> list[c.CompanyItem]:
     path = FindCategoryFilePath("companies")
     if path is None: return []
     companies: list[c.CompanyItem] = []
-    for company in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for company in file:
         companies.append(c.CompanyItem(
             company["uid"],
             company["x"],
@@ -330,7 +337,8 @@ def ReadCompanies() -> list[c.Company]:
     path = FindCategoryFilePath("companyDefs")
     if path is None: return []
     companies: list[c.Company] = []
-    for company in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for company in file:
         companies.append(c.Company(
             company["token"],
             company["name"],
@@ -345,7 +353,8 @@ def ReadModels() -> list[c.Model]:
     path = FindCategoryFilePath("models")
     if path is None: return []
     models: list[c.Model] = []
-    for model in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for model in file:
         models.append(c.Model(
             model["uid"],
             model["x"],
@@ -363,7 +372,8 @@ def ReadModelDescriptions() -> list[c.ModelDescription]:
     path = FindCategoryFilePath("modelDescriptions")
     if path is None: return []
     model_descriptions: list[c.ModelDescription] = []
-    for model_description in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for model_description in file:
         model_descriptions.append(c.ModelDescription(
             model_description["token"],
             c.Position(
@@ -390,7 +400,8 @@ def ReadMapAreas() -> list[c.MapArea]:
     path = FindCategoryFilePath("mapAreas")
     if path is None: return []
     map_areas: list[c.MapArea] = []
-    for map_area in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for map_area in file:
         map_areas.append(c.MapArea(
             map_area["uid"],
             map_area["x"],
@@ -409,7 +420,8 @@ def ReadPOIs() -> list[c.POI]:
     path = FindCategoryFilePath("pois")
     if path is None: return []
     pois: list[c.POI] = []
-    for poi in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for poi in file:
         if "label" in poi:
             if poi["type"] == c.NonFacilityPOI.LANDMARK:
                 pois.append(c.LandmarkPOI(
@@ -482,7 +494,8 @@ def ReadCountries() -> list[c.Country]:
     path = FindCategoryFilePath("countries")
     if path is None: return []
     countries: list[c.Country] = []
-    for country in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for country in file:
         countries.append(c.Country(
             country["token"],
             country["name"],
@@ -499,7 +512,8 @@ def ReadCities() -> list[c.City]:
     path = FindCategoryFilePath("cities")
     if path is None: return []
     cities: list[c.City] = []
-    for city in data_extractor.ReadData(path):
+    file = data_extractor.ReadData(path)
+    for city in file:
         cities.append(c.City(
             city["token"],
             city["name"],
@@ -523,11 +537,13 @@ def ReadCities() -> list[c.City]:
         
     return cities
 
-state_object = None
-total_steps = 21
 progress = 0
+total_steps = 21
+start_ram_usage = 0
+state_object = None
 def PrintState(start_time: float, message: str):
-    global progress
+    global progress, start_ram_usage
+    start_ram_usage = psutil.Process(os.getpid()).memory_info().rss
     print(f" → {message}", end="\r")
     if state_object != None:
         progress += 1
@@ -535,12 +551,14 @@ def PrintState(start_time: float, message: str):
         state_object.progress = progress / total_steps
     
 def UpdateState(start_time: float, message: str):
-    milliseconds = (time.perf_counter() - start_time) * 100
-    if milliseconds < 1000:
-        time_string = f"{milliseconds:.0f}ms  |"
+    centiseconds = (time.perf_counter() - start_time) * 100
+    total_ram_usage = (psutil.Process(os.getpid()).memory_info().rss - start_ram_usage) / 1024 / 1024
+    if centiseconds < 1000:
+        time_string = f"{centiseconds:.0f}cs  |"
     else:
-        time_string = f"{milliseconds:.0f}ms |"
-    print(f"[dim]{time_string}[/dim] {message}", end="\n")
+        time_string = f"{centiseconds:.0f}cs |"
+        
+    print(f"[dim]{time_string}[/dim] {message} [dim] used {total_ram_usage:.0f}mb of RAM [/dim]", end="\n")
 
 # MARK : ReadData()
 def ReadData(state = None) -> c.MapData:
@@ -551,6 +569,7 @@ def ReadData(state = None) -> c.MapData:
     print("[yellow]Please wait for map to load the necessary data.[/yellow]")
     
     data = c.MapData()
+    
     
     PrintState(start_time, "Nodes")
     data.nodes = ReadNodes()
