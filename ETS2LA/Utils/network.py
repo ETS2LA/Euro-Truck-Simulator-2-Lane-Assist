@@ -153,4 +153,5 @@ def DownloadFileMultiSource(urls: list[str],
 
 if __name__ == '__main__':
     # Network Debug Page
-    logging.debug("Current system proxy: {}", GetSystemProxy())
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug("Current system proxy: %s", GetSystemProxy())

@@ -25,8 +25,17 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
     # check if scheme is ""
     if seg.scheme == "":
         # whole string is XXX:port format
-        host, port = proxy_str.split(":")
-        return ProxyConfiguration(proto="http", host=host, port=int(port))
+        sections = proxy_str.split(";")
+        for section in sections:
+            if "=" in section:
+                key, section = section.split("=")
+                if key not in ["http", "https"]: continue
+                
+            host, port = section.split(":")
+            # use the first available
+            return ProxyConfiguration(proto="http", host=host, port=int(port))
+        return None
+        
     else:
 
         def ensure_scheme(
