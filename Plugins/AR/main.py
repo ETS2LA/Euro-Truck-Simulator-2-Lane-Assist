@@ -152,8 +152,8 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float):
     NewY = RelativeY * CosPitch - NewZ * SinPitch
     FinalZ = NewZ * CosPitch + RelativeY * SinPitch
 
-    CosRoll = math.cos(math.radians(HeadRoll))
-    SinRoll = math.sin(math.radians(HeadRoll))
+    CosRoll = math.cos(math.radians(-HeadRoll))
+    SinRoll = math.sin(math.radians(-HeadRoll))
     FinalX = NewX * CosRoll - NewY * SinRoll
     FinalY = NewY * CosRoll + NewX * SinRoll
 
@@ -283,7 +283,7 @@ class Plugin(ETS2LAPlugin):
 
         HeadRotationDegreesY = (TruckRotationY + CabinOffsetRotationY + HeadOffsetRotationY) * 360
 
-        HeadRotationDegreesZ = (-TruckRotationZ + CabinOffsetRotationZ + HeadOffsetRotationZ) * 360
+        HeadRotationDegreesZ = (TruckRotationZ + CabinOffsetRotationZ + HeadOffsetRotationZ) * 180
 
         PointX = HeadOffsetX
         PointY = HeadOffsetY
