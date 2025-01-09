@@ -1748,7 +1748,7 @@ class PrefabNavCurve:
 
         return new_points
 
-    def convert_to_relative(self, origin_node: Node, map_point_origin: PrefabNode):
+    def convert_to_relative(self, origin_node: Node, map_point_origin: PrefabNode, prefab):
         prefab_start_x = origin_node.x - map_point_origin.x
         prefab_start_y = origin_node.z - map_point_origin.z
         prefab_start_z = origin_node.y - map_point_origin.y
@@ -1764,11 +1764,43 @@ class PrefabNavCurve:
                                                      origin_node.x, origin_node.y)
         new_end = Transform(new_end_pos[0], self.end.y + prefab_start_y, new_end_pos[1], self.end.rotation + rot)
 
-        new_points = []
+        new_points: list[Position] = []
         for point in self.points:
             new_point_pos = math_helpers.RotateAroundPoint(point.x + prefab_start_x, point.z + prefab_start_z, rot,
                                                            origin_node.x, origin_node.y)
             new_points.append(Position(new_point_pos[0], point.y + prefab_start_y, new_point_pos[1]))
+            
+        if type(prefab) == Prefab:
+            start_node = None
+            start_distance = math.inf
+            end_node = None
+            end_distance = math.inf
+            for node in prefab.node_uids:
+                node = data.map.get_node_by_uid(node)
+                node_distance_start = math_helpers.DistanceBetweenPoints((node.x, node.y), (new_points[0].x, new_points[0].z))
+                node_distance_end = math_helpers.DistanceBetweenPoints((node.x, node.y), (new_points[-1].x, new_points[-1].z))
+                if node_distance_start < start_distance:
+                    start_distance = node_distance_start
+                    start_node = node
+                if node_distance_end < end_distance:
+                    end_distance = node_distance_end
+                    end_node = node
+                    
+            start_offset = 0
+            end_offset = 0
+            
+            if start_node is not None:
+                start_offset = start_node.z - new_points[0].y
+            if end_node is not None:
+                end_offset = end_node.z - new_points[-1].y    
+                
+            logging.warning(f"Start offset: {start_offset}, End offset: {end_offset}")
+            
+            def interpolate_y(y1, y2, t):
+                return y1 + (y2 - y1) * t
+            
+            for i, point in enumerate(new_points):
+                new_points[i].y += interpolate_y(start_offset, end_offset, i / len(new_points))
 
         return PrefabNavCurve(self.nav_node_index, new_start, new_end, self.next_lines, self.prev_lines,
                               points=new_points)
@@ -1870,10 +1902,10 @@ class PrefabNavRoute:
 
         return new_points
 
-    def generate_relative_curves(self, origin_node: Node, map_point_origin: PrefabNode) -> list[PrefabNavCurve]:
+    def generate_relative_curves(self, origin_node: Node, map_point_origin: PrefabNode, prefab) -> list[PrefabNavCurve]:
         new_curves = []
         for curve in self.curves:
-            new_curves.append(curve.convert_to_relative(origin_node, map_point_origin))
+            new_curves.append(curve.convert_to_relative(origin_node, map_point_origin, prefab))
         return new_curves
 
     def json(self) -> dict:
@@ -1980,7 +2012,7 @@ class Prefab(BaseItem):
         for route in self.prefab_description.nav_routes:
             self._nav_routes.append(PrefabNavRoute(
                 route.generate_relative_curves(data.map.get_node_by_uid(self.node_uids[0]),
-                                               self.prefab_description.nodes[self.origin_node_index])
+                                               self.prefab_description.nodes[self.origin_node_index], self)
             ))
 
         for route in self._nav_routes:
