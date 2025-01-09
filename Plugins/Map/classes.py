@@ -308,6 +308,7 @@ class Node:
             "y": self.y,
             "z": self.z,
             "rotation": self.rotation,
+            "rotationQuat": self.rotationQuat,
             "forward_item_uid": self.forward_item_uid,
             "backward_item_uid": self.backward_item_uid,
             "sector_x": self.sector_x,
@@ -2040,8 +2041,9 @@ class Prefab(BaseItem):
             "token": self.token,
             "node_uids": self.node_uids,
             "origin_node_index": self.origin_node_index,
+            "origin_node": data.map.get_node_by_uid(self.node_uids[self.origin_node_index]).json(),
             "nav_routes": [route.json() for route in self.nav_routes],
-            "bounding_box": self.bounding_box.json()
+            "bounding_box": self.bounding_box.json(),
         }
 
 
