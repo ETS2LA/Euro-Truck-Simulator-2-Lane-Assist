@@ -164,6 +164,23 @@ available_channels = [
                 "description": "Unsubscribe from the truck position and orientation updates."
             }
         ]
+    },
+    {
+        "channel": 2,
+        "name": "Steering",
+        "description": "The current steering plan of the truck. List of points along the path.",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the steering plan updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the steering plan updates."
+            }
+        ]
     }
 ]
 
@@ -299,6 +316,21 @@ class Plugin(ETS2LAPlugin):
         send["rz"] = float(rotationZ)
         
         return send
+    
+    def steering(self):
+        points = self.plugins.Map
+        
+        send = {
+            "points": [
+                {
+                    "x": point[0],
+                    "y": point[1],
+                    "z": point[2]
+                } for point in points
+            ]
+        }
+        
+        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -335,6 +367,20 @@ class Plugin(ETS2LAPlugin):
                     "result": {
                         "type": "data",
                         "data": channel_data[1]
+                    }
+                }
+                
+                asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
+            
+            if 2 in connection.subscribed_channels:
+                if 2 not in channel_data:
+                    channel_data[2] = self.steering()
+                    
+                message = {
+                    "channel": 2,
+                    "result": {
+                        "type": "data",
+                        "data": channel_data[2]
                     }
                 }
                 

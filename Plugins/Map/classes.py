@@ -479,7 +479,7 @@ class BaseItem:
 
     def json(self) -> dict:
         return {
-            "uid": self.uid,
+            "uid": str(self.uid), # String to avoid overflow
             "type": self.type,
             "x": self.x,
             "y": self.y,
@@ -1046,7 +1046,6 @@ class Road(BaseItem):
 
     def generate_points(self, road_quality: float = 0.5, min_quality: int = 4) -> list[Position]:
         try:
-            # Get nodes using the existing method
             start_node, end_node = self.get_nodes()
             if not start_node or not end_node:
                 logging.error(f"Failed to get nodes for road {self.uid}")
@@ -1054,19 +1053,15 @@ class Road(BaseItem):
     
             new_points = []
     
-            # Create position tuples in proper order (x,y,z)
             start_pos = (start_node.x, start_node.z, start_node.y)
             end_pos = (end_node.x, end_node.z, end_node.y)
     
-            # Get euler angles from nodes
             start_euler = start_node.euler if hasattr(start_node, 'euler') else (0, 0, 0)
             end_euler = end_node.euler if hasattr(end_node, 'euler') else (0, 0, 0)
     
-            # Calculate needed points based on length
             length = math.sqrt(sum((e - s) ** 2 for s, e in zip(start_pos, end_pos)))
             needed_points = max(int(length * road_quality), min_quality)
     
-            # Generate points using Hermite3D
             for i in range(needed_points):
                 s = i / (needed_points - 1)
                 x, y, z = math_helpers.Hermite3D(s, start_pos, end_pos, start_euler, end_euler)
@@ -2082,7 +2077,7 @@ class Prefab(BaseItem):
             "dlc_guard": self.dlc_guard,
             "hidden": self.hidden,
             "token": self.token,
-            "node_uids": self.node_uids,
+            "node_uids": [str(node) for node in self.node_uids],
             "origin_node_index": self.origin_node_index,
             "origin_node": data.map.get_node_by_uid(self.node_uids[self.origin_node_index]).json(),
             "nav_routes": [route.json() for route in self.nav_routes],
