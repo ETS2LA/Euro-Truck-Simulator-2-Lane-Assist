@@ -21,6 +21,8 @@ import traceback
 import importlib
 import requests
 import queue
+import time
+import git
 import sys
 import os
 
@@ -44,6 +46,35 @@ def Reset(clear_logs=True):
     controller.reset()
     if clear_logs:
         ClearLogFiles()
+        
+def get_commit_url(repo, commit_hash):
+    try:
+        # Get the remote URL
+        remote_url = repo.remotes.origin.url
+        
+        # Remove .git extension if present
+        remote_url = remote_url.replace('.git', '')
+        
+        return remote_url + "/commit/" + commit_hash
+    except:
+        return ""
+        
+def get_current_version_information_dictionary():
+    try:
+        repo = git.Repo()
+        current_hash = repo.head.object.hexsha
+        current_branch = repo.active_branch.name
+        return {
+            "name": current_branch,
+            "link": get_commit_url(repo, current_hash),
+            "time": time.ctime(repo.head.object.committed_date)
+        }
+    except:
+        return {
+            "name": "Unknown",
+            "link": "Unknown",
+            "time": "Unknown"
+        }
 
 def ETS2LAProcess(exception_queue: Queue):
     try:
@@ -138,7 +169,7 @@ if __name__ == "__main__":
                 print(trace)
                 print(Translate("main.legacy_traceback"))
             
-            try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace)
+            try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace, additional=get_current_version_information_dictionary())
             except: pass
             
             print(Translate("main.send_report"))

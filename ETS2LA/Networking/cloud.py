@@ -37,7 +37,7 @@ def SendCrashReport(type:str, message:str, additional=None):
             additional = {
                 "version": "V2.0.0",
                 "os": variables.OS,
-                "language": "not implemented",
+                "language": settings.Get("global", "language", "English"),
                 "custom": additional
             }
             
