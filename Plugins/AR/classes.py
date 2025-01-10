@@ -38,17 +38,35 @@ class Coordinate:
     x: float
     y: float
     z: float
+    relative: bool = False
+    """Tells AR to render the point relative to the current head position."""
+    rotation_relative: bool = False
+    """Tells AR to rotate the object relative to the head. This way X is right left, Y is up down and Z is forward backward."""
     
-    def __init__(self, x: float, y: float, z: float):
+    def __init__(self, x: float, y: float, z: float, relative: bool = False, rotation_relative: bool = False):
         self.x = x
         self.y = y
         self.z = z
+        self.relative = relative
+        self.rotation_relative = rotation_relative
         
     def tuple(self):
         return (self.x, self.y, self.z)
     
     def json(self): 
         return {"x": self.x, "y": self.y, "z": self.z}
+    
+    def __add__(self, other):
+        return Coordinate(self.x + other.x, self.y + other.y, self.z + other.z)
+    
+    def __sub__(self, other):
+        return Coordinate(self.x - other.x, self.y - other.y, self.z - other.z)
+    
+    def __mul__(self, other):
+        return Coordinate(self.x * other, self.y * other, self.z * other)
+    
+    def __truediv__(self, other):
+        return Coordinate(self.x / other, self.y / other, self.z / other)
     
 
 class Fade:
@@ -341,4 +359,57 @@ class Circle:
             "color": self.color.json(),
             "fill": self.fill.json(),
             "thickness": self.thickness
+        }
+        
+
+class Text:
+    """A 2D text rendered at a point. Can also be rendered from 3D coordinates.
+
+    :param Point | Coordinate point: The point where the text is rendered.
+    :param str text: The text to render.
+    :param Color color: The color of the text.
+    :param int size: The size of the text.
+    :param Fade fade: The fade effect applied to the text. (Only affects 3D objects)
+    :param float custom_distance: A custom distance to be used for fade calculations
+    
+    Usage:
+    >>> text = Text(Point(1, 2), "Hello World!")
+    """
+    point: Point | Coordinate
+    text: str
+    color: Color = Color(255, 255, 255, 255)
+    size: int = 12
+    fade: Fade = Fade()
+    custom_distance: float | None = None
+    
+    def __init__(self, 
+                 point: Point | Coordinate, 
+                 text: str,
+                 color: Color = Color(255, 255, 255, 255), 
+                 size: int = 12,
+                 fade: Fade = Fade(),
+                 custom_distance: float = None):
+        self.point = point
+        self.text = text
+        self.color = color
+        self.size = size
+        self.fade = fade
+        self.custom_distance = custom_distance
+        
+    def is_3D(self):
+        return isinstance(self.point, Coordinate)
+    
+    def get_distance(self, x: float, y: float, z: float):
+        if self.custom_distance is not None:
+            return self.custom_distance
+        if self.is_3D():
+            return ((self.point.x - x) ** 2 + (self.point.y - y) ** 2 + (self.point.z - z) ** 2) ** 0.5
+        return 0
+        
+    def json(self):
+        return {
+            "point": self.point.json(),
+            "text": self.text,
+            "color": self.color.json(),
+            "size": self.size
         }

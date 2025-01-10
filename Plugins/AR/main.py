@@ -56,8 +56,8 @@ def Render(Items=[]):
                     start = points[0].tuple()
                     end = points[1].tuple()
                 if type(points[0]) == Coordinate:
-                    start = ConvertToScreenCoordinate(*points[0].tuple())
-                    end = ConvertToScreenCoordinate(*points[1].tuple())
+                    start = ConvertToScreenCoordinate(*points[0].tuple(), relative=points[0].relative, head_relative=points[0].rotation_relative)
+                    end = ConvertToScreenCoordinate(*points[1].tuple(), relative=points[1].relative, head_relative=points[1].rotation_relative)
                     alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
                     Item.color.a *= alpha / 255
                     Item.fill.a *= alpha / 255
@@ -72,8 +72,8 @@ def Render(Items=[]):
                     start = points[0].tuple()
                     end = points[1].tuple()
                 if type(points[0]) == Coordinate:
-                    start = ConvertToScreenCoordinate(*points[0].tuple())
-                    end = ConvertToScreenCoordinate(*points[1].tuple())
+                    start = ConvertToScreenCoordinate(*points[0].tuple(), relative=points[0].relative, head_relative=points[0].rotation_relative)
+                    end = ConvertToScreenCoordinate(*points[1].tuple(), relative=points[1].relative, head_relative=points[1].rotation_relative)
                     alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
                     Item.color.a *= alpha / 255
                 if start is None or end is None:
@@ -85,7 +85,7 @@ def Render(Items=[]):
                 if type(points[0]) == Point:
                     points = [point.tuple() for point in Item.points]
                 if type(points[0]) == Coordinate:
-                    points = [ConvertToScreenCoordinate(*point.tuple()) for point in Item.points]
+                    points = [ConvertToScreenCoordinate(*point.tuple(), relative=point.relative, head_relative=point.rotation_relative) for point in Item.points]
                     alpha = CalculateAlpha(Distances=[point[2] for point in points], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
                     Item.color.a *= alpha / 255
                     Item.fill.a *= alpha / 255
@@ -98,13 +98,27 @@ def Render(Items=[]):
                 if type(center) == Point:
                     center = center.tuple()
                 if type(center) == Coordinate:
-                    center = ConvertToScreenCoordinate(*center.tuple())
+                    center = ConvertToScreenCoordinate(*center.tuple(), relative=center.relative, head_relative=center.rotation_relative)
                     alpha = CalculateAlpha(Distances=[center[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
                     Item.color.a *= alpha / 255
                     Item.fill.a *= alpha / 255
-                if center is None:
+                    center = center[:2]
+                if center is None or center == (None, None):
                     continue
                 dpg.draw_circle(center=center, radius=Item.radius, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
+                
+            elif type(Item) == Text:
+                position = Item.point
+                if type(position) == Point:
+                    position = position.tuple()
+                if type(position) == Coordinate:
+                    position = ConvertToScreenCoordinate(*position.tuple(), relative=position.relative, head_relative=position.rotation_relative)
+                    alpha = CalculateAlpha(Distances=[position[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
+                    Item.color.a *= alpha / 255
+                    position = position[:2]
+                if position is None or position == (None, None):
+                    continue
+                dpg.draw_text(position, text=Item.text, color=Item.color.tuple(), size=Item.size)
                 
     dpg.render_dearpygui_frame()
 
@@ -133,14 +147,41 @@ def CalculateAlpha(Distances=[], fade_end=10, fade_start=30, max_fade_start=150,
         return 0
 
 
-def ConvertToScreenCoordinate(X: float, Y: float, Z: float):
+def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = False, head_relative: bool = False):
     HeadYaw = HeadRotationDegreesX
     HeadPitch = HeadRotationDegreesY
     HeadRoll = HeadRotationDegreesZ
 
-    RelativeX = X - HeadX
-    RelativeY = Y - HeadY
-    RelativeZ = Z - HeadZ
+    if relative:
+        RelativeX = X
+        RelativeY = Y
+        RelativeZ = Z
+        
+        if head_relative:
+            # Rotate the points around the head (0, 0, 0)
+            CosPitch = math.cos(math.radians(CabinOffsetRotationDegreesY))
+            SinPitch = math.sin(math.radians(CabinOffsetRotationDegreesY))
+            NewY = RelativeY * CosPitch - RelativeZ * SinPitch
+            NewZ = RelativeZ * CosPitch + RelativeY * SinPitch
+
+            CosYaw = math.cos(math.radians(CabinOffsetRotationDegreesX))
+            SinYaw = math.sin(math.radians(CabinOffsetRotationDegreesX))
+            NewX = RelativeX * CosYaw + NewZ * SinYaw
+            NewZ = NewZ * CosYaw - RelativeX * SinYaw
+
+            CosRoll = math.cos(math.radians(0))#-CabinOffsetRotationDegreesZ))
+            SinRoll = math.sin(math.radians(0))#-CabinOffsetRotationDegreesZ))
+            FinalX = NewX * CosRoll - NewY * SinRoll
+            FinalY = NewY * CosRoll + NewX * SinRoll
+
+            RelativeX = FinalX
+            RelativeY = FinalY
+            RelativeZ = NewZ
+        
+    else:
+        RelativeX = X - HeadX
+        RelativeY = Y - HeadY
+        RelativeZ = Z - HeadZ
 
     CosYaw = math.cos(math.radians(-HeadYaw))
     SinYaw = math.sin(math.radians(-HeadYaw))
@@ -240,6 +281,14 @@ class Plugin(ETS2LAPlugin):
         global HeadX
         global HeadY
         global HeadZ
+        
+        global TruckRotationDegreesX
+        global TruckRotationDegreesY
+        global TruckRotationDegreesZ
+        
+        global CabinOffsetRotationDegreesX
+        global CabinOffsetRotationDegreesY
+        global CabinOffsetRotationDegreesZ
 
         APIDATA = TruckSimAPI.update()
 
@@ -277,6 +326,13 @@ class Plugin(ETS2LAPlugin):
         TruckRotationDegreesX = TruckRotationX * 360
         TruckRotationRadiansX = -math.radians(TruckRotationDegreesX)
 
+        TruckRotationDegreesY = TruckRotationY * 360
+        TruckRotationDegreesZ = TruckRotationZ * 180
+        
+        CabinOffsetRotationDegreesX = (TruckRotationX + CabinOffsetRotationX) * 360
+        CabinOffsetRotationDegreesY = (TruckRotationY + CabinOffsetRotationY) * 360
+        CabinOffsetRotationDegreesZ = (TruckRotationZ + CabinOffsetRotationZ) * 180
+
         HeadRotationDegreesX = (TruckRotationX + CabinOffsetRotationX + HeadOffsetRotationX) * 360
         while HeadRotationDegreesX > 360:
             HeadRotationDegreesX = HeadRotationDegreesX - 360
@@ -306,13 +362,14 @@ class Plugin(ETS2LAPlugin):
             PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
             PointY = TruckY + TruckWheelPointsY[i]
             PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
-            X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
+            #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
             
             DRAWLIST.append(Circle(
-                center=Point(X, Y),
+                center=Coordinate(PointX, PointY, PointZ),
                 radius=10,
                 color=Color(255, 255, 255, 255),
                 fill=Color(127, 127, 127, 127),
+                fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
                 thickness=2
             ))
 
