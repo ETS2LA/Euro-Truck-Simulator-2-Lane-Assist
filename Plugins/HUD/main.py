@@ -21,6 +21,7 @@ class Settings(ETS2LASettingsMenu):
         Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the AR elements.", default=0)
         
         Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the AR HUD.")
+        Switch("Show Navigation", "show_navigation", False, description="Show the distance to the next intersection on the AR HUD.")
         
         return RenderUI()
 
@@ -70,12 +71,17 @@ class Plugin(ETS2LAPlugin):
             self.settings.draw_steering = False
             draw_steering = False
             
+        show_navigation = self.settings.show_navigation
+        if show_navigation is None:
+            self.settings.show_navigation = False
+            show_navigation = False
+            
         refresh_rate = self.settings.refresh_rate
         if refresh_rate is None:
             self.settings.refresh_rate = 2
             refresh_rate = 2
         
-        return draw_steering, refresh_rate
+        return draw_steering, show_navigation, refresh_rate
     
     def get_start_end_time(self):
         self.load_start_time = time.time()
@@ -133,34 +139,15 @@ class Plugin(ETS2LAPlugin):
         ]
         
         return True
-
-    def run(self):
-        data = self.modules.TruckSimAPI.run()
-        
-        offset_x, offset_y, offset_z = self.get_offsets()
-        draw_steering, refresh_rate = self.get_settings()
-        
-        self.fps_cap = refresh_rate
-        
-        speed = data["truckFloat"]["speed"] * 3.6
-        speed_limit = data["truckFloat"]["speedLimit"] * 3.6
-        engine = data["truckBool"]["engineEnabled"]
-
-        if not engine:
-            self.globals.tags.AR = []
-            self.get_start_end_time()
-            return
-        
-        if self.boot_sequence(time.time(), [offset_x, offset_y, offset_z]):
-            return
-        
-        speed_pos = Coordinate(-0.225 + offset_x, -1.8 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
-        unit_pos = Coordinate(-0.225 + offset_x, -2.15 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)   
+    
+    def speed(self, speed: float, speed_limit: float, offset: list[float]):
+        speed_pos = Coordinate(-0.225 + offset[0], -1.8 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
+        unit_pos = Coordinate(-0.225 + offset[0], -2.15 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
         
         speed_limit_base_y = -2
         speed_limit_base_x = -0.5
-        speed_limit_pos = Coordinate(speed_limit_base_x + offset_x, speed_limit_base_y + offset_y - 0.05, -10 + offset_z, relative=True, rotation_relative=True) 
-        speed_limit_text_pos = Coordinate(speed_limit_base_x + offset_x - 0.07, speed_limit_base_y + offset_y + 0.025, -10 + offset_z, relative=True, rotation_relative=True)
+        speed_limit_pos = Coordinate(speed_limit_base_x + offset[0], speed_limit_base_y + offset[1] - 0.05, -10 + offset[2], relative=True, rotation_relative=True) 
+        speed_limit_text_pos = Coordinate(speed_limit_base_x + offset[0] - 0.07, speed_limit_base_y + offset[1] + 0.025, -10 + offset[2], relative=True, rotation_relative=True)
         
         ar_data = [
             # Speed
@@ -195,6 +182,77 @@ class Plugin(ETS2LAPlugin):
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             )
         ]
+        
+        return ar_data
+    
+    def navigation(self, distance: float, offset: list[float]):
+        if distance is None:
+            return []
+        
+        if distance == 1 or distance == 0:
+            return []
+        
+        distance -= distance % 10
+        units = "m"
+        if distance >= 1000:
+            distance /= 1000
+            units = "km"
+        
+        distance_pos = Coordinate(0.5 + offset[0], -1.8 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
+        unit_pos = Coordinate(0.5 + offset[0], -2.15 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
+        
+        ar_data = [
+            # Distance
+            Text(
+                unit_pos,
+                "m",
+                size=16,
+                color=Color(255, 255, 255),
+                fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
+            ),
+            Text(
+                distance_pos,
+                f"{abs(distance):.0f}" if units == "m" else f"{abs(distance):.1f}",
+                size=30,
+                color=Color(255, 255, 255),
+                fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
+            )
+        ]
+        
+        return ar_data
+
+    def run(self):
+        data = self.modules.TruckSimAPI.run()
+        
+        offset_x, offset_y, offset_z = self.get_offsets()
+        draw_steering, show_navigation, refresh_rate = self.get_settings()
+        
+        self.fps_cap = refresh_rate
+        
+        speed = data["truckFloat"]["speed"] * 3.6
+        speed_limit = data["truckFloat"]["speedLimit"] * 3.6
+        engine = data["truckBool"]["engineEnabled"]
+        
+        distance = self.globals.tags.next_intersection_distance
+        distance = self.globals.tags.merge(distance)
+
+        if not engine:
+            self.globals.tags.AR = []
+            self.get_start_end_time()
+            return
+        
+        if self.boot_sequence(time.time(), [offset_x, offset_y, offset_z]):
+            return
+        
+        if show_navigation and distance is not None and distance != 1:
+            offset_x -= 0.25
+        else:
+            offset_x += 0.1
+        
+        ar_data = []
+        ar_data += self.speed(speed, speed_limit, [offset_x, offset_y, offset_z])
+        if show_navigation:
+            ar_data += self.navigation(distance, [offset_x, offset_y, offset_z])
         
         if draw_steering:
             try:
