@@ -20,17 +20,19 @@ FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # seconds
 OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
 BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60) # meters
 STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15) # meters
+OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 50) # km/h
 TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
 TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
 SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", True)
 
 def LoadSettings():
-    global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE, SHOW_NOTIFICATIONS
+    global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, OVERWRITE_SPEED, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE, SHOW_NOTIFICATIONS
     FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
     OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
     BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60)
     STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15)
+    OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 50)
     TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5)
     TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
     SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", True)
@@ -47,6 +49,7 @@ class SettingsMenu(ETS2LASettingsMenu):
         Separator()
         Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
         Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
+        Slider("acc.settings.7.name", "overwrite_speed", 50, 0, 130, 5, suffix="km/h", description="acc.settings.7.description")
         Switch("acc.settings.6.name", "show_notifications", True, description="acc.settings.6.description")
         Separator()
         with EnabledLock():
@@ -302,7 +305,10 @@ class Plugin(ETS2LAPlugin):
                 targetSpeed = 80 / 3.6
             else:
                 targetSpeed = 0
-                    
+
+        if targetSpeed <= 0:
+            targetSpeed = OVERWRITE_SPEED / 3.6   
+         
         return targetSpeed
 
     def RedLightExists(self) -> bool:
@@ -386,7 +392,7 @@ class Plugin(ETS2LAPlugin):
             self.Reset(); return
             
         apiData = TruckSimAPI.run()
-        if apiData['truckFloat']['speedLimit'] == 0:
+        if apiData['truckFloat']['speedLimit'] == 0 and OVERWRITE_SPEED == 0:
             self.Reset(); return
         
         currentSpeed = apiData['truckFloat']['speed']
