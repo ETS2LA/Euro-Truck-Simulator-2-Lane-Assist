@@ -337,7 +337,8 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
                 information = getattr(plugin_class, "description", None)
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
-                plugins.append((folder, information, author, settings))
+                if not information.hidden or variables.DEVELOPMENT_MODE:
+                    plugins.append((folder, information, author, settings))
             del plugin_class
             
     return plugins

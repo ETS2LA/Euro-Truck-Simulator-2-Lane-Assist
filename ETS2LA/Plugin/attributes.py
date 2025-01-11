@@ -178,6 +178,19 @@ class Global:
         self.tags = Tags(tags_queue, tags_return_queue) 
         
 class PluginDescription:
+    """ETS2LA Plugin Description
+    
+    :param str name: The name of the plugin.
+    :param str version: The version of the plugin.
+    :param str description: The description of the plugin.
+    :param list[str] tags: The list of tags to show on the frontend.
+    :param list[str] dependencies: List of plugin names that this plugin depends on. FOLDER NAMES NOT THE name ATTRIBUTE!
+    :param list[str] modules: List of modules that the plugin uses. FOLDER NAMES NOT THE name ATTRIBUTE!
+    :param list[Literal["Windows", "Linux"]] compatible_os: List of OS that the plugin is compatible with.
+    :param list[Literal["ETS2", "ATS"]] compatible_game: List of games that the plugin is compatible with.
+    :param dict[str, str] update_log: The update log of the plugin.
+    :param bool hidden: If the plugin is hidden from the frontend when development mode is not enabled.
+    """
     name: str
     version: str
     description: str
@@ -187,8 +200,9 @@ class PluginDescription:
     compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"]
     compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"]
     update_log: dict[str, str] = {}
+    hidden: bool = False
     
-    def __init__(self, name: str = "", version: str = "", description: str = "", tags: list[str] = [], dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = []) -> None:
+    def __init__(self, name: str = "", version: str = "", description: str = "", tags: list[str] = [], dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = [], hidden: bool = False) -> None:
         self.name = name
         self.version = version
         self.description = description
@@ -198,3 +212,4 @@ class PluginDescription:
         self.update_log = update_log
         self.modules = modules
         self.tags = tags
+        self.hidden = hidden

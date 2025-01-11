@@ -205,7 +205,8 @@ class Plugin(ETS2LAPlugin):
         version="2.0",
         description="Unity visualization socket connection. Do not use!",
         modules=["TruckSimAPI"],
-        tags=["WIP", "Visualization", "DO NOT USE"]
+        tags=["WIP", "Visualization", "DO NOT USE"],
+        hidden=True
     )
     
     author = Author(
