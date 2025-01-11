@@ -310,7 +310,7 @@ class PluginHandler:
                     
                     self.last_statistics_time = time.perf_counter()
             except:
-                logging.warning(f"Failed to get statistics for plugin [yellow]{self.plugin_name}[/yellow]. Is it initializing?")
+                #logging.warning(f"Failed to get statistics for plugin [yellow]{self.plugin_name}[/yellow]. Is it initializing?")
                 pass
                 
             time.sleep(0.1)
