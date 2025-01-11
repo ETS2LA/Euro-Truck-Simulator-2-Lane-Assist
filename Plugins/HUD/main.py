@@ -211,7 +211,6 @@ class Plugin(ETS2LAPlugin):
                     )
                     ar_data.append(line)
             except:
-                import traceback
-                traceback.print_exc()
+                pass
         
         self.globals.tags.AR = ar_data
