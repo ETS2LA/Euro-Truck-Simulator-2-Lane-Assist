@@ -45,6 +45,9 @@ class Plugin(ETS2LAPlugin):
     settings_menu = Settings()
     
     def imports(self):
+        global ScreenCapture
+        import Modules.BetterScreenCapture.main as ScreenCapture
+        
         self.get_start_end_time()
         
     def get_offsets(self):
@@ -87,7 +90,7 @@ class Plugin(ETS2LAPlugin):
         self.load_start_time = time.time()
         self.load_end_time = self.load_start_time + random.uniform(1, 3)
     
-    def boot_sequence(self, t: float, offset: list[float]):
+    def boot_sequence(self, t: float, offset: list[float], scaling: float = 1):
         t = (time.time() - self.load_start_time) / (self.load_end_time - self.load_start_time)
         if t > 1:
             return False
@@ -108,7 +111,7 @@ class Plugin(ETS2LAPlugin):
             Line(
                 slider_start_pos,
                 slider_end_pos,
-                thickness=4,
+                thickness=4 * scaling,
                 color=Color(255, 255, 255, 100),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
@@ -116,7 +119,7 @@ class Plugin(ETS2LAPlugin):
             Line(
                 slider_start_pos,
                 slider_progress_pos,
-                thickness=4,
+                thickness=4 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
@@ -124,7 +127,7 @@ class Plugin(ETS2LAPlugin):
             Text(
                 slider_text_pos,
                 f"{t * 100:.0f}%",
-                size=16,
+                size=16 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
@@ -132,7 +135,7 @@ class Plugin(ETS2LAPlugin):
             Text(
                 slider_ets2la_pos,
                 "ETS2LA",
-                size=20,
+                size=20 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             )
@@ -140,7 +143,7 @@ class Plugin(ETS2LAPlugin):
         
         return True
     
-    def speed(self, speed: float, speed_limit: float, offset: list[float]):
+    def speed(self, speed: float, speed_limit: float, offset: list[float], scaling: float = 1):
         speed_pos = Coordinate(-0.225 + offset[0], -1.8 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
         unit_pos = Coordinate(-0.225 + offset[0], -2.15 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
         
@@ -154,14 +157,14 @@ class Plugin(ETS2LAPlugin):
             Text(
                 unit_pos,
                 "km/h",
-                size=16,
+                size=16 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
             Text(
                 speed_pos,
                 f"{abs(speed):.0f}",
-                size=30,
+                size=30 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
@@ -169,7 +172,7 @@ class Plugin(ETS2LAPlugin):
             # Speedlimit
             Circle(
                 speed_limit_pos,
-                16,
+                16 * scaling,
                 color=Color(255, 255, 255),
                 thickness=2,
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
@@ -177,7 +180,7 @@ class Plugin(ETS2LAPlugin):
             Text(
                 speed_limit_text_pos,
                 f"{abs(speed_limit):.0f}",
-                size=16,
+                size=16 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             )
@@ -185,7 +188,7 @@ class Plugin(ETS2LAPlugin):
         
         return ar_data
     
-    def navigation(self, distance: float, offset: list[float]):
+    def navigation(self, distance: float, offset: list[float], scaling: float = 1):
         if distance is None:
             return []
         
@@ -206,14 +209,14 @@ class Plugin(ETS2LAPlugin):
             Text(
                 unit_pos,
                 units,
-                size=16,
+                size=16 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
             Text(
                 distance_pos,
                 f"{abs(distance):.0f}" if units == "m" else f"{abs(distance):.1f}",
-                size=30,
+                size=30 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             )
@@ -222,6 +225,11 @@ class Plugin(ETS2LAPlugin):
         return ar_data
 
     def run(self):
+        X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
+        height = Y2 - Y1
+        default_height = 1440
+        scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
+        
         data = self.modules.TruckSimAPI.run()
         
         offset_x, offset_y, offset_z = self.get_offsets()
@@ -241,7 +249,7 @@ class Plugin(ETS2LAPlugin):
             self.get_start_end_time()
             return
         
-        if self.boot_sequence(time.time(), [offset_x, offset_y, offset_z]):
+        if self.boot_sequence(time.time(), [offset_x, offset_y, offset_z], scaling=scaling):
             return
         
         if show_navigation and distance is not None and distance != 1:
@@ -250,9 +258,9 @@ class Plugin(ETS2LAPlugin):
             offset_x += 0.1
         
         ar_data = []
-        ar_data += self.speed(speed, speed_limit, [offset_x, offset_y, offset_z])
+        ar_data += self.speed(speed, speed_limit, [offset_x, offset_y, offset_z], scaling=scaling)
         if show_navigation:
-            ar_data += self.navigation(distance, [offset_x, offset_y, offset_z])
+            ar_data += self.navigation(distance, [offset_x, offset_y, offset_z], scaling=scaling)
         
         if draw_steering:
             try:
