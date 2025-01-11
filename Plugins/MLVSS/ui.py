@@ -34,7 +34,7 @@ def Initialize():
                             Foreground=True,
                             Minimized=False,
                             Undestroyable=True,
-                            Icon=f"{Variables.PATH}ETS2LA/Window/favicon.ico")
+                            Icon=Variables.ICONPATH)
 
     global WindowPosition
     global WindowSize

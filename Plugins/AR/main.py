@@ -12,10 +12,7 @@ def InitializeWindow():
     WindowX1, WindowY1, WindowX2, WindowY2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
 
     dpg.create_context()
-    if os.path.exists(f"{variables.PATH}Interface/assets/favicon.ico"):
-        dpg.create_viewport(title=f"ETS2LA AR Overlay", always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=WindowX1, y_pos=WindowY1, width=WindowX2-WindowX1, height=WindowY2-WindowY1, small_icon=f"{variables.PATH}Interface/assets/favicon.ico", large_icon=f"{variables.PATH}Interface/assets/favicon.ico")
-    else:
-        dpg.create_viewport(title=f"ETS2LA AR Overlay", always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=WindowX1, y_pos=WindowY1, width=WindowX2-WindowX1, height=WindowY2-WindowY1)
+    dpg.create_viewport(title=f"ETS2LA AR Overlay", always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=WindowX1, y_pos=WindowY1, width=WindowX2-WindowX1, height=WindowY2-WindowY1, small_icon=variables.ICONPATH, large_icon=variables.ICONPATH)
     dpg.set_viewport_always_top(True)
     dpg.setup_dearpygui()
     dpg.show_viewport()

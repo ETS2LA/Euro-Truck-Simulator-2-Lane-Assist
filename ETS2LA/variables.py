@@ -11,6 +11,9 @@ if PATH.endswith("/ETS2LA"):
     PATH = PATH[:-7]
 PATH += "/"
 
+ICONPATH = PATH + "ETS2LA/Window/favicon.ico"
+"""The path to the .ico icon file, needs to be manually changed when the icon gets moved!"""
+
 OS = os.name
 """The users operating system. Windows = 'nt'"""
 
