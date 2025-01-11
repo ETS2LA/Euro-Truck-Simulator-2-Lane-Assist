@@ -11,7 +11,7 @@ import math
 
 class Settings(ETS2LASettingsMenu):
     plugin_name = "Map"
-    dynamic = True
+    dynamic = False
     
     def render(self):
         Slider("Refresh Rate", "refresh_rate", 2, 1, 10, 1, description="The refresh rate of the AR elements. Default is 2.")
@@ -144,8 +144,8 @@ class Plugin(ETS2LAPlugin):
         return True
     
     def speed(self, speed: float, speed_limit: float, offset: list[float], scaling: float = 1):
-        speed_pos = Coordinate(-0.225 + offset[0], -1.8 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        unit_pos = Coordinate(-0.225 + offset[0], -2.15 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
+        speed_pos = Coordinate(-0.225 + offset[0], -1.820 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
+        unit_pos = Coordinate(-0.225 + offset[0], -2.120 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
         
         speed_limit_base_y = -2
         speed_limit_base_x = -0.5
@@ -197,12 +197,12 @@ class Plugin(ETS2LAPlugin):
         
         distance -= distance % 10
         units = "m"
-        if distance >= 1000:
+        if distance >= 300:
             distance /= 1000
             units = "km"
         
-        distance_pos = Coordinate(0.5 + offset[0], -1.8 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        unit_pos = Coordinate(0.5 + offset[0], -2.15 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
+        distance_pos = Coordinate(0.5 + offset[0], -1.820 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
+        unit_pos = Coordinate(0.5 + offset[0], -2.120 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
         
         ar_data = [
             # Distance
@@ -252,7 +252,7 @@ class Plugin(ETS2LAPlugin):
         if self.boot_sequence(time.time(), [offset_x, offset_y, offset_z], scaling=scaling):
             return
         
-        if show_navigation and distance is not None and distance != 1:
+        if show_navigation and distance is not None and distance != 1 and distance != 0:
             offset_x -= 0.25
         else:
             offset_x += 0.1
@@ -271,8 +271,8 @@ class Plugin(ETS2LAPlugin):
                     line = Line(
                         Coordinate(*point),
                         Coordinate(*data[i - 1]),
-                        thickness=4,
-                        color=Color(255, 255, 255),
+                        thickness=5 * scaling,
+                        color=Color(255, 255, 255, 60),
                         fade=Fade(prox_fade_end=10, prox_fade_start=20, dist_fade_start=50, dist_fade_end=150)
                     )
                     ar_data.append(line)
