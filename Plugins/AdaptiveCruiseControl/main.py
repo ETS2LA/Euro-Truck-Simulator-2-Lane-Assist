@@ -52,9 +52,9 @@ class SettingsMenu(ETS2LASettingsMenu):
         with EnabledLock():
             Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
             if self.settings.type is not None and self.settings.type == "Percentage":
-                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="%", description="acc.settings.3.description")
+                Slider("acc.settings.3.name", "overspeed", 0, 0, 30, 1, suffix="%", description="acc.settings.3.description")
             else:
-                Slider("acc.settings.3.name", "overspeed", 0, 0, 20, 1, suffix="km/h", description="acc.settings.3.description")
+                Slider("acc.settings.3.name", "overspeed", 0, 0, 30, 1, suffix="km/h", description="acc.settings.3.description")
         return RenderUI()
         
 
