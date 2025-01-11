@@ -249,6 +249,7 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
             for HWND, WindowText in TopWindows:
                 if Name in WindowText and all(BlacklistItem not in WindowText for BlacklistItem in Blacklist):
                     IsForeground = (HWND == win32gui.GetForegroundWindow())
+                    break
             LastForegroundWindows[Key] = time.time(), IsForeground
             return IsForeground
         else:
