@@ -221,7 +221,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="Overlays data on top of the game screen. Supports all plugins tagged with 'AR' (click the tag on the right). Still in development.",
         modules=["TruckSimAPI"],
-        tags=["Visualization", "AR"]
+        tags=["Visualization", "AR", "Base"]
     )
 
     author = [Author(
@@ -337,7 +337,7 @@ class Plugin(ETS2LAPlugin):
         while HeadRotationDegreesX > 360:
             HeadRotationDegreesX = HeadRotationDegreesX - 360
 
-        HeadRotationDegreesY = (TruckRotationY + CabinOffsetRotationY + HeadOffsetRotationY) * 360
+        HeadRotationDegreesY = (TruckRotationY + CabinOffsetRotationY) * 180 + (HeadOffsetRotationY) * 360
 
         HeadRotationDegreesZ = (TruckRotationZ + CabinOffsetRotationZ + HeadOffsetRotationZ) * 180
 
