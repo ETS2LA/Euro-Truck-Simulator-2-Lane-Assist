@@ -14,7 +14,8 @@ class Plugin(ETS2LAPlugin):
     description = PluginDescription(
         name="Test",
         version="1.0",
-        description="Test"
+        description="Test",
+        listen=["*.py", "test.json"],
     )
     
     author = Author(

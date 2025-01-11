@@ -6,6 +6,7 @@ import threading
 import ETS2LA.variables as variables
 import logging
 import inspect
+import fnmatch
 import psutil
 import time
 import os
@@ -40,6 +41,8 @@ class PluginHandler:
     statistics: dict[str, any] = {}
     last_statistics_time: float = 0
     
+    files_to_listen_to: list[str] = []
+    
     def __init__(self, plugin_name: str, plugin_description: PluginDescription):
         self.tags = {}
         self.plugin_name = plugin_name
@@ -49,6 +52,8 @@ class PluginHandler:
             "status": "",
             "progress": -1
         }
+        
+        self.files_to_listen_to = self.discover_files(plugin_description.listen)
         
         self.last_performance = []
         self.last_performance_time = 0
@@ -84,7 +89,8 @@ class PluginHandler:
             threading.Thread(target=self.tags_handler, daemon=True).start()
             threading.Thread(target=self.immediate_handler, daemon=True).start()
             threading.Thread(target=self.state_handler, daemon=True).start()
-            threading.Thread(target=self.change_listener, daemon=True).start()
+            if variables.DEVELOPMENT_MODE:
+                threading.Thread(target=self.change_listener, daemon=True).start()
             threading.Thread(target=self.event_listener, daemon=True).start()
             
             self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
@@ -104,20 +110,29 @@ class PluginHandler:
         except:
             logging.exception(f"Failed to start plugin {plugin_name}.")
         
-    def change_listener(self):
-        # TODO: Switch to use time instead of calculating the hash of the file.
-        plugin_file_path = f"{plugin_path}/{self.plugin_name}/main.py"
-        file_hash = hash(open(plugin_file_path, "rb").read())
-        while True:
-            if self.stop:
-                break
-            new_hash = hash(open(plugin_file_path, "rb").read())
-            if new_hash != file_hash:
-                logging.info(f"Plugin {self.plugin_name} has been updated, restarting.")
-                file_hash = new_hash
-                self.process.terminate()
-                self.process.join(timeout=1)
-                self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
+    def discover_files(self, listen_rules: list[str]):
+        # Discover all files in the folder that matches the rules (also in the subfolders specified by the rules)
+        # example: ["*.py", "folder/*.txt"]
+        file_list = []
+        for rule in listen_rules:
+            if "/" in rule:
+                folder, rule = rule.split("/")
+                for root, dirs, files in os.walk(f"{plugin_path}/{self.plugin_name}/{folder}"):
+                    for file in files:
+                        if fnmatch.fnmatch(file, rule):
+                            file_list.append(f"{root}/{file}")
+            else:
+                # Only match files in the root folder
+                root_folder = f"{plugin_path}/{self.plugin_name}"
+                for file in os.listdir(root_folder):
+                    if os.path.isfile(os.path.join(root_folder, file)) and fnmatch.fnmatch(file, rule):
+                        file_list.append(f"{root_folder}/{file}")
+        return file_list
+        
+    def restart_plugin(self):
+        self.process.terminate()
+        self.process.join(timeout=1)
+        self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                             self.return_queue,
                                                                             self.plugins_queue, self.plugins_return_queue,
                                                                             self.tags_queue, self.tags_return_queue,
@@ -128,8 +143,27 @@ class PluginHandler:
                                                                             self.performance_queue, self.performance_return_queue,
                                                                             self.event_queue, self.event_return_queue
                                                                             ), daemon=True)
-                self.process.start()
-                self.psutil_process = psutil.Process(self.process.pid)
+        self.process.start()
+        self.psutil_process = psutil.Process(self.process.pid)
+        logging.info(f"Plugin {self.plugin_name} has been restarted.")
+
+        
+    def change_listener(self):
+        files = self.files_to_listen_to
+        times = {file: os.path.getmtime(file) for file in files}
+        logging.info(f"Listening to {len(files)} files for changes in plugin [yellow]{self.plugin_name}[/yellow].")
+        while True:
+            if self.stop:
+                break
+            for file in files:
+                try:
+                    creation_time = os.path.getmtime(file)
+                    if times[file] != creation_time:
+                        logging.info(f"File [dim]{file}[/dim] has been modified, restarting plugin [yellow]{self.plugin_name}[/yellow].")
+                        times[file] = creation_time
+                        self.restart_plugin()
+                except:
+                    logging.error(f"Failed to check file [dim]{file}[/dim] for changes in plugin [yellow]{self.plugin_name}[/yellow]. Did you delete it?")
             time.sleep(1)
         
     def event_listener(self):
@@ -260,20 +294,24 @@ class PluginHandler:
             if self.stop:
                 break
             
-            if time.perf_counter() - self.last_statistics_time > 1:
-                logical_cores = psutil.cpu_count(logical=True)
-                physical_cores = psutil.cpu_count(logical=False)
-                multiplier = logical_cores / physical_cores
-                self.statistics["memory"].append(self.psutil_process.memory_percent())
-                self.statistics["cpu"].append(self.psutil_process.cpu_percent() / multiplier)
-                self.statistics["performance"] = self.get_performance()
-                
-                if len(self.statistics["memory"]) > 60:
-                    self.statistics["memory"].pop(0)
-                if len(self.statistics["cpu"]) > 60:    
-                    self.statistics["cpu"].pop(0)
-                
-                self.last_statistics_time = time.perf_counter()
+            try:
+                if time.perf_counter() - self.last_statistics_time > 1:
+                    logical_cores = psutil.cpu_count(logical=True)
+                    physical_cores = psutil.cpu_count(logical=False)
+                    multiplier = logical_cores / physical_cores
+                    self.statistics["memory"].append(self.psutil_process.memory_percent())
+                    self.statistics["cpu"].append(self.psutil_process.cpu_percent() / multiplier)
+                    self.statistics["performance"] = self.get_performance()
+                    
+                    if len(self.statistics["memory"]) > 60:
+                        self.statistics["memory"].pop(0)
+                    if len(self.statistics["cpu"]) > 60:    
+                        self.statistics["cpu"].pop(0)
+                    
+                    self.last_statistics_time = time.perf_counter()
+            except:
+                logging.warning(f"Failed to get statistics for plugin [yellow]{self.plugin_name}[/yellow]. Is it initializing?")
+                pass
                 
             time.sleep(0.1)
                 
@@ -344,7 +382,7 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
     return plugins
 
 def enable_plugin(plugin_name: str):
-    runner = threading.Thread(target=PluginHandler, args=(plugin_name, PluginDescription()), daemon=True)
+    runner = threading.Thread(target=PluginHandler, args=(plugin_name, AVAILABLE_PLUGINS[[plugin[0] for plugin in AVAILABLE_PLUGINS].index(plugin_name)][1]), daemon=True)
     runner.start()
     
 def disable_plugin(plugin_name: str, from_plugin: bool = False, show_restart_dialog: bool = False):

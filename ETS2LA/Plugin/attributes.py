@@ -190,6 +190,7 @@ class PluginDescription:
     :param list[Literal["ETS2", "ATS"]] compatible_game: List of games that the plugin is compatible with.
     :param dict[str, str] update_log: The update log of the plugin.
     :param bool hidden: If the plugin is hidden from the frontend when development mode is not enabled.
+    :param list[str] listen: List of files that will trigger a restart when changed. Default is ["*.py"] (all python files in the root folder). Listening only works in dev mode.
     """
     name: str
     version: str
@@ -201,8 +202,9 @@ class PluginDescription:
     compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"]
     update_log: dict[str, str] = {}
     hidden: bool = False
+    listen: list[str] = ["*.py"]
     
-    def __init__(self, name: str = "", version: str = "", description: str = "", tags: list[str] = [], dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = [], hidden: bool = False) -> None:
+    def __init__(self, name: str = "", version: str = "", description: str = "", tags: list[str] = [], dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = [], hidden: bool = False, listen: list[str] = ["*.py"]) -> None:
         self.name = name
         self.version = version
         self.description = description
@@ -213,3 +215,4 @@ class PluginDescription:
         self.modules = modules
         self.tags = tags
         self.hidden = hidden
+        self.listen = listen
