@@ -205,7 +205,7 @@ class Plugin(ETS2LAPlugin):
             # Distance
             Text(
                 unit_pos,
-                "m",
+                units,
                 size=16,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
