@@ -1,8 +1,9 @@
+import datetime
 import json
 import os
 
-YEAR = 2024
-"""This year will be displayed in the window title. The year in the LICENSE file must be set manually!"""
+YEAR = datetime.datetime.now().year
+"""This year will be displayed in the window title."""
 
 PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
 """The path to the ETS2LA folder."""
@@ -62,8 +63,8 @@ ETS2_DLC = []
 
 if os.name == "nt":
     import ctypes.wintypes
-    _CSIDL_PERSONAL = 5       # My Documents
-    _SHGFP_TYPE_CURRENT = 0   # Get current, not default value
+    _CSIDL_PERSONAL = 5     # My Documents
+    _SHGFP_TYPE_CURRENT = 0 # Get current, not default value
     _buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
     ctypes.windll.shell32.SHGetFolderPathW(None, _CSIDL_PERSONAL, None, _SHGFP_TYPE_CURRENT, _buf)
     DOCUMENTS_PATH = f"{_buf.value}"
@@ -76,8 +77,7 @@ else:
     DOCUMENTS_PATH = f"{os.path.expanduser('~')}/Documents"
     ETS2_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/Euro Truck Simulator 2/game.log.txt"
     ATS_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/American Truck Simulator/game.log.txt"    
-    
-    
+
 try:
     with open(ATS_LOG_PATH, "r") as f:
         lines = f.readlines()
