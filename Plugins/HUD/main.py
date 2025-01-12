@@ -90,7 +90,7 @@ class Plugin(ETS2LAPlugin):
         self.load_start_time = time.time()
         self.load_end_time = self.load_start_time + random.uniform(1, 3)
     
-    def boot_sequence(self, t: float, offset: list[float], scaling: float = 1):
+    def boot_sequence(self, t: float, anchor: Coordinate, scaling: float = 1):
         t = (time.time() - self.load_start_time) / (self.load_end_time - self.load_start_time)
         if t > 1:
             return False
@@ -101,11 +101,11 @@ class Plugin(ETS2LAPlugin):
         
         self.fps_cap = 10
         
-        slider_start_pos = Coordinate(-1 + offset[0], -2.05 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        slider_end_pos = Coordinate(1 + offset[0], -2.05 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        slider_progress_pos = Coordinate(-1 + t * 2 + offset[0], -2.05 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        slider_text_pos = Coordinate(-1 + t * 2 + offset[0], -2.1 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        slider_ets2la_pos = Coordinate(-1 + offset[0], -1.8 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
+        slider_start_pos = Point(-100 * scaling, 0, anchor=anchor)
+        slider_end_pos = Point(100 * scaling, 0, anchor=anchor)
+        slider_progress_pos = Point(-100 * scaling + t * 200 * scaling, 0, anchor=anchor)
+        slider_text_pos = Point(-100 * scaling + t * 200 * scaling, 10 * scaling, anchor=anchor)
+        slider_ets2la_pos = Point(-100 * scaling, -25 * scaling, anchor=anchor)
         self.globals.tags.AR = [
             # Slider base
             Line(
@@ -143,14 +143,14 @@ class Plugin(ETS2LAPlugin):
         
         return True
     
-    def speed(self, speed: float, speed_limit: float, offset: list[float], scaling: float = 1):
-        speed_pos = Coordinate(-0.225 + offset[0], -1.820 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        unit_pos = Coordinate(-0.225 + offset[0], -2.120 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
+    def speed(self, speed: float, speed_limit: float, anchor, offset: list[float], scaling: float = 1):
+        speed_pos = Point(-5 * scaling + offset[0], -20 * scaling + offset[1], anchor=anchor)
+        unit_pos = Point(-5 * scaling + offset[0], 10 * scaling + offset[1], anchor=anchor) 
         
-        speed_limit_base_y = -2
-        speed_limit_base_x = -0.5
-        speed_limit_pos = Coordinate(speed_limit_base_x + offset[0], speed_limit_base_y + offset[1] - 0.05, -10 + offset[2], relative=True, rotation_relative=True) 
-        speed_limit_text_pos = Coordinate(speed_limit_base_x + offset[0] - 0.07, speed_limit_base_y + offset[1] + 0.025, -10 + offset[2], relative=True, rotation_relative=True)
+        speed_limit_base_y = 4 * scaling
+        speed_limit_base_x = -35 * scaling
+        speed_limit_pos = Point(speed_limit_base_x + offset[0], speed_limit_base_y + offset[1], anchor=anchor)
+        speed_limit_text_pos = Point(speed_limit_base_x + offset[0] - 8 * scaling, speed_limit_base_y + offset[1] - 9 * scaling, anchor=anchor)
         
         ar_data = [
             # Speed
@@ -188,7 +188,7 @@ class Plugin(ETS2LAPlugin):
         
         return ar_data
     
-    def navigation(self, distance: float, offset: list[float], scaling: float = 1):
+    def navigation(self, distance: float, anchor, offset: list[float], scaling: float = 1):
         if distance is None:
             return []
         
@@ -201,8 +201,8 @@ class Plugin(ETS2LAPlugin):
             distance /= 1000
             units = "km"
         
-        distance_pos = Coordinate(0.5 + offset[0], -1.820 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)
-        unit_pos = Coordinate(0.5 + offset[0], -2.120 + offset[1], -10 + offset[2], relative=True, rotation_relative=True)   
+        distance_pos = Point(-5 * scaling - offset[0], -20 * scaling + offset[1], anchor=anchor)
+        unit_pos = Point(-5 * scaling - offset[0], 10 * scaling + offset[1], anchor=anchor)   
         
         ar_data = [
             # Distance
@@ -232,7 +232,9 @@ class Plugin(ETS2LAPlugin):
         
         data = self.modules.TruckSimAPI.run()
         
+        speed_nav_offset_x = 0
         offset_x, offset_y, offset_z = self.get_offsets()
+        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
         draw_steering, show_navigation, refresh_rate = self.get_settings()
         
         self.fps_cap = refresh_rate
@@ -249,18 +251,16 @@ class Plugin(ETS2LAPlugin):
             self.get_start_end_time()
             return
         
-        if self.boot_sequence(time.time(), [offset_x, offset_y, offset_z], scaling=scaling):
+        if self.boot_sequence(time.time(), anchor, scaling=scaling):
             return
         
         if show_navigation and distance is not None and distance != 1 and distance != 0:
-            offset_x -= 0.25
-        else:
-            offset_x += 0.1
+            speed_nav_offset_x -= 50
         
         ar_data = []
-        ar_data += self.speed(speed, speed_limit, [offset_x, offset_y, offset_z], scaling=scaling)
+        ar_data += self.speed(speed, speed_limit, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling)
         if show_navigation:
-            ar_data += self.navigation(distance, [offset_x, offset_y, offset_z], scaling=scaling)
+            ar_data += self.navigation(distance, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling)
         
         if draw_steering:
             try:

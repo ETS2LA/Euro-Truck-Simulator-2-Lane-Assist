@@ -35,91 +35,6 @@ def Resize():
     dpg.set_viewport_height(WindowPosition[3] - WindowPosition[1])
 
 
-def Render(Items=[]):
-    global FRAME
-    dpg.delete_item(FRAME)
-    
-    distances = []
-    for item in Items:
-        distances.append(item.get_distance(HeadX, HeadY, HeadZ))
-        
-    sorted_items = [item for _, item in sorted(zip(distances, Items), key=lambda pair: pair[0], reverse=True)]
-    
-    with dpg.viewport_drawlist(label="draw") as FRAME:
-        for Item in sorted_items:
-            if type(Item) == Rectangle:
-                points = [Item.start, Item.end]
-                if type(points[0]) == Point:
-                    start = points[0].tuple()
-                    end = points[1].tuple()
-                if type(points[0]) == Coordinate:
-                    start = ConvertToScreenCoordinate(*points[0].tuple(), relative=points[0].relative, head_relative=points[0].rotation_relative)
-                    end = ConvertToScreenCoordinate(*points[1].tuple(), relative=points[1].relative, head_relative=points[1].rotation_relative)
-                    alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
-                    Item.color.a *= alpha / 255
-                    Item.fill.a *= alpha / 255
-
-                if start is None or end is None:
-                    continue
-                dpg.draw_rectangle(pmin=start, pmax=end, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
-                
-            elif type(Item) == Line:
-                points = [Item.start, Item.end]
-                if type(points[0]) == Point:
-                    start = points[0].tuple()
-                    end = points[1].tuple()
-                if type(points[0]) == Coordinate:
-                    start = ConvertToScreenCoordinate(*points[0].tuple(), relative=points[0].relative, head_relative=points[0].rotation_relative)
-                    end = ConvertToScreenCoordinate(*points[1].tuple(), relative=points[1].relative, head_relative=points[1].rotation_relative)
-                    alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
-                    Item.color.a *= alpha / 255
-                if start is None or end is None:
-                    continue
-                dpg.draw_line(p1=start, p2=end, color=Item.color.tuple(), thickness=Item.thickness)
-                
-            elif type(Item) == Polygon:
-                points = Item.points
-                if type(points[0]) == Point:
-                    points = [point.tuple() for point in Item.points]
-                if type(points[0]) == Coordinate:
-                    points = [ConvertToScreenCoordinate(*point.tuple(), relative=point.relative, head_relative=point.rotation_relative) for point in Item.points]
-                    alpha = CalculateAlpha(Distances=[point[2] for point in points], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
-                    Item.color.a *= alpha / 255
-                    Item.fill.a *= alpha / 255
-                if (None, None) in points or (None, None, None) in points:
-                    continue
-                dpg.draw_polygon(points=points, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
-                
-            elif type(Item) == Circle:
-                center = Item.center
-                if type(center) == Point:
-                    center = center.tuple()
-                if type(center) == Coordinate:
-                    center = ConvertToScreenCoordinate(*center.tuple(), relative=center.relative, head_relative=center.rotation_relative)
-                    alpha = CalculateAlpha(Distances=[center[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
-                    Item.color.a *= alpha / 255
-                    Item.fill.a *= alpha / 255
-                    center = center[:2]
-                if center is None or center == (None, None):
-                    continue
-                dpg.draw_circle(center=center, radius=Item.radius, color=Item.color.tuple(), fill=Item.fill.tuple(), thickness=Item.thickness)
-                
-            elif type(Item) == Text:
-                position = Item.point
-                if type(position) == Point:
-                    position = position.tuple()
-                if type(position) == Coordinate:
-                    position = ConvertToScreenCoordinate(*position.tuple(), relative=position.relative, head_relative=position.rotation_relative)
-                    alpha = CalculateAlpha(Distances=[position[2]], fade_end=Item.fade.prox_fade_end, fade_start=Item.fade.prox_fade_start, max_fade_start=Item.fade.dist_fade_start, max_fade_end=Item.fade.dist_fade_end)
-                    Item.color.a *= alpha / 255
-                    position = position[:2]
-                if position is None or position == (None, None):
-                    continue
-                dpg.draw_text(position, text=Item.text, color=Item.color.tuple(), size=Item.size)
-                
-    dpg.render_dearpygui_frame()
-
-
 def CalculateAlpha(Distances=[], fade_end=10, fade_start=30, max_fade_start=150, max_fade_end=170):
     # Filter out None values from the Distances list
     Distances = [Distance for Distance in Distances if Distance is not None]
@@ -196,7 +111,7 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
     FinalY = NewY * CosRoll + NewX * SinRoll
 
     if FinalZ >= 0:
-        return None, None, None
+        return None
 
     FovRad = math.radians(FOV)
     
@@ -266,6 +181,98 @@ class Plugin(ETS2LAPlugin):
 
         InitializeWindow()
 
+    def Render(self, items=[]):
+        global FRAME
+        dpg.delete_item(FRAME)
+        
+        distances = []
+        for item in items:
+            distances.append(item.get_distance(HeadX, HeadY, HeadZ))
+            
+        sorted_items = [item for _, item in sorted(zip(distances, items), key=lambda pair: pair[0], reverse=True)]
+        
+        with dpg.viewport_drawlist(label="draw") as FRAME:
+            for item in sorted_items:
+                if type(item) == Rectangle:
+                    points = [item.start, item.end]
+                    start = points[0].screen(self)
+                    end = points[1].screen(self)
+                    
+                    if start is None or end is None:
+                        continue
+                    
+                    if type(points[0]) == Coordinate:
+                        alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        start = start[:2]
+                        end = end[:2]
+                        item.color.a *= alpha / 255
+                        item.fill.a *= alpha / 255
+                    
+                    dpg.draw_rectangle(pmin=start, pmax=end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    
+                elif type(item) == Line:
+                    points = [item.start, item.end]
+                    start = points[0].screen(self)
+                    end = points[1].screen(self)
+                    
+                    if start is None or end is None:
+                        continue
+                    
+                    if type(points[0]) == Coordinate:
+                        alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        start = start[:2]
+                        end = end[:2]
+                        item.color.a *= alpha / 255
+                    
+                    dpg.draw_line(p1=start, p2=end, color=item.color.tuple(), thickness=item.thickness)
+                    
+                elif type(item) == Polygon:
+                    points = item.points
+                    points = [point.screen(self) for point in item.points]
+                    
+                    if None in points:
+                        continue
+                    
+                    if type(points[0]) == Coordinate:
+                        alpha = CalculateAlpha(Distances=[point[2] for point in points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        points = [point[:2] for point in points]
+                        item.color.a *= alpha / 255
+                        item.fill.a *= alpha / 255
+                    
+                    dpg.draw_polygon(points=points, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    
+                elif type(item) == Circle:
+                    center = item.center
+                    center = center.screen(self)
+                    
+                    if center is None:
+                        continue
+                    
+                    if type(center) == Coordinate:
+                        alpha = CalculateAlpha(Distances=[center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        center = center[:2]
+                        item.color.a *= alpha / 255
+                        item.fill.a *= alpha / 255
+                        center = center[:2]
+                    
+                    dpg.draw_circle(center=center, radius=item.radius, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    
+                elif type(item) == Text:
+                    position = item.point
+                    position = position.screen(self)
+                    
+                    if position is None:
+                        continue
+                    
+                    if type(position) == Coordinate:
+                        alpha = CalculateAlpha(Distances=[position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        position = position[:2]
+                        item.color.a *= alpha / 255
+                        position = position[:2]
+                    
+                    dpg.draw_text(position, text=item.text, color=item.color.tuple(), size=item.size)
+                 
+        dpg.render_dearpygui_frame()
 
     def run(self):
         global DRAWLIST
@@ -288,10 +295,10 @@ class Plugin(ETS2LAPlugin):
         global CabinOffsetRotationDegreesZ
 
         APIDATA = TruckSimAPI.update()
-
+        
         if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
             time.sleep(0.1)
-            Render()
+            self.Render()
             return
 
         WindowPosition = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
@@ -345,6 +352,23 @@ class Plugin(ETS2LAPlugin):
         HeadY = PointY + TruckY
         HeadZ = PointX * math.sin(TruckRotationRadiansX) + PointZ * math.cos(TruckRotationRadiansX) + TruckZ
 
+        # Update self so that coordinates can pull in the variables
+        self.LastWindowPosition = LastWindowPosition
+        self.WindowPosition = WindowPosition
+        self.HeadRotationDegreesX = HeadRotationDegreesX
+        self.HeadRotationDegreesY = HeadRotationDegreesY
+        self.HeadRotationDegreesZ = HeadRotationDegreesZ
+        self.HeadX = HeadX
+        self.HeadY = HeadY
+        self.HeadZ = HeadZ
+        self.TruckRotationDegreesX = TruckRotationDegreesX
+        self.TruckRotationDegreesY = TruckRotationDegreesY
+        self.TruckRotationDegreesZ = TruckRotationDegreesZ
+        self.CabinOffsetRotationDegreesX = CabinOffsetRotationDegreesX
+        self.CabinOffsetRotationDegreesY = CabinOffsetRotationDegreesY
+        self.CabinOffsetRotationDegreesZ = CabinOffsetRotationDegreesZ
+        self.DRAWLIST = DRAWLIST
+        self.FOV = FOV
 
         # Draws a circle at each wheel of the truck
         TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
@@ -389,5 +413,5 @@ class Plugin(ETS2LAPlugin):
                 if type(other_plugins[plugin]) == list:
                     DRAWLIST.extend(other_plugins[plugin])
 
-        Render(Items=DRAWLIST)
+        self.Render(items=DRAWLIST)
         DRAWLIST = []

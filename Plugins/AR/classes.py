@@ -5,24 +5,112 @@ class Point:
 
     :param float x: The x-coordinate of the point.
     :param float y: The y-coordinate of the point.
+    :param Coordinate anchor: The anchor coordinate of the point. The point will be an offset to the 3D coordinate.
     
     Usage:
     >>> point = Point(1, 2)
     >>> point = Point(*list)
+    >>> point = Point(1, 2, anchor=Coordinate(3, 4, 5))
     """
     x: float
     y: float
+    anchor = None
     
-    def __init__(self, x: float, y: float):
+    def __init__(self, x: float, y: float, anchor = None):
         self.x = x
         self.y = y
+        self.anchor = anchor
         
     def tuple(self):
+        return (self.x, self.y)
+
+    def screen(self, plugin):
+        if type(self.anchor) == Coordinate:
+            anchor = self.anchor.screen(plugin)
+            if anchor is None:
+                return None
+            
+            point = anchor[:2]
+            return point[0] + self.x, point[1] + self.y
+            
         return (self.x, self.y)
     
     def json(self):
         return {"x": self.x, "y": self.y}
     
+def ConvertCoordinateToScreen(coordinate, self):
+    if type(coordinate) != Coordinate:
+        return None
+    
+    X = coordinate.x
+    Y = coordinate.y
+    Z = coordinate.z
+    
+    HeadYaw = self.HeadRotationDegreesX
+    HeadPitch = self.HeadRotationDegreesY
+    HeadRoll = self.HeadRotationDegreesZ
+
+    if coordinate.relative:
+        RelativeX = X
+        RelativeY = Y
+        RelativeZ = Z
+        
+        if coordinate.rotation_relative:
+            # Rotate the points around the head (0, 0, 0)
+            CosPitch = math.cos(math.radians(self.CabinOffsetRotationDegreesY))
+            SinPitch = math.sin(math.radians(self.CabinOffsetRotationDegreesY))
+            NewY = RelativeY * CosPitch - RelativeZ * SinPitch
+            NewZ = RelativeZ * CosPitch + RelativeY * SinPitch
+
+            CosYaw = math.cos(math.radians(self.CabinOffsetRotationDegreesX))
+            SinYaw = math.sin(math.radians(self.CabinOffsetRotationDegreesX))
+            NewX = RelativeX * CosYaw + NewZ * SinYaw
+            NewZ = NewZ * CosYaw - RelativeX * SinYaw
+
+            CosRoll = math.cos(math.radians(0))#-CabinOffsetRotationDegreesZ))
+            SinRoll = math.sin(math.radians(0))#-CabinOffsetRotationDegreesZ))
+            FinalX = NewX * CosRoll - NewY * SinRoll
+            FinalY = NewY * CosRoll + NewX * SinRoll
+
+            RelativeX = FinalX
+            RelativeY = FinalY
+            RelativeZ = NewZ
+        
+    else:
+        RelativeX = X - self.HeadX
+        RelativeY = Y - self.HeadY
+        RelativeZ = Z - self.HeadZ
+
+    CosYaw = math.cos(math.radians(-HeadYaw))
+    SinYaw = math.sin(math.radians(-HeadYaw))
+    NewX = RelativeX * CosYaw + RelativeZ * SinYaw
+    NewZ = RelativeZ * CosYaw - RelativeX * SinYaw
+
+    CosPitch = math.cos(math.radians(-HeadPitch))
+    SinPitch = math.sin(math.radians(-HeadPitch))
+    NewY = RelativeY * CosPitch - NewZ * SinPitch
+    FinalZ = NewZ * CosPitch + RelativeY * SinPitch
+
+    CosRoll = math.cos(math.radians(-HeadRoll))
+    SinRoll = math.sin(math.radians(-HeadRoll))
+    FinalX = NewX * CosRoll - NewY * SinRoll
+    FinalY = NewY * CosRoll + NewX * SinRoll
+
+    if FinalZ >= 0:
+        return None
+
+    FovRad = math.radians(self.FOV)
+    
+    WindowDistance = ((self.WindowPosition[3] - self.WindowPosition[1]) * (4 / 3) / 2) / math.tan(FovRad / 2)
+
+    ScreenX = (FinalX / FinalZ) * WindowDistance + (self.WindowPosition[2] - self.WindowPosition[0]) / 2
+    ScreenY = (FinalY / FinalZ) * WindowDistance + (self.WindowPosition[3] - self.WindowPosition[1]) / 2
+
+    ScreenX = (self.WindowPosition[2] - self.WindowPosition[0]) - ScreenX
+
+    Distance = math.sqrt((RelativeX ** 2) + (RelativeY ** 2) + (RelativeZ ** 2))
+
+    return ScreenX, ScreenY, Distance
         
 class Coordinate:
     """Representation of a 3D coordinate.
@@ -52,6 +140,9 @@ class Coordinate:
         
     def tuple(self):
         return (self.x, self.y, self.z)
+    
+    def screen(self, plugin):
+        return ConvertCoordinateToScreen(self, plugin)
     
     def json(self): 
         return {"x": self.x, "y": self.y, "z": self.z}
