@@ -60,7 +60,6 @@ ATS_DLC = []
 ETS2_DLC = []
 """List of all ETS2 DLCs currently installed."""
 
-
 if os.name == "nt":
     import ctypes.wintypes
     _CSIDL_PERSONAL = 5     # My Documents
