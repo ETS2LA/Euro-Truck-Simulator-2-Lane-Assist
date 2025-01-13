@@ -155,12 +155,20 @@ class Plugin(ETS2LAPlugin):
                 targetSpeed = distanceTargetSpeed
                 self.status_data = (distance, falloffDistance) # f" {distance:.1f}m / 40m"
             
-
-        # Base accel to stay at current speed
-        acceleration = (targetSpeed - currentSpeed) / 3.6
-        
-        # To accelerate towards the target speed
-        acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
+        if distance < stoppingDistance:
+            acceleration = -1  
+        else:
+            braking_pressure = (stoppingDistance - distance) / stoppingDistance
+            if braking_pressure > 1:
+                braking_pressure = 1
+            elif braking_pressure < 0:
+                braking_pressure = 0
+            
+            acceleration = (targetSpeed - currentSpeed) / 3.6
+            
+            acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
+            
+            acceleration -= braking_pressure
         
         return acceleration, targetSpeed, type
 
