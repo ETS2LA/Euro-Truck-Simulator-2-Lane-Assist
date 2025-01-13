@@ -18,8 +18,8 @@ import time
 
 FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # seconds
 OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
-BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60) # meters
-STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15) # meters
+BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 100) # meters 
+STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 20) # meters 
 OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 50) # km/h
 TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
@@ -30,8 +30,8 @@ def LoadSettings():
     global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, OVERWRITE_SPEED, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE, SHOW_NOTIFICATIONS
     FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
     OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
-    BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60)
-    STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15)
+    BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 100)
+    STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 20)
     OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 50)
     TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5)
     TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
@@ -155,20 +155,24 @@ class Plugin(ETS2LAPlugin):
                 targetSpeed = distanceTargetSpeed
                 self.status_data = (distance, falloffDistance) # f" {distance:.1f}m / 40m"
             
-        if distance < stoppingDistance:
+        if distance < stoppingDistance * 1.5:  
             acceleration = -1  
+            type = "emergency"
         else:
-            braking_pressure = (stoppingDistance - distance) / stoppingDistance
-            if braking_pressure > 1:
+            braking_zone = falloffDistance - stoppingDistance
+            distance_in_zone = distance - stoppingDistance
+            
+            if distance_in_zone < 0:
                 braking_pressure = 1
-            elif braking_pressure < 0:
-                braking_pressure = 0
+            else:
+                braking_pressure = math.exp(-distance_in_zone / (braking_zone / 3))
+                if braking_pressure > 1: braking_pressure = 1
+                elif braking_pressure < 0: braking_pressure = 0
             
             acceleration = (targetSpeed - currentSpeed) / 3.6
-            
             acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
             
-            acceleration -= braking_pressure
+            acceleration -= braking_pressure * (1 + (currentSpeed / 30)) 
         
         return acceleration, targetSpeed, type
 
@@ -391,6 +395,10 @@ class Plugin(ETS2LAPlugin):
             self.state.text = "Stopping for traffic light"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
             return f"Slowing down for traffic light in {self.status_data[0]:.1f}m"
+        elif type == "emergency" and SHOW_NOTIFICATIONS:
+            self.state.text = "EMERGENCY BRAKING!"
+            self.state.progress = 1
+            return "EMERGENCY BRAKING!"
         else:
             self.state.reset()
             return "Maintaining speed according to map"
