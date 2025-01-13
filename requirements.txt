@@ -10,6 +10,7 @@ beautifulsoup4
 pywebview==5.1
 opencv-python
 numpy==1.26.4
+SimpleWindow
 transformers
 proxy_tools
 torchvision

@@ -23,24 +23,38 @@ class Plugin(ETS2LAPlugin):
     fps_cap = 1000
 
     def imports(self):
-        global Variables, Settings, time, UI
-
-        import ETS2LA.Utils.settings as Settings
-        import ETS2LA.variables as Variables
-        import ui as UI
-        import time
-
-        global FOV
+        global SCSTelemetry; from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
+        global ScreenCapture; import Modules.BetterScreenCapture.main as ScreenCapture
+        global MLVSSVariables; import variables as MLVSSVariables
+        global Settings; import ETS2LA.Utils.settings as Settings
+        global Variables; import ETS2LA.variables as Variables
+        global MLVSSUtils; import utils as MLVSSUtils
+        global Mapping; import mapping as Mapping
+        global UI; import ui as UI
+        global time; import time
 
         FOV = self.globals.settings.FOV
         if FOV == None:
             print(f"\n{PURPLE}Make sure to set the FOV in the settings for MLVSS! The plugin will disable itself.{NORMAL}\n")
             self.notify("No FOV set, disabling MLVSS...")
+            time.sleep(1)
             self.terminate()
 
+        MLVSSVariables.FOV = FOV
+        MLVSSVariables.TruckSimAPI = SCSTelemetry()
+
+        ScreenCapture.Initialize()
+
         UI.Initialize()
+        Mapping.Initialize()
+
+        MLVSSUtils.Launch(Mapping)
 
     def run(self):
-        CurrentTime = time.time()
+        ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
-        time.sleep(1/60)
+        MLVSSUtils.UpdateAPI()
+
+        Frame = ScreenCapture.Capture(ImageType="cropped")
+        if type(Frame) != type(None) and Frame.shape[0] > 0 and Frame.shape[1] > 0:
+            MLVSSVariables.LatestFrame = Frame

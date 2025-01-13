@@ -114,12 +114,12 @@ class Plugin(ETS2LAPlugin):
         if FOV == None:
             print(f"\n{PURPLE}Make sure to set the FOV in the settings for TrafficLightDetection! The plugin will disable itself.{NORMAL}\n")
             self.notify("No FOV set, disabling TrafficLightDetection...")
+            time.sleep(1)
             self.terminate()
 
-        global LastScreenCaptureCheck
         global TruckSimAPI
         global Identifier
-        LastScreenCaptureCheck = 0
+
         TruckSimAPI = SCSTelemetry()
         ScreenCapture.Initialize()
         ShowImage.Initialize(Name="TrafficLightDetection", TitleBarColor=(0, 0, 0))
@@ -152,7 +152,6 @@ class Plugin(ETS2LAPlugin):
     def run(self):
         CurrentTime = time.time()
 
-        global LastScreenCaptureCheck
         global TruckSimAPI
 
         global Detections
@@ -160,6 +159,8 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
         Frame = ScreenCapture.Capture(ImageType="cropped")
+
+        ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
         if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
         if type(Frame) == type(None): return
@@ -169,20 +170,6 @@ class Plugin(ETS2LAPlugin):
         FrameHeight = Frame.shape[0]
         if FrameWidth <= 0 or FrameHeight <= 0:
             return
-
-        if LastScreenCaptureCheck + 0.5 < CurrentTime:
-            X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
-            ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
-            if ScreenCapture.MonitorX1 != X1 - ScreenX or ScreenCapture.MonitorY1 != Y1 - ScreenY or ScreenCapture.MonitorX2 != X2 - ScreenX or ScreenCapture.MonitorY2 != Y2 - ScreenY:
-                ScreenIndex = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
-                if ScreenCapture.Display != ScreenIndex - 1:
-                    if ScreenCapture.CaptureLibrary == "WindowsCapture":
-                        ScreenCapture.StopWindowsCapture = True
-                        while ScreenCapture.StopWindowsCapture == True:
-                            time.sleep(0.01)
-                    ScreenCapture.Initialize()
-                ScreenCapture.MonitorX1, ScreenCapture.MonitorY1, ScreenCapture.MonitorX2, ScreenCapture.MonitorY2 = ScreenCapture.ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
-            LastScreenCaptureCheck = CurrentTime
 
 
         TruckX = APIDATA["truckPlacement"]["coordinateX"]

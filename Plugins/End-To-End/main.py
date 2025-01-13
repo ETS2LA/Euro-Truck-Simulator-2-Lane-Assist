@@ -85,7 +85,6 @@ class Plugin(ETS2LAPlugin):
         global EnableKey
         global EnableKeyPressed
         global LastEnableKeyPressed
-        global LastScreenCaptureCheck
         global SteeringHistory
 
         global Identifier
@@ -97,12 +96,12 @@ class Plugin(ETS2LAPlugin):
         if FOV == None:
             print(f"\n{PURPLE}Make sure to set the FOV in the settings for End-To-End! The plugin will disable itself.{NORMAL}\n")
             self.notify("No FOV set, disabling End-To-End...")
+            time.sleep(1)
             self.terminate()
         Enabled = True
         EnableKey = settings.Get("Steering", "EnableKey", "n")
         EnableKeyPressed = False
         LastEnableKeyPressed = False
-        LastScreenCaptureCheck = 0
         SteeringHistory = []
 
         Identifier = pytorch.Initialize(Owner="Glas42", Model="End-To-End", Folder="model", Self=self)
@@ -121,7 +120,6 @@ class Plugin(ETS2LAPlugin):
         global EnableKey
         global EnableKeyPressed
         global LastEnableKeyPressed
-        global LastScreenCaptureCheck
 
         global SDKController
         global TruckSimAPI
@@ -137,19 +135,7 @@ class Plugin(ETS2LAPlugin):
 
         if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
 
-        if LastScreenCaptureCheck + 0.5 < time.time():
-            X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
-            ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
-            if ScreenCapture.MonitorX1 != X1 - ScreenX or ScreenCapture.MonitorY1 != Y1 - ScreenY or ScreenCapture.MonitorX2 != X2 - ScreenX or ScreenCapture.MonitorY2 != Y2 - ScreenY:
-                ScreenIndex = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
-                if ScreenCapture.Display != ScreenIndex - 1:
-                    if ScreenCapture.CaptureLibrary == "WindowsCapture":
-                        ScreenCapture.StopWindowsCapture = True
-                        while ScreenCapture.StopWindowsCapture == True:
-                            time.sleep(0.01)
-                    ScreenCapture.Initialize()
-                ScreenCapture.MonitorX1, ScreenCapture.MonitorY1, ScreenCapture.MonitorX2, ScreenCapture.MonitorY2 = ScreenCapture.ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
-            LastScreenCaptureCheck = CurrentTime
+        ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
         Frame = ScreenCapture.Capture(ImageType="cropped")
         if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:

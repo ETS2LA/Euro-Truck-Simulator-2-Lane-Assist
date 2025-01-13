@@ -62,7 +62,6 @@ class Plugin(ETS2LAPlugin):
         global EnableKey
         global EnableKeyPressed
         global LastEnableKeyPressed
-        global LastScreenCaptureCheck
         global SteeringHistory
 
         global LastIndicatorLeft
@@ -81,7 +80,6 @@ class Plugin(ETS2LAPlugin):
         EnableKey = settings.Get("Steering", "EnableKey", "n")
         EnableKeyPressed = False
         LastEnableKeyPressed = False
-        LastScreenCaptureCheck = 0
         SteeringHistory = []
 
         LastIndicatorLeft = False
@@ -107,7 +105,6 @@ class Plugin(ETS2LAPlugin):
         global EnableKey
         global EnableKeyPressed
         global LastEnableKeyPressed
-        global LastScreenCaptureCheck
 
         global LastIndicatorLeft
         global LastIndicatorRight
@@ -122,6 +119,8 @@ class Plugin(ETS2LAPlugin):
         APIDATA = TruckSimAPI.update()
         Frame = ScreenCapture.Capture(ImageType="cropped")
 
+        ScreenCapture.TrackWindowRouteAdvisor(Name="Truck Simulator", Blacklist=["Discord"])
+
         if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
         if type(Frame) == type(None): return
 
@@ -129,20 +128,6 @@ class Plugin(ETS2LAPlugin):
         FrameHeight = Frame.shape[0]
         if FrameWidth <= 0 or FrameHeight <= 0:
             return
-
-        if LastScreenCaptureCheck + 0.5 < CurrentTime:
-            MapTopLeft, MapBottomRight, ArrowTopLeft, ArrowBottomRight = ScreenCapture.GetRouteAdvisorPosition()
-            ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2))
-            if ScreenCapture.MonitorX1 != MapTopLeft[0] - ScreenX or ScreenCapture.MonitorY1 != MapTopLeft[1] - ScreenY or ScreenCapture.MonitorX2 != MapBottomRight[0] - ScreenX or ScreenCapture.MonitorY2 != MapBottomRight[1] - ScreenY:
-                ScreenIndex = ScreenCapture.GetScreenIndex((MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2)
-                if ScreenCapture.Display != ScreenIndex - 1:
-                    if ScreenCapture.CaptureLibrary == "WindowsCapture":
-                        ScreenCapture.StopWindowsCapture = True
-                        while ScreenCapture.StopWindowsCapture == True:
-                            time.sleep(0.01)
-                    ScreenCapture.Initialize()
-                ScreenCapture.MonitorX1, ScreenCapture.MonitorY1, ScreenCapture.MonitorX2, ScreenCapture.MonitorY2 = ScreenCapture.ValidateCaptureArea(ScreenIndex, MapTopLeft[0] - ScreenX, MapTopLeft[1] - ScreenY, MapBottomRight[0] - ScreenX, MapBottomRight[1] - ScreenY)
-            LastScreenCaptureCheck = CurrentTime
 
         EnableKeyPressed = keyboard.is_pressed(EnableKey)
         if EnableKeyPressed == False and LastEnableKeyPressed == True:
