@@ -2,9 +2,11 @@
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
+from Plugins.Map.classes import *
 from Plugins.AR.classes import *
 
 # General imports
+import logging
 import random
 import time
 import math
@@ -44,12 +46,83 @@ class Plugin(ETS2LAPlugin):
     
     settings_menu = Settings()
     
+    map_data = None
+    update_time = 0
+    
+    intersection = None
+    intersection_uid = None
+    
     def imports(self):
         global ScreenCapture
         import Modules.BetterScreenCapture.main as ScreenCapture
         
         self.get_start_end_time()
         
+    def get_map_data(self):
+        remote_update_time = self.globals.tags.map_update_time
+        remote_update_time = self.globals.tags.merge(remote_update_time)
+        if remote_update_time != self.update_time:
+            logging.warning("Updating map data for HUD")
+            self.update_time = remote_update_time
+            self.map_data = self.globals.tags.map
+            self.map_data = self.globals.tags.merge(self.map_data)
+        
+    def get_intersection(self):
+        next_intersection = self.globals.tags.next_intersection_uid
+        next_intersection = self.globals.tags.merge(next_intersection)
+        if next_intersection != self.intersection_uid:
+            if self.map_data is not None:
+                # json path: prefabs (list) -> uid
+                for prefab in self.map_data["prefabs"]:
+                    if str(prefab["uid"]) == str(next_intersection):
+                        self.intersection_uid = next_intersection
+                        self.intersection = prefab
+                        logging.debug(f"Intersection found: {prefab}")
+                        return
+                    
+            self.intersection = None
+                
+    def create_intersection_map(self, anchor, offset: list[float] = [0, 0]):
+        # Top down map along the X and Z axis
+        if self.intersection is None:
+            return None
+        
+        target_lane = self.globals.tags.next_intersection_lane
+        target_lane = self.globals.tags.merge(target_lane)
+        
+        bounding_box = self.intersection["bounding_box"]
+        bounding_box = [bounding_box["min_x"], bounding_box["min_y"], bounding_box["max_x"], bounding_box["max_y"]] # y = z
+        
+        rotation = self.intersection["origin_node"]["rotation"]
+        
+        def convert_to_center_aligned_coordinate(x, y):
+            center = (bounding_box[2] + bounding_box[0]) / 2, (bounding_box[3] + bounding_box[1]) / 2
+            return x - center[0], y - center[1]
+        
+        lanes = []
+        for i, lane in enumerate(self.intersection["nav_routes"]):
+            cur_lane = []
+            for curve in lane["curves"]:
+                for j, point in enumerate(curve["points"]):
+                    if j == len(curve["points"]) - 1:
+                        continue
+                    point = convert_to_center_aligned_coordinate(point["x"], point["z"])
+                    next_point = convert_to_center_aligned_coordinate(lane["points"][j + 1]["x"], lane["points"][j + 1]["z"])
+                    cur_lane.append((
+                        Line(
+                            Point(point[0] + offset[0], point[1] + offset[1], anchor=anchor),
+                            Point(next_point[0] + offset[0], next_point[1] + offset[1], anchor=anchor),
+                            thickness=2,
+                            color=Color(255, 255, 255) if i == target_lane else Color(140, 140, 140),
+                            fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
+                        )
+                    ))
+            
+            lanes.append(cur_lane)
+            
+        return lanes
+
+                
     def get_offsets(self):
         offset_x = self.settings.offset_x
         if offset_x is None:
@@ -189,11 +262,14 @@ class Plugin(ETS2LAPlugin):
         return ar_data
     
     def navigation(self, distance: float, anchor, offset: list[float], scaling: float = 1):
+        
         if distance is None:
             return []
         
         if distance == 1 or distance == 0:
             return []
+        
+        self.get_intersection()
         
         distance -= distance % 10
         units = "m"
@@ -222,6 +298,12 @@ class Plugin(ETS2LAPlugin):
             )
         ]
         
+        intersection_map = self.create_intersection_map(anchor, [150, 0])
+        if intersection_map is not None:
+            for lane in intersection_map:
+                for line in lane:
+                    ar_data.append(line)
+        
         return ar_data
 
     def run(self):
@@ -231,6 +313,7 @@ class Plugin(ETS2LAPlugin):
         scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
         
         data = self.modules.TruckSimAPI.run()
+        self.get_map_data()
         
         speed_nav_offset_x = 0
         offset_x, offset_y, offset_z = self.get_offsets()

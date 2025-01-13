@@ -27,7 +27,7 @@ class RouteItem:
                 print(type(self.item))
             self._lane_index = value
         except:
-            logging.exception(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteItem[/dim] only has {len(self.item.lanes)} lanes.")
+            #logging.exception(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteItem[/dim] only has {len(self.item.lanes)} lanes.")
             pass
             
 class RouteSection:
