@@ -137,50 +137,47 @@ class Plugin(ETS2LAPlugin):
             
         type = "map"
         
-        # Calculate emergency braking threshold based on speed
-        emergency_threshold = stoppingDistance * (1.35 + (currentSpeed / 25))  # Higher speeds need more emergency distance
+        speed_kmh = currentSpeed * 3.6
+        speed_factor = (speed_kmh / 80.0) ** 2  
         
-        # Normal braking zone is larger at higher speeds
-        braking_zone = falloffDistance * (1 + (currentSpeed / 30))
+        emergency_threshold = stoppingDistance * (1 + speed_factor * 2)  
+        braking_start = falloffDistance * (1 + speed_factor) 
         
-        if ((time < FOLLOW_TIME and time > 0) or distance < braking_zone) and (vehicleSpeed < 30/3.6 or vehicleSpeed < currentSpeed*1.1):
+        if ((time < FOLLOW_TIME and time > 0) or distance < braking_start) and (vehicleSpeed < 30/3.6 or vehicleSpeed < currentSpeed*1.1):
             timePercent = time / FOLLOW_TIME
             timeTargetSpeed = timePercent * targetSpeed
-            
+        
             distancePercent = self.DistanceFunction(distance / (falloffDistance * 2/3) - (stoppingDistance / (falloffDistance * 2/3)))
             if vehicleSpeed < targetSpeed and vehicleSpeed > 30/3.6:
                 distanceTargetSpeed = targetSpeed - (targetSpeed - vehicleSpeed) * (1-distancePercent) * 1.5
             else:
                 distanceTargetSpeed = distancePercent * targetSpeed
-            
+        
             if timeTargetSpeed < distanceTargetSpeed:
                 type = "time"
                 targetSpeed = timeTargetSpeed
-                self.status_data = (time, FOLLOW_TIME) # f" {time:.1f}s / {FOLLOW_TIME}s"
+                self.status_data = (time, FOLLOW_TIME)
             else:
                 type = "distance"
                 targetSpeed = distanceTargetSpeed
-                self.status_data = (distance, falloffDistance) # f" {distance:.1f}m / 40m"
-            
-        if distance < emergency_threshold:
-            acceleration = -1  
-            type = "emergency"
-        else:
-            distance_in_zone = distance - stoppingDistance
-            speed_factor = currentSpeed / 25  
-            
-            if distance_in_zone < 0:
-                braking_pressure = 1
+                self.status_data = (distance, falloffDistance)
+
+            if distance < emergency_threshold:
+                acceleration = -1  
+                type = "emergency"
             else:
-                braking_pressure = math.exp(-distance_in_zone / (braking_zone / (2 + speed_factor)))
-                if braking_pressure > 1: braking_pressure = 1
-                elif braking_pressure < 0: braking_pressure = 0
-            
-            acceleration = (targetSpeed - currentSpeed) / 3.6
-            acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
-            
-            brake_multiplier = 1 + (speed_factor * 0.5)  
-            acceleration -= braking_pressure * brake_multiplier
+                distance_factor = (distance - stoppingDistance) / falloffDistance
+                
+                initial_brake = (1 - distance_factor) * (1 + speed_factor)
+                
+                speed_diff = max(0, currentSpeed - vehicleSpeed)
+                speed_diff_factor = speed_diff / max(currentSpeed, 1)
+                
+                braking_pressure = min(1, initial_brake + speed_diff_factor)
+                
+                acceleration = (targetSpeed - currentSpeed) / 3.6
+                acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
+                acceleration -= braking_pressure * (1 + speed_factor)
         
         return acceleration, targetSpeed, type
 
