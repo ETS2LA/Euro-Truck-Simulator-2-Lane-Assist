@@ -136,7 +136,14 @@ class Plugin(ETS2LAPlugin):
             distance = 999
             
         type = "map"
-        if ((time < FOLLOW_TIME and time > 0) or distance < falloffDistance) and (vehicleSpeed < 30/3.6 or vehicleSpeed < currentSpeed*1.1):
+        
+        # Calculate emergency braking threshold based on speed
+        emergency_threshold = stoppingDistance * (1.35 + (currentSpeed / 25))  # Higher speeds need more emergency distance
+        
+        # Normal braking zone is larger at higher speeds
+        braking_zone = falloffDistance * (1 + (currentSpeed / 30))
+        
+        if ((time < FOLLOW_TIME and time > 0) or distance < braking_zone) and (vehicleSpeed < 30/3.6 or vehicleSpeed < currentSpeed*1.1):
             timePercent = time / FOLLOW_TIME
             timeTargetSpeed = timePercent * targetSpeed
             
@@ -155,24 +162,25 @@ class Plugin(ETS2LAPlugin):
                 targetSpeed = distanceTargetSpeed
                 self.status_data = (distance, falloffDistance) # f" {distance:.1f}m / 40m"
             
-        if distance < stoppingDistance * 1.5:  
+        if distance < emergency_threshold:
             acceleration = -1  
             type = "emergency"
         else:
-            braking_zone = falloffDistance - stoppingDistance
             distance_in_zone = distance - stoppingDistance
+            speed_factor = currentSpeed / 25  
             
             if distance_in_zone < 0:
                 braking_pressure = 1
             else:
-                braking_pressure = math.exp(-distance_in_zone / (braking_zone / 3))
+                braking_pressure = math.exp(-distance_in_zone / (braking_zone / (2 + speed_factor)))
                 if braking_pressure > 1: braking_pressure = 1
                 elif braking_pressure < 0: braking_pressure = 0
             
             acceleration = (targetSpeed - currentSpeed) / 3.6
             acceleration += (targetSpeed - currentSpeed) / 3.6 / 10
             
-            acceleration -= braking_pressure * (1 + (currentSpeed / 30)) 
+            brake_multiplier = 1 + (speed_factor * 0.5)  
+            acceleration -= braking_pressure * brake_multiplier
         
         return acceleration, targetSpeed, type
 
