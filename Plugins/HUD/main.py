@@ -16,14 +16,15 @@ class Settings(ETS2LASettingsMenu):
     dynamic = False
     
     def render(self):
-        Slider("Refresh Rate", "refresh_rate", 2, 1, 10, 1, description="The refresh rate of the AR elements. Default is 2.")
+        Slider("Refresh Rate", "refresh_rate", 2, 1, 10, 1, description="The refresh rate of the HUD elements. Default is 2.")
+        Slider("Scale", "scale", 1, 0.5, 2, 0.05, description="The scale of the HUD elements. Default is 1.")
         
-        Input("Offset X", "offset_x", type="number", description="The X offset (side to side) of the AR elements.", default=0)
-        Input("Offset Y", "offset_y", type="number", description="The Y offset (top to bottom) of the AR elements.", default=0)
-        Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the AR elements.", default=0)
+        Input("Offset X", "offset_x", type="number", description="The X offset (side to side) of the HUD elements.", default=0)
+        Input("Offset Y", "offset_y", type="number", description="The Y offset (top to bottom) of the HUD elements.", default=0)
+        Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the HUD elements.", default=0)
         
-        Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the AR HUD.")
-        Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the AR HUD.")
+        Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the HUD.")
+        Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
         
         return RenderUI()
 
@@ -200,8 +201,13 @@ class Plugin(ETS2LAPlugin):
         if refresh_rate is None:
             self.settings.refresh_rate = 2
             refresh_rate = 2
+            
+        scale = self.settings.scale
+        if scale is None:
+            self.settings.scale = 1
+            scale = 1
         
-        return draw_steering, show_navigation, refresh_rate
+        return draw_steering, show_navigation, refresh_rate, scale
     
     def get_start_end_time(self):
         self.load_start_time = time.time()
@@ -358,8 +364,9 @@ class Plugin(ETS2LAPlugin):
         speed_nav_offset_x = 0
         offset_x, offset_y, offset_z = self.get_offsets()
         anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
-        draw_steering, show_navigation, refresh_rate = self.get_settings()
+        draw_steering, show_navigation, refresh_rate, scale = self.get_settings()
         
+        scaling *= scale
         
         speed = data["truckFloat"]["speed"] * 3.6
         speed_limit = data["truckFloat"]["speedLimit"] * 3.6
