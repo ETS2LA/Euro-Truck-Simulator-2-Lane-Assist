@@ -19,6 +19,7 @@ def get_screen_dimensions(monitor=1):
         return 0, 0, 1280, 720
 
 last_window_position_time = 0
+dont_check_window_open = False
 window_position = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - 1280//2, get_screen_dimensions()[3]//2 - 720//2))
 
 def check_valid_window_position(window_x, window_y, width=1280, height=720):
@@ -75,6 +76,8 @@ def set_window_icon(image_path):
     win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)    
 
 def ColorTitleBar(theme:str="dark"):
+    global dont_check_window_open
+    
     returnCode = 1
     sinceStart = time.perf_counter()
     
@@ -83,6 +86,7 @@ def ColorTitleBar(theme:str="dark"):
         "light": 0xFFFFFF
     }
 
+    logging.info("Looking for ETS2LA window... (10s timeout)")
     while returnCode != 0:
         time.sleep(0.01)
         hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
@@ -90,12 +94,20 @@ def ColorTitleBar(theme:str="dark"):
         import ETS2LA.Window.utils as utils
         utils.set_window_icon('ETS2LA/Window/favicon.ico')
         if time.perf_counter() - sinceStart > 10:
-            logging.warning("Couldn't find / start the ETS2LA window.")
+            logging.error("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it.")
+            dont_check_window_open = True
             break
+    
+    if returnCode == 0:
+        logging.info("ETS2LA window found!")
+    
 
 def CheckIfWindowStillOpen():
     global last_window_position_time
     global window_position
+    if dont_check_window_open:
+        return True
+    
     if os.name == 'nt':
         hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
         if hwnd == 0:
