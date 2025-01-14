@@ -26,7 +26,7 @@ def Run():
     Points = []
 
 
-    OffsetX = 50
+    OffsetX = 60
     OffsetZ = 14
 
     PointX = MLVSSUtils.TruckX + OffsetX * math.sin(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.cos(MLVSSUtils.TruckRotationRadiansX)
@@ -41,7 +41,7 @@ def Run():
         Points.append((PointX, PointZ))
 
 
-    OffsetX = 50
+    OffsetX = 60
     OffsetZ = -14
 
     PointX = MLVSSUtils.TruckX + OffsetX * math.sin(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.cos(MLVSSUtils.TruckRotationRadiansX)
