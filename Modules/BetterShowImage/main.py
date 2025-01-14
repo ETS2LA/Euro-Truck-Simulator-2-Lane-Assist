@@ -8,11 +8,47 @@ if variables.OS == "nt":
 WINDOWS = {}
 
 
+# MARK: Initialize()
 def Initialize(Name="", TitleBarColor=(0, 0, 0), Normal=True, TopMost=True, Position=(None, None), Size=(None, None)):
+    """
+    Initializes a window. Can handle multiple windows. The window will appear once Show() is called.
+
+    Parameters
+    ----------
+    Name : str
+        The name of the window.
+    TitleBarColor : tuple
+        The color of the title bar.
+    Normal : bool
+        Whether the window should be resizable or not.
+    TopMost : bool
+        Whether the window should be a topmost window or not.
+    Position : tuple
+        The position of the window.
+    Size : tuple
+        The size of the window.
+
+    Returns
+    -------
+    None
+    """
     WINDOWS[Name] = {"TitleBarColor": TitleBarColor, "Normal": Normal, "TopMost": TopMost, "Position": Position, "Size": Size}
 
 
+# MARK: CreateWindow()
 def CreateWindow(Name=""):
+    """
+    Creates the window. Not meant to be called manually!
+
+    Parameters
+    ----------
+    Name : str
+        The name of the window.
+
+    Returns
+    -------
+    None
+    """
     if Name == "":
         return
 
@@ -36,7 +72,22 @@ def CreateWindow(Name=""):
         win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
 
 
+# MARK: Show()
 def Show(Name="", Frame=None):
+    """
+    Shows the frame in the window. The window must have been initialized using Initialize() first.
+
+    Parameters
+    ----------
+    Name : str
+        The name of the window.
+    Frame : numpy.ndarray
+        The frame to show.
+
+    Returns
+    -------
+    None
+    """
     try:
         cv2.getWindowImageRect(Name)
     except:
