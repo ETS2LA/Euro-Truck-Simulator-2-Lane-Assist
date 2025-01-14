@@ -36,7 +36,7 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
     Parameters
     ----------
     Screen : int
-        The index of the screen to capture. Defaults to primary screen.
+        The index of the screen to capture. Defaults to primary screen. Format: 0 = primary screen
     Area : tuple
         The area of the screen to capture in X1, Y1, X2, Y2. Defaults to entire screen.
 
@@ -228,11 +228,12 @@ def GetScreenDimensions(Display=1):
     Parameters
     ----------
     Display : int
-        The index of the screen to get the dimensions of. Defaults to primary screen. Display 0 is all screens.
+        The index of the screen to get the dimensions of. Defaults to primary screen. Format: 1 = primary screen
 
     Returns
     -------
     int, int, int, int
+        The dimensions of the screen. Format: (X, Y, Width, Height)
     """
     global ScreenX, ScreenY, ScreenWidth, ScreenHeight
     Monitor = sct.monitors[Display]
@@ -257,7 +258,7 @@ def GetScreenIndex(X, Y):
     Returns
     -------
     int
-        The index of the screen that is closest to the given coordinates.
+        The index of the screen that is closest to the given coordinates. Format: 1 = primary screen
     """
     Monitors = sct.monitors
     ClosestScreenIndex = None
@@ -280,7 +281,7 @@ def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
     Parameters
     ----------
     Display : int
-        The index of the screen to validate the capture area for.
+        The index of the screen to validate the capture area for. Format: 1 = primary screen
     X1 : int
         The X coordinate of the top-left corner of the capture area.
     Y1 : int
@@ -293,7 +294,7 @@ def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
     Returns
     -------
     int, int, int, int
-        The validated capture area.
+        The validated capture area. Format: (X1, Y1, X2, Y2)
     """
     Monitor = sct.monitors[Display]
     Width, Height = Monitor["width"], Monitor["height"]
@@ -367,7 +368,7 @@ def GetWindowPosition(Name="", Blacklist=[""]):
     Returns
     -------
     int, int, int, int
-        The position of the window.
+        The position of the window. Format: (X, Y, Width, Height)
     """
     global LastWindowPositions
     if variables.OS == "nt":
@@ -413,10 +414,10 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
     (int, int), (int, int), (int, int), (int, int)
         The position of the Route Advisor and the Arrow.
         Indexes:
-        0: (x, y) Map Top Left
-        1: (x, y) Map Bottom Right
-        2: (x, y) Arrow Top Left
-        3: (x, y) Arrow Bottom Right
+        0: (X, Y) Map Top Left
+        1: (X, Y) Map Bottom Right
+        2: (X, Y) Arrow Top Left
+        3: (X, Y) Arrow Bottom Right
     """
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     DistanceFromRight = 21
@@ -533,6 +534,10 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
         A list of strings that must not be in the window name.
     Rate : int
         The update rate in Hz, defaults to 2.
+
+    Returns
+    -------
+    None
     """
     Key = f"{Name}{Blacklist}"
     if Key not in LastTrackWindowUpdates:
@@ -545,12 +550,13 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
     ScreenX, ScreenY, _, _ = GetScreenDimensions(GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
     if MonitorX1 != X1 - ScreenX or MonitorY1 != Y1 - ScreenY or MonitorX2 != X2 - ScreenX or MonitorY2 != Y2 - ScreenY:
         ScreenIndex = GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
+        print(f"ScreenIndex: {ScreenIndex}")
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True
                 while StopWindowsCapture == True:
                     time.sleep(0.01)
-            Initialize()
+            Initialize(Screen=ScreenIndex - 1)
         MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
     LastTrackWindowUpdates[Key] = time.time()
 
@@ -568,6 +574,10 @@ def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
         A list of strings that must not be in the window name.
     Rate : int
         The update rate in Hz, defaults to 2.
+
+    Returns
+    -------
+    None
     """
     Key = f"{Name}{Blacklist}{Side}"
     if Key not in LastTrackWindowRouteAdvisorUpdates:
@@ -585,6 +595,6 @@ def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
                 StopWindowsCapture = True
                 while StopWindowsCapture == True:
                     time.sleep(0.01)
-            Initialize()
+            Initialize(Screen=ScreenIndex - 1)
         MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(ScreenIndex, MapTopLeft[0] - ScreenX, MapTopLeft[1] - ScreenY, MapBottomRight[0] - ScreenX, MapBottomRight[1] - ScreenY)
     LastTrackWindowRouteAdvisorUpdates[Key] = time.time()
