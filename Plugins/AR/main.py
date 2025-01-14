@@ -194,14 +194,22 @@ class Plugin(ETS2LAPlugin):
         dpg.delete_item(FRAME)
         
         distances = []
+        discard = []
         for item in items:
-            distances.append(item.get_distance(HeadX, HeadY, HeadZ))
+            distance = item.get_distance(HeadX, HeadY, HeadZ)
+            if distance < 1000:
+                distances.append(item.get_distance(HeadX, HeadY, HeadZ))
+            else:
+                discard.append(item)
+                
+        for item in discard:
+            items.remove(item)
             
         sorted_items = [item for _, item in sorted(zip(distances, items), key=lambda pair: pair[0], reverse=True)]
         
         with dpg.viewport_drawlist(label="draw") as FRAME:
             dpg.bind_font(regular_font)
-            for item in sorted_items:
+            for i, item in enumerate(sorted_items):
                 if type(item) == Rectangle:
                     points = [item.start, item.end]
                     start = points[0].screen(self)
