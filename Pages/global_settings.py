@@ -48,8 +48,6 @@ class Page(ETS2LAPage):
                     description="global.settings.12.description"
                 )
                 
-                Space(8)
-
                 with Group("vertical", gap=8, padding=0):
                     Selector("global.settings.8.name",
                         "language",
@@ -59,6 +57,7 @@ class Page(ETS2LAPage):
                     )
         
                     Description("credits", size="xs")
+                
 
             with Tab("global.settings.audio"):
                 Space(2)
@@ -95,6 +94,8 @@ class Page(ETS2LAPage):
     
             with Tab("global.settings.misc"):
                 Space(2)
+                
+                
                 Input("global.settings.4.name",
                     "frontend_port",
                     "number",
@@ -102,6 +103,9 @@ class Page(ETS2LAPage):
                     description="global.settings.4.description"
                 )
                 
+                with Group("vertical", padding=16, border=True):
+                    Toggle("global.settings.9.name", "frameless", True, description="global.settings.9.description")
+
                 Switch("global.settings.6.name",
                     "send_crash_reports",
                     True,
