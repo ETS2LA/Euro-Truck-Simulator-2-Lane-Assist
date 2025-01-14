@@ -550,7 +550,6 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
     ScreenX, ScreenY, _, _ = GetScreenDimensions(GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
     if MonitorX1 != X1 - ScreenX or MonitorY1 != Y1 - ScreenY or MonitorX2 != X2 - ScreenX or MonitorY2 != Y2 - ScreenY:
         ScreenIndex = GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
-        print(f"ScreenIndex: {ScreenIndex}")
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True
