@@ -205,47 +205,43 @@ class Plugin(ETS2LAPlugin):
     
     def get_start_end_time(self):
         self.load_start_time = time.time()
-        self.load_end_time = self.load_start_time + random.uniform(1, 3)
+        self.times = random.uniform(4, 6)
+        self.load_end_time = self.load_start_time + self.times
     
     def boot_sequence(self, t: float, anchor: Coordinate, scaling: float = 1):
         t = (time.time() - self.load_start_time) / (self.load_end_time - self.load_start_time)
         if t > 1:
             return False
         
-        # Ease out cubic
-        t -= 1
-        t = t * t * t + 1
+        opacity = 1
+        # Smooth out the opacity above 95%
+        if t > 0.95:
+            opacity = 1 - (t - 0.95) * 1 / 0.05
+            opacity = max(0, min(1, opacity))
+        # Smooth out below 10%
+        elif t < 0.1:
+            opacity = t * 1 / 0.1
+            opacity = max(0, min(1, opacity))
+            
+        t = t * (self.times/2) % 1
         
-        self.fps_cap = 10
+        self.fps_cap = 30
         
-        slider_start_pos = Point(-100 * scaling, 0, anchor=anchor)
-        slider_end_pos = Point(100 * scaling, 0, anchor=anchor)
+        slider_ets2la_pos = Point(-30 * scaling, -25 * scaling, anchor=anchor)
+
+        def sigmoid(t):
+            return 1 / (1 + math.exp(-t * 5))
+
+        slider_start_pos = Point(-100 * scaling + ((sigmoid(t)) * 400 - 200) * scaling, 0, anchor=anchor)
         slider_progress_pos = Point(-100 * scaling + t * 200 * scaling, 0, anchor=anchor)
-        slider_text_pos = Point(-100 * scaling + t * 200 * scaling, 10 * scaling, anchor=anchor)
-        slider_ets2la_pos = Point(-100 * scaling, -25 * scaling, anchor=anchor)
+        
         self.globals.tags.AR = [
-            # Slider base
-            Line(
-                slider_start_pos,
-                slider_end_pos,
-                thickness=4 * scaling,
-                color=Color(255, 255, 255, 100),
-                fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
-            ),
             # Slider progress
             Line(
                 slider_start_pos,
                 slider_progress_pos,
                 thickness=4 * scaling,
-                color=Color(255, 255, 255),
-                fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
-            ),
-            # Text
-            Text(
-                slider_text_pos,
-                f"{t * 100:.0f}%",
-                size=16 * scaling,
-                color=Color(255, 255, 255),
+                color=Color(255, 255, 255, 255 * opacity),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
             # ETS2LA
@@ -253,7 +249,7 @@ class Plugin(ETS2LAPlugin):
                 slider_ets2la_pos,
                 "ETS2LA",
                 size=20 * scaling,
-                color=Color(255, 255, 255),
+                color=Color(255, 255, 255, 255 * opacity),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             )
         ]
@@ -297,7 +293,7 @@ class Plugin(ETS2LAPlugin):
             Text(
                 speed_limit_text_pos,
                 f"{abs(speed_limit):.0f}",
-                size=16 * scaling,
+                size=18 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             )
@@ -321,8 +317,8 @@ class Plugin(ETS2LAPlugin):
             distance /= 1000
             units = "km"
         
-        distance_pos = Point(-5 * scaling - offset[0], -20 * scaling + offset[1], anchor=anchor)
-        unit_pos = Point(-5 * scaling - offset[0], 10 * scaling + offset[1], anchor=anchor)   
+        distance_pos = Point(0 * scaling - offset[0], -20 * scaling + offset[1], anchor=anchor)
+        unit_pos = Point(0 * scaling - offset[0], 10 * scaling + offset[1], anchor=anchor)   
         
         ar_data = [
             # Distance
@@ -364,7 +360,6 @@ class Plugin(ETS2LAPlugin):
         anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
         draw_steering, show_navigation, refresh_rate = self.get_settings()
         
-        self.fps_cap = refresh_rate
         
         speed = data["truckFloat"]["speed"] * 3.6
         speed_limit = data["truckFloat"]["speedLimit"] * 3.6
@@ -376,18 +371,21 @@ class Plugin(ETS2LAPlugin):
         if not engine:
             self.globals.tags.AR = []
             self.get_start_end_time()
+            self.fps_cap = 10
             return
         
         if self.boot_sequence(time.time(), anchor, scaling=scaling):
             return
         
+        self.fps_cap = refresh_rate
+        
         if show_navigation and distance is not None and distance != 1 and distance != 0:
-            speed_nav_offset_x -= 50
+            speed_nav_offset_x -= 50 * scaling
         
         ar_data = []
-        ar_data += self.speed(speed, speed_limit, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling)
+        ar_data += self.speed(speed, speed_limit, anchor, [speed_nav_offset_x - 15, 0, 0], scaling=scaling)
         if show_navigation:
-            ar_data += self.navigation(distance, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling, data=data)
+            ar_data += self.navigation(distance, anchor, [speed_nav_offset_x + 15, 0, 0], scaling=scaling, data=data)
         
         if draw_steering:
             try:

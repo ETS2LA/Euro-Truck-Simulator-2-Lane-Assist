@@ -9,9 +9,16 @@ NORMAL = "\033[0m"
 DRAWLIST = []
 
 def InitializeWindow():
+    global regular_font
+    
     WindowX1, WindowY1, WindowX2, WindowY2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
 
+
     dpg.create_context()
+    with dpg.font_registry():
+        regular_font = dpg.add_font('Plugins/AR/Geist-Regular.ttf', 32, default_font=True)
+        #bold_font = dpg.add_font('Roboto-Bold.ttf', 20)
+    
     dpg.create_viewport(title=f"ETS2LA AR Overlay", always_on_top=True, decorated=False, clear_color=[0.0,0.0,0.0,0.0], vsync=False, x_pos=WindowX1, y_pos=WindowY1, width=WindowX2-WindowX1, height=WindowY2-WindowY1, small_icon=variables.ICONPATH, large_icon=variables.ICONPATH)
     dpg.set_viewport_always_top(True)
     dpg.setup_dearpygui()
@@ -193,6 +200,7 @@ class Plugin(ETS2LAPlugin):
         sorted_items = [item for _, item in sorted(zip(distances, items), key=lambda pair: pair[0], reverse=True)]
         
         with dpg.viewport_drawlist(label="draw") as FRAME:
+            dpg.bind_font(regular_font)
             for item in sorted_items:
                 if type(item) == Rectangle:
                     points = [item.start, item.end]
