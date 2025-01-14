@@ -1,9 +1,6 @@
 import ETS2LA.Handlers.pytorch as pytorch
 import ETS2LA.variables as variables
 import numpy as np
-import threading
-import traceback
-import math
 import time
 import cv2
 import mss
@@ -31,7 +28,22 @@ LastTrackWindowUpdates = {}
 LastTrackWindowRouteAdvisorUpdates = {}
 
 
+# MARK: Initialize()
 def Initialize(Screen=None, Area=(None, None, None, None)):
+    """
+    Initialize the ScreenCapture module. Needs to be called before the use of Capture().
+
+    Parameters
+    ----------
+    Screen : int
+        The index of the screen to capture. Defaults to primary screen. Format: 0 = primary screen
+    Area : tuple
+        The area of the screen to capture in X1, Y1, X2, Y2. Defaults to entire screen.
+
+    Returns
+    -------
+    None
+    """
     global Display
     global Monitor
     global MonitorX1
@@ -124,8 +136,21 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
         CaptureLibrary = "MSS"
 
 
+# MARK: Capture()
 def Capture(ImageType:str = "both"):
-    """ImageType: "both", "cropped", "full" """
+    """
+    Get the latest frame from the screen. Automatically chooses the capture library. Can't be used in a thread!
+
+    Parameters
+    ----------
+    ImageType : str
+        The type of image to return. "both", "cropped", "full". Defaults to "both". "full" returns the entire screen, "cropped" returns the area of (X1, Y1, X2, Y2).
+
+    Returns
+    -------
+    numpy.ndarray or numpy.ndarray, numpy.ndarray
+        The return is based on the ImageType.
+    """
 
     if CaptureLibrary.lower() == "windowscapture":
 
@@ -195,7 +220,21 @@ def Capture(ImageType:str = "both"):
             return None if ImageType.lower() == "cropped" or ImageType.lower() == "full" else (None, None)
 
 
+# MARK: GetScreenDimensions()
 def GetScreenDimensions(Display=1):
+    """
+    Get the dimensions of the screen.
+
+    Parameters
+    ----------
+    Display : int
+        The index of the screen to get the dimensions of. Defaults to primary screen. Format: 1 = primary screen
+
+    Returns
+    -------
+    int, int, int, int
+        The dimensions of the screen. Format: (X, Y, Width, Height)
+    """
     global ScreenX, ScreenY, ScreenWidth, ScreenHeight
     Monitor = sct.monitors[Display]
     ScreenX = Monitor["left"]
@@ -206,6 +245,21 @@ def GetScreenDimensions(Display=1):
 
 
 def GetScreenIndex(X, Y):
+    """
+    Get the index of the screen that is closest to the given coordinates.
+
+    Parameters
+    ----------
+    X : int
+        The X coordinate.
+    Y : int
+        The Y coordinate.
+
+    Returns
+    -------
+    int
+        The index of the screen that is closest to the given coordinates. Format: 1 = primary screen
+    """
     Monitors = sct.monitors
     ClosestScreenIndex = None
     ClosestDistance = float('inf')
@@ -219,7 +273,29 @@ def GetScreenIndex(X, Y):
     return ClosestScreenIndex
 
 
+# MARK: ValidateCaptureArea()
 def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
+    """
+    Validate the capture area, ensuring that it is within the bounds of the screen.
+
+    Parameters
+    ----------
+    Display : int
+        The index of the screen to validate the capture area for. Format: 1 = primary screen
+    X1 : int
+        The X coordinate of the top-left corner of the capture area.
+    Y1 : int
+        The Y coordinate of the top-left corner of the capture area.
+    X2 : int
+        The X coordinate of the bottom-right corner of the capture area.
+    Y2 : int
+        The Y coordinate of the bottom-right corner of the capture area.
+
+    Returns
+    -------
+    int, int, int, int
+        The validated capture area. Format: (X1, Y1, X2, Y2)
+    """
     Monitor = sct.monitors[Display]
     Width, Height = Monitor["width"], Monitor["height"]
     X1 = max(0, min(Width - 1, X1))
@@ -239,7 +315,23 @@ def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
     return X1, Y1, X2, Y2
 
 
+# MARK: IsForegroundWindow()
 def IsForegroundWindow(Name="", Blacklist=[""]):
+    """
+    Check if the given window is in the foreground/is focused. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+
+    Parameters
+    ----------
+    Name : str
+        The text which must be in the window name.
+    Blacklist : list
+        A list of strings that must not be in the window name.
+
+    Returns
+    -------
+    bool
+        True if the window is in the foreground/is focused, False otherwise.
+    """
     if variables.OS == "nt":
         Key = f"{Name}{Blacklist}"
         if Key not in LastForegroundWindows:
@@ -261,7 +353,23 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
         return True
 
 
+# MARK: GetWindowPosition()
 def GetWindowPosition(Name="", Blacklist=[""]):
+    """
+    Get the position of the given window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+
+    Parameters
+    ----------
+    Name : str
+        The text which must be in the window name.
+    Blacklist : list
+        A list of strings that must not be in the window name.
+
+    Returns
+    -------
+    int, int, int, int
+        The position of the window. Format: (X, Y, Width, Height)
+    """
     global LastWindowPositions
     if variables.OS == "nt":
         Key = f"{Name}{Blacklist}"
@@ -287,7 +395,30 @@ def GetWindowPosition(Name="", Blacklist=[""]):
         return ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight
 
 
+# MARK: GetRouteAdvisorPosition()
 def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
+    """
+    Get the position of the Route Advisor window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name. The automatic side detection uses a fast ML model.
+
+    Parameters
+    ----------
+    Name : str
+        The text which must be in the window name.
+    Blacklist : list
+        A list of strings that must not be in the window name.
+    Side : str
+        The side of the route advisor. Can be "Left", "Right" or "Automatic", defaults to "Automatic".
+
+    Returns
+    -------
+    (int, int), (int, int), (int, int), (int, int)
+        The position of the Route Advisor and the Arrow.
+        Indexes:
+        0: (X, Y) Map Top Left
+        1: (X, Y) Map Bottom Right
+        2: (X, Y) Arrow Top Left
+        3: (X, Y) Arrow Bottom Right
+    """
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     DistanceFromRight = 21
     DistanceFromBottom = 100
@@ -390,7 +521,24 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
         return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
 
 
+# MARK: TrackWindow()
 def TrackWindow(Name="", Blacklist=[""], Rate=2):
+    """
+    Automatically update the Screen and Area which were set with Initialize(). The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+
+    Parameters
+    ----------
+    Name : str
+        The text which must be in the window name.
+    Blacklist : list
+        A list of strings that must not be in the window name.
+    Rate : int
+        The update rate in Hz, defaults to 2.
+
+    Returns
+    -------
+    None
+    """
     Key = f"{Name}{Blacklist}"
     if Key not in LastTrackWindowUpdates:
         LastTrackWindowUpdates[Key] = 0
@@ -402,17 +550,35 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
     ScreenX, ScreenY, _, _ = GetScreenDimensions(GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
     if MonitorX1 != X1 - ScreenX or MonitorY1 != Y1 - ScreenY or MonitorX2 != X2 - ScreenX or MonitorY2 != Y2 - ScreenY:
         ScreenIndex = GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
+        print(f"ScreenIndex: {ScreenIndex}")
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True
                 while StopWindowsCapture == True:
                     time.sleep(0.01)
-            Initialize()
+            Initialize(Screen=ScreenIndex - 1)
         MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
     LastTrackWindowUpdates[Key] = time.time()
 
 
+# MARK: TrackWindowRouteAdvisor()
 def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
+    """
+    Automatically update the Screen and Area which were set with Initialize(). The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+
+    Parameters
+    ----------
+    Name : str
+        The text which must be in the window name.
+    Blacklist : list
+        A list of strings that must not be in the window name.
+    Rate : int
+        The update rate in Hz, defaults to 2.
+
+    Returns
+    -------
+    None
+    """
     Key = f"{Name}{Blacklist}{Side}"
     if Key not in LastTrackWindowRouteAdvisorUpdates:
         LastTrackWindowRouteAdvisorUpdates[Key] = 0
@@ -429,15 +595,6 @@ def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
                 StopWindowsCapture = True
                 while StopWindowsCapture == True:
                     time.sleep(0.01)
-            Initialize()
+            Initialize(Screen=ScreenIndex - 1)
         MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(ScreenIndex, MapTopLeft[0] - ScreenX, MapTopLeft[1] - ScreenY, MapBottomRight[0] - ScreenX, MapBottomRight[1] - ScreenY)
     LastTrackWindowRouteAdvisorUpdates[Key] = time.time()
-
-
-def ConvertToAngle(X, Y):
-    _, _, WindowWidth, WindowHeight = GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
-    FOV_RADIANS = math.radians(variables.FOV)
-    WindowDistance = (WindowHeight * (4 / 3) / 2) / math.tan(FOV_RADIANS / 2)
-    AngleX = math.atan2(X - WindowWidth / 2, WindowDistance) * (180 / math.pi)
-    AngleY = math.atan2(Y - WindowHeight / 2, WindowDistance) * (180 / math.pi)
-    return AngleX, AngleY
