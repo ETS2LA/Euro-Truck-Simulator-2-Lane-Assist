@@ -12,7 +12,7 @@ import time
 import math
 
 class Settings(ETS2LASettingsMenu):
-    plugin_name = "Map"
+    plugin_name = "HUD"
     dynamic = False
     
     def render(self):
@@ -23,7 +23,7 @@ class Settings(ETS2LASettingsMenu):
         Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the AR elements.", default=0)
         
         Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the AR HUD.")
-        Switch("Show Navigation", "show_navigation", False, description="Show the distance to the next intersection on the AR HUD.")
+        Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the AR HUD.")
         
         return RenderUI()
 
@@ -82,7 +82,7 @@ class Plugin(ETS2LAPlugin):
                     
             self.intersection = None
                 
-    def create_intersection_map(self, anchor, offset: list[float] = [0, 0]):
+    def create_intersection_map(self, anchor, offset: list[float] = [0, 0], data = None):
         # Top down map along the X and Z axis
         if self.intersection is None:
             return None
@@ -93,32 +93,76 @@ class Plugin(ETS2LAPlugin):
         bounding_box = self.intersection["bounding_box"]
         bounding_box = [bounding_box["min_x"], bounding_box["min_y"], bounding_box["max_x"], bounding_box["max_y"]] # y = z
         
-        rotation = self.intersection["origin_node"]["rotation"]
+        rotation = data["truckPlacement"]["rotationX"] * 360
+        x = data["truckPlacement"]["coordinateX"]
+        z = data["truckPlacement"]["coordinateZ"]
         
         def convert_to_center_aligned_coordinate(x, y):
             center = (bounding_box[2] + bounding_box[0]) / 2, (bounding_box[3] + bounding_box[1]) / 2
             return x - center[0], y - center[1]
         
+        def rotate_around_center(x, y, angle):
+            angle = math.radians(angle)
+            x, y = x * math.cos(angle) - y * math.sin(angle), x * math.sin(angle) + y * math.cos(angle)
+            return x, y
+        
+        def is_inside_bounds(x, y, expand=0):
+            return x >= bounding_box[0] - expand and x <= bounding_box[2] + expand and y >= bounding_box[1] - expand and y <= bounding_box[3] + expand
+        
         lanes = []
         for i, lane in enumerate(self.intersection["nav_routes"]):
+            if i == target_lane:
+                continue
             cur_lane = []
             for curve in lane["curves"]:
-                for j, point in enumerate(curve["points"]):
-                    if j == len(curve["points"]) - 1:
-                        continue
-                    point = convert_to_center_aligned_coordinate(point["x"], point["z"])
-                    next_point = convert_to_center_aligned_coordinate(lane["points"][j + 1]["x"], lane["points"][j + 1]["z"])
-                    cur_lane.append((
-                        Line(
-                            Point(point[0] + offset[0], point[1] + offset[1], anchor=anchor),
-                            Point(next_point[0] + offset[0], next_point[1] + offset[1], anchor=anchor),
-                            thickness=2,
-                            color=Color(255, 255, 255) if i == target_lane else Color(140, 140, 140),
-                            fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
-                        )
-                    ))
+                points = curve["points"]
+                points = [convert_to_center_aligned_coordinate(point["x"], point["z"]) for point in points]
+                points = [rotate_around_center(point[0], point[1], rotation) for point in points]
+                
+                cur_lane.append((
+                    Polygon(
+                        [Point(point[0] + offset[0], point[1] + offset[1], anchor=anchor) for point in points],
+                        thickness=2,
+                        color=Color(140, 140, 140),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
+                    )
+                ))
             
             lanes.append(cur_lane)
+            
+        # Add target lane
+        if target_lane is not None:
+            target_lane = self.intersection["nav_routes"][target_lane]
+            cur_lane = []
+            for curve in target_lane["curves"]:
+                points = curve["points"]
+                points = [convert_to_center_aligned_coordinate(point["x"], point["z"]) for point in points]
+                points = [rotate_around_center(point[0], point[1], rotation) for point in points]
+                
+                cur_lane.append((
+                    Polygon(
+                        [Point(point[0] + offset[0], point[1] + offset[1], anchor=anchor) for point in points],
+                        thickness=2,
+                        color=Color(255, 255, 255),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
+                    )
+                ))
+            
+            lanes.append(cur_lane)
+            
+        # Add truck
+        if is_inside_bounds(x, z, expand=15):
+            x, z = convert_to_center_aligned_coordinate(x, z)
+            x, z = rotate_around_center(x, z, rotation)
+            truck = Point(x + offset[0], z + offset[1])
+            lanes.append([
+                Line(
+                    Point(truck.x, truck.y - 3, anchor=anchor),
+                    Point(truck.x, truck.y + 3, anchor=anchor),
+                    thickness=3,
+                    color=Color(255, 100, 100)
+                )  
+            ])
             
         return lanes
 
@@ -149,8 +193,8 @@ class Plugin(ETS2LAPlugin):
             
         show_navigation = self.settings.show_navigation
         if show_navigation is None:
-            self.settings.show_navigation = False
-            show_navigation = False
+            self.settings.show_navigation = True
+            show_navigation = True
             
         refresh_rate = self.settings.refresh_rate
         if refresh_rate is None:
@@ -261,7 +305,7 @@ class Plugin(ETS2LAPlugin):
         
         return ar_data
     
-    def navigation(self, distance: float, anchor, offset: list[float], scaling: float = 1):
+    def navigation(self, distance: float, anchor, offset: list[float], scaling: float = 1, data = None):
         
         if distance is None:
             return []
@@ -298,7 +342,7 @@ class Plugin(ETS2LAPlugin):
             )
         ]
         
-        intersection_map = self.create_intersection_map(anchor, [150, 0])
+        intersection_map = self.create_intersection_map(anchor, [150, 5], data)
         if intersection_map is not None:
             for lane in intersection_map:
                 for line in lane:
@@ -343,7 +387,7 @@ class Plugin(ETS2LAPlugin):
         ar_data = []
         ar_data += self.speed(speed, speed_limit, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling)
         if show_navigation:
-            ar_data += self.navigation(distance, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling)
+            ar_data += self.navigation(distance, anchor, [speed_nav_offset_x, 0, 0], scaling=scaling, data=data)
         
         if draw_steering:
             try:
