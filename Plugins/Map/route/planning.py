@@ -501,7 +501,10 @@ def UpdateNavigatedLanes():
     
     lookahead = 6 # how many nodes ahead should we plan.
     
-    last_item = data.route_plan[-1]
+    if len(data.route_plan) == 2:
+        last_item = data.route_plan[0]
+    else:
+        last_item = data.route_plan[-1]
     last_points = last_item.lane_points
     end_node = last_item.end_node
     start_node = last_item.start_node
@@ -545,7 +548,7 @@ def UpdateNavigatedLanes():
             logging.warning("No connection between nodes")
             return None
         
-    last_type = type(data.route_plan[-1].items[-1].item)
+    last_type = type(last_item.items[-1].item)
     route = []
     for i, node in enumerate(selected_path):
         if i == len(selected_path) - 1:
@@ -574,7 +577,7 @@ def UpdateNavigatedLanes():
         if last_type == c.Prefab:
             if len(route) == 0:
                 start = data.route_plan[0].lane_points[0]
-                end = data.route_plan[-1].lane_points[-1]
+                end = last_item.lane_points[-1]
                 last_point = start if math_helpers.DistanceBetweenPoints((start.x, start.z), (node.x, node.y)) < \
                                       math_helpers.DistanceBetweenPoints((end.x, end.z), (node.x, node.y)) else end
             else:
@@ -594,7 +597,7 @@ def UpdateNavigatedLanes():
         elif last_type == c.Road:
             if len(route) == 0:
                 start = data.route_plan[0].lane_points[0]
-                end = data.route_plan[-1].lane_points[-1]
+                end = last_item.lane_points[-1]
                 last_point = start if math_helpers.DistanceBetweenPoints((start.x, start.z), (node.x, node.y)) < \
                                       math_helpers.DistanceBetweenPoints((end.x, end.z), (node.x, node.y)) else end
             else:
@@ -749,7 +752,7 @@ def UpdateRoutePlan():
         if len(data.route_plan) == 0:
             return
    
-        if update or len(data.route_plan) < 2:
+        if update or len(data.route_plan) <= 2:
             UpdateNavigatedLanes()
         
         CheckForLaneChange()

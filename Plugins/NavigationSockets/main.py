@@ -65,7 +65,8 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="Provides a socket connection to tmudge's navigation map.",
         modules=["TruckSimAPI"],
-        tags=["Base", "Visualization", "Frontend"]
+        tags=["Base", "Visualization", "Frontend"],
+        hidden=True
     )
     
     author = Author(

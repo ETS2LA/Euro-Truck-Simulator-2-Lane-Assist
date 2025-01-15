@@ -45,6 +45,7 @@ class SettingsMenu(ETS2LASettingsMenu):
             with Tab("Settings"):
                 Title("map.settings.10.title")
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
+                Switch("Trailer Driving", "DriveBasedOnTrailer", False, description="Will move the 'driving point' towards the trailer at low speeds. This should fix some issues with the app cutting corners.")
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")
                 Space(12)
                 Title("map.settings.4.title")
@@ -195,6 +196,7 @@ class Plugin(ETS2LAPlugin):
 
             global api, steering
             api = self.modules.TruckSimAPI
+            api.TRAILER = True
             steering = self.modules.Steering
             steering.OFFSET = 0
             steering.SMOOTH_TIME = self.steering_smoothness

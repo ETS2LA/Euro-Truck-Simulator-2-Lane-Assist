@@ -24,6 +24,14 @@ truck_y: float = 0
 """Truck Y position updated at the start of each map frame."""
 truck_z: float = 0
 """Truck Z position updated at the start of each map frame."""
+trailer_x: float = 0
+"""The first trailer X position."""
+trailer_y: float = 0
+"""The first trailer Y position."""
+trailer_z: float = 0
+"""The first trailer Z position."""
+trailer_attached: bool = False
+"""Whether the trailer is attached or not."""
 current_sector_x: int = 0
 """The sector X coordinate corresponding to the truck's position."""
 current_sector_y: int = 0
@@ -96,6 +104,7 @@ auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 10)
 """The distance in meters from the destination where the truck will automatically accept the current navigation plan."""
 auto_deny_threshold = settings.Get("Map", "AutoDenyThreshold", 100)
 """The distance in meters from the destination where the truck will automatically deny the current navigation plan."""
+drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", False)
 
 # MARK: Return values
 external_data = {}
@@ -121,6 +130,7 @@ def UpdateData(api_data):
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
     global dest_city, dest_company, dest_city_token, dest_company_token
+    global trailer_x, trailer_y, trailer_z, trailer_attached
 
     heavy_calculations_this_frame = 0
     
@@ -175,11 +185,27 @@ def UpdateData(api_data):
     if dst_company_token != dest_company_token:
         dest_company_token = dst_company_token
         dest_company = map.get_company_item_by_token_and_city(dst_company_token, dst_city_token)
+        
+    if not drive_based_on_trailer:
+        trailer_attached = False
+    else:
+        trailer = api_data["trailers"][0]
+        if not trailer["comBool"]["attached"]:
+            trailer_x = 0
+            trailer_y = 0
+            trailer_z = 0
+            trailer_attached = False
+        else:
+            trailer_x = trailer["comDouble"]["worldX"]
+            trailer_y = trailer["comDouble"]["worldY"]
+            trailer_z = trailer["comDouble"]["worldZ"]
+            trailer_attached = True
     
     
 def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
     global auto_accept_threshold, auto_deny_threshold, load_distance
+    global drive_based_on_trailer
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
@@ -187,5 +213,6 @@ def UpdateSettings(settings: dict):
     use_navigation = settings["UseNavigation"]
     auto_accept_threshold = settings["AutoAcceptThreshold"]
     auto_deny_threshold = settings["AutoDenyThreshold"]
+    drive_based_on_trailer = settings["DriveBasedOnTrailer"]
     
 settings.Listen("Map", UpdateSettings)

@@ -181,6 +181,23 @@ available_channels = [
                 "description": "Unsubscribe from the steering plan updates."
             }
         ]
+    },
+    {
+        "channel": 3,
+        "name": "TruckStateData",
+        "description": "API data for the current truck state. This includes speed, accel / braking, gear etc...",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the truck state data updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the truck state data updates."
+            }
+        ]
     }
 ]
 
@@ -332,6 +349,21 @@ class Plugin(ETS2LAPlugin):
         }
         
         return send
+    
+    def state_data(self, data):
+        target_speed = self.globals.tags.acc
+        target_speed = self.globals.tags.merge(target_speed)
+        
+        send = {
+            "speed": data["truckFloat"]["speed"],
+            "speed_limit": data["truckFloat"]["speedLimit"],
+            "cruise_control": data["truckFloat"]["cruiseControlSpeed"],
+            "target_speed": target_speed if target_speed else -1,
+            "throttle": data["truckFloat"]["gameThrottle"],
+            "brake": data["truckFloat"]["gameBrake"],
+        }
+        
+        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -355,34 +387,50 @@ class Plugin(ETS2LAPlugin):
 
     def run(self):
         api_data = TruckSimAPI.run()
-        channel_data = {}
+        channel_data = {} # Cache data for each channel for a frame.
         
-        # Enqueue the message to all connected clients subscribed to the Transform channel
-        for websocket, connection in list(self.connected_clients.items()):
-            if 1 in connection.subscribed_channels:
-                if 1 not in channel_data:
-                    channel_data[1] = self.position(api_data)
+        try:
+            for websocket, connection in list(self.connected_clients.items()):
+                for channel in connection.subscribed_channels:
+                    message = {}
+                    if channel == 1:
+                        if 1 not in channel_data:
+                            channel_data[1] = self.position(api_data)
+                            
+                        message = {
+                            "channel": 1,
+                            "result": {
+                                "type": "data",
+                                "data": channel_data[1]
+                            }
+                        }
                     
-                message = {
-                    "channel": 1,
-                    "result": {
-                        "type": "data",
-                        "data": channel_data[1]
-                    }
-                }
-                
-                asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
-            
-            if 2 in connection.subscribed_channels:
-                if 2 not in channel_data:
-                    channel_data[2] = self.steering()
-                    
-                message = {
-                    "channel": 2,
-                    "result": {
-                        "type": "data",
-                        "data": channel_data[2]
-                    }
-                }
-                
-                asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
+                    if channel == 2:
+                        if 2 not in channel_data:
+                            channel_data[2] = self.steering()
+                            
+                        message = {
+                            "channel": 2,
+                            "result": {
+                                "type": "data",
+                                "data": channel_data[2]
+                            }
+                        }
+                        
+                    if channel == 3:
+                        if 3 not in channel_data:
+                            channel_data[3] = self.state_data(api_data)
+                            
+                        message = {
+                            "channel": 3,
+                            "result": {
+                                "type": "data",
+                                "data": channel_data[3]
+                            }
+                        }
+                        
+                    if message != {}:
+                        asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
+        except:
+            logging.warning("Error sending data to clients.")
+            pass

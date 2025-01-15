@@ -86,6 +86,28 @@ def GetPointDistance(points_so_far: int, total_points: int = 50) -> float:
     # If points_so_far is exactly at the last key point
     return key_points[-1][1]
     
+def LerpTrailerAndTruck(start_speed = 30, end_speed = 70) -> list[float]:
+    trailer_pos = [data.trailer_x, data.trailer_y, data.trailer_z]
+    truck_pos = [data.truck_x, data.truck_y, data.truck_z]
+    
+    if data.truck_speed * 3.6 < start_speed:
+        percentage = 0.5
+        return [
+            trailer_pos[0] + (truck_pos[0] - trailer_pos[0]) * percentage,
+            trailer_pos[1] + (truck_pos[1] - trailer_pos[1]) * percentage,
+            trailer_pos[2] + (truck_pos[2] - trailer_pos[2]) * percentage
+        ]
+        
+    if data.truck_speed * 3.6 > end_speed:
+        return truck_pos
+    
+    percentage = (data.truck_speed * 3.6 - start_speed) / (end_speed - start_speed)
+    percentage = min(percentage, 0.5)
+    return [
+        trailer_pos[0] + (truck_pos[0] - trailer_pos[0]) * percentage,
+        trailer_pos[1] + (truck_pos[1] - trailer_pos[1]) * percentage,
+        trailer_pos[2] + (truck_pos[2] - trailer_pos[2]) * percentage
+    ]
 
 def GetSteering():
     if len(data.route_plan) == 0:
@@ -151,7 +173,11 @@ def GetSteering():
                 isLeft = False
 
             centerline = [points[-1].x - points[0].x, points[-1].z - points[0].z]
-            truck_position_vector = [data.truck_x - points[0].x, data.truck_z - points[0].z]
+            if data.trailer_attached:
+                coords = LerpTrailerAndTruck()
+                truck_position_vector = [coords[0] - points[0].x, coords[2] - points[0].z]   
+            else:
+                truck_position_vector = [data.truck_x - points[0].x, data.truck_z - points[0].z]
 
             lateral_offset = np.cross(truck_position_vector, centerline) / np.linalg.norm(centerline)
             data.plugin.globals.tags.lateral_offset = lateral_offset
@@ -193,7 +219,11 @@ def GetSteering():
             x = points[len(points)-1].x
             z = points[len(points)-1].z
             
-            vector = [x - data.truck_x, z - data.truck_z]
+            if data.trailer_attached:
+                coords = LerpTrailerAndTruck()
+                vector = [x - coords[0], z - coords[2]]
+            else:
+                vector = [x - data.truck_x, z - data.truck_z]
 
             angle = np.arccos(np.dot(forward_vector, vector) / (np.linalg.norm(forward_vector) * np.linalg.norm(vector)))
             angle = math.degrees(angle)
