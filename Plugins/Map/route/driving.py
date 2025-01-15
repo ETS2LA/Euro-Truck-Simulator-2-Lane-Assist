@@ -102,7 +102,7 @@ def LerpTrailerAndTruck(start_speed = 30, end_speed = 70) -> list[float]:
         return truck_pos
     
     percentage = (data.truck_speed * 3.6 - start_speed) / (end_speed - start_speed)
-    percentage = min(percentage, 0.5)
+    percentage = max(min(percentage, 1), 0.5)
     return [
         trailer_pos[0] + (truck_pos[0] - trailer_pos[0]) * percentage,
         trailer_pos[1] + (truck_pos[1] - trailer_pos[1]) * percentage,
