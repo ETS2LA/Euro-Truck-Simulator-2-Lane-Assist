@@ -9,7 +9,9 @@ from ETS2LA.Networking.cloud import SendCrashReport
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Utils.Console.logging import logging
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 import ETS2LA.variables as variables
+from Plugins.AR.classes import *
 
 # Python imports
 from typing import cast
@@ -87,8 +89,7 @@ class Plugin(ETS2LAPlugin):
     vehicle_speed = math.inf
     vehicle_id = 0
     
-    last_target_speed_time = 0
-    last_target_speed = 0
+    max_speed = SmoothedValue("time", 0.5)
     target_speed = 0
     
     last_red_light_time = 0
@@ -276,40 +277,30 @@ class Plugin(ETS2LAPlugin):
         SDKController.abackward = float(0)
 
     def GetTargetSpeed(self, apiData: dict) -> float:
-        targetSpeed = self.globals.tags.target_speed
-        targetSpeed = self.globals.tags.merge(targetSpeed)
+        max_speed = self.globals.tags.target_speed
+        max_speed = self.globals.tags.merge(max_speed)
         
-        if targetSpeed is None or not isinstance(targetSpeed, float):
-            if time.perf_counter() - self.last_target_speed_time > 1:
-                targetSpeed = apiData['truckFloat']['speedLimit']
-                self.last_target_speed = targetSpeed
-                self.last_target_speed_time = time.perf_counter()
-            else: 
-                targetSpeed = self.last_target_speed
+        if max_speed is not None:
+            smoothed_max_speed = self.max_speed(max_speed)
         else:
-            if TYPE == "Percentage":
-                targetSpeed = targetSpeed * (1 + OVERSPEED / 100)
-            else:
-                targetSpeed = targetSpeed + OVERSPEED / 3.6
-            self.last_target_speed = targetSpeed
-            self.last_target_speed_time = time.perf_counter() 
+            smoothed_max_speed = 999
+        
+        target_speed = apiData['truckFloat']['speedLimit']
+        
+        if TYPE == "Percentage":
+            target_speed = target_speed * (1 + OVERSPEED / 100)
+        else:
+            target_speed = target_speed + OVERSPEED / 3.6
             
-        if targetSpeed > 0:
-            targetSpeed += 0.5 / 3.6
+        if target_speed > 0:
+            target_speed += 0.49 / 3.6
         else:
-            road_type = self.globals.tags.road_type
-            road_type = self.globals.tags.merge(road_type)
-            if road_type == "normal":
-                targetSpeed = 30 / 3.6
-            elif road_type == "highway":
-                targetSpeed = 80 / 3.6
-            else:
-                targetSpeed = 0
-
-        if targetSpeed <= 0:
-            targetSpeed = OVERWRITE_SPEED / 3.6   
+            target_speed = OVERWRITE_SPEED / 3.6  
          
-        return targetSpeed
+        if target_speed > smoothed_max_speed:
+            target_speed = smoothed_max_speed
+         
+        self.target_speed = target_speed
 
     def RedLightExists(self) -> bool:
         trafficLights = self.globals.tags.traffic_lights
@@ -374,31 +365,50 @@ class Plugin(ETS2LAPlugin):
         if type == "time" and SHOW_NOTIFICATIONS:
             self.state.text = "Slowing dow to maintain time gap"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
+            self.globals.tags.AR = []
             return "Slowing dow to maintain time gap" + f" {self.status_data[0]:.1f}s / {self.status_data[1]}s"
+        
         elif type == "distance" and SHOW_NOTIFICATIONS:
             self.state.text = "Slowing down to maintain distance gap"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
+            self.globals.tags.AR = []
             return "Slowing down to maintain distance gap" + f" {self.status_data[0]:.1f}m / {self.status_data[1]}m"
+        
         elif type == "traffic light" and SHOW_NOTIFICATIONS:
             self.state.text = "Stopping for traffic light"
             self.state.progress = 1 - self.status_data[0] / self.status_data[1]
+            
+            self.globals.tags.AR = [
+                Rectangle(
+                    Coordinate(-2.25, 1, -self.status_data[0], relative=True, rotation_relative=True),
+                    Coordinate(2.25, -1, -self.status_data[0], relative=True, rotation_relative=True),
+                    thickness=5,
+                    color=Color(255, 0, 0, 60),
+                    fill=Color(255, 0, 0, 40),
+                    fade=Fade(0, 0, 150, 170),
+                )
+            ]
+            
             return f"Slowing down for traffic light in {self.status_data[0]:.1f}m"
+        
         else:
             self.state.reset()
+            self.globals.tags.AR = []
             return "Maintaining speed according to map"
 
     def run(self):
         if not ACC_ENABLED:
+            self.globals.tags.AR = []
             self.Reset(); return
             
         apiData = TruckSimAPI.run()
         if apiData['truckFloat']['speedLimit'] == 0 and OVERWRITE_SPEED == 0:
+            self.globals.tags.AR = []
             self.Reset(); return
         
         currentSpeed = apiData['truckFloat']['speed']
         
-        try: self.target_speed = self.GetTargetSpeed(apiData)
-        except: self.Reset(); logging.exception("something"); return
+        self.GetTargetSpeed(apiData)
         
         try: timeToVehicle = self.GetTimeToVehicleAhead(apiData)
         except: timeToVehicle = math.inf; logging.exception("Failed to get time to vehicle ahead")

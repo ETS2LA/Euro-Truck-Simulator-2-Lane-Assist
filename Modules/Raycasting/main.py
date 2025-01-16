@@ -115,36 +115,49 @@ class Module(ETS2LAModule):
         truck_yaw = truck_rotation_degrees_x
         truck_pitch = truck_rotation_degrees_y
         truck_roll = truck_rotation_degrees_z
+        
         head_yaw = -head_rotation_degrees_x
         head_pitch = -(head_rotation_degrees_y - truck_pitch)
         head_roll = -(head_rotation_degrees_z - truck_roll)
+        
         screen_y = screen.height - screen_y
+        
         fov_rad = math.radians(FOV)
+        
         window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
+        
         final_x = ((screen_x - window_width / 2) / window_distance)
         final_y = ((screen_y - window_height / 2) / window_distance)
         final_z = -1
+        
         cos_roll = math.cos(math.radians(-head_roll))
         sin_roll = math.sin(math.radians(-head_roll))
+        
         new_x = final_x * cos_roll + final_y * sin_roll
         new_y = final_y * cos_roll - final_x * sin_roll
         final_x, final_y = new_x, new_y
+        
         cos_pitch = math.cos(math.radians(head_pitch))
         sin_pitch = math.sin(math.radians(head_pitch))
         new_y = final_y * cos_pitch + final_z * sin_pitch
         new_z = final_z * cos_pitch - final_y * sin_pitch
         final_y, final_z = new_y, new_z
+        
         cos_yaw = math.cos(math.radians(head_yaw))
         sin_yaw = math.sin(math.radians(head_yaw))
         new_x = final_x * cos_yaw - final_z * sin_yaw
         new_z = final_z * cos_yaw + final_x * sin_yaw
         final_x, final_z = new_x, new_z
+        
         if final_y == 0:
             return None
+        
         t = (plane_height - head_y) / final_y
+        
         x = head_x + t * final_x
         y = plane_height
         z = head_z + t * final_z
+        
         return x, y, z
 
 
