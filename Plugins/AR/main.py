@@ -313,10 +313,10 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
         
-        #if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
-        #    time.sleep(0.1)
-        #    self.Render()
-        #    return
+        if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
+            time.sleep(0.1)
+            self.Render()
+            return
 
         WindowPosition = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         if LastWindowPosition != WindowPosition:
