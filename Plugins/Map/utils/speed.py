@@ -9,7 +9,7 @@ curvature = SmoothedValue("time", 3)
 
 # Curvature in degrees
 curvature_to_max_speed = {
-    0: 100, # Max speed that ETS2LA is allowed to drive
+    0: 110, # Max speed that ETS2LA is allowed to drive
     5: 95,
     10: 90,
     15: 80,
