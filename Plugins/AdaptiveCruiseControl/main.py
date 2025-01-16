@@ -22,7 +22,7 @@ FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3) # seconds
 OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0) # 0-100
 BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60) # meters
 STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15) # meters
-OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 50) # km/h
+OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 30) # km/h
 TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
 TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
@@ -297,9 +297,9 @@ class Plugin(ETS2LAPlugin):
         else:
             target_speed = OVERWRITE_SPEED / 3.6  
          
-        if target_speed > smoothed_max_speed:
+        if target_speed > smoothed_max_speed and smoothed_max_speed > 0:
             target_speed = smoothed_max_speed
-         
+        
         self.target_speed = target_speed
 
     def RedLightExists(self) -> bool:
