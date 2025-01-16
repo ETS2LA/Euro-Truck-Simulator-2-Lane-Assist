@@ -260,7 +260,7 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Recalculating path with new routing mode...")
                     navigation.get_path_to_destination()
 
-            max_speed = api_data["truckFloat"]["speedLimit"]
+            max_speed = 999
             if data.calculate_steering:
                 # Update route plan and steering
                 planning.UpdateRoutePlan()
