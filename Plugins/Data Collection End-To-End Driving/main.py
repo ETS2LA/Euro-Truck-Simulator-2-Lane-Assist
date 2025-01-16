@@ -161,6 +161,8 @@ class SettingsMenu(ETS2LASettingsMenu):
         Button("Delete", "Delete collected, not yet uploaded data", self.DeleteDataOnPC, description="This will delete all the data that was collected by the plugin but not yet uploaded to the server.")
         Button("Delete", "Delete already uploaded data", self.DeleteDataOnServer, description="This will delete all the data that was collected by the plugin and already uploaded to the server.\nNot possible to delete all the data if the data ID got lost at some point and replaced with a new one.")
         Separator()
+        Toggle("I read the notice and I want to help with the data collection", "i_read_the_notice", default=None)
+        Separator()
         Description("Server code can be found at https://github.com/ETS2LA/cdn")
         return RenderUI()
 
@@ -188,6 +190,7 @@ class Plugin(ETS2LAPlugin):
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
+        import ETS2LA.Utils.settings as settings
         import ETS2LA.variables as variables
         import threading
         import datetime
@@ -209,6 +212,15 @@ class Plugin(ETS2LAPlugin):
         global LastCaptureTime
         global LastCaptureLocation
 
+        NoticeRead = settings.Get("Data Collection End-To-End Driving", "i_read_the_notice", None)
+        if NoticeRead == None:
+            self.state.text = "Please read and accept the notice in the settings!"
+            while settings.Get("Data Collection End-To-End Driving", "i_read_the_notice", None) == None:
+                time.sleep(0.5)
+            NoticeRead = settings.Get("Data Collection End-To-End Driving", "i_read_the_notice", None)
+            self.state.text = ""
+        if NoticeRead != True:
+            self.terminate()
 
         # This ID is not public, you can request to delete all data that was collected with this ID by going to https://cdn.ets2la.com/datasets/Glas42/End-To-End/delete/{your_data_id}
         # If other people get this ID, they can request to delete your data. No personal information is saved with this ID.
@@ -225,7 +237,9 @@ class Plugin(ETS2LAPlugin):
 
         FOVValue = self.globals.settings.FOV
         if FOVValue == None:
-            print(f"\n{RED}Make sure to set the FOV in the settings for the 'Data Collection End-To-End Driving' plugin! The plugin will disable itself.{NORMAL}\n")
+            print(f"\n{RED}Make sure to set the FOV in the settings for the Data Collection End-To-End Driving plugin! The plugin will disable itself.{NORMAL}\n")
+            self.notify("No FOV set, disabling Data Collection End-To-End Driving...")
+            time.sleep(1)
             self.terminate()
 
         TruckSimAPI = SCSTelemetry()
