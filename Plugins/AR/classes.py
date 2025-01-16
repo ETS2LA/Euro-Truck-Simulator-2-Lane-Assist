@@ -144,8 +144,14 @@ class Coordinate:
     def screen(self, plugin):
         return ConvertCoordinateToScreen(self, plugin)
     
+    def get_distance_to(self, x, y, z):
+        return ((self.x - x) ** 2 + (self.y - y) ** 2 + (self.z - z) ** 2) ** 0.5
+    
     def json(self): 
         return {"x": self.x, "y": self.y, "z": self.z}
+    
+    def __str__(self):
+        return f"Coordinate({self.x}, {self.y}, {self.z})"
     
     def __add__(self, other):
         return Coordinate(self.x + other.x, self.y + other.y, self.z + other.z)
@@ -271,7 +277,9 @@ class Rectangle:
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return ((self.start.x - x) ** 2 + (self.start.y - y) ** 2 + (self.start.z - z) ** 2) ** 0.5 + ((self.end.x - x) ** 2 + (self.end.y - y) ** 2 + (self.end.z - z) ** 2) ** 0.5
+            start_distance = self.start.get_distance_to(x, y, z) if not self.start.relative else self.start.get_distance_to(0, 0, 0)
+            end_distance = self.end.get_distance_to(x, y, z) if not self.end.relative else self.end.get_distance_to(0, 0, 0)
+            return (start_distance + end_distance) / 2
         return 0
         
     def json(self):
@@ -325,7 +333,9 @@ class Line:
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return ((self.start.x - x) ** 2 + (self.start.y - y) ** 2 + (self.start.z - z) ** 2) ** 0.5 + ((self.end.x - x) ** 2 + (self.end.y - y) ** 2 + (self.end.z - z) ** 2) ** 0.5
+            start_distance = self.start.get_distance_to(x, y, z) if not self.start.relative else self.start.get_distance_to(0, 0, 0)
+            end_distance = self.end.get_distance_to(x, y, z) if not self.end.relative else self.end.get_distance_to(0, 0, 0)
+            return (start_distance + end_distance) / 2
         return 0
         
     def json(self):
@@ -382,7 +392,11 @@ class Polygon:
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return sum([((point.x - x) ** 2 + (point.y - y) ** 2 + (point.z - z) ** 2) ** 0.5 for point in self.points])
+            distances = [
+                point.get_distance_to(x, y, z) if not point.relative else point.get_distance_to(0, 0, 0)
+                for point in self.points
+            ]
+            return sum(distances) / len(distances)
         return 0
         
     def json(self):
@@ -440,7 +454,7 @@ class Circle:
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return ((self.center.x - x) ** 2 + (self.center.y - y) ** 2 + (self.center.z - z) ** 2) ** 0.5
+            return self.center.get_distance_to(x, y, z) if not self.center.relative else self.center.get_distance_to(0, 0, 0)
         return 0
         
     def json(self):
@@ -494,7 +508,7 @@ class Text:
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return ((self.point.x - x) ** 2 + (self.point.y - y) ** 2 + (self.point.z - z) ** 2) ** 0.5
+            return self.point.get_distance_to(x, y, z) if not self.point.relative else self.point.get_distance_to(0, 0, 0)
         return 0
         
     def json(self):
