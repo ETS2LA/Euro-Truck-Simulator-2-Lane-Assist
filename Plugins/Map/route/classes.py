@@ -206,7 +206,7 @@ class RouteSection:
             
     def get_points(self):
         current_lane_points = self.discard_points_behind(self.lane_points)
-        if current_lane_points == []:
+        if len(current_lane_points) < 2:
             self.is_ended = True
         
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
