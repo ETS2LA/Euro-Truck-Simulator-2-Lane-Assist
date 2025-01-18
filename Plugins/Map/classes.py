@@ -1055,6 +1055,10 @@ class Road(BaseItem):
     
             start_pos = (start_node.x, start_node.z, start_node.y)
             end_pos = (end_node.x, end_node.z, end_node.y)
+            if "Road 2 plus 1 temp" in self.road_look.name:
+                temp_pos = start_pos
+                start_pos = [start_pos[0], end_pos[1], start_pos[2]]
+                end_pos = [end_pos[0], temp_pos[1], end_pos[2]]
     
             start_euler = start_node.euler if hasattr(start_node, 'euler') else (0, 0, 0)
             end_euler = end_node.euler if hasattr(end_node, 'euler') else (0, 0, 0)
