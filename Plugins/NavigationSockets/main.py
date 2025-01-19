@@ -168,6 +168,13 @@ class Plugin(ETS2LAPlugin):
         data = TruckSimAPI.run()
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
+        rotation = -data["truckPlacement"]["rotationX"] * 360
+        speed = data["truckFloat"]["speed"] # m/s
+        speed_limit = data["truckFloat"]["speedLimit"]
+        speed_mph = speed * 2.23694
+        speed_limit_mph = speed_limit * 2.23694
+        #if rotation < 0:
+        #    rotation = 360 + rotation
         
         packet = {
             "id": 2,
@@ -175,9 +182,9 @@ class Plugin(ETS2LAPlugin):
                 "type": "data",
                 "data": {
                     "position": ETS2CoordsToWGS84(*position),
-                    "bearing": 70,
-                    "speedMph": 30,
-                    "speedLimit": 25
+                    "bearing": rotation,
+                    "speedMph": speed_mph,
+                    "speedLimit": speed_limit_mph
                 },
             }
         }
