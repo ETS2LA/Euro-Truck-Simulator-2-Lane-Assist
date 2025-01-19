@@ -15,7 +15,6 @@ class WebSocketConnection:
             while True:
                 message = await self.queue.get()
                 await self.websocket.send(message)
-                await asyncio.sleep(1/2)  # Limit to 2 fps
         except Exception as e:
             print("Client disconnected due to exception in send_messages.", str(e))
 
@@ -100,7 +99,8 @@ class Plugin(ETS2LAPlugin):
         response = [
             {"id": 1,"result": {"type": "started"}},
             {"id": 2,"result": {"type": "started"}},
-            {"id": 3,"result": {"type": "started"}}
+            {"id": 3,"result": {"type": "started"}},
+            {"id": 4,"result": {"type": "started"}}
         ]
         try:
             async for message in websocket:
@@ -115,33 +115,6 @@ class Plugin(ETS2LAPlugin):
             connection.sender_task.cancel()
             del self.connected_clients[websocket]
             print("Client disconnected. Number of connected clients: ", len(self.connected_clients))
-
-    def position(self, data):
-        send = ""
-        send += "x:" + str(data["truckPlacement"]["coordinateX"]) + ";"
-        send += "y:" + str(data["truckPlacement"]["coordinateY"]) + ";"
-        send += "z:" + str(data["truckPlacement"]["coordinateZ"]) + ";"
-        rotationX = data["truckPlacement"]["rotationX"] * 360
-        if rotationX < 0: rotationX += 360
-        send += "rx:" + str(rotationX) + ";"
-        rotationY = data["truckPlacement"]["rotationY"] * 360
-        send += "ry:" + str(rotationY) + ";"
-        rotationZ = data["truckPlacement"]["rotationZ"] * 360
-        if rotationZ < 0: rotationZ += 360
-        send += "rz:" + str(rotationZ) + ";"
-        return send
-
-    def speed(self, data):
-        data["targetSpeed"] = self.globals.tags.acc
-        data["targetSpeed"] = self.globals.tags.merge(data["targetSpeed"])
-        
-        if data["targetSpeed"] is None:
-            data["targetSpeed"] = data["truckFloat"]["cruiseControlSpeed"]
-                
-        send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
-        send += "speedLimit:" + str(data["truckFloat"]["speedLimit"]) + ";"
-        send += "cc:" + str(data["targetSpeed"]) + ";"
-        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -163,20 +136,19 @@ class Plugin(ETS2LAPlugin):
         
         print("Navigation sockets waiting for client...")
 
-    # Example usage in your server function
     def run(self):
         data = TruckSimAPI.run()
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
         rotation = -data["truckPlacement"]["rotationX"] * 360
+        
         speed = data["truckFloat"]["speed"] # m/s
         speed_limit = data["truckFloat"]["speedLimit"]
         speed_mph = speed * 2.23694
-        speed_limit_mph = speed_limit * 2.23694
-        #if rotation < 0:
-        #    rotation = 360 + rotation
+        speed_limit_kph = round(speed_limit * 3.6)
         
-        packet = {
+        packets = [
+        {
             "id": 2,
             "result": {
                 "type": "data",
@@ -184,11 +156,24 @@ class Plugin(ETS2LAPlugin):
                     "position": ETS2CoordsToWGS84(*position),
                     "bearing": rotation,
                     "speedMph": speed_mph,
-                    "speedLimit": speed_limit_mph
+                    "speedLimit": speed_limit_kph
                 },
             }
-        }
+        },
+            {
+            "id": 4,
+            "result": {
+                "type": "data",
+                "data": {
+                    "position": ETS2CoordsToWGS84(*position),
+                    "bearing": rotation,
+                    "speedMph": speed_mph,
+                    "speedLimit": speed_limit_kph
+                },
+            }
+        }]
             
         # Enqueue the message to all connected clients
         for connection in list(self.connected_clients.values()):
-            asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(packet)), self.loop)
+            for packet in packets:
+                asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(packet)), self.loop)
