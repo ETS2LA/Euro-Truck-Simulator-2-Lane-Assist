@@ -56,8 +56,8 @@ def ETS2CoordsToWGS84(x, y):
     
     coords = [x, -y]
     if is_uk:
-        return UK_TRANSFORM.transform(*coords)
-    return ETS2_TRANSFORM.transform(*coords)
+        return UK_TRANSFORM.transform(*coords)[::-1]
+    return ETS2_TRANSFORM.transform(*coords)[::-1]
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
