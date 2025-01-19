@@ -193,13 +193,15 @@ class NavigationEntry:
         
     def calculate_node_data(self, map_data):
         this = map_data.get_node_by_uid(self.uid)
+        if this is None:
+            return
         for node in self.forward:
             if node.node_id == self.uid:
                 continue
             
             map_data.total += 1
             other = map_data.get_node_by_uid(node.node_id)
-            if other == this:
+            if other is None or other == this:
                 continue
             
             node.item_uid = node_helpers.get_connecting_item_uid(this, other)
@@ -209,6 +211,8 @@ class NavigationEntry:
                 continue
             
             item = map_data.get_item_by_uid(node.item_uid, warn_errors=False)
+            if item is None:
+                continue
             node.item_type = type(item)
             node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
             if node.lane_indices == []:
@@ -221,7 +225,7 @@ class NavigationEntry:
             
             map_data.total += 1
             other = map_data.get_node_by_uid(node.node_id)
-            if other == this:
+            if other is None or other == this:
                 continue
             
             node.item_uid = node_helpers.get_connecting_item_uid(this, other)
@@ -231,6 +235,8 @@ class NavigationEntry:
                 continue
             
             item = map_data.get_item_by_uid(node.item_uid, warn_errors=False)
+            if item is None:
+                continue
             node.item_type = type(item)
             node.lane_indices = node_helpers.get_connecting_lanes_by_item(this, other, item, map_data)
             if node.lane_indices == []:
