@@ -3,6 +3,7 @@ from ETS2LA.UI import *
 
 from pyproj import CRS, Transformer
 import json
+import math
 
 class WebSocketConnection:
     def __init__(self, websocket):
@@ -18,7 +19,21 @@ class WebSocketConnection:
         except Exception as e:
             print("Client disconnected due to exception in send_messages.", str(e))
 
-ETS2_SCALE = 19.083661390678152
+def lengthOfDegreeAt(latInDegrees):
+    m1 = 111132.92
+    m2 = -559.82
+    m3 = 1.175
+    m4 = -0.0023
+
+    lat = math.radians(latInDegrees)
+    return (
+        m1 +
+        m2 * math.cos(2 * lat) +
+        m3 * math.cos(4 * lat) +
+        m4 * math.cos(6 * lat)
+    )
+
+ETS2_SCALE = abs(lengthOfDegreeAt(50) * -0.000171570875)
 BASE_ETS2 = [ # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L46
     "+proj=lcc",
     "+units=m",
@@ -41,13 +56,13 @@ UK_PROJ = " ".join([
 ETS2_CRS = CRS.from_proj4(ETS2_PROJ)
 UK_CRS = CRS.from_proj4(UK_PROJ)
 
-ETS2_TRANSFORM = Transformer.from_proj(ETS2_CRS, CRS("EPSG:4326"))
-UK_TRANSFORM = Transformer.from_proj(UK_CRS, CRS("EPSG:4326"))
+ETS2_TRANSFORM = Transformer.from_crs(ETS2_CRS, CRS("EPSG:4326"))
+UK_TRANSFORM = Transformer.from_crs(UK_CRS, CRS("EPSG:4326"))
 
 def ETS2CoordsToWGS84(x, y):
     calais = [-31100, -5500]
     is_uk = x < calais[0] and y < calais[1]
-    x -= 16600 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
+    x -= 16660 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
     y -= 4150
     if is_uk:
         x -= 16650
@@ -57,6 +72,7 @@ def ETS2CoordsToWGS84(x, y):
     if is_uk:
         return UK_TRANSFORM.transform(*coords)[::-1]
     return ETS2_TRANSFORM.transform(*coords)[::-1]
+
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -75,6 +91,7 @@ class Plugin(ETS2LAPlugin):
     )
     
     fps_cap = 2
+    last_navigation_time = 0
     
     def init(self):
         self.connected_clients = {}
@@ -140,12 +157,13 @@ class Plugin(ETS2LAPlugin):
         data = TruckSimAPI.run()
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
-        rotation = -data["truckPlacement"]["rotationX"] * 360
+        rotation = -data["truckPlacement"]["rotationX"] * 360 + 3
         
         speed = data["truckFloat"]["speed"] # m/s
         speed_limit = data["truckFloat"]["speedLimit"]
         speed_mph = speed * 2.23694
         speed_limit_kph = round(speed_limit * 3.6)
+        
         
         packets = [
         {
@@ -172,7 +190,30 @@ class Plugin(ETS2LAPlugin):
                 },
             }
         }]
-            
+        
+        navigation = self.globals.tags.navigation_plan
+        navigation = self.globals.tags.merge(navigation)
+        if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
+            self.last_navigation_time = time.time()
+            packets.append({
+                "id": "1",
+                "result": {
+                    "type": "data",
+                    "data": {
+                            "id": "1",
+                            "segments": [
+                                {
+                                    "key": "route",
+                                    "lonLats": [ETS2CoordsToWGS84(node.x, node.y) for node in navigation],
+                                    "distance": math.sqrt((navigation[-1].x - navigation[0].x) ** 2 + (navigation[-1].y - navigation[0].y) ** 2),
+                                    "time": 0,
+                                    "strategy": "shortest",
+                                }
+                            ]
+                    }
+                }       
+            })
+        
         # Enqueue the message to all connected clients
         for connection in list(self.connected_clients.values()):
             for packet in packets:
