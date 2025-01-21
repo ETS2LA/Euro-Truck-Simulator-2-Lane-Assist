@@ -1,6 +1,7 @@
 # WARNING:
 # This uses old code from the old Map plugin. This means that it isn't typed.
 # You should not edit this code unless you know what you are doing.
+import re
 
 # TODO: Clean the code and optimize road generation
 
@@ -148,10 +149,9 @@ def GetOffset(road):
             if rule in name:
                 rule_offset = rules["**" + rule]
 
-        if "m offset" in road.road_look.name:
-            custom_offset = road.road_look.name.split("m offset")[0]
-            custom_offset = float(custom_offset.split(" ")[-1]) * 2
-            custom_offset = 4.5 + custom_offset
+        reg = re.search('(^|\s|_)([+-]?\d+(\.\d+)?)m(_|\s|$)', road.road_look.name)
+        if reg:
+            custom_offset = 4.5 + float(reg.group(2)) * 2
         elif name in per_name:
             custom_offset = per_name[name]
         elif rule_offset != 999:
