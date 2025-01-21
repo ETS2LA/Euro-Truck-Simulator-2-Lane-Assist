@@ -296,6 +296,10 @@ class Plugin(ETS2LAPlugin):
                 self.last_dest_company = data.dest_company
                 data.update_navigation_plan = False
                 navigation.get_path_to_destination()
+                if data.navigation_plan and data.navigation_plan != []:
+                    self.globals.tags.navigation_plan = data.navigation_plan
+                else:
+                    self.globals.tags.navigation_plan = []
                 data.last_navigation_update = time.perf_counter()
 
             if data.external_data_changed:

@@ -3,6 +3,7 @@ from ETS2LA.UI import *
 
 from pyproj import CRS, Transformer
 import json
+import math
 
 class WebSocketConnection:
     def __init__(self, websocket):
@@ -15,11 +16,24 @@ class WebSocketConnection:
             while True:
                 message = await self.queue.get()
                 await self.websocket.send(message)
-                await asyncio.sleep(1/2)  # Limit to 2 fps
         except Exception as e:
             print("Client disconnected due to exception in send_messages.", str(e))
 
-ETS2_SCALE = 19.083661390678152
+def lengthOfDegreeAt(latInDegrees):
+    m1 = 111132.92
+    m2 = -559.82
+    m3 = 1.175
+    m4 = -0.0023
+
+    lat = math.radians(latInDegrees)
+    return (
+        m1 +
+        m2 * math.cos(2 * lat) +
+        m3 * math.cos(4 * lat) +
+        m4 * math.cos(6 * lat)
+    )
+
+ETS2_SCALE = abs(lengthOfDegreeAt(50) * -0.000171570875)
 BASE_ETS2 = [ # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L46
     "+proj=lcc",
     "+units=m",
@@ -42,13 +56,13 @@ UK_PROJ = " ".join([
 ETS2_CRS = CRS.from_proj4(ETS2_PROJ)
 UK_CRS = CRS.from_proj4(UK_PROJ)
 
-ETS2_TRANSFORM = Transformer.from_proj(ETS2_CRS, CRS("EPSG:4326"))
-UK_TRANSFORM = Transformer.from_proj(UK_CRS, CRS("EPSG:4326"))
+ETS2_TRANSFORM = Transformer.from_crs(ETS2_CRS, CRS("EPSG:4326"))
+UK_TRANSFORM = Transformer.from_crs(UK_CRS, CRS("EPSG:4326"))
 
 def ETS2CoordsToWGS84(x, y):
     calais = [-31100, -5500]
     is_uk = x < calais[0] and y < calais[1]
-    x -= 16600 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
+    x -= 16660 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
     y -= 4150
     if is_uk:
         x -= 16650
@@ -56,8 +70,9 @@ def ETS2CoordsToWGS84(x, y):
     
     coords = [x, -y]
     if is_uk:
-        return UK_TRANSFORM.transform(*coords)
-    return ETS2_TRANSFORM.transform(*coords)
+        return UK_TRANSFORM.transform(*coords)[::-1]
+    return ETS2_TRANSFORM.transform(*coords)[::-1]
+
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -66,7 +81,7 @@ class Plugin(ETS2LAPlugin):
         description="Provides a socket connection to tmudge's navigation map.",
         modules=["TruckSimAPI"],
         tags=["Base", "Visualization", "Frontend"],
-        hidden=True
+        hidden=False
     )
     
     author = Author(
@@ -76,6 +91,7 @@ class Plugin(ETS2LAPlugin):
     )
     
     fps_cap = 2
+    last_navigation_time = 0
     
     def init(self):
         self.connected_clients = {}
@@ -100,7 +116,8 @@ class Plugin(ETS2LAPlugin):
         response = [
             {"id": 1,"result": {"type": "started"}},
             {"id": 2,"result": {"type": "started"}},
-            {"id": 3,"result": {"type": "started"}}
+            {"id": 3,"result": {"type": "started"}},
+            {"id": 4,"result": {"type": "started"}}
         ]
         try:
             async for message in websocket:
@@ -115,33 +132,6 @@ class Plugin(ETS2LAPlugin):
             connection.sender_task.cancel()
             del self.connected_clients[websocket]
             print("Client disconnected. Number of connected clients: ", len(self.connected_clients))
-
-    def position(self, data):
-        send = ""
-        send += "x:" + str(data["truckPlacement"]["coordinateX"]) + ";"
-        send += "y:" + str(data["truckPlacement"]["coordinateY"]) + ";"
-        send += "z:" + str(data["truckPlacement"]["coordinateZ"]) + ";"
-        rotationX = data["truckPlacement"]["rotationX"] * 360
-        if rotationX < 0: rotationX += 360
-        send += "rx:" + str(rotationX) + ";"
-        rotationY = data["truckPlacement"]["rotationY"] * 360
-        send += "ry:" + str(rotationY) + ";"
-        rotationZ = data["truckPlacement"]["rotationZ"] * 360
-        if rotationZ < 0: rotationZ += 360
-        send += "rz:" + str(rotationZ) + ";"
-        return send
-
-    def speed(self, data):
-        data["targetSpeed"] = self.globals.tags.acc
-        data["targetSpeed"] = self.globals.tags.merge(data["targetSpeed"])
-        
-        if data["targetSpeed"] is None:
-            data["targetSpeed"] = data["truckFloat"]["cruiseControlSpeed"]
-                
-        send = "speed:" + str(data["truckFloat"]["speed"]) + ";"
-        send += "speedLimit:" + str(data["truckFloat"]["speedLimit"]) + ";"
-        send += "cc:" + str(data["targetSpeed"]) + ";"
-        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -163,25 +153,68 @@ class Plugin(ETS2LAPlugin):
         
         print("Navigation sockets waiting for client...")
 
-    # Example usage in your server function
     def run(self):
         data = TruckSimAPI.run()
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
+        rotation = -data["truckPlacement"]["rotationX"] * 360 + 3
         
-        packet = {
+        speed = data["truckFloat"]["speed"] # m/s
+        speed_limit = data["truckFloat"]["speedLimit"]
+        speed_mph = speed * 2.23694
+        speed_limit_kph = round(speed_limit * 3.6)
+        
+        
+        packets = [
+        {
             "id": 2,
             "result": {
                 "type": "data",
                 "data": {
                     "position": ETS2CoordsToWGS84(*position),
-                    "bearing": 70,
-                    "speedMph": 30,
-                    "speedLimit": 25
+                    "bearing": rotation,
+                    "speedMph": speed_mph,
+                    "speedLimit": speed_limit_kph
                 },
             }
-        }
-            
+        },
+            {
+            "id": 4,
+            "result": {
+                "type": "data",
+                "data": {
+                    "position": ETS2CoordsToWGS84(*position),
+                    "bearing": rotation,
+                    "speedMph": speed_mph,
+                    "speedLimit": speed_limit_kph
+                },
+            }
+        }]
+        
+        navigation = self.globals.tags.navigation_plan
+        navigation = self.globals.tags.merge(navigation)
+        if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
+            self.last_navigation_time = time.time()
+            packets.append({
+                "id": "1",
+                "result": {
+                    "type": "data",
+                    "data": {
+                            "id": "1",
+                            "segments": [
+                                {
+                                    "key": "route",
+                                    "lonLats": [ETS2CoordsToWGS84(node.x, node.y) for node in navigation],
+                                    "distance": math.sqrt((navigation[-1].x - navigation[0].x) ** 2 + (navigation[-1].y - navigation[0].y) ** 2),
+                                    "time": 0,
+                                    "strategy": "shortest",
+                                }
+                            ]
+                    }
+                }       
+            })
+        
         # Enqueue the message to all connected clients
         for connection in list(self.connected_clients.values()):
-            asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(packet)), self.loop)
+            for packet in packets:
+                asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(packet)), self.loop)
