@@ -63,7 +63,6 @@ class Plugin(ETS2LAPlugin):
         remote_update_time = self.globals.tags.map_update_time
         remote_update_time = self.globals.tags.merge(remote_update_time)
         if remote_update_time != self.update_time:
-            logging.warning("Updating map data for HUD")
             self.update_time = remote_update_time
             self.map_data = self.globals.tags.map
             self.map_data = self.globals.tags.merge(self.map_data)

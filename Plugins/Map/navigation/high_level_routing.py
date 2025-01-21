@@ -31,8 +31,8 @@ class HighLevelRouter:
     def _heuristic(self, node: Node, goal: Node, mode: str = 'shortest') -> float:
         """Calculate heuristic distance between nodes."""
         distance = DistanceBetweenPoints(
-            (node.x, node.z),
-            (goal.x, goal.z)
+            (node.x, node.y),
+            (goal.x, goal.y)
         )
 
         # Enhanced heuristic weights based on truckermudgeon/maps

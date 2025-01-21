@@ -216,7 +216,7 @@ class Plugin(ETS2LAPlugin):
         speed_limit = data["truckFloat"]["speedLimit"]
         speed_mph = speed * 2.23694
         speed_limit_kph = round(speed_limit * 3.6)
-        
+
         
         packets = [
         {
@@ -248,6 +248,24 @@ class Plugin(ETS2LAPlugin):
         navigation = self.globals.tags.merge(navigation)
         if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
             self.last_navigation_time = time.time()
+            try:
+                driving_points = self.plugins.Map
+                driving_points = [(point[0], point[2]) for point in driving_points]
+            
+                total_points = []
+                total_points.extend(driving_points)
+                
+                closest_node_end = min(navigation, key=lambda node: math.sqrt((total_points[-1][0] - node.x) ** 2 + (total_points[-1][1] - node.y) ** 2))
+                end_index = navigation.index(closest_node_end)
+                
+                closest_node_start = min(navigation, key=lambda node: math.sqrt((total_points[0][0] - node.x) ** 2 + (total_points[0][1] - node.y) ** 2))
+                start_index = navigation.index(closest_node_start)
+                
+                total_points.extend((node.x, node.y) for node in navigation[end_index+1:])
+                total_points = [(node.x, node.y) for node in navigation[:start_index]] + total_points
+            except:
+                total_points = [(node.x, node.y) for node in navigation]
+            
             packets.append({
                 "id": "1",
                 "result": {
@@ -257,7 +275,7 @@ class Plugin(ETS2LAPlugin):
                             "segments": [
                                 {
                                     "key": "route",
-                                    "lonLats": [ETS2CoordsToWGS84(node.x, node.y) for node in navigation],
+                                    "lonLats": [ETS2CoordsToWGS84(point[0], point[1]) for point in total_points],
                                     "distance": math.sqrt((navigation[-1].x - navigation[0].x) ** 2 + (navigation[-1].y - navigation[0].y) ** 2),
                                     "time": 0,
                                     "strategy": "shortest",

@@ -304,7 +304,7 @@ class Plugin(ETS2LAPlugin):
 
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)
-                print(f"External data changed, file size: {sys.getsizeof(external_data)/1000:.0f} KB")
+                # print(f"External data changed, file size: {sys.getsizeof(external_data)/1000:.0f} KB")
                 self.globals.tags.map = json.loads(external_data)
                 self.globals.tags.map_update_time = data.external_data_time
                 data.external_data_changed = False

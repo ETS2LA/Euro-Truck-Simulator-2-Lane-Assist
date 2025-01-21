@@ -52,7 +52,7 @@ def get_destination_item() -> tuple[c.Prefab | RoadSection, c.Position]:
                 logging.warning(f"Found backward item: {type(dest_item).__name__}")
                 return dest_item, c.Position(x=dest_node.x, y=dest_node.y, z=dest_node.z)
         
-        position = c.Position(x=dest_node.x, y=dest_node.z, z=dest_node.y)
+        position = c.Position(x=last_destination_company.x, y=0, z=last_destination_company.y)
         closest_item = data.map.get_closest_item(position.x, position.z)
         if not closest_item:
             logging.error("Could not find closest item to destination")
@@ -65,8 +65,15 @@ def get_destination_item() -> tuple[c.Prefab | RoadSection, c.Position]:
             return None, None
 
         last_item = closest_item
+        
+        if type(closest_item) == c.Prefab:
+            position = c.Position(x=closest_item.x, y=closest_item.z, z=closest_item.y)
+        elif type(closest_item) == RoadSection:
+            position = c.Position(x=closest_item.start.x, y=closest_item.start.y, z=closest_item.start.z)
+        
         last_position = position
         logging.info(f"Found destination item: {type(closest_item).__name__}")
+        logging.info(f"Distance to destination from company: {math_helpers.DistanceBetweenPoints((dest_node.x, dest_node.y), (position.x, position.z)):.2f}m")
         return closest_item, position
     except Exception as e:
         logging.error(f"Error finding destination: {e}", exc_info=True)
@@ -336,9 +343,11 @@ def get_path_to_destination():
         try:
             start_node_uid = start_item.roads[0].start_node_uid if isinstance(start_item, RoadSection) else start_item.uid
             end_node_uid = dest_item.roads[0].start_node_uid if isinstance(dest_item, RoadSection) else dest_item.uid
-
+            
             start_node = data.map.get_node_by_uid(start_node_uid)
             end_node = data.map.get_node_by_uid(end_node_uid)
+            
+            print(end_node.x, end_node.y, end_node.uid)
 
             if not start_node or not end_node:
                 logging.error(f"Could not find {'start' if not start_node else 'end'} node")
@@ -359,6 +368,8 @@ def get_path_to_destination():
             return None
 
         logging.info(f"Found complete path with {len(complete_path)} segments")
+        logging.info(f"End distance from target: {math_helpers.DistanceBetweenPoints((complete_path[-1].x, complete_path[-1].y), (dest_position.x, dest_position.z)):.2f}m")
+        logging.info(f"End node UID: {complete_path[-1].uid}")
 
         # Update navigation points
         data.navigation_plan = complete_path
