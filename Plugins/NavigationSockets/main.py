@@ -73,6 +73,54 @@ def ETS2CoordsToWGS84(x, y):
         return UK_TRANSFORM.transform(*coords)[::-1]
     return ETS2_TRANSFORM.transform(*coords)[::-1]
 
+last_angle = 0
+last_position = (0, 0)
+
+def degrees_to_radians(degrees):
+    return degrees * math.pi / 180
+
+def radians_to_degrees(radians):
+    return radians * 180 / math.pi
+
+# https://github.com/Turfjs/turf/blob/master/packages/turf-bearing/index.ts
+def bearing(start, end):
+    """
+    Calculates the bearing (heading) between two geographic coordinates.
+    """
+    lon1, lat1 = start
+    lon2, lat2 = end
+    
+    # Convert degrees to radians
+    lon1 = degrees_to_radians(lon1)
+    lon2 = degrees_to_radians(lon2)
+    lat1 = degrees_to_radians(lat1)
+    lat2 = degrees_to_radians(lat2)
+
+    a = math.sin(lon2 - lon1) * math.cos(lat2)
+    b = math.cos(lat1) * math.sin(lat2) - math.sin(lat1) * math.cos(lat2) * math.cos(lon2 - lon1)
+    
+    return radians_to_degrees(math.atan2(a, b))
+
+def ConvertETS2AngleToWGS84Heading(position, speed):
+    global last_position, last_angle
+
+    if position == last_position:
+        return last_angle
+    
+    last_wgs84 = ETS2CoordsToWGS84(*last_position)
+    cur_wgs84 = ETS2CoordsToWGS84(*position)
+
+    geographic_heading = bearing(last_wgs84, cur_wgs84)
+
+    geographic_heading = (geographic_heading + 360) % 360
+    
+    if speed < 0:
+        geographic_heading = (geographic_heading + 180) % 360
+    
+    last_position = position
+    last_angle = geographic_heading
+
+    return geographic_heading
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -157,9 +205,14 @@ class Plugin(ETS2LAPlugin):
         data = TruckSimAPI.run()
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
-        rotation = -data["truckPlacement"]["rotationX"] * 360 + 3
-        
         speed = data["truckFloat"]["speed"] # m/s
+        
+        if speed > 0.2 or speed < -0.2:
+            rotation = ConvertETS2AngleToWGS84Heading(position, speed)
+        else:
+            rotation = last_angle
+            
+        
         speed_limit = data["truckFloat"]["speedLimit"]
         speed_mph = speed * 2.23694
         speed_limit_kph = round(speed_limit * 3.6)
