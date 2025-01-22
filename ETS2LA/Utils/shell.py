@@ -66,7 +66,7 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
         return None
 
 
-def ExecuteCommand(command: str,
+def ExecuteCommand(command: str | list[str],
                     proxy_override: ProxyConfiguration | None = None):
     # execute a command with HTTP_PROXY and HTTPS_PROXY environment variables set
     current_proxy = get_system_proxy_configuration()
