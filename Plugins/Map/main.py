@@ -42,16 +42,12 @@ class SettingsMenu(ETS2LASettingsMenu):
         Description("map.settings.1.description")
         Separator()
         with TabView():
-            with Tab("Settings"):
-                Title("map.settings.10.title")
+            with Tab("General"):
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
                 Switch("Trailer Driving", "DriveBasedOnTrailer", False, description="Will move the 'driving point' towards the trailer at low speeds. This should fix some issues with the app cutting corners.")
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")
-                Space(12)
-                Title("map.settings.4.title")
                 Switch("map.settings.6.name", "InternalVisualisation", False, description="map.settings.6.description")
-                Space(12)
-                Title("Navigation Settings")
+            with Tab("Navigation"):
                 Switch("Navigate on ETS2LA", "UseNavigation", True, description="Enable the automatic navigation features of ETS2LA.")
                 routing_mode = settings.Get("Map", "RoutingMode")
                 if not routing_mode or routing_mode not in ["shortest", "smallRoads"]:
@@ -59,6 +55,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                     settings.Set("Map", "RoutingMode", routing_mode)
                 Selector("Routing Mode", "RoutingMode", routing_mode, ["shortest", "smallRoads"],
                         description="Choose between fastest routes (shortest) or scenic routes avoiding highways (smallRoads)")
+                Slider("Auto accept threshold", "AutoAcceptThreshold", 20, 0, 100, 1, description="Automatically accept the route when the distance from the destination is below this value.", suffix="m")
+                Slider("Auto deny threshold", "AutoDenyThreshold", 100, 0, 1000, 10, description="Automatically deny the route when the distance from the destination is above this value.", suffix="m")
             with Tab("Debug Data"):
                 with EnabledLock():
                     with Group("horizontal", gap=4):
