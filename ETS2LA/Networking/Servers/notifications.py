@@ -101,7 +101,7 @@ def page(page:str):
         return
     asyncio.run(send_page(page))
 
-async def send_dialog(jsonData:str):
+async def send_dialog(jsonData:str, no_response=False):
     global connected
     message_dict = {
         "dialog": {
@@ -114,20 +114,21 @@ async def send_dialog(jsonData:str):
         await asyncio.wait(tasks)
         
     response = None
-    while response is None:
-        with condition:
-            condition.wait()
-            for ws in connected:
-                response = connected[ws]
-                if response != None:
-                    connected[ws] = None
-                    break
+    if not no_response:
+        while response is None:
+            with condition:
+                condition.wait()
+                for ws in connected:
+                    response = connected[ws]
+                    if response != None:
+                        connected[ws] = None
+                        break
         
     return response
 
-def dialog(ui:str):
+def dialog(ui:str, no_response=False):
     sounds.Play('info')
-    response = asyncio.run(send_dialog(ui))
+    response = asyncio.run(send_dialog(ui, no_response))
     return response
 
 async def start():

@@ -255,8 +255,8 @@ class PluginHandler:
                 description = data["options"]["description"]
                 self.immediate_return_queue.put(notifications.ask(text, options, description=description))
             elif data["operation"] == "dialog":
-                return_data = notifications.dialog(data["options"])
-                self.immediate_return_queue.put(return_data)
+                return_data = notifications.dialog(data["options"]["dialog"])
+                self.immediate_return_queue.put(return_data, data["options"]["no_response"])
             else:
                 self.immediate_return_queue.put(False)
 

@@ -35,6 +35,7 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
+        xxx
         self.globals.tags.AR = [
             Polygon(
                 points=[

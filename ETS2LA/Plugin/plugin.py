@@ -2,6 +2,7 @@ from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
 import ETS2LA.Events as Events
+from ETS2LA.UI import *
 
 from ETS2LA.Utils.Console.logging import SetupProcessLogging
 from multiprocessing import JoinableQueue, Queue
@@ -305,7 +306,10 @@ class ETS2LAPlugin(object):
     def dialog(self, dialog: object) -> dict:
         self.immediate_queue.put({
             "operation": "dialog", 
-            "options": dialog.build()
+            "options": {
+                "dialog": dialog.build(),
+                "no_response": False
+            }
         })
         return self.immediate_return_queue.get()
 
@@ -394,6 +398,27 @@ class PluginRunner:
                 raise ImportError(f"No class 'Plugin' found in module 'Plugins.{plugin_name}.main'")
         except:
             logging.exception(f"Error loading plugin '{plugin_name}'")
+            
+            class CrashDialog(ETS2LADialog):
+                def render(self):
+                    import traceback
+                    with Form():
+                        Title("Plugin Crashed")
+                        Markdown(f"An error occurred while running the plugin `{plugin_name}`. The plugin will now disable.", classname="text-sm text-dimmed-foreground")
+                        Markdown(f"```python\n{traceback.format_exc()}```")
+                        Button("Confirm", "", "submit", border=False)
+                    return RenderUI()
+            
+            dialog = CrashDialog()
+            
+            self.immediate_queue.put({
+                "operation": "dialog", 
+                "options": {
+                    "dialog": dialog.build(),
+                    "no_response": True
+                }
+            })
+
             immediate_queue.put({
                 "operation": "crash"
             })
