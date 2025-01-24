@@ -90,8 +90,10 @@ def ETS2LAProcess(exception_queue: Queue):
                 print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
                 UpdateFrontendTranslations()
                 ExecuteCommand("cd Interface && npm install && npm run build-local")
+                print(f"\n{PURPLE}{'Running UI locally'}{END}\n")
+            else:
+                print(f"{PURPLE}{'Running UI locally'}{END}\n")
             ETS2LA.variables.LOCAL_MODE = True
-            print(f"\n{PURPLE}{'Running UI locally'}{END}\n")
         else:
             try:
                 requests.get("https://app.ets2la.com", timeout=1)
