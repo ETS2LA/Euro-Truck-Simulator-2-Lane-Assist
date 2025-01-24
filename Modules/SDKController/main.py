@@ -2,9 +2,12 @@ from ETS2LA.Module import *
 import platform
 import struct
 import mmap
+import math
+import time
 
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
+    STEERING_MEM_NAME = r"Local\ETS2LAPluginInput"
     SHM_FILE = "/dev/shm/SCS/SCSControls"
 
     _BOOL_SIZE = struct.calcsize("?")
@@ -77,9 +80,15 @@ class SCSController:
         system = platform.system()
         if system == "Windows":
             self._shm_buff = mmap.mmap(0, shm_size, self.MEM_NAME)
+            try:
+                self._steering_buff = mmap.mmap(0, 9, self.STEERING_MEM_NAME)
+            except:
+                self._steering_buff = None
+                print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
         elif system == "Linux":
             try:
                 self._shm_fd = open(self.SHM_FILE, "rb+")
+                self._steering_buff = None
             except:
                 raise RuntimeError(f"ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)") #Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
             try:
@@ -133,6 +142,17 @@ class SCSController:
 
         if key not in SCSController.__annotations__:
             raise AttributeError(f"'{key}' input is not known")
+
+        if key == "steering":
+            if self._steering_buff is not None:
+                self._steering_buff.seek(0)
+                self._steering_buff.write(struct.pack("f", -value))
+                self._steering_buff.seek(4)
+                self._steering_buff.write(struct.pack("?", True if value != 0 else False))
+                self._steering_buff.seek(5)
+                self._steering_buff.write(struct.pack("l", math.floor(time.time())))
+                self._steering_buff.flush()
+                return
 
         value_type = type(value)
         expected_type = SCSController.__annotations__[key]

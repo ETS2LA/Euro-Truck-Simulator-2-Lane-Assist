@@ -3,3 +3,6 @@ Plugin developed by mimi89999, will interface with the game to send input data w
 
 scs-telemetry.dll - https://github.com/RenCloud/scs-sdk-plugin
 Plugin developed by RenCloud, provides data from the game to the app. (stuff like speed, location etc...)
+
+ets2_la_plugin.dll - https://gitlab.com/ETS2LA/ets2la_plugin
+Plugin developed mainly by Roccovax (dariowouters) and ziakhan4505. Provides a massive amount of hard to get data. Check the repo for more info.
