@@ -91,7 +91,7 @@ def ETS2LAProcess(exception_queue: Queue):
                 UpdateFrontendTranslations()
                 ExecuteCommand("cd Interface && npm install && npm run build-local")
             ETS2LA.variables.LOCAL_MODE = True
-            print(f"{PURPLE}{'Running UI locally'}{END}\n")
+            print(f"\n{PURPLE}{'Running UI locally'}{END}\n")
         else:
             try:
                 requests.get("https://app.ets2la.com", timeout=1)
