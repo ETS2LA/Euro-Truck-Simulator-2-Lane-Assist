@@ -43,38 +43,6 @@ import os
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
-available_channels = [
-    {
-        "channel": 0,
-        "name": "Handshake",
-        "description": "Reserved for initial handshake and connection setup.",
-        "commands": [
-            {
-                "name": "available_channels",
-                "method": "query",
-                "description": "Returns a list of available channels and their descriptions."
-            }
-        ]
-    },
-    {
-        "channel": 1,
-        "name": "Transform",
-        "description": "Current truck position and orientation in the game world.",
-        "commands": [
-            {
-                "name": "subscribe",
-                "method": "subscribe",
-                "description": "Subscribe to the truck position and orientation updates."
-            },
-            {
-                "name": "unsubscribe",
-                "method": "unsubscribe",
-                "description": "Unsubscribe from the truck position and orientation updates."
-            }
-        ]
-    }
-]
-
 class WebSocketConnection:
     def __init__(self, websocket):
         self.websocket = websocket
@@ -198,6 +166,23 @@ available_channels = [
                 "description": "Unsubscribe from the truck state data updates."
             }
         ]
+    },
+    {
+        "channel": 4,
+        "name": "Traffic",
+        "description": "Traffic data for the current game world.",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the traffic data updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the traffic data updates."
+            }
+        ]
     }
 ]
 
@@ -221,7 +206,7 @@ class Plugin(ETS2LAPlugin):
         name="Sockets V2",
         version="2.0",
         description="Unity visualization socket connection. Do not use!",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI", "Traffic"],
         tags=["WIP", "Visualization", "DO NOT USE"],
         hidden=True
     )
@@ -364,6 +349,17 @@ class Plugin(ETS2LAPlugin):
         }
         
         return send
+    
+    def traffic(self, data):
+        vehicles = self.modules.Traffic.run()
+        
+        send = {
+            "vehicles": [
+                vehicle.__dict__() for vehicle in vehicles
+            ]
+        }
+        
+        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -426,6 +422,18 @@ class Plugin(ETS2LAPlugin):
                             "result": {
                                 "type": "data",
                                 "data": channel_data[3]
+                            }
+                        }
+                        
+                    if channel == 4:
+                        if 4 not in channel_data:
+                            channel_data[4] = self.traffic(api_data)
+                            
+                        message = {
+                            "channel": 4,
+                            "result": {
+                                "type": "data",
+                                "data": channel_data[4]
                             }
                         }
                         
