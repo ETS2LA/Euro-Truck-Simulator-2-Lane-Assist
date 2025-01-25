@@ -80,12 +80,14 @@ def ChooseBestProvider(urls: list[str],
                     tempf.seek(0)
                     for chunk in r.iter_content(chunk_size=8192):
                         tempf.write(chunk)
+                        break
+                    r.close()
                 endt = time.perf_counter_ns()
                 if endt > st:
                     speed = tempf.tell() / (endt - st)
                 else:
                     speed = float("inf")
-                results.append((url, tempf.tell() / (endt - st)))
+                results.append((url, speed))
                 if verbose:
                     logging.debug("Downloaded %s in %d ns", url, endt - st)
             except requests.exceptions.RequestException as e:
@@ -179,4 +181,4 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
     # Network Debug Page
-    logging.debug("Current system proxy: {}", GetSystemProxy())
+    logging.debug("Current system proxy: %s", GetSystemProxy())
