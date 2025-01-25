@@ -31,7 +31,7 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
                 if "=" in section:
                     key, section = section.split("=")
                     if key not in ["http", "https"]: continue
-                
+
                 try:
                     host, port = section.split(":")
                 except ValueError:
@@ -39,7 +39,9 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
                 if not host: continue
                 if not port.isdigit(): continue
                 # use the first available
-                return ProxyConfiguration(proto="http", host=host, port=int(port))
+                return ProxyConfiguration(proto="http",
+                                          host=host,
+                                          port=int(port))
             return None
         else:
 
@@ -57,17 +59,20 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
 
             # scheme is http, https, socks5, socks4
             return ProxyConfiguration(proto=ensure_scheme(seg.scheme),
-                                    host=host,
-                                    port=port,
-                                    username=seg.username,
-                                    password=seg.password)
+                                      host=host,
+                                      port=port,
+                                      username=seg.username,
+                                      password=seg.password)
     except Exception as e:
         logging.error(f"Failed to get system proxy configuration: {e}")
         return None
 
 
-def ExecuteCommand(command: str | list[str],
-                    proxy_override: ProxyConfiguration | None = None):
+def ExecuteCommand(
+    command: str | list[str],
+    proxy_override: ProxyConfiguration | None = None,
+    shell: bool = True,
+):
     # execute a command with HTTP_PROXY and HTTPS_PROXY environment variables set
     current_proxy = get_system_proxy_configuration()
     if proxy_override is not None:
@@ -81,5 +86,5 @@ def ExecuteCommand(command: str | list[str],
             proxy_str = f"{current_proxy.proto}://{current_proxy.host}:{current_proxy.port}"
         env["HTTP_PROXY"] = proxy_str
         env["HTTPS_PROXY"] = proxy_str
-    result = subprocess.run(command, shell=True, env=env)
+    result = subprocess.run(command, shell=shell, env=env)
     return result.returncode
