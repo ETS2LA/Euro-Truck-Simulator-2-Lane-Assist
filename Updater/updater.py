@@ -2,8 +2,8 @@ try:
     from textual.app import App, ComposeResult
     from textual.widgets import Header, Log, Label, Static, Button, Footer
 except:
-    from ETS2LA.Utils.shell import ExecuteCommand
-    ExecuteCommand("pip install textual")
+    from ETS2LA.Utils.packages import InstallPackages
+    InstallPackages(["textual"])
     from textual.app import App, ComposeResult
     from textual.widgets import Header, Log, Label, Static, Button, Footer
 
