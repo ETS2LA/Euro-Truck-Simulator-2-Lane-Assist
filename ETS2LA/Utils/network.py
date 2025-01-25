@@ -5,6 +5,7 @@ It supports downloading files from one or more CDNs, returning the downloaded fi
 
 import ctypes
 import ctypes.wintypes
+import os
 import tempfile
 import time
 from pathlib import Path
@@ -28,6 +29,9 @@ class WINHTTP_CURRENT_USER_IE_PROXY_CONFIG(ctypes.Structure):
 
 
 def GetSystemProxy() -> str | None:
+    if os.name != 'nt':
+        return None
+
     # winhttp.h
     # WinHttpGetDefaultProxyConfiguration
     proxy_info = WINHTTP_PROXY_INFO()
