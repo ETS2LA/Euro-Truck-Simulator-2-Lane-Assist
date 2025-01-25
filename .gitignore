@@ -6,6 +6,9 @@ logs
 
 # Ignore Python venv
 /venv
+/venv.*
+/.venv
+/.venv.*
 
 # Ignore translations on the frontend
 /Interface/translations
