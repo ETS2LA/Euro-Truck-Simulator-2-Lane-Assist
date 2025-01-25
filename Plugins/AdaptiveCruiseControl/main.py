@@ -70,7 +70,7 @@ class Plugin(ETS2LAPlugin):
         name="plugins.adaptivecruisecontrol",
         version="1.0",
         description="plugins.adaptivecruisecontrol.description",
-        modules=["SDKController", "ShowImage", "TruckSimAPI"],
+        modules=["SDKController", "TruckSimAPI", "Traffic"],
         tags=["Base", "Speed Control"]
     )
     
@@ -110,8 +110,7 @@ class Plugin(ETS2LAPlugin):
 
 
     def Initialize(self):
-        global ShowImage, TruckSimAPI, SDKController
-        ShowImage = self.modules.ShowImage
+        global TruckSimAPI, SDKController
         TruckSimAPI = self.modules.TruckSimAPI
         SDKController = self.modules.SDKController.SCSController()
         SDKController = cast(Controller, SDKController)
@@ -169,10 +168,11 @@ class Plugin(ETS2LAPlugin):
         return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
     def GetTimeToVehicleAhead(self, apiData: dict) -> float:
-        vehicles = self.globals.tags.vehicles
-        vehicles = self.globals.tags.merge(vehicles)
+        #vehicles = self.globals.tags.vehicles
+        #vehicles = self.globals.tags.merge(vehicles)
+        vehicles = self.modules.Traffic.run()
 
-        if vehicles is None:
+        if vehicles is None or vehicles == []:
             if time.perf_counter() - self.last_vehicle_time < 1:
                 return self.last_time_to_vehicle
             self.vehicle_speed = math.inf
@@ -217,31 +217,20 @@ class Plugin(ETS2LAPlugin):
             return math.inf
         
         for vehicle in vehicles:
-            if isinstance(vehicle, dict):
-                vehicle = Vehicle(None, None, None, None, None).fromJson(vehicle)
-            if not isinstance(vehicle, Vehicle):
-                continue
-            
-            # Create a line from the two relative points on the vehicle
-            x1 = vehicle.raycasts[0].point[0]
-            y1 = vehicle.raycasts[0].point[2]
-            x2 = vehicle.raycasts[1].point[0]
-            y2 = vehicle.raycasts[1].point[2]
-            
-            averageX = (x1 + x2) / 2
-            averageY = (y1 + y2) / 2
+            x = vehicle.position.x
+            y = vehicle.position.z
             
             closestPointDistance = math.inf
             index = 0
             for point in points:
-                distance = self.GetDistanceToPoint([averageX, averageY], [point[0], point[2]])
+                distance = self.GetDistanceToPoint([x, y], [point[0], point[2]])
                 if distance < closestPointDistance:
                     closestPointDistance = distance
                 else:
                     # Make an intermediate point
                     lastPoint = points[index - 1]
                     intermediatePoint = [(lastPoint[2] + point[2]) / 2, (lastPoint[2] + point[2]) / 2]
-                    distance = self.GetDistanceToPoint([averageX, averageY], intermediatePoint)
+                    distance = self.GetDistanceToPoint([x, y], intermediatePoint)
                     if distance < closestPointDistance:
                         closestPointDistance = distance
                     break
@@ -249,7 +238,7 @@ class Plugin(ETS2LAPlugin):
                     
             if closestPointDistance < 2: # Road is 4.5m wide, want to check 4m
                 self.last_vehicle_time = time.perf_counter()
-                vehiclesInFront.append((self.GetDistanceToPoint([averageX, averageY], [truckX, truckY]), vehicle))
+                vehiclesInFront.append((self.GetDistanceToPoint([x, y], [truckX, truckY]), vehicle))
                 
         if len(vehiclesInFront) == 0:
             if time.perf_counter() - self.last_vehicle_time < 1:
@@ -261,7 +250,7 @@ class Plugin(ETS2LAPlugin):
         closestDistance = math.inf
         for distance, vehicle in vehiclesInFront:
             if distance < closestDistance:
-                closestDistance = vehicle.distance
+                closestDistance = distance
                 self.vehicle_speed = vehicle.speed
                 self.vehicle_id = vehicle.id
                 

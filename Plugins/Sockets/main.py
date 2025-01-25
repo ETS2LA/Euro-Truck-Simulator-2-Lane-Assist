@@ -32,7 +32,7 @@ class Plugin(ETS2LAPlugin):
         name="plugins.sockets",
         version="1.0",
         description="plugins.sockets.description",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI", "Traffic"],
         tags=["Base", "Visualization", "Frontend"]
     )
     
@@ -172,48 +172,17 @@ class Plugin(ETS2LAPlugin):
     lastVehicles = [""]
     lastVehicleString = ""
     def vehicles(self, data):
-        data["vehicles"] = self.globals.tags.vehicles
-        data["vehicles"] = self.globals.tags.merge(data["vehicles"])
+        vehicles = self.modules.Traffic.run()
         
-        if data["vehicles"] is None or type(data["vehicles"]) != list or data["vehicles"] == [] or type(data["vehicles"][0]) != dict:
+        if vehicles is None or vehicles == []:
             return "JSONvehicles:[];"
         
-        try:    
-            if data["vehicles"] == self.lastVehicles:
-                return self.lastVehicleString
-        except:
-            return self.lastVehicleString
-        
-        if data["vehicles"] is not None:
-            newVehicles = []
-            try:
-                for vehicle in data["vehicles"]:
-                    if isinstance(vehicle, dict):
-                        newVehicles.append(vehicle)
-                    elif isinstance(vehicle, list): # No clue why this happens, it's just sometimes single coordinates like this [31352.055901850657, 18157.970393701282]
-                        continue
-                    elif isinstance(vehicle, tuple):
-                        continue
-                    elif isinstance(vehicle, str):
-                        continue
-                    else:
-                        try:
-                            newVehicles.append(vehicle.json())
-                        except:
-                            try:
-                                newVehicles.append(vehicle.__dict__)
-                            except:
-                                pass
-            except:
-                pass
-                        
-            data["vehicles"] = newVehicles
-        
-        if data["vehicles"] is []:
-            return "JSONvehicles:[];"
+        json_data = [
+            vehicle.__dict__() for vehicle in vehicles
+        ]
             
-        send = "JSONvehicles:" + json.dumps(data["vehicles"]) + ";"
-        self.lastVehicles = data["vehicles"]
+        send = "JSONvehicles:" + json.dumps(json_data) + ";"
+        self.lastVehicles = vehicles
         self.lastVehicleString = send
         return send
 

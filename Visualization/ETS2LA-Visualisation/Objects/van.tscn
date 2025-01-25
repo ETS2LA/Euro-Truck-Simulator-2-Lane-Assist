@@ -1,15 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ovudpqt682w4"]
+[gd_scene load_steps=2 format=3 uid="uid://ovudpqt682w4"]
 
 [ext_resource type="ArrayMesh" uid="uid://gpp4ukl4c43d" path="res://Models/traffic_van.obj" id="1_4rk5b"]
-[ext_resource type="ArrayMesh" uid="uid://dsls67ttvw0kx" path="res://Models/traffic_car.obj" id="1_05sjo"]
 
 [node name="Truck" type="Node3D"]
 
 [node name="TrafficVan" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.63, 0, 0, 0, 0.63, 0, 0, 0, 0.63, 0, 0, -0.134548)
+transform = Transform3D(0.485, 0, 0, 0, 0.565, 0, 0, 0, 0.215, 0, -0.0323858, 0.00295922)
 mesh = ExtResource("1_4rk5b")
-
-[node name="TrafficCar" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.585, 0, -5.11423e-08, 0, 0.585, 0, 5.11423e-08, 0, -0.585, 0, 0, 0)
-visible = false
-mesh = ExtResource("1_05sjo")

@@ -8,6 +8,7 @@ var _child = null
 var _target = Vector3(0,0,0)
 var _last_target = Vector3(0,0,0)
 var _target_scale = Vector3(0,0,0)
+var _target_rotation = Vector3(0,0,0)
 var _cur_target_time = Time.get_ticks_msec()
 var _last_target_time = Time.get_ticks_msec()
 var _distance:float = 0
@@ -30,13 +31,29 @@ func UpdatePositionScale(newPosition: Vector3, newScale: Vector3):
 	_target_scale = newScale
 	_last_target_time = _cur_target_time
 	_cur_target_time = Time.get_ticks_msec()
+	
+func UpdatePositionScaleRotation(newPosition: Vector3, newScale: Vector3, newRotation: Vector3):
+	_distance = position.distance_to(newPosition)
+	if _distance > 10:
+		name = "delete"
+		
+	if position.distance_to(_last_target) > 8: # limit the distance so that they don't spin at traffic lights
+		_last_target = position
+	_target = newPosition
+	_target_scale = newScale
+	_target_rotation = newRotation
+	_last_target_time = _cur_target_time
+	_cur_target_time = Time.get_ticks_msec()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if type == "dynamic":
 		position = position.lerp(_target, delta * (_cur_target_time - _last_target_time))
 		scale = scale.lerp(_target_scale, delta)
-		rotation.y = atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z))
+		if _target_rotation == Vector3(0,0,0):
+			rotation.y = atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z))
+		else:
+			rotation_degrees = _target_rotation
 		#rotation.y=lerp(rotation.y,atan2(-(_target.x - _last_target.x),-(_target.z - _last_target.z)),delta*10)
 		#self.look_at_from_position(_last_target, _target)
 	else:
