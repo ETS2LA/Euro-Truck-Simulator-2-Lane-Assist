@@ -1,4 +1,5 @@
 import logging
+import sys
 from typing import Literal
 from urllib.parse import urlparse
 from ETS2LA.Utils.Console.colors import *
@@ -53,13 +54,14 @@ def InstallPackages(packages: list[str], *, force_reinstall: bool = False):
     for package in packages:
         try:
             args = [
-                "pip", "install", package, "--index-url", index_url,
-                "--trusted-host",
+                sys.executable, "-m", "pip", "install", package, "--index-url",
+                index_url, "--trusted-host",
                 urlparse(index_url).netloc
             ]
             if force_reinstall:
                 args.append("--force-reinstall")
-            ExecuteCommand(args)
+            print(args)
+            ExecuteCommand(args, shell=False)
         except:
             cloud.SendCrashReport(package, "Install package error.",
                                   traceback.format_exc())
