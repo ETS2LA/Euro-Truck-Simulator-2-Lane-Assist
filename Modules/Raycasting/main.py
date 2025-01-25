@@ -45,7 +45,7 @@ class Module(ETS2LAModule):
         global API
         global FOV
         API = self.plugin.modules.TruckSimAPI
-        FOV = settings.Get("global", "FOV", 77)  # Vertical fov in degrees
+        FOV = self.plugins.modules.Camera.run().fov
 
         global window_x, window_y, window_width, window_height, last_window_position
         window_x = 0
@@ -54,14 +54,8 @@ class Module(ETS2LAModule):
         window_height = 0
         last_window_position = (0, 0, 0, 0, 0)
         
-        settings.Listen("global", self.LoadSettings)
-        
         global screen
         screen = screeninfo.get_monitors()[0]
-
-    def LoadSettings(self, jsonData):
-        global FOV
-        FOV = jsonData["FOV"]
 
     def UpdateGamePosition(self):
         global window_x
@@ -162,6 +156,7 @@ class Module(ETS2LAModule):
 
 
     def GetValuesFromAPI(self):
+        global FOV
         global truck_x
         global truck_y
         global truck_z
@@ -195,6 +190,7 @@ class Module(ETS2LAModule):
 
         data = {}
         data["api"] = API.run()
+        FOV = self.plugins.modules.Camera.run().fov
         try:
             truck_x = data["api"]["truckPlacement"]["coordinateX"]
             truck_y = data["api"]["truckPlacement"]["coordinateY"]

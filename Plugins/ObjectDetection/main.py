@@ -31,7 +31,7 @@ class Plugin(ETS2LAPlugin):
         name="plugins.objectdetection",
         version="1.0",
         description="plugins.objectdetection.description",
-        modules=["TruckSimAPI", "ScreenCapture", "ShowImage", "Raycasting", "PositionEstimation"],
+        modules=["TruckSimAPI", "ScreenCapture", "ShowImage", "Raycasting", "PositionEstimation", "Camera"],
         tags=["Base", "Traffic Lights", "Objects"]
     )
     

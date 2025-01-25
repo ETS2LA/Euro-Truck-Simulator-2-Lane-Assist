@@ -194,27 +194,23 @@ class RefuelPayed():
 
 class VehicleChange():
     lastLicensePlate = ""
-    firstRun = True
     def VehicleChange(self, data):
         plugins.call_event('VehicleChange', data["configString"]["truckLicensePlate"], {})
         logging.info("Triggered event: VehicleChange")
-        if self.firstRun: # Ignore the first run as the frontend has not yet started
-            self.firstRun = False
-            return
         
-        class FOVDialog(ETS2LADialog):
-            def render(self):
-                with Form():
-                    Title("events.vehicle_change.vehicle_change")
-                    Description("events.vehicle_change.vehicle_change_description")
-                    Input("events.vehicle_change.vehicle_change", "fov", "number", default=settings.Get("global", "FOV", 77))
-                return RenderUI()
-        
-        # Try to get new FOV value from user
-        return_data = dialog(FOVDialog().build())
-        if return_data is not None and "fov" in return_data:
-            settings.Set("global", "FOV", int(return_data["fov"]))
-            logging.info("New FOV value set to: " + str(return_data))
+        # class FOVDialog(ETS2LADialog):
+        #     def render(self):
+        #         with Form():
+        #             Title("events.vehicle_change.vehicle_change")
+        #             Description("events.vehicle_change.vehicle_change_description")
+        #             Input("events.vehicle_change.vehicle_change", "fov", "number", default=settings.Get("global", "FOV", 77))
+        #         return RenderUI()
+        # 
+        # # Try to get new FOV value from user
+        # return_data = dialog(FOVDialog().build())
+        # if return_data is not None and "fov" in return_data:
+        #     settings.Set("global", "FOV", int(return_data["fov"]))
+        #     logging.info("New FOV value set to: " + str(return_data))
         
     def ApiCallback(self, data):
         if data["configString"]["truckLicensePlate"] != self.lastLicensePlate:
