@@ -10,7 +10,7 @@ beautifulsoup4
 pywebview==5.1
 opencv-python
 numpy==1.26.4
-SimpleWindow
+SimpleWindow; platform_system == "Windows"
 transformers
 proxy_tools
 torchvision
@@ -23,7 +23,7 @@ bettercam
 keyboard
 requests
 ipython
-pywin32
+pywin32; platform_system == "Windows"
 fastapi
 uvicorn
 pyproj
