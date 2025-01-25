@@ -2,11 +2,13 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
 from Plugins.AR.classes import *
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 import os
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
 DRAWLIST = []
+TELEMETRY_FPS = SmoothedValue("time", 1)
 
 def InitializeWindow():
     global regular_font
@@ -72,9 +74,9 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
     HeadRoll = HeadRotationDegreesZ
 
     if relative:
-        RelativeX = X
-        RelativeY = Y
-        RelativeZ = Z
+        RelativeX = X - InsideHeadX - HeadX
+        RelativeY = Y - InsideHeadY - HeadY
+        RelativeZ = Z - InsideHeadZ - HeadZ
         
         if head_relative:
             # Rotate the points around the head (0, 0, 0)
@@ -139,7 +141,7 @@ class Plugin(ETS2LAPlugin):
         name="AR",
         version="1.0",
         description="Overlays data on top of the game screen. Supports all plugins tagged with 'AR' (click the tag on the right). Still in development.",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI", "Camera"],
         tags=["Visualization", "AR", "Base"]
     )
 
@@ -154,6 +156,8 @@ class Plugin(ETS2LAPlugin):
     )]
 
     fps_cap = 1000
+    
+    LastTimeStamp = 0
 
     def imports(self):
         global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
@@ -299,9 +303,13 @@ class Plugin(ETS2LAPlugin):
         global HeadRotationDegreesX
         global HeadRotationDegreesY
         global HeadRotationDegreesZ
+        
         global HeadX
         global HeadY
         global HeadZ
+        global InsideHeadX
+        global InsideHeadY
+        global InsideHeadZ
         
         global TruckRotationDegreesX
         global TruckRotationDegreesY
@@ -317,6 +325,15 @@ class Plugin(ETS2LAPlugin):
             time.sleep(0.1)
             self.Render()
             return
+        
+        if APIDATA["time"] == self.LastTimeStamp:
+            return
+        else:
+            # 166660.0 -> 60 FPS -> Unit is in microseconds
+            microseconds = (APIDATA["time"] - self.LastTimeStamp)
+            TELEMETRY_FPS.smooth(1 / (microseconds / 1000000))
+            #print(f"Telemetry FPS: {TELEMETRY_FPS.get():.1f}         ", end="\r")
+            self.LastTimeStamp = APIDATA["time"]
 
         WindowPosition = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         if LastWindowPosition != WindowPosition:
@@ -365,9 +382,25 @@ class Plugin(ETS2LAPlugin):
         PointX = HeadOffsetX
         PointY = HeadOffsetY
         PointZ = HeadOffsetZ
-        HeadX = PointX * math.cos(TruckRotationRadiansX) - PointZ * math.sin(TruckRotationRadiansX) + TruckX
-        HeadY = PointY + TruckY
-        HeadZ = PointX * math.sin(TruckRotationRadiansX) + PointZ * math.cos(TruckRotationRadiansX) + TruckZ
+        
+        InsideHeadX = PointX * math.cos(TruckRotationRadiansX) - PointZ * math.sin(TruckRotationRadiansX) + TruckX
+        InsideHeadY = PointY + TruckY
+        InsideHeadZ = PointX * math.sin(TruckRotationRadiansX) + PointZ * math.cos(TruckRotationRadiansX) + TruckZ
+        
+        camera = self.modules.Camera.run()
+        if camera is not None:
+            FOV = camera.fov
+            HeadX = camera.position.x + camera.cx * 512
+            HeadY = camera.position.y
+            HeadZ = camera.position.z + camera.cz * 512
+            angles = camera.rotation.euler()
+            HeadRotationDegreesX = angles[1]
+            HeadRotationDegreesY = angles[0]
+            HeadRotationDegreesZ = angles[2]
+        else:
+            HeadX = InsideHeadX
+            HeadY = InsideHeadY
+            HeadZ = InsideHeadZ
 
         # Update self so that coordinates can pull in the variables
         self.LastWindowPosition = LastWindowPosition
@@ -378,6 +411,9 @@ class Plugin(ETS2LAPlugin):
         self.HeadX = HeadX
         self.HeadY = HeadY
         self.HeadZ = HeadZ
+        self.InsideHeadX = InsideHeadX
+        self.InsideHeadY = InsideHeadY
+        self.InsideHeadZ = InsideHeadZ
         self.TruckRotationDegreesX = TruckRotationDegreesX
         self.TruckRotationDegreesY = TruckRotationDegreesY
         self.TruckRotationDegreesZ = TruckRotationDegreesZ

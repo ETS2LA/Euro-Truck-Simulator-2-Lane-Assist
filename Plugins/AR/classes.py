@@ -51,9 +51,14 @@ def ConvertCoordinateToScreen(coordinate, self):
     HeadRoll = self.HeadRotationDegreesZ
 
     if coordinate.relative:
+        # If the head and inside positions match, then the relative X is the same as the absolute X
+        # we want to add the position so that it works even when the head is not the same as inside head
         RelativeX = X
         RelativeY = Y
         RelativeZ = Z
+        
+        if abs(self.HeadX - self.InsideHeadX) > 1 or abs(self.HeadY - self.InsideHeadY) > 1 or abs(self.HeadZ - self.InsideHeadZ) > 1:
+            return None # TODO: Implement relative coordinates for other cameras
         
         if coordinate.rotation_relative:
             # Rotate the points around the head (0, 0, 0)
