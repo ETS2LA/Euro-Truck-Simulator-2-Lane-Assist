@@ -1,23 +1,52 @@
 import Modules.BetterShowImage.main as ShowImage
+import ETS2LA.Handlers.pytorch as pytorch
 import variables as MLVSSVariables
 import utils as MLVSSUtils
 import numpy as np
 import math
+import time
 import cv2
 
 
 def Initialize():
+    global Identifier
     global Images
     global FRAME
 
     ShowImage.Initialize(Name="Mapping", TitleBarColor=(0, 0, 0))
 
+    Identifier = pytorch.Initialize(Owner="Glas42", Model="MLVSS", Folder="models/mapping", Self=MLVSSVariables.self)
+    pytorch.Load(Identifier)
+
     Images = []
     FRAME = np.zeros((500, 500, 3), np.uint8)
 
 
+def GenerateImage(Frame):
+    Prediction = GenerateMask(Frame)
+    Prediction = cv2.cvtColor(Prediction, cv2.COLOR_GRAY2BGRA)
+    Prediction[:, :, 2] = 0
+    Frame = cv2.cvtColor(Frame, cv2.COLOR_BGR2BGRA)
+    Frame = cv2.addWeighted(Frame, 1, Prediction, 0.5, 0)
+    Frame = cv2.cvtColor(Frame, cv2.COLOR_BGRA2BGR)
+    return Frame
+
+
+def GenerateMask(Frame):
+    Size = Frame.shape
+    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+    Frame = pytorch.transforms.ToTensor()(Frame)
+    with pytorch.torch.no_grad():
+        Prediction = pytorch.MODELS[Identifier]["Model"](Frame.unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"]))
+    Prediction = Prediction.squeeze(0).cpu()[0].numpy() * 255
+    Prediction = Prediction.astype(np.uint8)
+    Prediction = cv2.resize(Prediction, (Size[1], Size[0]))
+    return Prediction
+
+
 def Run():
     Frame = MLVSSVariables.LatestFrame
+    if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
     if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:
         return
 
@@ -94,6 +123,10 @@ def Run():
             DestinationPoints = np.float32([[0, 0], [CroppedWidth, 0], [0, CroppedHeight], [CroppedWidth, CroppedHeight]])
             Matrix = cv2.getPerspectiveTransform(SourcePoints, DestinationPoints)
             CroppedFrame = cv2.warpPerspective(Frame, Matrix, (CroppedWidth, CroppedHeight))
+
+            RoadMask = GenerateMask(CroppedFrame)
+            cv2.threshold(RoadMask, 127, 255, cv2.THRESH_BINARY, RoadMask)
+            CroppedFrame = cv2.bitwise_and(CroppedFrame, CroppedFrame, mask=RoadMask)
 
             MinX = min(Points[0][0], Points[1][0], Points[2][0], Points[3][0])
             MinZ = min(Points[0][1], Points[1][1], Points[2][1], Points[3][1])

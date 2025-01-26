@@ -291,14 +291,14 @@ def CheckForUpdates(Identifier):
                         ETS2LAResponse = None
 
                 if HuggingFaceResponse == 200:
-                    Url = f'https://huggingface.co/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/tree/main/{Identifier.split("/")[1]}'
+                    Url = f'https://huggingface.co/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/tree/main/{"/".join(Identifier.split("/")[1:])}'
                     Response = requests.get(Url)
                     Soup = BeautifulSoup(Response.content, 'html.parser')
 
                     LatestModel = None
                     for Link in Soup.find_all("a", href=True):
                         HREF = Link["href"]
-                        if HREF.startswith(f'/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/blob/main/{Identifier.split("/")[1]}'):
+                        if HREF.startswith(f'/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/blob/main/{"/".join(Identifier.split("/")[1:])}'):
                             LatestModel = HREF.split("/")[-1]
                             settings.Set("PyTorch", f"{Identifier}-LatestModel", LatestModel)
                             break
@@ -312,7 +312,7 @@ def CheckForUpdates(Identifier):
                         print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Identifier)
                         StartTime = time.time()
-                        Response = requests.get(f'https://huggingface.co/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/resolve/main/{Identifier.split("/")[1]}/{LatestModel}?download=true', stream=True, timeout=15)
+                        Response = requests.get(f'https://huggingface.co/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/resolve/main/{"/".join(Identifier.split("/")[1:])}/{LatestModel}?download=true', stream=True, timeout=15)
                         with open(os.path.join(MODELS[Identifier]["Path"], f"{LatestModel}"), "wb") as ModelFile:
                             TotalSize = int(Response.headers.get('content-length', 1))
                             DownloadedSize = 0
@@ -331,7 +331,7 @@ def CheckForUpdates(Identifier):
                     settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.time())
 
                 elif ETS2LAResponse == 200:
-                    Url = f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{Identifier.split("/")[1]}'
+                    Url = f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{"/".join(Identifier.split("/")[1:])}'
                     Response = requests.get(Url).json()
 
                     LatestModel = None
@@ -348,7 +348,7 @@ def CheckForUpdates(Identifier):
                         print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Identifier)
                         StartTime = time.time()
-                        Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{Identifier.split("/")[1]}/download', stream=True, timeout=15)
+                        Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{"/".join(Identifier.split("/")[1:])}/download', stream=True, timeout=15)
                         with open(os.path.join(MODELS[Identifier]["Path"], f"{LatestModel}"), "wb") as ModelFile:
                             TotalSize = int(Response.headers.get('content-length', 1))
                             DownloadedSize = 0

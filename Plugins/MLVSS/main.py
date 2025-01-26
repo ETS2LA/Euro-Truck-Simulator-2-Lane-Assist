@@ -40,6 +40,7 @@ class Plugin(ETS2LAPlugin):
             time.sleep(1)
             self.terminate()
 
+        MLVSSVariables.self = self
         MLVSSVariables.FOV = FOV
         MLVSSVariables.TruckSimAPI = SCSTelemetry()
 
