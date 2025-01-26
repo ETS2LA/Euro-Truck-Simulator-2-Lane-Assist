@@ -131,38 +131,46 @@ class Plugin(ETS2LAPlugin):
             lanes.append(cur_lane)
             
         # Add target lane
-        if target_lane is not None:
-            target_lane = self.intersection["nav_routes"][target_lane]
-            cur_lane = []
-            for curve in target_lane["curves"]:
-                points = curve["points"]
-                points = [convert_to_center_aligned_coordinate(point["x"], point["z"]) for point in points]
-                points = [rotate_around_center(point[0], point[1], rotation) for point in points]
+        try:
+            if target_lane is not None:
+                target_lane = self.intersection["nav_routes"][target_lane]
                 
-                cur_lane.append((
-                    Polygon(
-                        [Point(point[0] + offset[0], point[1] + offset[1], anchor=anchor) for point in points],
-                        thickness=2,
-                        color=Color(255, 255, 255),
-                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
-                    )
-                ))
+                cur_lane = []
+                for curve in target_lane["curves"]:
+                    points = curve["points"]
+                    points = [convert_to_center_aligned_coordinate(point["x"], point["z"]) for point in points]
+                    points = [rotate_around_center(point[0], point[1], rotation) for point in points]
+                    
+                    cur_lane.append((
+                        Polygon(
+                            [Point(point[0] + offset[0], point[1] + offset[1], anchor=anchor) for point in points],
+                            thickness=2,
+                            color=Color(255, 255, 255),
+                            fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
+                        )
+                    ))
+                
+                lanes.append(cur_lane)
+        
+        except:
+            pass
             
-            lanes.append(cur_lane)
-            
-        # Add truck
-        if is_inside_bounds(x, z, expand=15):
-            x, z = convert_to_center_aligned_coordinate(x, z)
-            x, z = rotate_around_center(x, z, rotation)
-            truck = Point(x + offset[0], z + offset[1])
-            lanes.append([
-                Line(
-                    Point(truck.x, truck.y - 3, anchor=anchor),
-                    Point(truck.x, truck.y + 3, anchor=anchor),
-                    thickness=3,
-                    color=Color(255, 100, 100)
-                )  
-            ])
+        try:
+            # Add truck
+            if is_inside_bounds(x, z, expand=15):
+                x, z = convert_to_center_aligned_coordinate(x, z)
+                x, z = rotate_around_center(x, z, rotation)
+                truck = Point(x + offset[0], z + offset[1])
+                lanes.append([
+                    Line(
+                        Point(truck.x, truck.y - 3, anchor=anchor),
+                        Point(truck.x, truck.y + 3, anchor=anchor),
+                        thickness=3,
+                        color=Color(255, 100, 100)
+                    )  
+                ])
+        except:
+            pass
             
         return lanes
 
