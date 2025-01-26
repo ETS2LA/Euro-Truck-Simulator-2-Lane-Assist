@@ -351,11 +351,14 @@ class Plugin(ETS2LAPlugin):
             )
         ]
         
-        intersection_map = self.create_intersection_map(anchor, [150, 5], data)
-        if intersection_map is not None:
-            for lane in intersection_map:
-                for line in lane:
-                    ar_data.append(line)
+        try:
+            intersection_map = self.create_intersection_map(anchor, [150, 5], data)
+            if intersection_map is not None:
+                for lane in intersection_map:
+                    for line in lane:
+                        ar_data.append(line)
+        except:
+            pass
         
         return ar_data
 
