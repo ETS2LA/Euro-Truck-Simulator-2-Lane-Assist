@@ -38,6 +38,7 @@ import logging
 import asyncio
 import json
 import time
+import math
 import os
         
 from ETS2LA.Plugin import *
@@ -181,6 +182,23 @@ available_channels = [
                 "name": "unsubscribe",
                 "method": "unsubscribe",
                 "description": "Unsubscribe from the traffic data updates."
+            }
+        ]
+    },
+    {
+        "channel": 5,
+        "name": "Trailers",
+        "description": "Data for the currently connected trailers.",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the trailer data updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the trailer data updates."
             }
         ]
     }
@@ -360,6 +378,56 @@ class Plugin(ETS2LAPlugin):
         }
         
         return send
+    
+    def trailers(self, data):
+        trailer_data = []
+        for trailer in data["trailers"]:
+            if trailer["comBool"]["attached"]:
+                rotationX = trailer["comDouble"]["rotationX"] * 360
+                if rotationX < 0: rotationX += 360
+                rotationY = trailer["comDouble"]["rotationY"] * 360
+                if rotationY < 0: rotationY += 360
+                rotationZ = trailer["comDouble"]["rotationZ"] * 360
+                if rotationZ < 0: rotationZ += 360
+                
+                hook_position = (trailer["conVector"]["hookPositionX"], trailer["conVector"]["hookPositionY"], trailer["conVector"]["hookPositionZ"])
+                furthest_left_distance = 0
+                furthest_left_position = 0
+                furthest_right_distance = 0
+                furthest_right_position = 0
+                for i in range(len(trailer["conVector"]["wheelPositionX"])):
+                    position = (trailer["conVector"]["wheelPositionX"][i], trailer["conVector"]["wheelPositionY"][i], trailer["conVector"]["wheelPositionZ"][i])
+                    distance = math.sqrt((hook_position[0] - position[0])**2 + (hook_position[1] - position[1])**2 + (hook_position[2] - position[2])**2)
+                    if position[0] < hook_position[0]:
+                        if distance > furthest_left_distance:
+                            furthest_left_distance = distance
+                            furthest_left_position = i
+                    else:
+                        if distance > furthest_right_distance:
+                            furthest_right_distance = distance
+                            furthest_right_position = i
+                
+                trailer_data.append({
+                    "x": trailer["comDouble"]["worldX"],
+                    "y": trailer["comDouble"]["worldY"],
+                    "z": trailer["comDouble"]["worldZ"],
+                    "rx": rotationX,
+                    "ry": rotationY,
+                    "rz": rotationZ,
+                    "hook_x": hook_position[0],
+                    "hook_y": hook_position[1],
+                    "hook_z": hook_position[2],
+                    "rear_left_x": trailer["conVector"]["wheelPositionX"][furthest_left_position],
+                    "rear_left_y": trailer["conVector"]["wheelPositionY"][furthest_left_position],
+                    "rear_left_z": trailer["conVector"]["wheelPositionZ"][furthest_left_position],
+                    "rear_right_x": trailer["conVector"]["wheelPositionX"][furthest_right_position],
+                    "rear_right_y": trailer["conVector"]["wheelPositionY"][furthest_right_position],
+                    "rear_right_z": trailer["conVector"]["wheelPositionZ"][furthest_right_position],
+                })
+                
+        return {
+            "trailers": trailer_data
+        }
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -434,6 +502,18 @@ class Plugin(ETS2LAPlugin):
                             "result": {
                                 "type": "data",
                                 "data": channel_data[4]
+                            }
+                        }
+                        
+                    if channel == 5:
+                        if 5 not in channel_data:
+                            channel_data[5] = self.trailers(api_data)
+                            
+                        message = {
+                            "channel": 5,
+                            "result": {
+                                "type": "data",
+                                "data": channel_data[5]
                             }
                         }
                         
