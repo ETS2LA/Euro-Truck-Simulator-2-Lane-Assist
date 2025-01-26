@@ -108,6 +108,7 @@ async def send_dialog(jsonData:str, no_response=False):
             "json": jsonData
         }
     }
+    
     message = json.dumps(message_dict)
     tasks = [asyncio.create_task(ws.send(message)) for ws in connected]
     if tasks:

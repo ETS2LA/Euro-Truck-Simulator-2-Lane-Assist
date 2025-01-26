@@ -330,6 +330,10 @@ class Form():
     
     **NOTE**: You can override the submit button by adding a custom button with the target set to "submit".
     """
+    
+    def __init__(self, classname: str = ""):
+        self.classname = classname
+    
     def __enter__(self):
         global ui
         self.previous_ui = ui
@@ -349,6 +353,7 @@ class Form():
             Button("submit", "", "submit", border=False)
         
         self.previous_ui.append({"form": {
+            "classname": self.classname,
             "components": ui
         }})
         ui = self.previous_ui

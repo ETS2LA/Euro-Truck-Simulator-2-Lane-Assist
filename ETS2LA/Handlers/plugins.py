@@ -249,14 +249,17 @@ class PluginHandler:
                 text = data["options"]["text"]
                 notifications.sonner(text, type)
                 self.immediate_return_queue.put(True)
+                
             elif data["operation"] == "ask":
                 text = data["options"]["text"]
                 options = data["options"]["options"]
                 description = data["options"]["description"]
                 self.immediate_return_queue.put(notifications.ask(text, options, description=description))
+                
             elif data["operation"] == "dialog":
                 return_data = notifications.dialog(data["options"]["dialog"])
                 self.immediate_return_queue.put(return_data, data["options"]["no_response"])
+                
             else:
                 self.immediate_return_queue.put(False)
 

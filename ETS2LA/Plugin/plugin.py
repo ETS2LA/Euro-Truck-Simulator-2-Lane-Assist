@@ -402,10 +402,10 @@ class PluginRunner:
             class CrashDialog(ETS2LADialog):
                 def render(self):
                     import traceback
-                    with Form():
+                    with Form(classname="max-w-screen-sm"):
                         Title("Plugin Crashed")
                         Markdown(f"An error occurred while running the plugin `{plugin_name}`. The plugin will now disable.", classname="text-sm text-dimmed-foreground")
-                        Markdown(f"```python\n{traceback.format_exc()}```")
+                        Markdown(f"```python\n{traceback.format_exc()}```", classname="max-w-screen-sm")
                         Button("Confirm", "", "submit", border=False)
                     return RenderUI()
             
