@@ -72,6 +72,9 @@ def CheckForUploads():
             if "success" in Response.json():
                 DeletePair(Name=File)
                 print(f"Uploaded {File}!")
+            elif "error" in Response.json():
+                if "Server storage is full." in Response.json()["error"]:
+                    DeletePair(Name=File)
         except:
             DeletePair(Name=File)
 
