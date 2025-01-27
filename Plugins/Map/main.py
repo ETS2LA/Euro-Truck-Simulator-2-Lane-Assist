@@ -55,7 +55,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                     settings.Set("Map", "RoutingMode", routing_mode)
                 Selector("Routing Mode", "RoutingMode", routing_mode, ["shortest", "smallRoads"],
                         description="Choose between fastest routes (shortest) or scenic routes avoiding highways (smallRoads)")
-                Slider("Auto accept threshold", "AutoAcceptThreshold", 20, 0, 100, 1, description="Automatically accept the route when the distance from the destination is below this value.", suffix="m")
+                Slider("Auto accept threshold", "AutoAcceptThreshold", 100, 0, 200, 1, description="Automatically accept the route when the distance from the destination is below this value.", suffix="m")
                 Slider("Auto deny threshold", "AutoDenyThreshold", 100, 0, 1000, 10, description="Automatically deny the route when the distance from the destination is above this value.", suffix="m")
             with Tab("Debug Data"):
                 with EnabledLock():
