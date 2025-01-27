@@ -217,8 +217,12 @@ class Plugin(ETS2LAPlugin):
             return math.inf
         
         for vehicle in vehicles:
-            x = vehicle.position.x
-            y = vehicle.position.z
+            if len(vehicle.trailers) > 0:
+                x = vehicle.trailers[-1].position.x
+                y = vehicle.trailers[-1].position.z
+            else:
+                x = vehicle.position.x
+                y = vehicle.position.z
             
             closestPointDistance = math.inf
             index = 0
@@ -236,7 +240,7 @@ class Plugin(ETS2LAPlugin):
                     break
                 index += 1
                     
-            if closestPointDistance < 2: # Road is 4.5m wide, want to check 4m
+            if closestPointDistance < 4: # Road is 4.5m wide, want to check 4m
                 self.last_vehicle_time = time.perf_counter()
                 vehiclesInFront.append((self.GetDistanceToPoint([x, y], [truckX, truckY]), vehicle))
                 
@@ -259,6 +263,7 @@ class Plugin(ETS2LAPlugin):
         timeToVehicle = (closestDistance + self.vehicle_speed / 2 * timeToVehicle) / truckSpeed
             
         self.last_time_to_vehicle = timeToVehicle
+        self.last_vehicle_time = time.perf_counter()
         return timeToVehicle
             
     def Reset(self) -> None:
@@ -421,7 +426,7 @@ class Plugin(ETS2LAPlugin):
         
         self.globals.tags.acc_status = self.GetStatus(type)
         self.globals.tags.acc = self.target_speed
-        self.globals.tags.highlights = [self.vehicle_id if time.perf_counter() - self.last_vehicle_time < 1 else None]
+        self.globals.tags.vehicle_highlights = [self.vehicle_id if time.perf_counter() - self.last_vehicle_time < 1 else None]
 
         if type == "traffic light":
             self.globals.tags.stopping_distance = intersectionDistance

@@ -201,6 +201,23 @@ available_channels = [
                 "description": "Unsubscribe from the trailer data updates."
             }
         ]
+    },
+    {
+        "channel": 6,
+        "name": "Highlights",
+        "description": "What UIDs to highlight in the game world. And any data associated with the highlights.",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the highlight data updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the highlight data updates."
+            }
+        ]
     }
 ]
 
@@ -337,7 +354,7 @@ class Plugin(ETS2LAPlugin):
         
         return send
     
-    def steering(self):
+    def steering(self, data):
         points = self.plugins.Map
         
         send = {
@@ -362,7 +379,7 @@ class Plugin(ETS2LAPlugin):
             "cruise_control": data["truckFloat"]["cruiseControlSpeed"],
             "target_speed": target_speed if target_speed else -1,
             "throttle": data["truckFloat"]["gameThrottle"],
-            "brake": data["truckFloat"]["gameBrake"],
+            "brake": data["truckFloat"]["gameBrake"]
         }
         
         return send
@@ -425,6 +442,16 @@ class Plugin(ETS2LAPlugin):
         return {
             "trailers": trailer_data
         }
+        
+    def highlights(self, data):
+        vehicle_highlights = self.globals.tags.vehicle_highlights
+        vehicle_highlights = self.globals.tags.merge(vehicle_highlights)
+        
+        send = {
+            "vehicles": vehicle_highlights, # list of UIDs
+        }
+        
+        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -446,6 +473,24 @@ class Plugin(ETS2LAPlugin):
         
         print("Sockets waiting for client...")
 
+    def create_socket_message(self, channel, data):
+        return {
+            "channel": channel,
+            "result": {
+                "type": "data",
+                "data": data
+            }
+        }
+
+    channel_data_calls = {
+        1: position,
+        2: steering,
+        3: state_data,
+        4: traffic,
+        5: trailers,
+        6: highlights
+    }
+
     def run(self):
         api_data = TruckSimAPI.run()
         channel_data = {} # Cache data for each channel for a frame.
@@ -453,69 +498,18 @@ class Plugin(ETS2LAPlugin):
         try:
             for websocket, connection in list(self.connected_clients.items()):
                 for channel in connection.subscribed_channels:
-                    message = {}
-                    if channel == 1:
-                        if 1 not in channel_data:
-                            channel_data[1] = self.position(api_data)
+                    try:
+                        if channel not in channel_data:
+                            if channel in self.channel_data_calls:
+                                channel_data[channel] = self.channel_data_calls[channel](self, api_data)
+                            else:
+                                logging.warning(f"Channel {channel} not implemented.")
+                                continue
                             
-                        message = {
-                            "channel": 1,
-                            "result": {
-                                "type": "data",
-                                "data": channel_data[1]
-                            }
-                        }
-                    
-                    if channel == 2:
-                        if 2 not in channel_data:
-                            channel_data[2] = self.steering()
-                            
-                        message = {
-                            "channel": 2,
-                            "result": {
-                                "type": "data",
-                                "data": channel_data[2]
-                            }
-                        }
-                        
-                    if channel == 3:
-                        if 3 not in channel_data:
-                            channel_data[3] = self.state_data(api_data)
-                            
-                        message = {
-                            "channel": 3,
-                            "result": {
-                                "type": "data",
-                                "data": channel_data[3]
-                            }
-                        }
-                        
-                    if channel == 4:
-                        if 4 not in channel_data:
-                            channel_data[4] = self.traffic(api_data)
-                            
-                        message = {
-                            "channel": 4,
-                            "result": {
-                                "type": "data",
-                                "data": channel_data[4]
-                            }
-                        }
-                        
-                    if channel == 5:
-                        if 5 not in channel_data:
-                            channel_data[5] = self.trailers(api_data)
-                            
-                        message = {
-                            "channel": 5,
-                            "result": {
-                                "type": "data",
-                                "data": channel_data[5]
-                            }
-                        }
-                        
-                    if message != {}:
+                        message = self.create_socket_message(channel, channel_data[channel])
                         asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
+                        
+                    except Exception as e:
+                        logging.warning(f"Error sending data to client: {str(e)} on channel {channel}.")
         except:
-            logging.warning("Error sending data to clients.")
-            pass
+            pass # Got disconnected while iterating over the clients.
