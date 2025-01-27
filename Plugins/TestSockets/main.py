@@ -385,9 +385,7 @@ class Plugin(ETS2LAPlugin):
                 rotationX = trailer["comDouble"]["rotationX"] * 360
                 if rotationX < 0: rotationX += 360
                 rotationY = trailer["comDouble"]["rotationY"] * 360
-                if rotationY < 0: rotationY += 360
                 rotationZ = trailer["comDouble"]["rotationZ"] * 360
-                if rotationZ < 0: rotationZ += 360
                 
                 hook_position = (trailer["conVector"]["hookPositionX"], trailer["conVector"]["hookPositionY"], trailer["conVector"]["hookPositionZ"])
                 furthest_left_distance = 0
