@@ -41,7 +41,7 @@ def MapCurvatureToSpeed(curvature):
     percentage = (curvature - index_below) / (index_above - index_below)
     if percentage < 0: percentage = 0
     speed = (curvature_to_max_speed[index_below] + (curvature_to_max_speed[index_above] - curvature_to_max_speed[index_below]) * percentage)
-    data.plugin.state.text = f"Curvature: {curvature:.1f}°, Speed: {speed:.1f} km/h"
+    #data.plugin.state.text = f"Curvature: {curvature:.1f}°, Speed: {speed:.1f} km/h"
     return speed / 3.6 # Convert to m/s
 
 def GetMaximumSpeed():
