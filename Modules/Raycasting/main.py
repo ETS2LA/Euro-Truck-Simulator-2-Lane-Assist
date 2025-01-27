@@ -45,7 +45,7 @@ class Module(ETS2LAModule):
         global API
         global FOV
         API = self.plugin.modules.TruckSimAPI
-        FOV = self.plugins.modules.Camera.run().fov
+        FOV = self.plugin.modules.Camera.run().fov
 
         global window_x, window_y, window_width, window_height, last_window_position
         window_x = 0
