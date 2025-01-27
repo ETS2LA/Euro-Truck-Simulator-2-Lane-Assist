@@ -147,11 +147,17 @@ def GetSteering():
 
     data.route_points = points
     
-    if math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 20:
-        logging.warning("Recalculating navigation plan as we are too far off the path!")
-        data.route_plan = []
-        data.update_navigation_plan = True
-            
+    if math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 20 and math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[-1].x, data.route_points[-1].z)) > 20:
+        data.frames_off_path += 1
+        if data.frames_off_path > 5:
+            logging.warning("Recalculating navigation plan as we are too far off the path!")
+            data.route_plan = []
+            data.update_navigation_plan = True
+            data.frames_off_path = 0
+            return 0
+    else:
+        data.frames_off_path = 0
+        
     forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
     try:
         if len(points) > 2:
