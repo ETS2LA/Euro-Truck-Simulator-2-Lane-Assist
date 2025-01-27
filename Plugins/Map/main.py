@@ -11,7 +11,7 @@ import Plugins.Map.utils.math_helpers as mh
 from Plugins.Map.utils.data_reader import ReadData
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
-import Plugins.Map.utils.speed as speed
+import ETS2LA.variables as variables
 import Plugins.Map.classes as c
 
 import threading
@@ -20,10 +20,12 @@ navigation = importlib.import_module("Plugins.Map.navigation.navigation")
 planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
 im = importlib.import_module("Plugins.Map.utils.internal_map")
+speed = importlib.import_module("Plugins.Map.utils.speed")
 last_plan_hash = hash(open(planning.__file__).read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
+last_speed_hash = hash(open(speed.__file__).read())
 
 class SettingsMenu(ETS2LASettingsMenu):
     plugin_name = "Map"
@@ -136,7 +138,7 @@ class Plugin(ETS2LAPlugin):
         )
 
     def CheckHashes(self):
-        global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash
+        global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_speed_hash
         logging.info("Starting navigation module file monitor")
         while True:
             try:
@@ -144,6 +146,7 @@ class Plugin(ETS2LAPlugin):
                 new_drive_hash = hash(open(driving.__file__).read())
                 new_plan_hash = hash(open(planning.__file__).read())
                 new_im_hash = hash(open(im.__file__).read())
+                new_speed_hash = hash(open(speed.__file__).read())
                 if new_nav_hash != last_nav_hash:
                     last_nav_hash = new_nav_hash
                     logging.info("Navigation module changed, reloading...")
@@ -167,6 +170,11 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Internal map module changed, reloading...")
                     importlib.reload(im)
                     logging.info("Successfully reloaded internal map module")
+                if new_speed_hash != last_speed_hash:
+                    last_speed_hash = new_speed_hash
+                    logging.info("Speed module changed, reloading...")
+                    importlib.reload(speed)
+                    logging.info("Successfully reloaded speed module")
             except Exception as e:
                 logging.error(f"Error monitoring modules: {e}")
             time.sleep(1)

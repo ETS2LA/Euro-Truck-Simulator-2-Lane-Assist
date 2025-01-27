@@ -74,6 +74,8 @@ last_sound_played: float = 0
 """The last time a sound was played."""
 sound_play_interval: float = 10 # seconds
 """The interval between each sound play."""
+frames_off_path: int = 0
+"""How many frames the truck has been off the path."""
 
 # MARK: Options
 amount_of_points: int = 50

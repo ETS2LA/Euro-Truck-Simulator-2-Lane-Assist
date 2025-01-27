@@ -12,18 +12,18 @@ curvature_to_max_speed = {
     0: 110, # Max speed that ETS2LA is allowed to drive
     2.5: 100,
     5: 95,
-    10: 90,
-    15: 80,
-    20: 70,
-    25: 60,
-    30: 50,
-    35: 40,
-    40: 30,
-    50: 25,
-    60: 20,
+    7.5: 90,
+    10: 80,
+    12.5: 70,
+    15: 60,
+    17.5: 50, 
+    20: 40,
+    22.5: 30,
+    25: 25,
+    30: 20,
 }
 def MapCurvatureToSpeed(curvature):
-    curvature = max(curvature * 8 * 8, 0)
+    curvature = abs(curvature * 4)
     # Map the curvature to a max speed
     index_below = 0
     index_above = 0
@@ -72,8 +72,8 @@ def GetMaximumSpeed():
 
             if not np.isnan(angle) and angle != 0:
                 distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[i].x, points[i].z))
-                max_effect_distance = 0
-                min_effect_distance = 60
+                max_effect_distance = 20
+                min_effect_distance = 100
                 percentage = (distance - min_effect_distance) / (max_effect_distance - min_effect_distance)
                 if percentage < 0:
                     percentage = 0
@@ -85,7 +85,7 @@ def GetMaximumSpeed():
             while max(curvatures) > avg * 4:
                 curvatures.remove(max(curvatures))
                 
-            curvature = sum(curvatures) / len(curvatures)
+            curvature = max(curvatures)
             curvature = abs(math.degrees(curvature))
         except:
             curvature = 0
