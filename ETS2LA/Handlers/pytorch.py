@@ -10,6 +10,7 @@ import GPUtil
 import psutil
 import torch
 import time
+import sys
 import os
 
 def SendCrashReport(Title, Description):
@@ -267,6 +268,11 @@ def CheckForUpdates(Identifier):
     try:
         def CheckForUpdatesFunction(Identifier):
             try:
+
+                if "--dev" in sys.argv:
+                    Popup(Identifier=Identifier, Text="Development mode enabled, skipping update check...", Progress=0)
+                    print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Development mode enabled, skipping update check..." + NORMAL)
+                    return
 
                 Popup(Identifier=Identifier, Text="Checking for model updates...", Progress=0)
                 print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Checking for model updates..." + NORMAL)
