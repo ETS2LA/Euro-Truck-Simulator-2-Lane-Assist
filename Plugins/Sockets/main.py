@@ -278,7 +278,7 @@ class Plugin(ETS2LAPlugin):
     lastHiglights = ""
     def highlights(self, data):
         try:
-            data["highlights"] = self.globals.tags.highlights
+            data["highlights"] = self.globals.tags.vehicle_highlights
             data["highlights"] = self.globals.tags.merge(data["highlights"])
             if data["highlights"] is None or type(data["highlights"]) != list:
                 data["highlights"] = self.lastHiglights
