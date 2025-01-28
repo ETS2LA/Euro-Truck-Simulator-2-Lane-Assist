@@ -165,12 +165,19 @@ class Plugin(ETS2LAPlugin):
         return acceleration, targetSpeed, type
 
     def GetDistanceToPoint(self, point1: list, point2: list) -> float:
-        return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+        if len(point1) == 2 and len(point2) == 2:
+            return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+        elif len(point1) == 3 and len(point2) == 3:
+            return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2 + (point1[2] - point2[2])**2)
 
     def GetTimeToVehicleAhead(self, apiData: dict) -> float:
-        #vehicles = self.globals.tags.vehicles
-        #vehicles = self.globals.tags.merge(vehicles)
         vehicles = self.modules.Traffic.run()
+        
+        plugin_vehicles = self.globals.tags.vehicles
+        plugin_vehicles = self.globals.tags.merge(plugin_vehicles)
+        
+        if plugin_vehicles is not None:
+            vehicles += [self.modules.Traffic.create_vehicle_from_dict(vehicle) for vehicle in plugin_vehicles]
 
         if vehicles is None or vehicles == []:
             if time.perf_counter() - self.last_vehicle_time < 1:
@@ -183,6 +190,7 @@ class Plugin(ETS2LAPlugin):
         
         truckX = apiData["truckPlacement"]["coordinateX"]
         truckY = apiData["truckPlacement"]["coordinateZ"]
+        truckHeight = apiData["truckPlacement"]["coordinateY"]
         truckSpeed = apiData["truckFloat"]["speed"]
         rotation = apiData["truckPlacement"]["rotationX"] * 360
         if rotation < 0: rotation += 360
@@ -220,21 +228,23 @@ class Plugin(ETS2LAPlugin):
             if len(vehicle.trailers) > 0:
                 x = vehicle.trailers[-1].position.x
                 y = vehicle.trailers[-1].position.z
+                z = vehicle.trailers[-1].position.y
             else:
                 x = vehicle.position.x
                 y = vehicle.position.z
+                z = vehicle.position.y
             
             closestPointDistance = math.inf
             index = 0
             for point in points:
-                distance = self.GetDistanceToPoint([x, y], [point[0], point[2]])
+                distance = self.GetDistanceToPoint([x, y, z], [point[0], point[2], point[1]])
                 if distance < closestPointDistance:
                     closestPointDistance = distance
                 else:
                     # Make an intermediate point
                     lastPoint = points[index - 1]
-                    intermediatePoint = [(lastPoint[2] + point[2]) / 2, (lastPoint[2] + point[2]) / 2]
-                    distance = self.GetDistanceToPoint([x, y], intermediatePoint)
+                    intermediatePoint = [(lastPoint[0] + point[0]) / 2, (lastPoint[2] + point[1]) / 2, (lastPoint[1] + point[2]) / 2]
+                    distance = self.GetDistanceToPoint([x, y, z], intermediatePoint)
                     if distance < closestPointDistance:
                         closestPointDistance = distance
                     break

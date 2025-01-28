@@ -172,7 +172,13 @@ class Plugin(ETS2LAPlugin):
     lastVehicles = [""]
     lastVehicleString = ""
     def vehicles(self, data):
+        plugin_vehicles = self.globals.tags.vehicles
+        plugin_vehicles = self.globals.tags.merge(plugin_vehicles)
+        
         vehicles = self.modules.Traffic.run()
+        
+        if plugin_vehicles is not None:
+            vehicles += [self.modules.Traffic.create_vehicle_from_dict(vehicle) for vehicle in plugin_vehicles]
         
         if vehicles is None or vehicles == []:
             return "JSONvehicles:[];"

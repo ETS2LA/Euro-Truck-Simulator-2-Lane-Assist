@@ -190,7 +190,7 @@ class Module(ETS2LAModule):
 
         data = {}
         data["api"] = API.run()
-        FOV = self.plugins.modules.Camera.run().fov
+        FOV = self.plugin.modules.Camera.run().fov
         try:
             truck_x = data["api"]["truckPlacement"]["coordinateX"]
             truck_y = data["api"]["truckPlacement"]["coordinateY"]

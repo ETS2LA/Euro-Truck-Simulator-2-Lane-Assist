@@ -9,6 +9,7 @@ import ETS2LA.variables as variables
 
 from Plugins.ObjectDetection.vehicleUtils import UpdateVehicleSpeed, GetVehicleSpeed
 from Plugins.ObjectDetection.classes import Vehicle, RoadMarker, Sign, TrafficLight
+from Plugins.ObjectDetection.new_classes import Vehicle as NewVehicle
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
@@ -21,6 +22,7 @@ class SettingsMenu(ETS2LASettingsMenu):
         Selector("object_detection.settings.3.name", "mode", "Performance", ["Performance", "Quality"], description="object_detection.settings.3.description", requires_restart=True)
         Input("object_detection.settings.4.name", "yolo_fps", "number", 2, description="object_detection.settings.4.description", requires_restart=True)
         Selector("object_detection.settings.5.name", "model", "YoloV5", ["YoloV5", "YoloV7"], description="object_detection.settings.5.description", requires_restart=True)
+        Switch("Send Object Data", "send_objects", False, description="Send object data to other plugins. Only use this if you can't use the built in object detection. (You play in TMP, etc.)")
         # TODO: Add array element back
         return RenderUI()
 
@@ -31,7 +33,7 @@ class Plugin(ETS2LAPlugin):
         name="plugins.objectdetection",
         version="1.0",
         description="plugins.objectdetection.description",
-        modules=["TruckSimAPI", "ScreenCapture", "ShowImage", "Raycasting", "PositionEstimation", "Camera"],
+        modules=["TruckSimAPI", "Camera", "ScreenCapture", "ShowImage", "Raycasting", "PositionEstimation"],
         tags=["Base", "Traffic Lights", "Objects"]
     )
     
@@ -112,6 +114,7 @@ class Plugin(ETS2LAPlugin):
             monitor_index = settings.Get("Global", "display", 0)
             settings_yolo_fps = settings.Get("ObjectDetection", "yolo_fps", 2)
             self.MODE = settings.Get("ObjectDetection", "mode", "Performance")
+            self.SEND_OBJECTS = settings.Get("ObjectDetection", "send_objects", False)
             self.YOLO_FPS = settings_yolo_fps if settings_yolo_fps > 0 else 2
             self.USE_EXTERNAL_VISUALIZATION = True
             self.TRACK_SPEED = ["car", "van", "bus", "truck"]
@@ -289,7 +292,15 @@ class Plugin(ETS2LAPlugin):
                     self.time.sleep(1 / self.YOLO_FPS)
                     continue  # Model is not ready
 
-                self.boxes = results.pandas().xyxy[0]
+                boxes = results.pandas().xyxy[0]
+                if not self.SEND_OBJECTS:
+                    for _, box in boxes.iterrows():
+                        print(box["name"])
+                        if box['name'] in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"]:
+                            continue
+                        boxes = boxes.drop(index=box.name)
+                self.boxes = boxes
+                
                 timeToSleep = 1 / self.YOLO_FPS - (self.time.perf_counter() - startTime)
                 if timeToSleep > 0:
                     self.time.sleep(timeToSleep)
@@ -432,6 +443,8 @@ class Plugin(ETS2LAPlugin):
             
             try:
                 for tracked_object in tracked_boxes:
+                    if tracked_object.label not in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"] and not self.SEND_OBJECTS:
+                        continue
                     box = tracked_object.estimate
                     x1, y1, x2, y2 = box[0]
                     self.cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
@@ -457,13 +470,13 @@ class Plugin(ETS2LAPlugin):
                         bottomRightPoint = (int(x2r), int(y2r))
                         middlePoint = (int((x1r + x2r) / 2), int((y1r + y2r) / 2))
                         
-                        if label in ['car', 'van', 'truck', 'bus']:
+                        if label in ['car', 'van', 'truck', 'bus'] and self.SEND_OBJECTS:
                             carPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
-                        elif label in ["road_marker"]:
+                        elif label in ["road_marker"] and self.SEND_OBJECTS:
                             objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id))
                         elif label in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"]:
                             trafficLightPoints.append((middlePoint, label, object.id))
-                        else:
+                        elif self.SEND_OBJECTS:
                             objectPoints.append((bottomLeftPoint, bottomRightPoint, label, object.id, middlePoint, x1, y1, width, height))
                     
                     for line in carPoints:
@@ -574,55 +587,25 @@ class Plugin(ETS2LAPlugin):
             self.cv2.putText(frame, f"Visual Time: {round(self.smoothedVisualTime(visualTime)*1000, 2)}ms", (20, 180), self.cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, self.cv2.LINE_AA)
             self.cv2.putText(frame, f"Input Time: {round(self.smoothedInputTime(inputTime)*1000, 2)}ms", (20, 220), self.cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, self.cv2.LINE_AA)
             self.cv2.putText(frame, f"Raycast Time: {round(self.smoothedRaycastTime(raycastTime)*1000, 2)}ms", (20, 260), self.cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, self.cv2.LINE_AA)
+            if not self.SEND_OBJECTS:
+                self.cv2.putText(frame, "-> Only Traffic Lights", (20, 340), self.cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, self.cv2.LINE_AA)
             self.cv2.imshow('Object Detection', frame)
             self.cv2.waitKey(1)
-            
-            # Get the data for the AR plugin
-            if self.USE_EXTERNAL_VISUALIZATION:
-                arData = {
-                    #"lines": [],
-                    #"circles": [],
-                    #"boxes": [],
-                    #"polygons": [],
-                    "texts": [],
-                    "screenLines": [],
-                }
-
-                # Add the cars to the external visualization as a line from the start point to y + 1
-                for vehicle in vehicles:
-                    if vehicle == None: continue
-
-                    try:
-                        leftPoint = vehicle.screenPoints[0]
-                        leftPoint = (leftPoint[0], leftPoint[1] + 5)
-                        rightPoint = vehicle.screenPoints[1]
-                        rightPoint = (rightPoint[0], rightPoint[1] + 5)
-                        middlePoint = ((leftPoint[0] + rightPoint[0]) / 2, (leftPoint[1] + rightPoint[1]) / 2)
-
-                        # Get the distance
-                        leftDistance = vehicle.raycasts[0].distance
-                        rightDistance = vehicle.raycasts[1].distance
-                        middleDistance = (leftDistance + rightDistance) / 2
-
-                        # Add the lines
-                        arData['screenLines'].append(self.ScreenLine((leftPoint[0], leftPoint[1]), (rightPoint[0], rightPoint[1]), color=[0, 255, 0, 100], thickness=2))
-                        
-                        # Add the text
-                        arData['texts'].append(self.Text(f"{round(middleDistance, 1)} m", (middlePoint[0], middlePoint[1]), color=[0, 255, 0, 100], size=15))
-                        
-                        try:
-                            arData['texts'].append(self.Text(f"{int(round(vehicle.speed * 3.6, 0))} km/h", (middlePoint[0], middlePoint[1] + 20), color=[0, 255, 0, 100], size=15))
-                        except: pass
-                    except:
-                        continue
             
             self.frame_counter += 1
             
             # Return data to the main thread
-            self.globals.tags.vehicles = [vehicle.json() for vehicle in vehicles]
-            self.globals.tags.objects = [object.json() for object in objects]
+            if self.SEND_OBJECTS:
+                new_vehicles = []
+                for vehicle in vehicles:
+                    new_vehicle = NewVehicle()
+                    new_vehicle.from_old_class(vehicle)
+                    new_vehicles.append(new_vehicle)
+                    
+                self.globals.tags.vehicles = [vehicle.__dict__() for vehicle in new_vehicles]
+                self.globals.tags.objects = [object.json() for object in objects]
+                
             self.globals.tags.traffic_lights = [light.json() for light in trafficLights]
-            self.globals.tags.ar = arData
             
             return None
         except Exception as e:
