@@ -195,7 +195,7 @@ class Plugin(ETS2LAPlugin):
     def init(self):
         """Initialize the plugin"""
         try:
-            self.steering_smoothness = settings.Get("Map", "SteeringSmoothTime", 0.3)
+            self.steering_smoothness = settings.Get("Map", "SteeringSmoothTime", 0.2)
 
             data.controller = self.modules.SDKController.SCSController()
             data.plugin = self
@@ -207,7 +207,7 @@ class Plugin(ETS2LAPlugin):
             steering.OFFSET = 0
             steering.SMOOTH_TIME = self.steering_smoothness
             steering.IGNORE_SMOOTH = False
-            steering.SENSITIVITY = 1
+            steering.SENSITIVITY = 1.2
 
             settings.Listen("Map", self.UpdateSteeringSettings)
 
