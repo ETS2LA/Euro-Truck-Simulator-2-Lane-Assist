@@ -317,6 +317,9 @@ def find_path(start_lanes: list[NavigationLane], goal_lanes: list[NavigationLane
 def get_path_to_destination():
     """Find a path from current position to destination"""
     try:
+        
+        data.plugin.modules.Steering.run(value=0, sendToGame=data.enabled, drawLine=False)
+        
         # Get destination information
         dest_item, dest_position = get_destination_item()
         if not dest_item or not dest_position:

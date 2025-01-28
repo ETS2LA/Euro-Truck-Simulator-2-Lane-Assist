@@ -44,21 +44,6 @@ import os
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
-class WebSocketConnection:
-    def __init__(self, websocket):
-        self.websocket = websocket
-        self.queue = asyncio.Queue()
-        self.sender_task = asyncio.create_task(self.send_messages())
-        self.subscribed_channels = set()
-
-    async def send_messages(self):
-        try:
-            while True:
-                message = await self.queue.get()
-                await self.websocket.send(message)
-        except Exception as e:
-            print("Client disconnected due to exception in send_messages.", str(e))
-
 """
 Communication interface docs:
 
@@ -227,6 +212,7 @@ class WebSocketConnection:
         self.queue = asyncio.Queue()
         self.sender_task = asyncio.create_task(self.send_messages())
         self.subscribed_channels = set()
+        self.acknowledged = False
 
     async def send_messages(self):
         try:
@@ -272,10 +258,13 @@ class Plugin(ETS2LAPlugin):
         try:
             message = json.loads(message)
             method = message.get("method")
-            channel = message.get("channel")
+            channel = message.get("channel", 0)
             params = message.get("params", {})
+            
+            if method == "acknowledge" and channel == 0:
+                self.connected_clients[websocket].acknowledged = True
 
-            if method == "query" and channel == 0:
+            elif method == "query" and channel == 0:
                 if params.get("name") == "available_channels":
                     response = {
                         "channel": 0,
@@ -324,7 +313,6 @@ class Plugin(ETS2LAPlugin):
         print("Number of connected clients: ", len(self.connected_clients))
         try:
             async for message in websocket:
-                print("Received message from client: ", message)
                 await self.handle_message(websocket, message)
                 
         except Exception as e:
@@ -497,19 +485,21 @@ class Plugin(ETS2LAPlugin):
         
         try:
             for websocket, connection in list(self.connected_clients.items()):
-                for channel in connection.subscribed_channels:
-                    try:
-                        if channel not in channel_data:
-                            if channel in self.channel_data_calls:
-                                channel_data[channel] = self.channel_data_calls[channel](self, api_data)
-                            else:
-                                logging.warning(f"Channel {channel} not implemented.")
-                                continue
+                if connection.acknowledged:
+                    for channel in connection.subscribed_channels:
+                        try:
+                            if channel not in channel_data:
+                                if channel in self.channel_data_calls:
+                                    channel_data[channel] = self.channel_data_calls[channel](self, api_data)
+                                else:
+                                    logging.warning(f"Channel {channel} not implemented.")
+                                    continue
+                                
+                            message = self.create_socket_message(channel, channel_data[channel])
+                            asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
                             
-                        message = self.create_socket_message(channel, channel_data[channel])
-                        asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
-                        
-                    except Exception as e:
-                        logging.warning(f"Error sending data to client: {str(e)} on channel {channel}.")
+                        except Exception as e:
+                            logging.warning(f"Error sending data to client: {str(e)} on channel {channel}.")
+                    connection.acknowledged = False
         except:
             pass # Got disconnected while iterating over the clients.

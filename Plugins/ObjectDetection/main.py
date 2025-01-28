@@ -295,7 +295,6 @@ class Plugin(ETS2LAPlugin):
                 boxes = results.pandas().xyxy[0]
                 if not self.SEND_OBJECTS:
                     for _, box in boxes.iterrows():
-                        print(box["name"])
                         if box['name'] in ["red_traffic_light", "green_traffic_light", "yellow_traffic_light"]:
                             continue
                         boxes = boxes.drop(index=box.name)
