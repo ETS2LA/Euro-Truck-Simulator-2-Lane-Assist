@@ -344,6 +344,8 @@ class Plugin(ETS2LAPlugin):
     
     def steering(self, data):
         points = self.plugins.Map
+        information = self.globals.tags.route_information
+        information = self.globals.tags.merge(information)
         
         send = {
             "points": [
@@ -352,7 +354,8 @@ class Plugin(ETS2LAPlugin):
                     "y": point[1],
                     "z": point[2]
                 } for point in points
-            ]
+            ],
+            "information": information # already a dictionary
         }
         
         return send

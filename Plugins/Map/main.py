@@ -247,6 +247,35 @@ class Plugin(ETS2LAPlugin):
             logging.error(f"Error initializing Map plugin: {e}", exc_info=True)
             return False
 
+    def CheckForRoutingModeChange(self):
+        current_routing_mode = self.settings.RoutingMode
+        if current_routing_mode != self._last_routing_mode and data.use_navigation:
+            logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
+            self._last_routing_mode = current_routing_mode
+            if data.dest_company:
+                logging.info("Recalculating path with new routing mode...")
+                navigation.get_path_to_destination()
+                
+    def MapWindowInitialization(self):
+        if not data.map_initialized and data.internal_map:
+                im.InitializeMapWindow()
+                self.MAP_INITIALIZED = True
+
+        if data.map_initialized and not data.internal_map:
+            im.RemoveWindow()
+            self.MAP_INITIALIZED = False
+            
+    def CheckDestinationCompany(self):
+        if (data.dest_company != self.last_dest_company or data.update_navigation_plan) and data.use_navigation and time.perf_counter() - data.last_navigation_update > 5:
+            logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
+            self.last_dest_company = data.dest_company
+            data.update_navigation_plan = False
+            navigation.get_path_to_destination()
+            if data.navigation_plan and data.navigation_plan != []:
+                self.globals.tags.navigation_plan = data.navigation_plan
+            else:
+                self.globals.tags.navigation_plan = []
+            data.last_navigation_update = time.perf_counter()
 
     def UpdateSteeringSettings(self, settings: dict):
         self.steering_smoothness = self.settings.SteeringSmoothTime
@@ -256,15 +285,8 @@ class Plugin(ETS2LAPlugin):
         try:
             api_data = api.run()
             data.UpdateData(api_data)
-
-            # Check if routing mode has changed
-            current_routing_mode = settings.Get("Map", "RoutingMode")
-            if current_routing_mode != self._last_routing_mode and data.use_navigation:
-                logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
-                self._last_routing_mode = current_routing_mode
-                if data.dest_company:
-                    logging.info("Recalculating path with new routing mode...")
-                    navigation.get_path_to_destination()
+            
+            self.CheckForRoutingModeChange()
 
             max_speed = 999
             if data.calculate_steering:
@@ -284,33 +306,15 @@ class Plugin(ETS2LAPlugin):
             else:
                 data.route_points = []
 
-            # Initialize map visualization if needed
-            if not data.map_initialized and data.internal_map:
-                im.InitializeMapWindow()
-                self.MAP_INITIALIZED = True
-
-            if data.map_initialized and not data.internal_map:
-                im.RemoveWindow()
-                self.MAP_INITIALIZED = False
+            self.MapWindowInitialization()
 
             if data.internal_map:
                 im.DrawMap()
 
-            # Call navigation when destination company changes
-            if (data.dest_company != self.last_dest_company or data.update_navigation_plan) and data.use_navigation and time.perf_counter() - data.last_navigation_update > 5:
-                logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
-                self.last_dest_company = data.dest_company
-                data.update_navigation_plan = False
-                navigation.get_path_to_destination()
-                if data.navigation_plan and data.navigation_plan != []:
-                    self.globals.tags.navigation_plan = data.navigation_plan
-                else:
-                    self.globals.tags.navigation_plan = []
-                data.last_navigation_update = time.perf_counter()
+            self.CheckDestinationCompany()
 
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)
-                # print(f"External data changed, file size: {sys.getsizeof(external_data)/1000:.0f} KB")
                 self.globals.tags.map = json.loads(external_data)
                 self.globals.tags.map_update_time = data.external_data_time
                 data.external_data_changed = False
@@ -339,7 +343,8 @@ class Plugin(ETS2LAPlugin):
                 self.globals.tags.road_type = "highway" if "hw" in data.route_plan[0].items[0].item.road_look.name else "normal"
             else:
                 self.globals.tags.road_type = "normal"
-                
+
+            self.globals.tags.route_information = [item.information_json() for item in data.route_plan]
         else:
             self.globals.tags.next_intersection_distance = 1
             self.globals.tags.road_type = "none"

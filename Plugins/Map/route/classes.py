@@ -272,3 +272,14 @@ class RouteSection:
         if not isinstance(value, RouteSection):
             return False
         return self.start_node.uid == value.start_node.uid and self.end_node.uid == value.end_node.uid and self.lane_index == value.lane_index
+    
+    def information_json(self):
+        return {
+            "uids": [item.item.uid for item in self.items],
+            "lane_index": self.lane_index,
+            "type": type(self.items[0].item).__name__,
+            "is_ended": self.is_ended,
+            "is_lane_changing": self.is_lane_changing,
+            "lane_points": [point.tuple() for point in self.lane_points] if self.is_lane_changing else [],
+            "last_lane_points": [point.tuple() for point in self.last_lane_points] if self.is_lane_changing else [],
+        }
