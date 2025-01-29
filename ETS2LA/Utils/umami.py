@@ -8,11 +8,11 @@ try:
 except:
     logging.warning("Failed to import umami.")
 
-def TriggerEvent(event: str, data: dict):
+def TriggerEvent(event: str, data: dict = None):
     try:
         if data is None or type(data) is not dict:
             umami.new_event(
-                event_name=event
+                event_name=event,
             )
         else:
             umami.new_event(

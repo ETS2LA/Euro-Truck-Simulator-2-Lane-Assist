@@ -1,9 +1,11 @@
 import ETS2LA.Networking.Servers.notifications as notifications
+from ETS2LA.Utils.umami import TriggerEvent
+import ETS2LA.variables as variables
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
+
 import multiprocessing
 import threading
-import ETS2LA.variables as variables
 import logging
 import inspect
 import fnmatch
@@ -240,6 +242,10 @@ class PluginHandler:
                 disable_plugin(self.plugin_name, from_plugin=True)
                 
             if data["operation"] == "crash":
+                try:
+                    TriggerEvent("Plugin Crashed", {"plugin": self.plugin_name})
+                except:
+                    pass
                 self.process.terminate()
                 self.stop = True
                 disable_plugin(self.plugin_name, from_plugin=True, show_restart_dialog=True)
@@ -387,6 +393,10 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
 def enable_plugin(plugin_name: str):
     runner = threading.Thread(target=PluginHandler, args=(plugin_name, AVAILABLE_PLUGINS[[plugin[0] for plugin in AVAILABLE_PLUGINS].index(plugin_name)][1]), daemon=True)
     runner.start()
+    try:
+        TriggerEvent("Plugin Enabled", {"plugin": plugin_name})
+    except:
+        pass
     
 def disable_plugin(plugin_name: str, from_plugin: bool = False, show_restart_dialog: bool = False):
     for plugin in RUNNING_PLUGINS:

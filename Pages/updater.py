@@ -2,6 +2,7 @@ from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from ETS2LA.Utils.version import CheckForUpdate, Update
+from ETS2LA.Utils.umami import TriggerEvent
 
 from datetime import datetime
 import time
@@ -14,6 +15,10 @@ class Page(ETS2LAPage):
     settings_target = "updater" 
     
     def update(self, *args, **kwargs):
+        try:
+            TriggerEvent("Update App")
+        except:
+            pass
         mainThreadQueue.append([Update, [], {}])
         
     def time_since(self, target_time):
