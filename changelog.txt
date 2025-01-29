@@ -1,1 +1,1 @@
-Fix "NameError: name 'splash' is not defined" when trying to change ONNX runtime version.
+Note about the retirement of the V1 server backend in preparation for V2 release.

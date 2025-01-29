@@ -78,13 +78,13 @@ def GetMotd():
         str: Message of the day
     """
     
-    if not ALLOW_CRASH_REPORTS:
-        return "Please enable crash reporting to fetch MOTD."
+    # if not ALLOW_CRASH_REPORTS:
+    #     return "Please enable crash reporting to fetch MOTD."
     
     try:
-        url = 'https://crash.tumppi066.fi/motd'
-        response = json.loads(requests.get(url, timeout=1).text)
-        return response["motd"]
+        #url = 'https://crash.tumppi066.fi/motd'
+        #response = json.loads(requests.get(url, timeout=1).text)
+        return "The V1 server backend has been shut down. V2 is available via the discord server. A full release should come out in February."
     except:
         return "Could not get server message."
     
