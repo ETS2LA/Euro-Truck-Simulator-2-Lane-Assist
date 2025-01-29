@@ -5,6 +5,7 @@ ultralytics>=8.3.47
 websockets==13.1
 tkinter-tooltip
 windows-capture==1.3.6; platform_system == "Windows"
+umami-analytics
 textual==1.0.0
 beautifulsoup4
 pywebview==5.1

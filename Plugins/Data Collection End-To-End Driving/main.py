@@ -103,7 +103,7 @@ def GetDataID():
             else:
                 raise Exception("Couldn't get an ID from the server.")
         except:
-            print(f"\n{RED}Unable to do data collection, couldn't get an response from the server.  The plugin will disable itself.{NORMAL}\n")
+            #print(f"\n{RED}Unable to do data collection, couldn't get an response from the server.  The plugin will disable itself.{NORMAL}\n")
             return "None"
         with open(f"{variables.PATH}End-To-End-Data-ID.txt", "w") as File:
             File.write(DataID + """
