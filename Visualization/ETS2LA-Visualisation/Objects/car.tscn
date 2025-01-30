@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dr8t84av2gfh"]
-
-[ext_resource type="ArrayMesh" uid="uid://dsls67ttvw0kx" path="res://Models/traffic_car.obj" id="1_ssvic"]
-
-[node name="Truck" type="Node3D"]
-
-[node name="TrafficCar" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.505, 0, -3.17091e-08, 0, 0.73, 0, 7.62529e-08, 0, -0.21, 0, 0, 0.04)
-mesh = ExtResource("1_ssvic")

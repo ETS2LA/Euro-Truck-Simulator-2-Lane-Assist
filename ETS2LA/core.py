@@ -5,7 +5,6 @@ import ETS2LA.Networking.Servers.notifications as notifications
 import ETS2LA.Networking.Servers.webserver as webserver
 from ETS2LA.Window.utils import CheckIfWindowStillOpen
 from ETS2LA.Utils.version import check_python_version
-import ETS2LA.Networking.Servers.godot as godot
 import ETS2LA.Events.base_events as base_events
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.translator as translator
@@ -29,7 +28,6 @@ translator.UpdateFrontendTranslations()     # Update the frontend translations
 plugins.run()       # Run the backend
 notifications.run() # Websockets server for immediate data
 webserver.run()     # External webserver for the UI
-godot.run()         # Godot server for the visualisation
 window.run()        # Webview to the website.
 base_events.run()   # Event handlers
 controls.run()      # Control handlers
