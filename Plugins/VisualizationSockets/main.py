@@ -41,6 +41,7 @@ import time
 import math
 import os
         
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
@@ -224,7 +225,7 @@ class WebSocketConnection:
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="Sockets V2",
+        name="Visualization Sockets",
         version="2.0",
         description="Unity visualization socket connection. Do not use!",
         modules=["TruckSimAPI", "Traffic"],
@@ -323,10 +324,15 @@ class Plugin(ETS2LAPlugin):
             print("Client disconnected. Number of connected clients: ", len(self.connected_clients))
 
     def position(self, data):
+        sector_coordinates = self.globals.tags.sector_center
+        sector_coordinates = self.globals.tags.merge(sector_coordinates)
+        
         send = {
             "x": float(data["truckPlacement"]["coordinateX"]),
             "y": float(data["truckPlacement"]["coordinateY"]),
             "z": float(data["truckPlacement"]["coordinateZ"]),
+            "sector_x": sector_coordinates[0],
+            "sector_y": sector_coordinates[1],
         }
         
         rotationX = data["truckPlacement"]["rotationX"] * 360
@@ -386,8 +392,14 @@ class Plugin(ETS2LAPlugin):
         
         return send
     
+    smoothed_trailer_distance = SmoothedValue("time", 0.5) # 0.5 seconds = 10 frames
+    
     def trailers(self, data):
         trailer_data = []
+        x = float(data["truckPlacement"]["coordinateX"])
+        y = float(data["truckPlacement"]["coordinateY"])
+        z = float(data["truckPlacement"]["coordinateZ"])
+        
         for trailer in data["trailers"]:
             if trailer["comBool"]["attached"]:
                 rotationX = trailer["comDouble"]["rotationX"] * 360
@@ -412,10 +424,21 @@ class Plugin(ETS2LAPlugin):
                             furthest_right_distance = distance
                             furthest_right_position = i
                 
+                trailer_position = (trailer["comDouble"]["worldX"], trailer["comDouble"]["worldY"], trailer["comDouble"]["worldZ"])
+                distance = round(math.sqrt((trailer_position[0] - x)**2 + (trailer_position[1] - y)**2 + (trailer_position[2] - z)**2), 2)
+                
+                if abs(self.smoothed_trailer_distance.get() - distance) > 0.1:
+                    difference = (self.smoothed_trailer_distance.get() - distance) 
+                    vector_torwards_truck = (x - trailer_position[0], y - trailer_position[1], z - trailer_position[2])
+                    vector_torwards_truck = (vector_torwards_truck[0] / distance, vector_torwards_truck[1] / distance, vector_torwards_truck[2] / distance)
+                    trailer_position = (trailer_position[0] - vector_torwards_truck[0] * difference, trailer_position[1] - vector_torwards_truck[1] * difference, trailer_position[2] - vector_torwards_truck[2] * difference)
+                    
+                self.smoothed_trailer_distance.smooth(distance)
+                
                 trailer_data.append({
-                    "x": trailer["comDouble"]["worldX"],
-                    "y": trailer["comDouble"]["worldY"],
-                    "z": trailer["comDouble"]["worldZ"],
+                    "x": trailer_position[0],
+                    "y": trailer_position[1],
+                    "z": trailer_position[2],
                     "rx": rotationX,
                     "ry": rotationY,
                     "rz": rotationZ,
@@ -481,11 +504,20 @@ class Plugin(ETS2LAPlugin):
         5: trailers,
         6: highlights
     }
+    
+    last_timestamp = 0
 
     def run(self):
         api_data = TruckSimAPI.run()
         channel_data = {} # Cache data for each channel for a frame.
         
+        if api_data["time"] == self.last_timestamp:
+            self.fps_cap = 1000
+            return
+        else:
+            self.fps_cap = 20
+            self.last_timestamp = api_data["time"]
+
         try:
             for websocket, connection in list(self.connected_clients.items()):
                 if connection.acknowledged:

@@ -2373,6 +2373,9 @@ class MapData:
     def match_prefabs_to_descriptions(self) -> None:
         for prefab in self.prefabs:
             prefab.prefab_description = self._prefab_descriptions_by_token.get(prefab.token, None)
+            
+    def get_world_center_for_sector(self, sector: tuple[int, int]) -> tuple[float, float]:
+        return (sector[0] * self._sector_width + self._sector_width / 2, sector[1] * self._sector_height + self._sector_height / 2)
                 
     def get_sectors_for_coordinate_and_distance(self, x: float, z: float, distance: float) -> list[tuple[int, int]]:
         sectors = []
