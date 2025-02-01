@@ -1,36 +1,3 @@
-"""
-Communication interface docs:
-
-base_url: ws://localhost:37522
-client_base_message: 
-{
-    "method": string, # Method type (subscribe, unsubscribe, query etc...)
-    "channel": number, # 0 is reserved for messages to the backend
-    "params": {
-        "name": string, # Method name (available_channels, available_methods etc...)
-    }
-}
-server_base_message:
-{
-    "channel": number,
-    "result": {
-        "type": string, # Response type (data)
-        "data": {
-            ...
-        }
-    }
-}
-
-To start off call the server with the following after connecting:
-{
-    "method": "query",
-    "channel": 0,
-    "params": {
-        "name": "available_channels"
-    }
-}
-"""
-
 import multiprocessing
 import websockets
 import threading
@@ -409,7 +376,12 @@ class Plugin(ETS2LAPlugin):
         
         return send
     
-    smoothed_trailer_distance = SmoothedValue("time", 0.5) # 0.5 seconds = 10 frames
+    smoothed_trailer_distances = [
+        SmoothedValue("time", 0.5),
+        SmoothedValue("time", 0.5),
+        SmoothedValue("time", 0.5),
+        SmoothedValue("time", 0.5),
+    ]
     
     def trailers(self, data):
         trailer_data = []
@@ -417,6 +389,7 @@ class Plugin(ETS2LAPlugin):
         y = float(data["truckPlacement"]["coordinateY"])
         z = float(data["truckPlacement"]["coordinateZ"])
         
+        id = 0
         for trailer in data["trailers"]:
             if trailer["comBool"]["attached"]:
                 rotationX = trailer["comDouble"]["rotationX"] * 360
@@ -444,13 +417,15 @@ class Plugin(ETS2LAPlugin):
                 trailer_position = (trailer["comDouble"]["worldX"], trailer["comDouble"]["worldY"], trailer["comDouble"]["worldZ"])
                 distance = round(math.sqrt((trailer_position[0] - x)**2 + (trailer_position[1] - y)**2 + (trailer_position[2] - z)**2), 2)
                 
-                if abs(self.smoothed_trailer_distance.get() - distance) > 0.1:
-                    difference = (self.smoothed_trailer_distance.get() - distance) 
+                smoothed_trailer_distance = self.smoothed_trailer_distances[id]
+                
+                if abs(smoothed_trailer_distance.get() - distance) > 0.1:
+                    difference = (smoothed_trailer_distance.get() - distance) 
                     vector_torwards_truck = (x - trailer_position[0], y - trailer_position[1], z - trailer_position[2])
                     vector_torwards_truck = (vector_torwards_truck[0] / distance, vector_torwards_truck[1] / distance, vector_torwards_truck[2] / distance)
                     trailer_position = (trailer_position[0] - vector_torwards_truck[0] * difference, trailer_position[1] - vector_torwards_truck[1] * difference, trailer_position[2] - vector_torwards_truck[2] * difference)
                     
-                self.smoothed_trailer_distance.smooth(distance)
+                smoothed_trailer_distance.smooth(distance)
                 
                 trailer_data.append({
                     "x": trailer_position[0],
@@ -469,6 +444,8 @@ class Plugin(ETS2LAPlugin):
                     "rear_right_y": trailer["conVector"]["wheelPositionY"][furthest_right_position],
                     "rear_right_z": trailer["conVector"]["wheelPositionZ"][furthest_right_position],
                 })
+                
+            id += 1
                 
         return {
             "trailers": trailer_data
@@ -548,12 +525,12 @@ class Plugin(ETS2LAPlugin):
         api_data = TruckSimAPI.run()
         channel_data = {} # Cache data for each channel for a frame.
         
-        if api_data["time"] == self.last_timestamp:
-            self.fps_cap = 1000
-            return
-        else:
-            self.fps_cap = 20
-            self.last_timestamp = api_data["time"]
+        #if api_data["time"] == self.last_timestamp:
+        #    self.fps_cap = 1000
+        #    return
+        #else:
+        self.fps_cap = 20
+        self.last_timestamp = api_data["time"]
 
         try:
             for websocket, connection in list(self.connected_clients.items()):
