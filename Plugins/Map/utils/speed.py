@@ -72,4 +72,4 @@ def GetMaximumSpeed():
     
     except Exception as e:
         logging.exception("Failed to calculate maximum speed")
-        return 0  # Fallback in case of errors
+        return 999
