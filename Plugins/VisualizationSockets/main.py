@@ -204,6 +204,23 @@ available_channels = [
                 "description": "Unsubscribe from the highlight data updates."
             }
         ]
+    },
+    {
+        "channel": 7,
+        "name": "Status",
+        "description": "Status of various app elements like steering and speed control.",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the status data updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the status data updates."
+            }
+        ]
     }
 ]
 
@@ -466,6 +483,25 @@ class Plugin(ETS2LAPlugin):
         }
         
         return send
+    
+    def status(self, data):
+        status = self.globals.tags.status
+        status = self.globals.tags.merge(status)
+        
+        enabled = []
+        disabled = []
+        for key in status:
+            if status[key]:
+                enabled.append(key)
+            else:
+                disabled.append(key)
+        
+        send = {
+            "enabled": enabled,
+            "disabled": disabled
+        }
+        
+        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -502,7 +538,8 @@ class Plugin(ETS2LAPlugin):
         3: state_data,
         4: traffic,
         5: trailers,
-        6: highlights
+        6: highlights,
+        7: status
     }
     
     last_timestamp = 0
