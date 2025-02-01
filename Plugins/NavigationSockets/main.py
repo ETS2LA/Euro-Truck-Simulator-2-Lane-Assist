@@ -214,11 +214,7 @@ class Plugin(ETS2LAPlugin):
         else:
             rotation = last_angle
             
-        
-        speed_limit = data["truckFloat"]["speedLimit"]
         speed_mph = speed * 2.23694
-        speed_limit_kph = round(speed_limit * 3.6)
-
         
         packets = [
         {
@@ -229,7 +225,7 @@ class Plugin(ETS2LAPlugin):
                     "position": ETS2CoordsToWGS84(*position),
                     "bearing": rotation,
                     "speedMph": speed_mph,
-                    "speedLimit": speed_limit_kph
+                    "speedLimit": 0
                 },
             }
         },
@@ -248,7 +244,7 @@ class Plugin(ETS2LAPlugin):
                     "position": ETS2CoordsToWGS84(*position),
                     "bearing": rotation,
                     "speedMph": speed_mph,
-                    "speedLimit": speed_limit_kph
+                    "speedLimit": 0
                 },
             }
         }]
