@@ -293,13 +293,14 @@ class Plugin(ETS2LAPlugin):
         
         if TYPE == "Percentage":
             target_speed = target_speed * (1 + OVERSPEED / 100)
-        else:
-            target_speed = target_speed + OVERSPEED / 3.6
             
         if target_speed > 0:
             target_speed += 0.49 / 3.6
         else:
             target_speed = OVERWRITE_SPEED / 3.6  
+            
+        if TYPE != "Percentage":
+            target_speed = target_speed + OVERSPEED / 3.6
          
         if target_speed > smoothed_max_speed and smoothed_max_speed > 0:
             target_speed = smoothed_max_speed
