@@ -156,7 +156,8 @@ class Plugin(ETS2LAPlugin):
     )]
 
     fps_cap = 1000
-    
+    camera = None
+    last_camera_timestamp = 0
     LastTimeStamp = 0
 
     def imports(self):
@@ -326,14 +327,15 @@ class Plugin(ETS2LAPlugin):
             self.Render()
             return
         
-        if APIDATA["time"] == self.LastTimeStamp:
+        if APIDATA["renderTime"] == self.LastTimeStamp:
             return
         else:
             # 166660.0 -> 60 FPS -> Unit is in microseconds
-            microseconds = (APIDATA["time"] - self.LastTimeStamp)
+            microseconds = (APIDATA["renderTime"] - self.LastTimeStamp)
             TELEMETRY_FPS.smooth(1 / (microseconds / 1000000))
             #print(f"Telemetry FPS: {TELEMETRY_FPS.get():.1f}         ", end="\r")
-            self.LastTimeStamp = APIDATA["time"]
+            self.LastTimeStamp = APIDATA["renderTime"]
+            
 
         WindowPosition = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         if LastWindowPosition != WindowPosition:
@@ -390,10 +392,10 @@ class Plugin(ETS2LAPlugin):
         camera = self.modules.Camera.run()
         if camera is not None:
             FOV = camera.fov
+            angles = camera.rotation.euler()
             HeadX = camera.position.x + camera.cx * 512
             HeadY = camera.position.y
             HeadZ = camera.position.z + camera.cz * 512
-            angles = camera.rotation.euler()
             HeadRotationDegreesX = angles[1]
             HeadRotationDegreesY = angles[0]
             HeadRotationDegreesZ = angles[2]
@@ -465,6 +467,6 @@ class Plugin(ETS2LAPlugin):
             for plugin in other_plugins:
                 if type(other_plugins[plugin]) == list:
                     DRAWLIST.extend(other_plugins[plugin])
-
+        
         self.Render(items=DRAWLIST)
         DRAWLIST = []

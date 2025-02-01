@@ -38,7 +38,14 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
+        self.globals.tags.AR = [
+            Line(
+                Coordinate(0, 0, 0, True),
+                Coordinate(0, 0, 0, True),
+                Color(255, 255, 255, 100),
+                3,
+                fade=Fade(0, 100, 100, 200)
+            )
+            for i in range(9)
+        ]
         time.sleep(10)
-        TriggerEvent("Test Event", {
-            "custom": "data"
-        })

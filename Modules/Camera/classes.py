@@ -13,6 +13,9 @@ class Position():
     def __str__(self):
         return f"Position({self.x:.2f}, {self.y:.2f}, {self.z:.2f})"
     
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.z == other.z
+    
 class Quaternion():
     w: float
     x: float
@@ -44,6 +47,9 @@ class Quaternion():
     def __str__(self):
         x, y, z = self.euler()
         return f"Quaternion({self.w:.2f}, {self.x:.2f}, {self.y:.2f}, {self.z:.2f}) -> (pitch {x:.2f}, yaw {y:.2f}, roll {z:.2f})"
+
+    def __eq__(self, other):
+        return self.w == other.w and self.x == other.x and self.y == other.y and self.z == other.z
     
 class Camera():
     fov: float
@@ -61,3 +67,6 @@ class Camera():
         
     def __str__(self):
         return f"Camera({self.fov:.2f}, {self.position}, {self.cx}, {self.cz}, {self.rotation})"
+    
+    def __eq__(self, other):
+        return self.fov == other.fov and self.position == other.position and self.cx == other.cx and self.cz == other.cz and self.rotation == other.rotation
