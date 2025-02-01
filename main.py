@@ -183,3 +183,6 @@ if __name__ == "__main__":
         except queue.Empty:
             # No exception was found in the queue
             pass
+        
+# IGNORE: This comment is just used to trigger an update and clear the cache of the app for frontend changes.
+# Counter: 1
