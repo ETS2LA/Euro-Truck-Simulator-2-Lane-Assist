@@ -162,10 +162,11 @@ class Plugin(ETS2LAPlugin):
         self.connected_clients[websocket] = connection
         print("Number of connected clients: ", len(self.connected_clients))
         response = [
-            {"id": 1,"result": {"type": "started"}},
+            #{"id": 1,"result": {"type": "started"}},
             {"id": 2,"result": {"type": "started"}},
-            {"id": 3,"result": {"type": "started"}},
-            {"id": 4,"result": {"type": "started"}}
+            #{"id": 3,"result": {"type": "started"}},
+            {"id": 4,"result": {"type": "started"}},
+            {"id": 5,"result": {"type": "started"}},
         ]
         try:
             async for message in websocket:
@@ -173,6 +174,7 @@ class Plugin(ETS2LAPlugin):
                 # Respond to any message with the response
                 await websocket.send(json.dumps(response))
                 print("Sent response to client.")
+                
                 
         except Exception as e:
             print("Client disconnected due to exception.", str(e))
@@ -183,7 +185,7 @@ class Plugin(ETS2LAPlugin):
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
-        async with websockets.serve(self.server, "localhost", 3000):
+        async with websockets.serve(self.server, "localhost", 62840):
             await asyncio.Future()  # run forever
 
     def run_server_thread(self):
@@ -231,8 +233,15 @@ class Plugin(ETS2LAPlugin):
                 },
             }
         },
-            {
+        {
             "id": 4,
+            "result": {
+                "type": "data",
+                "data": "dark"
+            }
+        },
+        {
+            "id": 5,
             "result": {
                 "type": "data",
                 "data": {
