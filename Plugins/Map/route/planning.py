@@ -404,6 +404,10 @@ def GetCurrentNavigationPlan():
         next_item = data.map.get_item_by_uid(last.forward_item_uid)
     elif last.backward_item_uid == next.forward_item_uid:
         next_item = data.map.get_item_by_uid(last.backward_item_uid)
+    elif last.backward_item_uid == next.backward_item_uid:
+        next_item = data.map.get_item_by_uid(last.backward_item_uid)
+    elif last.forward_item_uid == next.forward_item_uid:
+        next_item = data.map.get_item_by_uid(last.forward_item_uid)
     else:
         print("No connection between nodes")
         return None

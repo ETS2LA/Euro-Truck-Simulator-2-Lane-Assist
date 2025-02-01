@@ -14,6 +14,7 @@ import ETS2LA.variables as variables
 from Plugins.AR.classes import *
 
 # Python imports
+from Plugins.AdaptiveCruiseControl.speed import get_maximum_speed_for_points
 from typing import cast
 import math
 import time
@@ -26,21 +27,18 @@ OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 30) #
 TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5) # times
 ACC_ENABLED = False
 TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
-SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", True)
+SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", False)
 
-def LoadSettings():
+def LoadSettings(data: dict):
     global FOLLOW_TIME, OVERSPEED, BRAKING_DISTANCE, STOPPING_DISTANCE, OVERWRITE_SPEED, TRAFFIC_LIGHT_DISTANCE_MULTIPLIER, TYPE, SHOW_NOTIFICATIONS
-    FOLLOW_TIME = settings.Get("AdaptiveCruiseControl", "time", 3)
-    OVERSPEED = settings.Get("AdaptiveCruiseControl", "overspeed", 0)
-    BRAKING_DISTANCE = settings.Get("AdaptiveCruiseControl", "braking_distance", 60)
-    STOPPING_DISTANCE = settings.Get("AdaptiveCruiseControl", "stopping_distance", 15)
-    OVERWRITE_SPEED = settings.Get("AdaptiveCruiseControl", "overwrite_speed", 50)
-    TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = settings.Get("AdaptiveCruiseControl", "traffic_light_distance_multiplier", 1.5)
-    TYPE = settings.Get("AdaptiveCruiseControl", "type", "Percentage")
-    SHOW_NOTIFICATIONS = settings.Get("AdaptiveCruiseControl", "show_notifications", True)
-    
-# Update settings on change
-settings.Listen("AdaptiveCruiseControl", LoadSettings)
+    FOLLOW_TIME = data.get("time", 3)
+    OVERSPEED = data.get("overspeed", 0)
+    BRAKING_DISTANCE = data.get("braking_distance", 60)
+    STOPPING_DISTANCE = data.get("stopping_distance", 15)
+    OVERWRITE_SPEED = data.get("overwrite_speed", 30)
+    TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = data.get("traffic_light_distance_multiplier", 1.5)
+    TYPE = data.get("type", "Percentage")
+    SHOW_NOTIFICATIONS = data.get("show_notifications", False)
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
@@ -49,17 +47,20 @@ class SettingsMenu(ETS2LASettingsMenu):
         Title("acc.settings.1.title")
         Description("acc.settings.1.description")
         Separator()
-        Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
-        Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
-        Slider("acc.settings.7.name", "overwrite_speed", 50, 0, 130, 5, suffix="km/h", description="acc.settings.7.description")
-        Switch("acc.settings.6.name", "show_notifications", True, description="acc.settings.6.description")
-        Separator()
-        with EnabledLock():
-            Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
-            if self.settings.type is not None and self.settings.type == "Percentage":
-                Slider("acc.settings.3.name", "overspeed", 0, 0, 30, 1, suffix="%", description="acc.settings.3.description")
-            else:
-                Slider("acc.settings.3.name", "overspeed", 0, 0, 30, 1, suffix="km/h", description="acc.settings.3.description")
+        with TabView():
+            with Tab("Adaptive Cruise Control"):
+                Slider("acc.settings.2.name", "time", 1, 0, 4, 0.5, suffix="s", description="acc.settings.2.description")
+                Slider("acc.settings.4.name", "stopping_distance", 15, 0, 100, 2.5, suffix="m", description="acc.settings.4.description")
+                Switch("acc.settings.6.name", "show_notifications", False, description="acc.settings.6.description")
+            with Tab("Speed Control"):
+                Slider("Coefficient of friction", "MU", 0.5, 0.1, 1, 0.1, description="Controls the (imaginary) friction between the tires and the road. Lower values will make the truck slow down more, while higher values will make it go faster in turns.")
+                Slider("acc.settings.7.name", "overwrite_speed", 50, 0, 130, 5, suffix="km/h", description="acc.settings.7.description")
+                with EnabledLock():
+                    Selector("acc.settings.5.name", "type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
+                    if self.settings.type is not None and self.settings.type == "Percentage":
+                        Slider("acc.settings.3.name", "overspeed", 0, 0, 30, 1, suffix="%", description="acc.settings.3.description")
+                    else:
+                        Slider("acc.settings.3.name", "overspeed", 0, 0, 30, 1, suffix="km/h", description="acc.settings.3.description")
         return RenderUI()
         
 
@@ -107,6 +108,9 @@ class Plugin(ETS2LAPlugin):
         import json
         import cv2
         import os
+        
+        # Update settings on change
+        settings.Listen("AdaptiveCruiseControl", LoadSettings)
 
 
     def Initialize(self):
@@ -281,10 +285,9 @@ class Plugin(ETS2LAPlugin):
         SDKController.abackward = float(0)
 
     def GetTargetSpeed(self, apiData: dict) -> float:
-        max_speed = self.globals.tags.target_speed
-        max_speed = self.globals.tags.merge(max_speed)
-        
-        if max_speed is not None:
+        points = self.plugins.Map
+        if points is not None:
+            max_speed = get_maximum_speed_for_points(points)
             smoothed_max_speed = self.max_speed(max_speed)
         else:
             smoothed_max_speed = 999

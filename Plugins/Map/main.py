@@ -20,12 +20,10 @@ navigation = importlib.import_module("Plugins.Map.navigation.navigation")
 planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
 im = importlib.import_module("Plugins.Map.utils.internal_map")
-speed = importlib.import_module("Plugins.Map.utils.speed")
 last_plan_hash = hash(open(planning.__file__).read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
-last_speed_hash = hash(open(speed.__file__).read())
 
 class SettingsMenu(ETS2LASettingsMenu):
     plugin_name = "Map"
@@ -146,7 +144,6 @@ class Plugin(ETS2LAPlugin):
                 new_drive_hash = hash(open(driving.__file__).read())
                 new_plan_hash = hash(open(planning.__file__).read())
                 new_im_hash = hash(open(im.__file__).read())
-                new_speed_hash = hash(open(speed.__file__).read())
                 if new_nav_hash != last_nav_hash:
                     last_nav_hash = new_nav_hash
                     logging.info("Navigation module changed, reloading...")
@@ -170,11 +167,6 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Internal map module changed, reloading...")
                     importlib.reload(im)
                     logging.info("Successfully reloaded internal map module")
-                if new_speed_hash != last_speed_hash:
-                    last_speed_hash = new_speed_hash
-                    logging.info("Speed module changed, reloading...")
-                    importlib.reload(speed)
-                    logging.info("Successfully reloaded speed module")
             except Exception as e:
                 logging.error(f"Error monitoring modules: {e}")
             time.sleep(1)
@@ -288,7 +280,6 @@ class Plugin(ETS2LAPlugin):
             
             self.CheckForRoutingModeChange()
 
-            max_speed = 999
             if data.calculate_steering:
                 # Update route plan and steering
                 planning.UpdateRoutePlan()
@@ -298,11 +289,6 @@ class Plugin(ETS2LAPlugin):
                     steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
                 else:
                     logging.warning("Invalid steering value received")
-
-                # Update speed limits
-                route_max_speed = speed.GetMaximumSpeed()
-                if route_max_speed and route_max_speed < max_speed:
-                    max_speed = route_max_speed
             else:
                 data.route_points = []
 
@@ -348,8 +334,6 @@ class Plugin(ETS2LAPlugin):
         else:
             self.globals.tags.next_intersection_distance = 1
             self.globals.tags.road_type = "none"
-
-        self.globals.tags.target_speed = max_speed
 
         #if len(data.route_points) > 0:
         #    if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 10:
