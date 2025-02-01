@@ -207,7 +207,7 @@ class Plugin(ETS2LAPlugin):
         data = TruckSimAPI.run()
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
-        speed = data["truckFloat"]["speed"] # m/s
+        speed = data["truckFloat"]["speed"] * 1.25 # offset to make it zoom out faster
         
         if speed > 0.2 or speed < -0.2:
             rotation = ConvertETS2AngleToWGS84Heading(position, speed)
