@@ -7,8 +7,7 @@ This branch is most likely totally broken, you shouldn't be here unless you're a
 - 37520: Main API
 - 37521: Frontend websockets
 - 37522: Visualization websockets (position, speed...)
-- 3005: Frontend (Can be changed in the settings)
-- 60407: Visualization (Godot)
+- 3005: Frontend (Only when running in local mode)
 
 ### Installation
 If you don't want to use the official installer on the [discord](https://discord.gg/ETS2LA), then you can follow these install steps:
