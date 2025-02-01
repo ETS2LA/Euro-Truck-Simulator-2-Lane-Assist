@@ -250,7 +250,7 @@ class Plugin(ETS2LAPlugin):
                     break
                 index += 1
                     
-            if closestPointDistance < 4: # Road is 4.5m wide, want to check 4m
+            if closestPointDistance < 4: # Road is 4.5m wide, want to check 3m (to allow for a little bit of error)
                 self.last_vehicle_time = time.perf_counter()
                 vehiclesInFront.append((self.GetDistanceToPoint([x, y], [truckX, truckY]), vehicle))
                 
