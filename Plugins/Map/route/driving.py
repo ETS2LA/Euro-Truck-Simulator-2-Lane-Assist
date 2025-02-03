@@ -124,7 +124,7 @@ def GetSteering():
         if section is None:
             continue
         
-        section_points = section.get_points()[:-1]
+        section_points = section.get_points()
         for point in section_points:
             if len(points) > data.amount_of_points:
                 break
@@ -141,6 +141,7 @@ def GetSteering():
             data.frames_off_path += 1
             if data.frames_off_path > 5:
                 logging.warning("Recalculating navigation plan as we have no points to drive on.")
+                logging.warning(f"Navigation plan: {data.navigation_plan}")
                 data.route_plan = []
                 data.update_navigation_plan = True
                 data.frames_off_path = 0

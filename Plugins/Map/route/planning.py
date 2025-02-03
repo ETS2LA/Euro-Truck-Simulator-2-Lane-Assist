@@ -817,4 +817,7 @@ def UpdateRoutePlan():
         if update or len(data.route_plan) <= 2:
             UpdateNavigatedLanes()
         
-        CheckForLaneChange()
+        try:
+            CheckForLaneChange()
+        except:
+            pass
