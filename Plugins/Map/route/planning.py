@@ -354,10 +354,10 @@ def GetCurrentNavigationPlan():
         
         for item in items:
             if type(item) == c.Road:
-                closest_lane, distance = rh.get_closest_lane(item, data.truck_x, data.truck_z, return_distance=True)
+                road_closest_lane, distance = rh.get_closest_lane(item, data.truck_x, data.truck_z, return_distance=True)
                 if distance < closest_distance:
                     closest_distance = distance
-                    closest_lane = closest_lane
+                    closest_lane = road_closest_lane
                     closest_item = item
                     
             if type(item) == c.Prefab:
