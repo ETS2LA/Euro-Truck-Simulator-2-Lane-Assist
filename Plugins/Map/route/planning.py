@@ -593,7 +593,7 @@ def UpdateNavigatedLanes():
                 route.append(PrefabToRouteSection(selected_items[i], indices[0]))
             else:
                 try:
-                    next_next_node = selected_path[i + 1]
+                    next_next_node = selected_path[i + 2]
                     possible = ph.get_closest_lanes_from_indices(selected_items[i], last_point.x, last_point.z, indices)
                     closest = ph.get_closest_lane_from_indices(selected_items[i], next_next_node.x, next_next_node.y, possible)
                 except:

@@ -147,8 +147,6 @@ def GetSteering():
                 data.frames_off_path = 0
                 return 0
         return 0
-    else:
-        data.frames_off_path = 0
 
     points = points
     speed = max(data.truck_speed * 3.6, 10)  # Convert to kph
@@ -170,8 +168,6 @@ def GetSteering():
             data.update_navigation_plan = True
             data.frames_off_path = 0
             return 0
-    else:
-        data.frames_off_path = 0
         
     forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
     try:
