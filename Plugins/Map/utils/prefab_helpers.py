@@ -128,14 +128,19 @@ def get_closest_lane(item, x: float, z: float) -> int:
 
 def get_closest_lane_from_indices(item, x: float, z: float, lane_indices: List[int]) -> int:
     closest_point_distance = math.inf
+    closest_length = math.inf
     closest_lane_id = -1
     for lane_id in lane_indices:
         lane = item.nav_routes[lane_id]
+        length = lane.distance
         for point in lane.points:
             point_tuple = point.tuple()
             point_tuple = (point_tuple[0], point_tuple[2])
             distance = math_helpers.DistanceBetweenPoints((x, z), point_tuple)
-            if distance < closest_point_distance:
+            if distance < closest_point_distance - 0.1 or \
+              (distance < closest_point_distance + 0.1 and \
+              length < closest_length): # offset to prefer shorter paths
+                closest_length = length
                 closest_point_distance = distance
                 closest_lane_id = lane_id
         

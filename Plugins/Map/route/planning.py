@@ -592,9 +592,12 @@ def UpdateNavigatedLanes():
             if len(indices) == 1:
                 route.append(PrefabToRouteSection(selected_items[i], indices[0]))
             else:
-                #print(indices)
-                #print(nav_node.node_id)
-                closest = ph.get_closest_lane_from_indices(selected_items[i], last_point.x, last_point.z, indices)
+                try:
+                    next_next_node = selected_path[i + 1]
+                    possible = GetClosestLanesForPrefab(selected_items[i], c.Position(last_point.x, last_point.y, last_point.z))
+                    closest = ph.get_closest_lane_from_indices(selected_items[i], next_next_node.x, next_next_node.y, possible)
+                except:
+                    closest = ph.get_closest_lane_from_indices(selected_items[i], last_point.x, last_point.z, indices)
                 if closest == -1:
                     closest = indices[0]
                 route.append(PrefabToRouteSection(selected_items[i], closest))
@@ -621,10 +624,65 @@ def ResetState():
     if "indicate" in data.plugin.state.text:
         data.plugin.state.text = ""
     
+was_indicating = False
+def CheckForLaneChangeManual():
+    global was_indicating
+    if type(data.route_plan[0].items[0].item) == c.Prefab:
+        was_indicating = False
+        return
+    
+    current_index = data.route_plan[0].lane_index
+    lanes = data.route_plan[0].items[0].item.lanes
+    side = lanes[current_index].side
+    left_lanes = len([lane for lane in lanes if lane.side == "left"])
+    # lanes = left_lanes + right_lanes
+    
+    if (data.truck_indicating_right or data.truck_indicating_left) and not was_indicating:
+        was_indicating = True
+        current_index = data.route_plan[0].lane_index
+        side = lanes[current_index].side
+        
+        target_index = current_index
+        change = -1 if data.truck_indicating_right else 1
+        
+        end_node = data.route_plan[0].end_node
+        end_node_in_front = math_helpers.IsInFront([end_node.x, end_node.y], data.truck_rotation, [data.truck_x, data.truck_z])
+            
+        if side == "left":    
+            if end_node_in_front: # Normal lane change
+                target_index += change
+                if change == 1 and target_index >= left_lanes:
+                    target_index = left_lanes - 1
+            else: # Inverted lane change
+                target_index -= change
+                if change == -1 and target_index >= left_lanes:
+                    target_index = left_lanes - 1
+        else:
+            if end_node_in_front:
+                target_index += change
+                if change == -1 and target_index < left_lanes:
+                    target_index = left_lanes
+            else:
+                target_index -= change
+                if change == 1 and target_index < left_lanes:
+                    target_index = left_lanes
+                    
+        if target_index < 0:
+            target_index = 0
+        if target_index >= len(lanes):
+            target_index = len(lanes) - 1
+                    
+        data.route_plan[0].lane_index = target_index
+        data.route_plan = [data.route_plan[0]]
+        
+    elif not data.truck_indicating_left and not data.truck_indicating_right:
+        was_indicating = False  
+    
 def CheckForLaneChange():
     if len(data.route_plan) < 2:
         ResetState()
         return
+    
     current = data.route_plan[0]
     if type(current.items[0].item) != c.Road:
         ResetState()
@@ -634,16 +692,14 @@ def CheckForLaneChange():
         return
     
     next = data.route_plan[1]
-    next_start = next.lane_points[0]
-    next_end = next.lane_points[-1]
-    next_point = next_start if math_helpers.DistanceBetweenPoints((next_start.x, next_start.z), (data.truck_x, data.truck_z)) < \
-                               math_helpers.DistanceBetweenPoints((next_end.x, next_end.z), (data.truck_x, data.truck_z)) else next_end   
-                                      
-    current_start = current.lane_points[0]
-    current_end = current.lane_points[-1]
-    current_point = current_start if math_helpers.DistanceBetweenPoints((current_start.x, current_start.z), (next_point.x, next_point.z)) < \
-                                     math_helpers.DistanceBetweenPoints((current_end.x, current_end.z), (next_point.x, next_point.z)) else current_end
-                               
+    next_point = next.get_points()[0]
+    next_end = next.get_points()[-1]
+    next_length = math_helpers.DistanceBetweenPoints((next_point.x, next_point.z), (next_end.x, next_end.z))
+    if next_length < 10:
+        next = data.route_plan[2]
+        next_point = next.get_points()[0]
+    
+    current_point = current.get_points()[-1]
     distance = math_helpers.DistanceBetweenPoints((current_point.x, current_point.z), (next_point.x, next_point.z))
     if distance > 4:
         current_index = current.lane_index
@@ -695,8 +751,10 @@ def CheckForLaneChange():
                 current.lane_index = target
                 data.route_plan = [current]
         else:
+            CheckForLaneChangeManual()
             ResetState()
     else:
+        CheckForLaneChangeManual()
         ResetState()
         
 was_indicating = False

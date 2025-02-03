@@ -1,6 +1,4 @@
-from typing import List, Optional, Tuple, Union
 import logging
-from Plugins.Map.classes import Node, Position, Road, Prefab
 from Plugins.Map.navigation.classes import NavigationLane
 from Plugins.Map.navigation.preprocessing import preprocess_item
 from Plugins.Map.navigation.node_pathfinding import NodePathfinder
@@ -14,7 +12,6 @@ import Plugins.Map.utils.math_helpers as math_helpers
 import Plugins.Map.data as data
 
 import numpy as np
-import time
 
 last_item = None
 last_position = None

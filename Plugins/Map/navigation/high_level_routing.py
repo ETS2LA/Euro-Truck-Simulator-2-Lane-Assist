@@ -37,11 +37,11 @@ class HighLevelRouter:
 
         # Enhanced heuristic weights based on truckermudgeon/maps
         if mode == 'shortest':
-            return distance * 0.9  # Slight underestimate to encourage path finding
+            return distance
         elif mode == 'smallRoads':
-            return distance * 0.6  # Stronger preference for exploring small roads
+            return distance * 0.6  # Lower penalty for driving longer on small roads
         else:
-            return distance * 1.2  # Default case with slight penalty
+            return distance
 
     def _get_neighbors(self, node: RouteNode, mode: str = 'shortest') -> List[Tuple[Node, float, int]]:
         """Get neighboring nodes with their distances and DLC guards."""
@@ -54,12 +54,14 @@ class HighLevelRouter:
             if getattr(road, 'hidden', False):
                 return 9999999  # Avoid hidden roads
 
+            highways = ['highway', 'motorway', 'freeway', 'hw', 'fw']
+
             base_cost = distance
             if mode == 'shortest':
                 # Enhanced highway preference based on truckermudgeon/maps
                 if hasattr(road, 'road_look_token') and any(
                     token in (road.road_look_token or '').lower()
-                    for token in ['highway', 'motorway', 'freeway']
+                    for token in highways
                 ):
                     base_cost *= 0.7  # 30% bonus for highways
                 elif hasattr(road, 'road_look_token') and 'ramp' in (road.road_look_token or '').lower():
@@ -68,7 +70,7 @@ class HighLevelRouter:
                 # Strong preference for small roads
                 if hasattr(road, 'road_look_token') and any(
                     token in (road.road_look_token or '').lower()
-                    for token in ['highway', 'motorway', 'freeway']
+                    for token in highways
                 ):
                     base_cost *= 2.5  # Stronger penalty for highways
                 else:
@@ -90,11 +92,11 @@ class HighLevelRouter:
                 count = len(prefab_helpers.find_starting_curves(prefab.prefab_description))
                 if count > 3:  # Complex intersection
                     if mode == 'shortest':
-                        base_cost *= 1.2 # Increased penalty for complex intersections 
+                        base_cost *= 1
                     else:
                         base_cost *= 1.5
                 elif 'roundabout' in prefab.token.lower():
-                    base_cost *= 1.2  # Penalty for roundabouts
+                    base_cost *= 1.5  # Penalty for roundabouts
                 
             return base_cost
 

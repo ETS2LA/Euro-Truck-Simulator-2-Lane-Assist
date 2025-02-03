@@ -161,6 +161,7 @@ class Plugin(ETS2LAPlugin):
                     last_plan_hash = new_plan_hash
                     logging.info("Planning module changed, reloading...")
                     importlib.reload(planning)
+                    data.route_plan = []
                     logging.info("Successfully reloaded planning module")
                 if new_im_hash != last_im_hash:
                     last_im_hash = new_im_hash

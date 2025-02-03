@@ -310,6 +310,8 @@ class Plugin(ETS2LAPlugin):
     def position(self, data):
         sector_coordinates = self.globals.tags.sector_center
         sector_coordinates = self.globals.tags.merge(sector_coordinates)
+        if not sector_coordinates:
+            sector_coordinates = (0, 0)
         
         send = {
             "x": float(data["truckPlacement"]["coordinateX"]),
@@ -336,6 +338,12 @@ class Plugin(ETS2LAPlugin):
         points = self.plugins.Map
         information = self.globals.tags.route_information
         information = self.globals.tags.merge(information)
+        
+        if not information:
+            information = {}
+            
+        if not points:
+            return {}
         
         send = {
             "points": [

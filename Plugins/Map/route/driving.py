@@ -67,11 +67,11 @@ def CheckForLaneChange():
 def GetPointDistance(points_so_far: int, total_points: int = 50) -> float:
     key_points = [
         (0, 0.25),
-        (total_points / 5, 4),
-        (total_points / 5 * 2, 8),
-        (total_points / 5 * 3, 16),
-        (total_points / 5 * 4, 32),
-        (total_points, 32) 
+        (total_points / 5, 2),
+        (total_points / 5 * 2, 4),
+        (total_points / 5 * 3, 8),
+        (total_points / 5 * 4, 16),
+        (total_points, 16) 
     ]
     
     # Find the segment where points_so_far lies
@@ -137,7 +137,17 @@ def GetSteering():
                 points.append(point)
 
     if len(points) == 0:
+        if data.use_navigation and len(data.navigation_plan) != 0:
+            data.frames_off_path += 1
+            if data.frames_off_path > 5:
+                logging.warning("Recalculating navigation plan as we have no points to drive on.")
+                data.route_plan = []
+                data.update_navigation_plan = True
+                data.frames_off_path = 0
+                return 0
         return 0
+    else:
+        data.frames_off_path = 0
 
     points = points
     speed = max(data.truck_speed * 3.6, 10)  # Convert to kph
@@ -147,7 +157,11 @@ def GetSteering():
 
     data.route_points = points
     
-    if math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 20 and math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[-1].x, data.route_points[-1].z)) > 20:
+    start_distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[0].x, points[0].z))
+    end_distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[-1].x, points[-1].z))
+    if start_distance > 20 and end_distance > 20:
+        print("Recalculating navigation plan as we are too far off the path!")
+        print(f"Start distance: {start_distance}, End distance: {end_distance}")
         data.frames_off_path += 1
         if data.frames_off_path > 5:
             logging.warning("Recalculating navigation plan as we are too far off the path!")
