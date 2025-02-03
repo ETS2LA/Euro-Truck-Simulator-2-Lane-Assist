@@ -81,13 +81,18 @@ class RouteSection:
         
         if value > len(self.items[0].item.lanes) - 1 or value < 0:
             logging.warning(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteSection[/dim] only has {len(self.items[0].item.lanes)} lanes.")
+            return
+        
+        if self.is_lane_changing:
+            logging.warning("Something tried to change the lane index while the route section is still lane changing.")
+            return
         
         if self.lane_points != []:
             lane_change_distance = self.get_planned_lane_change_distance()
             
             if self.distance_left() < lane_change_distance:
                 if self.force_lane_change:
-                    lane_change_distance = self.distance_left()
+                    lane_change_distance = self.distance_left() - 1
                 else:
                     logging.warning(f"Something tried to do a lane change requiring [dim]{lane_change_distance:.0f}m[/dim], but only [dim]{self.distance_left():.0f}m[/dim] is left.")
                     return
