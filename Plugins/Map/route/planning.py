@@ -594,7 +594,7 @@ def UpdateNavigatedLanes():
             else:
                 try:
                     next_next_node = selected_path[i + 1]
-                    possible = GetClosestLanesForPrefab(selected_items[i], c.Position(last_point.x, last_point.y, last_point.z))
+                    possible = ph.get_closest_lanes_from_indices(selected_items[i], last_point.x, last_point.z, indices)
                     closest = ph.get_closest_lane_from_indices(selected_items[i], next_next_node.x, next_next_node.y, possible)
                 except:
                     closest = ph.get_closest_lane_from_indices(selected_items[i], last_point.x, last_point.z, indices)

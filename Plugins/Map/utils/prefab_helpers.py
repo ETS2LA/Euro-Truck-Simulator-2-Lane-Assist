@@ -126,6 +126,23 @@ def get_closest_lane(item, x: float, z: float) -> int:
         
     return closest_lane_id
 
+def get_closest_lanes_from_indices(item, x: float, z: float, lane_indices: List[int]) -> List[int]:
+    closest_point_distance = math.inf
+    closest_lane_ids = []
+    for lane_id in lane_indices:
+        lane = item.nav_routes[lane_id]
+        for point in lane.points:
+            point_tuple = point.tuple()
+            point_tuple = (point_tuple[0], point_tuple[2])
+            distance = math_helpers.DistanceBetweenPoints((x, z), point_tuple)
+            if distance < closest_point_distance:
+                closest_point_distance = distance
+                closest_lane_ids = [lane_id]
+            elif distance < closest_point_distance + 0.01 and distance > closest_point_distance - 0.01:
+                closest_lane_ids.append(lane_id)
+        
+    return closest_lane_ids
+
 def get_closest_lane_from_indices(item, x: float, z: float, lane_indices: List[int]) -> int:
     closest_point_distance = math.inf
     closest_length = math.inf
