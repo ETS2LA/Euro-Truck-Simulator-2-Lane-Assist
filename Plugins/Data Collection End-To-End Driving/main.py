@@ -52,7 +52,6 @@ def CheckForUploads():
                 if Time + 604800 < CurrentTime:
                     FilesReadyForUpload.append(str(File))
 
-                # MARK: This can be removed in a few days:
                 if "SessionID" not in Data:
                     raise Exception("The data file is missing the 'SessionID' key. Can't upload the data.")
 
@@ -189,7 +188,7 @@ class Plugin(ETS2LAPlugin):
     settings_menu = SettingsMenu()
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, variables, datetime, requests, json, math, time, cv2, os
+        global SCSTelemetry, ScreenCapture, variables, datetime, requests, win32con, win32gui, json, math, time, cv2, os
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
@@ -198,6 +197,8 @@ class Plugin(ETS2LAPlugin):
         import threading
         import datetime
         import requests
+        import win32con
+        import win32gui
         import random
         import string
         import json
@@ -269,9 +270,18 @@ class Plugin(ETS2LAPlugin):
 
         CurrentLocation = APIDATA["truckPlacement"]["coordinateX"], APIDATA["truckPlacement"]["coordinateY"], APIDATA["truckPlacement"]["coordinateZ"]
 
+        AlwaysOnTopWindows = []
+        win32gui.EnumWindows(lambda HWND, _: AlwaysOnTopWindows.append(HWND) if win32gui.IsWindowVisible(HWND) and (win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) & win32con.WS_EX_TOPMOST) else None, None)
+        AnyAlwaysOnTopWindows = False
+        for Window in AlwaysOnTopWindows:
+            if str(win32gui.GetWindowText(Window)) != "":
+                AnyAlwaysOnTopWindows = True
+                break
+        print(AnyAlwaysOnTopWindows)
 
         if (CurrentTime - LastCaptureTime < 3 or
             ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False or
+            AnyAlwaysOnTopWindows == True or
             APIDATA["sdkActive"] == False or
             APIDATA["pause"] == True or
             math.sqrt((LastCaptureLocation[0] - CurrentLocation[0])**2 + (LastCaptureLocation[1] - CurrentLocation[1])**2 + (LastCaptureLocation[2] - CurrentLocation[2])**2) < 0.5):
