@@ -99,12 +99,11 @@ class Plugin(ETS2LAPlugin):
     last_intersection_distance_time = time.perf_counter()
     
     def imports(self):
-        global Controller, np, screeninfo, pyautogui, torch, json, cv2, os
+        global Controller, np, screeninfo, pyautogui, json, cv2, os
         from Modules.SDKController.main import SCSController as Controller
         import numpy as np
         import screeninfo
         import pyautogui
-        import torch
         import json
         import cv2
         import os
