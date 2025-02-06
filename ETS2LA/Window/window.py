@@ -161,7 +161,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                         continue
                     
                     window.on_top = data["state"]
-                    settings.Set("global", "stay_on_top", data["state"])
+                    settings.Set("global", "stay_on_top", data["state"] == True)
                     queue.task_done()
                     queue.put(data["state"])
                     
