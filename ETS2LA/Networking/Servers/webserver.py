@@ -400,10 +400,13 @@ def RunFrontend():
         
 def ExtractIP():
     global IP
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    IP = s.getsockname()[0]
-    s.close()
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        IP = s.getsockname()[0]
+        s.close()
+    except:
+        IP = "127.0.0.1"
     
 def run():
     ExtractIP()

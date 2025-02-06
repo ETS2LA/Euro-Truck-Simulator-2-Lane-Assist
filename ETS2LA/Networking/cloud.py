@@ -54,6 +54,7 @@ def SendCrashReport(type:str, message:str, additional=None):
                 response = requests.post(url, headers=headers, data=data)
             except:
                 print("Could not connect to server to send crash report.")
+                return False
             return response.status_code == 200
         except:
             import traceback
