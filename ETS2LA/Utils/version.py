@@ -38,7 +38,10 @@ def CheckForUpdate():
         current_hash = repo.head.object.hexsha
         
         o = repo.remotes.origin
-        origin_hash = o.fetch()
+        try:
+            origin_hash = o.fetch(kill_after_timeout=1)
+        except:
+            return False
         
         if len(origin_hash) > 0:
             origin_hash = origin_hash[0].commit.hexsha

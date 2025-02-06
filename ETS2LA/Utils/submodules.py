@@ -84,7 +84,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
     try:
         origin = repo.remotes.origin
         current_hash = repo.head.object.hexsha
-        origin_hash = origin.fetch()
+        origin_hash = origin.fetch(kill_after_timeout=1)
         if len(origin_hash) > 0:
             origin_hash = origin_hash[0].commit.hexsha
         else:
@@ -95,6 +95,6 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
             ExecuteCommand(f"git -C {folder} pull")
             return True
     except:
-        print(f"{RED} -- Failed to update / check for updates for the submodule: {YELLOW} {folder} {RED} -- {END}")
+        print(f"{RED} -- Failed to update / check for updates for the submodule (remove the corresponding folder in code/app to redownload if possible): {YELLOW} {folder} {RED} -- {END}")
     
     return False
