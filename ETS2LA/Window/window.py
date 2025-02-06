@@ -197,7 +197,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
         text_select=True,
         frameless=FRAMELESS, 
         easy_drag=False,
-        on_top=settings.Get("global", "stay_on_top", False)
+        on_top=settings.Get("global", "stay_on_top", False) == True
     )
     
     webview_window = window
