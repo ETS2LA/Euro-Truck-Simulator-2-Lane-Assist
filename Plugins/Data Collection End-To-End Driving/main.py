@@ -14,7 +14,7 @@ def DeletePair(Name=""):
     try:
         os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(Name).replace('.json', '.png')}")
     except:
-        pass    
+        pass
 
 
 def CheckForUploads():
@@ -54,6 +54,8 @@ def CheckForUploads():
 
                 if "SessionID" not in Data:
                     raise Exception("The data file is missing the 'SessionID' key. Can't upload the data.")
+                if "RouteAdvisorSideValue" not in Data:
+                    raise Exception("The data file is missing the 'RouteAdvisorSideValue' key. Can't upload the data.")
 
             except:
                 DeletePair(Name=File)
@@ -277,10 +279,16 @@ class Plugin(ETS2LAPlugin):
             if str(win32gui.GetWindowText(Window)) != "":
                 AnyAlwaysOnTopWindows = True
                 break
-        print(AnyAlwaysOnTopWindows)
+
+        RouteAdvisor = ScreenCapture.ClassifyRouteAdvisor(Name="Truck Simulator", Blacklist=["Discord"])
+        if (RouteAdvisor[0][0] >= 0.9 and RouteAdvisor[0][1] >= 0.9 and RouteAdvisor[0][2] >= 0.9) or (RouteAdvisor[1][0] >= 0.9 and RouteAdvisor[1][1] >= 0.9 and RouteAdvisor[1][2] >= 0.9):
+            RouteAdvisorCorrect = True
+        else:
+            RouteAdvisorCorrect = False
 
         if (CurrentTime - LastCaptureTime < 3 or
             ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False or
+            RouteAdvisorCorrect == False or
             AnyAlwaysOnTopWindows == True or
             APIDATA["sdkActive"] == False or
             APIDATA["pause"] == True or
@@ -293,22 +301,16 @@ class Plugin(ETS2LAPlugin):
         LastCaptureLocation = APIDATA["truckPlacement"]["coordinateX"], APIDATA["truckPlacement"]["coordinateY"], APIDATA["truckPlacement"]["coordinateZ"]
 
 
-        X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
-        ScreenX, ScreenY, _, _ = ScreenCapture.GetScreenDimensions(ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
-        if ScreenCapture.MonitorX1 != X1 - ScreenX or ScreenCapture.MonitorY1 != Y1 - ScreenY or ScreenCapture.MonitorX2 != X2 - ScreenX or ScreenCapture.MonitorY2 != Y2 - ScreenY:
-            ScreenIndex = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
-            if ScreenCapture.Display != ScreenIndex - 1:
-                if ScreenCapture.CaptureLibrary == "WindowsCapture":
-                    ScreenCapture.StopWindowsCapture = True
-                    while ScreenCapture.StopWindowsCapture == True:
-                        time.sleep(0.01)
-            MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ScreenCapture.ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
-            ScreenCapture.Initialize(Screen=ScreenIndex - 1, Area=(MonitorX1, MonitorY1, MonitorX2, MonitorY2))
+        ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
         Frame = ScreenCapture.Capture(ImageType="cropped")
         if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:
             return
 
+
+        RouteAdvisorSideValue = ScreenCapture.RouteAdvisorSide
+        RouteAdvisorZoomCorrectValue = ScreenCapture.RouteAdvisorZoomCorrect
+        RouteAdvisorTabCorrectValue = ScreenCapture.RouteAdvisorTabCorrect
 
         GameValue = str(APIDATA["scsValues"]["game"]).lower()
 
@@ -366,6 +368,9 @@ class Plugin(ETS2LAPlugin):
             "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "SessionID": SessionID,
             "FOVValue": FOVValue,
+            "RouteAdvisorSideValue": RouteAdvisorSideValue,
+            "RouteAdvisorZoomCorrectValue": RouteAdvisorZoomCorrectValue,
+            "RouteAdvisorTabCorrectValue:": RouteAdvisorTabCorrectValue,
             "GameValue": GameValue,
             "SpeedValue": SpeedValue,
             "SpeedLimitValue": SpeedLimitValue,
@@ -419,4 +424,4 @@ class Plugin(ETS2LAPlugin):
         with open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.json", "w") as F:
             json.dump(Data, F, indent=4)
 
-        cv2.imwrite(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.png", Frame)
+        cv2.imwrite(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.png", Frame, [int(cv2.IMWRITE_PNG_COMPRESSION), 9])

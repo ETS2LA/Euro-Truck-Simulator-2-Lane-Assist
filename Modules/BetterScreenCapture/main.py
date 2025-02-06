@@ -395,6 +395,94 @@ def GetWindowPosition(Name="", Blacklist=[""]):
         return ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight
 
 
+def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
+    """
+    Classify the Route Advisor to check on which side, in which zoom level and if the navigation tab is open.
+
+    Returns
+    -------
+    tuple : ((float, float, float), (float, float, float))\n
+        `[0][0]`: The probability that the Route Advisor is on the left side.\n
+        `[0][1]`: The probability that the Route Advisor on the left side is on the closest zoom level.\n
+        `[0][2]`: The probability that the Route Advisor on the left side is on the navigation tab.\n
+        `[1][0]`: The probability that the Route Advisor is on the right side.\n
+        `[1][1]`: The probability that the Route Advisor on the right side is on the closest zoom level.\n
+        `[1][2]`: The probability that the Route Advisor on the right side is on the navigation tab.\n
+    """
+    global RouteAdvisorSide
+    global RouteAdvisorZoomCorrect
+    global RouteAdvisorTabCorrect
+
+    X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
+    DistanceFromRight = 21
+    DistanceFromBottom = 100
+    Width = 420
+    Height = 219
+    Scale = (Y2 - Y1) / 1080
+
+    X = X1 + (DistanceFromRight * Scale) - 1
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale + Height * Scale)
+    LeftMapTopLeft = (round(X), round(Y))
+    X = X1 + (DistanceFromRight * Scale + Width * Scale) - 1
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
+    LeftMapBottomRight = (round(X), round(Y))
+    LeftImage = np.array(sct.grab({"left": LeftMapTopLeft[0], "top": LeftMapTopLeft[1], "width": LeftMapBottomRight[0] - LeftMapTopLeft[0], "height": LeftMapBottomRight[1] - LeftMapTopLeft[1]}), dtype=np.float32)
+
+    X = X1 + (X2 - X1) - (DistanceFromRight * Scale + Width * Scale)
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale + Height * Scale)
+    RightMapTopLeft = (round(X), round(Y))
+    X = X1 + (X2 - X1) - (DistanceFromRight * Scale)
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
+    RightMapBottomRight = (round(X), round(Y))
+    RightImage = np.array(sct.grab({"left": RightMapTopLeft[0], "top": RightMapTopLeft[1], "width": RightMapBottomRight[0] - RightMapTopLeft[0], "height": RightMapBottomRight[1] - RightMapTopLeft[1]}), dtype=np.float32)
+
+    if pytorch.IsInitialized(Model="RouteAdvisorClassification", Folder="model") == False:
+        global Identifier
+        Identifier = pytorch.Initialize(Owner="Glas42", Model="RouteAdvisorClassification", Folder="model")
+        pytorch.Load(Identifier)
+    if pytorch.Loaded(Identifier) == False:
+        return (0, 0, 0), (0, 0, 0)
+
+    Outputs = []
+    for Image in [LeftImage, RightImage]:
+        if type(Image) == type(None):
+            return (0, 0, 0), (0, 0, 0)
+        if Image.shape[1] <= 0 or Image.shape[0] <= 0:
+            return (0, 0, 0), (0, 0, 0)
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+            Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
+            Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
+            Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
+            Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
+            Image = Image[:, :, 0]
+            Image = np.expand_dims(Image, axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
+            Image = Image[:, :, 1]
+            Image = np.expand_dims(Image, axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
+            Image = Image[:, :, 2]
+            Image = np.expand_dims(Image, axis=2)
+        Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+        Image = Image / 255.0
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+            Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
+
+        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
+        with pytorch.torch.no_grad():
+            Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
+        Outputs.append(Output)
+
+    if max(Outputs[0][0], Outputs[1][0]) > 0.5:
+        RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
+        RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
+        RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+    return (Outputs[0][0], Outputs[0][1], Outputs[0][2]), (Outputs[1][0], Outputs[1][1], Outputs[1][2])
+
+
 # MARK: GetRouteAdvisorPosition()
 def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
     """
@@ -411,13 +499,11 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
 
     Returns
     -------
-    (int, int), (int, int), (int, int), (int, int)
-        The position of the Route Advisor and the Arrow.
-        Indexes:
-        0: (X, Y) Map Top Left
-        1: (X, Y) Map Bottom Right
-        2: (X, Y) Arrow Top Left
-        3: (X, Y) Arrow Bottom Right
+    tuple : ((int, int), (int, int), (int, int), (int, int))\n
+        `[0]`: (X, Y) Map Top Left\n
+        `[1]`: (X, Y) Map Bottom Right\n
+        `[2]`: (X, Y) Arrow Top Left\n
+        `[3]`: (X, Y) Arrow Bottom Right\n
     """
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     DistanceFromRight = 21
@@ -506,9 +592,10 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
                 Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
             Outputs.append(Output)
 
-        RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
-        RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
-        RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+        if max(Outputs[0][0], Outputs[1][0]) > 0.5:
+            RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
+            RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
+            RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
 
         if RouteAdvisorSide == "Right":
             return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
