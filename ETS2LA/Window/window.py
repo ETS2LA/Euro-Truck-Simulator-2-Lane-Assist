@@ -117,6 +117,7 @@ def set_transparency(value: bool):
             win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) & ~win32con.WS_EX_LAYERED)
         
         IS_TRANSPARENT = value
+        settings.Set("global", "transparency", value)
     else:
         logging.warning(f"Transparency is not supported on this platform. ({os.name})")
     return IS_TRANSPARENT
@@ -160,6 +161,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                         continue
                     
                     window.on_top = data["state"]
+                    settings.Set("global", "stay_on_top", data["state"])
                     queue.task_done()
                     queue.put(data["state"])
                     
@@ -194,7 +196,8 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
         confirm_close=True, 
         text_select=True,
         frameless=FRAMELESS, 
-        easy_drag=False
+        easy_drag=False,
+        on_top=settings.Get("global", "stay_on_top", False)
     )
     
     webview_window = window
