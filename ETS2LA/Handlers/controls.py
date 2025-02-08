@@ -15,6 +15,7 @@ GetKeybindValue(name)
 # Sorry for the mess.
 
 from ETS2LA.Networking.Servers.notifications import send_sonner
+import Modules.BetterScreenCapture.main as ScreenCapture
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
@@ -143,15 +144,16 @@ def plugin():
                 if keybind["callback"] != None:
                     if keybind["deviceGUID"] == KEYBOARD_GUID:
                         try:
-                            if keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] not in wasPressing:
-                                try:
-                                    keybind["callback"]()
-                                except:
-                                    import traceback
-                                    traceback.print_exc()
-                                wasPressing.append(keybind["name"])
-                            elif not keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] in wasPressing:
-                                wasPressing.remove(keybind["name"])
+                            if ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]):
+                                if keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] not in wasPressing:
+                                    try:
+                                        keybind["callback"]()
+                                    except:
+                                        import traceback
+                                        traceback.print_exc()
+                                    wasPressing.append(keybind["name"])
+                                elif not keyboard.is_pressed(keybind["buttonIndex"]) and keybind["name"] in wasPressing:
+                                    wasPressing.remove(keybind["name"])
                         except:
                             pass
                     else:
