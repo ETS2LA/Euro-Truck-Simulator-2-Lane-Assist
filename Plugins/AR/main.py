@@ -147,7 +147,7 @@ class Plugin(ETS2LAPlugin):
 
     author = [Author(
         name="Glas42",
-        url="https://github.com/Glas42",
+        url="https://github.com/OleFranz",
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     ), Author(
         name="Tumppi066",

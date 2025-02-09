@@ -9,7 +9,7 @@ import time
 
 contributors = [
     {"name": "Tumppi066", "description": Translate("about.tumppi066.description"), "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
-    {"name": "Glas42", "description": Translate("about.glas42.description"), "links": [["Github", "https://github.com/Glas42"]]},
+    {"name": "Glas42", "description": Translate("about.glas42.description"), "links": [["Github", "https://github.com/OleFranz"]]},
     {"name": "Cloud", "description": Translate("about.cloud.description"), "links": []},
     {"name": "DylDev", "description": Translate("about.dyldev.description"), "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
     {"name": "truckermudgeon", "description": Translate("about.truckersmudgeon.description"), "links": []},

@@ -84,7 +84,7 @@ class Plugin(ETS2LAPlugin):
 
     author = Author(
         name="Glas42",
-        url="https://github.com/Glas42",
+        url="https://github.com/OleFranz",
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
@@ -123,7 +123,7 @@ class Plugin(ETS2LAPlugin):
         TruckSimAPI = SCSTelemetry()
         ScreenCapture.Initialize()
         ShowImage.Initialize(Name="TrafficLightDetection", TitleBarColor=(0, 0, 0))
-        Identifier = pytorch.Initialize(Owner="Glas42", Model="TrafficLightDetectionAI", Folder="model", Self=self)
+        Identifier = pytorch.Initialize(Owner="OleFranz", Model="TrafficLightDetectionAI", Folder="model", Self=self)
         pytorch.Load(Identifier)
 
         global LowerRed, UpperRed

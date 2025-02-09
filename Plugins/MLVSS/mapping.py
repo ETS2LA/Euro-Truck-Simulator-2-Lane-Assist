@@ -15,7 +15,7 @@ def Initialize():
 
     ShowImage.Initialize(Name="Mapping", TitleBarColor=(0, 0, 0))
 
-    Identifier = pytorch.Initialize(Owner="Glas42", Model="MLVSS", Folder="models/mapping", Self=MLVSSVariables.self)
+    Identifier = pytorch.Initialize(Owner="OleFranz", Model="MLVSS", Folder="models/mapping", Self=MLVSSVariables.self)
     pytorch.Load(Identifier)
 
     Images = []
