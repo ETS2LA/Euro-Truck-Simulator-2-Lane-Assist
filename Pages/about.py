@@ -12,6 +12,7 @@ contributors = [
     {"name": "Glas42", "description": Translate("about.glas42.description"), "links": [["Github", "https://github.com/OleFranz"]]},
     {"name": "Cloud", "description": Translate("about.cloud.description"), "links": []},
     {"name": "DylDev", "description": Translate("about.dyldev.description"), "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
+    {"name": "Roccovax", "description": Translate("about.roccovax.description"), "links": [["Github", "https://github.com/DarioWouters"]]},
     {"name": "truckermudgeon", "description": Translate("about.truckersmudgeon.description"), "links": []},
     {"name": "WhyTrevorWhy", "description": Translate("about.whytrevorwhy.description"), "links": []},
     {"name": "mimi89999", "description": Translate("about.mimi89999.description"), "links": []},
