@@ -104,5 +104,5 @@ except: pass
 try:
     repo = git.Repo(search_parent_directories=True)
     hash = repo.head.object.hexsha[:9]
-    METADATA["version"] = f"{METADATA["version"]} - {hash}"
+    METADATA["version"] = f"{METADATA['version']} - {hash}"
 except: pass
