@@ -1,5 +1,6 @@
 import datetime
 import json
+import git
 import os
 
 YEAR = datetime.datetime.now().year
@@ -60,6 +61,7 @@ ATS_DLC = []
 ETS2_DLC = []
 """List of all ETS2 DLCs currently installed."""
 
+# Update paths
 if os.name == "nt":
     import ctypes.wintypes
     _CSIDL_PERSONAL = 5     # My Documents
@@ -77,6 +79,7 @@ else:
     ETS2_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/Euro Truck Simulator 2/game.log.txt"
     ATS_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/American Truck Simulator/game.log.txt"    
 
+# Update DLCs
 try:
     with open(ATS_LOG_PATH, "r") as f:
         lines = f.readlines()
@@ -95,4 +98,11 @@ try:
                 dlc = line.split(".scs")[0].split("dlc_")[1]
                 dlc = "dlc_" + dlc
                 ETS2_DLC.append(dlc)
+except: pass
+
+# Update metadata
+try:
+    repo = git.Repo(search_parent_directories=True)
+    hash = repo.head.object.hexsha[:9]
+    METADATA["version"] = f"{METADATA["version"]} - {hash}"
 except: pass
