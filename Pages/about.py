@@ -48,6 +48,7 @@ class Page(ETS2LAPage):
         
     
     def render(self):
+        RefreshRate(10)
         with Geist():
             Space(20)
             with Padding(20):

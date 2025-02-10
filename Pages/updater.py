@@ -50,6 +50,7 @@ class Page(ETS2LAPage):
         else:
             updates = last_updates
             
+        RefreshRate(1)
         with Geist():
             with Padding(24):
                 if updates == []:

@@ -42,6 +42,7 @@ class Page(ETS2LAPage):
         else:
             updates = last_updates
 
+        RefreshRate(10)
         with Geist():
             with Padding(24):
                 Space(8)

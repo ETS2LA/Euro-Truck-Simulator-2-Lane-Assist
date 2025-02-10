@@ -37,6 +37,7 @@ class Page(ETS2LAPage):
         return by_plugin
     
     def render(self):
+        RefreshRate(5) # refresh every 5 seconds
         with Padding(0):
             with Geist():
                 with Group("horizontal", gap=4, padding=8, classname="flex w-full border shadow-md"):

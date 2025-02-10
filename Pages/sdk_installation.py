@@ -47,6 +47,7 @@ class Page(ETS2LAPage):
                     os.remove(game + target_path + "\\" + file)
     
     def render(self):
+        RefreshRate(0.5)
         with Geist():
             with Group("vertical", gap=14, padding=4):
                 Title(Translate("sdk_install.title"))

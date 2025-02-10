@@ -6,7 +6,7 @@ from ETS2LA.Networking.Servers.notifications import sonner, page
 from ETS2LA.Window.utils import CheckIfWindowOpen
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.translator as translator
-from ETS2LA.Networking.Servers.data_models import *
+from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.Values.dictionaries import merge
 from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Utils.settings as settings
@@ -374,6 +374,14 @@ def get_list_of_pages():
     except:
         logging.exception("Failed to get pages")
         return {}
+    
+@app.post("/api/page")
+def get_page(data: PageFetchData):
+    try:
+        return pages.get_page(data.page)
+    except:
+        logging.exception(f"Failed to get page data for page {data.page}")
+        return []
 
 # endregion
 # region Session

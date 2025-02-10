@@ -13,6 +13,9 @@ class TagFetchData(BaseModel):
 class RelieveData(BaseModel):
     data: dict
     
+class PageFetchData(BaseModel):
+    page: str = ""
+    
 class PopupData(BaseModel):
     text: str
     type: Literal["info", "warning", "error", "success"] = "info"
