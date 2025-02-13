@@ -58,7 +58,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 
         base_custom_offset = custom_offset
 
-        if num_left_lanes == 2 and num_right_lanes == 1:
+        if (num_left_lanes == 2 and num_right_lanes == 1) or (num_left_lanes == 1 and num_right_lanes == 2):
             points = points[::-1]
 
         pointCount = len(points)
@@ -88,7 +88,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
             elif num_right_lanes == 0: # lanes on only left side
                 custom_offset = 999
                 middle_offset = perp_vector * lane_width * num_left_lanes / 2
-                if num_right_lanes % 2 == 0:
+                if num_left_lanes % 2 == 0:
                     middle_offset += perp_vector * lane_width / 2
                 point1 -= middle_offset
                 point2 -= middle_offset
