@@ -1,4 +1,8 @@
 import logging
+
+# Create a logger to silence httpx
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
 try:
     import umami
 
