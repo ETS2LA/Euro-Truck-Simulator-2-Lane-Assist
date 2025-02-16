@@ -5,6 +5,7 @@ It supports downloading files from one or more CDNs, returning the downloaded fi
 
 import ctypes
 import ctypes.wintypes
+import os
 import tempfile
 import time
 from pathlib import Path
@@ -12,6 +13,7 @@ from pathlib import Path
 import logging
 import requests
 import tqdm
+
 
 class WINHTTP_PROXY_INFO(ctypes.Structure):
     _fields_ = [("dwAccessType", ctypes.wintypes.DWORD),
@@ -27,6 +29,9 @@ class WINHTTP_CURRENT_USER_IE_PROXY_CONFIG(ctypes.Structure):
 
 
 def GetSystemProxy() -> str | None:
+    if os.name != 'nt':
+        return None
+
     # winhttp.h
     # WinHttpGetDefaultProxyConfiguration
     proxy_info = WINHTTP_PROXY_INFO()
@@ -42,37 +47,62 @@ def GetSystemProxy() -> str | None:
     return res1[1] or res2[2] or None
 
 
-def ChooseBestProvider(urls: list[str], timeout: int | float = 3):
+def ChooseBestProvider(urls: list[str],
+                       *,
+                       timeout: int | float = 3,
+                       verbose: bool = False,
+                       headers: dict | None = None):
     """Chooses the best provider for downloading a file from a list of URLs.
 
     Args:
         urls (list[str]): List of URLs to choose from.
+        timeout (int | float, optional): Timeout for each request, in seconds. Defaults to 3.
+        verbose (bool, optional): Whether to print debug messages. Defaults to False.
+        headers (dict | None, optional): Optional headers to include in each request. Defaults to None.
 
     Returns:
         str: The best provider URL.
+    
+    Raises:
+        IndexError: If none of the URLs are accessible.
     """
 
-    results: list[tuple[str, int]] = []
+    results: list[tuple[str, float]] = []
+
+    session = requests.Session()
 
     with tempfile.TemporaryFile("wb", suffix=".tmpdat") as tempf:
         tempf.seek(0)
         for url in urls:
             try:
                 st = time.perf_counter_ns()
-                with requests.get(url, stream=True, timeout=timeout) as r:
+                with session.get(url,
+                                 stream=True,
+                                 timeout=timeout,
+                                 headers=headers) as r:
                     r.raise_for_status()
                     tempf.seek(0)
-                    tempf.write(r.content)
+                    for chunk in r.iter_content(chunk_size=8192):
+                        tempf.write(chunk)
+                        break
+                    r.close()
                 endt = time.perf_counter_ns()
-                results.append((url, endt - st))
-            except requests.exceptions.RequestException:
-                continue
+                if endt > st:
+                    speed = tempf.tell() / (endt - st)
+                else:
+                    speed = float("inf")
+                results.append((url, speed))
+                if verbose:
+                    logging.debug("Downloaded %s in %d ns", url, endt - st)
+            except requests.exceptions.RequestException as e:
+                if verbose:
+                    logging.debug("Failed to download %s: %s", url, e)
 
     if not results:
         raise requests.exceptions.RequestException(
             "Failed to download file from any source.")
 
-    return sorted(results, key=lambda x: x[1])[0][0]
+    return sorted(results, key=lambda x: x[1], reverse=True)[0][0]
 
 
 def DownloadFile(url: str,
@@ -152,5 +182,7 @@ def DownloadFileMultiSource(urls: list[str],
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+
     # Network Debug Page
-    logging.debug("Current system proxy: {}", GetSystemProxy())
+    logging.debug("Current system proxy: %s", GetSystemProxy())
