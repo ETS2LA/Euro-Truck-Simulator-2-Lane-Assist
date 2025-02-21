@@ -223,8 +223,16 @@ def check_for_size_change(settings):
 settings.Listen("global", check_for_size_change)
 
 def run():
+    if variables.NO_UI:
+        logging.info("No UI flag detected. Skipping UI startup. You can close the application by closing the console window.")
+        return
+    
     p = multiprocessing.Process(target=start_webpage, args=(queue, variables.LOCAL_MODE, ), daemon=True)
     p.start()
     if os.name == 'nt':
         ColorTitleBar()
+        if variables.NO_CONSOLE:
+            from ETS2LA.Utils.Console import visibility
+            visibility.HideConsole()
+            
         logging.info(Translate("webpage.opened"))

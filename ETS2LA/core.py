@@ -46,7 +46,7 @@ def run():
             webserver.mainThreadQueue.remove(func)
             logging.debug(f"Executed queue item: {func[0].__name__}")
         
-        if not CheckIfWindowStillOpen():
+        if not variables.NO_UI and not CheckIfWindowStillOpen():
             raise Exception("exit")
         
         if variables.CLOSE:

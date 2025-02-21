@@ -107,6 +107,19 @@ def ETS2LAProcess(exception_queue: Queue):
                     ExecuteCommand("cd Interface && npm install && npm run build-local")
                 ETS2LA.variables.LOCAL_MODE = True
         
+        if "--no-console" in sys.argv:
+            if "--no-ui" in sys.argv:
+                print(f"{RED}{'--no-console cannot be used in combination with --no-ui. The console will not close.'}{END}\n")
+            else:
+                import ETS2LA.variables
+                ETS2LA.variables.NO_CONSOLE = True
+                print(f"{PURPLE}{'Closing console after UI start.'}{END}\n")
+            
+        if "--no-ui" in sys.argv:
+            import ETS2LA.variables
+            ETS2LA.variables.NO_UI = True
+            print(f"{PURPLE}{'Running without UI.'}{END}\n")
+        
         CloseNode()
         ClearLogFiles()
         ETS2LA = importlib.import_module("ETS2LA.core")
