@@ -47,12 +47,18 @@ def run():
             logging.debug(f"Executed queue item: {func[0].__name__}")
         
         if not variables.NO_UI and not CheckIfWindowStillOpen():
+            from ETS2LA.Utils.Console.visibility import RestoreConsole
+            RestoreConsole()
             raise Exception("exit")
         
         if variables.CLOSE:
+            from ETS2LA.Utils.Console.visibility import RestoreConsole
+            RestoreConsole()
             raise Exception("exit")
         
         if variables.RESTART:
+            from ETS2LA.Utils.Console.visibility import RestoreConsole
+            RestoreConsole()
             raise Exception("restart")
         
         if variables.MINIMIZE:
