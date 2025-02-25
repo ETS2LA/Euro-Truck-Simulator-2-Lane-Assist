@@ -3,7 +3,6 @@ from ETS2LA.UI import *
 
 from Plugins.AR.classes import *
 from ETS2LA.Utils.Values.numbers import SmoothedValue
-import os
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
@@ -36,6 +35,13 @@ def InitializeWindow():
     Margins = MARGINS(-1, -1, -1, -1)
     ctypes.windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, Margins)
     win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
+
+    SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
+    SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+    SetWindowDisplayAffinity.restype = wintypes.BOOL
+    Success = SetWindowDisplayAffinity(HWND, 0x00000011)
+    if Success == 0:
+        print("Failed to hide AR window from screen capture.")
 
 
 def Resize():
@@ -161,7 +167,7 @@ class Plugin(ETS2LAPlugin):
     LastTimeStamp = 0
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
+        global SCSTelemetry, ScreenCapture, settings, variables, dpg, wintypes, win32con, win32gui, ctypes, math, time
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
@@ -169,6 +175,7 @@ class Plugin(ETS2LAPlugin):
         import ETS2LA.variables as variables
 
         import dearpygui.dearpygui as dpg
+        from ctypes import wintypes
         import win32con
         import win32gui
         import ctypes

@@ -13,9 +13,10 @@ import os
 DATA_FOLDER = "Translations"
 FRONTEND_DATA_FOLDER = "Interface/translations"
 
+# Disable updates when in dev mode, variables.DEVELOPMENT_MODE is not useable because this is not the same process as the main process so its set
 EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
-                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main", 
-                      download_updates=True)
+                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
+                      download_updates="--dev" not in sys.argv)
 
 FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".yaml")]
 FILES.remove("keys.yaml")
