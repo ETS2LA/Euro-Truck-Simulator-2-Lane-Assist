@@ -29,5 +29,6 @@ def FixModule(module, ver, url):
         cur_ver = "0.0.0"
         
     if cur_ver < ver:
-        print(f"Please wait, we need to install the correct version of {module}...")
+        print(f"{GREEN} -- Please wait, we need to install the correct version of:{YELLOW} {module} {GREEN} -- {END}")
         ExecuteCommand(f"pip install {url}")
+        

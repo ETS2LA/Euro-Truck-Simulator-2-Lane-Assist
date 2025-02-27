@@ -28,7 +28,13 @@ class ETS2LAPage:
     def build(self):
         if self.dynamic:
             RenderUI()  # Clear the UI system
-            data = self.render()
+            try:
+                data = self.render()
+            except:
+                import traceback
+                traceback.print_exc()
+                data = []
+                
             data.insert(0, {
                 "settings": self.settings_target
             })

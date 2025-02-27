@@ -108,8 +108,9 @@ def get_page(target_url: str):
             
             page = module.Page()
             if page.url == target_url:
+                data = page.build()
                 variables.IS_UI_UPDATING = False
-                return page.build()
+                return data
     
     variables.IS_UI_UPDATING = False
     return []
