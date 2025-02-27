@@ -438,6 +438,9 @@ def Delete(Identifier):
 
 def HandleBroken(Identifier):
     try:
+        if "--dev" in sys.argv:
+            print(GRAY + f"[{Identifier}] " + RED + "Can't handle broken models in development mode, all pytorch loader actions paused..." + NORMAL)
+            while True: time.sleep(1)
         Delete(Identifier)
         CheckForUpdates(Identifier)
         if "UpdateThread" in MODELS[Identifier]:
