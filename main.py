@@ -79,12 +79,9 @@ def get_current_version_information_dictionary():
 def ETS2LAProcess(exception_queue: Queue):
     try:
         if "--dev" in sys.argv:
-            import ETS2LA.variables
-            ETS2LA.variables.DEVELOPMENT_MODE = True
             print(f"{PURPLE}{Translate('main.development_mode')}{END}\n")
         
         if "--local" in sys.argv:
-            import ETS2LA.variables
             did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True)
             if did_update:
                 print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
@@ -93,7 +90,6 @@ def ETS2LAProcess(exception_queue: Queue):
                 print(f"\n{PURPLE}{'Running UI locally'}{END}\n")
             else:
                 print(f"{PURPLE}{'Running UI locally'}{END}\n")
-            ETS2LA.variables.LOCAL_MODE = True
         else:
             try:
                 requests.get("https://app.ets2la.com", timeout=1)
@@ -111,13 +107,9 @@ def ETS2LAProcess(exception_queue: Queue):
             if "--no-ui" in sys.argv:
                 print(f"{RED}{'--no-console cannot be used in combination with --no-ui. The console will not close.'}{END}\n")
             else:
-                import ETS2LA.variables
-                ETS2LA.variables.NO_CONSOLE = True
                 print(f"{PURPLE}{'Closing console after UI start.'}{END}\n")
             
         if "--no-ui" in sys.argv:
-            import ETS2LA.variables
-            ETS2LA.variables.NO_UI = True
             print(f"{PURPLE}{'Running without UI.'}{END}\n")
         
         CloseNode()
@@ -158,7 +150,7 @@ if __name__ == "__main__":
             
             if e.args[0] == "Update":
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
-                if variables.DEVELOPMENT_MODE == False:
+                if not variables.DEVELOPMENT_MODE:
                     print(YELLOW + Translate("main.updating") + END)
                     if os.name == "nt":
                         try:

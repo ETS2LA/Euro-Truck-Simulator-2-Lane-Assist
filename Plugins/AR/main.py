@@ -194,10 +194,9 @@ class Plugin(ETS2LAPlugin):
         FRAME = None
         FOV = self.globals.settings.FOV
         if FOV == None:
-            print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables)! The plugin will disable itself.{NORMAL}\n")
-            self.notify("No FOV set, disabling AR...")
-            time.sleep(1)
-            self.terminate()
+            print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!{NORMAL}\n")
+            self.notify("Please set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!")
+            FOV = 75
 
         InitializeWindow()
 
