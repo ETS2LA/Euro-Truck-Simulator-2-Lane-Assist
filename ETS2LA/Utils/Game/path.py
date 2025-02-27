@@ -54,3 +54,25 @@ def FindSCSGames():
             foundGames.append(library + "\\" + ATS_PATH_IN_LIBRARY)
     
     return foundGames
+
+if os.name == "nt":
+    from win32api import GetFileVersionInfo, LOWORD, HIWORD
+    def get_version_number(filename):
+        try:
+            info = GetFileVersionInfo(filename, "\\")
+            ms = info['FileVersionMS']
+            ls = info['FileVersionLS']
+            return HIWORD(ms), LOWORD(ms), HIWORD(ls), LOWORD(ls)
+        except:
+            return 0,0,0,0
+
+def GetVersionForGame(gamePath):
+    if os.name != "nt":
+        return "Unknown"
+    
+    if "Euro Truck Simulator" in gamePath:
+        return ".".join([str(i) for i in get_version_number(gamePath + "\\bin\\win_x64\\eurotrucks2.exe")[:3]])
+    elif "American Truck Simulator" in gamePath:
+        return ".".join([str(i) for i in get_version_number(gamePath + "\\bin\\win_x64\\amtrucks.exe")[:3]])
+    else:
+        return "Unknown"
