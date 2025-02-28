@@ -384,6 +384,18 @@ def get_page(data: PageFetchData):
         return []
 
 # endregion
+# region Developers
+
+@app.get("/api/plugins/reload")
+def reload_plugins():
+    try:
+        plugins.update_plugins()
+    except:
+        logging.exception("Failed to reload plugins")
+        return False
+    return True
+
+# endregion
 # region Session
 
 def BuildFrontend():

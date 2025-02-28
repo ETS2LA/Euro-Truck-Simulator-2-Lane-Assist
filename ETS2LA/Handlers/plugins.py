@@ -11,6 +11,7 @@ import inspect
 import fnmatch
 import psutil
 import time
+import sys
 import os
 
 if os.name == "nt":
@@ -372,6 +373,8 @@ def get_plugin_class(module_name):
     for name, cls in inspect.getmembers(module):
         if inspect.isclass(cls) and issubclass(cls, ETS2LAPlugin) and cls != ETS2LAPlugin:
             return cls
+    # Remove the module from the cache
+    del sys.modules[module_name]
     return None
 
 def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
@@ -387,8 +390,15 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
                 if not information.hidden or variables.DEVELOPMENT_MODE:
                     plugins.append((folder, information, author, settings))
             del plugin_class
+            del sys.modules[f"{plugin_path}.{folder}.main"]
             
     return plugins
+
+def update_plugins():
+    global AVAILABLE_PLUGINS
+    logging.info("Updating plugins...")
+    AVAILABLE_PLUGINS = find_plugins()
+    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin[3] is not None])} have settings menus.")
 
 def enable_plugin(plugin_name: str):
     runner = threading.Thread(target=PluginHandler, args=(plugin_name, AVAILABLE_PLUGINS[[plugin[0] for plugin in AVAILABLE_PLUGINS].index(plugin_name)][1]), daemon=True)
@@ -633,6 +643,5 @@ def get_all_process_pids():
     return pids
 
 def run():
-    global AVAILABLE_PLUGINS
-    AVAILABLE_PLUGINS = find_plugins()
+    update_plugins()
     logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin[3] is not None])} have settings menus.")
