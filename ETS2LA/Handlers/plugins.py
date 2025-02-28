@@ -1,5 +1,6 @@
 import ETS2LA.Networking.Servers.notifications as notifications
 from ETS2LA.Utils.umami import TriggerEvent
+from ETS2LA.Utils.settings import Get, Set
 import ETS2LA.variables as variables
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
@@ -24,7 +25,6 @@ plugin_target_class = "Plugin"
 AVAILABLE_PLUGINS: list[tuple[str, PluginDescription, Author, ETS2LASettingsMenu]] = []
 
 class PluginHandler:
-    
     plugin_name: str
     plugin_description: PluginDescription
     data = None
@@ -393,6 +393,15 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
             del sys.modules[f"{plugin_path}.{folder}.main"]
             
     return plugins
+
+def save_running_plugins():
+    try:
+        Set("global", "running_plugins", [plugin.plugin_name for plugin in RUNNING_PLUGINS])
+    except:
+        try:
+            Set("global", "running_plugins", [])
+        except: pass
+        logging.exception("Failed to save running plugins.")
 
 def update_plugins():
     global AVAILABLE_PLUGINS

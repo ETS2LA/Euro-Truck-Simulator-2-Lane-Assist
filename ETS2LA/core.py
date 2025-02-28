@@ -2,6 +2,7 @@ from ETS2LA.Utils.Console.logging import *
 logger = SetupGlobalLogging()
 
 import ETS2LA.Networking.Servers.notifications as notifications
+from ETS2LA.Utils.Console.visibility import RestoreConsole
 import ETS2LA.Networking.Servers.webserver as webserver
 from ETS2LA.Window.utils import CheckIfWindowStillOpen
 from ETS2LA.Utils.version import check_python_version
@@ -47,18 +48,18 @@ def run():
             logging.debug(f"Executed queue item: {func[0].__name__}")
         
         if not variables.NO_UI and not CheckIfWindowStillOpen():
-            from ETS2LA.Utils.Console.visibility import RestoreConsole
             RestoreConsole()
+            plugins.save_running_plugins()
             raise Exception("exit")
         
         if variables.CLOSE:
-            from ETS2LA.Utils.Console.visibility import RestoreConsole
             RestoreConsole()
+            plugins.save_running_plugins()
             raise Exception("exit")
         
         if variables.RESTART:
-            from ETS2LA.Utils.Console.visibility import RestoreConsole
             RestoreConsole()
+            plugins.save_running_plugins()
             raise Exception("restart")
         
         if variables.MINIMIZE:

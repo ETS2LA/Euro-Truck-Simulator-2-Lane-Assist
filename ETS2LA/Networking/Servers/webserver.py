@@ -1,26 +1,26 @@
 from ETS2LA.UI import * 
 
 from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency
-from ETS2LA.Window.utils import ColorTitleBar
 from ETS2LA.Networking.Servers.notifications import sonner, page
-from ETS2LA.Window.utils import CheckIfWindowOpen
-from ETS2LA.Utils.translator import Translate
-import ETS2LA.Utils.translator as translator
-from ETS2LA.Networking.Servers.models import *
+from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
+from ETS2LA.Window.utils import CheckIfWindowOpen
+from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.shell import ExecuteCommand
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Utils.translator import Translate
+from ETS2LA.Window.utils import ColorTitleBar
+import ETS2LA.Utils.translator as translator
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
+import ETS2LA.Utils.settings as settings
 import ETS2LA.Handlers.sounds as sounds
 import ETS2LA.Handlers.pages as pages
 import ETS2LA.variables as variables
 import ETS2LA.Utils.version as git
 
-from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Body
-from typing import Union
 from typing import Any
 import multiprocessing
 import traceback
@@ -34,6 +34,7 @@ import zlib
 import sys
 import os
 
+asked_plugins = False # Will trigger the "Do you want to re-enable plugins?" popup
 mainThreadQueue = []
 sessionToken = ""
 
@@ -56,7 +57,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"ETS2LA": "1.0.0"}
+    return {"ETS2LA": variables.METADATA["version"]}
 
 @app.get("/auth/discord/login", response_class=HTMLResponse)
 def login(code):
@@ -161,6 +162,20 @@ def get_transparency_state():
 
 @app.get("/backend/plugins")
 def get_plugins():
+    global asked_plugins
+    if not asked_plugins:
+        to_enable = settings.Get("global", "running_plugins", [])
+        if len(to_enable) > 0:          
+            answer = notifications.ask("Re-enable plugins?", ["Yes", "No"], description="Do you want to re-enable the plugins that were running before the app was closed?\n\n - " + "\n - ".join(to_enable))
+            if answer["response"] == "Yes":
+                notifications.sonner("Re-enabling plugins...")
+                for plugin in to_enable:
+                    plugins.enable_plugin(plugin)
+                    
+            notifications.sonner("Plugins enabled!", "success")
+                
+        asked_plugins = True
+    
     try:
         # Get data
         available_plugins = plugins.AVAILABLE_PLUGINS
