@@ -308,9 +308,9 @@ class Plugin(ETS2LAPlugin):
             return
 
 
-        RouteAdvisorSideValue = ScreenCapture.RouteAdvisorSide
-        RouteAdvisorZoomCorrectValue = ScreenCapture.RouteAdvisorZoomCorrect
-        RouteAdvisorTabCorrectValue = ScreenCapture.RouteAdvisorTabCorrect
+        RouteAdvisorSideValue = bool(ScreenCapture.RouteAdvisorSide)
+        RouteAdvisorZoomCorrectValue = bool(ScreenCapture.RouteAdvisorZoomCorrect)
+        RouteAdvisorTabCorrectValue = bool(ScreenCapture.RouteAdvisorTabCorrect)
 
         GameValue = str(APIDATA["scsValues"]["game"]).lower()
 
