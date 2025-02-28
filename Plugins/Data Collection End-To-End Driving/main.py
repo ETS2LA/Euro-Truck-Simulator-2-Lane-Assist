@@ -308,7 +308,7 @@ class Plugin(ETS2LAPlugin):
             return
 
 
-        RouteAdvisorSideValue = bool(ScreenCapture.RouteAdvisorSide)
+        RouteAdvisorSideValue = str(ScreenCapture.RouteAdvisorSide)
         RouteAdvisorZoomCorrectValue = bool(ScreenCapture.RouteAdvisorZoomCorrect)
         RouteAdvisorTabCorrectValue = bool(ScreenCapture.RouteAdvisorTabCorrect)
 
