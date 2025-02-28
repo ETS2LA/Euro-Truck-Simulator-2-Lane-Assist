@@ -66,8 +66,9 @@ def run():
             variables.MINIMIZE = False
         
         if frameCounter % 100 == 0: # 1 second 
-            translator.CheckForLanguageUpdates()
             frameCounter = 0
+            if variables.DEVELOPMENT_MODE:
+                translator.CheckForLanguageUpdates()
         
         # if lastPingTime + 60 < time.perf_counter():
         #     lastPingTime = time.perf_counter()
