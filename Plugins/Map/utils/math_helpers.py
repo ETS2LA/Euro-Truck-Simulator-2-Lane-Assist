@@ -1,4 +1,5 @@
 from typing import Literal
+from scipy.spatial.transform import Rotation as R
 import numpy as np
 import logging
 import math
@@ -122,50 +123,6 @@ def Hermite(s, x, z, tanX, tanZ):
     h4 = math.pow(s, 3) - math.pow(s, 2)
     return h1 * x + h2 * z + h3 * tanX + h4 * tanZ
 
-def Hermite3D(s, start_pos, end_pos, start_euler, end_euler):
-    """Hermite interpolation function in 3D space.
-
-    :param float s: The interpolation value between 0 and 1.
-    :param tuple start_pos: The starting position (x,y,z).
-    :param tuple end_pos: The ending position (x,y,z).
-    :param tuple start_euler: The starting euler angles (rx,ry,rz) in radians.
-    :param tuple end_euler: The ending euler angles (rx,ry,rz) in radians.
-    :return tuple: The hermite interpolated position (x,y,z).
-    """
-    x1, y1, z1 = start_pos
-    x2, y2, z2 = end_pos
-    
-    # Calculate XZ plane path length for horizontal curves
-    xz_length = math.sqrt((x2-x1)**2 + (z2-z1)**2)
-    
-    # Calculate separate Y scale (smaller to reduce extreme curves)
-    y_scale = math.sqrt((y2-y1)**2)
-    
-    # Calculate tangents for XZ plane using yaw
-    tan_sx = math.cos(start_euler[1]) * (xz_length + y_scale * 2)
-    tan_ex = math.cos(end_euler[1]) * (xz_length + y_scale * 2)
-    tan_sz = math.sin(start_euler[1]) * (xz_length + y_scale * 2)
-    tan_ez = math.sin(end_euler[1]) * (xz_length + y_scale * 2)
-    
-    # Calculate Y tangents using pitch only
-    tan_sy = math.sin(start_euler[0]) * y_scale
-    tan_ey = math.sin(end_euler[0]) * y_scale
-    
-    # Hermite basis functions
-    h1 = 2 * s**3 - 3 * s**2 + 1
-    h2 = -2 * s**3 + 3 * s**2
-    h3 = s**3 - 2 * s**2 + s
-    h4 = s**3 - s**2
-    
-    # Direct interpolation
-    x = h1 * x1 + h2 * x2 + h3 * tan_sx + h4 * tan_ex
-    # TODO: Fix this
-    #y = h1 * y1 + h2 * y2 + h3 * tan_sy + h4 * tan_ey
-    z = h1 * z1 + h2 * z2 + h3 * tan_sz + h4 * tan_ez
-    # Linear for Y
-    y = y1 + s * (y2 - y1)
-    
-    return (x, y, z)
 
 def RotateAroundPoint(x: float, y: float, angle: float, origin_x: float, origin_y: float) -> tuple[float, float]:
     """Rotate a point around another point.
@@ -222,3 +179,65 @@ def QuatToEuler(quat: list[float]) -> list[float]:
         return [pitch, yaw, roll]
     except:
         return [0, 0, 0]
+
+
+def hermite_curve(P0, P1, T0, T1, t):
+    """Hermite interpolation function.
+
+    :param (np.array) P0: The starting position (x, y, z).
+    :param (np.array) P1: The ending position (x, y, z).
+    :param (np.array) T0: The tangent at start position (x, y, z).
+    :param (np.array) T1: The tangent at end position (x, y, z).
+    :param float t: The interpolation value between 0 and 1.
+
+    :return (np.array) P_t: The hermite interpolated position (x,y,z).
+    """
+    # Hermite basis functions
+    P_t = (
+            (2 * t ** 3 - 3 * t ** 2 + 1) * P0 +
+            (t ** 3 - 2 * t ** 2 + t) * T0 +
+            (-2 * t ** 3 + 3 * t ** 2) * P1 +
+            (t ** 3 - t ** 2) * T1
+    )
+    return P_t
+
+
+def quaternion_rotate(q, v):
+    """Rotate vector by quaternion.
+
+    :param (np.array) q: quaternion in (w,x,y,z) format.
+    :param (np.array) v: vector (x,y,z) to be rotated.
+    :return (np.array) v_rotated: rotated vector (x,y,z).
+    """
+    # Scipy use quaternion in (x, y, z, w) format
+    qw, qx, qy, qz = q
+    q = np.array([qx, qy, qz, qw])
+
+    q_norm = q / np.linalg.norm(q)  # Normalize
+    r = R.from_quat(q_norm)
+    v_rotated = r.apply(v)
+    return v_rotated
+
+
+def Hermite3D(s, start_pos, end_pos, start_quaternion, end_quaternion, length):
+    """Hermite interpolation function in 3D space.
+
+    :param float s: The interpolation value between 0 and 1.
+    :param tuple[float, float, float] start_pos: The starting position (x,y,z).
+    :param tuple[float, float, float] end_pos: The ending position (x,y,z).
+    :param tuple[float, float, float] start_quaternion: The starting quaternion (w,x,y,z).
+    :param tuple[float, float, float] end_quaternion: The ending quaternion (w,x,y,z).
+    :param float length: The length of the road.
+    :return tuple[float, float, float]: The hermite interpolated position (x,y,z).
+    """
+    if length is None or length == 0:
+        length = DistanceBetweenPoints(start_pos, end_pos)
+
+    # Initial vector defined by [0, 0, -1] * road length
+    initial_vector = np.array([0, 0, -1]) * length
+
+    # Calculate tangent at start/end node using initial vector and quaternion
+    tan_start = quaternion_rotate(start_quaternion, initial_vector)
+    tan_end = quaternion_rotate(end_quaternion, initial_vector)
+
+    return hermite_curve(np.array(start_pos), np.array(end_pos), tan_start, tan_end, s)
