@@ -2146,9 +2146,6 @@ class MapData:
     def calculate_sectors(self) -> None:
         for node in self.nodes:
             node.sector_x, node.sector_y = self.get_sector_from_coordinates(node.x, node.y)
-            # build node dictionary first
-            uid_str = str(node.uid)
-            self._by_uid[uid_str] = node
         # elevevations don't have sectors
         for road in self.roads:
             road.sector_x, road.sector_y = self.get_road_sector(road)
@@ -2291,7 +2288,8 @@ class MapData:
         self._sector_height = (max_y - min_y) / (max_sector_y - min_sector_y)
 
     def build_dictionary(self) -> None:
-        items = self.roads + self.prefabs + self.models
+        self._by_uid = {}
+        items = self.nodes + self.roads + self.prefabs + self.models
         for item in items:
             uid_str = str(item.uid)
             self._by_uid[uid_str] = item
