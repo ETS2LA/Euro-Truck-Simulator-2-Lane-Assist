@@ -268,7 +268,7 @@ class DetectCrackedGame():
                     def render(self):
                         with Form():
                             Title("Detected Cracked Game")
-                            Description("ETS2LA will not work on cracked games (or DLCs). Please purchase the game on steam. This is due to a limitation in the way the cracked games are made. We can't do anything about it.")
+                            Description("ETS2LA will not work on cracked games (or DLCs). Please purchase the game on steam. This is due to a limitation in the way the cracked games are made. We can't do anything about it.\n\nPlease note that there can be false positives from broken mods or plugins. We don't implement software locks, if the app works then you can ignore this message.")
                             Space(8)
                             
                         return RenderUI()
