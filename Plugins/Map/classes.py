@@ -1065,16 +1065,16 @@ class Road(BaseItem):
                 temp_pos = start_pos
                 start_pos = [start_pos[0], end_pos[1], start_pos[2]]
                 end_pos = [end_pos[0], temp_pos[1], end_pos[2]]
-    
-            start_euler = start_node.euler if hasattr(start_node, 'euler') else (0, 0, 0)
-            end_euler = end_node.euler if hasattr(end_node, 'euler') else (0, 0, 0)
-    
+
+            start_quaternion = start_node.rotationQuat if hasattr(start_node, 'rotationQuat') else (0, 0, 0, 0)
+            end_quaternion = end_node.rotationQuat if hasattr(end_node, 'rotationQuat') else (0, 0, 0, 0)
+
             length = math.sqrt(sum((e - s) ** 2 for s, e in zip(start_pos, end_pos)))
             needed_points = max(int(length * road_quality), min_quality)
     
             for i in range(needed_points):
                 s = i / (needed_points - 1)
-                x, y, z = math_helpers.Hermite3D(s, start_pos, end_pos, start_euler, end_euler)
+                x, y, z = math_helpers.Hermite3D(s, start_pos, end_pos, start_quaternion, end_quaternion, self.length)
                 new_points.append(Position(x, y, z))
     
             return new_points
