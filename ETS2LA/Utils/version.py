@@ -9,7 +9,7 @@ import os
 CACHE_DIR = f"{variables.PATH}cache"
 CACHE_FILE = os.path.join(CACHE_DIR, "avatar_urls.txt")
 
-def GetCommitURL(repo, commit_hash):
+def get_commit_url(repo, commit_hash):
     try:
         # Get the remote URL
         remote_url = repo.remotes.origin.url
@@ -57,7 +57,7 @@ def CheckForUpdate():
                         "message": commit.summary,
                         "description": commit.message.replace(commit.summary, "").strip(),
                         "time": commit.committed_date,
-                        "url": GetCommitURL(repo, commit.hexsha),
+                        "url": get_commit_url(repo, commit.hexsha),
                         "hash": commit.hexsha
                     })
             
@@ -69,7 +69,7 @@ def CheckForUpdate():
                             "message": commit.summary,
                             "description": commit.message.replace(commit.summary, "").strip(),
                             "time": commit.committed_date,
-                            "url": GetCommitURL(repo, commit.hexsha),
+                            "url": get_commit_url(repo, commit.hexsha),
                             "hash": commit.hexsha
                         })
                     if len(updates) >= 10:
@@ -117,7 +117,7 @@ def GetHistory():
                     "message": commit.summary,
                     "description": commit.message.replace(commit.summary, "").strip(),
                     "time": commit.committed_date,
-                    "url": GetCommitURL(repo, commit.hexsha),  # Add URL like CheckForUpdate,
+                    "url": get_commit_url(repo, commit.hexsha),  # Add URL like CheckForUpdate,
                     "hash": commit.hexsha
                 }
 

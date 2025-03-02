@@ -1,14 +1,21 @@
+"""
+PLEASE NOTE:
+- This file is in the process of being refactored.
+- The current code has been made with no regard to the final
+  structure, thus the formatting and endpoints are nonsensical.
+- Proper documentation will be written once this file is refactored.
+"""
 from ETS2LA.UI import * 
 
 from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency
 from ETS2LA.Networking.Servers.notifications import sonner, page
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
-from ETS2LA.Window.utils import CheckIfWindowOpen
+from ETS2LA.Window.utils import check_if_specified_window_open
 from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.shell import ExecuteCommand
 from ETS2LA.Utils.translator import Translate
-from ETS2LA.Window.utils import ColorTitleBar
+from ETS2LA.Window.utils import color_title_bar
 import ETS2LA.Utils.translator as translator
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
@@ -107,7 +114,7 @@ def get_git_history():
 @app.get("/api/ui/theme/{theme}")
 def set_theme(theme: str):
     try:
-        ColorTitleBar(theme)
+        color_title_bar(theme)
         return True
     except:
         return False
@@ -133,7 +140,7 @@ def get_statistics():
 
 @app.get("/window/exists/{name}")
 def check_window(name: str):
-    return CheckIfWindowOpen(name)
+    return check_if_specified_window_open(name)
 
 @app.get("/window/stay_on_top")
 def get_stay_on_top():

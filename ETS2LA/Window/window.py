@@ -1,4 +1,4 @@
-from ETS2LA.Window.utils import ColorTitleBar, CheckIfWindowStillOpen, get_screen_dimensions, check_valid_window_position, get_theme, window_position
+from ETS2LA.Window.utils import color_title_bar, check_if_window_still_open, get_screen_dimensions, correct_window_position, get_theme_color, window_position
 from ETS2LA.Utils.translator import Translate
 from multiprocessing import JoinableQueue
 import ETS2LA.Utils.settings as settings
@@ -88,7 +88,7 @@ def set_resizable(value: bool):
         HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
         style = win32gui.GetWindowLong(HWND, win32con.GWL_STYLE)
         
-        ColorTitleBar()
+        color_title_bar()
         
         if value:
             new_style = style | win32con.WS_THICKFRAME
@@ -181,7 +181,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
     window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[0]
     window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[1]
 
-    window_x, window_y = check_valid_window_position(window_x, window_y, WIDTH, HEIGHT)
+    window_x, window_y = correct_window_position(window_x, window_y, WIDTH, HEIGHT)
 
     window = webview.create_window(
         f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', 
@@ -190,7 +190,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
         y = window_y,
         width=WIDTH+20, 
         height=HEIGHT+40,
-        background_color=get_theme(),
+        background_color=get_theme_color(),
         resizable=True, 
         zoomable=True,
         confirm_close=True, 
@@ -230,7 +230,7 @@ def run():
     p = multiprocessing.Process(target=start_webpage, args=(queue, variables.LOCAL_MODE, ), daemon=True)
     p.start()
     if os.name == 'nt':
-        ColorTitleBar()
+        color_title_bar()
         if variables.NO_CONSOLE:
             from ETS2LA.Utils.Console import visibility
             visibility.HideConsole()

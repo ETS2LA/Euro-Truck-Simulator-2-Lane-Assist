@@ -4,7 +4,7 @@ from ETS2LA.Plugin.author import Author
 import ETS2LA.Events as Events
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.Console.logging import SetupProcessLogging
+from ETS2LA.Utils.Console.logging import setup_process_logging
 from multiprocessing import JoinableQueue, Queue
 from types import SimpleNamespace
 from typing import Literal
@@ -345,7 +345,7 @@ class PluginRunner:
                     event_queue: JoinableQueue, event_return_queue: Queue
                     ):
         
-        SetupProcessLogging(
+        setup_process_logging(
             plugin_name,
             filepath=os.path.join(os.getcwd(), "logs", f"{plugin_name}.log"),
             console_level=logging.WARNING
