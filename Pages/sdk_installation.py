@@ -14,7 +14,7 @@ target_path = "\\bin\\win_x64\\plugins"
 files = os.listdir("ETS2LA/Assets/DLLs")
 files.pop(files.index("sources.txt"))
 
-def CheckIfInstalled(path: str, detailed: bool = False):
+def CheckIfInstalled(path: str, detailed: bool = False) -> bool | dict:
     if not os.path.exists(path + target_path):
         if not detailed:
             return False
@@ -80,6 +80,9 @@ class Page(ETS2LAPage):
                     Description(Translate("sdk_install.games"))
                     for found_game in games:
                         information = CheckIfInstalled(found_game, detailed=True)
+                        if isinstance(information, bool):
+                            continue
+                        
                         is_installed = [information[file] for file in files] == [True] * len(files)
                         
                         with Group("vertical", border=True, gap=0):

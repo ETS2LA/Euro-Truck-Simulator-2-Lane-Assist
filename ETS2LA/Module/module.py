@@ -1,7 +1,8 @@
+from ETS2LA.Plugin import ETS2LAPlugin
 import logging
 
 class ETS2LAModule:
-    plugin: object
+    plugin: ETS2LAPlugin
     """
     Access to the plugin instance this module is bound to.
     

@@ -96,7 +96,7 @@ class Button():
                 "description": description,
                 "classname": classname,
                 "options": {
-                    "target": target.__name__ if hasattr(target, "__name__") else target,
+                    "target": target.__name__ if hasattr(target, "__name__") else target, # type: ignore
                     "border": border
                 }
             }
@@ -119,7 +119,7 @@ class Space():
         })
         
 class Input():
-    def __init__(self, name: str, key: str, type: Literal["string", "number", "password"], default: any = None, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, type: Literal["string", "number", "password"], default = None, description: str = "", requires_restart: bool = False):
         global ui
         ui.append({
             "input": {
@@ -187,7 +187,7 @@ class Slider():
         })
 
 class Selector():
-    def __init__(self, name: str, key: str, default: any, options: list, description: str = "", requires_restart: bool = False):
+    def __init__(self, name: str, key: str, default, options: list, description: str = "", requires_restart: bool = False):
         global ui
         ui.append({
             "selector": {
@@ -365,7 +365,7 @@ class RefreshRate():
     
     **WARNING**: This will affect ALL plugins' performance while the UI is open!
     """
-    def __init__(self, time: int):
+    def __init__(self, time: float):
         """
         Set the refresh rate of the UI in seconds.
         ie. RefreshRate(0.5) will refresh the UI every 0.5 seconds (2fps).

@@ -3,6 +3,8 @@ import os
 
 import ETS2LA.Utils.settings as settings
 display = settings.Get("Global", "display", 0)
+if type(display) != int:
+    display = 0
 
 class Module(ETS2LAModule):
     has_initialized = False
@@ -59,17 +61,17 @@ class Module(ETS2LAModule):
                     window_name=None,
                 )
                 
-                @capture.event
+                @capture.event # type: ignore
                 def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
                     global latest_windows_frame
                     latest_windows_frame = frame.convert_to_bgr().frame_buffer.copy()
                     
-                @capture.event
+                @capture.event # type: ignore
                 def on_closed():
                     print("Capture Session Closed")
                 
                 try:
-                    cam_process.stop()
+                    cam_process.stop() # type: ignore
                 except:
                     pass
                 
@@ -82,22 +84,24 @@ class Module(ETS2LAModule):
                 
             
             import bettercam
-            try:
-                cam.stop() # stop the old instance of cam
-            except:
-                pass
-            try:
-                cam.close() # close the old instance of cam
-            except:
-                pass
-            try:
-                cam.release() # release the old instance of cam
-            except:
-                pass
-            try:
-                del cam
-            except:
-                pass
+            if cam is not None:
+                try:
+                    cam.stop() # stop the old instance of cam
+                except:
+                    pass
+                try:
+                    cam.close() # close the old instance of cam
+                except:
+                    pass
+                try:
+                    cam.release() # release the old instance of cam
+                except:
+                    pass
+                try:
+                    del cam
+                except:
+                    pass
+            
             cam = bettercam.create(output_idx=CamSetupDisplay)
             if mode == "continuous":
                 cam.start()
@@ -126,6 +130,10 @@ class Module(ETS2LAModule):
                             img = cam.get_latest_frame()
                         else:
                             img = cam.grab()
+                        
+                        if img is None:
+                            return (None, None) if imgtype != "cropped" and imgtype != "full" else None
+                        
                         croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg, img
                     elif imgtype == "cropped":
@@ -146,6 +154,9 @@ class Module(ETS2LAModule):
                             img = cam.get_latest_frame()
                         else:
                             img = cam.grab()
+                        if img is None:
+                            return (None, None) if imgtype != "cropped" and imgtype != "full" else None
+                        
                         croppedImg = img[self.monitor_y1:self.monitor_y2, self.monitor_x1:self.monitor_x2]
                         return croppedImg, img
                     
