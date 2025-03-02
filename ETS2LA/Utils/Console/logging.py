@@ -53,8 +53,7 @@ def setup_global_logging() -> logging.Logger:
                 try:
                     os.remove(f"logs/{file}")
                 except:
-                    logging.error(f"Another ETS2LA instance is running. 
-                                    Please close it and try again.")
+                    logging.error(f"Another ETS2LA instance is running. Please close it and try again.")
     
     # File writer
     file_handler = logging.FileHandler("logs/ETS2LA.log", encoding="utf-8")
