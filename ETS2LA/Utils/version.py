@@ -163,7 +163,7 @@ def GetHistory():
         return []
     
 def Update():
-    raise Exception("Update") # Crash the app so that the handler can update.
+    variables.UPDATE = True
 
 def load_cached_avatar_url(username):
     if not os.path.exists(CACHE_DIR):
