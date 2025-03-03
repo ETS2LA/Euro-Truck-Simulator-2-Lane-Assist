@@ -1,3 +1,4 @@
+from ETS2LA.Networking.cloud import GetUserCount, GetUserTime, GetUniqueUsers, token, user_id, GetUsername
 from ETS2LA.UI.utils import SendPopup
 from ETS2LA.Utils import settings
 from ETS2LA.UI import *
@@ -46,7 +47,16 @@ class Page(ETS2LAPage):
         controller.wipers0 = False
         print("Wipers should be fixed now.")
         SendPopup("Wipers should be fixed now.", "success")
-        
+    
+    def seconds_to_time(self, seconds):
+        hours = round(seconds // 3600)
+        minutes = round((seconds % 3600) // 60)
+        if hours == 0:
+            return Translate("about.statistics.usage_time_value_minute", [str(minutes)])
+        elif minutes == 0:
+            return Translate("about.statistics.usage_time_value_hour", [str(hours)])
+        else:
+            return Translate("about.statistics.usage_time_value_hour_and_minute", [str(hours), str(minutes)])
     
     def render(self):
         RefreshRate(10)
@@ -57,6 +67,28 @@ class Page(ETS2LAPage):
                     Title(Translate("about.about"))
                     Description(Translate("about.description"))
                     Space(2)
+                    with Group("vertical", padding=0):
+                        Title(Translate("about.statistics"))
+                        with Group("vertical", gap=6, padding=0):
+                            with Group("horizontal", gap=10, padding=0):
+                                Label(f"{Translate('about.statistics.users_online')} ")
+                                Description(Translate("about.statistics.users_online_value", [str(GetUserCount())]))
+                            with Group("horizontal", gap=10, padding=0):
+                                Label(f"{Translate('about.statistics.past_24h')} ")
+                                Description(Translate("about.statistics.past_24h_value", [str(GetUniqueUsers())]))
+                            with Group("horizontal", gap=10, padding=0):
+                                Label(Translate("about.statistics.usage_time"))
+                                Description(self.seconds_to_time(GetUserTime()))
+                            if token is None:
+                                Space(2)
+                                Label(f"{Translate('about.statistics.not_logged_in')} ")
+                                Description(Translate("about.statistics.anonymous_user_id", [str(GetUniqueUsers())]))
+                            else:
+                                Space(2)
+                                Label(f"{Translate('about.statistics.logged_in')} ")
+                                Description(Translate("about.statistics.welcome", [str(GetUsername())]))
+                                
+                    Space(1)
                     with Group("vertical", padding=0):
                         Title(Translate("about.developers"))
                         for contributor in contributors:

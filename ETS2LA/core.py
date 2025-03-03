@@ -31,6 +31,7 @@ import ETS2LA.Handlers.plugins as plugins
 from ETS2LA.Utils.Console.visibility import RestoreConsole
 from ETS2LA.Utils.version import check_python_version
 import ETS2LA.Utils.translator as translator
+import ETS2LA.Networking.cloud as cloud
 
 # Misc
 import time
@@ -59,16 +60,13 @@ controls.run()      # Control handlers
 
 logging.info(translator.Translate("core.backend_started"))
 
-last_ping_time = 0
 frame_counter = 0
-
 def run() -> None:
     """
     Run the main ETS2LA loop. As long as this function is running
     ETS2LA will stay open.
     """
     global frame_counter
-    global last_ping_time
     while True:
         time.sleep(0.01) # Relieve CPU time (100fps)
         
@@ -108,15 +106,7 @@ def run() -> None:
             if variables.DEVELOPMENT_MODE:
                 translator.CheckForLanguageUpdates()
         
-        # Disable until the new server is up.
-        
-        # if last_ping_time + 60 < time.perf_counter():
-        #     last_ping_time = time.perf_counter()
-        #     try:
-        #         cloud.Ping()
-        #     except:
-        #         logging.debug("Could not ping the server.")
-        #         pass
+        cloud.Ping()
             
         frame_counter += 1
         
