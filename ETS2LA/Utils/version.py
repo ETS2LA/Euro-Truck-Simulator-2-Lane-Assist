@@ -51,11 +51,12 @@ def CheckForUpdate():
         if current_hash != origin_hash:
             updates = []
             for commit in repo.iter_commits(f"{current_hash}..{origin_hash}"):
-                if "Merge" not in commit.summary: # Ignore merge commits
+                summary = str(commit.summary)
+                if "Merge" not in summary: # Ignore merge commits
                     updates.append({
                         "author": commit.author.name,
-                        "message": commit.summary,
-                        "description": commit.message.replace(commit.summary, "").strip(),
+                        "message": summary,
+                        "description": commit.message.replace(summary, "").strip(), # type: ignore
                         "time": commit.committed_date,
                         "url": get_commit_url(repo, commit.hexsha),
                         "hash": commit.hexsha
@@ -63,11 +64,12 @@ def CheckForUpdate():
             
             if updates == []: # local commit(s) waiting to be pushed, send those instead
                 for commit in repo.iter_commits():
-                    if "Merge" not in commit.summary:
+                    summary = str(commit.summary)
+                    if "Merge" not in summary:
                         updates.append({
                             "author": commit.author.name,
-                            "message": commit.summary,
-                            "description": commit.message.replace(commit.summary, "").strip(),
+                            "message": summary,
+                            "description": commit.message.replace(summary, "").strip(), # type: ignore
                             "time": commit.committed_date,
                             "url": get_commit_url(repo, commit.hexsha),
                             "hash": commit.hexsha
@@ -111,11 +113,12 @@ def GetHistory():
         repo = git.Repo(search_parent_directories=True)
         
         for commit in repo.iter_commits():
-            if "Merge" not in commit.summary:  # Ignore merge commits like in CheckForUpdate
+            summary = str(commit.summary)
+            if "Merge" not in summary:  # Ignore merge commits like in CheckForUpdate
                 commit_data = {
                     "author": commit.author.name,
-                    "message": commit.summary,
-                    "description": commit.message.replace(commit.summary, "").strip(),
+                    "message": summary,
+                    "description": commit.message.replace(summary, "").strip(), # type: ignore
                     "time": commit.committed_date,
                     "url": get_commit_url(repo, commit.hexsha),  # Add URL like CheckForUpdate,
                     "hash": commit.hexsha

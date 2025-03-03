@@ -99,7 +99,7 @@ async def server(websocket, path) -> None:
 
 async def send_sonner(text: str, 
                       type: Literal["info", "warning", "error", "success", "promise"]="info", 
-                      sonner_promise: str = None) -> None:
+                      sonner_promise: str | None = None) -> None:
     """
     Will send a notification to all connected clients.
     This function is blocking until all messages are sent.
@@ -123,13 +123,13 @@ async def send_sonner(text: str,
         
 def sonner(text: str, 
            type: Literal["info", "warning", "error", "success", "promise"]="info", 
-           sonner_promise: str = None) -> None:
+           sonner_promise: str | None = None) -> None:
     """
     Blocking non-async function that will send a notification to all connected clients.
     """
     asyncio.run(send_sonner(text, type, sonner_promise))
 
-async def send_ask(text: str, options: list[str], description: str) -> str:
+async def send_ask(text: str, options: list[str], description: str) -> dict:
     """
     Will send a dialog with a question with the given options.
     This function is blocking until a response is received.
@@ -169,7 +169,7 @@ async def send_ask(text: str, options: list[str], description: str) -> str:
         
     return response
     
-def ask(text: str, options: list, description: str = "") -> str:
+def ask(text: str, options: list, description: str = "") -> dict:
     """
     Non-async function that will send a dialog with a question with the given options.
     """
@@ -202,12 +202,12 @@ def page(page:str):
         return
     asyncio.run(send_page(page))
 
-async def send_dialog(json_data: str, no_response: bool = False) -> dict:
+async def send_dialog(json_data: dict, no_response: bool = False) -> dict | None:
     """
     Send a dialog with the given json data to all connected clients.
     Will wait for a response if no_response is False.
     
-    :param str json_data: The JSON data to send to the dialog
+    :param dict json_data: The JSON data to send to the dialog
     :param bool no_response: If True, this function will not wait for a response.
     
     :return dict: The response from the client
@@ -238,11 +238,11 @@ async def send_dialog(json_data: str, no_response: bool = False) -> dict:
         
     return response
 
-def dialog(ui: str, no_response: bool = False) -> dict:
+def dialog(ui: dict, no_response: bool = False) -> dict | None:
     """
     Non-async function that will send a dialog with the given json data to all connected clients.
     
-    :param str ui: The JSON data to send to the dialog
+    :param dict ui: The JSON data to send to the dialog
     :param bool no_response: If True, this function will not wait for a response.
     
     :return dict | None: The response from the client

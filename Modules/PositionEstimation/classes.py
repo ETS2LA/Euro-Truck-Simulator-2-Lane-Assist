@@ -138,7 +138,7 @@ class Position:
 class ObjectTrack():
     id: str
     _detection: ObjectDetection | None = None
-    _head_translation: HeadTranslation | None = None
+    _head_translation: HeadTranslation
     first_detection: ObjectDetection
     first_head_translation: HeadTranslation
     previous_detection: ObjectDetection
@@ -158,7 +158,7 @@ class ObjectTrack():
         self._detection = value
         
     @property
-    def head_translation(self):
+    def head_translation(self) -> HeadTranslation:
         return self._head_translation
     
     @head_translation.setter
@@ -174,6 +174,7 @@ class ObjectTrack():
         self.first_detection = detection    
         self.head_translation = head_translation
         self.first_head_translation = head_translation
+        self._head_translation = head_translation
         self.position = None
         self.last_update_time = time.perf_counter()
         
@@ -188,9 +189,6 @@ class ObjectTrack():
         w = detection.width
         h = detection.height
 
-        if type(self.head_translation) == type(None):
-            return
-        
         angle_offset = self.first_head_translation.rotation - self.head_translation.rotation
         head_angle = self.head_translation.angle
         first_head_angle = self.first_head_translation.angle

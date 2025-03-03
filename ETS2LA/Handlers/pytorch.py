@@ -1,3 +1,6 @@
+# type: ignore
+# TODO: Make this file type-safe. I'm not even going to try and do it myself.
+#     - Tumppi066
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Utils.Console.visibility as console
 import ETS2LA.variables as variables

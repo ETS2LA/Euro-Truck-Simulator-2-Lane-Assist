@@ -7,7 +7,7 @@ from ETS2LA.UI import *
 from ETS2LA.Utils.Console.logging import setup_process_logging
 from multiprocessing import JoinableQueue, Queue
 from types import SimpleNamespace
-from typing import Literal
+from typing import Literal, List
 import threading
 import importlib
 import logging
@@ -33,7 +33,7 @@ class ETS2LAPlugin(object):
     fps_cap: int = 30
     
     description: PluginDescription = PluginDescription()
-    author: Author
+    author: List[Author]
     settings_menu: None
     
     return_queue: JoinableQueue
@@ -167,7 +167,7 @@ class ETS2LAPlugin(object):
         instance.settings = Settings(path)
         
         if type(instance.author) != list:
-            instance.author = [instance.author]
+            instance.author = [instance.author] # type: ignore
         
         return instance
    
@@ -183,7 +183,7 @@ class ETS2LAPlugin(object):
                 module = python_object.Module(self)
                 setattr(self.modules, module_name, module)
             else:
-                logging.warning(f"Module '{module}' not found in '{module_path}'")
+                logging.warning(f"Module '{module_name}' not found in '{module_path}'")
     
     def __init__(self, *args) -> None:
         self.ensure_functions()
@@ -197,17 +197,17 @@ class ETS2LAPlugin(object):
         threading.Thread(target=self.performance_thread, daemon=True).start()
         threading.Thread(target=self.event_listener, daemon=True).start()
 
-        self.imports()
+        self.imports() # type: ignore # Might or might not exist.
         
-        try: self.init()
+        try: self.init() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'init' function")
-        try: self.initialize()
+        try: self.initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'initialize' function")
-        try: self.Initialize()
+        try: self.Initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'Initialize' function")
@@ -307,7 +307,7 @@ class ETS2LAPlugin(object):
         self.immediate_queue.put({
             "operation": "dialog", 
             "options": {
-                "dialog": dialog.build(),
+                "dialog": dialog.build(), # type: ignore
                 "no_response": False
             }
         })
@@ -315,7 +315,7 @@ class ETS2LAPlugin(object):
 
     def plugin(self) -> None:
         self.before()
-        data = self.run()
+        data = self.run() # type: ignore
         self.after(data)
             
     def before(self) -> None:

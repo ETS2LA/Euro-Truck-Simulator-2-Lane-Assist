@@ -21,7 +21,7 @@ class ETS2LAPage:
             raise TypeError("You must set the 'url' variable to the relative URL of the page.")
         self._json = {}
         try:
-            self.init()
+            self.init() # type: ignore # Might or might not exist.
         except:
             pass
         
@@ -29,7 +29,7 @@ class ETS2LAPage:
         if self.dynamic:
             RenderUI()  # Clear the UI system
             try:
-                data = self.render()
+                data = self.render() # type: ignore # Might or might not exist.
             except:
                 import traceback
                 traceback.print_exc()
@@ -42,7 +42,7 @@ class ETS2LAPage:
         
         if self._json == {}:
             RenderUI()  # Clear the UI system
-            self._json = self.render()
+            self._json = self.render() # type: ignore # Might or might not exist.
             self._json.insert(0, {
                 "settings": self.settings_target
             })

@@ -5,6 +5,7 @@ import ETS2LA.variables as variables
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+from typing import Any
 import multiprocessing
 import threading
 import logging
@@ -31,7 +32,7 @@ class PluginHandler:
     
     stop = False
     
-    tags: dict[str, any]
+    tags: dict[str, Any]
     
     state: dict = {
         "status": "",
@@ -41,7 +42,7 @@ class PluginHandler:
     last_performance: list[tuple[float, float]] = []
     last_performance_time: float = 0
     
-    statistics: dict[str, any] = {}
+    statistics: dict[str, Any] = {}
     last_statistics_time: float = 0
     
     files_to_listen_to: list[str] = []
@@ -308,7 +309,11 @@ class PluginHandler:
                 if time.perf_counter() - self.last_statistics_time > 1:
                     logical_cores = psutil.cpu_count(logical=True)
                     physical_cores = psutil.cpu_count(logical=False)
-                    multiplier = logical_cores / physical_cores
+                    if logical_cores is None or physical_cores is None:
+                        multiplier = 1
+                    else:
+                        multiplier = logical_cores / physical_cores
+                    
                     self.statistics["memory"].append(self.psutil_process.memory_percent())
                     self.statistics["cpu"].append(self.psutil_process.cpu_percent() / multiplier)
                     self.statistics["performance"] = self.get_performance()
@@ -377,7 +382,7 @@ def get_plugin_class(module_name):
     del sys.modules[module_name]
     return None
 
-def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
+def find_plugins() -> list[tuple[str, PluginDescription, Author, ETS2LASettingsMenu]]:
     folders = os.listdir(plugin_path)
     plugins = []
     for folder in folders:
@@ -387,7 +392,7 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
                 information = getattr(plugin_class, "description", None)
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
-                if not information.hidden or variables.DEVELOPMENT_MODE:
+                if information and not information.hidden or variables.DEVELOPMENT_MODE:
                     plugins.append((folder, information, author, settings))
             del plugin_class
             del sys.modules[f"{plugin_path}.{folder}.main"]
@@ -471,9 +476,9 @@ def get_plugin_settings() -> dict[str, None | list]:
     variables.IS_UI_UPDATING = False
     return settings_dict
 
-def get_state(plugin: str):
+def get_state(plugin_name: str):
     for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin:
+        if plugin.plugin_name == plugin_name:
             return plugin.state
     return None
 
@@ -483,9 +488,9 @@ def get_states():
         states[plugin.plugin_name] = plugin.state
     return states
 
-def get_performance(plugin: str):
+def get_performance(plugin_name: str):
     for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin:
+        if plugin.plugin_name == plugin_name:
             return plugin.get_performance()
     return None
 
@@ -551,6 +556,9 @@ def get_main_process_cpu_usages():
                 if "python" in process.lower() or "node" in process.lower():
                     try:
                         path = win32pdh.MakeCounterPath((None, "Process", process, None, 0, "% Processor Time"))
+                        if path is None:
+                            continue
+                        
                         handle = win32pdh.AddCounter(hq, path)
                         counter_handles.append((process.lower(), handle))
                     except:
@@ -628,7 +636,7 @@ def get_tag_data(tag: str):
             tag_dict[plugin.plugin_name] = plugin.tags[tag]
     return tag_dict
 
-def call_event(event: str, args: list, kwargs: dict, called_from: str = ""):
+def call_event(event: str, args: list[Any], kwargs: dict[Any, Any], called_from: str = ""):
     if type(args) != list:
         args = [args]
     if type(kwargs) != dict:

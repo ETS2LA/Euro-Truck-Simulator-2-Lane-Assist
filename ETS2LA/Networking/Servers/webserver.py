@@ -112,7 +112,7 @@ def get_git_history():
     return git.GetHistory()
 
 @app.get("/api/ui/theme/{theme}")
-def set_theme(theme: str):
+def set_theme(theme: Literal["dark", "light"]):
     try:
         color_title_bar(theme)
         return True
@@ -172,6 +172,8 @@ def get_plugins():
     global asked_plugins
     if not asked_plugins:
         to_enable = settings.Get("global", "running_plugins", [])
+        to_enable = [] if to_enable is None else to_enable
+        
         if len(to_enable) > 0:          
             answer = notifications.ask("Re-enable plugins?", ["Yes", "No"], description="Do you want to re-enable the plugins that were running before the app was closed?\n\n - " + "\n - ".join(to_enable))
             if answer["response"] == "Yes":
@@ -231,27 +233,20 @@ def get_performance():
 def get_states():
     return plugins.get_states()
 
-@app.post("/backend/plugins/{plugin}/relieve")
-def relieve_plugin(plugin: str, data: RelieveData = None):
-    if data is None:
-        data = RelieveData()
-        data.map = {}
-        
-    return plugins.RelieveWaitForFrontend(plugin, data.map)
-
 @app.post("/backend/plugins/{plugin}/function/call")
-def call_plugin_function(plugin: str, data: PluginCallData = None):
+def call_plugin_function(plugin: str, data: PluginCallData | None = None):
     try:
         if data is None:
-            data = PluginCallData()
+            logging.exception("Plugin function call has no arguments.")
+            return {"status": "error", "message": "Please provide arguments."}
         
         running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
         available_plugins = [plugin[1].name for plugin in plugins.AVAILABLE_PLUGINS]
         
         if plugin in running_plugins:
             index = running_plugins.index(plugin)
-            plugin = plugins.RUNNING_PLUGINS[index]
-            return plugin.call_function(data.target, data.args, data.kwargs)
+            plugin_obj = plugins.RUNNING_PLUGINS[index]
+            return plugin_obj.call_function(data.target, data.args, data.kwargs)
         
         elif plugin in available_plugins:
             index = available_plugins.index(plugin)

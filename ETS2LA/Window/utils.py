@@ -80,6 +80,9 @@ def correct_window_position(window_x: int, window_y: int, width: int = 1280, hei
             closest_screen_index = i + 1
             closest_distance = distance
 
+    if closest_screen_index is None:
+        return window_x, window_y
+    
     screen_dimensions = get_screen_dimensions(closest_screen_index)
     left, top, screen_width, screen_height = screen_dimensions
     # if the window is outside the screen area, move it inside (in the x direction)
@@ -145,6 +148,8 @@ def get_theme_color() -> str:
             return "#ffffff" if settings.Get("global", "theme", "dark") == "light" else "#18181b"
         except:
             return "#18181b"
+        
+    return "#18181b"
 
 
 def set_window_icon(image_path: str) -> None:
@@ -155,10 +160,10 @@ def set_window_icon(image_path: str) -> None:
     """
     hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
     icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-    hicon = win32gui.LoadImage(None, image_path, win32con.IMAGE_ICON, 0, 0, icon_flags)
+    hicon = win32gui.LoadImage(None, image_path, win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
 
-    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
-    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)    
+    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
+    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)   # type: ignore
 
 
 def color_title_bar(theme: Literal["dark", "light"] = "dark"):

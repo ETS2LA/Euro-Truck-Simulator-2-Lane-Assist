@@ -18,11 +18,32 @@ if os.name == 'nt':
     import win32api
     import ctypes
 
-DEBUG_MODE = settings.Get("global", "debug_mode", False)
-FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
-FRAMELESS = settings.Get("global", "frameless", True)
-WIDTH = settings.Get("global", "width", 1280)
-HEIGHT = settings.Get("global", "height", 720)
+# TODO: Implement get_int, get_float etc... so that this isn't necessary.
+
+fl = settings.Get("global", "frameless", True)
+dm = settings.Get("global", "debug_mode", False)
+fp = settings.Get("global", "frontend_port", 3005)
+w = settings.Get("global", "width", 1280)
+h = settings.Get("global", "height", 720)
+
+if fl is None: FRAMELESS = True
+else: FRAMELESS = bool(fl)
+
+if dm is None: DEBUG_MODE = False
+else: DEBUG_MODE = bool(dm)
+
+if fp is None: FRONTEND_PORT = 3005
+else: FRONTEND_PORT = int(fp)
+
+w = settings.Get("global", "width", 1280)
+h = settings.Get("global", "height", 720)
+
+if w is None: WIDTH = 1280
+else: WIDTH = int(w)
+
+if h is None: HEIGHT = 720
+else: HEIGHT = int(h)
+
 IS_TRANSPARENT = False
 
 queue:JoinableQueue = JoinableQueue()
@@ -109,7 +130,11 @@ def set_transparency(value: bool):
         if value:
             HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
             win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
+            
             transparency = settings.Get("global", "transparency_alpha", 0.8)
+            if transparency is None:
+                transparency = 0.8
+                
             transparency = int(transparency * 255)
             winxpgui.SetLayeredWindowAttributes(HWND, win32api.RGB(0,0,0), transparency, win32con.LWA_ALPHA)
         else:
@@ -178,8 +203,24 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             except:
                 pass
 
-    window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[0]
-    window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[1]
+    window_x = settings.Get("global", "window_position", (
+        get_screen_dimensions()[2] // 2 - WIDTH // 2, 
+        get_screen_dimensions()[3] // 2 - HEIGHT // 2
+    ))
+    
+    if window_x != None:
+        window_x = int(window_x[0])
+    
+    window_y = settings.Get("global", "window_position", (
+        get_screen_dimensions()[2] // 2 - WIDTH // 2, 
+        get_screen_dimensions()[3] // 2 - HEIGHT // 2
+    ))
+    
+    if window_y != None:
+        window_y = int(window_y[1])
+
+    if window_x is None or window_y is None:
+        return
 
     window_x, window_y = correct_window_position(window_x, window_y, WIDTH, HEIGHT)
 
@@ -204,7 +245,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
     
     webview.start(
         load_website, 
-        window,
+        window, # type: ignore
         private_mode=False, # Save cookies, local storage and cache
         debug=DEBUG_MODE, # Show developer tools
         storage_path=f"{variables.PATH}cache"
@@ -217,8 +258,8 @@ def check_for_size_change(settings):
     if width != WIDTH or height != HEIGHT:
         while not resize_window(width, height):
             pass
-        WIDTH = width
-        HEIGHT = height
+        WIDTH: int = width
+        HEIGHT: int = height
     
 settings.Listen("global", check_for_size_change)
 

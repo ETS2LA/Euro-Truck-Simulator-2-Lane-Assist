@@ -1,5 +1,7 @@
+# type: ignore
 """
-Input manager for other plugins. This plugin will handle all the inputs and provide a way for other plugins to use them.
+Input manager for other plugins. This plugin will handle all 
+the inputs and provide a way for other plugins to use them.
 
 ```python
 # Will register a keybind to the input manager. This is necessary to use the keybind.
@@ -33,7 +35,7 @@ import os
 KEYBOARD_GUID = 1
 KEYBINDS = []
 SETTINGS_FILENAME = "ETS2LA/controls.json"
-def RegisterKeybind(name:str, callback=None, notBoundInfo:str="", description:str="", axis:bool=False, defaultButtonIndex:int=-1, defaultAxisIndex:int=-1):
+def RegisterKeybind(name:str, callback=None, notBoundInfo:str="", description:str="", axis:bool=False, defaultButtonIndex = -1, defaultAxisIndex:int=-1):
     """Will register a keybind to the input manager. This is necessary to use the keybind.
 
     Args:

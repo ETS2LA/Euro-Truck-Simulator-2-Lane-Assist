@@ -16,7 +16,8 @@ import ETS2LA.Utils.settings as settings
 import os
 
 # Enables / Disables the fancy rich traceback
-USE_FANCY_TRACEBACK = settings.Get("global", "use_fancy_traceback", True)
+ft = settings.Get("global", "use_fancy_traceback", True)
+USE_FANCY_TRACEBACK = True if ft is None else bool(ft)
 
 def setup_global_logging() -> logging.Logger:
     """
@@ -68,7 +69,7 @@ def setup_global_logging() -> logging.Logger:
 # Disable rich formatting for tracebacks
 # when not using fancy output.
 class CustomHighligher(Highlighter):
-    def highlight(self, text):
+    def highlight(self, text): # type: ignore # Overrides method in Highlighter
         super().highlight(text)
         plain = text.plain
         try:

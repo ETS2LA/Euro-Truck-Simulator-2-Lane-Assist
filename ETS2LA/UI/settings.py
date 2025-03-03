@@ -8,7 +8,7 @@ class ETS2LASettingsMenu:
     :raises TypeError: You must have a 'render' method in your settings class.
     """
     dynamic: bool = False
-    settings: Settings = None
+    settings: Settings | None = None
     plugin_name: str = ""
     plugin: object = None
     
@@ -23,10 +23,10 @@ class ETS2LASettingsMenu:
         
     def build(self):
         if self.dynamic:
-            return self.render()
+            return self.render() # type: ignore # Might or might not exist.
         
         if self._json == {}:
-            self._json = self.render()
+            self._json = self.render() # type: ignore # Might or might not exist.
         
         return self._json
     
