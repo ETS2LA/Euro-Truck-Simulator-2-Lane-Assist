@@ -31,7 +31,7 @@ class Module(ETS2LAModule):
         global sct, mode, monitor, cam, cam_process, latest_windows_frame
         sct = mss.mss()
         mode = "grab"
-        monitor = sct.monitors[(display + 1)]
+        monitor = sct.monitors[(display + 1)] # type: ignore
         self.monitor_x1 = monitor["left"]
         self.monitor_y1 = monitor["top"]
         self.monitor_x2 = monitor["width"]
