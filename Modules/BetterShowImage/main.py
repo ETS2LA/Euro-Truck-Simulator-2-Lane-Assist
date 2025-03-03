@@ -4,6 +4,10 @@ import cv2
 if variables.OS == "nt":
     from ctypes import windll, byref, sizeof, c_int
     import win32con, win32gui
+else:
+    windll = None
+    win32con = None
+    win32gui = None
 
 WINDOWS = {}
 
@@ -36,6 +40,8 @@ def Initialize(Name="", TitleBarColor=(0, 0, 0), Normal=True, TopMost=True, Posi
 
 
 # MARK: CreateWindow()
+# TODO: Fix type safety. Right now it's not an issue
+#       but using type: ignore is not ideal.
 def CreateWindow(Name=""):
     """
     Creates the window. Not meant to be called manually!
@@ -64,16 +70,16 @@ def CreateWindow(Name=""):
     if WINDOWS[Name]["Size"][0] != None and WINDOWS[Name]["Size"][1] != None:
         cv2.resizeWindow(Name, WINDOWS[Name]["Size"][0], WINDOWS[Name]["Size"][1])
 
-    if variables.OS == "nt":
+    if variables.OS == "nt" and win32gui:
         HWND = win32gui.FindWindow(None, Name)
-        windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int((WINDOWS[Name]["TitleBarColor"][0] << 16) | (WINDOWS[Name]["TitleBarColor"][1] << 8) | WINDOWS[Name]["TitleBarColor"][2])), sizeof(c_int))
-        hicon = win32gui.LoadImage(None, variables.ICONPATH, win32con.IMAGE_ICON, 0, 0, win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE)
-        win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
-        win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
+        windll.dwmapi.DwmSetWindowAttribute(HWND, 35, byref(c_int((WINDOWS[Name]["TitleBarColor"][0] << 16) | (WINDOWS[Name]["TitleBarColor"][1] << 8) | WINDOWS[Name]["TitleBarColor"][2])), sizeof(c_int)) # type: ignore
+        hicon = win32gui.LoadImage(None, variables.ICONPATH, win32con.IMAGE_ICON, 0, 0, win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE) # type: ignore
+        win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
+        win32gui.SendMessage(HWND, win32con.WM_SETICON, win32con.ICON_BIG, hicon) # type: ignore
 
 
 # MARK: Show()
-def Show(Name="", Frame=None):
+def Show(Name = "", Frame = None):
     """
     Shows the frame in the window. The window must have been initialized using Initialize() first.
 
@@ -92,5 +98,6 @@ def Show(Name="", Frame=None):
         cv2.getWindowImageRect(Name)
     except:
         CreateWindow(Name)
-    cv2.imshow(Name, Frame)
+        
+    cv2.imshow(Name, Frame) # type: ignore - Frame doesn't have a type, but importing numpy is not necessary.
     cv2.waitKey(1)
