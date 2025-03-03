@@ -258,8 +258,8 @@ def check_for_size_change(settings):
     if width != WIDTH or height != HEIGHT:
         while not resize_window(width, height):
             pass
-        WIDTH: int = width
-        HEIGHT: int = height
+        WIDTH = width
+        HEIGHT = height
     
 settings.Listen("global", check_for_size_change)
 
