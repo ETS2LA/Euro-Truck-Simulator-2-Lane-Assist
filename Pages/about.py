@@ -77,7 +77,7 @@ class Page(ETS2LAPage):
                                 Label(f"{Translate('about.statistics.past_24h')} ")
                                 Description(Translate("about.statistics.past_24h_value", [str(GetUniqueUsers())]))
                             with Group("horizontal", gap=10, padding=0):
-                                Label(Translate("about.statistics.usage_time"))
+                                Label(f"{Translate('about.statistics.usage_time')} ")
                                 Description(self.seconds_to_time(GetUserTime()))
                             if token is None:
                                 Space(2)
