@@ -245,5 +245,8 @@ if __name__ == "__main__":
             # No exception was found in the queue
             pass
         
-# IGNORE: This comment is just used to trigger an update and clear the cache of the app for frontend changes.
-# Counter: 1
+# IGNORE: This comment is just used to trigger an update and clear 
+#         the cache of the app for frontend changes or other changes that
+#         don't necessarily have code changes.
+# 
+# Counter: 2
