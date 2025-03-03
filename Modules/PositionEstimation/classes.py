@@ -18,13 +18,15 @@ window_width = 0
 window_height = 0
 last_window_position = (0, 0, 0, 0, 0)
 fov = settings.Get("global", "FOV", 77)
+if not isinstance(fov, int):
+    fov = 77
 
 def UpdateFOV(settings): global fov ; fov = settings["FOV"]
 settings.Listen("global", UpdateFOV)
 
 # MARK: Helper functions
 def ConvertToAngle(x, y):
-    fov_rad = math.radians(fov)
+    fov_rad = math.radians(fov) # type: ignore
     # 4/3 because that's what ETS2 uses to calculate the FOV
     window_distance = (window_height * (4 / 3) / 2) / math.tan(fov_rad / 2)
     angle_x = math.atan2(x - window_width / 2, window_distance) * (180 / math.pi)
@@ -93,7 +95,7 @@ class HeadTranslation:
     def json(self):
         return {"x": self.x, "y": self.y, "z": self.z, "angle": self.angle, "rotation": self.rotation}
     
-    def fromJson(json):
+    def fromJson(self, json):
         return HeadTranslation(json["x"], json["y"], json["z"], json["angle"], json["rotation"])
 
 class ObjectDetection:
@@ -109,10 +111,10 @@ class ObjectDetection:
         self.height = height
     
     def json(self):
-        return {"x": self.x, "y": self.y, "width": self.width, "height": self.height, "state": self.state}
+        return {"x": self.x, "y": self.y, "width": self.width, "height": self.height}
     
-    def fromJson(json):
-        return ObjectDetection(json["x"], json["y"], json["width"], json["height"], json["state"])
+    def fromJson(self, json):
+        return ObjectDetection(json["x"], json["y"], json["width"], json["height"])
 
 class Position:
     x: float
@@ -130,18 +132,18 @@ class Position:
     def json(self):
         return {"x": self.x, "y": self.y, "z": self.z}
     
-    def fromJson(json):
+    def fromJson(self, json):
         return Position(json["x"], json["y"], json["z"])
 
 class ObjectTrack():
     id: str
-    _detection: ObjectDetection = None
-    _head_translation: HeadTranslation = None
+    _detection: ObjectDetection | None = None
+    _head_translation: HeadTranslation | None = None
     first_detection: ObjectDetection
     first_head_translation: HeadTranslation
     previous_detection: ObjectDetection
     previous_head_translation: HeadTranslation
-    position: Position = None
+    position: Position | None = None
     last_update_time: float = 0
     
     @property
@@ -149,7 +151,7 @@ class ObjectTrack():
         return self._detection
     
     @detection.setter
-    def detection(self, value):
+    def detection(self, value: ObjectDetection):
         if not self._detection:
             self._detection = value
         self.previous_detection = self._detection
@@ -160,7 +162,7 @@ class ObjectTrack():
         return self._head_translation
     
     @head_translation.setter
-    def head_translation(self, value):
+    def head_translation(self, value: HeadTranslation):
         if not self._head_translation:
             self._head_translation = value
         self.previous_head_translation = self._head_translation
@@ -186,6 +188,9 @@ class ObjectTrack():
         w = detection.width
         h = detection.height
 
+        if type(self.head_translation) == type(None):
+            return
+        
         angle_offset = self.first_head_translation.rotation - self.head_translation.rotation
         head_angle = self.head_translation.angle
         first_head_angle = self.first_head_translation.angle
@@ -236,7 +241,12 @@ class ObjectTrack():
             self.last_update_time = time.perf_counter()
         
     def json(self):
+        if self.detection is None:
+            return {"id": self.id, "detection": None}
+        
         return {"id": self.id, "detection": self.detection.json()}
     
-    def fromJson(json):
-        return ObjectTrack(json["id"], ObjectDetection.fromJson(json["detection"]))
+    def fromJson(self, json):
+        detection = ObjectDetection(0,0,0,0)
+        detection = detection.fromJson(json["detection"])
+        return ObjectTrack(json["id"], detection, HeadTranslation(0, 0, 0, 0, 0))
