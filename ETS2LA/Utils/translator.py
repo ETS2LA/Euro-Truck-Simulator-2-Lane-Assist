@@ -2,12 +2,9 @@ from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
 import hashlib
-import git.cmd
 import logging
 import yaml
 import ftfy
-import sys
-import git
 import os
 
 DATA_FOLDER = "Translations"
@@ -77,9 +74,11 @@ def CheckLanguageDatabase():
                     not_in_keys.append(key)
         
         if len(not_found) > 0:
-            logging.warning(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_found}")
+            if variables.DEVELOPMENT_MODE:
+                logging.warning(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_found}")
         if len(not_in_keys) > 0:
-            logging.warning(f"Found keys that are not in the keys.yaml file in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_in_keys}")
+            if variables.DEVELOPMENT_MODE:
+                logging.warning(f"Found keys that are not in the keys.yaml file in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_in_keys}")
 
 def GetCodeForLanguage(language: str) -> str:
     if language in LANGUAGES:

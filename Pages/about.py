@@ -82,7 +82,7 @@ class Page(ETS2LAPage):
                             if token is None:
                                 Space(2)
                                 Label(f"{Translate('about.statistics.not_logged_in')} ")
-                                Description(Translate("about.statistics.anonymous_user_id", [str(GetUniqueUsers())]))
+                                Description(Translate("about.statistics.anonymous_user_id", [str(user_id)]))
                             else:
                                 Space(2)
                                 Label(f"{Translate('about.statistics.logged_in')} ")
