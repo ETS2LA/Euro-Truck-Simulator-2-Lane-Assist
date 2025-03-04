@@ -89,6 +89,10 @@ def GetCredentials():
     global user_id, token
     if user_id is None:
         user_id = settings.Get("global", "user_id", str(uuid.uuid4()))
+        if user_id == None:
+            user_id = str(uuid.uuid4())
+            settings.Set("global", "user_id", user_id)
+            
         token = settings.Get("global", "token", None)
     
     return user_id, token, user_id is not None and token is not None
