@@ -36,12 +36,13 @@ def InitializeWindow():
     ctypes.windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, Margins)
     win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
 
-    SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
-    SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
-    SetWindowDisplayAffinity.restype = wintypes.BOOL
-    Success = SetWindowDisplayAffinity(HWND, 0x00000011)
-    if Success == 0:
-        print("Failed to hide AR window from screen capture.")
+    if variables.DEVELOPMENT_MODE == False:
+        SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
+        SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+        SetWindowDisplayAffinity.restype = wintypes.BOOL
+        Success = SetWindowDisplayAffinity(HWND, 0x00000011)
+        if Success == 0:
+            print("Failed to hide AR window from screen capture.")
 
 
 def Resize():
