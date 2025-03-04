@@ -141,7 +141,6 @@ def GetSteering():
             data.frames_off_path += 1
             if data.frames_off_path > 5:
                 logging.warning("Recalculating navigation plan as we have no points to drive on.")
-                logging.warning(f"Navigation plan: {data.navigation_plan}")
                 data.route_plan = []
                 data.update_navigation_plan = True
                 data.frames_off_path = 0
