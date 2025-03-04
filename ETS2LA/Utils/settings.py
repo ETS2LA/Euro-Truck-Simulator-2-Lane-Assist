@@ -29,14 +29,12 @@ def CreateIfNotExists(plugin):
     # Check if the file exists
     filename = GetFilename(plugin)
     os.makedirs(os.path.dirname(filename), exist_ok=True)
+    
     if not os.path.exists(filename):
         with open(filename, 'w') as f:
             json.dump({}, f, indent=4)
             return False
-    if open(filename, "r").read().replace("\n", "").strip() == "":
-        with open(filename, 'w') as f:
-            json.dump({}, f, indent=4)
-            return False
+    
     return True
 
 def WaitUntilLock(plugin):
@@ -48,10 +46,16 @@ def WaitUntilLock(plugin):
     
     # Wait until the lock file is removed
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
+    if not os.path.exists(filename):
+        CreateLock(plugin)
+        return
+    
     while True:
         time.sleep(random.uniform(0, 0.2))
         if not os.path.exists(filename):
             break
+    
+    CreateLock(plugin)
     
 def CreateLock(plugin):
     """Will create a lock file in the plugin folder.
@@ -62,7 +66,6 @@ def CreateLock(plugin):
     
     # Create the lock file
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
-        
     with open(filename, 'w') as f:
         f.write("lock")
         pass
@@ -169,10 +172,8 @@ def Set(plugin, key, value):
     Returns:
         any: The value of the key after setting it, None if failed.
     """
-    # Check that the file exists
-    WaitUntilLock(plugin)
-    CreateLock(plugin)
     
+    WaitUntilLock(plugin)
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
     try:
