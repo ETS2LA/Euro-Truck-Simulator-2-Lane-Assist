@@ -1,11 +1,17 @@
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Events.classes as classes
 import ETS2LA.variables as variables
+from typing import Literal
 import requests
 import logging
 import json
+import uuid
+import time
 
 URL = "https://api.ets2la.com"
+user_id = None
+token = None
+username = "unknown"
 
 def SendCrashReport(type:str, message:str, additional=None):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
@@ -64,10 +70,27 @@ def SendCrashReport(type:str, message:str, additional=None):
     else:
         print("Crash detected, but crash reporting is disabled.")
         return False
+    
+def GetUsername():
+    user_id, token, success = GetCredentials()
+    if success:
+        url = URL + f'/user/{user_id}'
+        headers = {
+            "Authorization": f"Bearer {token}"
+        }
+        try:
+            r = requests.get(url, headers=headers)
+            return r.json()["data"]["username"]
+        except Exception: pass
+        
+    return "unknown"    
 
 def GetCredentials():
-    user_id = settings.Get("global", "user_id", None)
-    token = settings.Get("global", "token", None)
+    global user_id, token
+    if user_id is None:
+        user_id = settings.Get("global", "user_id", str(uuid.uuid4()))
+        token = settings.Get("global", "token", None)
+    
     return user_id, token, user_id is not None and token is not None
 
 def StartedJob(job: classes.Job):
@@ -138,3 +161,40 @@ def CancelledJob(job: classes.CancelledJob):
         return r.json()["status"] == 200
     
     return False
+
+def Ping(data = [0]):
+    if time.time() - data[0] > 120: # once every 2 minutes
+        user_id, _, _ = GetCredentials()
+        
+        url = URL + f'/tracking/ping/{user_id}'
+        try:
+            requests.get(url)
+        except Exception: 
+            pass
+        
+        data[0] = time.time()
+        
+def GetUniqueUsers(time: Literal["1h", "6h", "12h", "24h", "1w", "1m"] = "24h"):
+    url = URL + '/tracking/users'
+    try:
+        r = requests.get(url)
+        return r.json()["data"]["unique"][time]
+    except:
+        return 0
+        
+def GetUserCount():
+    url = URL + '/tracking/users'
+    try:
+        r = requests.get(url)
+        return r.json()["data"]["online"]
+    except:
+        return 0
+    
+def GetUserTime():
+    user_id, _, _ = GetCredentials()
+    url = URL + f'/tracking/time/{user_id}'
+    try:
+        r = requests.get(url)
+        return r.json()["data"]["time_used"]
+    except:
+        return 0

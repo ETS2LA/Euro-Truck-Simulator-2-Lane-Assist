@@ -25,7 +25,7 @@ class Module(ETS2LAModule):
         pass # Load settings...
         
 
-    def InitializeWindow(windowName, img):
+    def InitializeWindow(self, windowName, img):
         cv2.namedWindow(windowName, cv2.WINDOW_NORMAL)
         cv2.setWindowProperty(windowName, cv2.WND_PROP_TOPMOST, 1)
         # Get the width and height
@@ -38,11 +38,11 @@ class Module(ETS2LAModule):
             hwnd = win32gui.FindWindow(None, windowName)
             windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
             icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-            hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags)
-            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)
-            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)
+            hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
+            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
+            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon) # type: ignore
 
-    def DestroyWindow(windowName):
+    def DestroyWindow(self, windowName):
         try:
             cv2.destroyWindow(windowName)
         except:

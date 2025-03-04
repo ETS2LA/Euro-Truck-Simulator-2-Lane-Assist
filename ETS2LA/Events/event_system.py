@@ -3,11 +3,13 @@ import time
 
 if not __name__ == '__main__':
     class EventSystem:
-        queue: Queue = None
+        queue: Queue
         plugin_object = None
         
         def __init__(self, plugin_object=None, queue=None):
             self.plugin_object = plugin_object
+            if queue is None:
+                queue = Queue()
             self.queue = queue
             self.listeners = {}
 
@@ -50,7 +52,7 @@ if not __name__ == '__main__':
                 del kwargs["queue"]
                 
             if self.plugin_object != None:
-                args.insert(0, self.plugin_object)
+                args.insert(0, self.plugin_object) # type: ignore
             
             if event_name in self.listeners:
                 for listener in self.listeners[event_name]:

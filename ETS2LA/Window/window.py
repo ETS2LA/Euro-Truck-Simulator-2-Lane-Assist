@@ -1,4 +1,4 @@
-from ETS2LA.Window.utils import ColorTitleBar, CheckIfWindowStillOpen, get_screen_dimensions, check_valid_window_position, get_theme, window_position
+from ETS2LA.Window.utils import color_title_bar, check_if_window_still_open, get_screen_dimensions, correct_window_position, get_theme_color, window_position
 from ETS2LA.Utils.translator import Translate
 from multiprocessing import JoinableQueue
 import ETS2LA.Utils.settings as settings
@@ -18,11 +18,32 @@ if os.name == 'nt':
     import win32api
     import ctypes
 
-DEBUG_MODE = settings.Get("global", "debug_mode", False)
-FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
-FRAMELESS = settings.Get("global", "frameless", True)
-WIDTH = settings.Get("global", "width", 1280)
-HEIGHT = settings.Get("global", "height", 720)
+# TODO: Implement get_int, get_float etc... so that this isn't necessary.
+
+fl = settings.Get("global", "frameless", True)
+dm = settings.Get("global", "debug_mode", False)
+fp = settings.Get("global", "frontend_port", 3005)
+w = settings.Get("global", "width", 1280)
+h = settings.Get("global", "height", 720)
+
+if fl is None: FRAMELESS = True
+else: FRAMELESS = bool(fl)
+
+if dm is None: DEBUG_MODE = False
+else: DEBUG_MODE = bool(dm)
+
+if fp is None: FRONTEND_PORT = 3005
+else: FRONTEND_PORT = int(fp)
+
+w = settings.Get("global", "width", 1280)
+h = settings.Get("global", "height", 720)
+
+if w is None: WIDTH = 1280
+else: WIDTH = int(w)
+
+if h is None: HEIGHT = 720
+else: HEIGHT = int(h)
+
 IS_TRANSPARENT = False
 
 queue:JoinableQueue = JoinableQueue()
@@ -88,7 +109,7 @@ def set_resizable(value: bool):
         HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
         style = win32gui.GetWindowLong(HWND, win32con.GWL_STYLE)
         
-        ColorTitleBar()
+        color_title_bar()
         
         if value:
             new_style = style | win32con.WS_THICKFRAME
@@ -109,7 +130,11 @@ def set_transparency(value: bool):
         if value:
             HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
             win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
+            
             transparency = settings.Get("global", "transparency_alpha", 0.8)
+            if transparency is None:
+                transparency = 0.8
+                
             transparency = int(transparency * 255)
             winxpgui.SetLayeredWindowAttributes(HWND, win32api.RGB(0,0,0), transparency, win32con.LWA_ALPHA)
         else:
@@ -178,10 +203,26 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             except:
                 pass
 
-    window_x = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[0]
-    window_y = settings.Get("global", "window_position", (get_screen_dimensions()[2]//2 - WIDTH//2, get_screen_dimensions()[3]//2 - HEIGHT//2))[1]
+    window_x = settings.Get("global", "window_position", (
+        get_screen_dimensions()[2] // 2 - WIDTH // 2, 
+        get_screen_dimensions()[3] // 2 - HEIGHT // 2
+    ))
+    
+    if window_x != None:
+        window_x = int(window_x[0])
+    
+    window_y = settings.Get("global", "window_position", (
+        get_screen_dimensions()[2] // 2 - WIDTH // 2, 
+        get_screen_dimensions()[3] // 2 - HEIGHT // 2
+    ))
+    
+    if window_y != None:
+        window_y = int(window_y[1])
 
-    window_x, window_y = check_valid_window_position(window_x, window_y, WIDTH, HEIGHT)
+    if window_x is None or window_y is None:
+        return
+
+    window_x, window_y = correct_window_position(window_x, window_y, WIDTH, HEIGHT)
 
     window = webview.create_window(
         f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', 
@@ -190,7 +231,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
         y = window_y,
         width=WIDTH+20, 
         height=HEIGHT+40,
-        background_color=get_theme(),
+        background_color=get_theme_color(),
         resizable=True, 
         zoomable=True,
         confirm_close=True, 
@@ -204,7 +245,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
     
     webview.start(
         load_website, 
-        window,
+        window, # type: ignore
         private_mode=False, # Save cookies, local storage and cache
         debug=DEBUG_MODE, # Show developer tools
         storage_path=f"{variables.PATH}cache"
@@ -230,7 +271,7 @@ def run():
     p = multiprocessing.Process(target=start_webpage, args=(queue, variables.LOCAL_MODE, ), daemon=True)
     p.start()
     if os.name == 'nt':
-        ColorTitleBar()
+        color_title_bar()
         if variables.NO_CONSOLE:
             from ETS2LA.Utils.Console import visibility
             visibility.HideConsole()

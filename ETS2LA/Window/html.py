@@ -4,7 +4,7 @@ html = """
 <html>
     <style>
         body {
-            background-color: get_theme();
+            background-color: get_theme_color();
             text-align: center;
             display: flex;
             justify-content: center;
@@ -47,7 +47,7 @@ html = """
 <html>
     <style>
         body {
-            background-color: get_theme();
+            background-color: get_theme_color();
             text-align: center;
             display: flex;
             justify-content: center;

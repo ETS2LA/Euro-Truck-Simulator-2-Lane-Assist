@@ -45,8 +45,10 @@ class Page(ETS2LAPage):
                         Description(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", size="xs")
                     process_mem, per_type = self.get_all_python_process_mem_usage_percent()
                     tooltip_text = f"```\n┏ Python: {round(per_type[0] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
-                    for key, value in self.get_all_plugin_mem_usage_percent().items():
-                        tooltip_text += f"┃  {key}: {round(value * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+                    try:
+                        for key, value in self.get_all_plugin_mem_usage_percent().items():
+                            tooltip_text += f"┃  {key}: {round(value * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+                    except: pass
                     tooltip_text += "┃\n"
                     tooltip_text += f"┣ Node: {round(per_type[1] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
                     tooltip_text += "┃\n"

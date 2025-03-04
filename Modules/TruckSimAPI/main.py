@@ -10,7 +10,7 @@ class Module(ETS2LAModule):
     lastY: float
     isConnected: bool
     API: scsTelemetry
-    VIRTUAL_API: scsTelemetry
+    VIRTUAL_API: scsTelemetry | virtualTelemetry
     TRAILER: bool
     CHECK_EVENTS: bool
     wasOnJob: bool

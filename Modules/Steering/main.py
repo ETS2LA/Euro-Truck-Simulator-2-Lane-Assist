@@ -64,7 +64,7 @@ class Module(ETS2LAModule):
             API = None
             logging.warning("TruckSimAPI module not available, please add it to the plugin description.")
 
-    def get_text_size(text="NONE", width=100, height=100, text_width=100, max_text_height=100):
+    def get_text_size(self, text = "NONE", width=100, height=100, text_width=100, max_text_height=100):
         fontscale = 1
         textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
         width_current_text, height_current_text = textsize
@@ -113,15 +113,15 @@ class Module(ETS2LAModule):
         
         if drawText:
             # Draw the current value as text at the end of the green line
-            text, fontscale, thickness, text_width, text_height = self.get_text_size(f"{actualSteering:.2f}", width=w, height=h, text_width=w, max_text_height=h/20)
+            text, fontscale, thickness, text_width, text_height = self.get_text_size(f"{actualSteering:.2f}", width=w, height=h, text_width=w, max_text_height=round(h/20))
             cv2.putText(output_img, f"{text}", (int(w/2 + actualSteering * (w/2 - w/divider) - text_width/2), int(h - h/10 - text_height * 0.7)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 178, 70), thickness, cv2.LINE_AA)
             # Draw the desired value as text at the end of the red line
-            text, fontscale, thickness, text_width, text_height = self.get_text_size(f"{currentDesired:.2f}", width=w, height=h, text_width=w, max_text_height=h/20)
+            text, fontscale, thickness, text_width, text_height = self.get_text_size(f"{currentDesired:.2f}", width=w, height=h, text_width=w, max_text_height=round(h/20))
             cv2.putText(output_img, f"{text}", (int(w/2 + (currentDesired if abs(currentDesired) < 1 else (1 if currentDesired > 0 else -1)) * (w/2 - w/divider) - text_width/2), int(h - h/10 + text_height * 1.7)), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (0, 70, 178), thickness, cv2.LINE_AA)
 
         ShowImage.overlays["SteeringLine"] = output_img
 
-    def run(self, value:float = None, sendToGame:bool = True, drawLine:bool = True, drawText:bool = True):
+    def run(self, value: float | None = None, sendToGame:bool = True, drawLine:bool = True, drawText:bool = True):
         global SDK
         # Add the newest value to the list
         if value is not None:

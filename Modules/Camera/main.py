@@ -17,6 +17,9 @@ class Module(ETS2LAModule):
             time.sleep(0.1)
     
     def get_camera_properties(self):
+        if self.buf is None:
+            return None
+        
         try:
             format = "=ffffhhffff" # fov, x, y, z, cx, cz, qw, qx, qy, qz
             data = struct.unpack(format, self.buf[:36])

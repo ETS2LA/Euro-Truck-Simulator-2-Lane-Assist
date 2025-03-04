@@ -221,11 +221,11 @@ def Listen(plugin, callback):
                 try:
                     callback(settings)
                 except:
-                    logging.warning("Callback function doesn't accept the JSON data as an argument.")
+                    logging.warning(f"Callback function {callback.__name__} doesn't accept the JSON data as an argument.")
                     try:
                         callback()
                     except:
-                        logging.error("Callback function call unsuccessful.")
+                        logging.exception("Callback function call unsuccessful.")
                 
     import threading
     t = threading.Thread(target=listen, args=(GetFilename(plugin), callback))

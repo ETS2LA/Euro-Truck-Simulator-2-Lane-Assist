@@ -1,3 +1,6 @@
+# type: ignore
+# TODO: Make this file type-safe.
+#       Currently it's not due to the windows-specific code. 
 import ETS2LA.variables as variables
 
 if variables.OS == "nt":

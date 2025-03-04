@@ -1,4 +1,6 @@
 import math
+# TODO: Switch __dict__ to __iter__ and dict() for typing support.
+# TODO: f = Class() -> dict(f) instead of f.__dict__()
 
 class Position():
     x: float
@@ -51,7 +53,7 @@ class Quaternion():
         x, y, z = self.euler()
         return f"Quaternion({self.w:.2f}, {self.x:.2f}, {self.y:.2f}, {self.z:.2f}) -> (pitch {x:.2f}, yaw {y:.2f}, roll {z:.2f})"
     
-    def __dict__(self):
+    def __dict__(self): # type: ignore
         euler = self.euler()
         return {
             "w": self.w,
@@ -92,7 +94,7 @@ class Trailer:
     def __str__(self):
         return f"Trailer({self.position}, {self.rotation}, {self.size})"
     
-    def __dict__(self):
+    def __dict__(self): # type: ignore
         return {
             "position": self.position.__dict__,
             "rotation": self.rotation.__dict__(),
@@ -125,7 +127,7 @@ class Vehicle:
     def __str__(self):
         return f"Vehicle({self.position}, {self.rotation}, {self.size}, {self.speed:.2f}, {self.acceleration:.2f}, {self.trailer_count}, {self.trailers})"
 
-    def __dict__(self):
+    def __dict__(self): # type: ignore
         return {
             "position": self.position.__dict__,
             "rotation": self.rotation.__dict__(),

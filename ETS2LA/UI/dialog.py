@@ -26,8 +26,8 @@ class ETS2LADialog():
             raise TypeError("Your page has to have a 'render' method.")
         self._json = {}
         
-    def build(self):
+    def build(self) -> dict:
         if self._json == {}:
-            self._json = self.render()
+            self._json = self.render() # type: ignore
         
         return self._json

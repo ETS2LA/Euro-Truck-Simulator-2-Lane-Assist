@@ -29,6 +29,9 @@ RESTART = False
 MINIMIZE = False
 """Whether the application should minimize or not. Used to trigger the minimize from code that is not the main thread."""
 
+UPDATE = False
+"""Whether the application should trigger an update or not. Used to trigger the update from code that is not the main thread."""
+
 CONSOLEHWND = None
 """The handle of the console window. The console.py will set the handle when hiding the console is enabled."""
 

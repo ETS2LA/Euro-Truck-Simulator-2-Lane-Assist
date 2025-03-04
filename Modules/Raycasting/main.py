@@ -13,7 +13,7 @@ class RaycastResponse:
     def json(self):
         return {"point": self.point, "distance": self.distance, "relativePoint": self.relativePoint}
 
-    def fromJson(json):
+    def fromJson(self, json):
         return RaycastResponse(json["point"], json["distance"], json["relativePoint"])
 
 class Module(ETS2LAModule):
@@ -282,7 +282,12 @@ class Module(ETS2LAModule):
             return RaycastResponse((truck_x, truck_y, truck_z), 0, (0, 0, 0))
         if x is None and y is None:
             x, y = mouse.get_position()
-        x, y, z = self.RaycastToPlane(x, y, truck_y)
+            
+        position = self.RaycastToPlane(x, y, truck_y) # type: ignore - x and y should be known here.
+        if position is None:
+            return RaycastResponse((truck_x, truck_y, truck_z), 0, (0, 0, 0))
+        
+        x, y, z = position
         distance = math.sqrt((x - truck_x) ** 2 + (y - truck_y) ** 2 + (z - truck_z) ** 2)
         relative_x = x - truck_x
         relative_y = y - truck_y

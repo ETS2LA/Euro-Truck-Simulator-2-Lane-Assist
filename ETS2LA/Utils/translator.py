@@ -81,12 +81,12 @@ def CheckLanguageDatabase():
         if len(not_in_keys) > 0:
             logging.warning(f"Found keys that are not in the keys.yaml file in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_in_keys}")
 
-def GetCodeForLanguage(language: str):
+def GetCodeForLanguage(language: str) -> str:
     if language in LANGUAGES:
         return LANGUAGE_CODES[LANGUAGES.index(language)]
     else:
         logging.error(f"{language} is not a valid language.")
-        return None
+        return ""
     
 def GetLanguageForCode(code: str):
     if code in LANGUAGE_CODES:
@@ -101,17 +101,17 @@ def CheckKey(key: str):
     else:
         return False
     
-def SpecialCases(key: str):
+def SpecialCases(key: str | None) -> str:
     if key in LANGUAGE_DATA[LANGUAGE]["Language"]:
         return LANGUAGE_DATA[LANGUAGE]["Language"][key]
-    return None
+    return ""
 
-def TranslateToLanguage(key: str, language: str, values: list = None) -> str:
+def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # type: ignore
     if not CheckKey(key):
         logging.error(f"{key} is not a valid key.")
         return ""
     
-    if SpecialCases(key) is not None:
+    if SpecialCases(key) != "":
         return SpecialCases(key)
     
     if values is None:
@@ -132,12 +132,12 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str:
     
     return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
-def Translate(key: str, values: list = None) -> str:
+def Translate(key: str, values: list = None) -> str: # type: ignore
     if not CheckKey(key):
         logging.error(f"{key} is not a valid key.")
         return ""
     
-    if SpecialCases(key) is not None:
+    if SpecialCases(key) != "":
         return SpecialCases(key)
     
     if values is None:

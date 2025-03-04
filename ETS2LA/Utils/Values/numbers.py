@@ -1,3 +1,5 @@
+# type: ignore
+# TODO: Make this file type-safe.
 from typing import List, Literal, Tuple
 import time
 

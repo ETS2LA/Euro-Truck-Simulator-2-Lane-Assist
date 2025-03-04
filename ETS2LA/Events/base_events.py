@@ -11,13 +11,14 @@ import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Networking.cloud as cloud
 import ETS2LA.Handlers.sounds as sounds
 import Modules.TruckSimAPI.main as API
+from typing import Any
 import threading
 import logging
 import time
 
 import ETS2LA.Utils.settings as settings
 
-API = API.Module("global")
+API = API.Module("global") # type: ignore # This is a hack but it works.
 API.CHECK_EVENTS = True # DO NOT DO THIS ANYWHERE ELSE!!! PLEASE USE THE EVENTS SYSTEM INSTEAD!!!
 api_callbacks = []
 log_callbacks = []
@@ -38,7 +39,7 @@ class ToggleSteering():
             self.last_toggle = time.perf_counter()
             self.steering = not self.steering
             sounds.Play('start' if self.steering else 'end')
-            plugins.call_event('ToggleSteering', self.steering, {})
+            plugins.call_event('ToggleSteering', [self.steering], {})
             logging.info("Triggered event: ToggleSteering")
         except:
             logging.exception("Error in ToggleSteering")
@@ -47,7 +48,7 @@ class ToggleSteering():
         ... # This is a placeholder for the actual code that will be added later
                 
     def __init__(self):
-        controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n")
+        controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n") # type: ignore
         api_callbacks.append(self.CheckForUserInput)
         
 last_started_job = None # This is used to fill out the data for the Job events
@@ -56,12 +57,12 @@ class JobStarted():
         global last_started_job
         job = Job()
         job.fromAPIData(data)
-        plugins.call_event('JobStarted', job, {})
+        plugins.call_event('JobStarted', [job], {})
         logging.info("Triggered event: JobStarted")
         cloud.StartedJob(job)
         last_started_job = job
     def __init__(self):
-        API.listen('jobStarted', self.JobStarted)
+        API.listen('jobStarted', self.JobStarted) # type: ignore
         
 class JobFinished():
     def JobFinished(self, data):
@@ -92,21 +93,21 @@ class JobFinished():
                                 with Group("horizontal"):
                                     with Group("vertical"):
                                         Label("Unit mass")
-                                        Description(round(job.unit_mass))
+                                        Description(str(round(job.unit_mass)))
                                     with Group("vertical"):
                                         Label("Unit count")
-                                        Description(round(job.unit_count))
+                                        Description(str(round(job.unit_count)))
                                 with Group("horizontal"):
                                     with Group("vertical"):
                                         Label("Starting time")
-                                        Description(round(job.starting_time))
+                                        Description(str(round(job.starting_time)))
                                     with Group("vertical"):
                                         Label("Finished time")
-                                        Description(round(job.finished_time))
+                                        Description(str(round(job.finished_time)))
                                 with Group("horizontal"):
                                     with Group("vertical"):
                                         Label("Delivery time")
-                                        Description(round(job.delivered_delivery_time))
+                                        Description(str(round(job.delivered_delivery_time)))
                                     with Group("vertical"):
                                         Label("Autoload used")
                                         Description(str(job.delivered_autoload_used))
@@ -148,69 +149,55 @@ class JobFinished():
                                             Description(str(round(job.delivered_distance_km / ((job.finished_time - job.starting_time) / 60), 1)) + " km/h")
                             
                 return RenderUI()
-        plugins.call_event('JobFinished', job, {})
+        plugins.call_event('JobFinished', [job], {})
         logging.info("Triggered event: JobFinished")
         cloud.FinishedJob(job)
         dialog(CargoDialog().build())
     def __init__(self):
-        API.listen('jobFinished', self.JobFinished)
+        API.listen('jobFinished', self.JobFinished) # type: ignore
         
 class JobDelivered():
     def JobDelivered(self, data):
         job = FinishedJob()
         job.fromAPIData(data)
-        plugins.call_event('JobDelivered', job, {})
+        plugins.call_event('JobDelivered', [job], {})
         logging.info("Triggered event: JobDelivered")
     def __init__(self):
-        API.listen('jobDelivered', self.JobDelivered)
+        API.listen('jobDelivered', self.JobDelivered) # type: ignore
         
 class JobCancelled():
     def JobCancelled(self, data):
         job = CancelledJob()
         job.fromAPIData(data)
-        plugins.call_event('JobCancelled', job, {})
+        plugins.call_event('JobCancelled', [job], {})
         logging.info("Triggered event: JobCancelled")
         cloud.CancelledJob(job)
     def __init__(self):
-        API.listen('jobCancelled', self.JobCancelled)
+        API.listen('jobCancelled', self.JobCancelled) # type: ignore
         
 class RefuelStarted():
     def RefuelStarted(self, data):
         refuel = Refuel()
         refuel.fromAPIData(data)
-        plugins.call_event('RefuelStarted', refuel, {})
+        plugins.call_event('RefuelStarted', [refuel], {})
         logging.info("Triggered event: RefuelStarted")
     def __init__(self):
-        API.listen('refuelStarted', self.RefuelStarted)
+        API.listen('refuelStarted', self.RefuelStarted) # type: ignore
         
 class RefuelPayed():
     def RefuelPayed(self, data):
         refuel = Refuel()
         refuel.fromAPIData(data)
-        plugins.call_event('RefuelPayed', refuel, {})
+        plugins.call_event('RefuelPayed', [refuel], {})
         logging.info("Triggered event: RefuelPayed")
     def __init__(self):
-        API.listen('refuelPayed', self.RefuelPayed)
+        API.listen('refuelPayed', self.RefuelPayed) # type: ignore
 
 class VehicleChange():
     lastLicensePlate = ""
     def VehicleChange(self, data):
         plugins.call_event('VehicleChange', data["configString"]["truckLicensePlate"], {})
         logging.info("Triggered event: VehicleChange")
-        
-        # class FOVDialog(ETS2LADialog):
-        #     def render(self):
-        #         with Form():
-        #             Title("events.vehicle_change.vehicle_change")
-        #             Description("events.vehicle_change.vehicle_change_description")
-        #             Input("events.vehicle_change.vehicle_change", "fov", "number", default=settings.Get("global", "FOV", 77))
-        #         return RenderUI()
-        # 
-        # # Try to get new FOV value from user
-        # return_data = dialog(FOVDialog().build())
-        # if return_data is not None and "fov" in return_data:
-        #     settings.Set("global", "FOV", int(return_data["fov"]))
-        #     logging.info("New FOV value set to: " + str(return_data))
         
     def ApiCallback(self, data):
         if data["configString"]["truckLicensePlate"] != self.lastLicensePlate:
@@ -231,7 +218,7 @@ class GameShutdown():
                 end_found = True
         
         if end_found and not start_found:
-            plugins.call_event('GameShutdown', None, {})
+            plugins.call_event('GameShutdown', [None], {})
             logging.info("Triggered event: GameShutdown")
             SendPopup("Detected game shutdown", "info")
             return
@@ -250,7 +237,7 @@ class GameStart():
                 end_found = True
                 
         if start_found and not end_found:
-            plugins.call_event('GameStart', None, {})
+            plugins.call_event('GameStart', [None], {})
             logging.info("Triggered event: GameStart")
             SendPopup("Detected game start", "info")
     
@@ -262,13 +249,13 @@ class DetectCrackedGame():
         identifier = "0000007E"
         for line in lines:
             if identifier in line:
-                plugins.call_event('DetectCrackedGame', None, {})
+                plugins.call_event('DetectCrackedGame', [None], {})
                 logging.info("Triggered event: DetectCrackedGame")
                 class CrackedDialog(ETS2LADialog):
                     def render(self):
                         with Form():
                             Title("Detected Cracked Game")
-                            Description("ETS2LA will not work on cracked games (or DLCs). Please purchase the game on steam. This is due to a limitation in the way the cracked games are made. We can't do anything about it.")
+                            Description("ETS2LA will not work on cracked games (or DLCs). Please purchase the game on steam. This is due to a limitation in the way the cracked games are made. We can't do anything about it.\n\nPlease note that there can be false positives from broken mods or plugins. We don't implement software locks, if the app works then you can ignore this message.")
                             Space(8)
                             
                         return RenderUI()
@@ -296,7 +283,7 @@ class DetourGenerated():
 # Start monitoring
 def ApiThread():
     while True:
-        data = API.run()
+        data = API.run() # type: ignore
         for callback in api_callbacks:
             try:
                 callback(data)

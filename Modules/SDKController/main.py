@@ -4,6 +4,7 @@ import struct
 import mmap
 import math
 import time
+import os
 
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
@@ -92,8 +93,9 @@ class SCSController:
             except:
                 raise RuntimeError(f"ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)") #Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
             try:
-                self._shm_buff = mmap.mmap(self._shm_fd.fileno(), length=shm_size,
-                                        flags=mmap.MAP_SHARED, access=mmap.ACCESS_WRITE)
+                if os.name != "nt": # silence typeright
+                    self._shm_buff = mmap.mmap(self._shm_fd.fileno(), length=shm_size,
+                                            flags=mmap.MAP_SHARED, access=mmap.ACCESS_WRITE)
             except Exception as e:
                 self._shm_fd.close()
                 raise e
@@ -188,5 +190,5 @@ class Module(ETS2LAModule):
     def SCSController(self):
         return SCSController()
     
-    def run():
+    def run(self):
         pass

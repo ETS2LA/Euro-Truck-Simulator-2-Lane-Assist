@@ -71,6 +71,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
         repo = git.Repo(folder)
     except:
         download_time = settings.Get("global", f"{folder}_downloaded", 0)
+        download_time = 0 if download_time is None else float(download_time)
         try:
             if time.time() - download_time > 86400: # = 1 day
                 print(f"{GREEN} -- Please wait, we need to redownload the following submodule: {YELLOW} {folder} {GREEN} -- {END}") 

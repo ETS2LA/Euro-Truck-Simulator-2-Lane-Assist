@@ -1,3 +1,4 @@
+# TODO: This file is garbage. Rewrite it completely.
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.variables import PATH
@@ -34,18 +35,26 @@ for i in range(len(SOUNDPACKS)):
 
 SOUNDPACKS = temp        
 SELECTED_SOUNDPACK = settings.Get("global", "soundpack", "default")
+SELECTED_SOUNDPACK = "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(SELECTED_SOUNDPACK)
+
 VOLUME = settings.Get("global", "volume", 50)
+VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
         
 pygame.init()
 
 def UpdateSettings(settings: dict):
     global SELECTED_SOUNDPACK, VOLUME
     SELECTED_SOUNDPACK = settings["soundpack"]
-    VOLUME = settings["volume"] / 100
+    SELECTED_SOUNDPACK = "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(SELECTED_SOUNDPACK)
+    VOLUME = settings["volume"]
+    VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
     
 settings.Listen("global", UpdateSettings)
 
 def GetFilenameForSound(sound: str):
+    if SELECTED_SOUNDPACK is None:
+        return None
+    
     sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)
     for pack_sound in sounds:
         if sound in pack_sound:
@@ -58,7 +67,7 @@ def Play(sound: str):
     if filename is None: return False
     
     try:
-        pygame.mixer.music.set_volume(VOLUME)
+        pygame.mixer.music.set_volume(VOLUME) # type: ignore
         pygame.mixer.music.load(filename)
         pygame.mixer.music.play()
     except pygame.error as e:

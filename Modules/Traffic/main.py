@@ -41,6 +41,9 @@ class Module(ETS2LAModule):
         return Vehicle(position, rotation, size, speed, acceleration, trailer_count, id, trailers)
     
     def get_traffic(self):
+        if self.buf is None:
+            return None
+        
         try:
             data = struct.unpack(self.total_format, self.buf[:2640])
             vehicles = []
