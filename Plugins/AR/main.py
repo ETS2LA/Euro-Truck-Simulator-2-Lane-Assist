@@ -4,10 +4,21 @@ from ETS2LA.UI import *
 from Plugins.AR.classes import *
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 
+# ETS2LA imports
+import ETS2LA.Utils.settings as settings
+
+
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
 DRAWLIST = []
 TELEMETRY_FPS = SmoothedValue("time", 1)
+
+VISION_COMPAT = settings.Get("AR", "vision_compat", True)
+
+def LoadSettings(data: dict):
+    global VISION_COMPAT
+    VISION_COMPAT = data.get("vision_compat", True)
+
 
 def InitializeWindow():
     global regular_font
@@ -36,14 +47,7 @@ def InitializeWindow():
     ctypes.windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, Margins)
     win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
 
-    if variables.DEVELOPMENT_MODE == False:
-        SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
-        SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
-        SetWindowDisplayAffinity.restype = wintypes.BOOL
-        Success = SetWindowDisplayAffinity(HWND, 0x00000011)
-        if Success == 0:
-            print("Failed to hide AR window from screen capture.")
-
+    
 
 def Resize():
     dpg.set_viewport_pos([WindowPosition[0], WindowPosition[1]])
@@ -143,6 +147,15 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
     return ScreenX, ScreenY, Distance
 
 
+class Settings(ETS2LASettingsMenu):
+    plugin_name = "AR"
+    dynamic = False
+
+
+    def render(self):
+        Switch("Vision Compatible", "vision_compat", True, description="Hide the AR from the screen capture so plugins which rely on vision can be used with AR. (Notice: This will make the AR invisible in any screen capture app! (e.g. OBS, Discord, etc.) )")
+        return RenderUI()
+
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
         name="AR",
@@ -162,10 +175,13 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )]
 
+    settings_menu = Settings()
+
     fps_cap = 1000
     camera = None
     last_camera_timestamp = 0
     LastTimeStamp = 0
+
 
     def imports(self):
         global SCSTelemetry, ScreenCapture, settings, variables, dpg, wintypes, win32con, win32gui, ctypes, math, time
@@ -198,8 +214,13 @@ class Plugin(ETS2LAPlugin):
             print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!{NORMAL}\n")
             self.notify("Please set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!")
             FOV = 75
+        
+        settings.Listen("AR", LoadSettings)
 
         InitializeWindow()
+        
+        
+
 
     def Render(self, items=[]):
         global FRAME
@@ -328,6 +349,21 @@ class Plugin(ETS2LAPlugin):
         global CabinOffsetRotationDegreesZ
 
         APIDATA = TruckSimAPI.update()
+
+        HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
+        if VISION_COMPAT:
+            SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
+            SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+            SetWindowDisplayAffinity.restype = wintypes.BOOL
+            Success = SetWindowDisplayAffinity(HWND, 0x00000011)
+            if Success == 0:
+                print("Failed to hide AR window from screen capture.")
+        if not VISION_COMPAT:
+            SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
+            SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+            SetWindowDisplayAffinity.restype = wintypes.BOOL
+            Success = SetWindowDisplayAffinity(HWND, 0x00000000)
+
         
         if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
             time.sleep(0.1)
