@@ -131,7 +131,7 @@ class Plugin(ETS2LAPlugin):
         if not state:
             return # release event
         
-        data.enabled = not state
+        data.enabled = not data.enabled
         Play("start" if data.enabled else "end")
         self.globals.tags.status = {"Map": data.enabled}
         
