@@ -307,15 +307,15 @@ def get_plugin_settings(plugin: str):
 
 @app.post("/api/controls/{control}/change")
 def change_control(control: str):
-    mainThreadQueue.append([controls.ChangeKeybind, [control], {}])
-    while [controls.ChangeKeybind, [control], {}] in mainThreadQueue:
+    mainThreadQueue.append([controls.edit_event, [control], {}])
+    while [controls.edit_event, [control], {}] in mainThreadQueue:
         pass
     return {"status": "ok"}
 
 @app.post("/api/controls/{control}/unbind")
 def unbind_control(control: str):
-    mainThreadQueue.append([controls.UnbindKeybind, [control], {}])
-    while [controls.UnbindKeybind, [control], {}] in mainThreadQueue:
+    mainThreadQueue.append([controls.unbind_event, [control], {}])
+    while [controls.unbind_event, [control], {}] in mainThreadQueue:
         pass
     return {"status": "ok"}
 

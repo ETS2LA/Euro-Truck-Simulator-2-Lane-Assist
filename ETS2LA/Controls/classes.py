@@ -44,7 +44,7 @@ class ControlEvent():
     """
 
     def __init__(self, alias: str, name: str, type: Literal["button", "axis"], 
-                 description: str = "", default: str = "", update_rate: float = 0.1):
+                 description: str = "", default: str = ""):
         """
         Create a new ControlEvent.
         
@@ -53,14 +53,12 @@ class ControlEvent():
         :param Literal["button", "axis"] type: The type of the control event.
         :param str description: The description of the control event.
         :param str default: The default keyboard key for the control event.
-        :param float update_rate: The rate in seconds at which the backend will send the control data to this plugin.
         """
         self.alias = alias
         self.name = name
         self.type = type
         self.description = description
         self.default = default
-        self.update_rate = update_rate
         
     def update(self, state: Any) -> None:
         """
@@ -71,7 +69,10 @@ class ControlEvent():
         self.__state = state
         
         if self.__last_state != self.__state:
-            Events.events.emit(self.alias, state, queue=False)
+            if self.type == "button":
+                Events.events.emit(self.alias, self.pressed(), queue=False)
+            elif self.type == "axis":
+                Events.events.emit(self.alias, self.value(), queue=False)
 
         
     def pressed(self) -> Any:
@@ -81,7 +82,11 @@ class ControlEvent():
         """
         if not self.type == "button":
             raise ValueError("This control event is not a button type.")
-        return self.__state
+        
+        if self.__state is None:
+            return False
+        
+        return bool(self.__state)
 
     
     def value(self) -> Any:
@@ -91,4 +96,8 @@ class ControlEvent():
         """
         if not self.type == "axis":
             raise ValueError("This control event is not an axis type.")
+        
+        if self.__state is None:
+            return 0.0
+        
         return self.__state

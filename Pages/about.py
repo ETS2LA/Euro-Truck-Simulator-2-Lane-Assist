@@ -93,7 +93,7 @@ class Page(ETS2LAPage):
                         Title(Translate("about.developers"))
                         for contributor in contributors:
                             with Group("vertical", gap=6, padding=0):
-                                with Group("horizontal", gap=10, padding=0):
+                                with Group("horizontal", gap=10, padding=0, classname="items-center"):
                                     Label(contributor["name"])
                                     for link in contributor["links"]:
                                         Link(link[0], link[1], size="xs")

@@ -3,13 +3,6 @@ from ETS2LA.Controls import ControlEvent
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 
-event = ControlEvent(
-    "test",
-    "Test",
-    "button",
-    default="k"
-)
-
 class Plugin(ETS2LAPlugin):
     fps_cap = 5
     
@@ -27,10 +20,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    controls = [
-        event
-    ]
-    
     steering = False
     
     @events.on("test")
@@ -42,3 +31,4 @@ class Plugin(ETS2LAPlugin):
 
     def run(self):
         print(event.pressed())
+        print(axis_event.value())

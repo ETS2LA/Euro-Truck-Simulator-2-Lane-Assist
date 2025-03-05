@@ -1,5 +1,6 @@
 from ETS2LA.Handlers.controls import get_states as get_control_states
 import ETS2LA.Networking.Servers.notifications as notifications
+from ETS2LA.Handlers.controls import validate_events
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.settings import Get, Set
 from ETS2LA.Controls import ControlEvent
@@ -456,6 +457,12 @@ def update_plugins():
     logging.info("Updating plugins...")
     AVAILABLE_PLUGINS = find_plugins()
     logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.settings_menu is not None])} have settings menus.")
+    controls = []
+    for plugin in AVAILABLE_PLUGINS:
+        if plugin.controls is not None:
+            controls += plugin.controls
+    validate_events(controls)
+    logging.info(f"Discovered {len(controls)} control events.")
 
 def enable_plugin(plugin_name: str):
     plugin = AVAILABLE_PLUGINS[[plugin.name for plugin in AVAILABLE_PLUGINS].index(plugin_name)]
@@ -711,4 +718,3 @@ def get_all_process_pids():
 
 def run():
     update_plugins()
-    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.settings_menu is not None])} have settings menus.")

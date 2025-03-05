@@ -53,6 +53,7 @@ class Page(ETS2LAPage):
         RefreshRate(1)
         with Geist():
             with Padding(24):
+                Space(20)
                 if updates == []:
                     Description("You have a local commit that is waiting to be pushed.")
                 elif not updates:
@@ -62,9 +63,8 @@ class Page(ETS2LAPage):
                 else:
                     reversed_updates = updates[::-1]
                     Button("Update", "", self.update, border=False)
-                    Space(8)
+                    Space(14)
                     Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
-                    Space(8)
                     with Group("vertical", gap=12):
                         current_day = None
                         for update in reversed_updates:
@@ -82,7 +82,7 @@ class Page(ETS2LAPage):
                                             ...
                                     Space(20)
                                 with Group("vertical", border=True, classname=""):
-                                    with Group("horizontal", padding=0):
+                                    with Group("horizontal", padding=0, classname="items-center", gap=12):
                                         Description(update["author"], size="xs")
                                         with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
                                             Label(update["message"], size="sm", weight="semibold")

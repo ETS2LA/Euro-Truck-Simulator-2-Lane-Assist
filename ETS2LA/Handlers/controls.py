@@ -11,6 +11,7 @@ NOTE: If you are using controls from a plugin, DO NOT import this file.
       plugin with the `controls` attribute.
 """
 
+from ETS2LA.Controls.picker import control_picker
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
 import ETS2LA.Utils.settings as settings
@@ -18,6 +19,7 @@ import ETS2LA.Utils.settings as settings
 import multiprocessing
 import threading
 
+import dearpygui.dearpygui as dpg
 import keyboard
 
 import logging
@@ -40,6 +42,18 @@ event_information = {}
 """
 This variable will store information for all events.
 It will be updated as any information changes.
+"""
+
+queue = multiprocessing.Queue()
+"""
+The multiprocessing queue that the joystick update process
+will use to output the current values from joysticks.
+"""
+
+pause_queue_listener = False
+"""
+Whether to pause the queue listener to hijack the queue
+output with another process.
 """
 
 
@@ -70,6 +84,8 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     while True:
         pygame.event.pump()
         for joystick in joystick_objects:
+            state[joystick.get_guid()]["name"] = joystick.get_name()[1:-1]
+            
             for j in range(joystick.get_numbuttons()):
                 value = joystick.get_button(j)
                 state[joystick.get_guid()][f"button_{j}"] = value
@@ -89,7 +105,12 @@ def queue_listener_thread(joystick_queue: multiprocessing.Queue) -> None:
     :param multiprocessing.Queue joystick_queue: The queue to listen to.
     """
     global joysticks
+    global pause_queue_listener
+    
     while True:
+        while pause_queue_listener:
+            time.sleep(0.5)
+            
         try:
             state = joystick_queue.get(block=False)
         except:
@@ -99,19 +120,61 @@ def queue_listener_thread(joystick_queue: multiprocessing.Queue) -> None:
         joysticks = state
 
 
-def event_information_update_thread() -> None:
+def migrate_controls() -> None:
+    """
+    This function will remove the old controls.json file
+    if it detects the old keys.
+    """
+    for control, data in event_information.items():
+        if "deviceGUID" in data:
+            os.remove(settings_file)
+            settings.GetJSON(settings_file) # create the new file
+            logging.info("controls.json has been migrated to the new format.")
+            break
+
+
+def event_information_update(once: bool = False) -> None:
     """This thread will check the modified time of the
     settings file. If the modified time doesn't match then
     it will update the event_information variable.
+    
+    You can also call with `once=True` to only run once.
     """
     global event_information
     last_modify_time = 0
     while True:
         if os.path.getmtime(settings_file) != last_modify_time:
             event_information = settings.GetJSON(settings_file)
+            migrate_controls()
             last_modify_time = os.path.getmtime(settings_file)
         
+        if once:
+            break
+        
         time.sleep(1)
+
+
+def save_event_information(label: str, guid: str, key: str, type: str,
+                           name: str, description: str, device: str) -> None:
+    """This function will save the event information for a given
+    event.
+
+    :param str label: The label of the event.
+    :param str guid: The guid of the joystick.
+    :param str key: The key of the event.
+    :param str type: The type of the event.
+    :param str name: The name of the event.
+    :param str description: The description of the event.
+    :param str device: The device name of the event.
+    """
+    settings.Set(settings_file, label, {
+        "guid": guid,
+        "key": key,
+        "type": type,
+        "name": name,
+        "description": description,
+        "device": device
+    })
 
 
 def get_event_information(event: ControlEvent) -> dict:
@@ -122,48 +185,133 @@ def get_event_information(event: ControlEvent) -> dict:
     :return dict: The return dictionary.
     """
     if event.alias not in event_information:
+        if event.default != "":
+            save_event_information(event.alias, "keyboard", event.default, event.type,
+                                   event.name, event.description, "Keyboard")
+            return {
+                "guid": "keyboard",
+                "key": event.default,
+                "type": event.type,
+                "name": event.name,
+                "description": event.description
+            }
+        
+        save_event_information(event.alias, "", "", event.type,
+                               event.name, event.description, "")
         return {
             "guid": "",
-            "key": ""
+            "key": "",
+            "type": event.type,
+            "name": event.name,
+            "description": event.description
         }
     
     return event_information[event.alias]
 
 
-def get_states(items: list[ControlEvent]) -> dict:
+def load_event_from_alias(alias: str) -> ControlEvent:
+    """This function will load an event from the alias.
+
+    :param str alias: The alias of the event.
+    :return ControlEvent: The event object.
+    """
+    if alias not in event_information:
+        raise ValueError(f"Event with alias '{alias}' not found.")
+    
+    info = event_information[alias]
+    return ControlEvent(alias, info["name"], info["type"], info["description"], info["key"])
+
+
+def validate_events(events: list[ControlEvent]) -> None:
+    """Validate that the control events have their information
+    already in the settings file. If not, then save it now.
+
+    :param list[ControlEvent] events: List of events to validate.
+    """
+    event_information_update(once=True)
+    for event in events:
+        get_event_information(event)
+
+
+def get_states(events: list[ControlEvent]) -> dict:
     """This file will loop through all given events
     and then return the state for each.
 
-    :param list[ControlEvent] items: Input events.
+    :param list[ControlEvent] events: Input events.
     :return dict: Return dictionary with event states.
     """
     
     states = {}
-    for item in items:
-        info = get_event_information(item)
+    for event in events:
+        info = get_event_information(event)
         if info["guid"] == "":
-            states[item.alias] = None
+            states[event.alias] = None
             continue
         
         if info["guid"] == "keyboard":
-            states[item.alias] = keyboard.is_pressed(info["key"])
+            states[event.alias] = keyboard.is_pressed(info["key"])
             continue
         
-        if item.type == "button":
-            states[item.alias] = joysticks[info["guid"]][f"{info['key']}"]
-        elif item.type == "axis":
-            states[item.alias] = joysticks[info["guid"]][f"{info['key']}"]
+        if event.type == "button":
+            states[event.alias] = joysticks[info["guid"]][f"{info['key']}"]
+        elif event.type == "axis":
+            states[event.alias] = joysticks[info["guid"]][f"{info['key']}"]
     
     return states
 
 
+def edit_event(event: ControlEvent | str) -> None:
+    """
+    Edit an event by asking the user for a new keybind
+    to use for the event.
+    
+    :param ControlEvent | str event: The event to edit.
+    """
+    global pause_queue_listener
+    pause_queue_listener = True
+    
+    if isinstance(event, str):
+        try:
+            event = load_event_from_alias(event)
+        except ValueError:
+            logging.error(f"Event with alias '{event}' not found.")
+            return
+    
+    try:
+        new_guid, new_key = control_picker(event, queue)
+        device_name = joysticks[new_guid]["name"] if new_guid != "" and new_guid != "keyboard" else "Keyboard"
+        if new_guid == "":
+            save_event_information(event.alias, "", "", event.type, event.name, event.description, device_name)
+        else:
+            save_event_information(event.alias, new_guid, new_key, event.type, event.name, event.description, device_name)
+    except:
+        logging.exception("Exception occurred while trying to edit the event.")
+        
+    pause_queue_listener = False
+
+
+def unbind_event(event: ControlEvent | str) -> None:
+    """
+    Unbind an event by setting the guid to an empty string.
+
+    :param ControlEvent | str event: The event to unbind.
+    """
+    if isinstance(event, str):
+        try:
+            event = load_event_from_alias(event)
+        except ValueError:
+            logging.error(f"Event with alias '{event}' not found.")
+            return
+    
+    save_event_information(event.alias, "", "", event.type, event.name, event.description, "")
+
+
 def run():
     # Initialize the control listener.
-    queue = multiprocessing.Queue()
     multiprocessing.Process(target=joystick_update_process, args=(queue,), daemon=True).start()
     threading.Thread(target=queue_listener_thread, args=(queue,), daemon=True).start()
     
     # Start the event information update thread.
-    threading.Thread(target=event_information_update_thread, daemon=True).start()
+    threading.Thread(target=event_information_update, daemon=True).start()
 
     logging.info(Translate("controls.listener_started"))

@@ -126,7 +126,7 @@ def ets2la_process(exception_queue: Queue) -> None:
             print(f"{PURPLE}{Translate('main.development_mode')}{END}\n")
         
         if "--local" in sys.argv:
-            did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True,
+            did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=False if "--dev" in sys.argv else True,
                                                cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
             if did_update:
                 print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")

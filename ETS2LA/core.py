@@ -48,6 +48,7 @@ if not check_python_version():
 translator.CheckLanguageDatabase()      # Check if all languages have all keys
 translator.UpdateFrontendTranslations() # Update the frontend translations (if running --local)
 
+controls.run()      # Control handlers
 plugins.run()       # Run the plugin handler
 
 notifications.run() # Websockets server for notifications
@@ -56,7 +57,7 @@ window.run()        # Webview window (if not --no-ui)
                     # This is blocking until the window opens (or a 10s timeout)
 
 base_events.run()   # Start listening for events
-controls.run()      # Control handlers
+
 
 logging.info(translator.Translate("core.backend_started"))
 

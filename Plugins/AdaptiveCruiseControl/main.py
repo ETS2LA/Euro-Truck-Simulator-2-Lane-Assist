@@ -2,6 +2,7 @@
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
+from ETS2LA.Controls import ControlEvent
 
 # ETS2LA imports
 from Plugins.ObjectDetection.classes import Vehicle
@@ -39,6 +40,14 @@ def LoadSettings(data: dict):
     TRAFFIC_LIGHT_DISTANCE_MULTIPLIER = data.get("traffic_light_distance_multiplier", 1.5)
     TYPE = data.get("type", "Percentage")
     SHOW_NOTIFICATIONS = data.get("show_notifications", False)
+
+enable_disable = ControlEvent(
+    "toggle_acc",
+    "Toggle Adaptive Cruise Control",
+    "button",
+    description="When ACC is running this will toggle it on/off.",
+    default="n"
+)
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
@@ -81,6 +90,8 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
+    controls = [enable_disable]
+    
     settings_menu = SettingsMenu()
     
     status_data = (0, 0)
@@ -120,11 +131,14 @@ class Plugin(ETS2LAPlugin):
         logging.warning("AdaptiveCruiseControl plugin initialized")
         self.globals.tags.status = {"AdaptiveCruiseControl": ACC_ENABLED}
     
-    @events.on("ToggleSteering")
-    def ToggleSteering(self, state:bool, *args, **kwargs):
+    @events.on("toggle_acc")
+    def on_toggle_acc(self, state:bool):
+        if not state:
+            return # Callback for the lift up event
+        
         global ACC_ENABLED
-        ACC_ENABLED = state
-        self.globals.tags.status = {"AdaptiveCruiseControl": state}
+        ACC_ENABLED = not ACC_ENABLED
+        self.globals.tags.status = {"AdaptiveCruiseControl": ACC_ENABLED}
         
     def DistanceFunction(self, x):
         if x < 0:

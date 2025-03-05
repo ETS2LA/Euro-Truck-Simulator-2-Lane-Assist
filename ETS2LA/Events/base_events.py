@@ -28,29 +28,6 @@ steering_threshold = settings.Get("global", "steering_threshold", 0.1)
 braking_threshold = settings.Get("global", "braking_threshold", 0.2)
     
 # Events
-class ToggleSteering():
-    steering = False
-    last_toggle = 0
-    app_braking = SmoothedValue("time", 0.5)
-    game_braking = SmoothedValue("time", 0.5)
-    def ToggleSteering(self):
-        try:
-            if time.perf_counter() - self.last_toggle < 1: return
-            self.last_toggle = time.perf_counter()
-            self.steering = not self.steering
-            sounds.Play('start' if self.steering else 'end')
-            plugins.call_event('ToggleSteering', [self.steering], {})
-            logging.info("Triggered event: ToggleSteering")
-        except:
-            logging.exception("Error in ToggleSteering")
-        
-    def CheckForUserInput(self, data):
-        ... # This is a placeholder for the actual code that will be added later
-                
-    def __init__(self):
-        #controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n") # type: ignore
-        api_callbacks.append(self.CheckForUserInput)
-        
 last_started_job = None # This is used to fill out the data for the Job events
 class JobStarted():
     def JobStarted(self, data):
@@ -310,7 +287,6 @@ def LogThread():
         time.sleep(0.1)
 
 def run():
-    ToggleSteering()
     JobStarted()
     JobFinished()
     JobDelivered()

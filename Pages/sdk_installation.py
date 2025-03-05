@@ -64,7 +64,7 @@ class Page(ETS2LAPage):
     def render(self):
         RefreshRate(0.5)
         with Geist():
-            with Group("vertical", gap=14, padding=4):
+            with Group("vertical", gap=14, padding=0):
                 Title(Translate("sdk_install.title"))
                 Description(Translate("sdk_install.description"))
             if games != []:

@@ -28,6 +28,7 @@ class ETS2LAPlugin(object):
     :param int fps_cap: The maximum frames per second the plugin will run at.
     :param Description description: The description of the plugin.
     :param Author author: The author of the plugin.
+    :param list[ControlEvent] controls: The list of control events to listen to.
     :param Global globals: The global settings and tags.
     :param Settings settings: The settings of the plugin.
     :param Plugins plugins: Interactions with other plugins.
