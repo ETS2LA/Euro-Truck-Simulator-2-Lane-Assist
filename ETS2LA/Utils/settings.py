@@ -49,9 +49,9 @@ def WaitUntilLock(plugin):
     # Wait until the lock file is removed
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
     while True:
-        time.sleep(random.uniform(0, 0.2))
         if not os.path.exists(filename):
             break
+        time.sleep(random.uniform(0, 0.1))
     
 def CreateLock(plugin):
     """Will create a lock file in the plugin folder.

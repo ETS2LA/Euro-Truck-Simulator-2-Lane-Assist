@@ -4,13 +4,16 @@ If you are looking for the actual entrypoint then you should
 look at the core.py file in the ETS2LA folder.
 """
 
+import os
+
 try:
     from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
 except:
     import sys
-    import os
     sys.path.append(os.path.dirname(__file__))
     from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+    
+os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
     
 from ETS2LA.Utils.Console.logs import CountErrorsAndWarnings, ClearLogFiles
 from ETS2LA.Utils.packages import CheckForMaliciousPackages, FixModule
@@ -29,7 +32,6 @@ import queue
 import time
 import git
 import sys
-import os
 
 LOG_FILE_FOLDER = "logs"    
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"

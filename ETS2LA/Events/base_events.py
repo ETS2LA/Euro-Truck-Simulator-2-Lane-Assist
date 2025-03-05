@@ -48,7 +48,7 @@ class ToggleSteering():
         ... # This is a placeholder for the actual code that will be added later
                 
     def __init__(self):
-        controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n") # type: ignore
+        #controls.RegisterKeybind('ToggleSteering', lambda self=self: self.ToggleSteering(), defaultButtonIndex="n") # type: ignore
         api_callbacks.append(self.CheckForUserInput)
         
 last_started_job = None # This is used to fill out the data for the Job events

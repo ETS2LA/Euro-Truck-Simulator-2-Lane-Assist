@@ -15,6 +15,7 @@ SimpleWindow
 transformers
 proxy_tools
 torchvision
+pyjoystick
 setuptools
 screeninfo
 pyautogui

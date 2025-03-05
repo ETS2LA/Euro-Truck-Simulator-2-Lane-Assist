@@ -19,10 +19,11 @@ import os
 ft = settings.Get("global", "use_fancy_traceback", True)
 USE_FANCY_TRACEBACK = True if ft is None else bool(ft)
 
-def setup_global_logging() -> logging.Logger:
+def setup_global_logging(write_file: bool = True) -> logging.Logger:
     """
     Setup the main logger.
     
+    :param bool write_file: Whether to write the logs to a file.
     :return: main logger.
     """
 
@@ -45,22 +46,23 @@ def setup_global_logging() -> logging.Logger:
                         )
     
     
-    # If the filepath doesn't exist create it. Else delete the old log files
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
-    else:
-        for file in os.listdir("logs"):
-            if file.endswith(".log"):
-                try:
-                    os.remove(f"logs/{file}")
-                except:
-                    logging.error(f"Another ETS2LA instance is running. Please close it and try again.")
     
     # File writer
-    file_handler = logging.FileHandler("logs/ETS2LA.log", encoding="utf-8")
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-    logging.getLogger().addHandler(file_handler)
+    if write_file:
+        if not os.path.exists("logs"):
+            os.makedirs("logs")
+        else:
+            for file in os.listdir("logs"):
+                if file.endswith(".log"):
+                    try:
+                        os.remove(f"logs/{file}")
+                    except:
+                        logging.error(f"Another ETS2LA instance is running. Please close it and try again.")
+                        
+        file_handler = logging.FileHandler("logs/ETS2LA.log", encoding="utf-8")
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+        logging.getLogger().addHandler(file_handler)
     
     logging.info(Translate("logging.logger_initialized"))
     

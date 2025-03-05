@@ -194,7 +194,7 @@ def get_plugins():
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            name, description, authors, _ = plugin
+            name, description, authors = plugin.name, plugin.description, plugin.authors
             if type(authors) != list:
                 authors = [authors]
                 
@@ -241,7 +241,7 @@ def call_plugin_function(plugin: str, data: PluginCallData | None = None):
             return {"status": "error", "message": "Please provide arguments."}
         
         running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
-        available_plugins = [plugin[1].name for plugin in plugins.AVAILABLE_PLUGINS]
+        available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
         
         if plugin in running_plugins:
             index = running_plugins.index(plugin)
@@ -250,15 +250,16 @@ def call_plugin_function(plugin: str, data: PluginCallData | None = None):
         
         elif plugin in available_plugins:
             index = available_plugins.index(plugin)
-            ui = plugins.AVAILABLE_PLUGINS[index][3]
-            return ui.call_function(data.target, data.args, data.kwargs)
+            ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
+            if ui is not None:
+                return ui.call_function(data.target, data.args, data.kwargs)
         
         else:
             index = pages.get_page_names().index(plugin)
             return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
         
-        logging.warning("Plugin not found")
-        return {"status": "error", "message": "Plugin not found"}
+        logging.warning("Plugin or it's UI was not found")
+        return {"status": "error", "message": "Plugin or it's UI was not found"}
     except:
         logging.exception("Failed to call plugin function")
         return {"status": "error", "message": "Plugin not found"}

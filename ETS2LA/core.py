@@ -34,11 +34,11 @@ import ETS2LA.Utils.translator as translator
 import ETS2LA.Networking.cloud as cloud
 
 # Misc
-import time
 import ETS2LA.variables as variables
-# Variables is used by the webserver to send
-# commands over to this file (the main loop).
+import pygame
+import time
 
+pygame.init()
 
 if not check_python_version():
     raise Exception("Python version not supported. Please install 3.11 or 3.12.")
