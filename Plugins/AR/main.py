@@ -14,10 +14,13 @@ DRAWLIST = []
 TELEMETRY_FPS = SmoothedValue("time", 1)
 
 VISION_COMPAT = settings.Get("AR", "vision_compat", True)
+TEST_OBJECTS = settings.Get("AR", "test_objects", False)
 
 def LoadSettings(data: dict):
     global VISION_COMPAT
+    global TEST_OBJECTS
     VISION_COMPAT = data.get("vision_compat", True)
+    TEST_OBJECTS = data.get("test_objects", False)
 
 
 def InitializeWindow():
@@ -154,6 +157,7 @@ class Settings(ETS2LASettingsMenu):
 
     def render(self):
         Switch("Vision Compatible", "vision_compat", True, description="Hide the AR from the screen capture so plugins which rely on vision can be used with AR. (Notice: This will make the AR invisible in any screen capture app! (e.g. OBS, Discord, etc.) )")
+        Switch("Show Test Objects", "test_objects", False, description="Show test objects in the AR, for example the white circles at each wheel.")
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
@@ -468,42 +472,45 @@ class Plugin(ETS2LAPlugin):
         self.DRAWLIST = DRAWLIST
         self.FOV = FOV
 
-        # Draws a circle at each wheel of the truck
-        #TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
-        #TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
-        #TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
 
-        #WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
-        #while int(APIDATA["configUI"]["truckWheelCount"]) > len(WheelAngles):
-        #    WheelAngles.append(0)
+        if TEST_OBJECTS:
+            # Draws a circle at each wheel of the truck
+            TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
+            TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
+            TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
 
-        #for i in range(len(TruckWheelPointsX)):
-        #    PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
-        #    PointY = TruckY + TruckWheelPointsY[i]
-        #    PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
-        #    #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
-        #    
-        #    DRAWLIST.append(Circle(
-        #        center=Coordinate(PointX, PointY, PointZ),
-        #        radius=10,
-        #        color=Color(255, 255, 255, 255),
-        #        fill=Color(127, 127, 127, 127),
-        #        fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
-        #        thickness=2
-        #    ))
+            WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
+            while int(APIDATA["configUI"]["truckWheelCount"]) > len(WheelAngles):
+                WheelAngles.append(0)
+
+            for i in range(len(TruckWheelPointsX)):
+                PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
+                PointY = TruckY + TruckWheelPointsY[i]
+                PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
+                #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
+                
+                DRAWLIST.append(Circle(
+                    center=Coordinate(PointX, PointY, PointZ),
+                    radius=10,
+                    color=Color(255, 255, 255, 255),
+                    fill=Color(127, 127, 127, 127),
+                    fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
+                    thickness=2
+                ))
 
 
-        DRAWLIST.append(Polygon(
-            points=[
-                Coordinate(10353.160, 48.543, -9228.122),
-                Coordinate(10352.160, 47.543, -9224.122),
-                Coordinate(10353.160, 46.543, -9228.122),
-                Coordinate(10353.160, 48.543, -9228.122)
-            ],
-            color=Color(255, 255, 255, 255),
-            fill=Color(127, 127, 127, 255 / 2),
-            thickness=2
-        ))
+            DRAWLIST.append(Polygon(
+                points=[
+                    Coordinate(10353.160, 48.543, -9228.122),
+                    Coordinate(10352.160, 47.543, -9224.122),
+                    Coordinate(10353.160, 46.543, -9228.122),
+                    Coordinate(10353.160, 48.543, -9228.122)
+                ],
+                color=Color(255, 255, 255, 255),
+                fill=Color(127, 127, 127, 255 / 2),
+                thickness=2
+            ))
+
 
         other_plugins = self.globals.tags.AR
         if other_plugins is not None:
