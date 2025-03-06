@@ -93,8 +93,11 @@ class Updater(App):
                 while True:
                     line = await stream.readline()
                     if line:
-                        dimmed_line = f"{line.decode()}"
-                        callback(dimmed_line)
+                        try:
+                            dimmed_line = f"{line.decode()}"
+                            callback(dimmed_line)
+                        except:
+                            pass
                     else:
                         break
 
