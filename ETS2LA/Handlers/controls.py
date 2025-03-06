@@ -15,6 +15,7 @@ from ETS2LA.Controls.picker import control_picker
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
 import ETS2LA.Utils.settings as settings
+from ETS2LA.UI import SendPopup
 
 import multiprocessing
 import threading
@@ -68,28 +69,48 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     setup_global_logging(write_file=False)
     import pygame
     
-    joystick_objects = []
-    state = {}
-    
     pygame.init()
     pygame.joystick.init()
     
-    for i in range(pygame.joystick.get_count()):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
+    joystick_objects = []
+    last_count = pygame.joystick.get_count()
+    state = {}
+    
+    def load_joysticks(count: int):
+        logging.info(f"Refreshing joysticks. Found {count} joysticks.")
+        joystick_objects.clear()
+        old_state = state.copy()
+        state.clear()
         
-        name = joystick.get_name()
-        if name.startswith("("):
-            name = name[1:]
-        if name.endswith(")"):
-            name = name[:-1]
+        for i in range(count):
+            joystick = pygame.joystick.Joystick(i)
+            joystick.init()
             
-        logging.info(f"Found joystick: {name} ({joystick.get_guid()})")
-        joystick_objects.append(joystick)
-        state[joystick.get_guid()] = {}
+            name = joystick.get_name()
+            if name.startswith("("):
+                name = name[1:]
+            if name.endswith(")"):
+                name = name[:-1]
+                
+            SendPopup(f"{name} connected.")
+            logging.info(f"Found joystick: {name} ({joystick.get_guid()})")
+            joystick_objects.append(joystick)
+            state[joystick.get_guid()] = {}
+            
+        not_found = [guid for guid in old_state if guid not in [j.get_guid() for j in joystick_objects]]
+        names = [old_state[guid]["name"] for guid in not_found]
+        for name in names:
+            SendPopup(f"{name} disconnected.", "warning")
+            logging.info(f"{name} disconnected.")  
+            
+    load_joysticks(last_count)
         
     while True:
         pygame.event.pump()
+        if pygame.joystick.get_count() != last_count:
+            load_joysticks(pygame.joystick.get_count())
+            last_count = pygame.joystick.get_count()
+            
         for joystick in joystick_objects:
             name = joystick.get_name()
             if name.startswith("("):
@@ -271,8 +292,16 @@ def get_states(events: list[ControlEvent]) -> dict:
             continue
         
         if event.type == "button":
+            if info["guid"] not in joysticks:
+                states[event.alias] = False
+                continue
             states[event.alias] = joysticks[info["guid"]][f"{info['key']}"]
+            
         elif event.type == "axis":
+            if info["guid"] not in joysticks:
+                states[event.alias] = 0
+                continue
+            
             states[event.alias] = joysticks[info["guid"]][f"{info['key']}"]
     
     return states
