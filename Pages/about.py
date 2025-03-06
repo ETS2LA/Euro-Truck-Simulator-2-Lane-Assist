@@ -105,7 +105,7 @@ class Page(ETS2LAPage):
                         
                         for language in translator.LANGUAGES:
                             with Group("vertical", gap=6, padding=0):
-                                with Group("horizontal", gap=10, padding=0):
+                                with Group("horizontal", gap=10, padding=0, classname="items-center"):
                                     Label(language)
                                     Description("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", size="xs")
                                 credits = translator.TranslateToLanguage("credits", translator.GetCodeForLanguage(language))
