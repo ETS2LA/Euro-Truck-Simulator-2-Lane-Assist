@@ -77,14 +77,27 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     for i in range(pygame.joystick.get_count()):
         joystick = pygame.joystick.Joystick(i)
         joystick.init()
-        logging.info(f"Found joystick: {joystick.get_name()[1:-1]} ({joystick.get_guid()})")
+        
+        name = joystick.get_name()
+        if name.startswith("("):
+            name = name[1:]
+        if name.endswith(")"):
+            name = name[:-1]
+            
+        logging.info(f"Found joystick: {name} ({joystick.get_guid()})")
         joystick_objects.append(joystick)
         state[joystick.get_guid()] = {}
         
     while True:
         pygame.event.pump()
         for joystick in joystick_objects:
-            state[joystick.get_guid()]["name"] = joystick.get_name()[1:-1]
+            name = joystick.get_name()
+            if name.startswith("("):
+                name = name[1:]
+            if name.endswith(")"):
+                name = name[:-1]
+                
+            state[joystick.get_guid()]["name"] = name
             
             for j in range(joystick.get_numbuttons()):
                 value = joystick.get_button(j)
