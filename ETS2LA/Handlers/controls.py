@@ -142,6 +142,11 @@ def event_information_update(once: bool = False) -> None:
     """
     global event_information
     last_modify_time = 0
+    
+    if not os.path.exists(settings_file):
+        with open(settings_file, "w") as f:
+            f.write("{}")
+    
     while True:
         if os.path.getmtime(settings_file) != last_modify_time:
             event_information = settings.GetJSON(settings_file)
