@@ -235,9 +235,6 @@ class ETS2LAPlugin(object):
                 self.settings_menu_return_queue.put(self.settings_menu.render())
     
     def control_listener(self):
-        if self.controls == []:
-            return
-        
         while True:
             data = self.control_queue.get()
             self.control_queue.task_done()
