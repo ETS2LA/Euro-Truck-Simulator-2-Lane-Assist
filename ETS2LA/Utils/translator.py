@@ -100,7 +100,12 @@ def CheckKey(key: str):
     else:
         return False
     
-def SpecialCases(key: str | None) -> str:
+def SpecialCases(key: str | None, language: str | None = None) -> str:
+    if language:
+        if key in LANGUAGE_DATA[language]["Language"]:
+            return LANGUAGE_DATA[language]["Language"][key]
+        return ""
+    
     if key in LANGUAGE_DATA[LANGUAGE]["Language"]:
         return LANGUAGE_DATA[LANGUAGE]["Language"][key]
     return ""
@@ -110,8 +115,8 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # 
         logging.error(f"{key} is not a valid key.")
         return ""
     
-    if SpecialCases(key) != "":
-        return SpecialCases(key)
+    if SpecialCases(key, language=language) != "":
+        return SpecialCases(key, language=language)
     
     if values is None:
         values = []
