@@ -173,7 +173,8 @@ class PluginHandler:
                                                                             self.immediate_queue, self.immediate_return_queue,
                                                                             self.state_queue,
                                                                             self.performance_queue, self.performance_return_queue,
-                                                                            self.event_queue, self.event_return_queue
+                                                                            self.event_queue, self.event_return_queue,
+                                                                            self.control_queue, self.control_return_queue
                                                                             ), daemon=True)
         self.process.start()
         self.psutil_process = psutil.Process(self.process.pid)

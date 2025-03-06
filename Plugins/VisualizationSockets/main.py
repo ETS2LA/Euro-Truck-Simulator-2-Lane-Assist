@@ -473,6 +473,9 @@ class Plugin(ETS2LAPlugin):
         status = self.globals.tags.status
         status = self.globals.tags.merge(status)
         
+        if status is None:
+            status = {}
+        
         enabled = []
         disabled = []
         for key in status:
