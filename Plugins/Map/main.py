@@ -59,10 +59,10 @@ class Plugin(ETS2LAPlugin):
         name="plugins.map",
         description="plugins.map.description",
         version="2.0.0",
-        modules=["SDKController", "TruckSimAPI", "Steering"],
+        modules=["SDKController", "TruckSimAPI", "Steering", "Route"],
         tags=["Base", "Steering"]
     )
-    last_dest_company = None
+    last_dest_company = None 
     
     controls = [enable_disable, toggle_navigate]
     
@@ -103,7 +103,7 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Navigation module changed, reloading...")
                     importlib.reload(navigation)
                     logging.info("Successfully reloaded navigation module")
-                    if data.dest_company and data.use_navigation:
+                    if data.use_navigation:
                         logging.info("Recalculating path with reloaded module...")
                         navigation.get_path_to_destination()
                 if new_drive_hash != last_drive_hash:
@@ -211,9 +211,8 @@ class Plugin(ETS2LAPlugin):
         if current_routing_mode != self._last_routing_mode and data.use_navigation:
             logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
             self._last_routing_mode = current_routing_mode
-            if data.dest_company:
-                logging.info("Recalculating path with new routing mode...")
-                navigation.get_path_to_destination()
+            logging.info("Recalculating path with new routing mode...")
+            navigation.get_path_to_destination()
                 
     def MapWindowInitialization(self):
         if not data.map_initialized and data.internal_map:
@@ -224,12 +223,10 @@ class Plugin(ETS2LAPlugin):
             im.RemoveWindow()
             self.MAP_INITIALIZED = False
             
-    def CheckDestinationCompany(self):
-        if (data.dest_company != self.last_dest_company or data.update_navigation_plan) and data.use_navigation and time.perf_counter() - data.last_navigation_update > 5:
-            logging.info(f"Destination company changed to {data.dest_company.token if data.dest_company else 'None'}, recalculating path...")
-            self.last_dest_company = data.dest_company
+    def UpdateNavigation(self):
+        if time.perf_counter() - data.last_navigation_update > 5 or data.update_navigation_plan:
             data.update_navigation_plan = False
-            navigation.get_path_to_destination()
+            data.navigation_plan = navigation.get_path_to_destination()
             if data.navigation_plan and data.navigation_plan != []:
                 self.globals.tags.navigation_plan = data.navigation_plan
             else:
@@ -264,7 +261,7 @@ class Plugin(ETS2LAPlugin):
             if data.internal_map:
                 im.DrawMap()
 
-            self.CheckDestinationCompany()
+            self.UpdateNavigation()
 
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)
