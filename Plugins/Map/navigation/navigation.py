@@ -313,6 +313,23 @@ def find_path(start_lanes: list[NavigationLane], goal_lanes: list[NavigationLane
 
 def get_path_to_destination():
     """Find a path from current position to destination"""
+    
+    route = data.plugin.modules.Route.run()
+    if len(route) != len(data.navigation_plan):
+        nodes = []
+        for item in route:
+            try:
+                node = data.map.get_node_by_uid(item.uid)
+                if node:
+                    nodes.append(node)
+            except Exception:
+                pass
+            
+        logging.warning(f"Found a route with {len(nodes)} nodes")
+        return nodes
+    
+    return data.navigation_plan
+    
     try:
         
         data.plugin.modules.Steering.run(value=0, sendToGame=data.enabled, drawLine=False)

@@ -8,6 +8,8 @@ import time
 class Module(ETS2LAModule):
     def imports(self):
         self.wait_for_buffer()
+        self.last_update = 0
+        self.last_data = []
         
     def wait_for_buffer(self):
         self.buf = None
@@ -16,9 +18,14 @@ class Module(ETS2LAModule):
             self.buf = mmap.mmap(0, size, r"Local\ETS2LARoute")
             time.sleep(0.1)
     
-    def get_route_information(self):
+    def get_route_information(self, force=False):
         if self.buf is None:
-            return None
+            return []
+        
+        if not force and time.time() - self.last_update < 60:
+            return self.last_data
+        
+        self.last_update = time.perf_counter()
         
         try:
             format = "qff"
@@ -34,10 +41,11 @@ class Module(ETS2LAModule):
                 items.append(item)
                 data = data[3:]
             
+            self.last_data = items
             return items
         except:
             logging.exception("Failed to read route information")
-            return None
+            return []
     
-    def run(self):
-        return self.get_route_information()
+    def run(self, force=False):
+        return self.get_route_information(force=force)
