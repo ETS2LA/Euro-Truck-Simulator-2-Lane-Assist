@@ -46,13 +46,13 @@ class Page(ETS2LAPage):
         with Geist():
             with Padding(24):
                 Space(8)
-                with Group("vertical", gap=12):
+                with Group("vertical", gap=24):
                     current_day = None
                     for update in updates[:100]:
                         local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
                         if local_time.split(" ")[0] != current_day:
                             current_day = local_time.split(" ")[0]
-                            Space(20)
+                            Space(5)
                             with Group("horizontal", padding=0, classname="flex items-center", gap=0):
                                 with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                     ...
@@ -60,8 +60,9 @@ class Page(ETS2LAPage):
                                     Description(local_time.split(" ")[0], size="xs", weight="bold")
                                 with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                     ...
-                            Space(20)
-                        with Group("vertical", border=True, classname=""):
+                            Space(5)
+                            
+                        with Group("vertical", border=True, classname="shadow-md"):
                             with Group("horizontal", padding=0, classname="items-center", gap=12):
                                 Description(update["author"], size="xs", classname="")
                                 with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):

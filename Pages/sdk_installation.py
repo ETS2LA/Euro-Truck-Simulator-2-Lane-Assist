@@ -86,7 +86,7 @@ class Page(ETS2LAPage):
                         is_installed = [information[file] for file in files] == [True] * len(files)
                         
                         with Group("vertical", border=True, gap=0):
-                            with Group("horizontal", padding=0, gap=4):
+                            with Group("horizontal", padding=0, gap=4, classname="items-center"):
                                 title = "ETS2 " if "Euro Truck Simulator 2" in found_game else "ATS "
                                 title += game.GetVersionForGame(found_game)
                                 Label(title, size="sm")
