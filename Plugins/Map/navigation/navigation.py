@@ -377,6 +377,7 @@ def get_path_to_destination():
         for node in data.navigation_plan:
             data.circles.append(c.Position(node.x, node.z, node.y))
 
+        logging.warning(f"Navigation plan length: {len(data.navigation_plan)}")
         return complete_path
 
     except Exception as e:
