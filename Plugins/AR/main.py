@@ -469,28 +469,28 @@ class Plugin(ETS2LAPlugin):
         self.FOV = FOV
 
         # Draws a circle at each wheel of the truck
-        TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
-        TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
-        TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
+        #TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
+        #TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
+        #TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
 
-        WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
-        while int(APIDATA["configUI"]["truckWheelCount"]) > len(WheelAngles):
-            WheelAngles.append(0)
+        #WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
+        #while int(APIDATA["configUI"]["truckWheelCount"]) > len(WheelAngles):
+        #    WheelAngles.append(0)
 
-        for i in range(len(TruckWheelPointsX)):
-            PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
-            PointY = TruckY + TruckWheelPointsY[i]
-            PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
-            #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
-            
-            DRAWLIST.append(Circle(
-                center=Coordinate(PointX, PointY, PointZ),
-                radius=10,
-                color=Color(255, 255, 255, 255),
-                fill=Color(127, 127, 127, 127),
-                fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
-                thickness=2
-            ))
+        #for i in range(len(TruckWheelPointsX)):
+        #    PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
+        #    PointY = TruckY + TruckWheelPointsY[i]
+        #    PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
+        #    #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
+        #    
+        #    DRAWLIST.append(Circle(
+        #        center=Coordinate(PointX, PointY, PointZ),
+        #        radius=10,
+        #        color=Color(255, 255, 255, 255),
+        #        fill=Color(127, 127, 127, 127),
+        #        fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
+        #        thickness=2
+        #    ))
 
 
         DRAWLIST.append(Polygon(
