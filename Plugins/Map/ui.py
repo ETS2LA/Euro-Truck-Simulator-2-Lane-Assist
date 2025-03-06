@@ -24,7 +24,7 @@ class SettingsMenu(ETS2LASettingsMenu):
         with TabView():
             with Tab("General"):
                 Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
-                Switch("Trailer Driving", "DriveBasedOnTrailer", False, description="Will move the 'driving point' towards the trailer at low speeds. This should fix some issues with the app cutting corners.")
+                Switch("Trailer Driving", "DriveBasedOnTrailer", True, description="Will move the 'driving point' towards the trailer at low speeds. This should fix some issues with the app cutting corners.")
                 Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description")
                 Switch("map.settings.6.name", "InternalVisualisation", False, description="map.settings.6.description")
                 

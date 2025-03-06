@@ -110,7 +110,7 @@ auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 100)
 """The distance in meters from the destination where the truck will automatically accept the current navigation plan."""
 auto_deny_threshold = settings.Get("Map", "AutoDenyThreshold", 100)
 """The distance in meters from the destination where the truck will automatically deny the current navigation plan."""
-drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", False)
+drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", True)
 
 # MARK: Return values
 external_data = {}
