@@ -3,7 +3,6 @@ from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.variables import PATH
 import logging
-import pygame
 import json
 import os
     
@@ -39,8 +38,6 @@ SELECTED_SOUNDPACK = "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(
 
 VOLUME = settings.Get("global", "volume", 50)
 VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
-        
-pygame.init()
 
 def UpdateSettings(settings: dict):
     global SELECTED_SOUNDPACK, VOLUME
@@ -67,10 +64,8 @@ def Play(sound: str):
     if filename is None: return False
     
     try:
-        pygame.mixer.music.set_volume(VOLUME) # type: ignore
-        pygame.mixer.music.load(filename)
-        pygame.mixer.music.play()
-    except pygame.error as e:
+        ...
+    except Exception as e:
         logging.error(f"No sound device available: {e}")
         return False
     
