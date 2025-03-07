@@ -226,10 +226,14 @@ class Plugin(ETS2LAPlugin):
             self.torch.hub.set_dir(f"{variables.PATH}cache/ObjectDetection")
 
             # Load model
-            if MODEL_TYPE == "YoloV7":
-                self.model = self.torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
-            elif MODEL_TYPE == "YoloV5":
-                self.model = self.torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
+            try:
+                if MODEL_TYPE == "YoloV7":
+                    self.model = self.torch.hub.load('WongKinYiu/yolov7', 'custom', path=MODEL_PATH, _verbose=False)
+                elif MODEL_TYPE == "YoloV5":
+                    self.model = self.torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, _verbose=False)
+            except:
+                logging.exception(f"Error loading model: {MODEL_PATH}")
+                self.terminate()
                 
             self.model.conf = 0.70  # NMS confidence threshold (x% confidence to keep)
             self.model.to(device)  # Move model to GPU if available
