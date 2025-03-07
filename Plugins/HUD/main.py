@@ -4,6 +4,7 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 from Plugins.Map.classes import *
 from Plugins.AR.classes import *
+from Modules.Semaphores.classes import TrafficLight, Semaphore
 
 # General imports
 import logging
@@ -25,6 +26,7 @@ class Settings(ETS2LASettingsMenu):
         
         Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the HUD.")
         Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
+        Switch("Show Traffic Light Times", "show_traffic_light_times", True, description="Show the remaining time for all traffic lights on the HUD.")
         
         return RenderUI()
 
@@ -35,7 +37,7 @@ class Plugin(ETS2LAPlugin):
         name="HUD",
         version="1.0",
         description="Creates a heads up display on the windshield. Needs the AR plugin to work.",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI", "Semaphores"],
         tags=["AR", "Base"],
     )
     
@@ -213,8 +215,13 @@ class Plugin(ETS2LAPlugin):
         if scale is None:
             self.settings.scale = 1
             scale = 1
+            
+        show_traffic_lights = self.settings.show_traffic_light_times
+        if show_traffic_lights is None:
+            self.settings.show_traffic_light_times = True
+            show_traffic_lights = True
         
-        return draw_steering, show_navigation, refresh_rate, scale
+        return draw_steering, show_navigation, refresh_rate, scale, show_traffic_lights
     
     def get_start_end_time(self):
         self.load_start_time = time.time()
@@ -374,7 +381,7 @@ class Plugin(ETS2LAPlugin):
         speed_nav_offset_x = 0
         offset_x, offset_y, offset_z = self.get_offsets()
         anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
-        draw_steering, show_navigation, refresh_rate, scale = self.get_settings()
+        draw_steering, show_navigation, refresh_rate, scale, show_trafic_lights = self.get_settings()
         
         scaling *= scale
         
@@ -420,5 +427,22 @@ class Plugin(ETS2LAPlugin):
                     ar_data.append(line)
             except:
                 pass
+            
+        if show_trafic_lights:
+            semaphores = self.modules.Semaphores.run()
+            traffic_lights = [semaphore for semaphore in semaphores if isinstance(semaphore, TrafficLight)]
+            data = []
+            for traffic_light in traffic_lights:
+                data.append(
+                    Text(
+                        Coordinate(traffic_light.position.x + 512 * traffic_light.cx, traffic_light.position.y + 2.5, traffic_light.position.z + 512 * traffic_light.cy),
+                        f"    {traffic_light.state_text()} - {traffic_light.time_left:.0f}s left",
+                        size=16 * scaling,
+                        color=Color(*traffic_light.color()), 
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=20, dist_fade_end=40),
+                    )
+                )    
+            ar_data += data
+            ...
         
         self.globals.tags.AR = ar_data

@@ -122,6 +122,36 @@ class TrafficLight(Semaphore):
             
         text += f" ({self.time_left:.1f}s left)"
         return f"{text}"
+    
+    def state_text(self):
+        if self.state == OFF:
+            return "Off"
+        elif self.state == ORANGE_TO_RED:
+            return "Yellow"
+        elif self.state == RED:
+            return "Red"
+        elif self.state == ORANGE_TO_GREEN:
+            return "Yellow"
+        elif self.state == GREEN:
+            return "Green"
+        elif self.state == SLEEP:
+            return "Disabled"
+        return "Unknown"
+    
+    def color(self):
+        if self.state == OFF:
+            return (64, 64, 64)
+        elif self.state == ORANGE_TO_RED:
+            return (255, 200, 100) 
+        elif self.state == RED:
+            return (255, 100, 100)
+        elif self.state == ORANGE_TO_GREEN:
+            return (255, 200, 100)
+        elif self.state == GREEN:
+            return (100, 255, 100)
+        elif self.state == SLEEP:
+            return (64, 64, 64)
+        return (64, 64, 64)
 
 class Gate(Semaphore):
     def __init__(self, position: Position, cx: float, cy: float, quat: Quaternion, time_left: float, state: int, id: int):

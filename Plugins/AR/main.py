@@ -249,82 +249,73 @@ class Plugin(ETS2LAPlugin):
             for i, item in enumerate(sorted_items):
                 if type(item) == Rectangle:
                     points = [item.start, item.end]
-                    start = points[0].screen(self)
-                    end = points[1].screen(self)
+                    screen_start = points[0].screen(self)
+                    screen_end = points[1].screen(self)
                     
-                    if start is None or end is None:
+                    if screen_start is None or screen_end is None:
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        start = start[:2]
-                        end = end[:2]
+                        alpha = CalculateAlpha(Distances=[screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                         item.fill.a *= alpha / 255
                     
-                    dpg.draw_rectangle(pmin=start, pmax=end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Line:
                     points = [item.start, item.end]
-                    start = points[0].screen(self)
-                    end = points[1].screen(self)
+                    screen_start = points[0].screen(self)
+                    screen_end = points[1].screen(self)
                     
-                    if start is None or end is None:
+                    if screen_start is None or screen_end is None:
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        start = start[:2]
-                        end = end[:2]
+                        alpha = CalculateAlpha(Distances=[screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                     
-                    dpg.draw_line(p1=start, p2=end, color=item.color.tuple(), thickness=item.thickness)
+                    dpg.draw_line(p1=screen_start, p2=screen_end, color=item.color.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Polygon:
                     points = item.points
-                    points = [point.screen(self) for point in item.points]
+                    screen_points = [point.screen(self) for point in item.points]
                     
-                    if None in points:
+                    if None in screen_points:
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[point[2] for point in points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        points = [point[:2] for point in points]
+                        alpha = CalculateAlpha(Distances=[point[2] for point in screen_points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                         item.fill.a *= alpha / 255
                     
-                    dpg.draw_polygon(points=points, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_polygon(points=screen_points, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Circle:
                     center = item.center
-                    center = center.screen(self)
+                    screen_center = center.screen(self)
                     
-                    if center is None:
+                    if screen_center is None:
                         continue
                     
                     if type(center) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        center = center[:2]
+                        alpha = CalculateAlpha(Distances=[screen_center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                         item.fill.a *= alpha / 255
-                        center = center[:2]
                     
-                    dpg.draw_circle(center=center, radius=item.radius, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_circle(center=screen_center, radius=item.radius, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Text:
                     position = item.point
-                    position = position.screen(self)
+                    screen_position = position.screen(self)
                     
-                    if position is None:
+                    if screen_position is None:
                         continue
                     
                     if type(position) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        position = position[:2]
+                        alpha = CalculateAlpha(Distances=[screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
-                        position = position[:2]
                     
-                    dpg.draw_text(position, text=item.text, color=item.color.tuple(), size=item.size)
+                    dpg.draw_text(screen_position, text=item.text, color=item.color.tuple(), size=item.size)
                  
         dpg.render_dearpygui_frame()
 
