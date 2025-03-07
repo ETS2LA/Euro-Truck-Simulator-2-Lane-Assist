@@ -3,6 +3,9 @@ from ETS2LA.Controls import ControlEvent
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 
+from ETS2LA.Handlers.sounds import Play
+import time
+
 class Plugin(ETS2LAPlugin):
     fps_cap = 5
     
@@ -21,7 +24,7 @@ class Plugin(ETS2LAPlugin):
     )
     
     steering = False
-    
+ 
     @events.on("test")
     def on_test(self, state):
         print("Value changed to:", state)
@@ -30,5 +33,4 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
-        print(event.pressed())
-        print(axis_event.value())
+        Play("start")

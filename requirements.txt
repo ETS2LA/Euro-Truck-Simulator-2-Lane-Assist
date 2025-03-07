@@ -16,6 +16,7 @@ transformers
 proxy_tools
 torchvision
 pywinstyles
+sounddevice
 pyjoystick
 setuptools
 screeninfo
@@ -35,6 +36,7 @@ gputil
 psutil
 pygame
 sv_ttk
+pydub
 mouse
 scipy
 torch

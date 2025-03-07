@@ -2,6 +2,9 @@
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.variables import PATH
+from pydub import AudioSegment
+import sounddevice as sd
+import numpy as np
 import logging
 import json
 import os
@@ -59,14 +62,39 @@ def GetFilenameForSound(sound: str):
     logging.error(Translate("sounds.sound_not_found_in_soundpack", values=[sound, SELECTED_SOUNDPACK]))
     return None
 
+def play_audio(filename, volume = 0.5):
+    """
+    Plays an audio file with volume control using sounddevice.
+    
+    :param filename: Path to the audio file
+    :param volume: Volume level (0.0 to 1.0)
+    """
+    if not (0.0 <= volume <= 1.0):
+        raise ValueError("Volume must be between 0.0 and 1.0")
+
+    audio = AudioSegment.from_file(filename)
+    samples = np.array(audio.get_array_of_samples(), dtype=np.float32)
+    
+    # Stereo handling
+    if audio.channels == 2:
+        samples = samples.reshape((-1, 2))  # Stereo
+    else:
+        samples = samples.reshape((-1, 1))  # Mono (force 2D)
+
+    samples /= np.iinfo(np.int16).max # normalize -1 - 1
+    samples *= volume
+    sd.play(samples, samplerate=audio.frame_rate, blocking=False)
+
 def Play(sound: str):
     filename = GetFilenameForSound(sound)
     if filename is None: return False
     
     try:
-        ...
+        play_audio(filename, VOLUME) # type: ignore
     except Exception as e:
-        logging.error(f"No sound device available: {e}")
+        import traceback
+        traceback.print_exc()
+        logging.exception(f"No sound device available: {e}")
         return False
     
     return True
