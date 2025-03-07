@@ -55,10 +55,10 @@ def GetFilenameForSound(sound: str):
     if SELECTED_SOUNDPACK is None:
         return None
     
-    sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)
+    sounds = os.listdir(SOUNDPACKS_PATH + SELECTED_SOUNDPACK)
     for pack_sound in sounds:
         if sound in pack_sound:
-            return SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK + "/" + pack_sound
+            return PATH + SOUNDPACKS_PATH + SELECTED_SOUNDPACK + "/" + pack_sound
     logging.error(Translate("sounds.sound_not_found_in_soundpack", values=[sound, SELECTED_SOUNDPACK]))
     return None
 
@@ -91,10 +91,7 @@ def Play(sound: str):
     
     try:
         play_audio(filename, VOLUME) # type: ignore
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        logging.exception(f"No sound device available: {e}")
+    except Exception:
         return False
     
     return True
