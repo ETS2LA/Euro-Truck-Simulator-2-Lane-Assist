@@ -106,7 +106,7 @@ def get_transparency():
 
 def set_resizable(value: bool):
     if os.name == 'nt':
-        HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+        HWND = win32gui.FindWindow(None, variables.APPTITLE)
         style = win32gui.GetWindowLong(HWND, win32con.GWL_STYLE)
         
         color_title_bar()
@@ -128,7 +128,7 @@ def set_transparency(value: bool):
     global IS_TRANSPARENT
     if os.name == 'nt':
         if value:
-            HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+            HWND = win32gui.FindWindow(None, variables.APPTITLE)
             win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
             
             transparency = settings.Get("global", "transparency_alpha", 0.8)
@@ -138,7 +138,7 @@ def set_transparency(value: bool):
             transparency = int(transparency * 255)
             winxpgui.SetLayeredWindowAttributes(HWND, win32api.RGB(0,0,0), transparency, win32con.LWA_ALPHA)
         else:
-            HWND = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+            HWND = win32gui.FindWindow(None, variables.APPTITLE)
             win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) & ~win32con.WS_EX_LAYERED)
         
         IS_TRANSPARENT = value
@@ -225,7 +225,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
     window_x, window_y = correct_window_position(window_x, window_y, WIDTH, HEIGHT)
 
     window = webview.create_window(
-        f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}', 
+        variables.APPTITLE, 
         html=html, 
         x = window_x,
         y = window_y,

@@ -7,6 +7,9 @@ import os
 YEAR = datetime.datetime.now().year
 """This year will be displayed in the window title."""
 
+APPTITLE = f"ETS2LA - Tumppi066 & Contributors © {YEAR}"
+"""The title of the frontend window."""
+
 PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
 """The path to the ETS2LA folder."""
 

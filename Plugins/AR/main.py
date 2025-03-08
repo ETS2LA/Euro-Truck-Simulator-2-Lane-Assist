@@ -188,7 +188,7 @@ class Plugin(ETS2LAPlugin):
 
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, settings, variables, dpg, wintypes, win32con, win32gui, ctypes, math, time
+        global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
@@ -196,7 +196,6 @@ class Plugin(ETS2LAPlugin):
         import ETS2LA.variables as variables
 
         import dearpygui.dearpygui as dpg
-        from ctypes import wintypes
         import win32con
         import win32gui
         import ctypes
@@ -347,17 +346,11 @@ class Plugin(ETS2LAPlugin):
 
         HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
         if VISION_COMPAT:
-            SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
-            SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
-            SetWindowDisplayAffinity.restype = wintypes.BOOL
-            Success = SetWindowDisplayAffinity(HWND, 0x00000011)
+            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000011)
             if Success == 0:
                 print("Failed to hide AR window from screen capture.")
         if not VISION_COMPAT:
-            SetWindowDisplayAffinity = ctypes.windll.user32.SetWindowDisplayAffinity
-            SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
-            SetWindowDisplayAffinity.restype = wintypes.BOOL
-            Success = SetWindowDisplayAffinity(HWND, 0x00000000)
+            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000000)
 
         
         if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:

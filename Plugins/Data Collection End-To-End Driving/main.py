@@ -52,17 +52,15 @@ def CheckForUploads():
                 if Time + 604800 < CurrentTime:
                     FilesReadyForUpload.append(str(File))
 
-                if "SessionID" not in Data:
-                    raise Exception("The data file is missing the 'SessionID' key. Can't upload the data.")
-                if "RouteAdvisorSideValue" not in Data:
-                    raise Exception("The data file is missing the 'RouteAdvisorSideValue' key. Can't upload the data.")
+                if "CameraX" not in Data:
+                    raise Exception("The data file is missing the 'CameraX' key. Can't upload the data.")
 
             except:
                 DeletePair(Name=File)
 
     for File in FilesReadyForUpload:
         try:
-            print(f"Uploading {File}...")
+            print(f"Data Collection End-To-End Driving: Uploading {File}...")
             Files = [
                 ("files", open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}", "r")),
                 ("files", open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File).replace('.json', '.png')}", "rb"))
@@ -72,7 +70,7 @@ def CheckForUploads():
                 F[1].close()
             if "success" in Response.json():
                 DeletePair(Name=File)
-                print(f"Uploaded {File}!")
+                print(f"Data Collection End-To-End Driving: Uploaded {File}!")
             elif "error" in Response.json():
                 if "Server storage is full." in Response.json()["error"]:
                     DeletePair(Name=File)
@@ -104,7 +102,7 @@ def GetDataID():
             else:
                 raise Exception("Couldn't get an ID from the server.")
         except:
-            #print(f"\n{RED}Unable to do data collection, couldn't get an response from the server.  The plugin will disable itself.{NORMAL}\n")
+            print(f"\n{RED}Unable to do data collection, couldn't get a response from the server. The plugin will disable itself.{NORMAL}\n")
             return "None"
         with open(f"{variables.PATH}End-To-End-Data-ID.txt", "w") as File:
             File.write(DataID + """
@@ -176,7 +174,7 @@ class Plugin(ETS2LAPlugin):
         name="Data Collection End-To-End Driving",
         version="1.0",
         description="This plugins sends anonymous driving data for our end-to-end driving model. All the collected data will be open source.",
-        modules=["TruckSimAPI"],
+        modules=["TruckSimAPI", "Camera"],
         tags=["Base"]
     )
 
@@ -190,7 +188,7 @@ class Plugin(ETS2LAPlugin):
     settings_menu = SettingsMenu()
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, variables, datetime, requests, win32con, win32gui, json, math, time, cv2, os
+        global SCSTelemetry, ScreenCapture, variables, datetime, requests, win32con, win32gui, ctypes, json, math, time, cv2, os
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
@@ -201,6 +199,7 @@ class Plugin(ETS2LAPlugin):
         import requests
         import win32con
         import win32gui
+        import ctypes
         import random
         import string
         import json
@@ -212,11 +211,13 @@ class Plugin(ETS2LAPlugin):
         global DataID
         global SessionID
 
-        global FOVValue
         global TruckSimAPI
 
         global LastCaptureTime
         global LastCaptureLocation
+
+        global LastData
+        global LastFrame
 
         NoticeRead = settings.Get("Data Collection End-To-End Driving", "i_read_the_notice", None)
         if NoticeRead == None:
@@ -241,17 +242,13 @@ class Plugin(ETS2LAPlugin):
         SessionID = str("".join(random.choices(str(string.ascii_letters + string.digits + "-_"), k=15)))
 
 
-        FOVValue = self.globals.settings.FOV
-        if FOVValue == None:
-            print(f"\n{RED}Make sure to set the FOV in the settings for the Data Collection End-To-End Driving plugin! The plugin will disable itself.{NORMAL}\n")
-            self.notify("No FOV set, disabling Data Collection End-To-End Driving...")
-            time.sleep(1)
-            self.terminate()
-
         TruckSimAPI = SCSTelemetry()
 
         LastCaptureTime = 0
         LastCaptureLocation = 0, 0, 0
+
+        LastData = None
+        LastFrame = None
 
         X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         Screen = ScreenCapture.GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
@@ -267,18 +264,13 @@ class Plugin(ETS2LAPlugin):
         global LastCaptureTime
         global LastCaptureLocation
 
+        global LastData
+        global LastFrame
+
 
         APIDATA = TruckSimAPI.update()
 
         CurrentLocation = APIDATA["truckPlacement"]["coordinateX"], APIDATA["truckPlacement"]["coordinateY"], APIDATA["truckPlacement"]["coordinateZ"]
-
-        AlwaysOnTopWindows = []
-        win32gui.EnumWindows(lambda HWND, _: AlwaysOnTopWindows.append(HWND) if win32gui.IsWindowVisible(HWND) and (win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) & win32con.WS_EX_TOPMOST) else None, None)
-        AnyAlwaysOnTopWindows = False
-        for Window in AlwaysOnTopWindows:
-            if str(win32gui.GetWindowText(Window)) != "":
-                AnyAlwaysOnTopWindows = True
-                break
 
         RouteAdvisor = ScreenCapture.ClassifyRouteAdvisor(Name="Truck Simulator", Blacklist=["Discord"])
         if (RouteAdvisor[0][0] >= 0.9 and RouteAdvisor[0][1] >= 0.9 and RouteAdvisor[0][2] >= 0.9) or (RouteAdvisor[1][0] >= 0.9 and RouteAdvisor[1][1] >= 0.9 and RouteAdvisor[1][2] >= 0.9):
@@ -286,13 +278,37 @@ class Plugin(ETS2LAPlugin):
         else:
             RouteAdvisorCorrect = False
 
+        AlwaysOnTopWindows = []
+        win32gui.EnumWindows(lambda HWND, _: AlwaysOnTopWindows.append(HWND) if win32gui.IsWindowVisible(HWND) and (win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) & win32con.WS_EX_TOPMOST) else None, None)
+        AppIsAlwaysOnTop = False
+        for Window in AlwaysOnTopWindows:
+            if str(win32gui.GetWindowText(Window)) == variables.APPTITLE:
+                AppIsAlwaysOnTop = True
+                break
+
+        ARAffinitySet = False
+        HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
+        if HWND != 0:
+            Affinity = ctypes.wintypes.DWORD()
+            Success = ctypes.windll.user32.GetWindowDisplayAffinity(HWND, ctypes.byref(Affinity))
+            if Success:
+                if int(Affinity.value) != 0:
+                    ARAffinitySet = True
+        else:
+            ARAffinitySet = True
+
         if (CurrentTime - LastCaptureTime < 3 or
-            ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False or
-            RouteAdvisorCorrect == False or
-            AnyAlwaysOnTopWindows == True or
-            APIDATA["sdkActive"] == False or
-            APIDATA["pause"] == True or
             math.sqrt((LastCaptureLocation[0] - CurrentLocation[0])**2 + (LastCaptureLocation[1] - CurrentLocation[1])**2 + (LastCaptureLocation[2] - CurrentLocation[2])**2) < 0.5):
+            return
+
+        if (ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False or
+            RouteAdvisorCorrect == False or
+            AppIsAlwaysOnTop == True or
+            ARAffinitySet == False or
+            APIDATA["sdkActive"] == False or
+            APIDATA["pause"] == True):
+            LastData = None
+            LastFrame = None
             time.sleep(0.2)
             return
 
@@ -308,120 +324,142 @@ class Plugin(ETS2LAPlugin):
             return
 
 
-        RouteAdvisorSideValue = str(ScreenCapture.RouteAdvisorSide)
-        RouteAdvisorZoomCorrectValue = bool(ScreenCapture.RouteAdvisorZoomCorrect)
-        RouteAdvisorTabCorrectValue = bool(ScreenCapture.RouteAdvisorTabCorrect)
+        RouteAdvisorSide = str(ScreenCapture.RouteAdvisorSide)
+        RouteAdvisorZoomCorrect = bool(ScreenCapture.RouteAdvisorZoomCorrect)
+        RouteAdvisorTabCorrect = bool(ScreenCapture.RouteAdvisorTabCorrect)
 
-        GameValue = str(APIDATA["scsValues"]["game"]).lower()
+        Game = str(APIDATA["scsValues"]["game"]).lower()
 
-        SpeedValue = float(APIDATA["truckFloat"]["speed"])
-        SpeedLimitValue = float(APIDATA["truckFloat"]["speedLimit"])
-        CruiseControlEnabledValue = bool(APIDATA["truckBool"]["cruiseControl"])
-        CruiseControlSpeedValue = float(APIDATA["truckFloat"]["cruiseControlSpeed"])
+        Speed = float(APIDATA["truckFloat"]["speed"])
+        SpeedLimit = float(APIDATA["truckFloat"]["speedLimit"])
+        CruiseControlEnabled = bool(APIDATA["truckBool"]["cruiseControl"])
+        CruiseControlSpeed = float(APIDATA["truckFloat"]["cruiseControlSpeed"])
 
-        SteeringValue = float(APIDATA["truckFloat"]["gameSteer"])
-        ThrottleValue = float(APIDATA["truckFloat"]["gameThrottle"])
-        BrakeValue = float(APIDATA["truckFloat"]["gameBrake"])
-        ClutchValue = float(APIDATA["truckFloat"]["gameClutch"])
+        Steering = float(APIDATA["truckFloat"]["gameSteer"])
+        Throttle = float(APIDATA["truckFloat"]["gameThrottle"])
+        Brake = float(APIDATA["truckFloat"]["gameBrake"])
+        Clutch = float(APIDATA["truckFloat"]["gameClutch"])
 
-        ParkBrakeValue = bool(APIDATA["truckBool"]["parkBrake"])
-        WipersValue = bool(APIDATA["truckBool"]["wipers"])
-        GearValue = int(APIDATA["truckInt"]["gear"])
-        GearsValue = int(APIDATA["configUI"]["gears"])
-        ReverseGearsValue = int(APIDATA["configUI"]["gearsReverse"])
-        EngineRPMValue = float(APIDATA["truckFloat"]["engineRpm"])
+        ParkBrake = bool(APIDATA["truckBool"]["parkBrake"])
+        Wipers = bool(APIDATA["truckBool"]["wipers"])
+        Gear = int(APIDATA["truckInt"]["gear"])
+        Gears = int(APIDATA["configUI"]["gears"])
+        ReverseGears = int(APIDATA["configUI"]["gearsReverse"])
+        EngineRPM = float(APIDATA["truckFloat"]["engineRpm"])
 
-        LeftIndicatorValue = bool(APIDATA["truckBool"]["blinkerLeftActive"])
-        RightIndicatorValue = bool(APIDATA["truckBool"]["blinkerRightActive"])
-        HazardLightsValue = bool(APIDATA["truckBool"]["lightsHazard"])
-        ParkingLightsValue = bool(APIDATA["truckBool"]["lightsParking"])
-        LowBeamLightsValue = bool(APIDATA["truckBool"]["lightsBeamLow"])
-        HighBeamLightsValue = bool(APIDATA["truckBool"]["lightsBeamHigh"])
-        BeaconLightsValue = bool(APIDATA["truckBool"]["lightsBeacon"])
-        BrakeLightsValue = bool(APIDATA["truckBool"]["lightsBrake"])
-        ReverseLightsValue = bool(APIDATA["truckBool"]["lightsReverse"])
+        LeftIndicator = bool(APIDATA["truckBool"]["blinkerLeftActive"])
+        RightIndicator = bool(APIDATA["truckBool"]["blinkerRightActive"])
+        HazardLights = bool(APIDATA["truckBool"]["lightsHazard"])
+        ParkingLights = bool(APIDATA["truckBool"]["lightsParking"])
+        LowBeamLights = bool(APIDATA["truckBool"]["lightsBeamLow"])
+        HighBeamLights = bool(APIDATA["truckBool"]["lightsBeamHigh"])
+        BeaconLights = bool(APIDATA["truckBool"]["lightsBeacon"])
+        BrakeLights = bool(APIDATA["truckBool"]["lightsBrake"])
+        ReverseLights = bool(APIDATA["truckBool"]["lightsReverse"])
 
-        PositionXValue = float(APIDATA["truckPlacement"]["coordinateX"])
-        PositionYValue = float(APIDATA["truckPlacement"]["coordinateY"])
-        PositionZValue = float(APIDATA["truckPlacement"]["coordinateZ"])
-        RotationXValue = float(APIDATA["truckPlacement"]["rotationX"])
-        RotationYValue = float(APIDATA["truckPlacement"]["rotationY"])
-        RotationZValue = float(APIDATA["truckPlacement"]["rotationZ"])
+        PositionX = float(APIDATA["truckPlacement"]["coordinateX"])
+        PositionY = float(APIDATA["truckPlacement"]["coordinateY"])
+        PositionZ = float(APIDATA["truckPlacement"]["coordinateZ"])
+        RotationX = float(APIDATA["truckPlacement"]["rotationX"])
+        RotationY = float(APIDATA["truckPlacement"]["rotationY"])
+        RotationZ = float(APIDATA["truckPlacement"]["rotationZ"])
 
-        CabinXValue = float(APIDATA["headPlacement"]["cabinOffsetX"] + APIDATA["configVector"]["cabinPositionX"])
-        CabinYValue = float(APIDATA["headPlacement"]["cabinOffsetY"] + APIDATA["configVector"]["cabinPositionY"])
-        CabinZValue = float(APIDATA["headPlacement"]["cabinOffsetZ"] + APIDATA["configVector"]["cabinPositionZ"])
-        CabinRotationXValue = float(APIDATA["headPlacement"]["cabinOffsetrotationX"])
-        CabinRotationYValue = float(APIDATA["headPlacement"]["cabinOffsetrotationY"])
-        CabinRotationZValue = float(APIDATA["headPlacement"]["cabinOffsetrotationZ"])
+        CabinX = float(APIDATA["headPlacement"]["cabinOffsetX"] + APIDATA["configVector"]["cabinPositionX"])
+        CabinY = float(APIDATA["headPlacement"]["cabinOffsetY"] + APIDATA["configVector"]["cabinPositionY"])
+        CabinZ = float(APIDATA["headPlacement"]["cabinOffsetZ"] + APIDATA["configVector"]["cabinPositionZ"])
+        CabinRotationX = float(APIDATA["headPlacement"]["cabinOffsetrotationX"])
+        CabinRotationY = float(APIDATA["headPlacement"]["cabinOffsetrotationY"])
+        CabinRotationZ = float(APIDATA["headPlacement"]["cabinOffsetrotationZ"])
 
-        HeadXValue = float(APIDATA["headPlacement"]["headOffsetX"] + APIDATA["configVector"]["headPositionX"] + APIDATA["headPlacement"]["cabinOffsetX"] + APIDATA["configVector"]["cabinPositionX"])
-        HeadYValue = float(APIDATA["headPlacement"]["headOffsetY"] + APIDATA["configVector"]["headPositionY"] + APIDATA["headPlacement"]["cabinOffsetY"] + APIDATA["configVector"]["cabinPositionY"])
-        HeadZValue = float(APIDATA["headPlacement"]["headOffsetZ"] + APIDATA["configVector"]["headPositionZ"] + APIDATA["headPlacement"]["cabinOffsetZ"] + APIDATA["configVector"]["cabinPositionZ"])
-        HeadRotationXValue = float(APIDATA["headPlacement"]["headOffsetrotationX"])
-        HeadRotationYValue = float(APIDATA["headPlacement"]["headOffsetrotationY"])
-        HeadRotationZValue = float(APIDATA["headPlacement"]["headOffsetrotationZ"])
+        HeadX = float(APIDATA["headPlacement"]["headOffsetX"] + APIDATA["configVector"]["headPositionX"] + APIDATA["headPlacement"]["cabinOffsetX"] + APIDATA["configVector"]["cabinPositionX"])
+        HeadY = float(APIDATA["headPlacement"]["headOffsetY"] + APIDATA["configVector"]["headPositionY"] + APIDATA["headPlacement"]["cabinOffsetY"] + APIDATA["configVector"]["cabinPositionY"])
+        HeadZ = float(APIDATA["headPlacement"]["headOffsetZ"] + APIDATA["configVector"]["headPositionZ"] + APIDATA["headPlacement"]["cabinOffsetZ"] + APIDATA["configVector"]["cabinPositionZ"])
+        HeadRotationX = float(APIDATA["headPlacement"]["headOffsetrotationX"])
+        HeadRotationY = float(APIDATA["headPlacement"]["headOffsetrotationY"])
+        HeadRotationZ = float(APIDATA["headPlacement"]["headOffsetrotationZ"])
+
+
+        Camera = self.modules.Camera.run()
+        if Camera is not None:
+            FOV = Camera.fov
+            Angles = Camera.rotation.euler()
+            CameraX = Camera.position.x + Camera.cx * 512
+            CameraY = Camera.position.y
+            CameraZ = Camera.position.z + Camera.cz * 512
+            CameraRotationDegreesX = Angles[1]
+            CameraRotationDegreesY = Angles[0]
+            CameraRotationDegreesZ = Angles[2]
 
 
         Data = {
             "Time": CurrentTime,
             "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "SessionID": SessionID,
-            "FOVValue": FOVValue,
-            "RouteAdvisorSideValue": RouteAdvisorSideValue,
-            "RouteAdvisorZoomCorrectValue": RouteAdvisorZoomCorrectValue,
-            "RouteAdvisorTabCorrectValue:": RouteAdvisorTabCorrectValue,
-            "GameValue": GameValue,
-            "SpeedValue": SpeedValue,
-            "SpeedLimitValue": SpeedLimitValue,
-            "CruiseControlEnabledValue": CruiseControlEnabledValue,
-            "CruiseControlSpeedValue": CruiseControlSpeedValue,
-            "SteeringValue": SteeringValue,
-            "ThrottleValue": ThrottleValue,
-            "BrakeValue": BrakeValue,
-            "ClutchValue": ClutchValue,
-            "ParkBrakeValue": ParkBrakeValue,
-            "WipersValue": WipersValue,
-            "GearValue": GearValue,
-            "GearsValue": GearsValue,
-            "ReverseGearsValue": ReverseGearsValue,
-            "EngineRPMValue": EngineRPMValue,
-            "LeftIndicatorValue": LeftIndicatorValue,
-            "RightIndicatorValue": RightIndicatorValue,
-            "HazardLightsValue": HazardLightsValue,
-            "ParkingLightsValue": ParkingLightsValue,
-            "LowBeamLightsValue": LowBeamLightsValue,
-            "HighBeamLightsValue": HighBeamLightsValue,
-            "BeaconLightsValue": BeaconLightsValue,
-            "BrakeLightsValue": BrakeLightsValue,
-            "ReverseLightsValue": ReverseLightsValue,
-            "PositionXValue": PositionXValue,
-            "PositionYValue": PositionYValue,
-            "PositionZValue": PositionZValue,
-            "RotationXValue": RotationXValue,
-            "RotationYValue": RotationYValue,
-            "RotationZValue": RotationZValue,
-            "CabinXValue": CabinXValue,
-            "CabinYValue": CabinYValue,
-            "CabinZValue": CabinZValue,
-            "CabinRotationXValue": CabinRotationXValue,
-            "CabinRotationYValue": CabinRotationYValue,
-            "CabinRotationZValue": CabinRotationZValue,
-            "HeadXValue": HeadXValue,
-            "HeadYValue": HeadYValue,
-            "HeadZValue": HeadZValue,
-            "HeadRotationXValue": HeadRotationXValue,
-            "HeadRotationYValue": HeadRotationYValue,
-            "HeadRotationZValue": HeadRotationZValue
+            "FOV": FOV,
+            "RouteAdvisorSide": RouteAdvisorSide,
+            "RouteAdvisorZoomCorrect": RouteAdvisorZoomCorrect,
+            "RouteAdvisorTabCorrect:": RouteAdvisorTabCorrect,
+            "Game": Game,
+            "Speed": Speed,
+            "SpeedLimit": SpeedLimit,
+            "CruiseControlEnabled": CruiseControlEnabled,
+            "CruiseControlSpeed": CruiseControlSpeed,
+            "Steering": Steering,
+            "Throttle": Throttle,
+            "Brake": Brake,
+            "Clutch": Clutch,
+            "ParkBrake": ParkBrake,
+            "Wipers": Wipers,
+            "Gear": Gear,
+            "Gears": Gears,
+            "ReverseGears": ReverseGears,
+            "EngineRPM": EngineRPM,
+            "LeftIndicator": LeftIndicator,
+            "RightIndicator": RightIndicator,
+            "HazardLights": HazardLights,
+            "ParkingLights": ParkingLights,
+            "LowBeamLights": LowBeamLights,
+            "HighBeamLights": HighBeamLights,
+            "BeaconLights": BeaconLights,
+            "BrakeLights": BrakeLights,
+            "ReverseLights": ReverseLights,
+            "CameraX": CameraX,
+            "CameraY": CameraY,
+            "CameraZ": CameraZ,
+            "CameraRotationDegreesX": CameraRotationDegreesX,
+            "CameraRotationDegreesY": CameraRotationDegreesY,
+            "CameraRotationDegreesZ": CameraRotationDegreesZ,
+            "PositionX": PositionX,
+            "PositionY": PositionY,
+            "PositionZ": PositionZ,
+            "RotationX": RotationX,
+            "RotationY": RotationY,
+            "RotationZ": RotationZ,
+            "CabinX": CabinX,
+            "CabinY": CabinY,
+            "CabinZ": CabinZ,
+            "CabinRotationX": CabinRotationX,
+            "CabinRotationY": CabinRotationY,
+            "CabinRotationZ": CabinRotationZ,
+            "HeadX": HeadX,
+            "HeadY": HeadY,
+            "HeadZ": HeadZ,
+            "HeadRotationX": HeadRotationX,
+            "HeadRotationY": HeadRotationY,
+            "HeadRotationZ": HeadRotationZ
         }
 
 
         if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving") == False:
             os.mkdir(f"{variables.PATH}Data-Collection-End-To-End-Driving")
 
-        Name = str(CurrentTime)
+        if LastData != None:
+            Name = str(CurrentTime)
 
-        with open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.json", "w") as F:
-            json.dump(Data, F, indent=4)
+            with open(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.json", "w") as F:
+                json.dump(LastData, F, indent=4)
 
-        cv2.imwrite(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.png", Frame, [int(cv2.IMWRITE_PNG_COMPRESSION), 9])
+            cv2.imwrite(f"{variables.PATH}Data-Collection-End-To-End-Driving/{Name}.png", LastFrame, [int(cv2.IMWRITE_PNG_COMPRESSION), 9])
+
+        LastData = Data.copy()
+        LastFrame = Frame.copy()

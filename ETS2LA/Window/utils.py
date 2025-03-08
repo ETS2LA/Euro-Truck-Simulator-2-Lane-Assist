@@ -158,7 +158,7 @@ def set_window_icon(image_path: str) -> None:
     
     :param str image_path: The path to the image.
     """
-    hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+    hwnd = win32gui.FindWindow(None, variables.APPTITLE)
     icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
     hicon = win32gui.LoadImage(None, image_path, win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
 
@@ -187,7 +187,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
     while returnCode != 0:
         time.sleep(0.01)
         
-        hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+        hwnd = win32gui.FindWindow(None, variables.APPTITLE)
         returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
         
         set_window_icon('ETS2LA/Window/favicon.ico')
@@ -214,7 +214,7 @@ def check_if_window_still_open() -> bool:
         return True
     
     if os.name == 'nt':
-        hwnd = win32gui.FindWindow(None, f'ETS2LA - Tumppi066 & Contributors © {variables.YEAR}')
+        hwnd = win32gui.FindWindow(None, variables.APPTITLE)
         if hwnd == 0:
             return False
         else:
