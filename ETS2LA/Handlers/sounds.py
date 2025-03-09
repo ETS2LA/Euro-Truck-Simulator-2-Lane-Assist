@@ -1,13 +1,27 @@
 # TODO: This file is garbage. Rewrite it completely.
+from ETS2LA.Utils.packages import DownloadLibrary
+import logging
+import sys
+import os
+
+try:
+    path = DownloadLibrary("ffmpeg")
+except:
+    path = None
+    logging.error("Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])")
+    
+if path is not None:
+    path = path.replace("ffmpeg.exe", "")
+    sys.path.append(path)
+    os.environ["PATH"] += path
+
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.variables import PATH
 from pydub import AudioSegment
 import sounddevice as sd
 import numpy as np
-import logging
 import json
-import os
     
 # Detect available sound packs
 SOUNDPACKS_PATH = "ETS2LA/Assets/Sounds/"
