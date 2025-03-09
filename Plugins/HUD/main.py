@@ -25,6 +25,7 @@ class Settings(ETS2LASettingsMenu):
         Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the HUD elements.", default=0)
         
         Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the HUD.")
+        Switch("Draw Wheel Paths", "draw_wheel_paths", False, description="Draw the wheel paths on the HUD.")
         Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
         Switch("Show Traffic Light Times", "show_traffic_light_times", True, description="Show the remaining time for all traffic lights on the HUD.")
         
@@ -200,6 +201,11 @@ class Plugin(ETS2LAPlugin):
         if draw_steering is None:
             self.settings.draw_steering = False
             draw_steering = False
+
+        draw_wheel_paths = self.settings.draw_wheel_paths
+        if draw_wheel_paths is None:
+            self.settings.draw_wheel_paths = False
+            draw_wheel_paths = False
             
         show_navigation = self.settings.show_navigation
         if show_navigation is None:
@@ -221,7 +227,7 @@ class Plugin(ETS2LAPlugin):
             self.settings.show_traffic_light_times = True
             show_traffic_lights = True
         
-        return draw_steering, show_navigation, refresh_rate, scale, show_traffic_lights
+        return draw_steering, draw_wheel_paths, show_navigation, refresh_rate, scale, show_traffic_lights
     
     def get_start_end_time(self):
         self.load_start_time = time.time()
@@ -369,6 +375,23 @@ class Plugin(ETS2LAPlugin):
         
         return ar_data
 
+
+    def CalculateRadiusFrontWheel(self, SteeringAngle, Distance):
+        SteeringAngle = math.radians(SteeringAngle)
+        if SteeringAngle != 0:
+            return Distance / math.sin(SteeringAngle)
+        else:
+            return float("inf")
+
+
+    def CalculateRadiusBackWheel(self, SteeringAngle, Distance):
+        SteeringAngle = math.radians(SteeringAngle)
+        if SteeringAngle != 0:
+            return Distance / math.tan(SteeringAngle)
+        else:
+            return float("inf")
+
+
     def run(self):
         X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         height = Y2 - Y1
@@ -381,7 +404,7 @@ class Plugin(ETS2LAPlugin):
         speed_nav_offset_x = 0
         offset_x, offset_y, offset_z = self.get_offsets()
         anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
-        draw_steering, show_navigation, refresh_rate, scale, show_trafic_lights = self.get_settings()
+        draw_steering, draw_wheel_paths, show_navigation, refresh_rate, scale, show_trafic_lights = self.get_settings()
         
         scaling *= scale
         
@@ -427,7 +450,104 @@ class Plugin(ETS2LAPlugin):
                     ar_data.append(line)
             except:
                 pass
-            
+
+        if draw_wheel_paths:
+            APIDATA = self.modules.TruckSimAPI.run()
+            TruckX = APIDATA["truckPlacement"]["coordinateX"]
+            TruckY = APIDATA["truckPlacement"]["coordinateY"]
+            TruckZ = APIDATA["truckPlacement"]["coordinateZ"]
+            TruckRotationX = APIDATA["truckPlacement"]["rotationX"]
+            TruckRotationY = APIDATA["truckPlacement"]["rotationY"]
+            TruckRotationZ = APIDATA["truckPlacement"]["rotationZ"]
+
+            TruckRotationDegreesX = TruckRotationX * 360
+            TruckRotationRadiansX = -math.radians(TruckRotationDegreesX)
+
+            TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
+            TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
+            TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
+
+            WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
+
+            WheelCoordinates = []
+            for i in range(len(TruckWheelPointsX)):
+                PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
+                PointY = TruckY + TruckWheelPointsY[i]
+                PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
+                WheelCoordinates.append((PointX, PointY, PointZ))
+
+            if len(WheelCoordinates) >= 4 and len(WheelAngles) >= 2:
+                FrontLeftWheel = WheelCoordinates[0]
+                FrontRightWheel = WheelCoordinates[1]
+
+                BackLeftWheels = []
+                BackRightWheels = []
+
+                for i in range(len(WheelCoordinates)):
+                    if len(WheelAngles) > i:
+                        continue
+
+                    if i % 2 == 0:
+                        BackLeftWheels.append(WheelCoordinates[i])
+                    else:
+                        BackRightWheels.append(WheelCoordinates[i])
+
+                BackLeftWheel = (0, 0, 0)
+                BackRightWheel = (0, 0, 0)
+
+                for Wheel in BackLeftWheels:
+                    BackLeftWheel = BackLeftWheel[0] + Wheel[0], BackLeftWheel[1] + Wheel[1], BackLeftWheel[2] + Wheel[2]
+
+                for Wheel in BackRightWheels:
+                    BackRightWheel = BackRightWheel[0] + Wheel[0], BackRightWheel[1] + Wheel[1], BackRightWheel[2] + Wheel[2]
+
+                BackLeftWheel = BackLeftWheel[0] / len(BackLeftWheels), BackLeftWheel[1] / len(BackLeftWheels), BackLeftWheel[2] / len(BackLeftWheels)
+                BackRightWheel = BackRightWheel[0] / len(BackRightWheels), BackRightWheel[1] / len(BackRightWheels), BackRightWheel[2] / len(BackRightWheels)
+
+                FrontLeftSteerAngle = WheelAngles[0] * 360
+                FrontRightSteerAngle = WheelAngles[1] * 360
+
+                DistanceLeft = math.sqrt((FrontLeftWheel[0] - BackLeftWheel[0]) ** 2 + (FrontLeftWheel[2] - BackLeftWheel[2]) ** 2)
+                DistanceRight = math.sqrt((FrontRightWheel[0] - BackRightWheel[0]) ** 2 + (FrontRightWheel[2] - BackRightWheel[2]) ** 2)
+
+                LeftFrontWheelRadius = self.CalculateRadiusFrontWheel(FrontLeftSteerAngle, DistanceLeft)
+                LeftBackWheelRadius = self.CalculateRadiusBackWheel(FrontLeftSteerAngle, DistanceLeft)
+                RightFrontWheelRadius = self.CalculateRadiusFrontWheel(FrontRightSteerAngle, DistanceRight)
+                RightBackWheelRadius = self.CalculateRadiusBackWheel(FrontRightSteerAngle, DistanceRight)
+
+                LeftCenterX = BackLeftWheel[0] - LeftBackWheelRadius * math.cos(TruckRotationRadiansX)
+                LeftCenterZ = BackLeftWheel[2] - LeftBackWheelRadius * math.sin(TruckRotationRadiansX)
+                RightCenterX = BackRightWheel[0] - RightBackWheelRadius * math.cos(TruckRotationRadiansX)
+                RightCenterZ = BackRightWheel[2] - RightBackWheelRadius * math.sin(TruckRotationRadiansX)
+
+                for i in range(2):
+                    if i == 0:
+                        R = LeftFrontWheelRadius
+                        CenterX = LeftCenterX
+                        CenterZ = LeftCenterZ
+                        Offset = math.degrees(math.atan(DistanceLeft / R))
+                    else:
+                        R = RightFrontWheelRadius
+                        CenterX = RightCenterX
+                        CenterZ = RightCenterZ
+                        Offset = math.degrees(math.atan(DistanceRight / R))
+                    Points = []
+                    for j in range(45):
+                        Angle = j * (1 / -R) * 30 - TruckRotationDegreesX - Offset
+                        Angle = math.radians(Angle)
+                        X = CenterX + R * math.cos(Angle)
+                        Z = CenterZ + R * math.sin(Angle)
+                        Points.append(Coordinate(X, TruckY, Z))
+
+                    ar_data.append(
+                            Polygon(points=Points,
+                                    closed=False,
+                                    thickness=2,
+                                    fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
+                                )
+                        )
+
+
         if show_trafic_lights:
             semaphores = self.modules.Semaphores.run()
             traffic_lights = [semaphore for semaphore in semaphores if isinstance(semaphore, TrafficLight)]
