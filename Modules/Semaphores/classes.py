@@ -73,6 +73,7 @@ class Semaphore():
     time_left: float
     state: int
     id: int
+    uid: str
     
     def __init__(self, position: Position, cx: float, cy: float, quat: Quaternion, type: int, time_left: float, state: int, id: int):
         self.position = position
@@ -83,9 +84,23 @@ class Semaphore():
         self.time_left = time_left
         self.state = state
         self.id = id
+        self.uid = f"{self.type}{self.id}{int(self.position.x)}{int(self.position.y)}{int(self.position.z)}"
         
     def __str__(self):
         return f"Semaphore({self.position}, {self.cx:.2f}, {self.cy:.2f}, {self.quat}, {self.type}, {self.time_left:.2f}, {self.state}, {self.id})"
+
+    def __dict__(self): # type: ignore
+        return {
+            "position": self.position.__dict__,
+            "rotation": self.quat.__dict__(),
+            "cx": self.cx,
+            "cy": self.cy,
+            "type": self.type,
+            "time_left": self.time_left,
+            "state": self.state,
+            "id": self.id,
+            "uid": self.uid
+        }
 
 # Traffic light states
 OFF = 0
@@ -152,6 +167,12 @@ class TrafficLight(Semaphore):
         elif self.state == SLEEP:
             return (64, 64, 64)
         return (64, 64, 64)
+    
+    def __dict__(self):
+        super_dict = super().__dict__()
+        super_dict["state_text"] = self.state_text()
+        super_dict["color"] = self.color()
+        return super_dict
 
 class Gate(Semaphore):
     def __init__(self, position: Position, cx: float, cy: float, quat: Quaternion, time_left: float, state: int, id: int):
@@ -170,3 +191,19 @@ class Gate(Semaphore):
             
         text += f" ({self.time_left:.1f}s left)"
         return f"{text}"
+    
+    def state_text(self):
+        if self.state == CLOSING:
+            return "Closing"
+        elif self.state == CLOSED:
+            return "Closed"
+        elif self.state == OPENING:
+            return "Opening"
+        elif self.state == OPEN:
+            return "Open"
+        return "Unknown"
+    
+    def __dict__(self):
+        super_dict = super().__dict__()
+        super_dict["state_text"] = self.state_text()
+        return super_dict

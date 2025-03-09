@@ -188,6 +188,23 @@ available_channels = [
                 "description": "Unsubscribe from the status data updates."
             }
         ]
+    },
+    {
+        "channel": 8,
+        "name": "Semaphores",
+        "description": "Provides data for traffic lights and gates.",
+        "commands": [
+            {
+                "name": "subscribe",
+                "method": "subscribe",
+                "description": "Subscribe to the semaphore data updates."
+            },
+            {
+                "name": "unsubscribe",
+                "method": "unsubscribe",
+                "description": "Unsubscribe from the semaphore data updates."
+            }
+        ]
     }
 ]
 
@@ -212,7 +229,7 @@ class Plugin(ETS2LAPlugin):
         name="Visualization Sockets",
         version="2.0",
         description="Unity visualization socket connection.",
-        modules=["TruckSimAPI", "Traffic"],
+        modules=["TruckSimAPI", "Traffic", "Semaphores"],
         tags=["Base", "Visualization"]
     )
     
@@ -490,6 +507,23 @@ class Plugin(ETS2LAPlugin):
         }
         
         return send
+    
+    def semaphores(self, data):
+        semaphores = self.modules.Semaphores.run()
+        traffic_lights = [semaphore for semaphore in semaphores if semaphore.type == "traffic_light"]
+        gates = [semaphore for semaphore in semaphores if semaphore.type == "gate"]
+        
+        send = {
+            "traffic_lights": [
+                semaphore.__dict__()
+                for semaphore in traffic_lights
+            ],
+            "gates": [
+                semaphore.__dict__()
+                for semaphore in gates
+            ]
+        }
+        return send
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
@@ -527,7 +561,8 @@ class Plugin(ETS2LAPlugin):
         4: traffic,
         5: trailers,
         6: highlights,
-        7: status
+        7: status,
+        8: semaphores
     }
     
     last_timestamp = 0
@@ -536,30 +571,28 @@ class Plugin(ETS2LAPlugin):
         api_data = TruckSimAPI.run()
         channel_data = {} # Cache data for each channel for a frame.
         
-        #if api_data["time"] == self.last_timestamp:
-        #    self.fps_cap = 1000
-        #    return
-        #else:
         self.fps_cap = 20
         self.last_timestamp = api_data["time"]
 
         try:
             for websocket, connection in list(self.connected_clients.items()):
-                if connection.acknowledged:
-                    for channel in connection.subscribed_channels:
-                        try:
-                            if channel not in channel_data:
-                                if channel in self.channel_data_calls:
-                                    channel_data[channel] = self.channel_data_calls[channel](self, api_data)
-                                else:
-                                    logging.warning(f"Channel {channel} not implemented.")
-                                    continue
-                                
-                            message = self.create_socket_message(channel, channel_data[channel])
-                            asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
+                if not connection.acknowledged:
+                    continue
+                
+                for channel in connection.subscribed_channels:
+                    try:
+                        if channel not in channel_data:
+                            if channel not in self.channel_data_calls:
+                                logging.warning(f"Channel {channel} not implemented.")
+                                continue    
+                            channel_data[channel] = self.channel_data_calls[channel](self, api_data)
                             
-                        except Exception as e:
-                            logging.warning(f"Error sending data to client: {str(e)} on channel {channel}.")
-                    connection.acknowledged = False
+                        message = self.create_socket_message(channel, channel_data[channel])
+                        asyncio.run_coroutine_threadsafe(connection.queue.put(json.dumps(message)), self.loop)
+                        
+                    except Exception as e:
+                        logging.warning(f"Error sending data to client: {str(e)} on channel {channel}.")
+                
+                connection.acknowledged = False
         except:
             pass # Got disconnected while iterating over the clients.
