@@ -10,6 +10,39 @@ import math
 OFFSET_MULTIPLIER = 1.5
 ANGLE_MULTIPLIER = 1
 
+def get_closest_route_item(items: list[rc.RouteItem]):
+    in_bounding_box = []
+    for item in items:
+        item = item.item
+
+        if item.bounding_box.is_in(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+            in_bounding_box.append(item)
+
+    closest_item = None
+    closest_point_distance = math.inf
+    for item in in_bounding_box:
+        if type(item) == c.Prefab:
+            for lane_id, lane in enumerate(item.nav_routes):
+                for point in lane.points:
+                    point_tuple = point.tuple()
+                    point_tuple = (point_tuple[0], point_tuple[2])
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                    if distance < closest_point_distance:
+                        closest_point_distance = distance
+                        closest_item = item
+
+        elif type(item) == c.Road:
+            for lane_id, lane in enumerate(item.lanes):
+                for point in lane.points:
+                    point_tuple = point.tuple()
+                    point_tuple = (point_tuple[0], point_tuple[2])
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                    if distance < closest_point_distance:
+                        closest_point_distance = distance
+                        closest_item = item
+
+    return closest_item
+
 was_indicating = False
 def CheckForLaneChange():
     global was_indicating
@@ -30,9 +63,9 @@ def CheckForLaneChange():
         
         target_index = current_index
         change = 1 if data.truck_indicating_right else -1
-        
-        end_node = data.route_plan[0].end_node
-        end_node_in_front = math_helpers.IsInFront([end_node.x, end_node.y], data.truck_rotation, [data.truck_x, data.truck_z])
+
+        closest_item = get_closest_route_item(data.route_plan[0].items)
+        end_node_in_front = math_helpers.IsInFront((closest_item.end_node.x, closest_item.end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
             
         if side == "left":    
             if end_node_in_front: # Normal lane change
