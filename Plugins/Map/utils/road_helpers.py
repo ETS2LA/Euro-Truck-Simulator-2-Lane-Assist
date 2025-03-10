@@ -75,16 +75,14 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
             perp_vector = perpendicular_vector(direction_vector)
 
             if num_left_lanes == 0: # lanes on only right side
-                custom_offset = 999
-                middle_offset = -perp_vector * lane_width * num_right_lanes / 2
+                middle_offset = perp_vector * lane_width * (num_right_lanes + 1) / 2
                 if num_right_lanes % 2 == 0:
                     middle_offset -= perp_vector * lane_width / 2
                 point1 -= middle_offset
                 point2 -= middle_offset
                 
             elif num_right_lanes == 0: # lanes on only left side
-                custom_offset = 999
-                middle_offset = perp_vector * lane_width * num_left_lanes / 2
+                middle_offset = -perp_vector * lane_width * (num_left_lanes + 1) / 2
                 if num_left_lanes % 2 == 0:
                     middle_offset += perp_vector * lane_width / 2
                 point1 -= middle_offset
@@ -102,10 +100,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
             #     point2 -= middle_offset
 
             for lane in range(num_left_lanes): # left lanes
-                if custom_offset == 999 or (num_left_lanes == 1 and num_right_lanes == 0):
-                    offset = perp_vector * (lane_width * (lane + 1))
-                else:
-                    offset = perp_vector * (lane_width * (lane) + custom_offset / 2)
+                offset = perp_vector * (lane_width * (lane) + custom_offset / 2)
 
                 left_point1 = point1 - offset
                 left_point2 = point2 - offset
@@ -114,10 +109,8 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
                     lanes['left'][lane].append(left_point2.tolist())
 
             for lane in range(num_right_lanes): # right lanes
-                if custom_offset == 999 or (num_left_lanes == 0 and num_right_lanes == 1):
-                    offset = perp_vector * (lane_width * (lane + 1))
-                else:
-                    offset = perp_vector * (lane_width * (lane) + custom_offset / 2)
+                offset = perp_vector * (lane_width * (lane) + custom_offset / 2)
+
                 right_point1 = point1 + offset
                 right_point2 = point2 + offset
                 lanes['right'][lane].append(right_point1.tolist())
