@@ -29,7 +29,7 @@ def CheckForLaneChange():
         side = lanes[current_index].side
         
         target_index = current_index
-        change = -1 if data.truck_indicating_right else 1
+        change = 1 if data.truck_indicating_right else -1
         
         end_node = data.route_plan[0].end_node
         end_node_in_front = math_helpers.IsInFront([end_node.x, end_node.y], data.truck_rotation, [data.truck_x, data.truck_z])
