@@ -81,40 +81,11 @@ def RoadToRouteSection(road: c.Road, lane_index: int, invert: bool = False) -> r
     return route_section
                 
 def GetClosestRouteSection() -> rc.RouteSection:
-    in_bounding_box = []
     items: list[c.Prefab | c.Road] = []
     items += data.current_sector_prefabs
     items += data.current_sector_roads
-    for item in items:
-        if item.bounding_box.is_in(c.Position(data.truck_x, data.truck_y, data.truck_z)):
-            in_bounding_box.append(item)
-            
-    closest_lane_id = 0
-    closest_item = None
-    closest_point_distance = math.inf
-    for item in in_bounding_box:
-        if type(item) == c.Prefab:
-            for lane_id, lane in enumerate(item.nav_routes):
-                for point in lane.points:
-                    point_tuple = point.tuple()
-                    point_tuple = (point_tuple[0], point_tuple[2])
-                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
-                    if distance < closest_point_distance:
-                        closest_point_distance = distance
-                        closest_item = item
-                        closest_lane_id = lane_id
-                        
-        elif type(item) == c.Road:
-            for lane_id, lane in enumerate(item.lanes):
-                for point in lane.points:
-                    point_tuple = point.tuple()
-                    point_tuple = (point_tuple[0], point_tuple[2])
-                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
-                    if distance < closest_point_distance:
-                        closest_point_distance = distance
-                        closest_item = item
-                        closest_lane_id = lane_id
 
+    closest_item, closest_lane_id = get_closest_route_item(items)
     if closest_item == None:
         return None
     
@@ -643,10 +614,10 @@ def CheckForLaneChangeManual():
         side = lanes[current_index].side
         
         target_index = current_index
-        change = -1 if data.truck_indicating_right else 1
-        
-        end_node = data.route_plan[0].end_node
-        end_node_in_front = math_helpers.IsInFront([end_node.x, end_node.y], data.truck_rotation, [data.truck_x, data.truck_z])
+        change = 1 if data.truck_indicating_right else -1
+
+        closest_item, closest_lane = get_closest_route_item(data.route_plan[0].items)
+        end_node_in_front = math_helpers.IsInFront((closest_item.end_node.x, closest_item.end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
             
         if side == "left":    
             if end_node_in_front: # Normal lane change
@@ -727,12 +698,13 @@ def CheckForLaneChange():
                 
         if target > len(lanes) - 1:
             target = len(lanes) - 1
-                
-        end_node_in_front = math_helpers.IsInFront((current.end_node.x, current.end_node.z), data.truck_rotation, (data.truck_x, data.truck_z))
+
+        closest_item, closest_lane = get_closest_route_item(current.items)
+        end_node_in_front = math_helpers.IsInFront((closest_item.end_node.x, closest_item.end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
         if end_node_in_front:
-            indicate_side = "left" if target > current_index else "right"
-        else:
             indicate_side = "right" if target > current_index else "left"
+        else:
+            indicate_side = "left" if target > current_index else "right"
             
         if target != current_index:
             planned = current.get_planned_lane_change_distance()
@@ -821,3 +793,40 @@ def UpdateRoutePlan():
             CheckForLaneChange()
         except:
             pass
+
+def get_closest_route_item(items: list[c.Prefab | c.Road] | list[rc.RouteItem]):
+    in_bounding_box = []
+    for item in items:
+        if isinstance(item, rc.RouteItem):
+            item = item.item
+
+        if item.bounding_box.is_in(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+            in_bounding_box.append(item)
+
+    closest_lane_id = 0
+    closest_item = None
+    closest_point_distance = math.inf
+    for item in in_bounding_box:
+        if type(item) == c.Prefab:
+            for lane_id, lane in enumerate(item.nav_routes):
+                for point in lane.points:
+                    point_tuple = point.tuple()
+                    point_tuple = (point_tuple[0], point_tuple[2])
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                    if distance < closest_point_distance:
+                        closest_point_distance = distance
+                        closest_item = item
+                        closest_lane_id = lane_id
+
+        elif type(item) == c.Road:
+            for lane_id, lane in enumerate(item.lanes):
+                for point in lane.points:
+                    point_tuple = point.tuple()
+                    point_tuple = (point_tuple[0], point_tuple[2])
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                    if distance < closest_point_distance:
+                        closest_point_distance = distance
+                        closest_item = item
+                        closest_lane_id = lane_id
+
+    return closest_item, closest_lane_id
