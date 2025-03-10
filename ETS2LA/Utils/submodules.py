@@ -96,6 +96,6 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
             ExecuteCommand(f"git -C {folder} pull")
             return True
     except:
-        print(f"{RED} -- Failed to update / check for updates for the submodule (remove the corresponding folder in code/app to redownload if possible): {YELLOW} {folder} {RED} -- {END}")
+        print(f"{YELLOW} -- Failed to update / check for updates for the submodule (remove the corresponding folder in code/app to redownload if possible): {folder} -- {END}")
     
     return False
