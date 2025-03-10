@@ -383,7 +383,7 @@ class Plugin(ETS2LAPlugin):
             "speed": data["truckFloat"]["speed"],
             "speed_limit": data["truckFloat"]["speedLimit"],
             "cruise_control": data["truckFloat"]["cruiseControlSpeed"],
-            "target_speed": target_speed if target_speed else -1,
+            "target_speed": target_speed if target_speed else 0,
             "throttle": data["truckFloat"]["gameThrottle"],
             "brake": data["truckFloat"]["gameBrake"]
         }
