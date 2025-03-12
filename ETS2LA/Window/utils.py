@@ -158,12 +158,15 @@ def set_window_icon(image_path: str) -> None:
     
     :param str image_path: The path to the image.
     """
-    hwnd = win32gui.FindWindow(None, variables.APPTITLE)
-    icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-    hicon = win32gui.LoadImage(None, image_path, win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
+    try:
+        hwnd = win32gui.FindWindow(None, variables.APPTITLE)
+        icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
+        hicon = win32gui.LoadImage(None, image_path, win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
 
-    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
-    win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)   # type: ignore
+        win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
+        win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)   # type: ignore
+    except:
+        pass
 
 
 def color_title_bar(theme: Literal["dark", "light"] = "dark"):
