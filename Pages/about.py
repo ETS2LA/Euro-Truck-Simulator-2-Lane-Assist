@@ -121,11 +121,11 @@ class Page(ETS2LAPage):
                             Link("  Ko-Fi", "https://ko-fi.com/tumppi066")
                         with Group("vertical", gap=6, padding=0):
                             Description(Translate("about.contribute_description"))
-                            Link("  Discord", "https://discord.gg/ETS2LA")
+                            Link("  Discord", "https://ets2la.com/discord")
                             Link("  Github", "https://github.com/ETS2LA")
                         with Group("vertical", gap=6, padding=0):
                             Description(Translate("about.translate_description"))
-                            Link("  Discord", "https://discord.gg/ETS2LA")
+                            Link("  Discord", "https://ets2la.com/discord")
                             
                     Space(12)
                     with Group("vertical", padding=0, gap=16):
