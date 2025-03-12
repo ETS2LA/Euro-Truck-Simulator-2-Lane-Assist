@@ -146,7 +146,7 @@ def Get(plugin, key, default=None):
                 return None
         
     except Exception as e:
-        logging.error(e)
+        logging.error(f"Error while reading [yellow]{filename}[/yellow]. It is possible the file is corrupted. You should delete it and try again.")
         return None
 
 from functools import reduce
