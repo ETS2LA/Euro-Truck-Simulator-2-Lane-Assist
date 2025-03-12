@@ -195,7 +195,7 @@ class Plugin(ETS2LAPlugin):
             
         if distance_setting is None:
             distance_setting = 'Normal'
-            self.settings.distance = distance_setting
+            self.settings.following_distance = distance_setting
             
         if overwrite_speed is None:
             overwrite_speed = 30
