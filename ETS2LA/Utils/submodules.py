@@ -43,7 +43,9 @@ def EnsureSubmoduleExists(folder: str, url: str, cdn_url: str = "", cdn_path: st
     if not os.path.exists(folder):
         print(f"{GREEN} -- Please wait, we need to download the following submodule: {YELLOW} {folder} {GREEN} -- {END}") 
         try:
-            ExecuteCommand(f"git clone {url} {folder}")
+            result = ExecuteCommand(f"git clone {url} {folder}")
+            if result != 0:
+                DownloadSubmoduleViaCDN(folder, cdn_url, cdn_path)
         except:
             DownloadSubmoduleViaCDN(folder, cdn_url, cdn_path)
         
