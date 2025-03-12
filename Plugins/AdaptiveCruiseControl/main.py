@@ -93,10 +93,10 @@ class Plugin(ETS2LAPlugin):
     base_time_gap_seconds = 2.0 # seconds
     
     # These get adjusted
-    max_accel = base_max_accel  
-    comfort_decel = base_comfort_decel
-    emergency_decel = base_emergency_decel
-    time_gap_seconds = base_time_gap_seconds
+    max_accel = 3.0  
+    comfort_decel = -2.0
+    emergency_decel = -5.0
+    time_gap_seconds = 2.0
     
     # PID gains
     kp_accel = 0.30  # Proportional gain
@@ -184,7 +184,7 @@ class Plugin(ETS2LAPlugin):
         
     def update_parameters(self):
         aggressiveness = self.settings.aggressiveness  # 'Aggressive', 'Normal', 'Eco'
-        distance_setting = self.settings.distance  # 'Far', 'Normal', 'Near'
+        distance_setting = self.settings.following_distance  # 'Far', 'Normal', 'Near'
         overwrite_speed = self.settings.overwrite_speed
         speed_offset_type = self.settings.speed_offset_type
         speed_offset = self.settings.speed_offset
@@ -219,6 +219,10 @@ class Plugin(ETS2LAPlugin):
             self.max_accel = self.base_max_accel * 0.66
             self.comfort_decel = self.base_comfort_decel * 0.66
             self.time_gap_seconds = self.base_time_gap_seconds * 1.25
+        else:
+            self.max_accel = self.base_max_accel
+            self.comfort_decel = self.base_comfort_decel
+            self.time_gap_seconds = self.base_time_gap_seconds
         
         if distance_setting == 'Far':
             self.time_gap_seconds *= 1.3
@@ -543,12 +547,12 @@ class Plugin(ETS2LAPlugin):
             
             
     def run(self):
+        self.update_parameters()
+        
         if not self.enabled:
             self.globals.tags.vehicle_highlights = []
             self.globals.tags.AR = []
-            self.reset(); return
-            
-        self.update_parameters()
+            self.reset(); return    
         
         api_data = self.api.run()
         if api_data['truckFloat']['speedLimit'] == 0:
