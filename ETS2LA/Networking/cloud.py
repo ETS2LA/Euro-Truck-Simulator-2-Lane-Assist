@@ -1,7 +1,7 @@
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Events.classes as classes
 import ETS2LA.variables as variables
-from typing import Literal
+from typing import Literal, Any
 import requests
 import logging
 import json
@@ -178,27 +178,54 @@ def Ping(data = [0]):
         
         data[0] = time.time()
         
-def GetUniqueUsers(time: Literal["1h", "6h", "12h", "24h", "1w", "1m"] = "24h"):
+last_unique_check = 0
+last_unique_data = None
+def GetUniqueUsers(interval: Literal["1h", "6h", "12h", "24h", "1w", "1m"] = "24h"):
+    global last_unique_check, last_unique_data
+    if time.perf_counter() - last_unique_check < 60:
+        return last_unique_data
+    
+    print("Updating")
     url = URL + '/tracking/users'
     try:
         r = requests.get(url)
-        return r.json()["data"]["unique"][time]
+        last_unique_data = r.json()["data"]["unique"][interval]
+        last_unique_check = time.perf_counter()
+        return last_unique_data
     except:
         return 0
         
+last_count_check = 0
+last_count_data = None
 def GetUserCount():
+    global last_count_check, last_count_data
+    if time.perf_counter() - last_count_check < 60:
+        return last_count_data
+    
+    print("Updating")
     url = URL + '/tracking/users'
     try:
         r = requests.get(url)
-        return r.json()["data"]["online"]
+        last_count_data = r.json()["data"]["online"]
+        last_count_check = time.perf_counter()
+        return last_count_data
     except:
         return 0
     
+last_time_check = 0
+last_time_data = None
 def GetUserTime():
+    global last_time_check, last_time_data
+    if time.perf_counter() - last_time_check < 60:
+        return last_time_data
+    
+    print("Updating")
     user_id, _, _ = GetCredentials()
     url = URL + f'/tracking/time/{user_id}'
     try:
         r = requests.get(url)
-        return r.json()["data"]["time_used"]
+        last_time_data = r.json()["data"]["time_used"]
+        last_time_check = time.perf_counter()
+        return last_time_data
     except:
         return 0
