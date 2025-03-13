@@ -210,6 +210,7 @@ class Plugin(ETS2LAPlugin):
             self.settings.speed_offset = speed_offset
             
         self.overwrite_speed = overwrite_speed
+        self.speed_offset = speed_offset
         
         if aggressiveness == 'Aggressive':
             self.max_accel = self.base_max_accel * 1.33
