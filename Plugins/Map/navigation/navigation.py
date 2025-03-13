@@ -5,6 +5,10 @@ def get_path_to_destination():
     """Find a path from current position to destination"""
     
     route = data.plugin.modules.Route.run()
+    
+    if not route or len(route) == 0:
+        return []
+    
     if len(route) != len(data.navigation_plan):
         nodes = []
         first = route[0]
