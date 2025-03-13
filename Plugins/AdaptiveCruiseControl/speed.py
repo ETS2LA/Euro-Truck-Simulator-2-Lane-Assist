@@ -69,7 +69,13 @@ def get_maximum_speed_for_points(points) -> float:
         max_curvature = max(curvatures)
         
         # sqrt(MU * G / max_curvature) = max_speed
-        max_speed = np.sqrt(MU * G / max_curvature)  # In m/s
+        try:
+            max_speed = np.sqrt(MU * G / max_curvature)  # In m/s
+        except:
+            return 999
+
+        if max_speed == 0:
+            return 999
 
         return max_speed
     

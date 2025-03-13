@@ -268,7 +268,7 @@ class Plugin(ETS2LAPlugin):
         
         # Red Light
         if traffic_light:
-            if traffic_light.state == 2:  # Red light
+            if traffic_light.state == 2 or traffic_light.state == 1:  # red or changing to red
                 red_light_accel = self.calculate_traffic_light_constraint(traffic_light.distance)
                 target_accelerations.append(red_light_accel)
                 
