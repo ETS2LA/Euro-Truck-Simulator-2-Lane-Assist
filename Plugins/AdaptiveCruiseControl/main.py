@@ -74,6 +74,7 @@ class Plugin(ETS2LAPlugin):
     settings_menu = SettingsMenu()
     
     # Variables
+    accel = 0 # current acceleration value between -1 and 1
     speed = 0 # m/s
     last_speed = 0 # m/s
     last_speed_time = time.perf_counter()
@@ -162,6 +163,9 @@ class Plugin(ETS2LAPlugin):
         
         if distance > 0:
             distance -= 5 # Stop 5 meters before the light
+            
+            if distance < 0:
+                return self.emergency_decel # Stop at the light
             
             # v²/(2*s) formula for constant deceleration to stop
             required_decel = (self.speed ** 2) / (2 * distance)
@@ -478,13 +482,13 @@ class Plugin(ETS2LAPlugin):
 
 
     def set_accel_brake(self, accel:float) -> None:
-        accel = min(1, max(-1, accel))
+        self.accel = min(1, max(-1, accel))
         
-        if accel > 0:
-            self.controller.aforward = float(accel)
+        if self.accel > 0:
+            self.controller.aforward = float(self.accel)
             self.controller.abackward = float(0.0001)
         else:
-            self.controller.abackward = float(-accel)
+            self.controller.abackward = float(-self.accel)
             self.controller.aforward = float(0.0001)
                
             
@@ -508,15 +512,19 @@ class Plugin(ETS2LAPlugin):
         p_term = self.kp_accel * accel_error
         
         if accel_error * dt > 0:
-            self.accel_errors.append(accel_error * dt)
+            if self.accel < 0.95: # Don't add more integral if already going full throttle
+                self.accel_errors.append(accel_error * dt)
         else:
-            self.accel_errors = self.accel_errors[1:]
+            if len(self.accel_errors) != 0 and self.accel_errors[0] > 0:
+                self.accel_errors = self.accel_errors[1:]
+            self.accel_errors.append(accel_error * dt)
             
         # Clear the integral term if we're speeding
         # (dynamically adjust the number to keep at the speedlimit)
         if self.speed > self.speedlimit and len(self.accel_errors) > 5:
-            overshoot = round((self.speed - self.speedlimit) * 3.6)
-            self.accel_errors = self.accel_errors[overshoot*2:]
+            if sum(self.accel_errors) > 0:
+                overshoot = round((self.speed - self.speedlimit) * 3.6)
+                self.accel_errors = self.accel_errors[overshoot*2:]
         
         # Clear the integral term if we're under 10 km/h
         # (to prevent overshooting when starting from a stop)
@@ -551,6 +559,7 @@ class Plugin(ETS2LAPlugin):
         self.update_parameters()
         
         if not self.enabled:
+            self.accel_errors = []
             self.globals.tags.vehicle_highlights = []
             self.globals.tags.AR = []
             self.reset(); return    
@@ -582,5 +591,7 @@ class Plugin(ETS2LAPlugin):
         self.set_accel_brake(target_throttle)
 
         self.globals.tags.acc = self.speedlimit
+        
+        #self.state.text = "Integral length: " + str(len(self.accel_errors)) + "\nValue: " + str(round(sum(self.accel_errors), 2))
 
         return None
