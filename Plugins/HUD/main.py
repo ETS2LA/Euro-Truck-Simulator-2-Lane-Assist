@@ -7,6 +7,7 @@ from Plugins.AR.classes import *
 from Modules.Semaphores.classes import TrafficLight, Semaphore
 
 # General imports
+import threading
 import logging
 import random
 import time
@@ -28,17 +29,16 @@ class Settings(ETS2LASettingsMenu):
         Switch("Draw Wheel Paths", "draw_wheel_paths", False, description="Draw the wheel paths on the HUD.")
         Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
         Switch("Show Traffic Light Times", "show_traffic_light_times", True, description="Show the remaining time for all traffic lights on the HUD.")
+        Switch("Show ACC Info", "show_acc_info", True, description="Show the ACC info on the HUD.")
         
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 2
-    
     description = PluginDescription(
         name="HUD",
         version="1.0",
         description="Creates a heads up display on the windshield. Needs the AR plugin to work.",
-        modules=["TruckSimAPI", "Semaphores"],
+        modules=["TruckSimAPI", "Semaphores", "Traffic"],
         tags=["AR", "Base"],
     )
     
@@ -47,6 +47,8 @@ class Plugin(ETS2LAPlugin):
         url="https://github.com/Tumppi066",
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
+    
+    fps_cap = 30
     
     settings_menu = Settings()
     
@@ -226,8 +228,13 @@ class Plugin(ETS2LAPlugin):
         if show_traffic_lights is None:
             self.settings.show_traffic_light_times = True
             show_traffic_lights = True
+            
+        show_acc_info = self.settings.show_acc_info
+        if show_acc_info is None:
+            self.settings.show_acc_info = True
+            show_acc_info = True
         
-        return draw_steering, draw_wheel_paths, show_navigation, refresh_rate, scale, show_traffic_lights
+        return draw_steering, draw_wheel_paths, show_navigation, refresh_rate, scale, show_traffic_lights, show_acc_info
     
     def get_start_end_time(self):
         self.load_start_time = time.time()
@@ -250,8 +257,6 @@ class Plugin(ETS2LAPlugin):
             opacity = max(0, min(1, opacity))
             
         t = t * (self.times/2) % 1
-        
-        self.fps_cap = 30
         
         slider_ets2la_pos = Point(-30 * scaling, -25 * scaling, anchor=anchor)
 
@@ -391,164 +396,160 @@ class Plugin(ETS2LAPlugin):
         else:
             return float("inf")
 
+    def HudUpdater(self):
+        while True:
+            self.get_map_data()
+            
+            speed_nav_offset_x = 0
+            offset_x, offset_y, offset_z = self.get_offsets()
+            anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
+            draw_steering, draw_wheel_paths, show_navigation, refresh_rate, scale, show_trafic_lights, show_acc_info = self.get_settings()
+            
+            speed = self.api_data["truckFloat"]["speed"] * 3.6
+            speed_limit = self.api_data["truckFloat"]["speedLimit"] * 3.6
+            
+            distance = self.globals.tags.next_intersection_distance
+            distance = self.globals.tags.merge(distance)
+            
+            if show_navigation and distance is not None and distance != 1 and distance != 0:
+                speed_nav_offset_x -= 50 * self.scaling
+            
+            ar_data = []
+            ar_data += self.speed(speed, speed_limit, anchor, [speed_nav_offset_x - 15, 0, 0], scaling=self.scaling)
+            if show_navigation:
+                ar_data += self.navigation(distance, anchor, [speed_nav_offset_x + 15, 0, 0], scaling=self.scaling, data=self.api_data)
+                
+            self.hud_data = ar_data
+            
+            time.sleep(1/2) # 2fps
+            
+    def WheelUpdater(self):
+        while True:
+            if self.settings.draw_wheel_paths:
+                self.wheel_data = []
+                TruckX = self.api_data["truckPlacement"]["coordinateX"]
+                TruckY = self.api_data["truckPlacement"]["coordinateY"]
+                TruckZ = self.api_data["truckPlacement"]["coordinateZ"]
+                TruckRotationX = self.api_data["truckPlacement"]["rotationX"]
+                TruckRotationY = self.api_data["truckPlacement"]["rotationY"]
+                TruckRotationZ = self.api_data["truckPlacement"]["rotationZ"]
 
-    def run(self):
-        X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
-        height = Y2 - Y1
-        default_height = 1440
-        scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
-        
-        data = self.modules.TruckSimAPI.run()
-        self.get_map_data()
-        
-        speed_nav_offset_x = 0
-        offset_x, offset_y, offset_z = self.get_offsets()
-        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
-        draw_steering, draw_wheel_paths, show_navigation, refresh_rate, scale, show_trafic_lights = self.get_settings()
-        
-        scaling *= scale
-        
-        speed = data["truckFloat"]["speed"] * 3.6
-        speed_limit = data["truckFloat"]["speedLimit"] * 3.6
-        engine = data["truckBool"]["engineEnabled"]
-        
-        distance = self.globals.tags.next_intersection_distance
-        distance = self.globals.tags.merge(distance)
+                TruckRotationDegreesX = TruckRotationX * 360
+                TruckRotationRadiansX = -math.radians(TruckRotationDegreesX)
 
-        if not engine:
-            self.globals.tags.AR = []
-            self.get_start_end_time()
-            self.fps_cap = 10
-            return
-        
-        if self.boot_sequence(time.time(), anchor, scaling=scaling):
-            return
-        
-        self.fps_cap = refresh_rate
-        
-        if show_navigation and distance is not None and distance != 1 and distance != 0:
-            speed_nav_offset_x -= 50 * scaling
-        
-        ar_data = []
-        ar_data += self.speed(speed, speed_limit, anchor, [speed_nav_offset_x - 15, 0, 0], scaling=scaling)
-        if show_navigation:
-            ar_data += self.navigation(distance, anchor, [speed_nav_offset_x + 15, 0, 0], scaling=scaling, data=data)
-        
-        if draw_steering:
+                TruckWheelPointsX = [Point for Point in self.api_data["configVector"]["truckWheelPositionX"] if Point != 0]
+                TruckWheelPointsY = [Point for Point in self.api_data["configVector"]["truckWheelPositionY"] if Point != 0]
+                TruckWheelPointsZ = [Point for Point in self.api_data["configVector"]["truckWheelPositionZ"] if Point != 0]
+
+                WheelAngles = [Angle for Angle in self.api_data["truckFloat"]["truck_wheelSteering"] if Angle != 0]
+
+                WheelCoordinates = []
+                for i in range(len(TruckWheelPointsX)):
+                    PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
+                    PointY = TruckY + TruckWheelPointsY[i]
+                    PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
+                    WheelCoordinates.append((PointX, PointY, PointZ))
+
+                if len(WheelCoordinates) >= 4 and len(WheelAngles) >= 2:
+                    FrontLeftWheel = WheelCoordinates[0]
+                    FrontRightWheel = WheelCoordinates[1]
+
+                    BackLeftWheels = []
+                    BackRightWheels = []
+
+                    for i in range(len(WheelCoordinates)):
+                        if len(WheelAngles) > i:
+                            continue
+
+                        if i % 2 == 0:
+                            BackLeftWheels.append(WheelCoordinates[i])
+                        else:
+                            BackRightWheels.append(WheelCoordinates[i])
+
+                    BackLeftWheel = (0, 0, 0)
+                    BackRightWheel = (0, 0, 0)
+
+                    for Wheel in BackLeftWheels:
+                        BackLeftWheel = BackLeftWheel[0] + Wheel[0], BackLeftWheel[1] + Wheel[1], BackLeftWheel[2] + Wheel[2]
+
+                    for Wheel in BackRightWheels:
+                        BackRightWheel = BackRightWheel[0] + Wheel[0], BackRightWheel[1] + Wheel[1], BackRightWheel[2] + Wheel[2]
+
+                    BackLeftWheel = BackLeftWheel[0] / len(BackLeftWheels), BackLeftWheel[1] / len(BackLeftWheels), BackLeftWheel[2] / len(BackLeftWheels)
+                    BackRightWheel = BackRightWheel[0] / len(BackRightWheels), BackRightWheel[1] / len(BackRightWheels), BackRightWheel[2] / len(BackRightWheels)
+
+                    FrontLeftSteerAngle = WheelAngles[0] * 360
+                    FrontRightSteerAngle = WheelAngles[1] * 360
+
+                    DistanceLeft = math.sqrt((FrontLeftWheel[0] - BackLeftWheel[0]) ** 2 + (FrontLeftWheel[2] - BackLeftWheel[2]) ** 2)
+                    DistanceRight = math.sqrt((FrontRightWheel[0] - BackRightWheel[0]) ** 2 + (FrontRightWheel[2] - BackRightWheel[2]) ** 2)
+
+                    LeftFrontWheelRadius = self.CalculateRadiusFrontWheel(FrontLeftSteerAngle, DistanceLeft)
+                    LeftBackWheelRadius = self.CalculateRadiusBackWheel(FrontLeftSteerAngle, DistanceLeft)
+                    RightFrontWheelRadius = self.CalculateRadiusFrontWheel(FrontRightSteerAngle, DistanceRight)
+                    RightBackWheelRadius = self.CalculateRadiusBackWheel(FrontRightSteerAngle, DistanceRight)
+
+                    LeftCenterX = BackLeftWheel[0] - LeftBackWheelRadius * math.cos(TruckRotationRadiansX)
+                    LeftCenterZ = BackLeftWheel[2] - LeftBackWheelRadius * math.sin(TruckRotationRadiansX)
+                    RightCenterX = BackRightWheel[0] - RightBackWheelRadius * math.cos(TruckRotationRadiansX)
+                    RightCenterZ = BackRightWheel[2] - RightBackWheelRadius * math.sin(TruckRotationRadiansX)
+
+                    for i in range(2):
+                        if i == 0:
+                            R = LeftFrontWheelRadius
+                            CenterX = LeftCenterX
+                            CenterZ = LeftCenterZ
+                            Offset = math.degrees(math.atan(DistanceLeft / R))
+                        else:
+                            R = RightFrontWheelRadius
+                            CenterX = RightCenterX
+                            CenterZ = RightCenterZ
+                            Offset = math.degrees(math.atan(DistanceRight / R))
+                        Points = []
+                        for j in range(45):
+                            Angle = j * (1 / -R) * 30 - TruckRotationDegreesX - Offset
+                            Angle = math.radians(Angle)
+                            X = CenterX + R * math.cos(Angle)
+                            Z = CenterZ + R * math.sin(Angle)
+                            Points.append(Coordinate(X, TruckY, Z))
+
+                        self.wheel_data.append(
+                            Polygon(
+                                points=Points,
+                                closed=False,
+                                thickness=2,
+                                color=Color(255, 255, 255, 100),
+                                fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
+                            )
+                        )
+                time.sleep(1/2) # 2fps
+
+    def SteeringUpdater(self):
+        while True:
             try:
                 data = self.plugins.Map
+                steering_data = []
                 for i, point in enumerate(data):
                     if i == 0:
                         continue
                     line = Line(
                         Coordinate(*point),
                         Coordinate(*data[i - 1]),
-                        thickness=5 * scaling,
+                        thickness=5 * self.scaling,
                         color=Color(255, 255, 255, 60),
                         fade=Fade(prox_fade_end=10, prox_fade_start=20, dist_fade_start=50, dist_fade_end=150)
                     )
-                    ar_data.append(line)
+                    steering_data.append(line)
+                self.steering_data = steering_data
             except:
+                self.steering_data = []
                 pass
 
-        if draw_wheel_paths:
-            APIDATA = self.modules.TruckSimAPI.run()
-            TruckX = APIDATA["truckPlacement"]["coordinateX"]
-            TruckY = APIDATA["truckPlacement"]["coordinateY"]
-            TruckZ = APIDATA["truckPlacement"]["coordinateZ"]
-            TruckRotationX = APIDATA["truckPlacement"]["rotationX"]
-            TruckRotationY = APIDATA["truckPlacement"]["rotationY"]
-            TruckRotationZ = APIDATA["truckPlacement"]["rotationZ"]
+            time.sleep(1/2) # 2fps
 
-            TruckRotationDegreesX = TruckRotationX * 360
-            TruckRotationRadiansX = -math.radians(TruckRotationDegreesX)
-
-            TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
-            TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
-            TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
-
-            WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
-
-            WheelCoordinates = []
-            for i in range(len(TruckWheelPointsX)):
-                PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
-                PointY = TruckY + TruckWheelPointsY[i]
-                PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
-                WheelCoordinates.append((PointX, PointY, PointZ))
-
-            if len(WheelCoordinates) >= 4 and len(WheelAngles) >= 2:
-                FrontLeftWheel = WheelCoordinates[0]
-                FrontRightWheel = WheelCoordinates[1]
-
-                BackLeftWheels = []
-                BackRightWheels = []
-
-                for i in range(len(WheelCoordinates)):
-                    if len(WheelAngles) > i:
-                        continue
-
-                    if i % 2 == 0:
-                        BackLeftWheels.append(WheelCoordinates[i])
-                    else:
-                        BackRightWheels.append(WheelCoordinates[i])
-
-                BackLeftWheel = (0, 0, 0)
-                BackRightWheel = (0, 0, 0)
-
-                for Wheel in BackLeftWheels:
-                    BackLeftWheel = BackLeftWheel[0] + Wheel[0], BackLeftWheel[1] + Wheel[1], BackLeftWheel[2] + Wheel[2]
-
-                for Wheel in BackRightWheels:
-                    BackRightWheel = BackRightWheel[0] + Wheel[0], BackRightWheel[1] + Wheel[1], BackRightWheel[2] + Wheel[2]
-
-                BackLeftWheel = BackLeftWheel[0] / len(BackLeftWheels), BackLeftWheel[1] / len(BackLeftWheels), BackLeftWheel[2] / len(BackLeftWheels)
-                BackRightWheel = BackRightWheel[0] / len(BackRightWheels), BackRightWheel[1] / len(BackRightWheels), BackRightWheel[2] / len(BackRightWheels)
-
-                FrontLeftSteerAngle = WheelAngles[0] * 360
-                FrontRightSteerAngle = WheelAngles[1] * 360
-
-                DistanceLeft = math.sqrt((FrontLeftWheel[0] - BackLeftWheel[0]) ** 2 + (FrontLeftWheel[2] - BackLeftWheel[2]) ** 2)
-                DistanceRight = math.sqrt((FrontRightWheel[0] - BackRightWheel[0]) ** 2 + (FrontRightWheel[2] - BackRightWheel[2]) ** 2)
-
-                LeftFrontWheelRadius = self.CalculateRadiusFrontWheel(FrontLeftSteerAngle, DistanceLeft)
-                LeftBackWheelRadius = self.CalculateRadiusBackWheel(FrontLeftSteerAngle, DistanceLeft)
-                RightFrontWheelRadius = self.CalculateRadiusFrontWheel(FrontRightSteerAngle, DistanceRight)
-                RightBackWheelRadius = self.CalculateRadiusBackWheel(FrontRightSteerAngle, DistanceRight)
-
-                LeftCenterX = BackLeftWheel[0] - LeftBackWheelRadius * math.cos(TruckRotationRadiansX)
-                LeftCenterZ = BackLeftWheel[2] - LeftBackWheelRadius * math.sin(TruckRotationRadiansX)
-                RightCenterX = BackRightWheel[0] - RightBackWheelRadius * math.cos(TruckRotationRadiansX)
-                RightCenterZ = BackRightWheel[2] - RightBackWheelRadius * math.sin(TruckRotationRadiansX)
-
-                for i in range(2):
-                    if i == 0:
-                        R = LeftFrontWheelRadius
-                        CenterX = LeftCenterX
-                        CenterZ = LeftCenterZ
-                        Offset = math.degrees(math.atan(DistanceLeft / R))
-                    else:
-                        R = RightFrontWheelRadius
-                        CenterX = RightCenterX
-                        CenterZ = RightCenterZ
-                        Offset = math.degrees(math.atan(DistanceRight / R))
-                    Points = []
-                    for j in range(45):
-                        Angle = j * (1 / -R) * 30 - TruckRotationDegreesX - Offset
-                        Angle = math.radians(Angle)
-                        X = CenterX + R * math.cos(Angle)
-                        Z = CenterZ + R * math.sin(Angle)
-                        Points.append(Coordinate(X, TruckY, Z))
-
-                    ar_data.append(
-                            Polygon(points=Points,
-                                    closed=False,
-                                    thickness=2,
-                                    fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100)
-                                )
-                        )
-
-
-        if show_trafic_lights:
+    def SemaphoreUpdater(self):
+        while True:
+            self.semaphore_data = []
             semaphores = self.modules.Semaphores.run()
             traffic_lights = [semaphore for semaphore in semaphores if isinstance(semaphore, TrafficLight)]
             data = []
@@ -557,12 +558,162 @@ class Plugin(ETS2LAPlugin):
                     Text(
                         Coordinate(traffic_light.position.x + 512 * traffic_light.cx, traffic_light.position.y + 2.5, traffic_light.position.z + 512 * traffic_light.cy),
                         f"    {traffic_light.state_text()} - {traffic_light.time_left:.0f}s left",
-                        size=16 * scaling,
+                        size=16 * self.scaling,
                         color=Color(*traffic_light.color()), 
                         fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=20, dist_fade_end=40),
                     )
                 )    
-            ar_data += data
-            ...
+            self.semaphore_data += data
+            time.sleep(1/2) # 2fps
+
+    def ACCUpdater(self):
+        while True:
+            targets = self.globals.tags.vehicle_highlights
+            targets = self.globals.tags.merge(targets)
+            
+            if targets is None:
+                targets = []
+            
+            vehicles = self.modules.Traffic.run()
+            
+            if vehicles is None:
+                vehicles = []
+            
+            highlighted_vehicle = None
+            if len(targets) > 0:
+                for vehicle in vehicles:
+                    if vehicle.id in targets:
+                        highlighted_vehicle = vehicle
+                        break
+                
+            if not highlighted_vehicle:
+                self.acc_data = []
+                time.sleep(1/30)
+                continue
+                
+            data = []
+            # Line under the vehicle
+            front_left, front_right, back_right, back_left = highlighted_vehicle.get_corners()
+            center_back = [(back_left[0] + back_right[0]) / 2, (back_left[1] + back_right[1]) / 2, (back_left[2] + back_right[2]) / 2]
+            data += [
+                Line(
+                    Coordinate(*back_left),
+                    Coordinate(*back_right),
+                    thickness=3,
+                    color=Color(255, 255, 255, 200),
+                    fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
+                )
+            ]
+            
+            # Text on said line
+            truck_x = self.api_data["truckPlacement"]["coordinateX"]
+            truck_y = self.api_data["truckPlacement"]["coordinateY"]
+            truck_z = self.api_data["truckPlacement"]["coordinateZ"]
+            
+            distance = math.sqrt((truck_x - center_back[0]) ** 2 + (truck_y - center_back[1]) ** 2 + (truck_z - center_back[2]) ** 2)
+            if distance > 60:
+                self.acc_data = []
+                time.sleep(1/30)
+                continue
+                
+            data += [
+                Text(
+                    Coordinate(*back_right),
+                    f"  Distance: {distance:.0f}m",
+                    size=16,
+                    color=Color(255, 255, 255, 200),
+                    fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
+                )
+            ]
+            
+            # Line between the vehicle and the truck
+            distance = self.globals.tags.acc_gap
+            distance = self.globals.tags.merge(distance)
+            if distance is not None:
+                left_vector = [back_left[0] - truck_x, back_left[1] - truck_y, back_left[2] - truck_z]
+                magnitude = math.sqrt(left_vector[0] ** 2 + left_vector[1] ** 2 + left_vector[2] ** 2)
+                unit_left_vector = [left_vector[0] / magnitude, left_vector[1] / magnitude, left_vector[2] / magnitude]
+                
+                right_vector = [back_right[0] - truck_x, back_right[1] - truck_y, back_right[2] - truck_z]
+                magnitude = math.sqrt(right_vector[0] ** 2 + right_vector[1] ** 2 + right_vector[2] ** 2)
+                unit_right_vector = [right_vector[0] / magnitude, right_vector[1] / magnitude, right_vector[2] / magnitude]
+            
+                left = [truck_x + unit_left_vector[0] * distance, truck_y + unit_left_vector[1] * distance, truck_z + unit_left_vector[2] * distance]
+                right = [truck_x + unit_right_vector[0] * distance, truck_y + unit_right_vector[1] * distance, truck_z + unit_right_vector[2] * distance]
+                center = [(left[0] + right[0]) / 2, (left[1] + right[1]) / 2, (left[2] + right[2]) / 2]
+                
+                data += [
+                    Line(
+                        Coordinate(*left),
+                        Coordinate(*right),
+                        thickness=3,
+                        color=Color(255, 255, 255, 60),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
+                    ),
+                    Line(
+                        Coordinate(*center),
+                        Coordinate(*center_back),
+                        thickness=3,
+                        color=Color(255, 255, 255, 60),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
+                    ),
+                    Text(
+                        Coordinate(*right),
+                        f"  Target: {distance:.0f}m",
+                        size=16,
+                        color=Color(255, 255, 255, 60),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
+                    )
+                ]
+            
+            self.acc_data = data
+            time.sleep(1/30) # 30fps
+
+    def run(self):
+        X1, Y1, X2, Y2 = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
+        height = Y2 - Y1
+        default_height = 1440
         
-        self.globals.tags.AR = ar_data
+        self.scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
+        _, _, _, _, scale, _, _ = self.get_settings()
+        self.scaling *= scale
+        
+        self.api_data = self.modules.TruckSimAPI.run()
+        
+        engine = self.api_data["truckBool"]["engineEnabled"]
+        offset_x, offset_y, offset_z = self.get_offsets()
+        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
+        
+        if not engine:
+            self.globals.tags.AR = []
+            self.get_start_end_time()
+            return
+        
+        if self.boot_sequence(time.time(), anchor, scaling=self.scaling):
+            return
+        
+        data = []
+        data += self.hud_data
+        data += self.wheel_data
+        data += self.steering_data
+        data += self.semaphore_data
+        data += self.acc_data
+        self.globals.tags.AR = data
+        
+    def init(self):
+        self.get_settings()
+        self.api_data = self.modules.TruckSimAPI.run()
+        self.hud_data = []
+        self.wheel_data = []
+        self.steering_data = []
+        self.semaphore_data = []
+        self.acc_data = []
+        self.scaling = 1
+        
+        threading.Thread(target=self.HudUpdater, daemon=True).start()
+        threading.Thread(target=self.WheelUpdater, daemon=True).start()
+        threading.Thread(target=self.SteeringUpdater, daemon=True).start()
+        threading.Thread(target=self.SemaphoreUpdater, daemon=True).start()
+        threading.Thread(target=self.ACCUpdater, daemon=True).start()
+        
+        self.get_start_end_time()

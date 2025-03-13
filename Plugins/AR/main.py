@@ -154,7 +154,6 @@ class Settings(ETS2LASettingsMenu):
     plugin_name = "AR"
     dynamic = False
 
-
     def render(self):
         Switch("Vision Compatible", "vision_compat", True, description="Hide the AR from the screen capture so plugins which rely on vision can be used with AR. (Notice: This will make the AR invisible in any screen capture app! (e.g. OBS, Discord, etc.) )")
         Switch("Show Test Objects", "test_objects", False, description="Show test objects in the AR, for example the white circles at each wheel.")
@@ -306,7 +305,6 @@ class Plugin(ETS2LAPlugin):
                 elif type(item) == Text:
                     position = item.point
                     screen_position = position.screen(self)
-                    
                     if screen_position is None:
                         continue
                     

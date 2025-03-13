@@ -520,7 +520,7 @@ def UpdateNavigatedLanes():
         elif node.forward_item_uid == next_node.forward_item_uid:
             selected_items.append(data.map.get_item_by_uid(node.forward_item_uid))
         else:
-            logging.warning("No connection between nodes")
+            #logging.warning("No connection between nodes")
             return None
         
     last_type = type(last_item.items[-1].item)

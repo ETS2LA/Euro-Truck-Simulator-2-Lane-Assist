@@ -8,8 +8,8 @@ from Plugins.AdaptiveCruiseControl.settings import SettingsMenu
 from Plugins.AdaptiveCruiseControl.controls import *
 
 # ETS2LA imports
+from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
-from Modules.Semaphores.classes import TrafficLight
 from Modules.Traffic.classes import Vehicle
 import ETS2LA.variables as variables
 
@@ -49,7 +49,22 @@ class ACCTrafficLight(TrafficLight):
             traffic_light.time_left,
             traffic_light.state,
             traffic_light.id
-            )
+        )
+        self.distance = distance
+        
+class ACCGate(Gate):
+    distance = 0
+    
+    def __init__(self, gate: Gate, distance: float):
+        super().__init__(
+            gate.position,
+            gate.cx,
+            gate.cy,
+            gate.quat,
+            gate.time_left,
+            gate.state,
+            gate.id
+        )
         self.distance = distance
 
 class Plugin(ETS2LAPlugin):
@@ -145,6 +160,7 @@ class Plugin(ETS2LAPlugin):
         # time_gap * own_speed + minimum_gap
         minimum_gap = 20.0  # meters at 0 speed
         desired_gap = self.time_gap_seconds * self.speed / 2 + minimum_gap
+        self.globals.tags.acc_gap = desired_gap
         
         relative_speed = self.speed - in_front.speed
         gap_error = in_front.distance - desired_gap
@@ -237,7 +253,8 @@ class Plugin(ETS2LAPlugin):
 
     def calculate_target_acceleration(self, 
                                       in_front: ACCVehicle | None = None, 
-                                      traffic_light: ACCTrafficLight | None = None) -> float:
+                                      traffic_light: ACCTrafficLight | None = None,
+                                      gate: ACCGate | None = None) -> float:
         target_accelerations = []
         
         # Speed Limit
@@ -254,6 +271,13 @@ class Plugin(ETS2LAPlugin):
             if traffic_light.state == 2:  # Red light
                 red_light_accel = self.calculate_traffic_light_constraint(traffic_light.distance)
                 target_accelerations.append(red_light_accel)
+                
+        # Gate
+        if gate:
+            if gate.state < 3: # Closing, closed or opening
+                # Logic is the same as the traffic lights
+                gate_accel = self.calculate_traffic_light_constraint(gate.distance)
+                target_accelerations.append(gate_accel)
         
         # Take most restrictive (minimum)
         if target_accelerations:
@@ -455,6 +479,69 @@ class Plugin(ETS2LAPlugin):
         return closest_light
     
     
+    def get_gate_in_front(self, api_data: dict) -> ACCGate:
+        try:    gates = self.modules.Semaphores.run()
+        except: return None
+        
+        points = self.plugins.Map
+        
+        if points is None or points == []: return None
+        if gates is None: return None
+        
+        gates = [gate for gate in gates if gate.type == "gate"]
+        gates = [gate for gate in gates if self.get_distance([api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"]],
+                                                             [gate.position.x + 512 * gate.cx, gate.position.z + 512 * gate.cy]) < 150]
+        if len(gates) == 0: return None
+        
+        valid_gates = []
+        rotationX = api_data["truckPlacement"]["rotationX"]
+        angle = rotationX * 360
+        if angle < 0: angle = 360 + angle
+        truck_rotation = math.radians(angle)
+        truck_vector = [-math.sin(truck_rotation), -math.cos(truck_rotation)]
+        truck_pos = [api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"]]
+                        
+        for gate in gates:
+            yaw = gate.quat.euler()[1]
+            gate_vector = [-math.sin(math.radians(yaw)), -math.cos(math.radians(yaw))]
+            
+            # Check if within 45 degrees forward
+            angle = math.acos(truck_vector[0] * gate_vector[0] + truck_vector[1] * gate_vector[1])
+            limit = math.radians(45)
+            if angle < limit:
+                gate_pos = [gate.position.x + 512 * gate.cx, gate.position.z + 512 * gate.cy]
+                to_gate_vector = [gate_pos[0] - truck_pos[0], gate_pos[1] - truck_pos[1]]
+
+                total_distance = math.sqrt(to_gate_vector[0]**2 + to_gate_vector[1]**2)
+
+                # Project to the truck's forward vector
+                # (to get the forward distance to the gate)
+                truck_vector_normalized = [truck_vector[0], truck_vector[1]]
+                vector_length = math.sqrt(truck_vector_normalized[0]**2 + truck_vector_normalized[1]**2)
+                truck_vector_normalized = [truck_vector_normalized[0]/vector_length, truck_vector_normalized[1]/vector_length]
+                
+                forward_distance = to_gate_vector[0]*truck_vector_normalized[0] + to_gate_vector[1]*truck_vector_normalized[1]
+                
+                if forward_distance > 0:
+                    # Lateral distance (for filtering out gates too far to the side)
+                    lateral_distance = abs(total_distance**2 - forward_distance**2)**0.5
+                    if lateral_distance < 11:  # 2 * 4.5m lanes + 2m margin
+                        valid_gates.append((forward_distance, gate))
+                
+                        
+        if len(valid_gates) == 0:
+            return None
+        
+        closest_distance = math.inf
+        closest_gate = None
+        for distance, gate in valid_gates:
+            if distance < closest_distance:
+                closest_gate = ACCGate(gate, distance)
+                closest_distance = distance
+            
+        return closest_gate
+    
+    
     def get_target_speed(self, api_data: dict) -> float:
         points = self.plugins.Map
         if points is not None:
@@ -582,11 +669,14 @@ class Plugin(ETS2LAPlugin):
             self.globals.tags.vehicle_highlights = []
         
         try:    traffic_light = self.get_traffic_light_in_front(api_data)
-        except: 
-            logging.exception("Failed to get traffic light in front")
-            traffic_light = None
+        except: traffic_light = None
         
-        target_acceleration = self.calculate_target_acceleration(in_front, traffic_light)
+        try:    gate = self.get_gate_in_front(api_data)
+        except:
+            logging.exception("Error in gate detection")
+            gate = None
+        
+        target_acceleration = self.calculate_target_acceleration(in_front, traffic_light, gate)
         target_throttle = self.apply_pid(target_acceleration)
         self.set_accel_brake(target_throttle)
 
