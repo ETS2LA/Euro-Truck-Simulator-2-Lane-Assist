@@ -16,7 +16,7 @@ class Settings(object):
             self._load()
 
     def _load(self):
-        self.last_update = time.perf_counter()
+        self.last_update = os.path.getmtime(f"{self._path}/settings.json")
         with open(f"{self._path}/settings.json", "r") as file:
             self._settings = json.load(file)
 
@@ -25,7 +25,7 @@ class Settings(object):
             json.dump(self._settings, file, indent=4)
 
     def __getattr__(self, name):
-        if self.last_update + 1 < time.perf_counter():
+        if self.last_update != os.path.getmtime(f"{self._path}/settings.json"):
             self._load()
         
         if name in self._settings:

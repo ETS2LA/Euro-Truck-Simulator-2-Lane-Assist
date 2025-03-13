@@ -185,7 +185,6 @@ def GetUniqueUsers(interval: Literal["1h", "6h", "12h", "24h", "1w", "1m"] = "24
     if time.perf_counter() - last_unique_check < 60:
         return last_unique_data
     
-    print("Updating")
     url = URL + '/tracking/users'
     try:
         r = requests.get(url)
@@ -202,7 +201,6 @@ def GetUserCount():
     if time.perf_counter() - last_count_check < 60:
         return last_count_data
     
-    print("Updating")
     url = URL + '/tracking/users'
     try:
         r = requests.get(url)
@@ -219,7 +217,6 @@ def GetUserTime():
     if time.perf_counter() - last_time_check < 60:
         return last_time_data
     
-    print("Updating")
     user_id, _, _ = GetCredentials()
     url = URL + f'/tracking/time/{user_id}'
     try:
