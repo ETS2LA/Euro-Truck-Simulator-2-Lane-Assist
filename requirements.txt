@@ -17,6 +17,7 @@ proxy_tools
 torchvision
 pywinstyles
 sounddevice
+matplotlib
 pyjoystick
 setuptools
 screeninfo

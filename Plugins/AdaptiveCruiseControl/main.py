@@ -10,6 +10,7 @@ from Plugins.AdaptiveCruiseControl.controls import *
 # ETS2LA imports
 from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
+from ETS2LA.Utils.Values.graphing import PIDGraph
 from Modules.Traffic.classes import Vehicle
 import ETS2LA.variables as variables
 
@@ -92,7 +93,7 @@ class Plugin(ETS2LAPlugin):
     accel = 0 # current acceleration value between -1 and 1
     speed = 0 # m/s
     last_speed = 0 # m/s
-    last_speed_time = time.perf_counter()
+    sign = 1 # 1 or -1
     
     speedlimit = 0 # m/s
     acceleration = SmoothedValue("time", 0.2) # m/s^2
@@ -120,6 +121,7 @@ class Plugin(ETS2LAPlugin):
     kd_accel = 0.02  # Derivative gain
     
     # PID state variables
+    graph = PIDGraph(history=10)
     accel_errors = []
     last_accel_error = 0.0  # For derivative term
     last_control_output = 0.0  # For smoothing changes
@@ -294,6 +296,9 @@ class Plugin(ETS2LAPlugin):
         
         logging.warning("AdaptiveCruiseControl plugin initialized")
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+        
+        if variables.DEVELOPMENT_MODE:
+            self.graph.setup_plot()
     
     
     @events.on("toggle_acc")
@@ -593,7 +598,8 @@ class Plugin(ETS2LAPlugin):
         if dt > 0.5 or dt <= 0:
             dt = self.pid_sample_time
         
-        accel_error = target_acceleration - self.acceleration.get()
+        current_acceleration = self.acceleration.get()
+        accel_error = target_acceleration - current_acceleration
         
         # Proportional term
         p_term = self.kp_accel * accel_error
@@ -621,7 +627,7 @@ class Plugin(ETS2LAPlugin):
         # Integral term
         accel_error_sum = sum(self.accel_errors)
         i_term = self.ki_accel * accel_error_sum
-        
+
         # Derivative term without filtering
         if dt > 0:
             d_term = self.kd_accel * (accel_error - self.last_accel_error) / dt
@@ -639,6 +645,9 @@ class Plugin(ETS2LAPlugin):
         self.last_control_output = control_output
         self.last_time = current_time
         
+        if variables.DEVELOPMENT_MODE:
+            self.graph.update(target_acceleration, control_output, p_term, i_term, d_term)
+        
         return control_output
             
             
@@ -649,18 +658,25 @@ class Plugin(ETS2LAPlugin):
             self.accel_errors = []
             self.globals.tags.vehicle_highlights = []
             self.globals.tags.AR = []
-            self.reset(); return    
+            self.reset(); return
         
         api_data = self.api.run()
         if api_data['truckFloat']['speedLimit'] == 0:
             api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    
             
-        self.speed = api_data['truckFloat']['speed']
         self.speedlimit = self.get_target_speed(api_data)
+        self.speed = api_data['truckFloat']['speed']
         
-        self.acceleration.smooth((self.speed - self.last_speed) / (time.perf_counter() - self.last_speed_time))
-        self.last_speed = self.speed
-        self.last_speed_time = time.perf_counter()
+        acceleration_x = api_data['truckVector']['accelerationX']
+        acceleration_y = api_data['truckVector']['accelerationY']
+        acceleration_z = api_data['truckVector']['accelerationZ']
+            
+        total = math.sqrt(acceleration_x**2 + acceleration_y**2 + acceleration_z**2)
+        if self.speed != self.last_speed:
+            self.sign = 1 if self.speed > self.last_speed else -1
+            self.last_speed = self.speed
+            
+        self.acceleration.smooth(total * self.sign)
 
         try:    in_front = self.get_vehicle_in_front(api_data)
         except: in_front = None
