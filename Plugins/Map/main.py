@@ -277,27 +277,30 @@ class Plugin(ETS2LAPlugin):
             logging.error(f"Error in Map plugin run loop: {e}", exc_info=True)
             data.route_points = []  # Clear route points on error
 
-        if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
-            if type(data.route_plan[0].items[0].item) == c.Road:
-                self.globals.tags.next_intersection_distance = data.route_plan[0].distance_left()
-            elif len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Road:
-                self.globals.tags.next_intersection_distance = data.route_plan[0].distance_left() + data.route_plan[1].distance_left()
-            else:
-                self.globals.tags.next_intersection_distance = 0
-            
-            if len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Prefab:
-                self.globals.tags.next_intersection_lane = data.route_plan[1].lane_index
-                self.globals.tags.next_intersection_uid = data.route_plan[1].items[0].item.uid
+        try:
+            if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
+                if type(data.route_plan[0].items[0].item) == c.Road:
+                    self.globals.tags.next_intersection_distance = data.route_plan[0].distance_left()
+                elif len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Road:
+                    self.globals.tags.next_intersection_distance = data.route_plan[0].distance_left() + data.route_plan[1].distance_left()
+                else:
+                    self.globals.tags.next_intersection_distance = 0
                 
-            if type(data.route_plan[0].items[0].item) == c.Road:
-                self.globals.tags.road_type = "highway" if "hw" in data.route_plan[0].items[0].item.road_look.name else "normal"
-            else:
-                self.globals.tags.road_type = "normal"
+                if len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Prefab:
+                    self.globals.tags.next_intersection_lane = data.route_plan[1].lane_index
+                    self.globals.tags.next_intersection_uid = data.route_plan[1].items[0].item.uid
+                    
+                if type(data.route_plan[0].items[0].item) == c.Road:
+                    self.globals.tags.road_type = "highway" if "hw" in data.route_plan[0].items[0].item.road_look.name else "normal"
+                else:
+                    self.globals.tags.road_type = "normal"
 
-            self.globals.tags.route_information = [item.information_json() for item in data.route_plan]
-        else:
-            self.globals.tags.next_intersection_distance = 1
-            self.globals.tags.road_type = "none"
+                self.globals.tags.route_information = [item.information_json() for item in data.route_plan]
+            else:
+                self.globals.tags.next_intersection_distance = 1
+                self.globals.tags.road_type = "none"
+        except:
+            pass
 
         #if len(data.route_points) > 0:
         #    if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 10:

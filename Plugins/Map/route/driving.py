@@ -173,7 +173,7 @@ def GetSteering():
         if data.use_navigation and len(data.navigation_plan) != 0:
             data.frames_off_path += 1
             if data.frames_off_path > 5:
-                logging.warning("Recalculating navigation plan as we have no points to drive on.")
+                #logging.warning("Recalculating navigation plan as we have no points to drive on.")
                 data.route_plan = []
                 data.update_navigation_plan = True
                 data.frames_off_path = 0
@@ -187,19 +187,6 @@ def GetSteering():
     multiplier = max(8 - (speed - 10) / 10, 2)
 
     data.route_points = points
-    
-    start_distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[0].x, points[0].z))
-    end_distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (points[-1].x, points[-1].z))
-    if start_distance > 20 and end_distance > 20:
-        print("Recalculating navigation plan as we are too far off the path!")
-        print(f"Start distance: {start_distance}, End distance: {end_distance}")
-        data.frames_off_path += 1
-        if data.frames_off_path > 5:
-            logging.warning("Recalculating navigation plan as we are too far off the path!")
-            data.route_plan = []
-            data.update_navigation_plan = True
-            data.frames_off_path = 0
-            return 0
         
     forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
     try:
