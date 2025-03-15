@@ -56,10 +56,9 @@ def rotate_right(arr: List[T], count: int) -> List[T]:
 def get_connecting_lanes_by_item(node_1, node_2, item, map_data) -> list[int]:
     """Get the connecting lanes between two nodes based on the item type.
 
-
     :param c.Node node_1: The starting node.
     :param c.Node node_2: The ending node.
-    :param Item item: The type of the item.
+    :param Item item: The Item instance.
     :param MapData map_data: A mapdata instance to use.
     :return list[int]: The list of connecting lane ids.
     """

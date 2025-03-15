@@ -339,7 +339,7 @@ def GetCurrentNavigationPlan():
                 closest_point_distance = math.inf
                 
                 for point in item.nav_routes[prefab_closest_lane].points:
-                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point.tuple())
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_y, data.truck_z), point.tuple())
                     if distance < closest_point_distance:
                         closest_point_distance = distance
                         
