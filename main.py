@@ -38,9 +38,6 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 console = Console()
 controller = SCSController()
 
-FixModule("filterpy", "1.4.5", "git+https://github.com/rodjjo/filterpy.git")
-FixModule("norfair", "2.2.1", "git+https://github.com/Tumppi066/norfair.git")
-
 def close_node() -> None:
     """
     Close all NodeJS instances.

@@ -18,21 +18,6 @@ steps = [
     {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'}
 ]
 
-needed_version = "2.2.1"
-try:
-    if version("norfair") < needed_version:
-        steps.insert(3, {"name": "Fix norfair", "command": "pip install git+https://github.com/Tumppi066/norfair.git"})
-except:
-    steps.insert(3, {"name": "Fix norfair", "command": "pip install git+https://github.com/Tumppi066/norfair.git"})
-
-needed_version = "1.4.5"
-try:
-    if version("filterpy") < needed_version:
-        steps.insert(3, {"name": "Fix filterpy", "command": "pip install git+https://github.com/rodjjo/filterpy.git"})
-except:
-    steps.insert(3, {"name": "Fix filterpy", "command": "pip install git+https://github.com/rodjjo/filterpy.git"})
-
-
 class Updater(App):
     CSS_PATH = "updater.tcss"
 

@@ -27,6 +27,7 @@ dearpygui
 bettercam
 keyboard
 requests
+filterpy
 ipython
 pywin32
 fastapi
