@@ -4,7 +4,6 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 
 # ETS2LA imports
-from Plugins.ObjectDetection.classes import Vehicle
 from ETS2LA.Networking.cloud import SendCrashReport
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Utils.settings as settings
