@@ -385,7 +385,11 @@ class Plugin(ETS2LAPlugin):
             "cruise_control": data["truckFloat"]["cruiseControlSpeed"],
             "target_speed": target_speed if target_speed else 0,
             "throttle": data["truckFloat"]["gameThrottle"],
-            "brake": data["truckFloat"]["gameBrake"]
+            "brake": data["truckFloat"]["gameBrake"],
+            "indicating_left": data["truckBool"]["blinkerLeftActive"],
+            "indicating_right": data["truckBool"]["blinkerRightActive"],
+            "indicator_left": data["truckBool"]["blinkerLeftOn"],
+            "indicator_right": data["truckBool"]["blinkerRightOn"],
         }
         
         return send
