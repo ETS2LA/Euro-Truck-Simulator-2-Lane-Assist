@@ -89,6 +89,10 @@ class Plugin(ETS2LAPlugin):
             datefmt='%Y-%m-%d %H:%M:%S'
         )
 
+    def update_road_data(self):
+        data.map.clear_road_data()
+        data.data_needs_update = True
+
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash
         logging.info("Starting navigation module file monitor")

@@ -1010,12 +1010,8 @@ class Road(BaseItem):
                  length: float, maybe_divided: bool | None):
         super().__init__(uid, ItemType.Road, x, y, sector_x, sector_y)
         super().parse_strings()
+        
         self.type = ItemType.Road
-        self.road_look = None
-        self._bounding_box = None
-        self._lanes = []
-        self._points = None
-        # Ensure dlc_guard is an integer and hidden is a boolean
         self.dlc_guard = int(dlc_guard) if dlc_guard is not None else -1
         self.hidden = bool(hidden) if hidden is not None else False
         self.road_look_token = road_look_token
@@ -1023,11 +1019,17 @@ class Road(BaseItem):
         self.end_node_uid = end_node_uid
         self.length = length
         self.maybe_divided = maybe_divided
+        
+        self.road_look = None
+        self.clear_data()
+        self.parse_strings()
+
+    def clear_data(self):
         self._lanes = []
+        self._bounding_box = None
         self._points = None
         self.start_node = None
         self.end_node = None
-        self.parse_strings()
 
     def get_nodes(self):
         """Populate start_node and end_node if not already set."""
@@ -2138,6 +2140,13 @@ class MapData:
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
     """
+    
+    def clear_road_data(self) -> None:
+        logging.warning("Clearing road data...")
+        road_helpers.get_rules()
+        for road in self.roads:
+            road.clear_data()
+        logging.warning("Road data cleared.")
     
     def calculate_sectors(self) -> None:
         for node in self.nodes:

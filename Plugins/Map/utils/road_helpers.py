@@ -24,15 +24,15 @@ def get_rules():
     try:
         with open(rules_filename, "r") as f:
             data = json.load(f)
-            offsets = data.get("offset_data", {"default": 3.5})
-            per_name = data.get("per_name", {"default": {"left": 1, "right": 1, "offset": 3.5}})
-            rules = data.get("rules", {"default": {"lanes": 2, "offset": 3.5}})
+            offsets = data.get("offset_data", {})
+            per_name = data.get("per_name", {})
+            rules = data.get("rules", {})
             logging.info("Successfully loaded road rules from lane_offsets.json")
     except Exception as e:
         logging.error(f"Error loading road rules: {e}. Using default values.")
-        offsets = {"default": 3.5}
-        per_name = {"default": {"left": 1, "right": 1, "offset": 3.5}}
-        rules = {"default": {"lanes": 2, "offset": 3.5}}
+        offsets = {}
+        per_name = {}
+        rules = {}
 
 def perpendicular_vector(v):
     return np.array([-v[1], v[0]])

@@ -577,6 +577,9 @@ def ReadData(state = None) -> c.MapData:
     
     PrintState(start_time, "Navigation")
     data.navigation = ReadNodeGraph()
+    if data.navigation == []:
+        print("[red]No navigation data found (graph.json). Map cannot proceed.[/red]")
+        return
     UpdateState(start_time, f"Loaded {len(data.navigation)} navigation entries")
     
     PrintState(start_time, "Elevations")

@@ -3,7 +3,10 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
 import ETS2LA.Utils.settings as settings
+import ETS2LA.variables as variables
 import Plugins.Map.data as data
+
+import json
 
 class SettingsMenu(ETS2LASettingsMenu):
     plugin_name = "Map"
@@ -70,5 +73,34 @@ class SettingsMenu(ETS2LASettingsMenu):
                             except: Description("State: N/A")
                             try: Description(f"FPS: {1/self.plugin.performance[-1][1]:.0f}")
                             except: Description("FPS: Still loading...")
+
+            if variables.DEVELOPMENT_MODE:
+                with Tab("Development"):
+                    with EnabledLock():
+                        if self.plugin:
+                            Button("Reload", "Reload Lane Offsets", description="Reload the lane offsets from the file. This will take a few seconds.", target=self.plugin.update_road_data)
+                        else:
+                            Description("Plugin not loaded, cannot reload lane offsets.")
+                    
+                            import Plugins.Map.utils.road_helpers as rh
+                            per_name = rh.per_name
+                            rules = rh.rules
+                            
+                            print(per_name)
+                            print(rules)
+                            
+                            with Group("vertical", padding=0, gap=8):
+                                Label("Per Name", weight="semibold")
+                                for name, rule in per_name.items():
+                                    with Group("horizontal", padding=0, gap=8):
+                                        Label(name)
+                                        Description(f"Offset: {rule}")
+
+                            with Group("vertical", padding=0, gap=8):
+                                Label("Lane Offsets", weight="semibold")
+                                for name, rule in rules.items():
+                                    with Group("horizontal", padding=0, gap=8):
+                                        Label(name)
+                                        Description(f"Offset: {rule}")
 
         return RenderUI()
