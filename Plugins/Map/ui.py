@@ -79,15 +79,10 @@ class SettingsMenu(ETS2LASettingsMenu):
                     with EnabledLock():
                         if self.plugin:
                             Button("Reload", "Reload Lane Offsets", description="Reload the lane offsets from the file. This will take a few seconds.", target=self.plugin.update_road_data)
-                        else:
-                            Description("Plugin not loaded, cannot reload lane offsets.")
-                    
+                            
                             import Plugins.Map.utils.road_helpers as rh
                             per_name = rh.per_name
                             rules = rh.rules
-                            
-                            print(per_name)
-                            print(rules)
                             
                             with Group("vertical", padding=0, gap=8):
                                 Label("Per Name", weight="semibold")
@@ -102,5 +97,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                                     with Group("horizontal", padding=0, gap=8):
                                         Label(name)
                                         Description(f"Offset: {rule}")
+                        else:
+                            Description("Plugin not loaded, cannot reload lane offsets.")
 
         return RenderUI()
