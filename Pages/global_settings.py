@@ -24,7 +24,7 @@ class Page(ETS2LAPage):
                     Slider("global.settings.10.name",
                         "width",
                         1280,
-                        700,
+                        500,
                         2560,
                         10,
                         description="global.settings.10.description"
