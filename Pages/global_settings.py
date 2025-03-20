@@ -19,7 +19,6 @@ class Page(ETS2LAPage):
 
         with TabView():
             with Tab("global.settings.ui"):
-                Space(2)
                 with Group("horizontal", gap=32, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
                     Slider("global.settings.10.name",
                         "width",
@@ -59,7 +58,6 @@ class Page(ETS2LAPage):
                 
 
             with Tab("global.settings.audio"):
-                Space(2)
                 with Group("horizontal", gap=32, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
                     Selector("global.settings.2.name",
                         "soundpack",
@@ -79,7 +77,6 @@ class Page(ETS2LAPage):
                     )
     
             with Tab("global.settings.variables"):
-                Space(2)
                 if self.monitors != 0:
                     Slider("global.settings.13.name",
                         "display",
@@ -92,7 +89,6 @@ class Page(ETS2LAPage):
                 Input("global.settings.14.name", "FOV", "number", 77, description="global.settings.14.description")
     
             with Tab("global.settings.misc"):
-                Space(2)
                 
                 
                 Input("global.settings.4.name",
