@@ -48,14 +48,13 @@ class Page(ETS2LAPage):
                     description="global.settings.12.description"
                 )
                 
-                with Group("vertical", gap=8, padding=0):
+                with Group("vertical", gap=3, padding=0):
                     Selector("global.settings.8.name",
                         "language",
                         "English",
                         translator.LANGUAGES,
                         description="global.settings.8.description"
                     )
-        
                     Description("credits", size="xs")
                 
 
@@ -103,29 +102,28 @@ class Page(ETS2LAPage):
                     description="global.settings.4.description"
                 )
                 
-                with Group("vertical", padding=16, border=True):
-                    Toggle("global.settings.9.name", "frameless", True, description="global.settings.9.description")
+                Toggle("global.settings.9.name", "frameless", True, description="global.settings.9.description")
 
-                Switch("global.settings.6.name",
+                Toggle("global.settings.6.name",
                     "send_crash_reports",
                     True,
                     description="global.settings.6.description"
                 )
                 
-                Switch("global.settings.5.name",
+                Toggle("global.settings.5.name",
                     "use_fancy_traceback",
                     True,
                     description="global.settings.5.description"
                 )
 
-                Switch("global.settings.7.name",
+                Toggle("global.settings.7.name",
                     "debug_mode",
                     True,
                     description="global.settings.7.description"
                 )
 
-                Switch("global.settings.16.name", "fireworks", True, description="global.settings.16.description")
+                Toggle("global.settings.16.name", "fireworks", True, description="global.settings.16.description")
         
-                Switch("global.settings.15.name", "snow", True, description="global.settings.15.description")
+                Toggle("global.settings.15.name", "snow", True, description="global.settings.15.description")
     
         return RenderUI()

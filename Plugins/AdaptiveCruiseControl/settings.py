@@ -10,8 +10,10 @@ class SettingsMenu(ETS2LASettingsMenu):
         Separator()
         with TabView():
             with Tab("Adaptive Cruise Control"):
-                Selector("Aggressiveness", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="How aggressively the truck will accelerate and decelerate.")
-                Selector("Following Distance", "following_distance", "Normal", ["Near", "Normal", "Far"], description="How far the truck will keep from the vehicle in front of it.")
+                with Group("horizontal", padding=0, gap=40):
+                    Selector("Aggressiveness", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="How aggressively the truck will accelerate and decelerate.")
+                    Selector("Following Distance", "following_distance", "Normal", ["Near", "Normal", "Far"], description="How far the truck will keep from the vehicle in front of it.")
+                
                 with EnabledLock():
                     if self.plugin is None:
                         max_accel = 1.5
