@@ -19,14 +19,15 @@ class Page(ETS2LAPage):
 
         with TabView():
             with Tab("global.settings.ui"):
-                with Group("horizontal", gap=32, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
+                with Group("horizontal", gap=24, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
                     Slider("global.settings.10.name",
                         "width",
                         1280,
                         500,
                         2560,
                         10,
-                        description="global.settings.10.description"
+                        description="global.settings.10.description",
+                        suffix="px"
                     )
 
                     Slider("global.settings.11.name",
@@ -35,7 +36,8 @@ class Page(ETS2LAPage):
                         250,
                         1440,
                         10,
-                        description="global.settings.11.description"
+                        description="global.settings.11.description",
+                        suffix="px"
                     )
 
                 Slider("global.settings.12.name",
@@ -48,7 +50,7 @@ class Page(ETS2LAPage):
                 )
                 
                 with Group("vertical", gap=3, padding=0):
-                    text = translator.Translate("global.settings.8.description") + translator.Translate("credits")
+                    text = translator.Translate("global.settings.8.description") + " " + translator.Translate("credits")
                     Selector("global.settings.8.name",
                         "language",
                         "English",
@@ -58,7 +60,7 @@ class Page(ETS2LAPage):
                 
 
             with Tab("global.settings.audio"):
-                with Group("horizontal", gap=32, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
+                with Group("horizontal", gap=24, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
                     Selector("global.settings.2.name",
                         "soundpack",
                         sounds.SELECTED_SOUNDPACK, 

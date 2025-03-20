@@ -5,12 +5,12 @@ class SettingsMenu(ETS2LASettingsMenu):
     plugin_name = "AdaptiveCruiseControl"
     def render(self):
         RefreshRate(1)
-        Title("acc.settings.1.title")
-        Description("acc.settings.1.description")
-        Separator()
+        with Group("vertical", gap=14, padding=0):
+            Title("plugins.adaptivecruisecontrol")
+            Description("This plugin provides no description.")
         with TabView():
             with Tab("Adaptive Cruise Control"):
-                with Group("horizontal", padding=0, gap=40):
+                with Group("horizontal", padding=0, gap=24):
                     Selector("Aggressiveness", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="How aggressively the truck will accelerate and decelerate.")
                     Selector("Following Distance", "following_distance", "Normal", ["Near", "Normal", "Far"], description="How far the truck will keep from the vehicle in front of it.")
                 
@@ -36,8 +36,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Description(str(round(time_gap_seconds, 1)) + " seconds")
 
             with Tab("Speed Control"):
-                Slider("Coefficient of friction", "MU", 0.5, 0.1, 1, 0.1, description="Controls the (imaginary) friction between the tires and the road. Lower values will make the truck slow down more, while higher values will make it go faster in turns.")
-                Slider("acc.settings.7.name", "overwrite_speed", 50, 0, 130, 5, suffix="km/h", description="acc.settings.7.description")
+                Slider("Coefficient of friction", "MU", 0.5, 0.1, 1, 0.1, description="Controls the (imaginary) friction between the tires and the road. Lower values will make the truck slow down more, while higher values will make it go faster in turns.", suffix=" μ")
+                Slider("acc.settings.7.name", "overwrite_speed", 50, 0, 130, 5, suffix=" km/h", description="acc.settings.7.description")
                 with EnabledLock():
                     Selector("acc.settings.5.name", "speed_offset_type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
                     type = self.settings.type

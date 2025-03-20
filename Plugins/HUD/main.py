@@ -18,18 +18,26 @@ class Settings(ETS2LASettingsMenu):
     dynamic = False
     
     def render(self):
-        Slider("Refresh Rate", "refresh_rate", 2, 1, 10, 1, description="The refresh rate of the HUD elements. Default is 2.")
-        Slider("Scale", "scale", 1, 0.5, 2, 0.05, description="The scale of the HUD elements. Default is 1.")
+        with Group("vertical", gap=14, padding=0):
+            Title("HUD")
+            Description("This plugin provides no description.")
+            
+        with TabView():
+            with Tab("General"):
+                with Group("horizontal", gap=24, padding=0):
+                    Slider("Refresh Rate", "refresh_rate", 2, 1, 10, 1, description="The refresh rate of the main elements. Default is 2.", suffix=" fps")
+                    Slider("Scale", "scale", 1, 0.5, 2, 0.05, description="The scale of the HUD elements. Default is 1.", suffix="x")
+                
+                Input("Offset X", "offset_x", type="number", description="The X offset (side to side) of the HUD elements.", default=0)
+                Input("Offset Y", "offset_y", type="number", description="The Y offset (top to bottom) of the HUD elements.", default=0)
+                Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the HUD elements.", default=0)
         
-        Input("Offset X", "offset_x", type="number", description="The X offset (side to side) of the HUD elements.", default=0)
-        Input("Offset Y", "offset_y", type="number", description="The Y offset (top to bottom) of the HUD elements.", default=0)
-        Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the HUD elements.", default=0)
-        
-        Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the HUD.")
-        Switch("Draw Wheel Paths", "draw_wheel_paths", False, description="Draw the wheel paths on the HUD.")
-        Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
-        Switch("Show Traffic Light Times", "show_traffic_light_times", True, description="Show the remaining time for all traffic lights on the HUD.")
-        Switch("Show ACC Info", "show_acc_info", True, description="Show the ACC info on the HUD.")
+            with Tab("Elements"):
+                Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
+                Switch("Show ACC Info", "show_acc_info", True, description="Show the ACC info on the HUD.")
+                Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the HUD.")
+                Switch("Show Traffic Light Times", "show_traffic_light_times", True, description="Show the remaining time for all traffic lights on the HUD.")
+                Switch("Draw Wheel Paths", "draw_wheel_paths", False, description="Draw the wheel paths on the HUD.")
         
         return RenderUI()
 

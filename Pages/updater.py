@@ -62,9 +62,7 @@ class Page(ETS2LAPage):
                     Button("Update Anyway", "", self.update, border=False)
                 else:
                     reversed_updates = updates[::-1]
-                    Button("Update", "", self.update, border=False)
-                    Space(14)
-                    Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
+                    Button(f"Restart and apply {len(updates)} update(s)", "", self.update, border=False)
                     with Group("vertical", gap=24):
                         current_day = None
                         for update in reversed_updates:
@@ -82,7 +80,7 @@ class Page(ETS2LAPage):
                                             ...
                                     Space(5)
                                     
-                                with Group("vertical", border=True, classname=""):
+                                with Group("vertical", border=True, classname="shadow-md bg-input/10"):
                                     with Group("horizontal", padding=0, classname="items-center", gap=12):
                                         Description(update["author"], size="xs")
                                         with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):

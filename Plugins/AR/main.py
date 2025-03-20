@@ -155,6 +155,10 @@ class Settings(ETS2LASettingsMenu):
     dynamic = False
 
     def render(self):
+        with Group("vertical", gap=14, padding=0):
+            Title("plugins.ar")
+            Description("This plugin provides no description.")
+            
         Switch("Vision Compatible", "vision_compat", True, description="Hide the AR from the screen capture so plugins which rely on vision can be used with AR. (Notice: This will make the AR invisible in any screen capture app! (e.g. OBS, Discord, etc.) )")
         Switch("Show Test Objects", "test_objects", False, description="Show test objects in the AR, for example the white circles at each wheel.")
         return RenderUI()

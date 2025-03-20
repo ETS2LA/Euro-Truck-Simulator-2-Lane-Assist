@@ -148,24 +148,44 @@ class SettingsMenu(ETS2LASettingsMenu):
 
     def render(self):
         import ETS2LA.variables as variables
-        Title("Data Collection End-To-End Driving")
-        Label("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face:")
-        Link("-> View current datasets on Huggingface", "https://huggingface.co/OleFranz/End-To-End/tree/main/files")
-        Separator()
-        Label(f"• This plugin will send images of your game window with data like current steering angle or driving speed to our server.\n• If you play your game in windowed mode, the plugin will still only capture the game.\n• The capture of data will be paused when you are currently not actively playing the game, for example when you are currently AFK, paused the game or are not focusing the game window.\n• Be aware that the plugin captures overlays over the game window for example the discord voice channel overlay.\n\nIf you have think that the plugin captured something you don't want in the public dataset, you have 7 days to delete the data before it will be uploaded to our server.\nIf the data is already on the server, you can still delete the data if you still have the ID used to upload the data.\n\nNo personal information is saved with the ID.\nIf you lost your ID, you can't request to delete the data collected with that ID.\nIf other people have your ID, the only thing they can do with it is request to delete your data.")
-        with Group("vertical", gap=4, padding=0):
-            Label(f"The data will be saved for the 7 days in this folder on your PC:")
-            Description(f"{variables.PATH}Data-Collection-End-To-End-Driving")
-            Label(f"Your current ID is:")
-            Description(f"{GetDataID()}")
-            Label("Manual deletion can be requested by opening this URL in your browser:")
-            Description(f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}")
-        Button("Delete", "Delete collected, not yet uploaded data", self.DeleteDataOnPC, description="This will delete all the data that was collected by the plugin but not yet uploaded to the server.")
-        Button("Delete", "Delete already uploaded data", self.DeleteDataOnServer, description="This will delete all the data that was collected by the plugin and already uploaded to the server.\nNot possible to delete all the data if the data ID got lost at some point and replaced with a new one.")
-        Separator()
-        Toggle("I read the notice and I want to help with the data collection", "i_read_the_notice", default=None)
-        Separator()
-        Description("Server code can be found at https://github.com/ETS2LA/cdn")
+        with Group("vertical", gap=14, padding=0):
+            Title("Data Collection End-To-End Driving")
+            Description("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face.")
+            Link("-> View current datasets on Huggingface", "https://huggingface.co/OleFranz/End-To-End/tree/main/files", classname="text-muted-foreground")
+        with TabView():
+            with Tab("Notice"):
+                Label("This plugin is not required for ETS2LA to work. You can disable it at any time!")
+                with Group("vertical", gap=4, padding=0):
+                    Label("What we send:")
+                    Description("• Images of your game window, and only your game window.\n• Data like current steering angle or driving speed.")
+                    
+                with Group("vertical", gap=4, padding=0):
+                    Label("What you should know:")
+                    Description("• The plugin will pause the capture of data when you are not actively playing the game.\n• The plugin captures overlays over the game window like the discord voice channel overlay!\n• No personal information is saved with the ID.")
+                    
+                with Group("vertical", gap=4, padding=0):
+                    Label("What you can do:")
+                    Description("• You have 7 days to delete the data before it will be uploaded to our server.\n• If the data is already on the server, you can still delete it as long as you have the ID used to upload the data.")
+                    
+                with Group("vertical", gap=4, padding=0):
+                    Label("Where the data is saved:")
+                    Description(f"• {variables.PATH}Data-Collection-End-To-End-Driving")
+                
+                with Group("vertical", gap=4, padding=0):
+                    Label("Your current ID:")
+                    Description(f"• {GetDataID()}")
+                    
+                with Group("vertical", gap=4, padding=0):
+                    Label("Manual deletion:")
+                    Link(f"• You can request to delete the data by opening this URL in your browser:\n• https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", classname="text-muted-foreground")
+
+                Toggle("I read the notice and I want to help with the data collection", "i_read_the_notice", default=None)
+                Space(10)
+                
+            with Tab("Control your Data"):
+                Button("Delete", "Delete collected, not yet uploaded data", self.DeleteDataOnPC, description="This will delete all the data that was collected by the plugin but not yet uploaded to the server.")
+                Button("Delete", "Delete already uploaded data", self.DeleteDataOnServer, description="This will delete all the data that was collected by the plugin and already uploaded to the server.\nNot possible to delete all the data if the data ID got lost at some point and replaced with a new one.")
+                Description("Server code can be found at https://github.com/ETS2LA/cdn")
         return RenderUI()
 
 

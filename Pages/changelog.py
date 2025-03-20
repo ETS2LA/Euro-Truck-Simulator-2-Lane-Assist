@@ -62,7 +62,7 @@ class Page(ETS2LAPage):
                                     ...
                             Space(5)
                             
-                        with Group("vertical", border=True, classname="shadow-md"):
+                        with Group("vertical", border=True, classname="shadow-md bg-input/10"):
                             with Group("horizontal", padding=0, classname="items-center", gap=12):
                                 Description(update["author"], size="xs", classname="")
                                 with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
