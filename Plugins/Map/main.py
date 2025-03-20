@@ -310,5 +310,16 @@ class Plugin(ETS2LAPlugin):
         #    if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 10:
         #        if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[-1].x, data.route_points[-1].z)) > 10:
         #            data.update_navigation_plan = True
+        
+        try:
+            frametime = self.performance[-1][1]
+            if frametime > 0.13: # ~7.7fps
+                if self.state.text == "" or "low FPS" in self.state.text: # Don't overwrite other states
+                    self.state.text = f"Warning: Steering might be compromised due to low FPS. ({1/frametime:.0f}fps)"
+            else:
+                if "low FPS" in self.state.text:
+                    self.state.text = ""
+        except:
+            pass
 
         return [point.tuple() for point in data.route_points]
