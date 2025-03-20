@@ -48,13 +48,13 @@ class Page(ETS2LAPage):
                 )
                 
                 with Group("vertical", gap=3, padding=0):
+                    text = translator.Translate("global.settings.8.description") + translator.Translate("credits")
                     Selector("global.settings.8.name",
                         "language",
                         "English",
                         translator.LANGUAGES,
-                        description="global.settings.8.description"
+                        description=text
                     )
-                    Description("credits", size="xs")
                 
 
             with Tab("global.settings.audio"):

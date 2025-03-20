@@ -47,15 +47,19 @@ except ValueError:
 SETTINGS_HASH = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
 
 def UpdateFrontendTranslations():
-    if os.path.exists(FRONTEND_DATA_FOLDER):
-        # Remove old translations
-        for file in os.listdir(FRONTEND_DATA_FOLDER):
-            os.remove(os.path.join(FRONTEND_DATA_FOLDER, file))
-            
-        # Add new translations
-        for language in LANGUAGE_DATA:
-            with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
-                yaml.dump(LANGUAGE_DATA[language], f, indent=4)
+    try:
+        if os.path.exists(FRONTEND_DATA_FOLDER):
+            # Remove old translations
+            for file in os.listdir(FRONTEND_DATA_FOLDER):
+                os.remove(os.path.join(FRONTEND_DATA_FOLDER, file))
+                
+            # Add new translations
+            for language in LANGUAGE_DATA:
+                with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
+                    yaml.dump(LANGUAGE_DATA[language], f, indent=4)
+    except:
+        logging.warning("Failed to update frontend translations.")
+        pass
                 
 def CheckLanguageDatabase():
     for language in LANGUAGE_CODES:
