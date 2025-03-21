@@ -77,6 +77,8 @@ class Page(ETS2LAPage):
                         description="global.settings.3.description",
                         suffix="%"
                     )
+                    
+                Toggle("Startup Sound", "startup_sound", True, description="Toggle the startup sound on or off. This plays every time the ETS2LA window is opened.")
     
             with Tab("global.settings.variables"):
                 if self.monitors != 0:

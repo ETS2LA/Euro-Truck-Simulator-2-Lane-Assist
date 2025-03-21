@@ -1,7 +1,8 @@
-from ETS2LA.Window.utils import color_title_bar, check_if_window_still_open, get_screen_dimensions, correct_window_position, get_theme_color, window_position
+from ETS2LA.Window.utils import color_title_bar, dont_check_window_open, get_screen_dimensions, correct_window_position, get_theme_color, window_position
 from ETS2LA.Utils.translator import Translate
 from multiprocessing import JoinableQueue
 import ETS2LA.Utils.settings as settings
+from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
 from ETS2LA.Window.html import html
 import multiprocessing  
@@ -277,3 +278,7 @@ def run():
             visibility.HideConsole()
             
         logging.info(Translate("webpage.opened"))
+
+    if not dont_check_window_open:
+        if settings.Get("global", "startup_sound", True):
+            Play("boot")
