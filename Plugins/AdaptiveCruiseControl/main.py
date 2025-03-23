@@ -154,6 +154,8 @@ class Plugin(ETS2LAPlugin):
         speed_error = self.speedlimit - self.speed
         speed_limit_accel = speed_error * 0.5 
         speed_limit_accel = min(self.max_accel, max(self.comfort_decel, speed_limit_accel))
+        if self.speed < self.speedlimit + 5 / 3.6:
+            speed_limit_accel *= 0.75
         
         return speed_limit_accel
     
@@ -297,8 +299,8 @@ class Plugin(ETS2LAPlugin):
         logging.warning("AdaptiveCruiseControl plugin initialized")
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
         
-        if variables.DEVELOPMENT_MODE:
-            self.graph.setup_plot()
+        # if variables.DEVELOPMENT_MODE:
+        #     self.graph.setup_plot()
     
     
     @events.on("toggle_acc")
@@ -645,8 +647,8 @@ class Plugin(ETS2LAPlugin):
         self.last_control_output = control_output
         self.last_time = current_time
         
-        if variables.DEVELOPMENT_MODE:
-            self.graph.update(target_acceleration, control_output, p_term, i_term, d_term)
+        # if variables.DEVELOPMENT_MODE:
+        #     self.graph.update(target_acceleration, control_output, p_term, i_term, d_term)
         
         return control_output
             
