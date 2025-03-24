@@ -1,5 +1,6 @@
 # norfair @ git+https://github.com/Tumppi066/norfair@8f34b5ac523f6dcda5032c0d6d94c88e360998c6
 # filterpy @ git+https://github.com/rodjjo/filterpy.git
+# gputil: Used by handlers/pytorch.py, but the function in it is deprecated (for now).
 opencv-contrib-python
 ultralytics>=8.3.47
 websockets==13.1
@@ -33,7 +34,6 @@ fastapi
 uvicorn
 pyproj
 pillow
-gputil
 psutil
 pygame
 sv_ttk
