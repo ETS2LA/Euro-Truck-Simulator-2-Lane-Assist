@@ -17,6 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0.x'
+
       - uses: retypeapp/action-build@latest
 
       - uses: retypeapp/action-github-pages@latest
