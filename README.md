@@ -1,7 +1,7 @@
 > [!IMPORTANT]  
-> This page is for **ETS2LA V1.0**, we are currently developing **ETS2LA 2.0**. For access to beta versions please join the [discord](https://discord.gg/ETS2LA). You can also manually clone the rewrite branch with [these](https://ets2la.github.io/documentation/installation/beta-1/) instructions.
+> This page is for **ETS2LA V1.0**, we are currently developing **ETS2LA 2.0**. For access to beta versions please join the [discord](https://ets2la.com/discord). You can also manually clone the rewrite branch with [these](https://ets2la.github.io/documentation/installation/beta-1/) instructions.
 >
-> Check [this video](https://www.youtube.com/watch?v=RAe3EcKyyBw) for a demo of 2.0!
+> Check [this video](https://www.youtube.com/watch?v=EgZp05tA5ks) for a demo of 2.0!
 
 ![](assets/markdownLogo.png)
 
@@ -19,7 +19,7 @@ Lane assist and plugin based interface program for SCS truck simulators.
 
 ### Links
 
-Discord: https://discord.gg/ets2la
+Discord: https://ets2la.com/discord
 
 Youtube: https://www.youtube.com/@tumppi066
 
@@ -70,7 +70,7 @@ The plugin infrastructure has documentation on the [wiki](https://wiki.ets2la.co
 
 ### I have issues / suggestions.
 
-Please join the [discord](https://discord.gg/ets2la) or make an issue here. Keep in mind that I am more active on the discord, and the issue you face might already have an answer there. 
+Please join the [discord](https://ets2la.com/discord) or make an issue here. Keep in mind that I am more active on the discord, and the issue you face might already have an answer there. 
 
 
 ### I want to support you.
