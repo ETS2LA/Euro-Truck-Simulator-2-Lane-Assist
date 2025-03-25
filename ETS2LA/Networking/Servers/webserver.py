@@ -324,7 +324,9 @@ def unbind_control(control: str):
 
 @app.get("/api/tags/data")
 def get_tags_data():
-    return plugins.get_all_tag_data()
+    data = plugins.get_all_tag_data()
+    print(data)
+    return data
 
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):

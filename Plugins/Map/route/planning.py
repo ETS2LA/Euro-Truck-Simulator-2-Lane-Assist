@@ -306,69 +306,29 @@ def GetCurrentNavigationPlan():
     distance_ordered = sorted(path, key=lambda node: math_helpers.DistanceBetweenPoints((node.x, node.y), (data.truck_x, data.truck_z)))
 
     closest = distance_ordered[0]
+    # data.circles = [c.Position(closest.x, closest.z, closest.y)]
+    # Check if it's behind or in front
+    in_front = math_helpers.IsInFront((closest.x, closest.y), data.truck_rotation, (data.truck_x, data.truck_z))
     index = path.index(closest)
-    lower_bound = max(0, index-1)   
-    upper_bound = min(len(path), index+1)
+    if not in_front:
+        lower_bound = index
+        upper_bound = min(len(path), index+2)
+    else:
+        lower_bound = max(0, index-1)
+        upper_bound = index + 1
+        
     closest: list[c.Node] = path[lower_bound:upper_bound]
+    data.circles = [
+        c.Position(node.x,node.z,node.y) for node in closest
+    ]
 
     in_front = [math_helpers.IsInFront((node.x, node.y), data.truck_rotation, (data.truck_x, data.truck_z)) for node in closest]
+    
     try:
         last = closest[in_front.index(False)]
         next = closest[in_front.index(True)]
     except:
-        back_item = data.map.get_item_by_uid(closest[0].backward_item_uid)
-        forward_item = data.map.get_item_by_uid(closest[0].forward_item_uid)
-        items = [back_item, forward_item]
-        closest_item = None
-        closest_lane = None
-        closest_distance = math.inf
-        
-        for item in items:
-            if type(item) == c.Road:
-                road_closest_lane, distance = rh.get_closest_lane(item, data.truck_x, data.truck_z, return_distance=True)
-                if distance < closest_distance:
-                    closest_distance = distance
-                    closest_lane = road_closest_lane
-                    closest_item = item
-                    
-            if type(item) == c.Prefab:
-                closest_lanes = GetClosestLanesForPrefab(item, c.Position(data.truck_x, data.truck_y, data.truck_z))
-                if len(closest_lanes) == 0:
-                    return None
-                prefab_closest_lane = closest_lanes[0]
-                closest_point_distance = math.inf
-                
-                for point in item.nav_routes[prefab_closest_lane].points:
-                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_y, data.truck_z), point.tuple())
-                    if distance < closest_point_distance:
-                        closest_point_distance = distance
-                        
-                if closest_point_distance < closest_distance:
-                    closest_distance = closest_point_distance
-                    closest_item = item
-                    closest_lane = prefab_closest_lane
-                    
-        if closest_item is None:
-            return None
-        
-        if type(closest_item) == c.Road:
-            # Check for inverting
-            start_node = data.map.get_node_by_uid(closest_item.start_node_uid)
-            end_node = data.map.get_node_by_uid(closest_item.end_node_uid)
-            start_distance = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
-            end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
-            invert = start_distance > end_distance
-            return RoadToRouteSection(closest_item, closest_lane, invert=invert)
-        
-        if type(closest_item) == c.Prefab:
-            # TODO: Fix this inverting check
-            start_node = data.map.get_node_by_uid(closest_item.node_uids[0])
-            end_node = data.map.get_node_by_uid(closest_item.node_uids[-1])
-            start_distance = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
-            end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
-            invert = start_distance > end_distance
-            return PrefabToRouteSection(closest_item, closest_lane, invert=invert)
-    
+        return
 
     # find the item that connects both of the nodes
     if last.forward_item_uid == next.backward_item_uid:

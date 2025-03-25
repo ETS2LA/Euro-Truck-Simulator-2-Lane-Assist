@@ -99,6 +99,7 @@ class Plugin(ETS2LAPlugin):
     acceleration = SmoothedValue("time", 0.2) # m/s^2
     enabled = False
     
+    api_data = None
     speed_offset_type = "Percentage"
     speed_offset = 0
     
@@ -576,14 +577,36 @@ class Plugin(ETS2LAPlugin):
 
 
     def set_accel_brake(self, accel:float) -> None:
+        is_reversing = False
+        if self.api_data:
+            gear = self.api_data["truckInt"]["gear"]
+            is_reversing = gear < 0
+            
         self.accel = min(1, max(-1, accel))
+        
+        if is_reversing:
+            self.controller.drive = True
+            time.sleep(1/20)
+            self.controller.drive = False
+            time.sleep(1/20)
+            
+            self.controller.aforward = float(0.0001)
+            self.controller.abackward = float(0.0001)
+            
+            self.state.text = "Detected reverse gear. Please shift to drive."
+            return    
+        elif self.state.text == "Detected reverse gear. Please shift to drive.":
+            self.state.text = ""
         
         if self.accel > 0:
             self.controller.aforward = float(self.accel)
-            self.controller.abackward = float(0.0001)
+            if self.speed > 10 / 3.6:
+                self.controller.abackward = float(0)
+            else:
+                self.controller.abackward = float(0.0001)
         else:
             self.controller.abackward = float(-self.accel)
-            self.controller.aforward = float(0.0001)
+            self.controller.aforward = float(0)
                
             
     def apply_pid(self, target_acceleration: float) -> float:
@@ -655,6 +678,7 @@ class Plugin(ETS2LAPlugin):
             
     def run(self):
         self.update_parameters()
+        self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
         
         if not self.enabled:
             self.accel_errors = []
@@ -662,16 +686,16 @@ class Plugin(ETS2LAPlugin):
             self.globals.tags.AR = []
             self.reset(); return
         
-        api_data = self.api.run()
-        if api_data['truckFloat']['speedLimit'] == 0:
-            api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    
+        self.api_data = self.api.run()
+        if self.api_data['truckFloat']['speedLimit'] == 0:
+            self.api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    
             
-        self.speedlimit = self.get_target_speed(api_data)
-        self.speed = api_data['truckFloat']['speed']
+        self.speedlimit = self.get_target_speed(self.api_data)
+        self.speed = self.api_data['truckFloat']['speed']
         
-        acceleration_x = api_data['truckVector']['accelerationX']
-        acceleration_y = api_data['truckVector']['accelerationY']
-        acceleration_z = api_data['truckVector']['accelerationZ']
+        acceleration_x = self.api_data['truckVector']['accelerationX']
+        acceleration_y = self.api_data['truckVector']['accelerationY']
+        acceleration_z = self.api_data['truckVector']['accelerationZ']
             
         total = math.sqrt(acceleration_x**2 + acceleration_y**2 + acceleration_z**2)
         if self.speed != self.last_speed:
@@ -680,16 +704,16 @@ class Plugin(ETS2LAPlugin):
             
         self.acceleration.smooth(total * self.sign)
 
-        try:    in_front = self.get_vehicle_in_front(api_data)
+        try:    in_front = self.get_vehicle_in_front(self.api_data)
         except: in_front = None
         
         if not in_front:
             self.globals.tags.vehicle_highlights = []
         
-        try:    traffic_light = self.get_traffic_light_in_front(api_data)
+        try:    traffic_light = self.get_traffic_light_in_front(self.api_data)
         except: traffic_light = None
         
-        try:    gate = self.get_gate_in_front(api_data)
+        try:    gate = self.get_gate_in_front(self.api_data)
         except:
             logging.exception("Error in gate detection")
             gate = None

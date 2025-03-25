@@ -305,11 +305,6 @@ class Plugin(ETS2LAPlugin):
                 self.globals.tags.road_type = "none"
         except:
             pass
-
-        #if len(data.route_points) > 0:
-        #    if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 10:
-        #        if mh.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[-1].x, data.route_points[-1].z)) > 10:
-        #            data.update_navigation_plan = True
         
         try:
             frametime = self.performance[-1][1]

@@ -90,7 +90,7 @@ allowed_heavy_calculations: int = 500
 """How many heavy calculations map is allowed to do per frame."""
 lane_change_distance_per_kph: float = 1
 """Over how many meters distance will the truck change lanes per kph of speed. Basically at 50kph, the truck will change lanes over 25m, assuming a value of 0.5."""
-minimum_lane_change_distance: float = 10
+minimum_lane_change_distance: float = 20
 """The minimum distance the truck will change lanes over."""
 route_plan_length: int = 3
 """How many route sections the planner will plan ahead for."""

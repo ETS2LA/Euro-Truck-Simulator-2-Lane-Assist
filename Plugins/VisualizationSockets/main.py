@@ -360,7 +360,10 @@ class Plugin(ETS2LAPlugin):
             information = {}
             
         if not points:
-            return {}
+            return {
+                "points": [],
+                "information": information
+            }
         
         send = {
             "points": [

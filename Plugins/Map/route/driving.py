@@ -170,6 +170,7 @@ def GetSteering():
                 points.append(point)
 
     if len(points) == 0:
+        data.route_points = []
         if data.use_navigation and len(data.navigation_plan) != 0:
             data.frames_off_path += 1
             if data.frames_off_path > 5:
