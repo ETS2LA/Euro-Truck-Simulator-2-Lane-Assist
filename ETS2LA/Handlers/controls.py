@@ -11,6 +11,7 @@ NOTE: If you are using controls from a plugin, DO NOT import this file.
       plugin with the `controls` attribute.
 """
 
+from ETS2LA.Handlers.utils.key_mappings import key_to_str
 from ETS2LA.Controls.picker import control_picker
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
@@ -21,11 +22,11 @@ import multiprocessing
 import threading
 
 import dearpygui.dearpygui as dpg
-import keyboard
+from pynput import keyboard as pynput_keyboard
+import threading
 
 import logging
 import time
-import sys
 import os
 
 settings_file = "ETS2LA/controls.json"
@@ -56,6 +57,22 @@ pause_queue_listener = False
 Whether to pause the queue listener to hijack the queue
 output with another process.
 """
+
+
+
+pressed_keys = set()
+
+
+def on_press(key):
+    key_str = key_to_str(key)
+    pressed_keys.add(key_str)
+
+def on_release(key):
+    key_str = key_to_str(key)
+    pressed_keys.discard(key_str)
+
+listener = pynput_keyboard.Listener(on_press=on_press, on_release=on_release)
+listener.start()
 
 
 def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
@@ -272,23 +289,28 @@ def validate_events(events: list[ControlEvent]) -> None:
         get_event_information(event)
 
 
-def get_states(events: list[ControlEvent]) -> dict:
-    """This file will loop through all given events
-    and then return the state for each.
 
-    :param list[ControlEvent] events: Input events.
-    :return dict: Return dictionary with event states.
+def get_states(events: list[ControlEvent]) -> dict:
+    """This function has been rewritten to support the pynput.
+    
+    :parma list[ControlEvent] events: input event.
+    :return dict: The return dictionary.
     """
     
     states = {}
     for event in events:
         info = get_event_information(event)
-        if info["guid"] == "":
-            states[event.alias] = None
+        if info["guid"] == "keyboard":
+            key = info["key"]
+            states[event.alias] = key in pressed_keys
             continue
         
         if info["guid"] == "keyboard":
-            states[event.alias] = keyboard.is_pressed(info["key"])
+            key = info["key"]
+            if len(key) == 1:
+                states[event.alias] = key in pressed_keys
+            else:
+                states[event.alias] = getattr(pynput_keyboard.Key, key, None) in pressed_keys
             continue
         
         if event.type == "button":

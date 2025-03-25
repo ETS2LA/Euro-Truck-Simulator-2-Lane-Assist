@@ -37,6 +37,7 @@ pillow
 psutil
 pygame
 sv_ttk
+pynput
 pydub
 mouse
 scipy
