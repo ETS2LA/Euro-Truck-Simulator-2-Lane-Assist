@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvq04e78ymnks"]
-
-[ext_resource type="PackedScene" uid="uid://co02r23f6t2ac" path="res://Models/traffic_bus_export.blend" id="1_xaxlr"]
-[ext_resource type="Material" uid="uid://ceuu02a4fo4j8" path="res://Materials/truck_material.tres" id="2_prkeg"]
-
-[node name="traffic_bus_export" instance=ExtResource("1_xaxlr")]
-
-[node name="Cube" parent="." index="0"]
-surface_material_override/0 = ExtResource("2_prkeg")

@@ -1,3 +1,6 @@
+# type: ignore
+# TODO: Make this file type-safe. I'm not even going to try and do it myself.
+#     - Tumppi066
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Utils.Console.visibility as console
 import ETS2LA.variables as variables
@@ -10,6 +13,7 @@ import GPUtil
 import psutil
 import torch
 import time
+import sys
 import os
 
 def SendCrashReport(Title, Description):
@@ -17,7 +21,8 @@ def SendCrashReport(Title, Description):
 
 RED = "\033[91m"
 GREEN = "\033[92m"
-DARK_GRAY = "\033[90m"
+GRAY = "\033[90m"
+YELLOW = "\033[93m"
 NORMAL = "\033[0m"
 
 try:
@@ -203,7 +208,7 @@ def Load(Identifier):
                     return
 
                 Popup(Identifier=Identifier, Text="Loading the model...", Progress=0)
-                print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Loading the model..." + NORMAL)
+                print(GRAY + f"[{Identifier}] " + GREEN + "Loading the model..." + NORMAL)
 
                 ModelFileBroken = False
 
@@ -237,17 +242,17 @@ def Load(Identifier):
 
                 if ModelFileBroken == False:
                     Popup(Identifier=Identifier, Text="Successfully loaded the model!", Progress=100)
-                    print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Successfully loaded the model!" + NORMAL)
+                    print(GRAY + f"[{Identifier}] " + GREEN + "Successfully loaded the model!" + NORMAL)
                     MODELS[Identifier]["ModelLoaded"] = True
                 else:
                     Popup(Identifier=Identifier, Text="Failed to load the model because the model file is broken.", Progress=0)
-                    print(DARK_GRAY + f"[{Identifier}] " + RED + "Failed to load the model because the model file is broken." + NORMAL)
+                    print(GRAY + f"[{Identifier}] " + RED + "Failed to load the model because the model file is broken." + NORMAL)
                     MODELS[Identifier]["ModelLoaded"] = False
                     HandleBroken(Identifier)
             except:
                 SendCrashReport("PyTorch - Loading Error.", str(traceback.format_exc()))
                 Popup(Identifier=Identifier, Text="Failed to load the model!", Progress=0)
-                print(DARK_GRAY + f"[{Identifier}] " + RED + "Failed to load the model!" + NORMAL)
+                print(GRAY + f"[{Identifier}] " + RED + "Failed to load the model!" + NORMAL)
                 MODELS[Identifier]["ModelLoaded"] = False
 
         if TorchAvailable:
@@ -260,7 +265,7 @@ def Load(Identifier):
     except:
         SendCrashReport("PyTorch - Error in function Load.", str(traceback.format_exc()))
         Popup(Identifier=Identifier, Text="Failed to load the model.", Progress=0)
-        print(DARK_GRAY + f"[{Identifier}] " + RED + "Failed to load the model." + NORMAL)
+        print(GRAY + f"[{Identifier}] " + RED + "Failed to load the model." + NORMAL)
 
 
 def CheckForUpdates(Identifier):
@@ -268,12 +273,19 @@ def CheckForUpdates(Identifier):
         def CheckForUpdatesFunction(Identifier):
             try:
 
+                if "--dev" in sys.argv:
+                    if GetName(Identifier) != None:
+                        print(GRAY + f"[{Identifier}] " + YELLOW + "Development mode enabled, skipping update check..." + NORMAL)
+                        return
+                    else:
+                        print(GRAY + f"[{Identifier}] " + YELLOW + "Development mode enabled, downloading model because it doesn't exist..." + NORMAL)
+
                 Popup(Identifier=Identifier, Text="Checking for model updates...", Progress=0)
-                print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Checking for model updates..." + NORMAL)
+                print(GRAY + f"[{Identifier}] " + GREEN + "Checking for model updates..." + NORMAL)
 
                 if settings.Get("PyTorch", f"{Identifier}-LastUpdateCheck", 0) + 600 > time.time():
                     if settings.Get("PyTorch", f"{Identifier}-LatestModel", "unset") == GetName(Identifier):
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
                         return
 
                 try:
@@ -285,7 +297,7 @@ def CheckForUpdates(Identifier):
                         ETS2LAResponse = requests.get("https://cdn.ets2la.com/", timeout=3)
                         ETS2LAResponse = ETS2LAResponse.status_code
                         HuggingFaceResponse = None
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Using cdn.ets2la.com..." + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "Using cdn.ets2la.com..." + NORMAL)
                     except:
                         HuggingFaceResponse = None
                         ETS2LAResponse = None
@@ -309,7 +321,7 @@ def CheckForUpdates(Identifier):
 
                     if str(LatestModel) != str(CurrentModel):
                         Popup(Identifier=Identifier, Text="Updating the model...", Progress=0)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Identifier)
                         StartTime = time.time()
                         Response = requests.get(f'https://huggingface.co/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/resolve/main/{"/".join(Identifier.split("/")[1:])}/{LatestModel}?download=true', stream=True, timeout=15)
@@ -324,10 +336,10 @@ def CheckForUpdates(Identifier):
                                 ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
                                 Popup(Identifier=Identifier, Text=f"Downloading the model:\n{round(Progress)}% - ETA: {ETA}", Progress=Progress)
                         Popup(Identifier=Identifier, Text="Successfully updated the model!", Progress=100)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
                         Popup(Identifier=Identifier, Text="No model updates available!", Progress=100)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
                     settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.time())
 
                 elif ETS2LAResponse == 200:
@@ -345,7 +357,7 @@ def CheckForUpdates(Identifier):
 
                     if str(LatestModel) != str(CurrentModel):
                         Popup(Identifier=Identifier, Text="Updating the model...", Progress=0)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "Updating the model..." + NORMAL)
                         Delete(Identifier)
                         StartTime = time.time()
                         Response = requests.get(f'https://cdn.ets2la.com/models/{MODELS[Identifier]["ModelOwner"]}/{Identifier.split("/")[0]}/{"/".join(Identifier.split("/")[1:])}/download', stream=True, timeout=15)
@@ -360,22 +372,22 @@ def CheckForUpdates(Identifier):
                                 ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
                                 Popup(Identifier=Identifier, Text=f"Downloading the model:\n{round(Progress)}% - ETA: {ETA}", Progress=Progress)
                         Popup(Identifier=Identifier, Text="Successfully updated the model!", Progress=100)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
                     else:
                         Popup(Identifier=Identifier, Text="No model updates available!", Progress=100)
-                        print(DARK_GRAY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
+                        print(GRAY + f"[{Identifier}] " + GREEN + "No model updates available!" + NORMAL)
                     settings.Set("PyTorch", f"{Identifier}-LastUpdateCheck", time.time())
 
                 else:
 
                     console.RestoreConsole()
                     Popup(Identifier=Identifier, Text="Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates.", Progress=0)
-                    print(DARK_GRAY + f"[{Identifier}] " + RED + "Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates." + NORMAL)
+                    print(GRAY + f"[{Identifier}] " + RED + "Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates." + NORMAL)
 
             except:
                 SendCrashReport("PyTorch - Error in function CheckForUpdatesFunction.", str(traceback.format_exc()))
                 Popup(Identifier=Identifier, Text="Failed to check for model updates or update the model.", Progress=0)
-                print(DARK_GRAY + f"[{Identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
+                print(GRAY + f"[{Identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
 
         if MODELS[Identifier]["Threaded"]:
             MODELS[Identifier]["UpdateThread"] = threading.Thread(target=CheckForUpdatesFunction, args=(Identifier,), daemon=True)
@@ -386,7 +398,7 @@ def CheckForUpdates(Identifier):
     except:
         SendCrashReport("PyTorch - Error in function CheckForUpdates.", str(traceback.format_exc()))
         Popup(Identifier=Identifier, Text="Failed to check for model updates or update the model.", Progress=0)
-        print(DARK_GRAY + f"[{Identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
+        print(GRAY + f"[{Identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
 
 
 def FolderExists(Identifier):
@@ -411,6 +423,9 @@ def GetName(Identifier):
 
 def Delete(Identifier):
     try:
+        if "--dev" in sys.argv and os.listdir(MODELS[Identifier]["Path"]) != []:
+            print(GRAY + f"[{Identifier}] " + YELLOW + "Development mode enabled, skipping model deletion..." + NORMAL)
+            return
         FolderExists(Identifier)
         for File in os.listdir(MODELS[Identifier]["Path"]):
             if File.endswith(".pt"):
@@ -418,7 +433,7 @@ def Delete(Identifier):
     except PermissionError:
         global TorchAvailable
         TorchAvailable = False
-        print(DARK_GRAY + f"[{Identifier}] " + RED + "PyTorch - PermissionError in function Delete:\n" + NORMAL + str(traceback.format_exc()))
+        print(GRAY + f"[{Identifier}] " + RED + "PyTorch - PermissionError in function Delete:\n" + NORMAL + str(traceback.format_exc()))
         console.RestoreConsole()
     except:
         SendCrashReport("PyTorch - Error in function Delete.", str(traceback.format_exc()))
@@ -426,6 +441,9 @@ def Delete(Identifier):
 
 def HandleBroken(Identifier):
     try:
+        if "--dev" in sys.argv:
+            print(GRAY + f"[{Identifier}] " + RED + "Can't handle broken models in development mode, all pytorch loader actions paused..." + NORMAL)
+            while True: time.sleep(1)
         Delete(Identifier)
         CheckForUpdates(Identifier)
         if "UpdateThread" in MODELS[Identifier]:

@@ -13,7 +13,7 @@ class RaycastResponse:
     def json(self):
         return {"point": self.point, "distance": self.distance, "relativePoint": self.relativePoint}
 
-    def fromJson(json):
+    def fromJson(self, json):
         return RaycastResponse(json["point"], json["distance"], json["relativePoint"])
 
 class Module(ETS2LAModule):
@@ -45,7 +45,7 @@ class Module(ETS2LAModule):
         global API
         global FOV
         API = self.plugin.modules.TruckSimAPI
-        FOV = self.plugins.modules.Camera.run().fov
+        FOV = self.plugin.modules.Camera.run().fov
 
         global window_x, window_y, window_width, window_height, last_window_position
         window_x = 0
@@ -190,7 +190,7 @@ class Module(ETS2LAModule):
 
         data = {}
         data["api"] = API.run()
-        FOV = self.plugins.modules.Camera.run().fov
+        FOV = self.plugin.modules.Camera.run().fov
         try:
             truck_x = data["api"]["truckPlacement"]["coordinateX"]
             truck_y = data["api"]["truckPlacement"]["coordinateY"]
@@ -282,7 +282,12 @@ class Module(ETS2LAModule):
             return RaycastResponse((truck_x, truck_y, truck_z), 0, (0, 0, 0))
         if x is None and y is None:
             x, y = mouse.get_position()
-        x, y, z = self.RaycastToPlane(x, y, truck_y)
+            
+        position = self.RaycastToPlane(x, y, truck_y) # type: ignore - x and y should be known here.
+        if position is None:
+            return RaycastResponse((truck_x, truck_y, truck_z), 0, (0, 0, 0))
+        
+        x, y, z = position
         distance = math.sqrt((x - truck_x) ** 2 + (y - truck_y) ** 2 + (z - truck_z) ** 2)
         relative_x = x - truck_x
         relative_y = y - truck_y

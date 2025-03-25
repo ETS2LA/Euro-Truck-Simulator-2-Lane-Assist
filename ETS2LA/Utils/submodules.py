@@ -43,7 +43,9 @@ def EnsureSubmoduleExists(folder: str, url: str, cdn_url: str = "", cdn_path: st
     if not os.path.exists(folder):
         print(f"{GREEN} -- Please wait, we need to download the following submodule: {YELLOW} {folder} {GREEN} -- {END}") 
         try:
-            ExecuteCommand(f"git clone {url} {folder}")
+            result = ExecuteCommand(f"git clone {url} {folder}")
+            if result != 0:
+                DownloadSubmoduleViaCDN(folder, cdn_url, cdn_path)
         except:
             DownloadSubmoduleViaCDN(folder, cdn_url, cdn_path)
         
@@ -71,6 +73,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
         repo = git.Repo(folder)
     except:
         download_time = settings.Get("global", f"{folder}_downloaded", 0)
+        download_time = 0 if download_time is None else float(download_time)
         try:
             if time.time() - download_time > 86400: # = 1 day
                 print(f"{GREEN} -- Please wait, we need to redownload the following submodule: {YELLOW} {folder} {GREEN} -- {END}") 
@@ -84,7 +87,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
     try:
         origin = repo.remotes.origin
         current_hash = repo.head.object.hexsha
-        origin_hash = origin.fetch()
+        origin_hash = origin.fetch(kill_after_timeout=1)
         if len(origin_hash) > 0:
             origin_hash = origin_hash[0].commit.hexsha
         else:
@@ -95,6 +98,6 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
             ExecuteCommand(f"git -C {folder} pull")
             return True
     except:
-        print(f"{RED} -- Failed to update / check for updates for the submodule: {YELLOW} {folder} {RED} -- {END}")
+        print(f"{YELLOW} -- Failed to update / check for updates for the submodule (remove the corresponding folder in code/app to redownload if possible): {folder} -- {END}")
     
     return False

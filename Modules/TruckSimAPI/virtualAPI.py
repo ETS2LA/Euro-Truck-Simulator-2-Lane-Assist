@@ -232,11 +232,23 @@ class scsTelemetry:
     def readLong(self, offset, count=1):
         if count == 1:
             long = 1
+        else:
+            longs = []
+            for i in range(count):
+                longs.append(1)
+            return longs, offset+count*8
+        
         return long, offset+8
     
     def readLongLong(self, offset, count=1):
         if count == 1:
             longlong = 1
+        else:
+            longlongs = []
+            for i in range(count):
+                longlongs.append(1)
+            return longlongs, offset+count*8
+        
         return longlong, offset+8
     
     def readChar(self, offset, count):

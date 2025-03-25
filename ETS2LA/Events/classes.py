@@ -10,7 +10,7 @@ class CancelledJob(BaseModel):
     cancelled_time: int = 0
     cancelled_penalty: int = 0
     
-    def json(self):
+    def json(self): # type: ignore
         return self.model_dump()
         
     def fromAPIData(self, data):
@@ -44,7 +44,7 @@ class FinishedJob(BaseModel):
     
     delivered_revenue: int = 0
     
-    def json(self):
+    def json(self): # type: ignore
         return self.model_dump()
         
     def fromAPIData(self, data):
@@ -98,7 +98,7 @@ class Job(BaseModel):
     
     event_type: Literal["delivered", "cancelled", "loaded"] = "loaded"
     
-    def json(self):
+    def json(self): # type: ignore
         return self.model_dump()
     
     def fromAPIData(self, data):
@@ -138,7 +138,7 @@ class Refuel(BaseModel):
     refuelAmount: float = 0
     type: Literal["started", "payed"] = "started"
     
-    def json(self):
+    def json(self): # type: ignore
         return self.model_dump()
         
     def fromAPIData(self, data):

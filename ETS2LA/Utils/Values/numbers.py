@@ -1,3 +1,5 @@
+# type: ignore
+# TODO: Make this file type-safe.
 from typing import List, Literal, Tuple
 import time
 
@@ -7,9 +9,12 @@ class SmoothedValue:
     smoothingAmount: int | float
     
     def __init__(self, smoothingType: Literal["frames", "time"] = "frames", smoothingAmount: int | float = 10) -> None:
-        self.valueArray = []
         self.smoothingType = smoothingType
         self.smoothingAmount = smoothingAmount
+        if smoothingType == "frames":
+            self.valueArray = [0]
+        elif smoothingType == "time":
+            self.valueArray = [[time.perf_counter(), 0]]
         
     def get(self):
         if self.smoothingType == "frames":

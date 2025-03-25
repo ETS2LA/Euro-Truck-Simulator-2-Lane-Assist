@@ -1,15 +1,19 @@
 from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
 from ETS2LA.Plugin.settings import Settings
 from ETS2LA.Plugin.author import Author
+
+from ETS2LA.Utils.Console.logging import setup_process_logging
 import ETS2LA.Events as Events
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.Console.logging import SetupProcessLogging
+from ETS2LA.Controls import ControlEvent
+
 from multiprocessing import JoinableQueue, Queue
-from types import SimpleNamespace
-from typing import Literal
 import threading
 import importlib
+
+from types import SimpleNamespace
+from typing import Literal, List
 import logging
 import json
 import math
@@ -24,6 +28,7 @@ class ETS2LAPlugin(object):
     :param int fps_cap: The maximum frames per second the plugin will run at.
     :param Description description: The description of the plugin.
     :param Author author: The author of the plugin.
+    :param list[ControlEvent] controls: The list of control events to listen to.
     :param Global globals: The global settings and tags.
     :param Settings settings: The settings of the plugin.
     :param Plugins plugins: Interactions with other plugins.
@@ -33,7 +38,8 @@ class ETS2LAPlugin(object):
     fps_cap: int = 30
     
     description: PluginDescription = PluginDescription()
-    author: Author
+    author: List[Author]
+    controls: List[ControlEvent] = []
     settings_menu: None
     
     return_queue: JoinableQueue
@@ -50,6 +56,8 @@ class ETS2LAPlugin(object):
     performance_return_queue: JoinableQueue
     event_queue: JoinableQueue
     event_return_queue: Queue
+    control_queue: JoinableQueue
+    control_return_queue: JoinableQueue
     
     performance: list[tuple[float, float]] = []
     
@@ -139,7 +147,8 @@ class ETS2LAPlugin(object):
                                 immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
                                 state_queue: JoinableQueue,
                                 performance_queue: JoinableQueue, performance_return_queue: JoinableQueue,
-                                event_queue: JoinableQueue, event_return_queue: Queue
+                                event_queue: JoinableQueue, event_return_queue: Queue,
+                                control_queue: JoinableQueue, control_return_queue: JoinableQueue
                                 ) -> object:
         instance = super().__new__(cls)
         instance.path = path
@@ -158,6 +167,8 @@ class ETS2LAPlugin(object):
         instance.performance_return_queue = performance_return_queue
         instance.event_queue = event_queue
         instance.event_return_queue = event_return_queue
+        instance.control_queue = control_queue
+        instance.control_return_queue = control_return_queue
         
         instance.plugins = Plugins(plugins_queue, plugins_return_queue)
         instance.globals = Global(tags_queue, tags_return_queue)
@@ -167,7 +178,7 @@ class ETS2LAPlugin(object):
         instance.settings = Settings(path)
         
         if type(instance.author) != list:
-            instance.author = [instance.author]
+            instance.author = [instance.author] # type: ignore
         
         return instance
    
@@ -183,7 +194,7 @@ class ETS2LAPlugin(object):
                 module = python_object.Module(self)
                 setattr(self.modules, module_name, module)
             else:
-                logging.warning(f"Module '{module}' not found in '{module_path}'")
+                logging.warning(f"Module '{module_name}' not found in '{module_path}'")
     
     def __init__(self, *args) -> None:
         self.ensure_functions()
@@ -196,18 +207,19 @@ class ETS2LAPlugin(object):
         threading.Thread(target=self.frontend_thread, daemon=True).start()
         threading.Thread(target=self.performance_thread, daemon=True).start()
         threading.Thread(target=self.event_listener, daemon=True).start()
+        threading.Thread(target=self.control_listener, daemon=True).start()
 
-        self.imports()
+        self.imports() # type: ignore # Might or might not exist.
         
-        try: self.init()
+        try: self.init() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'init' function")
-        try: self.initialize()
+        try: self.initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'initialize' function")
-        try: self.Initialize()
+        try: self.Initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'Initialize' function")
@@ -221,6 +233,15 @@ class ETS2LAPlugin(object):
                 self.settings_menu_queue.get()
                 self.settings_menu_queue.task_done()
                 self.settings_menu_return_queue.put(self.settings_menu.render())
+    
+    def control_listener(self):
+        while True:
+            data = self.control_queue.get()
+            self.control_queue.task_done()
+            
+            for event in self.controls:
+                if event.alias in data:
+                    event.update(data[event.alias])
     
     def event_listener(self):
         while True:
@@ -307,7 +328,7 @@ class ETS2LAPlugin(object):
         self.immediate_queue.put({
             "operation": "dialog", 
             "options": {
-                "dialog": dialog.build(),
+                "dialog": dialog.build(), # type: ignore
                 "no_response": False
             }
         })
@@ -315,7 +336,7 @@ class ETS2LAPlugin(object):
 
     def plugin(self) -> None:
         self.before()
-        data = self.run()
+        data = self.run() # type: ignore
         self.after(data)
             
     def before(self) -> None:
@@ -342,10 +363,11 @@ class PluginRunner:
                     immediate_queue: JoinableQueue, immediate_return_queue: JoinableQueue,
                     state_queue: JoinableQueue,
                     performance_queue: JoinableQueue, performance_return_queue: JoinableQueue,
-                    event_queue: JoinableQueue, event_return_queue: Queue
+                    event_queue: JoinableQueue, event_return_queue: Queue,
+                    control_queue: JoinableQueue, control_return_queue: JoinableQueue
                     ):
         
-        SetupProcessLogging(
+        setup_process_logging(
             plugin_name,
             filepath=os.path.join(os.getcwd(), "logs", f"{plugin_name}.log"),
             console_level=logging.WARNING
@@ -370,6 +392,8 @@ class PluginRunner:
         self.performance_return_queue = performance_return_queue
         self.event_queue = event_queue  
         self.event_return_queue = event_return_queue
+        self.control_queue = control_queue
+        self.control_return_queue = control_return_queue
         
         Events.events = Events.EventSystem(plugin_object=None, queue=self.event_return_queue)
 
@@ -389,7 +413,8 @@ class PluginRunner:
                                                                 immediate_queue, immediate_return_queue,
                                                                 state_queue,
                                                                 performance_queue, performance_return_queue,
-                                                                event_queue, event_return_queue
+                                                                event_queue, event_return_queue,
+                                                                control_queue, control_return_queue
                                                                 )
             else:
                 immediate_queue.put({

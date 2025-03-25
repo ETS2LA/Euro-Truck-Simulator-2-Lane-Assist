@@ -20,8 +20,30 @@ class Module(ETS2LAModule):
             size = 2640
             self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
             time.sleep(0.1)
+            
+    def create_vehicle_from_dict(self, data):
+        position = Position(data["position"]["x"], data["position"]["y"], data["position"]["z"])
+        rotation = Quaternion(data["rotation"]["x"], data["rotation"]["y"], data["rotation"]["z"], data["rotation"]["w"])
+        size = Size(data["size"]["width"], data["size"]["height"], data["size"]["length"])
+        speed = data["speed"]
+        acceleration = data["acceleration"]
+        trailer_count = data["trailer_count"]
+        id = data["id"]
+        
+        trailers = []
+        for trailer in data["trailers"]:
+            trailer_position = Position(trailer["position"]["x"], trailer["position"]["y"], trailer["position"]["z"])
+            trailer_rotation = Quaternion(trailer["rotation"]["x"], trailer["rotation"]["y"], trailer["rotation"]["z"], trailer["rotation"]["w"])
+            trailer_size = Size(trailer["size"]["width"], trailer["size"]["height"], trailer["size"]["length"])
+            
+            trailers.append(Trailer(trailer_position, trailer_rotation, trailer_size))
+        
+        return Vehicle(position, rotation, size, speed, acceleration, trailer_count, id, trailers)
     
     def get_traffic(self):
+        if self.buf is None:
+            return None
+        
         try:
             data = struct.unpack(self.total_format, self.buf[:2640])
             vehicles = []

@@ -10,6 +10,39 @@ import math
 OFFSET_MULTIPLIER = 1.5
 ANGLE_MULTIPLIER = 1
 
+def get_closest_route_item(items: list[rc.RouteItem]):
+    in_bounding_box = []
+    for item in items:
+        item = item.item
+
+        if item.bounding_box.is_in(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+            in_bounding_box.append(item)
+
+    closest_item = None
+    closest_point_distance = math.inf
+    for item in in_bounding_box:
+        if type(item) == c.Prefab:
+            for lane_id, lane in enumerate(item.nav_routes):
+                for point in lane.points:
+                    point_tuple = point.tuple()
+                    point_tuple = (point_tuple[0], point_tuple[2])
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                    if distance < closest_point_distance:
+                        closest_point_distance = distance
+                        closest_item = item
+
+        elif type(item) == c.Road:
+            for lane_id, lane in enumerate(item.lanes):
+                for point in lane.points:
+                    point_tuple = point.tuple()
+                    point_tuple = (point_tuple[0], point_tuple[2])
+                    distance = math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), point_tuple)
+                    if distance < closest_point_distance:
+                        closest_point_distance = distance
+                        closest_item = item
+
+    return closest_item
+
 was_indicating = False
 def CheckForLaneChange():
     global was_indicating
@@ -29,10 +62,10 @@ def CheckForLaneChange():
         side = lanes[current_index].side
         
         target_index = current_index
-        change = -1 if data.truck_indicating_right else 1
-        
-        end_node = data.route_plan[0].end_node
-        end_node_in_front = math_helpers.IsInFront([end_node.x, end_node.y], data.truck_rotation, [data.truck_x, data.truck_z])
+        change = 1 if data.truck_indicating_right else -1
+
+        closest_item = get_closest_route_item(data.route_plan[0].items)
+        end_node_in_front = math_helpers.IsInFront((closest_item.end_node.x, closest_item.end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
             
         if side == "left":    
             if end_node_in_front: # Normal lane change
@@ -67,11 +100,11 @@ def CheckForLaneChange():
 def GetPointDistance(points_so_far: int, total_points: int = 50) -> float:
     key_points = [
         (0, 0.25),
-        (total_points / 5, 4),
-        (total_points / 5 * 2, 8),
-        (total_points / 5 * 3, 16),
-        (total_points / 5 * 4, 32),
-        (total_points, 32) 
+        (total_points / 5, 2),
+        (total_points / 5 * 2, 4),
+        (total_points / 5 * 3, 8),
+        (total_points / 5 * 4, 16),
+        (total_points, 16) 
     ]
     
     # Find the segment where points_so_far lies
@@ -124,7 +157,7 @@ def GetSteering():
         if section is None:
             continue
         
-        section_points = section.get_points()[:-1]
+        section_points = section.get_points()
         for point in section_points:
             if len(points) > data.amount_of_points:
                 break
@@ -137,6 +170,14 @@ def GetSteering():
                 points.append(point)
 
     if len(points) == 0:
+        if data.use_navigation and len(data.navigation_plan) != 0:
+            data.frames_off_path += 1
+            if data.frames_off_path > 5:
+                #logging.warning("Recalculating navigation plan as we have no points to drive on.")
+                data.route_plan = []
+                data.update_navigation_plan = True
+                data.frames_off_path = 0
+                return 0
         return 0
 
     points = points
@@ -146,12 +187,7 @@ def GetSteering():
     multiplier = max(8 - (speed - 10) / 10, 2)
 
     data.route_points = points
-    
-    if math_helpers.DistanceBetweenPoints((data.truck_x, data.truck_z), (data.route_points[0].x, data.route_points[0].z)) > 20:
-        logging.warning("Recalculating navigation plan as we are too far off the path!")
-        data.route_plan = []
-        data.update_navigation_plan = True
-            
+        
     forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
     try:
         if len(points) > 2:

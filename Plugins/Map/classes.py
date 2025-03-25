@@ -1010,12 +1010,8 @@ class Road(BaseItem):
                  length: float, maybe_divided: bool | None):
         super().__init__(uid, ItemType.Road, x, y, sector_x, sector_y)
         super().parse_strings()
+        
         self.type = ItemType.Road
-        self.road_look = None
-        self._bounding_box = None
-        self._lanes = []
-        self._points = None
-        # Ensure dlc_guard is an integer and hidden is a boolean
         self.dlc_guard = int(dlc_guard) if dlc_guard is not None else -1
         self.hidden = bool(hidden) if hidden is not None else False
         self.road_look_token = road_look_token
@@ -1023,11 +1019,17 @@ class Road(BaseItem):
         self.end_node_uid = end_node_uid
         self.length = length
         self.maybe_divided = maybe_divided
+        
+        self.road_look = None
+        self.clear_data()
+        self.parse_strings()
+
+    def clear_data(self):
         self._lanes = []
+        self._bounding_box = None
         self._points = None
         self.start_node = None
         self.end_node = None
-        self.parse_strings()
 
     def get_nodes(self):
         """Populate start_node and end_node if not already set."""
@@ -1061,20 +1063,16 @@ class Road(BaseItem):
     
             start_pos = (start_node.x, start_node.z, start_node.y)
             end_pos = (end_node.x, end_node.z, end_node.y)
-            if "Road 2 plus 1 temp" in self.road_look.name:
-                temp_pos = start_pos
-                start_pos = [start_pos[0], end_pos[1], start_pos[2]]
-                end_pos = [end_pos[0], temp_pos[1], end_pos[2]]
-    
-            start_euler = start_node.euler if hasattr(start_node, 'euler') else (0, 0, 0)
-            end_euler = end_node.euler if hasattr(end_node, 'euler') else (0, 0, 0)
-    
+
+            start_quaternion = start_node.rotationQuat if hasattr(start_node, 'rotationQuat') else (0, 0, 0, 0)
+            end_quaternion = end_node.rotationQuat if hasattr(end_node, 'rotationQuat') else (0, 0, 0, 0)
+
             length = math.sqrt(sum((e - s) ** 2 for s, e in zip(start_pos, end_pos)))
             needed_points = max(int(length * road_quality), min_quality)
     
             for i in range(needed_points):
                 s = i / (needed_points - 1)
-                x, y, z = math_helpers.Hermite3D(s, start_pos, end_pos, start_euler, end_euler)
+                x, y, z = math_helpers.Hermite3D(s, start_pos, end_pos, start_quaternion, end_quaternion, self.length)
                 new_points.append(Position(x, y, z))
     
             return new_points
@@ -2143,21 +2141,28 @@ class MapData:
     Please use the get_node_by_uid method to access nodes by UID.
     """
     
+    def clear_road_data(self) -> None:
+        logging.warning("Clearing road data...")
+        road_helpers.get_rules()
+        for road in self.roads:
+            road.clear_data()
+        logging.warning("Road data cleared.")
+    
     def calculate_sectors(self) -> None:
         for node in self.nodes:
             node.sector_x, node.sector_y = self.get_sector_from_coordinates(node.x, node.y)
         # elevevations don't have sectors
         for road in self.roads:
-            road.sector_x, road.sector_y = self.get_sector_from_coordinates(road.x, road.y)
+            road.sector_x, road.sector_y = self.get_road_sector(road)
         # ferries don't have sectors
         for prefab in self.prefabs:
-            prefab.sector_x, prefab.sector_y = self.get_sector_from_coordinates(prefab.x, prefab.y)
+            prefab.sector_x, prefab.sector_y = self.get_sector_from_center_of_nodes(prefab.node_uids, (prefab.x, prefab.y))
         for company in self.companies:
-            company.sector_x, company.sector_y = self.get_sector_from_coordinates(company.x, company.y)
+            company.sector_x, company.sector_y = self.get_node_sector(company.node_uid, (company.x, company.y))
         for model in self.models:
-            model.sector_x, model.sector_y = self.get_sector_from_coordinates(model.x, model.y)
+            model.sector_x, model.sector_y = self.get_node_sector(model.node_uid, (model.x, model.y))
         for area in self.map_areas:
-            area.sector_x, area.sector_y = self.get_sector_from_coordinates(area.x, area.y)
+            area.sector_x, area.sector_y = self.get_sector_from_center_of_nodes(area.node_uids, (area.x, area.y))
         for poi in self.POIs:
             poi.sector_x, poi.sector_y = self.get_sector_from_coordinates(poi.x, poi.y)
         # dividers are not yet being loaded
@@ -2167,6 +2172,44 @@ class MapData:
         # road_looks don't have sectors
         # prefab_descriptions don't have sectors
         # model_descriptions don't have sectors
+
+    def get_node_sector(self, node_uid: int | str,  default: tuple[float, float]):
+        if not node_uid:
+            return default
+
+        node = self.get_node_by_uid(node_uid)
+        if node:
+            return self.get_sector_from_coordinates(node.x, node.y)
+        else:
+            return self.get_sector_from_coordinates(default[0], default[1])
+
+    def get_road_sector(self, road: Road):
+        start_node = self.get_node_by_uid(road.start_node_uid)
+        end_node = self.get_node_by_uid(road.end_node_uid)
+        if start_node and end_node:
+            center_coordinate_X = (start_node.x + end_node.x) / 2
+            center_coordinate_Y = (start_node.y + end_node.y) / 2
+        else:
+            center_coordinate_X = road.x
+            center_coordinate_Y = road.y
+
+        return self.get_sector_from_coordinates(center_coordinate_X, center_coordinate_Y)
+
+    def get_sector_from_center_of_nodes(self, node_uids: list[int | str], default: tuple[float, float]):
+        center_coordinate_X = 0
+        center_coordinate_Y = 0
+        node_num = 0
+        for node_uid in node_uids:
+            node = self.get_node_by_uid(node_uid)
+            if node:
+                node_num += 1
+                center_coordinate_X += node.x
+                center_coordinate_Y += node.y
+
+        if node_num > 0:
+            return self.get_sector_from_coordinates(center_coordinate_X / node_num, center_coordinate_Y / node_num)
+        else:
+            return self.get_sector_from_coordinates(default[0], default[1])
 
     def sort_to_sectors(self) -> None:
         self._nodes_by_sector = {}
@@ -2373,6 +2416,9 @@ class MapData:
     def match_prefabs_to_descriptions(self) -> None:
         for prefab in self.prefabs:
             prefab.prefab_description = self._prefab_descriptions_by_token.get(prefab.token, None)
+            
+    def get_world_center_for_sector(self, sector: tuple[int, int]) -> tuple[float, float]:
+        return (sector[0] * self._sector_width + self._sector_width / 2, sector[1] * self._sector_height + self._sector_height / 2)
                 
     def get_sectors_for_coordinate_and_distance(self, x: float, z: float, distance: float) -> list[tuple[int, int]]:
         sectors = []

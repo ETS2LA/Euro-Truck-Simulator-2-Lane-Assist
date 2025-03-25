@@ -19,24 +19,25 @@ class Page(ETS2LAPage):
 
         with TabView():
             with Tab("global.settings.ui"):
-                Space(2)
-                with Group("horizontal", gap=32, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
+                with Group("horizontal", gap=24, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
                     Slider("global.settings.10.name",
                         "width",
                         1280,
-                        920,
+                        500,
                         2560,
                         10,
-                        description="global.settings.10.description"
+                        description="global.settings.10.description",
+                        suffix="px"
                     )
 
                     Slider("global.settings.11.name",
                         "height",
                         720,
-                        480,
+                        250,
                         1440,
                         10,
-                        description="global.settings.11.description"
+                        description="global.settings.11.description",
+                        suffix="px"
                     )
 
                 Slider("global.settings.12.name",
@@ -48,20 +49,18 @@ class Page(ETS2LAPage):
                     description="global.settings.12.description"
                 )
                 
-                with Group("vertical", gap=8, padding=0):
+                with Group("vertical", gap=3, padding=0):
+                    text = translator.Translate("global.settings.8.description") + " " + translator.Translate("credits")
                     Selector("global.settings.8.name",
                         "language",
                         "English",
                         translator.LANGUAGES,
-                        description="global.settings.8.description"
+                        description=text
                     )
-        
-                    Description("credits", size="xs")
                 
 
             with Tab("global.settings.audio"):
-                Space(2)
-                with Group("horizontal", gap=32, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
+                with Group("horizontal", gap=24, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
                     Selector("global.settings.2.name",
                         "soundpack",
                         sounds.SELECTED_SOUNDPACK, 
@@ -78,9 +77,10 @@ class Page(ETS2LAPage):
                         description="global.settings.3.description",
                         suffix="%"
                     )
+                    
+                Toggle("Startup Sound", "startup_sound", True, description="Toggle the startup sound on or off. This plays every time the ETS2LA window is opened.")
     
             with Tab("global.settings.variables"):
-                Space(2)
                 if self.monitors != 0:
                     Slider("global.settings.13.name",
                         "display",
@@ -93,7 +93,6 @@ class Page(ETS2LAPage):
                 Input("global.settings.14.name", "FOV", "number", 77, description="global.settings.14.description")
     
             with Tab("global.settings.misc"):
-                Space(2)
                 
                 
                 Input("global.settings.4.name",
@@ -103,29 +102,28 @@ class Page(ETS2LAPage):
                     description="global.settings.4.description"
                 )
                 
-                with Group("vertical", padding=16, border=True):
-                    Toggle("global.settings.9.name", "frameless", True, description="global.settings.9.description")
+                Toggle("global.settings.9.name", "frameless", True, description="global.settings.9.description")
 
-                Switch("global.settings.6.name",
+                Toggle("global.settings.6.name",
                     "send_crash_reports",
                     True,
                     description="global.settings.6.description"
                 )
                 
-                Switch("global.settings.5.name",
+                Toggle("global.settings.5.name",
                     "use_fancy_traceback",
                     True,
                     description="global.settings.5.description"
                 )
 
-                Switch("global.settings.7.name",
+                Toggle("global.settings.7.name",
                     "debug_mode",
                     True,
                     description="global.settings.7.description"
                 )
 
-                Switch("global.settings.16.name", "fireworks", True, description="global.settings.16.description")
+                Toggle("global.settings.16.name", "fireworks", True, description="global.settings.16.description")
         
-                Switch("global.settings.15.name", "snow", True, description="global.settings.15.description")
+                Toggle("global.settings.15.name", "snow", True, description="global.settings.15.description")
     
         return RenderUI()

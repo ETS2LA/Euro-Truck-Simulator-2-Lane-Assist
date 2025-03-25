@@ -2,8 +2,8 @@ from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
 from ETS2LA.Utils.translator import Translate
-import ETS2LA.Handlers.sounds as sounds 
 from ETS2LA.Utils.Game import path as game
+import ETS2LA.Handlers.sounds as sounds 
 
 import logging
 import os
@@ -14,15 +14,30 @@ target_path = "\\bin\\win_x64\\plugins"
 files = os.listdir("ETS2LA/Assets/DLLs")
 files.pop(files.index("sources.txt"))
 
-def CheckIfInstalled(path: str):
+def CheckIfInstalled(path: str, detailed: bool = False) -> bool | dict:
     if not os.path.exists(path + target_path):
-        return False
-
-    for file in files:
-        if not os.path.exists(path + target_path + "\\" + file):
+        if not detailed:
             return False
+        
+        return_dict = {}
+        for file in files:
+            return_dict[file] = False
+        return return_dict
+
+    return_dict = {}
+    for file in files:
+        if os.path.exists(path + target_path + "\\" + file):
+            return_dict[file] = True
+        else:
+            if not detailed:
+                return False
+            
+            return_dict[file] = False
     
-    return True
+    if not detailed:
+        return True
+    
+    return return_dict
 
 class Page(ETS2LAPage):
     dynamic = True
@@ -47,8 +62,9 @@ class Page(ETS2LAPage):
                     os.remove(game + target_path + "\\" + file)
     
     def render(self):
+        RefreshRate(0.5)
         with Geist():
-            with Group("vertical", gap=14, padding=4):
+            with Group("vertical", gap=14, padding=0):
                 Title(Translate("sdk_install.title"))
                 Description(Translate("sdk_install.description"))
             if games != []:
@@ -62,11 +78,30 @@ class Page(ETS2LAPage):
                     Label(Translate("sdk_install.no_games"))
                 else:
                     Description(Translate("sdk_install.games"))
-                    for game in games:
-                        with Group("horizontal", border=True):
-                            title = "ETS2 " if "Euro Truck Simulator 2" in game else "ATS "
-                            title += Translate("sdk_install.installed") if CheckIfInstalled(game) else Translate("sdk_install.not_installed")
-                            Label(title)
-                            Description(game)
+                    for found_game in games:
+                        information = CheckIfInstalled(found_game, detailed=True)
+                        if isinstance(information, bool):
+                            continue
+                        
+                        is_installed = [information[file] for file in files] == [True] * len(files)
+                        
+                        with Group("vertical", border=True, gap=0):
+                            with Group("horizontal", padding=0, gap=4, classname="items-center"):
+                                title = "ETS2 " if "Euro Truck Simulator 2" in found_game else "ATS "
+                                title += game.GetVersionForGame(found_game)
+                                Label(title, size="sm")
+                                Label(Translate("sdk_install.installed") if is_installed else Translate("sdk_install.not_installed"), size="xs")
+                            
+                            Space(4)
+                            
+                            with Group("horizontal", padding=0, gap=4):
+                                Description("" + found_game)
+                                
+                            Space(20)
+                            with Group("vertical", gap=4, padding=0):
+                                for file in files:
+                                    with Group("horizontal", padding=0, gap=4):
+                                        Description(Translate("sdk_install.installed") if information[file] else Translate("sdk_install.not_installed"))    
+                                        Label(file)
                                         
         return RenderUI()

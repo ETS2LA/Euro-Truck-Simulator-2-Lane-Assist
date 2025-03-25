@@ -29,14 +29,12 @@ def CreateIfNotExists(plugin):
     # Check if the file exists
     filename = GetFilename(plugin)
     os.makedirs(os.path.dirname(filename), exist_ok=True)
+    
     if not os.path.exists(filename):
         with open(filename, 'w') as f:
             json.dump({}, f, indent=4)
             return False
-    if open(filename, "r").read().replace("\n", "").strip() == "":
-        with open(filename, 'w') as f:
-            json.dump({}, f, indent=4)
-            return False
+    
     return True
 
 def WaitUntilLock(plugin):
@@ -48,10 +46,16 @@ def WaitUntilLock(plugin):
     
     # Wait until the lock file is removed
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
+    if not os.path.exists(filename):
+        CreateLock(plugin)
+        return
+    
     while True:
-        time.sleep(random.uniform(0, 0.2))
         if not os.path.exists(filename):
             break
+        time.sleep(random.uniform(0, 0.1))
+    
+    CreateLock(plugin)
     
 def CreateLock(plugin):
     """Will create a lock file in the plugin folder.
@@ -62,7 +66,6 @@ def CreateLock(plugin):
     
     # Create the lock file
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
-        
     with open(filename, 'w') as f:
         f.write("lock")
         pass
@@ -143,7 +146,7 @@ def Get(plugin, key, default=None):
                 return None
         
     except Exception as e:
-        logging.error(e)
+        logging.error(f"Error while reading [yellow]{filename}[/yellow]. It is possible the file is corrupted. You should delete it and try again.")
         return None
 
 from functools import reduce
@@ -169,10 +172,8 @@ def Set(plugin, key, value):
     Returns:
         any: The value of the key after setting it, None if failed.
     """
-    # Check that the file exists
-    WaitUntilLock(plugin)
-    CreateLock(plugin)
     
+    WaitUntilLock(plugin)
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
     try:
@@ -221,11 +222,11 @@ def Listen(plugin, callback):
                 try:
                     callback(settings)
                 except:
-                    logging.warning("Callback function doesn't accept the JSON data as an argument.")
+                    logging.warning(f"Callback function {callback.__name__} doesn't accept the JSON data as an argument.")
                     try:
                         callback()
                     except:
-                        logging.error("Callback function call unsuccessful.")
+                        logging.exception("Callback function call unsuccessful.")
                 
     import threading
     t = threading.Thread(target=listen, args=(GetFilename(plugin), callback))

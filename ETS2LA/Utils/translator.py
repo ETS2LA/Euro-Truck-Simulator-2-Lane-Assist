@@ -2,20 +2,17 @@ from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
 import hashlib
-import git.cmd
 import logging
 import yaml
 import ftfy
-import sys
-import git
 import os
 
 DATA_FOLDER = "Translations"
 FRONTEND_DATA_FOLDER = "Interface/translations"
 
 EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
-                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main", 
-                      download_updates=True)
+                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
+                      download_updates=not variables.DEVELOPMENT_MODE)
 
 FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".yaml")]
 FILES.remove("keys.yaml")
@@ -50,15 +47,19 @@ except ValueError:
 SETTINGS_HASH = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
 
 def UpdateFrontendTranslations():
-    if os.path.exists(FRONTEND_DATA_FOLDER):
-        # Remove old translations
-        for file in os.listdir(FRONTEND_DATA_FOLDER):
-            os.remove(os.path.join(FRONTEND_DATA_FOLDER, file))
-            
-        # Add new translations
-        for language in LANGUAGE_DATA:
-            with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
-                yaml.dump(LANGUAGE_DATA[language], f, indent=4)
+    try:
+        if os.path.exists(FRONTEND_DATA_FOLDER):
+            # Remove old translations
+            for file in os.listdir(FRONTEND_DATA_FOLDER):
+                os.remove(os.path.join(FRONTEND_DATA_FOLDER, file))
+                
+            # Add new translations
+            for language in LANGUAGE_DATA:
+                with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
+                    yaml.dump(LANGUAGE_DATA[language], f, indent=4)
+    except:
+        logging.warning("Failed to update frontend translations.")
+        pass
                 
 def CheckLanguageDatabase():
     for language in LANGUAGE_CODES:
@@ -77,16 +78,18 @@ def CheckLanguageDatabase():
                     not_in_keys.append(key)
         
         if len(not_found) > 0:
-            logging.warning(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_found}")
+            if variables.DEVELOPMENT_MODE:
+                logging.warning(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_found}")
         if len(not_in_keys) > 0:
-            logging.warning(f"Found keys that are not in the keys.yaml file in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_in_keys}")
+            if variables.DEVELOPMENT_MODE:
+                logging.warning(f"Found keys that are not in the keys.yaml file in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_in_keys}")
 
-def GetCodeForLanguage(language: str):
+def GetCodeForLanguage(language: str) -> str:
     if language in LANGUAGES:
         return LANGUAGE_CODES[LANGUAGES.index(language)]
     else:
         logging.error(f"{language} is not a valid language.")
-        return None
+        return ""
     
 def GetLanguageForCode(code: str):
     if code in LANGUAGE_CODES:
@@ -101,18 +104,23 @@ def CheckKey(key: str):
     else:
         return False
     
-def SpecialCases(key: str):
+def SpecialCases(key: str | None, language: str | None = None) -> str:
+    if language:
+        if key in LANGUAGE_DATA[language]["Language"]:
+            return LANGUAGE_DATA[language]["Language"][key]
+        return ""
+    
     if key in LANGUAGE_DATA[LANGUAGE]["Language"]:
         return LANGUAGE_DATA[LANGUAGE]["Language"][key]
-    return None
+    return ""
 
-def TranslateToLanguage(key: str, language: str, values: list = None) -> str:
+def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # type: ignore
     if not CheckKey(key):
         logging.error(f"{key} is not a valid key.")
         return ""
     
-    if SpecialCases(key) is not None:
-        return SpecialCases(key)
+    if SpecialCases(key, language=language) != "":
+        return SpecialCases(key, language=language)
     
     if values is None:
         values = []
@@ -132,12 +140,12 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str:
     
     return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
-def Translate(key: str, values: list = None) -> str:
+def Translate(key: str, values: list = None) -> str: # type: ignore
     if not CheckKey(key):
         logging.error(f"{key} is not a valid key.")
         return ""
     
-    if SpecialCases(key) is not None:
+    if SpecialCases(key) != "":
         return SpecialCases(key)
     
     if values is None:

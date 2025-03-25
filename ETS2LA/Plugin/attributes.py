@@ -23,7 +23,7 @@ class Tags:
 
     def __getattr__(self, name):
         if name in ["tags_queue", "tags_return_queue"]:
-            return super().__getattr__(name)
+            return super().__getattr__(name) # type: ignore
         
         tag_dict = {
             "operation": "read",
@@ -85,7 +85,7 @@ class GlobalSettings:  # read only instead of the plugin settings
         logging.warning(f"Setting '{name}' not found in settings file")
         return None
     
-    def __setattr__(self, name: str, value: any) -> None:
+    def __setattr__(self, name: str, value) -> None:
         if name in ["_path", "_settings"]:
             self.__dict__[name] = value
         else:
@@ -96,8 +96,8 @@ class State:
     progress: float
     
     timeout: int = -1
-    timeout_thread: threading.Thread = None
-    last_update: int = 0
+    timeout_thread: threading.Thread | None = None
+    last_update: float = 0
     
     state_queue: JoinableQueue
     

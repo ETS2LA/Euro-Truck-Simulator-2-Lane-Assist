@@ -7,8 +7,7 @@ print = logging.info
 
 # https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
 
-LINUX = os.path.exists("/etc/os-release")
-if LINUX:
+if os.name != "nt":
     mmapName = "/dev/shm/SCS/SCSTelemetry"
 else:
     mmapName = "Local\\SCSTelemetry"
@@ -204,11 +203,22 @@ class scsTelemetry:
     def readLong(self, offset, count=1):
         if count == 1:
             long = struct.unpack('q', self.mm[offset:offset+8])[0]
+        else:
+            longs = []
+            for i in range(count):
+                longs.append(struct.unpack('q', self.mm[offset+i*8:offset+i*8+8])[0])
+            return longs, offset+count*8
         return long, offset+8
     
     def readLongLong(self, offset, count=1):
         if count == 1:
             longlong = struct.unpack('Q', self.mm[offset:offset+8])[0]
+        else:
+            longlongs = []
+            for i in range(count):
+                longlongs.append(struct.unpack('Q', self.mm[offset+i*8:offset+i*8+8])[0])
+            return longlongs, offset+count*8
+        
         return longlong, offset+8
     
     def readChar(self, offset, count):
@@ -218,7 +228,7 @@ class scsTelemetry:
             try:
                 newChar = struct.unpack('s', self.mm[offset+i:offset+i+1])[0].decode("utf-8")
             except:
-                newChar == "\u0000"
+                continue
                 
             if newChar == "\u0000":
                 char += ""
@@ -249,7 +259,7 @@ class scsTelemetry:
     # MARK: UPDATE
     
     def update(self, trailerData=False):
-        if LINUX:
+        if os.name != "nt":
             self.fd = open(mmapName)
             self.mm = mmap.mmap(self.fd.fileno(), length=0, flags=mmap.MAP_SHARED, prot=mmap.PROT_READ)
         else:

@@ -52,10 +52,11 @@ class Module(ETS2LAModule):
         return [obj.id for obj in self.objects]
 
 
-    def GetObjectById(self, id: str) -> ObjectTrack:
+    def GetObjectById(self, id: str) -> ObjectTrack | None:
         for obj in self.objects:
             if obj.id == id:
                 return obj
+        return None
 
 
     def get(self, d: str) -> ObjectTrack | None:
@@ -79,6 +80,9 @@ class Module(ETS2LAModule):
             if type(detection) == tuple:
                 detection = ObjectDetection(detection[0], detection[1], detection[2], detection[3])
 
+            if type(detection) != ObjectDetection:
+                return None
+
             head.angle = ConvertToAngle(detection.x, detection.y)[0]
 
             if id not in self.GetIDs():
@@ -86,6 +90,9 @@ class Module(ETS2LAModule):
                 self.objects.append(obj)
             else:
                 obj = self.GetObjectById(id)
+                if obj is None:
+                    return None
+                
                 obj.update(detection, head)
 
             self.DeleteOldObjects()

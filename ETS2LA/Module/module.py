@@ -1,7 +1,8 @@
+from ETS2LA.Plugin import ETS2LAPlugin
 import logging
 
 class ETS2LAModule:
-    plugin: object
+    plugin: ETS2LAPlugin
     """
     Access to the plugin instance this module is bound to.
     
@@ -20,20 +21,20 @@ class ETS2LAModule:
         if type(self).__name__ != "Module":
             raise TypeError("Please make sure the class is named 'Module'")
         
-    def __init__(self, plugin: object) -> None:
+    def __init__(self, plugin: ETS2LAPlugin) -> None:
         self.ensure_functions()
         self.plugin = plugin
-        self.imports()
+        self.imports() # type: ignore # Might or might not exist.
         
-        try: self.init()
+        try: self.init() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'init' function")
-        try: self.initialize()
+        try: self.initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'initialize' function")
-        try: self.Initialize()
+        try: self.Initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'Initialize' function")

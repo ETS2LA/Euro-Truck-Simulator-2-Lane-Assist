@@ -1,5 +1,5 @@
 # https://stackoverflow.com/a/70377616
-def set_nested_item(dataDict: dict, mapList: list[str], val: any) -> dict:
+def set_nested_item(dataDict: dict, mapList: list[str], val) -> dict:
     current_dict = dataDict
     for key in mapList[:-1]:
         if key not in current_dict:
@@ -8,7 +8,7 @@ def set_nested_item(dataDict: dict, mapList: list[str], val: any) -> dict:
     current_dict[mapList[-1]] = val
     return dataDict
 
-def get_nested_item(dataDict: dict, mapList: list[str]) -> any:
+def get_nested_item(dataDict: dict, mapList: list[str]):
     """Get item in nested dictionary"""
     for k in mapList:
         dataDict = dataDict[k]

@@ -1,26 +1,33 @@
+"""
+PLEASE NOTE:
+- This file is in the process of being refactored.
+- The current code has been made with no regard to the final
+  structure, thus the formatting and endpoints are nonsensical.
+- Proper documentation will be written once this file is refactored.
+"""
 from ETS2LA.UI import * 
 
 from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency
-from ETS2LA.Window.utils import ColorTitleBar
 from ETS2LA.Networking.Servers.notifications import sonner, page
-from ETS2LA.Window.utils import CheckIfWindowOpen
-from ETS2LA.Utils.translator import Translate
-import ETS2LA.Utils.translator as translator
-from ETS2LA.Networking.Servers.data_models import *
+from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
+from ETS2LA.Window.utils import check_if_specified_window_open
+from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.shell import ExecuteCommand
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Utils.translator import Translate
+from ETS2LA.Window.utils import color_title_bar
+import ETS2LA.Utils.translator as translator
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
+import ETS2LA.Utils.settings as settings
 import ETS2LA.Handlers.sounds as sounds
 import ETS2LA.Handlers.pages as pages
 import ETS2LA.variables as variables
 import ETS2LA.Utils.version as git
 
-from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Body
-from typing import Union
 from typing import Any
 import multiprocessing
 import traceback
@@ -34,6 +41,7 @@ import zlib
 import sys
 import os
 
+asked_plugins = False # Will trigger the "Do you want to re-enable plugins?" popup
 mainThreadQueue = []
 sessionToken = ""
 
@@ -56,7 +64,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"ETS2LA": "1.0.0"}
+    return {"ETS2LA": variables.METADATA["version"]}
 
 @app.get("/auth/discord/login", response_class=HTMLResponse)
 def login(code):
@@ -104,9 +112,9 @@ def get_git_history():
     return git.GetHistory()
 
 @app.get("/api/ui/theme/{theme}")
-def set_theme(theme: str):
+def set_theme(theme: Literal["dark", "light"]):
     try:
-        ColorTitleBar(theme)
+        color_title_bar(theme)
         return True
     except:
         return False
@@ -132,7 +140,7 @@ def get_statistics():
 
 @app.get("/window/exists/{name}")
 def check_window(name: str):
-    return CheckIfWindowOpen(name)
+    return check_if_specified_window_open(name)
 
 @app.get("/window/stay_on_top")
 def get_stay_on_top():
@@ -161,6 +169,22 @@ def get_transparency_state():
 
 @app.get("/backend/plugins")
 def get_plugins():
+    global asked_plugins
+    if not asked_plugins:
+        to_enable = settings.Get("global", "running_plugins", [])
+        to_enable = [] if to_enable is None else to_enable
+        
+        if len(to_enable) > 0:          
+            answer = notifications.ask("Re-enable plugins?", ["Yes", "No"], description="Do you want to re-enable the plugins that were running before the app was closed?\n\n - " + "\n - ".join(to_enable))
+            if answer["response"] == "Yes":
+                notifications.sonner("Re-enabling plugins...")
+                for plugin in to_enable:
+                    plugins.enable_plugin(plugin)
+                    
+            notifications.sonner("Plugins enabled!", "success")
+                
+        asked_plugins = True
+    
     try:
         # Get data
         available_plugins = plugins.AVAILABLE_PLUGINS
@@ -170,7 +194,7 @@ def get_plugins():
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            name, description, authors, _ = plugin
+            name, description, authors = plugin.name, plugin.description, plugin.authors
             if type(authors) != list:
                 authors = [authors]
                 
@@ -209,39 +233,33 @@ def get_performance():
 def get_states():
     return plugins.get_states()
 
-@app.post("/backend/plugins/{plugin}/relieve")
-def relieve_plugin(plugin: str, data: RelieveData = None):
-    if data is None:
-        data = RelieveData()
-        data.map = {}
-        
-    return plugins.RelieveWaitForFrontend(plugin, data.map)
-
 @app.post("/backend/plugins/{plugin}/function/call")
-def call_plugin_function(plugin: str, data: PluginCallData = None):
+def call_plugin_function(plugin: str, data: PluginCallData | None = None):
     try:
         if data is None:
-            data = PluginCallData()
+            logging.exception("Plugin function call has no arguments.")
+            return {"status": "error", "message": "Please provide arguments."}
         
         running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
-        available_plugins = [plugin[1].name for plugin in plugins.AVAILABLE_PLUGINS]
+        available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
         
         if plugin in running_plugins:
             index = running_plugins.index(plugin)
-            plugin = plugins.RUNNING_PLUGINS[index]
-            return plugin.call_function(data.target, data.args, data.kwargs)
+            plugin_obj = plugins.RUNNING_PLUGINS[index]
+            return plugin_obj.call_function(data.target, data.args, data.kwargs)
         
         elif plugin in available_plugins:
             index = available_plugins.index(plugin)
-            ui = plugins.AVAILABLE_PLUGINS[index][3]
-            return ui.call_function(data.target, data.args, data.kwargs)
+            ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
+            if ui is not None:
+                return ui.call_function(data.target, data.args, data.kwargs)
         
         else:
             index = pages.get_page_names().index(plugin)
             return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
         
-        logging.warning("Plugin not found")
-        return {"status": "error", "message": "Plugin not found"}
+        logging.warning("Plugin or it's UI was not found")
+        return {"status": "error", "message": "Plugin or it's UI was not found"}
     except:
         logging.exception("Failed to call plugin function")
         return {"status": "error", "message": "Plugin not found"}
@@ -289,15 +307,15 @@ def get_plugin_settings(plugin: str):
 
 @app.post("/api/controls/{control}/change")
 def change_control(control: str):
-    mainThreadQueue.append([controls.ChangeKeybind, [control], {}])
-    while [controls.ChangeKeybind, [control], {}] in mainThreadQueue:
+    mainThreadQueue.append([controls.edit_event, [control], {}])
+    while [controls.edit_event, [control], {}] in mainThreadQueue:
         pass
     return {"status": "ok"}
 
 @app.post("/api/controls/{control}/unbind")
 def unbind_control(control: str):
-    mainThreadQueue.append([controls.UnbindKeybind, [control], {}])
-    while [controls.UnbindKeybind, [control], {}] in mainThreadQueue:
+    mainThreadQueue.append([controls.unbind_event, [control], {}])
+    while [controls.unbind_event, [control], {}] in mainThreadQueue:
         pass
     return {"status": "ok"}
 
@@ -374,6 +392,26 @@ def get_list_of_pages():
     except:
         logging.exception("Failed to get pages")
         return {}
+    
+@app.post("/api/page")
+def get_page(data: PageFetchData):
+    try:
+        return pages.get_page(data.page)
+    except:
+        logging.exception(f"Failed to get page data for page {data.page}")
+        return []
+
+# endregion
+# region Developers
+
+@app.get("/api/plugins/reload")
+def reload_plugins():
+    try:
+        plugins.update_plugins()
+    except:
+        logging.exception("Failed to reload plugins")
+        return False
+    return True
 
 # endregion
 # region Session
@@ -400,10 +438,13 @@ def RunFrontend():
         
 def ExtractIP():
     global IP
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    IP = s.getsockname()[0]
-    s.close()
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        IP = s.getsockname()[0]
+        s.close()
+    except:
+        IP = "127.0.0.1"
     
 def run():
     ExtractIP()

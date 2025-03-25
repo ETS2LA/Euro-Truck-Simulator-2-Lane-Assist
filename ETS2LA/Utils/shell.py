@@ -67,19 +67,25 @@ def get_system_proxy_configuration() -> ProxyConfiguration | None:
 
 
 def ExecuteCommand(command: str,
-                    proxy_override: ProxyConfiguration | None = None):
-    # execute a command with HTTP_PROXY and HTTPS_PROXY environment variables set
+                   proxy_override: ProxyConfiguration | None = None,
+                   silent: bool = False) -> int:
+
     current_proxy = get_system_proxy_configuration()
+    env = os.environ.copy()
     if proxy_override is not None:
         current_proxy = proxy_override
 
-    env = os.environ.copy()
-    if current_proxy is not None:
-        if current_proxy.username is not None and current_proxy.password is not None:
-            proxy_str = f"{current_proxy.proto}://{current_proxy.username}:{current_proxy.password}@{current_proxy.host}:{current_proxy.port}"
-        else:
-            proxy_str = f"{current_proxy.proto}://{current_proxy.host}:{current_proxy.port}"
-        env["HTTP_PROXY"] = proxy_str
-        env["HTTPS_PROXY"] = proxy_str
-    result = subprocess.run(command, shell=True, env=env)
+        if current_proxy is not None:
+            if current_proxy.username is not None and current_proxy.password is not None:
+                proxy_str = f"{current_proxy.proto}://{current_proxy.username}:{current_proxy.password}@{current_proxy.host}:{current_proxy.port}"
+            else:
+                proxy_str = f"{current_proxy.proto}://{current_proxy.host}:{current_proxy.port}"
+            env["HTTP_PROXY"] = proxy_str
+            env["HTTPS_PROXY"] = proxy_str
+    
+    if silent:
+        result = subprocess.run(command, shell=True, env=env, capture_output=True)
+    else:
+        result = subprocess.run(command, shell=True, env=env)
+    
     return result.returncode

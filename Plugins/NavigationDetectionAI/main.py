@@ -37,7 +37,7 @@ class Plugin(ETS2LAPlugin):
 
     author = Author(
         name="Glas42",
-        url="https://github.com/Glas42",
+        url="https://github.com/OleFranz",
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
@@ -89,7 +89,7 @@ class Plugin(ETS2LAPlugin):
         IndicatorLeftResponseTimer = 0
         IndicatorRightResponseTimer = 0
 
-        Identifier = pytorch.Initialize(Owner="Glas42", Model="NavigationDetectionAI", Folder="model", Self=self)
+        Identifier = pytorch.Initialize(Owner="OleFranz", Model="NavigationDetectionAI", Folder="model", Self=self)
         pytorch.Load(Identifier)
 
         SDKController = SCSController()

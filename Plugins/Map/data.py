@@ -36,6 +36,10 @@ current_sector_x: int = 0
 """The sector X coordinate corresponding to the truck's position."""
 current_sector_y: int = 0
 """The sector Y coordinate corresponding to the truck's position."""
+sector_center_x: float = 0
+"""The world coordinate X for the center of the current sector."""
+sector_center_y: float = 0
+"""The world coordinate Y for the center of the current sector."""
 enabled: bool = False
 """Whether the map steering is enabled or not."""
 last_sector: tuple[int, int] = None
@@ -74,6 +78,8 @@ last_sound_played: float = 0
 """The last time a sound was played."""
 sound_play_interval: float = 10 # seconds
 """The interval between each sound play."""
+frames_off_path: int = 0
+"""How many frames the truck has been off the path."""
 
 # MARK: Options
 amount_of_points: int = 50
@@ -104,7 +110,7 @@ auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 100)
 """The distance in meters from the destination where the truck will automatically accept the current navigation plan."""
 auto_deny_threshold = settings.Get("Map", "AutoDenyThreshold", 100)
 """The distance in meters from the destination where the truck will automatically deny the current navigation plan."""
-drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", False)
+drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", True)
 
 # MARK: Return values
 external_data = {}
@@ -131,6 +137,7 @@ def UpdateData(api_data):
     global external_data, data_needs_update, external_data_changed, external_data_time
     global dest_city, dest_company, dest_city_token, dest_company_token
     global trailer_x, trailer_y, trailer_z, trailer_attached
+    global sector_center_x, sector_center_y
 
     heavy_calculations_this_frame = 0
     
@@ -144,6 +151,9 @@ def UpdateData(api_data):
     truck_z = api_data["truckPlacement"]["coordinateZ"]
     
     current_sector_x, current_sector_y = map.get_sector_from_coordinates(truck_x, truck_z)
+    sector_center_x, sector_center_y = map.get_world_center_for_sector((current_sector_x, current_sector_y))
+    
+    plugin.globals.tags.sector_center = (sector_center_x, sector_center_y)
     
     if (current_sector_x, current_sector_y) != last_sector:
         last_sector = (current_sector_x, current_sector_y)

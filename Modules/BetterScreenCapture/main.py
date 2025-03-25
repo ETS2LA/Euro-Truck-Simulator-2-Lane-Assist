@@ -1,5 +1,7 @@
+# TODO: Add docstrings, fix some typing errors.
 import ETS2LA.Handlers.pytorch as pytorch
 import ETS2LA.variables as variables
+from typing import Tuple
 import numpy as np
 import time
 import cv2
@@ -7,6 +9,8 @@ import mss
 
 if variables.OS == "nt":
     import win32gui
+else:
+    win32gui = None
 
 
 def SendCrashReport(Title, Description):
@@ -22,7 +26,7 @@ ScreenX = Monitor["left"]
 ScreenY = Monitor["top"]
 ScreenWidth = Monitor["width"]
 ScreenHeight = Monitor["height"]
-LastWindowPositions = {}
+LastWindowPositions: dict[str, tuple[float, int, int, int, int]] = {}
 LastForegroundWindows = {}
 LastTrackWindowUpdates = {}
 LastTrackWindowRouteAdvisorUpdates = {}
@@ -81,10 +85,12 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
                     monitor_index=Display + 1,
                     window_name=None,
                 )
+                
                 global WindowsCaptureFrame
                 global StopWindowsCapture
                 StopWindowsCapture = False
-                @Capture.event
+                
+                @Capture.event # type: ignore
                 def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
                     global WindowsCaptureFrame
                     global StopWindowsCapture
@@ -92,11 +98,13 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
                     if StopWindowsCapture:
                         StopWindowsCapture = False
                         capture_control.stop()
-                @Capture.event
+                
+                @Capture.event # type: ignore
                 def on_closed():
                     print("Capture Session Closed")
+                    
                 try:
-                    Control.stop()
+                    Control.stop() # type: ignore
                 except:
                     pass
                 Control = Capture.start_free_threaded()
@@ -104,24 +112,26 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
                 CaptureLibrary = "WindowsCapture"
 
             except:
-
                 import bettercam
-                try:
-                    Cam.stop()
-                except:
-                    pass
-                try:
-                    Cam.close()
-                except:
-                    pass
-                try:
-                    Cam.release()
-                except:
-                    pass
-                try:
-                    del Cam
-                except:
-                    pass
+                
+                if Cam is not None:
+                    try:
+                        Cam.stop()
+                    except:
+                        pass
+                    try:
+                        Cam.close()
+                    except:
+                        pass
+                    try:
+                        Cam.release()
+                    except:
+                        pass
+                    try:
+                        del Cam
+                    except:
+                        pass
+                    
                 Cam = bettercam.create(output_idx=Display, output_color="BGR")
                 Cam.start()
                 Cam.get_latest_frame()
@@ -152,6 +162,9 @@ def Capture(ImageType:str = "both"):
         The return is based on the ImageType.
     """
 
+    if CaptureLibrary is None:
+        return None if ImageType.lower() == "cropped" or ImageType.lower() == "full" else (None, None)
+    
     if CaptureLibrary.lower() == "windowscapture":
 
         try:
@@ -177,9 +190,10 @@ def Capture(ImageType:str = "both"):
 
         try:
 
-            if Cam == None:
+            if Cam is None:
                 Initialize()
-            img = np.array(Cam.get_latest_frame())
+                
+            img = np.array(Cam.get_latest_frame()) # type: ignore
             if ImageType.lower() == "both":
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
                 return croppedImg, img
@@ -244,7 +258,7 @@ def GetScreenDimensions(Display=1):
     return ScreenX, ScreenY, ScreenWidth, ScreenHeight
 
 
-def GetScreenIndex(X, Y):
+def GetScreenIndex(X: int, Y: int) -> int | None:
     """
     Get the index of the screen that is closest to the given coordinates.
 
@@ -332,7 +346,7 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
     bool
         True if the window is in the foreground/is focused, False otherwise.
     """
-    if variables.OS == "nt":
+    if variables.OS == "nt" and win32gui:
         Key = f"{Name}{Blacklist}"
         if Key not in LastForegroundWindows:
             LastForegroundWindows[Key] = [0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight]
@@ -340,7 +354,7 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
             HWND = None
             TopWindows = []
             IsForeground = LastForegroundWindows[Key][1]
-            win32gui.EnumWindows(lambda HWND, TopWindows: TopWindows.append((HWND, win32gui.GetWindowText(HWND))), TopWindows)
+            win32gui.EnumWindows(lambda HWND, TopWindows: TopWindows.append((HWND, win32gui.GetWindowText(HWND))), TopWindows) # type: ignore
             for HWND, WindowText in TopWindows:
                 if Name in WindowText and all(BlacklistItem not in WindowText for BlacklistItem in Blacklist):
                     IsForeground = (HWND == win32gui.GetForegroundWindow())
@@ -354,7 +368,7 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
 
 
 # MARK: GetWindowPosition()
-def GetWindowPosition(Name="", Blacklist=[""]):
+def GetWindowPosition(Name: str = "", Blacklist: list[str] = [""]) -> Tuple[int, int, int, int]:
     """
     Get the position of the given window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
 
@@ -371,15 +385,20 @@ def GetWindowPosition(Name="", Blacklist=[""]):
         The position of the window. Format: (X, Y, Width, Height)
     """
     global LastWindowPositions
-    if variables.OS == "nt":
+    
+    if variables.OS == "nt" and win32gui:
         Key = f"{Name}{Blacklist}"
+        
         if Key not in LastWindowPositions:
-            LastWindowPositions[Key] = [0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight]
+            LastWindowPositions[Key] = (0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight)
+        
         if LastWindowPositions[Key][0] + 1 < time.time():
             HWND = None
             TopWindows = []
+            
             Window = LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]
-            win32gui.EnumWindows(lambda HWND, TopWindows: TopWindows.append((HWND, win32gui.GetWindowText(HWND))), TopWindows)
+            win32gui.EnumWindows(lambda HWND, TopWindows: TopWindows.append((HWND, win32gui.GetWindowText(HWND))), TopWindows) # type: ignore
+            
             for HWND, WindowText in TopWindows:
                 if Name in WindowText and all(BlacklistItem not in WindowText for BlacklistItem in Blacklist):
                     RECT = win32gui.GetClientRect(HWND)
@@ -387,15 +406,112 @@ def GetWindowPosition(Name="", Blacklist=[""]):
                     BottomRight = win32gui.ClientToScreen(HWND, (RECT[2], RECT[3]))
                     Window = (TopLeft[0], TopLeft[1], BottomRight[0] - TopLeft[0], BottomRight[1] - TopLeft[1])
                     break
+                
             LastWindowPositions[Key] = time.time(), Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
             return Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
         else:
-            return LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]
+            if LastWindowPositions[Key]:
+                return LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]
+            else:
+                return ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight
     else:
         return ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight
 
 
+def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
+    """
+    Classify the Route Advisor to check on which side, in which zoom level and if the navigation tab is open.
+
+    Returns
+    -------
+    tuple : ((float, float, float), (float, float, float))\n
+        `[0][0]`: The probability that the Route Advisor is on the left side.\n
+        `[0][1]`: The probability that the Route Advisor on the left side is on the closest zoom level.\n
+        `[0][2]`: The probability that the Route Advisor on the left side is on the navigation tab.\n
+        `[1][0]`: The probability that the Route Advisor is on the right side.\n
+        `[1][1]`: The probability that the Route Advisor on the right side is on the closest zoom level.\n
+        `[1][2]`: The probability that the Route Advisor on the right side is on the navigation tab.\n
+    """
+    global RouteAdvisorSide
+    global RouteAdvisorZoomCorrect
+    global RouteAdvisorTabCorrect
+
+    X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
+    DistanceFromRight = 21
+    DistanceFromBottom = 100
+    Width = 420
+    Height = 219
+    Scale = (Y2 - Y1) / 1080
+
+    X = X1 + (DistanceFromRight * Scale) - 1
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale + Height * Scale)
+    LeftMapTopLeft = (round(X), round(Y))
+    X = X1 + (DistanceFromRight * Scale + Width * Scale) - 1
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
+    LeftMapBottomRight = (round(X), round(Y))
+    LeftImage = np.array(sct.grab({"left": LeftMapTopLeft[0], "top": LeftMapTopLeft[1], "width": LeftMapBottomRight[0] - LeftMapTopLeft[0], "height": LeftMapBottomRight[1] - LeftMapTopLeft[1]}), dtype=np.float32)
+
+    X = X1 + (X2 - X1) - (DistanceFromRight * Scale + Width * Scale)
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale + Height * Scale)
+    RightMapTopLeft = (round(X), round(Y))
+    X = X1 + (X2 - X1) - (DistanceFromRight * Scale)
+    Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
+    RightMapBottomRight = (round(X), round(Y))
+    RightImage = np.array(sct.grab({"left": RightMapTopLeft[0], "top": RightMapTopLeft[1], "width": RightMapBottomRight[0] - RightMapTopLeft[0], "height": RightMapBottomRight[1] - RightMapTopLeft[1]}), dtype=np.float32)
+
+    if pytorch.IsInitialized(Model="RouteAdvisorClassification", Folder="model") == False:
+        global Identifier
+        Identifier = pytorch.Initialize(Owner="OleFranz", Model="RouteAdvisorClassification", Folder="model")
+        pytorch.Load(Identifier)
+    if pytorch.Loaded(Identifier) == False:
+        return (0, 0, 0), (0, 0, 0)
+
+    Outputs = []
+    for Image in [LeftImage, RightImage]:
+        if type(Image) == type(None):
+            return (0, 0, 0), (0, 0, 0)
+        if Image.shape[1] <= 0 or Image.shape[0] <= 0:
+            return (0, 0, 0), (0, 0, 0)
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+            Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
+            Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
+            Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
+            Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
+            Image = Image[:, :, 0]
+            Image = np.expand_dims(Image, axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
+            Image = Image[:, :, 1]
+            Image = np.expand_dims(Image, axis=2)
+        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
+            Image = Image[:, :, 2]
+            Image = np.expand_dims(Image, axis=2)
+        Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+        Image = Image / 255.0
+        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+            Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
+
+        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
+        with pytorch.torch.no_grad():
+            Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
+        Outputs.append(Output)
+
+    if max(Outputs[0][0], Outputs[1][0]) > 0.5:
+        RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
+        RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
+        RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+    return (Outputs[0][0], Outputs[0][1], Outputs[0][2]), (Outputs[1][0], Outputs[1][1], Outputs[1][2])
+
+
 # MARK: GetRouteAdvisorPosition()
+
+# TODO: Make this pass type checks. This function is a mess rn and can't
+#       pass the type checker. I didn't spend time fixing it instead I 
+#       just told the checker to ignore it since to my knowledge it works.
+#       - Tumppi066
 def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
     """
     Get the position of the Route Advisor window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name. The automatic side detection uses a fast ML model.
@@ -411,13 +527,11 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
 
     Returns
     -------
-    (int, int), (int, int), (int, int), (int, int)
-        The position of the Route Advisor and the Arrow.
-        Indexes:
-        0: (X, Y) Map Top Left
-        1: (X, Y) Map Bottom Right
-        2: (X, Y) Arrow Top Left
-        3: (X, Y) Arrow Bottom Right
+    tuple : ((int, int), (int, int), (int, int), (int, int))\n
+        `[0]`: (X, Y) Map Top Left\n
+        `[1]`: (X, Y) Map Bottom Right\n
+        `[2]`: (X, Y) Arrow Top Left\n
+        `[3]`: (X, Y) Arrow Bottom Right\n
     """
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     DistanceFromRight = 21
@@ -468,17 +582,17 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
 
         if pytorch.IsInitialized(Model="RouteAdvisorClassification", Folder="model") == False:
             global Identifier
-            Identifier = pytorch.Initialize(Owner="Glas42", Model="RouteAdvisorClassification", Folder="model")
+            Identifier = pytorch.Initialize(Owner="OleFranz", Model="RouteAdvisorClassification", Folder="model")
             pytorch.Load(Identifier)
         if pytorch.Loaded(Identifier) == False:
-            return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
+            return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
 
         Outputs = []
-        for Image in [LeftImage, RightImage]:
+        for Image in [LeftImage, RightImage]: # type: ignore
             if type(Image) == type(None):
-                return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
+                return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
             if Image.shape[1] <= 0 or Image.shape[0] <= 0:
-                return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
+                return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
             if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
                 Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
             if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
@@ -506,19 +620,20 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
                 Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
             Outputs.append(Output)
 
-        RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
-        RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
-        RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+        if max(Outputs[0][0], Outputs[1][0]) > 0.5:
+            RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
+            RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
+            RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
 
         if RouteAdvisorSide == "Right":
-            return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
+            return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
         else:
-            return LeftMapTopLeft, LeftMapBottomRight, LeftArrowTopLeft, LeftArrowBottomRight
+            return LeftMapTopLeft, LeftMapBottomRight, LeftArrowTopLeft, LeftArrowBottomRight # type: ignore
 
     elif Side == "Left":
-        return LeftMapTopLeft, LeftMapBottomRight, LeftArrowTopLeft, LeftArrowBottomRight
+        return LeftMapTopLeft, LeftMapBottomRight, LeftArrowTopLeft, LeftArrowBottomRight # type: ignore
     elif Side == "Right":
-        return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight
+        return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
 
 
 # MARK: TrackWindow()
@@ -547,9 +662,13 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
             return
     global StopWindowsCapture, MonitorX1, MonitorY1, MonitorX2, MonitorY2
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
-    ScreenX, ScreenY, _, _ = GetScreenDimensions(GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2))
+    ScreenIndex = GetScreenIndex(round((X1 + X2) / 2), round((Y1 + Y2) / 2))
+    if ScreenIndex == None:
+        return
+    
+    ScreenX, ScreenY, _, _ = GetScreenDimensions(ScreenIndex)
     if MonitorX1 != X1 - ScreenX or MonitorY1 != Y1 - ScreenY or MonitorX2 != X2 - ScreenX or MonitorY2 != Y2 - ScreenY:
-        ScreenIndex = GetScreenIndex((X1 + X2) / 2, (Y1 + Y2) / 2)
+        ScreenIndex = ScreenIndex
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True
@@ -585,10 +704,15 @@ def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
         if LastTrackWindowRouteAdvisorUpdates[Key] + 1/Rate > time.time():
             return
     global StopWindowsCapture, MonitorX1, MonitorY1, MonitorX2, MonitorY2
+    
     MapTopLeft, MapBottomRight, ArrowTopLeft, ArrowBottomRight = GetRouteAdvisorPosition(Name=Name, Blacklist=Blacklist, Side=Side)
-    ScreenX, ScreenY, _, _ = GetScreenDimensions(GetScreenIndex((MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2))
-    if MonitorX1 != MapTopLeft[0] - ScreenX or MonitorY1 != MapTopLeft[1] - ScreenY or MonitorX2 != MapBottomRight[0] - ScreenX or MonitorY2 != MapBottomRight[1] - ScreenY:
-        ScreenIndex = GetScreenIndex((MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2)
+    ScreenIndex = GetScreenIndex((MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2)
+    if ScreenIndex == None:
+        return
+    
+    ScreenX, ScreenY, _, _ = GetScreenDimensions(ScreenIndex)
+    
+    if MonitorX1 != MapTopLeft[0] - ScreenX or MonitorY1 != MapTopLeft[1] - ScreenY or MonitorX2 != MapBottomRight[0] - ScreenX or MonitorY2 != MapBottomRight[1] - ScreenY:    
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True

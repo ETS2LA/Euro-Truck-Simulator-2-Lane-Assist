@@ -81,13 +81,18 @@ class RouteSection:
         
         if value > len(self.items[0].item.lanes) - 1 or value < 0:
             logging.warning(f"Something tried to set an [red]invalid lane index of {value}[/red] when [dim]RouteSection[/dim] only has {len(self.items[0].item.lanes)} lanes.")
+            return
+        
+        if self.is_lane_changing:
+            logging.warning("Something tried to change the lane index while the route section is still lane changing.")
+            return
         
         if self.lane_points != []:
             lane_change_distance = self.get_planned_lane_change_distance()
             
             if self.distance_left() < lane_change_distance:
                 if self.force_lane_change:
-                    lane_change_distance = self.distance_left()
+                    lane_change_distance = self.distance_left() - 1
                 else:
                     logging.warning(f"Something tried to do a lane change requiring [dim]{lane_change_distance:.0f}m[/dim], but only [dim]{self.distance_left():.0f}m[/dim] is left.")
                     return
@@ -208,6 +213,8 @@ class RouteSection:
         current_lane_points = self.discard_points_behind(self.lane_points)
         if len(current_lane_points) < 2:
             self.is_ended = True
+        else:
+            self.is_ended = False
         
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
             self.last_actual_points = current_lane_points
@@ -272,3 +279,14 @@ class RouteSection:
         if not isinstance(value, RouteSection):
             return False
         return self.start_node.uid == value.start_node.uid and self.end_node.uid == value.end_node.uid and self.lane_index == value.lane_index
+    
+    def information_json(self):
+        return {
+            "uids": [item.item.uid for item in self.items],
+            "lane_index": self.lane_index,
+            "type": type(self.items[0].item).__name__,
+            "is_ended": self.is_ended,
+            "is_lane_changing": self.is_lane_changing,
+            "lane_points": [point.tuple() for point in self.lane_points] if self.is_lane_changing else [],
+            "last_lane_points": [point.tuple() for point in self.last_lane_points] if self.is_lane_changing else [],
+        }

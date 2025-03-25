@@ -1,4 +1,52 @@
 import math
+# TODO: Switch __dict__ to __iter__ and dict() for typing support.
+# TODO: f = Class() -> dict(f) instead of f.__dict__()
+
+def rotate_around_point(point, center, pitch, yaw, roll):
+    """
+    Rotate a point around a center point by the given pitch, yaw, and roll angles (in degrees).
+    
+    Parameters:
+    - point: [x, y, z] coordinates of the point to rotate
+    - center: [x, y, z] coordinates of the center of rotation
+    - pitch: rotation around X-axis (in degrees)
+    - yaw: rotation around Y-axis (in degrees)
+    - roll: rotation around Z-axis (in degrees)
+    
+    Returns:
+    - Rotated point [x, y, z]
+    """
+    # Convert angles from degrees to radians
+    pitch_rad = math.radians(pitch)
+    yaw_rad = math.radians(yaw)
+    roll_rad = math.radians(roll)
+    
+    # Translate point to origin (relative to center)
+    x = point[0] - center[0]
+    y = point[1] - center[1]
+    z = point[2] - center[2]
+    
+    # Yaw rotation (around Y-axis)
+    rotated_x = x * math.cos(yaw_rad) - z * math.sin(yaw_rad)
+    rotated_z = x * math.sin(yaw_rad) + z * math.cos(yaw_rad)
+    x, z = rotated_x, rotated_z
+    
+    # Pitch rotation (around X-axis)
+    rotated_y = y * math.cos(pitch_rad) - z * math.sin(pitch_rad)
+    rotated_z = y * math.sin(pitch_rad) + z * math.cos(pitch_rad)
+    y, z = rotated_y, rotated_z
+    
+    # Roll rotation (around Z-axis)
+    rotated_x = x * math.cos(roll_rad) - y * math.sin(roll_rad)
+    rotated_y = x * math.sin(roll_rad) + y * math.cos(roll_rad)
+    x, y = rotated_x, rotated_y
+    
+    # Translate back
+    return [
+        x + center[0],
+        y + center[1],
+        z + center[2]
+    ]
 
 class Position():
     x: float
@@ -51,7 +99,7 @@ class Quaternion():
         x, y, z = self.euler()
         return f"Quaternion({self.w:.2f}, {self.x:.2f}, {self.y:.2f}, {self.z:.2f}) -> (pitch {x:.2f}, yaw {y:.2f}, roll {z:.2f})"
     
-    def __dict__(self):
+    def __dict__(self): # type: ignore
         euler = self.euler()
         return {
             "w": self.w,
@@ -92,7 +140,7 @@ class Trailer:
     def __str__(self):
         return f"Trailer({self.position}, {self.rotation}, {self.size})"
     
-    def __dict__(self):
+    def __dict__(self): # type: ignore
         return {
             "position": self.position.__dict__,
             "rotation": self.rotation.__dict__(),
@@ -125,7 +173,58 @@ class Vehicle:
     def __str__(self):
         return f"Vehicle({self.position}, {self.rotation}, {self.size}, {self.speed:.2f}, {self.acceleration:.2f}, {self.trailer_count}, {self.trailers})"
 
-    def __dict__(self):
+    def get_corners(self):
+        """
+        This function will output the corners of the vehicle in the following order:
+        1. Front left
+        2. Front right
+        3. Back right
+        4. Back left
+        """
+        ground_middle = [
+            self.position.x,
+            self.position.y,
+            self.position.z
+        ]
+        
+        # Back left
+        back_left = [
+            ground_middle[0] - self.size.width/2,
+            ground_middle[1],
+            ground_middle[2] + self.size.length/2
+        ]
+        
+        # Back right
+        back_right = [
+            ground_middle[0] + self.size.width/2,
+            ground_middle[1],
+            ground_middle[2] + self.size.length/2
+        ]
+        
+        # Front right
+        front_right = [
+            ground_middle[0] + self.size.width/2,
+            ground_middle[1],
+            ground_middle[2] - self.size.length/2
+        ]
+        
+        # Front left
+        front_left = [
+            ground_middle[0] - self.size.width/2,
+            ground_middle[1],
+            ground_middle[2] - self.size.length/2
+        ]
+        
+        # Rotate the corners
+        pitch, yaw, roll = self.rotation.euler()
+        front_left = rotate_around_point(front_left, ground_middle, -pitch, -yaw, 0)
+        front_right = rotate_around_point(front_right, ground_middle, -pitch, -yaw, 0)
+        back_right = rotate_around_point(back_right, ground_middle, -pitch, -yaw, 0)
+        back_left = rotate_around_point(back_left, ground_middle, -pitch, -yaw, 0)
+        
+        return front_left, front_right, back_right, back_left
+
+    def __dict__(self): # type: ignore
         return {
             "position": self.position.__dict__,
             "rotation": self.rotation.__dict__(),

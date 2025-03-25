@@ -1,14 +1,22 @@
+from ETS2LA.Handlers.controls import get_states as get_control_states
 import ETS2LA.Networking.Servers.notifications as notifications
+from ETS2LA.Handlers.controls import validate_events
+from ETS2LA.Utils.umami import TriggerEvent
+from ETS2LA.Utils.settings import Get, Set
+from ETS2LA.Controls import ControlEvent
+import ETS2LA.variables as variables
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
+
+from typing import Any
 import multiprocessing
 import threading
-import ETS2LA.variables as variables
 import logging
 import inspect
 import fnmatch
 import psutil
 import time
+import sys
 import os
 
 if os.name == "nt":
@@ -18,40 +26,60 @@ if os.name == "nt":
 plugin_path = "Plugins"
 plugin_target_class = "Plugin"
 
-AVAILABLE_PLUGINS: list[tuple[str, PluginDescription, Author, ETS2LASettingsMenu]] = []
+class Plugin:
+    name: str
+    description: PluginDescription | None
+    authors: list[Author] | None
+    settings_menu: ETS2LASettingsMenu | None
+    controls: list[ControlEvent] | None
+    
+    def __init__(self, name: str, description: PluginDescription | None, 
+                 authors: list[Author] | None, settings_menu: ETS2LASettingsMenu | None, 
+                 controls: list[ControlEvent] | None):
+        self.name = name
+        self.description = description
+        self.authors = authors
+        self.settings_menu = settings_menu
+        self.controls = controls
+
+AVAILABLE_PLUGINS: list[Plugin] = []
 
 class PluginHandler:
-    
     plugin_name: str
     plugin_description: PluginDescription
+    controls: list[ControlEvent]
     data = None
     
     stop = False
     
-    tags: dict[str, any]
+    tags: dict[str, Any]
     
     state: dict = {
         "status": "",
         "progress": -1
     }
     
+    control_state: dict = {}
+    
     last_performance: list[tuple[float, float]] = []
     last_performance_time: float = 0
     
-    statistics: dict[str, any] = {}
+    statistics: dict[str, Any] = {}
     last_statistics_time: float = 0
     
     files_to_listen_to: list[str] = []
     
-    def __init__(self, plugin_name: str, plugin_description: PluginDescription):
+    def __init__(self, plugin_name: str, plugin_description: PluginDescription, controls: list[ControlEvent]):
         self.tags = {}
         self.plugin_name = plugin_name
         self.plugin_description = plugin_description
+        self.controls = controls
         self.data = None
         self.state = {
             "status": "",
             "progress": -1
         }
+        self.control_state = {}
         
         self.files_to_listen_to = self.discover_files(plugin_description.listen)
         
@@ -81,6 +109,8 @@ class PluginHandler:
         self.performance_return_queue = multiprocessing.JoinableQueue()
         self.event_queue = multiprocessing.JoinableQueue()
         self.event_return_queue = multiprocessing.Queue()
+        self.control_queue = multiprocessing.JoinableQueue()
+        self.control_return_queue = multiprocessing.JoinableQueue()
         
         try:
             RUNNING_PLUGINS.append(self)
@@ -92,6 +122,7 @@ class PluginHandler:
             if variables.DEVELOPMENT_MODE:
                 threading.Thread(target=self.change_listener, daemon=True).start()
             threading.Thread(target=self.event_listener, daemon=True).start()
+            threading.Thread(target=self.control_thread, daemon=True).start()
             
             self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
                                                                             self.return_queue,
@@ -102,7 +133,8 @@ class PluginHandler:
                                                                             self.immediate_queue, self.immediate_return_queue,
                                                                             self.state_queue,
                                                                             self.performance_queue, self.performance_return_queue,
-                                                                            self.event_queue, self.event_return_queue
+                                                                            self.event_queue, self.event_return_queue,
+                                                                            self.control_queue, self.control_return_queue
                                                                             ), daemon=True)
             self.process.start()
             self.psutil_process = psutil.Process(self.process.pid)
@@ -141,7 +173,8 @@ class PluginHandler:
                                                                             self.immediate_queue, self.immediate_return_queue,
                                                                             self.state_queue,
                                                                             self.performance_queue, self.performance_return_queue,
-                                                                            self.event_queue, self.event_return_queue
+                                                                            self.event_queue, self.event_return_queue,
+                                                                            self.control_queue, self.control_return_queue
                                                                             ), daemon=True)
         self.process.start()
         self.psutil_process = psutil.Process(self.process.pid)
@@ -166,6 +199,20 @@ class PluginHandler:
                     logging.error(f"Failed to check file [dim]{file}[/dim] for changes in plugin [yellow]{self.plugin_name}[/yellow]. Did you delete it?")
             time.sleep(1)
         
+    def control_thread(self):
+        while True:
+            if self.stop:
+                break
+            
+            states = get_control_states(self.controls)
+            if states == self.control_state:
+                time.sleep(0.025) # 40 fps
+                continue
+            
+            self.control_state = states
+            self.control_queue.put(states)
+            time.sleep(0.025) # 40 fps
+            
     def event_listener(self):
         while True:
             if self.stop:
@@ -240,6 +287,10 @@ class PluginHandler:
                 disable_plugin(self.plugin_name, from_plugin=True)
                 
             if data["operation"] == "crash":
+                try:
+                    TriggerEvent("Plugin Crashed", {"plugin": self.plugin_name})
+                except:
+                    pass
                 self.process.terminate()
                 self.stop = True
                 disable_plugin(self.plugin_name, from_plugin=True, show_restart_dialog=True)
@@ -301,7 +352,11 @@ class PluginHandler:
                 if time.perf_counter() - self.last_statistics_time > 1:
                     logical_cores = psutil.cpu_count(logical=True)
                     physical_cores = psutil.cpu_count(logical=False)
-                    multiplier = logical_cores / physical_cores
+                    if logical_cores is None or physical_cores is None:
+                        multiplier = 1
+                    else:
+                        multiplier = logical_cores / physical_cores
+                    
                     self.statistics["memory"].append(self.psutil_process.memory_percent())
                     self.statistics["cpu"].append(self.psutil_process.cpu_percent() / multiplier)
                     self.statistics["performance"] = self.get_performance()
@@ -366,9 +421,11 @@ def get_plugin_class(module_name):
     for name, cls in inspect.getmembers(module):
         if inspect.isclass(cls) and issubclass(cls, ETS2LAPlugin) and cls != ETS2LAPlugin:
             return cls
+    # Remove the module from the cache
+    del sys.modules[module_name]
     return None
 
-def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
+def find_plugins() -> list[Plugin]:
     folders = os.listdir(plugin_path)
     plugins = []
     for folder in folders:
@@ -378,15 +435,48 @@ def find_plugins() -> list[tuple[str, PluginDescription, Author]]:
                 information = getattr(plugin_class, "description", None)
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
-                if not information.hidden or variables.DEVELOPMENT_MODE:
-                    plugins.append((folder, information, author, settings))
+                controls = getattr(plugin_class, "controls", [])
+                if information and not information.hidden or variables.DEVELOPMENT_MODE:
+                    plugin: Plugin = Plugin(folder, information, author, settings, controls)
+                    plugins.append(plugin)
             del plugin_class
+            del sys.modules[f"{plugin_path}.{folder}.main"]
             
     return plugins
 
+def save_running_plugins():
+    try:
+        Set("global", "running_plugins", [plugin.plugin_name for plugin in RUNNING_PLUGINS])
+    except:
+        try:
+            Set("global", "running_plugins", [])
+        except: pass
+        logging.exception("Failed to save running plugins.")
+
+def update_plugins():
+    global AVAILABLE_PLUGINS
+    logging.info("Updating plugins...")
+    AVAILABLE_PLUGINS = find_plugins()
+    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.settings_menu is not None])} have settings menus.")
+    controls = []
+    for plugin in AVAILABLE_PLUGINS:
+        if plugin.controls is not None:
+            controls += plugin.controls
+    validate_events(controls)
+    logging.info(f"Discovered {len(controls)} control events.")
+
 def enable_plugin(plugin_name: str):
-    runner = threading.Thread(target=PluginHandler, args=(plugin_name, AVAILABLE_PLUGINS[[plugin[0] for plugin in AVAILABLE_PLUGINS].index(plugin_name)][1]), daemon=True)
+    plugin = AVAILABLE_PLUGINS[[plugin.name for plugin in AVAILABLE_PLUGINS].index(plugin_name)]
+    runner = threading.Thread(target=PluginHandler, args=(
+        plugin_name, 
+        plugin.description,
+        plugin.controls
+    ), daemon=True)
     runner.start()
+    try:
+        TriggerEvent("Plugin Enabled", {"plugin": plugin_name})
+    except:
+        pass
     
 def disable_plugin(plugin_name: str, from_plugin: bool = False, show_restart_dialog: bool = False):
     for plugin in RUNNING_PLUGINS:
@@ -417,7 +507,9 @@ def get_plugin_settings() -> dict[str, None | list]:
     
     variables.IS_UI_UPDATING = True
     
-    for name, desc, author, settings in AVAILABLE_PLUGINS:
+    for plugin in AVAILABLE_PLUGINS:
+        settings = plugin.settings_menu
+        name = plugin.name
         if settings is None:
             settings_dict[name] = None
             continue
@@ -442,9 +534,9 @@ def get_plugin_settings() -> dict[str, None | list]:
     variables.IS_UI_UPDATING = False
     return settings_dict
 
-def get_state(plugin: str):
+def get_state(plugin_name: str):
     for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin:
+        if plugin.plugin_name == plugin_name:
             return plugin.state
     return None
 
@@ -454,9 +546,9 @@ def get_states():
         states[plugin.plugin_name] = plugin.state
     return states
 
-def get_performance(plugin: str):
+def get_performance(plugin_name: str):
     for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin:
+        if plugin.plugin_name == plugin_name:
             return plugin.get_performance()
     return None
 
@@ -522,6 +614,9 @@ def get_main_process_cpu_usages():
                 if "python" in process.lower() or "node" in process.lower():
                     try:
                         path = win32pdh.MakeCounterPath((None, "Process", process, None, 0, "% Processor Time"))
+                        if path is None:
+                            continue
+                        
                         handle = win32pdh.AddCounter(hq, path)
                         counter_handles.append((process.lower(), handle))
                     except:
@@ -599,7 +694,7 @@ def get_tag_data(tag: str):
             tag_dict[plugin.plugin_name] = plugin.tags[tag]
     return tag_dict
 
-def call_event(event: str, args: list, kwargs: dict, called_from: str = ""):
+def call_event(event: str, args: list[Any], kwargs: dict[Any, Any], called_from: str = ""):
     if type(args) != list:
         args = [args]
     if type(kwargs) != dict:
@@ -623,6 +718,4 @@ def get_all_process_pids():
     return pids
 
 def run():
-    global AVAILABLE_PLUGINS
-    AVAILABLE_PLUGINS = find_plugins()
-    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin[3] is not None])} have settings menus.")
+    update_plugins()

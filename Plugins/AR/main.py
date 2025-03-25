@@ -3,12 +3,25 @@ from ETS2LA.UI import *
 
 from Plugins.AR.classes import *
 from ETS2LA.Utils.Values.numbers import SmoothedValue
-import os
+
+# ETS2LA imports
+import ETS2LA.Utils.settings as settings
+
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
 DRAWLIST = []
 TELEMETRY_FPS = SmoothedValue("time", 1)
+
+VISION_COMPAT = settings.Get("AR", "vision_compat", True)
+TEST_OBJECTS = settings.Get("AR", "test_objects", False)
+
+def LoadSettings(data: dict):
+    global VISION_COMPAT
+    global TEST_OBJECTS
+    VISION_COMPAT = data.get("vision_compat", True)
+    TEST_OBJECTS = data.get("test_objects", False)
+
 
 def InitializeWindow():
     global regular_font
@@ -37,6 +50,7 @@ def InitializeWindow():
     ctypes.windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, Margins)
     win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
 
+    
 
 def Resize():
     dpg.set_viewport_pos([WindowPosition[0], WindowPosition[1]])
@@ -136,6 +150,19 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
     return ScreenX, ScreenY, Distance
 
 
+class Settings(ETS2LASettingsMenu):
+    plugin_name = "AR"
+    dynamic = False
+
+    def render(self):
+        with Group("vertical", gap=14, padding=0):
+            Title("plugins.ar")
+            Description("This plugin provides no description.")
+            
+        Switch("Vision Compatible", "vision_compat", True, description="Hide the AR from the screen capture so plugins which rely on vision can be used with AR. (Notice: This will make the AR invisible in any screen capture app! (e.g. OBS, Discord, etc.) )")
+        Switch("Show Test Objects", "test_objects", False, description="Show test objects in the AR, for example the white circles at each wheel.")
+        return RenderUI()
+
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
         name="AR",
@@ -147,7 +174,7 @@ class Plugin(ETS2LAPlugin):
 
     author = [Author(
         name="Glas42",
-        url="https://github.com/Glas42",
+        url="https://github.com/OleFranz",
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     ), Author(
         name="Tumppi066",
@@ -155,9 +182,13 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )]
 
+    settings_menu = Settings()
+
     fps_cap = 1000
-    
+    camera = None
+    last_camera_timestamp = 0
     LastTimeStamp = 0
+
 
     def imports(self):
         global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
@@ -186,12 +217,16 @@ class Plugin(ETS2LAPlugin):
         FRAME = None
         FOV = self.globals.settings.FOV
         if FOV == None:
-            print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables)! The plugin will disable itself.{NORMAL}\n")
-            self.notify("No FOV set, disabling AR...")
-            time.sleep(1)
-            self.terminate()
+            print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!{NORMAL}\n")
+            self.notify("Please set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!")
+            FOV = 75
+        
+        settings.Listen("AR", LoadSettings)
 
         InitializeWindow()
+        
+        
+
 
     def Render(self, items=[]):
         global FRAME
@@ -216,82 +251,72 @@ class Plugin(ETS2LAPlugin):
             for i, item in enumerate(sorted_items):
                 if type(item) == Rectangle:
                     points = [item.start, item.end]
-                    start = points[0].screen(self)
-                    end = points[1].screen(self)
+                    screen_start = points[0].screen(self)
+                    screen_end = points[1].screen(self)
                     
-                    if start is None or end is None:
+                    if screen_start is None or screen_end is None:
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        start = start[:2]
-                        end = end[:2]
+                        alpha = CalculateAlpha(Distances=[screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                         item.fill.a *= alpha / 255
                     
-                    dpg.draw_rectangle(pmin=start, pmax=end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Line:
                     points = [item.start, item.end]
-                    start = points[0].screen(self)
-                    end = points[1].screen(self)
+                    screen_start = points[0].screen(self)
+                    screen_end = points[1].screen(self)
                     
-                    if start is None or end is None:
+                    if screen_start is None or screen_end is None:
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[start[2], end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        start = start[:2]
-                        end = end[:2]
+                        alpha = CalculateAlpha(Distances=[screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                     
-                    dpg.draw_line(p1=start, p2=end, color=item.color.tuple(), thickness=item.thickness)
+                    dpg.draw_line(p1=screen_start, p2=screen_end, color=item.color.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Polygon:
                     points = item.points
-                    points = [point.screen(self) for point in item.points]
+                    screen_points = [point.screen(self) for point in item.points]
                     
-                    if None in points:
+                    if None in screen_points:
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[point[2] for point in points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        points = [point[:2] for point in points]
+                        alpha = CalculateAlpha(Distances=[point[2] for point in screen_points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                         item.fill.a *= alpha / 255
                     
-                    dpg.draw_polygon(points=points, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_polygon(points=screen_points, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Circle:
                     center = item.center
-                    center = center.screen(self)
+                    screen_center = center.screen(self)
                     
-                    if center is None:
+                    if screen_center is None:
                         continue
                     
                     if type(center) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        center = center[:2]
+                        alpha = CalculateAlpha(Distances=[screen_center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
                         item.fill.a *= alpha / 255
-                        center = center[:2]
                     
-                    dpg.draw_circle(center=center, radius=item.radius, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_circle(center=screen_center, radius=item.radius, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
                     
                 elif type(item) == Text:
                     position = item.point
-                    position = position.screen(self)
-                    
-                    if position is None:
+                    screen_position = position.screen(self)
+                    if screen_position is None:
                         continue
                     
                     if type(position) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        position = position[:2]
+                        alpha = CalculateAlpha(Distances=[screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.a *= alpha / 255
-                        position = position[:2]
                     
-                    dpg.draw_text(position, text=item.text, color=item.color.tuple(), size=item.size)
+                    dpg.draw_text(screen_position, text=item.text, color=item.color.tuple(), size=item.size)
                  
         dpg.render_dearpygui_frame()
 
@@ -320,20 +345,30 @@ class Plugin(ETS2LAPlugin):
         global CabinOffsetRotationDegreesZ
 
         APIDATA = TruckSimAPI.update()
+
+        HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
+        if VISION_COMPAT:
+            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000011)
+            if Success == 0:
+                print("Failed to hide AR window from screen capture.")
+        if not VISION_COMPAT:
+            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000000)
+
         
         if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
             time.sleep(0.1)
             self.Render()
             return
         
-        if APIDATA["time"] == self.LastTimeStamp:
+        if APIDATA["renderTime"] == self.LastTimeStamp:
             return
         else:
             # 166660.0 -> 60 FPS -> Unit is in microseconds
-            microseconds = (APIDATA["time"] - self.LastTimeStamp)
+            microseconds = (APIDATA["renderTime"] - self.LastTimeStamp)
             TELEMETRY_FPS.smooth(1 / (microseconds / 1000000))
             #print(f"Telemetry FPS: {TELEMETRY_FPS.get():.1f}         ", end="\r")
-            self.LastTimeStamp = APIDATA["time"]
+            self.LastTimeStamp = APIDATA["renderTime"]
+            
 
         WindowPosition = ScreenCapture.GetWindowPosition(Name="Truck Simulator", Blacklist=["Discord"])
         if LastWindowPosition != WindowPosition:
@@ -390,10 +425,10 @@ class Plugin(ETS2LAPlugin):
         camera = self.modules.Camera.run()
         if camera is not None:
             FOV = camera.fov
+            angles = camera.rotation.euler()
             HeadX = camera.position.x + camera.cx * 512
             HeadY = camera.position.y
             HeadZ = camera.position.z + camera.cz * 512
-            angles = camera.rotation.euler()
             HeadRotationDegreesX = angles[1]
             HeadRotationDegreesY = angles[0]
             HeadRotationDegreesZ = angles[2]
@@ -423,48 +458,51 @@ class Plugin(ETS2LAPlugin):
         self.DRAWLIST = DRAWLIST
         self.FOV = FOV
 
-        # Draws a circle at each wheel of the truck
-        TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
-        TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
-        TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
 
-        WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
-        while int(APIDATA["configUI"]["truckWheelCount"]) > len(WheelAngles):
-            WheelAngles.append(0)
+        if TEST_OBJECTS:
+            # Draws a circle at each wheel of the truck
+            TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
+            TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
+            TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
 
-        for i in range(len(TruckWheelPointsX)):
-            PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
-            PointY = TruckY + TruckWheelPointsY[i]
-            PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
-            #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
-            
-            DRAWLIST.append(Circle(
-                center=Coordinate(PointX, PointY, PointZ),
-                radius=10,
+            WheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
+            while int(APIDATA["configUI"]["truckWheelCount"]) > len(WheelAngles):
+                WheelAngles.append(0)
+
+            for i in range(len(TruckWheelPointsX)):
+                PointX = TruckX + TruckWheelPointsX[i] * math.cos(TruckRotationRadiansX) - TruckWheelPointsZ[i] * math.sin(TruckRotationRadiansX)
+                PointY = TruckY + TruckWheelPointsY[i]
+                PointZ = TruckZ + TruckWheelPointsZ[i] * math.cos(TruckRotationRadiansX) + TruckWheelPointsX[i] * math.sin(TruckRotationRadiansX)
+                #X, Y, D = ConvertToScreenCoordinate(X=PointX, Y=PointY, Z=PointZ)
+                
+                DRAWLIST.append(Circle(
+                    center=Coordinate(PointX, PointY, PointZ),
+                    radius=10,
+                    color=Color(255, 255, 255, 255),
+                    fill=Color(127, 127, 127, 127),
+                    fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
+                    thickness=2
+                ))
+
+
+            DRAWLIST.append(Polygon(
+                points=[
+                    Coordinate(10353.160, 48.543, -9228.122),
+                    Coordinate(10352.160, 47.543, -9224.122),
+                    Coordinate(10353.160, 46.543, -9228.122),
+                    Coordinate(10353.160, 48.543, -9228.122)
+                ],
                 color=Color(255, 255, 255, 255),
-                fill=Color(127, 127, 127, 127),
-                fade=Fade(prox_fade_start=0, prox_fade_end=0, dist_fade_start=100, dist_fade_end=100),
+                fill=Color(127, 127, 127, 255 / 2),
                 thickness=2
             ))
 
-
-        DRAWLIST.append(Polygon(
-            points=[
-                Coordinate(10353.160, 48.543, -9228.122),
-                Coordinate(10352.160, 47.543, -9224.122),
-                Coordinate(10353.160, 46.543, -9228.122),
-                Coordinate(10353.160, 48.543, -9228.122)
-            ],
-            color=Color(255, 255, 255, 255),
-            fill=Color(127, 127, 127, 255 / 2),
-            thickness=2
-        ))
 
         other_plugins = self.globals.tags.AR
         if other_plugins is not None:
             for plugin in other_plugins:
                 if type(other_plugins[plugin]) == list:
                     DRAWLIST.extend(other_plugins[plugin])
-
+        
         self.Render(items=DRAWLIST)
         DRAWLIST = []

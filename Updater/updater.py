@@ -18,21 +18,6 @@ steps = [
     {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'}
 ]
 
-needed_version = "2.2.1"
-try:
-    if version("norfair") < needed_version:
-        steps.insert(3, {"name": "Fix norfair", "command": "pip install git+https://github.com/Tumppi066/norfair.git"})
-except:
-    steps.insert(3, {"name": "Fix norfair", "command": "pip install git+https://github.com/Tumppi066/norfair.git"})
-
-needed_version = "1.4.5"
-try:
-    if version("filterpy") < needed_version:
-        steps.insert(3, {"name": "Fix filterpy", "command": "pip install git+https://github.com/rodjjo/filterpy.git"})
-except:
-    steps.insert(3, {"name": "Fix filterpy", "command": "pip install git+https://github.com/rodjjo/filterpy.git"})
-
-
 class Updater(App):
     CSS_PATH = "updater.tcss"
 
@@ -93,8 +78,11 @@ class Updater(App):
                 while True:
                     line = await stream.readline()
                     if line:
-                        dimmed_line = f"{line.decode()}"
-                        callback(dimmed_line)
+                        try:
+                            dimmed_line = f"{line.decode()}"
+                            callback(dimmed_line)
+                        except:
+                            pass
                     else:
                         break
 
@@ -108,7 +96,7 @@ class Updater(App):
             if return_code != 0 and step['name'] != "Clear Cache":
                 log_widget.write(f"-- ERROR in {step['name']} (report this to the developers) --\n\n")
                 label.classes = ["error"]
-                label.update(f"X {step['name']}")
+                label.update(f"X {step['name']}") #type: ignore
                 
                 # Enable Retry and Exit buttons
                 retry_button = self.query_one("#retry-button", Button)
@@ -122,7 +110,7 @@ class Updater(App):
             else:
                 log_widget.write(f"-- COMPLETED {step['name']} --\n\n")
                 label.classes = ["done"]
-                label.update(f"● {step['name']}")
+                label.update(f"● {step['name']}") #type: ignore
 
         if not getattr(self, '_paused', False):
             log_widget.write("-- Update complete! --\n")

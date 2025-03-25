@@ -2,6 +2,7 @@ from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from ETS2LA.Utils.version import CheckForUpdate, Update
+from ETS2LA.Utils.umami import TriggerEvent
 
 from datetime import datetime
 import time
@@ -14,6 +15,10 @@ class Page(ETS2LAPage):
     settings_target = "updater" 
     
     def update(self, *args, **kwargs):
+        try:
+            TriggerEvent("Update App")
+        except:
+            pass
         mainThreadQueue.append([Update, [], {}])
         
     def time_since(self, target_time):
@@ -45,8 +50,10 @@ class Page(ETS2LAPage):
         else:
             updates = last_updates
             
+        RefreshRate(1)
         with Geist():
             with Padding(24):
+                Space(20)
                 if updates == []:
                     Description("You have a local commit that is waiting to be pushed.")
                 elif not updates:
@@ -55,18 +62,15 @@ class Page(ETS2LAPage):
                     Button("Update Anyway", "", self.update, border=False)
                 else:
                     reversed_updates = updates[::-1]
-                    Button("Update", "", self.update, border=False)
-                    Space(8)
-                    Description(f"There are {len(updates)} update(s) available, here's a list from oldest to newest:")
-                    Space(8)
-                    with Group("vertical", gap=12):
+                    Button(f"Restart and apply {len(updates)} update(s)", "", self.update, border=False)
+                    with Group("vertical", gap=24):
                         current_day = None
                         for update in reversed_updates:
                             try:
                                 local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
                                 if local_time.split(" ")[0] != current_day:
                                     current_day = local_time.split(" ")[0]
-                                    Space(20)
+                                    Space(5)
                                     with Group("horizontal", padding=0, classname="flex items-center", gap=0):
                                         with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                             ...
@@ -74,9 +78,10 @@ class Page(ETS2LAPage):
                                             Description(local_time.split(" ")[0], size="xs", weight="bold")
                                         with Group("horizontal", padding=0, gap=0, classname="border-b"):
                                             ...
-                                    Space(20)
-                                with Group("vertical", border=True, classname=""):
-                                    with Group("horizontal", padding=0):
+                                    Space(5)
+                                    
+                                with Group("vertical", border=True, classname="shadow-md bg-input/10"):
+                                    with Group("horizontal", padding=0, classname="items-center", gap=12):
                                         Description(update["author"], size="xs")
                                         with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
                                             Label(update["message"], size="sm", weight="semibold")

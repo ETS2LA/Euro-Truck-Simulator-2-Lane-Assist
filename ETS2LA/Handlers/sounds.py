@@ -1,10 +1,27 @@
+# TODO: This file is garbage. Rewrite it completely.
+from ETS2LA.Utils.packages import DownloadLibrary
+import logging
+import sys
+import os
+
+try:
+    path = DownloadLibrary("ffmpeg")
+except:
+    path = None
+    logging.error("Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])")
+    
+if path is not None:
+    path = path.replace("ffmpeg.exe", "")
+    sys.path.append(path)
+    os.environ["PATH"] += path
+
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.variables import PATH
-import logging
-import pygame
+from pydub import AudioSegment
+import sounddevice as sd
+import numpy as np
 import json
-import os
     
 # Detect available sound packs
 SOUNDPACKS_PATH = "ETS2LA/Assets/Sounds/"
@@ -34,35 +51,61 @@ for i in range(len(SOUNDPACKS)):
 
 SOUNDPACKS = temp        
 SELECTED_SOUNDPACK = settings.Get("global", "soundpack", "default")
+SELECTED_SOUNDPACK = "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(SELECTED_SOUNDPACK)
+
 VOLUME = settings.Get("global", "volume", 50)
-        
-pygame.init()
+VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
 
 def UpdateSettings(settings: dict):
     global SELECTED_SOUNDPACK, VOLUME
     SELECTED_SOUNDPACK = settings["soundpack"]
-    VOLUME = settings["volume"] / 100
+    SELECTED_SOUNDPACK = "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(SELECTED_SOUNDPACK)
+    VOLUME = settings["volume"]
+    VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
     
 settings.Listen("global", UpdateSettings)
 
 def GetFilenameForSound(sound: str):
-    sounds = os.listdir(SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK)
+    if SELECTED_SOUNDPACK is None:
+        return None
+    
+    sounds = os.listdir(SOUNDPACKS_PATH + SELECTED_SOUNDPACK)
     for pack_sound in sounds:
         if sound in pack_sound:
-            return SOUNDPACKS_PATH + "/" + SELECTED_SOUNDPACK + "/" + pack_sound
+            return PATH + SOUNDPACKS_PATH + SELECTED_SOUNDPACK + "/" + pack_sound
     logging.error(Translate("sounds.sound_not_found_in_soundpack", values=[sound, SELECTED_SOUNDPACK]))
     return None
+
+def play_audio(filename, volume = 0.5):
+    """
+    Plays an audio file with volume control using sounddevice.
+    
+    :param filename: Path to the audio file
+    :param volume: Volume level (0.0 to 1.0)
+    """
+    if not (0.0 <= volume <= 1.0):
+        raise ValueError("Volume must be between 0.0 and 1.0")
+
+    audio = AudioSegment.from_file(filename)
+    samples = np.array(audio.get_array_of_samples(), dtype=np.float32)
+    
+    # Stereo handling
+    if audio.channels == 2:
+        samples = samples.reshape((-1, 2))  # Stereo
+    else:
+        samples = samples.reshape((-1, 1))  # Mono (force 2D)
+
+    samples /= np.iinfo(np.int16).max # normalize -1 - 1
+    samples *= volume
+    sd.play(samples, samplerate=audio.frame_rate, blocking=False)
 
 def Play(sound: str):
     filename = GetFilenameForSound(sound)
     if filename is None: return False
     
     try:
-        pygame.mixer.music.set_volume(VOLUME)
-        pygame.mixer.music.load(filename)
-        pygame.mixer.music.play()
-    except pygame.error as e:
-        logging.error(f"No sound device available: {e}")
+        play_audio(filename, VOLUME) # type: ignore
+    except Exception:
         return False
     
     return True

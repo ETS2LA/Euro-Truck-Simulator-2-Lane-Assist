@@ -1,9 +1,14 @@
 import datetime
 import json
+import git
+import sys
 import os
 
 YEAR = datetime.datetime.now().year
 """This year will be displayed in the window title."""
+
+APPTITLE = f"ETS2LA - Tumppi066 & Contributors © {YEAR}"
+"""The title of the frontend window."""
 
 PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
 """The path to the ETS2LA folder."""
@@ -27,17 +32,26 @@ RESTART = False
 MINIMIZE = False
 """Whether the application should minimize or not. Used to trigger the minimize from code that is not the main thread."""
 
+UPDATE = False
+"""Whether the application should trigger an update or not. Used to trigger the update from code that is not the main thread."""
+
 CONSOLEHWND = None
 """The handle of the console window. The console.py will set the handle when hiding the console is enabled."""
 
 CONSOLENAME = None
 """The name/title of the console window. The console.py will set the name when hiding the console is enabled."""
 
-DEVELOPMENT_MODE = False
+DEVELOPMENT_MODE = "--dev" in sys.argv
 """Whether the application is running in development mode. Will be set to True when running the main.py with the --dev flag."""
 
-LOCAL_MODE = False
+LOCAL_MODE = "--local" in sys.argv
 """Whether the user interface is run locally or gotten from the server."""
+
+NO_UI = "--no-ui" in sys.argv
+"""Whether the app should start without the UI."""
+
+NO_CONSOLE = "--no-console" in sys.argv and not NO_UI
+"""Whether the app should close the console as soon as the UI has started."""
 
 METADATA = json.loads(open(PATH + "metadata.json", "r").read())
 """Current version metadata."""
@@ -60,6 +74,7 @@ ATS_DLC = []
 ETS2_DLC = []
 """List of all ETS2 DLCs currently installed."""
 
+# Update paths
 if os.name == "nt":
     import ctypes.wintypes
     _CSIDL_PERSONAL = 5     # My Documents
@@ -77,6 +92,7 @@ else:
     ETS2_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/Euro Truck Simulator 2/game.log.txt"
     ATS_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/American Truck Simulator/game.log.txt"    
 
+# Update DLCs
 try:
     with open(ATS_LOG_PATH, "r") as f:
         lines = f.readlines()
@@ -95,4 +111,11 @@ try:
                 dlc = line.split(".scs")[0].split("dlc_")[1]
                 dlc = "dlc_" + dlc
                 ETS2_DLC.append(dlc)
+except: pass
+
+# Update metadata
+try:
+    repo = git.Repo(search_parent_directories=True)
+    hash = repo.head.object.hexsha[:9]
+    METADATA["version"] = f"{METADATA['version']} - {hash}"
 except: pass
