@@ -1,20 +1,29 @@
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.UI import SendPopup
 import multiprocessing
-import keyboard
 import queue
 import time
 import os
+from pynput import keyboard as pynput_keyboard
+from ETS2LA.Handlers.key_mappings import key_to_str
+
+new_guid = ""
+new_key = ""
+
+def keyboard_callback(key):
+    global new_guid
+    global new_key
+    try:
+        new_key = key_to_str(key)
+    except AttributeError:
+        new_key = str(key)
+    new_guid = "keyboard"
+
+listener = pynput_keyboard.Listener(on_press=keyboard_callback)
+listener.start()
 
 def distance(a: float, b: float):
     return abs(a - b)
-
-def keyboard_callback(e):
-    global new_guid
-    global new_key
-    if e.event_type == keyboard.KEY_DOWN:
-        new_key = e.name
-        new_guid = "keyboard"
 
 def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue) -> tuple[str, str]:
     """Pick a control for the given control event.
@@ -32,14 +41,11 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
     
     start_values = controller_queue.get()
     is_button = event.type == "button"
-    if is_button:
-        print("Keyboard listener is loading...")
-        keyboard.hook(keyboard_callback)
-        print("Keyboard listener loaded.")
-    
-    start_time = time.perf_counter()
+
     new_guid = ""
     new_key = ""
+
+    start_time = time.perf_counter()
     while new_key == "" and time.perf_counter() - start_time < 10:
         time.sleep(0.01)
         if not controller_queue.empty():
@@ -57,7 +63,7 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
                         new_key = key
                         new_guid = guid
                         break
-    
+
     if new_key == "":
         SendPopup("Timeout, please try again.", "error")
         return "", ""
