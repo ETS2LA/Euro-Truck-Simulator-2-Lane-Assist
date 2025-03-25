@@ -1,6 +1,5 @@
 from pynput import keyboard as pynput_keyboard
 
-
 numpad_mapping = {
     12: "5",
     96: "Num 0",
@@ -62,7 +61,6 @@ special_key_mapping = {
     pynput_keyboard.Key.media_next: "Media Next",
     pynput_keyboard.Key.media_volume_mute: "Media Volume Mute",
 }
-
 
 def key_to_str(key):
     if hasattr(key, 'vk') and key.vk in numpad_mapping:

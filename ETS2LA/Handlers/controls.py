@@ -11,12 +11,12 @@ NOTE: If you are using controls from a plugin, DO NOT import this file.
       plugin with the `controls` attribute.
 """
 
+from ETS2LA.Handlers.utils.key_mappings import key_to_str
 from ETS2LA.Controls.picker import control_picker
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
 import ETS2LA.Utils.settings as settings
 from ETS2LA.UI import SendPopup
-from ETS2LA.Handlers.key_mappings import key_to_str
 
 import multiprocessing
 import threading
@@ -27,7 +27,6 @@ import threading
 
 import logging
 import time
-import sys
 import os
 
 settings_file = "ETS2LA/controls.json"
