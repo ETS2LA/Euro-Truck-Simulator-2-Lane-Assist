@@ -9,7 +9,7 @@ import subprocess
 import threading
 import traceback
 import requests
-import GPUtil
+# import GPUtil
 import psutil
 import torch
 import time
@@ -160,26 +160,26 @@ def UninstallCUDA():
 def CheckCuda():
     print("NOT IMPLEMENTED: CheckCuda (no idea how v2 uses the venv)")
     return
-    def CheckCudaFunction():
-        result = subprocess.run("cd " + variables.PATH + "venv/Scripts & .\\activate.bat & cd " + variables.PATH + " & pip list", shell=True, capture_output=True, text=True)
-        modules = result.stdout
-        CUDA_INSTALLED = True
-        for module in modules.splitlines():
-            if "torch " in module:
-                if "cu" not in module:
-                    CUDA_INSTALLED = False
-            elif "torchvision " in module:
-                if "cu" not in module:
-                    CUDA_INSTALLED = False
-            elif "torchaudio " in module:
-                if "cu" not in module:
-                    CUDA_INSTALLED = False
-        variables.CUDA_INSTALLED = CUDA_INSTALLED
-        variables.CUDA_AVAILABLE = torch.cuda.is_available()
-        variables.CUDA_COMPATIBLE = ("nvidia" in str([str(GPU.name).lower() for GPU in GPUtil.getGPUs()]))
-        if variables.CUDA_INSTALLED == False and variables.CUDA_COMPATIBLE == True:
-            variables.PAGE = "CUDA"
-    threading.Thread(target=CheckCudaFunction, daemon=True).start()
+    # def CheckCudaFunction():
+    #     result = subprocess.run("cd " + variables.PATH + "venv/Scripts & .\\activate.bat & cd " + variables.PATH + " & pip list", shell=True, capture_output=True, text=True)
+    #     modules = result.stdout
+    #     CUDA_INSTALLED = True
+    #     for module in modules.splitlines():
+    #         if "torch " in module:
+    #             if "cu" not in module:
+    #                 CUDA_INSTALLED = False
+    #         elif "torchvision " in module:
+    #             if "cu" not in module:
+    #                 CUDA_INSTALLED = False
+    #         elif "torchaudio " in module:
+    #             if "cu" not in module:
+    #                 CUDA_INSTALLED = False
+    #     variables.CUDA_INSTALLED = CUDA_INSTALLED
+    #     variables.CUDA_AVAILABLE = torch.cuda.is_available()
+    #     variables.CUDA_COMPATIBLE = ("nvidia" in str([str(GPU.name).lower() for GPU in GPUtil.getGPUs()]))
+    #     if variables.CUDA_INSTALLED == False and variables.CUDA_COMPATIBLE == True:
+    #         variables.PAGE = "CUDA"
+    # threading.Thread(target=CheckCudaFunction, daemon=True).start()
 
 
 def Loaded(Identifier="All"):
