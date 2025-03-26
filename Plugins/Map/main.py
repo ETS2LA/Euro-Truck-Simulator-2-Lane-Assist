@@ -91,6 +91,7 @@ class Plugin(ETS2LAPlugin):
 
     def update_road_data(self):
         data.map.clear_road_data()
+        im.road_image = None
         data.data_needs_update = True
 
     def CheckHashes(self):
