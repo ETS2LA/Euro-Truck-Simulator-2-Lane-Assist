@@ -63,8 +63,8 @@ def SendCrashReport(type:str, message:str, additional=None):
                 return False
             return response.status_code == 200
         except:
-            import traceback
-            traceback.print_exc()
+            #import traceback
+            #traceback.print_exc()
             print("Crash report sending failed.")
             return False
     else:
