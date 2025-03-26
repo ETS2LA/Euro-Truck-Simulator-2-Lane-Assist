@@ -1,3 +1,4 @@
+import Plugins.Map.utils.math_helpers as math_helpers
 from Plugins.Map import classes as c
 from typing import List, TypeVar
 import time
@@ -118,7 +119,6 @@ def get_nav_node_for_entry_and_node(entry, node):
 
     :param c.NavigationEntry entry: The navigation entry to use.
     :param c.Node node: The node to look for.
-    :return c.NavigationNode nav_node: The navigation node for the given node.
     """
     possibilities = []
     if isinstance(entry, c.NavigationEntry):
@@ -132,3 +132,38 @@ def get_nav_node_for_entry_and_node(entry, node):
         raise ValueError("entry must be a NavigationEntry instance")
     
     return possibilities
+
+def get_surrounding_nav_nodes(route_nodes, x: float, z: float, rotation: float):
+    """Get the surrounding (last, next) navigation nodes around the player.
+    
+    :param list[RouteNode] route_nodes: The list of route nodes.
+    """
+    position = (x, z)
+    path = [route.node for route in route_nodes]
+    distance_ordered = sorted(path, key=lambda node: math_helpers.DistanceBetweenPoints((node.x, node.y), position))
+
+    closest: c.Node = distance_ordered[0]
+    # Check if it's behind or in front
+    in_front = math_helpers.IsInFront((closest.x, closest.y), rotation, position)
+    index = path.index(closest)
+    if not in_front:
+        lower_bound = index
+        upper_bound = min(len(path), index+2)
+    else:
+        lower_bound = max(0, index-1)
+        if lower_bound == 0:
+            upper_bound = index + 2
+        else:
+            upper_bound = index + 1
+    
+    # Get the last and next node
+    closest_nodes: list[c.Node] = path[lower_bound:upper_bound]
+    in_front = [math_helpers.IsInFront((node.x, node.y), rotation, position) for node in closest_nodes]
+    
+    try:
+        last = closest_nodes[in_front.index(False)]
+        next = closest_nodes[in_front.index(True)]
+    except:
+        return None, None
+    
+    return last, next
