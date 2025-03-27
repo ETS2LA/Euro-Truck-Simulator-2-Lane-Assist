@@ -110,7 +110,8 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Successfully reloaded navigation module")
                     if data.use_navigation:
                         logging.info("Recalculating path with reloaded module...")
-                        navigation.get_path_to_destination()
+                        
+                        
                 if new_drive_hash != last_drive_hash:
                     last_drive_hash = new_drive_hash
                     logging.info("Driving module changed, reloading...")
@@ -176,6 +177,7 @@ class Plugin(ETS2LAPlugin):
             settings.Listen("Map", self.UpdateSteeringSettings)
 
             # Initialize map data
+            data.plugin.globals.tags.lane_change_status = "idle"
             self.state.text = "Loading map data, please wait..."
             self.state.progress = 0
             time.sleep(0.1)
@@ -183,9 +185,11 @@ class Plugin(ETS2LAPlugin):
                 data.map = ReadData(state=self.state)
                 if not data.map:
                     logging.error("Failed to initialize map data")
+                    self.terminate()
                     return False
             except Exception as e:
                 logging.error(f"Failed to read map data: {e}", exc_info=True)
+                self.terminate()
                 return False
 
             c.data = data  # set the classes data variable
@@ -217,7 +221,8 @@ class Plugin(ETS2LAPlugin):
             logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
             self._last_routing_mode = current_routing_mode
             logging.info("Recalculating path with new routing mode...")
-            navigation.get_path_to_destination()
+            
+            
                 
     def MapWindowInitialization(self):
         if not data.map_initialized and data.internal_map:
@@ -231,9 +236,10 @@ class Plugin(ETS2LAPlugin):
     def UpdateNavigation(self):
         if time.perf_counter() - data.last_navigation_update > 5 or data.update_navigation_plan:
             data.update_navigation_plan = False
-            data.navigation_plan = navigation.get_path_to_destination()
+            navigation.get_path_to_destination()
+
             if data.navigation_plan and data.navigation_plan != []:
-                self.globals.tags.navigation_plan = data.navigation_plan
+                self.globals.tags.navigation_plan = [nav.node for nav in data.navigation_plan]
             else:
                 self.globals.tags.navigation_plan = []
             data.last_navigation_update = time.perf_counter()

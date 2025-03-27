@@ -67,7 +67,9 @@ def traverse_route_for_direction(remaining: list[RouteNode], direction: Literal[
             if so_far == []: return []
             return [direction] + so_far
         
-    return []
+    so_far = traverse_route_for_direction(remaining[1:], direction)
+    if so_far == []: return []
+    return [direction] + so_far
 
 def get_directions_until_route_end(route: list[RouteNode], start_direction: Literal["forward", "backward", ""]):
     direction = [start_direction] + traverse_route_for_direction(route, start_direction)
@@ -81,47 +83,34 @@ def get_path_to_destination():
     if not game_route or len(game_route) == 0:
         return []
     
-    route = []
-    for item in game_route:
-        route.append(RouteNode(item))
-        if route[-1].node is None:
-            route.pop()
-            
-    start_direction, index = get_direction_for_route_start(route)
-    if start_direction == "":
-        logging.warning("Failed to find direction for route start.")
-        return []
-    
-    route = route[index:]
-    directions = get_directions_until_route_end(route, start_direction)
-    if len(directions) != len(route):
-        logging.warning("Failed to find direction for route, do you have ferries on your route?")
-        return []
-        
-    # Run the calculate_lanes_from function from end to start
-    for i in range(1, len(route)):
-        try:
-            #logging.warning(f"Calculating lanes for node {len(route)-i} in direction {directions[-i]}")
-            route[-i].calculate_lanes_from(route[-i+1], directions[-i+1])
-        except Exception:
-            #logging.exception("Failed to calculate lanes")
-            pass
-
-    success = [node.is_possible for node in route]
-    logging.warning(f"Successfully calculated lanes for {sum(success)} out of {len(success)} nodes ({sum(success) / len(success) * 100:.0f}%)")
-    
-    if len(game_route) != len(data.navigation_plan):
-        nodes = []
-        first = game_route[0]
+    if len(game_route) != data.last_length:
+        route = []
         for item in game_route:
+            route.append(RouteNode(item))
+            if route[-1].node is None:
+                route.pop()
+                
+        start_direction, index = get_direction_for_route_start(route)
+        if start_direction == "":
+            logging.warning("Failed to find direction for route start.")
+            return []
+        
+        route = route[index:]
+        directions = get_directions_until_route_end(route, start_direction)
+        if len(directions) != len(route):
+            logging.warning("Failed to find direction for route, do you have ferries on your route?")
+            return []
+            
+        # This runs from back to front
+        for i in range(1, len(route)):
             try:
-                node = data.map.get_node_by_uid(item.uid)
-                if node:
-                    nodes.append(node)
+                route[-i].calculate_lanes_from(route[-i+1], directions[-i+1])
             except Exception:
                 pass
-            
-        logging.warning(f"Found a route with {len(nodes)} nodes, it's {first.distance / 1000 :.1f} km long and will take {first.time / 60 :.1f} min (in game) to complete")
-        return nodes
-    
+
+        success = [node.is_possible for node in route]
+        logging.warning(f"Successfully calculated lanes for {sum(success)} out of {len(success)} nodes ({sum(success) / len(success) * 100:.0f}%)")
+        data.navigation_plan = route
+        data.last_length = len(game_route)
+        
     return data.navigation_plan

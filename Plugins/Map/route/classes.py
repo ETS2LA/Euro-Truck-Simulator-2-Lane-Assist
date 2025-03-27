@@ -36,6 +36,7 @@ class RouteSection:
     lane_points: list[c.Position] = []
     last_lane_points: list[c.Position] = []
     lane_change_start: c.Position
+    lane_change_factor: float = 0
     is_lane_changing: bool = False
     lane_change_distance: float = 0 
     is_ended: bool = False
@@ -45,6 +46,7 @@ class RouteSection:
     _start_node: c.Node = None
     _end_node: c.Node = None
     _first_set_done: bool = False
+    target_lanes: list[int] = []
     """Used to override some checks in the lane_index setter until the function is run once."""
     
     @property
@@ -220,12 +222,12 @@ class RouteSection:
             self.last_actual_points = current_lane_points
             return current_lane_points
         
-        if self.lane_change_distance == 0:
+        if self.lane_change_distance <= 0:
             self.lane_change_distance = 1
         
-        lane_change_factor = math_helpers.DistanceBetweenPoints(self.lane_change_start.tuple(), (data.truck_x, data.truck_y, data.truck_z)) / self.lane_change_distance
-        lane_change_factor = math_helpers.InOut(lane_change_factor)
-        if lane_change_factor > 0.98:
+        self.lane_change_factor = math_helpers.DistanceBetweenPoints(self.lane_change_start.tuple(), (data.truck_x, data.truck_y, data.truck_z)) / self.lane_change_distance
+        self.lane_change_factor = math_helpers.InOut(self.lane_change_factor)
+        if self.lane_change_factor > 0.98:
             self.is_lane_changing = False
             if data.truck_indicating_left:
                 data.controller.lblinker = True
@@ -237,6 +239,8 @@ class RouteSection:
                 time.sleep(1/20)
                 data.controller.rblinker = False
                 time.sleep(1/20)
+            
+            self.lane_change_factor = 0
             return current_lane_points
         
         last_lane_points = self.discard_points_behind(self.last_lane_points)

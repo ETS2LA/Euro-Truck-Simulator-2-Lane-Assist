@@ -123,7 +123,6 @@ class RouteNode:
                 if distance < 2:
                     if cur_index not in valid:
                         valid.append(cur_index)
-                    break
                 
         if len(valid) == 0:
             # Driving to a road has to be possible.
@@ -142,3 +141,9 @@ class RouteNode:
         self.is_possible = len(valid) > 0
         
         #logging.warning(f"Success: Calculated {len(valid)} valid lanes for node {self.node.uid} and item {item.uid} ({type(item).__name__}) ({self.direction})")
+        
+    def item_type(self):
+        """
+        Returns the type of the item.
+        """
+        return type(self.item)

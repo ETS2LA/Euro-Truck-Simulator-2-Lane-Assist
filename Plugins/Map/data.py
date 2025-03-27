@@ -68,8 +68,10 @@ route_plan: list[RouteSection] = []
 """The current route plan."""
 route_points: list[Position] = []
 """The current route points."""
-navigation_plan: list[Node] = []
-"""List of nodes that will drive the truck to the destination."""
+navigation_plan: list = []
+"""List of RouteNodes that will drive the truck to the destination."""
+last_length: int = 0
+"""The length of the navigation route we last calculated."""
 circles: list[Position] = []
 """Circles to draw on the map."""
 last_navigation_update: float = 0

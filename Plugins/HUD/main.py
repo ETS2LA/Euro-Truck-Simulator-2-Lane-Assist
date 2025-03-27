@@ -574,6 +574,51 @@ class Plugin(ETS2LAPlugin):
             self.semaphore_data += data
             time.sleep(1/2) # 2fps
 
+    def LaneChangeUpdater(self):
+        while True:
+            status = self.globals.tags.lane_change_status
+            if status is None:
+                self.lane_change_data = []
+                time.sleep(1/2) # 2fps
+                
+            status = status["Map"]
+
+            if status == "idle":
+                self.lane_change_data = []
+                time.sleep(1/2) # 2fps
+                continue
+            
+            offset_x, offset_y, offset_z = self.get_offsets()
+            anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
+            
+            dots = "." * (int(time.time() * 2) % 4)
+            
+            self.lane_change_data = []
+            if status == "waiting":
+                self.lane_change_data.append(
+                    Text(
+                        Point(-70 * self.scaling, 30 * self.scaling, anchor=anchor),
+                        "Waiting for lane change approval" + dots,
+                        size=16 * self.scaling,
+                        color=Color(255, 255, 255),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
+                    )
+                )
+            elif "executing" in status:
+                percentage = round(float(status.split(":")[1]) * 100)
+                self.lane_change_data.append(
+                    Text(
+                        Point(-70 * self.scaling, 30 * self.scaling, anchor=anchor),
+                        f"Lane change in progress {percentage}%" + dots,
+                        size=16 * self.scaling,
+                        color=Color(255, 255, 255),
+                        fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
+                    )
+                )
+            
+            time.sleep(1/10) # 10fps
+            
+
     def ACCUpdater(self):
         while True:
             targets = self.globals.tags.vehicle_highlights
@@ -706,6 +751,7 @@ class Plugin(ETS2LAPlugin):
         data += self.steering_data
         data += self.semaphore_data
         data += self.acc_data
+        data += self.lane_change_data
         self.globals.tags.AR = data
         
     def init(self):
@@ -716,6 +762,7 @@ class Plugin(ETS2LAPlugin):
         self.steering_data = []
         self.semaphore_data = []
         self.acc_data = []
+        self.lane_change_data = []
         self.scaling = 1
         
         threading.Thread(target=self.HudUpdater, daemon=True).start()
@@ -723,5 +770,6 @@ class Plugin(ETS2LAPlugin):
         threading.Thread(target=self.SteeringUpdater, daemon=True).start()
         threading.Thread(target=self.SemaphoreUpdater, daemon=True).start()
         threading.Thread(target=self.ACCUpdater, daemon=True).start()
+        threading.Thread(target=self.LaneChangeUpdater, daemon=True).start()
         
         self.get_start_end_time()
