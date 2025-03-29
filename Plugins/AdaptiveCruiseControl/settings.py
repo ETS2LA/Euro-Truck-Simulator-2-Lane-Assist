@@ -9,10 +9,10 @@ class SettingsMenu(ETS2LASettingsMenu):
             Title("plugins.adaptivecruisecontrol")
             Description("This plugin provides no description.")
         with TabView():
-            with Tab("Adaptive Cruise Control"):
+            with Tab("acc.settings.tab.acc.name"):
                 with Group("horizontal", padding=0, gap=24):
-                    Selector("Aggressiveness", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="How aggressively the truck will accelerate and decelerate.")
-                    Selector("Following Distance", "following_distance", "Normal", ["Near", "Normal", "Far"], description="How far the truck will keep from the vehicle in front of it.")
+                    Selector("acc.settings.aggressiveness.name", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="acc.settings.aggressiveness.description")
+                    Selector("acc.settings.following_distance.name", "following_distance", "Normal", ["Near", "Normal", "Far"], description="acc.settings.following_distance.description")
                 
                 with EnabledLock():
                     if self.plugin is None:
@@ -26,27 +26,27 @@ class SettingsMenu(ETS2LASettingsMenu):
                         
                     with Group("vertical", padding=0, gap=8):
                         with Group("horizontal", padding=4):
-                            Label("Maximum Acceleration:")
+                            Label("acc.settings.maximum_acceleration.name")
                             Description(str(round(max_accel, 1)) + " m/s²")
                         with Group("horizontal", padding=4):
-                            Label("Maximum Deceleration:")
+                            Label("acc.settings.maximum_deceleration.name")
                             Description(str(round(comfort_decel, 1)) + " m/s²")
                         with Group("horizontal", padding=4):
-                            Label("Gap to Vehicle in Front:")
+                            Label("acc.settings.gap_to_vehicle_in_front.name")
                             Description(str(round(time_gap_seconds, 1)) + " seconds")
 
-            with Tab("Speed Control"):
-                Slider("Coefficient of friction", "MU", 0.5, 0.1, 1, 0.1, description="Controls the (imaginary) friction between the tires and the road. Lower values will make the truck slow down more, while higher values will make it go faster in turns.", suffix=" μ")
-                Slider("acc.settings.7.name", "overwrite_speed", 50, 0, 130, 5, suffix=" km/h", description="acc.settings.7.description")
+            with Tab("acc.settings.tab.speed_control.name"):
+                Slider("acc.settings.coefficient_of_friction.name", "MU", 0.5, 0.1, 1, 0.1, description="acc.settings.coefficient_of_friction.description", suffix=" μ")
+                Slider("acc.settings.overwrite_speed.name", "overwrite_speed", 50, 0, 130, 5, suffix=" km/h", description="acc.settings.overwrite_speed.description")
                 with EnabledLock():
-                    Selector("acc.settings.5.name", "speed_offset_type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.5.description")
+                    Selector("acc.settings.speed_offset_type.name", "speed_offset_type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.speed_offset_type.description")
                     type = self.settings.type
                     if not type:
                         type = "Percentage"
                         self.settings.type = type
                         
                     if self.settings.type is not None and self.settings.type == "Percentage":
-                        Slider("acc.settings.3.name", "speed_offset", 0, -30, 30, 1, suffix="%", description="acc.settings.3.description")
+                        Slider("acc.settings.speed_offset.name", "speed_offset", 0, -30, 30, 1, suffix="%", description="acc.settings.speed_offset.description")
                     else:
-                        Slider("acc.settings.3.name", "speed_offset", 0, -30, 30, 1, suffix="km/h", description="acc.settings.3.description")
+                        Slider("acc.settings.speed_offset.name", "speed_offset", 0, -30, 30, 1, suffix="km/h", description="acc.settings.speed_offset.description")
         return RenderUI()
