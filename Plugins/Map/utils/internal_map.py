@@ -1,5 +1,6 @@
 import Plugins.Map.data as data
 import numpy as np
+import subprocess
 import math
 import cv2
 
@@ -28,6 +29,9 @@ def on_mouse_move(event, x, y, flags, param):
         if min_x <= x <= max_x and min_z <= y <= max_z:
             HIGHLIGHTED_ROAD = road.road_look.name
             break # Stop checking after finding a match
+    
+    if event == cv2.EVENT_LBUTTONDOWN and HIGHLIGHTED_ROAD: # Copy to clipboard on left click
+        subprocess.Popen(['clip'], stdin=subprocess.PIPE).communicate(HIGHLIGHTED_ROAD.encode('utf-8'))
 
 # https://stackoverflow.com/a/71701023
 def AddTransparentLayer(background, foreground, x_offset=None, y_offset=None):
@@ -133,7 +137,6 @@ def DrawRoads(sector_change: bool) -> None:
     
     for road in data.current_sector_roads:
         road_highlighted = HIGHLIGHTED_ROAD is not None and HIGHLIGHTED_ROAD == road.road_look.name
-        print(f"'{road.road_look.name}' highlighted: '{HIGHLIGHTED_ROAD}'")
         if not DRAW_DETAILED_ROADS:
             poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), SCALING_FACTOR) for point in road.points], np.int32)
             cv2.polylines(road_image, [poly_points], isClosed=False, color=(100, 100, 100), thickness=1, lineType=cv2.LINE_AA)
