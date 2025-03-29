@@ -140,12 +140,12 @@ def GetOffset(road):
                 rule_offset = rules["**" + rule]
 
         reg = re.search(r'(^|\s|_)([+-]?\d+(\.\d+)?)m(_|\s|$)', road.road_look.name)
-        if reg:
-            custom_offset = 4.5 + float(reg.group(2)) * 2
-        elif name in per_name:
+        if name in per_name:
             custom_offset = per_name[name]
         elif rule_offset != 999:
             custom_offset = rule_offset
+        elif reg:
+            custom_offset = 4.5 + float(reg.group(2))
         elif str(road.road_look.offset) in offsets:
             custom_offset = offsets[str(road.road_look.offset)]
         else:
