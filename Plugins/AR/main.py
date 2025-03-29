@@ -159,15 +159,15 @@ class Settings(ETS2LASettingsMenu):
             Title("plugins.ar")
             Description("This plugin provides no description.")
             
-        Switch("Vision Compatible", "vision_compat", True, description="Hide the AR from the screen capture so plugins which rely on vision can be used with AR. (Notice: This will make the AR invisible in any screen capture app! (e.g. OBS, Discord, etc.) )")
-        Switch("Show Test Objects", "test_objects", False, description="Show test objects in the AR, for example the white circles at each wheel.")
+        Switch("ar.settings.vision_compatible.name", "vision_compat", True, description="ar.settings.vision_compatible.description")
+        Switch("ar.settings.show_test_objects.name", "test_objects", False, description="ar.settings.show_test_objects.description")
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="AR",
+        name="plugins.ar",
         version="1.0",
-        description="Overlays data on top of the game screen. Supports all plugins tagged with 'AR' (click the tag on the right). Still in development.",
+        description="plugins.ar.description",
         modules=["TruckSimAPI", "Camera"],
         tags=["Visualization", "AR", "Base"]
     )

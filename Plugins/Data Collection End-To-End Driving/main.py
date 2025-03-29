@@ -117,83 +117,83 @@ Server side code can be found at https://github.com/ETS2LA/cdn""")
 
 class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
-    plugin_name = "Data Collection End-To-End Driving"
+    plugin_name = "plugin.datacollectionendtoenddriving"
     
     def DeleteDataOnPC(self):
         try:
             import ETS2LA.variables as variables
             import os
-            SendPopup("Deleting data, could take a while...")
+            SendPopup("data_collection_end_to_end_driving.deleting_data")
             if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
                 for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
                     try:
                         os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
                     except:
                         pass
-            SendPopup("Data deleted successfully!")
+            SendPopup("data_collection_end_to_end_driving.deleted")
         except:
-            SendPopup("Couldn't delete the data.")
+            SendPopup("data_collection_end_to_end_driving.couldnt_delete")
 
     def DeleteDataOnServer(self):
         try:
             import requests
-            SendPopup("Deleting data, could take a while...")
+            SendPopup("data_collection_end_to_end_driving.deleting_data")
             Response = requests.get(f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", timeout=3)
             if "success" in Response.json() and Response.status_code == 200:
-                SendPopup("Data deleted successfully!")
+                SendPopup("data_collection_end_to_end_driving.deleted")
             else:
-                SendPopup("Couldn't delete the data.")
+                SendPopup("data_collection_end_to_end_driving.couldnt_delete")
         except:
-            SendPopup("Couldn't delete the data.")
+            SendPopup("data_collection_end_to_end_driving.couldnt_delete")
 
     def render(self):
         import ETS2LA.variables as variables
         with Group("vertical", gap=14, padding=0):
-            Title("Data Collection End-To-End Driving")
-            Description("This plugins sends anonymous driving data for our end-to-end driving model. \nAll the collected data will be available open source on Hugging Face.")
-            Link("-> View current datasets on Huggingface", "https://huggingface.co/OleFranz/End-To-End/tree/main/files", classname="text-muted-foreground")
+            Title("data_collection_end_to_end_driving.title")
+            Description("data_collection_end_to_end_driving.description")
+            Link("data_collection_end_to_end_driving.link", "https://huggingface.co/OleFranz/End-To-End/tree/main/files", classname="text-muted-foreground")
         with TabView():
-            with Tab("Notice"):
-                Label("This plugin is not required for ETS2LA to work. You can disable it at any time!")
+            with Tab("data_collection_end_to_end_driving.tab.notice"):
+                Label("data_collection_end_to_end_driving.subtitle")
                 with Group("vertical", gap=4, padding=0):
-                    Label("What we send:")
-                    Description("• Images of your game window, and only your game window.\n• Data like current steering angle or driving speed.")
+                    Label("data_collection_end_to_end_driving.what_we_send")
+                    Description("data_collection_end_to_end_driving.what_we_send.description")
                     
                 with Group("vertical", gap=4, padding=0):
-                    Label("What you should know:")
-                    Description("• The plugin will pause the capture of data when you are not actively playing the game.\n• The plugin captures overlays over the game window like the discord voice channel overlay!\n• No personal information is saved with the ID.")
+                    Label("data_collection_end_to_end_driving.what_you_should_know")
+                    Description("data_collection_end_to_end_driving.what_you_should_know.description")
                     
                 with Group("vertical", gap=4, padding=0):
-                    Label("What you can do:")
-                    Description("• You have 7 days to delete the data before it will be uploaded to our server.\n• If the data is already on the server, you can still delete it as long as you have the ID used to upload the data.")
+                    Label("data_collection_end_to_end_driving.what_you_can_do")
+                    Description("data_collection_end_to_end_driving.what_you_can_do.description")
                     
                 with Group("vertical", gap=4, padding=0):
-                    Label("Where the data is saved:")
+                    Label("data_collection_end_to_end_driving.where_the_data_is_saved")
                     Description(f"• {variables.PATH}Data-Collection-End-To-End-Driving")
                 
                 with Group("vertical", gap=4, padding=0):
-                    Label("Your current ID:")
+                    Label("data_collection_end_to_end_driving.your_current_id")
                     Description(f"• {GetDataID()}")
                     
                 with Group("vertical", gap=4, padding=0):
-                    Label("Manual deletion:")
+                    Label("data_collection_end_to_end_driving.manual_deletion")
                     Link(f"• You can request to delete the data by opening this URL in your browser:\n• https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", classname="text-muted-foreground")
 
-                Toggle("I read the notice and I want to help with the data collection", "i_read_the_notice", default=None)
+                Toggle("data_collection_end_to_end_driving.i_read_the_notice", "i_read_the_notice", default=None)
                 Space(10)
                 
-            with Tab("Control your Data"):
-                Button("Delete", "Delete collected, not yet uploaded data", self.DeleteDataOnPC, description="This will delete all the data that was collected by the plugin but not yet uploaded to the server.")
-                Button("Delete", "Delete already uploaded data", self.DeleteDataOnServer, description="This will delete all the data that was collected by the plugin and already uploaded to the server.\nNot possible to delete all the data if the data ID got lost at some point and replaced with a new one.")
-                Description("Server code can be found at https://github.com/ETS2LA/cdn")
+            with Tab("data_collection_end_to_end_driving.tab.control_your_data"):
+                Button("data_collection_end_to_end_driving.button.delete", "data_collection_end_to_end_driving.delete_data_on_pc.name", self.DeleteDataOnPC, description="data_collection_end_to_end_driving.delete_data_on_pc.description")
+                Button("data_collection_end_to_end_driving.button.delete", "data_collection_end_to_end_driving.delete_data_on_server.name", self.DeleteDataOnServer, description="data_collection_end_to_end_driving.delete_data_on_server.description")
+                Description("data_collection_end_to_end_driving.server_code_link.description")
         return RenderUI()
 
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="Data Collection End-To-End Driving",
+        name="plugin.datacollectionendtoenddriving",
         version="1.0",
-        description="This plugins sends anonymous driving data for our end-to-end driving model. All the collected data will be open source.",
+        description="plugin.datacollectionendtoenddriving.description",
         modules=["TruckSimAPI", "Camera"],
         tags=["Base"]
     )

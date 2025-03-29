@@ -226,9 +226,9 @@ class WebSocketConnection:
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="Visualization Sockets",
+        name="plugin.visualizationsockets",
         version="2.0",
-        description="Unity visualization socket connection.",
+        description="plugin.visualizationsockets.description",
         modules=["TruckSimAPI", "Traffic", "Semaphores"],
         tags=["Base", "Visualization"]
     )
