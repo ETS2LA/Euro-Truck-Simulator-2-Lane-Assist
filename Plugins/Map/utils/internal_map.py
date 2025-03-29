@@ -10,11 +10,27 @@ ZOOM = 1.5
 
 LAST_SECTOR_X = 0
 LAST_SECTOR_Y = 0
+HIGHLIGHTED_ROAD = None
+LAST_HIGHLIGHTED_ROAD = None
 
 DRAW_DETAILED_ROADS = True
+HIGHLIGHT_ROAD = True # When a bounding box is hovered, all roads with the name of the highlighted road will be highlighted
+SCALING_FACTOR = 200 / 200
+
+def on_mouse_move(event, x, y, flags, param):
+    global HIGHLIGHTED_ROAD
+    HIGHLIGHTED_ROAD = None
+
+    for road in data.current_sector_roads:
+        min_x, min_z = ToLocalSectorCoordinates(road.bounding_box.min_x, road.bounding_box.min_y, SCALING_FACTOR)
+        max_x, max_z = ToLocalSectorCoordinates(road.bounding_box.max_x, road.bounding_box.max_y, SCALING_FACTOR)
+
+        if min_x <= x <= max_x and min_z <= y <= max_z:
+            HIGHLIGHTED_ROAD = road.road_look.name
+            break # Stop checking after finding a match
 
 # https://stackoverflow.com/a/71701023
-def add_transparent_image(background, foreground, x_offset=None, y_offset=None):
+def AddTransparentLayer(background, foreground, x_offset=None, y_offset=None):
     bg_h, bg_w, bg_channels = background.shape
     fg_h, fg_w, fg_channels = foreground.shape
 
@@ -62,9 +78,11 @@ def InitializeMapWindow() -> None:
     cv2.namedWindow("ETS2LA Map", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("ETS2LA Map", WINDOW_WIDTH, WINDOW_HEIGHT)
     cv2.setWindowProperty("ETS2LA Map", cv2.WND_PROP_TOPMOST, 1)
+    cv2.setMouseCallback("ETS2LA Map", on_mouse_move)
     
 def RemoveWindow() -> None:
     cv2.destroyWindow("ETS2LA Map")
+    cv2.setMouseCallback("ETS2LA Map", None)
     
 def SectorChanged() -> bool:
     global LAST_SECTOR_X, LAST_SECTOR_Y
@@ -90,12 +108,11 @@ def DrawBoundingBox(item, image: np.ndarray):
 road_image = np.zeros((2000, 2000, 3), np.uint8)
 roads_done = False
 def DrawRoads(sector_change: bool) -> None:
-    global road_image, roads_done
-    if not sector_change and road_image is not None and roads_done:
+    global road_image, roads_done, HIGHLIGHTED_ROAD, LAST_HIGHLIGHTED_ROAD
+    if not sector_change and road_image is not None and roads_done and HIGHLIGHTED_ROAD == LAST_HIGHLIGHTED_ROAD:
         return road_image
     
     road_image = np.zeros((2000, 2000, 3), np.uint8)
-    scaling_factor = 200 / 200 # sector size
     
     # Check for roads done:
     for road in data.current_sector_roads:
@@ -115,23 +132,30 @@ def DrawRoads(sector_change: bool) -> None:
         roads_done = True
     
     for road in data.current_sector_roads:
+        road_highlighted = HIGHLIGHTED_ROAD is not None and HIGHLIGHTED_ROAD == road.road_look.name
+        print(f"'{road.road_look.name}' highlighted: '{HIGHLIGHTED_ROAD}'")
         if not DRAW_DETAILED_ROADS:
-            poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), scaling_factor) for point in road.points], np.int32)
+            poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), SCALING_FACTOR) for point in road.points], np.int32)
             cv2.polylines(road_image, [poly_points], isClosed=False, color=(100, 100, 100), thickness=1, lineType=cv2.LINE_AA)
         else:
             for lane in road.lanes:
-                color = (0, 0, 0)
-                if lane.side == "left":
+                if road_highlighted:
+                    color = (0, 225, 255)
+                elif lane.side == "left":
                     color = (110, 140, 110)
                 elif lane.side == "right":
                     color = (110, 110, 140)
-                poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), scaling_factor) for point in lane.points], np.int32)
+                else:
+                    color = (0, 0, 0)
+                poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), SCALING_FACTOR) for point in lane.points], np.int32)
                 cv2.polylines(road_image, [poly_points], isClosed=False, color=color, thickness=1, lineType=cv2.LINE_AA)
         
         DrawBoundingBox(road, road_image)
-        road_position = ToLocalSectorCoordinates(road.x, road.y, scaling_factor)
-        cv2.putText(road_image, f"{road.road_look.name}", (int(road_position[0])+5, int(road_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
+        road_position = ToLocalSectorCoordinates(road.x, road.y, SCALING_FACTOR)
+        text_color = (0, 255, 255) if road_highlighted else (50, 50, 50)  # Yellow when hovered
+        cv2.putText(road_image, f"{road.road_look.name}", (int(road_position[0])+5, int(road_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, text_color, 1, cv2.LINE_AA)
                 
+    LAST_HIGHLIGHTED_ROAD = HIGHLIGHTED_ROAD
     return road_image
 
 prefab_image = np.zeros((2000, 2000, 3), np.uint8)
@@ -141,19 +165,18 @@ def DrawPrefabs(sector_change: bool) -> np.ndarray:
         return prefab_image
     
     prefab_image = np.zeros((2000, 2000, 3), np.uint8)
-    scaling_factor = 200 / 200 # sector size
     for prefab in data.current_sector_prefabs:
         for route in prefab.nav_routes:
             for curve in route.curves:
                 points = []
                 for point in curve.points:
-                    x, z = ToLocalSectorCoordinates(point.x, point.z, scaling_factor)
+                    x, z = ToLocalSectorCoordinates(point.x, point.z, SCALING_FACTOR)
                     points.append((int(x), int(z)))
                     
                 poly_points = np.array(points, np.int32)
                 cv2.polylines(prefab_image, [poly_points], isClosed=False, color=(150, 150, 150), thickness=1, lineType=cv2.LINE_AA)
         
-        #prefab_position = ToLocalSectorCoordinates(prefab.x, prefab.y, scaling_factor)
+        #prefab_position = ToLocalSectorCoordinates(prefab.x, prefab.y, SCALING_FACTOR)
         #cv2.putText(prefab_image, f"{prefab.prefab_description.token}", (int(prefab_position[0])+5, int(prefab_position[1])), cv2.FONT_HERSHEY_DUPLEX, 0.5, (50,50,50), 1, cv2.LINE_AA)
         DrawBoundingBox(prefab, prefab_image)
                 
@@ -174,8 +197,7 @@ def DrawCircles(image: np.ndarray) -> None:
             cv2.putText(image, f"{i}", (int(x), int(z)), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
 def DrawPlayerDot(image: np.ndarray) -> None:
-    scaling_factor = 200 / 200 # sector size
-    x, z = ToLocalSectorCoordinates(data.truck_x, data.truck_z, scaling_factor)
+    x, z = ToLocalSectorCoordinates(data.truck_x, data.truck_z, SCALING_FACTOR)
     cv2.circle(image, (int(x), int(z)), 5, (0, 0, 255), 1)
 
 def AddOverlayToImage(image: np.ndarray, overlay: np.ndarray) -> None:
