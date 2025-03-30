@@ -553,7 +553,7 @@ class Plugin(ETS2LAPlugin):
     def get_target_speed(self, api_data: dict) -> float:
         points = self.plugins.Map
         if points is not None:
-            max_speed = get_maximum_speed_for_points(points)
+            max_speed = get_maximum_speed_for_points(points, api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"])
             smoothed_max_speed = self.max_speed(max_speed)
         else:
             smoothed_max_speed = 999

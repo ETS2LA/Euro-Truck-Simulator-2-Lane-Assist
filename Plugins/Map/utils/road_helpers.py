@@ -145,7 +145,7 @@ def GetOffset(road):
         elif rule_offset != 999:
             custom_offset = rule_offset        
         elif reg:
-            custom_offset = 4.5 + float(reg.group(2)) 
+            custom_offset = 4.5 + float(reg.group(2)) * 2
         elif str(road.road_look.offset) in offsets:     
             custom_offset = offsets[str(road.road_look.offset)] 
         else:

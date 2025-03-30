@@ -6,6 +6,8 @@ import logging
 # Constants
 MU = Get("AdaptiveCruiseControl", "MU", 0.5)  # Coefficient of friction
 G = 9.81  # Gravitational acceleration (m/s^2)
+MAX_DISTANCE = 150 # Distance at which curvature affects 0%
+MIN_DISTANCE = 30 # Distance at which curvature affects 100%
 
 def ListenSettings(settings: dict):
     global MU
@@ -13,9 +15,10 @@ def ListenSettings(settings: dict):
     
 Listen("AdaptiveCruiseControl", ListenSettings)
 
-curvature = SmoothedValue("time", 3)
+def distance_to_point(x1, y1, x2, y2):
+    return np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
-def calculate_curvature(points):
+def calculate_curvature(points, x, z):
     """
     Calculate the curvature for each point in the road segment.
     """
@@ -41,11 +44,16 @@ def calculate_curvature(points):
         if delta_s == 0:
             continue  # Skip to avoid division by zero
         kappa = delta_theta / delta_s
-        curvatures.append(kappa)
+        
+        distance = distance_to_point(x, z, points[i][0], points[i][2])
+        multiplier = 1 - (distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE)
+        multiplier = np.clip(multiplier, 0, 1)
+        
+        curvatures.append(kappa * multiplier)
     
     return curvatures
 
-def get_maximum_speed_for_points(points) -> float:
+def get_maximum_speed_for_points(points, x, z) -> float:
     """
     Calculate the maximum safe speed based on road curvature.
     """
@@ -55,13 +63,10 @@ def get_maximum_speed_for_points(points) -> float:
     
     try:
         # Calculate curvatures for all points
-        curvatures = calculate_curvature(points)
+        curvatures = calculate_curvature(points, x, z)
         
         if not curvatures:
             return 999
-        
-        avg_curvature = np.mean(curvatures)
-        curvatures = [k for k in curvatures if k <= 4 * avg_curvature]
         
         if not curvatures:
             return 999
