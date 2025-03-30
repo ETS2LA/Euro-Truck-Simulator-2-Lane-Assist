@@ -39,13 +39,21 @@ substanceSize = 25
 # virtualX = 44000
 # virtualZ = -49200
 
-# ATS (Los Angeles)
-# virtualX = -105000
-# virtualZ = 15000
+# ATS (Los Angeles, California)
+#virtualX = -105000
+#virtualZ = 15000
+
+# ATS (Houston, Texas)
+#virtualX = 2633
+#virtualZ = 53979
+
+# ATS (Casper, Wyoming)
+virtualX = -42247
+virtualZ = -24765
 
 # Working Set (not a specific location)
-virtualX = 23475
-virtualZ = -46450
+# virtualX = 23475
+# virtualZ = -46450
 virtualY = 1.111
 virtualRot = 0
 

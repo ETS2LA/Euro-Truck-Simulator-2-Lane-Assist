@@ -54,14 +54,14 @@ def ReadNodeGraph() -> list[c.NavigationEntry]: # None since this will just upda
         graph.append(c.NavigationEntry(
             entry[0],
             [c.NavigationNode(
-                node["nodeUid"],
+                node["nodeUid"] if "nodeUid" in node else node["nodeId"],
                 node["distance"],
                 node["direction"],
                 bool(TryReadExcept(node, "isOneLaneRoad", False)),
                 node["dlcGuard"],
             ) for node in entry[1]["forward"]],
             [c.NavigationNode(
-                node["nodeUid"],
+                node["nodeUid"] if "nodeUid" in node else node["nodeId"],
                 node["distance"],
                 node["direction"],
                 bool(TryReadExcept(node, "isOneLaneRoad", False)),
