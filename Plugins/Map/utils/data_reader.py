@@ -1,5 +1,5 @@
 """Data reader utilities for map plugin."""
-from Plugins.Map.utils import data_extractor
+from Plugins.Map.utils import data_handler
 from Plugins.Map import classes as c
 from rich import print
 import psutil
@@ -7,13 +7,12 @@ import time
 import sys
 import os
 
-DATA_PATH = os.path.join(os.path.dirname(__file__).replace("\\utils", ""), "data")
-data_extractor.UpdateData(DATA_PATH)
+path = "Plugins/Map/data"
 
 def FindCategoryFilePath(category: str) -> str:
-    for file in os.listdir(DATA_PATH):
+    for file in os.listdir(path):
         if category in file and file.endswith(".json"):
-            return os.path.join(DATA_PATH, file)
+            return os.path.join(path, file)
     return None
 
 def TryReadExcept(data: dict, key: str, default: any) -> any:
@@ -26,7 +25,7 @@ def ReadNodes() -> list[c.Node]:
     path = FindCategoryFilePath("nodes")
     if path is None: return []
     nodes: list[c.Node] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for node in file:
         nodes.append(c.Node(
             node["uid"],
@@ -49,7 +48,7 @@ def ReadNodeGraph() -> list[c.NavigationEntry]: # None since this will just upda
     path = FindCategoryFilePath("graph")
     if path is None: return []
     graph: list[c.NavigationEntry] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for entry in file:
         graph.append(c.NavigationEntry(
             entry[0],
@@ -75,7 +74,7 @@ def ReadElevations() -> list[tuple[float, float, float]]:
     path = FindCategoryFilePath("elevation")
     if path is None: return []
     elevations: list[tuple[float, float, float]] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for elevation in file:
         elevations.append((
             elevation[0],
@@ -89,7 +88,7 @@ def ReadRoads() -> list[c.Road]:
     path = FindCategoryFilePath("roads")
     if path is None: return []
     roads: list[c.Road] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for road in file:
         roads.append(c.Road(
             road["uid"],
@@ -112,7 +111,7 @@ def ReadRoadLooks() -> list[c.RoadLook]:
     path = FindCategoryFilePath("roadLooks")
     if path is None: return []
     road_looks: list[c.RoadLook] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for road_look in file:
         road_looks.append(c.RoadLook(
             road_look["token"],
@@ -131,7 +130,7 @@ def ReadPrefabs() -> list[c.Prefab]:
     path = FindCategoryFilePath("prefabs")
     if path is None: return []
     prefabs: list[c.Prefab] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for prefab in file:
         prefabs.append(c.Prefab(
             prefab["uid"],
@@ -156,7 +155,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
     if path is None:
         return []
 
-    prefab_data_list = data_extractor.ReadData(path)
+    prefab_data_list = data_handler.ReadData(path)
 
     def process_prefab_description(prefab_description):
         # TODO: Read signs!
@@ -282,7 +281,7 @@ def ReadFerries() -> list[c.Ferry]:
     path = FindCategoryFilePath("ferries")
     if path is None: return []
     ferries: list[c.Ferry] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for ferry in file:
         ferries.append(c.Ferry(
             ferry["token"],
@@ -317,7 +316,7 @@ def ReadCompanyItems() -> list[c.CompanyItem]:
     path = FindCategoryFilePath("companies")
     if path is None: return []
     companies: list[c.CompanyItem] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for company in file:
         companies.append(c.CompanyItem(
             company["uid"],
@@ -337,7 +336,7 @@ def ReadCompanies() -> list[c.Company]:
     path = FindCategoryFilePath("companyDefs")
     if path is None: return []
     companies: list[c.Company] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for company in file:
         companies.append(c.Company(
             company["token"],
@@ -353,7 +352,7 @@ def ReadModels() -> list[c.Model]:
     path = FindCategoryFilePath("models")
     if path is None: return []
     models: list[c.Model] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for model in file:
         models.append(c.Model(
             model["uid"],
@@ -372,7 +371,7 @@ def ReadModelDescriptions() -> list[c.ModelDescription]:
     path = FindCategoryFilePath("modelDescriptions")
     if path is None: return []
     model_descriptions: list[c.ModelDescription] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for model_description in file:
         model_descriptions.append(c.ModelDescription(
             model_description["token"],
@@ -400,7 +399,7 @@ def ReadMapAreas() -> list[c.MapArea]:
     path = FindCategoryFilePath("mapAreas")
     if path is None: return []
     map_areas: list[c.MapArea] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for map_area in file:
         map_areas.append(c.MapArea(
             map_area["uid"],
@@ -420,7 +419,7 @@ def ReadPOIs() -> list[c.POI]:
     path = FindCategoryFilePath("pois")
     if path is None: return []
     pois: list[c.POI] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for poi in file:
         if "label" in poi:
             if poi["type"] == c.NonFacilityPOI.LANDMARK:
@@ -494,7 +493,7 @@ def ReadCountries() -> list[c.Country]:
     path = FindCategoryFilePath("countries")
     if path is None: return []
     countries: list[c.Country] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for country in file:
         countries.append(c.Country(
             country["token"],
@@ -512,7 +511,7 @@ def ReadCities() -> list[c.City]:
     path = FindCategoryFilePath("cities")
     if path is None: return []
     cities: list[c.City] = []
-    file = data_extractor.ReadData(path)
+    file = data_handler.ReadData(path)
     for city in file:
         cities.append(c.City(
             city["token"],

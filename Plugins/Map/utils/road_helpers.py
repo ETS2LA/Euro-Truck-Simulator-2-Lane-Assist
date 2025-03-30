@@ -17,17 +17,17 @@ import json
 offsets = {}
 per_name = {}
 rules = {}
-rules_filename = "plugins/Map/utils/lane_offsets.json"
+rules_filename = "plugins/Map/data/config.json"
 
 def get_rules():
     global offsets, per_name, rules
     try:
         with open(rules_filename, "r") as f:
             data = json.load(f)
-            offsets = data.get("offset_data", {})
-            per_name = data.get("per_name", {})
-            rules = data.get("rules", {})
-            logging.info("Successfully loaded road rules from lane_offsets.json")
+            offsets = data["offsets"]["base"]
+            per_name = data["offsets"]["per_name"]
+            rules = data["offsets"]["rules"]
+            logging.info("Successfully loaded road rules from config.json")
     except Exception as e:
         logging.error(f"Error loading road rules: {e}. Using default values.")
         offsets = {}
