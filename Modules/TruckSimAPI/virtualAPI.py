@@ -12,8 +12,8 @@ wheelSize = 14
 substanceSize = 25
 
 # Germany
-# virtualX = 1710
-# virtualZ = 7500
+virtualX = 1710
+virtualZ = 7500
 
 # France
 # virtualX = -27700
@@ -40,16 +40,16 @@ substanceSize = 25
 # virtualZ = -49200
 
 # ATS (Los Angeles, California)
-#virtualX = -105000
-#virtualZ = 15000
+# virtualX = -105000
+# virtualZ = 15000
 
 # ATS (Houston, Texas)
-#virtualX = 2633
-#virtualZ = 53979
+# virtualX = 2633
+# virtualZ = 53979
 
 # ATS (Casper, Wyoming)
-virtualX = -42247
-virtualZ = -24765
+# virtualX = -42247
+# virtualZ = -24765
 
 # Working Set (not a specific location)
 # virtualX = 23475
