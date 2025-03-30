@@ -10,7 +10,8 @@
         "Highway 3 lanes 2m offset": 8.5,
         "Exit road UK": 10,
         "ger hw 3 lanes 2m offset tmpl": 8.5,
-        "ger hw 3 lanes 5m offset tmpl": 14
+        "ger hw 3 lanes 5m offset tmpl": 14,
+        "ger hw 2 lanes 2m offset tmpl": 8.5
     },
     "rules": {
         "***Road 2 city narrow": 6.5,
