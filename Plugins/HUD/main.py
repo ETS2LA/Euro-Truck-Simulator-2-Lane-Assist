@@ -25,27 +25,27 @@ class Settings(ETS2LASettingsMenu):
         with TabView():
             with Tab("General"):
                 with Group("horizontal", gap=24, padding=0):
-                    Slider("Refresh Rate", "refresh_rate", 2, 1, 10, 1, description="The refresh rate of the main elements. Default is 2.", suffix=" fps")
-                    Slider("Scale", "scale", 1, 0.5, 2, 0.05, description="The scale of the HUD elements. Default is 1.", suffix="x")
+                    Slider("hud.settings.refresh_rate.name", "refresh_rate", 2, 1, 10, 1, description="hud.settings.refresh_rate.description", suffix=" fps")
+                    Slider("hud.settings.scale.name", "scale", 1, 0.5, 2, 0.05, description="hud.settings.scale.description", suffix="x")
                 
-                Input("Offset X", "offset_x", type="number", description="The X offset (side to side) of the HUD elements.", default=0)
-                Input("Offset Y", "offset_y", type="number", description="The Y offset (top to bottom) of the HUD elements.", default=0)
-                Input("Offset Z", "offset_z", type="number", description="The Z offset (distance) of the HUD elements.", default=0)
+                Input("hud.settings.offset_x.name", "offset_x", type="number", description="hud.settings.offset_x.description", default=0)
+                Input("hud.settings.offset_y.name", "offset_y", type="number", description="hud.settings.offset_y.description", default=0)
+                Input("hud.settings.offset_z.name", "offset_z", type="number", description="hud.settings.offset_z.description", default=0)
         
             with Tab("Elements"):
-                Switch("Show Navigation", "show_navigation", True, description="Show the distance to the next intersection on the HUD.")
-                Switch("Show ACC Info", "show_acc_info", True, description="Show the ACC info on the HUD.")
-                Switch("Draw Steering", "draw_steering", False, description="Draw the steering line on the HUD.")
-                Switch("Show Traffic Light Times", "show_traffic_light_times", True, description="Show the remaining time for all traffic lights on the HUD.")
-                Switch("Draw Wheel Paths", "draw_wheel_paths", False, description="Draw the wheel paths on the HUD.")
+                Switch("hud.settings.show_navigation.name", "show_navigation", True, description="hud.settings.show_navigation.description")
+                Switch("hud.settings.show_acc_info.name", "show_acc_info", True, description="hud.settings.show_acc_info.description")
+                Switch("hud.settings.draw_steering.name", "draw_steering", False, description="hud.settings.draw_steering.description")
+                Switch("hud.settings.show_traffic_light_times.name", "show_traffic_light_times", True, description="hud.settings.show_traffic_light_times.description")
+                Switch("hud.settings.draw_wheel_paths.name", "draw_wheel_paths", False, description="hud.settings.draw_wheel_paths.description")
         
         return RenderUI()
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="HUD",
+        name="plugin.hud",
         version="1.0",
-        description="Creates a heads up display on the windshield. Needs the AR plugin to work.",
+        description="plugin.hud.description",
         modules=["TruckSimAPI", "Semaphores", "Traffic"],
         tags=["AR", "Base"],
     )

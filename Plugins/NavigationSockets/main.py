@@ -124,9 +124,9 @@ def ConvertETS2AngleToWGS84Heading(position, speed):
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="Navigation Sockets",
+        name="plugin.navigationsockets",
         version="1.0",
-        description="Provides a socket connection to tmudge's navigation map.",
+        description="plugin.navigationsockets.description",
         modules=["TruckSimAPI"],
         tags=["Base", "Visualization", "Frontend"],
         hidden=False
