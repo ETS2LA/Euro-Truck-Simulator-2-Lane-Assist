@@ -23,7 +23,7 @@ class Settings(ETS2LASettingsMenu):
             Description("This plugin provides no description.")
             
         with TabView():
-            with Tab("General"):
+            with Tab("hud.settings.tab.general.name"):
                 with Group("horizontal", gap=24, padding=0):
                     Slider("hud.settings.refresh_rate.name", "refresh_rate", 2, 1, 10, 1, description="hud.settings.refresh_rate.description", suffix=" fps")
                     Slider("hud.settings.scale.name", "scale", 1, 0.5, 2, 0.05, description="hud.settings.scale.description", suffix="x")
@@ -32,7 +32,7 @@ class Settings(ETS2LASettingsMenu):
                 Input("hud.settings.offset_y.name", "offset_y", type="number", description="hud.settings.offset_y.description", default=0)
                 Input("hud.settings.offset_z.name", "offset_z", type="number", description="hud.settings.offset_z.description", default=0)
         
-            with Tab("Elements"):
+            with Tab("hud.settings.tab.elements.name"):
                 Switch("hud.settings.show_navigation.name", "show_navigation", True, description="hud.settings.show_navigation.description")
                 Switch("hud.settings.show_acc_info.name", "show_acc_info", True, description="hud.settings.show_acc_info.description")
                 Switch("hud.settings.draw_steering.name", "draw_steering", False, description="hud.settings.draw_steering.description")
