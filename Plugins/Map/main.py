@@ -9,7 +9,8 @@ import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.utils.math_helpers as mh
 
 # ETS2LA imports
-from Plugins.Map.utils.data_reader import ReadData
+import Plugins.Map.utils.data_handler as data_handler
+import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
 
 from ETS2LA.Utils.translator import Translate
@@ -93,6 +94,9 @@ class Plugin(ETS2LAPlugin):
         data.map.clear_road_data()
         im.road_image = None
         data.data_needs_update = True
+        
+    def trigger_data_update(self):
+        self.settings.downloaded_data = ""
 
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash
@@ -176,36 +180,20 @@ class Plugin(ETS2LAPlugin):
 
             settings.Listen("Map", self.UpdateSteeringSettings)
 
-            # Initialize map data
             data.plugin.globals.tags.lane_change_status = "idle"
-            self.state.text = "Loading map data, please wait..."
-            self.state.progress = 0
-            time.sleep(0.1)
-            try:
-                data.map = ReadData(state=self.state)
-                if not data.map:
-                    logging.error("Failed to initialize map data")
-                    self.terminate()
-                    return False
-            except Exception as e:
-                logging.error(f"Failed to read map data: {e}", exc_info=True)
-                self.terminate()
-                return False
-
             c.data = data  # set the classes data variable
+            data_handler.plugin = self
             self.state.reset()
 
             self.globals.tags.status = {"Map": data.enabled}
-
-            # Initialize routing mode tracking with validation
-            self._last_routing_mode = settings.Get("Map", "RoutingMode")
-            if self._last_routing_mode not in ["shortest", "smallRoads"]:
-                logging.warning(f"Invalid routing mode {self._last_routing_mode}, resetting to 'shortest'")
-                settings.Set("Map", "RoutingMode", "shortest")
-                self._last_routing_mode = "shortest"
-
             self.settings_menu = SettingsMenu()
             self.settings_menu.plugin = self
+            
+            if self.settings.downloaded_data is None:
+                self.settings.downloaded_data = ""
+                
+            if self.settings.selected_data is None:
+                self.settings.selected_data = ""
 
             # Start navigation file monitor
             threading.Thread(target=self.CheckHashes, daemon=True).start()
@@ -214,15 +202,6 @@ class Plugin(ETS2LAPlugin):
         except Exception as e:
             logging.error(f"Error initializing Map plugin: {e}", exc_info=True)
             return False
-
-    def CheckForRoutingModeChange(self):
-        current_routing_mode = self.settings.RoutingMode
-        if current_routing_mode != self._last_routing_mode and data.use_navigation:
-            logging.info(f"Routing mode changed from {self._last_routing_mode} to {current_routing_mode}")
-            self._last_routing_mode = current_routing_mode
-            logging.info("Recalculating path with new routing mode...")
-            
-            
                 
     def MapWindowInitialization(self):
         if not data.map_initialized and data.internal_map:
@@ -249,11 +228,31 @@ class Plugin(ETS2LAPlugin):
         steering.SMOOTH_TIME = self.steering_smoothness
 
     def run(self):
+        is_different_data = (self.settings.selected_data != "" and self.settings.selected_data != self.settings.downloaded_data)
+        if not data.data_downloaded or is_different_data:
+            data.data_downloaded = False
+            
+            if data_handler.IsDownloaded(data.data_path) and not is_different_data:
+                self.state.text = "Preparing to load data..."
+                data_reader.path = data.data_path
+                del data.map
+                data.map = None
+                data.map = data_reader.ReadData(state=self.state)
+                data.data_downloaded = True
+                data.data_needs_update = True
+                self.state.reset()
+                return
+                
+            if self.settings.selected_data and self.settings.selected_data != "":
+                data_handler.UpdateData(self.settings.selected_data)
+                return
+            
+            self.state.text = "Waiting for game selection in the Settings -> Map..."
+            return
+        
         try:
             api_data = api.run()
             data.UpdateData(api_data)
-            
-            self.CheckForRoutingModeChange()
 
             if data.calculate_steering:
                 # Update route plan and steering

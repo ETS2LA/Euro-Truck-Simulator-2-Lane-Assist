@@ -26,15 +26,62 @@ class SettingsMenu(ETS2LASettingsMenu):
             Description("map.settings.1.description")
         
         with TabView():
-            with Tab("General"):
-                Switch("Navigate on ETS2LA", "UseNavigation", True, description="Enable the automatic navigation features of ETS2LA.")
-                Switch("map.settings.2.name", "ComputeSteeringData", True, description="map.settings.2.description")
+            with Tab("map.settings.tab.general.name"):
+                Switch("map.settings.use_navigation.name", "UseNavigation", True, description="map.settings.use_navigation.description")
+                Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
                 
-            with Tab("Steering"):
-                Switch("Trailer Driving", "DriveBasedOnTrailer", True, description="Will move the 'driving point' towards the trailer at low speeds. This should fix some issues with the app cutting corners.")
-                Slider("map.settings.11.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.11.description", suffix=" s")
+            with Tab("map.settings.tab.steering.name"):
+                Switch("map.settings.drive_based_on_trailer.name", "DriveBasedOnTrailer", True, description="map.settings.drive_based_on_trailer.description")
+                Slider("map.settings.steering_smooth_time.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.steering_smooth_time.description", suffix=" s")
                 
+            with Tab("Data"):
+                with EnabledLock():
+                    if self.plugin:
+                        import Plugins.Map.utils.data_handler as dh
+                        index = dh.GetIndex()
+                        configs = {}
+                        for key, data in index.items():
+                            config = dh.GetConfig(data["config"])
+                            if config != {}:
+                                configs[key] = config
+                            
+                        with Group("vertical", gap=2, padding=0):
+                            Label("NOTE!", weight="semibold", size="xs", classname="pl-4")
+                            Description("If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!", size="xs", classname="pl-4")    
+                        Selector("Selected Data", "selected_data", "", [config["name"] for config in configs.values()], description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.")
+                        Button("Update", "Update Data", self.plugin.trigger_data_update, description="Update the currently selected data, this can be helpful if the data is corrupted or there has been an update.", classname="bg-input/10")
+                            
+                        for key, data in index.items():
+                            if key not in configs:
+                                continue
+                            
+                            config = configs[key]
+                            with Group("vertical", gap=12, padding=16, border=True):
+                                with Group("vertical", gap=2, padding=0):
+                                    Label(config["name"], weight="semibold")
+                                    Description(config["description"], size="xs")
+                                                                
+                                with Group("vertical", gap=4, padding=0):
+                                    for title, credit in config["credits"].items():
+                                        with Group("horizontal", gap=4, padding=0):
+                                            Label(title, size="xs")
+                                            Description(credit, size="xs")
 
+                                with Group("horizontal", gap=4, padding=0):
+                                    Description("The", size="xs")
+                                    Label("download size", size="xs")
+                                    Description("for this data is", size="xs")
+                                    Description(f"{config['packed_size'] / 1024 / 1024:.1f} MB", size="xs")
+                                    Description("that will unpack to a", size="xs")
+                                    Label("total size", size="xs")
+                                    Description("of", size="xs")
+                                    Description(f"{config['size'] / 1024 / 1024:.1f} MB.", size="xs")
+                    else:
+                        Label("NOTE: When changing between ATS and ETS2 data you will need to restart the Map plugin after download!", weight="semibold")
+                        Selector("Selected Data", "selected_data", "", [], description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.")
+                        Button("Update", "Update Data", self.get_value_from_data, description="Update the currently selected data, this can be helpful if the data is corrupted or there has been an update.")
+                          
+                                    
             if variables.DEVELOPMENT_MODE:
                 with Tab("Debug Data"):
                     with EnabledLock():
@@ -67,6 +114,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                                 except: Description("State: N/A")
                                 try: Description(f"FPS: {1/self.plugin.performance[-1][1]:.0f}")
                                 except: Description("FPS: Still loading...")
+                                
                 with Tab("Development"):
                     Switch("map.settings.6.name", "InternalVisualisation", False, description="map.settings.6.description")
                     with EnabledLock():

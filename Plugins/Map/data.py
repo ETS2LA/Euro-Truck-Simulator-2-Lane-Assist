@@ -4,6 +4,7 @@ from Plugins.Map.route.classes import RouteSection
 import ETS2LA.Utils.settings as settings
 import math
 import time
+import os
 
 # MARK: Variables
 plugin = None
@@ -82,6 +83,8 @@ sound_play_interval: float = 10 # seconds
 """The interval between each sound play."""
 frames_off_path: int = 0
 """How many frames the truck has been off the path."""
+data_path = os.path.join(os.path.dirname(__file__), "data")
+"""Where the app should download the data."""
 
 # MARK: Options
 amount_of_points: int = 50
@@ -121,6 +124,8 @@ external_data_time = 0
 """Time the external data was last updated."""
 
 # MARK: Flags
+data_downloaded = False
+"""Whether the app can continue because the data has been downloaded."""
 data_needs_update = False
 """Does the external data need to be updated?"""
 external_data_changed = False
