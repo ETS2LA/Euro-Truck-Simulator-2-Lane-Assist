@@ -4,6 +4,9 @@ model-cache
 **/__pycache__
 logs
 
+# Ignore global.lock file
+global.lock
+
 # Ignore Python venv
 /venv
 
