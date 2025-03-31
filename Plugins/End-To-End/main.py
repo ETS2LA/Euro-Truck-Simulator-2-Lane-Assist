@@ -87,7 +87,7 @@ class Plugin(ETS2LAPlugin):
         global LastEnableKeyPressed
         global SteeringHistory
 
-        global Identifier
+        global Model
 
         global SDKController
         global TruckSimAPI
@@ -104,8 +104,8 @@ class Plugin(ETS2LAPlugin):
         LastEnableKeyPressed = False
         SteeringHistory = []
 
-        Identifier = pytorch.Initialize(Owner="OleFranz", Model="End-To-End", Folder="model", Self=self)
-        pytorch.Load(Identifier)
+        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="End-To-End", HuggingFaceModelFolder="model")
+        Model.Load()
 
         SDKController = SCSController()
         TruckSimAPI = SCSTelemetry()
@@ -133,7 +133,7 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
 
-        if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
+        if Model.Loaded == False: time.sleep(0.1); return
 
         ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
@@ -279,28 +279,28 @@ class Plugin(ETS2LAPlugin):
 
 
         Image = np.array(Frame, dtype=np.float32)
-        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+        if Model.ColorChannelsStr == 'Grayscale' or Model.ColorChannelsStr == 'Binarize':
             Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
+        if Model.ColorChannelsStr == 'RG':
             Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
+        elif Model.ColorChannelsStr == 'GB':
             Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
+        elif Model.ColorChannelsStr == 'RB':
             Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
+        elif Model.ColorChannelsStr == 'R':
             Image = Image[:, :, 0]
             Image = np.expand_dims(Image, axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
+        elif Model.ColorChannelsStr == 'G':
             Image = Image[:, :, 1]
             Image = np.expand_dims(Image, axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
+        elif Model.ColorChannelsStr == 'B':
             Image = Image[:, :, 2]
             Image = np.expand_dims(Image, axis=2)
-        Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+        Image = cv2.resize(Image, (Model.ImageWidth, Model.ImageHeight))
         Image = Image / 255.0
-        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+        if Model.ImageChannelsStr == 'Binarize':
             Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
-        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
+        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
 
 
         EnableKeyPressed = keyboard.is_pressed(EnableKey)
@@ -308,12 +308,12 @@ class Plugin(ETS2LAPlugin):
             Enabled = not Enabled
         LastEnableKeyPressed = EnableKeyPressed
 
-        Output = [[0] * pytorch.MODELS[Identifier]["OUTPUTS"]]
+        Output = [[0] * Model.Outputs]
 
         if Enabled == True:
-            if pytorch.MODELS[Identifier]["ModelLoaded"] == True:
+            if Model.Loaded == True:
                 with pytorch.torch.no_grad():
-                    Output = pytorch.MODELS[Identifier]["Model"](Image)
+                    Output = Model.Model(Image)
                     Output = Output.tolist()
 
         Steering = float(Output[0][0]) / -20

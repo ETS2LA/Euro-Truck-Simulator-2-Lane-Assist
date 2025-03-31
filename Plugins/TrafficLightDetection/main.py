@@ -24,37 +24,37 @@ def GetTextSize(Text="NONE", TextWidth=100, MaxTextHeight=100):
 
 
 def ClassifyImage(Image):
-    if pytorch.Loaded(Identifier) == False:
+    if Model.Loaded == False:
         return True
 
     Image = np.array(Image, dtype=np.float32)
-    if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+    if Model.ColorChannelsStr == 'Grayscale' or Model.ColorChannelsStr == 'Binarize':
         Image = cv2.cvtColor(Image, cv2.COLOR_BGR2GRAY)
     else:
         Image = cv2.cvtColor(Image, cv2.COLOR_BGR2RGB)
-    if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
+    if Model.ColorChannelsStr == 'RG':
         Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-    elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
+    elif Model.ColorChannelsStr == 'GB':
         Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-    elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
+    elif Model.ColorChannelsStr == 'RB':
         Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-    elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
+    elif Model.ColorChannelsStr == 'R':
         Image = Image[:, :, 0]
         Image = np.expand_dims(Image, axis=2)
-    elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
+    elif Model.ColorChannelsStr == 'G':
         Image = Image[:, :, 1]
         Image = np.expand_dims(Image, axis=2)
-    elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
+    elif Model.ColorChannelsStr == 'B':
         Image = Image[:, :, 2]
         Image = np.expand_dims(Image, axis=2)
-    Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+    Image = cv2.resize(Image, (Model.ImageWidth, Model.ImageHeight))
     Image = Image / 255.0
-    if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+    if Model.ColorChannelsStr == 'Binarize':
         Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-    Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
+    Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
     with pytorch.torch.no_grad():
-        Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
+        Output = np.array(Model.Model(Image)[0].tolist())
     Class = np.argmax(Output)
     return True if Class != 3 else False
 
@@ -118,13 +118,13 @@ class Plugin(ETS2LAPlugin):
             self.terminate()
 
         global TruckSimAPI
-        global Identifier
+        global Model
 
         TruckSimAPI = SCSTelemetry()
         ScreenCapture.Initialize()
         ShowImage.Initialize(Name="TrafficLightDetection", TitleBarColor=(0, 0, 0))
-        Identifier = pytorch.Initialize(Owner="OleFranz", Model="TrafficLightDetectionAI", Folder="model", Self=self)
-        pytorch.Load(Identifier)
+        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="TrafficLightDetectionAI", HuggingFaceModelFolder="model", PluginSelf=self)
+        Model.Load()
 
         global LowerRed, UpperRed
         global LowerGreen, UpperGreen
@@ -162,7 +162,7 @@ class Plugin(ETS2LAPlugin):
 
         ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
-        if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
+        if Model.Loaded == False: time.sleep(0.1); return
         if type(Frame) == type(None): return
         FullFrame = Frame.copy()
 

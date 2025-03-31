@@ -9,14 +9,14 @@ import cv2
 
 
 def Initialize():
-    global Identifier
+    global Model
     global Images
     global FRAME
 
     ShowImage.Initialize(Name="Mapping", TitleBarColor=(0, 0, 0))
 
-    Identifier = pytorch.Initialize(Owner="OleFranz", Model="MLVSS", Folder="models/mapping", Self=MLVSSVariables.self)
-    pytorch.Load(Identifier)
+    Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="MLVSS", HuggingFaceModelFolder="models/mapping", PluginSelf=MLVSSVariables.self)
+    Model.Load()
 
     Images = []
     FRAME = np.zeros((500, 500, 3), np.uint8)
@@ -34,10 +34,10 @@ def GenerateImage(Frame):
 
 def GenerateMask(Frame):
     Size = Frame.shape
-    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (Model.ImageWidth, Model.ImageHeight))
     Frame = pytorch.transforms.ToTensor()(Frame)
     with pytorch.torch.no_grad():
-        Prediction = pytorch.MODELS[Identifier]["Model"](Frame.unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"]))
+        Prediction = Model.Model(Frame.unsqueeze(0).to(Model.Device))
     Prediction = Prediction.squeeze(0).cpu()[0].numpy() * 255
     Prediction = Prediction.astype(np.uint8)
     Prediction = cv2.resize(Prediction, (Size[1], Size[0]))
@@ -46,7 +46,7 @@ def GenerateMask(Frame):
 
 def Run():
     Frame = MLVSSVariables.LatestFrame
-    if pytorch.Loaded(Identifier) == False: time.sleep(0.1); return
+    if Model.Loaded == False: time.sleep(0.1); return
     if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:
         return
 

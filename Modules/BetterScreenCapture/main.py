@@ -16,6 +16,7 @@ else:
 def SendCrashReport(Title, Description):
     print("NOT IMPLEMENTED: SendCrashReport")
 
+Model = None
 sct = mss.mss()
 if len(sct.monitors) < 2:
     SendCrashReport("ScreenCapture - Only one item in the monitor list, normally there should be at least two.", str(sct.monitors))
@@ -459,11 +460,11 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
     RightMapBottomRight = (round(X), round(Y))
     RightImage = np.array(sct.grab({"left": RightMapTopLeft[0], "top": RightMapTopLeft[1], "width": RightMapBottomRight[0] - RightMapTopLeft[0], "height": RightMapBottomRight[1] - RightMapTopLeft[1]}), dtype=np.float32)
 
-    if pytorch.IsInitialized(Model="RouteAdvisorClassification", Folder="model") == False:
-        global Identifier
-        Identifier = pytorch.Initialize(Owner="OleFranz", Model="RouteAdvisorClassification", Folder="model")
-        pytorch.Load(Identifier)
-    if pytorch.Loaded(Identifier) == False:
+    global Model
+    if Model == None:
+        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="RouteAdvisorClassification", HuggingFaceModelFolder="model")
+        Model.Load()
+    if Model.Loaded == False:
         return (0, 0, 0), (0, 0, 0)
 
     Outputs = []
@@ -472,31 +473,31 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
             return (0, 0, 0), (0, 0, 0)
         if Image.shape[1] <= 0 or Image.shape[0] <= 0:
             return (0, 0, 0), (0, 0, 0)
-        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+        if Model.ColorChannelsStr == 'Grayscale' or Model.ColorChannelsStr == 'Binarize':
             Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
+        if Model.ColorChannelsStr == 'RG':
             Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
+        elif Model.ColorChannelsStr == 'GB':
             Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
+        elif Model.ColorChannelsStr == 'RB':
             Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
+        elif Model.ColorChannelsStr == 'R':
             Image = Image[:, :, 0]
             Image = np.expand_dims(Image, axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
+        elif Model.ColorChannelsStr == 'G':
             Image = Image[:, :, 1]
             Image = np.expand_dims(Image, axis=2)
-        elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
+        elif Model.ColorChannelsStr == 'B':
             Image = Image[:, :, 2]
             Image = np.expand_dims(Image, axis=2)
-        Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+        Image = cv2.resize(Image, (Model.ImageWidth, Model.ImageHeight))
         Image = Image / 255.0
-        if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+        if Model.ColorChannelsStr == 'Binarize':
             Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
+        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
         with pytorch.torch.no_grad():
-            Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
+            Output = np.array(Model.Model(Image)[0].tolist())
         Outputs.append(Output)
 
     if max(Outputs[0][0], Outputs[1][0]) > 0.5:
@@ -580,11 +581,11 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
         global RouteAdvisorZoomCorrect
         global RouteAdvisorTabCorrect
 
-        if pytorch.IsInitialized(Model="RouteAdvisorClassification", Folder="model") == False:
-            global Identifier
-            Identifier = pytorch.Initialize(Owner="OleFranz", Model="RouteAdvisorClassification", Folder="model")
-            pytorch.Load(Identifier)
-        if pytorch.Loaded(Identifier) == False:
+        global Model
+        if Model == None:
+            Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="RouteAdvisorClassification", HuggingFaceModelFolder="model")
+            Model.Load()
+        if Model.Loaded == False:
             return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
 
         Outputs = []
@@ -593,31 +594,31 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
                 return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
             if Image.shape[1] <= 0 or Image.shape[0] <= 0:
                 return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
-            if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Grayscale' or pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+            if Model.ColorChannelsStr == 'Grayscale' or Model.ColorChannelsStr == 'Binarize':
                 Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-            if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RG':
+            if Model.ColorChannelsStr == 'RG':
                 Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'GB':
+            elif Model.ColorChannelsStr == 'GB':
                 Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'RB':
+            elif Model.ColorChannelsStr == 'RB':
                 Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'R':
+            elif Model.ColorChannelsStr == 'R':
                 Image = Image[:, :, 0]
                 Image = np.expand_dims(Image, axis=2)
-            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'G':
+            elif Model.ColorChannelsStr == 'G':
                 Image = Image[:, :, 1]
                 Image = np.expand_dims(Image, axis=2)
-            elif pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'B':
+            elif Model.ColorChannelsStr == 'B':
                 Image = Image[:, :, 2]
                 Image = np.expand_dims(Image, axis=2)
-            Image = cv2.resize(Image, (pytorch.MODELS[Identifier]["IMG_WIDTH"], pytorch.MODELS[Identifier]["IMG_HEIGHT"]))
+            Image = cv2.resize(Image, (Model.ImageWidth, Model.ImageHeight))
             Image = Image / 255.0
-            if pytorch.MODELS[Identifier]["IMG_CHANNELS"] == 'Binarize':
+            if Model.ColorChannelsStr == 'Binarize':
                 Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(pytorch.MODELS[Identifier]["Device"])
+            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
             with pytorch.torch.no_grad():
-                Output = np.array(pytorch.MODELS[Identifier]["Model"](Image)[0].tolist())
+                Output = np.array(Model.Model(Image)[0].tolist())
             Outputs.append(Output)
 
         if max(Outputs[0][0], Outputs[1][0]) > 0.5:
