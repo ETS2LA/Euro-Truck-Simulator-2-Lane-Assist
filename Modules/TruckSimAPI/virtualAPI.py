@@ -12,8 +12,8 @@ wheelSize = 14
 substanceSize = 25
 
 # Germany
-virtualX = 1710
-virtualZ = 7500
+# virtualX = 1710
+# virtualZ = 7500
 
 # France
 # virtualX = -27700
@@ -52,8 +52,8 @@ virtualZ = 7500
 # virtualZ = -24765
 
 # Working Set (not a specific location)
-# virtualX = 23475
-# virtualZ = -46450
+virtualX = -55604
+virtualZ = 8393
 virtualY = 1.111
 virtualRot = 0
 

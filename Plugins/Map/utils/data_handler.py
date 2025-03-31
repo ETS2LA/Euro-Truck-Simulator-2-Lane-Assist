@@ -129,7 +129,7 @@ def UpdateData(name: str) -> bool:
         os.remove("Plugins/Map/data.zip")
         
         with open("Plugins/Map/data/config.json", "w") as f:
-            json.dump(selected_config, f)
+            json.dump(selected_config, f, indent=4)
         
         plugin.state.reset()
     except:
