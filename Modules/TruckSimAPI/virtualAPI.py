@@ -54,6 +54,10 @@ substanceSize = 25
 # Working Set (not a specific location)
 virtualX = -55604
 virtualZ = 8393
+
+# virtualX = 23475
+# virtualZ = -46450
+
 virtualY = 1.111
 virtualRot = 0
 
