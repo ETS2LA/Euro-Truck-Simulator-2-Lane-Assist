@@ -9,12 +9,17 @@ import logging
 import os
 
 games = game.FindSCSGames()
+game_versions = [game.GetVersionForGame(found_game) for found_game in games]
 target_path = "\\bin\\win_x64\\plugins"
 
-files = os.listdir("ETS2LA/Assets/DLLs")
-files.pop(files.index("sources.txt"))
+data_versions = os.listdir("ETS2LA/Assets/DLLs")
+files_for_version = {}
+for version in data_versions:
+    files_for_version[version] = os.listdir(f"ETS2LA/Assets/DLLs/{version}")
+    files_for_version[version].pop(files_for_version[version].index("sources.txt"))
 
-def CheckIfInstalled(path: str, detailed: bool = False) -> bool | dict:
+def CheckIfInstalled(path: str, version: str, detailed: bool = False) -> bool | dict:
+    files = files_for_version[version]
     if not os.path.exists(path + target_path):
         if not detailed:
             return False
@@ -45,21 +50,31 @@ class Page(ETS2LAPage):
     settings_target = "sdk_installation"
     
     def InstallSDKs(self, *args, **kwargs):
-        for game in games:
-            if not CheckIfInstalled(game):
-                logging.info(f"Installing SDKs for {game}")
-                os.makedirs(game + target_path, exist_ok=True)
+        for game_to_install, version in zip(games, game_versions):
+            if version == "Unknown":
+                logging.warning(f"Could not find version for {game_to_install}, skipping installation")
+                continue
+            
+            if not CheckIfInstalled(game_to_install, version):
+                logging.info(f"Installing SDKs for {game_to_install}")
+                os.makedirs(game_to_install + target_path, exist_ok=True)
+                files = files_for_version[version]
                 for file in files:
-                    with open(f"ETS2LA/Assets/DLLs/{file}", "rb") as f:
-                        with open(game + target_path + "\\" + file, "wb") as g:
+                    with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
+                        with open(game_to_install + target_path + "\\" + file, "wb") as g:
                             g.write(f.read())
         
     def UninstallSDKs(self, *args, **kwargs):
-        for game in games:
-            if CheckIfInstalled(game):
-                logging.info(f"Uninstalling SDKs for {game}")
+        for game_to_install, version in zip(games, game_versions):
+            if version == "Unknown":
+                logging.warning(f"Could not find version for {game}, skipping uninstallation")
+                continue
+            
+            if CheckIfInstalled(game_to_install, version):
+                logging.info(f"Uninstalling SDKs for {game_to_install}")
+                files = files_for_version[version]
                 for file in files:
-                    os.remove(game + target_path + "\\" + file)
+                    os.remove(game_to_install + target_path + "\\" + file)
     
     def render(self):
         RefreshRate(0.5)
@@ -68,7 +83,7 @@ class Page(ETS2LAPage):
                 Title(Translate("sdk_install.title"))
                 Description(Translate("sdk_install.description"))
             if games != []:
-                all_installed = [CheckIfInstalled(game) for game in games] == [True] * len(games)
+                all_installed = [CheckIfInstalled(game, version) for game, version in zip(games, game_versions)] == [True] * len(games)
                 if not all_installed:
                     Button(Translate("install"), Translate("sdk_install.install"), self.InstallSDKs, description=Translate("sdk_install.install_description"))
                 else:
@@ -78,17 +93,18 @@ class Page(ETS2LAPage):
                     Label(Translate("sdk_install.no_games"))
                 else:
                     Description(Translate("sdk_install.games"))
-                    for found_game in games:
-                        information = CheckIfInstalled(found_game, detailed=True)
+                    for found_game, version in zip(games, game_versions):
+                        information = CheckIfInstalled(found_game, version, detailed=True)
                         if isinstance(information, bool):
                             continue
                         
+                        files = files_for_version[version]
                         is_installed = [information[file] for file in files] == [True] * len(files)
                         
                         with Group("vertical", border=True, gap=0):
                             with Group("horizontal", padding=0, gap=4, classname="items-center"):
                                 title = "ETS2 " if "Euro Truck Simulator 2" in found_game else "ATS "
-                                title += game.GetVersionForGame(found_game)
+                                title += version
                                 Label(title, size="sm")
                                 Label(Translate("sdk_install.installed") if is_installed else Translate("sdk_install.not_installed"), size="xs")
                             

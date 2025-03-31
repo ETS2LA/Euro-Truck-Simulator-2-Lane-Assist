@@ -71,8 +71,8 @@ def GetVersionForGame(gamePath):
         return "Unknown"
     
     if "Euro Truck Simulator" in gamePath:
-        return ".".join([str(i) for i in get_version_number(gamePath + "\\bin\\win_x64\\eurotrucks2.exe")[:3]])
+        return ".".join([str(i) for i in get_version_number(gamePath + "\\bin\\win_x64\\eurotrucks2.exe")[:2]])
     elif "American Truck Simulator" in gamePath:
-        return ".".join([str(i) for i in get_version_number(gamePath + "\\bin\\win_x64\\amtrucks.exe")[:3]])
+        return ".".join([str(i) for i in get_version_number(gamePath + "\\bin\\win_x64\\amtrucks.exe")[:2]])
     else:
         return "Unknown"
