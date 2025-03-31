@@ -177,7 +177,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                     
                 with Group("vertical", gap=4, padding=0):
                     Label("data_collection_end_to_end_driving.manual_deletion")
-                    Link(f"• You can request to delete the data by opening this URL in your browser:\n• https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", classname="text-muted-foreground")
+                    Description("data_collection_end_to_end_driving.manual_deletion.description")
+                    Link(f"• https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", classname="text-muted-foreground")
 
                 Toggle("data_collection_end_to_end_driving.i_read_the_notice", "i_read_the_notice", default=None)
                 Space(10)
