@@ -104,7 +104,7 @@ class Plugin(ETS2LAPlugin):
         LastEnableKeyPressed = False
         SteeringHistory = []
 
-        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="End-To-End", HuggingFaceModelFolder="model")
+        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="End-To-End", HuggingFaceModelFolder="model", PluginSelf=self, DType=pytorch.torch.float32)
         Model.Load()
 
         SDKController = SCSController()
@@ -277,32 +277,6 @@ class Plugin(ETS2LAPlugin):
                 # It sometimes happens that it tries to generate a frames which needs gigabytes of memory which will result in a crash, we can just ignore it.
                 pass
 
-
-        Image = np.array(Frame, dtype=np.float32)
-        if Model.ColorChannelsStr == 'Grayscale' or Model.ColorChannelsStr == 'Binarize':
-            Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-        if Model.ColorChannelsStr == 'RG':
-            Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-        elif Model.ColorChannelsStr == 'GB':
-            Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-        elif Model.ColorChannelsStr == 'RB':
-            Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-        elif Model.ColorChannelsStr == 'R':
-            Image = Image[:, :, 0]
-            Image = np.expand_dims(Image, axis=2)
-        elif Model.ColorChannelsStr == 'G':
-            Image = Image[:, :, 1]
-            Image = np.expand_dims(Image, axis=2)
-        elif Model.ColorChannelsStr == 'B':
-            Image = Image[:, :, 2]
-            Image = np.expand_dims(Image, axis=2)
-        Image = cv2.resize(Image, (Model.ImageWidth, Model.ImageHeight))
-        Image = Image / 255.0
-        if Model.ImageChannelsStr == 'Binarize':
-            Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
-        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
-
-
         EnableKeyPressed = keyboard.is_pressed(EnableKey)
         if EnableKeyPressed == False and LastEnableKeyPressed == True:
             Enabled = not Enabled
@@ -312,9 +286,7 @@ class Plugin(ETS2LAPlugin):
 
         if Enabled == True:
             if Model.Loaded == True:
-                with pytorch.torch.no_grad():
-                    Output = Model.Model(Image)
-                    Output = Output.tolist()
+                Output = Model.Detect(Frame)
 
         Steering = float(Output[0][0]) / -20
 

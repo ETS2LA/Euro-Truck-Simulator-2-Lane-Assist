@@ -495,7 +495,7 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
         if Model.ColorChannelsStr == 'Binarize':
             Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
+        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device).to(pytorch.torch.bfloat16)
         with pytorch.torch.no_grad():
             Output = np.array(Model.Model(Image)[0].tolist())
         Outputs.append(Output)
@@ -616,7 +616,7 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
             if Model.ColorChannelsStr == 'Binarize':
                 Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device)
+            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.Device).to(pytorch.torch.bfloat16)
             with pytorch.torch.no_grad():
                 Output = np.array(Model.Model(Image)[0].tolist())
             Outputs.append(Output)

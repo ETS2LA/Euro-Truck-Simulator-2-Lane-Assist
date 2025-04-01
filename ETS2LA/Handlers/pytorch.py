@@ -11,8 +11,9 @@ from bs4 import BeautifulSoup
 import threading
 import traceback
 import requests
-import torch
+import numpy
 import time
+import cv2
 import sys
 import os
 
@@ -27,8 +28,7 @@ try:
     TorchAvailable = True
 except:
     TorchAvailable = False
-    exc = traceback.format_exc()
-    SendCrashReport("PyTorch - PyTorch import error.", str(exc))
+    SendCrashReport("PyTorch - PyTorch import error.", str(traceback.format_exc()))
 
 
 RED = "\033[91m"
@@ -39,7 +39,8 @@ NORMAL = "\033[0m"
 
 
 class Model:
-    def __init__(Self, HuggingFaceOwner:str, HuggingFaceRepository:str, HuggingFaceModelFolder:str, PluginSelf:object=None, Threaded:bool=True):
+    def __init__(Self, HuggingFaceOwner:str, HuggingFaceRepository:str, HuggingFaceModelFolder:str, PluginSelf:object=None, DType:torch.dtype=torch.bfloat16, Threaded:bool=True):
+        Self.DType = DType
         Self.Device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         Self.Path = f"{variables.PATH}model-cache/{HuggingFaceOwner}/{HuggingFaceRepository}/{HuggingFaceModelFolder}"
 
@@ -80,6 +81,7 @@ class Model:
         Self.PopupHandler = PluginSelf
         Self.PopupValues = ""
 
+
     def Popup(Self, Text="", Progress=0):
         try:
             if Self.PopupHandler != None:
@@ -90,6 +92,33 @@ class Model:
                     Self.PopupResetThread.start()
         except:
             pass
+
+
+    def Detect(Self, Image:numpy.ndarray):
+        try:
+            if len(Image.shape) == 3:
+                if Image.shape[2] == 1 and Self.ColorChannels == 3:
+                    Image = cv2.cvtColor(Image, cv2.COLOR_GRAY2RGB)
+                elif Image.shape[2] == 3 and Self.ColorChannels == 1:
+                    Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
+                elif Image.shape[2] == 4 and Self.ColorChannels == 3:
+                    Image = cv2.cvtColor(Image, cv2.COLOR_RGBA2RGB)
+                elif Image.shape[2] == 4 and Self.ColorChannels == 1:
+                    Image = cv2.cvtColor(Image, cv2.COLOR_RGBA2GRAY)
+            elif len(Image.shape) == 2:
+                if Self.ColorChannels == 3:
+                    Image = cv2.cvtColor(Image, cv2.COLOR_GRAY2RGB)
+            Image = cv2.resize(Image, (Self.ImageWidth, Self.ImageHeight))
+            if Image.dtype == numpy.uint8:
+                Image = numpy.array(Image, dtype=numpy.float32) / 255.0
+            Image = torch.as_tensor(transforms.ToTensor()(Image).unsqueeze(0), dtype=Self.DType, device=Self.Device)
+            with torch.no_grad():
+                Output = Self.Model(Image)
+                Output = Output.tolist()
+            return Output
+        except:
+            SendCrashReport("PyTorch - Error in function Detect.", str(traceback.format_exc()))
+
 
     def Load(Self):
         try:
@@ -111,32 +140,39 @@ class Model:
                         Self.Metadata = {"data": [], "Data": [], "metadata": [], "Metadata": []}
                         Self.Model = torch.jit.load(os.path.join(Self.Path, Self.GetName()), _extra_files=Self.Metadata, map_location=Self.Device)
                         Self.Model.eval()
+                        Self.Model.to(Self.DType)
                         Key = max(Self.Metadata, key=lambda Key: len(Self.Metadata[Key]))
                         Self.Metadata = eval(Self.Metadata[Key])
                         for Item in Self.Metadata:
-                            Item = str(Item)
-                            if "image_width" in Item or "ImageWidth" in Item:
-                                Self.ImageWidth = int(Item.split("#")[1])
-                            if "image_height" in Item or "ImageHeight" in Item:
-                                Self.ImageHeight = int(Item.split("#")[1])
-                            if "image_channels" in Item or "ImageChannels" in Item:
-                                Data = Item.split("#")[1]
+                            try:
+                                Item = str(Item)
+                                if "image_width" in Item or "ImageWidth" in Item:
+                                    Self.ImageWidth = int(Item.split("#")[1])
+                                if "image_height" in Item or "ImageHeight" in Item:
+                                    Self.ImageHeight = int(Item.split("#")[1])
+                                if "image_channels" in Item or "ImageChannels" in Item:
+                                    Data = Item.split("#")[1]
+                                    try:
+                                        Self.ColorChannels = int(Data)
+                                    except ValueError:
+                                        Self.ColorChannelsStr = str(Data)
+                                if "color_channels" in Item or "ColorChannels" in Item:
+                                    Data = Item.split("#")[1]
+                                    try:
+                                        Self.ColorChannels = int(Data)
+                                    except ValueError:
+                                        Self.ColorChannelsStr = str(Data)
+                                if "outputs" in Item or "Outputs" in Item:
+                                    Self.Outputs = int(Item.split("#")[1])
+                                if "training_time" in Item or "TrainingTime" in Item:
+                                    Self.TrainingTime = Item.split("#")[1]
+                                if "training_date" in Item or "TrainingDate" in Item:
+                                    Self.TrainingDate = Item.split("#")[1]
+                            except:
                                 try:
-                                    Self.ColorChannels = int(Data)
-                                except ValueError:
-                                    Self.ColorChannelsStr = str(Data)
-                            if "color_channels" in Item or "ColorChannels" in Item:
-                                Data = Item.split("#")[1]
-                                try:
-                                    Self.ColorChannels = int(Data)
-                                except ValueError:
-                                    Self.ColorChannelsStr = str(Data)
-                            if "outputs" in Item or "Outputs" in Item:
-                                Self.Outputs = int(Item.split("#")[1])
-                            if "training_time" in Item or "TrainingTime" in Item:
-                                Self.TrainingTime = Item.split("#")[1]
-                            if "training_date" in Item or "TrainingDate" in Item:
-                                Self.TrainingDate = Item.split("#")[1]
+                                    print(GRAY + f"[{Self.Identifier}] " + YELLOW + f"> Unable to parse '{Item.split('#')[0]}' from model metadata!" + NORMAL)
+                                except:
+                                    print(GRAY + f"[{Self.Identifier}] " + YELLOW + f"> Unable to parse an item from model metadata!" + NORMAL)
                     except:
                         ModelFileBroken = True
 

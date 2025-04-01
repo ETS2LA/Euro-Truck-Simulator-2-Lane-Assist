@@ -17,14 +17,6 @@ def GetTextSize(text="NONE", text_width=100, max_text_height=100):
         thickness = 1
     return text, fontscale, thickness, textsize[0], textsize[1]
 
-def preprocess_image(image):
-    image = np.array(image)
-    image = cv2.resize(image, (Model.ImageWidth, Model.ImageHeight))
-    image = np.array(image, dtype=np.float32) / 255.0
-    transform = pytorch.transforms.Compose([
-        pytorch.transforms.ToTensor(),
-    ])
-    return transform(image).unsqueeze(0).to(Model.Device)
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -89,7 +81,7 @@ class Plugin(ETS2LAPlugin):
         IndicatorLeftResponseTimer = 0
         IndicatorRightResponseTimer = 0
 
-        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="NavigationDetectionAI", HuggingFaceModelFolder="model", PluginSelf=self)
+        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="NavigationDetectionAI", HuggingFaceModelFolder="model", PluginSelf=self, DType=pytorch.torch.float32)
         Model.Load()
 
         SDKController = SCSController()
@@ -147,14 +139,11 @@ class Plugin(ETS2LAPlugin):
         else:
             LaneDetected = False
 
-        AIFrame = preprocess_image(Mask)
         Output = [[0] * Model.Outputs]
 
         if Enabled == True:
             if Model.Loaded == True:
-                with pytorch.torch.no_grad():
-                    Output = Model.Model(AIFrame)
-                    Output = Output.tolist()
+                Output = Model.Detect(Mask)
 
         Steering = float(Output[0][0]) / -30
         LeftIndicator = bool(float(Output[0][1]) > 0.15)
