@@ -13,6 +13,8 @@ from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+clients_connected = 0
+
 """
 Communication interface docs:
 
@@ -202,7 +204,8 @@ class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
 
     def render(self):
-        RefreshRate(10)
+        global clients_connected
+        RefreshRate(5)
 
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -225,6 +228,16 @@ class SettingsMenu(ETS2LASettingsMenu):
                         Description(f"Once it loads, use the following URL in the input box: ws://{IP}:37522")
                     else:
                         Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
+
+        Separator()
+
+        if clients_connected > 0:
+            if clients_connected > 1:
+                Description(f"{clients_connected} clients are currently connected to the visualization.", classname="text-green-500", weight="bold")
+            else:
+                Description(f"A client is currently connected to the visualization.", classname="text-green-500", weight="bold")
+        else:
+            Description("No client is currently connected to the visualization.", classname="text-red-500", weight="bold")
 
         return RenderUI()
 
@@ -339,19 +352,27 @@ class Plugin(ETS2LAPlugin):
             print("Error handling message:", str(e))
 
     async def server(self, websocket):
+        global clients_connected
+        print("Client connected")
+
         connection = WebSocketConnection(websocket)
         self.connected_clients[websocket] = connection
         print("Number of connected clients: ", len(self.connected_clients))
+        clients_connected = len(self.connected_clients)
         try:
             async for message in websocket:
                 await self.handle_message(websocket, message)
-                
+            clients_connected = len(self.connected_clients)
         except Exception as e:
             print("Client disconnected due to exception.", str(e))
+            clients_connected = len(self.connected_clients)
         finally:
             connection.sender_task.cancel()
             del self.connected_clients[websocket]
             print("Client disconnected. Number of connected clients: ", len(self.connected_clients))
+            clients_connected = len(self.connected_clients)
+        
+        
 
     def position(self, data):
         sector_coordinates = self.globals.tags.sector_center
