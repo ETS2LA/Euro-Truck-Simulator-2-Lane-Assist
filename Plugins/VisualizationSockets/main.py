@@ -3,6 +3,7 @@ import websockets
 import threading
 import logging
 import asyncio
+import socket
 import json
 import time
 import math
@@ -44,18 +45,6 @@ To start off call the server with the following after connecting:
     }
 }
 """
-
-import multiprocessing
-import websockets
-import threading
-import logging
-import asyncio
-import json
-import time
-import os
-        
-from ETS2LA.Plugin import *
-from ETS2LA.UI import *
 
 available_channels = [
     {
@@ -208,6 +197,37 @@ available_channels = [
     }
 ]
 
+class SettingsMenu(ETS2LASettingsMenu):
+    plugin_name = "VisualizationSockets"
+    dynamic = True
+
+    def render(self):
+        RefreshRate(10)
+
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            IP = s.getsockname()[0]
+            s.close()
+        except:
+            IP = "127.0.0.1"
+
+        Title("ETS2LA Visualization")
+        Description("Use the tabs below to view the instructions to use the ETS2LA Visualization on the host device or another device.")
+        with TabView():
+            with Tab(name="Host Device"):
+                Description("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can tehn select between the official and Goodnightan mirrors.")
+                Description("You can also open the following URL in your browser: http://visualization.ets2la.com")
+            with Tab(name="Other Device"):
+                with EnabledLock():
+                    if IP != "127.0.0.1":
+                        Description("If you want to view the ETS2LA Visualization on another device, you can open the following URL in your browser: http://visualization.ets2la.com")
+                        Description(f"Once it loads, use the following URL in the input box: ws://{IP}:37522")
+                    else:
+                        Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
+
+        return RenderUI()
+
 class WebSocketConnection:
     def __init__(self, websocket):
         self.websocket = websocket
@@ -239,11 +259,8 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
+    settings_menu = SettingsMenu()
     fps_cap = 20
-    
-    def init(self):
-        self.connected_clients = {}
-        self.loop = None
 
     def imports(self):
         global multiprocessing, websockets, threading, logging, asyncio, json, os, time
@@ -255,6 +272,19 @@ class Plugin(ETS2LAPlugin):
         import json
         import time
         import os
+
+    def Initialize(self):
+        global TruckSimAPI
+        global socket
+
+        self.connected_clients = {}
+        self.loop = None
+        
+        TruckSimAPI = self.modules.TruckSimAPI
+        TruckSimAPI.TRAILER = True
+        
+        server_thread = threading.Thread(target=self.run_server_thread)
+        server_thread.start()
 
     async def handle_message(self, websocket, message):
         try:
@@ -309,7 +339,6 @@ class Plugin(ETS2LAPlugin):
             print("Error handling message:", str(e))
 
     async def server(self, websocket):
-        print("Client Connected!")
         connection = WebSocketConnection(websocket)
         self.connected_clients[websocket] = connection
         print("Number of connected clients: ", len(self.connected_clients))
@@ -539,18 +568,6 @@ class Plugin(ETS2LAPlugin):
 
     def run_server_thread(self):
         asyncio.run(self.start())
-
-    def Initialize(self):
-        global TruckSimAPI
-        global socket
-        
-        TruckSimAPI = self.modules.TruckSimAPI
-        TruckSimAPI.TRAILER = True
-        
-        socket = threading.Thread(target=self.run_server_thread)
-        socket.start()
-        
-        print("Sockets waiting for client...")
 
     def create_socket_message(self, channel, data):
         return {
