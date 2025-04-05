@@ -13,8 +13,6 @@ from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
-clients_connected = 0
-
 """
 Communication interface docs:
 
@@ -204,8 +202,7 @@ class SettingsMenu(ETS2LASettingsMenu):
     dynamic = True
 
     def render(self):
-        global clients_connected
-        RefreshRate(5)
+        RefreshRate(2)
 
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -215,30 +212,64 @@ class SettingsMenu(ETS2LASettingsMenu):
         except:
             IP = "127.0.0.1"
 
-        Title("ETS2LA Visualization")
-        Description("Use the tabs below to view the instructions to use the ETS2LA Visualization on the host device or another device.")
+        with Group("vertical", gap=14, padding=0):
+            Title("Visualization Sockets")
+            Description("This plugin provides a websocket server for the ETS2LA Visualization.")
+
         with TabView():
             with Tab(name="Host Device"):
-                Description("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can tehn select between the official and Goodnightan mirrors.")
-                Description("You can also open the following URL in your browser: http://visualization.ets2la.com")
+                with Group("vertical", gap=14, padding=0):
+                    Description("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors.")
+                    with Group("horizontal", gap=4, padding=0):
+                        Description("You can also use the following website:")
+                        Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
+                    
             with Tab(name="Other Device"):
                 with EnabledLock():
                     if IP != "127.0.0.1":
-                        Description("If you want to view the ETS2LA Visualization on another device, you can open the following URL in your browser: http://visualization.ets2la.com")
-                        Description("NOTE: You cannot use Google Chrome, the browser will automatically replace http with https which will not work.", weight="bold")
-                        Description(f"Once it loads, use the following URL in the input box: ws://{IP}:37522")
+                        with Group("vertical", gap=14, padding=0):
+                            with Group("vertical", gap=6, padding=0):
+                                with Group("horizontal", gap=4, padding=0):
+                                    Description("1. Open the following URL in your device's browser: ")
+                                    Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
+                                Description("NOTE: You must load the site as http instead of https. Google Chrome will not work!", weight="bold")
+                            with Group("vertical", gap=6, padding=0):
+                                Description("2. Once the website loads it will ask you for the computer's IP address. Enter the following IP address:")
+                                Description(f"ws://{IP}:37522", weight="bold")
+                            
+                            Description("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.")
+                        
                     else:
                         Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
 
         Separator()
 
-        if clients_connected > 0:
-            if clients_connected > 1:
-                Description(f"{clients_connected} clients are currently connected to the visualization.", classname="text-green-500", weight="bold")
-            else:
-                Description(f"A client is currently connected to the visualization.", classname="text-green-500", weight="bold")
+        if not self.plugin:
+            Description("Waiting for plugin start...", weight="bold")
+            return RenderUI()
+
+        try:
+            clients = self.plugin.connected_clients
+        except:
+            Description("Waiting for plugin to load...", weight="bold")
+            return RenderUI()
+
+        if len(clients) > 0:
+            Description("The following clients are currently connected:")
+            with Group("vertical", gap=14, padding=0):
+                for client in clients:
+                    with Group("vertical", gap=6, padding=12, border=True):
+                        Description(f"{client.remote_address[0]}", weight="bold")
+                        connection = clients[client]
+                        with Group("vertical", gap=4, padding=0):
+                            Description(f"- Latency: {client.latency * 1000:.2f}ms", size="xs")
+                            Description(f"- ID: {client.id}", size="xs")
+                            if connection.subscribed_channels:
+                                Description(f"- Channels: {connection.subscribed_channels}", size="xs")
+                            else:
+                                Description("Not acknowledged yet.", weight="semibold", size="xs")
         else:
-            Description("No client is currently connected to the visualization.", classname="text-red-500", weight="bold")
+            Description("There are no currently connected clients.", weight="bold")
 
         return RenderUI()
 
@@ -297,7 +328,7 @@ class Plugin(ETS2LAPlugin):
         TruckSimAPI = self.modules.TruckSimAPI
         TruckSimAPI.TRAILER = True
         
-        server_thread = threading.Thread(target=self.run_server_thread)
+        server_thread = threading.Thread(target=self.run_server_thread, daemon=True)
         server_thread.start()
 
     async def handle_message(self, websocket, message):
@@ -353,25 +384,20 @@ class Plugin(ETS2LAPlugin):
             print("Error handling message:", str(e))
 
     async def server(self, websocket):
-        global clients_connected
         print("Client connected")
 
         connection = WebSocketConnection(websocket)
         self.connected_clients[websocket] = connection
         print("Number of connected clients: ", len(self.connected_clients))
-        clients_connected = len(self.connected_clients)
         try:
             async for message in websocket:
                 await self.handle_message(websocket, message)
-            clients_connected = len(self.connected_clients)
         except Exception as e:
             print("Client disconnected due to exception.", str(e))
-            clients_connected = len(self.connected_clients)
         finally:
             connection.sender_task.cancel()
             del self.connected_clients[websocket]
             print("Client disconnected. Number of connected clients: ", len(self.connected_clients))
-            clients_connected = len(self.connected_clients)
         
         
 
