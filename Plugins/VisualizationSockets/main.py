@@ -225,6 +225,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                 with EnabledLock():
                     if IP != "127.0.0.1":
                         Description("If you want to view the ETS2LA Visualization on another device, you can open the following URL in your browser: http://visualization.ets2la.com")
+                        Description("NOTE: You cannot use Google Chrome, the browser will automatically replace http with https which will not work.", weight="bold")
                         Description(f"Once it loads, use the following URL in the input box: ws://{IP}:37522")
                     else:
                         Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
