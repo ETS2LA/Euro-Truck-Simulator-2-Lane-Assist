@@ -166,8 +166,10 @@ def GetSteering():
                 points.append(point)
                 continue
                 
-            if math_helpers.DistanceBetweenPoints(point.tuple(), points[-1].tuple()) >= GetPointDistance(len(points), data.amount_of_points):
-                points.append(point)
+            distance = math_helpers.DistanceBetweenPoints(point.tuple(), points[-1].tuple())
+            if distance >= GetPointDistance(len(points), data.amount_of_points):
+                if distance <= 20:
+                    points.append(point)
 
     if len(points) == 0:
         data.route_points = []
@@ -217,7 +219,7 @@ def GetSteering():
                 truck_position_vector = [data.truck_x - points[0].x, data.truck_z - points[0].z]
 
             lateral_offset = np.cross(truck_position_vector, centerline) / np.linalg.norm(centerline)
-            data.plugin.globals.tags.lateral_offset = lateral_offset
+            #data.plugin.globals.tags.lateral_offset = lateral_offset
 
             # Calculate the dot product and the norms
             dot_product = np.dot(forward_vector, centerline)

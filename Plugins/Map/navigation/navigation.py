@@ -6,6 +6,7 @@ import Plugins.Map.classes as c
 import Plugins.Map.data as data
 from typing import Literal
 import logging
+import time
 import sys
 
 sys.setrecursionlimit(10**6) # Increase recursion limit
@@ -77,7 +78,6 @@ def get_directions_until_route_end(route: list[RouteNode], start_direction: Lite
 
 def get_path_to_destination():
     """Find a path from current position to destination"""
-    
     game_route = data.plugin.modules.Route.run()
     
     if not game_route or len(game_route) == 0:

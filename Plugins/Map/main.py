@@ -216,11 +216,6 @@ class Plugin(ETS2LAPlugin):
         if time.perf_counter() - data.last_navigation_update > 5 or data.update_navigation_plan:
             data.update_navigation_plan = False
             navigation.get_path_to_destination()
-
-            if data.navigation_plan and data.navigation_plan != []:
-                self.globals.tags.navigation_plan = [nav.node for nav in data.navigation_plan]
-            else:
-                self.globals.tags.navigation_plan = []
             data.last_navigation_update = time.perf_counter()
 
     def UpdateSteeringSettings(self, settings: dict):
@@ -228,6 +223,7 @@ class Plugin(ETS2LAPlugin):
         steering.SMOOTH_TIME = self.steering_smoothness
 
     def run(self):
+        data_start_time = time.perf_counter()
         is_different_data = (self.settings.selected_data != "" and self.settings.selected_data != self.settings.downloaded_data)
         if not data.data_downloaded or is_different_data:
             data.data_downloaded = False
@@ -250,29 +246,45 @@ class Plugin(ETS2LAPlugin):
             self.state.text = "Waiting for game selection in the Settings -> Map..."
             return
         
+        data_time = time.perf_counter() - data_start_time
+        
         try:
+            data_update_start_time = time.perf_counter()
             api_data = api.run()
             data.UpdateData(api_data)
+            data_update_time = time.perf_counter() - data_update_start_time
 
             if data.calculate_steering:
                 # Update route plan and steering
+                planning_start_time = time.perf_counter()
                 planning.UpdateRoutePlan()
+                planning_time = time.perf_counter() - planning_start_time
+                
+                steering_start_time = time.perf_counter()
                 steering_value = driving.GetSteering()
 
                 if steering_value is not None:
                     steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
                 else:
                     logging.warning("Invalid steering value received")
+                    
+                steering_time = time.perf_counter() - steering_start_time
             else:
                 data.route_points = []
 
-            self.MapWindowInitialization()
 
+
+            internal_map_start_time = time.perf_counter()
             if data.internal_map:
+                self.MapWindowInitialization()
                 im.DrawMap()
+            internal_map_time = time.perf_counter() - internal_map_start_time
 
+            navigation_start_time = time.perf_counter()
             self.UpdateNavigation()
+            navigation_time = time.perf_counter() - navigation_start_time
 
+            external_map_start_time = time.perf_counter()
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)
                 self.globals.tags.map = json.loads(external_data)
@@ -282,11 +294,14 @@ class Plugin(ETS2LAPlugin):
             if not data.elevation_data_sent:
                 self.globals.tags.elevation_data = data.map.elevations
                 data.elevation_data_sent = True
+                
+            external_map_time = time.perf_counter() - external_map_start_time
 
         except Exception as e:
             logging.error(f"Error in Map plugin run loop: {e}", exc_info=True)
             data.route_points = []  # Clear route points on error
 
+        external_data_start_time = time.perf_counter()
         try:
             if data.calculate_steering and data.route_plan is not None and len(data.route_plan) > 0:
                 if type(data.route_plan[0].items[0].item) == c.Road:
@@ -311,6 +326,7 @@ class Plugin(ETS2LAPlugin):
                 self.globals.tags.road_type = "none"
         except:
             pass
+        external_data_time = time.perf_counter() - external_data_start_time
         
         try:
             frametime = self.performance[-1][1]
@@ -323,4 +339,19 @@ class Plugin(ETS2LAPlugin):
         except:
             pass
 
+        if variables.DEVELOPMENT_MODE:
+            if (time.perf_counter() - data_start_time) * 1000 > 100:
+                try:
+                    print(f"Map plugin run time: {(time.perf_counter() - data_start_time) * 1000:.2f}ms")
+                    print(f"- Data time: {data_time * 1000:.2f}ms")
+                    print(f"- Data update time: {data_update_time * 1000:.2f}ms")
+                    print(f"- Planning time: {planning_time * 1000:.2f}ms")
+                    print(f"- Steering time: {steering_time * 1000:.2f}ms")
+                    print(f"- Internal map time: {internal_map_time * 1000:.2f}ms")
+                    print(f"- Navigation time: {navigation_time * 1000:.2f}ms")
+                    print(f"- External map time: {external_map_time * 1000:.2f}ms")
+                    print(f"- External data time: {external_data_time * 1000:.2f}ms")
+                except:
+                    pass
+        
         return [point.tuple() for point in data.route_points]

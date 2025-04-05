@@ -388,7 +388,7 @@ def GetNextNavigationItem():
     elif end_in_front and not start_in_front:
         selected_node = end_node
         
-    if start_in_front and end_in_front:
+    elif start_in_front and end_in_front:
         start_distance = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
         end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
         if start_distance > 30 and end_distance > 30:
@@ -398,12 +398,16 @@ def GetNextNavigationItem():
             selected_node = end_node
         else:
             selected_node = start_node
+    else:
+        logging.warning("Both nodes are behind.")
+        return None
             
     # Correct the points
-    start_distance = math_helpers.DistanceBetweenPoints((last_points[0].x, last_points[0].z), (data.truck_x, data.truck_z))
-    end_distance = math_helpers.DistanceBetweenPoints((last_points[-1].x, last_points[-1].z), (data.truck_x, data.truck_z))
+    start_distance = math_helpers.DistanceBetweenPoints((last_points[0].x, last_points[0].z), (selected_node.x, selected_node.z))
+    end_distance = math_helpers.DistanceBetweenPoints((last_points[-1].x, last_points[-1].z), (selected_node.x, selected_node.z))
     
-    if end_distance < start_distance:
+    if start_distance > end_distance:
+        # The last point is the closest to the node
         last_points = last_points[::-1]
     
     path: list[RouteNode] = data.navigation_plan
@@ -449,7 +453,7 @@ def GetNextNavigationItem():
             index += 1
             if index >= len(path):
                 break
-        
+
         if index == len(path): # Last one doesn't matter
             return RoadToRouteSection(next_item, closest_lane, target_lanes=target_lanes)
         
@@ -616,12 +620,6 @@ def UpdateRoutePlan():
     global was_indicating
     if not data.enabled:
         data.route_plan = []
-        
-    if len(data.route_plan) > 0:
-        #for i, section in enumerate(data.route_plan):
-        #    print(i, section)
-        #print(data.route_plan[-1])
-        ...
     
     if not data.use_navigation or len(data.navigation_plan) == 0: # No navigation plan / use only route planner
         if len(data.route_plan) == 0:
@@ -670,11 +668,15 @@ def UpdateRoutePlan():
    
         if len(data.route_plan) < data.route_plan_length:
             item = GetNextNavigationItem()
-            if item is not None:
-                if item.distance_left() != data.route_plan[0].distance_left() and \
-                    item.start_node != data.route_plan[0].start_node:
-                    data.route_plan.append(item)
-        
+            try:
+                if item is not None and len(data.route_plan) > 0:
+                    cur_start = data.route_plan[-1].get_points()[0]
+                    next_end = item.get_points()[-1]
+                    distance = math_helpers.DistanceBetweenPoints((cur_start.x, cur_start.z), (next_end.x, next_end.z))
+                    if item.items != data.route_plan[-1].items and distance > 0.5:
+                        data.route_plan.append(item)
+            except:
+                pass
         try:
             CheckForLaneChange()
         except:
