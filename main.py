@@ -11,12 +11,28 @@ try:
 except:
     import sys
     sys.path.append(os.path.dirname(__file__))
-    from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
-    
+
+try:
+    import tqdm
+except:
+    print("The module 'tqdm', is missing, this is a common sign of missing modules. An update will be triggered to install these modules.")
+    import subprocess
+    if os.name == "nt":
+        try:
+            subprocess.run("update.bat", shell=True, env=os.environ.copy())
+        except: # Used Installer
+            try:
+                subprocess.run("cd code && cd app && update.bat", shell=True, env=os.environ.copy())
+            except: 
+                subprocess.run("cd .. && cd .. && cd code && cd app && update.bat", shell=True, env=os.environ.copy())
+    else:
+        subprocess.run("sh update.sh", shell=True, env=os.environ.copy())
+
 os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
     
 from ETS2LA.Utils.Console.logs import CountErrorsAndWarnings, ClearLogFiles
-from ETS2LA.Utils.packages import CheckForMaliciousPackages, FixModule
+from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+from ETS2LA.Utils.packages import CheckForMaliciousPackages
 from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 from ETS2LA.Utils.shell import ExecuteCommand
 from Modules.SDKController.main import SCSController
@@ -212,7 +228,6 @@ if __name__ == "__main__":
                                 ExecuteCommand("cd .. && cd .. && cd code && cd app && update.bat")
                     else:
                         ExecuteCommand("sh update.sh")
-                    
                 else:
                     print(YELLOW + "Skipping update due to development mode." + END)
                 
