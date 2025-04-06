@@ -148,7 +148,12 @@ def GetSteering():
     
     if not data.use_navigation or len(data.navigation_plan) == 0:
         CheckForLaneChange()
-    
+        
+        # Fix issue: Default steering to 0 when passing a Prefab and navigation is not calculated
+        if type(data.route_plan[0].items[0].item) == c.Prefab:
+            #logging.warning("Navigation not calculated, defaulting steering to 0.")
+            return 0
+
     points = []
     for section in data.route_plan:
         if len(points) > data.amount_of_points:
