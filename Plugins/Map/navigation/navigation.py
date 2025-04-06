@@ -111,6 +111,8 @@ def get_path_to_destination():
         success = [node.is_possible for node in route]
         logging.warning(f"Successfully calculated lanes for {sum(success)} out of {len(success)} nodes ({sum(success) / len(success) * 100:.0f}%)")
         data.navigation_plan = route
+        nodes = [nav.node for nav in route]
+        data.plugin.tags.navigation_plan = nodes
         data.last_length = len(game_route)
         
     return data.navigation_plan
