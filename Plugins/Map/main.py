@@ -61,7 +61,8 @@ class Plugin(ETS2LAPlugin):
         description="plugins.map.description",
         version="2.0.0",
         modules=["SDKController", "TruckSimAPI", "Steering", "Route"],
-        tags=["Base", "Steering"]
+        tags=["Base", "Steering"],
+        ui_filename="ui.py",
     )
     last_dest_company = None 
     

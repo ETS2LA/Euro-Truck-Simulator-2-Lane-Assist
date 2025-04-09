@@ -22,13 +22,19 @@ class ETS2LASettingsMenu:
             raise TypeError("You must set the 'plugin_name' variable to the name of your plugin directory.")
         
     def build(self):
-        if self.dynamic:
-            return self.render() # type: ignore # Might or might not exist.
-        
-        if self._json == {}:
-            self._json = self.render() # type: ignore # Might or might not exist.
-        
-        return self._json
+        try:
+            if self.dynamic:
+                return self.render() # type: ignore # Might or might not exist.
+            
+            if self._json == {}:
+                self._json = self.render() # type: ignore # Might or might not exist.
+            
+            return self._json
+        except:
+            print("Error while building settings page.")
+            import traceback
+            traceback.print_exc()
+            return {}
     
     def call_function(self, name, args=[], kwargs={}):
         if hasattr(self, name):

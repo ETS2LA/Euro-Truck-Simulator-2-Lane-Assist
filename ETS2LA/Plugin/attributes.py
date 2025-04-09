@@ -203,8 +203,15 @@ class PluginDescription:
     update_log: dict[str, str] = {}
     hidden: bool = False
     listen: list[str] = ["*.py"]
+    ui_filename: str = ""
     
-    def __init__(self, name: str = "", version: str = "", description: str = "", tags: list[str] = [], dependencies: list[str] = [], compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], update_log: dict[str, str] ={}, modules: list[str] = [], hidden: bool = False, listen: list[str] = ["*.py"]) -> None:
+    def __init__(self, name: str = "", version: str = "", 
+                 description: str = "", tags: list[str] = [], dependencies: list[str] = [], 
+                 compatible_os: list[Literal["Windows", "Linux"]] = ["Windows", "Linux"], 
+                 compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], 
+                 update_log: dict[str, str] ={}, modules: list[str] = [], 
+                 hidden: bool = False, listen: list[str] = ["*.py"],
+                 ui_filename: str = "") -> None:
         self.name = name
         self.version = version
         self.description = description
@@ -216,3 +223,4 @@ class PluginDescription:
         self.tags = tags
         self.hidden = hidden
         self.listen = listen
+        self.ui_filename = ui_filename
