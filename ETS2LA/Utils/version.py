@@ -17,7 +17,7 @@ def get_commit_url(repo, commit_hash):
         # Remove .git extension if present
         remote_url = remote_url.replace('.git', '')
         
-        # Handle SSH format (git@github.com:user/repo.git)
+        # Handle SSH format (git@github.com:user/repo)
         if remote_url.startswith('git@'):
             remote_url = remote_url.replace(':', '/')
             remote_url = remote_url.replace('git@', 'https://')
@@ -30,6 +30,7 @@ def get_commit_url(repo, commit_hash):
         else:
             return ""
     except:
+        logging.warning("Unable to get commit URL. Remote URL might not be set or is not supported.")
         return ""
 
 def CheckForUpdate():
@@ -37,14 +38,15 @@ def CheckForUpdate():
         repo = git.Repo()
         current_hash = repo.head.object.hexsha
         
-        o = repo.remotes.origin
+        origin = repo.remotes.origin
         try:
-            origin_hash = o.fetch(kill_after_timeout=1)
-        except:
+            origin_state = origin.fetch(kill_after_timeout=1)
+        except Exception as e:
+            logging.warning(f"Unable to fetch origin: {e}\nUpdate check will be skipped.")
             return False
         
-        if len(origin_hash) > 0:
-            origin_hash = origin_hash[0].commit.hexsha
+        if len(origin_state) > 0:
+            origin_hash = origin_state[0].commit.hexsha
         else:
             origin_hash = current_hash
             
@@ -105,7 +107,6 @@ def GetHistory():
             return commits_save
 
         # Vars
-        api_requests = 0
         commits = []
         authors = {}
 
