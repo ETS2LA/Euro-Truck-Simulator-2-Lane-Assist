@@ -4,6 +4,8 @@ from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 
 from ETS2LA.Utils.Values.numbers import SmoothedValue
+import matplotlib
+import logging
 import random
 import time
 import sys
@@ -31,10 +33,16 @@ class Plugin(ETS2LAPlugin):
     sending_bandwidth = SmoothedValue("time", 10)
     receiving_bandwidth = SmoothedValue("time", 10)
     
+    sending_jitter = 0
+    receiving_jitter = 0
+    
+    last_jitter_update = time.time()
+    
     steering = False
     
     def init(self):
         self.dictionary = {}
+        print("Please allow up to 10s for values to stabilize")
         print("Initializing dictionary...")
         count = 200000
         for i in range(count):
@@ -64,5 +72,15 @@ class Plugin(ETS2LAPlugin):
         
         self.sending_bandwidth.smooth(send_bandwidth)
         self.receiving_bandwidth.smooth(receive_bandwidth)
+
+        if time.time() - self.last_jitter_update > 1:
+            self.last_jitter_update = time.time()
+            sending_lower = self.sending.zero_percent_jitter("lower")
+            sending_upper = self.sending.zero_percent_jitter("upper")
+            self.sending_jitter = sending_upper - sending_lower
+            
+            receiving_lower = self.receiving.zero_percent_jitter("lower")
+            receiving_upper = self.receiving.zero_percent_jitter("upper")
+            self.receiving_jitter = receiving_upper - receiving_lower
         
-        print(f"Send: {self.sending.get():.2f} ms ({self.sending_bandwidth.get():.2f} MB/s), Receive: {self.receiving.get():.2f} ms ({self.receiving_bandwidth.get():.2f} MB/s)      ", end="\r")
+        print(f"Send: {self.sending.get():.2f} ms @ {self.sending_bandwidth.get():.2f} MB/s (jitter ±{self.sending_jitter:.2f} ms), Receive: {self.receiving.get():.2f} ms @ {self.receiving_bandwidth.get():.2f} MB/s (jitter ±{self.receiving_jitter:.2f} ms)      ", end="\r")

@@ -42,5 +42,53 @@ class SmoothedValue:
         else:
             raise ValueError("Invalid smoothing type")
         
+    def zero_percent_jitter(self, side: Literal["upper", "lower"] = "upper"):
+        if self.smoothingType == "frames":
+            sorted_values = sorted(self.valueArray)
+            if side == "upper":
+                return sorted_values[int(len(sorted_values) * 0.99)] - sorted_values[0]
+            else:
+                return sorted_values[0] - sorted_values[int(len(sorted_values) * 0.99)]
+        elif self.smoothingType == "time":
+            sorted_values = sorted([v for t, v in self.valueArray])
+            if side == "upper":
+                return sorted_values[int(len(sorted_values) * 0.99)] - sorted_values[0]
+            else:
+                return sorted_values[0] - sorted_values[int(len(sorted_values) * 0.99)]
+        else:
+            raise ValueError("Invalid smoothing type")
+        
+    def one_percent_jitter(self, side: Literal["upper", "lower"] = "upper"):
+        if self.smoothingType == "frames":
+            sorted_values = sorted(self.valueArray)
+            if side == "upper":
+                return sorted_values[int(len(sorted_values) * 0.99)] - sorted_values[int(len(sorted_values) * 0.01)]
+            else:
+                return sorted_values[int(len(sorted_values) * 0.01)] - sorted_values[int(len(sorted_values) * 0.99)]
+        elif self.smoothingType == "time":
+            sorted_values = sorted([v for t, v in self.valueArray])
+            if side == "upper":
+                return sorted_values[int(len(sorted_values) * 0.99)] - sorted_values[int(len(sorted_values) * 0.01)]
+            else:
+                return sorted_values[int(len(sorted_values) * 0.01)] - sorted_values[int(len(sorted_values) * 0.99)]
+        else:
+            raise ValueError("Invalid smoothing type")
+        
+    def ten_percent_jitter(self, side: Literal["upper", "lower"] = "upper"):
+        if self.smoothingType == "frames":
+            sorted_values = sorted(self.valueArray)
+            if side == "upper":
+                return sorted_values[int(len(sorted_values) * 0.9)] - sorted_values[int(len(sorted_values) * 0.1)]
+            else:
+                return sorted_values[int(len(sorted_values) * 0.1)] - sorted_values[int(len(sorted_values) * 0.9)]
+        elif self.smoothingType == "time":
+            sorted_values = sorted([v for t, v in self.valueArray])
+            if side == "upper":
+                return sorted_values[int(len(sorted_values) * 0.9)] - sorted_values[int(len(sorted_values) * 0.1)]
+            else:
+                return sorted_values[int(len(sorted_values) * 0.1)] - sorted_values[int(len(sorted_values) * 0.9)]
+        else:
+            raise ValueError("Invalid smoothing type")
+        
     def __call__(self, value):
         return self.smooth(value)
