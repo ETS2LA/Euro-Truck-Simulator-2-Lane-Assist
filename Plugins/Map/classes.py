@@ -437,6 +437,9 @@ class BoundingBox:
         self.max_x = max_x
         self.max_y = max_y
 
+    def center(self) -> Position:
+        return Position((self.min_x + self.max_x) / 2, (self.min_y + self.max_y) / 2, 0)
+
     def __str__(self) -> str:
         return f"BoundingBox({self.min_x}, {self.min_y}, {self.max_x}, {self.max_y})"
 
