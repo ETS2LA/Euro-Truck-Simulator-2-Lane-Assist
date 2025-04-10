@@ -10,6 +10,7 @@ from ETS2LA.UI import *
 
 from typing import Any
 import multiprocessing
+import importlib
 import threading
 import logging
 import inspect
@@ -433,14 +434,32 @@ def find_plugins() -> list[Plugin]:
             plugin_class = get_plugin_class(f"{plugin_path}.{folder}.main")
             if plugin_class is not None:
                 information = getattr(plugin_class, "description", None)
+                
+                try:
+                    # Reload the UI module if ui_filename is defined
+                    if information and hasattr(information, 'ui_filename'):
+                        ui_filename = information.ui_filename
+                        if ui_filename != "":
+                            ui_module_path = f"{plugin_path}.{folder}.{ui_filename.replace('.py', '')}"
+                            
+                            if ui_module_path in sys.modules:
+                                importlib.reload(sys.modules[ui_module_path])
+                            else:
+                                __import__(ui_module_path, fromlist=['*'])
+                except Exception as e:
+                    print(f"Failed to reload UI for {folder}: {str(e)}")
+                        
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
                 controls = getattr(plugin_class, "controls", [])
                 if information and not information.hidden or variables.DEVELOPMENT_MODE:
                     plugin: Plugin = Plugin(folder, information, author, settings, controls)
                     plugins.append(plugin)
+            
+            # Clean up
             del plugin_class
-            del sys.modules[f"{plugin_path}.{folder}.main"]
+            if f"{plugin_path}.{folder}.main" in sys.modules:
+                del sys.modules[f"{plugin_path}.{folder}.main"]
             
     return plugins
 

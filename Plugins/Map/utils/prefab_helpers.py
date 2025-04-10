@@ -112,7 +112,7 @@ def display_prefab_routes(prefab_description) -> None:
     cv2.resizeWindow("Nav Routes", 1000, 1000)
     cv2.waitKey(0)
     
-def get_closest_lane(item, x: float, z: float) -> int:
+def get_closest_lane(item, x: float, z: float, return_distance=False) -> int:
     closest_point_distance = math.inf
     closest_lane_id = -1
     for lane_id, lane in enumerate(item.nav_routes):
@@ -124,6 +124,9 @@ def get_closest_lane(item, x: float, z: float) -> int:
                 closest_point_distance = distance
                 closest_lane_id = lane_id
         
+    if return_distance:
+        return closest_lane_id, closest_point_distance
+    
     return closest_lane_id
 
 def get_closest_lanes_from_indices(item, x: float, z: float, lane_indices: List[int]) -> List[int]:
