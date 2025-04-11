@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> This page is for **ETS2LA V1.0**, we are currently developing **ETS2LA 2.0**. For access to beta versions please join the [discord](https://ets2la.com/discord). You can also manually clone the rewrite branch with [these](https://ets2la.github.io/documentation/installation/beta-1/) instructions.
+> This page is for **ETS2LA V1.0**, we are currently developing **ETS2LA 2.0**. For access to beta versions please join the [discord](https://ets2la.com/discord). You can also follow the instructions [here](https://ets2la.com/guides/installation/installer/).
 >
 > Check [this video](https://www.youtube.com/watch?v=EgZp05tA5ks) for a demo of 2.0!
 
