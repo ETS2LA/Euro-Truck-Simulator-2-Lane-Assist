@@ -141,6 +141,6 @@ class Page(ETS2LAPage):
                     with Group("vertical", padding=0, gap=16):
                         Title("Utils")
                         Button("Activate", "Fix wipers", self.fix_wipers, description="Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.")
-                        Button("Update", "Force an update", self.fix_wipers, description="Do you think there should've been an update? Click this button and the app will restart and check for them.")
+                        Button("Update", "Force an update", self.update, description="Do you think there should've been an update? Click this button and the app will restart and check for them.")
                     
         return RenderUI()
