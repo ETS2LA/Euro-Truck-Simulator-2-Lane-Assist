@@ -134,8 +134,6 @@ class ETS2LAPlugin(object):
             raise TypeError("'plugin' is a reserved function name, please use 'run' instead")
         if "run" not in dir(type(self)):
             raise TypeError("Your plugin has to have a 'run' function.")
-        if "imports" not in dir(type(self)):
-            raise TypeError("Your plugin has to have an 'imports' function.")
         if type(self).__name__ != "Plugin":
             raise TypeError("Please make sure the class is named 'Plugin'")
     
@@ -209,16 +207,21 @@ class ETS2LAPlugin(object):
         threading.Thread(target=self.event_listener, daemon=True).start()
         threading.Thread(target=self.control_listener, daemon=True).start()
 
-        self.imports() # type: ignore # Might or might not exist.
-        
+        try: self.imports() # type: ignore # Might or might not exist.
+        except Exception as ex:
+            if type(ex) != AttributeError:
+                logging.exception("Error in 'imports' function")
+                
         try: self.init() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'init' function")
+        
         try: self.initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'initialize' function")
+        
         try: self.Initialize() # type: ignore # Might or might not exist.
         except Exception as ex:
             if type(ex) != AttributeError: 

@@ -1,13 +1,16 @@
 from ETS2LA.UI import *
 
-from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from ETS2LA.Utils.version import GetHistory
 
 from datetime import datetime
+import logging
 import time
+import os
 
-last_update_check = 0
+ran_fetch = False
 last_updates = []
+last_update_check = 0
+
 class Page(ETS2LAPage):
     dynamic = True
     url = "/changelog"
@@ -33,7 +36,13 @@ class Page(ETS2LAPage):
             return f"{int(diff / 86400)} days ago"
     
     def render(self):
-        global last_update_check, last_updates
+        global last_update_check, last_updates, ran_fetch
+        
+        if not ran_fetch:
+            logging.info("Fetching changelog and possible changes.")
+            os.system("git fetch --prune --quiet")
+            logging.info("Changelog fetched.")
+            ran_fetch = True
         
         if time.perf_counter() - last_update_check > 10:
             last_update_check = time.perf_counter()

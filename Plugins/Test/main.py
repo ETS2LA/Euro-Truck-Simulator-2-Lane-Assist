@@ -51,9 +51,6 @@ class Plugin(ETS2LAPlugin):
                 print(f"{i} / {count} ({(i/count)*100:.2f}%)", end="\r")
         self.payload_size = sys.getsizeof(self.dictionary)
         print("Dictionary size: ", f"{self.payload_size/1000/1000:.2f}", "MB")
-    
-    def imports(self):
-        ...
 
     def run(self):
         start_time = time.time()

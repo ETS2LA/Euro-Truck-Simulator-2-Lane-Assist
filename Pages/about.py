@@ -3,9 +3,12 @@ from ETS2LA.UI.utils import SendPopup
 from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
+from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.translator as translator
+from ETS2LA.Utils.umami import TriggerEvent
+from ETS2LA.Utils.version import Update
 import time
 
 contributors = [
@@ -47,6 +50,13 @@ class Page(ETS2LAPage):
         controller.wipers0 = False
         print("Wipers should be fixed now.")
         SendPopup("Wipers should be fixed now.", "success")
+        
+    def update(self, *args, **kwargs):
+        try:
+            TriggerEvent("Update App")
+        except:
+            pass
+        mainThreadQueue.append([Update, [], {}])
     
     def seconds_to_time(self, seconds):
         hours = round(seconds // 3600)
@@ -131,5 +141,6 @@ class Page(ETS2LAPage):
                     with Group("vertical", padding=0, gap=16):
                         Title("Utils")
                         Button("Activate", "Fix wipers", self.fix_wipers, description="Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.")
+                        Button("Update", "Force an update", self.fix_wipers, description="Do you think there should've been an update? Click this button and the app will restart and check for them.")
                     
         return RenderUI()
