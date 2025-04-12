@@ -401,14 +401,6 @@ def GetNextNavigationItem():
     else:
         logging.warning("Both nodes are behind.")
         return None
-            
-    # Correct the points
-    start_distance = math_helpers.DistanceBetweenPoints((last_points[0].x, last_points[0].z), (selected_node.x, selected_node.z))
-    end_distance = math_helpers.DistanceBetweenPoints((last_points[-1].x, last_points[-1].z), (selected_node.x, selected_node.z))
-    
-    if start_distance > end_distance:
-        # The last point is the closest to the node
-        last_points = last_points[::-1]
     
     path: list[RouteNode] = data.navigation_plan
     nodes = [nav.node for nav in path]
@@ -441,11 +433,7 @@ def GetNextNavigationItem():
     next_item = current.item
     if type(next_item) == c.Road:
         closest_lane = rh.get_closest_lane(next_item, last_points[-1].x, last_points[-1].z)
-        target_lanes = []
-        
-        # This is the last road piece before a prefab
-        if next.item_type() == c.Prefab:
-            target_lanes = current.lanes
+        target_lanes = current.lanes # accepted when pathfinding lanes
         
         # Find the last road piece before a prefab
         index = path.index(next)
@@ -453,6 +441,10 @@ def GetNextNavigationItem():
             index += 1
             if index >= len(path):
                 break
+            
+        if closest_lane not in target_lanes:
+            print(f"Closest lane {closest_lane} not in target lanes {target_lanes}, using the first one.")
+            closest_lane = target_lanes[0]
 
         if index == len(path): # Last one doesn't matter
             return RoadToRouteSection(next_item, closest_lane, target_lanes=target_lanes)

@@ -2100,12 +2100,34 @@ Item = Union[
     City, Country, Company, Ferry, POI, Road, Prefab, MapArea, MapOverlay, Building, Curve, FerryItem, CompanyItem, Cutscene, Trigger, Model, Terrain]
 """NOTE: You shouldn't use this type directly, use the children types instead as they provide intellisense!"""
 
+class Elevation:
+    __slots__ = ['x', 'y', 'z', 'sector_x', 'sector_y']
+
+    x: float
+    y: float
+    z: float
+    sector_x: int
+    sector_y: int
+
+    def __init__(self, x: float, y: float, z: float):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.sector_x = 0
+        self.sector_y = 0
+
+    def json(self) -> dict:
+        return {
+            "x": self.x,
+            "y": self.y,
+            "z": self.z
+        }
 
 # MARK: MapData
 class MapData:
     nodes: list[Node]
     """List of all nodes in the currently loaded map data."""
-    elevations: list[tuple[int, int, int]]
+    elevations: list[Elevation]
     roads: list[Road]
     ferries: list[Ferry]
     prefabs: list[Prefab]
@@ -2122,6 +2144,7 @@ class MapData:
     model_descriptions: list[ModelDescription]
     navigation: list[NavigationEntry]
 
+    _elevations_by_sector: dict[dict[Elevation]]
     _nodes_by_sector: dict[dict[Node]]
     _roads_by_sector: dict[dict[Road]]
     _prefabs_by_sector: dict[dict[Prefab]]
@@ -2154,27 +2177,27 @@ class MapData:
     def calculate_sectors(self) -> None:
         for node in self.nodes:
             node.sector_x, node.sector_y = self.get_sector_from_coordinates(node.x, node.y)
-        # elevevations don't have sectors
+            
+        for elevation in self.elevations:
+            elevation.sector_x, elevation.sector_y = self.get_sector_from_coordinates(elevation.x, elevation.z)
+            
         for road in self.roads:
             road.sector_x, road.sector_y = self.get_road_sector(road)
-        # ferries don't have sectors
+            
         for prefab in self.prefabs:
             prefab.sector_x, prefab.sector_y = self.get_sector_from_center_of_nodes(prefab.node_uids, (prefab.x, prefab.y))
+            
         for company in self.companies:
             company.sector_x, company.sector_y = self.get_node_sector(company.node_uid, (company.x, company.y))
+            
         for model in self.models:
             model.sector_x, model.sector_y = self.get_node_sector(model.node_uid, (model.x, model.y))
+            
         for area in self.map_areas:
             area.sector_x, area.sector_y = self.get_sector_from_center_of_nodes(area.node_uids, (area.x, area.y))
+            
         for poi in self.POIs:
             poi.sector_x, poi.sector_y = self.get_sector_from_coordinates(poi.x, poi.y)
-        # dividers are not yet being loaded
-        # countries don't have sectors
-        # cities don't have sectors
-        # company_defs don't have sectors
-        # road_looks don't have sectors
-        # prefab_descriptions don't have sectors
-        # model_descriptions don't have sectors
 
     def get_node_sector(self, node_uid: int | str,  default: tuple[float, float]):
         if not node_uid:
@@ -2215,6 +2238,7 @@ class MapData:
             return self.get_sector_from_coordinates(default[0], default[1])
 
     def sort_to_sectors(self) -> None:
+        self._elevations_by_sector = {}
         self._nodes_by_sector = {}
         self._roads_by_sector = {}
         self._prefabs_by_sector = {}
@@ -2262,6 +2286,14 @@ class MapData:
             if sector[1] not in self._models_by_sector[sector[0]]:
                 self._models_by_sector[sector[0]][sector[1]] = []
             self._models_by_sector[sector[0]][sector[1]].append(model)
+            
+        for elevation in self.elevations:
+            sector = (elevation.sector_x, elevation.sector_y)
+            if sector[0] not in self._elevations_by_sector:
+                self._elevations_by_sector[sector[0]] = {}
+            if sector[1] not in self._elevations_by_sector[sector[0]]:
+                self._elevations_by_sector[sector[0]][sector[1]] = []
+            self._elevations_by_sector[sector[0]][sector[1]].append(elevation)
 
     def get_node_by_uid(self, uid: str) -> Optional[Node]:
         """Get a node by its UID."""
@@ -2363,6 +2395,13 @@ class MapData:
 
     def get_sector_models_by_sector(self, sector: tuple[int, int]) -> list[Model]:
         return self._models_by_sector.get(sector[0], {}).get(sector[1], [])
+
+    def get_sector_elevations_by_coordinates(self, x: float, z: float) -> list[Elevation]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_elevations_by_sector(sector)
+    
+    def get_sector_elevations_by_sector(self, sector: tuple[int, int]) -> list[Elevation]:
+        return self._elevations_by_sector.get(sector[0], {}).get(sector[1], [])
 
     def get_node_by_uid(self, uid: int | str) -> Node | None:
         try:

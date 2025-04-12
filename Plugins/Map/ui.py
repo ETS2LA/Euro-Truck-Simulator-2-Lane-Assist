@@ -28,9 +28,10 @@ class SettingsMenu(ETS2LASettingsMenu):
         with TabView():
             with Tab("map.settings.tab.general.name"):
                 Switch("map.settings.use_navigation.name", "UseNavigation", True, description="map.settings.use_navigation.description")
-                Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
+                Switch("Send Elevation", "SendElevationData", False, description="When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization.")
                 
             with Tab("map.settings.tab.steering.name"):
+                Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
                 Switch("map.settings.drive_based_on_trailer.name", "DriveBasedOnTrailer", True, description="map.settings.drive_based_on_trailer.description")
                 Slider("map.settings.steering_smooth_time.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.steering_smooth_time.description", suffix=" s")
                 

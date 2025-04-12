@@ -76,11 +76,13 @@ def ReadElevations() -> list[tuple[float, float, float]]:
     elevations: list[tuple[float, float, float]] = []
     file = data_handler.ReadData(path)
     for elevation in file:
-        elevations.append((
-            elevation[0],
-            elevation[1],
-            elevation[2],
-        ))
+        elevations.append(
+            c.Elevation(
+                elevation[0],
+                elevation[2],
+                elevation[1]
+            )
+        )
 
     return elevations
 

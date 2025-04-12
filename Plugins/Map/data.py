@@ -1,4 +1,4 @@
-from Plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Node
+from Plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Node, Elevation
 from Modules.SDKController.main import SCSController
 from Plugins.Map.route.classes import RouteSection
 import ETS2LA.Utils.settings as settings
@@ -63,6 +63,8 @@ current_sector_prefabs: list[Prefab] = []
 """The prefabs in the current sector."""
 current_sector_models: list[Model] = []
 """The models in the current sector."""
+current_sector_elevations: list[Elevation] = []
+""""The elevations in the current sector."""
 current_sectors: list[tuple[int, int]] = []
 """The sectors that are currently loaded."""
 route_plan: list[RouteSection] = []
@@ -105,9 +107,9 @@ map_initialized = False
 """Whether the map window has been initialized or not."""
 calculate_steering = settings.Get("Map", "ComputeSteeringData", True)
 """Whether the map should calculate steering data or not."""
-sector_size = settings.Get("Map", "SectorSize", 200)
+sector_size = settings.Get("Map", "SectorSize", 300)
 """The size of each sector in meters."""
-load_distance = settings.Get("Map", "LoadDistance", 500)
+load_distance = settings.Get("Map", "LoadDistance", 600)
 """The radius around the truck in meters that should be loaded."""
 use_navigation = settings.Get("Map", "UseNavigation", True)
 """Whether we should drive along the navigation path or just use the basic route planner."""
@@ -116,6 +118,9 @@ auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 100)
 auto_deny_threshold = settings.Get("Map", "AutoDenyThreshold", 100)
 """The distance in meters from the destination where the truck will automatically deny the current navigation plan."""
 drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", True)
+"""Move the steering point towards the trailer at low speeds."""
+send_elevation_data = settings.Get("Map", "SendElevationData", False)
+"""Whether to send elevation data or not."""
 
 # MARK: Return values
 external_data = {}
@@ -130,8 +135,6 @@ data_needs_update = False
 """Does the external data need to be updated?"""
 external_data_changed = False
 """Flag for the main file to update the external data in the main process."""
-elevation_data_sent = False
-"""Whether the elevation data has been sent to the main process or not."""
 update_navigation_plan = False
 """Whether we should calculate a new plan to drive to the destination."""
 
@@ -139,7 +142,7 @@ update_navigation_plan = False
 def UpdateData(api_data):
     global heavy_calculations_this_frame
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation
-    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models, current_sectors
+    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models, current_sectors, current_sector_elevations
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
     global dest_city, dest_company, dest_city_token, dest_company_token
@@ -170,10 +173,12 @@ def UpdateData(api_data):
         current_sector_prefabs = []
         current_sector_roads = []
         current_sector_models = []
+        current_sector_elevations = []
         for sector in sectors_to_load:
             current_sector_prefabs += map.get_sector_prefabs_by_sector(sector)
             current_sector_roads += map.get_sector_roads_by_sector(sector)
             current_sector_models += map.get_sector_models_by_sector(sector)
+            current_sector_elevations += map.get_sector_elevations_by_sector(sector)
         
         data_needs_update = True
 
@@ -182,6 +187,7 @@ def UpdateData(api_data):
             "prefabs": [prefab.json() for prefab in current_sector_prefabs],
             "roads": [road.json() for road in current_sector_roads],
             "models": [model.json() for model in current_sector_models],
+            "elevations": [elevation.json() for elevation in current_sector_elevations] if send_elevation_data else []
         }
         
         external_data_changed = True
@@ -222,7 +228,7 @@ def UpdateData(api_data):
 def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
     global auto_accept_threshold, auto_deny_threshold, load_distance
-    global drive_based_on_trailer
+    global drive_based_on_trailer, send_elevation_data
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
@@ -231,5 +237,9 @@ def UpdateSettings(settings: dict):
     auto_accept_threshold = settings["AutoAcceptThreshold"]
     auto_deny_threshold = settings["AutoDenyThreshold"]
     drive_based_on_trailer = settings["DriveBasedOnTrailer"]
+    send_elevation_data = settings["SendElevationData"]
+    
+    global data_needs_update
+    data_needs_update = True
     
 settings.Listen("Map", UpdateSettings)

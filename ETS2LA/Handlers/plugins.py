@@ -339,7 +339,6 @@ class PluginHandler:
             if type(data) == tuple:
                 self.data = data[0]
                 for tag in data[1]:
-                    print(tag)
                     self.tags[tag] = data[1][tag]
             else:
                 self.data = data

@@ -291,10 +291,6 @@ class Plugin(ETS2LAPlugin):
                 self.globals.tags.map = json.loads(external_data)
                 self.globals.tags.map_update_time = data.external_data_time
                 data.external_data_changed = False
-
-            if not data.elevation_data_sent:
-                self.globals.tags.elevation_data = data.map.elevations
-                data.elevation_data_sent = True
                 
             external_map_time = time.perf_counter() - external_map_start_time
 
