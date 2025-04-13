@@ -205,7 +205,7 @@ def save_avatar_url_to_cache(username, url):
         
 def check_python_version():
     # Check that Python version is supported
-    supported_versions = [(3, 11, "x"), (3, 12, "x")]
+    supported_versions = [(3, 11, "x"), (3, 12, "x"), (3, 13, "x")]
     recomended_version = (3, 12, 7)
 
     major, minor, micro = sys.version_info[:3]
