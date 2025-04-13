@@ -1,17 +1,21 @@
-from Plugins.Map.navigation.classes import RouteNode
 import Plugins.Map.utils.prefab_helpers as ph
+import Plugins.Map.navigation.classes as nc
 import Plugins.Map.utils.node_helpers as nh
 import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.classes as c
 import Plugins.Map.data as data
 from typing import Literal
+import importlib
 import logging
 import time
 import sys
 
+nc = importlib.reload(nc)
+data.last_length = 0
+
 sys.setrecursionlimit(10**6) # Increase recursion limit
 
-def get_direction_for_route_start(route: list[RouteNode]):
+def get_direction_for_route_start(route: list[nc.RouteNode]):
     last, next = nh.get_surrounding_nav_nodes(route, data.truck_x, data.truck_z, data.truck_rotation)
     if last is None or next is None:
         logging.warning("Failed to find surrounding nodes (do you have a destination set? try driving yourself a bit?)")
@@ -52,7 +56,7 @@ def get_direction_for_route_start(route: list[RouteNode]):
     return direction, index
 
 # Recursive function to traverse
-def traverse_route_for_direction(remaining: list[RouteNode], direction: Literal["forward", "backward"]):
+def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Literal["forward", "backward"]):
     if len(remaining) == 2:
         return [direction]
     
@@ -66,13 +70,13 @@ def traverse_route_for_direction(remaining: list[RouteNode], direction: Literal[
         if node.node_id == next.node.uid:
             so_far = traverse_route_for_direction(remaining[1:], node.direction)
             if so_far == []: return []
-            return [direction] + so_far
+            return [direction] + so_far 
         
     so_far = traverse_route_for_direction(remaining[1:], direction)
     if so_far == []: return []
     return [direction] + so_far
 
-def get_directions_until_route_end(route: list[RouteNode], start_direction: Literal["forward", "backward", ""]):
+def get_directions_until_route_end(route: list[nc.RouteNode], start_direction: Literal["forward", "backward", ""]):
     direction = [start_direction] + traverse_route_for_direction(route, start_direction)
     return direction
 
@@ -86,7 +90,7 @@ def get_path_to_destination():
     if len(game_route) != data.last_length:
         route = []
         for item in game_route:
-            route.append(RouteNode(item))
+            route.append(nc.RouteNode(item))
             if route[-1].node is None:
                 route.pop()
                 

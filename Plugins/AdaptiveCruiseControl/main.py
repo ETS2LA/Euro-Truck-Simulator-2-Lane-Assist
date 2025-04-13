@@ -107,13 +107,13 @@ class Plugin(ETS2LAPlugin):
     overwrite_speed = 30        # km/h
     base_max_accel = 3.0        # m/s^2
     base_comfort_decel = -2.0   # m/s^2
-    base_emergency_decel = -5.0 # m/s^2
+    base_emergency_decel = -6.0 # m/s^2
     base_time_gap_seconds = 2.0 # seconds
     
     # These get adjusted
     max_accel = 3.0  
     comfort_decel = -2.0
-    emergency_decel = -5.0
+    emergency_decel = -6.0
     time_gap_seconds = 2.0
     
     # PID gains
@@ -154,7 +154,12 @@ class Plugin(ETS2LAPlugin):
     def calculate_speedlimit_constraint(self):
         speed_error = self.speedlimit - self.speed
         speed_limit_accel = speed_error * 0.5 
-        speed_limit_accel = min(self.max_accel, max(self.comfort_decel, speed_limit_accel))
+        
+        if speed_error * 3.6 > 10:
+            speed_limit_accel = min(self.max_accel, max(self.emergency_decel, speed_limit_accel))
+        else:
+            speed_limit_accel = min(self.max_accel, max(self.comfort_decel, speed_limit_accel))
+            
         if self.speed < self.speedlimit + 5 / 3.6:
             speed_limit_accel *= 0.75
         
@@ -163,15 +168,15 @@ class Plugin(ETS2LAPlugin):
     
     def calculate_leading_vehicle_constraint(self, in_front: ACCVehicle):
         # time_gap * own_speed + minimum_gap
-        minimum_gap = 20.0  # meters at 0 speed
-        desired_gap = self.time_gap_seconds * self.speed / 2 + minimum_gap
+        minimum_gap = 10.0  # meters at 0 speed
+        desired_gap = self.time_gap_seconds * self.speed + minimum_gap
         self.globals.tags.acc_gap = desired_gap
         
         relative_speed = self.speed - in_front.speed
         gap_error = in_front.distance - desired_gap
 
         # Weighted sum of gap error and relative speed
-        following_accel = 0.5 * gap_error - 0.7 * relative_speed
+        following_accel = 0.5 * gap_error - 0.7 * relative_speed    
         following_accel += 0.3 * in_front.acceleration
         
         following_accel = min(self.max_accel, max(self.emergency_decel, following_accel))
@@ -687,6 +692,10 @@ class Plugin(ETS2LAPlugin):
             self.reset(); return
         
         self.api_data = self.api.run()
+        
+        if self.api_data["pause"]:
+            self.reset(); return
+        
         if self.api_data['truckFloat']['speedLimit'] == 0:
             self.api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    
             

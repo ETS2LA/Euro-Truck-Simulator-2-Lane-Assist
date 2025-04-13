@@ -74,7 +74,6 @@ class RouteNode:
                     item = data.map.get_item_by_uid(nav_node.item_uid)
                     self.direction = nav_node.direction
                     lanes = nav_node.lane_indices
-                    break
                 except:
                     pass
             
@@ -92,6 +91,19 @@ class RouteNode:
             logging.warning(f"Last Item is None: Calculated {len(lanes)} valid lanes for node {self.node.uid} and item {item.uid} ({type(item).__name__}) ({self.direction})")
             return
         
+        # If we are coming from a road to a prefab and they both have
+        # the same amount of lanes, it is expected that we can drive on all of them.
+        # r r r
+        # r r r
+        # p p p
+        # r r r
+        last_lanes = self.get_item_lanes(last.item)
+        current_lanes = self.get_item_lanes(self.item)
+        if type(last.item) == Road and type(self.item) == Prefab and len(last_lanes) == len(current_lanes):
+            self.lanes = lanes
+            self.is_possible = len(lanes) > 0
+            return
+        
         # Lanes now contains all possible lanes that we can drive on.
         # Next we need to check which of them are valid for the next (last) node.
         last_lanes = []
@@ -105,7 +117,7 @@ class RouteNode:
             cur_lanes.append((lane, all_lanes[lane]))
             
         # Check if the distance between the current and last lane is less than 2 meters.
-        # The lanes are 4.5m wide, so this should be good enough.
+        # The lanes are 4.5m wide, so this should be good enough. 
         valid = []
         for last_index, last_lane in last_lanes:
             last_start_point = last_lane.points[0].tuple()
@@ -140,7 +152,7 @@ class RouteNode:
         self.lanes = valid
         self.is_possible = len(valid) > 0
         
-        #logging.warning(f"Success: Calculated {len(valid)} valid lanes for node {self.node.uid} and item {item.uid} ({type(item).__name__}) ({self.direction})")
+        # logging.warning(f"Success: Calculated {len(valid)} valid lanes for node {self.node.uid} and item {item.uid} ({type(item).__name__}) ({self.direction})")
         
     def item_type(self):
         """

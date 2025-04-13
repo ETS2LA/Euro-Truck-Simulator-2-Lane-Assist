@@ -115,7 +115,7 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Successfully reloaded navigation module")
                     if data.use_navigation:
                         logging.info("Recalculating path with reloaded module...")
-                        
+                        data.update_navigation_plan = True
                         
                 if new_drive_hash != last_drive_hash:
                     last_drive_hash = new_drive_hash
@@ -265,15 +265,17 @@ class Plugin(ETS2LAPlugin):
                 steering_value = driving.GetSteering()
 
                 if steering_value is not None:
-                    steering.run(value=steering_value/180, sendToGame=data.enabled, drawLine=False)
+                    steering_value = steering_value / 180
+                    if steering_value > 0.9 or steering_value < -0.9:
+                        steering_value = 0
+
+                    steering.run(value=steering_value, sendToGame=data.enabled, drawLine=False)
                 else:
                     logging.warning("Invalid steering value received")
                     
                 steering_time = time.perf_counter() - steering_start_time
             else:
                 data.route_points = []
-
-
 
             internal_map_start_time = time.perf_counter()
             if data.internal_map:

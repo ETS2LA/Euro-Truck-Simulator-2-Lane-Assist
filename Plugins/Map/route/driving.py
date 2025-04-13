@@ -15,7 +15,7 @@ def get_closest_route_item(items: list[rc.RouteItem]):
     for item in items:
         item = item.item
 
-        if item.bounding_box.is_in(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+        if item.bounding_box.is_in(c.Position(data.truck_x, data.truck_z, data.truck_y)):
             in_bounding_box.append(item)
 
     closest_item = None
@@ -174,18 +174,19 @@ def GetSteering():
             distance = math_helpers.DistanceBetweenPoints(point.tuple(), points[-1].tuple())
             if distance >= GetPointDistance(len(points), data.amount_of_points):
                 if distance <= 20:
-                    points.append(point)
+                    if point not in points:
+                        points.append(point)
 
     if len(points) == 0:
         data.route_points = []
-        if data.use_navigation and len(data.navigation_plan) != 0:
-            data.frames_off_path += 1
-            if data.frames_off_path > 5:
-                #logging.warning("Recalculating navigation plan as we have no points to drive on.")
-                data.route_plan = []
-                data.update_navigation_plan = True
-                data.frames_off_path = 0
-                return 0
+        # if data.use_navigation and len(data.navigation_plan) != 0:
+        #     data.frames_off_path += 1
+        #     if data.frames_off_path > 5:
+        #         #logging.warning("Recalculating navigation plan as we have no points to drive on.")
+        #         data.route_plan = []
+        #         data.update_navigation_plan = True
+        #         data.frames_off_path = 0
+        #         return 0
         return 0
 
     points = points

@@ -135,7 +135,7 @@ def DrawStats(image: np.ndarray):
     cv2.putText(image, f"FPS: {1/perf:.1f}", (10, 40), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (220, 220, 220) if (1/perf > 15) else (100, 220, 220), 1, cv2.LINE_AA)
     
     # Bottom left
-    coordinates = (data.truck_x, data.truck_y, data.truck_z)
+    coordinates = (round(data.truck_x), round(data.truck_y), round(data.truck_z))
     cv2.putText(image, f"Coordinates: {coordinates}", (10, WINDOW_HEIGHT-12), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (220, 220, 220), 1, cv2.LINE_AA)
     sector = (data.current_sector_x, data.current_sector_y)
     cv2.putText(image, f"Sector: {sector}", (10, WINDOW_HEIGHT-32), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (220, 220, 220), 1, cv2.LINE_AA)
@@ -188,7 +188,11 @@ def DrawRoads(sector_change: bool) -> None:
     for road in data.current_sector_roads:
         road_highlighted = HIGHLIGHTED_ROAD is not None and HIGHLIGHTED_ROAD == road.road_look.name
         if not DRAW_DETAILED_ROADS:
-            poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), SCALING_FACTOR) for point in road.points], np.int32)
+            poly_points = [ToLocalSectorCoordinates((point.x), (point.z), SCALING_FACTOR) for point in lane.points]
+            poly_points = [
+                (round(point[0]), round(point[1])) for point in poly_points
+            ]
+            poly_points = np.array(poly_points, np.int32)
             cv2.polylines(road_image, [poly_points], isClosed=False, color=(100, 100, 100), thickness=LINE_THICKNESS, lineType=cv2.LINE_AA)
         else:
             for lane in road.lanes:
@@ -200,7 +204,11 @@ def DrawRoads(sector_change: bool) -> None:
                     color = (110, 110, 140)
                 else:
                     color = (0, 0, 0)
-                poly_points = np.array([ToLocalSectorCoordinates(int((point.x)), int((point.z)), SCALING_FACTOR) for point in lane.points], np.int32)
+                poly_points = [ToLocalSectorCoordinates((point.x), (point.z), SCALING_FACTOR) for point in lane.points]
+                poly_points = [
+                    (round(point[0]), round(point[1])) for point in poly_points
+                ]
+                poly_points = np.array(poly_points, np.int32)
                 cv2.polylines(road_image, [poly_points], isClosed=False, color=color, thickness=LINE_THICKNESS, lineType=cv2.LINE_AA)
         
         if road.uid == HIGHLIGHTED_UID:    

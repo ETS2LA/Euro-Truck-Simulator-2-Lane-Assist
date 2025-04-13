@@ -452,8 +452,12 @@ class BoundingBox:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def is_in(self, point: Position) -> bool:
-        return self.min_x <= point.x <= self.max_x and self.min_y <= point.z <= self.max_y
+    def is_in(self, point: Position, offset: float = 0) -> bool:
+        min_x = self.min_x - offset
+        max_x = self.max_x + offset
+        min_y = self.min_y - offset
+        max_y = self.max_y + offset
+        return min_x <= point.x <= max_x and min_y <= point.y <= max_y
 
     def json(self) -> dict:
         return {
