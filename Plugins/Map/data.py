@@ -121,6 +121,8 @@ drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", True)
 """Move the steering point towards the trailer at low speeds."""
 send_elevation_data = settings.Get("Map", "SendElevationData", False)
 """Whether to send elevation data or not."""
+export_road_offsets = settings.Get("Map", "ExportRoadOffsets", False)
+"""Whether to export the road offsets at startup. Only works in development mode."""
 
 # MARK: Return values
 external_data = {}

@@ -7,8 +7,11 @@ import math
 import cv2
 
 # Change These
+DRAW_DETAILED_ROADS = True
+
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
+
 LINE_THICKNESS = 1
 FONT_SIZE = 0.5
 ZOOM = 3
@@ -21,7 +24,6 @@ LAST_HIGHLIGHTED_ROAD = None
 HIGHLIGHTED_UID = None
 LAST_HIGHLIGHTED_UID = None
 
-DRAW_DETAILED_ROADS = True
 HIGHLIGHT_ROAD = True # When a bounding box is hovered, all roads with the name of the highlighted road will be highlighted
 SCALING_FACTOR = 300 / 100
 

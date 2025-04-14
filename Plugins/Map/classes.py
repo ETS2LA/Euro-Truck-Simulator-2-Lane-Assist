@@ -4,15 +4,18 @@ from enum import Enum, StrEnum, IntEnum
 import logging
 import math
 import time
+import json
 
 # Import dictionary utilities with fallback to mocks for testing
 from ETS2LA.Utils.Values.dictionaries import get_nested_item, set_nested_item
+import ETS2LA.variables as variables
 
 from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
 from Plugins.Map.utils import road_helpers
 from Plugins.Map.utils import node_helpers
 
+import psutil
 
 # MARK: Constants
 
@@ -1038,17 +1041,20 @@ class Road(BaseItem):
         self.start_node = None
         self.end_node = None
 
-    def get_nodes(self):
+    def get_nodes(self, map=None):
         """Populate start_node and end_node if not already set."""
+        if map is None:
+            map = data.map
+            
         try:
             if not hasattr(self, 'start_node_uid') or not hasattr(self, 'end_node_uid'):
                 logging.error(f"Road {self.uid} missing node UIDs")
                 return None, None
 
             if self.start_node is None:
-                self.start_node = data.map.get_node_by_uid(self.start_node_uid)
+                self.start_node = map.get_node_by_uid(self.start_node_uid)
             if self.end_node is None:
-                self.end_node = data.map.get_node_by_uid(self.end_node_uid)
+                self.end_node = map.get_node_by_uid(self.end_node_uid)
 
             if self.start_node is None or self.end_node is None:
                 logging.error(f"Road {self.uid} failed to get nodes")
@@ -2549,3 +2555,83 @@ class MapData:
         print(f"         > Item missing: {self.not_found} ({self.not_found / self.total * 100:.2f}%)                      ")
         print(f"         > Lanes empty: {self.lanes_invalid} ({self.lanes_invalid / self.total * 100:.2f}%)")
         print(f"         > Successful: {self.total - self.not_found - self.lanes_invalid} ({(self.total - self.not_found - self.lanes_invalid) / self.total * 100:.2f}%)")
+        
+    def export_road_offsets(self):
+        if not data.export_road_offsets:
+            return
+        if not variables.DEVELOPMENT_MODE:
+            return
+        
+        logging.warning("Calculating road offsets, this will take a while.")
+        export = {
+            "0. Comment": "These offsets only work in the POSITIVE direction. Some roads might be too WIDE (eq. ETS2 roadlooks with minim) and for these the results will need to be negated.",
+            "1. TLDR": {},
+            "2. Raw Data": {},
+            "3. Per Name Compatible Offsets": {}
+        }
+        
+        i = 0
+        start_time = time.time()
+        count = len(self.roads)
+        for road in self.roads:
+            try:
+                offsets = road_helpers.get_offsets_for_road(road, self)
+                
+                if len(offsets) == 0:
+                    continue
+                
+                if max(offsets) > 0.25:
+                    if road.road_look.name not in export:
+                        export["2. Raw Data"][road.road_look.name] = []
+                    
+                    export["2. Raw Data"][road.road_look.name].append({
+                        "uid": road.uid,
+                        "location": (road.x, road.y),
+                        "errors": offsets
+                    })
+                
+                if i > 10000:
+                    break
+                
+                if i % 500 == 0:
+                    total_ram = psutil.virtual_memory().total
+                    ram = psutil.virtual_memory().available
+                    eta = ((time.time() - start_time) / (i + 1)) * (count - i)
+                    eta_string = time.strftime('%H:%M:%S', time.gmtime(eta))
+                    
+                    print(f"Processed {i}/{count} roads ({i / count * 100:.1f}%), RAM usage: {(1 - ram / total_ram) * 100:.1f}%, ETA: {eta_string}     ", end="\r")
+                    if 1 - ram / total_ram < 0.05:
+                        logging.warning(f"RAM usage at 95%, stopping calculation.")
+                        break
+            except:
+                pass
+            
+            i += 1
+            
+        for road_name in export["2. Raw Data"]:
+            average_offset = 0
+            average_internal_offset = 0
+            for road in export["2. Raw Data"][road_name]:
+                average_offset += sum(road["errors"]) / len(road["errors"])
+                average_internal_offset += road_helpers.GetOffset(road)
+                
+            average_internal_offset /= len(export["2. Raw Data"][road_name])
+            average_offset /= len(export["2. Raw Data"][road_name])
+            
+            # (0.00, 0.25, 0.50, 0.75 ...)
+            average_offset = round(average_offset * 4) / 4
+            average_internal_offset = round(average_internal_offset * 4) / 4
+            
+            export["1. TLDR"][road_name] = {
+                "1. Off by around": average_offset,
+                "2. Current offset": average_internal_offset,
+                "3. Recommended offset (DOUBLECHECK IN GAME!)": 4.5 + (average_internal_offset - 4.5) + average_offset,
+                "4. Comment": "Recommended offset is calculated based on the average error. Please note that if there are a lot of offsets below that are close to 0 off, then it is likely that the current offset is fine and it is a false flag."
+            }
+            export["3. Per Name Compatible Offsets"][road_name] = 4.5 + (average_internal_offset - 4.5) + average_offset
+        
+        filename = "Plugins/Map/road_error.json"
+        with open(filename, "w") as f:
+            json.dump(export, f, indent=4)
+        
+        logging.warning(f"Found {len(export['1. TLDR'])} roadlooks with errors, saved to [code]{filename}[/code].")

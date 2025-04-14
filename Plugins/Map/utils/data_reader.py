@@ -1,6 +1,7 @@
 """Data reader utilities for map plugin."""
 from Plugins.Map.utils import data_handler
 from Plugins.Map import classes as c
+import Plugins.Map.data as data
 from rich import print
 import psutil
 import time
@@ -569,97 +570,100 @@ def ReadData(state = None) -> c.MapData:
     start_time = time.perf_counter()
     print("[yellow]Please wait for map to load the necessary data.[/yellow]")
     
-    data = c.MapData()
+    map = c.MapData()
     
     
     PrintState(start_time, "Nodes")
-    data.nodes = ReadNodes()
-    UpdateState(start_time, f"Loaded {len(data.nodes)} nodes")
+    map.nodes = ReadNodes()
+    UpdateState(start_time, f"Loaded {len(map.nodes)} nodes")
     
     PrintState(start_time, "Navigation")
-    data.navigation = ReadNodeGraph()
-    if data.navigation == []:
-        print("[red]No navigation data found (graph.json). Map cannot proceed.[/red]")
+    map.navigation = ReadNodeGraph()
+    if map.navigation == []:
+        print("[red]No navigation map found (graph.json). Map cannot proceed.[/red]")
         return
-    UpdateState(start_time, f"Loaded {len(data.navigation)} navigation entries")
+    UpdateState(start_time, f"Loaded {len(map.navigation)} navigation entries")
     
     PrintState(start_time, "Elevations")
-    data.elevations = ReadElevations()
-    UpdateState(start_time, f"Loaded {len(data.elevations)} elevations")
+    map.elevations = ReadElevations()
+    UpdateState(start_time, f"Loaded {len(map.elevations)} elevations")
     
     PrintState(start_time, "Roads")
-    data.roads = ReadRoads()
-    UpdateState(start_time, f"Loaded {len(data.roads)} roads")
+    map.roads = ReadRoads()
+    UpdateState(start_time, f"Loaded {len(map.roads)} roads")
     
     PrintState(start_time, "RoadLooks")
-    data.road_looks = ReadRoadLooks()
-    UpdateState(start_time, f"Loaded {len(data.road_looks)} road looks")
+    map.road_looks = ReadRoadLooks()
+    UpdateState(start_time, f"Loaded {len(map.road_looks)} road looks")
     
     PrintState(start_time, "Ferries")
-    data.ferries = ReadFerries()
-    UpdateState(start_time, f"Loaded {len(data.ferries)} ferries")
+    map.ferries = ReadFerries()
+    UpdateState(start_time, f"Loaded {len(map.ferries)} ferries")
     
     PrintState(start_time, "Prefabs")
-    data.prefabs = ReadPrefabs()
-    UpdateState(start_time, f"Loaded {len(data.prefabs)} prefabs")
+    map.prefabs = ReadPrefabs()
+    UpdateState(start_time, f"Loaded {len(map.prefabs)} prefabs")
     
     PrintState(start_time, "Prefab Descriptions")
-    data.prefab_descriptions = ReadPrefabDescriptions()
-    UpdateState(start_time, f"Loaded {len(data.prefab_descriptions)} prefab descriptions")
+    map.prefab_descriptions = ReadPrefabDescriptions()
+    UpdateState(start_time, f"Loaded {len(map.prefab_descriptions)} prefab descriptions")
     
     PrintState(start_time, "Company Definitions")
-    data.companies = ReadCompanyItems()
-    UpdateState(start_time, f"Loaded {len(data.companies)} company items")
+    map.companies = ReadCompanyItems()
+    UpdateState(start_time, f"Loaded {len(map.companies)} company items")
     
     PrintState(start_time, "Companies")
-    data.company_defs = ReadCompanies()
-    UpdateState(start_time, f"Loaded {len(data.company_defs)} company definitions")
+    map.company_defs = ReadCompanies()
+    UpdateState(start_time, f"Loaded {len(map.company_defs)} company definitions")
     
     PrintState(start_time, "Models")
-    data.models = ReadModels()
-    UpdateState(start_time, f"Loaded {len(data.models)} models")
+    map.models = ReadModels()
+    UpdateState(start_time, f"Loaded {len(map.models)} models")
     
     PrintState(start_time, "Model Descriptions")
-    data.model_descriptions = ReadModelDescriptions()
-    UpdateState(start_time, f"Loaded {len(data.model_descriptions)} model descriptions")
+    map.model_descriptions = ReadModelDescriptions()
+    UpdateState(start_time, f"Loaded {len(map.model_descriptions)} model descriptions")
     
     PrintState(start_time, "Map Areas")
-    data.map_areas = ReadMapAreas()
-    UpdateState(start_time, f"Loaded {len(data.map_areas)} map areas")
+    map.map_areas = ReadMapAreas()
+    UpdateState(start_time, f"Loaded {len(map.map_areas)} map areas")
     
     PrintState(start_time, "POIs")
-    data.POIs = ReadPOIs()
-    UpdateState(start_time, f"Loaded {len(data.POIs)} POIs")
+    map.POIs = ReadPOIs()
+    UpdateState(start_time, f"Loaded {len(map.POIs)} POIs")
     
     PrintState(start_time, "Countries")
-    data.countries = ReadCountries()
-    UpdateState(start_time, f"Loaded {len(data.countries)} countries")
+    map.countries = ReadCountries()
+    UpdateState(start_time, f"Loaded {len(map.countries)} countries")
     
     PrintState(start_time, "Cities")
-    data.cities = ReadCities()
-    UpdateState(start_time, f"Loaded {len(data.cities)} cities")
+    map.cities = ReadCities()
+    UpdateState(start_time, f"Loaded {len(map.cities)} cities")
     
     PrintState(start_time, "Calculating sectors")
-    data.calculate_sectors()
+    map.calculate_sectors()
     UpdateState(start_time, f"Calculated sectors")
     
-    PrintState(start_time, "Optimizing data")
-    data.sort_to_sectors()
-    data.build_dictionary()
-    UpdateState(start_time, f"Sorted data to {data._max_sector_x - data._min_sector_x} x {data._max_sector_y - data._min_sector_y} ({data._sector_width}m x {data._sector_height}m) sectors")
+    PrintState(start_time, "Optimizing map")
+    map.sort_to_sectors()
+    map.build_dictionary()
+    UpdateState(start_time, f"Sorted data to {map._max_sector_x - map._min_sector_x} x {map._max_sector_y - map._min_sector_y} ({map._sector_width}m x {map._sector_height}m) sectors")
     
     PrintState(start_time, "Linking objects (prefabs)")
-    data.match_prefabs_to_descriptions()
+    map.match_prefabs_to_descriptions()
     UpdateState(start_time, f"Linked prefabs to descriptions")
     
     PrintState(start_time, "Linking objects (roads)")
-    data.match_roads_to_looks()
+    map.match_roads_to_looks()
     UpdateState(start_time, f"Linked roads to looks")
     
     PrintState(start_time, "Computing Navigation Graph")
-    data.compute_navigation_data()
+    map.compute_navigation_data()
     UpdateState(start_time, f"Computed navigation graph")
     
     print(f"[green]Data read in {time.perf_counter() - start_time:.2f} seconds.[/green]")
+    data.map = map
     
-    return data
+    map.export_road_offsets()
+    
+    return map
