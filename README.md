@@ -27,7 +27,7 @@ We are especially looking for people with experience in **Python** and/or **Unit
 If you don't have a development background you can still help! All of our translations are done by the community, for this purpose we have [instructions on our website](https://ets2la.com/guides/translation/manual/) on how to do this. It's quite simple and anyone with a basic understanding of text editing should be able to do it.
 
 ### Our Repositories
-> [!NOTE] About GitHub and GitLab
+> [!NOTE]
 > Most of the development team prefers to use **GitHub** over **GitLab**. However due to different network situations around the world we have to host some of our data on **GitLab** to make it accessible to everyone everywhere.
 
 **Main Repositories**
