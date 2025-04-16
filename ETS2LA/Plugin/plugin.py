@@ -25,13 +25,20 @@ class ETS2LAPlugin(object):
     """
     This is the main plugin object, you will see a list of attributes below.
     
+    
     :param int fps_cap: The maximum frames per second the plugin will run at.
     :param Description description: The description of the plugin.
     :param Author author: The author of the plugin.
     :param list[ControlEvent] controls: The list of control events to listen to.
     :param Global globals: The global settings and tags.
+    :param State state: Send a persistent state to the backend.
     :param Settings settings: The settings of the plugin.
     :param Plugins plugins: Interactions with other plugins.
+    
+    Functions:
+        **notify(text: str, type: str)** - Show a notification in the frontend.\n
+        **ask(text: str, options: list, description: str)** - Show a question in the frontend.\n
+        **dialog(dialog: object)** - Show a dialog in the frontend.
     """
     path: str
 
