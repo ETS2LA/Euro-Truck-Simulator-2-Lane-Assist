@@ -301,25 +301,23 @@ def display_road_lanes(road) -> None:
     cv2.resizeWindow("Road Lanes", 1000, 1000)
     cv2.waitKey(0)
 
-def get_offsets_for_road(road, map):
+def get_error_for_road(road, map):
     if road is None:
         return []
     
     offsets = []
+    
     road.get_nodes(map=map)
     start_node = road.start_node
     end_node = road.end_node
+    
     if start_node and end_node:
         items = [
             start_node.forward_item_uid, start_node.backward_item_uid,
             end_node.forward_item_uid, end_node.backward_item_uid
         ]
-        items = [
-            item for item in items if item != road.uid
-        ]  
-        items = [
-            map.get_item_by_uid(item) for item in items
-        ]
+        items = [item for item in items if item != road.uid]  
+        items = [map.get_item_by_uid(item) for item in items]
         for item in items:
             if item != None:
                 try:

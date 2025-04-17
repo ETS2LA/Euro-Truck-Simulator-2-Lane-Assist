@@ -2575,23 +2575,22 @@ class MapData:
         count = len(self.roads)
         for road in self.roads:
             try:
-                offsets = road_helpers.get_offsets_for_road(road, self)
+                errors = road_helpers.get_error_for_road(road, self)
                 
-                if len(offsets) == 0:
+                if len(errors) == 0:
+                    i += 1
                     continue
                 
-                if max(offsets) > 0.25:
+                if max(errors) > 0.25 and min(errors) > 0.1:
                     if road.road_look.name not in export:
                         export["2. Raw Data"][road.road_look.name] = []
                     
                     export["2. Raw Data"][road.road_look.name].append({
                         "uid": road.uid,
                         "location": (road.x, road.y),
-                        "errors": offsets
+                        "errors": errors,
+                        "object": road
                     })
-                
-                if i > 10000:
-                    break
                 
                 if i % 500 == 0:
                     total_ram = psutil.virtual_memory().total
@@ -2611,9 +2610,14 @@ class MapData:
         for road_name in export["2. Raw Data"]:
             average_offset = 0
             average_internal_offset = 0
+            
+            if len(export["2. Raw Data"][road_name]) < 3:
+                logging.warning(f"Ignoring road [dim]{road_name}[/dim] with only {len(export['2. Raw Data'][road_name])} errors found.")
+            
             for road in export["2. Raw Data"][road_name]:
                 average_offset += sum(road["errors"]) / len(road["errors"])
-                average_internal_offset += road_helpers.GetOffset(road)
+                average_internal_offset += road_helpers.GetOffset(road["object"])
+                del road["object"]
                 
             average_internal_offset /= len(export["2. Raw Data"][road_name])
             average_offset /= len(export["2. Raw Data"][road_name])
@@ -2634,4 +2638,4 @@ class MapData:
         with open(filename, "w") as f:
             json.dump(export, f, indent=4)
         
-        logging.warning(f"Found {len(export['1. TLDR'])} roadlooks with errors, saved to [code]{filename}[/code].")
+        logging.warning(f"Found {len(export['1. TLDR'])} roadlooks with errors, saved to [dim]{filename}[/dim].")
