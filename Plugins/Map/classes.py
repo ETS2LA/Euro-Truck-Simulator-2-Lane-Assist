@@ -2613,6 +2613,8 @@ class MapData:
             
             if len(export["2. Raw Data"][road_name]) < 3:
                 logging.warning(f"Ignoring road [dim]{road_name}[/dim] with only {len(export['2. Raw Data'][road_name])} errors found.")
+                del export["2. Raw Data"][road_name]
+                continue
             
             for road in export["2. Raw Data"][road_name]:
                 average_offset += sum(road["errors"]) / len(road["errors"])
