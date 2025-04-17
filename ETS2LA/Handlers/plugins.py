@@ -1,6 +1,7 @@
 from ETS2LA.Handlers.controls import get_states as get_control_states
 import ETS2LA.Networking.Servers.notifications as notifications
 from ETS2LA.Handlers.controls import validate_events
+from ETS2LA.Utils.translator import Translate
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.settings import Get, Set
 from ETS2LA.Controls import ControlEvent
@@ -484,6 +485,7 @@ def update_plugins():
     logging.info(f"Discovered {len(controls)} control events.")
 
 def enable_plugin(plugin_name: str):
+    logging.info(Translate(f"webserver.enabling_plugin", values=[plugin_name]))
     plugin = AVAILABLE_PLUGINS[[plugin.name for plugin in AVAILABLE_PLUGINS].index(plugin_name)]
     runner = threading.Thread(target=PluginHandler, args=(
         plugin_name, 
@@ -497,6 +499,7 @@ def enable_plugin(plugin_name: str):
         pass
     
 def disable_plugin(plugin_name: str, from_plugin: bool = False, show_restart_dialog: bool = False):
+    logging.info(Translate(f"webserver.disabling_plugin", values=[plugin_name]))
     for plugin in RUNNING_PLUGINS:
         if plugin.plugin_name == plugin_name:
             try:

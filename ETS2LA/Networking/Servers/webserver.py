@@ -217,12 +217,10 @@ def get_plugins():
 
 @app.get("/backend/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
-    logging.info(Translate(f"webserver.enabling_plugin", values=[plugin]))
     return plugins.enable_plugin(plugin)
 
 @app.get("/backend/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
-    logging.info(Translate(f"webserver.disabling_plugin", values=[plugin]))
     return plugins.disable_plugin(plugin)
 
 @app.get("/backend/plugins/performance")

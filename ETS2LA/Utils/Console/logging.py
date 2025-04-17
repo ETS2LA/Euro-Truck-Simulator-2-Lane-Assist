@@ -7,6 +7,8 @@ but all logs are writte to /logs
 """
 from rich.highlighter import NullHighlighter, Highlighter
 from rich.logging import RichHandler
+from rich.console import Console
+from rich.theme import Theme
 import logging
 
 from ETS2LA.Utils.translator import Translate
@@ -18,6 +20,13 @@ import os
 # Enables / Disables the fancy rich traceback
 ft = settings.Get("global", "use_fancy_traceback", True)
 USE_FANCY_TRACEBACK = True if ft is None else bool(ft)
+
+console = Console(
+    theme=Theme({
+        "repr.ipv4": f"dim",
+        "repr.ipv6": f"dim",
+    })
+)
 
 def setup_global_logging(write_file: bool = True) -> logging.Logger:
     """
@@ -36,13 +45,15 @@ def setup_global_logging(write_file: bool = True) -> logging.Logger:
 
     # Set up logging
     logging.basicConfig(format=
-                            f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s', 
+                            f'%(asctime)s  %(message)s',
                             level=logging.INFO,
                             datefmt=f'%H:%M:%S',
                             handlers=[RichHandler(markup=True, 
                                                   rich_tracebacks=USE_FANCY_TRACEBACK, 
                                                   show_level=True, 
-                                                  show_path=False)]
+                                                  show_path=True,
+                                                  show_time=False,
+                                                  console=console)]
                         )
     
     
@@ -110,11 +121,14 @@ def setup_process_logging(name: str,
 
     # Set up logging
     logging.basicConfig(format=
-                            f'[dim][link file://%(pathname)s]%(filename)s[/link file://%(pathname)s][/dim]\t %(message)s',
+                            f'%(asctime)s  %(message)s',
                             level=logging.DEBUG,
                             datefmt=f'%H:%M:%S',
                             handlers=[RichHandler(
+                                console=console,
                                 markup=True, 
+                                show_path=True,
+                                show_time=False,
                                 rich_tracebacks=USE_FANCY_TRACEBACK, 
                                 show_level=True, 
                                 highlighter=None if USE_FANCY_TRACEBACK 
@@ -146,6 +160,7 @@ def setup_process_logging(name: str,
         rich_tracebacks=USE_FANCY_TRACEBACK, 
         show_level=True, 
         level=console_level, 
+        console=console,
         log_time_format="%H:%M:%S", 
         show_path=False, 
         highlighter=None if USE_FANCY_TRACEBACK else CustomHighligher()
