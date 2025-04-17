@@ -44,12 +44,13 @@ import os
 asked_plugins = False # Will trigger the "Do you want to re-enable plugins?" popup
 mainThreadQueue = []
 sessionToken = ""
+thread = None
 
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 
 app = FastAPI(
     title="ETS2LA",
-    description="Backend API for the ETS2 Lane Assist app",
+    description="Backend API for the ETS2LA app.",
     version="1.0.0"
 )
 app.add_middleware(
@@ -446,15 +447,19 @@ def ExtractIP():
         IP = "127.0.0.1"
     
 def run():
+    global thread
+    
     ExtractIP()
     hostname = "0.0.0.0"
 
-    threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True).start()
+    thread = threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True)
+    thread.start()
+    
     logging.info(Translate("webserver.webserver_started", values=[f"http://{IP}:37520", "http://localhost:37520"]))
 
     if variables.LOCAL_MODE:
         p = multiprocessing.Process(target=RunFrontend if not variables.DEVELOPMENT_MODE else RunFrontendDev, daemon=True)
         p.start()
         logging.info(Translate("webserver.frontend_started", values=[f"http://{IP}:{FRONTEND_PORT}", f"http://localhost:{FRONTEND_PORT}"]))
-    
+   
 # endregion

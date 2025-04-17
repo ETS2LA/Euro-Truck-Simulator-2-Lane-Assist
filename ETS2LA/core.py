@@ -26,6 +26,7 @@ import ETS2LA.Window.window as window
 import ETS2LA.Events.base_events as base_events
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
+import ETS2LA.Utils.listener as listener
 
 # Utils
 from ETS2LA.Utils.Console.visibility import RestoreConsole
@@ -106,6 +107,7 @@ def run() -> None:
             frame_counter = 0
             if variables.DEVELOPMENT_MODE:
                 translator.CheckForLanguageUpdates()
+                listener.check_for_changes()
         
         cloud.Ping()
             
