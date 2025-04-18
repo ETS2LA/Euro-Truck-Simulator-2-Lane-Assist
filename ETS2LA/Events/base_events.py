@@ -35,7 +35,7 @@ class JobStarted():
         job = Job()
         job.fromAPIData(data)
         plugins.call_event('JobStarted', [job], {})
-        logging.info("Triggered event: JobStarted")
+        logging.info("Triggered event: [dim]JobStarted[/dim]")
         cloud.StartedJob(job)
         last_started_job = job
     def __init__(self):
@@ -127,7 +127,7 @@ class JobFinished():
                             
                 return RenderUI()
         plugins.call_event('JobFinished', [job], {})
-        logging.info("Triggered event: JobFinished")
+        logging.info("Triggered event: [dim]JobFinished[/dim]")
         cloud.FinishedJob(job)
         dialog(CargoDialog().build())
     def __init__(self):
@@ -138,7 +138,7 @@ class JobDelivered():
         job = FinishedJob()
         job.fromAPIData(data)
         plugins.call_event('JobDelivered', [job], {})
-        logging.info("Triggered event: JobDelivered")
+        logging.info("Triggered event: [dim]JobDelivered[/dim]")
     def __init__(self):
         API.listen('jobDelivered', self.JobDelivered) # type: ignore
         
@@ -147,7 +147,7 @@ class JobCancelled():
         job = CancelledJob()
         job.fromAPIData(data)
         plugins.call_event('JobCancelled', [job], {})
-        logging.info("Triggered event: JobCancelled")
+        logging.info("Triggered event: [dim]JobCancelled[/dim]")
         cloud.CancelledJob(job)
     def __init__(self):
         API.listen('jobCancelled', self.JobCancelled) # type: ignore
@@ -157,7 +157,7 @@ class RefuelStarted():
         refuel = Refuel()
         refuel.fromAPIData(data)
         plugins.call_event('RefuelStarted', [refuel], {})
-        logging.info("Triggered event: RefuelStarted")
+        logging.info("Triggered event: [dim]RefuelStarted[/dim]")
     def __init__(self):
         API.listen('refuelStarted', self.RefuelStarted) # type: ignore
         
@@ -166,7 +166,7 @@ class RefuelPayed():
         refuel = Refuel()
         refuel.fromAPIData(data)
         plugins.call_event('RefuelPayed', [refuel], {})
-        logging.info("Triggered event: RefuelPayed")
+        logging.info("Triggered event: [dim]RefuelPayed[/dim]")
     def __init__(self):
         API.listen('refuelPayed', self.RefuelPayed) # type: ignore
 
@@ -174,7 +174,7 @@ class VehicleChange():
     lastLicensePlate = ""
     def VehicleChange(self, data):
         plugins.call_event('VehicleChange', data["configString"]["truckLicensePlate"], {})
-        logging.info("Triggered event: VehicleChange")
+        logging.info("Triggered event: [dim]VehicleChange[/dim]")
         
     def ApiCallback(self, data):
         if data["configString"]["truckLicensePlate"] != self.lastLicensePlate:
@@ -196,7 +196,7 @@ class GameShutdown():
         
         if end_found and not start_found:
             plugins.call_event('GameShutdown', [None], {})
-            logging.info("Triggered event: GameShutdown")
+            logging.info("Triggered event: [dim]GameShutdown[/dim]")
             SendPopup("Detected game shutdown", "info")
             return
     
@@ -215,7 +215,7 @@ class GameStart():
                 
         if start_found and not end_found:
             plugins.call_event('GameStart', [None], {})
-            logging.info("Triggered event: GameStart")
+            logging.info("Triggered event: [dim]GameStart[/dim]")
             SendPopup("Detected game start", "info")
     
     def __init__(self):
@@ -227,7 +227,7 @@ class DetectCrackedGame():
         for line in lines:
             if identifier in line:
                 plugins.call_event('DetectCrackedGame', [None], {})
-                logging.info("Triggered event: DetectCrackedGame")
+                logging.info("Triggered event: [dim]DetectCrackedGame[/dim]")
                 class CrackedDialog(ETS2LADialog):
                     def render(self):
                         with Form():
@@ -250,7 +250,7 @@ class DetourGenerated():
             if identifier in line:
                 item = line.split(identifier)[1].strip()
                 plugins.call_event('DetourGenerated', item, {})
-                logging.info("Triggered event: DetourGenerated({})".format(item))
+                logging.info("Triggered event: [dim]DetourGenerated[/dim]({})".format(item))
                 SendPopup("Detour generated, original route might be invalid.", "warning")
                 return
         

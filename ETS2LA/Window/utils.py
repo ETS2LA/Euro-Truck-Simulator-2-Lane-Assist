@@ -186,7 +186,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         "light": 0xFFFFFF
     }
 
-    logging.info("Looking for ETS2LA window... (10s timeout)")
+    logging.info("Looking for ETS2LA window... [dim](10s timeout)[/dim]")
     while returnCode != 0:
         time.sleep(0.01)
         

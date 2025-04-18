@@ -94,7 +94,7 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     state = {}
     
     def load_joysticks(count: int):
-        logging.info(f"Refreshing joysticks. Found {count} joysticks.")
+        logging.info(f"Refreshing joysticks...")
         joystick_objects.clear()
         old_state = state.copy()
         state.clear()
@@ -110,7 +110,7 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
                 name = name[:-1]
                 
             SendPopup(f"{name} connected.")
-            logging.info(f"Found joystick: {name} ({joystick.get_guid()})")
+            logging.info(f"Found joystick: [bold]{name}[/bold] [dim]({joystick.get_guid()})[/dim]")
             joystick_objects.append(joystick)
             state[joystick.get_guid()] = {}
             

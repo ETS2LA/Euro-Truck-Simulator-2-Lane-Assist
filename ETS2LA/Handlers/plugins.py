@@ -474,7 +474,7 @@ def save_running_plugins():
 
 def update_plugins():
     global AVAILABLE_PLUGINS
-    logging.info("Updating plugins...")
+    logging.info("Reloading [yellow]plugins[/yellow].")
     AVAILABLE_PLUGINS = find_plugins()
     logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.settings_menu is not None])} have settings menus.")
     controls = []

@@ -79,10 +79,10 @@ def CheckLanguageDatabase():
         
         if len(not_found) > 0:
             if variables.DEVELOPMENT_MODE:
-                logging.warning(f"Did not find values for the following keys in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_found}")
+                logging.warning(f"Did not find values for the following keys in [dim]{LANGUAGE_DATA[language]['Language']['name_en']}[/dim]: {not_found}")
         if len(not_in_keys) > 0:
             if variables.DEVELOPMENT_MODE:
-                logging.warning(f"Found keys that are not in the keys.yaml file in {LANGUAGE_DATA[language]['Language']['name_en']}: {not_in_keys}")
+                logging.warning(f"Found keys that are not in the keys.yaml file in [dim]{LANGUAGE_DATA[language]['Language']['name_en']}[/dim]: {not_in_keys}")
 
 def GetCodeForLanguage(language: str) -> str:
     if language in LANGUAGES:

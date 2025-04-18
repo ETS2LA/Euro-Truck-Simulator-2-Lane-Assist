@@ -38,13 +38,13 @@ import uvicorn
 import socket
 import json
 import zlib
-import sys
-import os
 
 asked_plugins = False # Will trigger the "Do you want to re-enable plugins?" popup
 mainThreadQueue = []
 sessionToken = ""
 thread = None
+
+IP = None
 
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 
@@ -439,10 +439,7 @@ def RunFrontend():
 def ExtractIP():
     global IP
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        IP = s.getsockname()[0]
-        s.close()
+        IP = socket.gethostbyname(socket.gethostname())
     except:
         IP = "127.0.0.1"
     

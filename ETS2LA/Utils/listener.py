@@ -18,7 +18,7 @@ def discover_files(path):
                 if file not in ignore:
                     py_files.append(os.path.join(root, file))
                     
-    logging.info(f"Discovered {len(py_files)} files in {path}, waiting for changes...")
+    logging.info(f"Discovered {len(py_files)} files, listening for changes.")
     return py_files
                 
 files = discover_files("ETS2LA")

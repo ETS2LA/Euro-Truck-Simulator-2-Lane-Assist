@@ -276,8 +276,6 @@ def run():
         if variables.NO_CONSOLE:
             from ETS2LA.Utils.Console import visibility
             visibility.HideConsole()
-            
-        logging.info(Translate("webpage.opened"))
 
     if not dont_check_window_open:
         if settings.Get("global", "startup_sound", True):

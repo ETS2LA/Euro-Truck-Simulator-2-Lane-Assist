@@ -19,6 +19,7 @@ setup_global_logging() # has to be called first
 # UI
 import ETS2LA.Networking.Servers.notifications as notifications
 import ETS2LA.Networking.Servers.webserver as webserver
+import ETS2LA.Networking.Servers.discovery as discovery
 from ETS2LA.Window.utils import check_if_window_still_open
 import ETS2LA.Window.window as window
 
@@ -49,6 +50,7 @@ if not check_python_version():
 translator.CheckLanguageDatabase()      # Check if all languages have all keys
 translator.UpdateFrontendTranslations() # Update the frontend translations (if running --local)
 
+discovery.run()     # Rebind local IP to http://ets2la.local
 controls.run()      # Control handlers
 plugins.run()       # Run the plugin handler
 
@@ -60,7 +62,7 @@ window.run()        # Webview window (if not --no-ui)
 base_events.run()   # Start listening for events
 
 
-logging.info(translator.Translate("core.backend_started"))
+logging.info("[green]" + translator.Translate("core.backend_started") + "[/green]")
 
 frame_counter = 0
 def run() -> None:
