@@ -27,6 +27,8 @@ pyautogui
 gitpython
 dearpygui
 bettercam
+pyopenssl
+zeroconf
 keyboard
 requests
 ipython
