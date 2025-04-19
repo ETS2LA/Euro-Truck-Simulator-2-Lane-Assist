@@ -13,6 +13,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                 with Group("horizontal", padding=0, gap=24):
                     Selector("acc.settings.aggressiveness.name", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="acc.settings.aggressiveness.description")
                     Selector("acc.settings.following_distance.name", "following_distance", "Normal", ["Near", "Normal", "Far"], description="acc.settings.following_distance.description")
+                with Tab(""):
+                    Switch("acc.settings.ignore_traffic_lights.name", "ignore_traffic_lights", False, description="acc.settings.ignore_traffic_lights.description")
                 
                 with EnabledLock():
                     if self.plugin is None:
