@@ -190,6 +190,25 @@ class Style:
             if v is not None
         }
         return base
+    
+    def __add__(self, other: "Style") -> "Style":
+        if not isinstance(other, Style):
+            raise TypeError("Can only add Style objects")
+        
+        self_dict = self.to_dict()
+        self_classname = self_dict.pop("classname", None)
+        other_dict = other.to_dict()
+        other_classname = other_dict.pop("classname", None)
+        
+        if "default" in self_classname:
+            if "default" in other_classname:
+                other_classname = other_classname.replace("default", "")
+                
+        combined = {**self_dict, **other_dict}
+        combined_classname = f"{self_classname} {other_classname}".strip()
+        combined["classname"] = combined_classname
+        
+        return Style(**combined)
 
 @dataclass
 class Title(Style):
