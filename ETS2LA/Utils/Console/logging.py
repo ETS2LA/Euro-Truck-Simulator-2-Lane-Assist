@@ -14,6 +14,7 @@ import logging
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Utils.settings as settings
+from ETS2LA.variables import DEVELOPMENT_MODE
 
 import os
 
@@ -38,6 +39,7 @@ def setup_global_logging(write_file: bool = True) -> logging.Logger:
 
     # logging.DEBUG is missing since we don't want the log files
     # to have this format.
+    logging.addLevelName(logging.DEBUG, f"{DARK_GRAY}[DBG]{END}")
     logging.addLevelName(logging.INFO, f"{DARK_GREEN}[INF]{END}")
     logging.addLevelName(logging.WARNING, f"{DARK_YELLOW}[WRN]{END}")
     logging.addLevelName(logging.ERROR, f"{DARK_RED}[ERR]{END}")
@@ -114,6 +116,7 @@ def setup_process_logging(name: str,
     
     # logging.DEBUG is missing since we don't want the log files
     # to have this format.
+    logging.addLevelName(logging.DEBUG, f"{DARK_GRAY}[DBG]{END}")
     logging.addLevelName(logging.INFO, f"{DARK_GREEN}[INF]{END}")
     logging.addLevelName(logging.WARNING, f"{DARK_YELLOW}[WRN]{END}")
     logging.addLevelName(logging.ERROR, f"{DARK_RED}[ERR]{END}")

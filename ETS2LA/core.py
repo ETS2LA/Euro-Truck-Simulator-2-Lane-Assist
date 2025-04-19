@@ -20,13 +20,14 @@ setup_global_logging() # has to be called first
 import ETS2LA.Networking.Servers.notifications as notifications
 import ETS2LA.Networking.Servers.webserver as webserver
 import ETS2LA.Networking.Servers.discovery as discovery
+import ETS2LA.Networking.Servers.pages as pages
 from ETS2LA.Window.utils import check_if_window_still_open
 import ETS2LA.Window.window as window
 
 # Backend
 import ETS2LA.Events.base_events as base_events
 import ETS2LA.Handlers.controls as controls
-import ETS2LA.Handlers.plugins as plugins
+#import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.listener as listener
 
 # Utils
@@ -52,10 +53,11 @@ translator.UpdateFrontendTranslations() # Update the frontend translations (if r
 
 discovery.run()     # Rebind local IP to http://ets2la.local
 controls.run()      # Control handlers
-plugins.run()       # Run the plugin handler
+#plugins.run()       # Run the plugin handler
 
 notifications.run() # Websockets server for notifications
 webserver.run()     # Main webserver
+pages.run()         # Python to TS sockets server
 window.run()        # Webview window (if not --no-ui)
                     # This is blocking until the window opens (or a 10s timeout)
 
@@ -82,22 +84,22 @@ def run() -> None:
         
         if not variables.NO_UI and not check_if_window_still_open():
             RestoreConsole()
-            plugins.save_running_plugins()
+            # plugins.save_running_plugins()
             raise Exception("exit")
         
         if variables.CLOSE:
             RestoreConsole()
-            plugins.save_running_plugins()
+            # plugins.save_running_plugins()
             raise Exception("exit")
         
         if variables.RESTART:
             RestoreConsole()
-            plugins.save_running_plugins()
+            # plugins.save_running_plugins()
             raise Exception("restart")
         
         if variables.UPDATE:
             RestoreConsole()
-            plugins.save_running_plugins()
+            # plugins.save_running_plugins()
             raise Exception("Update")
         
         if variables.MINIMIZE:

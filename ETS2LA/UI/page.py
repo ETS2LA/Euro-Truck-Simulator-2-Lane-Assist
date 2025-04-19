@@ -1,4 +1,5 @@
 from ETS2LA.UI import *
+import time
 
 class ETS2LAPage:
     """This is a base class for all ETS2LA pages.
@@ -8,15 +9,13 @@ class ETS2LAPage:
     :param url: The relative URL of the page. (eg. /settings/global)
     """
     
-    dynamic: bool = False
-    settings_target: str = ""
     url: str = ""
+    refresh_rate: int = 1
+    last_update_: float = 0
     
     def __init__(self):
         if "render" not in dir(type(self)):
             raise TypeError("Your page has to have a 'render' method.")
-        if self.settings_target == "":
-            raise TypeError("You must set the 'settings_target' variable to the path of the settings file this page will use.")
         if self.url == "":
             raise TypeError("You must set the 'url' variable to the relative URL of the page.")
         self._json = {}
@@ -26,25 +25,12 @@ class ETS2LAPage:
             pass
         
     def build(self):
-        if self.dynamic:
-            RenderUI()  # Clear the UI system
-            try:
-                data = self.render() # type: ignore # Might or might not exist.
-            except:
-                import traceback
-                traceback.print_exc()
-                data = []
-                
-            data.insert(0, {
-                "settings": self.settings_target
-            })
-            return data
+        if time.perf_counter() - self.last_update_ < self.refresh_rate and self._json != {}:
+            return self._json
         
-        if self._json == {}:
-            RenderUI()  # Clear the UI system
-            self._json = self.render() # type: ignore # Might or might not exist.
-            self._json.insert(0, {
-                "settings": self.settings_target
-            })
+        RenderUI()  # Clear the UI system
+        self.render() # type: ignore # Might or might not exist.
+        self._json = RenderUI()
+        self.last_update_ = time.perf_counter()
         
         return self._json

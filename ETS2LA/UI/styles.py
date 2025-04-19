@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional, Literal
+import json
 
 
 @dataclass
@@ -167,21 +168,6 @@ class Style:
     Where `default` is the default class name for the widget. This way you can
     either prioritize the default classes or append them to the custom ones.
     """
-    
-    # TODO: Add this to the tailwind config
-    """
-    // tailwind.config.js
-    module.exports = {
-    safelist: [
-        {
-        pattern: /p-\[\d+px\]/,
-        },
-        {
-        pattern: /bg-\[\#(?:[0-9a-fA-F]{3}){1,2}\]/,
-        },
-    ],
-    }
-    """
 
     def to_dict(self) -> dict:
         base = {
@@ -201,18 +187,26 @@ class Style:
         other_classname = other_dict.pop("classname", None)
         
         if "default" in self_classname:
-            if "default" in other_classname:
+            if other_classname and "default" in other_classname:
                 other_classname = other_classname.replace("default", "")
                 
         combined = {**self_dict, **other_dict}
         combined_classname = f"{self_classname} {other_classname}".strip()
         combined["classname"] = combined_classname
         
+        # Replace - in keys to _ for compatibility with the Style class
+        combined = {
+            k.replace("-", "_"): v
+            for k, v in combined.items()
+        }
+        
         return Style(**combined)
 
 @dataclass
 class Title(Style):
     classname: str | None = "text-lg font-semibold default"
+    font_size: str | None = "1.125rem"
+    font_weight: Literal['normal', 'bold', 'lighter', 'bolder', '100', '200', '300', '400', '500', '600', '700', '800', '900'] | None = "600"
 
 @dataclass
 class Description(Style):
@@ -229,3 +223,51 @@ class FlexHorizontal(Style):
 @dataclass
 class FlexVertical(Style):
     classname: str | None = "default flex flex-col gap-2"
+    
+@dataclass
+class Padding(Style):
+    def __init__(self, padding: str):
+        super().__init__()
+        self.padding = padding
+        
+@dataclass 
+class MaxWidth(Style):
+    def __init__(self, width: str):
+        super().__init__()
+        self.max_width = width
+        
+@dataclass
+class MaxHeight(Style):
+    def __init__(self, height: str):
+        super().__init__()
+        self.max_height = height
+        
+@dataclass
+class Width(Style):
+    def __init__(self, width: str):
+        super().__init__()
+        self.width = width
+        
+@dataclass
+class Height(Style):
+    def __init__(self, height: str):
+        super().__init__()
+        self.height = height
+        
+@dataclass
+class Gap(Style):
+    def __init__(self, gap: str):
+        super().__init__()
+        self.gap = gap
+        
+@dataclass
+class Margin(Style):
+    def __init__(self, margin: str):
+        super().__init__()
+        self.margin = margin
+        
+@dataclass
+class Classname(Style):
+    def __init__(self, classname: str):
+        super().__init__()
+        self.classname = classname
