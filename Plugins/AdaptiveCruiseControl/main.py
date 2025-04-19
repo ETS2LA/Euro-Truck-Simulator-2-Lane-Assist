@@ -218,7 +218,12 @@ class Plugin(ETS2LAPlugin):
         overwrite_speed = self.settings.overwrite_speed
         speed_offset_type = self.settings.speed_offset_type
         speed_offset = self.settings.speed_offset
+        ignore_traffic_lights = self.settings.ignore_traffic_lights
         
+        if ignore_traffic_lights is None:
+            ignore_traffic_lights = False
+            self.settings.ignore_traffic_lights = ignore_traffic_lights
+            
         if aggressiveness is None:
             aggressiveness = 'Normal'
             self.settings.aggressiveness = aggressiveness
@@ -276,8 +281,8 @@ class Plugin(ETS2LAPlugin):
             following_accel = self.calculate_leading_vehicle_constraint(in_front)
             target_accelerations.append(following_accel)
         
-        # Red Light
-        if traffic_light:
+        # Red Light - 只在未忽略红绿灯时检查
+        if traffic_light and not self.settings.ignore_traffic_lights:
             if traffic_light.state == 2 or traffic_light.state == 1:  # red or changing to red
                 red_light_accel = self.calculate_traffic_light_constraint(traffic_light.distance)
                 target_accelerations.append(red_light_accel)
@@ -562,8 +567,8 @@ class Plugin(ETS2LAPlugin):
             smoothed_max_speed = self.max_speed(max_speed)
         else:
             smoothed_max_speed = 999
-        
-        target_speed = api_data['truckFloat']['speedLimit']
+        # Hotfix: if the speed limit is minus something, set it to overwrite speed
+        target_speed = max(self.overwrite_speed / 3.6, api_data['truckFloat']['speedLimit'])  # 确保速度限制不小于0
         
         if self.speed_offset_type == "Percentage":
             target_speed += target_speed * self.speed_offset / 100
