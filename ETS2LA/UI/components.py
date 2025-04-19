@@ -534,11 +534,11 @@ class Slider():
     
     def __init__(
         self,
-        default: int = 0,
+        default: float = 0,
         changed: Callable | None = None,
-        min: int = 0,
-        max: int = 100,
-        step: int = 1,
+        min: float = 0,
+        max: float = 100,
+        step: float = 1,
         style: Style = Style(),
         suffix: str = "",
         disabled: bool = False
