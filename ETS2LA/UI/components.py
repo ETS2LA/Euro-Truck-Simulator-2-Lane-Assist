@@ -1248,7 +1248,8 @@ class ContextMenuSubMenu():
         dictionary = self.previous
         
 def RenderUI():
-    global dictionary
+    global dictionary, current_id
+    current_id = 0
     tmp = dictionary
     dictionary = []
     return tmp

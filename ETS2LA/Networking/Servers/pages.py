@@ -10,7 +10,7 @@ import json
 import time
 
 subscribers: Dict[str, Set[websockets.WebSocketServerProtocol]] = {}
-last_sent_data: Dict[str, str] = {}  # stores the last JSON-serialized version of the page
+last_sent_data: Dict = {}  # stores the last JSON-serialized version of the page
 
 # Re-render the page
 def render_page(url: str):
@@ -39,25 +39,23 @@ def handle_functions(data: dict):
 # Send updated page data to all subscribers of a given URL
 async def push_update(url: str):
     current_data = render_page(url)
-    json_data = json.dumps(current_data)
-    print(f"Sending update to {url}")
-    if last_sent_data.get(url) != json_data:
-        last_sent_data[url] = json_data
-        dead_sockets = set()
-
+    dead_sockets = set()
+    
+    if last_sent_data[url] != current_data:
+        last_sent_data[url] = current_data
         for ws in subscribers.get(url, []):
             try:
                 await ws.send(json.dumps({
                     "url": url,
                     "data": current_data
                 }))
-                print(f"Sent update to {url}")
+                print(f"Sent update to {ws.remote_address[0]} for {url}")
             except websockets.ConnectionClosed:
                 dead_sockets.add(ws)
 
-        # Clean up disconnected clients
-        for ws in dead_sockets:
-            subscribers[url].discard(ws)
+    # Clean up disconnected clients
+    for ws in dead_sockets:
+        subscribers[url].discard(ws)
 
 # Handles incoming websocket connections
 async def handler(ws, path):
@@ -67,7 +65,6 @@ async def handler(ws, path):
         async for message in ws:
             try:
                 data = json.loads(message)
-                print(f"Received message from {ip}: {data}")
                 if data.get("type") == "subscribe":
                     url = data.get("url")
                     logging.info(f"Client subscribed to: [dim]{url}[/dim] from [dim]{ip}[/dim]")
@@ -105,12 +102,14 @@ async def handler(ws, path):
 
 # Background task to check for updates periodically
 async def update_loop():
+    last_update = time.perf_counter()
     while True:
-        logging.info("Refreshing pages due to given signal.")
         await asyncio.gather(*(push_update(url) for url in subscribers))
         variables.REFRESH_PAGES = False
         while not variables.REFRESH_PAGES:
             await asyncio.sleep(0.05) # Cap to 20fps at max refreshrate.
+            if time.perf_counter() - last_update > 2:
+                break
 
 # Start server + updater loop
 async def start():

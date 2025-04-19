@@ -10,7 +10,6 @@ class ETS2LAPage:
     """
     
     url: str = ""
-    refresh_rate: int = 1
     last_update_: float = 0
     
     def __init__(self):
@@ -25,9 +24,6 @@ class ETS2LAPage:
             pass
         
     def build(self):
-        if time.perf_counter() - self.last_update_ < self.refresh_rate and self._json != {}:
-            return self._json
-        
         RenderUI()  # Clear the UI system
         self.render() # type: ignore # Might or might not exist.
         self._json = RenderUI()

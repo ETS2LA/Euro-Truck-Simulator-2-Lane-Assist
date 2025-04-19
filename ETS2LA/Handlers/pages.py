@@ -20,7 +20,6 @@ def get_page_object(target_url: str):
             return page
 
 def page_function_call(page_name: str, function_name: str, *args, **kwargs):
-    print(page_objects)
     if page_name not in page_objects:
         raise ValueError(f"Page {page_name} not found.")
     

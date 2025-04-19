@@ -129,7 +129,7 @@ class Style:
 
     white_space: Optional[Literal[
         "normal", "nowrap", "pre", "pre-line", "pre-wrap"
-    ]] = None
+    ]] = "pre-wrap"
 
     word_break: Optional[Literal[
         "normal", "break-word", "break-all", "keep-all"

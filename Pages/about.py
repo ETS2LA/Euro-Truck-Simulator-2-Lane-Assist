@@ -76,11 +76,13 @@ class Page(ETS2LAPage):
     def render(self):
         with Container(style=styles.FlexVertical() + styles.Padding("80px 0px 0px 80px") + styles.MaxWidth("900px")):
             Text("about.about", styles.Title())
+            Space()
             Text("about.description", styles.Description())
-            Space(style=styles.Height("10px"))
+            Space(style=styles.Height("14px"))
             
             with Container(style=styles.FlexVertical()):
                 Text("about.statistics", styles.Title())
+                Space()
                 with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                     with Container(style=styles.FlexHorizontal()):
                         Text(f"{Translate('about.statistics.users_online')} ")
@@ -92,32 +94,32 @@ class Page(ETS2LAPage):
                         Text(f"{Translate('about.statistics.usage_time')} ")
                         Text(self.seconds_to_time(GetUserTime()), styles.Description())
                     if token is None:
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px")):
+                        with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
                             Text(f"{Translate('about.statistics.not_logged_in')} ")
                             Text(Translate("about.statistics.anonymous_user_id", [str(user_id)]), styles.Description())
                     else:
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px")):
+                        with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
                             Text(f"{Translate('about.statistics.logged_in')} ")
                             Text(Translate("about.statistics.welcome", [str(GetUsername())]), styles.Description())
         
                 Space(style=styles.Height("10px"))
-                with Container(style=styles.FlexVertical() + styles.Gap("10px")):
+                with Container(style=styles.FlexVertical() + styles.Gap("16px")):
                     Text("about.developers", styles.Title())
                     for contributor in contributors:
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px")):
+                        with Container(style=styles.FlexVertical() + styles.Gap("4px")):
                             with Container(style=styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px 0px 0px 0px") + styles.Classname("items-center")):
                                 Text(contributor["name"], styles.PlainText())
                                 for link in contributor["links"]:
-                                    Link(link[0], link[1], style=styles.Classname("text-xs text-muted-foreground hover:underline"))
+                                    Link(link[0], link[1], style=styles.Classname("text-xs hover:underline"))
                             Text(contributor["description"], styles.Description())
                             
                 Space(style=styles.Height("10px"))
-                with Container(style=styles.FlexVertical() + styles.Gap("10px")):
+                with Container(style=styles.FlexVertical() + styles.Gap("16px")):
                     Text("about.translation_credits", styles.Title())
                     for language in translator.LANGUAGES:
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px")):
+                        with Container(style=styles.FlexVertical() + styles.Gap("4px")):
                             with Container(style=styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px 0px 0px 0px") + styles.Classname("items-center")):
                                 Text(language, styles.PlainText())
                                 Text("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", styles.Description() + styles.Classname("text-xs"))
@@ -130,15 +132,16 @@ class Page(ETS2LAPage):
                 with Container(style=styles.FlexVertical() + styles.Gap("10px")):
                     Text("about.support_development", styles.Title())
                     with Container(style=styles.FlexVertical() + styles.Gap("10px")):
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px") + styles.Padding("0px 0px 0px 0px")):
+                        with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text(Translate("about.kofi_description"), styles.Description())
-                            Link("Ko-Fi", "https://ko-fi.com/tumppi066", style=styles.Classname("text-xs text-muted-foreground hover:underline") + styles.Padding("0px 0px 0px 7px"))
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px") + styles.Padding("0px 0px 0px 0px")):
+                            Link("Ko-Fi", "https://ko-fi.com/tumppi066", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                        with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text(Translate("about.contribute_description"), styles.Description())
-                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs text-muted-foreground hover:underline") + styles.Padding("0px 0px 0px 7px"))
-                        with Container(style=styles.FlexVertical() + styles.Gap("2px") + styles.Padding("0px 0px 0px 0px")):
+                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                            Link("GitHub", "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                        with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text(Translate("about.translate_description"), styles.Description())
-                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs text-muted-foreground hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
                 
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):
