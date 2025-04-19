@@ -5,6 +5,7 @@ import psutil
 class Page(ETS2LAPage):
 
     url = "/stats"
+    refresh_rate = 5
     
     def get_all_python_process_mem_usage_percent(self):
         total = 0
@@ -36,7 +37,12 @@ class Page(ETS2LAPage):
         return by_plugin
     
     def render(self):
-        with Container(styles.FlexHorizontal()):
+        with Container(styles.FlexHorizontal() + 
+                       styles.Classname("w-full border rounded-lg justify-center") + 
+                       styles.Height("2.2rem") +
+                       styles.Padding("0 4px 0 0") +
+                       styles.Gap("4px")):
+            
             with TooltipContent(id="ram_tooltip"):
                 Markdown(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```")
             

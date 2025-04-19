@@ -11,6 +11,7 @@ class ETS2LAPage:
     
     url: str = ""
     last_update_: float = 0
+    refresh_rate: int = 0
     
     def __init__(self):
         if "render" not in dir(type(self)):
@@ -24,6 +25,11 @@ class ETS2LAPage:
             pass
         
     def build(self):
+        # Some pages might not need to be built every time.
+        if self.refresh_rate != 0:
+            if self.last_update_ + self.refresh_rate > time.perf_counter():
+                return self._json
+            
         RenderUI()  # Clear the UI system
         self.render() # type: ignore # Might or might not exist.
         self._json = RenderUI()
