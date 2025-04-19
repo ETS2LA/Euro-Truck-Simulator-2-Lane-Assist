@@ -1303,13 +1303,78 @@ class ButtonWithTitleDescription():
         self.previous = dictionary
         dictionary = []
         
-        with Container(style=styles.FlexHorizontal() + styles.Classname("border items-center border-muted rounded-md p-4 w-full justify-between") + styles.Gap("10px")):
+        with Container(style=styles.FlexHorizontal() + styles.Classname("border items-center border-muted rounded-md p-4 w-full justify-between bg-input/10") + styles.Gap("10px") + self.style):
             with Container(style=styles.FlexVertical() + styles.Gap("2px")):
                 Text(title, styles.Classname("font-semibold"))
-                Text(description, styles.Description())
+                Text(description, styles.Description() + styles.Classname("text-xs"))
             
             with Button(action):
                 Text(text)
+                
+        self.previous += dictionary
+        dictionary = self.previous
+        
+class SliderWithTitleDescription():
+    """
+    This helper function will let you create a slider with a title and
+    a description. 
+    ```python
+    def action(value: float):
+        print(value)
+    
+    SliderWithTitleDescription(
+        min=500,
+        default=720
+        max=2560,
+        step=10,
+        suffix="px",
+        changed=action,
+    )
+    ```
+    """
+    
+    def __init__(
+        self,
+        min: float = 0,
+        default: float = 0,
+        max: float = 100,
+        step: float = 1,
+        suffix: str = "",
+        changed: Callable | None = None,
+        title: str = "",
+        description: str = "",
+        style: Style = Style()
+    ):
+        global dictionary
+        
+        self.id = increment()
+        
+        self.min = min
+        self.default = default
+        self.max = max
+        self.step = step
+        self.suffix = suffix
+        self.changed = changed
+        self.title = title
+        self.description = description
+        self.style = style
+        
+        self.previous = dictionary
+        dictionary = []
+        
+        with Container(style=styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full bg-input/10") + styles.Gap("10px") + self.style):
+            with Container(style=styles.FlexHorizontal() + styles.Classname("justify-between")):
+                Text(title, styles.Classname("font-semibold"))
+                Text(f"{default}{suffix}", styles.Classname("text-muted-foreground"))
+            Slider(
+                min=min,
+                default=default,
+                max=max,
+                step=step,
+                suffix=suffix,
+                changed=changed
+            )
+            Text(description, styles.Description() + styles.Classname("text-xs"))
                 
         self.previous += dictionary
         dictionary = self.previous

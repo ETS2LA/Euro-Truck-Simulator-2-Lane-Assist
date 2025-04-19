@@ -35,8 +35,6 @@ contributors = [
 
 class Page(ETS2LAPage):
     url = "/about"
-    refresh_rate = 1
-    value = 0
     
     def fix_wipers(self):
         print("Fixing wipers (5s timer)")
@@ -50,10 +48,6 @@ class Page(ETS2LAPage):
         controller.wipers0 = False
         print("Wipers should be fixed now.")
         SendPopup("Wipers should be fixed now.", "success")
-        
-    def increment_value(self, *args, **kwargs):
-        self.value += 1
-        print(f"Value incremented to {self.value}")
         
     def update(self, *args, **kwargs):
         print("Triggering update")
@@ -160,7 +154,3 @@ class Page(ETS2LAPage):
                         description="Do you think there should've been an update? Click this button and the app will restart and check for them.",
                         text="Update"
                     )
-                    
-                    Text(f"Value: {self.value}", styles.Description())
-                    with Button(self.increment_value):
-                        Text("Increment Value")
