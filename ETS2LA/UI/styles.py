@@ -243,6 +243,18 @@ class MaxHeight(Style):
         self.max_height = height
         
 @dataclass
+class MinWidth(Style):
+    def __init__(self, width: str):
+        super().__init__()
+        self.min_width = width
+        
+@dataclass
+class MinHeight(Style):
+    def __init__(self, height: str):
+        super().__init__()
+        self.min_height = height
+        
+@dataclass
 class Width(Style):
     def __init__(self, width: str):
         super().__init__()

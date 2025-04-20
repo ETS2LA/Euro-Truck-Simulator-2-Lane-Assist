@@ -19,6 +19,16 @@ class Page(ETS2LAPage):
         
     def handle_alpha_change(self, alpha: float):
         utils_settings.Set("global", "transparency_alpha", alpha)
+        
+    def change_language(self, language: str):
+        print(f"Language changed to {language}")
+        utils_settings.Set("global", "language", language)
+    
+    def change_soundpack(self, soundpack: str):
+        utils_settings.Set("global", "soundpack", soundpack)
+        
+    def change_volume(self, volume: int):
+        utils_settings.Set("global", "volume", volume)
     
     def render(self):
         
@@ -50,7 +60,7 @@ class Page(ETS2LAPage):
                         suffix="px",
                         changed=self.handle_height_change
                     )
-                    
+
                 SliderWithTitleDescription(
                     title=translator.Translate("global.settings.12.name"),
                     description=translator.Translate("global.settings.12.description"),
@@ -62,8 +72,46 @@ class Page(ETS2LAPage):
                     changed=self.handle_alpha_change
                 )
                 
+                ComboboxWithTitleDescription(
+                    title="global.settings.8.name",
+                    description=translator.Translate("global.settings.8.description"),
+                    default=utils_settings.Get("global", "language", default="English"), # type: ignore
+                    options=translator.LANGUAGES, # type: ignore
+                    changed=self.change_language,
+                    side=Side.TOP,
+                    search=ComboboxSearch("Search Languages...", "Help us translate on discord!"),
+                )
+                
+                with Alert(style=styles.Padding("14px")):
+                    with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                        style = styles.Style()
+                        style.margin_top = "2px"
+                        style.width = "1rem"
+                        style.height = "1rem"
+                        style.color = "var(--muted-foreground)"
+                        Icon("info", style)
+                        Text(translator.Translate("credits"), styles.Classname("text-muted-foreground"))
+                
             with Tab("global.settings.audio"):
-                ...
+                with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
+                    ComboboxWithTitleDescription(
+                        title=translator.Translate("global.settings.2.name"),
+                        description=translator.Translate("global.settings.2.description"),
+                        default=sounds.SELECTED_SOUNDPACK,
+                        options=sounds.SOUNDPACKS,
+                        changed=self.change_soundpack,
+                    )
+                    
+                    SliderWithTitleDescription(
+                        title=translator.Translate("global.settings.3.name"),
+                        description=translator.Translate("global.settings.3.description"),
+                        min=0,
+                        max=100,
+                        step=5,
+                        default=int(sounds.VOLUME * 100), # type: ignore
+                        suffix="%",
+                        changed=self.change_volume,
+                    )
                 
             with Tab("global.settings.variables"):
                 ...
@@ -77,45 +125,6 @@ class Page(ETS2LAPage):
         #    #Separator()
 #
         #with TabView():
-        #    with Tab("global.settings.ui"):
-        #        with Group("horizontal", gap=24, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
-        #            Slider("global.settings.10.name",
-        #                "width",
-        #                1280,
-        #                500,
-        #                2560,
-        #                10,
-        #                description="global.settings.10.description",
-        #                suffix="px"
-        #            )
-#
-        #            Slider("global.settings.11.name",
-        #                "height",
-        #                720,
-        #                250,
-        #                1440,
-        #                10,
-        #                description="global.settings.11.description",
-        #                suffix="px"
-        #            )
-#
-        #        Slider("global.settings.12.name",
-        #            "transparency_alpha",
-        #            0.8,
-        #            0.4,
-        #            1,
-        #            0.05,
-        #            description="global.settings.12.description"
-        #        )
-        #        
-        #        with Group("vertical", gap=3, padding=0):
-        #            text = translator.Translate("global.settings.8.description") + " " + translator.Translate("credits")
-        #            Selector("global.settings.8.name",
-        #                "language",
-        #                "English",
-        #                translator.LANGUAGES,
-        #                description=text
-        #            )
         #        
 #
         #    with Tab("global.settings.audio"):

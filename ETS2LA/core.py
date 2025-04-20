@@ -110,7 +110,6 @@ def run() -> None:
         if frame_counter % 100 == 0: # ~1 second 
             frame_counter = 0
             if variables.DEVELOPMENT_MODE:
-                translator.CheckForLanguageUpdates()
                 listener.check_for_changes()
         
         cloud.Ping()

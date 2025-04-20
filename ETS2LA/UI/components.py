@@ -98,6 +98,25 @@ class Markdown():
             }
         })
         
+class Icon():
+    """
+    This class will render any Lucide-React icon. You can
+    see a list of them at https://lucide.dev/icons. 
+    """
+    def __init__(self, icon: str, style: Style = Style()):
+        self.id = increment()
+
+        self.icon = icon
+        self.style = style
+        
+        dictionary.append({
+            "icon": {
+                "id": self.id,
+                "icon": icon,
+                "style": style.to_dict()
+            }
+        })
+        
 class SeparatorType():
     VERTICAL = "vertical"
     HORIZONTAL = "horizontal"
@@ -1255,16 +1274,6 @@ def RenderUI():
     return tmp
 
 # MARK: Helper functions
-
-"""
-with Container(style=styles.FlexHorizontal() + styles.Classname("border items-center border-muted rounded-md p-4 w-full justify-between")):
-    with Container(style=styles.FlexVertical() + styles.Gap("2px")):
-        Text("Do Something", styles.Classname("font-semibold"))
-        Text("This will do something.", styles.Description())
-    
-    with Button(self.fix_wipers):
-        Text("Click me")
-"""
 class ButtonWithTitleDescription():
     """
     This helper function will let you create a button with a title and
@@ -1308,7 +1317,7 @@ class ButtonWithTitleDescription():
                 Text(title, styles.Classname("font-semibold"))
                 Text(description, styles.Description() + styles.Classname("text-xs"))
             
-            with Button(action):
+            with Button(action, style=styles.MinWidth("75px")):
                 Text(text)
                 
         self.previous += dictionary
@@ -1375,6 +1384,65 @@ class SliderWithTitleDescription():
                 changed=changed
             )
             Text(description, styles.Description() + styles.Classname("text-xs"))
+                
+        self.previous += dictionary
+        dictionary = self.previous
+        
+class ComboboxWithTitleDescription():
+    """
+    This helper function will let you create a combobox with a title and
+    a description. 
+    ```python
+    def action(value: str):
+        print(value)
+    
+    ComboboxWithTitleDescription(
+        options=["Option 1", "Option 2", "Option 3"],
+        default="Option 1",
+        changed=action,
+        title="Do Something",
+        description="This will do something",
+    )
+    ```
+    """
+    
+    def __init__(
+        self,
+        options: list[str],
+        default: str = "",
+        changed: Callable | None = None,
+        title: str = "",
+        description: str = "",
+        style: Style = Style(),
+        search: ComboboxSearch | None = None,
+        side: str = Side.BOTTOM,
+    ):
+        global dictionary
+        
+        self.id = increment()
+        
+        self.options = options
+        self.default = default
+        self.changed = changed
+        self.title = title
+        self.description = description
+        self.style = style
+        self.search = search
+        
+        self.previous = dictionary
+        dictionary = []
+        
+        with Container(style=styles.FlexHorizontal() + styles.Classname("border justify-between rounded-md p-4 w-full bg-input/10") + styles.Gap("10px") + self.style):
+            with Container(style=styles.FlexVertical()):
+                Text(title, styles.Classname("font-semibold"))
+                Text(description, styles.Classname("text-xs") + styles.Description())
+            Combobox(
+                options=options,
+                default=default,
+                changed=changed,
+                side=side,
+                search=search,
+            )
                 
         self.previous += dictionary
         dictionary = self.previous

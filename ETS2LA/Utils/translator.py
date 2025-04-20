@@ -44,8 +44,6 @@ except ValueError:
     LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
     settings.Set("global", "language", "English")
 
-SETTINGS_HASH = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
-
 def UpdateFrontendTranslations():
     try:
         if os.path.exists(FRONTEND_DATA_FOLDER):
@@ -58,8 +56,10 @@ def UpdateFrontendTranslations():
                 with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
                     yaml.dump(LANGUAGE_DATA[language], f, indent=4)
     except:
-        logging.warning("Failed to update frontend translations.")
         pass
+    
+if variables.LOCAL_MODE:
+    UpdateFrontendTranslations()
                 
 def CheckLanguageDatabase():
     for language in LANGUAGE_CODES:
@@ -166,16 +166,17 @@ def Translate(key: str, values: list = None) -> str: # type: ignore
     
     return ftfy.fix_text(LANGUAGE_DATA[LANGUAGE]["Translations"][key].format(*values))
 
-def CheckForLanguageUpdates():
-    global LANGUAGE, SETTINGS_HASH
-    cur_hash = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
-    if cur_hash != SETTINGS_HASH:
-        SETTINGS_HASH = cur_hash
-        try:
-            LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
-        except ValueError:
-            logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
-            LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
-            settings.Set("global", "language", "English")
-        LoadLanguageData()
-        UpdateFrontendTranslations()
+def UpdateLanguageData(settings_dict: dict):
+    global LANGUAGE
+    try:
+        new_language = LANGUAGE_CODES[LANGUAGES.index(settings_dict.get("language", "English"))]
+        if new_language != LANGUAGE:
+            logging.info(f"Language changed to {settings_dict.get('language', 'English')}")
+            LANGUAGE = new_language
+            
+    except ValueError:
+        logging.warning(f"Language '{settings_dict.get('language', 'English')}' not found. Falling back to English.")
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
+        settings.Set("global", "language", "English")
+
+settings.Listen("global", UpdateLanguageData)
