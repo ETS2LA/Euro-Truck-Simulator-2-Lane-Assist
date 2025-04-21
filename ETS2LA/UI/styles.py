@@ -178,9 +178,6 @@ class Style:
         return base
     
     def __add__(self, other: "Style") -> "Style":
-        if not isinstance(other, Style):
-            raise TypeError("Can only add Style objects")
-        
         self_dict = self.to_dict()
         self_classname = self_dict.pop("classname", None)
         other_dict = other.to_dict()
@@ -204,7 +201,6 @@ class Style:
 
 @dataclass
 class Title(Style):
-    classname: str | None = "text-lg font-semibold default"
     font_size: str | None = "1.125rem"
     font_weight: Literal['normal', 'bold', 'lighter', 'bolder', '100', '200', '300', '400', '500', '600', '700', '800', '900'] | None = "600"
 

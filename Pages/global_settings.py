@@ -29,6 +29,75 @@ class Page(ETS2LAPage):
         
     def change_volume(self, volume: int):
         utils_settings.Set("global", "volume", volume)
+        
+    def change_startup_sound(self, *args):
+        if args:
+            startup_sound = args[0]
+        else:
+            startup_sound = not utils_settings.Get("global", "startup_sound", default=True)
+            
+        utils_settings.Set("global", "startup_sound", startup_sound)
+    
+    def change_monitor(self, monitor: str):
+        if not monitor:
+            return
+        
+        monitor_index = int(monitor.split(" ")[-1])
+        utils_settings.Set("global", "monitor", monitor_index)
+        
+    def change_port(self, port: int):
+        if not port:
+            return
+        
+        utils_settings.Set("global", "frontend_port", port)
+        
+    def handle_frameless_change(self, *args):
+        if args:
+            frameless = args[0]
+        else:
+            frameless = not utils_settings.Get("global", "frameless", default=False)
+            
+        utils_settings.Set("global", "frameless", frameless)
+        
+    def handle_crash_report_change(self, *args):
+        if args:
+            crash_report = args[0]
+        else:
+            crash_report = not utils_settings.Get("global", "send_crash_reports", default=True)
+            
+        utils_settings.Set("global", "send_crash_reports", crash_report)
+        
+    def handle_fancy_traceback_change(self, *args):
+        if args:
+            fancy_traceback = args[0]
+        else:
+            fancy_traceback = not utils_settings.Get("global", "use_fancy_traceback", default=True)
+            
+        utils_settings.Set("global", "use_fancy_traceback", fancy_traceback)
+        
+    def handle_debug_mode_change(self, *args):
+        if args:
+            debug_mode = args[0]
+        else:
+            debug_mode = not utils_settings.Get("global", "debug_mode", default=True)
+            
+        utils_settings.Set("global", "debug_mode", debug_mode)
+        
+    def handle_fireworks_change(self, *args):
+        if args:
+            fireworks = args[0]
+        else:
+            fireworks = not utils_settings.Get("global", "fireworks", default=True)
+            
+        utils_settings.Set("global", "fireworks", fireworks)
+        
+    def handle_snow_change(self, *args):
+        if args:
+            snow = args[0]
+        else:
+            snow = not utils_settings.Get("global", "snow", default=True)
+            
+        utils_settings.Set("global", "snow", snow)
     
     def render(self):
         
@@ -76,7 +145,7 @@ class Page(ETS2LAPage):
                     title="global.settings.8.name",
                     description=translator.Translate("global.settings.8.description"),
                     default=utils_settings.Get("global", "language", default="English"), # type: ignore
-                    options=translator.LANGUAGES, # type: ignore
+                    options=translator.LANGUAGES,
                     changed=self.change_language,
                     side=Side.TOP,
                     search=ComboboxSearch("Search Languages...", "Help us translate on discord!"),
@@ -92,7 +161,7 @@ class Page(ETS2LAPage):
                         Icon("info", style)
                         Text(translator.Translate("credits"), styles.Classname("text-muted-foreground"))
                 
-            with Tab("global.settings.audio"):
+            with Tab("global.settings.audio", container_style=styles.FlexVertical() + styles.Gap("24px")):
                 with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
                     ComboboxWithTitleDescription(
                         title=translator.Translate("global.settings.2.name"),
@@ -108,16 +177,91 @@ class Page(ETS2LAPage):
                         min=0,
                         max=100,
                         step=5,
-                        default=int(sounds.VOLUME * 100), # type: ignore
+                        default=int(sounds.VOLUME * 100),
                         suffix="%",
                         changed=self.change_volume,
                     )
+                    
+                state = utils_settings.Get("global", "startup_sound", default=True)
+                CheckboxWithTitleDescription(
+                    title="Startup Sound",
+                    description="Toggle the startup sound on or off. This plays every time the ETS2LA window is opened.",
+                    default=state, # type: ignore
+                    changed=self.change_startup_sound,
+                )
                 
-            with Tab("global.settings.variables"):
-                ...
+            if self.monitors != 0:
+                with Tab("global.settings.variables"):
+                    monitors = [f"Display {i}" for i in range(self.monitors + 1)]
+                    default = "Display " + str(utils_settings.Get("global", "monitor", default=0))
+                    ComboboxWithTitleDescription(
+                        title=translator.Translate("global.settings.13.name"),
+                        description=translator.Translate("global.settings.13.description"),
+                        default=default,
+                        options=monitors,
+                        changed=self.change_monitor,
+                    )
                 
-            with Tab("global.settings.misc"):
-                ...
+            with Tab("global.settings.misc", styles.FlexVertical() + styles.Gap("24px")):
+                port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
+                with Container(style=styles.FlexHorizontal() + styles.Gap("16px") + styles.Padding("14px 16px 16px 16px") + styles.Classname("border justify-between items-center rounded-md w-full bg-input/10")):
+                    with Container(style=styles.FlexVertical()):
+                        Text("global.settings.4.name", styles.Classname("font-semibold"))
+                        Text("global.settings.4.description", styles.Classname("text-xs") + styles.Description())
+                    Input(
+                        default=port,
+                        changed=self.change_port,
+                        type=InputType.NUMBER,
+                        style=styles.MaxWidth("200px"),
+                    )
+                
+                CheckboxWithTitleDescription(
+                    title="global.settings.9.name",
+                    description="global.settings.9.description",
+                    default=utils_settings.Get("global", "frameless", default=False), # type: ignore
+                    changed=self.handle_frameless_change
+                )
+                
+                CheckboxWithTitleDescription(
+                    title="global.settings.6.name",
+                    description="global.settings.6.description",
+                    default=utils_settings.Get("global", "send_crash_reports", default=True), # type: ignore
+                    changed=self.handle_crash_report_change
+                )
+                
+                CheckboxWithTitleDescription(
+                    title="global.settings.5.name",
+                    description="global.settings.5.description",
+                    default=utils_settings.Get("global", "use_fancy_traceback", default=True), # type: ignore
+                    changed=self.handle_fancy_traceback_change
+                )
+                
+                CheckboxWithTitleDescription(
+                    title="global.settings.7.name",
+                    description="global.settings.7.description",
+                    default=utils_settings.Get("global", "debug_mode", default=True), # type: ignore
+                    changed=self.handle_debug_mode_change
+                )
+                
+                Separator()
+                with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
+                    CheckboxWithTitleDescription(
+                        title="global.settings.16.name",
+                        description="global.settings.16.description",
+                        default=utils_settings.Get("global", "fireworks", default=True), # type: ignore
+                        changed=self.handle_fireworks_change
+                    )
+                    
+                    CheckboxWithTitleDescription(
+                        title="global.settings.15.name",
+                        description="global.settings.15.description",
+                        default=utils_settings.Get("global", "snow", default=True), # type: ignore
+                        changed=self.handle_snow_change
+                    )
+                    
+                Space(styles.Height("24px"))
+                
+                
                 
         #with Group("vertical", gap=14, padding=0):
         #    Title("global.settings.1.title")
@@ -125,41 +269,6 @@ class Page(ETS2LAPage):
         #    #Separator()
 #
         #with TabView():
-        #        
-#
-        #    with Tab("global.settings.audio"):
-        #        with Group("horizontal", gap=24, padding=0, border=False, classname="flex w-full justify-between text-start items-center"):
-        #            Selector("global.settings.2.name",
-        #                "soundpack",
-        #                sounds.SELECTED_SOUNDPACK, 
-        #                sounds.SOUNDPACKS,
-        #                description="global.settings.2.description"
-        #            )
-#
-        #            Slider("global.settings.3.name",
-        #                "volume",
-        #                sounds.VOLUME * 100, # default 
-        #                0, # min
-        #                100, # max
-        #                5, # step
-        #                description="global.settings.3.description",
-        #                suffix="%"
-        #            )
-        #            
-        #        Toggle("Startup Sound", "startup_sound", True, description="Toggle the startup sound on or off. This plays every time the ETS2LA window is opened.")
-    #
-        #    with Tab("global.settings.variables"):
-        #        if self.monitors != 0:
-        #            Slider("global.settings.13.name",
-        #                "display",
-        #                0,
-        #                0,
-        #                self.monitors,
-        #                1,
-        #                description="global.settings.13.description"
-        #            )
-        #        Input("global.settings.14.name", "FOV", "number", 77, description="global.settings.14.description")
-    #
         #    with Tab("global.settings.misc"):
         #        
         #        

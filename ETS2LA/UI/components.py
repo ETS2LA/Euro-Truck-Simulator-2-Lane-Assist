@@ -42,17 +42,19 @@ class Text():
     Text("Hello PlainText", styles.PlainText())
     ```
     """
-    def __init__(self, text: str, style: Style = Style()):
+    def __init__(self, text: str, style: Style = Style(), pressed: Callable | None = None):
         self.id = increment()
 
         self.text = text
         self.style = style
+        self.pressed = pressed
         
         dictionary.append({
             "text": {
                 "id": self.id,
                 "text": text,
-                "style": style.to_dict()
+                "style": style.to_dict(),
+                "pressed": get_fully_qualified_name(self.pressed) if self.pressed else None
             }
         })
         
@@ -167,9 +169,10 @@ class Container():
         Text("Hello World 2")
     ```
     """
-    def __init__(self, style: Style = Style()):
+    def __init__(self, style: Style = Style(), pressed: Callable | None = None):
         self.id = increment()
         self.style = style
+        self.pressed = pressed
         
     def __enter__(self):
         global dictionary
@@ -183,6 +186,7 @@ class Container():
             "container": {
                 "id": self.id,
                 "style": self.style.to_dict(),
+                "pressed": get_fully_qualified_name(self.pressed) if self.pressed else None,
                 "children": dictionary
             }
         })
@@ -357,7 +361,7 @@ class Input():
         print(value) 
         
     Input(
-        placeholder=current_value,
+        default=current_value,
         changed=callback,
         type=STRING
     )
@@ -365,7 +369,7 @@ class Input():
     """
     def __init__(
         self,
-        placeholder: str = "",
+        default,
         changed: Callable | None = None,
         type: Literal["string", "number", "password"] = InputType.STRING,
         style: Style = Style(),
@@ -373,10 +377,10 @@ class Input():
     ):
         self.id = increment()
         
-        if not placeholder:
-            placeholder = INPUT_PLACEHOLDERS[type]
+        if not default:
+            default = INPUT_PLACEHOLDERS[type]
             
-        self.placeholder = placeholder
+        self.default = default
         self.changed = changed
         self.type = type
         self.style = style
@@ -385,7 +389,7 @@ class Input():
         dictionary.append({
             "input": {
                 "id": self.id,
-                "placeholder": placeholder,
+                "default": default,
                 "changed": get_fully_qualified_name(changed) if changed else None,
                 "type": type,
                 "style": style.to_dict(),
@@ -480,7 +484,7 @@ class Switch():
             }
         })
         
-class CheckBox():
+class Checkbox():
     """
     Create a checkbox element. You can use the `changed` parameter to specify
     a callback function that will be called when the checkbox changes. The
@@ -1443,6 +1447,68 @@ class ComboboxWithTitleDescription():
                 side=side,
                 search=search,
             )
+                
+        self.previous += dictionary
+        dictionary = self.previous
+       
+class CheckboxWithTitleDescription():
+    """
+    A toggle with a title and description. This is basically a checkbox
+    with a title and description. You can use the `changed` parameter to
+    specify a callback function that will be called when the toggle changes.
+    The first parameter of the callback function will be the changed value
+    of the toggle.
+    ```python
+    current_value = False
+    def callback(value: bool):
+        global current_value
+        current_value = value
+        print(value)
+        
+    ToggleWithTitleDescription(
+        default=current_value,
+        changed=callback,
+        title="Do Something",
+        description="This will do something",
+    )
+    ```
+    """
+    
+    def __init__(
+        self,
+        default: bool = False,
+        changed: Callable | None = None,
+        title: str = "",
+        description: str = "",
+        style: Style = Style(),
+        disabled: bool = False
+    ):
+        global dictionary
+        
+        self.id = increment()
+        
+        self.default = default
+        self.changed = changed
+        self.title = title
+        self.description = description
+        self.style = style
+        self.disabled = disabled
+        
+        self.previous = dictionary
+        dictionary = []
+        
+        with Container(
+            styles.FlexHorizontal() + styles.Gap("16px") + styles.Padding("14px 16px 16px 16px") + styles.Classname("border rounded-md w-full " + ("bg-input/30" if default else "bg-input/10")),
+            pressed=self.changed, # This allows for the entire container to act as the toggle
+        ):
+            Checkbox(
+                default=default, # type: ignore
+                changed=self.changed,
+                style=styles.Margin("4px 0px 0px 0px")
+            )
+            with Container(styles.FlexVertical() + styles.Gap("6px")):
+                Text(title, styles.Classname("font-semibold"))
+                Text(description, styles.Classname("text-xs text-muted-foreground"))
                 
         self.previous += dictionary
         dictionary = self.previous
