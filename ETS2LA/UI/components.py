@@ -267,11 +267,12 @@ class Alert():
         dictionary = self.previous
         
 class ButtonType():
-    PRIMARY = "primary"
+    DEFAULT = "default"
     SECONDARY = "secondary"
     DESTRUCTIVE = "destructive"
     OUTLINE = "outline"
     GHOST = "ghost"
+    LINK = "link"
 
 class Button():
     """
@@ -297,7 +298,7 @@ class Button():
         self,
         action: Callable,
         name: str = "",
-        type: Literal["primary", "secondary", "destructive", "outline", "ghost"] = ButtonType.PRIMARY,
+        type: Literal["default", "secondary", "destructive", "outline", "ghost", "link"] = ButtonType.DEFAULT,
         style: Style = Style(),
         enabled: bool = True
     ):
@@ -1509,6 +1510,106 @@ class CheckboxWithTitleDescription():
             with Container(styles.FlexVertical() + styles.Gap("6px")):
                 Text(title, styles.Classname("font-semibold"))
                 Text(description, styles.Classname("text-xs text-muted-foreground"))
+                
+        self.previous += dictionary
+        dictionary = self.previous
+        
+class InputWithTitleDescription():
+    """
+    An input with a title and description. This is basically a text input
+    with a title and description. You can use the `changed` parameter to
+    specify a callback function that will be called when the input changes.
+    The first parameter of the callback function will be the changed value
+    of the input.
+    ```python
+    current_value = "Value"
+    def callback(value: str):
+        global current_value
+        current_value = value
+        print(value)
+        
+    InputWithTitleDescription(
+        default=current_value,
+        changed=callback,
+        title="Change Something",
+        description="This will change something",
+    )
+    ```
+    """
+    
+    def __init__(
+        self,
+        default,
+        changed: Callable | None = None,
+        title: str = "",
+        description: str = "",
+        type: Literal["string", "number", "password"] = InputType.STRING,
+        style: Style = Style(),
+        disabled: bool = False
+    ):
+        global dictionary
+        
+        self.id = increment()
+        
+        self.default = default
+        self.changed = changed
+        self.title = title
+        self.description = description
+        self.type = type
+        self.style = style
+        self.disabled = disabled
+        
+        self.previous = dictionary
+        dictionary = []
+        
+        with Container(style=styles.FlexHorizontal() + styles.Gap("16px") + styles.Padding("14px 16px 16px 16px") + styles.Classname("border justify-between items-center rounded-md w-full bg-input/10") + self.style):
+            with Container(style=styles.FlexVertical() + styles.Gap("6px")):
+                Text(title, styles.Classname("font-semibold"))
+                Text(description, styles.Classname("text-xs") + styles.Description())
+            Input(
+                default=default,
+                changed=changed,
+                type=type,
+                style=styles.MaxWidth("200px"),
+            )
+                
+        self.previous += dictionary
+        dictionary = self.previous
+        
+class TitleAndDescription():
+    """
+    A simple standardized title and description
+    for settings pages.
+    ```python
+    TitleAndDescription(
+        title="Hello World",
+        description="This is a description"
+    )
+    ```
+    """
+    
+    def __init__(
+        self,
+        title: str,
+        description: str,
+        style: Style = Style()
+    ):
+        global dictionary
+        
+        self.id = increment()
+        
+        self.title = title
+        self.description = description
+        self.style = style
+        
+        self.previous = dictionary
+        dictionary = []
+        
+        flex = styles.FlexVertical()
+        flex.gap = "12px"
+        with Container(flex + self.style):
+            Text(title, styles.Title())
+            Text(description, styles.Description())
                 
         self.previous += dictionary
         dictionary = self.previous

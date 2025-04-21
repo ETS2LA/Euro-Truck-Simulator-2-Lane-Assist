@@ -128,14 +128,14 @@ class Page(ETS2LAPage):
                     with Container(style=styles.FlexVertical() + styles.Gap("10px")):
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text(Translate("about.kofi_description"), styles.Description())
-                            Link("Ko-Fi", "https://ko-fi.com/tumppi066", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                            Link("Ko-Fi", "https://ko-fi.com/tumppi066", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text(Translate("about.contribute_description"), styles.Description())
-                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
-                            Link("GitHub", "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
+                            Link("GitHub", "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text(Translate("about.translate_description"), styles.Description())
-                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline") + styles.Padding("0px 0px 0px 7px"))
+                            Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                 
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):

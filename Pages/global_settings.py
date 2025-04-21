@@ -101,9 +101,10 @@ class Page(ETS2LAPage):
     
     def render(self):
         
-        with Container(styles.FlexVertical()):
-            Text("global.settings.1.title", styles.Title())
-            Text("global.settings.1.description", styles.Description())
+        TitleAndDescription(
+            "global.settings.1.title",
+            "global.settings.1.description",
+        )
         
         with Tabs():
             with Tab("global.settings.ui", styles.FlexVertical() + styles.Gap("24px")):
@@ -204,16 +205,13 @@ class Page(ETS2LAPage):
                 
             with Tab("global.settings.misc", styles.FlexVertical() + styles.Gap("24px")):
                 port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
-                with Container(style=styles.FlexHorizontal() + styles.Gap("16px") + styles.Padding("14px 16px 16px 16px") + styles.Classname("border justify-between items-center rounded-md w-full bg-input/10")):
-                    with Container(style=styles.FlexVertical()):
-                        Text("global.settings.4.name", styles.Classname("font-semibold"))
-                        Text("global.settings.4.description", styles.Classname("text-xs") + styles.Description())
-                    Input(
-                        default=port,
-                        changed=self.change_port,
-                        type=InputType.NUMBER,
-                        style=styles.MaxWidth("200px"),
-                    )
+                InputWithTitleDescription(
+                    title="global.settings.4.name",
+                    description="global.settings.4.description",
+                    default=port,
+                    type=InputType.NUMBER,
+                    changed=self.change_port,
+                )
                 
                 CheckboxWithTitleDescription(
                     title="global.settings.9.name",

@@ -82,6 +82,8 @@ class Style:
     padding_right: Optional[str] = None
     padding_bottom: Optional[str] = None
     padding_left: Optional[str] = None
+    padding_block: Optional[str] = None
+    padding_inline: Optional[str] = None
 
     # Border
     border: Optional[str] = None
@@ -183,7 +185,7 @@ class Style:
         other_dict = other.to_dict()
         other_classname = other_dict.pop("classname", None)
         
-        if "default" in self_classname:
+        if self.classname and "default" in self_classname:
             if other_classname and "default" in other_classname:
                 other_classname = other_classname.replace("default", "")
                 
