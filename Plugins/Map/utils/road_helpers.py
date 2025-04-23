@@ -47,7 +47,7 @@ def normalize(v):
 def lerp(a, b, t):
     return a + t * (b - a)
 
-def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, custom_offset=999, next_offset=999, side=0):
+def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, custom_offset=999, prev_offset=999):
     try:
         # Validate input points
         if not points or len(points) < 2:
@@ -65,11 +65,9 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
             point1 = np.array([point1[0], point1[2]])
             point2 = points[i + 1].list()
             point2 = np.array([point2[0], point2[2]])
-            if next_offset != base_custom_offset and next_offset != 999 and base_custom_offset != 999:
-                if side == 0:
-                    custom_offset = lerp(base_custom_offset, next_offset, i / (pointCount - 1))
-                elif side == 1:
-                    custom_offset = lerp(base_custom_offset, next_offset, 1 - i / (pointCount - 1))
+
+            if base_custom_offset != 999 and prev_offset != 999 and prev_offset != base_custom_offset:
+                custom_offset = lerp(prev_offset, base_custom_offset, i / (pointCount - 2))
 
             direction_vector = point2 - point1
             direction_vector = normalize(direction_vector)
@@ -192,20 +190,6 @@ def GetRoadLanes(road, data):
             logging.error(f"Failed to get nodes for road {road.uid}")
             return [], c.BoundingBox(0, 0, 0, 0)
 
-        next_road = None
-        if hasattr(end_node, 'forward_item_uid'):
-            try:
-                next_road = data.map.get_item_by_uid(end_node.forward_item_uid)
-                if type(next_road) == c.Road:
-                    custom_offset_next = GetOffset(next_road) if next_road else custom_offset
-                else:
-                    custom_offset_next = custom_offset
-            except Exception as e:
-                logging.debug(f"Could not get next road offset: {e}")
-                custom_offset_next = custom_offset
-        else:
-            custom_offset_next = custom_offset
-
         prev_road = None
         if hasattr(start_node, 'backward_item_uid'):
             try:
@@ -220,18 +204,9 @@ def GetRoadLanes(road, data):
         else:
             custom_offset_prev = custom_offset
 
-        next_offset = custom_offset
-        side = 0
-        if custom_offset_next > custom_offset:
-            next_offset = custom_offset_next
-            side = 0
-        elif custom_offset_prev > custom_offset:
-            next_offset = custom_offset_prev
-            side = 1
-
         try:
             lanes = calculate_lanes(road.points, 4.5, len(road.road_look.lanes_left), len(road.road_look.lanes_right),
-                               road, custom_offset=custom_offset, next_offset=next_offset, side=side)
+                               road, custom_offset=custom_offset, prev_offset=custom_offset_prev)
         except Exception as e:
             logging.error(f"Error calculating lanes for road {road.uid}: {e}")
             return [], c.BoundingBox(0, 0, 0, 0)
