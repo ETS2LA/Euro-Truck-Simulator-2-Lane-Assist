@@ -77,9 +77,8 @@ def CheckForUploads():
         except:
             DeletePair(Name=File)
 
-displayed_error = False
+
 def GetDataID():
-    global displayed_error
     import ETS2LA.variables as variables
     import requests
     import os
@@ -103,10 +102,7 @@ def GetDataID():
             else:
                 raise Exception("Couldn't get an ID from the server.")
         except:
-            if not displayed_error:
-                print(f"\n{RED}Unable to do data collection, couldn't get a response from the server. The plugin will disable itself.{NORMAL}\n")
-                displayed_error = True
-                
+            print(f"\n{RED}Unable to do data collection, couldn't get a response from the server. The plugin will disable itself.{NORMAL}\n")
             return "None"
         with open(f"{variables.PATH}End-To-End-Data-ID.txt", "w") as File:
             File.write(DataID + """
