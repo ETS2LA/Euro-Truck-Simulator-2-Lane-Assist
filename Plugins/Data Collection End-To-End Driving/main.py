@@ -102,7 +102,6 @@ def GetDataID():
             else:
                 raise Exception("Couldn't get an ID from the server.")
         except:
-            print(f"\n{RED}Unable to do data collection, couldn't get a response from the server. The plugin will disable itself.{NORMAL}\n")
             return "None"
         with open(f"{variables.PATH}End-To-End-Data-ID.txt", "w") as File:
             File.write(DataID + """
@@ -196,7 +195,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="plugin.datacollectionendtoenddriving.description",
         modules=["TruckSimAPI", "Camera"],
-        tags=["Base"]
+        tags=[]
     )
 
     author = Author(
@@ -256,6 +255,7 @@ class Plugin(ETS2LAPlugin):
         # Server side code can be found at https://github.com/ETS2LA/cdn
         DataID = GetDataID()
         if DataID == "None":
+            print(f"\n{RED}Unable to do data collection, couldn't get a response from the server. The plugin will disable itself.{NORMAL}\n")
             self.terminate()
 
 
