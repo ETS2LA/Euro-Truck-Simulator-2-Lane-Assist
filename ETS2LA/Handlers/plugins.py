@@ -431,7 +431,12 @@ def find_plugins() -> list[Plugin]:
     plugins = []
     for folder in folders:
         if "main.py" in os.listdir(f"{plugin_path}/{folder}"):
-            plugin_class = get_plugin_class(f"{plugin_path}.{folder}.main")
+            try:
+                plugin_class = get_plugin_class(f"{plugin_path}.{folder}.main")
+            except:
+                logging.warning(f"Failed to load plugin {folder}.")
+                continue
+            
             if plugin_class is not None:
                 information = getattr(plugin_class, "description", None)
                 
