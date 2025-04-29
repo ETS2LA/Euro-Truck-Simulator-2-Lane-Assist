@@ -27,7 +27,7 @@ import ETS2LA.Window.window as window
 # Backend
 import ETS2LA.Events.base_events as base_events
 import ETS2LA.Handlers.controls as controls
-#import ETS2LA.Handlers.plugins as plugins
+import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.listener as listener
 
 # Utils
@@ -53,7 +53,7 @@ translator.UpdateFrontendTranslations() # Update the frontend translations (if r
 
 discovery.run()     # Rebind local IP to http://ets2la.local
 controls.run()      # Control handlers
-#plugins.run()       # Run the plugin handler
+plugins.run()       # Run the plugin handler
 
 notifications.run() # Websockets server for notifications
 webserver.run()     # Main webserver

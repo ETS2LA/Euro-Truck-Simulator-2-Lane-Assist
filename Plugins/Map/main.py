@@ -32,7 +32,7 @@ last_im_hash = hash(open(im.__file__).read())
 
 enable_disable = ControlEvent(
     "toggle_map",
-    "Toggle Map Steering",
+    "Toggle Steering",
     "button",
     description="When Map is running this will toggle it on/off.",
     default="n"
@@ -40,7 +40,7 @@ enable_disable = ControlEvent(
 
 toggle_navigate = ControlEvent(
     "toggle_navigate",
-    "Toggle Map Navigation",
+    "Toggle Navigation",
     "button",
     description="Quickly toggle Navigate on ETS2LA on/off."
 )

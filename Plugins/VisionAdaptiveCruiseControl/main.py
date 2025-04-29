@@ -7,7 +7,7 @@ from ETS2LA.Events import *
 
 EnableDisable = ControlEvent(
     "toggle_vision_adaptive_cruise_control",
-    "Toggle Vision Adaptive Cruise Control",
+    "Toggle",
     "button",
     description="When Vision Adaptive Cruise Control is running this will toggle it on/off.",
     default="n"

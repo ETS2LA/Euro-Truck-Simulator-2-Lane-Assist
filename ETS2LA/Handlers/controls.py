@@ -74,6 +74,8 @@ def on_release(key):
 listener = pynput_keyboard.Listener(on_press=on_press, on_release=on_release)
 listener.start()
 
+def get_event_information_dictionary() -> dict:
+    return event_information
 
 def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     """This is the main joystick update process. It will listen
@@ -211,7 +213,7 @@ def event_information_update(once: bool = False) -> None:
 
 
 def save_event_information(label: str, guid: str, key: str, type: str,
-                           name: str, description: str, device: str) -> None:
+                           name: str, description: str, device: str, plugin: str) -> None:
     """This function will save the event information for a given
     event.
 
@@ -222,6 +224,7 @@ def save_event_information(label: str, guid: str, key: str, type: str,
     :param str name: The name of the event.
     :param str description: The description of the event.
     :param str device: The device name of the event.
+    :param str plugin: The plugin name of the event.
     """
     settings.Set(settings_file, label, {
         "guid": guid,
@@ -229,8 +232,11 @@ def save_event_information(label: str, guid: str, key: str, type: str,
         "type": type,
         "name": name,
         "description": description,
-        "device": device
+        "device": device,
+        "plugin": plugin
     })
+    
+    event_information_update(once=True)
 
 
 def get_event_information(event: ControlEvent) -> dict:
@@ -243,23 +249,25 @@ def get_event_information(event: ControlEvent) -> dict:
     if event.alias not in event_information:
         if event.default != "":
             save_event_information(event.alias, "keyboard", event.default, event.type,
-                                   event.name, event.description, "Keyboard")
+                                   event.name, event.description, "Keyboard", event.plugin)
             return {
                 "guid": "keyboard",
                 "key": event.default,
                 "type": event.type,
                 "name": event.name,
-                "description": event.description
+                "description": event.description,
+                "plugin": event.plugin
             }
         
-        save_event_information(event.alias, "", "", event.type,
-                               event.name, event.description, "")
+        save_event_information(event.alias, "", "", event.type, event.name, 
+                               event.description, "", event.plugin)
         return {
             "guid": "",
             "key": "",
             "type": event.type,
             "name": event.name,
-            "description": event.description
+            "description": event.description,
+            "plugin": event.plugin
         }
     
     return event_information[event.alias]
@@ -275,7 +283,7 @@ def load_event_from_alias(alias: str) -> ControlEvent:
         raise ValueError(f"Event with alias '{alias}' not found.")
     
     info = event_information[alias]
-    return ControlEvent(alias, info["name"], info["type"], info["description"], info["key"])
+    return ControlEvent(alias, info["name"], info["type"], info["description"], info["key"], info["plugin"])
 
 
 def validate_events(events: list[ControlEvent]) -> None:
@@ -350,9 +358,9 @@ def edit_event(event: ControlEvent | str) -> None:
         new_guid, new_key = control_picker(event, queue)
         device_name = joysticks[new_guid]["name"] if new_guid != "" and new_guid != "keyboard" else "Keyboard"
         if new_guid == "":
-            save_event_information(event.alias, "", "", event.type, event.name, event.description, device_name)
+            save_event_information(event.alias, "", "", event.type, event.name, event.description, device_name, event.plugin)
         else:
-            save_event_information(event.alias, new_guid, new_key, event.type, event.name, event.description, device_name)
+            save_event_information(event.alias, new_guid, new_key, event.type, event.name, event.description, device_name, event.plugin)
     except:
         logging.exception("Exception occurred while trying to edit the event.")
         
@@ -372,7 +380,7 @@ def unbind_event(event: ControlEvent | str) -> None:
             logging.error(f"Event with alias '{event}' not found.")
             return
     
-    save_event_information(event.alias, "", "", event.type, event.name, event.description, "")
+    save_event_information(event.alias, "", "", event.type, event.name, event.description, "", event.plugin)
 
 
 def run():

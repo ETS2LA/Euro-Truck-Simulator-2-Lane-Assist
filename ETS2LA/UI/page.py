@@ -12,6 +12,7 @@ class ETS2LAPage:
     url: str = ""
     last_update_: float = 0
     refresh_rate: int = 0
+    return_cache: bool = False
     
     def __init__(self):
         if "render" not in dir(type(self)):

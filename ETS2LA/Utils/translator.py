@@ -140,9 +140,12 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # 
     
     return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
-def Translate(key: str, values: list = None) -> str: # type: ignore
+def Translate(key: str, values: list = None, return_original: bool = False) -> str: # type: ignore
     if not CheckKey(key):
         logging.error(f"{key} is not a valid key.")
+        if return_original:
+            return key
+        
         return ""
     
     if SpecialCases(key) != "":
@@ -158,9 +161,13 @@ def Translate(key: str, values: list = None) -> str: # type: ignore
     if key not in LANGUAGE_DATA[LANGUAGE]["Translations"]:
         if LANGUAGE == "en":
             logging.error(f"Did not find a value for {key} in English!")
+            if return_original:
+                return key
             return ""
         if key not in LANGUAGE_DATA["en"]:
             logging.error(f"Did not find a value for {key} in English!")
+            if return_original:
+                return key
             return ""
         return LANGUAGE_DATA["en"][key].format(*values)
     

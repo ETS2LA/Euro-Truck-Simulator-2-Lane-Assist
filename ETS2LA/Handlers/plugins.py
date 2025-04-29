@@ -452,6 +452,11 @@ def find_plugins() -> list[Plugin]:
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
                 controls = getattr(plugin_class, "controls", [])
+                
+                for control in controls:
+                    if information:
+                        control.plugin = Translate(information.name, return_original=True)
+                    
                 if information and not information.hidden or variables.DEVELOPMENT_MODE:
                     plugin: Plugin = Plugin(folder, information, author, settings, controls)
                     plugins.append(plugin)

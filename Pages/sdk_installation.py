@@ -57,7 +57,7 @@ def CheckIfInstalled(path: str, version: str, detailed: bool = False) -> bool | 
 
 class Page(ETS2LAPage):
     dynamic = True
-    url = "/setup/sdk"
+    url = "/settings/sdk"
     settings_target = "sdk_installation"
     
     def OpenSources(self, version: str):

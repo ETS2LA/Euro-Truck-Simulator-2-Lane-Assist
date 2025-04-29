@@ -67,5 +67,5 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
         return "", ""
     
     name = "Keyboard key" if new_guid == "keyboard" else start_values[new_guid]["name"]
-    SendPopup("Event bound to " + name + " " + new_key, "success")
+    SendPopup("Event bound to " + name + " " + new_key.capitalize().replace("_", " "), "success")
     return new_guid, new_key

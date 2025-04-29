@@ -296,7 +296,7 @@ class Button():
     
     def __init__(
         self,
-        action: Callable,
+        action: Callable | None,
         name: str = "",
         type: Literal["default", "secondary", "destructive", "outline", "ghost", "link"] = ButtonType.DEFAULT,
         style: Style = Style(),
