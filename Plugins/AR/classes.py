@@ -1,10 +1,4 @@
-import ETS2LA.variables as variables
 import math
-import time
-import sys
-
-sys.path.append(f"{variables.PATH}ETS2LA/Assets/CppUtils/ets2la_AR")
-import ets2la_AR
 
 class Point:
     """Representation of a 2D point.
@@ -43,40 +37,85 @@ class Point:
     
     def json(self):
         return {"x": self.x, "y": self.y}
-
+    
 def ConvertCoordinateToScreen(coordinate, self):
     if type(coordinate) != Coordinate:
         return None
     
-    screen_x, screen_y, distance = ets2la_AR.game_to_screen_coordinate(
-        coordinate.x,
-        coordinate.y,
-        coordinate.z,
-        self.HeadX,
-        self.HeadY,
-        self.HeadZ,
-        self.InsideHeadX,
-        self.InsideHeadY,
-        self.InsideHeadZ,
-        self.HeadRotationDegreesY,
-        self.HeadRotationDegreesX,
-        self.HeadRotationDegreesZ,
-        self.CabinOffsetRotationDegreesY,
-        self.CabinOffsetRotationDegreesX,
-        self.CabinOffsetRotationDegreesZ,
-        self.FOV,
-        self.WindowPosition[0],
-        self.WindowPosition[1],
-        self.WindowPosition[2],
-        self.WindowPosition[3],
-        coordinate.relative,
-        coordinate.rotation_relative
-    )
+    X = coordinate.x
+    Y = coordinate.y
+    Z = coordinate.z
+    
+    HeadYaw = self.HeadRotationDegreesX
+    HeadPitch = self.HeadRotationDegreesY
+    HeadRoll = self.HeadRotationDegreesZ
 
-    if screen_x is None: # cant return single None in c++
+    if coordinate.relative:
+        # If the head and inside positions match, then the relative X is the same as the absolute X
+        # we want to add the position so that it works even when the head is not the same as inside head
+        RelativeX = X
+        RelativeY = Y
+        RelativeZ = Z
+        
+        if abs(self.HeadX - self.InsideHeadX) > 1 or abs(self.HeadY - self.InsideHeadY) > 1 or abs(self.HeadZ - self.InsideHeadZ) > 1:
+            return None # TODO: Implement relative coordinates for other cameras
+        
+        if coordinate.rotation_relative:
+            # Rotate the points around the head (0, 0, 0)
+            CosPitch = math.cos(math.radians(self.CabinOffsetRotationDegreesY))
+            SinPitch = math.sin(math.radians(self.CabinOffsetRotationDegreesY))
+            NewY = RelativeY * CosPitch - RelativeZ * SinPitch
+            NewZ = RelativeZ * CosPitch + RelativeY * SinPitch
+
+            CosYaw = math.cos(math.radians(self.CabinOffsetRotationDegreesX))
+            SinYaw = math.sin(math.radians(self.CabinOffsetRotationDegreesX))
+            NewX = RelativeX * CosYaw + NewZ * SinYaw
+            NewZ = NewZ * CosYaw - RelativeX * SinYaw
+
+            CosRoll = math.cos(math.radians(0))#-CabinOffsetRotationDegreesZ))
+            SinRoll = math.sin(math.radians(0))#-CabinOffsetRotationDegreesZ))
+            FinalX = NewX * CosRoll - NewY * SinRoll
+            FinalY = NewY * CosRoll + NewX * SinRoll
+
+            RelativeX = FinalX
+            RelativeY = FinalY
+            RelativeZ = NewZ
+        
+    else:
+        RelativeX = X - self.HeadX
+        RelativeY = Y - self.HeadY
+        RelativeZ = Z - self.HeadZ
+
+    CosYaw = math.cos(math.radians(-HeadYaw))
+    SinYaw = math.sin(math.radians(-HeadYaw))
+    NewX = RelativeX * CosYaw + RelativeZ * SinYaw
+    NewZ = RelativeZ * CosYaw - RelativeX * SinYaw
+
+    CosPitch = math.cos(math.radians(-HeadPitch))
+    SinPitch = math.sin(math.radians(-HeadPitch))
+    NewY = RelativeY * CosPitch - NewZ * SinPitch
+    FinalZ = NewZ * CosPitch + RelativeY * SinPitch
+
+    CosRoll = math.cos(math.radians(-HeadRoll))
+    SinRoll = math.sin(math.radians(-HeadRoll))
+    FinalX = NewX * CosRoll - NewY * SinRoll
+    FinalY = NewY * CosRoll + NewX * SinRoll
+
+    if FinalZ >= 0:
         return None
 
-    return screen_x, screen_y, distance
+    FovRad = math.radians(self.FOV)
+    
+    WindowDistance = ((self.WindowPosition[3] - self.WindowPosition[1]) * (4 / 3) / 2) / math.tan(FovRad / 2)
+
+    ScreenX = (FinalX / FinalZ) * WindowDistance + (self.WindowPosition[2] - self.WindowPosition[0]) / 2
+    ScreenY = (FinalY / FinalZ) * WindowDistance + (self.WindowPosition[3] - self.WindowPosition[1]) / 2
+
+    ScreenX = (self.WindowPosition[2] - self.WindowPosition[0]) - ScreenX
+
+    Distance = math.sqrt((RelativeX ** 2) + (RelativeY ** 2) + (RelativeZ ** 2))
+
+    return ScreenX, ScreenY, Distance
         
 class Coordinate:
     """Representation of a 3D coordinate.
