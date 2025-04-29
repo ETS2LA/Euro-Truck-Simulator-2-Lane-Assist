@@ -167,11 +167,7 @@ class Page(ETS2LAPage):
                             Text("sdk_install.installed" if is_installed else "sdk_install.not_installed", styles.Description())
                         
                         with Container(styles.FlexHorizontal() + styles.Gap("4px")):
-                            style = styles.Padding("0px")
-                            style.padding_block = "0px"
-                            style.padding_inline = "0px"
-                            style.height = "18px"
-                            with Button(action=self.OpenPath, name=found_game, type="link", style=style):
+                            with Button(action=self.OpenPath, name=found_game, type="link"):
                                 Text(found_game, styles.Description() + styles.Classname("text-xs"))
                         
                         if not_supported:
@@ -194,7 +190,8 @@ class Page(ETS2LAPage):
                                                     Text(file, text_style)
                                                     Text("sdk_install.installed" if file_install_status[file] else "sdk_install.not_installed", styles.Description())
                                             
-                                            with Button(action=self.OpenSources, name=version, type="link", style=styles.Padding("12px 0px 0px 0px") + styles.Classname("w-max h-max")):
+                                            with Button(action=self.OpenSources, name=version, type="link", style=styles.Padding("12px 0px 0px 0px") + styles.Classname("w-max h-max") + styles.Gap("6px")):
+                                                Icon("file")
                                                 Text("File Sources", styles.Classname("text-xs"))
                                 
                                 icon_style = styles.Style()
