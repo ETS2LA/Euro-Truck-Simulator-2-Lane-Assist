@@ -9,7 +9,7 @@ EnableDisable = ControlEvent(
     "toggle_vision_adaptive_cruise_control",
     "Toggle",
     "button",
-    description="When Vision Adaptive Cruise Control is running this will toggle it on/off.",
+    description="When VACC is running this will toggle it on/off.",
     default="n"
 )
 

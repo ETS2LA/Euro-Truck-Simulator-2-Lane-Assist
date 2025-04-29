@@ -85,7 +85,8 @@ class Page(ETS2LAPage):
             default="Search Controls or Plugins",
             changed=self.handle_search,
         )
-            
+        
+        valid_controls = []
         for control in controls:
             if self.target_plugin and control.plugin != self.target_plugin:
                 continue
@@ -96,6 +97,20 @@ class Page(ETS2LAPage):
                 if not has_in_name and not has_in_plugin:
                     continue
             
+            valid_controls.append(control)
+            
+        if len(valid_controls) == 0:
+            with Alert(style=styles.Padding("14px")):
+                with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                    style = styles.Style()
+                    style.margin_top = "2px"
+                    style.width = "1rem"
+                    style.height = "1rem"
+                    style.color = "var(--muted-foreground)"
+                    Icon("triangle-alert", style)
+                    Text("No controls found, try again with different filters.", styles.Classname("text-muted-foreground"))
+            
+        for control in valid_controls:
             pointer = styles.Style()
             pointer.cursor = "pointer"
             
