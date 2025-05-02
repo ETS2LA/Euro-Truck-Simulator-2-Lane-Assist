@@ -2,7 +2,7 @@
 # TODO: Make this file type-safe. I'm not even going to try and do it myself.
 #     - Tumppi066
 #
-#       Changed it to use a class for the models, is it better now?
+#       Better now?
 #     - Glas42
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Utils.Console.visibility as console
@@ -18,17 +18,17 @@ import sys
 import os
 
 
-def SendCrashReport(Title, Description):
-    print("NOT IMPLEMENTED: SendCrashReport")
+def send_crash_report(title, description):
+    print("NOT IMPLEMENTED: send_crash_report")
 
 
 try:
     from torchvision import transforms
     import torch
-    TorchAvailable = True
+    torch_available = True
 except:
-    TorchAvailable = False
-    SendCrashReport("PyTorch - PyTorch import error.", str(traceback.format_exc()))
+    torch_available = False
+    send_crash_report("PyTorch - PyTorch import error", str(traceback.format_exc()))
 
 
 RED = "\033[91m"
@@ -39,353 +39,455 @@ NORMAL = "\033[0m"
 
 
 class Model:
-    def __init__(Self, HuggingFaceOwner:str, HuggingFaceRepository:str, HuggingFaceModelFolder:str, PluginSelf:object=None, DType:torch.dtype=torch.bfloat16, Threaded:bool=True):
-        Self.DType = DType
-        Self.Device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        Self.Path = f"{variables.PATH}model-cache/{HuggingFaceOwner}/{HuggingFaceRepository}/{HuggingFaceModelFolder}"
+    def __init__(self, HF_owner:str, HF_repository:str, HF_model_folder:str, plugin_self:object=None, torch_dtype:torch.dtype=torch.bfloat16, threaded:bool=True):
+        """
+        Initialize a model.
 
-        Self.HuggingFaceOwner = str(HuggingFaceOwner)
-        Self.HuggingFaceRepository = str(HuggingFaceRepository)
-        Self.HuggingFaceModelFolder = str(HuggingFaceModelFolder)
+        Parameters
+        ----------
+        HF_owner : str
+            The Hugging Face user or organization that owns the model.
+        HF_repository : str
+            The name of the repository that contains the model.
+        HF_model_folder : str
+            The path to the folder that contains the model.
+        plugin_self : object, optional
+            The self of the plugin which uses this model, needed for popups.
+        torch_dtype : torch.dtype, optional
+            The data type to use for the model.
+        threaded : bool, optional
+            Whether to run the loading and updating in a separate thread.
 
-        Self.Identifier = f"{HuggingFaceRepository}/{HuggingFaceModelFolder}"
+        Returns
+        -------
+        None
+        """
+        self.torch_dtype = torch_dtype
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.path = f"{variables.PATH}model-cache/{HF_owner}/{HF_repository}/{HF_model_folder}"
 
-        Self.Threaded = Threaded
+        self.HF_owner = str(HF_owner)
+        self.HF_repository = str(HF_repository)
+        self.HF_model_folder = str(HF_model_folder)
 
-        Self.UpdateThread:threading.Thread
-        Self.LoadThread:threading.Thread
-        Self.Loaded:bool = False
+        self.identifier = f"{HF_repository}/{HF_model_folder}"
 
-        Self.Metadata:dict
-        Self.Model:torch.jit.ScriptModule
+        self.threaded = threaded
 
-        Self.ImageWidth:int
-        Self.ImageHeight:int
-        Self.ColorChannels:int
-        Self.ColorChannelsStr:str
-        Self.Outputs:int
-        Self.TrainingTime:str
-        Self.TrainingDate:str
+        self.update_thread:threading.Thread
+        self.load_thread:threading.Thread
+        self.loaded:bool = False
 
-        def PopupReset():
-            StopTime = time.time() + 5
-            FirstPopupValues = Self.PopupValues
-            while time.time() < StopTime:
+        self.metadata:dict
+        self.model:torch.jit.ScriptModule
+
+        self.image_width:int
+        self.image_height:int
+        self.color_channels:int
+        self.color_channels_str:str
+        self.outputs:int
+        self.training_time:str
+        self.training_date:str
+
+        def popup_reset():
+            stop_time = time.time() + 5
+            first_popup_values = self.popup_values
+            while time.time() < stop_time:
                 time.sleep(0.1)
-                if FirstPopupValues != Self.PopupValues:
-                    FirstPopupValues = Self.PopupValues
-                    StopTime = time.time() + 5
-            Self.PopupHandler.state.text = ""
-            Self.PopupHandler.state.progress = -1
-        Self.PopupResetThread = threading.Thread(target=PopupReset, daemon=True)
-        Self.PopupHandler = PluginSelf
-        Self.PopupValues = ""
+                if first_popup_values != self.popup_values:
+                    first_popup_values = self.popup_values
+                    stop_time = time.time() + 5
+            self.popup_handler.state.text = ""
+            self.popup_handler.state.progress = -1
+        self.popup_reset_thread = threading.Thread(target=popup_reset, daemon=True)
+        self.popup_handler = plugin_self
+        self.popup_values = ""
 
 
-    def Popup(Self, Text="", Progress=0):
+    def popup(self, text="", progress=0):
         try:
-            if Self.PopupHandler != None:
-                Self.PopupValues = Text, Progress
-                Self.PopupHandler.state.text = Text
-                Self.PopupHandler.state.progress = Progress / 100
-                if Self.PopupResetThread.is_alive() == False:
-                    Self.PopupResetThread.start()
+            if self.popup_handler != None:
+                self.popup_values = text, progress
+                self.popup_handler.state.text = text
+                self.popup_handler.state.progress = progress / 100
+                if self.popup_reset_thread.is_alive() == False:
+                    self.popup_reset_thread.start()
         except:
             pass
 
 
-    def Detect(Self, Image:numpy.ndarray):
+    def detect(self, image:numpy.ndarray):
+        """
+        Run the model on an image.
+        Automatically converts and resizes the image.
+
+        Parameters
+        ----------
+        image : numpy.ndarray
+            The image to run the model on.
+
+        Returns
+        -------
+        list
+            The output of the model.
+        """
         try:
-            if len(Image.shape) == 3:
-                if Image.shape[2] == 1 and Self.ColorChannels == 3:
-                    Image = cv2.cvtColor(Image, cv2.COLOR_GRAY2RGB)
-                elif Image.shape[2] == 3 and Self.ColorChannels == 1:
-                    Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-                elif Image.shape[2] == 4 and Self.ColorChannels == 3:
-                    Image = cv2.cvtColor(Image, cv2.COLOR_RGBA2RGB)
-                elif Image.shape[2] == 4 and Self.ColorChannels == 1:
-                    Image = cv2.cvtColor(Image, cv2.COLOR_RGBA2GRAY)
-            elif len(Image.shape) == 2:
-                if Self.ColorChannels == 3:
-                    Image = cv2.cvtColor(Image, cv2.COLOR_GRAY2RGB)
-            Image = cv2.resize(Image, (Self.ImageWidth, Self.ImageHeight))
-            if Image.dtype == numpy.uint8:
-                Image = numpy.array(Image, dtype=numpy.float32) / 255.0
-            Image = torch.as_tensor(transforms.ToTensor()(Image).unsqueeze(0), dtype=Self.DType, device=Self.Device)
+            if len(image.shape) == 3:
+                if image.shape[2] == 1 and self.color_channels == 3:
+                    image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+                elif image.shape[2] == 3 and self.color_channels == 1:
+                    image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+                elif image.shape[2] == 4 and self.color_channels == 3:
+                    image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+                elif image.shape[2] == 4 and self.color_channels == 1:
+                    image = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
+            elif len(image.shape) == 2:
+                if self.color_channels == 3:
+                    image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+            image = cv2.resize(image, (self.image_width, self.image_height))
+            if image.dtype == numpy.uint8:
+                image = numpy.array(image, dtype=numpy.float32) / 255.0
+            image = torch.as_tensor(transforms.ToTensor()(image).unsqueeze(0), dtype=self.torch_dtype, device=self.device)
             with torch.no_grad():
-                Output = Self.Model(Image)
-                Output = Output.tolist()
-            return Output
+                output = self.model(image)
+                output = output.tolist()
+            return output
         except:
-            SendCrashReport("PyTorch - Error in function Detect.", str(traceback.format_exc()))
+            send_crash_report("PyTorch - Error in function detect", str(traceback.format_exc()))
 
 
-    def Load(Self):
+    def load_model(self):
+        """
+        Load the model from the cache, automatically handles updates.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         try:
-            def LoadFunction():
+            def thread():
                 try:
-                    Self.CheckForUpdates()
-                    while Self.UpdateThread.is_alive():
+                    self.check_for_updates()
+                    while self.update_thread.is_alive():
                         time.sleep(0.1)
 
-                    if Self.GetName() == None:
+                    if self.get_name() == None:
                         return
 
-                    Self.Popup(Text="Loading the model...", Progress=0)
-                    print(GRAY + f"[{Self.Identifier}] " + GREEN + "Loading the model..." + NORMAL)
+                    self.popup("Loading the model...", 0)
+                    print(GRAY + f"[{self.identifier}] " + GREEN + "Loading the model..." + NORMAL)
 
-                    ModelFileBroken = False
+                    model_file_broken = False
 
                     try:
-                        Self.Metadata = {"data": [], "Data": [], "metadata": [], "Metadata": []}
-                        Self.Model = torch.jit.load(os.path.join(Self.Path, Self.GetName()), _extra_files=Self.Metadata, map_location=Self.Device)
-                        Self.Model.eval()
-                        Self.Model.to(Self.DType)
-                        Key = max(Self.Metadata, key=lambda Key: len(Self.Metadata[Key]))
-                        Self.Metadata = eval(Self.Metadata[Key])
-                        for Item in Self.Metadata:
+                        self.metadata = {"data": [], "Data": [], "metadata": [], "Metadata": []}
+                        self.model = torch.jit.load(os.path.join(self.path, self.get_name()), _extra_files=self.metadata, map_location=self.device)
+                        self.model.eval()
+                        self.model.to(self.torch_dtype)
+                        key = max(self.metadata, key=lambda key: len(self.metadata[key]))
+                        self.metadata = eval(self.metadata[key])
+                        for item in self.metadata:
                             try:
-                                Item = str(Item)
-                                if "image_width" in Item or "ImageWidth" in Item:
-                                    Self.ImageWidth = int(Item.split("#")[1])
-                                if "image_height" in Item or "ImageHeight" in Item:
-                                    Self.ImageHeight = int(Item.split("#")[1])
-                                if "image_channels" in Item or "ImageChannels" in Item:
-                                    Data = Item.split("#")[1]
+                                item = str(item)
+                                if "image_width" in item or "ImageWidth" in item:
+                                    self.image_width = int(item.split("#")[1])
+                                if "image_height" in item or "ImageHeight" in item:
+                                    self.image_height = int(item.split("#")[1])
+                                if "image_channels" in item or "ImageChannels" in item:
+                                    data = item.split("#")[1]
                                     try:
-                                        Self.ColorChannels = int(Data)
+                                        self.color_channels = int(data)
                                     except ValueError:
-                                        Self.ColorChannelsStr = str(Data)
-                                if "color_channels" in Item or "ColorChannels" in Item:
-                                    Data = Item.split("#")[1]
+                                        self.color_channels_str = str(data)
+                                if "color_channels" in item or "ColorChannels" in item:
+                                    data = item.split("#")[1]
                                     try:
-                                        Self.ColorChannels = int(Data)
+                                        self.color_channels = int(data)
                                     except ValueError:
-                                        Self.ColorChannelsStr = str(Data)
-                                if "outputs" in Item or "Outputs" in Item:
-                                    Self.Outputs = int(Item.split("#")[1])
-                                if "training_time" in Item or "TrainingTime" in Item:
-                                    Self.TrainingTime = Item.split("#")[1]
-                                if "training_date" in Item or "TrainingDate" in Item:
-                                    Self.TrainingDate = Item.split("#")[1]
+                                        self.color_channels_str = str(data)
+                                if "outputs" in item or "Outputs" in item:
+                                    self.outputs = int(item.split("#")[1])
+                                if "training_time" in item or "TrainingTime" in item:
+                                    self.training_time = item.split("#")[1]
+                                if "training_date" in item or "TrainingDate" in item:
+                                    self.training_date = item.split("#")[1]
                             except:
                                 try:
-                                    print(GRAY + f"[{Self.Identifier}] " + YELLOW + f"> Unable to parse '{Item.split('#')[0]}' from model metadata!" + NORMAL)
+                                    print(GRAY + f"[{self.identifier}] " + YELLOW + f"> Unable to parse '{item.split('#')[0]}' from model metadata!" + NORMAL)
                                 except:
-                                    print(GRAY + f"[{Self.Identifier}] " + YELLOW + f"> Unable to parse an item from model metadata!" + NORMAL)
+                                    print(GRAY + f"[{self.identifier}] " + YELLOW + f"> Unable to parse an item from model metadata!" + NORMAL)
                     except:
-                        ModelFileBroken = True
+                        model_file_broken = True
 
-                    if ModelFileBroken == False:
-                        Self.Popup(Text="Successfully loaded the model!", Progress=100)
-                        print(GRAY + f"[{Self.Identifier}] " + GREEN + "Successfully loaded the model!" + NORMAL)
-                        Self.Loaded = True
+                    if model_file_broken == False:
+                        self.popup("Successfully loaded the model!", 100)
+                        print(GRAY + f"[{self.identifier}] " + GREEN + "Successfully loaded the model!" + NORMAL)
+                        self.loaded = True
                     else:
-                        Self.Popup(Text="Failed to load the model because the model file is broken.", Progress=0)
-                        print(GRAY + f"[{Self.Identifier}] " + RED + "Failed to load the model because the model file is broken." + NORMAL)
-                        Self.Loaded = False
-                        Self.HandleBroken()
+                        self.popup("Failed to load the model because the model file is broken.", 0)
+                        print(GRAY + f"[{self.identifier}] " + RED + "Failed to load the model because the model file is broken." + NORMAL)
+                        self.loaded = False
+                        self.handle_broken()
                 except:
-                    SendCrashReport("PyTorch - Loading Error.", str(traceback.format_exc()))
-                    Self.Popup(Text="Failed to load the model!", Progress=0)
-                    print(GRAY + f"[{Self.Identifier}] " + RED + "Failed to load the model!" + NORMAL)
-                    Self.Loaded = False
+                    send_crash_report("PyTorch - Error in function thread (load_model)", str(traceback.format_exc()))
+                    self.popup("Failed to load the model!", 0)
+                    print(GRAY + f"[{self.identifier}] " + RED + "Failed to load the model!" + NORMAL)
+                    self.loaded = False
 
-            if TorchAvailable:
-                if Self.Threaded:
-                    Self.LoadThread = threading.Thread(target=LoadFunction, daemon=True)
-                    Self.LoadThread.start()
+            if torch_available:
+                if self.threaded:
+                    self.load_thread = threading.Thread(target=thread, daemon=True)
+                    self.load_thread.start()
                 else:
-                    LoadFunction()
+                    thread()
 
         except:
-            SendCrashReport("PyTorch - Error in function Load.", str(traceback.format_exc()))
-            Self.Popup(Text="Failed to load the model.", Progress=0)
-            print(GRAY + f"[{Self.Identifier}] " + RED + "Failed to load the model." + NORMAL)
+            send_crash_report("PyTorch - Error in function load_model", str(traceback.format_exc()))
+            self.popup("Failed to load the model.", 0)
+            print(GRAY + f"[{self.identifier}] " + RED + "Failed to load the model." + NORMAL)
 
 
-    def CheckForUpdates(Self):
+    def check_for_updates(self):
+        """
+        Checks for model updates.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         try:
-            def CheckForUpdatesFunction():
+            def thread():
                 try:
 
                     if "--dev" in sys.argv:
-                        if Self.GetName() != None:
-                            print(GRAY + f"[{Self.Identifier}] " + YELLOW + "Development mode enabled, skipping update check..." + NORMAL)
+                        if self.get_name() != None:
+                            print(GRAY + f"[{self.identifier}] " + YELLOW + "Development mode enabled, skipping update check..." + NORMAL)
                             return
                         else:
-                            print(GRAY + f"[{Self.Identifier}] " + YELLOW + "Development mode enabled, downloading model because it doesn't exist..." + NORMAL)
+                            print(GRAY + f"[{self.identifier}] " + YELLOW + "Development mode enabled, downloading model because it doesn't exist..." + NORMAL)
 
-                    Self.Popup(Text="Checking for model updates...", Progress=0)
-                    print(GRAY + f"[{Self.Identifier}] " + GREEN + "Checking for model updates..." + NORMAL)
+                    self.popup("Checking for model updates...", 0)
+                    print(GRAY + f"[{self.identifier}] " + GREEN + "Checking for model updates..." + NORMAL)
 
-                    if settings.Get("PyTorch", f"{Self.Identifier}-LastUpdateCheck", 0) + 600 > time.time():
-                        if settings.Get("PyTorch", f"{Self.Identifier}-LatestModel", "unset") == Self.GetName():
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "No model updates available!" + NORMAL)
+                    if settings.Get("PyTorch", f"{self.identifier}-LastUpdateCheck", 0) + 600 > time.time():
+                        if settings.Get("PyTorch", f"{self.identifier}-latest_model", "unset") == self.get_name():
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "No model updates available!" + NORMAL)
                             return
 
                     try:
-                        HuggingFaceResponse = requests.get("https://huggingface.co/", timeout=3)
-                        HuggingFaceResponse = HuggingFaceResponse.status_code
-                        ETS2LAResponse = None
+                        HF_response = requests.get("https://huggingface.co/", timeout=3)
+                        HF_response = HF_response.status_code
+                        ETS2LA_response = None
                     except:
                         try:
-                            ETS2LAResponse = requests.get("https://cdn.ets2la.com/", timeout=3)
-                            ETS2LAResponse = ETS2LAResponse.status_code
-                            HuggingFaceResponse = None
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "Using cdn.ets2la.com..." + NORMAL)
+                            ETS2LA_response = requests.get("https://cdn.ets2la.com/", timeout=3)
+                            ETS2LA_response = ETS2LA_response.status_code
+                            HF_response = None
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "Using cdn.ets2la.com..." + NORMAL)
                         except:
-                            HuggingFaceResponse = None
-                            ETS2LAResponse = None
+                            HF_response = None
+                            ETS2LA_response = None
 
-                    if HuggingFaceResponse == 200:
-                        Url = f'https://huggingface.co/{Self.HuggingFaceOwner}/{Self.HuggingFaceRepository}/tree/main/{Self.HuggingFaceModelFolder}'
-                        Response = requests.get(Url)
-                        Soup = BeautifulSoup(Response.content, 'html.parser')
+                    if HF_response == 200:
+                        url = f'https://huggingface.co/{self.HF_owner}/{self.HF_repository}/tree/main/{self.HF_model_folder}'
+                        response = requests.get(url)
+                        soup = BeautifulSoup(response.content, 'html.parser')
 
-                        LatestModel = None
-                        for Link in Soup.find_all("a", href=True):
+                        latest_model = None
+                        for Link in soup.find_all("a", href=True):
                             HREF = Link["href"]
-                            if HREF.startswith(f'/{Self.HuggingFaceOwner}/{Self.HuggingFaceRepository}/blob/main/{Self.HuggingFaceModelFolder}'):
-                                LatestModel = HREF.split("/")[-1]
-                                settings.Set("PyTorch", f"{Self.Identifier}-LatestModel", LatestModel)
+                            if HREF.startswith(f'/{self.HF_owner}/{self.HF_repository}/blob/main/{self.HF_model_folder}'):
+                                latest_model = HREF.split("/")[-1]
+                                settings.Set("PyTorch", f"{self.identifier}-latest_model", latest_model)
                                 break
-                        if LatestModel == None:
-                            LatestModel = settings.Get("PyTorch", f"{Self.Identifier}-LatestModel", "unset")
+                        if latest_model == None:
+                            latest_model = settings.Get("PyTorch", f"{self.identifier}-latest_model", "unset")
 
-                        CurrentModel = Self.GetName()
+                        current_model = self.get_name()
 
-                        if str(LatestModel) != str(CurrentModel):
-                            Self.Popup(Text="Updating the model...", Progress=0)
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "Updating the model..." + NORMAL)
-                            Self.Delete()
-                            StartTime = time.time()
-                            Response = requests.get(f'https://huggingface.co/{Self.HuggingFaceOwner}/{Self.HuggingFaceRepository}/resolve/main/{Self.HuggingFaceModelFolder}/{LatestModel}?download=true', stream=True, timeout=15)
-                            with open(os.path.join(Self.Path, f"{LatestModel}"), "wb") as ModelFile:
-                                TotalSize = int(Response.headers.get('content-length', 1))
-                                DownloadedSize = 0
-                                ChunkSize = 1024
-                                for Data in Response.iter_content(chunk_size=ChunkSize):
-                                    DownloadedSize += len(Data)
-                                    ModelFile.write(Data)
-                                    Progress = (DownloadedSize / TotalSize) * 100
-                                    ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
-                                    Self.Popup(Text=f"Downloading the model: {round(Progress)}% - ETA: {ETA}", Progress=Progress)
-                            Self.Popup(Text="Successfully updated the model!", Progress=100)
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
+                        if str(latest_model) != str(current_model):
+                            self.popup("Updating the model...", 0)
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "Updating the model..." + NORMAL)
+                            self.delete()
+                            start_time = time.time()
+                            response = requests.get(f'https://huggingface.co/{self.HF_owner}/{self.HF_repository}/resolve/main/{self.HF_model_folder}/{latest_model}?download=true', stream=True, timeout=15)
+                            with open(os.path.join(self.path, f"{latest_model}"), "wb") as model_file:
+                                total_size = int(response.headers.get('content-length', 1))
+                                downloaded_size = 0
+                                chunk_size = 1024
+                                for data in response.iter_content(chunk_size=chunk_size):
+                                    downloaded_size += len(data)
+                                    model_file.write(data)
+                                    progress = (downloaded_size / total_size) * 100
+                                    ETA = time.strftime('%H:%M:%S' if (time.time() - start_time) / progress * (100 - progress) >= 3600 else '%M:%S', time.gmtime((time.time() - start_time) / progress * (100 - progress)))
+                                    self.popup(f"Downloading the model: {round(progress)}% - ETA: {ETA}", progress)
+                            self.popup("Successfully updated the model!", 100)
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
                         else:
-                            Self.Popup(Text="No model updates available!", Progress=100)
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "No model updates available!" + NORMAL)
-                        settings.Set("PyTorch", f"{Self.Identifier}-LastUpdateCheck", time.time())
+                            self.popup("No model updates available!", 100)
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "No model updates available!" + NORMAL)
+                        settings.Set("PyTorch", f"{self.identifier}-LastUpdateCheck", time.time())
 
-                    elif ETS2LAResponse == 200:
-                        Url = f'https://cdn.ets2la.com/models/{Self.HuggingFaceOwner}/{Self.HuggingFaceRepository}/{Self.HuggingFaceModelFolder}'
-                        Response = requests.get(Url).json()
+                    elif ETS2LA_response == 200:
+                        url = f'https://cdn.ets2la.com/models/{self.HF_owner}/{self.HF_repository}/{self.HF_model_folder}'
+                        response = requests.get(url).json()
 
-                        LatestModel = None
-                        if "success" in Response:
-                            LatestModel = Response["success"]
-                            settings.Set("PyTorch", f"{Self.Identifier}-LatestModel", LatestModel)
-                        if LatestModel == None:
-                            LatestModel = settings.Get("PyTorch", f"{Self.Identifier}-LatestModel", "unset")
+                        latest_model = None
+                        if "success" in response:
+                            latest_model = response["success"]
+                            settings.Set("PyTorch", f"{self.identifier}-latest_model", latest_model)
+                        if latest_model == None:
+                            latest_model = settings.Get("PyTorch", f"{self.identifier}-latest_model", "unset")
 
-                        CurrentModel = Self.GetName()
+                        current_model = self.get_name()
 
-                        if str(LatestModel) != str(CurrentModel):
-                            Self.Popup(Text="Updating the model...", Progress=0)
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "Updating the model..." + NORMAL)
-                            Self.Delete()
-                            StartTime = time.time()
-                            Response = requests.get(f'https://cdn.ets2la.com/models/{Self.HuggingFaceOwner}/{Self.HuggingFaceRepository}/{Self.HuggingFaceModelFolder}/download', stream=True, timeout=15)
-                            with open(os.path.join(Self.Path, f"{LatestModel}"), "wb") as ModelFile:
-                                TotalSize = int(Response.headers.get('content-length', 1))
-                                DownloadedSize = 0
-                                ChunkSize = 1024
-                                for Data in Response.iter_content(chunk_size=ChunkSize):
-                                    DownloadedSize += len(Data)
-                                    ModelFile.write(Data)
-                                    Progress = (DownloadedSize / TotalSize) * 100
-                                    ETA = time.strftime('%H:%M:%S' if (time.time() - StartTime) / Progress * (100 - Progress) >= 3600 else '%M:%S', time.gmtime((time.time() - StartTime) / Progress * (100 - Progress)))
-                                    Self.Popup(Text=f"Downloading the model: {round(Progress)}% - ETA: {ETA}", Progress=Progress)
-                            Self.Popup(Text="Successfully updated the model!", Progress=100)
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
+                        if str(latest_model) != str(current_model):
+                            self.popup("Updating the model...", 0)
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "Updating the model..." + NORMAL)
+                            self.delete()
+                            start_time = time.time()
+                            response = requests.get(f'https://cdn.ets2la.com/models/{self.HF_owner}/{self.HF_repository}/{self.HF_model_folder}/download', stream=True, timeout=15)
+                            with open(os.path.join(self.path, f"{latest_model}"), "wb") as model_file:
+                                total_size = int(response.headers.get('content-length', 1))
+                                downloaded_size = 0
+                                chunk_size = 1024
+                                for data in response.iter_content(chunk_size=chunk_size):
+                                    downloaded_size += len(data)
+                                    model_file.write(data)
+                                    progress = (downloaded_size / total_size) * 100
+                                    ETA = time.strftime('%H:%M:%S' if (time.time() - start_time) / progress * (100 - progress) >= 3600 else '%M:%S', time.gmtime((time.time() - start_time) / progress * (100 - progress)))
+                                    self.popup(f"Downloading the model: {round(progress)}% - ETA: {ETA}", progress)
+                            self.popup("Successfully updated the model!", 100)
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "Successfully updated the model!" + NORMAL)
                         else:
-                            Self.Popup(Text="No model updates available!", Progress=100)
-                            print(GRAY + f"[{Self.Identifier}] " + GREEN + "No model updates available!" + NORMAL)
-                        settings.Set("PyTorch", f"{Self.Identifier}-LastUpdateCheck", time.time())
+                            self.popup("No model updates available!", 100)
+                            print(GRAY + f"[{self.identifier}] " + GREEN + "No model updates available!" + NORMAL)
+                        settings.Set("PyTorch", f"{self.identifier}-LastUpdateCheck", time.time())
 
                     else:
 
                         console.RestoreConsole()
-                        Self.Popup(Text="Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates.", Progress=0)
-                        print(GRAY + f"[{Self.Identifier}] " + RED + "Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates." + NORMAL)
+                        self.popup("Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates.", 0)
+                        print(GRAY + f"[{self.identifier}] " + RED + "Connection to 'https://huggingface.co' and 'https://cdn.ets2la.com' is not available. Unable to check for updates." + NORMAL)
 
                 except:
-                    SendCrashReport("PyTorch - Error in function CheckForUpdatesFunction.", str(traceback.format_exc()))
-                    Self.Popup(Text="Failed to check for model updates or update the model.", Progress=0)
-                    print(GRAY + f"[{Self.Identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
+                    send_crash_report("PyTorch - Error in function thread (check_for_updates)", str(traceback.format_exc()))
+                    self.popup("Failed to check for model updates or update the model.", 0)
+                    print(GRAY + f"[{self.identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
 
-            if Self.Threaded:
-                Self.UpdateThread = threading.Thread(target=CheckForUpdatesFunction, daemon=True)
-                Self.UpdateThread.start()
+            if self.threaded:
+                self.update_thread = threading.Thread(target=thread, daemon=True)
+                self.update_thread.start()
             else:
-                CheckForUpdatesFunction()
+                thread()
 
         except:
-            SendCrashReport("PyTorch - Error in function CheckForUpdates.", str(traceback.format_exc()))
-            Self.Popup(Text="Failed to check for model updates or update the model.", Progress=0)
-            print(GRAY + f"[{Self.Identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
+            send_crash_report("PyTorch - Error in function check_for_updates", str(traceback.format_exc()))
+            self.popup("Failed to check for model updates or update the model.", 0)
+            print(GRAY + f"[{self.identifier}] " + RED + "Failed to check for model updates or update the model." + NORMAL)
 
 
-    def FolderExists(Self):
+    def folder_exists(self):
+        """
+        Creates the model folder if it doesn't exist.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         try:
-            if os.path.exists(Self.Path) == False:
-                os.makedirs(Self.Path)
+            if os.path.exists(self.path) == False:
+                os.makedirs(self.path)
         except:
-            SendCrashReport("PyTorch - Error in function FolderExists.", str(traceback.format_exc()))
+            send_crash_report("PyTorch - Error in function folder_exists", str(traceback.format_exc()))
 
 
-    def GetName(Self):
+    def get_name(self):
+        """
+        Returns the file name of the model.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         try:
-            Self.FolderExists()
-            for File in os.listdir(Self.Path):
-                if File.endswith(".pt"):
-                    return File
+            self.folder_exists()
+            for file in os.listdir(self.path):
+                if file.endswith(".pt"):
+                    return file
             return None
         except:
-            SendCrashReport("PyTorch - Error in function GetName.", str(traceback.format_exc()))
+            send_crash_report("PyTorch - Error in function get_name", str(traceback.format_exc()))
             return None
 
 
-    def Delete(Self):
+    def delete(self):
+        """
+        Deletes the model.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         try:
-            if "--dev" in sys.argv and os.listdir(Self.Path) != []:
-                print(GRAY + f"[{Self.Identifier}] " + YELLOW + "Development mode enabled, skipping model deletion..." + NORMAL)
+            if "--dev" in sys.argv and os.listdir(self.path) != []:
+                print(GRAY + f"[{self.identifier}] " + YELLOW + "Development mode enabled, skipping model deletion..." + NORMAL)
                 return
-            Self.FolderExists()
-            for File in os.listdir(Self.Path):
-                if File.endswith(".pt"):
-                    os.remove(os.path.join(Self.Path, File))
+            self.folder_exists()
+            for file in os.listdir(self.path):
+                if file.endswith(".pt"):
+                    os.remove(os.path.join(self.path, file))
         except PermissionError:
-            global TorchAvailable
-            TorchAvailable = False
-            print(GRAY + f"[{Self.Identifier}] " + RED + "PyTorch - PermissionError in function Delete:\n" + NORMAL + str(traceback.format_exc()))
+            global torch_available
+            torch_available = False
+            print(GRAY + f"[{self.identifier}] " + RED + "PyTorch - PermissionError in function Delete:\n" + NORMAL + str(traceback.format_exc()))
             console.RestoreConsole()
         except:
-            SendCrashReport("PyTorch - Error in function Delete.", str(traceback.format_exc()))
+            send_crash_report("PyTorch - Error in function delete", str(traceback.format_exc()))
 
 
-    def HandleBroken(Self):
+    def handle_broken(self):
+        """
+        Deletes and redownloads the model if it's broken.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         try:
             if "--dev" in sys.argv:
-                print(GRAY + f"[{Self.Identifier}] " + RED + "Can't handle broken models in development mode, all pytorch loader actions paused..." + NORMAL)
+                print(GRAY + f"[{self.identifier}] " + RED + "Can't handle broken models in development mode, all pytorch loader actions paused..." + NORMAL)
                 while True: time.sleep(1)
-            Self.Delete()
-            Self.CheckForUpdates()
-            while Self.UpdateThread.is_alive():
+            self.delete()
+            self.check_for_updates()
+            while self.update_thread.is_alive():
                 time.sleep(0.1)
             time.sleep(0.5)
-            if TorchAvailable == True:
-                Self.Load()
+            if torch_available == True:
+                self.load_model()
         except:
-            SendCrashReport("PyTorch - Error in function HandleBroken.", str(traceback.format_exc()))
+            send_crash_report("PyTorch - Error in function handle_broken", str(traceback.format_exc()))

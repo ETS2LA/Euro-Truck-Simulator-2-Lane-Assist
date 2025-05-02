@@ -104,8 +104,8 @@ class Plugin(ETS2LAPlugin):
         LastEnableKeyPressed = False
         SteeringHistory = []
 
-        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="End-To-End", HuggingFaceModelFolder="model", PluginSelf=self, DType=pytorch.torch.float32)
-        Model.Load()
+        Model = pytorch.Model(HF_owner="OleFranz", HF_repository="End-To-End", HF_model_folder="model", plugin_self=self, torch_dtype=pytorch.torch.float32)
+        Model.load_model()
 
         SDKController = SCSController()
         TruckSimAPI = SCSTelemetry()
@@ -133,7 +133,7 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
 
-        if Model.Loaded == False: time.sleep(0.1); return
+        if Model.loaded == False: time.sleep(0.1); return
 
         ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
@@ -282,11 +282,11 @@ class Plugin(ETS2LAPlugin):
             Enabled = not Enabled
         LastEnableKeyPressed = EnableKeyPressed
 
-        Output = [[0] * Model.Outputs]
+        Output = [[0] * Model.outputs]
 
         if Enabled == True:
-            if Model.Loaded == True:
-                Output = Model.Detect(Frame)
+            if Model.loaded == True:
+                Output = Model.detect(Frame)
 
         Steering = float(Output[0][0]) / -20
 

@@ -15,8 +15,8 @@ def initialize():
 
     ShowImage.Initialize(Name="Mapping", TitleBarColor=(0, 0, 0))
 
-    Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="MLVSS", HuggingFaceModelFolder="models/mapping", PluginSelf=MLVSSVariables.plugin_self, DType=pytorch.torch.float32)
-    Model.Load()
+    Model = pytorch.Model(HF_owner="OleFranz", HF_repository="MLVSS", HF_model_folder="models/mapping", plugin_self=MLVSSVariables.plugin_self, torch_dtype=pytorch.torch.float32)
+    Model.load_model()
 
     Images = []
     FRAME = np.zeros((500, 500, 3), np.uint8)
@@ -34,10 +34,10 @@ def GenerateImage(Frame):
 
 def GenerateMask(Frame):
     Size = Frame.shape
-    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (Model.ImageWidth, Model.ImageHeight))
+    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (Model.image_width, Model.image_height))
     Frame = pytorch.transforms.ToTensor()(Frame)
     with pytorch.torch.no_grad():
-        Prediction = Model.Model(Frame.unsqueeze(0).to(Model.Device))
+        Prediction = Model.model(Frame.unsqueeze(0).to(Model.device))
     Prediction = Prediction.squeeze(0).cpu()[0].numpy() * 255
     Prediction = Prediction.astype(np.uint8)
     Prediction = cv2.resize(Prediction, (Size[1], Size[0]))
@@ -46,7 +46,7 @@ def GenerateMask(Frame):
 
 def run():
     Frame = MLVSSVariables.latest_frame
-    if Model.Loaded == False: time.sleep(0.1); return
+    if Model.loaded == False: time.sleep(0.1); return
     if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:
         return
 
@@ -146,8 +146,7 @@ def run():
             Frame = cv2.warpPerspective(CroppedFrame, Matrix, (500, 500), flags=cv2.INTER_NEAREST)
             Images.append((Frame, Points))
         except:
-            import traceback
-            print(traceback.format_exc())
+            pass
 
     Canvas = FRAME.copy()
     CenterX, CenterZ = 250, 250

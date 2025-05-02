@@ -81,8 +81,8 @@ class Plugin(ETS2LAPlugin):
         IndicatorLeftResponseTimer = 0
         IndicatorRightResponseTimer = 0
 
-        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="NavigationDetectionAI", HuggingFaceModelFolder="model", PluginSelf=self, DType=pytorch.torch.float32)
-        Model.Load()
+        Model = pytorch.Model(HF_owner="OleFranz", HF_repository="NavigationDetectionAI", HF_model_folder="model", plugin_self=self, torch_dtype=pytorch.torch.float32)
+        Model.load_model()
 
         SDKController = SCSController()
         TruckSimAPI = SCSTelemetry()
@@ -113,7 +113,7 @@ class Plugin(ETS2LAPlugin):
 
         ScreenCapture.TrackWindowRouteAdvisor(Name="Truck Simulator", Blacklist=["Discord"])
 
-        if Model.Loaded == False: time.sleep(0.1); return
+        if Model.loaded == False: time.sleep(0.1); return
         if type(Frame) == type(None): return
 
         FrameWidth = Frame.shape[1]
@@ -139,11 +139,11 @@ class Plugin(ETS2LAPlugin):
         else:
             LaneDetected = False
 
-        Output = [[0] * Model.Outputs]
+        Output = [[0] * Model.outputs]
 
         if Enabled == True:
-            if Model.Loaded == True:
-                Output = Model.Detect(Mask)
+            if Model.loaded == True:
+                Output = Model.detect(Mask)
 
         Steering = float(Output[0][0]) / -30
         LeftIndicator = bool(float(Output[0][1]) > 0.15)
