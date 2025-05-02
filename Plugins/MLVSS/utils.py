@@ -1,132 +1,131 @@
 import Modules.BetterScreenCapture.main as ScreenCapture
-import variables as MLVSSVariables
+import variables as MLVSS_variables
 import threading
 import math
 
 
-def ConvertToScreenCoordinate(X: float, Y: float, Z: float):
-    HeadYaw = HeadRotationDegreesX
-    HeadPitch = HeadRotationDegreesY
-    HeadRoll = HeadRotationDegreesZ
+def convert_to_screen_coordinate(x: float, y: float, z: float):
+    head_yaw = head_rotation_degrees_x
+    head_pitch = head_rotation_degrees_y
+    head_roll = head_rotation_degrees_z
 
-    RelativeX = X - HeadX
-    RelativeY = Y - HeadY
-    RelativeZ = Z - HeadZ
+    relative_x = x - head_x
+    relative_y = y - head_y
+    relative_z = z - head_z
 
-    CosYaw = math.cos(math.radians(-HeadYaw))
-    SinYaw = math.sin(math.radians(-HeadYaw))
-    NewX = RelativeX * CosYaw + RelativeZ * SinYaw
-    NewZ = RelativeZ * CosYaw - RelativeX * SinYaw
+    cos_yaw = math.cos(math.radians(-head_yaw))
+    sin_yaw = math.sin(math.radians(-head_yaw))
+    new_x = relative_x * cos_yaw + relative_z * sin_yaw
+    NewZ = relative_z * cos_yaw - relative_x * sin_yaw
 
-    CosPitch = math.cos(math.radians(-HeadPitch))
-    SinPitch = math.sin(math.radians(-HeadPitch))
-    NewY = RelativeY * CosPitch - NewZ * SinPitch
-    FinalZ = NewZ * CosPitch + RelativeY * SinPitch
+    cos_pitch = math.cos(math.radians(-head_pitch))
+    sin_pitch = math.sin(math.radians(-head_pitch))
+    new_y = relative_y * cos_pitch - NewZ * sin_pitch
+    final_z = NewZ * cos_pitch + relative_y * sin_pitch
 
-    CosRoll = math.cos(math.radians(-HeadRoll))
-    SinRoll = math.sin(math.radians(-HeadRoll))
-    FinalX = NewX * CosRoll - NewY * SinRoll
-    FinalY = NewY * CosRoll + NewX * SinRoll
+    cos_roll = math.cos(math.radians(-head_roll))
+    sin_roll = math.sin(math.radians(-head_roll))
+    final_x = new_x * cos_roll - new_y * sin_roll
+    final_y = new_y * cos_roll + new_x * sin_roll
 
-    if FinalZ >= 0:
+    if final_z >= 0:
         return None, None, None
 
-    FovRad = math.radians(MLVSSVariables.FOV)
+    fov_rad = math.radians(MLVSS_variables.FOV)
     
-    WindowDistance = ((ScreenCapture.MonitorY2 - ScreenCapture.MonitorY1) * (4 / 3) / 2) / math.tan(FovRad / 2)
+    window_distance = ((ScreenCapture.MonitorY2 - ScreenCapture.MonitorY1) * (4 / 3) / 2) / math.tan(fov_rad / 2)
 
-    ScreenX = (FinalX / FinalZ) * WindowDistance + (ScreenCapture.MonitorX2 - ScreenCapture.MonitorX1) / 2
-    ScreenY = (FinalY / FinalZ) * WindowDistance + (ScreenCapture.MonitorY2 - ScreenCapture.MonitorY1) / 2
+    screen_x = (final_x / final_z) * window_distance + (ScreenCapture.MonitorX2 - ScreenCapture.MonitorX1) / 2
+    screen_y = (final_y / final_z) * window_distance + (ScreenCapture.MonitorY2 - ScreenCapture.MonitorY1) / 2
 
-    ScreenX = (ScreenCapture.MonitorX2 - ScreenCapture.MonitorX1) - ScreenX
+    screen_x = (ScreenCapture.MonitorX2 - ScreenCapture.MonitorX1) - screen_x
 
-    Distance = math.sqrt((RelativeX ** 2) + (RelativeY ** 2) + (RelativeZ ** 2))
+    distance = math.sqrt((relative_x ** 2) + (relative_y ** 2) + (relative_z ** 2))
 
-    return ScreenX, ScreenY, Distance
-
-
-def UpdateAPI():
-    global TruckRotationDegreesX
-    global TruckRotationDegreesY
-    global TruckRotationDegreesZ
-    global TruckRotationRadiansX
-    global TruckRotationRadiansY
-    global TruckRotationRadiansZ
-    global TruckRotationX
-    global TruckRotationY
-    global TruckRotationZ
-    global TruckX
-    global TruckY
-    global TruckZ
-    global HeadRotationDegreesX
-    global HeadRotationDegreesY
-    global HeadRotationDegreesZ
-    global HeadX
-    global HeadY
-    global HeadZ
-    global TruckWheels
-    global TruckWheelAngles
-
-    APIDATA = MLVSSVariables.TruckSimAPI.update()
-
-    TruckX = APIDATA["truckPlacement"]["coordinateX"]
-    TruckY = APIDATA["truckPlacement"]["coordinateY"]
-    TruckZ = APIDATA["truckPlacement"]["coordinateZ"]
-    TruckRotationX = APIDATA["truckPlacement"]["rotationX"]
-    TruckRotationY = APIDATA["truckPlacement"]["rotationY"]
-    TruckRotationZ = APIDATA["truckPlacement"]["rotationZ"]
-
-    CabinOffsetX = APIDATA["headPlacement"]["cabinOffsetX"] + APIDATA["configVector"]["cabinPositionX"]
-    CabinOffsetY = APIDATA["headPlacement"]["cabinOffsetY"] + APIDATA["configVector"]["cabinPositionY"]
-    CabinOffsetZ = APIDATA["headPlacement"]["cabinOffsetZ"] + APIDATA["configVector"]["cabinPositionZ"]
-    CabinOffsetRotationX = APIDATA["headPlacement"]["cabinOffsetrotationX"]
-    CabinOffsetRotationY = APIDATA["headPlacement"]["cabinOffsetrotationY"]
-    CabinOffsetRotationZ = APIDATA["headPlacement"]["cabinOffsetrotationZ"]
-
-    HeadOffsetX = APIDATA["headPlacement"]["headOffsetX"] + APIDATA["configVector"]["headPositionX"] + CabinOffsetX
-    HeadOffsetY = APIDATA["headPlacement"]["headOffsetY"] + APIDATA["configVector"]["headPositionY"] + CabinOffsetY
-    HeadOffsetZ = APIDATA["headPlacement"]["headOffsetZ"] + APIDATA["configVector"]["headPositionZ"] + CabinOffsetZ
-    HeadOffsetRotationX = APIDATA["headPlacement"]["headOffsetrotationX"]
-    HeadOffsetRotationY = APIDATA["headPlacement"]["headOffsetrotationY"]
-    HeadOffsetRotationZ = APIDATA["headPlacement"]["headOffsetrotationZ"]
-
-    TruckRotationDegreesX = TruckRotationX * 360
-    TruckRotationDegreesY = TruckRotationY * 360
-    TruckRotationDegreesZ = TruckRotationZ * 180
-    TruckRotationRadiansX = -math.radians(TruckRotationDegreesX)
-    TruckRotationRadiansY = -math.radians(TruckRotationDegreesY)
-    TruckRotationRadiansZ = -math.radians(TruckRotationDegreesZ)
-
-    HeadRotationDegreesX = (TruckRotationX + CabinOffsetRotationX + HeadOffsetRotationX) * 360
-    while HeadRotationDegreesX > 360:
-        HeadRotationDegreesX = HeadRotationDegreesX - 360
-
-    HeadRotationDegreesY = (TruckRotationY + CabinOffsetRotationY + HeadOffsetRotationY) * 360
-
-    HeadRotationDegreesZ = (TruckRotationZ + CabinOffsetRotationZ + HeadOffsetRotationZ) * 180
-
-    PointX = HeadOffsetX
-    PointY = HeadOffsetY
-    PointZ = HeadOffsetZ
-    HeadX = PointX * math.cos(TruckRotationRadiansX) - PointZ * math.sin(TruckRotationRadiansX) + TruckX
-    HeadY = PointY + TruckY
-    HeadZ = PointX * math.sin(TruckRotationRadiansX) + PointZ * math.cos(TruckRotationRadiansX) + TruckZ
+    return screen_x, screen_y, distance
 
 
-    TruckWheelPointsX = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
-    TruckWheelPointsY = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
-    TruckWheelPointsZ = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
-    TruckWheels = []
-    for i in range(len(TruckWheelPointsX)):
-        TruckWheels.append((TruckWheelPointsX[i], TruckWheelPointsY[i], TruckWheelPointsZ[i]))
+def update_telemetry():
+    global truck_rotation_degrees_x
+    global truck_rotation_degrees_y
+    global truck_rotation_degrees_z
+    global truck_rotation_radians_x
+    global truck_rotation_radians_y
+    global truck_rotation_radians_z
+    global truck_rotation_x
+    global truck_rotation_y
+    global truck_rotation_z
+    global truck_x
+    global truck_y
+    global truck_z
+    global head_rotation_degrees_x
+    global head_rotation_degrees_y
+    global head_rotation_degrees_z
+    global head_x
+    global head_y
+    global head_z
+    global wheel_angles
+    global wheel_coordinates
 
-    TruckWheelAngles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
-    while int(APIDATA["configUI"]["truckWheelCount"]) > len(TruckWheelAngles):
-        TruckWheelAngles.append(0)
+    APIDATA = MLVSS_variables.SCS_telemetry.update()
 
 
-def Launch(Plugin):
-    def RunPlugin(Plugin):
+    truck_x = APIDATA["truckPlacement"]["coordinateX"]
+    truck_y = APIDATA["truckPlacement"]["coordinateY"]
+    truck_z = APIDATA["truckPlacement"]["coordinateZ"]
+    truck_rotation_x = APIDATA["truckPlacement"]["rotationX"]
+    truck_rotation_y = APIDATA["truckPlacement"]["rotationY"]
+    truck_rotation_z = APIDATA["truckPlacement"]["rotationZ"]
+
+    cabin_offset_x = APIDATA["headPlacement"]["cabinOffsetX"] + APIDATA["configVector"]["cabinPositionX"]
+    cabin_offset_y = APIDATA["headPlacement"]["cabinOffsetY"] + APIDATA["configVector"]["cabinPositionY"]
+    cabin_offset_z = APIDATA["headPlacement"]["cabinOffsetZ"] + APIDATA["configVector"]["cabinPositionZ"]
+    cabin_offset_rotation_x = APIDATA["headPlacement"]["cabinOffsetrotationX"]
+    cabin_offset_rotation_y = APIDATA["headPlacement"]["cabinOffsetrotationY"]
+    cabin_offset_rotation_z = APIDATA["headPlacement"]["cabinOffsetrotationZ"]
+
+    head_offset_x = APIDATA["headPlacement"]["headOffsetX"] + APIDATA["configVector"]["headPositionX"] + cabin_offset_x
+    head_offset_y = APIDATA["headPlacement"]["headOffsetY"] + APIDATA["configVector"]["headPositionY"] + cabin_offset_y
+    head_offset_z = APIDATA["headPlacement"]["headOffsetZ"] + APIDATA["configVector"]["headPositionZ"] + cabin_offset_z
+    head_offset_rotation_x = APIDATA["headPlacement"]["headOffsetrotationX"]
+    head_offset_rotation_y = APIDATA["headPlacement"]["headOffsetrotationY"]
+    head_offset_rotation_z = APIDATA["headPlacement"]["headOffsetrotationZ"]
+
+    truck_rotation_degrees_x = truck_rotation_x * 360
+    truck_rotation_degrees_y = truck_rotation_y * 360
+    truck_rotation_degrees_z = truck_rotation_z * 180
+    truck_rotation_radians_x = -math.radians(truck_rotation_degrees_x)
+    truck_rotation_radians_y = -math.radians(truck_rotation_degrees_y)
+    truck_rotation_radians_z = -math.radians(truck_rotation_degrees_z)
+
+    head_rotation_degrees_x = ((truck_rotation_x + cabin_offset_rotation_x + head_offset_rotation_x) * 360) % 360
+    head_rotation_degrees_y = ((truck_rotation_y + cabin_offset_rotation_y + head_offset_rotation_y) * 360) % 360
+    head_rotation_degrees_z = ((truck_rotation_z + cabin_offset_rotation_z + head_offset_rotation_z) * 180) % 180
+
+    point_x = head_offset_x
+    point_y = head_offset_y
+    point_z = head_offset_z
+    head_x = point_x * math.cos(truck_rotation_radians_x) - point_z * math.sin(truck_rotation_radians_x) + truck_x
+    head_y = point_y + truck_y
+    head_z = point_x * math.sin(truck_rotation_radians_x) + point_z * math.cos(truck_rotation_radians_x) + truck_z
+
+
+    truck_wheel_points_x = [Point for Point in APIDATA["configVector"]["truckWheelPositionX"] if Point != 0]
+    truck_wheel_points_y = [Point for Point in APIDATA["configVector"]["truckWheelPositionY"] if Point != 0]
+    truck_wheel_points_z = [Point for Point in APIDATA["configVector"]["truckWheelPositionZ"] if Point != 0]
+
+    wheel_angles = [Angle for Angle in APIDATA["truckFloat"]["truck_wheelSteering"] if Angle != 0]
+
+    wheel_coordinates = []
+    for i in range(len(truck_wheel_points_x)):
+        point_x = truck_x + truck_wheel_points_x[i] * math.cos(truck_rotation_radians_x) - truck_wheel_points_z[i] * math.sin(truck_rotation_radians_x)
+        point_y = truck_y + truck_wheel_points_y[i]
+        point_z = truck_z + truck_wheel_points_z[i] * math.cos(truck_rotation_radians_x) + truck_wheel_points_x[i] * math.sin(truck_rotation_radians_x)
+        wheel_coordinates.append((point_x, point_y, point_z))
+
+
+def launch(plugin):
+    def run_thread(plugin):
         while True:
-            Plugin.Run()
-    threading.Thread(target=RunPlugin, args=(Plugin,), daemon=True).start()
+            plugin.run()
+    threading.Thread(target=run_thread, args=(plugin,), daemon=True).start()

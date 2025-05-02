@@ -23,15 +23,16 @@ class Plugin(ETS2LAPlugin):
     fps_cap = 1000
 
     def imports(self):
-        global SCSTelemetry; from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
+        global SCS_telemetry; from Modules.TruckSimAPI.main import scsTelemetry as SCS_telemetry
         global ScreenCapture; import Modules.BetterScreenCapture.main as ScreenCapture
-        global MLVSSVariables; import variables as MLVSSVariables
-        global Settings; import ETS2LA.Utils.settings as Settings
-        global Variables; import ETS2LA.variables as Variables
-        global MLVSSUtils; import utils as MLVSSUtils
-        global Mapping; import mapping as Mapping
-        global UI; import ui as UI
+        global Settings; import ETS2LA.Utils.settings as settings
+        global variables; import ETS2LA.variables as variables
         global time; import time
+
+        global MLVSS_variables; import variables as MLVSS_variables
+        global MLVSS_mapping; import mapping as MLVSS_mapping
+        global MLVSS_utils; import utils as MLVSS_utils
+        global MLVSS_UI; import ui as MLVSS_UI
 
         FOV = self.globals.settings.FOV
         if FOV == None:
@@ -40,22 +41,22 @@ class Plugin(ETS2LAPlugin):
             time.sleep(1)
             self.terminate()
 
-        MLVSSVariables.self = self
-        MLVSSVariables.FOV = FOV
-        MLVSSVariables.TruckSimAPI = SCSTelemetry()
+        MLVSS_variables.plugin_self = self
+        MLVSS_variables.FOV = FOV
+        MLVSS_variables.SCS_telemetry = SCS_telemetry()
 
         ScreenCapture.Initialize()
 
-        UI.Initialize()
-        Mapping.Initialize()
+        MLVSS_UI.initialize()
 
-        MLVSSUtils.Launch(Mapping)
+        MLVSS_mapping.initialize()
+        MLVSS_utils.launch(MLVSS_mapping)
 
     def run(self):
         ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
-        MLVSSUtils.UpdateAPI()
+        MLVSS_utils.update_telemetry()
 
-        Frame = ScreenCapture.Capture(ImageType="cropped")
-        if type(Frame) != type(None) and Frame.shape[0] > 0 and Frame.shape[1] > 0:
-            MLVSSVariables.LatestFrame = Frame
+        frame = ScreenCapture.Capture(ImageType="cropped")
+        if type(frame) != type(None) and frame.shape[0] > 0 and frame.shape[1] > 0:
+            MLVSS_variables.latest_frame = frame

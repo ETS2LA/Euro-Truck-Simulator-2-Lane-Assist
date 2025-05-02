@@ -12,7 +12,7 @@ beautifulsoup4
 pywebview==5.1
 opencv-python
 numpy==1.26.4
-SimpleWindow<1.0
+SimpleWindow>=1.0
 transformers
 audioop-lts; python_version >= "3.13"
 proxy_tools
