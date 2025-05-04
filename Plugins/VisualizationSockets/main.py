@@ -197,81 +197,86 @@ available_channels = [
     }
 ]
 
-class SettingsMenu(ETS2LASettingsMenu):
-    plugin_name = "VisualizationSockets"
-    dynamic = True
-
+class SettingsMenu(ETS2LAPage):
+    url = "/settings/VisualizationSockets"
+    
+    def test(self):
+        print("hi")
+    
     def render(self):
-        RefreshRate(2)
+        # try:
+        #     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        #     s.connect(("8.8.8.8", 80))
+        #     IP = s.getsockname()[0]
+        #     s.close()
+        # except:
+        #     IP = "127.0.0.1"
 
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("8.8.8.8", 80))
-            IP = s.getsockname()[0]
-            s.close()
-        except:
-            IP = "127.0.0.1"
+        TitleAndDescription(
+            title="Visualization Sockets",
+            description="This plugin provides a websocket server for the ETS2LA Visualization."
+        )
 
-        with Group("vertical", gap=14, padding=0):
-            Title("Visualization Sockets")
-            Description("This plugin provides a websocket server for the ETS2LA Visualization.")
-
-        with TabView():
-            with Tab(name="Host Device"):
-                with Group("vertical", gap=14, padding=0):
-                    Description("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors.")
-                    with Group("horizontal", gap=4, padding=0):
-                        Description("You can also use the following website:")
-                        Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
-                    
-            with Tab(name="Other Device"):
-                with EnabledLock():
-                    if IP != "127.0.0.1":
-                        with Group("vertical", gap=14, padding=0):
-                            with Group("vertical", gap=6, padding=0):
-                                with Group("horizontal", gap=4, padding=0):
-                                    Description("1. Open the following URL in your device's browser: ")
-                                    Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
-                                Description("NOTE: You must load the site as http instead of https. Google Chrome will not work!", weight="bold")
-                            with Group("vertical", gap=6, padding=0):
-                                Description("2. Once the website loads it will ask you for the computer's IP address. Enter the following IP address:")
-                                Description(f"ws://{IP}:37522", weight="bold")
-                            
-                            Description("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.")
-                        
-                    else:
-                        Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
-
-        Separator()
-
-        if not self.plugin:
-            Description("Waiting for plugin start...", weight="bold")
-            return RenderUI()
-
-        try:
-            clients = self.plugin.connected_clients
-        except:
-            Description("Waiting for plugin to load...", weight="bold")
-            return RenderUI()
-
-        if len(clients) > 0:
-            Description("The following clients are currently connected:")
-            with Group("vertical", gap=14, padding=0):
-                for client in clients:
-                    with Group("vertical", gap=6, padding=12, border=True):
-                        Description(f"{client.remote_address[0]}", weight="bold")
-                        connection = clients[client]
-                        with Group("vertical", gap=4, padding=0):
-                            Description(f"- Latency: {client.latency * 1000:.2f}ms", size="xs")
-                            Description(f"- ID: {client.id}", size="xs")
-                            if connection.subscribed_channels:
-                                Description(f"- Channels: {connection.subscribed_channels}", size="xs")
-                            else:
-                                Description("Not acknowledged yet.", weight="semibold", size="xs")
-        else:
-            Description("There are no currently connected clients.", weight="bold")
-
-        return RenderUI()
+        #with Group("vertical", gap=14, padding=0):
+        #    Title("Visualization Sockets")
+        #    Description("This plugin provides a websocket server for the ETS2LA Visualization.")
+#
+        #with TabView():
+        #    with Tab(name="Host Device"):
+        #        with Group("vertical", gap=14, padding=0):
+        #            Description("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors.")
+        #            with Group("horizontal", gap=4, padding=0):
+        #                Description("You can also use the following website:")
+        #                Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
+        #            
+        #    with Tab(name="Other Device"):
+        #        with EnabledLock():
+        #            if IP != "127.0.0.1":
+        #                with Group("vertical", gap=14, padding=0):
+        #                    with Group("vertical", gap=6, padding=0):
+        #                        with Group("horizontal", gap=4, padding=0):
+        #                            Description("1. Open the following URL in your device's browser: ")
+        #                            Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
+        #                        Description("NOTE: You must load the site as http instead of https. Google Chrome will not work!", weight="bold")
+        #                    with Group("vertical", gap=6, padding=0):
+        #                        Description("2. Once the website loads it will ask you for the computer's IP address. Enter the following IP address:")
+        #                        Description(f"ws://{IP}:37522", weight="bold")
+        #                    
+        #                    Description("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.")
+        #                
+        #            else:
+        #                Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
+#
+        #Separator()
+#
+        #if not self.plugin:
+        #    Description("Waiting for plugin start...", weight="bold")
+        #    return RenderUI()
+#
+        #try:
+        #    clients = self.plugin.connected_clients
+        #except:
+        #    Description("Waiting for plugin to load...", weight="bold")
+        #    return RenderUI()
+#
+        #if len(clients) > 0:
+        #    Description("The following clients are currently connected:")
+        #    with Group("vertical", gap=14, padding=0):
+        #        for client in clients:
+        #            with Group("vertical", gap=6, padding=12, border=True):
+        #                Description(f"{client.remote_address[0]}", weight="bold")
+        #                connection = clients[client]
+        #                with Group("vertical", gap=4, padding=0):
+        #                    Description(f"- Latency: {client.latency * 1000:.2f}ms", size="xs")
+        #                    Description(f"- ID: {client.id}", size="xs")
+        #                    if connection.subscribed_channels:
+        #                        Description(f"- Channels: {connection.subscribed_channels}", size="xs")
+        #                    else:
+        #                        Description("Not acknowledged yet.", weight="semibold", size="xs")
+        #else:
+        #    Description("There are no currently connected clients.", weight="bold")
+#
+        #return RenderUI()
 
 class WebSocketConnection:
     def __init__(self, websocket):
@@ -304,7 +309,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    settings_menu = SettingsMenu()
+    pages = [SettingsMenu]
     fps_cap = 20
 
     def imports(self):

@@ -234,34 +234,35 @@ def get_states():
 
 @app.post("/backend/plugins/{plugin}/function/call")
 def call_plugin_function(plugin: str, data: PluginCallData | None = None):
-    try:
-        if data is None:
-            logging.exception("Plugin function call has no arguments.")
-            return {"status": "error", "message": "Please provide arguments."}
-        
-        running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
-        available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
-        
-        if plugin in running_plugins:
-            index = running_plugins.index(plugin)
-            plugin_obj = plugins.RUNNING_PLUGINS[index]
-            return plugin_obj.call_function(data.target, data.args, data.kwargs)
-        
-        elif plugin in available_plugins:
-            index = available_plugins.index(plugin)
-            ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
-            if ui is not None:
-                return ui.call_function(data.target, data.args, data.kwargs)
-        
-        else:
-            index = pages.get_page_names().index(plugin)
-            return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
-        
-        logging.warning("Plugin or it's UI was not found")
-        return {"status": "error", "message": "Plugin or it's UI was not found"}
-    except:
-        logging.exception("Failed to call plugin function")
-        return {"status": "error", "message": "Plugin not found"}
+    return ""
+    # try:
+    #     if data is None:
+    #         logging.exception("Plugin function call has no arguments.")
+    #         return {"status": "error", "message": "Please provide arguments."}
+    #     
+    #     running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
+    #     available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
+    #     
+    #     if plugin in running_plugins:
+    #         index = running_plugins.index(plugin)
+    #         plugin_obj = plugins.RUNNING_PLUGINS[index]
+    #         return plugin_obj.call_function(data.target, data.args, data.kwargs)
+    #     
+    #     elif plugin in available_plugins:
+    #         index = available_plugins.index(plugin)
+    #         ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
+    #         if ui is not None:
+    #             return ui.call_function(data.target, data.args, data.kwargs)
+    #     
+    #     else:
+    #         index = pages.get_page_names().index(plugin)
+    #         return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
+    #     
+    #     logging.warning("Plugin or it's UI was not found")
+    #     return {"status": "error", "message": "Plugin or it's UI was not found"}
+    # except:
+    #     logging.exception("Failed to call plugin function")
+    #     return {"status": "error", "message": "Plugin not found"}
 
 # endregion
 # region Language

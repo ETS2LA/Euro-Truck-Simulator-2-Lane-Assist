@@ -7,12 +7,25 @@ class ETS2LAPage:
     :param dynamic: If the page is dynamic, it will be rebuilt every time the frontend updates it.
     :param settings_target: The path to the settings file that the page will use.
     :param url: The relative URL of the page. (eg. /settings/global)
+    :param refresh_rate: The refresh rate of the page in seconds. (0 = no limit)
+    :param plugin: A reference to the plugin that spawned this page.
+    :param settings: A reference to the settings object of the plugin that spawned this page.
     """
     
     url: str = ""
     last_update_: float = 0
     refresh_rate: int = 0
-    return_cache: bool = False
+    
+    plugin: object = None
+    """
+    A reference to the plugin that spawned this page.
+    If the plugin is disabled, then this object will be None.
+    """
+    settings: object = None
+    """
+    A reference to the settings object of the plugin that spawned this page.
+    If the plugin is disabled, then this object will be None.
+    """
     
     def __init__(self):
         if "render" not in dir(type(self)):

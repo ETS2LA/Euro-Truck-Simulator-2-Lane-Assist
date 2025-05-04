@@ -47,6 +47,7 @@ class ETS2LAPlugin(object):
     description: PluginDescription = PluginDescription()
     author: List[Author]
     controls: List[ControlEvent] = []
+    pages: List[ETS2LAPage] = []
     settings_menu: None
     
     return_queue: JoinableQueue
@@ -207,6 +208,11 @@ class ETS2LAPlugin(object):
         
         if "settings_menu" in dir(type(self)) and self.settings_menu != None:
             self.settings_menu.plugin = self
+            
+        if "pages" in dir(type(self)) and self.pages != None:
+            for page in self.pages:
+                page.plugin = self
+                page.settings = self.settings
 
         threading.Thread(target=self.settings_menu_thread, daemon=True).start()
         threading.Thread(target=self.frontend_thread, daemon=True).start()
@@ -434,25 +440,25 @@ class PluginRunner:
         except:
             logging.exception(f"Error loading plugin '{plugin_name}'")
             
-            class CrashDialog(ETS2LADialog):
-                def render(self):
-                    import traceback
-                    with Form(classname="max-w-screen-sm"):
-                        Title("Plugin Crashed")
-                        Markdown(f"An error occurred while running the plugin `{plugin_name}`. The plugin will now disable.", classname="text-sm text-dimmed-foreground")
-                        Markdown(f"```python\n{traceback.format_exc()}```", classname="max-w-screen-sm")
-                        Button("Confirm", "", "submit", border=False)
-                    return RenderUI()
-            
-            dialog = CrashDialog()
-            
-            self.immediate_queue.put({
-                "operation": "dialog", 
-                "options": {
-                    "dialog": dialog.build(),
-                    "no_response": True
-                }
-            })
+            # class CrashDialog(ETS2LADialog):
+            #     def render(self):
+            #         import traceback
+            #         with Form(classname="max-w-screen-sm"):
+            #             Title("Plugin Crashed")
+            #             Markdown(f"An error occurred while running the plugin `{plugin_name}`. The plugin will now disable.", classname="text-sm text-dimmed-foreground")
+            #             Markdown(f"```python\n{traceback.format_exc()}```", classname="max-w-screen-sm")
+            #             Button("Confirm", "", "submit", border=False)
+            #         return RenderUI()
+            # 
+            # dialog = CrashDialog()
+            # 
+            # self.immediate_queue.put({
+            #     "operation": "dialog", 
+            #     "options": {
+            #         "dialog": dialog.build(),
+            #         "no_response": True
+            #     }
+            # })
 
             immediate_queue.put({
                 "operation": "crash"

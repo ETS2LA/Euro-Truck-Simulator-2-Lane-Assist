@@ -32,16 +32,17 @@ class Plugin:
     name: str
     description: PluginDescription | None
     authors: list[Author] | None
-    settings_menu: ETS2LASettingsMenu | None
+    pages: list[ETS2LAPage] | None
     controls: list[ControlEvent] | None
     
     def __init__(self, name: str, description: PluginDescription | None, 
-                 authors: list[Author] | None, settings_menu: ETS2LASettingsMenu | None, 
+                 authors: list[Author] | None, 
+                 pages: list[ETS2LAPage] | None,
                  controls: list[ControlEvent] | None):
         self.name = name
         self.description = description
         self.authors = authors
-        self.settings_menu = settings_menu
+        self.pages = pages
         self.controls = controls
 
 AVAILABLE_PLUGINS: list[Plugin] = []
@@ -455,15 +456,24 @@ def find_plugins() -> list[Plugin]:
                     print(f"Failed to reload UI for {folder}: {str(e)}")
                         
                 author = getattr(plugin_class, "author", None)
-                settings = getattr(plugin_class, "settings_menu", None)
+                pages = getattr(plugin_class, "pages", None)
                 controls = getattr(plugin_class, "controls", [])
                 
                 for control in controls:
                     if information:
                         control.plugin = Translate(information.name, return_original=True)
                     
+                if pages:
+                    instantiated_pages = []
+                    for page_class in pages:
+                        try:
+                            instantiated_pages.append(page_class())
+                        except Exception as e:
+                            print(f"Error instantiating page {page_class}: {e}")
+                    pages = instantiated_pages
+                    
                 if information and not information.hidden or variables.DEVELOPMENT_MODE:
-                    plugin: Plugin = Plugin(folder, information, author, settings, controls)
+                    plugin: Plugin = Plugin(folder, information, author, pages, controls)
                     plugins.append(plugin)
             
             # Clean up
@@ -486,7 +496,7 @@ def update_plugins():
     global AVAILABLE_PLUGINS
     logging.info("Reloading [yellow]plugins[/yellow].")
     AVAILABLE_PLUGINS = find_plugins()
-    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.settings_menu is not None])} have settings menus.")
+    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.pages])} have settings menus.")
     controls = []
     for plugin in AVAILABLE_PLUGINS:
         if plugin.controls is not None:
@@ -533,36 +543,19 @@ def get_plugin_data(plugin_name: str):
 def get_plugin_settings() -> dict[str, None | list]:
     settings_dict = {}
     
-    while variables.IS_UI_UPDATING:
-        time.sleep(0.01)
-    
-    variables.IS_UI_UPDATING = True
-    
     for plugin in AVAILABLE_PLUGINS:
-        settings = plugin.settings_menu
-        name = plugin.name
-        if settings is None:
-            settings_dict[name] = None
-            continue
-        
-        elif not settings.dynamic:
-            settings_dict[name] = settings.build()
-            
-        elif name in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
-            for plugin in RUNNING_PLUGINS:
-                if plugin.plugin_name == name:
-                    settings_dict[name] = plugin.get_settings()
-                    if settings_dict[name] is None:
-                        settings_dict[name] = []
+        pages = plugin.pages
+        if pages:
+            has_settings = False
+            for page in pages:
+                if page.url.startswith("/settings/"):
+                    has_settings = page.url
                     break
                 
-        elif name not in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
-            settings_dict[name] = settings.build()
-        
+            settings_dict[plugin.name] = has_settings
         else:
-            settings_dict[name] = None
+            settings_dict[plugin.name] = False
             
-    variables.IS_UI_UPDATING = False
     return settings_dict
 
 def get_state(plugin_name: str):

@@ -11,6 +11,7 @@ class ETS2LASettingsMenu:
     settings: Settings | None = None
     plugin_name: str = ""
     plugin: object = None
+    url: str = ""
     
     def __init__(self):
         if "render" not in dir(type(self)):
@@ -18,6 +19,7 @@ class ETS2LASettingsMenu:
         self._json = {}
         if self.plugin_name != "":
             self.settings = Settings(f"plugins/{self.plugin_name}")
+            self.url = f"/settings/{self.plugin_name}"
         else:
             raise TypeError("You must set the 'plugin_name' variable to the name of your plugin directory.")
         

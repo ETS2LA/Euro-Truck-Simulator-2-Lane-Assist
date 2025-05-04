@@ -1,5 +1,6 @@
 from ETS2LA.Utils.functions import resolve_function_from_path
 from ETS2LA.Handlers.pages import get_page, get_urls, get_page_names, page_function_call
+import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.variables as variables 
 from typing import Dict, Set
 import websockets
@@ -12,9 +13,19 @@ import time
 subscribers: Dict[str, Set[websockets.WebSocketServerProtocol]] = {}
 last_sent_data: Dict = {}  # stores the last JSON-serialized version of the page
 
-# Re-render the page
 def render_page(url: str):
-    return get_page(url)
+    page_urls = get_urls()
+    if url in page_urls:
+        return get_page(url)
+    else:
+        for plugin in plugins.AVAILABLE_PLUGINS:
+            if plugin in plugins.RUNNING_PLUGINS:
+                continue # TODO: Implement running plugins
+            
+            if not plugin.pages: continue
+            for page in plugin.pages:
+                if page.url == url:
+                    return page.build()
 
 def handle_functions(data: dict):
     page_urls = get_urls()
@@ -34,7 +45,24 @@ def handle_functions(data: dict):
         except Exception as e:
             logging.exception(f"Error calling function {func} with args {args}: {e}")
         
-    # TODO: Implement calling to plugin functions!
+    else:
+        for plugin in plugins.AVAILABLE_PLUGINS:
+            if plugin in plugins.RUNNING_PLUGINS:
+                continue # TODO: Implement running plugins
+            
+            if not plugin.pages: continue
+            for page in plugin.pages:
+                if page.url == url:
+                    try:
+                        function = resolve_function_from_path(func)
+                        if args:
+                            function(*args) # type: ignore
+                        else:
+                            function() # type: ignore
+                            
+                    except Exception as e:
+                        logging.exception(f"Error calling function {func} with args {args}: {e}")
+                    break
 
 # Send updated page data to all subscribers of a given URL
 async def push_update(url: str):
