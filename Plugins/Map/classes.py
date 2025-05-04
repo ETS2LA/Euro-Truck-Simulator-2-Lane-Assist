@@ -2582,7 +2582,7 @@ class MapData:
                     continue
                 
                 if max(errors) > 0.25 and min(errors) > 0.1:
-                    if road.road_look.name not in export:
+                    if road.road_look.name not in export["2. Raw Data"]:
                         export["2. Raw Data"][road.road_look.name] = []
                     
                     export["2. Raw Data"][road.road_look.name].append({
@@ -2603,6 +2603,7 @@ class MapData:
                         logging.warning(f"RAM usage at 95%, stopping calculation.")
                         break
             except:
+                logging.exception(f"Error calculating road {road.uid} ({road.x}, {road.y})")
                 pass
             
             i += 1
@@ -2613,6 +2614,8 @@ class MapData:
             
             if len(export["2. Raw Data"][road_name]) < 3:
                 logging.warning(f"Ignoring road [dim]{road_name}[/dim] with only {len(export['2. Raw Data'][road_name])} errors found.")
+                for road in export["2. Raw Data"][road_name]:
+                    del road["object"]
                 continue
             
             for road in export["2. Raw Data"][road_name]:

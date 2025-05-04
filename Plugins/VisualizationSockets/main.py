@@ -470,6 +470,7 @@ class Plugin(ETS2LAPlugin):
             "indicating_right": data["truckBool"]["blinkerRightActive"],
             "indicator_left": data["truckBool"]["blinkerLeftOn"],
             "indicator_right": data["truckBool"]["blinkerRightOn"],
+            "game": data["scsValues"]["game"],
         }
         
         return send

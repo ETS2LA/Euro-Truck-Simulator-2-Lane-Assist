@@ -9,7 +9,7 @@ class Module(ETS2LAModule):
     vehicle_format = "ffffffffffffhh"
     trailer_format = "ffffffffff"
     vehicle_object_format = vehicle_format + trailer_format + trailer_format
-    total_format = "=" + vehicle_object_format * 20
+    total_format = "=" + vehicle_object_format * 40
     
     def imports(self):
         self.wait_for_buffer()
@@ -17,7 +17,7 @@ class Module(ETS2LAModule):
     def wait_for_buffer(self):
         self.buf = None
         while self.buf is None:
-            size = 2640
+            size = 5280
             self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
             time.sleep(0.1)
             
@@ -45,9 +45,9 @@ class Module(ETS2LAModule):
             return None
         
         try:
-            data = struct.unpack(self.total_format, self.buf[:2640])
+            data = struct.unpack(self.total_format, self.buf[:5280])
             vehicles = []
-            for i in range(0, 20):
+            for i in range(0, 40):
                 position = Position(data[0], data[1], data[2])
                 rotation = Quaternion(data[3], data[4], data[5], data[6])
                 size = Size(data[7], data[8], data[9])

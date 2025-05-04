@@ -193,7 +193,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         hwnd = win32gui.FindWindow(None, variables.APPTITLE)
         returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
         
-        set_window_icon('ETS2LA/Window/favicon.ico')
+        set_window_icon(variables.ICONPATH)
         if time.perf_counter() - sinceStart > 10:
             logging.error("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it.")
             dont_check_window_open = True

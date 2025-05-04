@@ -14,7 +14,7 @@ class Module(ETS2LAModule):
     def wait_for_buffer(self):
         self.buf = None
         while self.buf is None:
-            size = 80_000
+            size = 96_000
             self.buf = mmap.mmap(0, size, r"Local\ETS2LARoute")
             time.sleep(0.1)
     
@@ -29,11 +29,11 @@ class Module(ETS2LAModule):
         
         try:
             format = "qff"
-            total_format = "=" + format * 5000
-            data = struct.unpack(total_format, self.buf[:80_000])
+            total_format = "=" + format * 6000
+            data = struct.unpack(total_format, self.buf[:96_000])
             
             items = []
-            for i in range(0,5000):
+            for i in range(0,6000):
                 if data[0] == 0:
                     break
                 

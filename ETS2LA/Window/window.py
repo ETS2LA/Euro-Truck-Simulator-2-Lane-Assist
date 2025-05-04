@@ -19,6 +19,11 @@ if os.name == 'nt':
     import win32api
     import ctypes
 
+    # some windows magic so that the icon is also shown int the taskbar, the str needs to be a unique id
+    # i dont know how fail safe this is so just run in the try block
+    try: ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Python.GitHub.App.ETS2LAv2")
+    except: pass
+
 # TODO: Implement get_int, get_float etc... so that this isn't necessary.
 
 fl = settings.Get("global", "frameless", True)

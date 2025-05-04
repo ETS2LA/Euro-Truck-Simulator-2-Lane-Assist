@@ -119,8 +119,8 @@ class Plugin(ETS2LAPlugin):
         global TruckSimAPI
         global FOV
 
-        Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="AdaptiveCruiseControl", HuggingFaceModelFolder="model", PluginSelf=self)
-        Model.Load()
+        Model = pytorch.Model(HF_owner="OleFranz", HF_repository="AdaptiveCruiseControl", HF_model_folder="model", plugin_self=self)
+        Model.load_model()
 
         ValueHistory = []
 
@@ -149,7 +149,7 @@ class Plugin(ETS2LAPlugin):
 
         APIDATA = TruckSimAPI.update()
 
-        if Model.Loaded == False: time.sleep(0.1); return
+        if Model.loaded == False: time.sleep(0.1); return
 
         ScreenCapture.TrackWindow(Name="Truck Simulator", Blacklist=["Discord"])
 
@@ -316,7 +316,7 @@ class Plugin(ETS2LAPlugin):
             Frame = TotalImage.copy()
 
             if Enabled == True:
-                Output = Model.Detect(Frame)
+                Output = Model.detect(Frame)
 
                 Value = min(max(0, Output[0][0]), 1)
 

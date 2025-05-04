@@ -8,15 +8,15 @@ import time
 import cv2
 
 
-def Initialize():
+def initialize():
     global Model
     global Images
     global FRAME
 
     ShowImage.Initialize(Name="Mapping", TitleBarColor=(0, 0, 0))
 
-    Model = pytorch.Model(HuggingFaceOwner="OleFranz", HuggingFaceRepository="MLVSS", HuggingFaceModelFolder="models/mapping", PluginSelf=MLVSSVariables.self)
-    Model.Load()
+    Model = pytorch.Model(HF_owner="OleFranz", HF_repository="MLVSS", HF_model_folder="models/mapping", plugin_self=MLVSSVariables.plugin_self, torch_dtype=pytorch.torch.float32)
+    Model.load_model()
 
     Images = []
     FRAME = np.zeros((500, 500, 3), np.uint8)
@@ -34,19 +34,19 @@ def GenerateImage(Frame):
 
 def GenerateMask(Frame):
     Size = Frame.shape
-    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (Model.ImageWidth, Model.ImageHeight))
+    Frame = cv2.resize(cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB), (Model.image_width, Model.image_height))
     Frame = pytorch.transforms.ToTensor()(Frame)
     with pytorch.torch.no_grad():
-        Prediction = Model.Model(Frame.unsqueeze(0).to(Model.Device))
+        Prediction = Model.model(Frame.unsqueeze(0).to(Model.device))
     Prediction = Prediction.squeeze(0).cpu()[0].numpy() * 255
     Prediction = Prediction.astype(np.uint8)
     Prediction = cv2.resize(Prediction, (Size[1], Size[0]))
     return Prediction
 
 
-def Run():
-    Frame = MLVSSVariables.LatestFrame
-    if Model.Loaded == False: time.sleep(0.1); return
+def run():
+    Frame = MLVSSVariables.latest_frame
+    if Model.loaded == False: time.sleep(0.1); return
     if type(Frame) == type(None) or Frame.shape[0] <= 0 or Frame.shape[1] <= 0:
         return
 
@@ -58,11 +58,11 @@ def Run():
     OffsetX = 60
     OffsetZ = 14
 
-    PointX = MLVSSUtils.TruckX + OffsetX * math.sin(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.cos(MLVSSUtils.TruckRotationRadiansX)
-    PointY = MLVSSUtils.TruckY + math.tan(math.radians(MLVSSUtils.TruckRotationY * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
-    PointZ = MLVSSUtils.TruckZ - OffsetX * math.cos(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.sin(MLVSSUtils.TruckRotationRadiansX)
+    PointX = MLVSSUtils.truck_x + OffsetX * math.sin(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.cos(MLVSSUtils.truck_rotation_radians_x)
+    PointY = MLVSSUtils.truck_y + math.tan(math.radians(MLVSSUtils.truck_rotation_y * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
+    PointZ = MLVSSUtils.truck_z - OffsetX * math.cos(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.sin(MLVSSUtils.truck_rotation_radians_x)
 
-    X, Y, D = MLVSSUtils.ConvertToScreenCoordinate(PointX, PointY, PointZ)
+    X, Y, D = MLVSSUtils.convert_to_screen_coordinate(PointX, PointY, PointZ)
     if X == None or Y == None:
         AllCoordinatesValid = False
     else:
@@ -73,11 +73,11 @@ def Run():
     OffsetX = 60
     OffsetZ = -14
 
-    PointX = MLVSSUtils.TruckX + OffsetX * math.sin(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.cos(MLVSSUtils.TruckRotationRadiansX)
-    PointY = MLVSSUtils.TruckY + math.tan(math.radians(MLVSSUtils.TruckRotationY * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
-    PointZ = MLVSSUtils.TruckZ - OffsetX * math.cos(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.sin(MLVSSUtils.TruckRotationRadiansX)
+    PointX = MLVSSUtils.truck_x + OffsetX * math.sin(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.cos(MLVSSUtils.truck_rotation_radians_x)
+    PointY = MLVSSUtils.truck_y + math.tan(math.radians(MLVSSUtils.truck_rotation_y * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
+    PointZ = MLVSSUtils.truck_z - OffsetX * math.cos(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.sin(MLVSSUtils.truck_rotation_radians_x)
 
-    X, Y, D = MLVSSUtils.ConvertToScreenCoordinate(PointX, PointY, PointZ)
+    X, Y, D = MLVSSUtils.convert_to_screen_coordinate(PointX, PointY, PointZ)
     if X == None or Y == None:
         AllCoordinatesValid = False
     else:
@@ -88,11 +88,11 @@ def Run():
     OffsetX = 15
     OffsetZ = 5
 
-    PointX = MLVSSUtils.TruckX + OffsetX * math.sin(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.cos(MLVSSUtils.TruckRotationRadiansX)
-    PointY = MLVSSUtils.TruckY + math.tan(math.radians(MLVSSUtils.TruckRotationY * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
-    PointZ = MLVSSUtils.TruckZ - OffsetX * math.cos(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.sin(MLVSSUtils.TruckRotationRadiansX)
+    PointX = MLVSSUtils.truck_x + OffsetX * math.sin(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.cos(MLVSSUtils.truck_rotation_radians_x)
+    PointY = MLVSSUtils.truck_y + math.tan(math.radians(MLVSSUtils.truck_rotation_y * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
+    PointZ = MLVSSUtils.truck_z - OffsetX * math.cos(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.sin(MLVSSUtils.truck_rotation_radians_x)
 
-    X, Y, D = MLVSSUtils.ConvertToScreenCoordinate(PointX, PointY, PointZ)
+    X, Y, D = MLVSSUtils.convert_to_screen_coordinate(PointX, PointY, PointZ)
     if X == None or Y == None:
         AllCoordinatesValid = False
     else:
@@ -103,11 +103,11 @@ def Run():
     OffsetX = 15
     OffsetZ = -5
 
-    PointX = MLVSSUtils.TruckX + OffsetX * math.sin(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.cos(MLVSSUtils.TruckRotationRadiansX)
-    PointY = MLVSSUtils.TruckY + math.tan(math.radians(MLVSSUtils.TruckRotationY * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
-    PointZ = MLVSSUtils.TruckZ - OffsetX * math.cos(MLVSSUtils.TruckRotationRadiansX) - OffsetZ * math.sin(MLVSSUtils.TruckRotationRadiansX)
+    PointX = MLVSSUtils.truck_x + OffsetX * math.sin(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.cos(MLVSSUtils.truck_rotation_radians_x)
+    PointY = MLVSSUtils.truck_y + math.tan(math.radians(MLVSSUtils.truck_rotation_y * 360)) * math.sqrt(OffsetX**2 + OffsetZ**2)
+    PointZ = MLVSSUtils.truck_z - OffsetX * math.cos(MLVSSUtils.truck_rotation_radians_x) - OffsetZ * math.sin(MLVSSUtils.truck_rotation_radians_x)
 
-    X, Y, D = MLVSSUtils.ConvertToScreenCoordinate(PointX, PointY, PointZ)
+    X, Y, D = MLVSSUtils.convert_to_screen_coordinate(PointX, PointY, PointZ)
     if X == None or Y == None:
         AllCoordinatesValid = False
     else:
@@ -160,8 +160,8 @@ def Run():
         CenterImageX = (MaxX + MinX) / 2
         CenterImageZ = (MaxZ + MinZ) / 2
 
-        OffsetX = int((CenterImageX - MLVSSUtils.TruckX) * 12 + CenterX - Image.shape[1] / 2)
-        OffsetZ = int((CenterImageZ - MLVSSUtils.TruckZ) * 12 + CenterZ - Image.shape[0] / 2)
+        OffsetX = int((CenterImageX - MLVSSUtils.truck_x) * 12 + CenterX - Image.shape[1] / 2)
+        OffsetZ = int((CenterImageZ - MLVSSUtils.truck_z) * 12 + CenterZ - Image.shape[0] / 2)
 
         StartX = max(0, OffsetX)
         StartZ = max(0, OffsetZ)
@@ -191,10 +191,9 @@ def Run():
 
         return FrameX, FrameZ
 
-    for i in range(len(MLVSSUtils.TruckWheels)):
-        PointX = MLVSSUtils.TruckWheels[i][0] * math.cos(MLVSSUtils.TruckRotationRadiansX) - MLVSSUtils.TruckWheels[i][2] * math.sin(MLVSSUtils.TruckRotationRadiansX)
-        PointY = MLVSSUtils.TruckY + MLVSSUtils.TruckWheels[i][1]
-        PointZ = MLVSSUtils.TruckWheels[i][2] * math.cos(MLVSSUtils.TruckRotationRadiansX) + MLVSSUtils.TruckWheels[i][0] * math.sin(MLVSSUtils.TruckRotationRadiansX)
-        cv2.circle(Frame, [*ConvertToFrameCoordinate(PointX, PointZ)], 5, (0, 0, 255), 2)
+    for i in range(len(MLVSSUtils.wheel_coordinates)):
+        point_x = MLVSSUtils.wheel_coordinates[i][0] - MLVSSUtils.truck_x
+        point_z = MLVSSUtils.wheel_coordinates[i][2] - MLVSSUtils.truck_z
+        cv2.circle(Frame, [*ConvertToFrameCoordinate(point_x, point_z)], 5, (0, 0, 255), 2)
 
     ShowImage.Show(Name="Mapping", Frame=Frame)

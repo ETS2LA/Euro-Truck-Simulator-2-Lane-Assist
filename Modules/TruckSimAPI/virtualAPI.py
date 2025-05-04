@@ -32,8 +32,8 @@ substanceSize = 25
 # virtualZ = 25650
 
 # Sweden
-virtualX = 23780
-virtualZ = -46355
+# virtualX = 23780
+# virtualZ = -46355
 
 # Baltics
 # virtualX = 44000
@@ -51,9 +51,17 @@ virtualZ = -46355
 # virtualX = -42247
 # virtualZ = -24765
 
+# ATS (Phoenix, Arizona)
+# virtualX = -77043
+# virtualZ = 23928
+
+# ATS (Boise, Idaho)
+# virtualX = -81921
+# virtualZ = -36446
+
 # Working Set (not a specific location)
-# virtualX = -55604
-# virtualZ = 8393
+virtualX = -55604
+virtualZ = 8393
 
 # virtualX = 23475
 # virtualZ = -46450

@@ -1,4 +1,4 @@
-self = None
+plugin_self = None
 FOV = None
-TruckSimAPI = None
-LatestFrame = None
+SCS_telemetry = None
+latest_frame = None

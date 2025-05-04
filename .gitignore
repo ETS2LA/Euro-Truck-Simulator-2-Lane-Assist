@@ -44,3 +44,6 @@ global.lock
 # Submodules
 /Translations
 /Interface
+
+# Developer start file
+start_dev.bat

@@ -38,7 +38,7 @@ class Module(ETS2LAModule):
             hwnd = win32gui.FindWindow(None, windowName)
             windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
             icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-            hicon = win32gui.LoadImage(None, f"{variables.PATH}frontend/src/assets/favicon.ico", win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
+            hicon = win32gui.LoadImage(None, f"{variables.ICONPATH}", win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
             win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
             win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon) # type: ignore
 
