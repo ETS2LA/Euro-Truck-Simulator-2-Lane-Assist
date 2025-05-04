@@ -1,4 +1,4 @@
-from ETS2LA.Plugin.settings import Settings
+from ETS2LA.Plugin.classes.settings import Settings
 
 class ETS2LASettingsMenu:
     """This is a base class for all settings pages.

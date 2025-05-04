@@ -1,6 +1,6 @@
-from ETS2LA.Plugin.attributes import Global, Plugins, PluginDescription, State
-from ETS2LA.Plugin.settings import Settings
-from ETS2LA.Plugin.author import Author
+from ETS2LA.Plugin.classes.attributes import Global, Plugins, PluginDescription, State
+from ETS2LA.Plugin.classes.settings import Settings
+from ETS2LA.Plugin.classes.author import Author
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
 import ETS2LA.Events as Events
