@@ -25,7 +25,7 @@ from ETS2LA.Window.utils import check_if_window_still_open
 import ETS2LA.Window.window as window
 
 # Backend
-import ETS2LA.Events.base_events as base_events
+#import ETS2LA.Events.base_events as base_events
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.listener as listener
@@ -61,7 +61,7 @@ pages.run()         # Python to TS sockets server
 window.run()        # Webview window (if not --no-ui)
                     # This is blocking until the window opens (or a 10s timeout)
 
-base_events.run()   # Start listening for events
+#base_events.run()   # Start listening for events
 
 
 logging.info("[green]" + translator.Translate("core.backend_started") + "[/green]")

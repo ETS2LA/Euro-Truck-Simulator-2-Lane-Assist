@@ -1,3 +1,4 @@
+from typing import Any
 from enum import Enum
 
 id: int = 0
@@ -21,6 +22,7 @@ class Channel(Enum):
     STOP_PLUGIN = 4
     RESTART_PLUGIN = 5
     CRASHED = 6
+    GET_DESCRIPTION = 20
     
     # Page operations
     GET_PAGE_DESCRIPTIONS = 7
@@ -57,7 +59,7 @@ class PluginMessage:
     channel: Channel
     """The channel this message was sent on."""
     
-    data: dict
+    data: Any
     """The data that this message carries."""
     
     id: int = increment()
@@ -69,6 +71,6 @@ class PluginMessage:
     state: State = State.PENDING
     """The state of this message's processing."""
     
-    def __init__(self, channel: Channel, data: dict):
+    def __init__(self, channel: Channel, data: Any):
         self.channel = channel
         self.data = data
