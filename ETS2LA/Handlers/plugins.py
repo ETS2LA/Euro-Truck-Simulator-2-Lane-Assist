@@ -1,5 +1,5 @@
 from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage
-from ETS2LA.Plugin.message import Channel
+from ETS2LA.Plugin.message import Channel, State
 
 import multiprocessing
 import threading
@@ -23,7 +23,6 @@ def discover_plugins() -> None:
             if "main.py" in files:
                 plugin_folders.append(root)
                 
-
 class Plugin:
     process: multiprocessing.Process
     """The physical running process of the plugin."""
@@ -34,25 +33,38 @@ class Plugin:
     return_queue: multiprocessing.JoinableQueue
     """The queue used to send messages back to the backend."""
     
-    stack: dict[int, PluginMessage] = {}
+    stack: dict[Channel, dict[int, PluginMessage]] = {}
     """All the messages that have arrived from the plugin."""
     
     description: PluginDescription
     """The description of the plugin."""
+    
+    folder: str
+    """Where the plugin is located."""
     
     def listener(self):
         """Send all messages into the stack."""
         while True:
             try: message: PluginMessage = self.return_queue.get(timeout=1)
             except: time.sleep(0.01); continue
-            self.stack[message.id] = message
+            if message.channel not in self.stack:
+                self.stack[message.channel] = {}
+            self.stack[message.channel][message.id] = message
     
-    def wait_for_id(self, id: int) -> PluginMessage:
+    def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
-        while id not in self.stack:
+        start_time = time.perf_counter()
+        end_time = start_time + timeout if timeout > 0 else -1
+        while channel not in self.stack:
             time.sleep(0.01)
+            if end_time > 0 and time.perf_counter() > end_time:
+                return None
+        while id not in self.stack[channel]:
+            time.sleep(0.01)
+            if end_time > 0 and time.perf_counter() > end_time:
+                return None
             
-        message = self.stack.pop(id)
+        message = self.stack[channel].pop(id)
         return message
     
     def get_description(self) -> PluginDescription:
@@ -61,16 +73,28 @@ class Plugin:
             Channel.GET_DESCRIPTION, {}
         )
         self.queue.put(message)
-        response: PluginMessage = self.wait_for_id(message.id)
-        logging.info(f"Plugin {self.description.name} description: {response.data}")
+        response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
+        if response is None:
+            logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
+            plugins.remove(self)
+            quit(1)
+        if response.state == State.ERROR:
+            logging.error(f"Plugin {self.folder} failed to get description: {response.data}")
+            plugins.remove(self)
+            quit(1)
+        
+        self.description = response.data
+        logging.info(f"Plugin {self.description.name} loaded successfully.")
         return response.data
     
     def __init__(self, folder: str) -> None:
+        self.folder = folder
         self.queue = multiprocessing.JoinableQueue()
         self.return_queue = multiprocessing.JoinableQueue()
         self.process = multiprocessing.Process(
             target=PluginProcess,
-            args=(folder, self.queue, self.return_queue)
+            args=(self.folder, self.queue, self.return_queue),
+            daemon=True
         )
         self.process.start()
         
@@ -80,24 +104,24 @@ class Plugin:
             daemon=True
         ).start()
         
-        message = self.wait_for_id(1)
-        if message.channel != Channel.SUCCESS:
+        message = self.wait_for_channel_message(Channel.SUCCESS, 1)
+        if message.data != {}:
+            plugins.remove(self)
             logging.error(f"Plugin {folder} failed to start: {message.data}")
             raise Exception("PluginProcess: Plugin failed to start.")
         
-        print(f"Plugin {folder} started successfully.")
+        plugins.append(self)
         self.get_description()
-        
         
 plugins: list[Plugin] = []
 def create_processes() -> None:
     for folder in plugin_folders:
         logging.debug(f"Creating plugin process for {folder}")
-        plugin = Plugin(folder)
-        plugins.append(plugin)
+        threading.Thread(target=Plugin, args=(folder,), daemon=True).start()
+        time.sleep(2)
+
     logging.info(f"Loaded {len(plugins)} plugins.")
   
-
 def run() -> None:
     discover_plugins()
     threading.Thread(target=create_processes, daemon=True).start()

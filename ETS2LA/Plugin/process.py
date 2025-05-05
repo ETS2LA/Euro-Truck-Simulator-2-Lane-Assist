@@ -83,14 +83,8 @@ class PluginProcess:
     def listener(self) -> None:
         """Send all messages into the stack."""
         while True:
-            try: 
-                print("Waiting for message...")
-                message: PluginMessage = self.queue.get(timeout=1)
-                print("Received message:", message)
-            except: 
-                print("No message received, sleeping...")
-                time.sleep(0.01) 
-                continue
+            try: message: PluginMessage = self.queue.get(timeout=1)
+            except: time.sleep(0.01); continue
             # Handle the message based on the channel
             match message.channel:
                 case Channel.GET_DESCRIPTION:
@@ -168,11 +162,9 @@ class Description(ChannelHandler):
         try:
             message.data = self.plugin.description
             message.state = State.DONE
-            print(f"Plugin description: {message.data}")
             self.plugin.return_queue.put(message)
-            print(f"Plugin description sent: {message.data}")
         except:
             message.state = State.ERROR
             message.data = "Error getting plugin description"
+            logging.exception("Error getting plugin description")
             self.plugin.return_queue.put(message)
-            print(f"Plugin description error: {message.data}")
