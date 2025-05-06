@@ -43,12 +43,14 @@ class Plugin:
     folder: str
     """Where the plugin is located."""
     
-    stop: bool = False
+    stop: bool
     """Whether the plugin should stop or not."""
     
     def __init__(self, folder: str) -> None:
         self.folder = folder
         self.stack = {}
+        self.stop = False
+        
         self.queue = multiprocessing.JoinableQueue()
         self.return_queue = multiprocessing.JoinableQueue()
         self.process = multiprocessing.Process(
