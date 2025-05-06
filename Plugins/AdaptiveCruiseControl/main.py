@@ -567,8 +567,9 @@ class Plugin(ETS2LAPlugin):
             smoothed_max_speed = self.max_speed(max_speed)
         else:
             smoothed_max_speed = 999
-        # Hotfix: if the speed limit is negative, set it to overwrite speed
-        target_speed = max(self.overwrite_speed / 3.6, api_data['truckFloat']['speedLimit'])  
+
+        if api_data['truckFloat']['speedLimit'] < 0:
+            target_speed = self.overwrite_speed / 3.6 
         
         if self.speed_offset_type == "Percentage":
             target_speed += target_speed * self.speed_offset / 100
