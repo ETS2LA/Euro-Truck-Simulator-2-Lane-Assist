@@ -9,8 +9,8 @@ try:
     import ets2la_AR
     ets2la_AR_imported = True
 except:
-    print(f"WARNING: Could not import ets2la_AR from the CppUtils! Doing calculations in Python instead.")
-
+    # print(f"WARNING: Could not import ets2la_AR from the CppUtils! Doing calculations in Python instead.")
+    ...
 
 def ConvertCoordinateToScreen(coordinate, self):
     if type(coordinate) != Coordinate:

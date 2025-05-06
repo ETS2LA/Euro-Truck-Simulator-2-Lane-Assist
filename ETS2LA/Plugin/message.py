@@ -16,6 +16,7 @@ class Channel(Enum):
     
     # Tag operations
     GET_TAGS = 2
+    UPDATE_TAGS = 21
     
     # Plugin management
     ENABLE_PLUGIN = 3

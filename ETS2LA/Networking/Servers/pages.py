@@ -77,7 +77,6 @@ async def push_update(url: str):
                     "url": url,
                     "data": current_data
                 }))
-                print(f"Sent update to {ws.remote_address[0]} for {url}")
             except websockets.ConnectionClosed:
                 dead_sockets.add(ws)
 
@@ -95,7 +94,6 @@ async def handler(ws, path):
                 data = json.loads(message)
                 if data.get("type") == "subscribe":
                     url = data.get("url")
-                    logging.info(f"Client subscribed to: [dim]{url}[/dim] from [dim]{ip}[/dim]")
                     if url not in subscribers:
                         subscribers[url] = set()
 
@@ -112,7 +110,6 @@ async def handler(ws, path):
                 
                 if data.get("type") == "unsubscribe":
                     url = data.get("url")
-                    logging.info(f"Client unsubscribed from: [dim]{url}[/dim] from [dim]{ip}[/dim]")
                     if url in subscribers:
                         subscribers[url].discard(ws)
                         if not subscribers[url]:

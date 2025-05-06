@@ -1,5 +1,6 @@
 from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage
 from ETS2LA.Plugin.message import Channel, State
+from ETS2LA.Utils.translator import Translate
 
 import multiprocessing
 import threading
@@ -22,7 +23,7 @@ def discover_plugins() -> None:
         for root, dirs, files in os.walk(folder):
             if "main.py" in files:
                 plugin_folders.append(root)
-                
+
 class Plugin:
     process: multiprocessing.Process
     """The physical running process of the plugin."""
@@ -33,7 +34,7 @@ class Plugin:
     return_queue: multiprocessing.JoinableQueue
     """The queue used to send messages back to the backend."""
     
-    stack: dict[Channel, dict[int, PluginMessage]] = {}
+    stack: dict[Channel, dict[int, PluginMessage]]
     """All the messages that have arrived from the plugin."""
     
     description: PluginDescription
@@ -41,6 +42,49 @@ class Plugin:
     
     folder: str
     """Where the plugin is located."""
+    
+    stop: bool = False
+    """Whether the plugin should stop or not."""
+    
+    def __init__(self, folder: str) -> None:
+        self.folder = folder
+        self.stack = {}
+        self.queue = multiprocessing.JoinableQueue()
+        self.return_queue = multiprocessing.JoinableQueue()
+        self.process = multiprocessing.Process(
+            target=PluginProcess,
+            args=(self.folder, self.queue, self.return_queue),
+            daemon=True
+        )
+        
+        # Start to listen for messages from the plugin.
+        threading.Thread(
+            target=self.listener,
+            daemon=True
+        ).start()
+        
+        self.process.start()
+        
+        message = self.wait_for_channel_message(Channel.SUCCESS, 1, timeout=5)
+        if message is None:
+            logging.error(f"Plugin {folder} failed to start: Timeout.")
+            self.stop = True
+            quit(1)
+        
+        if message.data != {}:
+            logging.error(f"Plugin {folder} failed to start: {message.data}")
+            self.stop = True
+            quit(1)
+        
+        plugins.append(self)
+        self.get_description()
+        self.keep_alive()
+        
+    def keep_alive(self) -> None:
+        """Keep the process alive."""
+        logging.debug(f"Plugin [yellow]{Translate(self.description.name, return_original=True)}[/yellow] loaded successfully.")
+        while not self.stop:
+            time.sleep(1)
     
     def listener(self):
         """Send all messages into the stack."""
@@ -76,52 +120,157 @@ class Plugin:
         response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
         if response is None:
             logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
+            self.stop = True
             plugins.remove(self)
             quit(1)
         if response.state == State.ERROR:
             logging.error(f"Plugin {self.folder} failed to get description: {response.data}")
             plugins.remove(self)
+            self.stop = True
             quit(1)
-        
+            
         self.description = response.data
-        logging.info(f"Plugin {self.description.name} loaded successfully.")
         return response.data
-    
-    def __init__(self, folder: str) -> None:
-        self.folder = folder
-        self.queue = multiprocessing.JoinableQueue()
-        self.return_queue = multiprocessing.JoinableQueue()
-        self.process = multiprocessing.Process(
-            target=PluginProcess,
-            args=(self.folder, self.queue, self.return_queue),
-            daemon=True
-        )
-        self.process.start()
-        
-        # Start to listen for messages from the plugin.
-        threading.Thread(
-            target=self.listener,
-            daemon=True
-        ).start()
-        
-        message = self.wait_for_channel_message(Channel.SUCCESS, 1)
-        if message.data != {}:
-            plugins.remove(self)
-            logging.error(f"Plugin {folder} failed to start: {message.data}")
-            raise Exception("PluginProcess: Plugin failed to start.")
-        
-        plugins.append(self)
-        self.get_description()
         
 plugins: list[Plugin] = []
 def create_processes() -> None:
     for folder in plugin_folders:
         logging.debug(f"Creating plugin process for {folder}")
         threading.Thread(target=Plugin, args=(folder,), daemon=True).start()
-        time.sleep(2)
 
+    time.sleep(10)
     logging.info(f"Loaded {len(plugins)} plugins.")
+    start_plugin(name="plugin.visualizationsockets")
   
 def run() -> None:
     discover_plugins()
     threading.Thread(target=create_processes, daemon=True).start()
+    
+def match_plugin_by_description(description: PluginDescription) -> Plugin | None:
+    """Match a plugin by its description."""
+    for plugin in plugins:
+        if plugin.description == description:
+            return plugin
+    return None
+    
+def match_plugin_by_name(name: str) -> Plugin | None:
+    """Match a plugin by its name."""
+    for plugin in plugins:
+        if plugin.description.name == name:
+            return plugin
+    return None
+
+def match_plugin_by_folder(folder: str) -> Plugin | None:
+    """Match a plugin by its folder."""
+    for plugin in plugins:
+        if plugin.folder == folder:
+            return plugin
+    return None
+    
+def match_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> Plugin | None:
+    """Match a plugin by its description, name or folder."""
+    if description is not None:
+        return match_plugin_by_description(description)
+    if name is not None:
+        return match_plugin_by_name(name)
+    if folder is not None:
+        return match_plugin_by_folder(folder)
+    
+    return None
+    
+    
+    
+    
+# MARK: Enable/Disable
+def start_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> bool:
+    """Start a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    if not plugin:
+        logging.error(f"Plugin not found.")
+        return False
+    
+    logging.info(f"Starting plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
+    if plugin.process.is_alive():
+        message = PluginMessage(
+            Channel.ENABLE_PLUGIN, {}
+        )
+        plugin.queue.put(message)
+        response = plugin.wait_for_channel_message(message.channel, message.id, timeout=30)
+        if response and response.state == State.DONE:
+            logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] started successfully.")
+            return True
+        else:
+            logging.error(f"Failed to start plugin: {response.data if response else 'Timeout'}")
+            return False
+        
+    return False
+
+def stop_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> bool:
+    """Stop a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    if not plugin:
+        logging.error(f"Plugin not found.")
+        return False
+    
+    logging.info(f"Stopping plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
+    if plugin.process.is_alive():
+        message = PluginMessage(
+            Channel.STOP_PLUGIN, {}
+        )
+        plugin.queue.put(message)
+        response = plugin.wait_for_channel_message(message.channel, message.id, timeout=30)
+        if response and response.state == State.DONE:
+            logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] stopped successfully.")
+            return True
+        else:
+            logging.error(f"Failed to stop plugin: {response.data if response else 'Timeout'}")
+            return False
+        
+    return False
+
+def restart_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> bool:
+    """Restart a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    if not plugin:
+        logging.error(f"Plugin not found.")
+        return False
+    
+    logging.info(f"Restarting plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
+    if plugin.process.is_alive():
+        message = PluginMessage(
+            Channel.RESTART_PLUGIN, {}
+        )
+        plugin.queue.put(message)
+        response = plugin.wait_for_channel_message(message.channel, message.id, timeout=30)
+        if response and response.state == State.DONE:
+            logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] restarted successfully.")
+            return True
+        else:
+            logging.error(f"Failed to restart plugin: {response.data if response else 'Timeout'}")
+            return False
+        
+    return False

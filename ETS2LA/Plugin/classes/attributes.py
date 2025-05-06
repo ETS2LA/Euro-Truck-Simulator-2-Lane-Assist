@@ -1,4 +1,6 @@
+from ETS2LA.Plugin.message import PluginMessage, Channel
 from ETS2LA.Utils.Values.dictionaries import merge
+
 from multiprocessing import JoinableQueue
 from typing import Literal
 import threading
@@ -6,15 +8,6 @@ import logging
 import json
 import time
 
-class Plugins:
-    def __init__(self, plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue):
-        self.plugins_queue = plugins_queue
-        self.plugins_return_queue = plugins_return_queue
-
-    def __getattr__(self, name):
-        self.plugins_queue.put(name, block=True)
-        response = self.plugins_return_queue.get()
-        return response
     
 class Tags:
     def __init__(self, tags_queue: JoinableQueue, tags_return_queue: JoinableQueue):
@@ -25,11 +18,13 @@ class Tags:
         if name in ["tags_queue", "tags_return_queue"]:
             return super().__getattr__(name) # type: ignore
         
-        tag_dict = {
-            "operation": "read",
-            "tag": name
-        }
-        self.tags_queue.put(tag_dict, block=True)
+        message = PluginMessage(
+            Channel.GET_TAGS,
+            {
+                "tag": name
+            }
+        )
+        self.tags_queue.put(message, block=True)
         response = self.tags_return_queue.get()
         return response
     
@@ -37,12 +32,15 @@ class Tags:
         if name in ["tags_queue", "tags_return_queue"]:
             return super().__setattr__(name, value)
         
-        tag_dict = {
-            "operation": "write",
-            "tag": name,
-            "value": value
-        }
-        self.tags_queue.put(tag_dict, block=True)
+        message = PluginMessage(
+            Channel.UPDATE_TAGS,
+            {
+                "tag": name,
+                "value": value
+            }
+        )
+
+        self.tags_queue.put(message, block=True)
         response = self.tags_return_queue.get()
         return response
     
@@ -114,19 +112,29 @@ class State:
     def __setattr__(self, name, value):
         if name in ["text", "status", "state"]:
             self.last_update = time.perf_counter()
-            state_dict = {
-                "status": value
-            }
-            self.state_queue.put(state_dict, block=False)
+            
+            message = PluginMessage(
+                Channel.STATE_UPDATE,
+                {
+                    "status": value
+                }
+            )
+
+            self.state_queue.put(message, block=False)
             super().__setattr__("text", value)
             return 
         
         if name in ["value", "progress"]:
             self.last_update = time.perf_counter()
-            state_dict = {
-                "progress": value
-            }
-            self.state_queue.put(state_dict, block=False)
+            
+            message = PluginMessage(
+                Channel.STATE_UPDATE,
+                {
+                    "progress": value
+                }
+            )
+            
+            self.state_queue.put(message, block=False)
             super().__setattr__("progress", value)
             return 
         

@@ -89,7 +89,8 @@ class PluginProcess:
             match message.channel:
                 case Channel.GET_DESCRIPTION:
                     Description(self)(message)
-            
+                case Channel.ENABLE_PLUGIN | Channel.STOP_PLUGIN | Channel.RESTART_PLUGIN:
+                    PluginManagement(self)(message)
                 case _:
                     self.stack[message.id] = message
         
@@ -100,6 +101,20 @@ class PluginProcess:
             
         message = self.stack.pop(id)
         return message
+    
+    def keep_alive(self) -> None:
+        """Keep the process alive."""
+        while True:
+            if not self.plugin:
+                time.sleep(1)
+                continue
+            
+            try:
+                self.plugin.before()
+                data = self.plugin.run() # type: ignore
+                self.plugin.after(data)
+            except:
+                logging.exception("Error in plugin process.")
         
     def __init__(self, path: str, queue: JoinableQueue, return_queue: JoinableQueue) -> None:
         self.queue = queue
@@ -133,6 +148,7 @@ class PluginProcess:
             daemon=True
         ).start()
         
+        self.keep_alive()
         
         
         
@@ -167,4 +183,55 @@ class Description(ChannelHandler):
             message.state = State.ERROR
             message.data = "Error getting plugin description"
             logging.exception("Error getting plugin description")
+            self.plugin.return_queue.put(message)
+            
+class PluginManagement(ChannelHandler):
+    def __call__(self, message: PluginMessage):
+        try:
+            if message.channel == Channel.ENABLE_PLUGIN:
+                try:
+                    self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
+                        self.plugin.path,
+                        self.plugin.queue,
+                        self.plugin.return_queue,    
+                    )
+                    message.state = State.DONE
+                except Exception as e:
+                    message.state = State.ERROR
+                    message.data = e.args
+                    logging.exception("Error enabling plugin")
+                    
+            elif message.channel == Channel.STOP_PLUGIN:
+                try:
+                    self.plugin.plugin = None
+                    message.state = State.DONE
+                except Exception as e:
+                    message.state = State.ERROR
+                    message.data = e.args
+                    logging.exception("Error stopping plugin")
+                    
+            elif message.channel == Channel.RESTART_PLUGIN:
+                try:
+                    self.plugin.plugin = None
+                    self.plugin.update_plugin()
+                    self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
+                        self.plugin.path,
+                        self.plugin.queue,
+                        self.plugin.return_queue,    
+                    )
+                    message.state = State.DONE
+                except Exception as e:
+                    message.state = State.ERROR
+                    message.data = e.args
+                    logging.exception("Error restarting plugin")
+                    
+            else:
+                message.state = State.ERROR
+                message.data = "Invalid channel"
+                
+            self.plugin.return_queue.put(message)
+        except Exception as e:
+            message.state = State.ERROR
+            message.data = e.args
+            logging.exception("Error handling plugin state")
             self.plugin.return_queue.put(message)

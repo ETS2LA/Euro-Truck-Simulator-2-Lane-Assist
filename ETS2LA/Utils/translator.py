@@ -142,10 +142,10 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # 
 
 def Translate(key: str, values: list = None, return_original: bool = False) -> str: # type: ignore
     if not CheckKey(key):
-        logging.error(f"{key} is not a valid key.")
         if return_original:
             return key
         
+        logging.error(f"{key} is not a valid key.")
         return ""
     
     if SpecialCases(key) != "":
