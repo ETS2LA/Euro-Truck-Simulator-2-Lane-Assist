@@ -14,7 +14,7 @@ class Plugin(ETS2LAPlugin):
     fps_cap = 999
     
     description = PluginDescription(
-        name="Test",
+        name="Test2",
         version="1.0",
         description="Test",
         modules=["Camera"],
@@ -32,4 +32,12 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
-        self.globals.tags.test = time.time()
+        print("Test 2 gettings tags")
+        receive = self.globals.tags.test
+        if receive is None:
+            print("Test 2 tag not set")
+            return
+        
+        receive = receive["Test"]
+        diff = time.time() - receive
+        print(f"Test 2 received the tag {1/diff:.1f}ms late")

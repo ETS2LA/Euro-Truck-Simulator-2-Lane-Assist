@@ -2,7 +2,7 @@ from ETS2LA.Plugin.message import PluginMessage, Channel
 from ETS2LA.Utils.Values.dictionaries import merge
 
 from multiprocessing import JoinableQueue
-from typing import Literal
+from typing import Literal, Callable
 import threading
 import logging
 import json
@@ -10,39 +10,22 @@ import time
 
     
 class Tags:
-    def __init__(self, tags_queue: JoinableQueue, tags_return_queue: JoinableQueue):
-        self.tags_queue = tags_queue
-        self.tags_return_queue = tags_return_queue
+    def __init__(self, get_tag: Callable, set_tag: Callable) -> None:
+        self.get_tag = get_tag
+        self.set_tag = set_tag
 
     def __getattr__(self, name):
-        if name in ["tags_queue", "tags_return_queue"]:
+        if name in ["get_tag", "set_tag"]:
             return super().__getattr__(name) # type: ignore
         
-        message = PluginMessage(
-            Channel.GET_TAGS,
-            {
-                "tag": name
-            }
-        )
-        self.tags_queue.put(message, block=True)
-        response = self.tags_return_queue.get()
-        return response
+        return self.get_tag(name) # type: ignore
     
     def __setattr__(self, name, value):
-        if name in ["tags_queue", "tags_return_queue"]:
+        if name in ["get_tag", "set_tag"]:
             return super().__setattr__(name, value)
         
-        message = PluginMessage(
-            Channel.UPDATE_TAGS,
-            {
-                "tag": name,
-                "value": value
-            }
-        )
-
-        self.tags_queue.put(message, block=True)
-        response = self.tags_return_queue.get()
-        return response
+        self.set_tag(name, value) # type: ignore
+        return None
     
     def merge(self, tag_dict: dict):
         if tag_dict is None:
@@ -181,9 +164,9 @@ class Global:
     ```
     """
     
-    def __init__(self, tags_queue: JoinableQueue, tags_return_queue: JoinableQueue):
+    def __init__(self, get_tag: Callable, set_tag: Callable) -> None:
         self.settings = GlobalSettings()
-        self.tags = Tags(tags_queue, tags_return_queue) 
+        self.tags = Tags(get_tag, set_tag) 
         
 class PluginDescription:
     """ETS2LA Plugin Description

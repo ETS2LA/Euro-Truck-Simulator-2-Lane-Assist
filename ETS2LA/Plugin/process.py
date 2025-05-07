@@ -56,6 +56,42 @@ class PluginProcess:
     The relative path of the files belonging to this process.
     """
     
+    output_needs_update: bool = False
+    pending_output_update: bool = False
+    output_tags: dict = {}
+    """
+    Output tags are tags that this plugin wants to send to others.
+    """
+    
+    input_tags_that_need_update: list[str] = []
+    pending_input_update: bool = False
+    input_tags: dict = {}
+    """
+    Input tags are tags that this plugin wants to get from others.
+    """
+    
+    def get_tag(self, name: str) -> dict:
+        """
+        Get the tags from the plugin. This is used to get the
+        tags from the plugin and send them to the backend.
+        """
+        if name not in self.input_tags_that_need_update:
+            self.input_tags_that_need_update.append(name)
+            
+        if name not in self.input_tags:
+            self.input_tags[name] = None
+            
+        return self.input_tags[name]
+    
+    def set_tag(self, name: str, value) -> None:
+        """
+        Set a tag in the plugin. This is used to set a tag
+        in the plugin and send it to the backend.
+        """
+        self.output_tags[name] = value
+        self.output_needs_update = True
+        return None
+    
     def update_plugin(self) -> None:
         logging.info(f"Importing plugin file from {self.path}")
         import_path = self.path.replace("\\", ".").replace("/", ".") + ".main"
@@ -91,6 +127,8 @@ class PluginProcess:
                     Description(self)(message)
                 case Channel.ENABLE_PLUGIN | Channel.STOP_PLUGIN | Channel.RESTART_PLUGIN:
                     PluginManagement(self)(message)
+                case Channel.GET_TAGS | Channel.UPDATE_TAGS:
+                    Tags(self)(message)
                 case _:
                     self.stack[message.id] = message
         
@@ -102,6 +140,30 @@ class PluginProcess:
         message = self.stack.pop(id)
         return message
     
+    def tag_updater(self) -> None:
+        while True:
+            if self.input_tags_that_need_update and not self.pending_input_update:
+                self.pending_input_update = True
+                message = PluginMessage(
+                    Channel.GET_TAGS, {
+                        "tags": self.input_tags_that_need_update
+                    }
+                )
+                
+                self.input_tags_that_need_update = []
+                self.return_queue.put(message, block=False)
+                
+            if self.output_needs_update and not self.pending_output_update:
+                self.pending_output_update = True
+                message = PluginMessage(
+                    Channel.UPDATE_TAGS, self.output_tags
+                )
+                
+                self.output_needs_update = False
+                self.return_queue.put(message, block=False)
+                
+            time.sleep(0.01)
+    
     def keep_alive(self) -> None:
         """Keep the process alive."""
         while True:
@@ -109,12 +171,14 @@ class PluginProcess:
                 time.sleep(1)
                 continue
             
+            self.plugin.before()
+            
             try:
-                self.plugin.before()
                 data = self.plugin.run() # type: ignore
-                self.plugin.after(data)
             except:
                 logging.exception("Error in plugin process.")
+            
+            self.plugin.after()
         
     def __init__(self, path: str, queue: JoinableQueue, return_queue: JoinableQueue) -> None:
         self.queue = queue
@@ -145,6 +209,11 @@ class PluginProcess:
         
         threading.Thread(
             target=self.listener,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.tag_updater,
             daemon=True
         ).start()
         
@@ -193,7 +262,9 @@ class PluginManagement(ChannelHandler):
                     self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
                         self.plugin.path,
                         self.plugin.queue,
-                        self.plugin.return_queue,    
+                        self.plugin.return_queue,  
+                        self.plugin.get_tag,
+                        self.plugin.set_tag  
                     )
                     message.state = State.DONE
                 except Exception as e:
@@ -235,3 +306,22 @@ class PluginManagement(ChannelHandler):
             message.data = e.args
             logging.exception("Error handling plugin state")
             self.plugin.return_queue.put(message)
+            
+class Tags(ChannelHandler):
+    def __call__(self, message: PluginMessage):
+        try:
+            if message.state == State.ERROR:
+                logging.error("Error getting tags, " + message.data)
+                return None
+            
+            if message.channel == Channel.GET_TAGS:
+                for tag, value in message.data.items():
+                    self.plugin.input_tags[tag] = value
+                    
+                self.plugin.pending_input_update = False
+                    
+            if message.channel == Channel.UPDATE_TAGS:
+                self.plugin.pending_output_update = False
+            
+        except Exception as e:
+            logging.exception("Error handling tags")

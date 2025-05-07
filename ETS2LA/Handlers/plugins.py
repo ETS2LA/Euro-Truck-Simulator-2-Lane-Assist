@@ -46,6 +46,9 @@ class Plugin:
     stop: bool
     """Whether the plugin should stop or not."""
     
+    tags: dict = {}
+    """All plugins share this same tags dictionary. This way they can easily share tag data."""
+    
     def __init__(self, folder: str) -> None:
         self.folder = folder
         self.stack = {}
@@ -80,6 +83,12 @@ class Plugin:
         
         plugins.append(self)
         self.get_description()
+        
+        threading.Thread(
+            target=self.tag_handler,
+            daemon=True
+        ).start()
+        
         self.keep_alive()
         
     def keep_alive(self) -> None:
@@ -96,6 +105,41 @@ class Plugin:
             if message.channel not in self.stack:
                 self.stack[message.channel] = {}
             self.stack[message.channel][message.id] = message
+    
+    def tag_handler(self):
+        while True:            
+            if Channel.GET_TAGS in self.stack:
+                while self.stack[Channel.GET_TAGS]:
+                    message = self.stack[Channel.GET_TAGS].popitem()[1]
+                    
+                    tags = message.data["tags"]
+                    response = {}
+                    for tag in tags:
+                        response[tag] = self.tags.get(tag, None)
+                    
+                    message.state = State.DONE
+                    message.data = response
+                    self.queue.put(message)
+            
+            if Channel.UPDATE_TAGS in self.stack:
+                while self.stack[Channel.UPDATE_TAGS]:
+                    message = self.stack[Channel.UPDATE_TAGS].popitem()[1]
+                    data = message.data
+                    
+                    for tag, value in data.items():
+                        if tag not in self.tags:
+                            self.tags[tag] = {}
+                            
+                        if self.description.name not in self.tags[tag]:
+                            self.tags[tag][self.description.name] = {}
+                            
+                        self.tags[tag][self.description.name] = value
+                    
+                    message.state = State.DONE
+                    message.data = "success" # clear data for faster transmit
+                    self.queue.put(message)
+            
+            time.sleep(0.01)
     
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
@@ -142,7 +186,8 @@ def create_processes() -> None:
 
     time.sleep(10)
     logging.info(f"Loaded {len(plugins)} plugins.")
-    start_plugin(name="plugin.visualizationsockets")
+    start_plugin(name="Test")
+    start_plugin(name="Test2")
   
 def run() -> None:
     discover_plugins()
