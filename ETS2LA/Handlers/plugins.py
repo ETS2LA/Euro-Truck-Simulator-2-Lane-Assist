@@ -191,8 +191,8 @@ def create_processes() -> None:
 
     time.sleep(10)
     logging.info(f"Loaded {len(plugins)} plugins.")
-    start_plugin(name="Test")
-    start_plugin(name="Test2")
+    start_plugin(folder="Plugins\\Map")
+    start_plugin(folder="Plugins\\VisualizationSockets")
   
 def run() -> None:
     discover_plugins()
@@ -326,3 +326,18 @@ def restart_plugin(
             return False
         
     return False
+
+
+
+
+# MARK: Tag Utils
+def get_tag_data(tag: str) -> dict:
+    """Get the tag data from all plugins."""
+    
+    # We only need the tags dict from the first plugin as they 
+    # all share the same pointer.
+    if not plugins:
+        return {}
+    
+    plugin = plugins[0]
+    return plugin.tags.get(tag, {})
