@@ -40,6 +40,12 @@ class PluginProcess:
     first starting up the plugin.
     """
     
+    authors: list[Author] = []
+    """
+    This plugin's authors. Can be accessed without
+    first starting up the plugin.
+    """
+    
     plugin: ETS2LAPlugin | None = None
     """
     The ETS2LAPlugin instance of this plugin process.
@@ -109,6 +115,7 @@ class PluginProcess:
         
         logging.info(f"Plugin file imported successfully: {self.file}")
         self.description = self.file.Plugin.description
+        self.authors = self.file.Plugin.author
         
         # Pages need to be instantiated before use.
         self.pages = self.file.Plugin.pages
@@ -171,14 +178,14 @@ class PluginProcess:
                 time.sleep(1)
                 continue
             
-            self.plugin.before()
+            try: self.plugin.before()
+            except: pass
             
-            try:
-                data = self.plugin.run() # type: ignore
-            except:
-                logging.exception("Error in plugin process.")
+            try: self.plugin.run() # type: ignore
+            except: logging.exception("Error in plugin process.")
             
-            self.plugin.after()
+            try: self.plugin.after()
+            except: pass
         
     def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
         self.queue = queue
@@ -203,9 +210,11 @@ class PluginProcess:
         self.path = path
         self.update_plugin()
         
-        self.return_queue.put(PluginMessage(
+        message = PluginMessage(
             Channel.SUCCESS, {}
-        ))
+        )
+        message.state = State.DONE
+        self.return_queue.put(message)
         
         threading.Thread(
             target=self.listener,
@@ -245,7 +254,7 @@ class ChannelHandler:
 class Description(ChannelHandler):
     def __call__(self, message: PluginMessage):
         try:
-            message.data = self.plugin.description
+            message.data = [self.plugin.description, self.plugin.authors]
             message.state = State.DONE
             self.plugin.return_queue.put(message)
         except:
@@ -261,6 +270,7 @@ class PluginManagement(ChannelHandler):
                 try:
                     self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
                         self.plugin.path,
+                        self.plugin.queue,
                         self.plugin.return_queue,  
                         self.plugin.get_tag,
                         self.plugin.set_tag  
@@ -273,6 +283,7 @@ class PluginManagement(ChannelHandler):
                     
             elif message.channel == Channel.STOP_PLUGIN:
                 try:
+                    del self.plugin.plugin
                     self.plugin.plugin = None
                     message.state = State.DONE
                 except Exception as e:
@@ -282,10 +293,12 @@ class PluginManagement(ChannelHandler):
                     
             elif message.channel == Channel.RESTART_PLUGIN:
                 try:
+                    del self.plugin.plugin
                     self.plugin.plugin = None
                     self.plugin.update_plugin()
                     self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
                         self.plugin.path,
+                        self.plugin.queue,
                         self.plugin.return_queue,  
                         self.plugin.get_tag,
                         self.plugin.set_tag      

@@ -32,4 +32,6 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
+        time.sleep(1)
+        self.terminate()
         self.globals.tags.test = time.time()

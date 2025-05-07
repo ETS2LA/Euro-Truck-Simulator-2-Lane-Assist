@@ -50,6 +50,7 @@ class ETS2LAPlugin(object):
     pages: List[ETS2LAPage] = []
     settings_menu: None
     
+    queue: Queue
     return_queue: Queue
     
     performance: list[tuple[float, float]] = []
@@ -118,10 +119,11 @@ class ETS2LAPlugin(object):
         if type(self).__name__ != "Plugin":
             raise TypeError("Please make sure the class is named 'Plugin'")
     
-    def __new__(cls, path: str, return_queue: Queue, get_tag: Callable, set_tag: Callable) -> object:
+    def __new__(cls, path: str, queue: Queue, return_queue: Queue, get_tag: Callable, set_tag: Callable) -> object:
         instance = super().__new__(cls)
         instance.path = path
         
+        instance.queue = queue
         instance.return_queue = return_queue
                 
         instance.globals = Global(get_tag, set_tag)
@@ -226,9 +228,13 @@ class ETS2LAPlugin(object):
     #         self.frontend_return_queue.put(None)
            
     def terminate(self):
-        self.queue.put(PluginMessage(
+        self.return_queue.put(PluginMessage(
             Channel.STOP_PLUGIN, {}
-        ))
+        ), block=False)
+        
+        # Wait for the plugin to be terminated
+        while True:
+            time.sleep(1)
             
     def notify(self, text: str, type: Literal["info", "warning", "error", "success"] = "info"):
         #self.immediate_queue.put({

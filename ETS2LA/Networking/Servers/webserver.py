@@ -180,7 +180,7 @@ def get_plugins():
             if answer["response"] == "Yes":
                 notifications.sonner("Re-enabling plugins...")
                 for plugin in to_enable:
-                    plugins.enable_plugin(plugin)
+                    plugins.start_plugin(name=plugin)
                     
             notifications.sonner("Plugins enabled!", "success")
                 
@@ -188,25 +188,25 @@ def get_plugins():
     
     try:
         # Get data
-        available_plugins = plugins.AVAILABLE_PLUGINS
-        enabled_plugins = plugins.RUNNING_PLUGINS
-        plugin_settings = plugins.get_plugin_settings()
+        available_plugins = plugins.plugins
+        enabled_plugins = [plugin for plugin in available_plugins if plugin.running]
+        # plugin_settings = plugins.get_plugin_settings() # TODO: Reimplement urls
             
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            name, description, authors = plugin.name, plugin.description, plugin.authors
+            name, description, authors = plugin.description.name, plugin.description, plugin.authors
             if type(authors) != list:
                 authors = [authors]
                 
             return_data[name] = {
                 "authors": [author.__dict__ for author in authors],
                 "description": description.__dict__,
-                "settings": plugin_settings[name],
+                "settings": None,
             }
-            if name in [enabled_plugin.plugin_name for enabled_plugin in enabled_plugins]:
+            if name in [enabled_plugin.description.name for enabled_plugin in enabled_plugins]:
                 return_data[name]["enabled"] = True
-                return_data[name]["frametimes"] = plugins.get_latest_frametime(name)
+                return_data[name]["frametimes"] = []#plugins.get_latest_frametime(name)
             else:
                 return_data[name]["enabled"] = False
                 return_data[name]["frametimes"] = 0
@@ -218,15 +218,15 @@ def get_plugins():
 
 @app.get("/backend/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
-    return plugins.enable_plugin(plugin)
+    return plugins.start_plugin(name=plugin)
 
 @app.get("/backend/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
-    return plugins.disable_plugin(plugin)
+    return plugins.stop_plugin(name=plugin)
 
 @app.get("/backend/plugins/performance")
 def get_performance():
-    return plugins.get_performances()
+    return {} # TODO: Reimplement this
 
 @app.get("/backend/plugins/states")
 def get_states():
