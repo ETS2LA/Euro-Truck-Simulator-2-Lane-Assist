@@ -9,6 +9,9 @@ import logging
 import time
 import os
 
+if os.name == "nt":
+    import ctypes
+
 search_folders: list[str] = [
     "Plugins"
 ]
@@ -28,10 +31,10 @@ class Plugin:
     process: multiprocessing.Process
     """The physical running process of the plugin."""
     
-    queue: multiprocessing.JoinableQueue
+    queue: multiprocessing.Queue
     """The queue used to send messages to the plugin."""
     
-    return_queue: multiprocessing.JoinableQueue
+    return_queue: multiprocessing.Queue
     """The queue used to send messages back to the backend."""
     
     stack: dict[Channel, dict[int, PluginMessage]]
@@ -54,12 +57,13 @@ class Plugin:
         self.stack = {}
         self.stop = False
         
-        self.queue = multiprocessing.JoinableQueue()
-        self.return_queue = multiprocessing.JoinableQueue()
+        self.queue = multiprocessing.Queue()
+        self.return_queue = multiprocessing.Queue()
         self.process = multiprocessing.Process(
             target=PluginProcess,
             args=(self.folder, self.queue, self.return_queue),
-            daemon=True
+            daemon=True,
+            name=f"Plugin {folder.split('/')[-1]} Process",
         )
         
         # Start to listen for messages from the plugin.
@@ -182,7 +186,8 @@ plugins: list[Plugin] = []
 def create_processes() -> None:
     for folder in plugin_folders:
         logging.debug(f"Creating plugin process for {folder}")
-        threading.Thread(target=Plugin, args=(folder,), daemon=True).start()
+        threading.Thread(target=Plugin, name=f"Backend for {folder.split('/')[-1]}",
+                         args=(folder,), daemon=True).start()
 
     time.sleep(10)
     logging.info(f"Loaded {len(plugins)} plugins.")

@@ -278,3 +278,7 @@ class ETS2LAPlugin(object):
             time.sleep(time_to_sleep)
         
         self.performance.append((self.plugin_run_start_time, time.perf_counter() - self.plugin_run_start_time))
+        
+        # Only save last 60 seconds of performance data
+        while self.performance[0][0] < time.perf_counter() - 60:
+            self.performance.pop(0)

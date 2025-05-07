@@ -1,4 +1,4 @@
-from multiprocessing import JoinableQueue
+from multiprocessing import Queue
 from types import ModuleType
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
@@ -12,13 +12,13 @@ import time
 import os
 
 class PluginProcess:
-    queue: JoinableQueue
+    queue: Queue
     """
     The queue that is connected between this process and
     the backend. This one is for sending messages to the plugin.
     """
     
-    return_queue: JoinableQueue
+    return_queue: Queue
     """
     The queue that is connected between this process and
     the backend. This one is for sending messages to the backend.
@@ -120,7 +120,7 @@ class PluginProcess:
         """Send all messages into the stack."""
         while True:
             try: message: PluginMessage = self.queue.get(timeout=1)
-            except: time.sleep(0.01); continue
+            except: time.sleep(0.001); continue
             # Handle the message based on the channel
             match message.channel:
                 case Channel.GET_DESCRIPTION:
@@ -161,7 +161,7 @@ class PluginProcess:
                 
                 self.output_needs_update = False
                 self.return_queue.put(message, block=False)
-                
+
             time.sleep(0.01)
     
     def keep_alive(self) -> None:
@@ -180,7 +180,7 @@ class PluginProcess:
             
             self.plugin.after()
         
-    def __init__(self, path: str, queue: JoinableQueue, return_queue: JoinableQueue) -> None:
+    def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
         self.queue = queue
         self.return_queue = return_queue
         

@@ -11,7 +11,7 @@ import time
 import sys
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 999
+    fps_cap = 99999
     
     description = PluginDescription(
         name="Test2",
@@ -40,4 +40,5 @@ class Plugin(ETS2LAPlugin):
         
         receive = receive["Test"]
         diff = time.time() - receive
-        print(f"Test 2 received the tag {1/diff:.1f}ms late")
+        print(f"Test 2 received the tag {diff*1000:.1f}ms late")
+        print(f"@{1/self.performance[-1][1]:.1f}fps")
