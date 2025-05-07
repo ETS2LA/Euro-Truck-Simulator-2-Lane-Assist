@@ -1,7 +1,7 @@
 from ETS2LA.Plugin.message import PluginMessage, Channel
 from ETS2LA.Utils.Values.dictionaries import merge
 
-from multiprocessing import JoinableQueue
+from multiprocessing import Queue
 from typing import Literal, Callable
 import threading
 import logging
@@ -80,14 +80,14 @@ class State:
     timeout_thread: threading.Thread | None = None
     last_update: float = 0
     
-    state_queue: JoinableQueue
+    state_queue: Queue
     
     def timeout_thread_func(self):
         while time.perf_counter() - self.last_update < self.timeout:
             time.sleep(0.1)
         self.reset()
     
-    def __init__(self, state_queue: JoinableQueue):
+    def __init__(self, state_queue: Queue):
         self.state_queue = state_queue
         self.text = ""
         self.progress = -1

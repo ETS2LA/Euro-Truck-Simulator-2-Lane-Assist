@@ -27,6 +27,7 @@ def discover_plugins() -> None:
             if "main.py" in files:
                 plugin_folders.append(root)
 
+# MARK: Class
 class Plugin:
     process: multiprocessing.Process
     """The physical running process of the plugin."""
@@ -52,9 +53,16 @@ class Plugin:
     tags: dict = {}
     """All plugins share this same tags dictionary. This way they can easily share tag data."""
     
+    state: dict
+    """The current plugin state used by the frontend."""
+    
     def __init__(self, folder: str) -> None:
         self.folder = folder
         self.stack = {}
+        self.state = {
+            "status": "",
+            "progress": -1
+        }
         self.stop = False
         
         self.queue = multiprocessing.Queue()
@@ -90,6 +98,11 @@ class Plugin:
         
         threading.Thread(
             target=self.tag_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.state_handler,
             daemon=True
         ).start()
         
@@ -145,6 +158,18 @@ class Plugin:
             
             time.sleep(0.01)
     
+    def state_handler(self):
+        while True:
+            if Channel.STATE_UPDATE in self.stack:
+                while self.stack[Channel.STATE_UPDATE]:
+                    message = self.stack[Channel.STATE_UPDATE].popitem()[1]
+                    if "progress" in message.data:
+                        self.state["progress"] = message.data["progress"]
+                    if "status" in message.data:
+                        self.state["status"] = message.data["status"]
+            
+            time.sleep(0.01)
+    
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
         start_time = time.perf_counter()
@@ -181,7 +206,10 @@ class Plugin:
             
         self.description = response.data
         return response.data
-        
+  
+  
+
+# MARK: Startup      
 plugins: list[Plugin] = []
 def create_processes() -> None:
     for folder in plugin_folders:
@@ -198,6 +226,10 @@ def run() -> None:
     discover_plugins()
     threading.Thread(target=create_processes, daemon=True).start()
     
+    
+    
+    
+# MARK: Plugin Matching
 def match_plugin_by_description(description: PluginDescription) -> Plugin | None:
     """Match a plugin by its description."""
     for plugin in plugins:
@@ -330,7 +362,7 @@ def restart_plugin(
 
 
 
-# MARK: Tag Utils
+# MARK: General Utils
 def get_tag_data(tag: str) -> dict:
     """Get the tag data from all plugins."""
     
@@ -341,3 +373,12 @@ def get_tag_data(tag: str) -> dict:
     
     plugin = plugins[0]
     return plugin.tags.get(tag, {})
+
+def get_states() -> dict:
+    """Get the state data from all plugins."""
+    states = {}
+    for plugin in plugins:
+        if plugin.state["status"] != "":
+            states[Translate(plugin.description.name, return_original=True)] = plugin.state
+        
+    return states

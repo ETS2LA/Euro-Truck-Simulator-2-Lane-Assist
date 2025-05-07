@@ -9,7 +9,7 @@ from ETS2LA.UI import *
 
 from ETS2LA.Controls import ControlEvent
 
-from multiprocessing import JoinableQueue
+from multiprocessing import Queue
 import threading
 import importlib
 
@@ -50,8 +50,7 @@ class ETS2LAPlugin(object):
     pages: List[ETS2LAPage] = []
     settings_menu: None
     
-    queue: JoinableQueue
-    return_queue: JoinableQueue
+    return_queue: Queue
     
     performance: list[tuple[float, float]] = []
     
@@ -119,11 +118,10 @@ class ETS2LAPlugin(object):
         if type(self).__name__ != "Plugin":
             raise TypeError("Please make sure the class is named 'Plugin'")
     
-    def __new__(cls, path: str, return_queue: JoinableQueue, queue: JoinableQueue, get_tag: Callable, set_tag: Callable) -> object:
+    def __new__(cls, path: str, return_queue: Queue, get_tag: Callable, set_tag: Callable) -> object:
         instance = super().__new__(cls)
         instance.path = path
         
-        instance.queue = queue
         instance.return_queue = return_queue
                 
         instance.globals = Global(get_tag, set_tag)

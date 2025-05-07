@@ -261,7 +261,6 @@ class PluginManagement(ChannelHandler):
                 try:
                     self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
                         self.plugin.path,
-                        self.plugin.queue,
                         self.plugin.return_queue,  
                         self.plugin.get_tag,
                         self.plugin.set_tag  
@@ -287,8 +286,9 @@ class PluginManagement(ChannelHandler):
                     self.plugin.update_plugin()
                     self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
                         self.plugin.path,
-                        self.plugin.queue,
-                        self.plugin.return_queue,    
+                        self.plugin.return_queue,  
+                        self.plugin.get_tag,
+                        self.plugin.set_tag      
                     )
                     message.state = State.DONE
                 except Exception as e:
