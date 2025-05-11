@@ -1,4 +1,5 @@
 import math
+import time
 # TODO: Switch __dict__ to __iter__ and dict() for typing support.
 # TODO: f = Class() -> dict(f) instead of f.__dict__()
 
@@ -157,6 +158,10 @@ class Vehicle:
     id: int
     trailers: list[Trailer]
     
+    is_tmp: bool
+    is_trailer: bool
+    time: float = 0.0
+    
     def __init__(self, position: Position, rotation: Quaternion, size: Size, speed: float, acceleration: float, trailer_count: int, id: int, trailers: list[Trailer]):
         self.position = position
         self.rotation = rotation
@@ -166,6 +171,43 @@ class Vehicle:
         self.trailer_count = trailer_count
         self.id = id
         self.trailers = trailers
+        
+        if acceleration == -1:
+            self.is_tmp = True
+            self.is_trailer = False
+            self.acceleration = 0
+        elif acceleration == -2:
+            self.is_tmp = True
+            self.is_trailer = True
+            self.acceleration = 0
+        else:
+            self.is_tmp = False
+            self.is_trailer = False
+            
+        self.time = time.time()
+        
+    def update_from_last(self, vehicle):
+        if not self.is_tmp:
+            return
+        
+        time_diff = time.time() - vehicle.time
+        if time_diff == 0:
+            self.speed = vehicle.speed
+        
+        last_position = vehicle.position
+        distance = math.sqrt(
+            (self.position.x - last_position.x) ** 2 +
+            (self.position.y - last_position.y) ** 2 +
+            (self.position.z - last_position.z) ** 2
+        )
+        
+        if distance > 0.1:
+            self.speed = distance / time_diff
+        else:
+            self.speed = vehicle.speed
+            
+        if self.speed < 3:
+            self.speed = 0
         
     def is_zero(self):
         return self.position.is_zero() and self.rotation.is_zero()
@@ -233,5 +275,7 @@ class Vehicle:
             "acceleration": self.acceleration,
             "trailer_count": self.trailer_count,
             "id": self.id,
-            "trailers": [trailer.__dict__() for trailer in self.trailers]
+            "trailers": [trailer.__dict__() for trailer in self.trailers],
+            "is_tmp": self.is_tmp,
+            "is_trailer": self.is_trailer,
         }

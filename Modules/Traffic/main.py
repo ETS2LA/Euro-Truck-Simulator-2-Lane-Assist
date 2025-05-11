@@ -11,6 +11,8 @@ class Module(ETS2LAModule):
     vehicle_object_format = vehicle_format + trailer_format + trailer_format
     total_format = "=" + vehicle_object_format * 40
     
+    last_vehicles: dict[int, Vehicle] = {}
+    
     def imports(self):
         self.wait_for_buffer()
         
@@ -46,7 +48,7 @@ class Module(ETS2LAModule):
         
         try:
             data = struct.unpack(self.total_format, self.buf[:5280])
-            vehicles = []
+            vehicles: list[Vehicle] = []
             for i in range(0, 40):
                 position = Position(data[0], data[1], data[2])
                 rotation = Quaternion(data[3], data[4], data[5], data[6])
@@ -70,6 +72,13 @@ class Module(ETS2LAModule):
                 
                 data = data[14 + (2 * 10):]
             
+            if len(vehicles) > 0:
+                if vehicles[0].is_tmp:
+                    for vehicle in vehicles:
+                        if vehicle.id in self.last_vehicles:
+                            vehicle.update_from_last(self.last_vehicles[vehicle.id])
+
+            self.last_vehicles = {vehicle.id: vehicle for vehicle in vehicles}
             return vehicles
         except:
             logging.exception("Failed to read camera properties")
