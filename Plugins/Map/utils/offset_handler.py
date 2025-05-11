@@ -4,12 +4,15 @@ import os
 import logging
 from Plugins.Map.utils import prefab_helpers, road_helpers
 from Plugins.Map import data
+from ETS2LA import variables
 
 CONFIG_PATH = os.path.normpath(os.path.join(
     os.path.dirname(__file__), 
     '../data/config.json'
 ))
-logging.warning("Offset configuration path: %s", CONFIG_PATH)
+
+if variables.DEVELOPMENT_MODE:
+    logging.warning("Offset configuration path: %s", CONFIG_PATH)
 
 def update_offset_config_generic(operation="add"):
     """Generic offset configuration updater for both add/sub operations"""

@@ -37,7 +37,6 @@ def lengthOfDegreeAt(latInDegrees):
 #Clarke 1866 Spheroid Radius & Degree Length
 EARTH_RADIUS = 6_370_997  # :contentReference[oaicite:8]{index=8}
 LENGTH_OF_DEGREE = ((EARTH_RADIUS * math.pi) / 180)  # :contentReference[oaicite:9]{index=9}
-print(LENGTH_OF_DEGREE)
 ETS2_SCALE = abs(lengthOfDegreeAt(50) * -0.000171570875)
 BASE_ETS2 = [ # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L46
     "+proj=lcc",
@@ -81,7 +80,6 @@ ATS_PROJ = (
     #f"+x_0=0 +y_0=-1750 "
     #f"+no_defs"
 )
-print(ATS_PROJ)
 ATS_CRS         = CRS.from_proj4(ATS_PROJ)
 ATS_TRANSFORM   = Transformer.from_crs(ATS_CRS, CRS("EPSG:4326"))  
 
