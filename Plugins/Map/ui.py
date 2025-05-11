@@ -121,6 +121,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                     with EnabledLock():
                         if self.plugin:
                             Button("Reload", "Reload Lane Offsets", description="Reload the lane offsets from the file. This will take a few seconds.", target=self.plugin.update_road_data)
+                            # Add a button to update the offset configuration.
+                            Button("Update the offset configuration", "Update Offset Config", description="Manually trigger the offset configuration update.", target=self.plugin.execute_offset_update)
                             
                             import Plugins.Map.utils.road_helpers as rh
                             per_name = rh.per_name
