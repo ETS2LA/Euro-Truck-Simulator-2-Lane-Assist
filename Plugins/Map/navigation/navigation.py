@@ -94,6 +94,10 @@ def get_path_to_destination():
             if route[-1].node is None:
                 route.pop()
                 
+        if len(route) == 0:
+            logging.warning("Failed to find route")
+            return []
+                
         start_direction, index = get_direction_for_route_start(route)
         if start_direction == "":
             logging.warning("Failed to find direction for route start.")
