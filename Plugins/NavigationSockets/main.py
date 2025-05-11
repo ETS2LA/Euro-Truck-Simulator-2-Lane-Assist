@@ -89,19 +89,18 @@ ATS_X_MAX = 20000
 ATS_Y_MIN = -80000     
 ATS_Y_MAX = 80000
 
-def ETS2CoordsToWGS84(x, y):
+def CoordsToWGS84(x, y, game="ETS2"):
     """
     Convert game (x, y) coords into WGS84.
     Support both ETS2 (Europe/UK) and ATS (North America) maps.
     """
 
     # --- ATS Branch ---
-    if (ATS_X_MIN <= x <= ATS_X_MAX) and (ATS_Y_MIN <= y <= ATS_Y_MAX):
+    if game == "ATS":
         # # ATS does not use offset, but directly converts using mapFactor and LENGTH_OF_DEGREE
         proj_x = x * ATS_MAP_FACTOR[1] * LENGTH_OF_DEGREE
         proj_y = y * ATS_MAP_FACTOR[0] * LENGTH_OF_DEGREE
         lon, lat = ATS_TRANSFORM.transform(proj_x, proj_y)
-        print(f"ATS: {x}, {y} -> {lat}, {lon}")
         return (lat, lon)
     
     calais = [-31100, -5500]
@@ -145,14 +144,14 @@ def bearing(start, end):
     
     return radians_to_degrees(math.atan2(a, b))
 
-def ConvertETS2AngleToWGS84Heading(position, speed):
+def ConvertAngleToWGS84Heading(position, speed, game="ETS2"):
     global last_position, last_angle
 
     if position == last_position:
         return last_angle
-    
-    last_wgs84 = ETS2CoordsToWGS84(*last_position)
-    cur_wgs84 = ETS2CoordsToWGS84(*position)
+
+    last_wgs84 = CoordsToWGS84(*last_position, game=game)
+    cur_wgs84 = CoordsToWGS84(*position, game=game)
 
     geographic_heading = bearing(last_wgs84, cur_wgs84)
 
@@ -252,9 +251,10 @@ class Plugin(ETS2LAPlugin):
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
         speed = data["truckFloat"]["speed"] * 1.25 # offset to make it zoom out faster
+        game = data["scsValues"]["game"]
         
         if speed > 0.2 or speed < -0.2:
-            rotation = ConvertETS2AngleToWGS84Heading(position, speed)
+            rotation = ConvertAngleToWGS84Heading(position, speed, game=game)
         else:
             rotation = last_angle
             
@@ -266,7 +266,7 @@ class Plugin(ETS2LAPlugin):
             "result": {
                 "type": "data",
                 "data": {
-                    "position": ETS2CoordsToWGS84(*position),
+                    "position": CoordsToWGS84(*position, game=game),
                     "bearing": rotation,
                     "speedMph": speed_mph,
                     "speedLimit": 0
@@ -285,7 +285,7 @@ class Plugin(ETS2LAPlugin):
             "result": {
                 "type": "data",
                 "data": {
-                    "position": ETS2CoordsToWGS84(*position),
+                    "position": CoordsToWGS84(*position, game=game),
                     "bearing": rotation,
                     "speedMph": speed_mph,
                     "speedLimit": 0
@@ -324,7 +324,7 @@ class Plugin(ETS2LAPlugin):
                             "segments": [
                                 {
                                     "key": "route",
-                                    "lonLats": [ETS2CoordsToWGS84(point[0], point[1]) for point in total_points],
+                                    "lonLats": [CoordsToWGS84(point[0], point[1], game=game) for point in total_points],
                                     "distance": math.sqrt((navigation[-1].x - navigation[0].x) ** 2 + (navigation[-1].y - navigation[0].y) ** 2),
                                     "time": 0,
                                     "strategy": "shortest",
