@@ -11,13 +11,13 @@ import time
 import sys
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 20
+    fps_cap = 2
     
     description = PluginDescription(
         name="Test",
         version="1.0",
         description="Test",
-        modules=["Traffic"],
+        modules=["Traffic", "TruckSimAPI"],
         listen=["*.py"],
     )
     
@@ -27,13 +27,36 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
 
-    
     def init(self):
         ...
 
+    def to_gametime(self, time): # time is in minutes
+        days = int(time / 1440)
+        if days > 7:
+            days = days % 7
+            
+        hours = int(time / 60)
+        if hours > 23:
+            hours = hours % 24
+            
+        minutes = int(time % 60)
+        
+        map_to_name = {
+            0: "Monday",
+            1: "Tuesday",
+            2: "Wednesday",
+            3: "Thursday",
+            4: "Friday",
+            5: "Saturday",
+            6: "Sunday"
+        }
+        
+        return "{} {}:{}".format(
+            map_to_name[days],
+            str(hours).zfill(2),
+            str(minutes).zfill(2)
+        )
+
     def run(self):
-        traffic = self.modules.Traffic.run()
-        for vehicle in traffic:
-            if not vehicle.is_trailer:
-                logging.warning(f"Vehicle ID: {vehicle.id}, Position: {vehicle.position}, Speed: {vehicle.speed}")
-        ...
+        data = self.modules.TruckSimAPI.run()
+        print(data["commonUI"]["timeRdbl"])
