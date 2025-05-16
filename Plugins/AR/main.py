@@ -189,7 +189,6 @@ class Plugin(ETS2LAPlugin):
     last_camera_timestamp = 0
     LastTimeStamp = 0
 
-
     def imports(self):
         global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
 
@@ -217,8 +216,9 @@ class Plugin(ETS2LAPlugin):
         FRAME = None
         FOV = self.globals.settings.FOV
         if FOV == None:
-            print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!{NORMAL}\n")
-            self.notify("Please set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!")
+            # Commented, this is not needed anymore
+            # print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!{NORMAL}\n")
+            # self.notify("Please set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!")
             FOV = 75
         
         settings.Listen("AR", LoadSettings)
@@ -344,6 +344,7 @@ class Plugin(ETS2LAPlugin):
         global CabinOffsetRotationDegreesY
         global CabinOffsetRotationDegreesZ
 
+        camera = self.modules.Camera.run()
         APIDATA = TruckSimAPI.update()
 
         HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
@@ -422,16 +423,19 @@ class Plugin(ETS2LAPlugin):
         InsideHeadY = PointY + TruckY
         InsideHeadZ = PointX * math.sin(TruckRotationRadiansX) + PointZ * math.cos(TruckRotationRadiansX) + TruckZ
         
-        camera = self.modules.Camera.run()
         if camera is not None:
             FOV = camera.fov
             angles = camera.rotation.euler()
             HeadX = camera.position.x + camera.cx * 512
             HeadY = camera.position.y
             HeadZ = camera.position.z + camera.cz * 512
-            HeadRotationDegreesX = angles[1]
-            HeadRotationDegreesY = angles[0]
-            HeadRotationDegreesZ = angles[2]
+            
+            # We can use the old camera rotation if we are in the inside
+            # camera view.
+            if abs(HeadX - InsideHeadX) > 1 or abs(HeadY - InsideHeadY) > 1 or abs(HeadZ - InsideHeadZ) > 1:
+                HeadRotationDegreesX = angles[1]
+                HeadRotationDegreesY = angles[0]
+                HeadRotationDegreesZ = angles[2]
         else:
             HeadX = InsideHeadX
             HeadY = InsideHeadY

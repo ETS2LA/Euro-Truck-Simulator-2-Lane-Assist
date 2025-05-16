@@ -29,6 +29,7 @@ class SettingsMenu(ETS2LASettingsMenu):
             with Tab("map.settings.tab.general.name"):
                 Switch("map.settings.use_navigation.name", "UseNavigation", True, description="map.settings.use_navigation.description")
                 Switch("Send Elevation", "SendElevationData", False, description="When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization.")
+                Switch("Disable FPS Notices", "DisableFPSNotices", False, description="When enabled map will not notify of any FPS related issues.")
                 
             with Tab("map.settings.tab.steering.name"):
                 Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")

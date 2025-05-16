@@ -352,7 +352,7 @@ class Plugin(ETS2LAPlugin):
         
         try:
             frametime = self.performance[-1][1]
-            if frametime > 0.13: # ~7.7fps
+            if frametime > 0.13 and not data.disable_fps_notices: # ~7.7fps
                 if self.state.text == "" or "low FPS" in self.state.text: # Don't overwrite other states
                     self.state.text = f"Warning: Steering might be compromised due to low FPS. ({1/frametime:.0f}fps)"
             else:

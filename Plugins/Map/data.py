@@ -123,6 +123,8 @@ send_elevation_data = settings.Get("Map", "SendElevationData", False)
 """Whether to send elevation data or not."""
 export_road_offsets = settings.Get("Map", "ExportRoadOffsets", False)
 """Whether to export the road offsets at startup. Only works in development mode."""
+disable_fps_notices = settings.Get("Map", "DisableFPSNotices", False)
+"""Whether to disable the FPS notices or not."""
 
 # MARK: Return values
 external_data = {}
@@ -230,7 +232,8 @@ def UpdateData(api_data):
 def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
     global auto_accept_threshold, auto_deny_threshold, load_distance
-    global drive_based_on_trailer, send_elevation_data
+    global drive_based_on_trailer, send_elevation_data, export_road_offsets
+    global disable_fps_notices
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
@@ -240,7 +243,9 @@ def UpdateSettings(settings: dict):
     auto_deny_threshold = settings["AutoDenyThreshold"]
     drive_based_on_trailer = settings["DriveBasedOnTrailer"]
     send_elevation_data = settings["SendElevationData"]
-    
+    export_road_offsets = settings["ExportRoadOffsets"]
+    disable_fps_notices = settings["DisableFPSNotices"]
+
     global data_needs_update
     data_needs_update = True
     

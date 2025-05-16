@@ -153,7 +153,6 @@ class RouteSection:
         lane_change_points = []
         end_index = 0
         factors = []
-        print(f"Lane change distance: {self.lane_change_distance:.2f}m")
         for i in range(len(start_points)):
             try:
                 start_point = start_points[i]
@@ -168,7 +167,6 @@ class RouteSection:
                     c.Position(middle_point[0], middle_point[1], middle_point[2]),
                 ]
                 
-                print(f"Distance: {distance:.2f}m")
                 if distance > self.lane_change_distance:
                     # After this point, we'll just use the destination lane points
                     end_index = i

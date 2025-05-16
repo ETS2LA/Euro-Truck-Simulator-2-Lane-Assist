@@ -182,7 +182,11 @@ class Plugin(ETS2LAPlugin):
         gap_error = in_front.distance - desired_gap
 
         # Weighted sum of gap error and relative speed
-        following_accel = 0.5 * gap_error - 2.0 * relative_speed    
+        if self.speed > 10/3.6:
+            following_accel = 0.5 * gap_error - 2.0 * relative_speed    
+        else:
+            following_accel = 0.5 * gap_error - 0.7 * relative_speed
+            
         following_accel += 0.3 * in_front.acceleration
         
         following_accel = min(self.max_accel, max(self.emergency_decel, following_accel))
