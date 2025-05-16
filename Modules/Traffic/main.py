@@ -13,15 +13,25 @@ class Module(ETS2LAModule):
     
     last_vehicles: dict[int, Vehicle] = {}
     
+    start_time = 0
+    message_shown = False
+    
     def imports(self):
+        self.start_time = time.time()
         self.wait_for_buffer()
         
     def wait_for_buffer(self):
         self.buf = None
         while self.buf is None:
-            size = 5280
-            self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
-            time.sleep(0.1)
+            try:
+                size = 5280
+                self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
+            except: 
+                if time.time() - self.start_time > 5 and not self.message_shown:
+                    logging.warning("ETS2LATraffic buffer not found. Make sure the SDK is installed and the game is running. This plugin will wait until the buffer is available.")
+                    self.message_shown = True
+                    
+            time.sleep(1)
             
     def create_vehicle_from_dict(self, data):
         position = Position(data["position"]["x"], data["position"]["y"], data["position"]["z"])
