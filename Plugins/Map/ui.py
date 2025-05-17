@@ -44,8 +44,11 @@ class SettingsMenu(ETS2LASettingsMenu):
                         configs = {}
                         for key, data in index.items():
                             config = dh.GetConfig(data["config"])
-                            if config != {}:
-                                configs[key] = config
+                            try:
+                                if config != {}:
+                                    configs[key] = config
+                            except:
+                                pass
                             
                         with Group("vertical", gap=2, padding=0):
                             Label("NOTE!", weight="semibold", size="xs", classname="pl-4")
