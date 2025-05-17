@@ -328,8 +328,11 @@ class scsTelemetry:
             
             data["commonUI"] = {}
             data["commonUI"]["timeAbs"], offset = self.readInt(offset)
-            data["commonUI"]["timeRdbl"] = self.readable(data["commonUI"]["timeAbs"])
-            
+            try:
+                data["commonUI"]["timeRdbl"] = self.readable(data["commonUI"]["timeAbs"])
+            except:
+                data["commonUI"]["timeRdbl"] = "N/A"
+
             data["configUI"] = {}
             data["configUI"]["gears"], offset = self.readInt(offset)
             data["configUI"]["gearsReverse"], offset = self.readInt(offset)
