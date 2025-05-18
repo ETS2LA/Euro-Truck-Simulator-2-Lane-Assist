@@ -43,7 +43,9 @@ class SettingsMenu(ETS2LASettingsMenu):
                         index = dh.GetIndex()
                         configs = {}
                         for key, data in index.items():
-                            config = dh.GetConfig(data["config"])
+                            try:
+                                config = dh.GetConfig(data["config"])
+                            except: pass
                             if config != {}:
                                 configs[key] = config
                             
