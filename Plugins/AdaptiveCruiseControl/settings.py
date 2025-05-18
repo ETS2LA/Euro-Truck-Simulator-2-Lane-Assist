@@ -38,6 +38,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Description(str(round(time_gap_seconds, 1)) + " seconds")
 
             with Tab("acc.settings.tab.speed_control.name"):
+                Switch("(CAUTIOUSLY USE) Ignore speed limit", "ignore_speed_limit", False, description="Ignore speed limit by setting speed limit to 999 km/h, COULD cause more traffic incident.")
                 Slider("acc.settings.coefficient_of_friction.name", "MU", 0.5, 0.1, 1, 0.1, description="acc.settings.coefficient_of_friction.description", suffix=" μ")
                 Slider("acc.settings.overwrite_speed.name", "overwrite_speed", 50, 0, 130, 5, suffix=" km/h", description="acc.settings.overwrite_speed.description")
                 with EnabledLock():

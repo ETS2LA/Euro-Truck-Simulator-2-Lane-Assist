@@ -182,6 +182,7 @@ def _calculate_distances(road, items):
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
+            logger.warning(f"{road.road_look.name} - Single lane: {current_min}")
             
         dist0 |= any(d < distance_threshold for d in item_distances)
     
@@ -207,6 +208,7 @@ def _should_update_offset(min_distance, sorted_distances):
 
 def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_override, prefix):
     """Update road offset"""
+    global _skip_roads
     current_offset = road_helpers.GetOffset(road)
     base_offset = min_distance
     logger.warning(f"{prefix}Road: {road.road_look.name}, Base offset: {base_offset}, Current offset: {current_offset}")
@@ -367,5 +369,6 @@ def update_offset_config():
     update_offset_config_sub()
     logger.warning("Addition operation completed")
     logging.warning("Addition operation completed")
+    logger.warning(f"Skip roads: {_skip_roads}")
     map_main.Plugin.update_road_data(self=True)
 
