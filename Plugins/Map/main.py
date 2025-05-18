@@ -32,6 +32,8 @@ last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
+updating_offset_config = False
+
 enable_disable = ControlEvent(
     "toggle_map",
     "Toggle Map Steering",
@@ -100,18 +102,35 @@ class Plugin(ETS2LAPlugin):
         return True  
 
     def execute_offset_update(self):
+        global updating_offset_config
+        updating_offset_config = True
         from Plugins.Map.utils import offset_handler
         try:
             if offset_handler.update_offset_config():
                 logging.info("The offset configuration has been updated, and the data is being reloaded...")
-                self.update_road_data()
+                updating_offset_config = False
                 return True  
             else:
                 logging.info("No need to update the offset configuration.")
+                updating_offset_config = False
                 return False  
         except Exception as e:
             logging.error(f"Failed to update the offset configuration: {str(e)}")
+            updating_offset_config = False
             return False  
+        
+    def clear_lane_offsets(self):
+        from Plugins.Map.utils import offset_handler
+        try:
+            if offset_handler.clear_lane_offsets():
+                logging.info("The lane offset has been cleared.")
+                return True
+            else:
+                logging.info("No lane offset to clear.")
+                return False
+        except Exception as e:
+            logging.error(f"Failed to clear the lane offset: {str(e)}")
+            return False
 
     def trigger_data_update(self):
         self.settings.downloaded_data = ""
@@ -361,7 +380,7 @@ class Plugin(ETS2LAPlugin):
         except:
             pass
 
-        if variables.DEVELOPMENT_MODE:
+        if variables.DEVELOPMENT_MODE and not updating_offset_config:
             if (time.perf_counter() - data_start_time) * 1000 > 100:
                 try:
                     print(f"Map plugin run time: {(time.perf_counter() - data_start_time) * 1000:.2f}ms")
