@@ -388,7 +388,7 @@ def GetNextNavigationItem():
     start_distance = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
     end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
     if start_distance > 200 and end_distance > 200:
-            return None
+        return None
     
     start_in_front = math_helpers.IsInFront((start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
     end_in_front = math_helpers.IsInFront((end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
@@ -481,6 +481,7 @@ def GetNextNavigationItem():
                 
         if best_lane == math.inf:
             return None
+        
         return PrefabToRouteSection(next_item, best_lane)
     
 def ResetState():
