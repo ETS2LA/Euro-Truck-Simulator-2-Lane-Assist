@@ -599,7 +599,7 @@ class Plugin(ETS2LAPlugin):
             smoothed_max_speed = 999
 
         if self.settings.ignore_speed_limit:
-            target_speed = 999 / 3.6  # 限制最高速度为130km/h
+            target_speed = 999 / 3.6  # Set highest speed to 999 km/h
         else:
             target_speed = api_data['truckFloat']['speedLimit']
             if target_speed < 0:
