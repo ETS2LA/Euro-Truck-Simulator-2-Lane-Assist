@@ -126,7 +126,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Button("Reload", "Reload Lane Offsets", description="Reload the lane offsets from the file. This will take a few seconds.", target=self.plugin.update_road_data)
                             # Add a button to update the offset configuration.
                             Button("Update the offset configuration", "Update Offset Config", description="Manually trigger the offset configuration update.", target=self.plugin.execute_offset_update)
-                            
+                            Switch("Overide Lane Offsets", "Override Lane Offsets", False, description="When enabled, existing offsets will be overwritten in the file.")
+                            Button("Clear Lane Offsets", "Clear Lane Offsets", description="Clear the lane offsets from the file. This will take a few seconds.", target=self.plugin.clear_lane_offsets)
                             import Plugins.Map.utils.road_helpers as rh
                             per_name = rh.per_name
                             rules = rh.rules

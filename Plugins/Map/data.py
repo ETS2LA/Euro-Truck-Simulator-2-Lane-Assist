@@ -125,6 +125,8 @@ export_road_offsets = settings.Get("Map", "ExportRoadOffsets", False)
 """Whether to export the road offsets at startup. Only works in development mode."""
 disable_fps_notices = settings.Get("Map", "DisableFPSNotices", False)
 """Whether to disable the FPS notices or not."""
+override_lane_offsets= settings.Get("Map", "Override Lane Offsets", False)
+"""Whether to override the existing lane offsets or not."""
 
 # MARK: Return values
 external_data = {}
@@ -233,7 +235,7 @@ def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
     global auto_accept_threshold, auto_deny_threshold, load_distance
     global drive_based_on_trailer, send_elevation_data, export_road_offsets
-    global disable_fps_notices
+    global disable_fps_notices, override_lane_offsets
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
@@ -245,6 +247,7 @@ def UpdateSettings(settings: dict):
     send_elevation_data = settings["SendElevationData"]
     export_road_offsets = settings["ExportRoadOffsets"]
     disable_fps_notices = settings["DisableFPSNotices"]
+    override_lane_offsets = settings["Override Lane Offsets"]
 
     global data_needs_update
     data_needs_update = True
