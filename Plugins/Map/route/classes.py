@@ -159,15 +159,8 @@ class RouteSection:
                 end_point = end_points[i]
                 middle_point = math_helpers.TupleMiddle(start_point.tuple(), end_point.tuple())
                 distance = math_helpers.DistanceBetweenPoints(middle_point, self.lane_change_start.tuple())
-
-                data.circles = [
-                    c.Position(self.lane_change_start.x, self.lane_change_start.y, self.lane_change_start.z),
-                    c.Position(start_point.x, start_point.y, start_point.z),
-                    c.Position(end_point.x, end_point.y, end_point.z),
-                    c.Position(middle_point[0], middle_point[1], middle_point[2]),
-                ]
                 
-                if distance > self.lane_change_distance:
+                if distance >= self.lane_change_distance - 1:
                     # After this point, we'll just use the destination lane points
                     end_index = i
                     break
@@ -186,6 +179,8 @@ class RouteSection:
                 lane_change_points.append(c.Position(new_tuple[0], new_tuple[1], new_tuple[2]))
             else:
                 lane_change_points.append(end_points[i])
+
+        data.circles = lane_change_points
 
         return lane_change_points
 
@@ -348,6 +343,7 @@ class RouteSection:
                 (data.truck_x, data.truck_y, data.truck_z)
             ) / self.lane_change_distance
             self.lane_change_factor = math_helpers.InOut(self._lane_change_progress)
+        
         
         # Check if lane change is complete
         if self._lane_change_progress > 0.98:

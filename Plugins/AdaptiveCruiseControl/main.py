@@ -167,13 +167,16 @@ class Plugin(ETS2LAPlugin):
             
         if self.speed < self.speedlimit + 5 / 3.6:
             speed_limit_accel *= 0.75
+            
+        if self.speed > self.speedlimit + 10 / 3.6:
+            speed_limit_accel *= 1.5
         
         return speed_limit_accel
     
     
     def calculate_leading_vehicle_constraint(self, in_front: ACCVehicle):
         # time_gap * own_speed + minimum_gap
-        minimum_gap = 10.0  # meters at 0 speed
+        minimum_gap = 15.0  # meters at 0 speed
 
         desired_gap = max(self.time_gap_seconds * self.speed, minimum_gap)
         self.globals.tags.acc_gap = desired_gap
@@ -185,7 +188,7 @@ class Plugin(ETS2LAPlugin):
         if self.speed > 10/3.6:
             following_accel = 0.5 * gap_error - 2.0 * relative_speed    
         else:
-            following_accel = 0.5 * gap_error - 0.7 * relative_speed
+            following_accel = 1.0 * gap_error - 0.7 * relative_speed
             
         following_accel += 0.3 * in_front.acceleration
         
