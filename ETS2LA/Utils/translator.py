@@ -38,7 +38,20 @@ def LoadLanguageData():
 LoadLanguageData()
 
 try:
-    LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
+    # Ugly hack to get the default locale on Windows
+    import locale
+    default_locale = locale.getlocale()[0]
+    if default_locale is None:
+        default_locale = "English"
+    else:
+        name = default_locale.split("_")[0].split("(")[0]
+        if "Taiwan" in default_locale:
+            name = "Traditional Chinese (Taiwan)"
+        elif "China" in default_locale:
+            name = "Simplified Chinese"
+        default_locale = name
+    
+    LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", default_locale))]
 except ValueError:
     logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
     LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
