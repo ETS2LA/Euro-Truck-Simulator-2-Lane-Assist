@@ -27,7 +27,7 @@ body:
     id: py_version
     attributes:
       label: Python Version
-      description: What Python version are you running?
+      description: What Python version are you running? If you are using the official installer that will be 3.12.8.
       placeholder: Python x.x.x
   - type: checkboxes
     id: terms
