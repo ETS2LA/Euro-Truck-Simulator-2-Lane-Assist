@@ -42,10 +42,10 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Slider("acc.settings.coefficient_of_friction.name", "MU", 0.5, 0.1, 1, 0.1, description="acc.settings.coefficient_of_friction.description", suffix=" μ")
                 Slider("acc.settings.overwrite_speed.name", "overwrite_speed", 50, 0, 130, 5, suffix=" km/h", description="acc.settings.overwrite_speed.description")
                 with EnabledLock():
-                    Selector("acc.settings.speed_offset_type.name", "speed_offset_type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.speed_offset_type.description")
+                    Selector("acc.settings.speed_offset_type.name", "speed_offset_type", "Absolute", ["Percentage", "Absolute"], description="acc.settings.speed_offset_type.description")
                     type = self.settings.type
                     if not type:
-                        type = "Percentage"
+                        type = "Absolute"
                         self.settings.type = type
                         
                     if self.settings.type is not None and self.settings.type == "Percentage":

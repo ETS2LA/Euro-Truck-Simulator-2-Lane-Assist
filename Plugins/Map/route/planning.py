@@ -617,7 +617,7 @@ def CheckForLaneChange():
                     sounds.Play("info")
                     data.last_sound_played = time.time()
                 return
-            else:
+            else: 
                 data.plugin.state.text = ""
                 logging.info(f"Changing lane from {current_index} to {target}")
                 current.force_lane_change = True

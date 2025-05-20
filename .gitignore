@@ -47,3 +47,6 @@ global.lock
 
 # Developer start file
 start_dev.bat
+
+# Normal start file
+start.bat

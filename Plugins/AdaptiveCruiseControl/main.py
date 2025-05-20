@@ -100,7 +100,7 @@ class Plugin(ETS2LAPlugin):
     enabled = False
     
     api_data = None
-    speed_offset_type = "Percentage"
+    speed_offset_type = "Absolute"
     speed_offset = 0
     manual_speed_offset = 0
     
@@ -167,13 +167,16 @@ class Plugin(ETS2LAPlugin):
             
         if self.speed < self.speedlimit + 5 / 3.6:
             speed_limit_accel *= 0.75
+            
+        if self.speed > self.speedlimit + 10 / 3.6:
+            speed_limit_accel *= 1.5
         
         return speed_limit_accel
     
     
     def calculate_leading_vehicle_constraint(self, in_front: ACCVehicle):
         # time_gap * own_speed + minimum_gap
-        minimum_gap = 10.0  # meters at 0 speed
+        minimum_gap = 15.0  # meters at 0 speed
 
         desired_gap = max(self.time_gap_seconds * self.speed, minimum_gap)
         self.globals.tags.acc_gap = desired_gap
@@ -185,7 +188,7 @@ class Plugin(ETS2LAPlugin):
         if self.speed > 10/3.6:
             following_accel = 0.5 * gap_error - 2.0 * relative_speed    
         else:
-            following_accel = 0.5 * gap_error - 0.7 * relative_speed
+            following_accel = 1.0 * gap_error - 0.7 * relative_speed
             
         following_accel += 0.3 * in_front.acceleration
         
@@ -252,7 +255,7 @@ class Plugin(ETS2LAPlugin):
             self.settings.overwrite_speed = overwrite_speed
             
         if speed_offset_type is None:
-            speed_offset_type = "Percentage"
+            speed_offset_type = "Absolute"
             self.settings.speed_offset_type = speed_offset_type
             
         if speed_offset is None:
@@ -279,6 +282,10 @@ class Plugin(ETS2LAPlugin):
             self.time_gap_seconds *= 1.3
         elif distance_setting == 'Near':
             self.time_gap_seconds *= 0.8
+
+        self.speed_offset_type = speed_offset_type
+        if self.speed_offset_type is None:
+            self.speed_offset_type = "Absolute"
 
 
     def calculate_target_acceleration(self, 
@@ -726,9 +733,11 @@ class Plugin(ETS2LAPlugin):
             if self.holding_up:
                 self.manual_speed_offset += 1
                 self.last_change = time.time()
+                self.notify("Speed offset increased to: " + str(self.manual_speed_offset) + (" km/h" if self.speed_offset_type == "Absolute" else " %"))
             elif self.holding_down:
                 self.manual_speed_offset -= 1
                 self.last_change = time.time()   
+                self.notify("Speed offset decreased to: " + str(self.manual_speed_offset) + (" km/h" if self.speed_offset_type == "Absolute" else " %"))
             
     def run(self):
         self.update_parameters()

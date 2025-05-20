@@ -457,7 +457,7 @@ def find_plugins() -> list[Plugin]:
                 author = getattr(plugin_class, "author", None)
                 settings = getattr(plugin_class, "settings_menu", None)
                 controls = getattr(plugin_class, "controls", [])
-                if information and not information.hidden or variables.DEVELOPMENT_MODE:
+                if information and ((not information.hidden and "Base" in information.tags) or variables.DEVELOPMENT_MODE):
                     plugin: Plugin = Plugin(folder, information, author, settings, controls)
                     plugins.append(plugin)
             

@@ -355,7 +355,8 @@ class Plugin(ETS2LAPlugin):
         if not VISION_COMPAT:
             Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000000)
 
-        
+        # Comment these lines if you want the AR to show up
+        # even when the game is paused or not in focus.
         if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
             time.sleep(0.1)
             self.Render()
