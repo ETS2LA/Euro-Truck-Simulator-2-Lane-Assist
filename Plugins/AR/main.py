@@ -150,18 +150,36 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
     return ScreenX, ScreenY, Distance
 
 
-class Settings(ETS2LASettingsMenu):
-    plugin_name = "AR"
-    dynamic = False
+class Settings(ETS2LAPage):
+    url = "/settings/AR"
+    location = ETS2LAPageLocation.SETTINGS
+    title = "plugins.ar"
+
+    def vision_compat_changed(self, value: bool):
+        self.settings.vision_compat = value
+        
+    def test_objects_changed(self, value: bool):
+        self.settings.test_objects = value
 
     def render(self):
-        with Group("vertical", gap=14, padding=0):
-            Title("plugins.ar")
-            Description("This plugin provides no description.")
+        TitleAndDescription(
+            "plugins.ar",
+            "plugins.ar.description",
+        )
             
-        Switch("ar.settings.vision_compatible.name", "vision_compat", True, description="ar.settings.vision_compatible.description")
-        Switch("ar.settings.show_test_objects.name", "test_objects", False, description="ar.settings.show_test_objects.description")
-        return RenderUI()
+        CheckboxWithTitleDescription(
+            title="ar.settings.vision_compatible.name",
+            description="ar.settings.vision_compatible.description",
+            default=settings.Get("AR", "vision_compat", True),
+            changed=self.vision_compat_changed,
+        )
+        
+        CheckboxWithTitleDescription(
+            title="ar.settings.show_test_objects.name",
+            description="ar.settings.show_test_objects.description",
+            default=settings.Get("AR", "test_objects", False),
+            changed=self.test_objects_changed,
+        )
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -182,7 +200,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )]
 
-    settings_menu = Settings()
+    pages = [Settings]
 
     fps_cap = 1000
     camera = None

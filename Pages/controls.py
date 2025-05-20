@@ -25,7 +25,7 @@ class Control:
         self.name = dict["name"]
         self.description = dict["description"]
         self.device = dict["device"]
-        self.plugin = dict["plugin"]
+        self.plugin = dict.get("plugin", "")
 
 class Page(ETS2LAPage):
     url = "/settings/controls"    

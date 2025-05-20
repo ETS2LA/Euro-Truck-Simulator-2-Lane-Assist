@@ -33,6 +33,11 @@ class PluginProcess:
     """
     The current plugin's pages. This is populated at init.
     """
+    last_dictionaries: dict[str, dict] = {}
+    """
+    Last page dictionaries. This is used to check if the page
+    has changed.
+    """
     
     description: PluginDescription | None = None
     """
@@ -187,6 +192,31 @@ class PluginProcess:
             try: self.plugin.after()
             except: pass
         
+    def page_updater(self) -> None:
+        """Update the pages."""
+        while True:
+            time.sleep(0.1)
+            for page in self.pages:
+                try: 
+                    dictionary = page.build()
+                    url = page.url
+                    if url in self.last_dictionaries:
+                        if self.last_dictionaries[url] == dictionary:
+                            continue
+                    
+                    print(f"Page {url} updated.")
+                    self.last_dictionaries[url] = dictionary
+                    message = PluginMessage(
+                        Channel.UPDATE_PAGE, {
+                            "url": url,
+                            "data": dictionary
+                        }
+                    )
+                    message.state = State.DONE
+                    self.return_queue.put(message, block=True)
+                except: 
+                    logging.exception("Page build failed.")
+        
     def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
         self.queue = queue
         self.return_queue = return_queue
@@ -223,6 +253,11 @@ class PluginProcess:
         
         threading.Thread(
             target=self.tag_updater,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.page_updater,
             daemon=True
         ).start()
         
@@ -275,6 +310,11 @@ class PluginManagement(ChannelHandler):
                         self.plugin.get_tag,
                         self.plugin.set_tag  
                     )
+                    
+                    for page in self.plugin.pages:
+                        page.plugin = self.plugin
+                        page.settings = self.plugin.settings
+                    
                     message.state = State.DONE
                 except Exception as e:
                     message.state = State.ERROR
@@ -286,6 +326,11 @@ class PluginManagement(ChannelHandler):
                     del self.plugin.plugin
                     self.plugin.plugin = None
                     message.state = State.DONE
+                    
+                    for page in self.plugin.pages:
+                        page.plugin = None
+                        page.settings = None
+                    
                 except Exception as e:
                     message.state = State.ERROR
                     message.data = e.args
@@ -303,6 +348,11 @@ class PluginManagement(ChannelHandler):
                         self.plugin.get_tag,
                         self.plugin.set_tag      
                     )
+                    
+                    for page in self.plugin.pages:
+                        page.plugin = self.plugin
+                        page.settings = self.plugin.settings
+                    
                     message.state = State.DONE
                 except Exception as e:
                     message.state = State.ERROR

@@ -48,7 +48,6 @@ class ETS2LAPlugin(object):
     author: List[Author]
     controls: List[ControlEvent] = []
     pages: List[ETS2LAPage] = []
-    settings_menu: None
     
     queue: Queue
     return_queue: Queue
@@ -154,9 +153,6 @@ class ETS2LAPlugin(object):
     def __init__(self, *args) -> None:
         self.ensure_functions()
         self.load_modules()
-        
-        if "settings_menu" in dir(type(self)) and self.settings_menu != None:
-            self.settings_menu.plugin = self
             
         if "pages" in dir(type(self)) and self.pages != None:
             for page in self.pages:

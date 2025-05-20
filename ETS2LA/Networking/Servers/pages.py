@@ -18,14 +18,7 @@ def render_page(url: str):
     if url in page_urls:
         return get_page(url)
     else:
-        for plugin in plugins.AVAILABLE_PLUGINS:
-            if plugin in plugins.RUNNING_PLUGINS:
-                continue # TODO: Implement running plugins
-            
-            if not plugin.pages: continue
-            for page in plugin.pages:
-                if page.url == url:
-                    return page.build()
+        return plugins.get_page_data(url)
 
 def handle_functions(data: dict):
     page_urls = get_urls()

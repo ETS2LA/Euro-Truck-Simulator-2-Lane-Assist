@@ -62,6 +62,9 @@ class Plugin:
     state: dict
     """The current plugin state used by the frontend."""
     
+    pages: dict = {}
+    """All plugins share the same pages dictionary. This way they can easily share page data."""
+    
     def start_plugin(self) -> None:
         # First initialize / reset the variables
         self.stack = {}
@@ -126,8 +129,14 @@ class Plugin:
             daemon=True
         ).start()
         
+        threading.Thread(
+            target=self.page_handler,
+            daemon=True
+        ).start()
+
         self.keep_alive()
         
+
     def keep_alive(self) -> None:
         """Keep the process alive."""
         logging.debug(f"Plugin [yellow]{Translate(self.description.name, return_original=True)}[/yellow] loaded successfully.")
@@ -198,6 +207,17 @@ class Plugin:
                     if "status" in message.data:
                         self.state["status"] = message.data["status"]
             
+            time.sleep(0.01)
+            
+    def page_handler(self):
+        while True:
+            if Channel.UPDATE_PAGE in self.stack:
+                while self.stack[Channel.UPDATE_PAGE]:
+                    message = self.stack[Channel.UPDATE_PAGE].popitem()[1]
+                    if "url" in message.data:
+                        url = message.data["url"]
+                        self.pages[url] = message.data["data"]
+
             time.sleep(0.01)
     
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
@@ -376,6 +396,26 @@ def restart_plugin(
     except Exception as e:
         logging.error(f"Failed to restart plugin: {e}")
         return False
+
+
+
+# MARK: Pages
+def get_page_data(url: str) -> dict:
+    """Get the page data from all plugins."""
+    for plugin in plugins:
+        if url in plugin.pages:
+            return plugin.pages[url]
+    return {}
+
+def get_page_list() -> dict[str, dict]:
+    """Get the list of all pages from all plugins."""
+    pages = {}
+    for plugin in plugins:
+        for url, data in plugin.pages.items():
+            if url not in pages:
+                pages[url] = data[0] # metadata
+                
+    return pages
 
 
 

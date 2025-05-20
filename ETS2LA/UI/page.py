@@ -1,5 +1,16 @@
 from ETS2LA.UI import *
+from enum import Enum
 import time
+
+class ETS2LAPageLocation(Enum):
+    """
+    A location marker for the page. If you use anything other
+    than hidden, then you can set the `title` variable to the title
+    of the button that will open the page.
+    """
+    SETTINGS = "settings"
+    SIDEBAR = "sidebar"
+    HIDDEN = "hidden"
 
 class ETS2LAPage:
     """This is a base class for all ETS2LA pages.
@@ -27,6 +38,17 @@ class ETS2LAPage:
     If the plugin is disabled, then this object will be None.
     """
     
+    location: ETS2LAPageLocation = ETS2LAPageLocation.HIDDEN
+    """
+    The location of the page. If you use anything other than hidden,
+    then you can set the `title` variable to the title of the button that will open the page.
+    """
+    title: str = "Custom Page"
+    """
+    The title of the page. This is used for the button that opens the page.
+    If the page is hidden, then this is ignored.
+    """
+    
     def __init__(self):
         if "render" not in dir(type(self)):
             raise TypeError("Your page has to have a 'render' method.")
@@ -48,5 +70,11 @@ class ETS2LAPage:
         self.render() # type: ignore # Might or might not exist.
         self._json = RenderUI()
         self.last_update_ = time.perf_counter()
+        
+        self._json.insert(0, {
+            "url": self.url,
+            "location": self.location.value,
+            "title": self.title,
+        })
         
         return self._json

@@ -58,5 +58,5 @@ class Plugin(ETS2LAPlugin):
 from ETS2LA.UI.components import *
 from ETS2LA.UI.settings import ETS2LASettingsMenu
 from ETS2LA.UI.dialog import ETS2LADialog
-from ETS2LA.UI.page import ETS2LAPage
+from ETS2LA.UI.page import ETS2LAPage, ETS2LAPageLocation
 from ETS2LA.UI.utils import SendPopup

@@ -199,6 +199,8 @@ available_channels = [
 
 class SettingsMenu(ETS2LAPage):
     url = "/settings/VisualizationSockets"
+    location = ETS2LAPageLocation.SETTINGS
+    title = "Visualization Sockets"
     
     def test(self):
         print("hi")

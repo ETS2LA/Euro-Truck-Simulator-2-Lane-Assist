@@ -26,8 +26,7 @@ class Channel(Enum):
     GET_DESCRIPTION = 20
     
     # Page operations
-    GET_PAGE_DESCRIPTIONS = 7
-    GET_PAGE_DATA = 8
+    UPDATE_PAGE = 7
     
     # UI operations
     NOTIFICATION = 9

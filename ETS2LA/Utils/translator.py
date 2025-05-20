@@ -58,6 +58,9 @@ except ValueError:
     settings.Set("global", "language", "English")
 
 def UpdateFrontendTranslations():
+    if not variables.LOCAL_MODE:
+        return
+    
     try:
         if os.path.exists(FRONTEND_DATA_FOLDER):
             # Remove old translations
@@ -70,9 +73,6 @@ def UpdateFrontendTranslations():
                     yaml.dump(LANGUAGE_DATA[language], f, indent=4)
     except:
         pass
-    
-if variables.LOCAL_MODE:
-    UpdateFrontendTranslations()
                 
 def CheckLanguageDatabase():
     for language in LANGUAGE_CODES:

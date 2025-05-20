@@ -388,7 +388,7 @@ def get_tags_list():
 @app.get("/api/pages")
 def get_list_of_pages():
     try:
-        return pages.get_pages()
+        return plugins.get_page_list()
     except:
         logging.exception("Failed to get pages")
         return {}
@@ -396,6 +396,12 @@ def get_list_of_pages():
 @app.post("/api/page")
 def get_page(data: PageFetchData):
     try:
+        # Plugins
+        if data.page in plugins.get_page_list():
+            page = plugins.get_page_data(data.page)
+            return page
+            
+        # Pages
         return pages.get_page(data.page)
     except:
         logging.exception(f"Failed to get page data for page {data.page}")
