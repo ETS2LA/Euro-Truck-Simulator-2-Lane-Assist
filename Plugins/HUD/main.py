@@ -5,6 +5,7 @@ from ETS2LA.UI import *
 from Plugins.Map.classes import *
 from Plugins.AR.classes import *
 from Modules.Semaphores.classes import TrafficLight, Semaphore
+import ETS2LA.Utils.settings as settings
 
 # General imports
 import threading
@@ -13,33 +14,152 @@ import random
 import time
 import math
 
-class Settings(ETS2LASettingsMenu):
-    plugin_name = "HUD"
-    dynamic = False
+class Settings(ETS2LAPage):
+    url = "settings/HUD"
+    refresh_rate = 0.5
+    location = ETS2LAPageLocation.SETTINGS
+    title = "HUD"
+    
+    def handle_offset_x(self, value):
+        settings.Set("HUD", "offset_x", value)
+        
+    def handle_offset_y(self, value):
+        settings.Set("HUD", "offset_y", value)
+        
+    def handle_offset_z(self, value):
+        settings.Set("HUD", "offset_z", value)
+        
+    def handle_scale(self, value):
+        settings.Set("HUD", "scale", value)
+        
+    def handle_refresh_rate(self, value):
+        settings.Set("HUD", "refresh_rate", value)
+        
+    def handle_show_navigation(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("HUD", "show_navigation", True)
+            
+        settings.Set("HUD", "show_navigation", value)
+    
+    def handle_show_acc_info(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("HUD", "show_acc_info", True)
+            
+        settings.Set("HUD", "show_acc_info", value)
+    
+    def handle_draw_steering(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("HUD", "draw_steering", False)
+            
+        settings.Set("HUD", "draw_steering", value)
+        
+    def handle_show_traffic_light_times(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("HUD", "show_traffic_light_times", True)
+            
+        settings.Set("HUD", "show_traffic_light_times", value)
+        
+    def handle_draw_wheel_paths(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("HUD", "draw_wheel_paths", False)
+            
+        settings.Set("HUD", "draw_wheel_paths", value)
     
     def render(self):
-        with Group("vertical", gap=14, padding=0):
-            Title("HUD")
-            Description("This plugin provides no description.")
-            
-        with TabView():
-            with Tab("hud.settings.tab.general.name"):
-                with Group("horizontal", gap=24, padding=0):
-                    Slider("hud.settings.refresh_rate.name", "refresh_rate", 2, 1, 10, 1, description="hud.settings.refresh_rate.description", suffix=" fps")
-                    Slider("hud.settings.scale.name", "scale", 1, 0.5, 2, 0.05, description="hud.settings.scale.description", suffix="x")
+        TitleAndDescription(
+            "HUD",
+            "This plugin provides a HUD using the AR plugin as the renderer."
+        )
+
+        with Tabs():
+            with Tab("hud.settings.tab.general.name", styles.FlexVertical() + styles.Gap("24px")):
+                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    SliderWithTitleDescription(
+                        title="hud.settings.refresh_rate.name",
+                        description="hud.settings.refresh_rate.description",
+                        min=1,
+                        max=10,
+                        step=1,
+                        default=settings.Get("HUD", "refresh_rate", 2),
+                        suffix=" fps",
+                        changed=self.handle_refresh_rate,
+                    )
+                    SliderWithTitleDescription(
+                        title="hud.settings.scale.name",
+                        description="hud.settings.scale.description",
+                        min=0.5,
+                        max=2,
+                        step=0.05,
+                        default=settings.Get("HUD", "scale", 1),
+                        suffix="x",
+                        changed=self.handle_scale,
+                    )
+                    
+                InputWithTitleDescription(
+                    title="hud.settings.offset_x.name",
+                    description="hud.settings.offset_x.description",
+                    type="number",
+                    default=settings.Get("HUD", "offset_x", 0),
+                    changed=self.handle_offset_x,
+                )
                 
-                Input("hud.settings.offset_x.name", "offset_x", type="number", description="hud.settings.offset_x.description", default=0)
-                Input("hud.settings.offset_y.name", "offset_y", type="number", description="hud.settings.offset_y.description", default=0)
-                Input("hud.settings.offset_z.name", "offset_z", type="number", description="hud.settings.offset_z.description", default=0)
-        
-            with Tab("hud.settings.tab.elements.name"):
-                Switch("hud.settings.show_navigation.name", "show_navigation", True, description="hud.settings.show_navigation.description")
-                Switch("hud.settings.show_acc_info.name", "show_acc_info", True, description="hud.settings.show_acc_info.description")
-                Switch("hud.settings.draw_steering.name", "draw_steering", False, description="hud.settings.draw_steering.description")
-                Switch("hud.settings.show_traffic_light_times.name", "show_traffic_light_times", True, description="hud.settings.show_traffic_light_times.description")
-                Switch("hud.settings.draw_wheel_paths.name", "draw_wheel_paths", False, description="hud.settings.draw_wheel_paths.description")
-        
-        return RenderUI()
+                InputWithTitleDescription(
+                    title="hud.settings.offset_y.name",
+                    description="hud.settings.offset_y.description",
+                    type="number",
+                    default=settings.Get("HUD", "offset_y", 0),
+                    changed=self.handle_offset_y,
+                )
+                
+                InputWithTitleDescription(
+                    title="hud.settings.offset_z.name",
+                    description="hud.settings.offset_z.description",
+                    type="number",
+                    default=settings.Get("HUD", "offset_z", 0),
+                    changed=self.handle_offset_z,
+                )
+            
+            with Tab("hud.settings.tab.elements.name", styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title="hud.settings.show_navigation.name",
+                    description="hud.settings.show_navigation.description",
+                    default=settings.Get("HUD", "show_navigation", True),
+                    changed=self.handle_show_navigation,
+                )
+                CheckboxWithTitleDescription(
+                    title="hud.settings.show_acc_info.name",
+                    description="hud.settings.show_acc_info.description",
+                    default=settings.Get("HUD", "show_acc_info", True),
+                    changed=self.handle_show_acc_info,
+                )
+                CheckboxWithTitleDescription(
+                    title="hud.settings.draw_steering.name",
+                    description="hud.settings.draw_steering.description",
+                    default=settings.Get("HUD", "draw_steering", False),
+                    changed=self.handle_draw_steering,
+                )
+                CheckboxWithTitleDescription(
+                    title="hud.settings.show_traffic_light_times.name",
+                    description="hud.settings.show_traffic_light_times.description",
+                    default=settings.Get("HUD", "show_traffic_light_times", True),
+                    changed=self.handle_show_traffic_light_times,
+                )
+                CheckboxWithTitleDescription(
+                    title="hud.settings.draw_wheel_paths.name",
+                    description="hud.settings.draw_wheel_paths.description",
+                    default=settings.Get("HUD", "draw_wheel_paths", False),
+                    changed=self.handle_draw_wheel_paths,
+                )
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -58,8 +178,8 @@ class Plugin(ETS2LAPlugin):
     
     fps_cap = 30
     
-    settings_menu = Settings()
-    
+    pages = [Settings]
+
     map_data = None
     update_time = 0
     
