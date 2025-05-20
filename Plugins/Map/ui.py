@@ -29,6 +29,7 @@ class SettingsMenu(ETS2LASettingsMenu):
             with Tab("map.settings.tab.general.name"):
                 Switch("map.settings.use_navigation.name", "UseNavigation", True, description="map.settings.use_navigation.description")
                 Switch("Send Elevation", "SendElevationData", False, description="When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization.")
+                Switch("Disable FPS Notices", "DisableFPSNotices", False, description="When enabled map will not notify of any FPS related issues.")
                 
             with Tab("map.settings.tab.steering.name"):
                 Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
@@ -42,7 +43,9 @@ class SettingsMenu(ETS2LASettingsMenu):
                         index = dh.GetIndex()
                         configs = {}
                         for key, data in index.items():
-                            config = dh.GetConfig(data["config"])
+                            try:
+                                config = dh.GetConfig(data["config"])
+                            except: pass
                             if config != {}:
                                 configs[key] = config
                             
@@ -121,7 +124,10 @@ class SettingsMenu(ETS2LASettingsMenu):
                     with EnabledLock():
                         if self.plugin:
                             Button("Reload", "Reload Lane Offsets", description="Reload the lane offsets from the file. This will take a few seconds.", target=self.plugin.update_road_data)
-                            
+                            # Add a button to update the offset configuration.
+                            Button("Update the offset configuration", "Update Offset Config", description="Manually trigger the offset configuration update.", target=self.plugin.execute_offset_update)
+                            Switch("Overide Lane Offsets", "Override Lane Offsets", False, description="When enabled, existing offsets will be overwritten in the file.")
+                            Button("Clear Lane Offsets", "Clear Lane Offsets", description="Clear the lane offsets from the file. This will take a few seconds.", target=self.plugin.clear_lane_offsets)
                             import Plugins.Map.utils.road_helpers as rh
                             per_name = rh.per_name
                             rules = rh.rules

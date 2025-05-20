@@ -25,10 +25,14 @@ navigation = importlib.import_module("Plugins.Map.navigation.navigation")
 planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
 im = importlib.import_module("Plugins.Map.utils.internal_map")
+oh = importlib.import_module("Plugins.Map.utils.offset_handler")  
 last_plan_hash = hash(open(planning.__file__).read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
+last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
+
+updating_offset_config = False
 
 enable_disable = ControlEvent(
     "toggle_map",
@@ -95,19 +99,52 @@ class Plugin(ETS2LAPlugin):
         data.map.clear_road_data()
         im.road_image = None
         data.data_needs_update = True
+        return True  
+
+    def execute_offset_update(self):
+        global updating_offset_config
+        updating_offset_config = True
+        from Plugins.Map.utils import offset_handler
+        try:
+            if offset_handler.update_offset_config():
+                logging.info("The offset configuration has been updated, and the data is being reloaded...")
+                updating_offset_config = False
+                return True  
+            else:
+                logging.info("No need to update the offset configuration.")
+                updating_offset_config = False
+                return False  
+        except Exception as e:
+            logging.error(f"Failed to update the offset configuration: {str(e)}")
+            updating_offset_config = False
+            return False  
         
+    def clear_lane_offsets(self):
+        from Plugins.Map.utils import offset_handler
+        try:
+            if offset_handler.clear_lane_offsets():
+                logging.info("The lane offset has been cleared.")
+                return True
+            else:
+                logging.info("No lane offset to clear.")
+                return False
+        except Exception as e:
+            logging.error(f"Failed to clear the lane offset: {str(e)}")
+            return False
+
     def trigger_data_update(self):
         self.settings.downloaded_data = ""
 
     def CheckHashes(self):
-        global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash
+        global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_oh_hash
         logging.info("Starting navigation module file monitor")
         while True:
             try:
-                new_nav_hash = hash(open(navigation.__file__).read())
-                new_drive_hash = hash(open(driving.__file__).read())
-                new_plan_hash = hash(open(planning.__file__).read())
-                new_im_hash = hash(open(im.__file__).read())
+                new_nav_hash = hash(open(navigation.__file__, encoding='utf-8').read())
+                new_drive_hash = hash(open(driving.__file__, encoding='utf-8').read())
+                new_plan_hash = hash(open(planning.__file__, encoding='utf-8').read())
+                new_im_hash = hash(open(im.__file__, encoding='utf-8').read())
+                new_oh_hash = hash(open(oh.__file__, encoding='utf-8').read())  
                 if new_nav_hash != last_nav_hash:
                     last_nav_hash = new_nav_hash
                     logging.info("Navigation module changed, reloading...")
@@ -133,6 +170,11 @@ class Plugin(ETS2LAPlugin):
                     logging.info("Internal map module changed, reloading...")
                     importlib.reload(im)
                     logging.info("Successfully reloaded internal map module")
+                if new_oh_hash != last_oh_hash:
+                    last_oh_hash = new_oh_hash
+                    logging.info("Offset handler module changed, reloading...")
+                    importlib.reload(oh)
+                    logging.info("Successfully reloaded offset handler module")
             except Exception as e:
                 logging.error(f"Error monitoring modules: {e}")
             time.sleep(1)
@@ -329,7 +371,7 @@ class Plugin(ETS2LAPlugin):
         
         try:
             frametime = self.performance[-1][1]
-            if frametime > 0.13: # ~7.7fps
+            if frametime > 0.13 and not data.disable_fps_notices: # ~7.7fps
                 if self.state.text == "" or "low FPS" in self.state.text: # Don't overwrite other states
                     self.state.text = f"Warning: Steering might be compromised due to low FPS. ({1/frametime:.0f}fps)"
             else:
@@ -338,7 +380,7 @@ class Plugin(ETS2LAPlugin):
         except:
             pass
 
-        if variables.DEVELOPMENT_MODE:
+        if variables.DEVELOPMENT_MODE and not updating_offset_config:
             if (time.perf_counter() - data_start_time) * 1000 > 100:
                 try:
                     print(f"Map plugin run time: {(time.perf_counter() - data_start_time) * 1000:.2f}ms")

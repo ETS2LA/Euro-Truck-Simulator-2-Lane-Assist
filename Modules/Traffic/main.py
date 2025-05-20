@@ -11,15 +11,27 @@ class Module(ETS2LAModule):
     vehicle_object_format = vehicle_format + trailer_format + trailer_format
     total_format = "=" + vehicle_object_format * 40
     
+    last_vehicles: dict[int, Vehicle] = {}
+    
+    start_time = 0
+    message_shown = False
+    
     def imports(self):
+        self.start_time = time.time()
         self.wait_for_buffer()
         
     def wait_for_buffer(self):
         self.buf = None
         while self.buf is None:
-            size = 5280
-            self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
-            time.sleep(0.1)
+            try:
+                size = 5280
+                self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
+            except: 
+                if time.time() - self.start_time > 5 and not self.message_shown:
+                    logging.warning("ETS2LATraffic buffer not found. Make sure the SDK is installed and the game is running. This plugin will wait until the buffer is available.")
+                    self.message_shown = True
+                    
+            time.sleep(1)
             
     def create_vehicle_from_dict(self, data):
         position = Position(data["position"]["x"], data["position"]["y"], data["position"]["z"])
@@ -46,7 +58,7 @@ class Module(ETS2LAModule):
         
         try:
             data = struct.unpack(self.total_format, self.buf[:5280])
-            vehicles = []
+            vehicles: list[Vehicle] = []
             for i in range(0, 40):
                 position = Position(data[0], data[1], data[2])
                 rotation = Quaternion(data[3], data[4], data[5], data[6])
@@ -70,6 +82,13 @@ class Module(ETS2LAModule):
                 
                 data = data[14 + (2 * 10):]
             
+            if len(vehicles) > 0:
+                if vehicles[0].is_tmp:
+                    for vehicle in vehicles:
+                        if vehicle.id in self.last_vehicles:
+                            vehicle.update_from_last(self.last_vehicles[vehicle.id])
+
+            self.last_vehicles = {vehicle.id: vehicle for vehicle in vehicles}
             return vehicles
         except:
             logging.exception("Failed to read camera properties")

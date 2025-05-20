@@ -33,6 +33,10 @@ def lengthOfDegreeAt(latInDegrees):
         m4 * math.cos(6 * lat)
     )
 
+#--- Projection Parameters & Transformer Definition ---
+#Clarke 1866 Spheroid Radius & Degree Length
+EARTH_RADIUS = 6_370_997  # :contentReference[oaicite:8]{index=8}
+LENGTH_OF_DEGREE = ((EARTH_RADIUS * math.pi) / 180)  # :contentReference[oaicite:9]{index=9}
 ETS2_SCALE = abs(lengthOfDegreeAt(50) * -0.000171570875)
 BASE_ETS2 = [ # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L46
     "+proj=lcc",
@@ -52,14 +56,53 @@ UK_PROJ = " ".join([
     *BASE_ETS2,
     f"+k_0={1 / (ETS2_SCALE * 0.75)}",
 ])
-
+# print(ETS2_PROJ)
 ETS2_CRS = CRS.from_proj4(ETS2_PROJ)
 UK_CRS = CRS.from_proj4(UK_PROJ)
 
 ETS2_TRANSFORM = Transformer.from_crs(ETS2_CRS, CRS("EPSG:4326"))
 UK_TRANSFORM = Transformer.from_crs(UK_CRS, CRS("EPSG:4326"))
 
-def ETS2CoordsToWGS84(x, y):
+# The projection definition for ATS (North America)
+ATS_STD_PARALLEL_1 = 33
+ATS_STD_PARALLEL_2 = 45
+ATS_LAT0 = 39
+ATS_LON0 = -96
+ATS_MAP_FACTOR = (-0.00017706235, 0.000176689948)  
+ATS_SCALE = abs(lengthOfDegreeAt(ATS_LAT0) * ATS_MAP_FACTOR[0])
+
+ATS_PROJ = (
+    f"+proj=lcc "
+    f"+units=m +R={EARTH_RADIUS} "
+    f"+lat_1={ATS_STD_PARALLEL_1} +lat_2={ATS_STD_PARALLEL_2} "
+    f"+lat_0={ATS_LAT0} +lon_0={ATS_LON0} " 
+    #f"+k_0={1 / ATS_SCALE} "
+    #f"+x_0=0 +y_0=-1750 "
+    #f"+no_defs"
+)
+ATS_CRS         = CRS.from_proj4(ATS_PROJ)
+ATS_TRANSFORM   = Transformer.from_crs(ATS_CRS, CRS("EPSG:4326"))  
+
+# Threshold for map detection
+ATS_X_MIN = -120000
+ATS_X_MAX = 20000  
+ATS_Y_MIN = -80000     
+ATS_Y_MAX = 80000
+
+def CoordsToWGS84(x, y, game="ETS2"):
+    """
+    Convert game (x, y) coords into WGS84.
+    Support both ETS2 (Europe/UK) and ATS (North America) maps.
+    """
+
+    # --- ATS Branch ---
+    if game == "ATS":
+        # # ATS does not use offset, but directly converts using mapFactor and LENGTH_OF_DEGREE
+        proj_x = x * ATS_MAP_FACTOR[1] * LENGTH_OF_DEGREE
+        proj_y = y * ATS_MAP_FACTOR[0] * LENGTH_OF_DEGREE
+        lon, lat = ATS_TRANSFORM.transform(proj_x, proj_y)
+        return (lat, lon)
+    
     calais = [-31100, -5500]
     is_uk = x < calais[0] and y < calais[1]
     x -= 16660 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
@@ -101,14 +144,14 @@ def bearing(start, end):
     
     return radians_to_degrees(math.atan2(a, b))
 
-def ConvertETS2AngleToWGS84Heading(position, speed):
+def ConvertAngleToWGS84Heading(position, speed, game="ETS2"):
     global last_position, last_angle
 
     if position == last_position:
         return last_angle
-    
-    last_wgs84 = ETS2CoordsToWGS84(*last_position)
-    cur_wgs84 = ETS2CoordsToWGS84(*position)
+
+    last_wgs84 = CoordsToWGS84(*last_position, game=game)
+    cur_wgs84 = CoordsToWGS84(*position, game=game)
 
     geographic_heading = bearing(last_wgs84, cur_wgs84)
 
@@ -208,9 +251,10 @@ class Plugin(ETS2LAPlugin):
 
         position = (data["truckPlacement"]["coordinateX"], data["truckPlacement"]["coordinateZ"])
         speed = data["truckFloat"]["speed"] * 1.25 # offset to make it zoom out faster
+        game = data["scsValues"]["game"]
         
         if speed > 0.2 or speed < -0.2:
-            rotation = ConvertETS2AngleToWGS84Heading(position, speed)
+            rotation = ConvertAngleToWGS84Heading(position, speed, game=game)
         else:
             rotation = last_angle
             
@@ -222,7 +266,7 @@ class Plugin(ETS2LAPlugin):
             "result": {
                 "type": "data",
                 "data": {
-                    "position": ETS2CoordsToWGS84(*position),
+                    "position": CoordsToWGS84(*position, game=game),
                     "bearing": rotation,
                     "speedMph": speed_mph,
                     "speedLimit": 0
@@ -241,7 +285,7 @@ class Plugin(ETS2LAPlugin):
             "result": {
                 "type": "data",
                 "data": {
-                    "position": ETS2CoordsToWGS84(*position),
+                    "position": CoordsToWGS84(*position, game=game),
                     "bearing": rotation,
                     "speedMph": speed_mph,
                     "speedLimit": 0
@@ -280,7 +324,7 @@ class Plugin(ETS2LAPlugin):
                             "segments": [
                                 {
                                     "key": "route",
-                                    "lonLats": [ETS2CoordsToWGS84(point[0], point[1]) for point in total_points],
+                                    "lonLats": [CoordsToWGS84(point[0], point[1], game=game) for point in total_points],
                                     "distance": math.sqrt((navigation[-1].x - navigation[0].x) ** 2 + (navigation[-1].y - navigation[0].y) ** 2),
                                     "time": 0,
                                     "strategy": "shortest",

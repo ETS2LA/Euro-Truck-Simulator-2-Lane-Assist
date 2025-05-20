@@ -35,6 +35,35 @@ class scsTelemetry:
         "refuelPayed": 4309
     }
     
+    days = {
+        0: "Monday",
+        1: "Tuesday",
+        2: "Wednesday",
+        3: "Thursday",
+        4: "Friday",
+        5: "Saturday",
+        6: "Sunday"
+    }
+    
+    def readable(self, time):
+        # Time from the game is actually in
+        # minutes.
+        days = int(time / 1440)
+        if days > 7:
+            days = days % 7
+            
+        hours = int(time / 60)
+        if hours > 23:
+            hours = hours % 24
+            
+        minutes = int(time % 60)
+        
+        return "{} {}:{}".format(
+            self.days[days],
+            str(hours).zfill(2),
+            str(minutes).zfill(2)
+        )
+    
     # MARK: VARIABLE READING
     
     def readGame(self, offset):
@@ -299,7 +328,11 @@ class scsTelemetry:
             
             data["commonUI"] = {}
             data["commonUI"]["timeAbs"], offset = self.readInt(offset)
-            
+            try:
+                data["commonUI"]["timeRdbl"] = self.readable(data["commonUI"]["timeAbs"])
+            except:
+                data["commonUI"]["timeRdbl"] = "N/A"
+
             data["configUI"] = {}
             data["configUI"]["gears"], offset = self.readInt(offset)
             data["configUI"]["gearsReverse"], offset = self.readInt(offset)

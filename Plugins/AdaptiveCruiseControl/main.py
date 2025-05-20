@@ -85,7 +85,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    controls = [enable_disable]
+    controls = [enable_disable, increment, decrement]
     
     settings_menu = SettingsMenu()
     
@@ -102,6 +102,11 @@ class Plugin(ETS2LAPlugin):
     api_data = None
     speed_offset_type = "Percentage"
     speed_offset = 0
+    manual_speed_offset = 0
+    
+    holding_up = False
+    holding_down = False
+    last_change = 0
     
     # ACC Parameters
     overwrite_speed = 30        # km/h
@@ -162,21 +167,29 @@ class Plugin(ETS2LAPlugin):
             
         if self.speed < self.speedlimit + 5 / 3.6:
             speed_limit_accel *= 0.75
+            
+        if self.speed > self.speedlimit + 10 / 3.6:
+            speed_limit_accel *= 1.5
         
         return speed_limit_accel
     
     
     def calculate_leading_vehicle_constraint(self, in_front: ACCVehicle):
         # time_gap * own_speed + minimum_gap
-        minimum_gap = 10.0  # meters at 0 speed
-        desired_gap = self.time_gap_seconds * self.speed + minimum_gap
+        minimum_gap = 15.0  # meters at 0 speed
+
+        desired_gap = max(self.time_gap_seconds * self.speed, minimum_gap)
         self.globals.tags.acc_gap = desired_gap
         
         relative_speed = self.speed - in_front.speed
         gap_error = in_front.distance - desired_gap
 
         # Weighted sum of gap error and relative speed
-        following_accel = 0.5 * gap_error - 0.7 * relative_speed    
+        if self.speed > 10/3.6:
+            following_accel = 0.5 * gap_error - 2.0 * relative_speed    
+        else:
+            following_accel = 1.0 * gap_error - 0.7 * relative_speed
+            
         following_accel += 0.3 * in_front.acceleration
         
         following_accel = min(self.max_accel, max(self.emergency_decel, following_accel))
@@ -322,6 +335,21 @@ class Plugin(ETS2LAPlugin):
         self.enabled = not self.enabled
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
 
+    @events.on("increment_speed")
+    def on_increment_speed(self, state:bool):
+        if not state:
+            self.holding_up = False
+            self.last_change = 0
+            return # Callback for the lift up event
+        self.holding_up = True
+        
+    @events.on("decrement_speed")
+    def on_decrement_speed(self, state:bool):
+        if not state:
+            self.holding_down = False
+            self.last_change = 0
+            return # Callback for the lift up event
+        self.holding_down = True
 
     def get_distance_to_point(self, point1: list, point2: list) -> float:
         if len(point1) == 2 and len(point2) == 2:
@@ -408,7 +436,7 @@ class Plugin(ETS2LAPlugin):
                     break
                 index += 1
                     
-            if closest_point_distance < 4: # Road is 4.5m wide, want to check 3m (to allow for a little bit of error)
+            if closest_point_distance < 3: # Road is 4.5m wide, want to check 3m (to allow for a little bit of error)
                 self.last_vehicle_time = time.perf_counter()
                 vehicles_in_front.append((self.get_distance_to_point([x, y], [truck_x, truck_y]), vehicle))
                 
@@ -572,10 +600,11 @@ class Plugin(ETS2LAPlugin):
         if target_speed < 0:
             target_speed = self.overwrite_speed / 3.6 
         
+        offset = self.speed_offset + self.manual_speed_offset
         if self.speed_offset_type == "Percentage":
-            target_speed += target_speed * self.speed_offset / 100
+            target_speed += target_speed * offset / 100
         else:
-            target_speed += self.speed_offset / 3.6
+            target_speed += offset / 3.6
         
         if target_speed > smoothed_max_speed and smoothed_max_speed > 0:
             target_speed = smoothed_max_speed
@@ -686,10 +715,19 @@ class Plugin(ETS2LAPlugin):
         #     self.graph.update(target_acceleration, control_output, p_term, i_term, d_term)
         
         return control_output
-            
+          
+    def update_manual_offset(self) -> None:
+        if time.time() - self.last_change > 0.2:
+            if self.holding_up:
+                self.manual_speed_offset += 1
+                self.last_change = time.time()
+            elif self.holding_down:
+                self.manual_speed_offset -= 1
+                self.last_change = time.time()   
             
     def run(self):
         self.update_parameters()
+        self.update_manual_offset()
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
         
         if not self.enabled:

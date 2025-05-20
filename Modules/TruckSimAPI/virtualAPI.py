@@ -353,6 +353,7 @@ class scsTelemetry:
             
             data["commonUI"] = {}
             data["commonUI"]["timeAbs"], offset = self.readInt(offset)
+            data["commonUI"]["timeRdbl"] = "Monday 12:00"
             
             data["configUI"] = {}
             data["configUI"]["gears"], offset = self.readInt(offset)

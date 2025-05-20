@@ -316,9 +316,8 @@ def GetNextRouteSection(route: list[rc.RouteSection] = []) -> rc.RouteSection:
 def GetCurrentNavigationPlan():
     path: list[RouteNode] = data.navigation_plan
     distance_ordered = sorted(path, key=lambda nav: math_helpers.DistanceBetweenPoints((nav.node.x, nav.node.y), (data.truck_x, data.truck_z)))
-
     closest = distance_ordered[0]
-    # data.circles = [c.Position(closest.x, closest.z, closest.y)]
+
     # Check if it's behind or in front
     in_front = math_helpers.IsInFront((closest.node.x, closest.node.y), data.truck_rotation, (data.truck_x, data.truck_z))
     index = path.index(closest)
@@ -330,10 +329,6 @@ def GetCurrentNavigationPlan():
         upper_bound = index + 1
         
     closest_nodes: list[RouteNode] = path[lower_bound:upper_bound]
-    data.circles = [
-        c.Position(nav.node.x,nav.node.z,nav.node.y) for nav in closest_nodes
-    ]
-
     in_front = [math_helpers.IsInFront((nav.node.x, nav.node.y), data.truck_rotation, (data.truck_x, data.truck_z)) for nav in closest_nodes]
     
     try:
@@ -345,7 +340,10 @@ def GetCurrentNavigationPlan():
     # find the item that connects both of the nodes
     next_item = last.item
     if next_item is None:
-        return
+        next_item = nh.get_connecting_item_uid(last.node, next.node)
+        next_item = data.map.get_item_by_uid(next_item)
+        if next_item is None:
+            return None
         
     # get the closest lane on that item
     if type(next_item) == c.Road:
@@ -389,8 +387,8 @@ def GetNextNavigationItem():
     
     start_distance = math_helpers.DistanceBetweenPoints((start_node.x, start_node.y), (data.truck_x, data.truck_z))
     end_distance = math_helpers.DistanceBetweenPoints((end_node.x, end_node.y), (data.truck_x, data.truck_z))
-    if start_distance > 100 and end_distance > 100:
-            return None
+    if start_distance > 200 and end_distance > 200:
+        return None
     
     start_in_front = math_helpers.IsInFront((start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
     end_in_front = math_helpers.IsInFront((end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z))
@@ -483,6 +481,7 @@ def GetNextNavigationItem():
                 
         if best_lane == math.inf:
             return None
+        
         return PrefabToRouteSection(next_item, best_lane)
     
 def ResetState():
@@ -537,13 +536,12 @@ def CheckForLaneChangeManual():
             target_index = 0
         if target_index >= len(lanes):
             target_index = len(lanes) - 1
-                    
         data.route_plan[0].lane_index = target_index
         data.route_plan = [data.route_plan[0]]
-        
+
     elif not data.truck_indicating_left and not data.truck_indicating_right:
-        was_indicating = False  
-    
+        was_indicating = False
+        
 def CheckForLaneChange():
     if len(data.route_plan) < 2:
         ResetState()
@@ -570,7 +568,13 @@ def CheckForLaneChange():
         CheckForLaneChangeManual()
         return
     
-    current_point = current.get_points()[-1]
+    points = current.get_points()
+    if len(points) == 0:
+        ResetState()
+        CheckForLaneChangeManual()
+        return
+    
+    current_point = points[-1]
     distance = math_helpers.DistanceBetweenPoints((current_point.x, current_point.z), (next_point.x, next_point.z))
     if distance > 3:
         current_index = current.lane_index
@@ -613,11 +617,12 @@ def CheckForLaneChange():
                     sounds.Play("info")
                     data.last_sound_played = time.time()
                 return
-            else:
+            else: 
                 data.plugin.state.text = ""
                 logging.info(f"Changing lane from {current_index} to {target}")
                 current.force_lane_change = True
                 current.lane_index = target
+                current.force_lane_change = False
                 data.route_plan = [current]
         else:
             CheckForLaneChangeManual()
@@ -687,13 +692,15 @@ def UpdateRoutePlan():
             item = GetNextNavigationItem()
             try:
                 if item is not None and len(data.route_plan) > 0:
-                    cur_start = data.route_plan[-1].get_points()[0]
-                    next_end = item.get_points()[-1]
-                    distance = math_helpers.DistanceBetweenPoints((cur_start.x, cur_start.z), (next_end.x, next_end.z))
-                    if item.items != data.route_plan[-1].items and distance > 0.5:
+                    start = item.start_node.uid
+                    end = item.end_node.uid
+                    last_start = data.route_plan[-1].start_node.uid
+                    last_end = data.route_plan[-1].end_node.uid
+                    if (start != last_start or end != last_end):
                         data.route_plan.append(item)
             except:
                 pass
+            
         try:
             CheckForLaneChange()
         except:

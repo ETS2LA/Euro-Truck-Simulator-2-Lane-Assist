@@ -7,3 +7,19 @@ enable_disable = ControlEvent(
     description="When ACC is running this will toggle it on/off.",
     default="n"
 )
+
+increment = ControlEvent(
+    "increment_speed",
+    "Increase Speed Offset",
+    "button",
+    description="This will decrease the speed offset in the settings.",
+    default="↑"
+)
+
+decrement = ControlEvent(
+    "decrement_speed",
+    "Decrease Speed Offset",
+    "button",
+    description="This will increase the speed offset in the settings.",
+    default="↓"
+)
