@@ -1,11 +1,15 @@
 from ETS2LA.UI import *
 from Modules.TruckSimAPI.main import Module
+from ETS2LA.Utils.Values.numbers import SmoothedValue
+import time
 
 tsapi = Module(None)
+fps = SmoothedValue("time", 1)
 
 class Page(ETS2LAPage):
     url = "/telemetry"
     search_term = ""
+    last_render = 0
     
     def color(self, text):
         if text == "True":
@@ -26,10 +30,14 @@ class Page(ETS2LAPage):
         telemetry = tsapi.run()
         
         with Container(styles.Padding("20px") + styles.FlexVertical() + styles.Gap("20px")):
-            Input(
-                default="Search",
-                changed=self.update_search
-            )
+            with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-center")):
+                Input(
+                    default="Search",
+                    changed=self.update_search
+                )
+                if fps.get() != 0:
+                    with Container(styles.Classname("border rounded-lg bg-input/30 p-2")):
+                        Text(f"{1/fps.get():.1f}", styles.Classname("text-sm font-semibold min-w-max"))
             
             if not self.search_term or self.search_term.lower() in telemetry:
                 with Container(styles.FlexVertical() + styles.Gap("8px") + styles.Classname("p-4 border rounded-lg bg-input/10")):
@@ -80,3 +88,7 @@ class Page(ETS2LAPage):
                                 value = str(value).ljust(4, "0")
                                 
                             Text(str(value), styles.Classname("text-sm") + self.color(str(value)))
+                            
+        cur_time = time.perf_counter()
+        fps.smooth(cur_time - self.last_render)
+        self.last_render = cur_time
