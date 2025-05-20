@@ -82,11 +82,23 @@ class Page(ETS2LAPage):
                         
                         with Container(styles.FlexHorizontal() + styles.Gap("4px") + styles.Classname("p-2 rounded-lg bg-input/30")):
                             Text(key, styles.Classname("text-sm"))
-                            value = value
+                            if type(value) == list:
+                                is_bool = False
+                                for i, val in enumerate(value):
+                                    if type(val) != bool:
+                                        break
+                                    Text(str(val), styles.Classname("text-sm") + self.color(str(val)))
+                                    is_bool = True
+
+                                if not is_bool:
+                                    text = str(value).replace("[", "").replace("]", "").replace(",", " ")
+                                    Text(text, styles.Classname("text-sm") + styles.TextColor("#bbbbff"))
+                                continue
+
                             if type(value) == float:
                                 value = round(value, 2)
                                 value = str(value).ljust(4, "0")
-                                
+
                             Text(str(value), styles.Classname("text-sm") + self.color(str(value)))
                             
         cur_time = time.perf_counter()
