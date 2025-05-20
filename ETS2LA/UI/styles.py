@@ -281,3 +281,9 @@ class Classname(Style):
     def __init__(self, classname: str):
         super().__init__()
         self.classname = classname
+        
+@dataclass
+class TextColor(Style):
+    def __init__(self, color: str):
+        super().__init__()
+        self.color = color

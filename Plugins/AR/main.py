@@ -155,11 +155,21 @@ class Settings(ETS2LAPage):
     location = ETS2LAPageLocation.SETTINGS
     title = "plugins.ar"
 
-    def vision_compat_changed(self, value: bool):
-        self.settings.vision_compat = value
+    def vision_compat_changed(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "vision_compat", True)
         
-    def test_objects_changed(self, value: bool):
-        self.settings.test_objects = value
+        settings.Set("AR", "vision_compat", value)
+        
+    def test_objects_changed(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "test_objects", False)
+        
+        settings.Set("AR", "test_objects", value)
 
     def render(self):
         TitleAndDescription(

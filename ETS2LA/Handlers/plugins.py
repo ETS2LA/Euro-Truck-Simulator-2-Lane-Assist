@@ -216,7 +216,9 @@ class Plugin:
                     message = self.stack[Channel.UPDATE_PAGE].popitem()[1]
                     if "url" in message.data:
                         url = message.data["url"]
-                        self.pages[url] = message.data["data"]
+                        data = message.data["data"]
+                        data[0]["plugin"] = self.description.name
+                        self.pages[url] = data
 
             time.sleep(0.01)
     
@@ -439,3 +441,32 @@ def get_states() -> dict:
             states[Translate(plugin.description.name, return_original=True)] = plugin.state
         
     return states
+
+def function_call(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None,
+    function: str = "",
+    *args,
+    **kwargs) -> bool:
+    """Start a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    
+    if not plugin:
+        logging.error(f"Plugin not found.")
+        return False
+    
+    plugin.queue.put(PluginMessage(
+        Channel.CALL_FUNCTION,
+        {
+            "function": function,
+            "args": args,
+            "kwargs": kwargs
+        }
+    ))
+    
+    return True

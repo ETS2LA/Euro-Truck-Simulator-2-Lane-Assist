@@ -2,6 +2,7 @@ from multiprocessing import Queue
 from types import ModuleType
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
+from ETS2LA.Utils.functions import resolve_function_from_path
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
 
@@ -141,6 +142,8 @@ class PluginProcess:
                     PluginManagement(self)(message)
                 case Channel.GET_TAGS | Channel.UPDATE_TAGS:
                     Tags(self)(message)
+                case Channel.CALL_FUNCTION:
+                    Function(self)(message)
                 case _:
                     self.stack[message.id] = message
         
@@ -312,9 +315,9 @@ class PluginManagement(ChannelHandler):
                     )
                     
                     for page in self.plugin.pages:
-                        page.plugin = self.plugin
-                        page.settings = self.plugin.settings
-                    
+                        page.plugin = self.plugin.plugin
+                        page.settings = self.plugin.plugin.settings
+
                     message.state = State.DONE
                 except Exception as e:
                     message.state = State.ERROR
@@ -388,3 +391,60 @@ class Tags(ChannelHandler):
             
         except Exception as e:
             logging.exception("Error handling tags")
+            
+class Function(ChannelHandler):
+    def __call__(self, message: PluginMessage):
+        try:
+            if message.state == State.ERROR:
+                logging.error("Error getting function, " + message.data)
+                return None
+
+            data = message.data
+            func = data.get("function")
+            args = data.get("args")
+            kwargs = data.get("kwargs")
+            
+            # Fix problem with args and kwargs
+            if "args" in kwargs:
+                args = kwargs["args"]
+                del kwargs["args"]
+                
+            print(f"Function: {func}")
+            print(f"Args: {args}")
+            print(f"Kwargs: {kwargs}")
+            
+            # Extract the function
+            function = func.split(".")[-1]
+            object = func.split(".")[-2]
+            
+            if object == "Plugin":
+                function = getattr(self.plugin.plugin, function)
+            else:
+                # Find the page
+                page = None
+                for p in self.plugin.pages:
+                    # Get the page object name (ie. Settings, Page, etc.)
+                    page_object = p.__class__.__name__
+                    if page_object == object:
+                        page = p
+                        break
+                    
+                if page is None:
+                    return None
+                
+                function = getattr(page, function)
+            
+            try:
+                if args and kwargs:
+                    function(*args, **kwargs)
+                elif args:
+                    function(*args)
+                elif kwargs:
+                    function(**kwargs)
+                else:
+                    function()
+            except Exception as e:
+                logging.exception("Error calling function")
+
+        except Exception as e:
+            logging.exception("Error handling function")

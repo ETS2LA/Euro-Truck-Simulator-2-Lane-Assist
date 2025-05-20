@@ -39,23 +39,19 @@ def handle_functions(data: dict):
             logging.exception(f"Error calling function {func} with args {args}: {e}")
         
     else:
-        for plugin in plugins.AVAILABLE_PLUGINS:
-            if plugin in plugins.RUNNING_PLUGINS:
-                continue # TODO: Implement running plugins
-            
-            if not plugin.pages: continue
-            for page in plugin.pages:
-                if page.url == url:
-                    try:
-                        function = resolve_function_from_path(func)
-                        if args:
-                            function(*args) # type: ignore
-                        else:
-                            function() # type: ignore
-                            
-                    except Exception as e:
-                        logging.exception(f"Error calling function {func} with args {args}: {e}")
-                    break
+        pages = plugins.get_page_list()
+        plugin = ''
+        for url, page in pages.items():
+            if page["url"] == url:
+                plugin = page["plugin"]
+                break
+        
+        if plugin:
+            plugins.function_call(
+                name=plugin,
+                function=func,
+                args=args,
+            )
 
 # Send updated page data to all subscribers of a given URL
 async def push_update(url: str):

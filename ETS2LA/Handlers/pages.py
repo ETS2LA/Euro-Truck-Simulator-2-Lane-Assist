@@ -66,7 +66,7 @@ class PageManager:
         modified = (module_name in sys.modules and 
                    last_modified_times.get(module_name) == last_modified_time)
         loaded = module_name in last_update_times
-        needs_update = not loaded or (time.perf_counter() - last_update_times.get(module_name, 0) >= 10)
+        needs_update = not loaded
         
         # Reuse existing module if possible
         if modified and loaded and not needs_update and page_name in page_objects:
