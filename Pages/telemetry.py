@@ -12,7 +12,7 @@ class Page(ETS2LAPage):
             return styles.TextColor("#55ee55")
         elif text == "False":
             return styles.TextColor("#ee5555")
-        elif text.isnumeric():
+        elif text.replace(".", "").replace("-", "").isnumeric():
             return styles.TextColor("#bbbbff")
         elif "[" in text or "]" in text:
             return styles.TextColor("#ffbbbb")
@@ -52,7 +52,14 @@ class Page(ETS2LAPage):
                 if self.search_term in master:
                     in_master = True
                 
-                if not in_master and self.search_term and self.search_term.lower() not in data:
+                found = False
+                if not in_master and self.search_term:
+                    for key, value in data.items():
+                        if self.search_term.lower() in key.lower():
+                            found = True
+                            break
+                        
+                if not found and not in_master:
                     continue
                 
                 with Container(styles.FlexVertical() + styles.Gap("8px") + styles.Classname("p-4 border rounded-lg bg-input/10")):
@@ -62,7 +69,7 @@ class Page(ETS2LAPage):
                         if "placeHolder" in key:
                             continue
                         
-                        if not in_master and self.search_term and self.search_term.lower() not in key:
+                        if not in_master and self.search_term and self.search_term.lower() not in key.lower():
                             continue
                         
                         with Container(styles.FlexHorizontal() + styles.Gap("4px") + styles.Classname("p-2 rounded-lg bg-input/30")):
@@ -70,5 +77,6 @@ class Page(ETS2LAPage):
                             value = value
                             if type(value) == float:
                                 value = round(value, 2)
+                                value = str(value).ljust(4, "0")
                                 
                             Text(str(value), styles.Classname("text-sm") + self.color(str(value)))
