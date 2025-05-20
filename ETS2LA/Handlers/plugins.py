@@ -259,7 +259,18 @@ class Plugin:
         self.description, self.authors = response.data
         return response.data
   
-  
+def reload_plugins() -> None:
+    global plugins
+    for plugin in plugins:
+        plugin.stop = True
+        plugin.process.kill()
+        plugin.process.join()
+        plugin.process.close()
+        
+    plugins = []
+    discover_plugins()
+    threading.Thread(target=create_processes, daemon=True).start()
+    
 
 # MARK: Startup      
 plugins: list[Plugin] = []

@@ -156,6 +156,7 @@ class Settings(ETS2LAPage):
     title = "plugins.ar"
 
     def vision_compat_changed(self, *args):
+        print("Vision compatibility changed")
         if args:
             value = args[0]
         else:
@@ -164,6 +165,7 @@ class Settings(ETS2LAPage):
         settings.Set("AR", "vision_compat", value)
         
     def test_objects_changed(self, *args):
+        print("Test objects changed")
         if args:
             value = args[0]
         else:

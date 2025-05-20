@@ -87,7 +87,7 @@ class Plugin(ETS2LAPlugin):
     
     controls = [enable_disable, increment, decrement]
     
-    settings_menu = SettingsMenu()
+    pages = [SettingsMenu]
     
     # Variables
     accel = 0 # current acceleration value between -1 and 1
@@ -250,7 +250,7 @@ class Plugin(ETS2LAPlugin):
             self.settings.overwrite_speed = overwrite_speed
             
         if speed_offset_type is None:
-            speed_offset_type = "Percentage"
+            speed_offset_type = "Absolute"
             self.settings.speed_offset_type = speed_offset_type
             
         if speed_offset is None:

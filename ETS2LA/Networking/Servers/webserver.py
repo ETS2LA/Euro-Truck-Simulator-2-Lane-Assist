@@ -413,7 +413,7 @@ def get_page(data: PageFetchData):
 @app.get("/api/plugins/reload")
 def reload_plugins():
     try:
-        plugins.update_plugins()
+        plugins.reload_plugins()
     except:
         logging.exception("Failed to reload plugins")
         return False

@@ -1,54 +1,129 @@
 from ETS2LA.UI import * 
+from ETS2LA.Utils import settings
 
-class SettingsMenu(ETS2LASettingsMenu):
-    dynamic = True
-    plugin_name = "AdaptiveCruiseControl"
+class SettingsMenu(ETS2LAPage):
+    url = "/settings/adaptivecruisecontrol"
+    location = ETS2LAPageLocation.SETTINGS
+    title = "plugins.adaptivecruisecontrol"
+    refresh_rate = 0.5
+    
+    def handle_aggressiveness(self, value):
+        settings.Set("AdaptiveCruiseControl", "aggressiveness", value)
+        
+    def handle_following_distance(self, value): 
+        settings.Set("AdaptiveCruiseControl", "following_distance", value)
+        
+    def handle_ignore_traffic_lights(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights")
+        
+        settings.Set("AdaptiveCruiseControl", "ignore_traffic_lights", value)
+    
+    def handle_speed_offset_type(self, value):
+        settings.Set("AdaptiveCruiseControl", "speed_offset_type", value)
+        
+        if value == "Percentage":
+            settings.Set("AdaptiveCruiseControl", "speed_offset", 0)
+        else:
+            settings.Set("AdaptiveCruiseControl", "speed_offset", 0)
+            
+    def handle_speed_offset(self, value):
+        if settings.Get("AdaptiveCruiseControl", "speed_offset_type") == "Percentage":
+            settings.Set("AdaptiveCruiseControl", "speed_offset", value)
+        else:
+            settings.Set("AdaptiveCruiseControl", "speed_offset", value)
+            
+    def handle_coefficient_of_friction(self, value):
+        settings.Set("AdaptiveCruiseControl", "MU", value)
+        
+    def handle_overwrite_speed(self, value):
+        settings.Set("AdaptiveCruiseControl", "overwrite_speed", value)
+    
     def render(self):
-        RefreshRate(1)
-        with Group("vertical", gap=14, padding=0):
-            Title("plugins.adaptivecruisecontrol")
-            Description("This plugin provides no description.")
-        with TabView():
-            with Tab("acc.settings.tab.acc.name"):
-                with Group("horizontal", padding=0, gap=24):
-                    Selector("acc.settings.aggressiveness.name", "aggressiveness", "Normal", ["Eco", "Normal", "Aggressive"], description="acc.settings.aggressiveness.description")
-                    Selector("acc.settings.following_distance.name", "following_distance", "Normal", ["Near", "Normal", "Far"], description="acc.settings.following_distance.description")
-                with Tab(""):
-                    Switch("acc.settings.ignore_traffic_lights.name", "ignore_traffic_lights", False, description="acc.settings.ignore_traffic_lights.description")
-                
-                with EnabledLock():
-                    if self.plugin is None:
-                        max_accel = 1.5
-                        comfort_decel = 1.5
-                        time_gap_seconds = 1.5
-                    else:
-                        max_accel = self.plugin.max_accel
-                        comfort_decel = self.plugin.comfort_decel
-                        time_gap_seconds = self.plugin.time_gap_seconds
-                        
-                    with Group("vertical", padding=0, gap=8):
-                        with Group("horizontal", padding=4):
-                            Label("acc.settings.maximum_acceleration.name")
-                            Description(str(round(max_accel, 1)) + " m/s²")
-                        with Group("horizontal", padding=4):
-                            Label("acc.settings.maximum_deceleration.name")
-                            Description(str(round(comfort_decel, 1)) + " m/s²")
-                        with Group("horizontal", padding=4):
-                            Label("acc.settings.gap_to_vehicle_in_front.name")
-                            Description(str(round(time_gap_seconds, 1)) + " seconds")
+        TitleAndDescription(
+            title="plugins.adaptivecruisecontrol",
+            description="Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game.",
+        )
+        
+        with Tabs():
+            with Tab("plugins.adaptivecruisecontrol", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    ComboboxWithTitleDescription(
+                        options=["Eco", "Normal", "Aggressive"],
+                        default=settings.Get("AdaptiveCruiseControl", "aggressiveness"),
+                        title="acc.settings.aggressiveness.name",
+                        description="acc.settings.aggressiveness.description",
+                        changed=self.handle_aggressiveness,
+                    )
+                    
+                    ComboboxWithTitleDescription(
+                        options=["Near", "Normal", "Far"],
+                        default=settings.Get("AdaptiveCruiseControl", "following_distance"),
+                        title="acc.settings.following_distance.name",
+                        description="acc.settings.following_distance.description",
+                        changed=self.handle_following_distance,
+                    )
 
-            with Tab("acc.settings.tab.speed_control.name"):
-                Slider("acc.settings.coefficient_of_friction.name", "MU", 0.5, 0.1, 1, 0.1, description="acc.settings.coefficient_of_friction.description", suffix=" μ")
-                Slider("acc.settings.overwrite_speed.name", "overwrite_speed", 50, 0, 130, 5, suffix=" km/h", description="acc.settings.overwrite_speed.description")
-                with EnabledLock():
-                    Selector("acc.settings.speed_offset_type.name", "speed_offset_type", "Percentage", ["Percentage", "Absolute"], description="acc.settings.speed_offset_type.description")
-                    type = self.settings.type
-                    if not type:
-                        type = "Percentage"
-                        self.settings.type = type
-                        
-                    if self.settings.type is not None and self.settings.type == "Percentage":
-                        Slider("acc.settings.speed_offset.name", "speed_offset", 0, -30, 30, 1, suffix="%", description="acc.settings.speed_offset.description")
+                CheckboxWithTitleDescription(
+                    title="acc.settings.ignore_traffic_lights.name",
+                    description="acc.settings.ignore_traffic_lights.description",
+                    changed=self.handle_ignore_traffic_lights,
+                    default=settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights"),
+                )
+                
+            with Tab("acc.settings.tab.speed_control.name", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                SliderWithTitleDescription(
+                    title="acc.settings.coefficient_of_friction.name",
+                    description="acc.settings.coefficient_of_friction.description",
+                    min=0.1,
+                    max=1,
+                    step=0.1,
+                    default=settings.Get("AdaptiveCruiseControl", "MU"),
+                    changed=self.handle_coefficient_of_friction,
+                    suffix=" μ",
+                )
+                
+                SliderWithTitleDescription(
+                    title="acc.settings.overwrite_speed.name",
+                    description="acc.settings.overwrite_speed.description",
+                    min=0,
+                    max=130,
+                    step=5,
+                    default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
+                    changed=self.handle_overwrite_speed,
+                    suffix=" km/h",
+                )
+                    
+                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    ComboboxWithTitleDescription(
+                        options=["Percentage", "Absolute"],
+                        default=settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute"),
+                        title="acc.settings.speed_offset_type.name",
+                        changed=self.handle_speed_offset_type,
+                        description="acc.settings.speed_offset_type.description",
+                    )
+                    
+                    if settings.Get("AdaptiveCruiseControl", "speed_offset_type") == "Percentage":
+                        SliderWithTitleDescription(
+                            title="acc.settings.speed_offset.name",
+                            description="acc.settings.speed_offset.description",
+                            min=-30,
+                            max=30,
+                            step=1,
+                            default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
+                            changed=self.handle_speed_offset,
+                            suffix="%",
+                        )
                     else:
-                        Slider("acc.settings.speed_offset.name", "speed_offset", 0, -30, 30, 1, suffix="km/h", description="acc.settings.speed_offset.description")
-        return RenderUI()
+                        SliderWithTitleDescription(
+                            title="acc.settings.speed_offset.name",
+                            description="acc.settings.speed_offset.description",
+                            min=-30,
+                            max=30,
+                            step=1,
+                            default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
+                            changed=self.handle_speed_offset,
+                            suffix="km/h",
+                        )

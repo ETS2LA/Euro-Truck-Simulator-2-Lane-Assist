@@ -425,11 +425,13 @@ class Function(ChannelHandler):
                 for p in self.plugin.pages:
                     # Get the page object name (ie. Settings, Page, etc.)
                     page_object = p.__class__.__name__
+                    print(f"Page object: {page_object}")
                     if page_object == object:
                         page = p
                         break
                     
                 if page is None:
+                    logging.error(f"Page {object} not found on plugin {self.plugin.path}")
                     return None
                 
                 function = getattr(page, function)

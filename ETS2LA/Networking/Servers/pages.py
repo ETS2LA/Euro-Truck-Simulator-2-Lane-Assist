@@ -41,7 +41,7 @@ def handle_functions(data: dict):
     else:
         pages = plugins.get_page_list()
         plugin = ''
-        for url, page in pages.items():
+        for _, page in pages.items():
             if page["url"] == url:
                 plugin = page["plugin"]
                 break
