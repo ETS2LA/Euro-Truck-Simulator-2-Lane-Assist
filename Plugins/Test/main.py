@@ -30,33 +30,9 @@ class Plugin(ETS2LAPlugin):
     def init(self):
         ...
 
-    def to_gametime(self, time): # time is in minutes
-        days = int(time / 1440)
-        if days > 7:
-            days = days % 7
-            
-        hours = int(time / 60)
-        if hours > 23:
-            hours = hours % 24
-            
-        minutes = int(time % 60)
-        
-        map_to_name = {
-            0: "Monday",
-            1: "Tuesday",
-            2: "Wednesday",
-            3: "Thursday",
-            4: "Friday",
-            5: "Saturday",
-            6: "Sunday"
-        }
-        
-        return "{} {}:{}".format(
-            map_to_name[days],
-            str(hours).zfill(2),
-            str(minutes).zfill(2)
-        )
-
     def run(self):
-        data = self.modules.TruckSimAPI.run()
-        print(data["commonUI"]["timeRdbl"])
+        city = self.globals.tags.merge(self.globals.tags.closest_city)
+        distance = self.globals.tags.merge(self.globals.tags.closest_city_distance)
+        country = self.globals.tags.merge(self.globals.tags.closest_country)
+
+        print(f"{city}, {country} ({distance/1000:.1f}km)")
