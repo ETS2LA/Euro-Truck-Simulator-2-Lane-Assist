@@ -298,7 +298,8 @@ class Plugin(ETS2LAPlugin):
         if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
             self.last_navigation_time = time.time()
             try:
-                driving_points = self.plugins.Map
+                driving_points = self.globals.tags.steering_points
+                driving_points = self.globals.tags.merge(driving_points)
                 driving_points = [(point[0], point[2]) for point in driving_points]
             
                 total_points = []

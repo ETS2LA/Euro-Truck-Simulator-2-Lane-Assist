@@ -1,6 +1,8 @@
 from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage, Author
 from ETS2LA.Plugin.message import Channel, State
 from ETS2LA.Utils.translator import Translate
+from ETS2LA.Controls import ControlEvent
+from ETS2LA.Handlers import controls
 
 import multiprocessing
 import threading
@@ -41,6 +43,12 @@ class Plugin:
     stack: dict[Channel, dict[int, PluginMessage]]
     """All the messages that have arrived from the plugin."""
     
+    controls: list[ControlEvent]
+    """All the controls that belong to the plugin."""
+    
+    last_controls_state: dict
+    """The last state of the controls."""
+    
     description: PluginDescription
     """The description of the plugin."""
     
@@ -72,6 +80,7 @@ class Plugin:
             "status": "",
             "progress": -1
         }
+        self.last_controls_state = {}
         self.stop = False
         self.running = False
         
@@ -118,6 +127,7 @@ class Plugin:
         
         plugins.append(self)
         self.get_description()
+        self.get_controls()
         
         threading.Thread(
             target=self.tag_handler,
@@ -131,6 +141,11 @@ class Plugin:
         
         threading.Thread(
             target=self.page_handler,
+            daemon=True
+        ).start()
+
+        threading.Thread(
+            target=self.controls_updater,
             daemon=True
         ).start()
 
@@ -161,6 +176,19 @@ class Plugin:
             if message.channel not in self.stack:
                 self.stack[message.channel] = {}
             self.stack[message.channel][message.id] = message
+    
+    def controls_updater(self):
+        while True:
+            states = controls.get_states(self.controls)
+            if not self.last_controls_state or states != self.last_controls_state:
+                self.last_controls_state = states
+                message = PluginMessage(
+                    Channel.CONTROL_STATE_UPDATE,
+                    states
+                )
+                self.queue.put(message)
+            
+            time.sleep(0.025)
     
     def tag_handler(self):
         while True:            
@@ -256,6 +284,31 @@ class Plugin:
             quit(1)
             
         self.description, self.authors = response.data
+        return response.data
+    
+    def get_controls(self) -> list[ControlEvent]:
+        """Get the controls from the plugin process."""
+        message = PluginMessage(
+            Channel.GET_CONTROLS, {}
+        )
+        self.queue.put(message)
+        response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
+        if response is None:
+            logging.error(f"Plugin {self.folder} failed to get controls: Timeout.")
+            self.stop = True
+            plugins.remove(self)
+            quit(1)
+        if response.state == State.ERROR:
+            logging.error(f"Plugin {self.folder} failed to get controls: {response.data}")
+            plugins.remove(self)
+            self.stop = True
+            quit(1)
+            
+        self.controls = response.data
+        for control in self.controls:
+            control.plugin = self.description.name
+            
+        controls.validate_events(self.controls)
         return response.data
   
 def reload_plugins() -> None:

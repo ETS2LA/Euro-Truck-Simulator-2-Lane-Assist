@@ -3,6 +3,7 @@ from types import ModuleType
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
 from ETS2LA.Utils.functions import resolve_function_from_path
+from ETS2LA.Controls import ControlEvent
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
 
@@ -38,6 +39,11 @@ class PluginProcess:
     """
     Last page dictionaries. This is used to check if the page
     has changed.
+    """
+    
+    controls: list[ControlEvent] = []
+    """
+    The current plugin's controls. This is populated at init.
     """
     
     description: PluginDescription | None = None
@@ -127,6 +133,10 @@ class PluginProcess:
         self.pages = self.file.Plugin.pages
         self.pages = [page() for page in self.pages] # type: ignore
         
+        # Controls don't need to be instantiated before use.
+        # They are instantiated when the plugin is created.
+        self.controls = self.file.Plugin.controls
+        
         return None
         
     def listener(self) -> None:
@@ -144,6 +154,8 @@ class PluginProcess:
                     Tags(self)(message)
                 case Channel.CALL_FUNCTION:
                     Function(self)(message)
+                case Channel.GET_CONTROLS | Channel.CONTROL_STATE_UPDATE:
+                    Controls(self)(message)
                 case _:
                     self.stack[message.id] = message
         
@@ -300,6 +312,31 @@ class Description(ChannelHandler):
             message.data = "Error getting plugin description"
             logging.exception("Error getting plugin description")
             self.plugin.return_queue.put(message)
+            
+class Controls(ChannelHandler):
+    def __call__(self, message: PluginMessage):
+        try:
+            if message.state == State.ERROR:
+                logging.error("Error getting controls, " + message.data)
+                return None
+            
+            if message.channel == Channel.GET_CONTROLS:
+                message.data = self.plugin.controls
+                message.state = State.DONE
+                self.plugin.return_queue.put(message)
+                return None
+                
+            if message.channel == Channel.CONTROL_STATE_UPDATE:
+                controls = message.data
+                if self.plugin.plugin is None:
+                    return
+                
+                for event in self.plugin.controls:
+                    if event.alias in controls:
+                        event.update(controls[event.alias])
+            
+        except Exception as e:
+            logging.exception("Error handling controls")
             
 class PluginManagement(ChannelHandler):
     def __call__(self, message: PluginMessage):

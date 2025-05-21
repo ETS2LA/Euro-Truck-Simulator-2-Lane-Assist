@@ -179,15 +179,6 @@ class ETS2LAPlugin(object):
             if type(ex) != AttributeError: 
                 logging.exception("Error in 'Initialize' function")
     
-    # def control_listener(self):
-    #     while True:
-    #         data = self.control_queue.get()
-    #         self.control_queue.task_done()
-    #         
-    #         for event in self.controls:
-    #             if event.alias in data:
-    #                 event.update(data[event.alias])
-    
     # def event_listener(self):
     #     while True:
     #         data = self.event_queue.get()
@@ -207,21 +198,6 @@ class ETS2LAPlugin(object):
         if hasattr(self.settings_menu, function_name):
             return getattr(self.settings_menu, function_name)(*args, **kwargs)
         return None
-    
-    # def frontend_thread(self):
-    #     while True:
-    #         data = self.frontend_queue.get()
-    #         try:
-    #             if data["operation"] == "function":
-    #                 args = data["args"]
-    #                 kwargs = data["kwargs"]
-    #                 self.try_call(data["target"], *args, **kwargs)
-    #         except:
-    #             logging.exception("Error calling frontend function")
-    #             pass
-    #         
-    #         self.frontend_queue.task_done()
-    #         self.frontend_return_queue.put(None)
            
     def terminate(self):
         self.return_queue.put(PluginMessage(

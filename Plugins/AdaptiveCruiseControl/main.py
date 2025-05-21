@@ -144,6 +144,8 @@ class Plugin(ETS2LAPlugin):
     api = None
     controller = None
     
+    map_points = None
+    
     
     def imports(self):
         global Controller, np, screeninfo, pyautogui, json, cv2, os
@@ -390,7 +392,7 @@ class Plugin(ETS2LAPlugin):
         if rotation < 0: rotation += 360
         rotation = math.radians(rotation)
         
-        points = self.plugins.Map
+        points = self.map_points
         
         if type(points) != list or len(points) == 0 or (type(points[0]) != list and type(points[0]) != tuple):
             return None
@@ -466,7 +468,7 @@ class Plugin(ETS2LAPlugin):
         try:    lights = self.modules.Semaphores.run()
         except: return None
         
-        points = self.plugins.Map
+        points = self.map_points
         
         if points is None or points == []: return None
         if lights is None: return None
@@ -529,7 +531,7 @@ class Plugin(ETS2LAPlugin):
         try:    gates = self.modules.Semaphores.run()
         except: return None
         
-        points = self.plugins.Map
+        points = self.map_points
         
         if points is None or points == []: return None
         if gates is None: return None
@@ -589,7 +591,7 @@ class Plugin(ETS2LAPlugin):
     
     
     def get_target_speed(self, api_data: dict) -> float:
-        points = self.plugins.Map
+        points = self.map_points
         if points is not None:
             max_speed = get_maximum_speed_for_points(points, api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"])
             smoothed_max_speed = self.max_speed(max_speed)
@@ -729,6 +731,10 @@ class Plugin(ETS2LAPlugin):
         self.update_parameters()
         self.update_manual_offset()
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+        
+        points = self.globals.tags.steering_points
+        points = self.globals.tags.merge(points)
+        self.map_points = points
         
         if not self.enabled:
             self.accel_errors = []

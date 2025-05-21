@@ -430,7 +430,9 @@ class Plugin(ETS2LAPlugin):
         return send
     
     def steering(self, data):
-        points = [] #self.plugins.Map # TODO: Fix these points
+        points = self.globals.tags.steering_points
+        points = self.globals.tags.merge(points)
+        
         information = self.globals.tags.route_information
         information = self.globals.tags.merge(information)
         

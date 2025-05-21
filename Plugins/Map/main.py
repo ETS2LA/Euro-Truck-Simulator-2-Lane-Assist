@@ -395,4 +395,4 @@ class Plugin(ETS2LAPlugin):
                 except:
                     pass
         
-        return [point.tuple() for point in data.route_points]
+        self.globals.tags.steering_points = [point.tuple() for point in data.route_points]
