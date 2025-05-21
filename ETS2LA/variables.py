@@ -47,6 +47,9 @@ CONSOLENAME = None
 DEVELOPMENT_MODE = "--dev" in sys.argv
 """Whether the application is running in development mode. Will be set to True when running the main.py with the --dev flag."""
 
+CHINA_MODE = "--china" in sys.argv
+"""Whether the application is running in China mode. This will use ets2la.cn websites and other China specific features."""
+
 LOCAL_MODE = "--local" in sys.argv
 """Whether the user interface is run locally or gotten from the server."""
 

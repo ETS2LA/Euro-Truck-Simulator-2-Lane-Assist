@@ -100,7 +100,7 @@ class Plugin(ETS2LAPlugin):
     enabled = False
     
     api_data = None
-    speed_offset_type = "Percentage"
+    speed_offset_type = "Absolute"
     speed_offset = 0
     manual_speed_offset = 0
     
@@ -279,6 +279,10 @@ class Plugin(ETS2LAPlugin):
             self.time_gap_seconds *= 1.3
         elif distance_setting == 'Near':
             self.time_gap_seconds *= 0.8
+
+        self.speed_offset_type = speed_offset_type
+        if self.speed_offset_type is None:
+            self.speed_offset_type = "Absolute"
 
 
     def calculate_target_acceleration(self, 
@@ -723,9 +727,11 @@ class Plugin(ETS2LAPlugin):
             if self.holding_up:
                 self.manual_speed_offset += 1
                 self.last_change = time.time()
+                self.notify("Speed offset increased to: " + str(self.manual_speed_offset) + (" km/h" if self.speed_offset_type == "Absolute" else " %"))
             elif self.holding_down:
                 self.manual_speed_offset -= 1
                 self.last_change = time.time()   
+                self.notify("Speed offset decreased to: " + str(self.manual_speed_offset) + (" km/h" if self.speed_offset_type == "Absolute" else " %"))
             
     def run(self):
         self.update_parameters()
