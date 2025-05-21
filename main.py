@@ -155,14 +155,24 @@ def ets2la_process(exception_queue: Queue) -> None:
             try:
                 requests.get("https://app.ets2la.com", timeout=1)
             except: 
-                print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
-                did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True,
-                                                   cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
-                if did_update:
-                    print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
-                    UpdateFrontendTranslations()
-                    ExecuteCommand("cd Interface && npm install && npm run build-local")
-                ETS2LA.variables.LOCAL_MODE = True
+                try:
+                    requests.get("https://app.ets2la.cn", timeout=1)
+                    if not "--china" in sys.argv:
+                        sys.argv.append("--china")
+                    ETS2LA.variables.CHINA_MODE = True
+                    print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
+                except:
+                    print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
+                    did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True,
+                                                    cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
+                    if did_update:
+                        print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
+                        UpdateFrontendTranslations()
+                        ExecuteCommand("cd Interface && npm install && npm run build-local")
+                        
+                    if not "--local" in sys.argv:
+                        sys.argv.append("--local")
+                    ETS2LA.variables.LOCAL_MODE = True
         
         if "--no-console" in sys.argv:
             if "--no-ui" in sys.argv:

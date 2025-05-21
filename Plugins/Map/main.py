@@ -21,6 +21,8 @@ import Plugins.Map.classes as c
 
 import threading
 import importlib
+import time
+
 navigation = importlib.import_module("Plugins.Map.navigation.navigation")
 planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
@@ -78,13 +80,14 @@ class Plugin(ETS2LAPlugin):
     steering_smoothness: float = 0.2
     MAP_INITIALIZED = False
     
+    last_city_update = time.time()
+    
     def imports(self):
         global json, data, time, math, sys, logging
         # General imports
         import Plugins.Map.data as data
         import logging
         import json
-        import time
         import math
         import sys
 
@@ -394,5 +397,26 @@ class Plugin(ETS2LAPlugin):
                     print(f"- External data time: {external_data_time * 1000:.2f}ms")
                 except:
                     pass
+        
+        try:
+            if self.last_city_update + 5 < time.time():
+                self.last_city_update = time.time()
+                
+                # Find the closest city to the truck
+                cities = data.map.cities
+                closest = None
+                closest_distance = math.inf
+                for city in cities:
+                    distance = math.sqrt((data.truck_x - city.x) ** 2 + (data.truck_z - city.y) ** 2)
+                    if distance < closest_distance:
+                        closest_distance = distance
+                        closest = city
+                        
+                if closest:
+                    self.globals.tags.closest_city = closest.name
+                    self.globals.tags.closest_city_distance = closest_distance
+                    self.globals.tags.closest_country = closest.country_token.capitalize()
+        except:
+            pass
         
         return [point.tuple() for point in data.route_points]
