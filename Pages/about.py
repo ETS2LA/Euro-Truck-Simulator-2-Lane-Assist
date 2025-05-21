@@ -25,7 +25,7 @@ contributors = [
     {"name": "JimJokes", "description": Translate("about.jimjokes.description"), "links": []},
     {"name": "Lun", "description": Translate("about.lun.description"), "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
     {"name": "MRUIAW", "description": Translate("about.mruiaw.description"), "links": [["BiliBili", "https://space.bilibili.com/357816575"]]},
-    {"name": "PiggyWu981", "description": Translate("about.piggywu981.description"), "links": []},
+    {"name": "PiggyWu981", "description": Translate("about.piggywu981.description"), "links": [["GitHub", "https://github.com/Piggywu981"], ["BiliBili", "https://space.bilibili.com/355054416"], ["Discord", "https://discordapp.com/users/763642553412223008"]]},
     {"name": "Sheng FAN", "description": Translate("about.shengfan.description"), "links": [["Github", "https://github.com/fred913"]]},
     {"name": "goodnightan", "description": Translate("about.goodnightan.description"), "links": []},
     {"name": "Piotrke", "description": Translate("about.piotrke.description"), "links": []},
