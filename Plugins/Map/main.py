@@ -73,7 +73,7 @@ class Plugin(ETS2LAPlugin):
     controls = [enable_disable, toggle_navigate]
     
     fps_cap = 20
-    settings_menu = SettingsMenu()
+    pages = [SettingsMenu]
     
     steering_smoothness: float = 0.2
     MAP_INITIALIZED = False

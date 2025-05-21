@@ -15,7 +15,7 @@ import time
 import math
 
 class Settings(ETS2LAPage):
-    url = "settings/HUD"
+    url = "/settings/HUD"
     refresh_rate = 0.5
     location = ETS2LAPageLocation.SETTINGS
     title = "HUD"

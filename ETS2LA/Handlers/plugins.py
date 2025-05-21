@@ -202,9 +202,8 @@ class Plugin:
             if Channel.STATE_UPDATE in self.stack:
                 while self.stack[Channel.STATE_UPDATE]:
                     message = self.stack[Channel.STATE_UPDATE].popitem()[1]
-                    if "progress" in message.data:
+                    if "progress" in message.data and "status" in message.data:
                         self.state["progress"] = message.data["progress"]
-                    if "status" in message.data:
                         self.state["status"] = message.data["status"]
             
             time.sleep(0.01)

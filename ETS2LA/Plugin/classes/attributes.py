@@ -73,8 +73,8 @@ class GlobalSettings:  # read only instead of the plugin settings
             raise TypeError("Global settings are read-only")
     
 class State:
-    text: str
-    progress: float
+    text: str = ""
+    progress: float = -1
     
     timeout: int = -1
     timeout_thread: threading.Thread | None = None
@@ -99,11 +99,12 @@ class State:
             message = PluginMessage(
                 Channel.STATE_UPDATE,
                 {
-                    "status": value
+                    "status": value,
+                    "progress": self.progress
                 }
             )
 
-            self.state_queue.put(message, block=False)
+            self.state_queue.put(message, block=True)
             super().__setattr__("text", value)
             return 
         
@@ -113,11 +114,12 @@ class State:
             message = PluginMessage(
                 Channel.STATE_UPDATE,
                 {
-                    "progress": value
+                    "progress": value,
+                    "status": self.text
                 }
             )
             
-            self.state_queue.put(message, block=False)
+            self.state_queue.put(message, block=True)
             super().__setattr__("progress", value)
             return 
         
