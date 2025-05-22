@@ -33,6 +33,7 @@ keyboard
 requests
 ipython
 pywin32
+pyttsx3
 fastapi
 uvicorn
 pyproj
