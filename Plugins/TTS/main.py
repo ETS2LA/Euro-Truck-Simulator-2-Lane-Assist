@@ -42,6 +42,17 @@ class Settings(ETS2LASettingsMenu):
         
         with TabView():
             with Tab("Voices"):
+                selected = settings.Get("TTS", "provider", "SAPI")
+                if self.plugin and self.plugin.selected_provider != None:
+                    provider = self.plugin.selected_provider
+                else:
+                    provider = next((p for p in providers if p.name == selected), None)
+                
+                if self.plugin:
+                    Label(provider.custom_text)
+                else:
+                    Label("This will show provider information once the plugin is loaded.")
+                    
                 Selector(
                     "Select TTS provider",
                     "provider",
@@ -50,8 +61,6 @@ class Settings(ETS2LASettingsMenu):
                     "Select the TTS provider to use.",
                 )
                 
-                selected = settings.Get("TTS", "provider", "SAPI")
-                provider = next((p for p in providers if p.name == selected), None)
                 if provider is None:
                     Label("Please select a provider to show voices.")
                     return RenderUI()
@@ -64,6 +73,39 @@ class Settings(ETS2LASettingsMenu):
                     voice,
                     [voice.name for voice in provider.voices],
                     "Select the TTS voice to use.",
+                )
+                
+                if provider.supports_speed:
+                    Slider(
+                        "Speed",
+                        "speed",
+                        1.0,
+                        0.5,
+                        2.0,
+                        0.1,
+                        "Set the target speed of the voice.",
+                    )
+                else:
+                    Label("This provider does not support speed control.")
+                    
+                if provider.supports_volume:
+                    Slider(
+                        "Volume",
+                        "volume",
+                        0.5,
+                        0.0,
+                        1.0,
+                        0.05,
+                        "Set the target volume of the voice.",
+                    )
+                else:
+                    Label("This provider does not support volume control.") 
+                    
+                Switch(
+                    "Test Mode",
+                    "test_mode",
+                    False,
+                    "Enable test mode to test the TTS provider without loading the game.",
                 )
                 
             with Tab("Settings"):
@@ -154,6 +196,7 @@ class Plugin(ETS2LAPlugin):
         self.load_settings()
     
     def load_settings(self):
+        self.test_mode = self.settings.test_mode
         provider = self.settings.provider
         voice = self.settings.voice
         
@@ -174,6 +217,15 @@ class Plugin(ETS2LAPlugin):
         if not self.selected_voice or self.selected_voice.name != voice:
             logging.warning(f"Loading TTS voice: {voice}")
             self.select_voice(voice)
+            
+        if self.selected_provider:
+            volume = self.settings.volume
+            if not volume: volume = 0.5; self.settings.volume = 0.5
+            self.selected_provider.set_volume(volume)
+            
+            speed = self.settings.speed
+            if not speed: speed = 1.0; self.settings.speed = 1.0
+            self.selected_provider.set_speed(speed)
         
     def speak(self, text: str):
         """
@@ -339,6 +391,11 @@ class Plugin(ETS2LAPlugin):
         
         self.load_settings()
         
+        if self.test_mode:
+            self.last_update = time.time()
+            self.speak("Test mode enabled. This is a test message.")
+            return
+            
         self.map_enabled_disabled()
         self.acc_enabled_disabled()
         self.closest_city_changed()

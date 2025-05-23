@@ -1,5 +1,6 @@
 from Plugins.TTS.providers.provider import TTSProvider, TTSVoice
 import sounddevice as sd
+import numpy as np
 import os
 
 # Manually defining only the best voices.
@@ -23,6 +24,11 @@ class Provider(TTSProvider):
     name = "Kokoro"
     voices = voices
     languages = None
+
+    custom_text = "Kokoro is an open source TTS engine that uses a small scale neural network to generate believable speech."
+    
+    speed = 1.0
+    volume = 0.5
     
     def initialize(self, plugin):
         global KPipeline
@@ -31,6 +37,9 @@ class Provider(TTSProvider):
             from kokoro import KPipeline
         except ImportError:
             plugin.state.text = "Installing Kokoro..."
+            print("Installing docopt-ng")
+            os.system("pip install docopt-ng")
+            print("Installing kokoro")
             os.system("pip install kokoro")
             plugin.state.text = "Loading Kokoro..."
             from kokoro import KPipeline # If you get an error here then restart ETS2LA. Most likely already installed and your computer doesn't support hotplugging modules.
@@ -59,6 +68,12 @@ class Provider(TTSProvider):
         self.pipeline = pipeline
         self.voice = voice.id
         
+    def set_speed(self, speed):
+        self.speed = speed
+        
+    def set_volume(self, volume):
+        self.volume = volume
+        
     def speak(self, text: str):
         """
         Speak the given text.
@@ -66,5 +81,7 @@ class Provider(TTSProvider):
         """
         generator = self.pipeline(text, voice=self.voice)
         for i, (gs, ps, audio) in enumerate(generator):
-            sd.play(audio, samplerate=24000)
+            #samples /= np.iinfo(np.int16).max # normalize -1 - 1
+            audio *= self.volume
+            sd.play(audio, samplerate=24000 * self.speed)
             sd.wait()

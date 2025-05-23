@@ -33,6 +33,18 @@ class TTSProvider:
     The languages this TTSProvider can use.
     If None, assume all languages.
     """
+    supports_speed: bool = True
+    """
+    Whether this TTSProvider supports speed.
+    """
+    supports_volume: bool = True
+    """
+    Whether this TTSProvider supports volume.
+    """
+    custom_text: str = ""
+    """
+    Custom text to show in the UI after the speed slider.
+    """
     
     _selected_voice: TTSVoice | None
     _selected_language: str | None
@@ -70,5 +82,19 @@ class TTSProvider:
         """
         Speak the given text.
         :param text: The text to speak.
+        """
+        pass
+    
+    def set_volume(self, volume: float):
+        """
+        Set the volume.
+        :param volume: The volume to set.
+        """
+        pass
+    
+    def set_speed(self, speed: float):
+        """
+        Set the speed.
+        :param speed: The speed to set.
         """
         pass
