@@ -197,6 +197,9 @@ class Plugin(ETS2LAPlugin):
     
     def load_settings(self):
         self.test_mode = self.settings.test_mode
+        if self.test_mode is None:
+            self.settings.test_mode = False
+            
         provider = self.settings.provider
         voice = self.settings.voice
         
