@@ -33,7 +33,7 @@ class Provider(TTSProvider):
             plugin.state.text = "Installing Kokoro..."
             os.system("pip install kokoro")
             plugin.state.text = "Loading Kokoro..."
-            from kokoro import KPipeline
+            from kokoro import KPipeline # If you get an error here then restart ETS2LA. Most likely already installed and your computer doesn't support hotplugging modules.
             
         plugin.state.reset()
         
