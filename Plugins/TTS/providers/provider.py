@@ -13,6 +13,11 @@ class TTSVoice:
     The id of this voice, if the engine
     needs it.
     """
+    
+    def __init__(self, name: str = "", language: str | None = None, id: str | None = None):
+        self.name = name
+        self.language = language
+        self.id = id
 
 class TTSProvider:
     name: str
@@ -32,7 +37,7 @@ class TTSProvider:
     _selected_voice: TTSVoice | None
     _selected_language: str | None
 
-    def initialize(self):
+    def initialize(self, plugin):
         """
         Initialize the TTSProvider.
         This is called when the provider is selected.

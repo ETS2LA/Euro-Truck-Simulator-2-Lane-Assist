@@ -17,7 +17,7 @@ class Provider(TTSProvider):
     voices = voices
     languages = None
     
-    def initialize(self):
+    def initialize(self, plugin):
         ...
         
     def select_voice(self, voice):
