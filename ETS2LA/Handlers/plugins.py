@@ -435,6 +435,8 @@ def find_plugins() -> list[Plugin]:
                 plugin_class = get_plugin_class(f"{plugin_path}.{folder}.main")
             except:
                 logging.warning(f"Failed to load plugin {folder}.")
+                import traceback
+                traceback.print_exc()
                 continue
             
             if plugin_class is not None:
