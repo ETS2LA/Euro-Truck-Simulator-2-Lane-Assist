@@ -209,17 +209,12 @@ class ETS2LAPlugin(object):
             time.sleep(1)
             
     def notify(self, text: str, type: Literal["info", "warning", "error", "success"] = "info"):
-        #self.immediate_queue.put({
-        #    "operation": "notify", 
-        #    "options": {
-        #        "text": text,
-        #        "type": type
-        #    }    
-        #})
-        #data = self.immediate_return_queue.get()
-        #self.immediate_return_queue.task_done()
-        #return data    
-        return {}
+        self.return_queue.put(PluginMessage(
+            Channel.NOTIFICATION, {
+                "text": text,
+                "type": type
+            }
+        ), block=False)
     
     def ask(self, text: str, options: list, description: str = "") -> str:
         #self.immediate_queue.put({

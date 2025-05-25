@@ -31,8 +31,5 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
-        city = self.globals.tags.merge(self.globals.tags.closest_city)
-        distance = self.globals.tags.merge(self.globals.tags.closest_city_distance)
-        country = self.globals.tags.merge(self.globals.tags.closest_country)
-
-        print(f"{city}, {country} ({distance/1000:.1f}km)")
+        self.notify("Test notification", "info")
+        time.sleep(5)

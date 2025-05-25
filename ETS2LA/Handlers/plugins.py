@@ -1,4 +1,5 @@
 from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage, Author
+from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Plugin.message import Channel, State
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
@@ -148,9 +149,13 @@ class Plugin:
             target=self.controls_updater,
             daemon=True
         ).start()
+        
+        threading.Thread(
+            target=self.notification_handler,
+            daemon=True
+        ).start()
 
         self.keep_alive()
-        
 
     def keep_alive(self) -> None:
         """Keep the process alive."""
@@ -234,7 +239,7 @@ class Plugin:
                         self.state["progress"] = message.data["progress"]
                         self.state["status"] = message.data["status"]
             
-            time.sleep(0.01)
+            time.sleep(0.1)
             
     def page_handler(self):
         while True:
@@ -248,6 +253,21 @@ class Plugin:
                         self.pages[url] = data
 
             time.sleep(0.01)
+            
+    def notification_handler(self):
+        while True:
+            if Channel.NOTIFICATION in self.stack:
+                while self.stack[Channel.NOTIFICATION]:
+                    message = self.stack[Channel.NOTIFICATION].popitem()[1]
+                    if "text" in message.data and "type" in message.data:
+                        text = message.data["text"]
+                        type_ = message.data["type"]
+                        notifications.sonner(
+                            text=Translate(text, return_original=True),
+                            type=type_
+                        )
+                        
+            time.sleep(0.1)
     
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
