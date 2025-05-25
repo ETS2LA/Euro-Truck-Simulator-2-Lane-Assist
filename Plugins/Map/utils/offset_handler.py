@@ -154,7 +154,13 @@ def update_offset_config_generic(operation="add", allow_override=False):
 
     # Save configuration
     if updated:
+        # Clean invalid offset values from the configuration
         config = _clean_invalid_offsets(config)
+
+        # Sort per_name and rules before writing
+        config['offsets']['per_name'] = dict(sorted(config['offsets']['per_name'].items()))
+
+        # Open the configuration file in write mode and save the updated configuration
         with open(CONFIG_PATH, 'w') as f:
             json.dump(config, f, indent=4)
             
@@ -347,7 +353,7 @@ def generate_rules(config):
     matched_with_same_offset = set()
     
     # Generate rules in two rounds
-    for word_count in [3, 2]:
+    for word_count in [2, 3]:
         if not unmatched:
             break
             
@@ -389,6 +395,7 @@ def generate_rules(config):
     # Update rules in config
     rules.clear()
     rules.update(final_rules)
+    rules = dict(sorted(rules.items(), key=lambda item: (item[0], abs(item[1]))))  # Sort by alpha order and then by absolute value
     
     # Remove entries with same offset that are also in per_name
     to_remove = matched_with_same_offset & set(per_name.keys())
@@ -403,14 +410,19 @@ def generate_rules(config):
             json.dump(config, f, indent=4)
     return config
 
-def clear_lane_offsets():
+def clear_lane_offsets(clear):
     """Clear all lane offsets from the config"""
     logger.warning("Clearing all lane offsets")
 
     with open(CONFIG_PATH, 'r') as f:
         config = json.load(f)
-        config['offsets']['per_name'] = {}
-        config['offsets']['rules'] = {}  # Clear rules as well
+        if clear == "rules":
+            # Clear only rules
+            config['offsets']['rules'] = {}
+            logger.warning("Cleared all rules")
+        else:
+            config['offsets']['per_name'] = {}
+            logger.warning("Cleared all per_name")
     
     # Ensure no invalid values before saving config
     config = _clean_invalid_offsets(config)
@@ -445,10 +457,5 @@ def update_offset_config():
     time.sleep(3)
     update_offset_config_sub()
     logger.warning("Subtraction operation completed")
-    logger.warning("Generating rules")
-    with open(CONFIG_PATH, 'r') as f:
-        config = json.load(f)
-    generate_rules(config)
-    logger.warning(f"Skip roads: {_skip_roads}")
     map_main.Plugin.update_road_data(self=True)
 

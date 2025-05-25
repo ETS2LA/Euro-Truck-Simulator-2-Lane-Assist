@@ -122,10 +122,31 @@ class Plugin(ETS2LAPlugin):
             updating_offset_config = False
             return False  
         
+    def generate_rules(self):
+        global updating_rules_config
+        updating_rules_config = True
+        from Plugins.Map.utils import offset_handler
+        try:
+            with open(offset_handler.CONFIG_PATH, 'r') as f:
+                config = json.load(f)
+            
+            if offset_handler.generate_rules(config):
+                logging.info("The rules configuration has been generated, and the data is being reloaded...")
+                updating_rules_config = False
+                return True
+            else:
+                logging.info("No need to generate the rules configuration.")
+                updating_rules_config = False
+                return False
+        except Exception as e:
+            logging.error(f"Failed to generate the rules configuration: {str(e)}")
+            updating_rules_config = False
+            return False
+        
     def clear_lane_offsets(self):
         from Plugins.Map.utils import offset_handler
         try:
-            if offset_handler.clear_lane_offsets():
+            if offset_handler.clear_lane_offsets(clear=""):
                 logging.info("The lane offset has been cleared.")
                 return True
             else:
@@ -133,6 +154,18 @@ class Plugin(ETS2LAPlugin):
                 return False
         except Exception as e:
             logging.error(f"Failed to clear the lane offset: {str(e)}")
+            return False
+    def clear_rules(self):
+        from Plugins.Map.utils import offset_handler
+        try:
+            if offset_handler.clear_lane_offsets(clear="rules"):
+                logging.info("The rules configuration has been cleared.")
+                return True
+            else:
+                logging.info("No rules configuration to clear.")
+                return False
+        except Exception as e:
+            logging.error(f"Failed to clear the rules configuration: {str(e)}")
             return False
 
     def trigger_data_update(self):
