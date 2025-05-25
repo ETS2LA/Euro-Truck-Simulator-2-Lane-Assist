@@ -20,7 +20,7 @@ logger.setLevel(logging.INFO)
 
 # Create file handler
 log_file = os.path.join(LOG_PATH, "offset_handler.log")
-file_handler = logging.FileHandler(log_file, encoding='utf-8')
+file_handler = logging.FileHandler(log_file, mode="w", encoding='utf-8')
 file_handler.setLevel(logging.INFO)
 
 # Set log format
@@ -128,7 +128,6 @@ def update_offset_config_generic(operation="add", allow_override=False):
     # Save configuration
     if updated:
         config = _clean_invalid_offsets(config)
-        generate_rules(config)
         with open(CONFIG_PATH, 'w') as f:
             json.dump(config, f, indent=4)
             
@@ -240,89 +239,123 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
     return False
 
 def generate_rules(config):
-    """Generate rules based on patterns in per_name offsets"""
+    """Generate rules based on patterns in per_name offsets and skip_roads"""
     
     per_name = config['offsets']['per_name']
-    rules = config['offsets']['rules']
+    rules = config['offsets'].setdefault('rules', {})
     
-    # 用于存储每种模式对应的偏移值
-    pattern_offsets = {}
+    logger.warning(f"Starting rule generation, current per_name entries: {len(per_name)}")
     
-    # 生成 ** 和 *** 模式
-    for name, offset in per_name.items():
-        # 跳过无效的offset值
-        if not isinstance(offset, (int, float)) or math.isnan(offset) or math.isinf(offset):
-            logger.warning(f"Skipping invalid offset value for {name}: {offset}")
-            continue
+    # Add skip roads with their actual offsets from GetOffset
+    skip_road_offsets = {}
+    for name in _skip_roads:
+        # Create a mock road object for GetOffset
+        mock_road = type('Road', (), {
+            'road_look': type('RoadLook', (), {
+                'name': name,
+                'offset': 0  # default offset
+            })
+        })()
+        from Plugins.Map.utils.road_helpers import GetOffset
+        skip_road_offsets[name] = GetOffset(mock_road)
+    
+    combined_roads = {**per_name, **skip_road_offsets}
+    logger.warning(f"Skip roads with offsets: {skip_road_offsets}")
+    logger.warning(f"Added {len(_skip_roads)} skip roads with their calculated offsets")
+    
+    def _get_most_common_offset(offset_counts):
+        """Get the most common offset with highest count"""
+        if not offset_counts:
+            return None, 0
+        max_offset = max(offset_counts.items(), key=lambda x: (x[1], -abs(x[0])))  # Prefer smaller absolute values
+        return max_offset[0], max_offset[1]
 
-        # 生成 ** 模式
-        words = name.split()
-        for word in words:
-            pattern_double_star = f"**{word}"
-            if pattern_double_star not in pattern_offsets:
-                pattern_offsets[pattern_double_star] = set()
-            pattern_offsets[pattern_double_star].add(offset)
+    def generate_patterns(names_dict, word_count):
+        """Generate patterns with specified word count"""
+        pattern_map = {}
+        for name, offset in names_dict.items():
+            if not _is_valid_offset(offset):
+                continue
+            
+            words = name.split()
+            if len(words) >= word_count:
+                # 只取最后 word_count 个词生成模式
+                pattern = f"**{' '.join(words[-word_count:])}"
+                if pattern not in pattern_map:
+                    pattern_map[pattern] = {}
+                pattern_map[pattern][offset] = pattern_map[pattern].get(offset, 0) + 1
+        return pattern_map
 
-        # 生成 *** 模式
-        for i in range(len(words)):
-            end_part = " ".join(words[i:])
-            pattern_triple_star = f"***{end_part}"
-            if pattern_triple_star not in pattern_offsets:
-                pattern_offsets[pattern_triple_star] = set()
-            pattern_offsets[pattern_triple_star].add(offset)
+    def _is_number_only(pattern):
+        """Check if pattern only contains numbers (excluding **)"""
+        suffix = pattern[3:]  # Remove ** prefix
+        # Remove spaces and check if remaining chars are digits
+        return suffix.replace(" ", "").isdigit()
 
-    # 过滤出所有偏移值相同的模式
-    valid_patterns = {}
-    for pattern, offsets in pattern_offsets.items():
-        if len(offsets) == 1:
-            valid_patterns[pattern] = offsets.pop()
-
-    # 确保 ** 和 *** 规则不冲突，优先保留 *** 规则
+    # Process rules with combined roads
+    unmatched = dict(combined_roads)
     final_rules = {}
-    for pattern, offset in valid_patterns.items():
-        if pattern.startswith("***"):
-            # 检查规则是否与 per_name 完全相同
-            if not any(name.endswith(pattern[3:]) and per_name[name] == offset for name in per_name):
-                final_rules[pattern] = offset
-        else:
-            conflict = False
-            for triple_star_pattern in [p for p in valid_patterns if p.startswith("***")]:
-                if pattern[2:] in triple_star_pattern[3:]:
-                    conflict = True
+    matched_with_same_offset = set()
+    
+    # 进行两轮规则生成
+    for word_count in [3, 2]:
+        if not unmatched:
+            break
+            
+        patterns = generate_patterns(unmatched, word_count)
+        if not patterns:
+            continue
+            
+        logger.warning(f"Round {word_count}: Generated {len(patterns)} patterns")
+        
+        # Find best patterns
+        round_rules = {}
+        for pattern, offset_counts in patterns.items():
+            if _is_number_only(pattern):
+                logger.warning(f"Skipping number-only pattern: {pattern}")
+                continue
+                
+            offset, count = _get_most_common_offset(offset_counts)
+            if offset is not None and count >= 2:  # 至少要有2个匹配才生成规则
+                round_rules[pattern] = offset
+                logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}")
+        
+        # Apply rules and update unmatched
+        matched = set()
+        for name, offset in unmatched.items():
+            words = name.split()
+            for pattern, rule_offset in round_rules.items():
+                pattern_text = pattern[2:]  # 去掉'**'前缀
+                # 检查模式是否在名称末尾匹配
+                if name.endswith(pattern_text) and abs(rule_offset - offset) < 0.01:
+                    matched.add(name)
+                    matched_with_same_offset.add(name)
                     break
-            if not conflict:
-                # 检查规则是否与 per_name 完全相同
-                if not any(pattern[2:] in name and per_name[name] == offset for name in per_name):
-                    final_rules[pattern] = offset
+        
+        final_rules.update(round_rules)
+        unmatched = {name: offset for name, offset in unmatched.items() if name not in matched}
+        logger.warning(f"Round {word_count} complete - Matched: {len(matched)}, Same offset matches: {len(matched_with_same_offset)}")
 
-    # 删除能被规则表示的 per_name 路段
-    per_name_to_remove = []
-    for name, offset in per_name.items():
-        for pattern, rule_offset in final_rules.items():
-            if pattern.startswith("**") and pattern[2:] in name and rule_offset == offset:
-                per_name_to_remove.append(name)
-                break
-            elif pattern.startswith("***") and name.endswith(pattern[3:]) and rule_offset == offset:
-                per_name_to_remove.append(name)
-                break
-
-    for name in per_name_to_remove:
-        del per_name[name]
-
-    # 更新规则
+    # Update rules in config
+    rules.clear()
     rules.update(final_rules)
-    config['offsets']['rules'] = rules
-
-    # 打印前检查规则的有效性
-    valid_rules = {k: v for k, v in rules.items() if isinstance(v, (int, float)) and not math.isnan(v) and not math.isinf(v)}
-    logger.warning(f"Generated valid rules: {valid_rules}")
-    logging.warning(f"Generated valid rules: {valid_rules}")
+    
+    # 只移除具有相同偏移值的匹配项
+    to_remove = matched_with_same_offset & set(per_name.keys())
+    for name in to_remove:
+        del per_name[name]
+    
+    logger.warning(f"Rule generation complete - Total rules: {len(final_rules)}")
+    logger.warning(f"Matched entries with same offset: {len(matched_with_same_offset)}, Removed from per_name: {len(to_remove)}")
+    logger.warning(f"Entries removed from per_name: {to_remove}")
+    
+    with open(CONFIG_PATH, 'w') as f:
+            json.dump(config, f, indent=4)
     return config
 
 def clear_lane_offsets():
     """Clear all lane offsets from the config"""
     logger.warning("Clearing all lane offsets")
-    logging.warning("Clearing all lane offsets")
 
     with open(CONFIG_PATH, 'r') as f:
         config = json.load(f)
@@ -335,7 +368,6 @@ def clear_lane_offsets():
         json.dump(config, f, indent=4)
     
     logger.warning("Cleared all lane offsets")
-    logging.warning("Cleared all lane offsets")
     map_main.Plugin.update_road_data(self=True)
 
 def update_offset_config_add():
@@ -349,26 +381,24 @@ def update_offset_config_sub():
 def update_offset_config():
     override = data.override_lane_offsets
     logger.warning("Override lane offsets: %s", override)
-    logging.warning("Override lane offsets: %s", override)
     map_main.Plugin.update_road_data(self=True)
     logger.warning("Timeout for 3 seconds to allow for road data update")
-    logging.warning("Timeout for 3 seconds to allow for road data update")
     time.sleep(3)
     # Perform subtraction operation and update configuration
     update_offset_config_add()
     logger.warning("Subtraction operation completed")
-    logging.warning("Subtraction operation completed")
     # Call update_road_data and wait for completion
     map_main.Plugin.update_road_data(self=True)
     logger.warning("update_road_data completed")
-    logging.warning("update_road_data completed")
     # Perform addition operation (at this point road_helpers.GetOffset will get the new value after subtraction)
     logger.warning("Timeout for 3 seconds to allow for road data update")
-    logging.warning("Timeout for 3 seconds to allow for road data update")
     time.sleep(3)
     update_offset_config_sub()
     logger.warning("Addition operation completed")
-    logging.warning("Addition operation completed")
+    logger.warning("Generating rules")
+    with open(CONFIG_PATH, 'r') as f:
+        config = json.load(f)
+    generate_rules(config)
     logger.warning(f"Skip roads: {_skip_roads}")
     map_main.Plugin.update_road_data(self=True)
 
