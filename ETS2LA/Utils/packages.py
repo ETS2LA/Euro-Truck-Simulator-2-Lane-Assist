@@ -22,8 +22,11 @@ library_urls = {
     }
 }
 
+# This was used to check the version of ultralytics a while back.
+# It's no longer used in ETS2LA but we'll keep the code here if
+# we need to check for malicious packages in the future.
 malicious_packages = {
-    "ultralytics": ["8.3.41", "8.3.42", "8.3.45", "8.3.46"]
+
 }
 
 def CheckForMaliciousPackages():

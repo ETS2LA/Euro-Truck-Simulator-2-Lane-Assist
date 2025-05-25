@@ -44,13 +44,6 @@ enable_disable = ControlEvent(
     default="n"
 )
 
-toggle_navigate = ControlEvent(
-    "toggle_navigate",
-    "Toggle Navigation",
-    "button",
-    description="Quickly toggle Navigate on ETS2LA on/off."
-)
-
 class Plugin(ETS2LAPlugin):
     author = [Author(
         name="Tumppi066",
@@ -72,7 +65,7 @@ class Plugin(ETS2LAPlugin):
     )
     last_dest_company = None 
     
-    controls = [enable_disable, toggle_navigate]
+    controls = [enable_disable]
     
     fps_cap = 20
     pages = [SettingsMenu]
@@ -190,14 +183,6 @@ class Plugin(ETS2LAPlugin):
         data.enabled = not data.enabled
         Play("start" if data.enabled else "end")
         self.globals.tags.status = {"Map": data.enabled}
-        
-    @events.on("toggle_navigate")
-    def on_toggle_navigate(self, state:bool):
-        if not state:
-            return # release event
-        
-        data.use_navigation = not data.use_navigation
-        self.settings.UseNavigation = data.use_navigation
         
     @events.on("JobFinished")
     def JobFinished(self, *args, **kwargs):

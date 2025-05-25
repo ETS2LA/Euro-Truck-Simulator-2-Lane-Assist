@@ -46,11 +46,10 @@ class Plugin(ETS2LAPlugin):
     
 
     def imports(self):
-        global Controller, np, screeninfo, pyautogui, torch, json, cv2, os
+        global Controller, np, screeninfo, torch, json, cv2, os
         from Modules.SDKController.main import SCSController as Controller
         import numpy as np
         import screeninfo
-        import pyautogui
         import torch
         import json
         import cv2

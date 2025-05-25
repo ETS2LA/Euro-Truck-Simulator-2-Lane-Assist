@@ -4,6 +4,10 @@
 #
 #       Better now?
 #     - Glas42
+#     
+#       Yes, ty!
+#     - Tumppi066
+
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Utils.Console.visibility as console
 import ETS2LA.variables as variables

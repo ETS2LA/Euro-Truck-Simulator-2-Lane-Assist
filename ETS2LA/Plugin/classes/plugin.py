@@ -36,9 +36,7 @@ class ETS2LAPlugin(object):
     :param Plugins plugins: Interactions with other plugins.
     
     Functions:
-        **notify(text: str, type: str)** - Show a notification in the frontend.\n
-        **ask(text: str, options: list, description: str)** - Show a question in the frontend.\n
-        **dialog(dialog: object)** - Show a dialog in the frontend.
+        **notify(text: str, type: str)** - Show a notification in the frontend.
     """
     path: str
 
@@ -215,29 +213,6 @@ class ETS2LAPlugin(object):
                 "type": type
             }
         ), block=False)
-    
-    def ask(self, text: str, options: list, description: str = "") -> str:
-        #self.immediate_queue.put({
-        #    "operation": "ask", 
-        #    "options": {
-        #        "text": text,
-        #        "description": description,
-        #        "options": options
-        #    }
-        #})
-        #return self.immediate_return_queue.get()["response"]
-        return ""
-
-    def dialog(self, dialog: object) -> dict:
-        # self.immediate_queue.put({
-        #     "operation": "dialog", 
-        #     "options": {
-        #         "dialog": dialog.build(), # type: ignore
-        #         "no_response": False
-        #     }
-        # })
-        # return self.immediate_return_queue.get()
-        return {}
             
     def before(self) -> None:
         self.plugin_run_start_time = time.perf_counter()

@@ -142,8 +142,13 @@ class PluginProcess:
     def listener(self) -> None:
         """Send all messages into the stack."""
         while True:
-            try: message: PluginMessage = self.queue.get(timeout=1)
-            except: time.sleep(0.001); continue
+            while self.queue.empty():
+                time.sleep(0.001)
+            
+            try:
+                message: PluginMessage = self.queue.get(timeout=1)
+            except: time.sleep(0.01); continue
+            
             # Handle the message based on the channel
             match message.channel:
                 case Channel.GET_DESCRIPTION:
@@ -219,7 +224,6 @@ class PluginProcess:
                         if self.last_dictionaries[url] == dictionary:
                             continue
                     
-                    print(f"Page {url} updated.")
                     self.last_dictionaries[url] = dictionary
                     message = PluginMessage(
                         Channel.UPDATE_PAGE, {
@@ -445,10 +449,6 @@ class Function(ChannelHandler):
             if "args" in kwargs:
                 args = kwargs["args"]
                 del kwargs["args"]
-                
-            print(f"Function: {func}")
-            print(f"Args: {args}")
-            print(f"Kwargs: {kwargs}")
             
             # Extract the function
             function = func.split(".")[-1]
@@ -462,7 +462,6 @@ class Function(ChannelHandler):
                 for p in self.plugin.pages:
                     # Get the page object name (ie. Settings, Page, etc.)
                     page_object = p.__class__.__name__
-                    print(f"Page object: {page_object}")
                     if page_object == object:
                         page = p
                         break

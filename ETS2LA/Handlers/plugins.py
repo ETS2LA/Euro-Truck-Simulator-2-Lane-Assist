@@ -174,7 +174,8 @@ class Plugin:
                     target=stop_plugin,
                     kwargs={
                         "description": self.description
-                    }
+                    },
+                    daemon=True
                 ).start()
                 continue
             

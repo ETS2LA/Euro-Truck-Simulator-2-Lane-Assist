@@ -115,6 +115,6 @@ def run() -> None:
         cloud.Ping()
             
         frame_counter += 1
-        
+
 if __name__ == "__main__":
     run() # Start the main loop

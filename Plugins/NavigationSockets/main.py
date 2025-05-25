@@ -241,7 +241,7 @@ class Plugin(ETS2LAPlugin):
         TruckSimAPI = self.modules.TruckSimAPI
         TruckSimAPI.TRAILER = True
         
-        socket = threading.Thread(target=self.run_server_thread)
+        socket = threading.Thread(target=self.run_server_thread, daemon=True)
         socket.start()
         
         print("Navigation sockets waiting for client...")
