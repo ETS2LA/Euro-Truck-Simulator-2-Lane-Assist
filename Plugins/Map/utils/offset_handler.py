@@ -286,22 +286,23 @@ def generate_rules(config):
     
     logger.warning(f"Starting rule generation, current per_name entries: {len(per_name)}")
     
-    # Add skip roads with their actual offsets from GetOffset
-    skip_road_offsets = {}
-    for name in _skip_roads:
+    # Add all roads with their actual offsets from GetOffset
+    all_road_offsets = {}
+    for road in data.map.roads:
+        if not hasattr(road, 'road_look') or not road.road_look:
+            continue
+            
         # Create a mock road object for GetOffset
         mock_road = type('Road', (), {
             'road_look': type('RoadLook', (), {
-                'name': name,
-                'offset': 0  # default offset
+                'name': road.road_look.name,
+                'offset': road.road_look.offset  # use actual offset
             })
         })()
-        from Plugins.Map.utils.road_helpers import GetOffset
-        skip_road_offsets[name] = GetOffset(mock_road)
+        all_road_offsets[road.road_look.name] = road_helpers.GetOffset(mock_road)
     
-    combined_roads = {**per_name, **skip_road_offsets}
-    logger.warning(f"Skip roads with offsets: {skip_road_offsets}")
-    logger.warning(f"Added {len(_skip_roads)} skip roads with their calculated offsets")
+    combined_roads = {**per_name, **all_road_offsets}
+    logger.warning(f"Total roads with offsets: {len(combined_roads)}")
     
     def _get_most_common_offset(offset_counts):
         """Get the most common offset with highest count"""
@@ -371,10 +372,11 @@ def generate_rules(config):
                 continue
                 
             offset, count = _get_most_common_offset(offset_counts)
-            # 仅当所有匹配项的偏移值都相同时才生成规则
-            if offset is not None and count == len(offset_counts):
+            # Change to 80% match
+            match_threshold = 0.8
+            if offset is not None and count / len(offset_counts) >= match_threshold:
                 round_rules[pattern] = offset
-                logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}")
+                logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}, Total: {len(offset_counts)}")
         
         # Apply rules and update unmatched
         matched = set()
