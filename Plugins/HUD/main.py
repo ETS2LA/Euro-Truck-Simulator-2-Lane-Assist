@@ -4,7 +4,7 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
 from Plugins.Map.classes import *
 from Plugins.AR.classes import *
-from Modules.Semaphores.classes import TrafficLight, Semaphore
+from Modules.Semaphores.classes import TrafficLight
 import ETS2LA.Utils.settings as settings
 
 # General imports

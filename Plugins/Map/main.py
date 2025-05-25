@@ -13,7 +13,6 @@ import Plugins.Map.utils.data_handler as data_handler
 import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
 
-from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables

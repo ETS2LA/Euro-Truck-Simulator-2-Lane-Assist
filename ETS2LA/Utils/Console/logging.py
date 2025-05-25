@@ -14,7 +14,6 @@ import logging
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Utils.settings as settings
-from ETS2LA.variables import DEVELOPMENT_MODE
 
 import os
 

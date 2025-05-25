@@ -1,6 +1,5 @@
 from ETS2LA.Networking.cloud import GetUserCount, GetUserTime, GetUniqueUsers, token, user_id, GetUsername
 from ETS2LA.UI.utils import SendPopup
-from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue

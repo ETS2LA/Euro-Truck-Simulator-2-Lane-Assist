@@ -3,10 +3,7 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
 import ETS2LA.Utils.settings as settings
-import ETS2LA.variables as variables
 import Plugins.Map.data as data
-
-import json
 
 class SettingsMenu(ETS2LAPage):
     url = "/settings/map"

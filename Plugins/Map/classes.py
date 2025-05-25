@@ -7,7 +7,6 @@ import time
 import json
 
 # Import dictionary utilities with fallback to mocks for testing
-from ETS2LA.Utils.Values.dictionaries import get_nested_item, set_nested_item
 import ETS2LA.variables as variables
 
 from Plugins.Map.utils import prefab_helpers

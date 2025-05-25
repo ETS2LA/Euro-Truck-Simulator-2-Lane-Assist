@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from typing import Optional, Literal
-import json
 
 
 @dataclass

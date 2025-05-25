@@ -2,7 +2,6 @@ from multiprocessing import Queue
 from types import ModuleType
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
-from ETS2LA.Utils.functions import resolve_function_from_path
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
@@ -143,7 +142,7 @@ class PluginProcess:
         """Send all messages into the stack."""
         while True:
             while self.queue.empty():
-                time.sleep(0.001)
+                time.sleep(0.01)
             
             try:
                 message: PluginMessage = self.queue.get(timeout=1)

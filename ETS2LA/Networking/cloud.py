@@ -1,7 +1,7 @@
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Events.classes as classes
 import ETS2LA.variables as variables
-from typing import Literal, Any
+from typing import Literal
 import requests
 import logging
 import json

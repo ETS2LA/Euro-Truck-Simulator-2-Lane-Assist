@@ -2,16 +2,9 @@
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
-
-# ETS2LA imports
-from ETS2LA.Networking.cloud import SendCrashReport
-import ETS2LA.Handlers.controls as controls
-import ETS2LA.Utils.settings as settings
 from ETS2LA.Utils.Console.logging import logging
-import ETS2LA.variables as variables
 
 # Python imports
-from typing import cast
 import math
 import time
 

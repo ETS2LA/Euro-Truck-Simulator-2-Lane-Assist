@@ -5,7 +5,6 @@
 # TODO: Use the ETS2 and ATS registry keys directly!
 
 import logging
-import json
 import vdf
 import os
 try:

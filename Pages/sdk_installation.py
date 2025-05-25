@@ -1,9 +1,7 @@
-from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Utils.Game import path as game
-import ETS2LA.Handlers.sounds as sounds 
 from tkinter import filedialog
 
 import logging

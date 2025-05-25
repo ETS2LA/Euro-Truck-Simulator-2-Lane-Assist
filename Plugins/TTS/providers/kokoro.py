@@ -1,6 +1,5 @@
 from Plugins.TTS.providers.provider import TTSProvider, TTSVoice
 import sounddevice as sd
-import numpy as np
 import os
 
 # Manually defining only the best voices.

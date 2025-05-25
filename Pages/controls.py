@@ -1,11 +1,6 @@
-from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.translator import Translate
-import ETS2LA.Utils.translator as translator
-
 from ETS2LA.Handlers.controls import get_event_information_dictionary, edit_event, unbind_event, event_information_update
-import json
 
 class Control:
     alias: str = ""

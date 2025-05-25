@@ -1,4 +1,3 @@
-from ETS2LA.Utils.functions import resolve_function_from_path
 from ETS2LA.Handlers.pages import get_page, get_urls, get_page_names, page_function_call
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.variables as variables 

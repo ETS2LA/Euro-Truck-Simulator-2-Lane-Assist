@@ -137,7 +137,12 @@ def ets2la_process(exception_queue: Queue) -> None:
         
         if "--dev" in sys.argv:
             print(f"{PURPLE}{Translate('main.development_mode')}{END}\n")
-        
+        else:
+            # Update translations
+            EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
+                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
+                      download_updates=True)
+            
         if "--local" in sys.argv:
             did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=False if "--dev" in sys.argv else True,
                                                cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")

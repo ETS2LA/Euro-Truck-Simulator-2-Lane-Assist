@@ -7,7 +7,6 @@ from ETS2LA.Utils.Console.colors import *
 from ETS2LA.Utils.network import DownloadFile
 from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Utils.settings as settings 
-import requests
 import zipfile
 import shutil
 import time

@@ -1,5 +1,4 @@
 from Plugins.TTS.providers.provider import TTSProvider, TTSVoice
-from ETS2LA.Controls import ControlEvent
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *

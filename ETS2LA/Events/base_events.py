@@ -2,16 +2,11 @@ from ETS2LA.UI import *
 
 from ETS2LA.Events.classes import Job, CancelledJob, FinishedJob, Refuel
 from Modules.SDKController.main import SCSController
-from ETS2LA.Utils.translator import Translate
-from ETS2LA.Utils.Values.numbers import SmoothedValue
 import ETS2LA.Events.log_reader as log_reader
 from ETS2LA.Networking.Servers.notifications import dialog
-import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Networking.cloud as cloud
-import ETS2LA.Handlers.sounds as sounds
 import Modules.TruckSimAPI.main as API
-from typing import Any
 import threading
 import logging
 import time

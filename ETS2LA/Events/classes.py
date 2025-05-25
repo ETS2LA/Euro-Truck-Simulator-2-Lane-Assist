@@ -1,4 +1,3 @@
-from types import SimpleNamespace
 from pydantic import BaseModel
 from typing import Literal
 import time

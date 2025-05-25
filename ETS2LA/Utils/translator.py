@@ -1,7 +1,6 @@
 from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
-import hashlib
 import logging
 import yaml
 import ftfy
@@ -12,7 +11,7 @@ FRONTEND_DATA_FOLDER = "Interface/translations"
 
 EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
                       cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
-                      download_updates=not variables.DEVELOPMENT_MODE)
+                      download_updates=False)
 
 FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".yaml")]
 FILES.remove("keys.yaml")

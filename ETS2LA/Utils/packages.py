@@ -7,7 +7,6 @@ import requests
 import zipfile
 import shutil
 import tqdm
-import sys
 import os
 
 library_path = "ETS2LA/Assets/Libraries/"

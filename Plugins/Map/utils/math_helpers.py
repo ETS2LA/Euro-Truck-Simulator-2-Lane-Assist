@@ -1,7 +1,6 @@
 from typing import Literal
 from scipy.spatial.transform import Rotation as R
 import numpy as np
-import logging
 import math
 
 def DistanceBetweenPoints(p1: tuple[float, float] | tuple[float, float, float], p2: tuple[float, float] | tuple[float, float, float]) -> float:

@@ -21,7 +21,6 @@ from ETS2LA.UI import SendPopup
 import multiprocessing
 import threading
 
-import dearpygui.dearpygui as dpg
 from pynput import keyboard as pynput_keyboard
 import threading
 

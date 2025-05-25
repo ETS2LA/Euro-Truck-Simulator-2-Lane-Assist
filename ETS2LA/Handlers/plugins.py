@@ -4,6 +4,7 @@ from ETS2LA.Plugin.message import Channel, State
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.Handlers import controls
+from ETS2LA import variables
 
 import multiprocessing
 import threading
@@ -11,9 +12,6 @@ import threading
 import logging
 import time
 import os
-
-if os.name == "nt":
-    import ctypes
 
 search_folders: list[str] = [
     "Plugins"
@@ -118,16 +116,21 @@ class Plugin:
         message = self.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
         if message is None:
             logging.error(f"Plugin {folder} failed to start: Timeout.")
-            self.stop = True
-            quit(1)
+            self.remove()
+            return
         
         if message.data != {}:
             logging.error(f"Plugin {folder} failed to start: {message.data}")
-            self.stop = True
-            quit(1)
+            self.remove()
+            return
         
         plugins.append(self)
         self.get_description()
+        
+        if (self.description.hidden or "Base" not in self.description.tags) and not variables.DEVELOPMENT_MODE:
+            self.remove()
+            return
+        
         self.get_controls()
         
         threading.Thread(
@@ -166,6 +169,9 @@ class Plugin:
     def listener(self):
         """Send all messages into the stack."""
         while True:
+            while self.return_queue.empty():
+                time.sleep(0.01)
+                
             try: message: PluginMessage = self.return_queue.get(timeout=1)
             except: time.sleep(0.01); continue
             
@@ -286,6 +292,19 @@ class Plugin:
         message = self.stack[channel].pop(id)
         return message
     
+    def remove(self) -> None:
+        """Remove the current plugin"""
+        self.stop = True
+        plugins.remove(self)
+        try:
+            self.process.kill()
+            self.process.join()
+            self.process.close()
+            self.process = None
+        except: pass
+        quit(1)
+        return
+    
     def get_description(self) -> PluginDescription:
         """Get the plugin description from the plugin process."""
         message = PluginMessage(
@@ -295,14 +314,11 @@ class Plugin:
         response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
         if response is None:
             logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
-            self.stop = True
-            plugins.remove(self)
-            quit(1)
+            self.remove()
+            
         if response.state == State.ERROR:
             logging.error(f"Plugin {self.folder} failed to get description: {response.data}")
-            plugins.remove(self)
-            self.stop = True
-            quit(1)
+            self.remove()
             
         self.description, self.authors = response.data
         return response.data
@@ -316,14 +332,11 @@ class Plugin:
         response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
         if response is None:
             logging.error(f"Plugin {self.folder} failed to get controls: Timeout.")
-            self.stop = True
-            plugins.remove(self)
-            quit(1)
+            self.remove()
+            
         if response.state == State.ERROR:
             logging.error(f"Plugin {self.folder} failed to get controls: {response.data}")
-            plugins.remove(self)
-            self.stop = True
-            quit(1)
+            self.remove()
             
         self.controls = response.data
         for control in self.controls:
@@ -359,8 +372,6 @@ def create_processes() -> None:
 def run() -> None:
     discover_plugins()
     threading.Thread(target=create_processes, daemon=True).start()
-    
-    
     
     
 # MARK: Plugin Matching

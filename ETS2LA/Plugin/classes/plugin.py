@@ -10,7 +10,6 @@ from ETS2LA.UI import *
 from ETS2LA.Controls import ControlEvent
 
 from multiprocessing import Queue
-import threading
 import importlib
 
 from types import SimpleNamespace

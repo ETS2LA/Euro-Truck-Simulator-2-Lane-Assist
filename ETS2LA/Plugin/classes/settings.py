@@ -1,6 +1,5 @@
 import logging
 import json
-import time
 import os
 
 class Settings(object):

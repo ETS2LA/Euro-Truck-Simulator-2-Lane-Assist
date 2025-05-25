@@ -1,5 +1,3 @@
-import mmap
-import struct
 import keyboard
 
 # https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp

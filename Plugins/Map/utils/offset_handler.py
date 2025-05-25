@@ -1,4 +1,3 @@
-import Modules.TruckSimAPI as api
 import json
 import math
 import os

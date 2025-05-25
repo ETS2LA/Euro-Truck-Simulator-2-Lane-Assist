@@ -1,6 +1,5 @@
 import Plugins.Map.utils.math_helpers as math_helpers
 from Plugins.Map.navigation.classes import RouteNode
-import Plugins.Map.utils.prefab_helpers as ph
 import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.utils.node_helpers as nh
 import ETS2LA.Handlers.sounds as sounds

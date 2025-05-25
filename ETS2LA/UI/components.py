@@ -4,7 +4,6 @@ import ETS2LA.UI.styles as styles
 from collections.abc import Callable
 from typing import Literal
 import inspect
-import json
 
 dictionary: list[dict] = []
 current_id: int = 0
