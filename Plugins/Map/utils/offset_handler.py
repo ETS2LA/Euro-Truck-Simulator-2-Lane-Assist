@@ -1,4 +1,9 @@
-import Modules.TruckSimAPI as api
+"""
+This module handles road offset configuration management for a truck simulation map.
+It provides functionality to calculate, validate, and update road offsets based on spatial relationships,
+with caching mechanisms and configurable thresholds.
+"""
+
 import json
 import math
 import os
@@ -50,14 +55,28 @@ _processed_roads = set()
 _skip_roads = set()
 
 def _is_valid_offset(offset):
-    """Validate if offset value is valid"""
+    """Validate if an offset value is within acceptable parameters.
+    
+    Args:
+        offset (int/float): Value to validate
+        
+    Returns:
+        bool: True if valid numerical value within [-1000, 1000] range
+    """
     return (isinstance(offset, (int, float)) 
             and not math.isnan(offset) 
             and not math.isinf(offset)
-            and -1000 < offset < 1000)  # Add reasonable range limit
+            and -1000 < offset < 1000)
 
 def _clean_invalid_offsets(config):
-    """Clean invalid offset values from configuration"""
+    """Remove invalid offset values from configuration.
+    
+    Args:
+        config (dict): Configuration dictionary
+        
+    Returns:
+        dict: Sanitized configuration with only valid offsets
+    """
     per_name = config['offsets']['per_name']
     # Filter invalid offset values
     valid_offsets = {
@@ -73,7 +92,15 @@ def _clean_invalid_offsets(config):
     return config
 
 def update_offset_config_generic(operation="add", allow_override=False):
-    """Generic offset configuration updater for both add/sub operations"""
+    """Main entry point for updating offset configurations.
+    
+    Args:
+        operation (str): 'add' or 'sub' for offset operations
+        allow_override (bool): Allow overriding existing offsets
+        
+    Returns:
+        bool: True if any updates were made
+    """
     prefix = "Sub: " if operation == "sub" else "Add: "
     
     # Clear caches
@@ -239,7 +266,14 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
     return False
 
 def generate_rules(config):
-    """Generate rules based on patterns in per_name offsets and skip_roads"""
+    """Generate pattern-based offset rules from per-name configurations.
+    
+    Args:
+        config (dict): Current configuration
+        
+    Returns:
+        dict: Modified configuration with generated rules
+    """
     
     per_name = config['offsets']['per_name']
     rules = config['offsets'].setdefault('rules', {})
@@ -271,7 +305,7 @@ def generate_rules(config):
         return max_offset[0], max_offset[1]
 
     def generate_patterns(names_dict, word_count):
-        """Generate patterns with specified word count"""
+        """Create wildcard patterns from road name suffixes."""
         pattern_map = {}
         for name, offset in names_dict.items():
             if not _is_valid_offset(offset):
@@ -279,7 +313,7 @@ def generate_rules(config):
             
             words = name.split()
             if len(words) >= word_count:
-                # 只取最后 word_count 个词生成模式
+                # Take last 'word_count' words to create pattern
                 pattern = f"**{' '.join(words[-word_count:])}"
                 if pattern not in pattern_map:
                     pattern_map[pattern] = {}
