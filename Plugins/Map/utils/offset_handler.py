@@ -350,7 +350,8 @@ def generate_rules(config):
                 continue
                 
             offset, count = _get_most_common_offset(offset_counts)
-            if offset is not None and count >= 2:  # 至少要有2个匹配才生成规则
+            # 仅当所有匹配项的偏移值都相同时才生成规则
+            if offset is not None and count == len(offset_counts):
                 round_rules[pattern] = offset
                 logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}")
         
