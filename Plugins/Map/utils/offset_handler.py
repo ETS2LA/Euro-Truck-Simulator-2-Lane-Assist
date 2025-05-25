@@ -305,7 +305,15 @@ def generate_rules(config):
         return max_offset[0], max_offset[1]
 
     def generate_patterns(names_dict, word_count):
-        """Create wildcard patterns from road name suffixes."""
+        """Create wildcard patterns from road name suffixes.
+        
+        Args:
+            names_dict (dict): Dictionary of road names and their offsets
+            word_count (int): Number of words to use from the end of road names
+            
+        Returns:
+            dict: A mapping of patterns to their offset frequencies
+        """
         pattern_map = {}
         for name, offset in names_dict.items():
             if not _is_valid_offset(offset):
@@ -321,7 +329,14 @@ def generate_rules(config):
         return pattern_map
 
     def _is_number_only(pattern):
-        """Check if pattern only contains numbers (excluding **)"""
+        """Check if pattern only contains numbers (excluding **)
+        
+        Args:
+            pattern (str): The pattern to check
+            
+        Returns:
+            bool: True if pattern contains only numbers after removing '**' prefix
+        """
         suffix = pattern[3:]  # Remove ** prefix
         # Remove spaces and check if remaining chars are digits
         return suffix.replace(" ", "").isdigit()
@@ -331,7 +346,7 @@ def generate_rules(config):
     final_rules = {}
     matched_with_same_offset = set()
     
-    # 进行两轮规则生成
+    # Generate rules in two rounds
     for word_count in [3, 2]:
         if not unmatched:
             break
@@ -360,8 +375,8 @@ def generate_rules(config):
         for name, offset in unmatched.items():
             words = name.split()
             for pattern, rule_offset in round_rules.items():
-                pattern_text = pattern[2:]  # 去掉'**'前缀
-                # 检查模式是否在名称末尾匹配
+                pattern_text = pattern[2:]  # Remove ** prefix
+                # Check if the pattern matches the end of the name
                 if name.endswith(pattern_text) and abs(rule_offset - offset) < 0.01:
                     matched.add(name)
                     matched_with_same_offset.add(name)
@@ -375,7 +390,7 @@ def generate_rules(config):
     rules.clear()
     rules.update(final_rules)
     
-    # 只移除具有相同偏移值的匹配项
+    # Remove entries with same offset that are also in per_name
     to_remove = matched_with_same_offset & set(per_name.keys())
     for name in to_remove:
         del per_name[name]
@@ -419,17 +434,17 @@ def update_offset_config():
     map_main.Plugin.update_road_data(self=True)
     logger.warning("Timeout for 3 seconds to allow for road data update")
     time.sleep(3)
-    # Perform subtraction operation and update configuration
+    # Perform addition operation and update configuration
     update_offset_config_add()
-    logger.warning("Subtraction operation completed")
+    logger.warning("Addition operation completed")
     # Call update_road_data and wait for completion
     map_main.Plugin.update_road_data(self=True)
     logger.warning("update_road_data completed")
-    # Perform addition operation (at this point road_helpers.GetOffset will get the new value after subtraction)
+    # Perform addition operation (at this point road_helpers.GetOffset will get the new value after addition)
     logger.warning("Timeout for 3 seconds to allow for road data update")
     time.sleep(3)
     update_offset_config_sub()
-    logger.warning("Addition operation completed")
+    logger.warning("Subtraction operation completed")
     logger.warning("Generating rules")
     with open(CONFIG_PATH, 'r') as f:
         config = json.load(f)
