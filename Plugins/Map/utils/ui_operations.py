@@ -5,14 +5,24 @@ from Plugins.Map import data
 from Plugins.Map.utils import internal_map as im
 
 def update_road_data():
-    """更新道路数据"""
+    """
+    Update road data by clearing existing road data and marking for update.
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
     data.map.clear_road_data()
     im.road_image = None
     data.data_needs_update = True
     return True
 
 def execute_offset_update():
-    """执行偏移配置更新"""
+    """
+    Execute offset configuration update.
+    
+    Returns:
+        bool: True if update was successful, False if no update was needed or error occurred
+    """
     try:
         if offset_handler.update_offset_config():
             logging.info("The offset configuration has been updated, and the data is being reloaded...")
@@ -25,7 +35,12 @@ def execute_offset_update():
         return False
 
 def generate_rules():
-    """生成规则配置"""
+    """
+    Generate rules configuration based on current settings.
+    
+    Returns:
+        bool: True if rules were generated successfully, False otherwise
+    """
     try:
         with open(offset_handler.CONFIG_PATH, 'r') as f:
             config = json.load(f)
@@ -41,7 +56,12 @@ def generate_rules():
         return False
 
 def clear_lane_offsets():
-    """清除车道偏移"""
+    """
+    Clear all lane offset configurations.
+    
+    Returns:
+        bool: True if offsets were cleared, False if no offsets existed or error occurred
+    """
     try:
         if offset_handler.clear_lane_offsets(clear=""):
             logging.info("The lane offset has been cleared.")
@@ -54,7 +74,12 @@ def clear_lane_offsets():
         return False
 
 def clear_rules():
-    """清除规则配置"""
+    """
+    Clear all rules configurations.
+    
+    Returns:
+        bool: True if rules were cleared, False if no rules existed or error occurred
+    """
     try:
         if offset_handler.clear_lane_offsets(clear="rules"):
             logging.info("The rules configuration has been cleared.")
@@ -67,5 +92,10 @@ def clear_rules():
         return False
 
 def trigger_data_update(plugin_instance):
-    """触发数据更新"""
+    """
+    Trigger a data update by resetting the downloaded data flag.
+    
+    Args:
+        plugin_instance: The plugin instance to update settings for
+    """
     plugin_instance.settings.downloaded_data = ""

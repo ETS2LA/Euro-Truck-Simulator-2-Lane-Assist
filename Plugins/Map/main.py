@@ -102,18 +102,10 @@ class Plugin(ETS2LAPlugin):
         return ui_operations.update_road_data()
 
     def execute_offset_update(self):
-        global updating_offset_config
-        updating_offset_config = True
-        result = ui_operations.execute_offset_update()
-        updating_offset_config = False
-        return result
+        return ui_operations.execute_offset_update()
         
     def generate_rules(self):
-        global updating_rules_config
-        updating_rules_config = True
-        result = ui_operations.generate_rules()
-        updating_rules_config = False
-        return result
+        return ui_operations.generate_rules()
         
     def clear_lane_offsets(self):
         return ui_operations.clear_lane_offsets()
