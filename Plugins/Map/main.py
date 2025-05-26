@@ -12,7 +12,7 @@ import Plugins.Map.utils.math_helpers as mh
 import Plugins.Map.utils.data_handler as data_handler
 import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
-
+from Plugins.Map.utils import ui_operations
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Handlers.sounds import Play
@@ -99,77 +99,30 @@ class Plugin(ETS2LAPlugin):
         )
 
     def update_road_data(self):
-        data.map.clear_road_data()
-        im.road_image = None
-        data.data_needs_update = True
-        return True  
+        return ui_operations.update_road_data()
 
     def execute_offset_update(self):
         global updating_offset_config
         updating_offset_config = True
-        from Plugins.Map.utils import offset_handler
-        try:
-            if offset_handler.update_offset_config():
-                logging.info("The offset configuration has been updated, and the data is being reloaded...")
-                updating_offset_config = False
-                return True  
-            else:
-                logging.info("No need to update the offset configuration.")
-                updating_offset_config = False
-                return False  
-        except Exception as e:
-            logging.error(f"Failed to update the offset configuration: {str(e)}")
-            updating_offset_config = False
-            return False  
+        result = ui_operations.execute_offset_update()
+        updating_offset_config = False
+        return result
         
     def generate_rules(self):
         global updating_rules_config
         updating_rules_config = True
-        from Plugins.Map.utils import offset_handler
-        try:
-            with open(offset_handler.CONFIG_PATH, 'r') as f:
-                config = json.load(f)
-            
-            if offset_handler.generate_rules(config):
-                logging.info("The rules configuration has been generated, and the data is being reloaded...")
-                updating_rules_config = False
-                return True
-            else:
-                logging.info("No need to generate the rules configuration.")
-                updating_rules_config = False
-                return False
-        except Exception as e:
-            logging.error(f"Failed to generate the rules configuration: {str(e)}")
-            updating_rules_config = False
-            return False
+        result = ui_operations.generate_rules()
+        updating_rules_config = False
+        return result
         
     def clear_lane_offsets(self):
-        from Plugins.Map.utils import offset_handler
-        try:
-            if offset_handler.clear_lane_offsets(clear=""):
-                logging.info("The lane offset has been cleared.")
-                return True
-            else:
-                logging.info("No lane offset to clear.")
-                return False
-        except Exception as e:
-            logging.error(f"Failed to clear the lane offset: {str(e)}")
-            return False
+        return ui_operations.clear_lane_offsets()
+        
     def clear_rules(self):
-        from Plugins.Map.utils import offset_handler
-        try:
-            if offset_handler.clear_lane_offsets(clear="rules"):
-                logging.info("The rules configuration has been cleared.")
-                return True
-            else:
-                logging.info("No rules configuration to clear.")
-                return False
-        except Exception as e:
-            logging.error(f"Failed to clear the rules configuration: {str(e)}")
-            return False
+        return ui_operations.clear_rules()
 
     def trigger_data_update(self):
-        self.settings.downloaded_data = ""
+        return ui_operations.trigger_data_update(self)
 
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_oh_hash
