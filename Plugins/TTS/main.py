@@ -1,4 +1,5 @@
 from Plugins.TTS.providers.provider import TTSProvider, TTSVoice
+from Plugins.TTS.utils.proximity import ProximityBeep
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
@@ -109,7 +110,12 @@ class Settings(ETS2LASettingsMenu):
                 )
                 
             with Tab("Settings"):
-                Label("WIP")
+                Switch(
+                    "Road Proximity Beep",
+                    "road_proximity_beep",
+                    False,
+                    "Will provide a beep based on the angle and distance to the closest road. Angle is indicated by the frequency of the beeps, and distance is indicated by the volume. Once on a road the beeps will be disabled."
+                )
         
         return RenderUI()
 
@@ -162,6 +168,10 @@ class Plugin(ETS2LAPlugin):
     first = True
     last_update = 0
     
+    test_mode = False
+    prox_beep = False
+    beeper = ProximityBeep()
+    
     def select_provider(self, provider_name: str):
         """
         Select a provider.
@@ -199,6 +209,10 @@ class Plugin(ETS2LAPlugin):
         self.test_mode = self.settings.test_mode
         if self.test_mode is None:
             self.settings.test_mode = False
+            
+        self.prox_beep = self.settings.road_proximity_beep
+        if self.prox_beep is None:
+            self.settings.road_proximity_beep = False
             
         provider = self.settings.provider
         voice = self.settings.voice
@@ -382,13 +396,33 @@ class Plugin(ETS2LAPlugin):
         except Exception as e:
             self.speak(f"Error while processing status {e}")
 
+    def update_beeper(self, api):
+        if self.prox_beep:
+            distance = self.globals.tags.closest_road_distance
+            angle = self.globals.tags.closest_road_angle
+            if distance is None or angle is None:
+                if self.beeper.running: self.beeper.stop()
+                return
+            
+            distance = distance["Map"]
+            angle = angle["Map"]
+            if distance == 0:
+                if self.beeper.running: self.beeper.stop()
+                return
+            
+            if not self.beeper.running:
+                self.beeper.start()
+                
+            self.beeper.set_angle(angle, 0)
+            self.beeper.set_distance(distance)
+        else:
+            if self.beeper.running:
+                self.beeper.stop()
+
     def run(self):
         api = self.modules.TruckSimAPI.run()
         
-        #print(status_key.pressed())
-        #if status_key.pressed():
-        #    self.status(api)
-        
+        self.update_beeper(api)
         if self.last_update + 1 > time.time():
             return
         
