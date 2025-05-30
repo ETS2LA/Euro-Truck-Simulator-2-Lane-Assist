@@ -216,7 +216,9 @@ def _calculate_distances(road, items):
             min_distance = min(min_distance, current_min * 2)
             logger.warning(f"{road.road_look.name} - Single lane: {current_min}")
             
-        dist0 |= any(d < distance_threshold for d in item_distances)
+        # 修改 dist0 判断逻辑
+        if all(d < 4.5 for d in item_distances):
+            dist0 |= any(d < distance_threshold for d in item_distances)
     
     result = (min_distance, sorted_distances, dist0)
     _distance_cache[cache_key] = result
@@ -302,6 +304,7 @@ def generate_rules(config):
         all_road_offsets[road.road_look.name] = road_helpers.GetOffset(mock_road)
     
     combined_roads = {**per_name, **all_road_offsets}
+    logger.warning(f"Combined road: {combined_roads}")
     logger.warning(f"Total roads with offsets: {len(combined_roads)}")
     
     def _get_most_common_offset(offset_counts):
@@ -372,8 +375,8 @@ def generate_rules(config):
                 continue
                 
             offset, count = _get_most_common_offset(offset_counts)
-            # Change to 80% match
-            match_threshold = 0.8
+            # Change to 100% match
+            match_threshold = 1
             if offset is not None and count / len(offset_counts) >= match_threshold:
                 round_rules[pattern] = offset
                 logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}, Total: {len(offset_counts)}")
@@ -381,11 +384,12 @@ def generate_rules(config):
         # Apply rules and update unmatched
         matched = set()
         for name, offset in unmatched.items():
-            words = name.split()
+            name_words = set(name.split())
             for pattern, rule_offset in round_rules.items():
-                pattern_text = pattern[2:]  # Remove ** prefix
-                # Check if the pattern matches the end of the name
-                if name.endswith(pattern_text) and abs(rule_offset - offset) < 0.01:
+                # 去除 ** 前缀并分割成单词集合
+                pattern_words = set(pattern[2:].split())
+                # 检查规则中的所有单词是否都在道路名称中
+                if pattern_words.issubset(name_words) and abs(rule_offset - offset) <= 0.01:
                     matched.add(name)
                     matched_with_same_offset.add(name)
                     break
@@ -394,22 +398,87 @@ def generate_rules(config):
         unmatched = {name: offset for name, offset in unmatched.items() if name not in matched}
         logger.warning(f"Round {word_count} complete - Matched: {len(matched)}, Same offset matches: {len(matched_with_same_offset)}")
 
-    # Update rules in config
+    # 合并具有相同偏移量和相同单词的规则
+    merged_rules = {}
+    patterns_by_offset = {}
+    
+    # 按偏移量分组规则
+    for pattern, offset in final_rules.items():
+        if offset not in patterns_by_offset:
+            patterns_by_offset[offset] = []
+        patterns_by_offset[offset].append(pattern)
+    
+    # 对每个偏移量组内的规则进行合并
+    for offset, patterns in patterns_by_offset.items():
+        # 按单词集合分组
+        word_groups = {}
+        for pattern in patterns:
+            # 去除 ** 前缀并分割成单词集合
+            words = pattern[2:].split()
+            # 使用元组存储单词列表，保持顺序
+            key = tuple(words)
+            if key not in word_groups:
+                word_groups[key] = []
+            word_groups[key].append(pattern)
+        
+        # 合并具有相同单词序列的规则
+        for words, similar_patterns in word_groups.items():
+            if len(similar_patterns) > 1:
+                # 找出最短的模式作为基准
+                base_pattern = min(similar_patterns, key=len)
+                # 创建一个测试用的道路名称（去掉 ** 前缀）
+                test_name = base_pattern[2:]
+                
+                # 创建一个模拟的道路对象
+                mock_road = type('Road', (), {
+                    'road_look': type('RoadLook', (), {
+                        'name': test_name,
+                        'offset': 0  # 使用默认偏移量
+                    })
+                })()
+                
+                # 使用 GetOffset 计算偏移量
+                get_offset_result = road_helpers.GetOffset(mock_road)
+                
+                # 如果 GetOffset 的结果与规则的偏移量不同，则保留该规则
+                if abs(get_offset_result - offset) > 0.01:
+                    logger.warning(f"Merging patterns with same words and offset {offset}: {similar_patterns} -> {base_pattern}")
+                    merged_rules[base_pattern] = offset
+                else:
+                    logger.warning(f"Skipping rule {base_pattern} as it can be represented by GetOffset")
+            else:
+                # 对单个模式也进行 GetOffset 检查
+                test_name = similar_patterns[0][2:]
+                mock_road = type('Road', (), {
+                    'road_look': type('RoadLook', (), {
+                        'name': test_name,
+                        'offset': 0
+                    })
+                })()
+                
+                get_offset_result = road_helpers.GetOffset(mock_road)
+                
+                if abs(get_offset_result - offset) > 0.01:
+                    merged_rules[similar_patterns[0]] = offset
+                else:
+                    logger.warning(f"Skipping rule {similar_patterns[0]} as it can be represented by GetOffset")
+    
+    # 更新规则并按字母顺序和绝对值排序
     rules.clear()
-    rules.update(final_rules)
-    rules = dict(sorted(rules.items(), key=lambda item: (item[0], abs(item[1]))))  # Sort by alpha order and then by absolute value
+    rules.update(merged_rules)
+    rules = dict(sorted(rules.items(), key=lambda item: (item[0], abs(item[1]))))
     
     # Remove entries with same offset that are also in per_name
     to_remove = matched_with_same_offset & set(per_name.keys())
     for name in to_remove:
         del per_name[name]
     
-    logger.warning(f"Rule generation complete - Total rules: {len(final_rules)}")
+    logger.warning(f"Rule generation complete - Total rules after merging: {len(rules)}")
     logger.warning(f"Matched entries with same offset: {len(matched_with_same_offset)}, Removed from per_name: {len(to_remove)}")
     logger.warning(f"Entries removed from per_name: {to_remove}")
     
     with open(CONFIG_PATH, 'w') as f:
-            json.dump(config, f, indent=4)
+        json.dump(config, f, indent=4)
     return config
 
 def clear_lane_offsets(clear):
