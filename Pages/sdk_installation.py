@@ -57,6 +57,7 @@ class Page(ETS2LAPage):
     dynamic = True
     url = "/settings/sdk"
     settings_target = "sdk_installation"
+    onboarding_mode = False
     
     def OpenSources(self, version: str):
         if os.path.exists("ETS2LA/Assets/DLLs/" + version + "\\sources.txt"):
@@ -79,6 +80,8 @@ class Page(ETS2LAPage):
                     with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
                         with open(game + target_path + "\\" + file, "wb") as g:
                             g.write(f.read())
+                            
+                SendPopup(f"SDKs for {'ETS2 ' if 'Euro Truck Simulator 2' in game else 'ATS '} installed successfully.", "success")
             else:
                 logging.info(f"SDKs for {game} already installed, skipping installation")
         except Exception as e:
@@ -97,6 +100,8 @@ class Page(ETS2LAPage):
                 files = files_for_version[version]
                 for file in files:
                     os.remove(game + target_path + "\\" + file)
+                    
+                SendPopup(f"SDKs for {'ETS2 ' if 'Euro Truck Simulator 2' in game else 'ATS '} uninstalled successfully.", "success")
             else:
                 logging.info(f"SDKs for {game} not installed, skipping uninstallation")
         except Exception as e:
@@ -122,10 +127,11 @@ class Page(ETS2LAPage):
             SendPopup(f"Path {path} does not exist.", "error")
     
     def render(self):
-        TitleAndDescription(
-            "sdk_install.title",
-            "sdk_install.description",
-        )
+        if not self.onboarding_mode:
+            TitleAndDescription(
+                "sdk_install.title",
+                "sdk_install.description",
+            )
         
         with Container(styles.FlexVertical() + styles.Gap("24px")):
             if games == []:
