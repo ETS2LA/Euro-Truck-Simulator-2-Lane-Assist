@@ -97,10 +97,20 @@ def CoordsToWGS84(x, y, game="ETS2"):
 
     # --- ATS Branch ---
     if game == "ATS":
-        # # ATS does not use offset, but directly converts using mapFactor and LENGTH_OF_DEGREE
+        # 动态计算偏移量 (基于连续函数)
+        offset_x = round(36 * (1 / (1 + math.exp(0.0001 * (x + 60000)))))
+        
+        # y轴偏移量计算
+        pos_y_factor = 1 / (1 + math.exp(-0.00015 * (y - 20000)))
+        neg_y_factor = 1 / (1 + math.exp(0.00015 * (y + 40000)))
+        offset_y = round(45 * pos_y_factor - 108 * neg_y_factor)
+        
+        x -= offset_x
+        y -= offset_y
         proj_x = x * ATS_MAP_FACTOR[1] * LENGTH_OF_DEGREE
         proj_y = y * ATS_MAP_FACTOR[0] * LENGTH_OF_DEGREE
         lon, lat = ATS_TRANSFORM.transform(proj_x, proj_y)
+        logging.warning(f"ATS CoordsToWGS84: x={x}, y={y}, offset=({offset_x}, {offset_y}), proj_x={proj_x}, proj_y={proj_y}")
         return (lat, lon)
     
     calais = [-31100, -5500]
