@@ -1,3 +1,7 @@
+# The map files need a full rewrite. I sympathize with anyone
+# who tries to read the code. We don't have time for a rewrite
+# until after release.
+
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
@@ -18,6 +22,7 @@ from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
 import Plugins.Map.classes as c
 
+import numpy as np
 import threading
 import importlib
 import time
@@ -403,4 +408,52 @@ class Plugin(ETS2LAPlugin):
                     self.globals.tags.closest_city_distance = closest_distance
                     self.globals.tags.closest_country = closest.country_token.capitalize()
         except:
+            pass
+        
+        # Update angle and distance to the closest road.
+        try:
+            roads = data.current_sector_roads
+            prefabs = data.current_sector_prefabs
+            if roads and prefabs:
+                found = False
+                xy_position = c.Position(data.truck_x, data.truck_z, data.truck_y)
+                for road in roads:
+                    if road.bounding_box.is_in(xy_position):
+                        found = True
+                        break
+                    
+                for prefab in prefabs:
+                    if prefab.bounding_box.is_in(xy_position):
+                        found = True
+                        break
+                    
+                if found:
+                    self.globals.tags.closest_road_distance = 0
+                    self.globals.tags.closest_road_angle = 0
+                else:
+                    # Distance
+                    truck_position = c.Position(data.truck_x, data.truck_y, data.truck_z)
+                    closest_road = min(roads, key=lambda r: r.distance_to(truck_position))
+                    self.globals.tags.closest_road_distance = closest_road.distance_to(xy_position)
+                    
+                    # Angle
+                    closest_point = min(closest_road.points, key=lambda p: p.distance_to(truck_position))
+                    closest_point = closest_point - truck_position
+                    
+                    forward_vector = [-math.sin(data.truck_rotation), -math.cos(data.truck_rotation)]
+                    to_road = closest_point.tuple(xz=True)
+                    forward_vector = np.array(forward_vector) / np.linalg.norm(forward_vector)
+                    to_road = np.array(to_road) / np.linalg.norm(to_road)
+
+                    dot = np.dot(forward_vector, to_road)
+                    angle = np.arccos(dot) * (180 / np.pi)
+                    
+                    self.globals.tags.closest_road_angle = angle
+            
+            else:
+                self.globals.tags.closest_road_distance = 0
+                self.globals.tags.closest_road_angle = 0
+        except:
+            self.globals.tags.closest_road_distance = 0
+            self.globals.tags.closest_road_angle = 0
             pass

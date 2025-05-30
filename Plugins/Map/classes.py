@@ -387,6 +387,12 @@ class Position:
 
     def __add__(self, other):
         return Position(self.x + other.x, self.y + other.y, self.z + other.z)
+    
+    def __sub__(self, other):
+        return Position(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def distance_to(self, other: 'Position') -> float:
+        return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2 + (self.z - other.z) ** 2)
 
     def json(self) -> dict:
         return {
@@ -1131,6 +1137,19 @@ class Road(BaseItem):
     @bounding_box.setter
     def bounding_box(self, value: BoundingBox):
         self._bounding_box = value
+
+    def distance_to(self, position: Position) -> float:
+        """Calculate the distance from the road to a given position."""
+        if self.bounding_box.is_in(position):
+            return 0.0
+
+        min_distance = float('inf')
+        for point in self.points:
+            distance = math.sqrt((point.x - position.x) ** 2 + (point.y - position.y) ** 2 + (point.z - position.z) ** 2)
+            if distance < min_distance:
+                min_distance = distance
+
+        return min_distance
 
     def json(self) -> dict:
         return {
