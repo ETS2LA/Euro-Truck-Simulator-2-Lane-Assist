@@ -33,13 +33,14 @@ planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
 im = importlib.import_module("Plugins.Map.utils.internal_map")
 oh = importlib.import_module("Plugins.Map.utils.offset_handler")  
-last_plan_hash = hash(open(planning.__file__).read())
+last_plan_hash = hash(open(planning.__file__, encoding="utf-8").read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
 updating_offset_config = False
+devprint = False
 
 enable_disable = ControlEvent(
     "toggle_map",
@@ -386,7 +387,7 @@ class Plugin(ETS2LAPlugin):
         except:
             pass
 
-        if variables.DEVELOPMENT_MODE and not updating_offset_config:
+        if devprint and variables.DEVELOPMENT_MODE and not updating_offset_config:
             if (time.perf_counter() - data_start_time) * 1000 > 100:
                 try:
                     print(f"Map plugin run time: {(time.perf_counter() - data_start_time) * 1000:.2f}ms")
