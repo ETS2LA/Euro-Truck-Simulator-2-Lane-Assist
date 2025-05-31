@@ -146,20 +146,19 @@ def GetOffset(road):
             custom_offset = rule_offset        
         elif country_road_pattern.match(name):
             return 9.0  # Auto-generated offset for this pattern
-        # New logic: Handle offset-containing names with m values
+        # Modified: Remove support for comma-separated values in offset names
         elif "offset" in name:
-            # Search for patterns like "4,5m" or "3m"
-            offset_m_match = re.search(r'(\d+(?:,\d+)*)m', name)
+            # Search for patterns like "4.5m" or "3m" (no commas)
+            offset_m_match = re.search(r'([+-]?\d+\.?\d*)m', name)  # Updated regex (no commas)
             if offset_m_match:
                 number_part = offset_m_match.group(1)
                 try:
-                    # Split comma-separated numbers and sum them
-                    numbers = [float(num) for num in number_part.split(',')]
-                    sum_numbers = sum(numbers)
-                    custom_offset = 4.5 + sum_numbers
+                    # Use single numeric value (no comma splitting)
+                    number = float(number_part)
+                    custom_offset = 4.5 + number
                     return custom_offset  # Return immediately if valid match found
                 except ValueError:
-                    pass  # Continue to other checks if number parsing fails    
+                    pass  # Continue to other checks if number parsing fails        
         elif reg:
             custom_offset = 4.5 + float(reg.group(2)) * 2
         elif str(road.road_look.offset) in offsets:     
