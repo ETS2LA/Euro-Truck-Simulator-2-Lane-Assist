@@ -1,5 +1,5 @@
 """
-This module handles road offset configuration management for a truck simulation map.
+This module manages road offset configurations for a truck simulation map.
 It provides functionality to calculate, validate, and update road offsets based on spatial relationships,
 with caching mechanisms and configurable thresholds.
 """
@@ -145,8 +145,9 @@ def update_offset_config_generic(operation="add", allow_override=False):
             if not connected_items:
                 continue
 
-            # Calculate distances
-            min_distance, sorted_distances, dist0 = _calculate_distances(road, connected_items)
+            # Pass the is_subtract parameter
+            is_subtract = operation == "sub"
+            min_distance, sorted_distances, dist0 = _calculate_distances(road, connected_items, is_subtract=is_subtract)
             
             # Handle offset
             if _should_update_offset(min_distance, sorted_distances):
@@ -189,37 +190,66 @@ def _get_connected_items(road, map_data):
         ] if uid != road.uid
     ]
 
-def _calculate_distances(road, items):
+def _calculate_distances(road, items, is_subtract=False):
     """Calculate road distances"""
     cache_key = (road.uid, tuple(item.uid for item in items if item))
     if cache_key in _distance_cache:
         return _distance_cache[cache_key]
-        
+
     min_distance = math.inf
     sorted_distances = []
+    valid_distances = []
     dist0 = False
-    
+    lane_count = len(road.lanes)  # Cache the number of lanes to avoid repeated calculations
+
     for item in items:
         if not (item and hasattr(item, "nav_routes")):
             continue
-            
+
         item_distances = _calculate_item_distances(road, item)
         if not item_distances:
             continue
-            
-        if len(road.lanes) > 1:
-            current_sorted = sorted(item_distances)
+
+        if lane_count > 1:
+            # Sort the slice directly to reduce the scope of the sorting operation
+            current_sorted = sorted(item_distances)[:lane_count]
             sorted_distances.extend(current_sorted)
-            min_distance = min(min_distance, sum(current_sorted[:2]))
+            valid_distances = [d for d in current_sorted if d >= distance_threshold]
+            logger.warning(f"{road.road_look.name} - After first filter, valid distances: {valid_distances}")
+            valid_distances.sort()
+
+            original_valid_distances = valid_distances.copy()
+
+            if valid_distances and valid_distances[0] >= 4.5 and all(d != 0 for d in valid_distances):
+                # Pre - allocate the list to reduce dynamic resizing overhead
+                new_valid_distances = [0] * len(valid_distances)
+                index = 0
+                for d in valid_distances:
+                    diff = d - 4.5
+                    if diff >= distance_threshold:
+                        new_valid_distances[index] = diff
+                        index += 1
+                valid_distances = new_valid_distances[:index]
+                logger.warning(f"{road.road_look.name} - After second filter, valid distances: {valid_distances}")
+
+            # Select different distance data based on whether it is a subtraction operation
+            distances_to_use = valid_distances if is_subtract else original_valid_distances
+
+            if len(distances_to_use) >= 2:
+                min_distance = min(min_distance, distances_to_use[0] + distances_to_use[1])
+            elif distances_to_use:
+                min_distance = min(min_distance, distances_to_use[0] * 2)
+            else:
+                min_distance = min(min_distance, 0)
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
             logger.warning(f"{road.road_look.name} - Single lane: {current_min}")
-            
-        # 修改 dist0 判断逻辑
-        if all(d < 4.5 for d in item_distances):
-            dist0 |= any(d < distance_threshold for d in item_distances)
-    
+
+        if min_distance <= distance_threshold:
+            dist0 = True
+        logger.warning(f"{road.road_look.name} - dist0: {dist0}, sorted distances: {sorted_distances}, valid distances: {valid_distances}, min_distance: {min_distance}")
+
     result = (min_distance, sorted_distances, dist0)
     _distance_cache[cache_key] = result
     return result
@@ -250,13 +280,14 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
         required_offset = current_offset + base_offset
         logger.warning(f"{prefix}Road: {road.road_look.name}, Adding offset: {required_offset}")
     else:
-        required_offset = current_offset - base_offset
+        # Modify the subtraction logic to subtract the base offset twice
+        required_offset = current_offset - 2 * base_offset
         logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {required_offset}")
 
     new_offset = round(required_offset, 2)
     if dist0:
         logger.warning(f"{prefix}No override necessary for {road.road_look.name}")
-        _skip_roads.add(road.road_look.name)  # Add to skip list
+        #_skip_roads.add(road.road_look.name)  # Add to skip list
         return True
     elif road.road_look.name not in per_name:
         per_name[road.road_look.name] = new_offset
@@ -274,7 +305,7 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
     return False
 
 def generate_rules(config):
-    """Generate pattern-based offset rules from per-name configurations.
+    """Generate pattern - based offset rules from per - name configurations.
     
     Args:
         config (dict): Current configuration
@@ -371,7 +402,7 @@ def generate_rules(config):
         round_rules = {}
         for pattern, offset_counts in patterns.items():
             if _is_number_only(pattern):
-                logger.warning(f"Skipping number-only pattern: {pattern}")
+                logger.warning(f"Skipping number - only pattern: {pattern}")
                 continue
                 
             offset, count = _get_most_common_offset(offset_counts)
@@ -386,9 +417,9 @@ def generate_rules(config):
         for name, offset in unmatched.items():
             name_words = set(name.split())
             for pattern, rule_offset in round_rules.items():
-                # 去除 ** 前缀并分割成单词集合
+                # Remove ** prefix and split into word sets
                 pattern_words = set(pattern[2:].split())
-                # 检查规则中的所有单词是否都在道路名称中
+                # Check if all words in the rule are in the road name
                 if pattern_words.issubset(name_words) and abs(rule_offset - offset) <= 0.01:
                     matched.add(name)
                     matched_with_same_offset.add(name)
@@ -398,56 +429,56 @@ def generate_rules(config):
         unmatched = {name: offset for name, offset in unmatched.items() if name not in matched}
         logger.warning(f"Round {word_count} complete - Matched: {len(matched)}, Same offset matches: {len(matched_with_same_offset)}")
 
-    # 合并具有相同偏移量和相同单词的规则
+    # Merge rules with the same offset and same words
     merged_rules = {}
     patterns_by_offset = {}
     
-    # 按偏移量分组规则
+    # Group rules by offset
     for pattern, offset in final_rules.items():
         if offset not in patterns_by_offset:
             patterns_by_offset[offset] = []
         patterns_by_offset[offset].append(pattern)
     
-    # 对每个偏移量组内的规则进行合并
+    # Merge rules within each offset group
     for offset, patterns in patterns_by_offset.items():
-        # 按单词集合分组
+        # Group by word set
         word_groups = {}
         for pattern in patterns:
-            # 去除 ** 前缀并分割成单词集合
+            # Remove ** prefix and split into word list
             words = pattern[2:].split()
-            # 使用元组存储单词列表，保持顺序
+            # Use a tuple to store the word list to maintain order
             key = tuple(words)
             if key not in word_groups:
                 word_groups[key] = []
             word_groups[key].append(pattern)
         
-        # 合并具有相同单词序列的规则
+        # Merge rules with the same word sequence
         for words, similar_patterns in word_groups.items():
             if len(similar_patterns) > 1:
-                # 找出最短的模式作为基准
+                # Find the shortest pattern as the baseline
                 base_pattern = min(similar_patterns, key=len)
-                # 创建一个测试用的道路名称（去掉 ** 前缀）
+                # Create a test road name (remove ** prefix)
                 test_name = base_pattern[2:]
                 
-                # 创建一个模拟的道路对象
+                # Create a mock road object
                 mock_road = type('Road', (), {
                     'road_look': type('RoadLook', (), {
                         'name': test_name,
-                        'offset': 0  # 使用默认偏移量
+                        'offset': 0  # Use default offset
                     })
                 })()
                 
-                # 使用 GetOffset 计算偏移量
+                # Calculate offset using GetOffset
                 get_offset_result = road_helpers.GetOffset(mock_road)
                 
-                # 如果 GetOffset 的结果与规则的偏移量不同，则保留该规则
+                # If the result of GetOffset is different from the rule offset, keep the rule
                 if abs(get_offset_result - offset) > 0.01:
                     logger.warning(f"Merging patterns with same words and offset {offset}: {similar_patterns} -> {base_pattern}")
                     merged_rules[base_pattern] = offset
                 else:
                     logger.warning(f"Skipping rule {base_pattern} as it can be represented by GetOffset")
             else:
-                # 对单个模式也进行 GetOffset 检查
+                # Check GetOffset for single patterns
                 test_name = similar_patterns[0][2:]
                 mock_road = type('Road', (), {
                     'road_look': type('RoadLook', (), {
@@ -463,12 +494,12 @@ def generate_rules(config):
                 else:
                     logger.warning(f"Skipping rule {similar_patterns[0]} as it can be represented by GetOffset")
     
-    # 更新规则并按字母顺序和绝对值排序
+    # Update rules and sort alphabetically and by absolute value
     rules.clear()
     rules.update(merged_rules)
     rules = dict(sorted(rules.items(), key=lambda item: (item[0], abs(item[1]))))
     
-    # Remove entries with same offset that are also in per_name
+    # Remove entries with the same offset that are also in per_name
     to_remove = matched_with_same_offset & set(per_name.keys())
     for name in to_remove:
         del per_name[name]
@@ -529,4 +560,3 @@ def update_offset_config():
     update_offset_config_sub()
     logger.warning("Subtraction operation completed")
     map_main.Plugin.update_road_data(self=True)
-
