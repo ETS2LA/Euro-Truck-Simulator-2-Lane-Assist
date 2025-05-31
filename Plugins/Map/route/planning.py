@@ -14,6 +14,9 @@ import time
 
 importlib.reload(rc)
 
+preload_interval = 1 / 2
+last_preload_time = time.time()
+
 def GetRoadsBehindRoad(road: c.Road, include_self:bool = True) -> list[c.Road]:
     if include_self: roads = [road]
     else: roads = []
@@ -695,19 +698,24 @@ def UpdateRoutePlan():
             update = True
             data.route_plan.pop(0)
             
-        # 新增：提前预加载（当前路段剩余距离 <50米且规划长度不足）
+        # 新增：提前预加载（当前路段剩余距离 <50米且规划长度不足，且满足时间间隔）
         if len(data.route_plan) > 0:
             current_section = data.route_plan[0]
             # 确保 current_section 有效且包含 distance_left 方法
             if hasattr(current_section, 'distance_left') and (current_section.distance_left() < 50 and len(data.route_plan) < data.route_plan_length):
-                try:
-                    logging.warning("Preloading next route section")
-                    next_route_section = GetNextRouteSection()
-                except:
-                    logging.error("Failed to get next route section (preload)")
-                    next_route_section = None
-                if next_route_section is not None:
-                    data.route_plan.append(next_route_section)
+                # 检查时间间隔：当前时间 - 上次预加载时间 > 预加载间隔
+                current_time = time.time()
+                if current_time - last_preload_time > preload_interval:
+                    try:
+                        logging.warning("Preloading next route section")
+                        next_route_section = GetNextRouteSection()
+                        # 更新上次预加载时间
+                        last_preload_time = current_time
+                    except:
+                        logging.error("Failed to get next route section (preload)")
+                        next_route_section = None
+                    if next_route_section is not None:
+                        data.route_plan.append(next_route_section)
         
         if len(data.route_plan) == 0:
             return
