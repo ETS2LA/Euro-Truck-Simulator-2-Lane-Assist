@@ -646,7 +646,7 @@ def CheckForLaneChange():
         
 was_indicating = False
 def UpdateRoutePlan():
-    global was_indicating
+    global was_indicating, last_preload_time, preload_interval
     if not data.enabled:
         data.route_plan = []
     
