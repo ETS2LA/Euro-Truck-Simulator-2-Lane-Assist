@@ -138,6 +138,8 @@ def GetOffset(road):
         city_ai_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ city ai[12]( \d+(\s\w+)*)*$')  # Matches "city ai1/ai2" with suffixes
         # New: Auto-generate offset for general city road patterns
         city_general_pattern = re.compile(r'^(us|CANADA) \d+(?:-\d+)* city(?: \w+)+$')  # Matches general city roads with suffixes
+        # New: Auto-generate offset for country divided roads
+        country_divided_pattern = re.compile(r'^(us|CANADA) \d+-\d+(?:-\d+)* country divided \d+$')  # Matches "country divided" roads
         rule_offset = 999
         for rule in rules:
             rule = rule.replace("**", "")
@@ -151,6 +153,8 @@ def GetOffset(road):
             custom_offset = rule_offset        
         elif country_road_pattern.match(name):
             return 9.0  # Auto-generated offset for this pattern
+        elif country_divided_pattern.match(name):  # New divided country road check
+            return 9.0  # Offset for divided country roads
         elif city_ai_pattern.match(name):  # New city ai road check
             return 3  # New offset for city ai roads
         elif city_general_pattern.match(name):  # New general city road check
