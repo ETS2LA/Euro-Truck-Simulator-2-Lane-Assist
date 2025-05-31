@@ -296,6 +296,15 @@ class Plugin(ETS2LAPlugin):
         return True
     
     def speed(self, speed: float, speed_limit: float, anchor, offset: list[float], scaling: float = 1):
+        game = self.api_data["scsValues"]["game"]
+        # Convert units if the game is ATS
+        if game == "ATS":
+            speed = speed * 0.621371  # Convert km/h to mph
+            speed_limit = speed_limit * 0.621371
+            unit = "mph"
+        else:
+            unit = "km/h"
+
         speed_pos = Point(-5 * scaling + offset[0], -20 * scaling + offset[1], anchor=anchor)
         unit_pos = Point(-5 * scaling + offset[0], 10 * scaling + offset[1], anchor=anchor) 
         
@@ -305,10 +314,10 @@ class Plugin(ETS2LAPlugin):
         speed_limit_text_pos = Point(speed_limit_base_x + offset[0] - 8 * scaling, speed_limit_base_y + offset[1] - 9 * scaling, anchor=anchor)
         
         ar_data = [
-            # Speed
+            # Unit
             Text(
                 unit_pos,
-                "km/h",
+                unit,
                 size=16 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
@@ -321,7 +330,7 @@ class Plugin(ETS2LAPlugin):
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
             ),
             
-            # Speedlimit
+            # Speed limit
             Circle(
                 speed_limit_pos,
                 16 * scaling,
@@ -350,12 +359,26 @@ class Plugin(ETS2LAPlugin):
         
         self.get_intersection()
         
+        game = self.api_data["scsValues"]["game"]
         distance -= distance % 10
         units = "m"
-        if distance >= 300:
-            distance /= 1000
-            units = "km"
         
+        if game == "ATS":
+            # Convert meters to yards, then to miles if large enough
+            distance = distance * 1.0936  # Convert meters to yards
+            if distance >= 300:
+                distance = distance / 1760  # Convert yards to miles
+                units = "mi"
+            # Take modulo 10 again for ATS
+            distance -= distance % 0.1 if units == "mi" else distance % 10
+        else:
+            if distance >= 300:
+                distance /= 1000
+                units = "km"
+        
+        if game == "ATS" and units == "m":
+            units = "yd"  # Use yards instead of meters for ATS
+            
         distance_pos = Point(0 * scaling - offset[0], -20 * scaling + offset[1], anchor=anchor)
         unit_pos = Point(0 * scaling - offset[0], 10 * scaling + offset[1], anchor=anchor)   
         
@@ -664,7 +687,19 @@ class Plugin(ETS2LAPlugin):
             truck_z = self.api_data["truckPlacement"]["coordinateZ"]
             
             distance = math.sqrt((truck_x - center_back[0]) ** 2 + (truck_y - center_back[1]) ** 2 + (truck_z - center_back[2]) ** 2)
-            if distance > 60:
+            
+            game = self.api_data["scsValues"]["game"]
+            units = "m"
+            threshold = 60  # Default threshold in meters
+            if game == "ATS":
+                distance = distance * 3.28084  # Convert meters to feet
+                units = "ft"
+                threshold = 200  # Convert 60 meters to approximately 200 feet
+                distance = round(distance, 0)
+            else:
+                distance = round(distance, 0)
+            
+            if distance > threshold:
                 self.acc_data = []
                 time.sleep(1/30)
                 continue
@@ -672,7 +707,7 @@ class Plugin(ETS2LAPlugin):
             data += [
                 Text(
                     Coordinate(*back_right),
-                    f"  Distance: {distance:.0f}m",
+                    f"  Distance: {distance}{units}",
                     size=16,
                     color=Color(255, 255, 255, 200),
                     fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
@@ -680,9 +715,17 @@ class Plugin(ETS2LAPlugin):
             ]
             
             # Line between the vehicle and the truck
-            distance = self.globals.tags.acc_gap
-            distance = self.globals.tags.merge(distance)
-            if distance is not None:
+            acc_gap = self.globals.tags.acc_gap
+            acc_gap = self.globals.tags.merge(acc_gap)
+            if acc_gap is not None:
+                if game == "ATS":
+                    acc_gap = acc_gap * 3.28084  # Convert meters to feet
+                    units = "ft"
+                    acc_gap = round(acc_gap, 0)
+                else:
+                    # Remove km conversion, keep using m
+                    acc_gap = round(acc_gap, 0)
+                
                 left_vector = [back_left[0] - truck_x, back_left[1] - truck_y, back_left[2] - truck_z]
                 magnitude = math.sqrt(left_vector[0] ** 2 + left_vector[1] ** 2 + left_vector[2] ** 2)
                 unit_left_vector = [left_vector[0] / magnitude, left_vector[1] / magnitude, left_vector[2] / magnitude]
@@ -691,8 +734,8 @@ class Plugin(ETS2LAPlugin):
                 magnitude = math.sqrt(right_vector[0] ** 2 + right_vector[1] ** 2 + right_vector[2] ** 2)
                 unit_right_vector = [right_vector[0] / magnitude, right_vector[1] / magnitude, right_vector[2] / magnitude]
             
-                left = [truck_x + unit_left_vector[0] * distance, truck_y + unit_left_vector[1] * distance, truck_z + unit_left_vector[2] * distance]
-                right = [truck_x + unit_right_vector[0] * distance, truck_y + unit_right_vector[1] * distance, truck_z + unit_right_vector[2] * distance]
+                left = [truck_x + unit_left_vector[0] * acc_gap, truck_y + unit_left_vector[1] * acc_gap, truck_z + unit_left_vector[2] * acc_gap]
+                right = [truck_x + unit_right_vector[0] * acc_gap, truck_y + unit_right_vector[1] * acc_gap, truck_z + unit_right_vector[2] * acc_gap]
                 center = [(left[0] + right[0]) / 2, (left[1] + right[1]) / 2, (left[2] + right[2]) / 2]
                 
                 data += [
@@ -712,7 +755,7 @@ class Plugin(ETS2LAPlugin):
                     ),
                     Text(
                         Coordinate(*right),
-                        f"  Target: {distance:.0f}m",
+                        f"  Target: {acc_gap}{units}",
                         size=16,
                         color=Color(255, 255, 255, 60),
                         fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
