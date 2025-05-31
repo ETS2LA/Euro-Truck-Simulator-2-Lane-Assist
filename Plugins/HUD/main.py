@@ -771,15 +771,19 @@ class Plugin(ETS2LAPlugin):
         height = Y2 - Y1
         default_height = 1440
         
-        self.scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
-        _, _, _, _, scale, _, _ = self.get_settings()
-        self.scaling *= scale
+        # Cache scaling value - only recalculate when window height changes
+        if not hasattr(self, 'last_height') or self.last_height != height:
+            self.scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
+            _, _, _, _, scale, _, _ = self.get_settings()
+            self.scaling *= scale
+            self.last_height = height
         
         self.api_data = self.modules.TruckSimAPI.run()
         
         engine = self.api_data["truckBool"]["engineEnabled"]
         offset_x, offset_y, offset_z = self.get_offsets()
-        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
+        # Reduce rotation sensitivity in驾驶室 by using rotation_relative=False for critical elements
+        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=False)  # Modified
         
         if not engine:
             self.globals.tags.AR = []
