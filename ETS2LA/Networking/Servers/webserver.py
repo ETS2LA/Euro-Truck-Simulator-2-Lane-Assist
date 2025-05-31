@@ -268,7 +268,6 @@ def call_plugin_function(plugin: str, data: PluginCallData | None = None):
 
 @app.get("/api/language")
 def get_language():
-    translator.CheckForLanguageUpdates()
     return translator.LANGUAGE
 
 # endregion
