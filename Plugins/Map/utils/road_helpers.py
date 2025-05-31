@@ -131,7 +131,8 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 def GetOffset(road):
     try:
         name = road.road_look.name
-
+        # New: Auto-generate offset for country 1/3 patterns
+        country_road_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ country (1|3)$')
         rule_offset = 999
         for rule in rules:
             rule = rule.replace("**", "")
@@ -143,6 +144,8 @@ def GetOffset(road):
             custom_offset = per_name[name]
         elif rule_offset != 999:
             custom_offset = rule_offset        
+        elif country_road_pattern.match(name):
+            return 9.0  # Auto-generated offset for this pattern
         # New logic: Handle offset-containing names with m values
         elif "offset" in name:
             # Search for patterns like "4,5m" or "3m"
