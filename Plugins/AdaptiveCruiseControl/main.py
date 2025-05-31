@@ -232,6 +232,11 @@ class Plugin(ETS2LAPlugin):
         speed_offset_type = self.settings.speed_offset_type
         speed_offset = self.settings.speed_offset
         ignore_traffic_lights = self.settings.ignore_traffic_lights
+        ignore_speed_limit = self.settings.ignore_speed_limit
+        
+        if ignore_speed_limit is None:
+            ignore_speed_limit = False
+            self.settings.ignore_speed_limit = ignore_speed_limit
         
         if ignore_traffic_lights is None:
             ignore_traffic_lights = False
@@ -600,9 +605,12 @@ class Plugin(ETS2LAPlugin):
         else:
             smoothed_max_speed = 999
 
-        target_speed = api_data['truckFloat']['speedLimit']
-        if target_speed < 0:
-            target_speed = self.overwrite_speed / 3.6 
+        if self.settings.ignore_speed_limit:
+            target_speed = 999 / 3.6  # Set highest speed to 999 km/h
+        else:
+            target_speed = api_data['truckFloat']['speedLimit']
+            if target_speed < 0:
+                target_speed = self.overwrite_speed / 3.6    
         
         offset = self.speed_offset + self.manual_speed_offset
         if self.speed_offset_type == "Percentage":

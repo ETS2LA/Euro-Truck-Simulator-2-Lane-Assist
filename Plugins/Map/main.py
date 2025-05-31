@@ -16,7 +16,7 @@ import Plugins.Map.utils.math_helpers as mh
 import Plugins.Map.utils.data_handler as data_handler
 import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
-
+from Plugins.Map.utils import ui_operations
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Handlers.sounds import Play
@@ -33,13 +33,14 @@ planning = importlib.import_module("Plugins.Map.route.planning")
 driving = importlib.import_module("Plugins.Map.route.driving")
 im = importlib.import_module("Plugins.Map.utils.internal_map")
 oh = importlib.import_module("Plugins.Map.utils.offset_handler")  
-last_plan_hash = hash(open(planning.__file__).read())
+last_plan_hash = hash(open(planning.__file__, encoding="utf-8").read())
 last_drive_hash = hash(open(driving.__file__).read())
 last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
 updating_offset_config = False
+devprint = False
 
 enable_disable = ControlEvent(
     "toggle_map",
@@ -104,44 +105,42 @@ class Plugin(ETS2LAPlugin):
         )
 
     def update_road_data(self):
-        data.map.clear_road_data()
-        im.road_image = None
-        data.data_needs_update = True
-        return True  
+        global updating_offset_config
+        updating_offset_config = True
+        result = ui_operations.update_road_data()   
+        updating_offset_config = False
+        return result
 
     def execute_offset_update(self):
         global updating_offset_config
         updating_offset_config = True
-        from Plugins.Map.utils import offset_handler
-        try:
-            if offset_handler.update_offset_config():
-                logging.info("The offset configuration has been updated, and the data is being reloaded...")
-                updating_offset_config = False
-                return True  
-            else:
-                logging.info("No need to update the offset configuration.")
-                updating_offset_config = False
-                return False  
-        except Exception as e:
-            logging.error(f"Failed to update the offset configuration: {str(e)}")
-            updating_offset_config = False
-            return False  
+        result = ui_operations.execute_offset_update()   
+        updating_offset_config = False
+        return result
+        
+    def generate_rules(self):
+        global updating_offset_config
+        updating_offset_config = True
+        result = ui_operations.generate_rules()   
+        updating_offset_config = False
+        return result
         
     def clear_lane_offsets(self):
-        from Plugins.Map.utils import offset_handler
-        try:
-            if offset_handler.clear_lane_offsets():
-                logging.info("The lane offset has been cleared.")
-                return True
-            else:
-                logging.info("No lane offset to clear.")
-                return False
-        except Exception as e:
-            logging.error(f"Failed to clear the lane offset: {str(e)}")
-            return False
+        global updating_offset_config
+        updating_offset_config = True
+        result = ui_operations.clear_lane_offsets()   
+        updating_offset_config = False
+        return result
+        
+    def clear_rules(self):
+        global updating_offset_config
+        updating_offset_config = True
+        result = ui_operations.clear_rules()   
+        updating_offset_config = False
+        return result
 
     def trigger_data_update(self):
-        self.settings.downloaded_data = ""
+        return ui_operations.trigger_data_update(self)
 
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_oh_hash
@@ -388,7 +387,7 @@ class Plugin(ETS2LAPlugin):
         except:
             pass
 
-        if variables.DEVELOPMENT_MODE and not updating_offset_config:
+        if devprint and variables.DEVELOPMENT_MODE and not updating_offset_config:
             if (time.perf_counter() - data_start_time) * 1000 > 100:
                 try:
                     print(f"Map plugin run time: {(time.perf_counter() - data_start_time) * 1000:.2f}ms")

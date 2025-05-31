@@ -382,6 +382,16 @@ class PluginHandler:
             return None
     
     def call_function(self, name: str, *args, **kwargs):
+        """Call a function in the plugin process with improved error handling.
+        
+        Args:
+            name (str): Name of the function to call
+            *args: Positional arguments to pass to the function
+            **kwargs: Keyword arguments to pass to the function
+            
+        Returns:
+            Any: Return value from the function, or None if call failed
+        """
         self.frontend_queue.put({
             "operation": "function",
             "target": name,
@@ -390,13 +400,20 @@ class PluginHandler:
         })
         
         try:
-            return_data = self.frontend_return_queue.get(timeout=0.25)
-        except:
-            logging.exception(f"Failed to call function {name} in plugin {self.plugin_name}.")
+            # Increased timeout from 0.25 to 5 seconds for long-running operations
+            return_data = self.frontend_return_queue.get(timeout=5.0)
+            self.frontend_return_queue.task_done()
+            return return_data
+        except Exception as e:
+            logging.error(f"Failed to call function {name} in plugin {self.plugin_name}: {str(e)}")
+            # Clear the queue in case it's stuck
+            try:
+                while not self.frontend_return_queue.empty():
+                    self.frontend_return_queue.get_nowait()
+                    self.frontend_return_queue.task_done()
+            except:
+                pass
             return None
-            
-        self.frontend_return_queue.task_done()
-        return return_data
     
     def get_performance(self):
         if time.perf_counter() - self.last_performance_time > 1:
