@@ -565,7 +565,12 @@ def CheckForLaneChange():
         return
 
     next = data.route_plan[1]
-    next_point = next.get_points()[0]
+    # Check if there are points before accessing [0]
+    next_points = next.get_points()
+    if not next_points:
+        ResetState()
+        return
+    next_point = next_points[0]
     
     distance_to_truck = math_helpers.DistanceBetweenPoints((next_point.x, next_point.z), (data.truck_x, data.truck_z))
     if distance_to_truck > 300:

@@ -152,7 +152,7 @@ def GetOffset(road):
         elif country_road_pattern.match(name):
             return 9.0  # Auto-generated offset for this pattern
         elif city_ai_pattern.match(name):  # New city ai road check
-            return 2.5  # New offset for city ai roads
+            return 3  # New offset for city ai roads
         elif city_general_pattern.match(name):  # New general city road check
             return 7.0  # New offset for general city roads
         # Updated: Support "4，5m" (Chinese comma) as "4.5m"
