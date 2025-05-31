@@ -221,9 +221,9 @@ class Page(ETS2LAPage):
                                                 
                                 else:
                                     if is_installed:
-                                        with Button(name=found_game, action=self.UninstallSDK, style=styles.Width("93%")):
+                                        with Button(name=found_game, action=self.UninstallSDK, style=styles.Width("90.5%" if self.onboarding_mode else "93%")):
                                             Text("sdk_install.uninstall")
                                     else:
-                                        with Button(name=found_game, action=self.InstallSDK, style=styles.Width("93%")):
+                                        with Button(name=found_game, action=self.InstallSDK, style=styles.Width("90.5%" if self.onboarding_mode else "93%")):
                                             Text("sdk_install.install")
                                 
