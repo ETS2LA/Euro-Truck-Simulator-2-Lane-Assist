@@ -132,7 +132,8 @@ def GetOffset(road):
     try:
         name = road.road_look.name
         # New: Auto-generate offset for country 1/3 patterns
-        country_road_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ country (1|3)$')
+        # Updated: Support "lowpoly" and "lowpoly 15" suffixes
+        country_road_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ country (1|3)( lowpoly( \d+)?)*$')  # New regex with optional lowpoly suffix
         rule_offset = 999
         for rule in rules:
             rule = rule.replace("**", "")
