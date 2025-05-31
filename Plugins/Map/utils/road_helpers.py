@@ -143,6 +143,20 @@ def GetOffset(road):
             custom_offset = per_name[name]
         elif rule_offset != 999:
             custom_offset = rule_offset        
+        # New logic: Handle offset-containing names with m values
+        elif "offset" in name:
+            # Search for patterns like "4,5m" or "3m"
+            offset_m_match = re.search(r'(\d+(?:,\d+)*)m', name)
+            if offset_m_match:
+                number_part = offset_m_match.group(1)
+                try:
+                    # Split comma-separated numbers and sum them
+                    numbers = [float(num) for num in number_part.split(',')]
+                    sum_numbers = sum(numbers)
+                    custom_offset = 4.5 + sum_numbers
+                    return custom_offset  # Return immediately if valid match found
+                except ValueError:
+                    pass  # Continue to other checks if number parsing fails    
         elif reg:
             custom_offset = 4.5 + float(reg.group(2)) * 2
         elif str(road.road_look.offset) in offsets:     
