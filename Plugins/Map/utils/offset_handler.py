@@ -61,12 +61,12 @@ def _is_valid_offset(offset):
         offset (int/float): Value to validate
         
     Returns:
-        bool: True if valid numerical value within [-1000, 1000] range
+        bool: True if valid numerical value within [-100, 100] range
     """
     return (isinstance(offset, (int, float)) 
             and not math.isnan(offset) 
             and not math.isinf(offset)
-            and -1000 < offset < 1000)
+            and -100 < offset < 100)
 
 def _clean_invalid_offsets(config):
     """Remove invalid offset values from configuration.
@@ -233,12 +233,13 @@ def _calculate_distances(road, items, is_subtract=False):
                 logger.warning(f"{road.road_look.name} - After second filter, valid distances: {valid_distances}")
 
             # Select different distance data based on whether it is a subtraction operation
-            distances_to_use = valid_distances if is_subtract else original_valid_distances
+            distances_to_use = original_valid_distances if is_subtract else valid_distances
 
             if len(distances_to_use) >= 2:
-                min_distance = min(min_distance, distances_to_use[0] + distances_to_use[1])
+                # Use largest 2 distances instead of smallest for subtraction
+                min_distance = min(min_distance, distances_to_use[-2] + distances_to_use[-1])  # Changed
             elif distances_to_use:
-                min_distance = min(min_distance, distances_to_use[0] * 2)
+                min_distance = min(min_distance, distances_to_use[-1] * 2)  # Use largest single distance
             else:
                 min_distance = min(min_distance, 0)
         else:
@@ -280,8 +281,8 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
         required_offset = current_offset + base_offset
         logger.warning(f"{prefix}Road: {road.road_look.name}, Adding offset: {required_offset}")
     else:
-        # Modify the subtraction logic to subtract the base offset twice
-        required_offset = current_offset - 2 * base_offset
+        # Changed from 2 * base_offset to base_offset only
+        required_offset = current_offset - base_offset  # Corrected line
         logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {required_offset}")
 
     new_offset = round(required_offset, 2)
