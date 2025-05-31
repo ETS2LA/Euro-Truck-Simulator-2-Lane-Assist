@@ -452,7 +452,8 @@ class Plugin(ETS2LAPlugin):
                 
             self.hud_data = ar_data
             
-            time.sleep(1/2) # 2fps
+            # Update from 2 FPS (0.5s delay) to match refresh_rate setting (default 2-10 FPS)
+            time.sleep(1/refresh_rate)  # Use user-configurable refresh rate
             
     def WheelUpdater(self):
         while True:
