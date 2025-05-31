@@ -695,6 +695,20 @@ def UpdateRoutePlan():
             update = True
             data.route_plan.pop(0)
             
+        # 新增：提前预加载（当前路段剩余距离 <50米且规划长度不足）
+        if len(data.route_plan) > 0:
+            current_section = data.route_plan[0]
+            # 确保 current_section 有效且包含 distance_left 方法
+            if hasattr(current_section, 'distance_left') and (current_section.distance_left() < 50 and len(data.route_plan) < data.route_plan_length):
+                try:
+                    logging.warning("Preloading next route section")
+                    next_route_section = GetNextRouteSection()
+                except:
+                    logging.error("Failed to get next route section (preload)")
+                    next_route_section = None
+                if next_route_section is not None:
+                    data.route_plan.append(next_route_section)
+        
         if len(data.route_plan) == 0:
             return
    
