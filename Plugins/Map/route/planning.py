@@ -707,15 +707,24 @@ def UpdateRoutePlan():
                 current_time = time.time()
                 if current_time - last_preload_time > preload_interval:
                     try:
-                        logging.warning("Preloading next route section")
-                        next_route_section = GetNextRouteSection()
+                        logging.warning("Preloading next navigation item")
+                        next_route_section = GetNextNavigationItem()
                         # 更新上次预加载时间
                         last_preload_time = current_time
                     except:
-                        logging.error("Failed to get next route section (preload)")
+                        logging.error("Failed to get next navigation item (preload)")
                         next_route_section = None
                     if next_route_section is not None:
-                        data.route_plan.append(next_route_section)
+                        try:
+                            start = next_route_section.start_node.uid
+                            end = next_route_section.end_node.uid
+                            last_start = data.route_plan[-1].start_node.uid
+                            last_end = data.route_plan[-1].end_node.uid
+                            if (start != last_start or end != last_end):
+                                data.route_plan.append(next_route_section)
+                        except:
+                            logging.exception("Failed to append next navigation item (preload)")
+                            pass
         
         if len(data.route_plan) == 0:
             return
