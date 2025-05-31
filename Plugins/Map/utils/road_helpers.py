@@ -134,6 +134,10 @@ def GetOffset(road):
         # New: Auto-generate offset for country 1/3 patterns
         # Updated: Support "lowpoly" and "lowpoly 15" suffixes
         country_road_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ country (1|3)( lowpoly( \d+)?)*$')  # New regex with optional lowpoly suffix
+        # New: Auto-generate offset for city ai1/ai2 patterns
+        city_ai_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ city ai[12]( \d+(\s\w+)*)*$')  # Matches "city ai1/ai2" with suffixes
+        # New: Auto-generate offset for general city road patterns
+        city_general_pattern = re.compile(r'^(us|CANADA) \d+(?:-\d+)* city(?: \w+)+$')  # Matches general city roads with suffixes
         rule_offset = 999
         for rule in rules:
             rule = rule.replace("**", "")
@@ -147,6 +151,10 @@ def GetOffset(road):
             custom_offset = rule_offset        
         elif country_road_pattern.match(name):
             return 9.0  # Auto-generated offset for this pattern
+        elif city_ai_pattern.match(name):  # New city ai road check
+            return 2.5  # New offset for city ai roads
+        elif city_general_pattern.match(name):  # New general city road check
+            return 7.0  # New offset for general city roads
         # Updated: Support "4，5m" (Chinese comma) as "4.5m"
         elif "offset" in name:
             # Search for patterns with optional commas (English/Chinese) or decimals

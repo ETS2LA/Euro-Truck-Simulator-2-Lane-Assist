@@ -559,6 +559,11 @@ def CheckForLaneChange():
         data.plugin.state.text = "Executing lane change..."
         return
     
+    # Add check for route plan length before accessing index 1
+    if len(data.route_plan) < 2:
+        logging.warning("Insufficient route plan elements (needs at least 2) for lane change check")
+        return
+
     next = data.route_plan[1]
     next_point = next.get_points()[0]
     

@@ -45,7 +45,7 @@ if variables.DEVELOPMENT_MODE:
 
 # Key parameters!!!
 # distance_threshold: Distance threshold in meters
-distance_threshold = 0.25
+distance_threshold = 0.1
 
 # Add cache dictionaries
 _distance_cache = {}
