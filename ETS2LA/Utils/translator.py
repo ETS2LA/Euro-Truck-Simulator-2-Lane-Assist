@@ -38,26 +38,31 @@ def LoadLanguageData():
 LoadLanguageData()
 
 try:
-    # Ugly hack to get the default locale on Windows
-    import locale
-    default_locale = locale.getlocale()[0]
-    if default_locale is None:
-        default_locale = "English"
+    cur = settings.Get("global", "language")
+    if not cur and os.name == "nt":
+        logging.info("Detecting default language...")
+        # Ugly hack to get the default locale on Windows
+        import locale
+        default_locale = locale.getlocale()[0]
+        if default_locale is None:
+            default_locale = "English"
+        else:
+            name = default_locale.split("_")[0].split("(")[0]
+            if "Taiwan" in default_locale:
+                name = "Traditional Chinese (Taiwan)"
+            elif "China" in default_locale:
+                name = "Simplified Chinese"
+            default_locale = name
+        
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", default_locale))]
+        logging.info(f"Found default language: {default_locale}")
     else:
-        name = default_locale.split("_")[0].split("(")[0]
-        if "Taiwan" in default_locale:
-            name = "Traditional Chinese (Taiwan)"
-        elif "China" in default_locale:
-            name = "Simplified Chinese"
-        default_locale = name
-    
-    LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", default_locale))]
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
+        
 except ValueError:
     logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
     LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
     settings.Set("global", "language", "English")
-
-SETTINGS_HASH = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
 
 def UpdateFrontendTranslations():
     try:
@@ -179,16 +184,20 @@ def Translate(key: str, values: list = None) -> str: # type: ignore
     
     return ftfy.fix_text(LANGUAGE_DATA[LANGUAGE]["Translations"][key].format(*values))
 
-def CheckForLanguageUpdates():
-    global LANGUAGE, SETTINGS_HASH
-    cur_hash = hashlib.md5(open("ETS2LA/global.json", "rb").read()).hexdigest()
-    if cur_hash != SETTINGS_HASH:
-        SETTINGS_HASH = cur_hash
-        try:
-            LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
-        except ValueError:
-            logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
-            LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
-            settings.Set("global", "language", "English")
+def SettingsUpdate(new: dict):
+    global LANGUAGE
+    
+    try:
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
+    except ValueError:
+        logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
+        settings.Set("global", "language", "English")
+        
+    if variables.DEVELOPMENT_MODE:
         LoadLanguageData()
+        
+    if variables.LOCAL_MODE:
         UpdateFrontendTranslations()
+        
+settings.Listen("global", SettingsUpdate)
