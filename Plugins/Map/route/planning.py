@@ -559,20 +559,27 @@ def CheckForLaneChange():
         data.plugin.state.text = "Executing lane change..."
         return
     
+    if len(data.route_plan) < 2:
+        return # Too short of a plan
+
     next = data.route_plan[1]
-    next_point = next.get_points()[0]
+    next_points = next.get_points()
+    if not next_points:
+        ResetState()
+        return # No points on the next section
+    next_point = next_points[0]
     
     distance_to_truck = math_helpers.DistanceBetweenPoints((next_point.x, next_point.z), (data.truck_x, data.truck_z))
     if distance_to_truck > 300:
         ResetState()
         CheckForLaneChangeManual()
-        return
+        return # Too far
     
     points = current.get_points()
     if len(points) == 0:
         ResetState()
         CheckForLaneChangeManual()
-        return
+        return # No points on the current section
     
     current_point = points[-1]
     distance = math_helpers.DistanceBetweenPoints((current_point.x, current_point.z), (next_point.x, next_point.z))
@@ -684,7 +691,7 @@ def UpdateRoutePlan():
         if data.route_plan[0].is_ended:
             update = True
             data.route_plan.pop(0)
-            
+        
         if len(data.route_plan) == 0:
             return
    

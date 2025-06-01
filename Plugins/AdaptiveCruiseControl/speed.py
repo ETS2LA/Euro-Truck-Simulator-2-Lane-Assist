@@ -68,9 +68,6 @@ def get_maximum_speed_for_points(points, x, z) -> float:
         if not curvatures:
             return 999
         
-        if not curvatures:
-            return 999
-        
         max_curvature = max(curvatures)
         
         # sqrt(MU * G / max_curvature) = max_speed
