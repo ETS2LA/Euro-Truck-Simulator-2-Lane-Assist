@@ -697,34 +697,35 @@ def UpdateRoutePlan():
         if data.route_plan[0].is_ended:
             update = True
             data.route_plan.pop(0)
-            
-        # 新增：提前预加载（当前路段剩余距离 <50米且规划长度不足，且满足时间间隔）
-        if len(data.route_plan) > 0:
-            current_section = data.route_plan[0]
-            # 确保 current_section 有效且包含 distance_left 方法
-            if hasattr(current_section, 'distance_left') and (current_section.distance_left() < 50 and len(data.route_plan) < data.route_plan_length):
-                # 检查时间间隔：当前时间 - 上次预加载时间 > 预加载间隔
-                current_time = time.time()
-                if current_time - last_preload_time > preload_interval:
-                    try:
-                        logging.warning("Preloading next navigation item")
-                        next_route_section = GetNextNavigationItem()
-                        # 更新上次预加载时间
-                        last_preload_time = current_time
-                    except:
-                        logging.error("Failed to get next navigation item (preload)")
-                        next_route_section = None
-                    if next_route_section is not None:
-                        try:
-                            start = next_route_section.start_node.uid
-                            end = next_route_section.end_node.uid
-                            last_start = data.route_plan[-1].start_node.uid
-                            last_end = data.route_plan[-1].end_node.uid
-                            if (start != last_start or end != last_end):
-                                data.route_plan.append(next_route_section)
-                        except:
-                            logging.exception("Failed to append next navigation item (preload)")
-                            pass
+        
+        # TODO: Make this function work properly again    
+        # # 新增：提前预加载（当前路段剩余距离 <50米且规划长度不足，且满足时间间隔）
+        # if len(data.route_plan) > 0:
+        #     current_section = data.route_plan[0]
+        #     # 确保 current_section 有效且包含 distance_left 方法
+        #     if hasattr(current_section, 'distance_left') and (current_section.distance_left() < 50 and 0 < len(data.route_plan) < data.route_plan_length):
+        #         # 检查时间间隔：当前时间 - 上次预加载时间 > 预加载间隔
+        #         current_time = time.time()
+        #         if current_time - last_preload_time > preload_interval:
+        #             try:
+        #                 logging.warning("Preloading next navigation item")
+        #                 next_route_section = GetNextNavigationItem()
+        #                 # 更新上次预加载时间
+        #                 last_preload_time = current_time
+        #             except:
+        #                 logging.error("Failed to get next navigation item (preload)")
+        #                 next_route_section = None
+        #             if next_route_section is not None:
+        #                 try:
+        #                     start = next_route_section.start_node.uid
+        #                     end = next_route_section.end_node.uid
+        #                     last_start = data.route_plan[-1].start_node.uid
+        #                     last_end = data.route_plan[-1].end_node.uid
+        #                     if (start != last_start or end != last_end):
+        #                         data.route_plan.append(next_route_section)
+        #                 except:
+        #                     logging.exception("Failed to append next navigation item (preload)")
+        #                     pass
         
         if len(data.route_plan) == 0:
             return
