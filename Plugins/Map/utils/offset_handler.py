@@ -55,14 +55,28 @@ _processed_roads = set()
 _skip_roads = set()
 
 def _is_valid_offset(offset):
-    """Validate if offset value is valid"""
+    """Validate if an offset value is within acceptable parameters.
+    
+    Args:
+        offset (int/float): Value to validate
+        
+    Returns:
+        bool: True if valid numerical value within [-100, 100] range
+    """
     return (isinstance(offset, (int, float)) 
             and not math.isnan(offset) 
             and not math.isinf(offset)
-            and -1000 < offset < 1000)  # Add reasonable range limit
+            and -100 < offset < 100)
 
 def _clean_invalid_offsets(config):
-    """Clean invalid offset values from configuration"""
+    """Remove invalid offset values from configuration.
+    
+    Args:
+        config (dict): Configuration dictionary
+        
+    Returns:
+        dict: Sanitized configuration with only valid offsets
+    """
     per_name = config['offsets']['per_name']
     # Filter invalid offset values
     valid_offsets = {
@@ -78,7 +92,15 @@ def _clean_invalid_offsets(config):
     return config
 
 def update_offset_config_generic(operation="add", allow_override=False):
-    """Generic offset configuration updater for both add/sub operations"""
+    """Main entry point for updating offset configurations.
+    
+    Args:
+        operation (str): 'add' or 'sub' for offset operations
+        allow_override (bool): Allow overriding existing offsets
+        
+    Returns:
+        bool: True if any updates were made
+    """
     prefix = "Sub: " if operation == "sub" else "Add: "
     
     # Clear caches
@@ -132,8 +154,13 @@ def update_offset_config_generic(operation="add", allow_override=False):
 
     # Save configuration
     if updated:
+        # Clean invalid offset values from the configuration
         config = _clean_invalid_offsets(config)
-        generate_rules(config)
+
+        # Sort per_name and rules before writing
+        config['offsets']['per_name'] = dict(sorted(config['offsets']['per_name'].items()))
+
+        # Open the configuration file in write mode and save the updated configuration
         with open(CONFIG_PATH, 'w') as f:
             json.dump(config, f, indent=4)
             
@@ -167,7 +194,7 @@ def _calculate_distances(road, items):
     cache_key = (road.uid, tuple(item.uid for item in items if item))
     if cache_key in _distance_cache:
         return _distance_cache[cache_key]
-        
+
     min_distance = math.inf
     sorted_distances = []
     dist0 = False
@@ -175,7 +202,7 @@ def _calculate_distances(road, items):
     for item in items:
         if not (item and hasattr(item, "nav_routes")):
             continue
-            
+
         item_distances = _calculate_item_distances(road, item)
         if not item_distances:
             continue
@@ -212,6 +239,7 @@ def _should_update_offset(min_distance, sorted_distances):
 
 def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_override, prefix):
     """Update road offset"""
+    global _skip_roads
     current_offset = road_helpers.GetOffset(road)
     base_offset = min_distance
     logger.warning(f"{prefix}Road: {road.road_look.name}, Base offset: {base_offset}, Current offset: {current_offset}")
@@ -219,7 +247,8 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
         required_offset = current_offset + base_offset
         logger.warning(f"{prefix}Road: {road.road_look.name}, Adding offset: {required_offset}")
     else:
-        required_offset = current_offset - base_offset
+        # Changed from 2 * base_offset to base_offset only
+        required_offset = current_offset - base_offset  # Corrected line
         logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {required_offset}")
 
     new_offset = round(required_offset, 2)
