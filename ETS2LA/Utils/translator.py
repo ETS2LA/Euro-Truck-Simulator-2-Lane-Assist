@@ -37,20 +37,27 @@ def LoadLanguageData():
 LoadLanguageData()
 
 try:
-    # Ugly hack to get the default locale on Windows
-    import locale
-    default_locale = locale.getlocale()[0]
-    if default_locale is None:
-        default_locale = "English"
+    cur = settings.Get("global", "language")
+    if not cur and os.name == "nt":
+        logging.info("Detecting default language...")
+        # Ugly hack to get the default locale on Windows
+        import locale
+        default_locale = locale.getlocale()[0]
+        if default_locale is None:
+            default_locale = "English"
+        else:
+            name = default_locale.split("_")[0].split("(")[0]
+            if "Taiwan" in default_locale:
+                name = "Traditional Chinese (Taiwan)"
+            elif "China" in default_locale:
+                name = "Simplified Chinese"
+            default_locale = name
+        
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", default_locale))]
+        logging.info(f"Found default language: {default_locale}")
     else:
-        name = default_locale.split("_")[0].split("(")[0]
-        if "Taiwan" in default_locale:
-            name = "Traditional Chinese (Taiwan)"
-        elif "China" in default_locale:
-            name = "Simplified Chinese"
-        default_locale = name
-    
-    LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", default_locale))]
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
+        
 except ValueError:
     logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
     LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
@@ -185,17 +192,20 @@ def Translate(key: str, values: list = None, return_original: bool = False) -> s
     
     return ftfy.fix_text(LANGUAGE_DATA[LANGUAGE]["Translations"][key].format(*values))
 
-def UpdateLanguageData(settings_dict: dict):
+def SettingsUpdate(new: dict):
     global LANGUAGE
+    
     try:
-        new_language = LANGUAGE_CODES[LANGUAGES.index(settings_dict.get("language", "English"))]
-        if new_language != LANGUAGE:
-            logging.info(f"Language changed to {settings_dict.get('language', 'English')}")
-            LANGUAGE = new_language
-            
+        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
     except ValueError:
-        logging.warning(f"Language '{settings_dict.get('language', 'English')}' not found. Falling back to English.")
+        logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
         LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
         settings.Set("global", "language", "English")
-
-settings.Listen("global", UpdateLanguageData)
+        
+    if variables.DEVELOPMENT_MODE:
+        LoadLanguageData()
+        
+    if variables.LOCAL_MODE:
+        UpdateFrontendTranslations()
+        
+settings.Listen("global", SettingsUpdate)
