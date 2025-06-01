@@ -131,6 +131,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 def GetOffset(road):
     try:
         name = road.road_look.name
+        # New: ATS road support
         # New: Auto-generate offset for country 1/3 patterns
         # Updated: Support "lowpoly" and "lowpoly 15" suffixes
         country_road_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ country (1|3)( lowpoly( \d+)?)*$')  # New regex with optional lowpoly suffix
@@ -160,7 +161,7 @@ def GetOffset(road):
         elif city_general_pattern.match(name):  # New general city road check
             return 7.0  # New offset for general city roads
         # Updated: Support "4，5m" (Chinese comma) as "4.5m"
-        elif "offset" in name:
+        elif ("us" or "CANADA") and "offset" in name:
             # Search for patterns with optional commas (English/Chinese) or decimals
             offset_m_match = re.search(r'([+-]?\d+[.,，]?\d*)m', name)  # Allow commas/Chinese commas
             if offset_m_match:

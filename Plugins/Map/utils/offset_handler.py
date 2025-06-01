@@ -145,9 +145,8 @@ def update_offset_config_generic(operation="add", allow_override=False):
             if not connected_items:
                 continue
 
-            # Pass the is_subtract parameter
-            is_subtract = operation == "sub"
-            min_distance, sorted_distances, dist0 = _calculate_distances(road, connected_items, is_subtract=is_subtract)
+            # Calculate distances
+            min_distance, sorted_distances, dist0 = _calculate_distances(road, connected_items)
             
             # Handle offset
             if _should_update_offset(min_distance, sorted_distances):
@@ -190,7 +189,7 @@ def _get_connected_items(road, map_data):
         ] if uid != road.uid
     ]
 
-def _calculate_distances(road, items, is_subtract=False):
+def _calculate_distances(road, items):
     """Calculate road distances"""
     cache_key = (road.uid, tuple(item.uid for item in items if item))
     if cache_key in _distance_cache:
@@ -198,10 +197,8 @@ def _calculate_distances(road, items, is_subtract=False):
 
     min_distance = math.inf
     sorted_distances = []
-    valid_distances = []
     dist0 = False
-    lane_count = len(road.lanes)  # Cache the number of lanes to avoid repeated calculations
-
+    
     for item in items:
         if not (item and hasattr(item, "nav_routes")):
             continue
@@ -209,48 +206,17 @@ def _calculate_distances(road, items, is_subtract=False):
         item_distances = _calculate_item_distances(road, item)
         if not item_distances:
             continue
-
-        if lane_count > 1:
-            # Sort the slice directly to reduce the scope of the sorting operation
-            current_sorted = sorted(item_distances)[:lane_count]
+            
+        if len(road.lanes) > 1:
+            current_sorted = sorted(item_distances)
             sorted_distances.extend(current_sorted)
-            valid_distances = [d for d in current_sorted if d >= distance_threshold]
-            logger.warning(f"{road.road_look.name} - After first filter, valid distances: {valid_distances}")
-            valid_distances.sort()
-
-            original_valid_distances = valid_distances.copy()
-
-            if valid_distances and valid_distances[0] >= 4.5 and all(d != 0 for d in valid_distances):
-                # Pre - allocate the list to reduce dynamic resizing overhead
-                new_valid_distances = [0] * len(valid_distances)
-                index = 0
-                for d in valid_distances:
-                    diff = d - 4.5
-                    if diff >= distance_threshold:
-                        new_valid_distances[index] = diff
-                        index += 1
-                valid_distances = new_valid_distances[:index]
-                logger.warning(f"{road.road_look.name} - After second filter, valid distances: {valid_distances}")
-
-            # Select different distance data based on whether it is a subtraction operation
-            distances_to_use = original_valid_distances if is_subtract else valid_distances
-
-            if len(distances_to_use) >= 2:
-                # Use largest 2 distances instead of smallest for subtraction
-                min_distance = min(min_distance, distances_to_use[-2] + distances_to_use[-1])  # Changed
-            elif distances_to_use:
-                min_distance = min(min_distance, distances_to_use[-1] * 2)  # Use largest single distance
-            else:
-                min_distance = min(min_distance, 0)
+            min_distance = min(min_distance, sum(current_sorted[:2]))
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
-            logger.warning(f"{road.road_look.name} - Single lane: {current_min}")
-
-        if min_distance <= distance_threshold:
-            dist0 = True
-        logger.warning(f"{road.road_look.name} - dist0: {dist0}, sorted distances: {sorted_distances}, valid distances: {valid_distances}, min_distance: {min_distance}")
-
+            
+        dist0 |= any(d < distance_threshold for d in item_distances)
+    
     result = (min_distance, sorted_distances, dist0)
     _distance_cache[cache_key] = result
     return result
@@ -288,7 +254,7 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
     new_offset = round(required_offset, 2)
     if dist0:
         logger.warning(f"{prefix}No override necessary for {road.road_look.name}")
-        #_skip_roads.add(road.road_look.name)  # Add to skip list
+        _skip_roads.add(road.road_look.name)  # Add to skip list
         return True
     elif road.road_look.name not in per_name:
         per_name[road.road_look.name] = new_offset
