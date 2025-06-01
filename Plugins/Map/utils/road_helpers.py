@@ -131,6 +131,7 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 def GetOffset(road):
     try:
         name = road.road_look.name
+        custom_offset = 4.5  # Initialize custom_offset with a default value
         # New: ATS road support
         # New: Auto-generate offset for country 1/3 patterns
         # Updated: Support "lowpoly" and "lowpoly 15" suffixes
@@ -196,7 +197,7 @@ def GetOffset(road):
 
         return custom_offset
     except Exception as e:
-        logging.error(f"Error getting offset for road {getattr(road, 'uid', 'unknown')}: {e}")
+        logging.error(f"Error getting offset for road {getattr(road, 'uid', 'name')}: {e}")
         return 4.5
 
 def GetRoadLanes(road, data):    
