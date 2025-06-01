@@ -317,7 +317,8 @@ class RouteSection:
         new_points = []
         last_point = temp_points[closest_id]
         for i, point in enumerate(temp_points):
-            if distances_to_each_other[i] < average_distance * 2:
+            # 修改第二个过滤条件，增加最小阈值 1 米
+            if distances_to_each_other[i] < max(average_distance * 2, 1):
                 new_points.append(point)
                 last_point = point
         
