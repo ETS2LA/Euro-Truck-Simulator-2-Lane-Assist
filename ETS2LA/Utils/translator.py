@@ -202,10 +202,10 @@ def SettingsUpdate(new: dict):
         LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
         settings.Set("global", "language", "English")
         
-    if variables.DEVELOPMENT_MODE:
+    if variables.DEVELOPMENT_MODE and not variables.LOCAL_MODE:
         LoadLanguageData()
         
-    if variables.LOCAL_MODE:
+    if variables.LOCAL_MODE and not variables.DEVELOPMENT_MODE:
         UpdateFrontendTranslations()
         
 settings.Listen("global", SettingsUpdate)

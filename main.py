@@ -5,6 +5,7 @@ look at the core.py file in the ETS2LA folder.
 """
 
 import os
+import time
 
 try:
     from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
@@ -16,6 +17,7 @@ try:
     import tqdm
 except:
     print("The module 'tqdm', is missing, this is a common sign of missing modules. An update will be triggered to install these modules.")
+    time.sleep(2)
     import subprocess
     if os.name == "nt":
         try:
@@ -45,7 +47,6 @@ import traceback
 import importlib
 import requests
 import queue
-import time
 import git
 import sys
 
@@ -167,7 +168,7 @@ def ets2la_process(exception_queue: Queue) -> None:
                     ETS2LA.variables.CHINA_MODE = True
                     print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
                 except:
-                    print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
+                    print(f"{RED}{'No connection to remote UI. Running locally.'}{END}\n")
                     did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True,
                                                     cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
                     if did_update:

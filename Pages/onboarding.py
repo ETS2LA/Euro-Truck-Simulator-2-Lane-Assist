@@ -16,7 +16,6 @@ class Page(ETS2LAPage):
     # 1 = start rendering
     # 0 = loading state done
     increment_and_load = 0
-    
     show_sidebar = False
 
     def loading_increment(self):
@@ -46,6 +45,9 @@ class Page(ETS2LAPage):
         
     def handle_show_sidebar(self):
         self.show_sidebar = not self.show_sidebar
+    
+    def handle_skip_onboarding(self):
+        SendPopup("If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding.")
         
     def handle_plugin_mode_change(self, *args):
         if args:
@@ -62,6 +64,12 @@ class Page(ETS2LAPage):
             settings.Set("Map", "selected_data", value)
         else:
             settings.Set("Map", "selected_data", "")
+            
+    def handle_width_change(self, value):
+        settings.Set("global", "width", value)
+        
+    def handle_height_change(self, value):
+        settings.Set("global", "height", value)
 
     def loading(self):
         with Container(style=styles.FlexVertical() + styles.Classname("items-center relative justify-center gap-4 text-center") + styles.Height("100vh")):
@@ -75,10 +83,22 @@ class Page(ETS2LAPage):
         
         with Button(action=self.increment_page):
             Text("Continue")
-            
+        
         with Container(style=styles.Classname("bottom-2 absolute left-0 right-0 text-center")):
-            with Button(action=self.decrement_page, type="link"):
+            with Button(action=self.handle_skip_onboarding, type="link"):
                 Text("Skip Onboarding", styles.Description() + styles.Classname("text-xs"))
+        
+        offset = styles.Style()
+        offset.margin_bottom = "55px"
+        offset.margin_right = "16px"
+        with Container(style=styles.Classname("bottom-0 absolute right-0 text-center flex gap-2 items-center") + offset):
+            Text("You can change the theme here!", styles.Description() + styles.Classname("text-xs text-muted-foreground"))
+            icon_style = styles.Style()
+            icon_style.margin_top = "2px"
+            icon_style.width = "1.2rem"
+            icon_style.height = "1.2rem"
+            icon_style.color = "var(--muted-foreground)"
+            Icon("arrow-down", icon_style)
                 
     def language(self):
         with Container(style=styles.FlexHorizontal() + styles.Classname("items-center") + styles.Width("800px") + styles.Gap("48px")):
@@ -109,8 +129,7 @@ class Page(ETS2LAPage):
                         style.color = "var(--muted-foreground)"
                         Icon("info", style)
                         Text(translator.Translate("credits"), styles.Classname("text-muted-foreground"))
-            
-                
+                        
     def sdk_setup(self):
         with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
             is_installed = False
@@ -140,27 +159,49 @@ class Page(ETS2LAPage):
             sdk_page.render()
 
     def plugins(self):
-        with Container(style=styles.FlexVertical() + styles.Width("520px")):
-            Text("Plugins", styles.Title())
-            Text("ETS2LA uses plugins to provide most of it's functionality. Below you can select between a simple mode, and an advanced mode. This can be changed later on in the settings.", styles.Description() + styles.MaxWidth("520px"))
-            Space()
-            with Container(style=styles.Classname("text-start w-full")):
+        with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
+            with Container(style=styles.FlexVertical() + styles.Width("450px")):
+                Text("Plugins", styles.Title())
+                Text("ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings.", styles.Description() + styles.MaxWidth("520px"))
+                Space()
+                with Button(action=self.loading_increment, style=styles.Classname("default w-full")):
+                    Text("Continue")
+                    
+            with Container(style=styles.Classname("text-start") + styles.Width("550px") + styles.FlexVertical() + styles.Gap("12px")):
                 CheckboxWithTitleDescription(
                     title="Advanced Plugin Mode",
                     description="Enables advanced plugin management features.",
                     default=settings.Get("global", "advanced_plugin_mode", False),
                     changed=self.handle_plugin_mode_change
                 )
-            
-            Space()
-            with Button(action=self.loading_increment, style=styles.Classname("default w-full")):
-                Text("Continue")
+                with Alert(style=styles.FlexVertical() + styles.Padding("14px") + styles.Width("550px") + styles.Classname("default") + styles.Gap("6px")):
+                    with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                        if not settings.Get("global", "advanced_plugin_mode", False):
+                            style = styles.Style()
+                            style.margin_top = "-4px"
+                            style.width = "2rem"
+                            style.height = "2rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("info", style)
+                            Markdown("Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled.", styles.Classname("text-muted-foreground"))
+                        else:
+                            style = styles.Style()
+                            style.margin_top = "-12px"
+                            style.width = "3rem"
+                            style.height = "3rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("info", style)
+                            Markdown("**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA.", styles.Classname("text-muted-foreground"))
+                    
 
     def map_data(self):
-        with Container(style=styles.FlexVertical() + styles.Width("520px")):
-            Text("Map Data", styles.Title())
-            Text("ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below.", styles.Description())
-            Space()
+        with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
+            with Container(style=styles.FlexVertical() + styles.Width("450px")):
+                Text("Map Data", styles.Title())
+                Text("ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below.", styles.Description())
+                Space()
+                with Button(action=self.increment_page):
+                    Text("Continue")
             
             import Plugins.Map.utils.data_handler as dh
             index = dh.GetIndex()
@@ -171,21 +212,90 @@ class Page(ETS2LAPage):
                 if config != {}:
                     configs[key] = config
             
-            ComboboxWithTitleDescription(
-                title="Selected Data",
-                description="Select the data that matches your game and mods.",
-                default=settings.Get("Map", "SelectedData", ""),
-                options=[config["name"] for config in configs.values()],
-                search=ComboboxSearch(
-                    placeholder="Search data",
-                    empty="No matching data found"
-                ),
-                changed=self.handle_data_selection,
-            )
-            
-            Space()
-            with Button(action=self.increment_page, style=styles.Classname("default w-full")):
-                Text("Continue")
+            with Container(style=styles.FlexVertical() + styles.Width("600px")):
+                current = settings.Get("Map", "selected_data", "")
+                ComboboxWithTitleDescription(
+                    title="Selected Data",
+                    description="Select the data that matches your game and mods.",
+                    default=current,
+                    options=[config["name"] for config in configs.values()],
+                    search=ComboboxSearch(
+                        placeholder="Search data",
+                        empty="No matching data found"
+                    ),
+                    changed=self.handle_data_selection,
+                )
+                
+                if current:
+                    config = [config for config in configs.values() if config["name"] == current]
+                    if config:
+                        config = config[0]
+                    else:
+                        return
+                    
+                    with Container(style=styles.FlexVertical() + styles.Gap("12px") + styles.Padding("16px") + styles.Classname("border rounded-md bg-input/10")):
+                        with Container(style=styles.FlexVertical() + styles.Gap("4px") + styles.Padding("0px")):
+                            Text(config["name"], styles.Classname("font-semibold"))
+                            Text(config["description"], styles.Description() + styles.Classname("text-xs"))
+                            
+                        with Container(style=styles.FlexVertical() + styles.Gap("4px") + styles.Padding("0px")):
+                            for title, credit in config["credits"].items():
+                                with Container(style=styles.FlexHorizontal() + styles.Gap("4px") + styles.Padding("0px")):
+                                    Text(title, styles.Description() + styles.Classname("text-xs"))
+                                    Text(credit, styles.Classname("text-xs"))
+
+                        with Container(style=styles.FlexHorizontal() + styles.Gap("4px") + styles.Padding("0px")):
+                            Text("The", styles.Description() + styles.Classname("text-xs"))
+                            Text("download size", styles.Description() + styles.Classname("text-xs"))
+                            Text("for this data is", styles.Description() + styles.Classname("text-xs"))
+                            Text(f"{config['packed_size'] / 1024 / 1024:.1f} MB", styles.Classname("text-xs"))
+                            Text("that will unpack to a", styles.Description() + styles.Classname("text-xs"))
+                            Text("total size", styles.Description() + styles.Classname("text-xs"))
+                            Text(f"{config['size'] / 1024 / 1024:.1f} MB.", styles.Classname("text-xs"))
+                            
+                else:
+                    with Container(style=styles.FlexVertical() + styles.Gap("12px") + styles.Padding("16px") + styles.Classname("border rounded-md bg-input/10")):
+                        Text("No data selected", styles.Classname("font-semibold"))
+                        Text("Please select the data you want to use from the dropdown above.", styles.Description() + styles.Classname("text-xs"))
+
+    def size(self):
+        with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
+            with Container(style=styles.FlexVertical() + styles.Width("450px")):
+                Text("Window Size", styles.Title())
+                Text("ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size.", styles.Description())
+                Space()
+                with Button(action=self.increment_page):
+                    Text("Continue")
+
+            with Container(style=styles.FlexVertical() + styles.Width("600px")):
+                SliderWithTitleDescription(
+                    title="Window Width",
+                    description="Adjust the width of the ETS2LA window.",
+                    default=settings.Get("global", "width", 1280),
+                    min=400,
+                    max=1920,
+                    step=10,
+                    changed=self.handle_width_change
+                )
+                SliderWithTitleDescription(
+                    title="Window Height",
+                    description="Adjust the height of the ETS2LA window.",
+                    default=settings.Get("global", "height", 720),
+                    min=300,
+                    max=1080,
+                    step=10,
+                    changed=self.handle_height_change
+                )
+                Space()
+                with Alert(style=styles.FlexVertical() + styles.Padding("14px") + styles.Width("550px") + styles.Classname("default") + styles.Gap("6px")):
+                    with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                        style = styles.Style()
+                        style.margin_top = "4px"
+                        style.width = "1.4rem"
+                        style.height = "1.4rem"
+                        style.color = "var(--muted-foreground)"
+                        Icon("triangle", style)
+                        Markdown("**Changing the window size may cause pages to display incorrectly**.\nYou can adjust the window scaling by holding Left CTRL and using the scrollwheel.", styles.Classname("text-muted-foreground"))
 
     def complete(self):
         with Container(style=styles.FlexVertical() + styles.Width("400px")):
@@ -196,8 +306,10 @@ class Page(ETS2LAPage):
                 Text("Finish")
             
         if self.show_sidebar:
-            with Container(style=styles.FlexVertical() + styles.Classname("left-2 top-0 bottom-0 absolute items-center justify-center")):
-                Text("<- Press this edge to open\n      and close the sidebar")
+            manager_button_offset = styles.Style()
+            manager_button_offset.margin_top = "220px"
+            with Container(style=styles.FlexVertical() + styles.Classname("left-2 top-0 absolute items-center justify-center") + manager_button_offset):
+                Text("<- Press this edge to open and close the sidebar.\n      Open the Manager to enable plugins.")
 
     def render(self):
         pages = {
@@ -206,7 +318,8 @@ class Page(ETS2LAPage):
             2: self.sdk_setup,
             3: self.plugins,
             4: self.map_data,
-            5: self.complete
+            5: self.size,
+            6: self.complete
         }
         
         if self.increment_and_load == 2:
