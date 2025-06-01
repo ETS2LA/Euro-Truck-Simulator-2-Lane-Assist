@@ -315,8 +315,10 @@ class Plugin(ETS2LAPlugin):
 
                 if steering_value is not None:
                     steering_value = steering_value / 180
-                    if steering_value > 0.9 or steering_value < -0.9:
-                        steering_value = 0
+                    if steering_value > 0.95:
+                        steering_value = 0.95
+                    elif steering_value < -0.95:
+                        steering_value = -0.95
 
                     steering.run(value=steering_value, sendToGame=data.enabled, drawLine=False)
                 else:
