@@ -95,7 +95,6 @@ def CoordsToWGS84(x, y, game="ETS2"):
     Support both ETS2 (Europe/UK) and ATS (North America) maps.
     """
 
-    # --- ATS Branch ---
     if game == "ATS":
         offset_x = round(36 * (1 / (1 + math.exp(0.0001 * (x + 60000)))))
         pos_y_factor = 1 / (1 + math.exp(-0.00015 * (y - 20000)))
@@ -107,21 +106,22 @@ def CoordsToWGS84(x, y, game="ETS2"):
         proj_x = x * ATS_MAP_FACTOR[1] * LENGTH_OF_DEGREE
         proj_y = y * ATS_MAP_FACTOR[0] * LENGTH_OF_DEGREE
         lon, lat = ATS_TRANSFORM.transform(proj_x, proj_y)
-        # logging.warning(f"ATS CoordsToWGS84: x={x}, y={y}, offset=({offset_x}, {offset_y}), proj_x={proj_x}, proj_y={proj_y}")
         return (lat, lon)
     
-    calais = [-31100, -5500]
-    is_uk = x < calais[0] and y < calais[1]
-    x -= 16660 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
-    y -= 4150
-    if is_uk:
-        x -= 16650
-        y -= 2700
-    
-    coords = [x, -y]
-    if is_uk:
-        return UK_TRANSFORM.transform(*coords)[::-1]
-    return ETS2_TRANSFORM.transform(*coords)[::-1]
+    else: # ETS2
+        calais = [-31100, -5500]
+        is_uk = x < calais[0] and y < calais[1]
+        x -= 16660 # https://github.com/truckermudgeon/maps/blob/main/packages/libs/map/projections.ts#L40
+        y -= 4150
+        if is_uk:
+            x -= 16650
+            y -= 2700
+        
+        coords = [x, -y]
+        if is_uk:
+            return UK_TRANSFORM.transform(*coords)[::-1]
+        
+        return ETS2_TRANSFORM.transform(*coords)[::-1]
 
 last_angle = 0
 last_position = (0, 0)

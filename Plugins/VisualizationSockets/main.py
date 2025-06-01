@@ -500,7 +500,7 @@ class Plugin(ETS2LAPlugin):
         y = float(data["truckPlacement"]["coordinateY"])
         z = float(data["truckPlacement"]["coordinateZ"])
         
-        id = 0  # 仅记录已连接的挂车数量
+        id = 0
         for trailer in data["trailers"]:
             if trailer["comBool"]["attached"]:
                 rotationX = trailer["comDouble"]["rotationX"] * 360
@@ -513,15 +513,8 @@ class Plugin(ETS2LAPlugin):
                 furthest_left_position = 0
                 furthest_right_distance = 0
                 furthest_right_position = 0
-                
-                # 获取车轮位置列表（可能为空）
-                wheel_x = trailer["conVector"]["wheelPositionX"]
-                wheel_y = trailer["conVector"]["wheelPositionY"]
-                wheel_z = trailer["conVector"]["wheelPositionZ"]
-                
-                # 遍历车轮位置计算最远左右位置
-                for i in range(len(wheel_x)):
-                    position = (wheel_x[i], wheel_y[i], wheel_z[i])
+                for i in range(len(trailer["conVector"]["wheelPositionX"])):
+                    position = (trailer["conVector"]["wheelPositionX"][i], trailer["conVector"]["wheelPositionY"][i], trailer["conVector"]["wheelPositionZ"][i])
                     distance = math.sqrt((hook_position[0] - position[0])**2 + (hook_position[1] - position[1])**2 + (hook_position[2] - position[2])**2)
                     if position[0] < hook_position[0]:
                         if distance > furthest_left_distance:
@@ -532,22 +525,9 @@ class Plugin(ETS2LAPlugin):
                             furthest_right_distance = distance
                             furthest_right_position = i
                 
-                # 检查车轮数据是否存在（避免空列表索引越界）
-                has_wheels = len(wheel_x) > 0
-                rear_left_x = wheel_x[furthest_left_position] if has_wheels else 0.0
-                rear_left_y = wheel_y[furthest_left_position] if has_wheels else 0.0
-                rear_left_z = wheel_z[furthest_left_position] if has_wheels else 0.0
-                rear_right_x = wheel_x[furthest_right_position] if has_wheels else 0.0
-                rear_right_y = wheel_y[furthest_right_position] if has_wheels else 0.0
-                rear_right_z = wheel_z[furthest_right_position] if has_wheels else 0.0
-                
                 trailer_position = (trailer["comDouble"]["worldX"], trailer["comDouble"]["worldY"], trailer["comDouble"]["worldZ"])
                 distance = round(math.sqrt((trailer_position[0] - x)**2 + (trailer_position[1] - y)**2 + (trailer_position[2] - z)**2), 2)
-                
-                # 仅当挂车已连接时，使用当前id并递增
-                if id >= len(self.smoothed_trailer_distances):
-                    # 动态扩展smoothed_trailer_distances（可选，根据游戏最大挂车数决定）
-                    self.smoothed_trailer_distances.append(SmoothedValue("time", 0.5))
+
                 smoothed_trailer_distance = self.smoothed_trailer_distances[id]
                 
                 if abs(smoothed_trailer_distance.get() - distance) > 0.1:
@@ -568,15 +548,15 @@ class Plugin(ETS2LAPlugin):
                     "hook_x": hook_position[0],
                     "hook_y": hook_position[1],
                     "hook_z": hook_position[2],
-                    "rear_left_x": rear_left_x,
-                    "rear_left_y": rear_left_y,
-                    "rear_left_z": rear_left_z,
-                    "rear_right_x": rear_right_x,
-                    "rear_right_y": rear_right_y,
-                    "rear_right_z": rear_right_z,
+                    "rear_left_x": trailer["conVector"]["wheelPositionX"][furthest_left_position],
+                    "rear_left_y": trailer["conVector"]["wheelPositionY"][furthest_left_position],
+                    "rear_left_z": trailer["conVector"]["wheelPositionZ"][furthest_left_position],
+                    "rear_right_x": trailer["conVector"]["wheelPositionX"][furthest_right_position],
+                    "rear_right_y": trailer["conVector"]["wheelPositionY"][furthest_right_position],
+                    "rear_right_z": trailer["conVector"]["wheelPositionZ"][furthest_right_position],
                 })
                 
-            id += 1  # 仅在已连接时递增id
+            id += 1
                 
         return {
             "trailers": trailer_data

@@ -452,8 +452,7 @@ class Plugin(ETS2LAPlugin):
                 
             self.hud_data = ar_data
             
-            # Update from 2 FPS (0.5s delay) to match refresh_rate setting (default 2-10 FPS)
-            time.sleep(1/refresh_rate)  # Use user-configurable refresh rate
+            time.sleep(1/refresh_rate)
             
     def WheelUpdater(self):
         while True:
@@ -708,7 +707,7 @@ class Plugin(ETS2LAPlugin):
             data += [
                 Text(
                     Coordinate(*back_right),
-                    f"  Distance: {distance}{units}",
+                    f"  Distance: {distance:.0f}{units}",
                     size=16,
                     color=Color(255, 255, 255, 200),
                     fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
@@ -756,7 +755,7 @@ class Plugin(ETS2LAPlugin):
                     ),
                     Text(
                         Coordinate(*right),
-                        f"  Target: {acc_gap}{units}",
+                        f"  Target: {acc_gap:.0f}{units}",
                         size=16,
                         color=Color(255, 255, 255, 60),
                         fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
@@ -771,19 +770,15 @@ class Plugin(ETS2LAPlugin):
         height = Y2 - Y1
         default_height = 1440
         
-        # Cache scaling value - only recalculate when window height changes
-        if not hasattr(self, 'last_height') or self.last_height != height:
-            self.scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
-            _, _, _, _, scale, _, _ = self.get_settings()
-            self.scaling *= scale
-            self.last_height = height
+        self.scaling = height / default_height	# 0.75 = 1080p, 1 = 1440p, 1.25 = 1800p, 1.5 = 2160p
+        _, _, _, _, scale, _, _ = self.get_settings()
+        self.scaling *= scale
         
         self.api_data = self.modules.TruckSimAPI.run()
         
         engine = self.api_data["truckBool"]["engineEnabled"]
         offset_x, offset_y, offset_z = self.get_offsets()
-        # Reduce rotation sensitivity in驾驶室 by using rotation_relative=False for critical elements
-        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=False)  # Modified
+        anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
         
         if not engine:
             self.globals.tags.AR = []

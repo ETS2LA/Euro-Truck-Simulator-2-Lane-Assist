@@ -14,9 +14,6 @@ import time
 
 importlib.reload(rc)
 
-preload_interval = 1 / 2
-last_preload_time = time.time()
-
 def GetRoadsBehindRoad(road: c.Road, include_self:bool = True) -> list[c.Road]:
     if include_self: roads = [road]
     else: roads = []
@@ -562,30 +559,27 @@ def CheckForLaneChange():
         data.plugin.state.text = "Executing lane change..."
         return
     
-    # Add check for route plan length before accessing index 1
     if len(data.route_plan) < 2:
-        logging.warning("Insufficient route plan elements (needs at least 2) for lane change check")
-        return
+        return # Too short of a plan
 
     next = data.route_plan[1]
-    # Check if there are points before accessing [0]
     next_points = next.get_points()
     if not next_points:
         ResetState()
-        return
+        return # No points on the next section
     next_point = next_points[0]
     
     distance_to_truck = math_helpers.DistanceBetweenPoints((next_point.x, next_point.z), (data.truck_x, data.truck_z))
     if distance_to_truck > 300:
         ResetState()
         CheckForLaneChangeManual()
-        return
+        return # Too far
     
     points = current.get_points()
     if len(points) == 0:
         ResetState()
         CheckForLaneChangeManual()
-        return
+        return # No points on the current section
     
     current_point = points[-1]
     distance = math_helpers.DistanceBetweenPoints((current_point.x, current_point.z), (next_point.x, next_point.z))
@@ -623,14 +617,9 @@ def CheckForLaneChange():
         if target != current_index:
             planned = current.get_planned_lane_change_distance()
             left = current.distance_left()
-            #New: Add speed threshold to avoid slowdowns
-            speed_threshold = 20 # 20 km/h
-            if data.truck_speed * 3.6 >= speed_threshold:
-                left -= (data.truck_speed * 3.6 * 1.2) * data.lane_change_distance_per_kph
             if left > planned and not (data.truck_indicating_right or data.truck_indicating_left):
                 data.plugin.globals.tags.lane_change_status = "waiting"
                 data.plugin.state.text = f"Please indicate to confirm lane change."
-                # logging.warning(f"Please indicate to confirm lane change. {data.truck_speed*3.6:.2f}kph, {planned:.2f}m planned. {left:.2f}m left")
                 if time.time() - data.last_sound_played > data.sound_play_interval:
                     sounds.Play("info")
                     data.last_sound_played = time.time()
@@ -651,7 +640,7 @@ def CheckForLaneChange():
         
 was_indicating = False
 def UpdateRoutePlan():
-    global was_indicating, last_preload_time, preload_interval
+    global was_indicating
     if not data.enabled:
         data.route_plan = []
     
@@ -702,35 +691,6 @@ def UpdateRoutePlan():
         if data.route_plan[0].is_ended:
             update = True
             data.route_plan.pop(0)
-        
-        # TODO: Make this function work properly again    
-        # # 新增：提前预加载（当前路段剩余距离 <50米且规划长度不足，且满足时间间隔）
-        # if len(data.route_plan) > 0:
-        #     current_section = data.route_plan[0]
-        #     # 确保 current_section 有效且包含 distance_left 方法
-        #     if hasattr(current_section, 'distance_left') and (current_section.distance_left() < 50 and 0 < len(data.route_plan) < data.route_plan_length):
-        #         # 检查时间间隔：当前时间 - 上次预加载时间 > 预加载间隔
-        #         current_time = time.time()
-        #         if current_time - last_preload_time > preload_interval:
-        #             try:
-        #                 logging.warning("Preloading next navigation item")
-        #                 next_route_section = GetNextNavigationItem()
-        #                 # 更新上次预加载时间
-        #                 last_preload_time = current_time
-        #             except:
-        #                 logging.error("Failed to get next navigation item (preload)")
-        #                 next_route_section = None
-        #             if next_route_section is not None:
-        #                 try:
-        #                     start = next_route_section.start_node.uid
-        #                     end = next_route_section.end_node.uid
-        #                     last_start = data.route_plan[-1].start_node.uid
-        #                     last_end = data.route_plan[-1].end_node.uid
-        #                     if (start != last_start or end != last_end):
-        #                         data.route_plan.append(next_route_section)
-        #                 except:
-        #                     logging.exception("Failed to append next navigation item (preload)")
-        #                     pass
         
         if len(data.route_plan) == 0:
             return

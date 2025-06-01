@@ -131,17 +131,6 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 def GetOffset(road):
     try:
         name = road.road_look.name
-        custom_offset = 4.5  # Initialize custom_offset with a default value
-        # New: ATS road support
-        # New: Auto-generate offset for country 1/3 patterns
-        # Updated: Support "lowpoly" and "lowpoly 15" suffixes
-        country_road_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ country (1|3)( lowpoly( \d+)?)*$')  # New regex with optional lowpoly suffix
-        # New: Auto-generate offset for city ai1/ai2 patterns
-        city_ai_pattern = re.compile(r'^(us|CANADA) \d+-\d+-\d+ city ai[12]( \d+(\s\w+)*)*$')  # Matches "city ai1/ai2" with suffixes
-        # New: Auto-generate offset for general city road patterns
-        city_general_pattern = re.compile(r'^(us|CANADA) \d+(?:-\d+)* city(?: \w+)+$')  # Matches general city roads with suffixes
-        # New: Auto-generate offset for country divided roads
-        country_divided_pattern = re.compile(r'^(us|CANADA) \d+-\d+(?:-\d+)* country divided \d+$')  # Matches "country divided" roads
         rule_offset = 999
         for rule in rules:
             rule = rule.replace("**", "")
@@ -153,28 +142,6 @@ def GetOffset(road):
             custom_offset = per_name[name]
         elif rule_offset != 999:
             custom_offset = rule_offset        
-        elif country_road_pattern.match(name):
-            return 9.0  # Auto-generated offset for this pattern
-        elif country_divided_pattern.match(name):  # New divided country road check
-            return 9.0  # Offset for divided country roads
-        elif city_ai_pattern.match(name):  # New city ai road check
-            return 3  # New offset for city ai roads
-        elif city_general_pattern.match(name):  # New general city road check
-            return 7.0  # New offset for general city roads
-        # Updated: Support "4，5m" (Chinese comma) as "4.5m"
-        elif ("us" or "CANADA") and "offset" in name:
-            # Search for patterns with optional commas (English/Chinese) or decimals
-            offset_m_match = re.search(r'([+-]?\d+[.,，]?\d*)m', name)  # Allow commas/Chinese commas
-            if offset_m_match:
-                number_part = offset_m_match.group(1)
-                try:
-                    # Replace commas (English/Chinese) with decimal points
-                    cleaned_number = number_part.replace(',', '.').replace('，', '.')
-                    number = float(cleaned_number)
-                    custom_offset = 4.5 + number
-                    return custom_offset  # Return immediately if valid match found
-                except ValueError:
-                    pass  # Continue to other checks if number parsing fails        
         elif reg:
             custom_offset = 4.5 + float(reg.group(2)) * 2
         elif str(road.road_look.offset) in offsets:     
@@ -197,7 +164,7 @@ def GetOffset(road):
 
         return custom_offset
     except Exception as e:
-        logging.error(f"Error getting offset for road {getattr(road, 'uid', 'name')}: {e}")
+        logging.error(f"Error getting offset for road {getattr(road, 'uid', 'unknown')}: {e}")
         return 4.5
 
 def GetRoadLanes(road, data):    

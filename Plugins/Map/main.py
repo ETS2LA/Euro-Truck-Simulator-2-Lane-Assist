@@ -16,7 +16,7 @@ import Plugins.Map.utils.math_helpers as mh
 import Plugins.Map.utils.data_handler as data_handler
 import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
-from Plugins.Map.utils import ui_operations
+from Plugins.Map.utils import ui_operations as ui
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Handlers.sounds import Play
@@ -39,8 +39,8 @@ last_nav_hash = hash(open(navigation.__file__).read())
 last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
-updating_offset_config = False
-devprint = False
+UPDATING_OFFSET_CONFIG = False
+DEVELOPER_PRINTING = False
 
 enable_disable = ControlEvent(
     "toggle_map",
@@ -105,42 +105,42 @@ class Plugin(ETS2LAPlugin):
         )
 
     def update_road_data(self):
-        global updating_offset_config
-        updating_offset_config = True
-        result = ui_operations.update_road_data()   
-        updating_offset_config = False
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.update_road_data()   
+        UPDATING_OFFSET_CONFIG = False
         return result
 
     def execute_offset_update(self):
-        global updating_offset_config
-        updating_offset_config = True
-        result = ui_operations.execute_offset_update()   
-        updating_offset_config = False
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.execute_offset_update()   
+        UPDATING_OFFSET_CONFIG = False
         return result
         
     def generate_rules(self):
-        global updating_offset_config
-        updating_offset_config = True
-        result = ui_operations.generate_rules()   
-        updating_offset_config = False
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.generate_rules()   
+        UPDATING_OFFSET_CONFIG = False
         return result
         
     def clear_lane_offsets(self):
-        global updating_offset_config
-        updating_offset_config = True
-        result = ui_operations.clear_lane_offsets()   
-        updating_offset_config = False
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.clear_lane_offsets()   
+        UPDATING_OFFSET_CONFIG = False
         return result
         
     def clear_rules(self):
-        global updating_offset_config
-        updating_offset_config = True
-        result = ui_operations.clear_rules()   
-        updating_offset_config = False
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.clear_rules()   
+        UPDATING_OFFSET_CONFIG = False
         return result
 
     def trigger_data_update(self):
-        return ui_operations.trigger_data_update(self)
+        return ui.trigger_data_update(self)
 
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_oh_hash
@@ -389,7 +389,7 @@ class Plugin(ETS2LAPlugin):
         except:
             pass
 
-        if devprint and variables.DEVELOPMENT_MODE and not updating_offset_config:
+        if DEVELOPER_PRINTING and variables.DEVELOPMENT_MODE and not UPDATING_OFFSET_CONFIG:
             if (time.perf_counter() - data_start_time) * 1000 > 100:
                 try:
                     print(f"Map plugin run time: {(time.perf_counter() - data_start_time) * 1000:.2f}ms")

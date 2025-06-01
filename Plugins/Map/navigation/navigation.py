@@ -65,10 +65,9 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
     
     cur_entry = data.map.get_node_navigation(current.node.uid)
     
-    # Add null check for cur_entry
     if cur_entry is None:
         logging.warning(f"Missing navigation entry for node {current.node.uid}")
-        return []  # Return empty list to avoid AttributeError
+        return []
     
     in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
     

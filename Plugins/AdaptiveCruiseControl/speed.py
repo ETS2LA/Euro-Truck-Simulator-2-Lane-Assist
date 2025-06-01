@@ -62,13 +62,6 @@ def get_maximum_speed_for_points(points, x, z) -> float:
         return 999
     
     try:
-        # Calculate horizontal offset from center line
-        offset = abs(points[0][0] - x)  # Simple offset calculation
-        
-        # If offset is less than 1m, don't decelerate
-        if offset < 1:
-            return 999
-            
         # Calculate curvatures for all points
         curvatures = calculate_curvature(points, x, z)
         
