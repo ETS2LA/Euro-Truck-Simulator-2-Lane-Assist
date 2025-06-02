@@ -345,6 +345,12 @@ class PluginManagement(ChannelHandler):
     def __call__(self, message: PluginMessage):
         try:
             if message.channel == Channel.ENABLE_PLUGIN:
+                if self.plugin.plugin is not None:
+                    message.state = State.ERROR
+                    message.data = "Plugin is already enabled"
+                    self.plugin.return_queue.put(message)
+                    return
+                
                 try:
                     self.plugin.plugin = self.plugin.file.Plugin( # type: ignore
                         self.plugin.path,

@@ -700,7 +700,12 @@ class Plugin(ETS2LAPlugin):
             if status is None:
                 self.lane_change_data = []
                 time.sleep(1/2) # 2fps
-                
+                continue
+            if "Map" not in status:
+                self.lane_change_data = []
+                time.sleep(1/2)
+                continue
+            
             status = status["Map"]
 
             if status == "idle":

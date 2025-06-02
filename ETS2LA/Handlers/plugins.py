@@ -428,7 +428,7 @@ def start_plugin(
         logging.error(f"Plugin not found.")
         return False
     
-    logging.info(f"Starting plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
+    # logging.info(f"Starting plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
     if plugin.process.is_alive():
         message = PluginMessage(
             Channel.ENABLE_PLUGIN, {}
@@ -440,9 +440,12 @@ def start_plugin(
             logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] started successfully.")
             return True
         else:
-            plugin.running = False
-            logging.error(f"Failed to start plugin: {response.data if response else 'Timeout'}")
-            return False
+            if response.data == "Plugin is already enabled":
+                return False
+            else:
+                plugin.running = False
+                logging.error(f"Failed to start plugin: {response.data if response else 'Timeout'}")
+                return False
         
     return False
 
@@ -458,6 +461,9 @@ def stop_plugin(
     )
     if not plugin:
         logging.error(f"Plugin not found.")
+        return False
+    
+    if not plugin.running:
         return False
     
     logging.info(f"Stopping plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")

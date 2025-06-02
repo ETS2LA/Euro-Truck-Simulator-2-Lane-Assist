@@ -208,9 +208,8 @@ class Badge():
     ```
     """
     
-    def __init__(self, text: str, type: str = BadgeType.DEFAULT, style: Style = Style()):
+    def __init__(self, type: str = BadgeType.DEFAULT, style: Style = Style()):
         self.id = increment()
-        self.text = text
         self.type = type
         self.style = style
         
@@ -225,7 +224,6 @@ class Badge():
         self.previous.append({
             "badge": {
                 "id": self.id,
-                "text": self.text,
                 "type": self.type,
                 "style": self.style.to_dict(),
                 "children": dictionary
@@ -1265,6 +1263,34 @@ class ContextMenuSubMenu():
                 "id": self.id,
                 "title": self.title,
                 "style": self.style.to_dict(),
+                "children": dictionary
+            }
+        })
+        dictionary = self.previous
+        
+class Spinner():
+    """
+    A spinner element that will cause anything inside it to
+    spin. This is useful for loading state.
+    ```python
+    with Spinner():
+        Icon("loading-circle")
+    ```
+    """
+    def __init__(self):
+        self.id = increment()
+        
+    def __enter__(self):
+        global dictionary
+        self.previous = dictionary
+        dictionary = []
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global dictionary
+        self.previous.append({
+            "spinner": {
+                "id": self.id,
                 "children": dictionary
             }
         })
