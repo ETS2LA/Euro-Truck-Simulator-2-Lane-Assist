@@ -50,6 +50,9 @@ CHINA_MODE = "--china" in sys.argv
 LOCAL_MODE = "--local" in sys.argv
 """Whether the user interface is run locally or gotten from the server."""
 
+FRONTEND_URL = sys.argv[sys.argv.index("--frontend-url") + 1] if "--frontend-url" in sys.argv else "https://app.ets2la.com"
+"""Frontend URL from the --frontend-url argument."""
+
 NO_UI = "--no-ui" in sys.argv
 """Whether the app should start without the UI."""
 
