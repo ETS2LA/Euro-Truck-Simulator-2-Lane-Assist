@@ -150,29 +150,30 @@ def ets2la_process(exception_queue: Queue) -> None:
                 print(f"{PURPLE}{'Running UI locally'}{END}\n")
         
         if not "--local" in sys.argv:
-            # Download the UI from the CDN in the case that there is no
-            # github connection available.  
+            # Check network mode by accessing api.ipify.org
             try:
-                requests.get("https://app.ets2la.com", timeout=1)
-            except: 
-                try:
+                response = requests.get("https://api.ipify.org", timeout=1)
+                if response.status_code == 200 and response.text:
+                    # If api.ipify.org is accessible, use international domain
+                    requests.get("https://app.ets2la.com", timeout=1)
+                    if "--china" in sys.argv:
+                        sys.argv.remove("--china")
+                    ETS2LA.variables.CHINA_MODE = False
+                    print(f"{PURPLE}{'Running UI in International mode'}{END}\n")
+                else:
+                    # If api.ipify.org is not accessible, use China domain
                     requests.get("https://app.ets2la.cn", timeout=1)
                     if not "--china" in sys.argv:
                         sys.argv.append("--china")
                     ETS2LA.variables.CHINA_MODE = True
                     print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
-                except:
-                    print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
-                    did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True,
-                                                    cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
-                    if did_update:
-                        print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
-                        UpdateFrontendTranslations()
-                        ExecuteCommand("cd Interface && npm install && npm run build-local")
-                        
-                    if not "--local" in sys.argv:
-                        sys.argv.append("--local")
-                    ETS2LA.variables.LOCAL_MODE = True
+            except:
+                # If api.ipify.org fails, directly use China domain
+                requests.get("https://app.ets2la.cn", timeout=1)
+                if not "--china" in sys.argv:
+                    sys.argv.append("--china")
+                ETS2LA.variables.CHINA_MODE = True
+                print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
         
         if "--no-console" in sys.argv:
             if "--no-ui" in sys.argv:
