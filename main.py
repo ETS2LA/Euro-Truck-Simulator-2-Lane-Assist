@@ -153,10 +153,10 @@ def ets2la_process(exception_queue: Queue) -> None:
             # Download the UI from the CDN in the case that there is no
             # github connection available.  
             try:
-                requests.get("https://app.ets2la.com", timeout=1)
+                requests.get("https://app.ets2la.com", timeout=2)
             except: 
                 try:
-                    requests.get("https://app.ets2la.cn", timeout=1)
+                    requests.get("https://app.ets2la.cn", timeout=5)
                     if not "--china" in sys.argv:
                         sys.argv.append("--china")
                     ETS2LA.variables.CHINA_MODE = True
