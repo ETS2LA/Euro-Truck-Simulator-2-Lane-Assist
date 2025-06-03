@@ -1,3 +1,9 @@
+"""
+This module manages road offset configurations for a truck simulation map.
+It provides functionality to calculate, validate, and update road offsets based on spatial relationships,
+with caching mechanisms and configurable thresholds.
+"""
+
 import json
 import math
 import os
@@ -19,7 +25,7 @@ logger.setLevel(logging.INFO)
 
 # Create file handler
 log_file = os.path.join(LOG_PATH, "offset_handler.log")
-file_handler = logging.FileHandler(log_file, encoding='utf-8')
+file_handler = logging.FileHandler(log_file, mode="w", encoding='utf-8')
 file_handler.setLevel(logging.INFO)
 
 # Set log format
@@ -39,7 +45,7 @@ if variables.DEVELOPMENT_MODE:
 
 # Key parameters!!!
 # distance_threshold: Distance threshold in meters
-distance_threshold = 0.25
+distance_threshold = 0.1
 
 # Add cache dictionaries
 _distance_cache = {}
@@ -49,14 +55,28 @@ _processed_roads = set()
 _skip_roads = set()
 
 def _is_valid_offset(offset):
-    """Validate if offset value is valid"""
+    """Validate if an offset value is within acceptable parameters.
+    
+    Args:
+        offset (int/float): Value to validate
+        
+    Returns:
+        bool: True if valid numerical value within [-100, 100] range
+    """
     return (isinstance(offset, (int, float)) 
             and not math.isnan(offset) 
             and not math.isinf(offset)
-            and -1000 < offset < 1000)  # Add reasonable range limit
+            and -100 < offset < 100)
 
 def _clean_invalid_offsets(config):
-    """Clean invalid offset values from configuration"""
+    """Remove invalid offset values from configuration.
+    
+    Args:
+        config (dict): Configuration dictionary
+        
+    Returns:
+        dict: Sanitized configuration with only valid offsets
+    """
     per_name = config['offsets']['per_name']
     # Filter invalid offset values
     valid_offsets = {
@@ -72,7 +92,15 @@ def _clean_invalid_offsets(config):
     return config
 
 def update_offset_config_generic(operation="add", allow_override=False):
-    """Generic offset configuration updater for both add/sub operations"""
+    """Main entry point for updating offset configurations.
+    
+    Args:
+        operation (str): 'add' or 'sub' for offset operations
+        allow_override (bool): Allow overriding existing offsets
+        
+    Returns:
+        bool: True if any updates were made
+    """
     prefix = "Sub: " if operation == "sub" else "Add: "
     
     # Clear caches
@@ -126,8 +154,13 @@ def update_offset_config_generic(operation="add", allow_override=False):
 
     # Save configuration
     if updated:
+        # Clean invalid offset values from the configuration
         config = _clean_invalid_offsets(config)
-        generate_rules(config)
+
+        # Sort per_name and rules before writing
+        config['offsets']['per_name'] = dict(sorted(config['offsets']['per_name'].items()))
+
+        # Open the configuration file in write mode and save the updated configuration
         with open(CONFIG_PATH, 'w') as f:
             json.dump(config, f, indent=4)
             
@@ -161,7 +194,7 @@ def _calculate_distances(road, items):
     cache_key = (road.uid, tuple(item.uid for item in items if item))
     if cache_key in _distance_cache:
         return _distance_cache[cache_key]
-        
+
     min_distance = math.inf
     sorted_distances = []
     dist0 = False
@@ -169,7 +202,7 @@ def _calculate_distances(road, items):
     for item in items:
         if not (item and hasattr(item, "nav_routes")):
             continue
-            
+
         item_distances = _calculate_item_distances(road, item)
         if not item_distances:
             continue
@@ -206,6 +239,7 @@ def _should_update_offset(min_distance, sorted_distances):
 
 def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_override, prefix):
     """Update road offset"""
+    global _skip_roads
     current_offset = road_helpers.GetOffset(road)
     base_offset = min_distance
     logger.warning(f"{prefix}Road: {road.road_look.name}, Base offset: {base_offset}, Current offset: {current_offset}")
@@ -213,7 +247,8 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
         required_offset = current_offset + base_offset
         logger.warning(f"{prefix}Road: {road.road_look.name}, Adding offset: {required_offset}")
     else:
-        required_offset = current_offset - base_offset
+        # Changed from 2 * base_offset to base_offset only
+        required_offset = current_offset - base_offset  # Corrected line
         logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {required_offset}")
 
     new_offset = round(required_offset, 2)
@@ -237,94 +272,226 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
     return False
 
 def generate_rules(config):
-    """Generate rules based on patterns in per_name offsets"""
+    """Generate pattern - based offset rules from per - name configurations.
+    
+    Args:
+        config (dict): Current configuration
+        
+    Returns:
+        dict: Modified configuration with generated rules
+    """
     
     per_name = config['offsets']['per_name']
-    rules = config['offsets']['rules']
+    rules = config['offsets'].setdefault('rules', {})
     
-    # 用于存储每种模式对应的偏移值
-    pattern_offsets = {}
+    logger.warning(f"Starting rule generation, current per_name entries: {len(per_name)}")
     
-    # 生成 ** 和 *** 模式
-    for name, offset in per_name.items():
-        # 跳过无效的offset值
-        if not isinstance(offset, (int, float)) or math.isnan(offset) or math.isinf(offset):
-            logger.warning(f"Skipping invalid offset value for {name}: {offset}")
+    # Add all roads with their actual offsets from GetOffset
+    all_road_offsets = {}
+    for road in data.map.roads:
+        if not hasattr(road, 'road_look') or not road.road_look:
             continue
+            
+        # Create a mock road object for GetOffset
+        mock_road = type('Road', (), {
+            'road_look': type('RoadLook', (), {
+                'name': road.road_look.name,
+                'offset': road.road_look.offset  # use actual offset
+            })
+        })()
+        all_road_offsets[road.road_look.name] = road_helpers.GetOffset(mock_road)
+    
+    combined_roads = {**per_name, **all_road_offsets}
+    logger.warning(f"Combined road: {combined_roads}")
+    logger.warning(f"Total roads with offsets: {len(combined_roads)}")
+    
+    def _get_most_common_offset(offset_counts):
+        """Get the most common offset with highest count"""
+        if not offset_counts:
+            return None, 0
+        max_offset = max(offset_counts.items(), key=lambda x: (x[1], -abs(x[0])))  # Prefer smaller absolute values
+        return max_offset[0], max_offset[1]
 
-        # 生成 ** 模式
-        words = name.split()
-        for word in words:
-            pattern_double_star = f"**{word}"
-            if pattern_double_star not in pattern_offsets:
-                pattern_offsets[pattern_double_star] = set()
-            pattern_offsets[pattern_double_star].add(offset)
+    def generate_patterns(names_dict, word_count):
+        """Create wildcard patterns from road name suffixes.
+        
+        Args:
+            names_dict (dict): Dictionary of road names and their offsets
+            word_count (int): Number of words to use from the end of road names
+            
+        Returns:
+            dict: A mapping of patterns to their offset frequencies
+        """
+        pattern_map = {}
+        for name, offset in names_dict.items():
+            if not _is_valid_offset(offset):
+                continue
+            
+            words = name.split()
+            if len(words) >= word_count:
+                # Take last 'word_count' words to create pattern
+                pattern = f"**{' '.join(words[-word_count:])}"
+                if pattern not in pattern_map:
+                    pattern_map[pattern] = {}
+                pattern_map[pattern][offset] = pattern_map[pattern].get(offset, 0) + 1
+        return pattern_map
 
-        # 生成 *** 模式
-        for i in range(len(words)):
-            end_part = " ".join(words[i:])
-            pattern_triple_star = f"***{end_part}"
-            if pattern_triple_star not in pattern_offsets:
-                pattern_offsets[pattern_triple_star] = set()
-            pattern_offsets[pattern_triple_star].add(offset)
+    def _is_number_only(pattern):
+        """Check if pattern only contains numbers (excluding **)
+        
+        Args:
+            pattern (str): The pattern to check
+            
+        Returns:
+            bool: True if pattern contains only numbers after removing '**' prefix
+        """
+        suffix = pattern[3:]  # Remove ** prefix
+        # Remove spaces and check if remaining chars are digits
+        return suffix.replace(" ", "").isdigit()
 
-    # 过滤出所有偏移值相同的模式
-    valid_patterns = {}
-    for pattern, offsets in pattern_offsets.items():
-        if len(offsets) == 1:
-            valid_patterns[pattern] = offsets.pop()
-
-    # 确保 ** 和 *** 规则不冲突，优先保留 *** 规则
+    # Process rules with combined roads
+    unmatched = dict(combined_roads)
     final_rules = {}
-    for pattern, offset in valid_patterns.items():
-        if pattern.startswith("***"):
-            # 检查规则是否与 per_name 完全相同
-            if not any(name.endswith(pattern[3:]) and per_name[name] == offset for name in per_name):
-                final_rules[pattern] = offset
-        else:
-            conflict = False
-            for triple_star_pattern in [p for p in valid_patterns if p.startswith("***")]:
-                if pattern[2:] in triple_star_pattern[3:]:
-                    conflict = True
+    matched_with_same_offset = set()
+    
+    # Generate rules in two rounds
+    for word_count in [2, 3]:
+        if not unmatched:
+            break
+            
+        patterns = generate_patterns(unmatched, word_count)
+        if not patterns:
+            continue
+            
+        logger.warning(f"Round {word_count}: Generated {len(patterns)} patterns")
+        
+        # Find best patterns
+        round_rules = {}
+        for pattern, offset_counts in patterns.items():
+            if _is_number_only(pattern):
+                logger.warning(f"Skipping number - only pattern: {pattern}")
+                continue
+                
+            offset, count = _get_most_common_offset(offset_counts)
+            # Change to 100% match
+            match_threshold = 1
+            if offset is not None and count / len(offset_counts) >= match_threshold:
+                round_rules[pattern] = offset
+                logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}, Total: {len(offset_counts)}")
+        
+        # Apply rules and update unmatched
+        matched = set()
+        for name, offset in unmatched.items():
+            name_words = set(name.split())
+            for pattern, rule_offset in round_rules.items():
+                # Remove ** prefix and split into word sets
+                pattern_words = set(pattern[2:].split())
+                # Check if all words in the rule are in the road name
+                if pattern_words.issubset(name_words) and abs(rule_offset - offset) <= 0.01:
+                    matched.add(name)
+                    matched_with_same_offset.add(name)
                     break
-            if not conflict:
-                # 检查规则是否与 per_name 完全相同
-                if not any(pattern[2:] in name and per_name[name] == offset for name in per_name):
-                    final_rules[pattern] = offset
+        
+        final_rules.update(round_rules)
+        unmatched = {name: offset for name, offset in unmatched.items() if name not in matched}
+        logger.warning(f"Round {word_count} complete - Matched: {len(matched)}, Same offset matches: {len(matched_with_same_offset)}")
 
-    # 删除能被规则表示的 per_name 路段
-    per_name_to_remove = []
-    for name, offset in per_name.items():
-        for pattern, rule_offset in final_rules.items():
-            if pattern.startswith("**") and pattern[2:] in name and rule_offset == offset:
-                per_name_to_remove.append(name)
-                break
-            elif pattern.startswith("***") and name.endswith(pattern[3:]) and rule_offset == offset:
-                per_name_to_remove.append(name)
-                break
-
-    for name in per_name_to_remove:
+    # Merge rules with the same offset and same words
+    merged_rules = {}
+    patterns_by_offset = {}
+    
+    # Group rules by offset
+    for pattern, offset in final_rules.items():
+        if offset not in patterns_by_offset:
+            patterns_by_offset[offset] = []
+        patterns_by_offset[offset].append(pattern)
+    
+    # Merge rules within each offset group
+    for offset, patterns in patterns_by_offset.items():
+        # Group by word set
+        word_groups = {}
+        for pattern in patterns:
+            # Remove ** prefix and split into word list
+            words = pattern[2:].split()
+            # Use a tuple to store the word list to maintain order
+            key = tuple(words)
+            if key not in word_groups:
+                word_groups[key] = []
+            word_groups[key].append(pattern)
+        
+        # Merge rules with the same word sequence
+        for words, similar_patterns in word_groups.items():
+            if len(similar_patterns) > 1:
+                # Find the shortest pattern as the baseline
+                base_pattern = min(similar_patterns, key=len)
+                # Create a test road name (remove ** prefix)
+                test_name = base_pattern[2:]
+                
+                # Create a mock road object
+                mock_road = type('Road', (), {
+                    'road_look': type('RoadLook', (), {
+                        'name': test_name,
+                        'offset': 0  # Use default offset
+                    })
+                })()
+                
+                # Calculate offset using GetOffset
+                get_offset_result = road_helpers.GetOffset(mock_road)
+                
+                # If the result of GetOffset is different from the rule offset, keep the rule
+                if abs(get_offset_result - offset) > 0.01:
+                    logger.warning(f"Merging patterns with same words and offset {offset}: {similar_patterns} -> {base_pattern}")
+                    merged_rules[base_pattern] = offset
+                else:
+                    logger.warning(f"Skipping rule {base_pattern} as it can be represented by GetOffset")
+            else:
+                # Check GetOffset for single patterns
+                test_name = similar_patterns[0][2:]
+                mock_road = type('Road', (), {
+                    'road_look': type('RoadLook', (), {
+                        'name': test_name,
+                        'offset': 0
+                    })
+                })()
+                
+                get_offset_result = road_helpers.GetOffset(mock_road)
+                
+                if abs(get_offset_result - offset) > 0.01:
+                    merged_rules[similar_patterns[0]] = offset
+                else:
+                    logger.warning(f"Skipping rule {similar_patterns[0]} as it can be represented by GetOffset")
+    
+    # Update rules and sort alphabetically and by absolute value
+    rules.clear()
+    rules.update(merged_rules)
+    rules = dict(sorted(rules.items(), key=lambda item: (item[0], abs(item[1]))))
+    
+    # Remove entries with the same offset that are also in per_name
+    to_remove = matched_with_same_offset & set(per_name.keys())
+    for name in to_remove:
         del per_name[name]
-
-    # 更新规则
-    rules.update(final_rules)
-    config['offsets']['rules'] = rules
-
-    # 打印前检查规则的有效性
-    valid_rules = {k: v for k, v in rules.items() if isinstance(v, (int, float)) and not math.isnan(v) and not math.isinf(v)}
-    logger.warning(f"Generated valid rules: {valid_rules}")
-    logging.warning(f"Generated valid rules: {valid_rules}")
+    
+    logger.warning(f"Rule generation complete - Total rules after merging: {len(rules)}")
+    logger.warning(f"Matched entries with same offset: {len(matched_with_same_offset)}, Removed from per_name: {len(to_remove)}")
+    logger.warning(f"Entries removed from per_name: {to_remove}")
+    
+    with open(CONFIG_PATH, 'w') as f:
+        json.dump(config, f, indent=4)
     return config
 
-def clear_lane_offsets():
+def clear_lane_offsets(clear):
     """Clear all lane offsets from the config"""
     logger.warning("Clearing all lane offsets")
-    logging.warning("Clearing all lane offsets")
 
     with open(CONFIG_PATH, 'r') as f:
         config = json.load(f)
-        config['offsets']['per_name'] = {}
-        config['offsets']['rules'] = {}  # Clear rules as well
+        if clear == "rules":
+            # Clear only rules
+            config['offsets']['rules'] = {}
+            logger.warning("Cleared all rules")
+        else:
+            config['offsets']['per_name'] = {}
+            logger.warning("Cleared all per_name")
     
     # Ensure no invalid values before saving config
     config = _clean_invalid_offsets(config)
@@ -332,7 +499,6 @@ def clear_lane_offsets():
         json.dump(config, f, indent=4)
     
     logger.warning("Cleared all lane offsets")
-    logging.warning("Cleared all lane offsets")
     map_main.Plugin.update_road_data(self=True)
 
 def update_offset_config_add():
@@ -346,25 +512,18 @@ def update_offset_config_sub():
 def update_offset_config():
     override = data.override_lane_offsets
     logger.warning("Override lane offsets: %s", override)
-    logging.warning("Override lane offsets: %s", override)
     map_main.Plugin.update_road_data(self=True)
     logger.warning("Timeout for 3 seconds to allow for road data update")
-    logging.warning("Timeout for 3 seconds to allow for road data update")
     time.sleep(3)
-    # Perform subtraction operation and update configuration
+    # Perform addition operation and update configuration
     update_offset_config_add()
-    logger.warning("Subtraction operation completed")
-    logging.warning("Subtraction operation completed")
+    logger.warning("Addition operation completed")
     # Call update_road_data and wait for completion
     map_main.Plugin.update_road_data(self=True)
     logger.warning("update_road_data completed")
-    logging.warning("update_road_data completed")
-    # Perform addition operation (at this point road_helpers.GetOffset will get the new value after subtraction)
+    # Perform addition operation (at this point road_helpers.GetOffset will get the new value after addition)
     logger.warning("Timeout for 3 seconds to allow for road data update")
-    logging.warning("Timeout for 3 seconds to allow for road data update")
     time.sleep(3)
     update_offset_config_sub()
-    logger.warning("Addition operation completed")
-    logging.warning("Addition operation completed")
+    logger.warning("Subtraction operation completed")
     map_main.Plugin.update_road_data(self=True)
-

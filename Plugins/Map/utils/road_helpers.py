@@ -131,7 +131,6 @@ def calculate_lanes(points, lane_width, num_left_lanes, num_right_lanes, road, c
 def GetOffset(road):
     try:
         name = road.road_look.name
-
         rule_offset = 999
         for rule in rules:
             rule = rule.replace("**", "")

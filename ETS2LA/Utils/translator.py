@@ -9,7 +9,7 @@ import os
 DATA_FOLDER = "Translations"
 FRONTEND_DATA_FOLDER = "Interface/translations"
 
-EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
+EnsureSubmoduleExists("Translations", "https://gitlab.com/ETS2LA/translations.git",
                       cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
                       download_updates=False)
 

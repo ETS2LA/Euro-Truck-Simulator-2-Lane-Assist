@@ -4,92 +4,61 @@ If you are looking for the actual entrypoint then you should
 look at the core.py file in the ETS2LA folder.
 """
 
+
 import os
-import time
+import sys
+import subprocess
 
-try:
-    from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
-except:
-    import sys
+try: from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+except: # Ensure the current PATH contains the install directory.
     sys.path.append(os.path.dirname(__file__))
+    from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
 
-try:
-    import tqdm
+try: import tqdm
 except:
-    print("The module 'tqdm', is missing, this is a common sign of missing modules. An update will be triggered to install these modules.")
-    time.sleep(2)
-    import subprocess
-    if os.name == "nt":
-        try:
-            subprocess.run("update.bat", shell=True, env=os.environ.copy())
-        except: # Used Installer
-            try:
-                subprocess.run("cd code && cd app && update.bat", shell=True, env=os.environ.copy())
-            except: 
-                subprocess.run("cd .. && cd .. && cd code && cd app && update.bat", shell=True, env=os.environ.copy())
-    else:
-        subprocess.run("sh update.sh", shell=True, env=os.environ.copy())
-
+    print("'tqdm', is missing, this is a common sign of missing modules. An update will be triggered to install these modules.")
+    subprocess.run("update.bat", shell=True, env=os.environ.copy())
+    
+# Allow pygame to get control events in the background
 os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
+# Hide pygame's support prompt
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
     
 from ETS2LA.Utils.Console.logs import CountErrorsAndWarnings, ClearLogFiles
-from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
-from ETS2LA.Utils.packages import CheckForMaliciousPackages
 from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 from ETS2LA.Utils.shell import ExecuteCommand
-from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Networking.cloud as cloud
-from multiprocessing import Queue
-from rich.console import Console
+
 import multiprocessing
 import traceback
 import importlib
 import requests
 import queue
+import time
 import git
-import sys
 
-LOG_FILE_FOLDER = "logs"    
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-console = Console()
-controller = SCSController()
+LOG_FILE_FOLDER = "logs"
+FRONTEND_MIRRORS = [
+    "https://app.ets2la.com",
+    "https://app.ets2la.cn",
+]
 
 def close_node() -> None:
-    """
-    Close all NodeJS instances.
-    """
-    
     if os.name == "nt":
         ExecuteCommand("taskkill /F /IM node.exe > nul 2>&1")
     else:
         ExecuteCommand("pkill -f node > /dev/null 2>&1")
 
 def reset(clear_logs=True) -> None:
-    """
-    Reset ETS2LA. 
-    This means closing Node, clearing the logs and resetting the controller SDK.
-    """
     close_node()
     CountErrorsAndWarnings()
-    controller.reset()
     if clear_logs:
         ClearLogFiles()
         
 def get_commit_url(repo: git.Repo, commit_hash: str) -> str:
-    """
-    Get a remote URL for the current commit hash.
-    
-    :param git.Repo repo: The git repository object.
-    :param str commit_hash: The commit hash.
-    
-    :return str: The URL to the commit.
-    """
     try:
-        # Get the remote URL
         remote_url = repo.remotes.origin.url
-        
-        # Remove .git extension if present
         remote_url = remote_url.replace('.git', '')
         
         return remote_url + "/commit/" + commit_hash
@@ -97,18 +66,6 @@ def get_commit_url(repo: git.Repo, commit_hash: str) -> str:
         return ""
         
 def get_current_version_information() -> dict:
-    """
-    Get the current version information.
-
-    :return dict: The version information.
-    ```
-    {
-        "name": "main",
-        "link": "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/commit/...
-        "time": "Sun Mar 14 14:00:00 2021"
-    }
-    ```
-    """
     try:
         repo = git.Repo()
         current_hash = repo.head.object.hexsha
@@ -125,60 +82,77 @@ def get_current_version_information() -> dict:
             "time": "Unknown"
         }
 
-def ets2la_process(exception_queue: Queue) -> None:
+def get_fastest_mirror() -> str:
+    print(f"Testing mirrors...")
+    response_times = {}
+    for mirror in FRONTEND_MIRRORS:
+        try:
+            start = time.perf_counter()
+            requests.get(mirror, timeout=5)
+            end = time.perf_counter()
+            response_times[mirror] = end - start
+            print(f"- Reached {YELLOW}{mirror}{END} in {response_times[mirror] * 1000:.0f}ms")
+        except requests.RequestException:
+            response_times[mirror] = float('inf')
+            print(f" - Reached {YELLOW}{mirror}{END} in (TIMEOUT)")
+        
+    fastest_mirror = min(response_times, key=response_times.get)
+    return fastest_mirror
+
+def update_frontend() -> bool:
+    did_update = EnsureSubmoduleExists(
+        "Interface", 
+        "https://github.com/ETS2LA/frontend.git", 
+        download_updates=False if "--dev" in sys.argv else True,
+        cdn_url="http://cdn.ets2la.com/frontend", 
+        cdn_path="frontend-main"
+    )
+    
+    if did_update:
+        print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
+        UpdateFrontendTranslations()
+        ExecuteCommand("cd Interface && npm install && npm run build-local")
+    
+    return did_update
+
+def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
     """
     The main ETS2LA process.
     - This function will run ETS2LA with the given arguments.
     - It will also handle exceptions and updates to the submodules.
     
-    :param Queue exception_queue: The exception queue to send exceptions to.
+    The `exception_queue` is used to send exceptions back to the main process
+    for handling (at the bottom of this file).
     """
     try:
         import ETS2LA.variables
         
         if "--dev" in sys.argv:
             print(f"{PURPLE}{Translate('main.development_mode')}{END}\n")
-        else:
-            # Update translations
-            EnsureSubmoduleExists("Translations", "https://github.com/ETS2LA/translations.git",
-                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
-                      download_updates=True)
-            
-        if "--local" in sys.argv:
-            did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=False if "--dev" in sys.argv else True,
-                                               cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
-            if did_update:
-                print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
-                UpdateFrontendTranslations()
-                ExecuteCommand("cd Interface && npm install && npm run build-local")
-                print(f"\n{PURPLE}{'Running UI locally'}{END}\n")
-            else:
-                print(f"{PURPLE}{'Running UI locally'}{END}\n")
         
-        if not "--local" in sys.argv:
-            # Download the UI from the CDN in the case that there is no
-            # github connection available.  
-            try:
-                requests.get("https://app.ets2la.com", timeout=1)
-            except: 
-                try:
-                    requests.get("https://app.ets2la.cn", timeout=1)
-                    if not "--china" in sys.argv:
-                        sys.argv.append("--china")
-                    ETS2LA.variables.CHINA_MODE = True
-                    print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
-                except:
-                    print(f"{RED}{'No connection to remote UI. Running locally.'}{END}\n")
-                    did_update = EnsureSubmoduleExists("Interface", "https://github.com/ETS2LA/frontend.git", download_updates=True,
-                                                    cdn_url="http://cdn.ets2la.com/frontend", cdn_path="frontend-main")
-                    if did_update:
-                        print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
-                        UpdateFrontendTranslations()
-                        ExecuteCommand("cd Interface && npm install && npm run build-local")
-                        
-                    if not "--local" in sys.argv:
-                        sys.argv.append("--local")
-                    ETS2LA.variables.LOCAL_MODE = True
+        if "--local" in sys.argv:
+            update_frontend()
+            print(f"{PURPLE}{'Running UI locally'}{END}\n")
+        
+        elif "--frontend-url" not in sys.argv:
+            url = get_fastest_mirror()
+            if not url:
+                print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
+                update_frontend()
+                    
+                if not "--local" in sys.argv:
+                    sys.argv.append("--local")
+                ETS2LA.variables.LOCAL_MODE = True
+                
+            elif ".cn" in url:
+                if not "--china" in sys.argv:
+                    sys.argv.append("--china")
+                ETS2LA.variables.CHINA_MODE = True
+                print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
+                
+            print(f"\n> Using mirror {YELLOW}{url}{END} for the UI.\n")
+            sys.argv.append("--frontend-url")
+            sys.argv.append(url)
         
         if "--no-console" in sys.argv:
             if "--no-ui" in sys.argv:
@@ -195,8 +169,7 @@ def ets2la_process(exception_queue: Queue) -> None:
         ETS2LA.run()
         
     except Exception as e:
-        # Send the traceback out via the exception queue.
-        # This is to catch the exit and restart commands.
+        # Catch exit and restart seperately
         if str(e) != "exit" and str(e) != "restart":
             trace = traceback.format_exc()
             exception_queue.put((e, trace))
@@ -205,10 +178,8 @@ def ets2la_process(exception_queue: Queue) -> None:
 
 
 if __name__ == "__main__":
-    exception_queue = Queue()
-    
+    exception_queue = multiprocessing.Queue()
     print(f"{BLUE}{Translate('main.overseer_started')}{END}\n")
-    CheckForMaliciousPackages()
     
     while True:
         process = multiprocessing.Process(target=ets2la_process, args=(exception_queue,))
@@ -216,10 +187,8 @@ if __name__ == "__main__":
         process.join() # This will block until ETS2LA has closed.
         
         try:
-            # Check if there is an exception in the queue
             e, trace = exception_queue.get_nowait()
 
-            # Handle the exception from the child process here
             if e.args[0] == "exit":
                 reset(clear_logs=False)
                 sys.exit(0)
@@ -231,36 +200,20 @@ if __name__ == "__main__":
             
             if e.args[0] == "Update":
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
-                if not "--dev" in sys.argv:
-                    print(YELLOW + Translate("main.updating") + END)
-                    if os.name == "nt":
-                        try:
-                            ExecuteCommand("update.bat")
-                        except: # Used Installer
-                            try:
-                                ExecuteCommand("cd code && cd app && update.bat")
-                            except: 
-                                # Backup for old installers
-                                ExecuteCommand("cd .. && cd .. && cd code && cd app && update.bat")
-                    else:
-                        ExecuteCommand("sh update.sh")
-                else:
+                if "--dev" in sys.argv:
                     print(YELLOW + "Skipping update due to development mode." + END)
+                    continue
+                
+                print(YELLOW + Translate("main.updating") + END)
+                ExecuteCommand("update.bat")
                 
                 print("\n" + GREEN + Translate("main.update_done") + END + "\n")
                 reset()
                 continue
             
             # At this point we're sure that this is a crash
-            # instead of a normal exit or restart.
-            
             print(Translate("main.crashed"))
-            
-            try:
-                console.print_exception()
-            except:
-                print(trace)
-                print(Translate("main.legacy_traceback"))
+            print(trace)
             
             try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace, additional=get_current_version_information)
             except: pass
@@ -272,11 +225,10 @@ if __name__ == "__main__":
             sys.exit(0)
         
         except queue.Empty:
-            # No exception was found in the queue
             pass
         
 # IGNORE: This comment is just used to trigger an update and clear 
-#         the cache of the app for frontend changes or other changes that
-#         don't necessarily have code changes.
+#         the cache of the app for changes that don't necessarily 
+#         happen inside of this repository (like the frontend).
 # 
 # Counter: 17

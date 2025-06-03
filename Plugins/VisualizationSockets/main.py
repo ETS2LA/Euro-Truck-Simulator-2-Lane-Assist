@@ -530,7 +530,7 @@ class Plugin(ETS2LAPlugin):
                 
                 trailer_position = (trailer["comDouble"]["worldX"], trailer["comDouble"]["worldY"], trailer["comDouble"]["worldZ"])
                 distance = round(math.sqrt((trailer_position[0] - x)**2 + (trailer_position[1] - y)**2 + (trailer_position[2] - z)**2), 2)
-                
+
                 smoothed_trailer_distance = self.smoothed_trailer_distances[id]
                 
                 if abs(smoothed_trailer_distance.get() - distance) > 0.1:
@@ -564,7 +564,7 @@ class Plugin(ETS2LAPlugin):
         return {
             "trailers": trailer_data
         }
-        
+
     def highlights(self, data):
         vehicle_highlights = self.globals.tags.vehicle_highlights
         vehicle_highlights = self.globals.tags.merge(vehicle_highlights)

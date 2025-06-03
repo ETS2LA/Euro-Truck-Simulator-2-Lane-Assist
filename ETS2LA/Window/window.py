@@ -177,10 +177,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             #set_resizable(True)
             window.load_url('http://localhost:' + str(FRONTEND_PORT))
         else:
-            if variables.CHINA_MODE:
-                window.load_url("http://app.ets2la.cn")
-            else:
-                window.load_url("http://app.ets2la.com")
+            window.load_url(variables.FRONTEND_URL)
             
         while True:
             time.sleep(0.01)
