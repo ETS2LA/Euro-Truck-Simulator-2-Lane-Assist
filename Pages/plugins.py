@@ -4,7 +4,7 @@ from ETS2LA.UI import *
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Utils import settings
 import threading
-
+import time
 
 class BasicModeFeature():
     name: str = "Feature"
@@ -56,18 +56,26 @@ class Page(ETS2LAPage):
     feature_toggles = {
         feature.name: feature.default for feature in basic_mode_features
     }
+    update_queue: list[str] = []
+    running: bool = False
+    first_run: bool = True
+    
+    def basic_mode_updater(self):
+        while True:
+            while self.update_queue:
+                self.update_basic_mode_plugins()
+                self.update_queue.pop(0)
+            time.sleep(1)
     
     def update_basic_mode_plugins(self):
         if not settings.Get("global", "advanced_plugin_mode", False):
-            SendPopup("Updating plugin states...")
             for feature in basic_mode_features:
-                if self.feature_toggles[feature.name]:
+                if self.feature_toggles[feature.name] and self.running:
                     for plugin_name in feature.plugin_names:
                         plugins.start_plugin(folder="Plugins\\" + plugin_name)
                 else:
                     for plugin_name in feature.plugin_names:
                         plugins.stop_plugin(folder="Plugins\\" + plugin_name)
-            SendPopup("Plugin states updated successfully.", type="success")
     
     def toggle_feature(self, name: str):
         if name in self.feature_toggles:
@@ -75,9 +83,17 @@ class Page(ETS2LAPage):
         else:
             SendPopup(f"Feature '{name}' not found.", type="error")
         
-        threading.Thread(target=self.update_basic_mode_plugins, daemon=True).start()
+        self.update_queue.append(name)
         return True
     
+    def toggle_running(self):
+        if self.first_run:
+            self.first_run = False
+            return
+        
+        self.running = not self.running
+        self.update_queue.append("running")
+
     def handle_advanced_mode_toggle(self, *args):
         if args:
             value = args[0]
@@ -193,7 +209,7 @@ class Page(ETS2LAPage):
     
     # MARK: Body
     def init(self):
-        self.update_basic_mode_plugins()
+        threading.Thread(target=self.basic_mode_updater, daemon=True).start()
     
     def render(self):
         isBasic = not settings.Get("global", "advanced_plugin_mode", False)
@@ -202,11 +218,18 @@ class Page(ETS2LAPage):
             with Container(styles.FlexHorizontal() + styles.Padding("40px") + styles.Gap("40px")):
                 with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Width("400px") + styles.Classname("relative")):
                     Text("Plugins (Basic)", styles.Title())
-                    Text("You can enable and disable different ETS2LA features on the right side, all of the plugins described by these features will be running automatically. If you wish for more control over the plugins then you can enable advanced mode below.", styles.Description())
+                    Text("You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration.", styles.Description())
+                    with Button(
+                        self.toggle_running,
+                        enabled=not self.update_queue
+                    ):
+                        if self.update_queue:
+                            with Spinner():
+                                Icon("loader")
+                        Text("Disable Plugins" if self.running else "Enable Plugins")
+                        
                     enabled_plugins = [Translate(plugin.description.name, return_original=True) for plugin in plugins.plugins if plugin.running]
                     Markdown("Currently enabled plugins:\n- " + ("\n- ".join(enabled_plugins) if enabled_plugins else "None"), styles.Description())
-                    with Button(self.handle_advanced_mode_toggle):
-                        Text("Switch to Advanced Mode")
 
                 with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Width("525px")):
                     for feature in basic_mode_features:
@@ -215,16 +238,25 @@ class Page(ETS2LAPage):
                             name=feature.name, 
                             style=styles.FlexVertical() 
                                 + styles.Padding("20px") 
-                                + styles.Classname("w-full h-max " + ("bg-background" if not self.feature_toggles[feature.name] else ""))
+                                + styles.Classname("w-full h-max " + ("bg-background" if not self.feature_toggles[feature.name] else "")),
+                            enabled=feature.name not in self.update_queue
                         ):
                             text_lg = styles.Style()
                             text_lg.font_size = "1rem"
                             with Container(styles.FlexVertical() + styles.Gap("5px") + styles.Classname("text-left w-full")):
                                 with Container(styles.FlexHorizontal() + styles.Classname("justify-between items-center")):
                                     Text(feature.name, styles.Classname("font-semibold" + ("" if self.feature_toggles[feature.name] else " text-muted-foreground")) + text_lg)
-                                    Text("Enabled" if self.feature_toggles[feature.name] else "Disabled", styles.Classname("text-xs font-semibold" + ("" if self.feature_toggles[feature.name] else " text-muted-foreground")))
+                                    
+                                    if feature.name in self.update_queue:
+                                        with Spinner():
+                                            Icon("loader")
+                                    else:
+                                        Text("Enabled" if self.feature_toggles[feature.name] else "Disabled", styles.Classname("text-xs font-semibold" + ("" if self.feature_toggles[feature.name] else " text-muted-foreground")))
                                     
                                 Markdown(feature.description, styles.Description() + styles.Classname("font-normal"))
+                    
+                    with Button(self.handle_advanced_mode_toggle):
+                        Text("Switch to Advanced Mode")
                                 
         else:
             tags = []

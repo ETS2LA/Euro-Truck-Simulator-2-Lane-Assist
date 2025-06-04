@@ -3,11 +3,9 @@ from ETS2LA.Plugin.classes.settings import Settings
 from ETS2LA.Plugin.classes.author import Author
 
 from ETS2LA.Plugin.message import Channel, PluginMessage
-
+from ETS2LA.Controls import ControlEvent
 import ETS2LA.Events as Events
 from ETS2LA.UI import *
-
-from ETS2LA.Controls import ControlEvent
 
 from multiprocessing import Queue
 import importlib
@@ -16,7 +14,6 @@ from types import SimpleNamespace
 from typing import Literal, List
 import logging
 import json
-import math
 import time
 import os
 

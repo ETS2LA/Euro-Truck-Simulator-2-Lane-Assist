@@ -114,79 +114,79 @@ Server side code can be found at https://github.com/ETS2LA/cdn""")
     return DataID
 
 
-class SettingsMenu(ETS2LASettingsMenu):
-    dynamic = True
-    plugin_name = "plugin.datacollectionendtoenddriving"
-    
-    def DeleteDataOnPC(self):
-        try:
-            import ETS2LA.variables as variables
-            import os
-            SendPopup("data_collection_end_to_end_driving.deleting_data")
-            if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
-                for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
-                    try:
-                        os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
-                    except:
-                        pass
-            SendPopup("data_collection_end_to_end_driving.deleted")
-        except:
-            SendPopup("data_collection_end_to_end_driving.couldnt_delete")
-
-    def DeleteDataOnServer(self):
-        try:
-            import requests
-            SendPopup("data_collection_end_to_end_driving.deleting_data")
-            Response = requests.get(f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", timeout=3)
-            if "success" in Response.json() and Response.status_code == 200:
-                SendPopup("data_collection_end_to_end_driving.deleted")
-            else:
-                SendPopup("data_collection_end_to_end_driving.couldnt_delete")
-        except:
-            SendPopup("data_collection_end_to_end_driving.couldnt_delete")
-
-    def render(self):
-        import ETS2LA.variables as variables
-        with Group("vertical", gap=14, padding=0):
-            Title("data_collection_end_to_end_driving.title")
-            Description("data_collection_end_to_end_driving.description")
-            Link("data_collection_end_to_end_driving.link", "https://huggingface.co/OleFranz/End-To-End/tree/main/files", classname="text-muted-foreground")
-        with TabView():
-            with Tab("data_collection_end_to_end_driving.tab.notice"):
-                Label("data_collection_end_to_end_driving.subtitle")
-                with Group("vertical", gap=4, padding=0):
-                    Label("data_collection_end_to_end_driving.what_we_send")
-                    Description("data_collection_end_to_end_driving.what_we_send.description")
-                    
-                with Group("vertical", gap=4, padding=0):
-                    Label("data_collection_end_to_end_driving.what_you_should_know")
-                    Description("data_collection_end_to_end_driving.what_you_should_know.description")
-                    
-                with Group("vertical", gap=4, padding=0):
-                    Label("data_collection_end_to_end_driving.what_you_can_do")
-                    Description("data_collection_end_to_end_driving.what_you_can_do.description")
-                    
-                with Group("vertical", gap=4, padding=0):
-                    Label("data_collection_end_to_end_driving.where_the_data_is_saved")
-                    Description(f"• {variables.PATH}Data-Collection-End-To-End-Driving")
-                
-                with Group("vertical", gap=4, padding=0):
-                    Label("data_collection_end_to_end_driving.your_current_id")
-                    Description(f"• {GetDataID()}")
-                    
-                with Group("vertical", gap=4, padding=0):
-                    Label("data_collection_end_to_end_driving.manual_deletion")
-                    Description("data_collection_end_to_end_driving.manual_deletion.description")
-                    Link(f"• https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", classname="text-muted-foreground")
-
-                Toggle("data_collection_end_to_end_driving.i_read_the_notice", "i_read_the_notice", default=None)
-                Space(10)
-                
-            with Tab("data_collection_end_to_end_driving.tab.control_your_data"):
-                Button("data_collection_end_to_end_driving.button.delete", "data_collection_end_to_end_driving.delete_data_on_pc.name", self.DeleteDataOnPC, description="data_collection_end_to_end_driving.delete_data_on_pc.description")
-                Button("data_collection_end_to_end_driving.button.delete", "data_collection_end_to_end_driving.delete_data_on_server.name", self.DeleteDataOnServer, description="data_collection_end_to_end_driving.delete_data_on_server.description")
-                Description("data_collection_end_to_end_driving.server_code_link.description")
-        return RenderUI()
+# class SettingsMenu(ETS2LASettingsMenu):
+#     dynamic = True
+#     plugin_name = "plugin.datacollectionendtoenddriving"
+#     
+#     def DeleteDataOnPC(self):
+#         try:
+#             import ETS2LA.variables as variables
+#             import os
+#             SendPopup("data_collection_end_to_end_driving.deleting_data")
+#             if os.path.exists(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
+#                 for File in os.listdir(f"{variables.PATH}Data-Collection-End-To-End-Driving"):
+#                     try:
+#                         os.remove(f"{variables.PATH}Data-Collection-End-To-End-Driving/{str(File)}")
+#                     except:
+#                         pass
+#             SendPopup("data_collection_end_to_end_driving.deleted")
+#         except:
+#             SendPopup("data_collection_end_to_end_driving.couldnt_delete")
+# 
+#     def DeleteDataOnServer(self):
+#         try:
+#             import requests
+#             SendPopup("data_collection_end_to_end_driving.deleting_data")
+#             Response = requests.get(f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", timeout=3)
+#             if "success" in Response.json() and Response.status_code == 200:
+#                 SendPopup("data_collection_end_to_end_driving.deleted")
+#             else:
+#                 SendPopup("data_collection_end_to_end_driving.couldnt_delete")
+#         except:
+#             SendPopup("data_collection_end_to_end_driving.couldnt_delete")
+# 
+#     def render(self):
+#         import ETS2LA.variables as variables
+#         with Group("vertical", gap=14, padding=0):
+#             Title("data_collection_end_to_end_driving.title")
+#             Description("data_collection_end_to_end_driving.description")
+#             Link("data_collection_end_to_end_driving.link", "https://huggingface.co/OleFranz/End-To-End/tree/main/files", classname="text-muted-foreground")
+#         with TabView():
+#             with Tab("data_collection_end_to_end_driving.tab.notice"):
+#                 Label("data_collection_end_to_end_driving.subtitle")
+#                 with Group("vertical", gap=4, padding=0):
+#                     Label("data_collection_end_to_end_driving.what_we_send")
+#                     Description("data_collection_end_to_end_driving.what_we_send.description")
+#                     
+#                 with Group("vertical", gap=4, padding=0):
+#                     Label("data_collection_end_to_end_driving.what_you_should_know")
+#                     Description("data_collection_end_to_end_driving.what_you_should_know.description")
+#                     
+#                 with Group("vertical", gap=4, padding=0):
+#                     Label("data_collection_end_to_end_driving.what_you_can_do")
+#                     Description("data_collection_end_to_end_driving.what_you_can_do.description")
+#                     
+#                 with Group("vertical", gap=4, padding=0):
+#                     Label("data_collection_end_to_end_driving.where_the_data_is_saved")
+#                     Description(f"• {variables.PATH}Data-Collection-End-To-End-Driving")
+#                 
+#                 with Group("vertical", gap=4, padding=0):
+#                     Label("data_collection_end_to_end_driving.your_current_id")
+#                     Description(f"• {GetDataID()}")
+#                     
+#                 with Group("vertical", gap=4, padding=0):
+#                     Label("data_collection_end_to_end_driving.manual_deletion")
+#                     Description("data_collection_end_to_end_driving.manual_deletion.description")
+#                     Link(f"• https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", f"https://cdn.ets2la.com/datasets/OleFranz/End-To-End/delete/{GetDataID()}", classname="text-muted-foreground")
+# 
+#                 Toggle("data_collection_end_to_end_driving.i_read_the_notice", "i_read_the_notice", default=None)
+#                 Space(10)
+#                 
+#             with Tab("data_collection_end_to_end_driving.tab.control_your_data"):
+#                 Button("data_collection_end_to_end_driving.button.delete", "data_collection_end_to_end_driving.delete_data_on_pc.name", self.DeleteDataOnPC, description="data_collection_end_to_end_driving.delete_data_on_pc.description")
+#                 Button("data_collection_end_to_end_driving.button.delete", "data_collection_end_to_end_driving.delete_data_on_server.name", self.DeleteDataOnServer, description="data_collection_end_to_end_driving.delete_data_on_server.description")
+#                 Description("data_collection_end_to_end_driving.server_code_link.description")
+#         return RenderUI()
 
 
 class Plugin(ETS2LAPlugin):
@@ -205,7 +205,7 @@ class Plugin(ETS2LAPlugin):
     )
 
     fps_cap = 10
-    settings_menu = SettingsMenu()
+    # settings_menu = SettingsMenu()
 
     def imports(self):
         global SCSTelemetry, ScreenCapture, variables, datetime, requests, win32con, win32gui, ctypes, json, math, time, cv2, os

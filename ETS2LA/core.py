@@ -113,7 +113,6 @@ def run() -> None:
                 listener.check_for_changes()
         
         cloud.Ping()
-            
         frame_counter += 1
 
 if __name__ == "__main__":

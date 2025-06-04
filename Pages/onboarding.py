@@ -1,6 +1,8 @@
 from ETS2LA.UI import *
 from ETS2LA.Utils import translator
 from ETS2LA.Utils import settings
+from ETS2LA.Window.window import get_transparency, get_on_top 
+import time
 
 from Pages.sdk_installation import Page as SDKInstallPage
 from Pages.sdk_installation import games, game_versions, files_for_version, CheckIfInstalled
@@ -200,8 +202,12 @@ class Page(ETS2LAPage):
                 Text("Map Data", styles.Title())
                 Text("ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below.", styles.Description())
                 Space()
-                with Button(action=self.increment_page):
-                    Text("Continue")
+                data = settings.Get("Map", "selected_data")
+                if data:
+                    with Button(action=self.increment_page):
+                        Text("Continue")
+                else:
+                    Text("Waiting for data selection...", styles.Description() + styles.Classname("text-xs"))
             
             import Plugins.Map.utils.data_handler as dh
             index = dh.GetIndex()
@@ -297,6 +303,45 @@ class Page(ETS2LAPage):
                         Icon("triangle", style)
                         Markdown("**Changing the window size may cause pages to display incorrectly**.\nYou can adjust the window scaling by holding Left CTRL and using the scrollwheel.", styles.Classname("text-muted-foreground"))
 
+    tested_stay_on_top = False
+    tested_transparency = False
+    last_check = 0
+    def window_controls(self):
+        
+        if self.last_check + 1 < time.time():
+            self.last_check = time.time()
+            if get_transparency():
+                self.tested_transparency = True
+            if get_on_top():
+                self.tested_stay_on_top = True
+            
+        with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
+            with Container(style=styles.FlexVertical() + styles.Width("450px")):
+                Text("Window Controls", styles.Title())
+                Text("ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner. Try it out now!", styles.Description())
+                Space()
+                if self.tested_stay_on_top and self.tested_transparency:
+                    with Button(action=self.increment_page):
+                        Text("Continue")
+                else:
+                    Text("Waiting for controls to be tested...", styles.Description() + styles.Classname("text-xs"))
+            
+            with Container(style=styles.FlexVertical() + styles.Width("600px")):
+                with Container(style=styles.FlexVertical() + styles.Gap("12px") + styles.Padding("16px") + styles.Classname("border rounded-md bg-input/10")):
+                    if not self.tested_stay_on_top:
+                        Text("Waiting for toggle...", styles.Description() + styles.Classname("text-xs"))
+                    else:
+                        Text("Great! It's a useful feature.", styles.Description() + styles.Classname("text-xs"))
+                        
+                    Markdown("By **left clicking** the green button you can make ETS2LA stay on top of other windows, including ETS2 and ATS. This is useful for people with only one monitor.")
+                with Container(style=styles.FlexVertical() + styles.Gap("12px") + styles.Padding("16px") + styles.Classname("border rounded-md bg-input/10")):
+                    if not self.tested_transparency:
+                        Text("Waiting for toggle...", styles.Description() + styles.Classname("text-xs"))
+                    else:
+                        Text("Great! Some of you will like this!", styles.Description() + styles.Classname("text-xs"))
+                        
+                    Markdown("By **right clicking** the green button you can toggle transparency. This is useful for people who want to see the game behind the ETS2LA window. You can adjust the transparency level in the settings later.")
+
     def complete(self):
         with Container(style=styles.FlexVertical() + styles.Width("400px")):
             Text("Onboarding Complete!", styles.Title())
@@ -319,7 +364,8 @@ class Page(ETS2LAPage):
             3: self.plugins,
             4: self.map_data,
             5: self.size,
-            6: self.complete
+            6: self.window_controls,
+            7: self.complete
         }
         
         if self.increment_and_load == 2:
@@ -336,7 +382,8 @@ class Page(ETS2LAPage):
         with Container(style=styles.FlexVertical() + styles.Classname("items-center relative justify-center gap-4 text-center") + styles.Height("100vh")):
             if self.page in pages:
                 with Container(style=styles.FlexVertical() + styles.Classname("justify-center gap-4 text-left") + styles.Height("100vh")):
-                    Text(f"0{self.page + 1} / 0{len(pages)}", styles.Classname("text-xs text-muted-foreground"))
+                    with Button(action=self.decrement_page, style=styles.Classname("bg-transparent w-max p-0 h-max"), type="ghost"):
+                        Text(f"0{self.page + 1} / 0{len(pages)}", styles.Classname("text-xs text-muted-foreground"))
                     pages[self.page]()
             else:
                 with Container(style=styles.FlexVertical() + styles.Width("520px") + styles.Classname("items-center")):
