@@ -78,7 +78,14 @@ class Plugin(ETS2LAPlugin):
         if remote_update_time != self.update_time:
             self.update_time = remote_update_time
             self.map_data = self.globals.tags.map
-            self.map_data = self.globals.tags.merge(self.map_data)
+            # Temporary fix: tag map is a dict, but sometimes it can be set to None or other types
+            # TODO: Figure out why this happens and fix it properly
+            if isinstance(self.map_data, dict):
+                self.map_data = self.globals.tags.merge(self.map_data)
+            else:
+                # Log the error and set map_data to None to avoid further issues    
+                logging.warning(f"map标签数据类型异常，期望字典但得到{type(self.map_data)}，已置为None")
+                self.map_data = None  # 避免后续使用错误数据
         
     def get_intersection(self):
         next_intersection = self.globals.tags.next_intersection_uid
