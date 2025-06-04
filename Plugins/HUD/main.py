@@ -84,8 +84,8 @@ class Plugin(ETS2LAPlugin):
                 self.map_data = self.globals.tags.merge(self.map_data)
             else:
                 # Log the error and set map_data to None to avoid further issues    
-                logging.warning(f"map标签数据类型异常，期望字典但得到{type(self.map_data)}，已置为None")
-                self.map_data = None  # 避免后续使用错误数据
+                logging.warning(f"Wrong data type for map tag, expected dict but got {type(self.map_data)}, setting map_data to None")
+                self.map_data = None  # Avoid further issues by setting map_data to None
         
     def get_intersection(self):
         next_intersection = self.globals.tags.next_intersection_uid
@@ -447,7 +447,12 @@ class Plugin(ETS2LAPlugin):
             speed_limit = self.api_data["truckFloat"]["speedLimit"] * 3.6
             
             distance = self.globals.tags.next_intersection_distance
-            distance = self.globals.tags.merge(distance)
+            # Temporary fix: Only merge if distance is a dictionary (from multiple plugins)
+            if isinstance(distance, dict):
+                distance = self.globals.tags.merge(distance)
+            else:
+                # Log warning if distance is not a dictionary (unexpected type)
+                logging.warning(f"next_intersection_distance is type {type(distance)}, expected dict or numeric. Using raw value.")
             
             if show_navigation and distance is not None and distance != 1 and distance != 0:
                 speed_nav_offset_x -= 50 * self.scaling
@@ -611,6 +616,12 @@ class Plugin(ETS2LAPlugin):
                 self.lane_change_data = []
                 time.sleep(1/2) # 2fps
                 
+            # Temporary fix: Handle None case first to avoid subscript errors
+            if status is None:
+                self.lane_change_data = []
+                time.sleep(1/2)  # Match the existing sleep interval
+                continue  # Skip the rest of the loop if status is None 
+            
             status = status["Map"]
 
             if status == "idle":
