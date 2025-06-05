@@ -47,6 +47,10 @@ def get_direction_for_route_start(route: list[nc.RouteNode]):
         logging.warning("Failed to find direction")
         return "", 0
     
+    # 左行时反转初始方向（关键修改）
+    if data.left_hand_drive:
+        direction = "backward" if direction == "forward" else "forward"
+    
     index = 0
     for item in route:
         if item.node.uid == last.uid:
@@ -61,7 +65,7 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
         return [direction]
     
     current = remaining[0]
-    next = remaining[1]
+    next_node = remaining[1]
     
     cur_entry = data.map.get_node_navigation(current.node.uid)
     
@@ -69,10 +73,14 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
         logging.warning(f"Missing navigation entry for node {current.node.uid}")
         return []
     
-    in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
+    # 左行时使用反向连接（关键修改）
+    if data.left_hand_drive:
+        in_direction = cur_entry.backward if direction == "forward" else cur_entry.forward
+    else:
+        in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
     
     for node in in_direction:
-        if node.node_id == next.node.uid:
+        if node.node_id == next_node.node.uid:
             so_far = traverse_route_for_direction(remaining[1:], node.direction)
             if so_far == []: return []
             return [direction] + so_far 
@@ -114,10 +122,14 @@ def get_path_to_destination():
             logging.warning("Failed to find direction for route, do you have ferries on your route?")
             return []
             
-        # This runs from back to front
+        # 左行时反转车道索引（关键修改）
         for i in range(1, len(route)):
             try:
-                route[-i].calculate_lanes_from(route[-i+1], directions[-i+1])
+                # 传递反转后的方向参数，计算反向车道
+                adjusted_direction = directions[-i+1]
+                if data.left_hand_drive:
+                    adjusted_direction = "backward" if adjusted_direction == "forward" else "forward"
+                route[-i].calculate_lanes_from(route[-i+1], adjusted_direction)
             except Exception:
                 pass
 

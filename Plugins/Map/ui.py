@@ -32,6 +32,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Switch("Disable FPS Notices", "DisableFPSNotices", False, description="When enabled map will not notify of any FPS related issues.")
                 
             with Tab("map.settings.tab.steering.name"):
+                Switch("[EXPERIMENTAL]Left-hand traffic", "LeftHandTraffic", False, description="When enabled, the plugin will use left-hand traffic rules. This is useful for maps that use left-hand traffic, such as UK or Japan.")
                 Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
                 Switch("map.settings.drive_based_on_trailer.name", "DriveBasedOnTrailer", True, description="map.settings.drive_based_on_trailer.description")
                 Slider("map.settings.steering_smooth_time.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.steering_smooth_time.description", suffix=" s")
