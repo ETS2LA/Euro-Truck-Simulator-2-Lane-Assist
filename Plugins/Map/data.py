@@ -125,7 +125,7 @@ export_road_offsets = settings.Get("Map", "ExportRoadOffsets", False)
 """Whether to export the road offsets at startup. Only works in development mode."""
 disable_fps_notices = settings.Get("Map", "DisableFPSNotices", False)
 """Whether to disable the FPS notices or not."""
-override_lane_offsets= settings.Get("Map", "Override Lane Offsets", True)
+override_lane_offsets= settings.Get("Map", "Override Lane Offsets", False)
 """Whether to override the existing lane offsets or not."""
 use_auto_offset_data = settings.Get("Map", "UseAutoOffsetData", False)
 """Whether to use the auto offset data or not. This will use the offsets from the game instead of the ones calculated by the plugin."""
