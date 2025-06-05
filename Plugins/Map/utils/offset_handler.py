@@ -279,7 +279,7 @@ def _calculate_distances(road, items):
             current_sorted = sorted(item_distances)
             current_sorted = current_sorted[:len(road.lanes)]
             sorted_distances.extend(current_sorted)
-            if any(distance <= 4.5 for distance in current_sorted):
+            if all(distance <= 4.5 for distance in current_sorted):
                 min_distance = min(min_distance, sum(current_sorted[:2]))
             else:
                 min_distance = min(min_distance, sum(current_sorted[-2:]))
@@ -288,7 +288,8 @@ def _calculate_distances(road, items):
             min_distance = min(min_distance, current_min * 2)
             
         dist0 |= any(d < distance_threshold for d in item_distances)
-    #logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}")
+    if min_distance != math.inf and sorted_distances:
+        logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}")
     result = (min_distance, sorted_distances, dist0)
     _distance_cache[cache_key] = result
     return result
