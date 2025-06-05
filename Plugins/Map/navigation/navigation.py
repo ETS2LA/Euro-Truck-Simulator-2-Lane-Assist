@@ -73,9 +73,9 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
         logging.warning(f"Missing navigation entry for node {current.node.uid}")
         return []
     
-    # Critical: Adjust direction based on left-hand drive setting
+    # Critical: Adjust direction based on right-hand drive setting
     if data.right_hand_drive:
-        in_direction = cur_entry.backward if direction == "forward" else cur_entry.forward
+        in_direction = cur_entry.backward if direction == "backward" else cur_entry.forward
     else:
         in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
     
