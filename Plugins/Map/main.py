@@ -142,6 +142,13 @@ class Plugin(ETS2LAPlugin):
     def trigger_data_update(self):
         return ui.trigger_data_update(self)
 
+    def use_auto_offset(self):
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.use_auto_offset()   
+        UPDATING_OFFSET_CONFIG = False
+        return result   
+
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_oh_hash
         logging.info("Starting navigation module file monitor")
@@ -286,6 +293,13 @@ class Plugin(ETS2LAPlugin):
                 data.map = data_reader.ReadData(state=self.state)
                 data.data_downloaded = True
                 data.data_needs_update = True
+                if data.use_auto_offset_data:
+                    if self.use_auto_offset():
+                        self.state.text = "Using auto offset data"
+                        logging.info("Using auto offset data")
+                    else:
+                        self.state.text = "Failed to update road data, check the logs for more information."
+                        logging.error("Failed to update road data, check the logs for more information.")
                 self.state.reset()
                 return
                 

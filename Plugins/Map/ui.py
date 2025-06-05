@@ -53,6 +53,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Label("NOTE!", weight="semibold", size="xs", classname="pl-4")
                             Description("If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!", size="xs", classname="pl-4")    
                         Selector("Selected Data", "selected_data", "", [config["name"] for config in configs.values()], description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.")
+                        Switch("Use automatically calculated offsets", "UseAutoOffsetData", False, description="When enabled, the plugin will use automatically calculated offsets for the roads. This is useful if you have a custom map or if the offsets are not correct for your data.")
                         Button("Update", "Update Data", self.plugin.trigger_data_update, description="Update the currently selected data, this can be helpful if the data is corrupted or there has been an update.", classname="bg-input/10")
                             
                         for key, data in index.items():
