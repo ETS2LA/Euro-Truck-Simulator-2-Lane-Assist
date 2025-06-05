@@ -265,6 +265,7 @@ def _calculate_distances(road, items):
 
     min_distance = math.inf
     sorted_distances = []
+    filtered = []
     dist0 = False
     is_add = False
     
@@ -282,14 +283,29 @@ def _calculate_distances(road, items):
             sorted_distances.extend(current_sorted)
             if all(distance <= 4.5 for distance in current_sorted):
                 if len(road.lanes) > 2:
-                    item_distances = item_distances[:max((len(road.lanes) // 2), 2)]
-                    if item_distances[0] > item_distances[1]:
+                    # New: Detect the size of the first two items and filter odd/even indices
+                    if len(item_distances) >= 2:
+                        first = item_distances[0]
+                        second = item_distances[1]
+                        if first > second:
+                            # Keep odd indices (1,3,5...)
+                            filtered = [item_distances[i] for i in range(1, len(item_distances), 2)]
+                        else:
+                            # Keep even indices (0,2,4...)
+                            filtered = [item_distances[i] for i in range(0, len(item_distances), 2)]
+                    else:
+                        filtered = item_distances  # Do not process if there are less than two items
+                    logging.warning(f"item_distances: {item_distances}, filtered: {filtered}, lane={len(road.lanes)}")
+                    if any(distance == 0 for distance in filtered):
+                        filtered = filtered[:-2]
+                    if filtered[0] >= filtered[-1]:
                         is_add = True
                     else:
                         is_add = False
-                min_distance = min(min_distance, sum(current_sorted[:2]))
+                    logger.warning(f"Road: {road.road_look.name}, filtered: {filtered}, is_add={is_add}")
+                min_distance = min(min_distance, sum(filtered[:2]))
             else:
-                min_distance = min(min_distance, sum(current_sorted[-2:]))
+                min_distance = min(min_distance, sum(filtered[-2:]))
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
@@ -301,10 +317,11 @@ def _calculate_distances(road, items):
         #logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
         pass
     
-    # 结果新增left_lanes字段（基于当前road）
+    # The result adds the left_lanes field (based on the current road)
     result = (min_distance, is_add, dist0)
     _distance_cache[cache_key] = result
     return result
+
 
 
 def _calculate_item_distances(road, item):
