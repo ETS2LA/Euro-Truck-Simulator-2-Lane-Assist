@@ -46,9 +46,9 @@ def get_direction_for_route_start(route: list[nc.RouteNode]):
     if direction == "":
         logging.warning("Failed to find direction")
         return "", 0
-    
-    # 左行时反转初始方向（关键修改）
-    if data.left_hand_drive:
+
+    # Critical: Adjust direction based on left-hand drive setting
+    if data.right_hand_drive:
         direction = "backward" if direction == "forward" else "forward"
     
     index = 0
@@ -73,8 +73,8 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
         logging.warning(f"Missing navigation entry for node {current.node.uid}")
         return []
     
-    # 左行时使用反向连接（关键修改）
-    if data.left_hand_drive:
+    # Critical: Adjust direction based on left-hand drive setting
+    if data.right_hand_drive:
         in_direction = cur_entry.backward if direction == "forward" else cur_entry.forward
     else:
         in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
@@ -122,12 +122,12 @@ def get_path_to_destination():
             logging.warning("Failed to find direction for route, do you have ferries on your route?")
             return []
             
-        # 左行时反转车道索引（关键修改）
+        # Critical: Reverse the direction for each node in the route
         for i in range(1, len(route)):
             try:
-                # 传递反转后的方向参数，计算反向车道
+                # Adjust direction based on left-hand drive setting
                 adjusted_direction = directions[-i+1]
-                if data.left_hand_drive:
+                if data.right_hand_drive:
                     adjusted_direction = "backward" if adjusted_direction == "forward" else "forward"
                 route[-i].calculate_lanes_from(route[-i+1], adjusted_direction)
             except Exception:

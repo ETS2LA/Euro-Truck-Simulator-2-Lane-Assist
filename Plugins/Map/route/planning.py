@@ -617,6 +617,10 @@ def CheckForLaneChange():
         if target != current_index:
             planned = current.get_planned_lane_change_distance()
             left = current.distance_left()
+            # New: Add a speed threshold to prevent slowdown at lane changes when the truck is moving too fast.
+            speed_threshold = 20 # 20 km/h
+            if data.truck_speed * 3.6 >= speed_threshold:
+                left -= (data.truck_speed * 3.6) * data.lane_change_distance_per_kph * 1
             if left > planned and not (data.truck_indicating_right or data.truck_indicating_left):
                 data.plugin.globals.tags.lane_change_status = "waiting"
                 data.plugin.state.text = f"Please indicate to confirm lane change."

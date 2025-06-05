@@ -35,7 +35,7 @@ im = importlib.import_module("Plugins.Map.utils.internal_map")
 oh = importlib.import_module("Plugins.Map.utils.offset_handler")  
 last_plan_hash = hash(open(planning.__file__, encoding="utf-8").read())
 last_drive_hash = hash(open(driving.__file__).read())
-last_nav_hash = hash(open(navigation.__file__).read())
+last_nav_hash = hash(open(navigation.__file__, encoding="utf-8").read())
 last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 

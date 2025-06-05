@@ -1,6 +1,7 @@
 from Plugins.Map.classes import Node, Road, Prefab
 from Modules.Route.classes import RouteItem
 import Plugins.Map.utils.math_helpers as mh
+import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.data as data
 
 from typing import Literal
@@ -64,7 +65,12 @@ class RouteNode:
             return False
         
         navigation_information = data.map.get_node_navigation(self.node.uid)
-        nav_info = navigation_information.forward if direction == "forward" else navigation_information.backward
+        # Critical fix 1: Reverse the direction for RHD
+        if data.right_hand_drive:
+            # In RHD mode, we reverse the navigation information
+            nav_info = navigation_information.backward if direction == "forward" else navigation_information.forward
+        else:
+            nav_info = navigation_information.forward if direction == "forward" else navigation_information.backward
         
         item = None
         lanes = []
@@ -73,7 +79,11 @@ class RouteNode:
                 try:
                     item = data.map.get_item_by_uid(nav_node.item_uid)
                     self.direction = nav_node.direction
-                    lanes = nav_node.lane_indices
+                    lanes = nav_node.lane_indices  
+                    # Critical fix 2: Reverse the lane indices immediately in RHD mode (to avoid missing in subsequent logic)
+                    if data.right_hand_drive:
+                        all_lanes = self.get_item_lanes(item) if item else []
+                        lanes = [len(all_lanes) - 1 - idx for idx in lanes if idx < len(all_lanes)]
                 except:
                     pass
             
@@ -97,34 +107,59 @@ class RouteNode:
         # r r r
         # p p p
         # r r r
+        # Critical fix 3: Adaptation for RHD in road → prefab scenarios
         last_lanes = self.get_item_lanes(last.item)
         current_lanes = self.get_item_lanes(self.item)
         if type(last.item) == Road and type(self.item) == Prefab and len(last_lanes) == len(current_lanes):
-            self.lanes = lanes
-            self.is_possible = len(lanes) > 0
+            # In RHD mode, we prioritize matching the left lanes (original logic defaults to right)
+            if data.right_hand_drive:
+                self.lanes = [len(current_lanes) - 1 - idx for idx in lanes]
+            else:
+                self.lanes = lanes
+            self.is_possible = len(self.lanes) > 0
             return
         
         # Lanes now contains all possible lanes that we can drive on.
         # Next we need to check which of them are valid for the next (last) node.
+        # Critical fix 4: Get road offset (for RHD scenarios endpoint coordinate adjustment)
+        road_offset = 0
+        if type(self.item) == Road:
+            road_offset = rh.GetOffset(self.item)
+
+        # Process last node's lane information
+        last_all_lanes = self.get_item_lanes(last.item)
         last_lanes = []
-        all_lanes = self.get_item_lanes(last.item)
         for lane in last.lanes:
-            last_lanes.append((lane, all_lanes[lane]))
-        
+            # In RHD mode, the last node's lane indices need to be reversed
+            adjusted_lane = len(last_all_lanes) - 1 - lane if data.right_hand_drive else lane
+            if adjusted_lane < len(last_all_lanes):
+                last_lanes.append((adjusted_lane, last_all_lanes[adjusted_lane]))
+
+        # Process current node's lane information
+        cur_all_lanes = self.get_item_lanes(self.item)
         cur_lanes = []
-        all_lanes = self.get_item_lanes(self.item)
         for lane in lanes:
-            cur_lanes.append((lane, all_lanes[lane]))
+            # In RHD mode, the current node's lane indices need to be reversed
+            adjusted_lane = len(cur_all_lanes) - 1 - lane if data.right_hand_drive else lane
+            if adjusted_lane < len(cur_all_lanes):
+                cur_lanes.append((adjusted_lane, cur_all_lanes[adjusted_lane]))
             
         # Check if the distance between the current and last lane is less than 2 meters.
         # The lanes are 4.5m wide, so this should be good enough. 
+        # Check lane endpoint distances (considering RHD road offset)
         valid = []
         for last_index, last_lane in last_lanes:
-            last_start_point = last_lane.points[0].tuple()
-            last_end_point = last_lane.points[-1].tuple()
+            # In RHD mode, the last node's lane endpoints need to be adjusted
+            last_start_point = (last_lane.points[0].x + road_offset if data.right_hand_drive else last_lane.points[0].x, 
+                                last_lane.points[0].z)
+            last_end_point = (last_lane.points[-1].x + road_offset if data.right_hand_drive else last_lane.points[-1].x, 
+                            last_lane.points[-1].z)
             for cur_index, cur_lane in cur_lanes:
-                cur_start_point = cur_lane.points[0].tuple()
-                cur_end_point = cur_lane.points[-1].tuple()
+                # In RHD mode, the current node's lane endpoints need to be adjusted
+                cur_start_point = (cur_lane.points[0].x + road_offset if data.right_hand_drive else cur_lane.points[0].x, 
+                                cur_lane.points[0].z)
+                cur_end_point = (cur_lane.points[-1].x + road_offset if data.right_hand_drive else cur_lane.points[-1].x, 
+                                cur_lane.points[-1].z)
                 
                 ss_distance = mh.DistanceBetweenPoints(last_start_point, cur_start_point)
                 se_distance = mh.DistanceBetweenPoints(last_start_point, cur_end_point)
