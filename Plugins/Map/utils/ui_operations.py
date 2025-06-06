@@ -114,15 +114,18 @@ def use_auto_offset():
         execute_offset_update()
         clear_rules()
         update_road_data()
+        data.plugin.state.reset()
         data.plugin.state.text = "Per_name data updated, generating rules..."
         logging.warning("Per_name data updated, generating rules...")
         time.sleep(1)  # Wait for the data to be updated
         #generate_rules() # NOT FUNCTIONING PROPERLY, DISABLED FOR NOW
         update_road_data()
+        data.plugin.state.reset()
         data.plugin.state.text = "Per_name data updated, rules generated. You can now use the Map plugin."
         logging.warning("Per_name data updated, rules generated. You can now use the Map plugin.")
         return True
     except Exception as e:
+        data.plugin.state.reset()
         logging.error(f"Error updating per_name data: {e}", exc_info=True)
         data.plugin.state.text = "Error updating per_name data, please check the logs."
         logging.error("Error updating per_name data, please check the logs.")

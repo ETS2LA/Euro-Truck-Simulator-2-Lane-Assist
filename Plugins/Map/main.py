@@ -300,6 +300,8 @@ class Plugin(ETS2LAPlugin):
                     else:
                         self.state.text = "Failed to update road data, check the logs for more information."
                         logging.error("Failed to update road data, check the logs for more information.")
+                    self.settings.UseAutoOffsetData = False
+                    self.settings._save()
                 self.state.reset()
                 return
                 

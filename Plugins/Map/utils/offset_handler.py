@@ -242,7 +242,7 @@ def _get_connected_items(road, map_data):
     
     for index, uid in enumerate(uid_list, 1):
         # Log progress
-        progress = (index / total_uids) * 100
+        #progress = (index / total_uids) * 100
         #logger.warning(f"Checking connected UID {index}/{total_uids} ({progress:.1f}%): uid={uid}")
         
         if uid == road.uid:
@@ -295,14 +295,14 @@ def _calculate_distances(road, items):
                             filtered = [item_distances[i] for i in range(0, len(item_distances), 2)]
                     else:
                         filtered = item_distances  # Do not process if there are less than two items
-                    logging.warning(f"item_distances: {item_distances}, filtered: {filtered}, lane={len(road.lanes)}")
+                    #logging.warning(f"item_distances: {item_distances}, filtered: {filtered}, lane={len(road.lanes)}")
                     if any(distance == 0 for distance in filtered):
                         filtered = filtered[:-2]
                     if filtered[0] >= filtered[-1]:
                         is_add = True
                     else:
                         is_add = False
-                    logger.warning(f"Road: {road.road_look.name}, filtered: {filtered}, is_add={is_add}")
+                    #logger.warning(f"Road: {road.road_look.name}, filtered: {filtered}, is_add={is_add}")
                 min_distance = min(min_distance, sum(filtered[:2]))
             else:
                 min_distance = min(min_distance, sum(filtered[-2:]))
@@ -328,9 +328,9 @@ def _calculate_item_distances(road, item):
     """Calculate distances for a single item (uses correct helper for prefabs/roads)"""
     item_distances = []
     lanes = road.lanes  
-    total_lanes = len(lanes)  
+    #total_lanes = len(lanes)  
     for index, lane in enumerate(lanes, 1):
-            progress = (index / total_lanes) * 100
+            #progress = (index / total_lanes) * 100
             #logger.warning(f"Calculating lane distance {index}/{total_lanes} ({progress:.1f}%): lane_uid={getattr(lane, 'uid', 'N/A')}")
             try:
                 # Use prefab helper for prefabs, road helper for roads
@@ -338,7 +338,7 @@ def _calculate_item_distances(road, item):
                     _, start_dist = prefab_helpers.get_closest_lane(item, lane.points[0].x, lane.points[0].z, True)
                     _, end_dist = prefab_helpers.get_closest_lane(item, lane.points[-1].x, lane.points[-1].z, True)
                 elif hasattr(item, "lanes"):
-                    logger.warning(f"Connected to road {road.road_look.name} with item uid {item.uid}")
+                    #logger.warning(f"Connected to road {road.road_look.name} with item uid {item.uid}")
                     pass
                 else:
                     continue  # Skip invalid item types
@@ -378,13 +378,15 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
         per_name[road.road_look.name] = new_offset
     elif per_name[road.road_look.name] != new_offset:
         if operation == "sub" or allow_override:
-            old_offset = per_name[road.road_look.name]
+            #old_offset = per_name[road.road_look.name]
             per_name[road.road_look.name] = new_offset
-            logger.warning(f"{prefix}Overriding existing offset: {road.road_look.name} {old_offset} -> {new_offset}")
+            #logger.warning(f"{prefix}Overriding existing offset: {road.road_look.name} {old_offset} -> {new_offset}")
         else:
-            logger.warning(f"{prefix}Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+            #logger.warning(f"{prefix}Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+            pass
     else:
-        logger.warning(f"{prefix}E Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+        #logger.warning(f"{prefix}E Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+        pass
     return True
 
 def generate_rules(config):
