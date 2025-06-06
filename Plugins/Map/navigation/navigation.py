@@ -46,10 +46,6 @@ def get_direction_for_route_start(route: list[nc.RouteNode]):
     if direction == "":
         logging.warning("Failed to find direction")
         return "", 0
-
-    # Critical: Adjust direction based on left-hand drive setting
-    if data.right_hand_drive:
-        direction = "backward" if direction == "forward" else "forward"
     
     index = 0
     for item in route:
@@ -65,7 +61,7 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
         return [direction]
     
     current = remaining[0]
-    next_node = remaining[1]
+    next = remaining[1]
     
     cur_entry = data.map.get_node_navigation(current.node.uid)
     
@@ -73,14 +69,10 @@ def traverse_route_for_direction(remaining: list[nc.RouteNode], direction: Liter
         logging.warning(f"Missing navigation entry for node {current.node.uid}")
         return []
     
-    # Critical: Adjust direction based on right-hand drive setting
-    if data.right_hand_drive:
-        in_direction = cur_entry.backward if direction == "backward" else cur_entry.forward
-    else:
-        in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
+    in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
     
     for node in in_direction:
-        if node.node_id == next_node.node.uid:
+        if node.node_id == next.node.uid:
             so_far = traverse_route_for_direction(remaining[1:], node.direction)
             if so_far == []: return []
             return [direction] + so_far 
@@ -122,14 +114,10 @@ def get_path_to_destination():
             logging.warning("Failed to find direction for route, do you have ferries on your route?")
             return []
             
-        # Critical: Reverse the direction for each node in the route
+        # This runs from back to front
         for i in range(1, len(route)):
             try:
-                # Adjust direction based on left-hand drive setting
-                adjusted_direction = directions[-i+1]
-                if data.right_hand_drive:
-                    adjusted_direction = "backward" if adjusted_direction == "forward" else "forward"
-                route[-i].calculate_lanes_from(route[-i+1], adjusted_direction)
+                route[-i].calculate_lanes_from(route[-i+1], directions[-i+1])
             except Exception:
                 pass
 

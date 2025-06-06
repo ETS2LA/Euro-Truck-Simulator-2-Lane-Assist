@@ -130,7 +130,7 @@ override_lane_offsets= settings.Get("Map", "Override Lane Offsets", True)
 use_auto_offset_data = settings.Get("Map", "UseAutoOffsetData", False)
 """Whether to use the auto offset data or not. This will use the offsets from the game instead of the ones calculated by the plugin."""
 right_hand_drive = settings.Get("Map", "RightHandDrive", False)
-"""Whether the game is in right-hand drive mode or not. This is used to determine the lane offsets."""
+"""Whether the game is in right-hand drive mode or not. This will change the direction of the steering wheel."""
 
 # MARK: Return values
 external_data = {}
