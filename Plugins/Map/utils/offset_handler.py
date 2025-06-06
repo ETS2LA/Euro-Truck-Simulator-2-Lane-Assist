@@ -176,12 +176,12 @@ def update_offset_config_generic(operation="add", allow_override=False):
                 #     logger.warning(f"\r{prefix}Skipped: No connected items for '{road_name}'")
 
                 # Calculate distances and check update condition
-                min_distance, sorted_distances, dist0 = _calculate_distances(same_road, connected_items)
+                min_distance, is_add, dist0 = _calculate_distances(same_road, connected_items)
                 # if not _should_update_offset(min_distance, sorted_distances):
                 #     logger.warning(f"\r{prefix}Skipped: Distance conditions not met for '{road_name}' (min_distance={min_distance})")
 
                 # Attempt to update the offset
-                if _update_road_offset(same_road, min_distance, dist0, per_name, operation, allow_override, prefix):
+                if _update_road_offset(same_road, min_distance, dist0, per_name, operation, allow_override, prefix, is_add):
                     succeed = True
                     updated = True
                     _road_name_to_uid[road_name] = same_road.uid  # Cache the UID for future use
@@ -242,7 +242,7 @@ def _get_connected_items(road, map_data):
     
     for index, uid in enumerate(uid_list, 1):
         # Log progress
-        progress = (index / total_uids) * 100
+        #progress = (index / total_uids) * 100
         #logger.warning(f"Checking connected UID {index}/{total_uids} ({progress:.1f}%): uid={uid}")
         
         if uid == road.uid:
@@ -265,7 +265,9 @@ def _calculate_distances(road, items):
 
     min_distance = math.inf
     sorted_distances = []
+    filtered = []
     dist0 = False
+    is_add = False
     
     for item in items:
         if not (item and hasattr(item, "nav_routes")):
@@ -280,27 +282,55 @@ def _calculate_distances(road, items):
             current_sorted = current_sorted[:len(road.lanes)]
             sorted_distances.extend(current_sorted)
             if all(distance <= 4.5 for distance in current_sorted):
-                min_distance = min(min_distance, sum(current_sorted[:2]))
+                if len(road.lanes) > 2:
+                    # New: Detect the size of the first two items and filter odd/even indices
+                    if len(item_distances) >= 2:
+                        first = item_distances[0]
+                        second = item_distances[1]
+                        if first > second:
+                            # Keep odd indices (1,3,5...)
+                            filtered = [item_distances[i] for i in range(1, len(item_distances), 2)]
+                        else:
+                            # Keep even indices (0,2,4...)
+                            filtered = [item_distances[i] for i in range(0, len(item_distances), 2)]
+                    else:
+                        filtered = item_distances  # Do not process if there are less than two items
+                    #logging.warning(f"item_distances: {item_distances}, filtered: {filtered}, lane={len(road.lanes)}")
+                    if any(distance == 0 for distance in filtered):
+                        filtered = filtered[:-2]
+                    if filtered[0] >= filtered[-1]:
+                        is_add = True
+                    else:
+                        is_add = False
+                    #logger.warning(f"Road: {road.road_look.name}, filtered: {filtered}, is_add={is_add}")
+                min_distance = min(min_distance, sum(filtered[:2]))
             else:
-                min_distance = min(min_distance, sum(current_sorted[-2:]))
+                min_distance = min(min_distance, sum(filtered[-2:]))
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
             
         dist0 |= any(d < distance_threshold for d in item_distances)
+    
+    # Sort distances and filter out invalid values
     if min_distance != math.inf and sorted_distances:
-        logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}")
-    result = (min_distance, sorted_distances, dist0)
+        #logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
+        pass
+    
+    # The result adds the left_lanes field (based on the current road)
+    result = (min_distance, is_add, dist0)
     _distance_cache[cache_key] = result
     return result
+
+
 
 def _calculate_item_distances(road, item):
     """Calculate distances for a single item (uses correct helper for prefabs/roads)"""
     item_distances = []
     lanes = road.lanes  
-    total_lanes = len(lanes)  
+    #total_lanes = len(lanes)  
     for index, lane in enumerate(lanes, 1):
-            progress = (index / total_lanes) * 100
+            #progress = (index / total_lanes) * 100
             #logger.warning(f"Calculating lane distance {index}/{total_lanes} ({progress:.1f}%): lane_uid={getattr(lane, 'uid', 'N/A')}")
             try:
                 # Use prefab helper for prefabs, road helper for roads
@@ -308,7 +338,7 @@ def _calculate_item_distances(road, item):
                     _, start_dist = prefab_helpers.get_closest_lane(item, lane.points[0].x, lane.points[0].z, True)
                     _, end_dist = prefab_helpers.get_closest_lane(item, lane.points[-1].x, lane.points[-1].z, True)
                 elif hasattr(item, "lanes"):
-                    logger.warning(f"Connected to road {road.road_look.name} with item uid {item.uid}")
+                    #logger.warning(f"Connected to road {road.road_look.name} with item uid {item.uid}")
                     pass
                 else:
                     continue  # Skip invalid item types
@@ -322,7 +352,7 @@ def _should_update_offset(min_distance, sorted_distances):
     """Determine if offset needs to be updated"""
     return (min_distance != math.inf and distance_threshold < min_distance < 50) or not all(distance_threshold < md < 50 for md in sorted_distances)
 
-def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_override, prefix):
+def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_override, prefix, is_add):
     """Update road offset"""
     current_offset = road_helpers.GetOffset(road)
     if min_distance == math.inf:
@@ -334,22 +364,29 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
         required_offset = current_offset + base_offset
         #logger.warning(f"{prefix}Road: {road.road_look.name}, Adding offset: {required_offset}")
     else:
-        # Changed from 2 * base_offset to base_offset only
-        required_offset = current_offset - base_offset  # Corrected line
-        #logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {required_offset}")
+        # New: If current offset is >4.5, use add logic
+        if is_add:
+            required_offset = current_offset + base_offset
+            logger.warning(f"{prefix}Road: {road.road_look.name} has offset > 4.5, using add logic: {current_offset} + {base_offset} = {required_offset}")
+        else:
+            # Changed from 2 * base_offset to base_offset only
+            required_offset = current_offset - base_offset  # Corrected line
+            #logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {required_offset}")
 
     new_offset = round(required_offset * 4) / 4  # Round to 0.25 precision
     if road.road_look.name not in per_name:
         per_name[road.road_look.name] = new_offset
     elif per_name[road.road_look.name] != new_offset:
-        if operation == "add" or allow_override:
-            old_offset = per_name[road.road_look.name]
+        if operation == "sub" or allow_override:
+            #old_offset = per_name[road.road_look.name]
             per_name[road.road_look.name] = new_offset
-            logger.warning(f"{prefix}Overriding existing offset: {road.road_look.name} {old_offset} -> {new_offset}")
+            #logger.warning(f"{prefix}Overriding existing offset: {road.road_look.name} {old_offset} -> {new_offset}")
         else:
-            logger.warning(f"{prefix}Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+            #logger.warning(f"{prefix}Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+            pass
     else:
-        logger.warning(f"{prefix}E Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+        #logger.warning(f"{prefix}E Keeping existing offset for {road.road_look.name} -> {per_name[road.road_look.name]}")
+        pass
     return True
 
 def generate_rules(config):

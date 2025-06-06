@@ -32,6 +32,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Switch("Disable FPS Notices", "DisableFPSNotices", False, description="When enabled map will not notify of any FPS related issues.")
                 
             with Tab("map.settings.tab.steering.name"):
+                # Switch("[NOT READY]Right-hand traffic", "RightHandTraffic", False, description="[IN DEVELOPMENT] When enabled, the plugin will use right-hand traffic rules. This is useful for maps that use right-hand traffic, such as UK or Japan.")
                 Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
                 Switch("map.settings.drive_based_on_trailer.name", "DriveBasedOnTrailer", True, description="map.settings.drive_based_on_trailer.description")
                 Slider("map.settings.steering_smooth_time.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.steering_smooth_time.description", suffix=" s")
@@ -53,7 +54,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Label("NOTE!", weight="semibold", size="xs", classname="pl-4")
                             Description("If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!", size="xs", classname="pl-4")    
                         Selector("Selected Data", "selected_data", "", [config["name"] for config in configs.values()], description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.")
-                        Switch("Use automatically calculated offsets", "UseAutoOffsetData", False, description="When enabled, the plugin will use automatically calculated offsets for the roads. This is useful if you have a custom map or if the offsets are not correct for your data.")
+                        Switch("Use automatically calculated offsets", "UseAutoOffsetData", False, description="[Restart Map or press Update button to use] When enabled, the plugin will override config.json and use automatically calculated offsets for the roads. Enable cautiously as this can cause issues with the roads.")
                         Button("Update", "Update Data", self.plugin.trigger_data_update, description="Update the currently selected data, this can be helpful if the data is corrupted or there has been an update.", classname="bg-input/10")
                             
                         for key, data in index.items():
