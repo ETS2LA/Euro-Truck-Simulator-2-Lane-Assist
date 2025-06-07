@@ -4,6 +4,7 @@
 
 # TODO: Use the ETS2 and ATS registry keys directly!
 
+import ETS2LA.variables as variables
 import logging
 import json
 import vdf
@@ -11,10 +12,12 @@ import os
 try:
     import winreg
     STEAM_INSTALL_FOLDER = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Valve\\Steam"), "SteamPath")[0]
-    #logging.info("Found registery key for Steam install folder: " + STEAM_INSTALL_FOLDER)
+    if variables.DEVELOPMENT_MODE:
+        logging.info(f"Found registery key for Steam install folder: {STEAM_INSTALL_FOLDER}")
 except:
     STEAM_INSTALL_FOLDER = r"C:\Program Files (x86)\Steam"
-    logging.info("Could not find registery key for Steam install folder, using default: [code]" + STEAM_INSTALL_FOLDER + "[/code]")
+    if variables.DEVELOPMENT_MODE:
+        logging.warning(f"Could not find registery key for Steam install folder, using default: {STEAM_INSTALL_FOLDER}")
 
 LIBRARY_FOLDER_LOCATION = r"steamapps\libraryfolders.vdf"
 SECONDARY_LIBRARY_FOLDER_LOCATION = r"D:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf"
