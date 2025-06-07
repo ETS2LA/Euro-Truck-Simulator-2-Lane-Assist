@@ -1,4 +1,5 @@
 import ETS2LA.variables as variables
+import logging
 import math
 import sys
 
@@ -9,7 +10,7 @@ try:
     import ets2la_AR
     ets2la_AR_imported = True
 except:
-    print(f"WARNING: Could not import ets2la_AR from the CppUtils! Doing calculations in Python instead.")
+    logging.warning(f"Could not import ETS2LA AR C++ library! Calculations will take place in Python.")
 
 
 def ConvertCoordinateToScreen(coordinate, self):
