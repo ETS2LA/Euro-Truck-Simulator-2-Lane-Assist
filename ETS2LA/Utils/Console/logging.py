@@ -17,6 +17,9 @@ import ETS2LA.Utils.settings as settings
 
 import os
 
+# Disable logging from 'comtypes', a dependency of 'pyttsx3'
+logging.getLogger('comtypes').setLevel(logging.CRITICAL)
+
 # Enables / Disables the fancy rich traceback
 ft = settings.Get("global", "use_fancy_traceback", True)
 USE_FANCY_TRACEBACK = True if ft is None else bool(ft)
