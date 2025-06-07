@@ -45,8 +45,8 @@ global.lock
 /Translations
 /Interface
 
-# Developer start file
+# Ignore start batch files
 start_dev.bat
-
-# Normal start file
+run_dev.bat
 start.bat
+run.bat
