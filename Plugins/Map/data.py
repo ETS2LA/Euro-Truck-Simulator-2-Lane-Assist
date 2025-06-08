@@ -127,6 +127,10 @@ disable_fps_notices = settings.Get("Map", "DisableFPSNotices", False)
 """Whether to disable the FPS notices or not."""
 override_lane_offsets= settings.Get("Map", "Override Lane Offsets", False)
 """Whether to override the existing lane offsets or not."""
+use_auto_offset_data = settings.Get("Map", "UseAutoOffsetData", False)
+"""Whether to use the auto offset data or not. This will use the offsets from the game instead of the ones calculated by the plugin."""
+right_hand_drive = settings.Get("Map", "RightHandDrive", False)
+"""Whether the game is in right-hand drive mode or not. This will change the direction of the steering wheel."""
 
 # MARK: Return values
 external_data = {}
@@ -235,7 +239,8 @@ def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
     global auto_accept_threshold, auto_deny_threshold, load_distance
     global drive_based_on_trailer, send_elevation_data, export_road_offsets
-    global disable_fps_notices, override_lane_offsets
+    global disable_fps_notices, override_lane_offsets, use_auto_offset_data
+    global right_hand_drive
     internal_map = settings["InternalVisualisation"]
     calculate_steering = settings["ComputeSteeringData"]
     sector_size = settings["SectorSize"]
@@ -248,6 +253,8 @@ def UpdateSettings(settings: dict):
     export_road_offsets = settings["ExportRoadOffsets"]
     disable_fps_notices = settings["DisableFPSNotices"]
     override_lane_offsets = settings["Override Lane Offsets"]
+    use_auto_offset_data = settings["UseAutoOffsetData"]
+    right_hand_drive = settings["RightHandDrive"]
 
     global data_needs_update
     data_needs_update = True

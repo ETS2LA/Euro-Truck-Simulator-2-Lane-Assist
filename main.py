@@ -137,7 +137,7 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
         elif "--frontend-url" not in sys.argv:
             url = get_fastest_mirror()
             if not url:
-                print(f"{RED}{'No connection to remote UI (github). Running locally.'}{END}\n")
+                print(f"{RED}{'No connection to remote UI mirrors. Running locally.'}{END}\n")
                 update_frontend()
                     
                 if not "--local" in sys.argv:
@@ -150,7 +150,7 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
                 ETS2LA.variables.CHINA_MODE = True
                 print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
                 
-            print(f"\n> Using mirror {YELLOW}{url}{END} for the UI.\n")
+            print(f"\n> Using mirror {YELLOW}{url}{END} for UI.\n")
             sys.argv.append("--frontend-url")
             sys.argv.append(url)
         
@@ -215,8 +215,11 @@ if __name__ == "__main__":
             print(Translate("main.crashed"))
             print(trace)
             
+            # Crash reports currently do not work, disabled to save bandwidth
+            '''
             try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace, additional=get_current_version_information)
             except: pass
+            '''
             
             print(Translate("main.send_report"))
             reset()
@@ -231,4 +234,4 @@ if __name__ == "__main__":
 #         the cache of the app for changes that don't necessarily 
 #         happen inside of this repository (like the frontend).
 # 
-# Counter: 17
+# Counter: 18

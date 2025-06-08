@@ -1,5 +1,5 @@
 import logging
-import json
+import json, time
 from Plugins.Map.utils import offset_handler
 from Plugins.Map import data
 from Plugins.Map.utils import internal_map as im
@@ -99,3 +99,34 @@ def trigger_data_update(plugin_instance):
         plugin_instance: The plugin instance to update settings for
     """
     plugin_instance.settings.downloaded_data = ""
+    
+def use_auto_offset():
+    """
+    Toggle the use of auto offset.
+
+    Args:
+        plugin_instance: The plugin instance to update settings for
+    """
+    try:
+        data.plugin.state.text = "Updating per_name data..."
+        logging.warning("Updating per_name data...")
+        clear_lane_offsets()
+        execute_offset_update()
+        clear_rules()
+        update_road_data()
+        data.plugin.state.reset()
+        data.plugin.state.text = "Per_name data updated, generating rules..."
+        logging.warning("Per_name data updated, generating rules...")
+        time.sleep(1)  # Wait for the data to be updated
+        #generate_rules() # NOT FUNCTIONING PROPERLY, DISABLED FOR NOW
+        update_road_data()
+        data.plugin.state.reset()
+        data.plugin.state.text = "Per_name data updated, rules generated. You can now use the Map plugin."
+        logging.warning("Per_name data updated, rules generated. You can now use the Map plugin.")
+        return True
+    except Exception as e:
+        data.plugin.state.reset()
+        logging.error(f"Error updating per_name data: {e}", exc_info=True)
+        data.plugin.state.text = "Error updating per_name data, please check the logs."
+        logging.error("Error updating per_name data, please check the logs.")
+        return False

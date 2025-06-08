@@ -36,7 +36,7 @@ im = importlib.import_module("Plugins.Map.utils.internal_map")
 oh = importlib.import_module("Plugins.Map.utils.offset_handler")  
 last_plan_hash = hash(open(planning.__file__, encoding="utf-8").read())
 last_drive_hash = hash(open(driving.__file__).read())
-last_nav_hash = hash(open(navigation.__file__).read())
+last_nav_hash = hash(open(navigation.__file__, encoding="utf-8").read())
 last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
@@ -135,6 +135,13 @@ class Plugin(ETS2LAPlugin):
 
     def trigger_data_update(self):
         return ui.trigger_data_update(self)
+
+    def use_auto_offset(self):
+        global UPDATING_OFFSET_CONFIG
+        UPDATING_OFFSET_CONFIG = True
+        result = ui.use_auto_offset()   
+        UPDATING_OFFSET_CONFIG = False
+        return result   
 
     def CheckHashes(self):
         global last_nav_hash, last_drive_hash, last_plan_hash, last_im_hash, last_oh_hash
@@ -272,6 +279,15 @@ class Plugin(ETS2LAPlugin):
                 data.map = data_reader.ReadData(state=self.state)
                 data.data_downloaded = True
                 data.data_needs_update = True
+                if data.use_auto_offset_data:
+                    if self.use_auto_offset():
+                        self.state.text = "Using auto offset data"
+                        logging.info("Using auto offset data")
+                    else:
+                        self.state.text = "Failed to update road data, check the logs for more information."
+                        logging.error("Failed to update road data, check the logs for more information.")
+                    self.settings.UseAutoOffsetData = False
+                    self.settings._save()
                 self.state.reset()
                 return
                 

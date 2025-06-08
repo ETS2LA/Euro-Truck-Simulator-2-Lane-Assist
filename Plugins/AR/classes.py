@@ -1,4 +1,5 @@
 import ETS2LA.variables as variables
+import logging
 import math
 import sys
 

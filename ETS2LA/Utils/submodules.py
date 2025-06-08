@@ -86,7 +86,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
     try:
         origin = repo.remotes.origin
         current_hash = repo.head.object.hexsha
-        origin_hash = origin.fetch(kill_after_timeout=1)
+        origin_hash = origin.fetch(kill_after_timeout=2)
         if len(origin_hash) > 0:
             origin_hash = origin_hash[0].commit.hexsha
         else:
