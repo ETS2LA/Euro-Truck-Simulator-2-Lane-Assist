@@ -1,6 +1,7 @@
 from ETS2LA.UI import *
 
 from ETS2LA.Handlers.controls import get_event_information_dictionary, edit_event, unbind_event, event_information_update
+from ETS2LA.Utils import translator
 
 class Control:
     alias: str = ""
@@ -60,8 +61,9 @@ class Page(ETS2LAPage):
             event.from_dict(dict)
             controls.append(event)
             
-            if event.plugin not in plugin_names:
-                plugin_names.append(event.plugin)
+            plugin = translator.Translate(event.plugin, return_original=True)
+            if plugin not in plugin_names:
+                plugin_names.append(plugin)
         
         with Container(styles.FlexHorizontal() + styles.Classname("justify-between")):
             with Container(styles.FlexVertical() + styles.Gap("12px")):
@@ -83,7 +85,7 @@ class Page(ETS2LAPage):
         
         valid_controls = []
         for control in controls:
-            if self.target_plugin and control.plugin != self.target_plugin:
+            if self.target_plugin and translator.Translate(control.plugin, return_original=True) != self.target_plugin:
                 continue
             
             if self.target_control != "":

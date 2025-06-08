@@ -49,7 +49,7 @@ class Page(ETS2LAPage):
         self.show_sidebar = not self.show_sidebar
     
     def handle_skip_onboarding(self):
-        SendPopup("If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding.")
+        SendPopup("If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once.")
         
     def handle_plugin_mode_change(self, *args):
         if args:

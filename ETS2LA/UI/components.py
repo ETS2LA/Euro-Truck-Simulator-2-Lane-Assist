@@ -338,8 +338,8 @@ class InputType():
     """
     
 INPUT_PLACEHOLDERS = {
-    InputType.STRING: "Expecting string",
-    InputType.NUMBER: "Expecting number",
+    InputType.STRING: "Hello World",
+    InputType.NUMBER: "0",
     InputType.PASSWORD: "●●●●●",
     InputType.FILE: "No file chosen"
 }

@@ -56,10 +56,6 @@ class Plugin(ETS2LAPlugin):
         name="Tumppi066",
         url="https://github.com/Tumppi066",
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
-    ), Author(
-        name="WhyTrevorWhy",
-        url="",
-        icon=""
     )]
     
     description = PluginDescription(
