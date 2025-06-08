@@ -2,6 +2,7 @@ from ETS2LA.Networking.cloud import GetUserCount, GetUserTime, GetUniqueUsers, t
 from ETS2LA.UI.utils import SendPopup
 from ETS2LA.Utils import settings
 from ETS2LA.UI import *
+from ETS2LA import variables
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
@@ -10,6 +11,9 @@ import ETS2LA.Utils.translator as translator
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
 import time
+import os
+
+beta_branch = "frontend-rewrite"
 
 contributors = [
     {"name": "Tumppi066", "description": Translate("about.tumppi066.description"), "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
@@ -61,7 +65,23 @@ class Page(ETS2LAPage):
         except:
             pass
         mainThreadQueue.append([Update, [], {}])
-    
+        
+    def change_branch(self):
+        if not variables.DEVELOPMENT_MODE:
+            os.system("git stash")
+            try: 
+                os.system("git switch main")
+                os.system("git stash")
+            except: pass
+            try: os.system("git branch -D " + beta_branch)
+            except: pass
+            os.system('git config set remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"')
+            os.system("git fetch --all")
+            os.system("git switch " + beta_branch)
+            variables.CLOSE = True
+        else:
+            SendPopup("You are in development mode, please backup your work before switching to the beta.", "warning")
+
     def seconds_to_time(self, seconds):
         hours = round(seconds // 3600)
         minutes = round((seconds % 3600) // 60)
@@ -146,5 +166,7 @@ class Page(ETS2LAPage):
                         Title("Utils")
                         Button("Activate", "Fix wipers", self.fix_wipers, description="Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.")
                         Button("Update", "Force an update", self.update, description="Do you think there should've been an update? Click this button and the app will restart and check for them.")
-                    
+                        if beta_branch:
+                            Button("I want to take the risk", "Move to Beta branch", self.change_branch, description="WARNING: This might BREAK your ETS2LA installation! This CANNOT be undone without reinstalling. Only do this if you really want to test the new features and are ok with the bugs. THERE WILL BE NO PROGRESS INDICATOR, check the console for the download status!")
+
         return RenderUI()
