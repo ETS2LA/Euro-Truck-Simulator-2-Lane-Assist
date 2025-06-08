@@ -282,7 +282,7 @@ def load_event_from_alias(alias: str) -> ControlEvent:
         raise ValueError(f"Event with alias '{alias}' not found.")
     
     info = event_information[alias]
-    return ControlEvent(alias, info["name"], info["type"], info["description"], info["key"], info["plugin"])
+    return ControlEvent(alias, info["name"], info["type"], info["description"], info["key"], info["plugin"] if "plugin" in info else "")
 
 
 def validate_events(events: list[ControlEvent]) -> None:
