@@ -39,9 +39,11 @@ import time
 import git
 
 LOG_FILE_FOLDER = "logs"
+# TODO: REMEMBER TO UPDATE THE URL BEFORE RELEASE!
 FRONTEND_MIRRORS = [
-    "https://app.ets2la.com",
-    "https://app.ets2la.cn",
+    #"https://app.ets2la.com",
+    #"https://app.ets2la.cn",
+    "https://beta.ets2la.com"
 ]
 
 def close_node() -> None:

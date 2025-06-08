@@ -129,6 +129,10 @@ def SpecialCases(key: str | None, language: str | None = None) -> str:
             return LANGUAGE_DATA[language]["Language"][key]
         return ""
     
+    if LANGUAGE not in LANGUAGE_DATA:
+        logging.error(f"{LANGUAGE} is not a valid language.")
+        return ""
+    
     if key in LANGUAGE_DATA[LANGUAGE]["Language"]:
         return LANGUAGE_DATA[LANGUAGE]["Language"][key]
     return ""
@@ -201,11 +205,5 @@ def SettingsUpdate(new: dict):
         logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
         LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
         settings.Set("global", "language", "English")
-        
-    if variables.DEVELOPMENT_MODE and not variables.LOCAL_MODE:
-        LoadLanguageData()
-        
-    if variables.LOCAL_MODE and not variables.DEVELOPMENT_MODE:
-        UpdateFrontendTranslations()
         
 settings.Listen("global", SettingsUpdate)
