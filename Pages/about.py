@@ -68,7 +68,16 @@ class Page(ETS2LAPage):
         
     def change_branch(self):
         if not variables.DEVELOPMENT_MODE:
-            os.system(f"git stash && git fetch origin {beta_branch} && git checkout FETCH_HEAD -b {beta_branch}")
+            os.system("git stash")
+            try: 
+                os.system("git switch main")
+                os.system("git stash")
+            except: pass
+            try: os.system("git branch -D " + beta_branch)
+            except: pass
+            os.system('git config set remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"')
+            os.system("git fetch --all")
+            os.system("git switch " + beta_branch)
             variables.CLOSE = True
         else:
             SendPopup("You are in development mode, please backup your work before switching to the beta.", "warning")
