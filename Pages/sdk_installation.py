@@ -22,8 +22,11 @@ def IsGameRunning():
     execs = ["amtrucks", "eurotrucks2"]
     for p in psutil.process_iter():
         for game in execs:
-            if game in p.name():
-                return True
+            try:
+                if game in p.name():
+                    return True
+            except psutil.NoSuchProcess:
+                pass # Usually indicates that a process has exited
         
     return False
 
