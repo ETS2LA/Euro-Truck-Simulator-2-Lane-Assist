@@ -209,6 +209,14 @@ class ETS2LAPlugin(object):
                 "type": type
             }
         ), block=False)
+        
+    def navigate(self, url: str, reason: str = ""):
+        self.return_queue.put(PluginMessage(
+            Channel.NAVIGATE, {
+                "url": url,
+                "reason": reason
+            }
+        ), block=False)
             
     def before(self) -> None:
         self.plugin_run_start_time = time.perf_counter()

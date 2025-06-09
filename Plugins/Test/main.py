@@ -22,8 +22,7 @@ class Plugin(ETS2LAPlugin):
     )
 
     def init(self):
-        ...
+        self.navigate("/telemetry", "Hi, this is a secret page")
 
     def run(self):
-        self.notify("Test notification", "info")
-        time.sleep(5)
+        ...

@@ -272,9 +272,17 @@ class Plugin:
                             text=Translate(text, return_original=True),
                             type=type_
                         )
-                        
+            
+            if Channel.NAVIGATE in self.stack:
+                while self.stack[Channel.NAVIGATE]:
+                    message = self.stack[Channel.NAVIGATE].popitem()[1]
+                    if "url" in message.data:
+                        url = message.data["url"]
+                        reason = message.data.get("reason", "")
+                        plugin = self.description.name
+                        notifications.navigate(url, plugin, reason)
             time.sleep(0.1)
-    
+
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
         start_time = time.perf_counter()

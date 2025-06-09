@@ -8,7 +8,7 @@ PLEASE NOTE:
 from ETS2LA.UI import * 
 
 from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency
-from ETS2LA.Networking.Servers.notifications import sonner, page
+from ETS2LA.Networking.Servers.notifications import sonner, navigate
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
 from ETS2LA.Window.utils import check_if_specified_window_open
@@ -100,7 +100,7 @@ def check_updates():
 
 @app.get("/backend/update")
 def update():
-    page("updater")
+    navigate("updater", "Frontend", "The frontend wants to perform an update.")
     return True
 
 @app.get("/api/sounds/play/{sound}")
