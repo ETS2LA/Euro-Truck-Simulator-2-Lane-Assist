@@ -157,3 +157,5 @@ class Page(ETS2LAPage):
                         description="Do you think there should've been an update? Click this button and the app will restart and check for them.",
                         text="Update"
                     )
+                    
+            Space(style=styles.Height("60px"))

@@ -12,7 +12,7 @@ sdk_page.onboarding_mode = True
 
 class Page(ETS2LAPage):
     url = "/onboarding"
-    page = 6
+    page = 0
     
     # 2 = render loading page
     # 1 = start rendering
