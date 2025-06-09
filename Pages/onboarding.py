@@ -12,7 +12,7 @@ sdk_page.onboarding_mode = True
 
 class Page(ETS2LAPage):
     url = "/onboarding"
-    page = 0
+    page = 6
     
     # 2 = render loading page
     # 1 = start rendering
@@ -303,44 +303,46 @@ class Page(ETS2LAPage):
                         Icon("triangle", style)
                         Markdown("**Changing the window size may cause pages to display incorrectly**.\nYou can adjust the window scaling by holding Left CTRL and using the scrollwheel.", styles.Classname("text-muted-foreground"))
 
-    tested_stay_on_top = False
-    tested_transparency = False
     last_check = 0
-    def window_controls(self):
-        
-        if self.last_check + 1 < time.time():
-            self.last_check = time.time()
-            if get_transparency():
-                self.tested_transparency = True
-            if get_on_top():
-                self.tested_stay_on_top = True
-            
+    def window_controls(self): 
         with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
             with Container(style=styles.FlexVertical() + styles.Width("450px")):
                 Text("Window Controls", styles.Title())
-                Text("ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner. Try it out now!", styles.Description())
+                Text("ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner.", styles.Description())
                 Space()
-                if self.tested_stay_on_top and self.tested_transparency:
-                    with Button(action=self.increment_page):
-                        Text("Continue")
-                else:
-                    Text("Waiting for controls to be tested...", styles.Description() + styles.Classname("text-xs"))
+                with Button(action=self.increment_page):
+                    Text("Continue")
             
             with Container(style=styles.FlexVertical() + styles.Width("600px")):
-                with Container(style=styles.FlexVertical() + styles.Gap("12px") + styles.Padding("16px") + styles.Classname("border rounded-md bg-input/10")):
-                    if not self.tested_stay_on_top:
-                        Text("Waiting for toggle...", styles.Description() + styles.Classname("text-xs"))
-                    else:
-                        Text("Great! It's a useful feature.", styles.Description() + styles.Classname("text-xs"))
-                        
-                    Markdown("By **left clicking** the green button you can make ETS2LA stay on top of other windows, including ETS2 and ATS. This is useful for people with only one monitor.")
-                with Container(style=styles.FlexVertical() + styles.Gap("12px") + styles.Padding("16px") + styles.Classname("border rounded-md bg-input/10")):
-                    if not self.tested_transparency:
-                        Text("Waiting for toggle...", styles.Description() + styles.Classname("text-xs"))
-                    else:
-                        Text("Great! Some of you will like this!", styles.Description() + styles.Classname("text-xs"))
-                        
-                    Markdown("By **right clicking** the green button you can toggle transparency. This is useful for people who want to see the game behind the ETS2LA window. You can adjust the transparency level in the settings later.")
+                with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("border rounded-md p-4 bg-input/10 items-start")):
+                    style = styles.Style()
+                    style.margin_top = "2px"
+                    style.width = "1rem"
+                    style.height = "1rem"
+                    style.color = "var(--muted-foreground)"
+                    Icon("info", style)
+                    Markdown("**Stay on top**\n\nYou can *left click* the green button to make the ETS2LA window stay on top of other windows.")
+                
+                with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("border rounded-md p-4 bg-input/10 items-start")):
+                    style = styles.Style()
+                    style.margin_top = "2px"
+                    style.width = "1rem"
+                    style.height = "1rem"
+                    style.color = "var(--muted-foreground)"
+                    Icon("info", style)
+                    Markdown("**Transparency**\n\nYou can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings.")
+
+            offset = styles.Style()
+            offset.margin_top = "28px"
+            offset.margin_right = "34px"
+            with Container(style=styles.Classname("top-0 absolute right-0 text-center flex gap-2 items-center") + offset):
+                Text("It's this green button!", styles.Description() + styles.Classname("text-xs text-muted-foreground"))
+                icon_style = styles.Style()
+                icon_style.margin_top = "2px"
+                icon_style.width = "1.2rem"
+                icon_style.height = "1.2rem"
+                icon_style.color = "var(--muted-foreground)"
+                Icon("arrow-up", icon_style)
 
     def complete(self):
         with Container(style=styles.FlexVertical() + styles.Width("400px")):
