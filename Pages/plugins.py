@@ -355,7 +355,7 @@ class Page(ETS2LAPage):
                     else:
                         with Alert(style=styles.Gap("20px") + styles.FlexVertical()):
                             names = [Translate(plugin, return_original=True) for plugin in last_plugins]
-                            Markdown(f"Want to enable the plugins you had running last time?\n\n**{", ".join(names)}**", styles.Description())
+                            Markdown(f"Want to enable the plugins you had running last time?\n\n**{', '.join(names)}**", styles.Description())
                             with Button(action=self.enable_last_plugins):
                                 Text("Enable Last Plugins")
                                 
