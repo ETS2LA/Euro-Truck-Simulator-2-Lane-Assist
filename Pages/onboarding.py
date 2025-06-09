@@ -116,7 +116,7 @@ class Page(ETS2LAPage):
                     title="Language",
                     description="Select your preferred language for ETS2LA.",
                     options=translator.LANGUAGES,
-                    default=settings.Get("global", "language", default="English"),  # type: ignore
+                    default=settings.Get("global", "language", default="English"),
                     changed=self.change_language,
                     search=ComboboxSearch("Search Languages...", "Help us translate on discord!"),
                     style=styles.MinWidth("300px")
