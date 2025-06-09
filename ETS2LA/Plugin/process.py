@@ -160,6 +160,8 @@ class PluginProcess:
                     Function(self)(message)
                 case Channel.GET_CONTROLS | Channel.CONTROL_STATE_UPDATE:
                     Controls(self)(message)
+                case Channel.OPEN_EVENT | Channel.CLOSE_EVENT:
+                    Page(self)(message)
                 case _:
                     self.stack[message.id] = message
         
@@ -491,3 +493,27 @@ class Function(ChannelHandler):
 
         except Exception as e:
             logging.exception("Error handling function")
+            
+class Page(ChannelHandler):
+    def __call__(self, message: PluginMessage):
+        try:
+            if message.state == State.ERROR:
+                logging.error("Error getting page, " + message.data)
+                return None
+
+            if message.channel == Channel.OPEN_EVENT:
+                url = message.data.get("url")
+                for page in self.plugin.pages:
+                    if page.url == url:
+                        page.open_event()
+                        return None
+                    
+            elif message.channel == Channel.CLOSE_EVENT:
+                url = message.data.get("url")
+                for page in self.plugin.pages:
+                    if page.url == url:
+                        page.close_event()
+                        return None
+                    
+        except Exception as e:
+            logging.exception("Error handling page event")

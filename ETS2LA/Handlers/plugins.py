@@ -101,7 +101,6 @@ class Plugin:
         )
         
         self.process.start()
-        
     
     def __init__(self, folder: str) -> None:
         self.folder = folder
@@ -520,7 +519,51 @@ def get_page_list() -> dict[str, dict]:
                 
     return pages
 
-
+def page_open_event(url: str):
+    page = {}
+    for plugin in plugins:
+        if url in plugin.pages:
+            page = plugin.pages[url]
+            break
+        
+    if not page:
+        return
+    
+    plugin_name = page[0]["plugin"]
+    plugin = match_plugin(name=plugin_name)
+    if not plugin:
+        logging.error(f"Plugin {plugin_name} not found for page {url}.")
+        return
+    
+    plugin.queue.put(PluginMessage(
+        Channel.OPEN_EVENT,
+        {
+            "url": url
+        }
+    ))
+    
+def page_close_event(url: str):
+    page = {}
+    for plugin in plugins:
+        if url in plugin.pages:
+            page = plugin.pages[url]
+            break
+        
+    if not page:
+        return
+    
+    plugin_name = page[0]["plugin"]
+    plugin = match_plugin(name=plugin_name)
+    if not plugin:
+        logging.error(f"Plugin {plugin_name} not found for page {url}.")
+        return
+    
+    plugin.queue.put(PluginMessage(
+        Channel.CLOSE_EVENT,
+        {
+            "url": url
+        }
+    ))
 
 # MARK: General Utils
 def get_tag_data(tag: str) -> dict:

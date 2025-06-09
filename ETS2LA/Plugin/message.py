@@ -16,38 +16,40 @@ class Channel(Enum):
     
     # Tag operations
     GET_TAGS = 2
-    UPDATE_TAGS = 21
+    UPDATE_TAGS = 3
     
     # Plugin management
-    ENABLE_PLUGIN = 3
-    STOP_PLUGIN = 4
-    RESTART_PLUGIN = 5
-    CRASHED = 6
-    GET_DESCRIPTION = 20
+    ENABLE_PLUGIN = 4
+    STOP_PLUGIN = 5
+    RESTART_PLUGIN = 6
+    CRASHED = 7
+    GET_DESCRIPTION = 8
     
     # Page operations
-    UPDATE_PAGE = 7
+    UPDATE_PAGE = 9
+    OPEN_EVENT = 10
+    CLOSE_EVENT = 11
     
     # UI operations
-    NOTIFICATION = 9
-    DIALOG = 10
-    NAVIGATE = 11
-    ASK = 12
+    NOTIFICATION = 12
+    DIALOG = 13
+    NAVIGATE = 14
+    ASK = 15
     
     # State operations
-    GET_STATE = 13
-    STATE_UPDATE = 14
+    GET_STATE = 16
+    STATE_UPDATE = 17
     
     # Events
-    CALL_EVENT = 15
-    EMMIT_EVENT = 16
-    
+    CALL_EVENT = 18
+    EMMIT_EVENT = 19
+
     # Controls
-    GET_CONTROLS = 17
-    CONTROL_STATE_UPDATE = 18
+    GET_CONTROLS = 20
+    CONTROL_STATE_UPDATE = 21
     
     # Functions
-    CALL_FUNCTION = 19
+    CALL_FUNCTION = 22
     
 class State(Enum):
     PENDING = 0

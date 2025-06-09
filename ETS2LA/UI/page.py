@@ -59,7 +59,19 @@ class ETS2LAPage:
             self.init() # type: ignore # Might or might not exist.
         except:
             pass
-        
+    
+    def render(self):
+        """This method is called when the page is built. Override this method to render the page."""
+        raise NotImplementedError("You must implement the 'render' method in your page class.")
+    
+    def open_event(self):
+        """This method is called when the page is opened. Override this method to handle the open event."""
+        pass
+    
+    def close_event(self):
+        """This method is called when the page is closed. Override this method to handle the close event."""
+        pass
+    
     def build(self):
         # Some pages might not need to be built every time.
         if self.refresh_rate != 0:

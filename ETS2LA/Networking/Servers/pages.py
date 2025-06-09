@@ -1,4 +1,4 @@
-from ETS2LA.Handlers.pages import get_page, get_urls, get_page_names, page_function_call
+from ETS2LA.Handlers.pages import get_page, get_urls, get_page_names, page_function_call, open_event, close_event
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.variables as variables 
 from typing import Dict, Set
@@ -11,6 +11,24 @@ import time
 
 subscribers: Dict[str, Set[websockets.WebSocketServerProtocol]] = {}
 last_sent_data: Dict = {}  # stores the last JSON-serialized version of the page
+
+def send_open_event(url: str):
+    page_urls = get_urls()
+    if url in page_urls:
+        page_names = get_page_names()
+        name = page_names[page_urls.index(url)]
+        open_event(name)
+    else:
+        plugins.page_open_event(url)
+    
+def send_close_event(url: str):
+    page_urls = get_urls()
+    if url in page_urls:
+        page_names = get_page_names()
+        name = page_names[page_urls.index(url)]
+        close_event(name)
+    else:
+        plugins.page_close_event(url)
 
 def render_page(url: str):
     page_urls = get_urls()
@@ -88,6 +106,8 @@ async def handler(ws, path):
                     if ws not in subscribers[url]:
                         subscribers[url].add(ws)
 
+                    send_open_event(url)
+
                     # Send page data immediately
                     current_data = render_page(url)
                     last_sent_data[url] = json.dumps(current_data)
@@ -102,6 +122,7 @@ async def handler(ws, path):
                         subscribers[url].discard(ws)
                         if not subscribers[url]:
                             del subscribers[url]
+                            send_close_event(url)
                             
                 if data.get("type") == "function":
                     handle_functions(data["data"])

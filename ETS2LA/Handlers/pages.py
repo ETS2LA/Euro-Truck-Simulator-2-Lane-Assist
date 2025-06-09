@@ -161,3 +161,9 @@ def get_urls():
 
 def get_page(target_url: str):
     return PageManager.get_page(target_url)
+
+def open_event(name: str):
+    return PageManager.page_function_call(name, "open_event")
+    
+def close_event(name: str):
+    return PageManager.page_function_call(name, "close_event")
