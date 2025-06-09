@@ -1,4 +1,5 @@
 from ETS2LA.Utils import settings as utils_settings
+from ETS2LA import variables
 from ETS2LA.UI import *
 
 import ETS2LA.Utils.translator as translator
@@ -9,7 +10,7 @@ import screeninfo
 class Page(ETS2LAPage):
 
     url = "/settings/global"
-    monitors = len(screeninfo.get_monitors()) - 1
+    monitors = screeninfo.get_monitors()
     
     def handle_width_change(self, width: int):
         utils_settings.Set("global", "width", width)
@@ -41,7 +42,7 @@ class Page(ETS2LAPage):
         if not monitor:
             return
         
-        monitor_index = int(monitor.split(" ")[-1])
+        monitor_index = int(monitor.split(" ")[1])
         utils_settings.Set("global", "monitor", monitor_index)
         
     def change_port(self, port: int):
@@ -192,8 +193,14 @@ class Page(ETS2LAPage):
                 
             if self.monitors != 0:
                 with Tab("global.settings.variables"):
-                    monitors = [f"Display {i}" for i in range(self.monitors + 1)]
-                    default = "Display " + str(utils_settings.Get("global", "monitor", default=0))
+                    monitors = []
+                    for i, monitor in enumerate(self.monitors):
+                        if monitor.is_primary:
+                            monitors.append(f"Display {i} - {monitor.width}x{monitor.height} (Primary)")
+                        else:
+                            monitors.append(f"Display {i} - {monitor.width}x{monitor.height}")
+                    
+                    default = monitors[utils_settings.Get("global", "monitor", default=0)] # type: ignore
                     ComboboxWithTitleDescription(
                         title=translator.Translate("global.settings.13.name"),
                         description=translator.Translate("global.settings.13.description"),
@@ -203,14 +210,15 @@ class Page(ETS2LAPage):
                     )
                 
             with Tab("global.settings.misc", styles.FlexVertical() + styles.Gap("24px")):
-                port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
-                InputWithTitleDescription(
-                    title="global.settings.4.name",
-                    description="global.settings.4.description",
-                    default=port,
-                    type=InputType.NUMBER,
-                    changed=self.change_port,
-                )
+                if variables.LOCAL_MODE:
+                    port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
+                    InputWithTitleDescription(
+                        title="global.settings.4.name",
+                        description="global.settings.4.description",
+                        default=port,
+                        type=InputType.NUMBER,
+                        changed=self.change_port,
+                    )
                 
                 CheckboxWithTitleDescription(
                     title="global.settings.9.name",
