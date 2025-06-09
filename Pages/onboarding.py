@@ -134,6 +134,10 @@ class Page(ETS2LAPage):
                         
     def sdk_setup(self):
         with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
+            # Old logic for checking if SDK is installed, replacedby sdk_page.CanContinue()
+            # This code wouldn't allow the user to continue if the selected game was manually selected
+            # I'm leaving this code here until the onboarding is finalized
+            '''
             is_installed = False
             for found_game, version in zip(games, game_versions):
                 if files_for_version.get(version) is None:
@@ -147,12 +151,12 @@ class Page(ETS2LAPage):
                     is_installed = [file_install_status[file] for file in files] == [True] * len(files)
                     if is_installed:
                         break
-                
+            '''
             with Container(style=styles.FlexVertical() + styles.Width("470px")):
                 Text("SDK Setup", styles.Title())
                 Text("To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue.", styles.Description())  
                 Space()
-                if not is_installed:
+                if not sdk_page.CanContinue():
                     Text("Waiting for SDK installation...", styles.Description() + styles.Classname("text-xs"))
                 else:
                     with Button(action=self.increment_page):

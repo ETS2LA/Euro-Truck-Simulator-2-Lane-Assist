@@ -61,6 +61,13 @@ class Page(ETS2LAPage):
     url = "/settings/sdk"
     settings_target = "sdk_installation"
     onboarding_mode = False
+
+    def CanContinue(self):
+        for game in games:
+            if CheckIfInstalled(game, game_versions[games.index(game)]):
+                return True
+        
+        return False
     
     def OpenSources(self, version: str):
         if os.path.exists("ETS2LA/Assets/DLLs/" + version + "\\sources.txt"):
@@ -143,7 +150,7 @@ class Page(ETS2LAPage):
                 red_text.font_weight = "bold"
                 Text(Translate("sdk_install.no_games"), red_text)
                 with Button(action=self.AddGame):
-                        Text("Select directory manually")
+                    Text("Select directory manually")
                         
             else:
                 running = IsGameRunning()
