@@ -84,22 +84,22 @@ def run() -> None:
         
         if not variables.NO_UI and not check_if_window_still_open():
             RestoreConsole()
-            # plugins.save_running_plugins()
+            plugins.save_running_plugins()
             raise Exception("exit")
         
         if variables.CLOSE:
             RestoreConsole()
-            # plugins.save_running_plugins()
+            plugins.save_running_plugins()
             raise Exception("exit")
         
         if variables.RESTART:
             RestoreConsole()
-            # plugins.save_running_plugins()
+            plugins.save_running_plugins()
             raise Exception("restart")
         
         if variables.UPDATE:
             RestoreConsole()
-            # plugins.save_running_plugins()
+            plugins.save_running_plugins()
             raise Exception("Update")
         
         if variables.MINIMIZE:

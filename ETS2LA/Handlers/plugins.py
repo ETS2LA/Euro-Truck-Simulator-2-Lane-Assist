@@ -4,6 +4,7 @@ from ETS2LA.Plugin.message import Channel, State
 from ETS2LA.Utils.translator import Translate
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.Handlers import controls
+from ETS2LA.Utils import settings
 from ETS2LA import variables
 
 import multiprocessing
@@ -622,3 +623,11 @@ def function_call(
     ))
     
     return True
+
+def save_running_plugins() -> None:
+    running = []
+    for plugin in plugins:
+        if plugin.running:
+            running.append(plugin.description.name)
+            
+    settings.Set("global", "running_plugins", running)

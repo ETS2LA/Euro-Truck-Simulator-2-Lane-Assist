@@ -49,6 +49,10 @@ basic_mode_features = [
     )
 ]
 
+
+last_plugins = settings.Get("global", "running_plugins", [])
+
+
 class Page(ETS2LAPage):
     url = "/plugins"
     
@@ -123,6 +127,16 @@ class Page(ETS2LAPage):
         self.tags = ["Base"]
         self.authors = []
         SendPopup("Filters cleared.", type="success")
+        
+    def enable_last_plugins(self):
+        for plugin_name in last_plugins:
+            if plugin_name not in self.enabling and plugin_name not in self.disabling:
+                self.enabling.append(Translate(plugin_name, return_original=True))
+                threading.Thread(
+                    target=plugins.start_plugin,
+                    kwargs={"name": plugin_name},
+                    daemon=True
+                ).start()
         
     def enable_plugin(self, plugin_name: str):
         if plugin_name in self.enabling:
@@ -335,8 +349,16 @@ class Page(ETS2LAPage):
             with Container(styles.FlexVertical() + styles.Padding("0 20px") + styles.Gap("20px")):
                 Text("Running Plugins", styles.Classname("font-semibold"))
                 if not running_plugins:
-                    with Alert():
-                        Text("No plugins are currently running.", styles.Description())
+                    if not last_plugins:
+                        with Alert():
+                            Text("No plugins are currently running.", styles.Description())
+                    else:
+                        with Alert(style=styles.Gap("20px") + styles.FlexVertical()):
+                            names = [Translate(plugin, return_original=True) for plugin in last_plugins]
+                            Markdown(f"Want to enable the plugins you had running last time?\n\n**{", ".join(names)}**", styles.Description())
+                            with Button(action=self.enable_last_plugins):
+                                Text("Enable Last Plugins")
+                                
                 else:
                     self.render_plugin_list(running_plugins)
             

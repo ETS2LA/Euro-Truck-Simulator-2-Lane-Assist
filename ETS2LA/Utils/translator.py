@@ -163,7 +163,7 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # 
     
     return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
-def Translate(key: str, values: list = None, return_original: bool = False) -> str: # type: ignore
+def Translate(key: str, values: list = None, return_original: bool = False, language: str = "") -> str: # type: ignore
     if not CheckKey(key):
         if return_original:
             return key
@@ -177,12 +177,15 @@ def Translate(key: str, values: list = None, return_original: bool = False) -> s
     if values is None:
         values = []
     
-    if LANGUAGE not in LANGUAGE_DATA:
+    if not language:
+        language = LANGUAGE
+        
+    if language not in LANGUAGE_DATA:
         logging.error(f"{LANGUAGE} is not a valid language.")
         return ""
     
-    if key not in LANGUAGE_DATA[LANGUAGE]["Translations"]:
-        if LANGUAGE == "en":
+    if key not in LANGUAGE_DATA[language]["Translations"]:
+        if language == "en":
             logging.error(f"Did not find a value for {key} in English!")
             if return_original:
                 return key
@@ -194,7 +197,7 @@ def Translate(key: str, values: list = None, return_original: bool = False) -> s
             return ""
         return LANGUAGE_DATA["en"][key].format(*values)
     
-    return ftfy.fix_text(LANGUAGE_DATA[LANGUAGE]["Translations"][key].format(*values))
+    return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
 def SettingsUpdate(new: dict):
     global LANGUAGE
