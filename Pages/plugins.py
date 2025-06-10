@@ -293,7 +293,7 @@ class Page(ETS2LAPage):
                             authors.append(author.name)
             tags.sort()
             
-            with Container(styles.FlexVertical() + styles.Classname("w-full h-full") + styles.Padding("20px 20px 0 20px")):
+            with Container(styles.FlexVertical() + styles.Classname("w-full") + styles.Padding("20px 20px 0 20px")):
                 # Top bar with search and tags
                 with Container(styles.FlexHorizontal() + styles.Gap("20px") + styles.Classname("items-center") + styles.Padding("0 40px 0 0")):
                     Input(

@@ -385,7 +385,7 @@ class Page(ETS2LAPage):
             self.increment_and_load = 0
             return
         
-        with Container(style=styles.FlexVertical() + styles.Classname("items-center relative justify-center gap-4 text-center") + styles.Height("100vh")):
+        with Container(style=styles.FlexVertical() + styles.Classname("items-center relative justify-center gap-4 text-center") + styles.Height("100%")):
             if self.page in pages:
                 with Container(style=styles.FlexVertical() + styles.Classname("justify-center gap-4 text-left") + styles.Height("100vh")):
                     with Button(action=self.decrement_page, style=styles.Classname("bg-transparent w-max p-0 h-max"), type="ghost"):
