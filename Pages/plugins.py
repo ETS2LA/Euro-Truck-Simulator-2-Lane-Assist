@@ -113,6 +113,11 @@ class Page(ETS2LAPage):
     enabling: list[object] = [] # List of plugins currently being enabled
     disabling: list[object] = [] # List of plugins currently being disabled
     
+    def open_event(self):
+        self.search_term = ""
+        self.tags = ["Base"]
+        self.authors = []
+    
     def handle_search(self, search_term: str):
         self.search_term = search_term.strip().lower()
     
