@@ -909,6 +909,9 @@ class Tooltip():
         Text("Hover me")
     ```
     """
+
+    class MissingTooltipContent(Exception):
+        pass
     
     def __init__(self, content: str, style: Style = Style(), side: Literal["bottom", "top", "left", "right"] = Side.TOP):
         self.id = increment()
@@ -916,6 +919,15 @@ class Tooltip():
         self.content = content
         self.style = style
         self.side = side
+
+        # Ensure that there is a tooltip content with the specified id
+        for element in dictionary:
+            if element.get("tooltip_content"):
+                if element["tooltip_content"]["id"] == content:
+                    return # Content was found
+        
+        # Raise an exception if the content was not found
+        raise self.MissingTooltipContent(f"Attempted to use a Tooltip element with content '{content}' but no TooltipContent element with that id was found.")
         
     def __enter__(self):
         global dictionary
