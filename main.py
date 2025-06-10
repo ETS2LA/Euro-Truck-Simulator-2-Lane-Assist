@@ -112,6 +112,8 @@ def update_frontend() -> bool:
     
     if did_update:
         print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
+        # NOTE: REMOVE BRANCH SWITCH BEFORE RELEASE
+        ExecuteCommand("cd Interface && git switch page_rewrite")
         UpdateFrontendTranslations()
         ExecuteCommand("cd Interface && npm install && npm run build-local")
     
