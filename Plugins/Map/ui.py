@@ -32,7 +32,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                 Switch("Disable FPS Notices", "DisableFPSNotices", False, description="When enabled map will not notify of any FPS related issues.")
                 
             with Tab("map.settings.tab.steering.name"):
-                # Switch("[NOT READY]Right-hand traffic", "RightHandTraffic", False, description="[IN DEVELOPMENT] When enabled, the plugin will use right-hand traffic rules. This is useful for maps that use right-hand traffic, such as UK or Japan.")
+                #Switch("[NOT READY]Right-hand Drive", "RightHandDrive", False, description="[IN DEVELOPMENT] When enabled, the plugin will use right-hand drive rules. This is useful for maps that use left-hand traffic, such as UK or Japan.")
                 Switch("map.settings.compute_steering_data.name", "ComputeSteeringData", True, description="map.settings.compute_steering_data.description")
                 Switch("map.settings.drive_based_on_trailer.name", "DriveBasedOnTrailer", True, description="map.settings.drive_based_on_trailer.description")
                 Slider("map.settings.steering_smooth_time.name", "SteeringSmoothTime", 0.2, 0, 2, 0.1, description="map.settings.steering_smooth_time.description", suffix=" s")
@@ -54,7 +54,7 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Label("NOTE!", weight="semibold", size="xs", classname="pl-4")
                             Description("If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!", size="xs", classname="pl-4")    
                         Selector("Selected Data", "selected_data", "", [config["name"] for config in configs.values()], description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.")
-                        Switch("Use automatically calculated offsets", "UseAutoOffsetData", False, description="[Restart Map or press Update button to use] When enabled, the plugin will override config.json and use automatically calculated offsets for the roads. Enable cautiously as this can cause issues with the roads.")
+                        Button("Update Offset", "Update Offset Config", description="[Press the button to use, report bugs to @PiggyWu981 on discord] When enabled, the plugin will override config.json and use automatically calculated offsets for the roads. Enable cautiously as this can cause issues with the roads.", target=self.plugin.execute_offset_update)
                         Button("Update", "Update Data", self.plugin.trigger_data_update, description="Update the currently selected data, this can be helpful if the data is corrupted or there has been an update.", classname="bg-input/10")
                             
                         for key, data in index.items():
@@ -127,8 +127,8 @@ class SettingsMenu(ETS2LASettingsMenu):
                         if self.plugin:
                             Button("Reload", "Reload Lane Offsets", description="Reload the lane offsets from the file. This will take a few seconds.", target=self.plugin.update_road_data)
                             # Add a button to update the offset configuration.
-                            Button("Update the offset configuration", "Update Offset Config", description="Manually trigger the offset configuration update.", target=self.plugin.execute_offset_update)
-                            Switch("Overide Lane Offsets", "Override Lane Offsets", False, description="When enabled, existing offsets will be overwritten in the file.")
+                            Button("Update Per name", "Update Per name", description="Manually trigger the offset configuration update.", target=self.plugin.execute_offset_update)
+                            Switch("Override Lane Offsets", "Override Lane Offsets", False, description="When enabled, existing offsets will be overwritten in the file.")
                             Button("Generate Rules", "Generate Rules", description="When enabled, the plugin will generate rules for the roads based on the lane offsets.", target=self.plugin.generate_rules)
                             Button("Clear Rules", "Clear Rules", description="When enabled, the plugin will clear the rules for the roads.", target=self.plugin.clear_rules)
                             Button("Clear Per name", "Clear Per name", description="Clear Per name from the file. This will take a few seconds.", target=self.plugin.clear_lane_offsets)
@@ -153,3 +153,4 @@ class SettingsMenu(ETS2LASettingsMenu):
                             Description("Plugin not loaded, cannot reload lane offsets.")
 
         return RenderUI()
+

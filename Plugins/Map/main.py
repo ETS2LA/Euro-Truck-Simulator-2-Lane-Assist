@@ -293,15 +293,6 @@ class Plugin(ETS2LAPlugin):
                 data.map = data_reader.ReadData(state=self.state)
                 data.data_downloaded = True
                 data.data_needs_update = True
-                if data.use_auto_offset_data:
-                    if self.use_auto_offset():
-                        self.state.text = "Using auto offset data"
-                        logging.info("Using auto offset data")
-                    else:
-                        self.state.text = "Failed to update road data, check the logs for more information."
-                        logging.error("Failed to update road data, check the logs for more information.")
-                    self.settings.UseAutoOffsetData = False
-                    self.settings._save()
                 self.state.reset()
                 return
                 
