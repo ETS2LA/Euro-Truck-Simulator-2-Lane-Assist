@@ -296,8 +296,9 @@ class Plugin(ETS2LAPlugin):
         Check if map was enabled or disabled last frame.
         """
         try:
-            state = self.globals.tags.status["Map"]["Map"]
+            state = self.globals.tags.status["plugins.map"]["Map"]
             if state != self.map_enabled:
+                print(f"Map state changed: {state}")
                 if state:
                     self.speak(Translate("tts.map.enabled"))
                 elif self.state is not None:
@@ -312,7 +313,7 @@ class Plugin(ETS2LAPlugin):
         Check if acc was enabled or disabled last frame.
         """
         try:
-            state = self.globals.tags.status["AdaptiveCruiseControl"]["AdaptiveCruiseControl"]
+            state = self.globals.tags.status["plugins.adaptivecruisecontrol"]["AdaptiveCruiseControl"]
             if state != self.acc_enabled:
                 if state:
                     self.speak(Translate("tts.acc.enabled"))
@@ -438,8 +439,11 @@ class Plugin(ETS2LAPlugin):
                 if self.beeper.running: self.beeper.stop()
                 return
             
-            distance = distance["Map"]
-            angle = angle["Map"]
+            if "plugins.map" not in distance or "plugins.map" not in angle:
+                return
+            
+            distance = distance["plugins.map"]
+            angle = angle["plugins.map"]
             if distance == 0:
                 if self.beeper.running: self.beeper.stop()
                 return
