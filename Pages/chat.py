@@ -1,8 +1,10 @@
 from ETS2LA.Networking.cloud import GetUsername, GetCredentials
+from ETS2LA.UI.utils import SendPopup
 from ETS2LA.UI import *
 
 from typing import TypedDict, Optional
 import websockets
+import logging
 import asyncio
 import json
 
@@ -108,20 +110,24 @@ conv2_messages : list[MessageDict | EventDict] = [
 class Page(ETS2LAPage):
     url = "/chat"
 
-    conversation_index = 0
+    conversation_index = -1
     conversations : list[ConversationDict] = [
-        Conversation(0, "Broken Steering", [USERNAME, "Developer"], conv1_messages, ["Closed", "Question"]),
-        Conversation(1, "Uploading Images", [USERNAME, "Developer"], conv2_messages, ["Open", "Suggestion"])
+        #Conversation(0, "Broken Steering", [USERNAME, "Developer"], conv1_messages, ["Closed", "Question"]),
+        #Conversation(1, "Uploading Images", [USERNAME, "Developer"], conv2_messages, ["Open", "Suggestion"])
     ]
     textbox_text : str = ""
     replying_to: Optional[int] = None
+    # If ws is None, a connection is being attempted
+    # If ws is False, the connection has been closed or the connection failed
+    # If ws is not None or False, the connection is open as a WebsocketClientProtocol
     ws : Optional[websockets.WebSocketClientProtocol] = None
 
     def open_event(self):
         asyncio.create_task(self.ws_loop())
 
     def close_event(self):
-        asyncio.create_task(self.ws.close())
+        if self.ws:
+            asyncio.create_task(self.ws.close())
 
     def handle_message(self, msg: dict):
         if "event" in msg:
@@ -136,14 +142,19 @@ class Page(ETS2LAPage):
                 )
 
     async def ws_loop(self):
+        self.ws = None
         try:
             async with websockets.connect(WS_URL) as self.ws:
                 while True:
                     msg = await self.ws.recv()
                     print(f"Received support chat message: {msg}")
                     self.handle_message(msg)
-        except websockets.WebSocketException:
-            print("WebSocket connection closed")
+        except websockets.ConnectionClosed or websockets.ConnectionClosedOK or websockets.ConnectionClosedError or websockets.Conne:
+            logging.warning("The ETS2LA chat support servers closed the connection.")
+            self.ws = False
+        except ConnectionRefusedError:
+            logging.warning("A connection could not be made with the ETS2LA chat support servers.")
+            self.ws = False
 
     def NewConversation(self):
         self.conversations.append(Conversation(len(self.conversations), "New Conversation", [USERNAME], [], ["Open"]))
@@ -230,57 +241,77 @@ class Page(ETS2LAPage):
         
     def render(self):
         with Container(styles.Classname("flex w-full h-max") + styles.Padding("12px")):
-            with Container(styles.Classname("flex flex-col") + styles.Width("275px") + styles.Gap("8px")):
-                with Button(self.NewConversation, type="secondary", style=styles.Classname("justify-start w-full shadow-md")):
-                    Text("New Conversation", styles.Classname("text-sm"))
+            if self.ws: # The websocket is connected
+                with Container(styles.Classname("flex flex-col") + styles.Width("275px") + styles.Gap("8px")):
+                    with Button(self.NewConversation, type="secondary", style=styles.Classname("justify-start w-full shadow-md")):
+                        Text("New Conversation", styles.Classname("text-sm"))
 
-                Separator()
-                for conversation in self.conversations:
-                    conv_id = conversation["id"]
-                    with TooltipContent(f"tags-{conv_id}"):
-                        with Container(styles.Classname("flex text-start rounded-lg") + styles.Gap("8px")):
-                            for tag in conversation["tags"]:
-                                with Badge():
-                                    Text(tag, styles.Classname("text-xs"))
+                    Separator()
+                    if self.conversations: # If there are conversations
+                        for conversation in self.conversations:
+                            conv_id = conversation["id"]
+                            with TooltipContent(f"tags-{conv_id}"):
+                                with Container(styles.Classname("flex text-start rounded-lg") + styles.Gap("8px")):
+                                    for tag in conversation["tags"]:
+                                        with Badge():
+                                            Text(tag, styles.Classname("text-xs"))
 
-                    with Tooltip(f"tags-{conv_id}"):
-                        with Button(self.SelectConversation, str(conv_id), "secondary" if self.conversation_index == conv_id else "ghost", styles.Classname(f"justify-start w-full {'shadow-md' if self.conversation_index == conv_id else ''}")):
-                            Text(conversation["name"], styles.Classname("text-sm"))
-            
-            # "0px 12px" in CSS means "mx-[12px]" in Tailwind
-            Separator(styles.Margin("0px 12px"), "vertical")
+                            with Tooltip(f"tags-{conv_id}"):
+                                with Button(self.SelectConversation, str(conv_id), "secondary" if self.conversation_index == conv_id else "ghost", styles.Classname(f"justify-start w-full {'shadow-md' if self.conversation_index == conv_id else ''}")):
+                                    Text(conversation["name"], styles.Classname("text-sm"))
+                    else: # If there are no conversations
+                        Text("No conversations", styles.Classname("text-sm text-muted-foreground text-center"))
+                
+                # "0px 12px" in CSS means "mx-[12px]" in Tailwind
+                Separator(styles.Margin("0px 12px"), "vertical")
 
-            with Container(styles.Classname("flex flex-col h-max w-full gap-1 p-2")):
-                with Container(styles.Classname("flex flex-col flex-grow w-full h-full") + styles.Style(overflow_y="auto", height="82vh")):
-                    Space(styles.Height("12px"))
-                    for i, message in enumerate(self.conversations[self.conversation_index]["messages"]):
-                        if "message" in message: # Render a message
-                            self.ChatMessage(self.conversations[self.conversation_index]["messages"], i)
-                        elif "event" in message: # Render an event
-                            self.ChatEvent(message)
-                    
-                    Space(styles.Height("12px"))
+                if self.conversation_index >= 0: # If there is a conversation selected
+                    with Container(styles.Classname("flex flex-col h-max w-full gap-1 p-2")):
+                        with Container(styles.Classname("flex flex-col flex-grow w-full h-full") + styles.Style(overflow_y="auto", height="82vh")):
+                            Space(styles.Height("12px"))
+                            for i, message in enumerate(self.conversations[self.conversation_index]["messages"]):
+                                if "message" in message: # Render a message
+                                    self.ChatMessage(self.conversations[self.conversation_index]["messages"], i)
+                                elif "event" in message: # Render an event
+                                    self.ChatEvent(message)
+                            
+                            Space(styles.Height("12px"))
 
-                with Container(styles.Classname("relative w-full")):
-                    if self.replying_to:
-                        current_messages = self.conversations[self.conversation_index]["messages"]
-                        for message in current_messages:
-                            if "message" not in message: continue # Skip events
-                            if message["message"]["id"] == self.replying_to:
-                                replying_to_message = message["message"]
-                        
-                        if not replying_to_message: return
-                        replying_to_user = replying_to_message["user"]
-                        replying_to_text = replying_to_message["text"]
+                        with Container(styles.Classname("relative w-full")):
+                            if self.replying_to:
+                                current_messages = self.conversations[self.conversation_index]["messages"]
+                                for message in current_messages:
+                                    if "message" not in message: continue # Skip events
+                                    if message["message"]["id"] == self.replying_to:
+                                        replying_to_message = message["message"]
+                                
+                                if not replying_to_message: return
+                                replying_to_user = replying_to_message["user"]
+                                replying_to_text = replying_to_message["text"]
 
-                        with Container(styles.Classname("absolute p-2 rounded-md flex justify-between items-center border bg-background w-[calc(100%-101px)] top-[-80%] left-0 h-[60%]")):
-                            Text(f"Replying to {replying_to_user}: {replying_to_text}", styles.Classname("text-xs"))
-                            with Button(self.StopReply, type="ghost", style=styles.Classname("-mx-2")):
-                                Text("X")
+                                with Container(styles.Classname("absolute p-2 rounded-md flex justify-between items-center border bg-background w-[calc(100%-101px)] top-[-80%] left-0 h-[60%]")):
+                                    Text(f"Replying to {replying_to_user}: {replying_to_text}", styles.Classname("text-xs"))
+                                    with Button(self.StopReply, type="ghost", style=styles.Classname("-mx-2")):
+                                        Text("X")
 
-                    with Container(styles.Classname("relative z-10 flex flex-row")):
-                        TextArea("Type something...", self.SetTextboxText, style=styles.Classname("border rounded-lg w-full resize-none h-14 bg-background text-white"))
-                        with Button(self.SendMessage, style=styles.Classname("w-1/12 h-15 ml-2 mr-1")):
-                            Icon("forward", style=styles.Classname("w-6 h-6"))
+                            with Container(styles.Classname("relative z-10 flex flex-row")):
+                                TextArea("Type something...", self.SetTextboxText, style=styles.Classname("border rounded-lg w-full resize-none h-14 bg-background text-white"))
+                                with Button(self.SendMessage, style=styles.Classname("w-1/12 h-15 ml-2 mr-1")):
+                                    Icon("forward", style=styles.Classname("w-6 h-6"))
+                else:
+                    with Container(styles.Classname("flex flex-col w-full items-center justify-center gap-2 text-center") + styles.Height("94vh")):
+                        Text("No support chat selected", styles.Classname("text-md"))
+                        Text("Select one from the sidebar or start a new one..", styles.Classname("text-xs text-muted-foreground"))
 
+            elif self.ws == False: # The websocket is not connected
+                with Container(styles.Classname("flex flex-col w-full items-center justify-center gap-2 text-center") + styles.Height("94vh")):
+                    Text("The webserver for sending and receiving messages is not running!", styles.Classname("text-md"))
+                    Text("Please use the Discord support system, make a GitHub issue, or try again later.", styles.Classname("text-xs text-muted-foreground"))
+                    with Button(self.open_event, type="outline", style=styles.Margin("12px")):
+                        Text("Try again")
+            elif self.ws == None: # The websocket is being connected
+                with Container(styles.Classname("flex flex-col w-full items-center justify-center gap-2 text-center") + styles.Height("94vh")):
+                    with Spinner():
+                        Icon("loader-circle", style=styles.Classname("w-6 h-6"))
+                    Text("Connecting to the ETS2LA server...", styles.Classname("text-sm text-muted-foreground"))
         return
