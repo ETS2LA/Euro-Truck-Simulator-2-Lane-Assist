@@ -337,7 +337,8 @@ class Plugin(ETS2LAPlugin):
             route_distance = api["truckFloat"]["routeDistance"]
             
             for distance in self.notified_distances:
-                distance = distance / 1000 # Meters to Kilometers
+                route_distance = route_distance / 1000 # Meters to Kilometers
+                print(f"\rDistance: {route_distance}, original: {api["truckFloat"]["routeDistance"]}", end="")
                 if route_distance <= distance and distance not in self.notified_markers:
                     if self.last_route_distance > 0 and route_distance < self.last_route_distance:
                         self.speak(Translate("tts.route.distance", [distance]))
