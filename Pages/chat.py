@@ -65,17 +65,6 @@ class Events:
     @staticmethod
     def Message(id: int, user: str, message: str, reply: Optional[int] = None) -> dict[str, MessageDict]:
         return {"message": {"id": id, "user": user, "text": message, "reply": reply}}
-    
-EVENT_TYPES = {
-    "Create": Events.Create,
-    "Join": Events.Join,
-    "AddTags": Events.AddTags,
-    "RemoveTags": Events.RemoveTags,
-    "ChangeName": Events.ChangeName,
-    "Fixing": Events.Fixing,
-    "Close": Events.Close,
-    "Reopen": Events.Reopen
-}
 
 def Conversation(id: str, name: str, members: list[str], messages: list[MessageDict | EventDict], tags: list[str]) -> ConversationDict:
     return {"id": id, "name": name, "members": members, "messages": messages, "tags": tags}
