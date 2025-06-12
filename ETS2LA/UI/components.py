@@ -1286,7 +1286,7 @@ class Spinner():
     spin. This is useful for loading state.
     ```python
     with Spinner():
-        Icon("loading-circle")
+        Icon("loader-circle")
     ```
     """
     def __init__(self):
