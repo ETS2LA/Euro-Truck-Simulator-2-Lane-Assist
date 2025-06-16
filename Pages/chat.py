@@ -239,15 +239,16 @@ class Page(ETS2LAPage):
                     if self.conversations: # If there are conversations
                         for conversation in self.conversations:
                             conv_id = conversation["id"]
-                            with TooltipContent(f"tags-{conv_id}"):
-                                with Container(styles.Classname("flex text-start rounded-lg") + styles.Gap("8px")):
-                                    for tag in conversation["tags"]:
-                                        with Badge():
-                                            Text(tag, styles.Classname("text-xs"))
-
-                            with Tooltip(f"tags-{conv_id}"):
-                                with Button(self.SelectConversation, str(conv_id), "secondary" if self.conversation_index == conv_id else "ghost", styles.Classname(f"justify-start w-full {'shadow-md' if self.conversation_index == conv_id else ''}")):
-                                    Text(conversation["name"], styles.Classname("text-sm"))
+                            with Tooltip() as t:
+                                with t.trigger:
+                                    with Button(self.SelectConversation, str(conv_id), "secondary" if self.conversation_index == conv_id else "ghost", styles.Classname(f"justify-start w-full {'shadow-md' if self.conversation_index == conv_id else ''}")):
+                                        Text(conversation["name"], styles.Classname("text-sm"))
+                                with t.content:
+                                    with Container(styles.Classname("flex text-start rounded-lg") + styles.Gap("8px")):
+                                        for tag in conversation["tags"]:
+                                            with Badge():
+                                                Text(tag, styles.Classname("text-xs"))
+                    
                     else: # If there are no conversations
                         Text("No conversations", styles.Classname("text-sm text-muted-foreground text-center"))
                 

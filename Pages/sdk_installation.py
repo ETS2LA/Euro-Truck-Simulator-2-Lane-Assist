@@ -192,42 +192,45 @@ class Page(ETS2LAPage):
                         else:   
                             Space(styles.Height("4px"))
                             with Container(styles.FlexHorizontal() + styles.Gap("8px") + styles.Width("100%") + styles.Classname("justify-start w-full")):             
-                                with TooltipContent(found_game + " tooltip"):
-                                    with Container(styles.FlexVertical() + styles.Gap("4px") + styles.Padding("4px")):
-                                        if file_install_status == {}:
-                                            Text("No files found.", styles.Description())
-                                        else:
-                                            text_style = styles.Style()
-                                            text_style.color = "var(--foreground)"
-                                            for file in file_install_status:
-                                                with Container(styles.FlexHorizontal() + styles.Gap("4px")):
-                                                    Text(file, text_style)
-                                                    Text("sdk_install.installed" if file_install_status[file] else "sdk_install.not_installed", styles.Description())
-                                            
-                                            with Button(action=self.OpenSources, name=version, type="link", style=styles.Padding("12px 0px 0px 0px") + styles.Classname("w-max h-max") + styles.Gap("6px")):
-                                                Icon("file")
-                                                Text("File Sources", styles.Classname("text-xs"))
-                                
                                 icon_style = styles.Style()
                                 icon_style.color = "var(--muted-foreground)"
                                 icon_style.width = "18px"
                                 icon_style.height = "18px"
-                                with Tooltip(found_game + " tooltip", styles.Classname("border rounded-md p-2 bg-input/10 hover:bg-input/30 transition-all")):
-                                    Icon("files", icon_style)
+                                with Tooltip() as t:
+                                    with t.trigger as tr:
+                                        tr.style = styles.Classname("border rounded-md p-2 bg-input/10 hover:bg-input/30 transition-all")
+                                        Icon("files", icon_style)
+                                    with t.content:
+                                        with Container(styles.FlexVertical() + styles.Gap("4px") + styles.Padding("4px")):
+                                            if file_install_status == {}:
+                                                Text("No files found.", styles.Description())
+                                            else:
+                                                text_style = styles.Style()
+                                                text_style.color = "var(--foreground)"
+                                                for file in file_install_status:
+                                                    with Container(styles.FlexHorizontal() + styles.Gap("4px")):
+                                                        Text(file, text_style)
+                                                        Text("sdk_install.installed" if file_install_status[file] else "sdk_install.not_installed", styles.Description())
+                                                
+                                                with Button(action=self.OpenSources, name=version, type="link", style=styles.Padding("12px 0px 0px 0px") + styles.Classname("w-max h-max") + styles.Gap("6px")):
+                                                    Icon("file")
+                                                    Text("File Sources", styles.Classname("text-xs"))
                                     
                                 if running:
-                                    with TooltipContent("running"):
-                                        text_style = styles.Style()
-                                        text_style.color = "var(--foreground)"
-                                        Text("Please close the game before installing or uninstalling SDKs.", text_style)
+                                    with Tooltip() as t:
+                                        with t.trigger as tr:
+                                            tr.style = styles.Classname("w-full")
+                                            if is_installed:
+                                                with Button(name=found_game, action=self.UninstallSDK, style=styles.Classname("default w-full"), enabled=not running):
+                                                    Text("sdk_install.uninstall")
+                                            else:
+                                                with Button(name=found_game, action=self.InstallSDK, style=styles.Classname("default w-full"), enabled=not running):
+                                                    Text("sdk_install.install")
                                         
-                                    with Tooltip("running", styles.Classname("w-full")):
-                                        if is_installed:
-                                            with Button(name=found_game, action=self.UninstallSDK, style=styles.Classname("default w-full"), enabled=not running):
-                                                Text("sdk_install.uninstall")
-                                        else:
-                                            with Button(name=found_game, action=self.InstallSDK, style=styles.Classname("default w-full"), enabled=not running):
-                                                Text("sdk_install.install")
+                                        with t.content:
+                                            text_style = styles.Style()
+                                            text_style.color = "var(--foreground)"
+                                            Text("Please close the game before installing or uninstalling SDKs.", text_style)
                                                 
                                 else:
                                     if is_installed:

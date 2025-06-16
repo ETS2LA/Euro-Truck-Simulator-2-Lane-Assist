@@ -47,12 +47,13 @@ class Page(ETS2LAPage):
             content_style.background = "#1e1e1e"
             content_style.padding = "2px"
             content_style.classname = "border"
-            with TooltipContent(id="ram_tooltip", style=content_style):
-                Markdown(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```")
-            
-            with Tooltip(content="ram_tooltip"):
-                Text(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", style=styles.Description() + styles.Classname("text-xs"))
-            
+            with Tooltip() as t:
+                with t.trigger:
+                    Text(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", style=styles.Description() + styles.Classname("text-xs"))
+                with t.content as c:
+                    c.style = content_style
+                    Markdown(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```")
+                    
             process_mem, per_type = self.get_all_python_process_mem_usage_percent()
             tooltip_text = f"```\n┏ Python: {round(per_type[0] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
             try:
@@ -66,8 +67,9 @@ class Page(ETS2LAPage):
             tooltip_text += "┃\n"
             tooltip_text += f"┗ Total: {round(process_mem * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n```"
             
-            with TooltipContent(id="process_tooltip", style=content_style):
-                Markdown(tooltip_text)
-            
-            with Tooltip(content="process_tooltip"):
-                Text(f"<- {round(process_mem, 1)}% ETS2LA", style=styles.Description() + styles.Classname("text-xs"))
+            with Tooltip() as t:
+                with t.trigger:
+                    Text(f"<- {round(process_mem, 1)}% ETS2LA", style=styles.Description() + styles.Classname("text-xs"))
+                with t.content as c:
+                    c.style = content_style
+                    Markdown(tooltip_text)

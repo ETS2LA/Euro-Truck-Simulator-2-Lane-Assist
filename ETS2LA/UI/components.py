@@ -190,6 +190,31 @@ class Container():
             }
         })
         dictionary = self.previous
+
+_elements = {}
+class _SubElement():
+    """Do not use. This is an internal class"""
+    
+    _name: str = ""
+    
+    def __init__(self, style: Style = Style()):
+        self.id = increment()
+        self.style = style
+        
+    def __enter__(self):
+        global dictionary
+        self.previous = dictionary
+        dictionary = []
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global dictionary, _elements
+        # Get the name of the current class (ie. Trigger() or Content())
+        _elements[self._name] = {
+            "style": self.style.to_dict(),
+            "children": dictionary
+        }
+        dictionary = self.previous
         
 class BadgeType():
     DEFAULT = "default"
@@ -859,93 +884,47 @@ class RadioItem():
         })
         dictionary = self.previous
         
-class TooltipContent():
-    """
-    This class is used to create a container for a tooltip's content.
-    You can use this to create a tooltip with any content.
-    ```python
-    with TooltipContent(id="tooltip_1"):
-        Text("Hello World")
-        Text("This is a tooltip")
-    
-    with Tooltip(content="tooltip_1"):
-        Text("Hover me")
-    ```
-    """
-    
-    def __init__(self, id: str, style: Style = Style()):
-        self.id = id
-        self.style = style
-        
-    def __enter__(self):
-        global dictionary
-        self.previous = dictionary
-        dictionary = []
-        return self
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        global dictionary
-        self.previous.append({
-            "tooltip_content": {
-                "id": self.id,
-                "style": self.style.to_dict(),
-                "children": dictionary
-            }
-        })
-        dictionary = self.previous
-        
 class Tooltip():
     """
     Create a tooltip element. This element will show a tooltip when hovered
-    over. You can use the `text` parameter to specify the text of the tooltip.
-    The `style` parameter will style the tooltip itself, not the element that
-    is hovered over.
+    over. Styles will be inputted to the relevant elements.
     ```python
-    with TooltipContent(id="tooltip_1"):
-        Text("Hello World")
-        Text("This is a tooltip")
-    
-    with Tooltip(content="tooltip_1"):
-        Text("Hover me")
+    with Tooltip() as t:
+        with t.trigger:
+            Text("Hover me")
+        with t.content as content: # if you want custom styling
+            content.style = styles.Style(...)
+            Text("Hello World")
+            Text("This is a tooltip")
     ```
     """
-
-    class MissingTooltipContent(Exception):
-        pass
     
-    def __init__(self, content: str, style: Style = Style(), side: Literal["bottom", "top", "left", "right"] = Side.TOP):
+    def __init__(self, side: Literal["bottom", "top", "left", "right"] = Side.TOP):
         self.id = increment()
-        
-        self.content = content
-        self.style = style
         self.side = side
-
-        # Ensure that there is a tooltip content with the specified id
-        for element in dictionary:
-            if element.get("tooltip_content"):
-                if element["tooltip_content"]["id"] == content:
-                    return # Content was found
-        
-        # Raise an exception if the content was not found
-        raise self.MissingTooltipContent(f"Attempted to use a Tooltip element with content '{content}' but no TooltipContent element with that id was found.")
         
     def __enter__(self):
-        global dictionary
+        global dictionary, _elements
+        self.trigger = _SubElement()
+        self.trigger._name = "trigger"
+        self.content = _SubElement()
+        self.content._name = "content"
         self.previous = dictionary
         dictionary = []
+        _elements = {}
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        global dictionary
+        global dictionary, _elements
         self.previous.append({
             "tooltip": {
                 "id": self.id,
-                "content": self.content,
                 "side": self.side,
-                "style": self.style.to_dict(),
-                "children": dictionary
+                "trigger": _elements["trigger"],
+                "content": _elements["content"],
             }
         })
+        _elements = {}
         dictionary = self.previous
         
 class Progress():
