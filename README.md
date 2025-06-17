@@ -8,7 +8,7 @@
 # ETS2LA V2.0
 ETS2LA is a project that aims to finally bring self-driving technology to SCS Software's Truck Simulators. This page includes some information, but if you want to read all the documentation then please head over to [our website](https://ets2la.com)!
 
-<img alt="GitHub commits" src="https://img.shields.io/github/commit-activity/m/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/rewrite?style=for-the-badge&logo=Github">
+<img alt="GitHub commits" src="https://img.shields.io/github/commit-activity/m/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/main?style=for-the-badge&logo=Github">
 <img alt="Discord" src="https://img.shields.io/discord/1120719484982939790?style=for-the-badge&logo=discord">
 
 
