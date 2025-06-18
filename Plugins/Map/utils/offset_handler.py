@@ -378,7 +378,8 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
             required_offset = current_offset - base_offset  # Corrected line
             #logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {current_offset} - {base_offset} = {required_offset}")
 
-    new_offset = round(required_offset * 4) / 4  # Round to 0.25 precision
+    # new_offset = round(required_offset * 4) / 4  # Round to 0.25 precision
+    new_offset = round(required_offset, 2)  # Round to 0.01 precision
     if road.road_look.name not in per_name:
         per_name[road.road_look.name] = new_offset
     elif per_name[road.road_look.name] != new_offset:
