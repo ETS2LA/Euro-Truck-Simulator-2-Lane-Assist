@@ -47,11 +47,9 @@ import time
 import git
 
 LOG_FILE_FOLDER = "logs"
-# TODO: REMEMBER TO UPDATE THE URL BEFORE RELEASE!
 FRONTEND_MIRRORS = [
-    #"https://app.ets2la.com",
-    #"https://app.ets2la.cn",
-    "https://beta.ets2la.com"
+    "https://app.ets2la.com",
+    "https://app.ets2la.cn",
 ]
 
 def close_node() -> None:
@@ -120,8 +118,6 @@ def update_frontend() -> bool:
     
     if did_update:
         print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
-        # NOTE: REMOVE BRANCH SWITCH BEFORE RELEASE
-        ExecuteCommand("cd Interface && git switch page_rewrite")
         UpdateFrontendTranslations()
         ExecuteCommand("cd Interface && npm install && npm run build-local")
     
