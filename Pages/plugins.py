@@ -91,10 +91,6 @@ class Page(ETS2LAPage):
         return True
     
     def toggle_running(self):
-        if self.first_run:
-            self.first_run = False
-            return
-        
         self.running = not self.running
         self.update_queue.append("running")
 
