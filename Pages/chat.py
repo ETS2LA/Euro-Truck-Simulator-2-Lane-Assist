@@ -2,7 +2,7 @@ from ETS2LA.Networking.cloud import GetUsername, GetCredentials
 from ETS2LA.UI.utils import SendPopup
 from ETS2LA.UI import *
 
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, Literal
 import websockets
 import logging
 import asyncio
@@ -13,21 +13,35 @@ UUID = GetCredentials()[0]
 USERNAME = GetUsername()
 WS_URL = f"ws://localhost:8001/ws/client/{UUID}"
 
+class MemberDict(TypedDict):
+    '''Dictionary which holds information about a member of a conversation'''
+    username: str # Username of the member
+    uuid: int # type == "ETS2LA" -> uuid, type == "Discord" -> discord_id
+    type: Literal["ETS2LA", "Discord"] # Type of the member (ETS2LA or Discord)
+
+class MessageContentsDict(TypedDict):
+    '''Dictionary which holds information about a message'''
+    id: int # Each message in a conversation has a unique id, starts at 0
+    uuid: str # UUID of the user who sent the message, must match a MemberDict.uuid in the conversation
+    text: str # Text of the message
+    images: list[bytes] # List of base64 encoded image attachments
+    reply: Optional[int] # ID of the message which is being replied to
+
 class MessageDict(TypedDict):
-    id: int
-    user: str
-    text: str
-    reply: Optional[int]
+    '''Wrapper for MessageContentsDict to keep MessageDict and EventDict consistent'''
+    message: MessageContentsDict # Wrapper for MessageContentsDict
 
 class EventDict(TypedDict):
-    event: str
+    '''Dictionary which holds information about an event'''
+    event: str # Event text, ex. "{user} started a new conversation"
 
 class ConversationDict(TypedDict):
-    id: int
-    name: str
-    members: list[str]
-    messages: list[MessageDict | EventDict]
-    tags: list[str]
+    '''Dictionary which holds information about a conversation'''
+    id: int # Each users conversation has a unique id, starts at 0
+    name: str # Name of the conversation
+    members: list[MemberDict] # List of members
+    messages: list[MessageDict | EventDict] # List of chat events
+    tags: list[str] # List of tags
 
 class Events:
     @staticmethod
@@ -138,7 +152,7 @@ class Page(ETS2LAPage):
                     msg = await self.ws.recv()
                     print(f"Received support chat message: {msg}")
                     self.handle_message(msg)
-        except websockets.ConnectionClosed or websockets.ConnectionClosedOK or websockets.ConnectionClosedError or websockets.Conne:
+        except websockets.ConnectionClosed or websockets.ConnectionClosedOK or websockets.ConnectionClosedError:
             logging.warning("The ETS2LA chat support servers closed the connection.")
             self.ws = False
         except ConnectionRefusedError:
@@ -248,7 +262,6 @@ class Page(ETS2LAPage):
                                         for tag in conversation["tags"]:
                                             with Badge():
                                                 Text(tag, styles.Classname("text-xs"))
-                    
                     else: # If there are no conversations
                         Text("No conversations", styles.Classname("text-sm text-muted-foreground text-center"))
                 
