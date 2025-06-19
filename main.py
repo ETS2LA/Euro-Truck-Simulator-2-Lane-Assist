@@ -4,21 +4,29 @@ If you are looking for the actual entrypoint then you should
 look at the core.py file in the ETS2LA folder.
 """
 
-
 import os
 import sys
 import subprocess
 
+# This try/except block will either end in a successful import, update, or error
 try: from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
 except: # Ensure the current PATH contains the install directory.
     sys.path.append(os.path.dirname(__file__))
-    from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+    try: # It should work here
+        from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+    except ModuleNotFoundError: # If modules are missing, this will trigger (generally tqdm)
+        print("Import errors in ETS2LA/Utils/translator.py, this is a common sign of missing modules. An update will be triggered to install these modules.")
+        subprocess.run("update.bat", shell=True, env=os.environ.copy())
+        from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+    except Exception as e: # Unkown error
+        try: # Try to get the traceback for easier debugging
+            import traceback
+            print(traceback.format_exc())
+        except: # If that fails, just print the exception
+            print(str(e))
+        input("Press enter to exit...")
+        sys.exit()
 
-try: import tqdm
-except:
-    print("'tqdm', is missing, this is a common sign of missing modules. An update will be triggered to install these modules.")
-    subprocess.run("update.bat", shell=True, env=os.environ.copy())
-    
 # Allow pygame to get control events in the background
 os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
 # Hide pygame's support prompt
