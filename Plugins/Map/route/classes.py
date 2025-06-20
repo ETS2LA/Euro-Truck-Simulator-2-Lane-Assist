@@ -180,8 +180,6 @@ class RouteSection:
             else:
                 lane_change_points.append(end_points[i])
 
-        data.circles = lane_change_points
-
         return lane_change_points
 
     @property

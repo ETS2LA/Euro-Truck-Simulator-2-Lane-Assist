@@ -269,15 +269,17 @@ class Color:
     g: int
     b: int
     a: int
+    am: float
     
     def __init__(self, r: int, g: int, b: int, a: int = 255):
         self.r = r
         self.g = g
         self.b = b
         self.a = a
-        
+        self.am = 1.0
+
     def tuple(self):
-        return (self.r, self.g, self.b, self.a)
+        return (self.r, self.g, self.b, self.a * self.am)
     
     def json(self):
         return {"r": self.r, "g": self.g, "b": self.b, "a": self.a}

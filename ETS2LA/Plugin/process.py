@@ -29,6 +29,13 @@ class PluginProcess:
     """
     The current stack of messages to process.
     """
+
+    main_thread_stack: list[PluginMessage] = []
+    """
+    The main thread stack of messages to process.
+    This is used for operations that should be completed on the main thread,
+    such as starting or stopping the plugin.
+    """
     
     pages: list[ETS2LAPage] = []
     """
@@ -153,7 +160,7 @@ class PluginProcess:
                 case Channel.GET_DESCRIPTION:
                     Description(self)(message)
                 case Channel.ENABLE_PLUGIN | Channel.STOP_PLUGIN | Channel.RESTART_PLUGIN:
-                    PluginManagement(self)(message)
+                    self.main_thread_stack.append(message)
                 case Channel.GET_TAGS | Channel.UPDATE_TAGS:
                     Tags(self)(message)
                 case Channel.CALL_FUNCTION:
@@ -197,9 +204,16 @@ class PluginProcess:
 
             time.sleep(0.01)
     
-    def keep_alive(self) -> None:
+    def process(self) -> None:
         """Keep the process alive."""
         while True:
+            # Execute all main thread messages
+            if self.main_thread_stack:
+                message = self.main_thread_stack.pop(0)
+                match message.channel:
+                    case Channel.ENABLE_PLUGIN | Channel.STOP_PLUGIN | Channel.RESTART_PLUGIN:
+                        PluginManagement(self)(message)
+            
             if not self.plugin:
                 time.sleep(1)
                 continue
@@ -281,7 +295,7 @@ class PluginProcess:
             daemon=True
         ).start()
         
-        self.keep_alive()
+        self.process()
         
         
         

@@ -678,14 +678,15 @@ class Plugin(ETS2LAPlugin):
     def SteeringUpdater(self):
         while True:
             try:
-                data = self.plugins.Map
+                points = self.globals.tags.steering_points
+                points = self.globals.tags.merge(points)
                 steering_data = []
-                for i, point in enumerate(data):
+                for i, point in enumerate(points):
                     if i == 0:
                         continue
                     line = Line(
                         Coordinate(*point),
-                        Coordinate(*data[i - 1]),
+                        Coordinate(*points[i - 1]),
                         thickness=5 * self.scaling,
                         color=Color(255, 255, 255, 60),
                         fade=Fade(prox_fade_end=10, prox_fade_start=20, dist_fade_start=50, dist_fade_end=150)
