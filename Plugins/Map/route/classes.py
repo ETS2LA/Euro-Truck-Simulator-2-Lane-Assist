@@ -121,7 +121,14 @@ class RouteSection:
             if self._start_at_truck:
                 self.lane_change_start = c.Position(data.truck_x, data.truck_y, data.truck_z)
             else:
-                self.lane_change_start = c.Position(self.last_lane_points[0].x, self.last_lane_points[0].y, self.last_lane_points[0].z)
+                start = self.last_lane_points[0]
+                end = self.last_lane_points[-1]
+                s_distance = math_helpers.DistanceBetweenPoints(start.tuple(), (data.truck_x, data.truck_y, data.truck_z))
+                e_distance = math_helpers.DistanceBetweenPoints(end.tuple(), (data.truck_x, data.truck_y, data.truck_z))
+                if s_distance < e_distance:
+                    self.lane_change_start = c.Position(start.x, start.y, start.z)
+                else:
+                    self.lane_change_start = c.Position(end.x, end.y, end.z)
             
             self.lane_change_distance = lane_change_distance
             self.lane_change_points = self._calculate_lane_change_points(self.last_lane_points, new_lane_points)
@@ -179,6 +186,8 @@ class RouteSection:
                 lane_change_points.append(c.Position(new_tuple[0], new_tuple[1], new_tuple[2]))
             else:
                 lane_change_points.append(end_points[i])
+
+        data.circles = lane_change_points
 
         return lane_change_points
 
