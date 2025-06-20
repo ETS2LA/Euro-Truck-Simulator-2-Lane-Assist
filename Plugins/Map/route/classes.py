@@ -210,6 +210,13 @@ class RouteSection:
         if closest == self.lane_index:
             return
         
+        # Check if the other lane is on the wrong side of the road
+        cur_lane = self.items[0].item.lanes[self.lane_index]
+        other_lane = self.items[0].item.lanes[closest]
+        if cur_lane.side != other_lane.side:
+            logging.warning(f"Something tried to change lanes to [dim]{closest}[/dim] but the lane is on the wrong side of the road.")
+            return
+        
         # Call lane_index setter to update the lane index
         self.force_lane_change = True
         if not self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
