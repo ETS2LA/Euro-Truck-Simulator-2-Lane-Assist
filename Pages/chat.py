@@ -132,17 +132,22 @@ class Page(ETS2LAPage):
         if self.ws:
             asyncio.create_task(self.ws.close())
 
-    def handle_message(self, msg: dict):
-        if "event" in msg:
-            return
-        if "message" in msg:
-            message = msg["message"]
-            # Current conversations messages
-            messages_to_append = self.conversations[self.conversation_index]["messages"]
-            if message:
-                messages_to_append.append(
-                    Events.Message(len(messages_to_append), message["user"], message["text"], message["reply"])
-                )
+    def handle_message_send(self, msg: MessageDict | EventDict):
+        '''User sends message or event'''
+        if not self.ws: return
+
+        if "message" in msg or "event" in msg:
+            self.conversations[self.conversation_index]["messages"].append(msg)
+            asyncio.create_task(self.ws.send(json.dumps(msg)))
+        else:
+            logging.warning(f"Unknown message type (send): {msg}")
+    
+    def handle_message_receive(self, msg : MessageDict | EventDict):
+        '''User receives message or event from server'''
+        if "message" in msg or "event" in msg:
+            self.conversations[self.conversation_index]["messages"].append(msg)
+        else:
+            logging.warning(f"Unknown message type (receive): {msg}")
 
     async def ws_loop(self):
         self.ws = None
@@ -151,7 +156,7 @@ class Page(ETS2LAPage):
                 while True:
                     msg = await self.ws.recv()
                     print(f"Received support chat message: {msg}")
-                    self.handle_message(msg)
+                    self.handle_message_receive(msg)
         except websockets.ConnectionClosed or websockets.ConnectionClosedOK or websockets.ConnectionClosedError:
             logging.warning("The ETS2LA chat support servers closed the connection.")
             self.ws = False
@@ -159,28 +164,21 @@ class Page(ETS2LAPage):
             logging.warning("A connection could not be made with the ETS2LA chat support servers.")
             self.ws = False
 
-    def NewConversation(self):
+    def NewConversation(self):        
         self.conversations.append(Conversation(len(self.conversations), "New Conversation", [USERNAME], [], ["Open"]))
         self.conversations[-1]["messages"].append(Events.Create(USERNAME))
         self.conversation_index = len(self.conversations) - 1
 
-    def SendMessage(self):
+    def send_message_callback(self):
         message = self.textbox_text.strip()
-        # Current conversations messages
-        messages_to_append = self.conversations[self.conversation_index]["messages"]
         if message:
-            messages_to_append.append(
-                Events.Message(len(messages_to_append), USERNAME, message, self.replying_to)
-            )
+            messages = self.conversations[self.conversation_index]["messages"]
+            message_dict = Events.Message(len(messages), USERNAME, message, self.replying_to)
 
-            asyncio.create_task(self.ws.send(json.dumps({"message" : {
-                "text": message,
-                "user": USERNAME,
-                "reply": self.replying_to
-            }})))
+            self.textbox_text = ""
+            self.replying_to = None
 
-        self.textbox_text = ""
-        self.replying_to = None
+            self.handle_message_send(message_dict)
 
     def ChatEvent(self, event: EventDict):
         event = event["event"]
@@ -299,7 +297,7 @@ class Page(ETS2LAPage):
 
                             with Container(styles.Classname("relative z-10 flex flex-row")):
                                 TextArea("Type something...", self.SetTextboxText, style=styles.Classname("border rounded-lg w-full resize-none h-14 bg-background text-white"))
-                                with Button(self.SendMessage, style=styles.Classname("w-1/12 h-15 ml-2 mr-1")):
+                                with Button(self.send_message_callback, style=styles.Classname("w-1/12 h-15 ml-2 mr-1")):
                                     Icon("forward", style=styles.Classname("w-6 h-6"))
                 else:
                     with Container(styles.Classname("flex flex-col w-full items-center justify-center gap-2 text-center") + styles.Height("94vh")):
