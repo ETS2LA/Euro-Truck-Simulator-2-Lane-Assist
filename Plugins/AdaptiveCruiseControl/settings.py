@@ -20,6 +20,13 @@ class SettingsMenu(ETS2LAPage):
             value = not settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights")
         
         settings.Set("AdaptiveCruiseControl", "ignore_traffic_lights", value)
+    def handle_ignore_speed_limit(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AdaptiveCruiseControl", "ignore_speed_limit")
+        
+        settings.Set("AdaptiveCruiseControl", "ignore_speed_limit", value)
     
     def handle_speed_offset_type(self, value):
         settings.Set("AdaptiveCruiseControl", "speed_offset_type", value)
@@ -74,6 +81,13 @@ class SettingsMenu(ETS2LAPage):
                 )
                 
             with Tab("acc.settings.tab.speed_control.name", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title="acc.settings.ignore_speed_limit.name",
+                    description="acc.settings.ignore_speed_limit.description",
+                    changed=self.handle_ignore_speed_limit,
+                    default=settings.Get("AdaptiveCruiseControl", "ignore_speed_limit"),
+                )
+
                 SliderWithTitleDescription(
                     title="acc.settings.coefficient_of_friction.name",
                     description="acc.settings.coefficient_of_friction.description",
@@ -85,45 +99,46 @@ class SettingsMenu(ETS2LAPage):
                     suffix=" μ",
                 )
                 
-                SliderWithTitleDescription(
-                    title="acc.settings.overwrite_speed.name",
-                    description="acc.settings.overwrite_speed.description",
-                    min=0,
-                    max=130,
-                    step=5,
-                    default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
-                    changed=self.handle_overwrite_speed,
-                    suffix=" km/h",
-                )
-                    
-                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
-                    ComboboxWithTitleDescription(
-                        options=["Percentage", "Absolute"],
-                        default=settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute"),
-                        title="acc.settings.speed_offset_type.name",
-                        changed=self.handle_speed_offset_type,
-                        description="acc.settings.speed_offset_type.description",
+                if settings.Get("AdaptiveCruiseControl", "ignore_speed_limit") != True:
+                    SliderWithTitleDescription(
+                        title="acc.settings.overwrite_speed.name",
+                        description="acc.settings.overwrite_speed.description",
+                        min=0,
+                        max=130,
+                        step=5,
+                        default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
+                        changed=self.handle_overwrite_speed,
+                        suffix=" km/h",
                     )
-                    
-                    if settings.Get("AdaptiveCruiseControl", "speed_offset_type") == "Percentage":
-                        SliderWithTitleDescription(
-                            title="acc.settings.speed_offset.name",
-                            description="acc.settings.speed_offset.description",
-                            min=-30,
-                            max=30,
-                            step=1,
-                            default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
-                            changed=self.handle_speed_offset,
-                            suffix="%",
+                        
+                    with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                        ComboboxWithTitleDescription(
+                            options=["Percentage", "Absolute"],
+                            default=settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute"),
+                            title="acc.settings.speed_offset_type.name",
+                            changed=self.handle_speed_offset_type,
+                            description="acc.settings.speed_offset_type.description",
                         )
-                    else:
-                        SliderWithTitleDescription(
-                            title="acc.settings.speed_offset.name",
-                            description="acc.settings.speed_offset.description",
-                            min=-30,
-                            max=30,
-                            step=1,
-                            default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
-                            changed=self.handle_speed_offset,
-                            suffix="km/h",
-                        )
+                        
+                        if settings.Get("AdaptiveCruiseControl", "speed_offset_type") == "Percentage":
+                            SliderWithTitleDescription(
+                                title="acc.settings.speed_offset.name",
+                                description="acc.settings.speed_offset.description",
+                                min=-30,
+                                max=30,
+                                step=1,
+                                default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
+                                changed=self.handle_speed_offset,
+                                suffix="%",
+                            )
+                        else:
+                            SliderWithTitleDescription(
+                                title="acc.settings.speed_offset.name",
+                                description="acc.settings.speed_offset.description",
+                                min=-30,
+                                max=30,
+                                step=1,
+                                default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
+                                changed=self.handle_speed_offset,
+                                suffix="km/h",
+                            )
