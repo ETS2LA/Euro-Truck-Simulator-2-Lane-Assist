@@ -1,5 +1,4 @@
-from ETS2LA.Window.utils import color_title_bar, dont_check_window_open, get_screen_dimensions, correct_window_position, get_theme_color, window_position
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Window.utils import color_title_bar, dont_check_window_open, get_screen_dimensions, correct_window_position, get_theme_color
 from multiprocessing import JoinableQueue
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Handlers.sounds import Play

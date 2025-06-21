@@ -1,4 +1,3 @@
-from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Utils.settings import Get, Listen
 import numpy as np
 import logging

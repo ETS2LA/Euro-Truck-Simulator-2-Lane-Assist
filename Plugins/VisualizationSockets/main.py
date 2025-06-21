@@ -197,13 +197,16 @@ available_channels = [
     }
 ]
 
-class SettingsMenu(ETS2LASettingsMenu):
-    plugin_name = "VisualizationSockets"
-    dynamic = True
-
+class SettingsMenu(ETS2LAPage):
+    refresh_rate = 0.5
+    url = "/settings/VisualizationSockets"
+    location = ETS2LAPageLocation.SETTINGS
+    title = "Visualization Sockets"
+    
+    def test(self):
+        print("hi")
+    
     def render(self):
-        RefreshRate(2)
-
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(("8.8.8.8", 80))
@@ -212,66 +215,64 @@ class SettingsMenu(ETS2LASettingsMenu):
         except:
             IP = "127.0.0.1"
 
-        with Group("vertical", gap=14, padding=0):
-            Title("Visualization Sockets")
-            Description("This plugin provides a websocket server for the ETS2LA Visualization.")
+        TitleAndDescription(
+            title="Visualization Sockets",
+            description="This plugin provides a websocket server for the ETS2LA Visualization."
+        )
 
-        with TabView():
+        with Tabs():
             with Tab(name="Host Device"):
-                with Group("vertical", gap=14, padding=0):
-                    Description("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors.")
-                    with Group("horizontal", gap=4, padding=0):
-                        Description("You can also use the following website:")
-                        Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
-                    
+                with Container(styles.FlexVertical() + styles.Gap("14px")):
+                    Text("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors.", style=styles.Description())
+                    with Container(styles.FlexHorizontal() + styles.Gap("4px")):
+                        Text("You can also use the following website:", style=styles.Description())
+                        Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", styles.Classname("font-semibold text-sm"))
+
             with Tab(name="Other Device"):
-                with EnabledLock():
+                with Container(styles.FlexVertical() + styles.Gap("14px")):
                     if IP != "127.0.0.1":
-                        with Group("vertical", gap=14, padding=0):
-                            with Group("vertical", gap=6, padding=0):
-                                with Group("horizontal", gap=4, padding=0):
-                                    Description("1. Open the following URL in your device's browser: ")
-                                    Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", weight="semibold")
-                                Description("NOTE: You must load the site as http instead of https. Google Chrome will not work!", weight="bold")
-                            with Group("vertical", gap=6, padding=0):
-                                Description("2. Once the website loads it will ask you for the computer's IP address. Enter the following IP address:")
-                                Description(f"ws://{IP}:37522", weight="bold")
-                            
-                            Description("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.")
-                        
+                        with Container(styles.FlexVertical() + styles.Gap("6px")):
+                            with Container(styles.FlexHorizontal() + styles.Gap("4px")):
+                                Text("1. Open the following URL in your device's browser: ", style=styles.Description())
+                                Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", styles.Classname("font-semibold text-sm text-muted-foreground"))
+                            Text("NOTE: You must load the site as http instead of https. Google Chrome will not work!", styles.Classname("font-bold text-muted-foreground"))
+                        with Container(styles.FlexVertical() + styles.Gap("6px")):
+                            Text("2. Once the website loads it will ask you for the computer's IP address. Enter the following IP address:", styles.Description())
+                            Text(f"ws://{IP}:37522", styles.Classname("font-bold") + styles.Description())
+
+                        Text("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.", styles.Description())
                     else:
-                        Description("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.")
+                        Text("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.", styles.Classname("font-bold") + styles.Description())
 
         Separator()
-
+        
         if not self.plugin:
-            Description("Waiting for plugin start...", weight="bold")
-            return RenderUI()
-
+            Text("Waiting for plugin start...", styles.Classname("font-bold"))
+            return
+        
         try:
             clients = self.plugin.connected_clients
         except:
-            Description("Waiting for plugin to load...", weight="bold")
-            return RenderUI()
-
+            Text("Waiting for plugin to load...", styles.Classname("font-bold"))
+            return
+        
         if len(clients) > 0:
-            Description("The following clients are currently connected:")
-            with Group("vertical", gap=14, padding=0):
+            Text("The following clients are currently connected:")
+            with Container(styles.FlexVertical() + styles.Gap("14px")):
                 for client in clients:
-                    with Group("vertical", gap=6, padding=12, border=True):
-                        Description(f"{client.remote_address[0]}", weight="bold")
+                    with Container(styles.FlexVertical() + styles.Gap("6px") + styles.Classname("border rounded-lg p-4 bg-input/10")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("4px")):
+                            Text(f"{client.remote_address[0]}", styles.Classname("font-bold"))
+                            Text(f"- {client.id}", styles.Classname("text-sm") + styles.Description())
                         connection = clients[client]
-                        with Group("vertical", gap=4, padding=0):
-                            Description(f"- Latency: {client.latency * 1000:.2f}ms", size="xs")
-                            Description(f"- ID: {client.id}", size="xs")
+                        with Container(styles.FlexVertical() + styles.Gap("4px")):
+                            Text(f"- Latency: {client.latency * 1000:.2f}ms", styles.Classname("text-sm"))
                             if connection.subscribed_channels:
-                                Description(f"- Channels: {connection.subscribed_channels}", size="xs")
+                                Text(f"- Channels: {connection.subscribed_channels}", styles.Classname("text-sm"))
                             else:
-                                Description("Not acknowledged yet.", weight="semibold", size="xs")
+                                Text("Not acknowledged yet.", styles.Classname("font-semibold text-sm"))
         else:
-            Description("There are no currently connected clients.", weight="bold")
-
-        return RenderUI()
+            Text("There are no currently connected clients.", styles.Classname("font-bold"))
 
 class WebSocketConnection:
     def __init__(self, websocket):
@@ -304,7 +305,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    settings_menu = SettingsMenu()
+    pages = [SettingsMenu]
     fps_cap = 20
 
     def imports(self):
@@ -429,7 +430,9 @@ class Plugin(ETS2LAPlugin):
         return send
     
     def steering(self, data):
-        points = self.plugins.Map
+        points = self.globals.tags.steering_points
+        points = self.globals.tags.merge(points)
+        
         information = self.globals.tags.route_information
         information = self.globals.tags.merge(information)
         

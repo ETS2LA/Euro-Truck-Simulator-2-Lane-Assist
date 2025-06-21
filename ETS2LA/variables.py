@@ -23,6 +23,9 @@ ICONPATH = PATH + "ETS2LA/Assets/favicon.ico"
 OS = os.name
 """The users operating system. Windows = 'nt'"""
 
+REFRESH_PAGES = False
+"""Tell the UI websocket to send updated page data to all subscribers."""
+
 CLOSE = False
 """Whether the application should close or not. Used to trigger the close from code that is not the main thread."""
 

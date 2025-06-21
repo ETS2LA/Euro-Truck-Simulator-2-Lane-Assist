@@ -1,766 +1,633 @@
-from ETS2LA.Handlers.controls import get_states as get_control_states
-import ETS2LA.Networking.Servers.notifications as notifications
-from ETS2LA.Handlers.controls import validate_events
+from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage, Author
+from ETS2LA.Networking.Servers import notifications
+from ETS2LA.Plugin.message import Channel, State
 from ETS2LA.Utils.translator import Translate
-from ETS2LA.Utils.umami import TriggerEvent
-from ETS2LA.Utils.settings import Get, Set
 from ETS2LA.Controls import ControlEvent
-import ETS2LA.variables as variables
-from ETS2LA.Plugin import *
-from ETS2LA.UI import *
+from ETS2LA.Handlers import controls
+from ETS2LA.Utils import settings
+from ETS2LA import variables
 
-from typing import Any
 import multiprocessing
-import importlib
 import threading
+
 import logging
-import inspect
-import fnmatch
-import psutil
 import time
-import sys
 import os
 
-if os.name == "nt":
-    import win32pdh
-    from collections import defaultdict
+search_folders: list[str] = [
+    "Plugins"
+]
 
-plugin_path = "Plugins"
-plugin_target_class = "Plugin"
+# Discover all plugins in the search folders.
+plugin_folders: list[str] = []
+def discover_plugins() -> None:
+    global plugin_folders
+    plugin_folders = []
+    
+    for folder in search_folders:
+        for root, dirs, files in os.walk(folder):
+            if "main.py" in files:
+                plugin_folders.append(root)
 
+# MARK: Class
 class Plugin:
-    name: str
-    description: PluginDescription | None
-    authors: list[Author] | None
-    settings_menu: ETS2LASettingsMenu | None
-    controls: list[ControlEvent] | None
+    process: multiprocessing.Process
+    """The physical running process of the plugin."""
     
-    def __init__(self, name: str, description: PluginDescription | None, 
-                 authors: list[Author] | None, settings_menu: ETS2LASettingsMenu | None, 
-                 controls: list[ControlEvent] | None):
-        self.name = name
-        self.description = description
-        self.authors = authors
-        self.settings_menu = settings_menu
-        self.controls = controls
-
-AVAILABLE_PLUGINS: list[Plugin] = []
-
-class PluginHandler:
-    plugin_name: str
-    plugin_description: PluginDescription
+    queue: multiprocessing.Queue
+    """The queue used to send messages to the plugin."""
+    
+    return_queue: multiprocessing.Queue
+    """The queue used to send messages back to the backend."""
+    
+    stack: dict[Channel, dict[int, PluginMessage]]
+    """All the messages that have arrived from the plugin."""
+    
     controls: list[ControlEvent]
-    data = None
+    """All the controls that belong to the plugin."""
     
-    stop = False
+    last_controls_state: dict
+    """The last state of the controls."""
     
-    tags: dict[str, Any]
+    description: PluginDescription
+    """The description of the plugin."""
     
-    state: dict = {
-        "status": "",
-        "progress": -1
-    }
+    authors: list[Author]
+    """All authors of the plugin."""
     
-    control_state: dict = {}
+    folder: str
+    """Where the plugin is located."""
     
-    last_performance: list[tuple[float, float]] = []
-    last_performance_time: float = 0
+    stop: bool
+    """Whether the plugin should stop or not."""
     
-    statistics: dict[str, Any] = {}
-    last_statistics_time: float = 0
+    running: bool
+    """Whether the plugin is running or not."""
     
-    files_to_listen_to: list[str] = []
+    tags: dict = {}
+    """All plugins share this same tags dictionary. This way they can easily share tag data."""
     
-    def __init__(self, plugin_name: str, plugin_description: PluginDescription, controls: list[ControlEvent]):
-        self.tags = {}
-        self.plugin_name = plugin_name
-        self.plugin_description = plugin_description
-        self.controls = controls
-        self.data = None
+    state: dict
+    """The current plugin state used by the frontend."""
+    
+    pages: dict = {}
+    """All plugins share the same pages dictionary. This way they can easily share page data."""
+    
+    def start_plugin(self) -> None:
+        # First initialize / reset the variables
+        self.stack = {}
         self.state = {
             "status": "",
             "progress": -1
         }
-        self.control_state = {}
+        self.last_controls_state = {}
+        self.stop = False
+        self.running = False
         
-        self.files_to_listen_to = self.discover_files(plugin_description.listen)
+        self.queue = multiprocessing.Queue()
+        self.return_queue = multiprocessing.Queue()
         
-        self.last_performance = []
-        self.last_performance_time = 0
-        
-        self.statistics = {
-            "memory": [],
-            "cpu": [],
-            "performance": []
-        }
-        self.last_statistics_time = 0
-        
-        self.return_queue = multiprocessing.JoinableQueue()
-        self.plugins_queue = multiprocessing.JoinableQueue()
-        self.plugins_return_queue = multiprocessing.JoinableQueue()
-        self.tags_queue = multiprocessing.JoinableQueue()
-        self.tags_return_queue = multiprocessing.JoinableQueue()
-        self.settings_menu_queue = multiprocessing.JoinableQueue()
-        self.settings_menu_return_queue = multiprocessing.JoinableQueue()
-        self.frontend_queue = multiprocessing.JoinableQueue()
-        self.frontend_return_queue = multiprocessing.JoinableQueue()
-        self.immediate_queue = multiprocessing.JoinableQueue()
-        self.immediate_return_queue = multiprocessing.JoinableQueue()
-        self.state_queue = multiprocessing.JoinableQueue()
-        self.performance_queue = multiprocessing.JoinableQueue()
-        self.performance_return_queue = multiprocessing.JoinableQueue()
-        self.event_queue = multiprocessing.JoinableQueue()
-        self.event_return_queue = multiprocessing.Queue()
-        self.control_queue = multiprocessing.JoinableQueue()
-        self.control_return_queue = multiprocessing.JoinableQueue()
-        
-        try:
-            RUNNING_PLUGINS.append(self)
-            threading.Thread(target=self.data_handler, daemon=True).start()
-            threading.Thread(target=self.plugins_handler, daemon=True).start()
-            threading.Thread(target=self.tags_handler, daemon=True).start()
-            threading.Thread(target=self.immediate_handler, daemon=True).start()
-            threading.Thread(target=self.state_handler, daemon=True).start()
-            if variables.DEVELOPMENT_MODE:
-                threading.Thread(target=self.change_listener, daemon=True).start()
-            threading.Thread(target=self.event_listener, daemon=True).start()
-            threading.Thread(target=self.control_thread, daemon=True).start()
+        # Then kill and start the new process
+        if "process" in self.__dict__ and self.process.is_alive():
+            self.process.kill()
+            self.process.join()
+            self.process.close()
+            self.process = None # type: ignore
             
-            self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
-                                                                            self.return_queue,
-                                                                            self.plugins_queue, self.plugins_return_queue,
-                                                                            self.tags_queue, self.tags_return_queue,
-                                                                            self.settings_menu_queue, self.settings_menu_return_queue,
-                                                                            self.frontend_queue, self.frontend_return_queue,
-                                                                            self.immediate_queue, self.immediate_return_queue,
-                                                                            self.state_queue,
-                                                                            self.performance_queue, self.performance_return_queue,
-                                                                            self.event_queue, self.event_return_queue,
-                                                                            self.control_queue, self.control_return_queue
-                                                                            ), daemon=True)
-            self.process.start()
-            self.psutil_process = psutil.Process(self.process.pid)
-            threading.Thread(target=self.statistics_thread, daemon=True).start()
-        except:
-            logging.exception(f"Failed to start plugin {plugin_name}.")
+        self.process = multiprocessing.Process(
+            target=PluginProcess,
+            args=(self.folder, self.queue, self.return_queue),
+            daemon=True,
+            name=f"Plugin {self.folder.split('/')[-1]} Process",
+        )
         
-    def discover_files(self, listen_rules: list[str]):
-        # Discover all files in the folder that matches the rules (also in the subfolders specified by the rules)
-        # example: ["*.py", "folder/*.txt"]
-        file_list = []
-        for rule in listen_rules:
-            if "/" in rule:
-                folder, rule = rule.split("/")
-                for root, dirs, files in os.walk(f"{plugin_path}/{self.plugin_name}/{folder}"):
-                    for file in files:
-                        if fnmatch.fnmatch(file, rule):
-                            file_list.append(f"{root}/{file}")
-            else:
-                # Only match files in the root folder
-                root_folder = f"{plugin_path}/{self.plugin_name}"
-                for file in os.listdir(root_folder):
-                    if os.path.isfile(os.path.join(root_folder, file)) and fnmatch.fnmatch(file, rule):
-                        file_list.append(f"{root_folder}/{file}")
-        return file_list
-        
-    def restart_plugin(self):
-        self.process.terminate()
-        self.process.join(timeout=1)
-        self.process = multiprocessing.Process(target=PluginRunner, args=(self.plugin_name, self.plugin_description,
-                                                                            self.return_queue,
-                                                                            self.plugins_queue, self.plugins_return_queue,
-                                                                            self.tags_queue, self.tags_return_queue,
-                                                                            self.settings_menu_queue, self.settings_menu_return_queue,
-                                                                            self.frontend_queue, self.frontend_return_queue,
-                                                                            self.immediate_queue, self.immediate_return_queue,
-                                                                            self.state_queue,
-                                                                            self.performance_queue, self.performance_return_queue,
-                                                                            self.event_queue, self.event_return_queue,
-                                                                            self.control_queue, self.control_return_queue
-                                                                            ), daemon=True)
         self.process.start()
-        self.psutil_process = psutil.Process(self.process.pid)
-        logging.info(f"Plugin {self.plugin_name} has been restarted.")
-
+    
+    def __init__(self, folder: str) -> None:
+        self.folder = folder
+        self.start_plugin()
         
-    def change_listener(self):
-        files = self.files_to_listen_to
-        times = {file: os.path.getmtime(file) for file in files}
-        logging.info(f"Listening to {len(files)} files for changes in plugin [yellow]{self.plugin_name}[/yellow].")
-        while True:
-            if self.stop:
-                break
-            for file in files:
-                try:
-                    creation_time = os.path.getmtime(file)
-                    if times[file] != creation_time:
-                        logging.info(f"File [dim]{file}[/dim] has been modified, restarting plugin [yellow]{self.plugin_name}[/yellow].")
-                        times[file] = creation_time
-                        self.restart_plugin()
-                except:
-                    logging.error(f"Failed to check file [dim]{file}[/dim] for changes in plugin [yellow]{self.plugin_name}[/yellow]. Did you delete it?")
+        # Start to listen for messages from the plugin.
+        threading.Thread(
+            target=self.listener,
+            daemon=True
+        ).start()
+        
+        message = self.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
+        if message is None:
+            logging.error(f"Plugin {folder} failed to start: Timeout.")
+            self.remove()
+            return
+        
+        if message.data != {}:
+            logging.error(f"Plugin {folder} failed to start: {message.data}")
+            self.remove()
+            return
+        
+        plugins.append(self)
+        self.get_description()
+        
+        if (self.description.hidden or "Base" not in self.description.tags) and not variables.DEVELOPMENT_MODE:
+            self.remove()
+            return
+        
+        self.get_controls()
+        
+        threading.Thread(
+            target=self.tag_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.state_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.page_handler,
+            daemon=True
+        ).start()
+
+        threading.Thread(
+            target=self.controls_updater,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.notification_handler,
+            daemon=True
+        ).start()
+
+        self.keep_alive()
+
+    def keep_alive(self) -> None:
+        """Keep the process alive."""
+        logging.debug(f"Plugin [yellow]{Translate(self.description.name, return_original=True)}[/yellow] loaded successfully.")
+        while not self.stop:
             time.sleep(1)
-        
-    def control_thread(self):
+    
+    def listener(self):
+        """Send all messages into the stack."""
         while True:
-            if self.stop:
-                break
+            while self.return_queue.empty():
+                time.sleep(0.01)
+                
+            try: message: PluginMessage = self.return_queue.get(timeout=1)
+            except: time.sleep(0.01); continue
             
-            states = get_control_states(self.controls)
-            if states == self.control_state:
-                time.sleep(0.025) # 40 fps
+            if message.channel == Channel.STOP_PLUGIN:
+                threading.Thread(
+                    target=stop_plugin,
+                    kwargs={
+                        "description": self.description
+                    },
+                    daemon=True
+                ).start()
                 continue
             
-            self.control_state = states
-            self.control_queue.put(states)
-            time.sleep(0.025) # 40 fps
-            
-    def event_listener(self):
+            if message.channel not in self.stack:
+                self.stack[message.channel] = {}
+            self.stack[message.channel][message.id] = message
+    
+    def controls_updater(self):
         while True:
-            if self.stop:
-                break
-            try:
-                data = self.event_return_queue.get(timeout=1)
-            except:
-                continue
-            
-            try:
-                call_event(
-                    data["name"],
-                    data["args"],
-                    data["kwargs"],
-                    called_from=self.plugin_name
+            states = controls.get_states(self.controls)
+            if not self.last_controls_state or states != self.last_controls_state:
+                self.last_controls_state = states
+                message = PluginMessage(
+                    Channel.CONTROL_STATE_UPDATE,
+                    states
                 )
-            except:
-                logging.exception(f"Failed to call event {data['name']} in plugin {self.plugin_name}.")
-        
-    def tags_handler(self):
-        while True:
-            if self.stop:
-                break
-            try:
-                tag_dict = self.tags_queue.get(timeout=1)
-            except:
-                continue
-            if tag_dict["operation"] == "read":
-                tag = tag_dict["tag"]
-                return_data = {}
-                
-                for plugin in RUNNING_PLUGINS:
-                    if tag in plugin.tags:
-                        return_data[plugin.plugin_name] = plugin.tags[tag]
-                
-                if return_data == {}:
-                    return_data = None
+                self.queue.put(message)
+            
+            time.sleep(0.025)
+    
+    def tag_handler(self):
+        while True:            
+            if Channel.GET_TAGS in self.stack:
+                while self.stack[Channel.GET_TAGS]:
+                    message = self.stack[Channel.GET_TAGS].popitem()[1]
                     
-                self.tags_return_queue.put(return_data)
-            elif tag_dict["operation"] == "write":
-                self.tags[tag_dict["tag"]] = tag_dict["value"]
-                self.tags_return_queue.put(True)
-            else:
-                self.tags_return_queue.put(False)
-
-    def plugins_handler(self):
-        while True:
-            if self.stop:
-                break
-            try:
-                plugin_name = self.plugins_queue.get(timeout=1)
-            except:
-                continue
-            plugins = [plugin.plugin_name for plugin in RUNNING_PLUGINS]
-            if plugin_name in plugins:
-                index = plugins.index(plugin_name)
-                self.plugins_return_queue.put(RUNNING_PLUGINS[index].data)
-            else:
-                self.plugins_return_queue.put(None)
-                
-    def immediate_handler(self):
-        while True:
-            if self.stop:
-                break
-            try:
-                data = self.immediate_queue.get(timeout=1)
-            except:
-                continue
-            if data["operation"] == "terminate":
-                self.process.terminate()
-                self.stop = True
-                disable_plugin(self.plugin_name, from_plugin=True)
-                
-            if data["operation"] == "crash":
-                try:
-                    TriggerEvent("Plugin Crashed", {"plugin": self.plugin_name})
-                except:
-                    pass
-                self.process.terminate()
-                self.stop = True
-                disable_plugin(self.plugin_name, from_plugin=True, show_restart_dialog=True)
-                
-            if data["operation"] == "notify":
-                type = data["options"]["type"]
-                text = data["options"]["text"]
-                notifications.sonner(text, type)
-                self.immediate_return_queue.put(True)
-                
-            elif data["operation"] == "ask":
-                text = data["options"]["text"]
-                options = data["options"]["options"]
-                description = data["options"]["description"]
-                self.immediate_return_queue.put(notifications.ask(text, options, description=description))
-                
-            elif data["operation"] == "dialog":
-                return_data = notifications.dialog(data["options"]["dialog"])
-                self.immediate_return_queue.put(return_data, data["options"]["no_response"])
-                
-            else:
-                self.immediate_return_queue.put(False)
-
+                    tags = message.data["tags"]
+                    response = {}
+                    for tag in tags:
+                        response[tag] = self.tags.get(tag, None)
+                    
+                    message.state = State.DONE
+                    message.data = response
+                    self.queue.put(message)
+            
+            if Channel.UPDATE_TAGS in self.stack:
+                while self.stack[Channel.UPDATE_TAGS]:
+                    message = self.stack[Channel.UPDATE_TAGS].popitem()[1]
+                    data = message.data
+                    
+                    for tag, value in data.items():
+                        if tag not in self.tags:
+                            self.tags[tag] = {}
+                            
+                        if self.description.name not in self.tags[tag]:
+                            self.tags[tag][self.description.name] = {}
+                            
+                        self.tags[tag][self.description.name] = value
+                    
+                    message.state = State.DONE
+                    message.data = "success" # clear data for faster transmit
+                    self.queue.put(message)
+            
+            time.sleep(0.01)
+    
     def state_handler(self):
         while True:
-            if self.stop:
-                break
-            try:
-                data = self.state_queue.get(timeout=1)
-            except:
-                continue
-            if "status" in data:
-                self.state["status"] = data["status"]
-            if "progress" in data:
-                self.state["progress"] = data["progress"]
-
-    def data_handler(self):
-        while True:
-            if self.stop:
-                break
-            try:
-                data = self.return_queue.get(timeout=1)
-            except:
-                continue
-            if type(data) == tuple:
-                self.data = data[0]
-                for tag in data[1]:
-                    self.tags[tag] = data[1][tag]
-            else:
-                self.data = data
-                
-    def statistics_thread(self):
-        while True:
-            if self.stop:
-                break
+            if Channel.STATE_UPDATE in self.stack:
+                while self.stack[Channel.STATE_UPDATE]:
+                    message = self.stack[Channel.STATE_UPDATE].popitem()[1]
+                    if "progress" in message.data and "status" in message.data:
+                        self.state["progress"] = message.data["progress"]
+                        self.state["status"] = message.data["status"]
             
-            try:
-                if time.perf_counter() - self.last_statistics_time > 1:
-                    logical_cores = psutil.cpu_count(logical=True)
-                    physical_cores = psutil.cpu_count(logical=False)
-                    if logical_cores is None or physical_cores is None:
-                        multiplier = 1
-                    else:
-                        multiplier = logical_cores / physical_cores
-                    
-                    self.statistics["memory"].append(self.psutil_process.memory_percent())
-                    self.statistics["cpu"].append(self.psutil_process.cpu_percent() / multiplier)
-                    self.statistics["performance"] = self.get_performance()
-                    
-                    if len(self.statistics["memory"]) > 60:
-                        self.statistics["memory"].pop(0)
-                    if len(self.statistics["cpu"]) > 60:    
-                        self.statistics["cpu"].pop(0)
-                    
-                    self.last_statistics_time = time.perf_counter()
-            except:
-                #logging.warning(f"Failed to get statistics for plugin [yellow]{self.plugin_name}[/yellow]. Is it initializing?")
-                pass
-                
             time.sleep(0.1)
-                
-    def get_settings(self):
-        self.settings_menu_queue.put(True)
-        try:
-            return self.settings_menu_return_queue.get(timeout=1)
-        except:
-            return None
+            
+    def page_handler(self):
+        while True:
+            if Channel.UPDATE_PAGE in self.stack:
+                while self.stack[Channel.UPDATE_PAGE]:
+                    message = self.stack[Channel.UPDATE_PAGE].popitem()[1]
+                    if "url" in message.data:
+                        url = message.data["url"]
+                        data = message.data["data"]
+                        data[0]["plugin"] = self.description.name
+                        self.pages[url] = data
+
+            time.sleep(0.01)
+            
+    def notification_handler(self):
+        while True:
+            if Channel.NOTIFICATION in self.stack:
+                while self.stack[Channel.NOTIFICATION]:
+                    message = self.stack[Channel.NOTIFICATION].popitem()[1]
+                    if "text" in message.data and "type" in message.data:
+                        text = message.data["text"]
+                        type_ = message.data["type"]
+                        notifications.sonner(
+                            text=Translate(text, return_original=True),
+                            type=type_
+                        )
+            
+            if Channel.NAVIGATE in self.stack:
+                while self.stack[Channel.NAVIGATE]:
+                    message = self.stack[Channel.NAVIGATE].popitem()[1]
+                    if "url" in message.data:
+                        url = message.data["url"]
+                        reason = message.data.get("reason", "")
+                        plugin = self.description.name
+                        notifications.navigate(url, plugin, reason)
+            time.sleep(0.1)
+
+    def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
+        """Wait for a message with the given ID."""
+        start_time = time.perf_counter()
+        end_time = start_time + timeout if timeout > 0 else -1
+        while channel not in self.stack:
+            time.sleep(0.01)
+            if end_time > 0 and time.perf_counter() > end_time:
+                return None
+        while id not in self.stack[channel]:
+            time.sleep(0.01)
+            if end_time > 0 and time.perf_counter() > end_time:
+                return None
+            
+        message = self.stack[channel].pop(id)
+        return message
     
-    def call_function(self, name: str, *args, **kwargs):
-        """Call a function in the plugin process with improved error handling.
-        
-        Args:
-            name (str): Name of the function to call
-            *args: Positional arguments to pass to the function
-            **kwargs: Keyword arguments to pass to the function
-            
-        Returns:
-            Any: Return value from the function, or None if call failed
-        """
-        self.frontend_queue.put({
-            "operation": "function",
-            "target": name,
-            "args": args,
-            "kwargs": kwargs
-        })
-        
+    def remove(self) -> None:
+        """Remove the current plugin"""
+        self.stop = True
+        plugins.remove(self)
         try:
-            # Increased timeout from 0.25 to 5 seconds for long-running operations
-            return_data = self.frontend_return_queue.get(timeout=5.0)
-            self.frontend_return_queue.task_done()
-            return return_data
-        except Exception as e:
-            logging.error(f"Failed to call function {name} in plugin {self.plugin_name}: {str(e)}")
-            # Clear the queue in case it's stuck
-            try:
-                while not self.frontend_return_queue.empty():
-                    self.frontend_return_queue.get_nowait()
-                    self.frontend_return_queue.task_done()
-            except:
-                pass
-            return None
+            self.process.kill()
+            self.process.join()
+            self.process.close()
+            self.process = None
+        except: pass
+        quit(1)
+        return
     
-    def get_performance(self):
-        if time.perf_counter() - self.last_performance_time > 1:
-            self.performance_queue.put(True)
+    def get_description(self) -> PluginDescription:
+        """Get the plugin description from the plugin process."""
+        message = PluginMessage(
+            Channel.GET_DESCRIPTION, {}
+        )
+        self.queue.put(message)
+        response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
+        if response is None:
+            logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
+            self.remove()
             
-            try:
-                data = self.performance_return_queue.get(timeout=1)
-            except:
-                return self.last_performance
+        if response.state == State.ERROR:
+            logging.error(f"Plugin {self.folder} failed to get description: {response.data}")
+            self.remove()
             
-            self.performance_return_queue.task_done()
-            self.last_performance = data
-            self.last_performance_time = time.perf_counter()
-            return data
-        else:
-            return self.last_performance
+        self.description, self.authors = response.data
+        return response.data
+    
+    def get_controls(self) -> list[ControlEvent]:
+        """Get the controls from the plugin process."""
+        message = PluginMessage(
+            Channel.GET_CONTROLS, {}
+        )
+        self.queue.put(message)
+        response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
+        if response is None:
+            logging.error(f"Plugin {self.folder} failed to get controls: Timeout.")
+            self.remove()
+            
+        if response.state == State.ERROR:
+            logging.error(f"Plugin {self.folder} failed to get controls: {response.data}")
+            self.remove()
+            
+        self.controls = response.data
+        for control in self.controls:
+            control.plugin = self.description.name
+            
+        controls.validate_events(self.controls)
+        return response.data
+  
+def reload_plugins() -> None:
+    global plugins
+    for plugin in plugins:
+        plugin.stop = True
+        plugin.process.kill()
+        plugin.process.join()
+        plugin.process.close()
+        
+    plugins = []
+    discover_plugins()
+    threading.Thread(target=create_processes, daemon=True).start()
     
 
-RUNNING_PLUGINS: list[PluginHandler] = []
+# MARK: Startup      
+plugins: list[Plugin] = []
+def create_processes() -> None:
+    for folder in plugin_folders:
+        logging.debug(f"Creating plugin process for {folder}")
+        threading.Thread(target=Plugin, name=f"Backend for {folder.split('/')[-1]}",
+                         args=(folder,), daemon=True).start()
 
-def get_plugin_class(module_name):
-    module = __import__(module_name, fromlist=['*'])
-    for name, cls in inspect.getmembers(module):
-        if inspect.isclass(cls) and issubclass(cls, ETS2LAPlugin) and cls != ETS2LAPlugin:
-            return cls
-    # Remove the module from the cache
-    del sys.modules[module_name]
+    time.sleep(10)
+    logging.info(f"Loaded {len(plugins)} plugins.")
+  
+def run() -> None:
+    discover_plugins()
+    threading.Thread(target=create_processes, daemon=True).start()
+    
+    
+# MARK: Plugin Matching
+def match_plugin_by_description(description: PluginDescription) -> Plugin | None:
+    """Match a plugin by its description."""
+    for plugin in plugins:
+        if plugin.description == description:
+            return plugin
+    return None
+    
+def match_plugin_by_name(name: str) -> Plugin | None:
+    """Match a plugin by its name."""
+    for plugin in plugins:
+        if plugin.description.name == name:
+            return plugin
     return None
 
-def find_plugins() -> list[Plugin]:
-    folders = os.listdir(plugin_path)
-    plugins = []
-    for folder in folders:
-        if "main.py" in os.listdir(f"{plugin_path}/{folder}"):
-            try:
-                plugin_class = get_plugin_class(f"{plugin_path}.{folder}.main")
-            except:
-                logging.warning(f"Failed to load plugin {folder}.")
-                import traceback
-                traceback.print_exc()
-                continue
-            
-            if plugin_class is not None:
-                information = getattr(plugin_class, "description", None)
-                
-                try:
-                    # Reload the UI module if ui_filename is defined
-                    if information and hasattr(information, 'ui_filename'):
-                        ui_filename = information.ui_filename
-                        if ui_filename != "":
-                            ui_module_path = f"{plugin_path}.{folder}.{ui_filename.replace('.py', '')}"
-                            
-                            if ui_module_path in sys.modules:
-                                importlib.reload(sys.modules[ui_module_path])
-                            else:
-                                __import__(ui_module_path, fromlist=['*'])
-                except Exception as e:
-                    print(f"Failed to reload UI for {folder}: {str(e)}")
-                        
-                author = getattr(plugin_class, "author", None)
-                settings = getattr(plugin_class, "settings_menu", None)
-                controls = getattr(plugin_class, "controls", [])
-                if information and ((not information.hidden and "Base" in information.tags) or variables.DEVELOPMENT_MODE):
-                    plugin: Plugin = Plugin(folder, information, author, settings, controls)
-                    plugins.append(plugin)
-            
-            # Clean up
-            del plugin_class
-            if f"{plugin_path}.{folder}.main" in sys.modules:
-                del sys.modules[f"{plugin_path}.{folder}.main"]
-            
-    return plugins
-
-def save_running_plugins():
-    try:
-        Set("global", "running_plugins", [plugin.plugin_name for plugin in RUNNING_PLUGINS])
-    except:
-        try:
-            Set("global", "running_plugins", [])
-        except: pass
-        logging.exception("Failed to save running plugins.")
-
-def update_plugins():
-    global AVAILABLE_PLUGINS
-    logging.info("Reloading [yellow]plugins[/yellow].")
-    AVAILABLE_PLUGINS = find_plugins()
-    logging.info(f"Discovered {len(AVAILABLE_PLUGINS)} plugins, of which {len([plugin for plugin in AVAILABLE_PLUGINS if plugin.settings_menu is not None])} have settings menus.")
-    controls = []
-    for plugin in AVAILABLE_PLUGINS:
-        if plugin.controls is not None:
-            controls += plugin.controls
-    validate_events(controls)
-    logging.info(f"Discovered {len(controls)} control events.")
-
-def enable_plugin(plugin_name: str):
-    logging.info(Translate(f"webserver.enabling_plugin", values=[plugin_name]))
-    plugin = AVAILABLE_PLUGINS[[plugin.name for plugin in AVAILABLE_PLUGINS].index(plugin_name)]
-    runner = threading.Thread(target=PluginHandler, args=(
-        plugin_name, 
-        plugin.description,
-        plugin.controls
-    ), daemon=True)
-    runner.start()
-    try:
-        TriggerEvent("Plugin Enabled", {"plugin": plugin_name})
-    except:
-        pass
+def match_plugin_by_folder(folder: str) -> Plugin | None:
+    """Match a plugin by its folder."""
+    for plugin in plugins:
+        if plugin.folder == folder:
+            return plugin
+    return None
     
-def disable_plugin(plugin_name: str, from_plugin: bool = False, show_restart_dialog: bool = False):
-    logging.info(Translate(f"webserver.disabling_plugin", values=[plugin_name]))
-    for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin_name:
-            try:
-                plugin.process.terminate()
-            except:
-                logging.warning(f"Failed to terminate plugin {plugin_name}, this could be because the plugin has already been terminated.")
-            plugin.stop = True
-            RUNNING_PLUGINS.remove(plugin)
-            
-            if not from_plugin:
-                return True
-    if not from_plugin:
+def match_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> Plugin | None:
+    """Match a plugin by its description, name or folder."""
+    if description is not None:
+        return match_plugin_by_description(description)
+    if name is not None:
+        return match_plugin_by_name(name)
+    if folder is not None:
+        return match_plugin_by_folder(folder)
+    
+    return None
+    
+    
+    
+    
+# MARK: Enable/Disable
+def start_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> bool:
+    """Start a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    if not plugin:
+        logging.error(f"Plugin not found.")
         return False
     
-def get_plugin_data(plugin_name: str):
-    for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin_name:
-            return plugin.data
-    return None
-
-def get_plugin_settings() -> dict[str, None | list]:
-    settings_dict = {}
-    
-    while variables.IS_UI_UPDATING:
-        time.sleep(0.01)
-    
-    variables.IS_UI_UPDATING = True
-    
-    for plugin in AVAILABLE_PLUGINS:
-        settings = plugin.settings_menu
-        name = plugin.name
-        if settings is None:
-            settings_dict[name] = None
-            continue
-        
-        elif not settings.dynamic:
-            settings_dict[name] = settings.build()
-            
-        elif name in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
-            for plugin in RUNNING_PLUGINS:
-                if plugin.plugin_name == name:
-                    settings_dict[name] = plugin.get_settings()
-                    if settings_dict[name] is None:
-                        settings_dict[name] = []
-                    break
-                
-        elif name not in [plugin.plugin_name for plugin in RUNNING_PLUGINS]:
-            settings_dict[name] = settings.build()
-        
+    # logging.info(f"Starting plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
+    if plugin.process.is_alive():
+        message = PluginMessage(
+            Channel.ENABLE_PLUGIN, {}
+        )
+        plugin.queue.put(message)
+        response = plugin.wait_for_channel_message(message.channel, message.id, timeout=30)
+        if response and response.state == State.DONE:
+            plugin.running = True
+            logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] started successfully.")
+            return True
         else:
-            settings_dict[name] = None
-            
-    variables.IS_UI_UPDATING = False
-    return settings_dict
+            if response.data == "Plugin is already enabled":
+                return False
+            else:
+                plugin.running = False
+                logging.error(f"Failed to start plugin: {response.data if response else 'Timeout'}")
+                return False
+        
+    return False
 
-def get_state(plugin_name: str):
-    for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin_name:
-            return plugin.state
-    return None
+def stop_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> bool:
+    """Stop a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    if not plugin:
+        logging.error(f"Plugin not found.")
+        return False
+    
+    if not plugin.running:
+        return False
+    
+    logging.info(f"Stopping plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
+    plugin.start_plugin()
+    response = plugin.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
+    plugin.running = False
+    if response and response.state == State.DONE:
+        logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] stopped successfully.")
+        return True
+    else:
+        logging.error(f"Failed to stop plugin: {response.data if response else 'Timeout'}")
+        return False
+        
+    return False
 
-def get_states():
+def restart_plugin(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None) -> bool:
+    """Restart a plugin based on one of the parameters."""
+    try:
+        stop_plugin(
+            description=description,
+            name=name,
+            folder=folder
+        )
+        start_plugin(
+            description=description,
+            name=name,
+            folder=folder
+        )
+        return True
+    except Exception as e:
+        logging.error(f"Failed to restart plugin: {e}")
+        return False
+
+
+
+# MARK: Pages
+def get_page_data(url: str) -> dict:
+    """Get the page data from all plugins."""
+    for plugin in plugins:
+        if url in plugin.pages:
+            return plugin.pages[url]
+    return {}
+
+def get_page_list() -> dict[str, dict]:
+    """Get the list of all pages from all plugins."""
+    pages = {}
+    for plugin in plugins:
+        for url, data in plugin.pages.items():
+            if url not in pages:
+                pages[url] = data[0] # metadata
+                
+    return pages
+
+def page_open_event(url: str):
+    page = {}
+    for plugin in plugins:
+        if url in plugin.pages:
+            page = plugin.pages[url]
+            break
+        
+    if not page:
+        return
+    
+    plugin_name = page[0]["plugin"]
+    plugin = match_plugin(name=plugin_name)
+    if not plugin:
+        logging.error(f"Plugin {plugin_name} not found for page {url}.")
+        return
+    
+    plugin.queue.put(PluginMessage(
+        Channel.OPEN_EVENT,
+        {
+            "url": url
+        }
+    ))
+    
+def page_close_event(url: str):
+    page = {}
+    for plugin in plugins:
+        if url in plugin.pages:
+            page = plugin.pages[url]
+            break
+        
+    if not page:
+        return
+    
+    plugin_name = page[0]["plugin"]
+    plugin = match_plugin(name=plugin_name)
+    if not plugin:
+        logging.error(f"Plugin {plugin_name} not found for page {url}.")
+        return
+    
+    plugin.queue.put(PluginMessage(
+        Channel.CLOSE_EVENT,
+        {
+            "url": url
+        }
+    ))
+
+# MARK: General Utils
+def get_tag_data(tag: str) -> dict:
+    """Get the tag data from all plugins."""
+    
+    # We only need the tags dict from the first plugin as they 
+    # all share the same pointer.
+    if not plugins:
+        return {}
+    
+    plugin = plugins[0]
+    return plugin.tags.get(tag, {})
+
+def get_states() -> dict:
+    """Get the state data from all plugins."""
     states = {}
-    for plugin in RUNNING_PLUGINS:
-        states[plugin.plugin_name] = plugin.state
+    for plugin in plugins:
+        if plugin.state["status"] != "":
+            states[Translate(plugin.description.name, return_original=True)] = plugin.state
+        
     return states
 
-def get_performance(plugin_name: str):
-    for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin_name:
-            return plugin.get_performance()
-    return None
+def function_call(
+    description: PluginDescription | None = None,
+    name: str | None = None,
+    folder: str | None = None,
+    function: str = "",
+    *args,
+    **kwargs) -> bool:
+    """Start a plugin based on one of the parameters."""
+    plugin: Plugin | None = match_plugin(
+        description=description,
+        name=name,
+        folder=folder
+    )
+    
+    if not plugin:
+        logging.error(f"Plugin not found.")
+        return False
+    
+    plugin.queue.put(PluginMessage(
+        Channel.CALL_FUNCTION,
+        {
+            "function": function,
+            "args": args,
+            "kwargs": kwargs
+        }
+    ))
+    
+    return True
 
-def get_performances():
-    performances = {}
-    for plugin in RUNNING_PLUGINS:
-        performances[plugin.plugin_name] = plugin.get_performance()
-    return performances
-
-def get_latest_frametimes():
-    dict = {}
-    for plugin in RUNNING_PLUGINS:
-        dict[plugin.plugin_name] = plugin.get_performance()[-1]
-        
-    return dict
-
-def get_latest_frametime(plugin_name: str):
-    for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == plugin_name:
-            performances = plugin.get_performance()
-            if len(performances) > 0:
-                return performances[-1]
-            return 0
-    return 0
-
-def get_main_process_mem_usages():
-    total = 0
-    python = 0
-    node = 0
-    for proc in psutil.process_iter():
-        try:
-            if "python" in proc.name().lower(): # backend
-                total += proc.memory_percent()
-                python += proc.memory_percent()
-            if "node" in proc.name().lower():   # frontend
-                total += proc.memory_percent()
-                node += proc.memory_percent()
-                
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-    return {
-        "total": total,
-        "python": python,
-        "node": node,
-        "free": psutil.virtual_memory().available / psutil.virtual_memory().total * 100,
-        "other": psutil.virtual_memory().used / psutil.virtual_memory().total * 100 - total,
-        "capacity": psutil.virtual_memory().total
-    }
-
-
-def get_main_process_cpu_usages():
-    if os.name == "nt":
-        try:
-            # Initialize counter dictionary
-            counters = defaultdict(float)
-            counter_handles = []
+def save_running_plugins() -> None:
+    running = []
+    for plugin in plugins:
+        if plugin.running:
+            running.append(plugin.description.name)
             
-            # Open query
-            hq = win32pdh.OpenQuery()
-            
-            # Add python and node process counters
-            for process in win32pdh.EnumObjectItems(None, None, "Process", win32pdh.PERF_DETAIL_WIZARD)[0]:
-                if "python" in process.lower() or "node" in process.lower():
-                    try:
-                        path = win32pdh.MakeCounterPath((None, "Process", process, None, 0, "% Processor Time"))
-                        if path is None:
-                            continue
-                        
-                        handle = win32pdh.AddCounter(hq, path)
-                        counter_handles.append((process.lower(), handle))
-                    except:
-                        continue
-            
-            # First collection to establish baseline
-            win32pdh.CollectQueryData(hq)
-            time.sleep(0.1)  # Small delay for next sample
-            win32pdh.CollectQueryData(hq)
-            
-            # Get the values using stored handles
-            for process_type, handle in counter_handles:
-                try:
-                    value = win32pdh.GetFormattedCounterValue(handle, win32pdh.PDH_FMT_DOUBLE)[1]
-                    if "python" in process_type:
-                        counters["python"] += value
-                    elif "node" in process_type:
-                        counters["node"] += value
-                except:
-                    continue
-            
-            # Clean up handles
-            for _, handle in counter_handles:
-                win32pdh.RemoveCounter(handle)
-            win32pdh.CloseQuery(hq)
-            
-            total_usage = counters["python"] + counters["node"]
-
-            return {
-                "total": total_usage,
-                "python": counters["python"],
-                "node": counters["node"],
-                "other": 0,
-                "free": max(0, 100 - total_usage)
-            }
-
-        except:
-            return {"total": 0, "python": 0, "node": 0, "other": 0, "free": 100}
-    else:
-        # TODO: Add linux support
-        return {"total": 0, "python": 0, "node": 0, "other": 0, "free": 100}
-
-def get_statistics():
-    stats = {
-        "global": {
-            "ram": get_main_process_mem_usages(),
-            "cpu": get_main_process_cpu_usages()
-        },
-        "plugins": {}
-    }
-    for plugin in RUNNING_PLUGINS:
-        stats["plugins"][plugin.plugin_name] = plugin.statistics
-        
-    return stats
-
-def get_tag_list():
-    tags = []
-    for plugin in RUNNING_PLUGINS:
-        try:
-            tags += plugin.tags.keys()
-        except:
-            pass
-    return tags
-
-def get_all_tag_data():
-    tag_dict = {}
-    for plugin in RUNNING_PLUGINS:
-        tag_dict[plugin.plugin_name] = plugin.tags
-    return tag_dict
-
-def get_tag_data(tag: str):
-    tag_dict = {}
-    for plugin in RUNNING_PLUGINS:
-        if tag in plugin.tags:
-            tag_dict[plugin.plugin_name] = plugin.tags[tag]
-    return tag_dict
-
-def call_event(event: str, args: list[Any], kwargs: dict[Any, Any], called_from: str = ""):
-    if type(args) != list:
-        args = [args]
-    if type(kwargs) != dict:
-        kwargs = {}
-    for plugin in RUNNING_PLUGINS:
-        if plugin.plugin_name == called_from:
-            continue
-        try:
-            plugin.event_queue.put({
-                "name": event,
-                "args": args,
-                "kwargs": kwargs
-            })
-        except:
-            logging.exception("Error in event call.")
-
-def get_all_process_pids():
-    pids = {}
-    for plugin in RUNNING_PLUGINS:
-        pids[plugin.plugin_name] = plugin.process.pid
-    return pids
-
-def run():
-    update_plugins()
+    settings.Set("global", "running_plugins", running)

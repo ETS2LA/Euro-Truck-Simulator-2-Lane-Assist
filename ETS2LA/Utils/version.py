@@ -126,7 +126,7 @@ def GetHistory():
                 }
 
                 # Handle avatar URLs for first 100 commits
-                if len(commits) < 100:
+                if len(commits) < 20:
                     if commit.author.name not in authors:
                         if commit.author.name == "DylDev":
                             url = "https://api.github.com/users/DylDevs"

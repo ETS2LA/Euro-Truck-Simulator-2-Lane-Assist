@@ -1,7 +1,6 @@
 from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
-import hashlib
 import logging
 import yaml
 import ftfy
@@ -12,7 +11,7 @@ FRONTEND_DATA_FOLDER = "Interface/translations"
 
 EnsureSubmoduleExists("Translations", "https://gitlab.com/ETS2LA/translations.git",
                       cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
-                      download_updates=not variables.DEVELOPMENT_MODE)
+                      download_updates=False)
 
 FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".yaml")]
 FILES.remove("keys.yaml")
@@ -65,6 +64,9 @@ except ValueError:
     settings.Set("global", "language", "English")
 
 def UpdateFrontendTranslations():
+    if not variables.LOCAL_MODE:
+        return
+    
     try:
         if os.path.exists(FRONTEND_DATA_FOLDER):
             # Remove old translations
@@ -76,7 +78,6 @@ def UpdateFrontendTranslations():
                 with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
                     yaml.dump(LANGUAGE_DATA[language], f, indent=4)
     except:
-        logging.warning("Failed to update frontend translations.")
         pass
                 
 def CheckLanguageDatabase():
@@ -128,6 +129,10 @@ def SpecialCases(key: str | None, language: str | None = None) -> str:
             return LANGUAGE_DATA[language]["Language"][key]
         return ""
     
+    if LANGUAGE not in LANGUAGE_DATA:
+        logging.error(f"{LANGUAGE} is not a valid language.")
+        return ""
+    
     if key in LANGUAGE_DATA[LANGUAGE]["Language"]:
         return LANGUAGE_DATA[LANGUAGE]["Language"][key]
     return ""
@@ -158,8 +163,11 @@ def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # 
     
     return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
-def Translate(key: str, values: list = None) -> str: # type: ignore
+def Translate(key: str, values: list = None, return_original: bool = False, language: str = "") -> str: # type: ignore
     if not CheckKey(key):
+        if return_original:
+            return key
+        
         logging.error(f"{key} is not a valid key.")
         return ""
     
@@ -169,20 +177,27 @@ def Translate(key: str, values: list = None) -> str: # type: ignore
     if values is None:
         values = []
     
-    if LANGUAGE not in LANGUAGE_DATA:
+    if not language:
+        language = LANGUAGE
+        
+    if language not in LANGUAGE_DATA:
         logging.error(f"{LANGUAGE} is not a valid language.")
         return ""
     
-    if key not in LANGUAGE_DATA[LANGUAGE]["Translations"]:
-        if LANGUAGE == "en":
+    if key not in LANGUAGE_DATA[language]["Translations"]:
+        if language == "en":
             logging.error(f"Did not find a value for {key} in English!")
+            if return_original:
+                return key
             return ""
         if key not in LANGUAGE_DATA["en"]:
             logging.error(f"Did not find a value for {key} in English!")
+            if return_original:
+                return key
             return ""
         return LANGUAGE_DATA["en"][key].format(*values)
     
-    return ftfy.fix_text(LANGUAGE_DATA[LANGUAGE]["Translations"][key].format(*values))
+    return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
 
 def SettingsUpdate(new: dict):
     global LANGUAGE
@@ -193,11 +208,5 @@ def SettingsUpdate(new: dict):
         logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
         LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
         settings.Set("global", "language", "English")
-        
-    if variables.DEVELOPMENT_MODE:
-        LoadLanguageData()
-        
-    if variables.LOCAL_MODE:
-        UpdateFrontendTranslations()
         
 settings.Listen("global", SettingsUpdate)

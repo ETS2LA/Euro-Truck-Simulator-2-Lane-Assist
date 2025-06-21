@@ -5,7 +5,6 @@ import Plugins.Map.data as data
 from rich import print
 import psutil
 import time
-import sys
 import os
 
 path = "Plugins/Map/data"

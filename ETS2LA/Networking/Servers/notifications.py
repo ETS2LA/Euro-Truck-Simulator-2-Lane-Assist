@@ -24,7 +24,7 @@ ask (response from frontend):
     "response": "John"
 }
 
-page (navigate):
+navigate (navigate):
 {
     "page": "url/to/the/page"
 }
@@ -177,30 +177,34 @@ def ask(text: str, options: list, description: str = "") -> dict:
     response = asyncio.run(send_ask(text, options, description))
     return response
 
-async def send_page(page: str) -> None:
+async def send_navigate(url: str, sender: str, reason: str = "") -> None:
     """
     Send a command to the frontend to navigate to a new page.
     
-    :param str page: The page to navigate to.
+    :param str url: The page to navigate to.
     """
     global connected
     message_dict = {
-        "page": page
+        "navigate": {
+            "url": url,
+            "reason": reason,
+            "sender": sender
+        }
     }
     
     message = json.dumps(message_dict)
     tasks = [asyncio.create_task(ws.send(message)) for ws in connected]
     if tasks:
         await asyncio.wait(tasks)
-        
-def page(page:str):
+
+def navigate(url: str, sender: str, reason: str = "") -> None:
     """
     Non-async function that will send a command to the frontend to navigate to a new page.
     """
-    if page == "":
+    if url == "":
         logging.error(Translate("immediate.empty_page"))
         return
-    asyncio.run(send_page(page))
+    asyncio.run(send_navigate(url, sender, reason))
 
 async def send_dialog(json_data: dict, no_response: bool = False) -> dict | None:
     """

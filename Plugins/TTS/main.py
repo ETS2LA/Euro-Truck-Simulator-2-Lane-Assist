@@ -32,92 +32,126 @@ for file in files:
 #    default="F7",
 #)
 
-class Settings(ETS2LASettingsMenu):
-    plugin_name = "TTS"
-    dynamic=True
+class Settings(ETS2LAPage):
+    url = "/settings/TTS"
+    location = ETS2LAPageLocation.SETTINGS
+    title = "TTS"
     
-    def render(self):
-        with Group("vertical", gap=14, padding=0):
-            Title("TTS")
-            Description("This plugin provides no description.")
+    def handle_provider_change(self, value: str):
+        settings.Set("TTS", "provider", value)
         
-        with TabView():
-            with Tab("Voices"):
+    def handle_voice_change(self, value: str):
+        settings.Set("TTS", "voice", value)
+        
+    def handle_speed_change(self, value: float):
+        settings.Set("TTS", "speed", value)
+        
+    def handle_volume_change(self, value: float):
+        settings.Set("TTS", "volume", value)
+        
+    def handle_test_mode_change(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("TTS", "test_mode", False)
+            
+        settings.Set("TTS", "test_mode", value)
+        
+    def handle_prox_beep_change(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("TTS", "road_proximity_beep", False)
+        
+        settings.Set("TTS", "road_proximity_beep", value)
+
+    def render(self):
+        TitleAndDescription(
+            title="TTS",
+            description="The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements.",
+        )
+        
+        with Tabs():
+            with Tab("Voices", container_style=styles.Gap("20px") + styles.FlexVertical()):
                 selected = settings.Get("TTS", "provider", "SAPI")
-                if self.plugin and self.plugin.selected_provider != None:
+                if self.plugin and self.plugin.selected_provider is not None:
                     provider = self.plugin.selected_provider
                 else:
                     provider = next((p for p in providers if p.name == selected), None)
-                
-                if self.plugin:
-                    Label(provider.custom_text)
-                else:
-                    Label("This will show provider information once the plugin is loaded.")
                     
-                Selector(
-                    "Select TTS provider",
-                    "provider",
-                    "SAPI",
-                    [provider.name for provider in providers],
-                    "Select the TTS provider to use.",
+                with Alert(style=styles.Padding("14px")):
+                    if self.plugin:
+                        Text(provider.custom_text)
+                    elif not provider:
+                        Text("Please select a provider!", style=styles.TextColor("red"))
+                    else:
+                        Text("This will show provider information once the plugin is loaded.")
+                        
+                ComboboxWithTitleDescription(
+                    title="Select TTS provider",
+                    description="Select the TTS provider to use.",
+                    options=[provider.name for provider in providers],
+                    default=provider.name if provider else "SAPI",
+                    changed=self.handle_provider_change
                 )
                 
                 if provider is None:
-                    Label("Please select a provider to show voices.")
-                    return RenderUI()
+                    Text("Please select a provider to show voices.", style=styles.TextColor("red"))
+                    return
                 
                 voice = settings.Get("TTS", "voice", provider.voices[0].name)
-                
-                Selector(
-                    "Select TTS voice",
-                    "voice",
-                    voice,
-                    [voice.name for voice in provider.voices],
-                    "Select the TTS voice to use.",
+                if voice not in [v.name for v in provider.voices]:
+                    voice = provider.voices[0].name
+                    settings.Set("TTS", "voice", voice)
+                    logging.warning(f"Voice {voice} not found, using default: {provider.voices[0].name}")
+                    
+                ComboboxWithTitleDescription(
+                    title="Select TTS voice",
+                    description="Select the TTS voice to use.",
+                    options=[voice.name for voice in provider.voices],
+                    default=voice,
+                    changed=self.handle_voice_change,
+                    search=ComboboxSearch(
+                        placeholder="Search for a voice...",
+                        empty="No voices found."
+                    )
                 )
                 
-                if provider.supports_speed:
-                    Slider(
-                        "Speed",
-                        "speed",
-                        1.0,
-                        0.5,
-                        2.0,
-                        0.1,
-                        "Set the target speed of the voice.",
+                with Container(style=styles.Gap("20px") + styles.FlexHorizontal()):
+                    SliderWithTitleDescription(
+                        title="Speed",
+                        description="Set the target speed of the voice.",
+                        default=settings.Get("TTS", "speed", 1.0),
+                        min=0.5,
+                        max=2.0,
+                        step=0.1,
+                        changed=self.handle_speed_change,
                     )
-                else:
-                    Label("This provider does not support speed control.")
                     
-                if provider.supports_volume:
-                    Slider(
-                        "Volume",
-                        "volume",
-                        0.5,
-                        0.0,
-                        1.0,
-                        0.05,
-                        "Set the target volume of the voice.",
+                    SliderWithTitleDescription(
+                        title="Volume",
+                        description="Set the target volume of the voice.",
+                        default=settings.Get("TTS", "volume", 0.5),
+                        min=0.0,
+                        max=1.0,
+                        step=0.05,
+                        changed=self.handle_volume_change,
                     )
-                else:
-                    Label("This provider does not support volume control.") 
-                    
-                Switch(
-                    "Test Mode",
-                    "test_mode",
-                    False,
-                    "Enable test mode to test the TTS provider without loading the game.",
+                
+                CheckboxWithTitleDescription(
+                    title="Test Mode",
+                    description="Enable test mode to test the TTS provider without loading the game.",
+                    default=settings.Get("TTS", "test_mode", False),
+                    changed=self.handle_test_mode_change,
                 )
                 
             with Tab("Settings"):
-                Switch(
-                    "Road Proximity Beep",
-                    "road_proximity_beep",
-                    False,
-                    "Will provide a beep based on the angle and distance to the closest road. Angle is indicated by the frequency of the beeps, and distance is indicated by the volume. Once on a road the beeps will be disabled."
+                CheckboxWithTitleDescription(
+                    title="Enable Road Proximity Beep",
+                    description="Enable a proximity beep that indicates the distance and angle to the closest road.",
+                    default=settings.Get("TTS", "road_proximity_beep", False),
+                    changed=self.handle_prox_beep_change,
                 )
-        
-        return RenderUI()
 
 class Plugin(ETS2LAPlugin): 
     description = PluginDescription(
@@ -139,7 +173,7 @@ class Plugin(ETS2LAPlugin):
     #    status_key
     #]
 
-    settings_menu = Settings()
+    pages = [Settings]
     selected_provider: TTSProvider | None = None
     selected_voice: TTSVoice | None = None
     
@@ -262,8 +296,9 @@ class Plugin(ETS2LAPlugin):
         Check if map was enabled or disabled last frame.
         """
         try:
-            state = self.globals.tags.status["Map"]["Map"]
+            state = self.globals.tags.status["plugins.map"]["Map"]
             if state != self.map_enabled:
+                print(f"Map state changed: {state}")
                 if state:
                     self.speak(Translate("tts.map.enabled"))
                 elif self.state is not None:
@@ -278,7 +313,7 @@ class Plugin(ETS2LAPlugin):
         Check if acc was enabled or disabled last frame.
         """
         try:
-            state = self.globals.tags.status["AdaptiveCruiseControl"]["AdaptiveCruiseControl"]
+            state = self.globals.tags.status["plugins.adaptivecruisecontrol"]["AdaptiveCruiseControl"]
             if state != self.acc_enabled:
                 if state:
                     self.speak(Translate("tts.acc.enabled"))
@@ -404,8 +439,11 @@ class Plugin(ETS2LAPlugin):
                 if self.beeper.running: self.beeper.stop()
                 return
             
-            distance = distance["Map"]
-            angle = angle["Map"]
+            if "plugins.map" not in distance or "plugins.map" not in angle:
+                return
+            
+            distance = distance["plugins.map"]
+            angle = angle["plugins.map"]
             if distance == 0:
                 if self.beeper.running: self.beeper.stop()
                 return

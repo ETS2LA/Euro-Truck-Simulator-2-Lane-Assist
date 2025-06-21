@@ -16,6 +16,7 @@ import Plugins.Map.utils.math_helpers as mh
 import Plugins.Map.utils.data_handler as data_handler
 import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
+
 from Plugins.Map.utils import ui_operations as ui
 from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
@@ -44,17 +45,10 @@ DEVELOPER_PRINTING = False
 
 enable_disable = ControlEvent(
     "toggle_map",
-    "Toggle Map Steering",
+    "Toggle Steering",
     "button",
     description="When Map is running this will toggle it on/off.",
     default="n"
-)
-
-toggle_navigate = ControlEvent(
-    "toggle_navigate",
-    "Toggle Map Navigation",
-    "button",
-    description="Quickly toggle Navigate on ETS2LA on/off."
 )
 
 class Plugin(ETS2LAPlugin):
@@ -62,10 +56,6 @@ class Plugin(ETS2LAPlugin):
         name="Tumppi066",
         url="https://github.com/Tumppi066",
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
-    ), Author(
-        name="WhyTrevorWhy",
-        url="",
-        icon=""
     )]
     
     description = PluginDescription(
@@ -78,10 +68,10 @@ class Plugin(ETS2LAPlugin):
     )
     last_dest_company = None 
     
-    controls = [enable_disable, toggle_navigate]
+    controls = [enable_disable]
     
     fps_cap = 20
-    settings_menu = SettingsMenu()
+    pages = [SettingsMenu]
     
     steering_smoothness: float = 0.2
     MAP_INITIALIZED = False
@@ -201,14 +191,6 @@ class Plugin(ETS2LAPlugin):
         data.enabled = not data.enabled
         Play("start" if data.enabled else "end")
         self.globals.tags.status = {"Map": data.enabled}
-        
-    @events.on("toggle_navigate")
-    def on_toggle_navigate(self, state:bool):
-        if not state:
-            return # release event
-        
-        data.use_navigation = not data.use_navigation
-        self.settings.UseNavigation = data.use_navigation
         
     @events.on("JobFinished")
     def JobFinished(self, *args, **kwargs):
@@ -411,6 +393,8 @@ class Plugin(ETS2LAPlugin):
                 except:
                     pass
         
+        self.globals.tags.steering_points = [point.tuple() for point in data.route_points]
+        
         try:
             if self.last_city_update + 5 < time.time():
                 self.last_city_update = time.time()
@@ -479,5 +463,3 @@ class Plugin(ETS2LAPlugin):
             self.globals.tags.closest_road_distance = 0
             self.globals.tags.closest_road_angle = 0
             pass
-        
-        return [point.tuple() for point in data.route_points]

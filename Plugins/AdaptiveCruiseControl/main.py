@@ -12,7 +12,6 @@ from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Utils.Values.graphing import PIDGraph
 from Modules.Traffic.classes import Vehicle
-import ETS2LA.variables as variables
 
 # Python imports
 from typing import cast
@@ -87,7 +86,7 @@ class Plugin(ETS2LAPlugin):
     
     controls = [enable_disable, increment, decrement]
     
-    settings_menu = SettingsMenu()
+    pages = [SettingsMenu]
     
     # Variables
     accel = 0 # current acceleration value between -1 and 1
@@ -144,13 +143,14 @@ class Plugin(ETS2LAPlugin):
     api = None
     controller = None
     
+    map_points = None
+    
     
     def imports(self):
-        global Controller, np, screeninfo, pyautogui, json, cv2, os
+        global Controller, np, screeninfo, json, cv2, os
         from Modules.SDKController.main import SCSController as Controller
         import numpy as np
         import screeninfo
-        import pyautogui
         import json
         import cv2
         import os
@@ -399,7 +399,7 @@ class Plugin(ETS2LAPlugin):
         if rotation < 0: rotation += 360
         rotation = math.radians(rotation)
         
-        points = self.plugins.Map
+        points = self.map_points
         
         if type(points) != list or len(points) == 0 or (type(points[0]) != list and type(points[0]) != tuple):
             return None
@@ -475,7 +475,7 @@ class Plugin(ETS2LAPlugin):
         try:    lights = self.modules.Semaphores.run()
         except: return None
         
-        points = self.plugins.Map
+        points = self.map_points
         
         if points is None or points == []: return None
         if lights is None: return None
@@ -538,7 +538,7 @@ class Plugin(ETS2LAPlugin):
         try:    gates = self.modules.Semaphores.run()
         except: return None
         
-        points = self.plugins.Map
+        points = self.map_points
         
         if points is None or points == []: return None
         if gates is None: return None
@@ -598,7 +598,7 @@ class Plugin(ETS2LAPlugin):
     
     
     def get_target_speed(self, api_data: dict) -> float:
-        points = self.plugins.Map
+        points = self.map_points
         if points is not None:
             max_speed = get_maximum_speed_for_points(points, api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"])
             smoothed_max_speed = self.max_speed(max_speed)
@@ -743,6 +743,10 @@ class Plugin(ETS2LAPlugin):
         self.update_parameters()
         self.update_manual_offset()
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+        
+        points = self.globals.tags.steering_points
+        points = self.globals.tags.merge(points)
+        self.map_points = points
         
         if not self.enabled:
             self.accel_errors = []

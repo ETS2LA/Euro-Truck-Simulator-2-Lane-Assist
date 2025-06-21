@@ -31,6 +31,12 @@ class ControlEvent():
     The default keyboard key for the control event.
     """
     
+    plugin: str = ""
+    """
+    The plugin this control event belongs to. This is used to sort
+    on the UI side.
+    """
+    
     __state: Any = None
     """
     Internal state. This is set by the plugin runner to
@@ -44,7 +50,7 @@ class ControlEvent():
     """
 
     def __init__(self, alias: str, name: str, type: Literal["button", "axis"], 
-                 description: str = "", default: str = ""):
+                 description: str = "", default: str = "", plugin: str = ""):
         """
         Create a new ControlEvent.
         
@@ -59,6 +65,7 @@ class ControlEvent():
         self.type = type
         self.description = description
         self.default = default
+        self.plugin = plugin
         
     def update(self, state: Any) -> None:
         """

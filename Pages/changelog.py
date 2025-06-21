@@ -51,38 +51,33 @@ class Page(ETS2LAPage):
         else:
             updates = last_updates
 
-        RefreshRate(10)
-        with Geist():
-            with Padding(24):
-                Space(8)
-                with Group("vertical", gap=24):
-                    current_day = None
-                    for update in updates[:100]:
-                        local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
-                        if local_time.split(" ")[0] != current_day:
-                            current_day = local_time.split(" ")[0]
-                            Space(5)
-                            with Group("horizontal", padding=0, classname="flex items-center", gap=0):
-                                with Group("horizontal", padding=0, gap=0, classname="border-b"):
-                                    ...
-                                with Group("vertical", padding=0, gap=0, classname="items-center"):
-                                    Description(local_time.split(" ")[0], size="xs", weight="bold")
-                                with Group("horizontal", padding=0, gap=0, classname="border-b"):
-                                    ...
-                            Space(5)
-                            
-                        with Group("vertical", border=True, classname="shadow-md bg-input/10"):
-                            with Group("horizontal", padding=0, classname="items-center", gap=12):
-                                Description(update["author"], size="xs", classname="")
-                                with Group("horizontal", padding=0, gap=0, classname="flex justify-between"):
-                                    Label(update["message"], size="sm", weight="semibold")
-                                    Link("View Changes", update["url"], size="xs", weight="light")
-                            if update["description"] != "":
-                                Markdown(update["description"])
-                            
-                            Description(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", size="xs")
-                            
-                    with Padding(8):
-                        Description("This list will only display the 100 most recent commits.", size="xs", weight="light")
+        with Container(styles.FlexVertical() + styles.Padding("24px") + styles.Gap("24px") + styles.Margin("60px")):
+            current_day = None
+            for update in updates[:20]:
                 
-        return RenderUI()
+                local_time = datetime.fromtimestamp(update["time"]).strftime("%Y-%m-%d %H:%M:%S")
+                if local_time.split(" ")[0] != current_day:
+                    current_day = local_time.split(" ")[0]
+                    border_bottom = styles.Classname("border-b w-full")
+                    with Container(styles.FlexHorizontal() + styles.Padding("0")+ styles.Classname("justify-between items-center")):
+                        with Container(styles.FlexHorizontal() + styles.Padding("0") + border_bottom):
+                            ...
+                        with Container(styles.FlexVertical() + styles.Padding("0")):
+                            Text(local_time.split(" ")[0], styles.Classname("text-xs font-bold min-w-max") + styles.Description())
+                        with Container(styles.FlexHorizontal() + styles.Padding("0") + border_bottom):
+                            ...
+                            
+                with Container(styles.FlexVertical() + styles.Classname("shadow-md bg-input/10 border rounded-md p-4")):
+                    with Container(styles.FlexHorizontal() + styles.Padding("0") + styles.Classname("items-center")):
+                        Text(update["author"], styles.Description() + styles.Classname("text-xs"))
+                        with Container(styles.FlexHorizontal() + styles.Padding("0") + styles.Classname("flex justify-between w-full")):
+                            Text(update["message"], styles.Classname("text-sm font-semibold"))
+                            Link("View Changes", update["url"], styles.Classname("text-xs font-light"))
+                              
+                    if update["description"] != "":
+                        Markdown(update["description"])
+                        
+                    Space(styles.Height("4px"))
+                    Text(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", styles.Description() + styles.Classname("text-xs"))
+                    
+            Text("Only the last 20 updates are shown. For more, please check the repository.", styles.Description() + styles.Classname("text-xs"))

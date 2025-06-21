@@ -1,50 +1,31 @@
+from ETS2LA.Plugin.message import PluginMessage, Channel
 from ETS2LA.Utils.Values.dictionaries import merge
-from multiprocessing import JoinableQueue
-from typing import Literal
+
+from multiprocessing import Queue
+from typing import Literal, Callable
 import threading
 import logging
 import json
 import time
 
-class Plugins:
-    def __init__(self, plugins_queue: JoinableQueue, plugins_return_queue: JoinableQueue):
-        self.plugins_queue = plugins_queue
-        self.plugins_return_queue = plugins_return_queue
-
-    def __getattr__(self, name):
-        self.plugins_queue.put(name, block=True)
-        response = self.plugins_return_queue.get()
-        return response
     
 class Tags:
-    def __init__(self, tags_queue: JoinableQueue, tags_return_queue: JoinableQueue):
-        self.tags_queue = tags_queue
-        self.tags_return_queue = tags_return_queue
+    def __init__(self, get_tag: Callable, set_tag: Callable) -> None:
+        self.get_tag = get_tag
+        self.set_tag = set_tag
 
     def __getattr__(self, name):
-        if name in ["tags_queue", "tags_return_queue"]:
+        if name in ["get_tag", "set_tag"]:
             return super().__getattr__(name) # type: ignore
         
-        tag_dict = {
-            "operation": "read",
-            "tag": name
-        }
-        self.tags_queue.put(tag_dict, block=True)
-        response = self.tags_return_queue.get()
-        return response
+        return self.get_tag(name) # type: ignore
     
     def __setattr__(self, name, value):
-        if name in ["tags_queue", "tags_return_queue"]:
+        if name in ["get_tag", "set_tag"]:
             return super().__setattr__(name, value)
         
-        tag_dict = {
-            "operation": "write",
-            "tag": name,
-            "value": value
-        }
-        self.tags_queue.put(tag_dict, block=True)
-        response = self.tags_return_queue.get()
-        return response
+        self.set_tag(name, value) # type: ignore
+        return None
     
     def merge(self, tag_dict: dict):
         if tag_dict is None:
@@ -92,21 +73,21 @@ class GlobalSettings:  # read only instead of the plugin settings
             raise TypeError("Global settings are read-only")
     
 class State:
-    text: str
-    progress: float
+    text: str = ""
+    progress: float = -1
     
     timeout: int = -1
     timeout_thread: threading.Thread | None = None
     last_update: float = 0
     
-    state_queue: JoinableQueue
+    state_queue: Queue
     
     def timeout_thread_func(self):
         while time.perf_counter() - self.last_update < self.timeout:
             time.sleep(0.1)
         self.reset()
     
-    def __init__(self, state_queue: JoinableQueue):
+    def __init__(self, state_queue: Queue):
         self.state_queue = state_queue
         self.text = ""
         self.progress = -1
@@ -114,19 +95,31 @@ class State:
     def __setattr__(self, name, value):
         if name in ["text", "status", "state"]:
             self.last_update = time.perf_counter()
-            state_dict = {
-                "status": value
-            }
-            self.state_queue.put(state_dict, block=False)
+            
+            message = PluginMessage(
+                Channel.STATE_UPDATE,
+                {
+                    "status": value,
+                    "progress": self.progress
+                }
+            )
+
+            self.state_queue.put(message, block=True)
             super().__setattr__("text", value)
             return 
         
         if name in ["value", "progress"]:
             self.last_update = time.perf_counter()
-            state_dict = {
-                "progress": value
-            }
-            self.state_queue.put(state_dict, block=False)
+            
+            message = PluginMessage(
+                Channel.STATE_UPDATE,
+                {
+                    "progress": value,
+                    "status": self.text
+                }
+            )
+            
+            self.state_queue.put(message, block=True)
             super().__setattr__("progress", value)
             return 
         
@@ -173,9 +166,9 @@ class Global:
     ```
     """
     
-    def __init__(self, tags_queue: JoinableQueue, tags_return_queue: JoinableQueue):
+    def __init__(self, get_tag: Callable, set_tag: Callable) -> None:
         self.settings = GlobalSettings()
-        self.tags = Tags(tags_queue, tags_return_queue) 
+        self.tags = Tags(get_tag, set_tag) 
         
 class PluginDescription:
     """ETS2LA Plugin Description
