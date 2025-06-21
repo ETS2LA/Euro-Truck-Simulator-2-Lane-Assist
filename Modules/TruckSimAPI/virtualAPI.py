@@ -1,5 +1,3 @@
-import mmap
-import struct
 import keyboard
 
 # https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
@@ -32,8 +30,8 @@ substanceSize = 25
 # virtualZ = 25650
 
 # Sweden
-# virtualX = 23780
-# virtualZ = -46355
+virtualX = 23780
+virtualZ = -46355
 
 # Baltics
 # virtualX = 44000
@@ -60,8 +58,8 @@ substanceSize = 25
 # virtualZ = -36446
 
 # Working Set (not a specific location)
-virtualX = -55604
-virtualZ = 8393
+# virtualX = -55604
+# virtualZ = 8393
 
 # virtualX = 23475
 # virtualZ = -46450

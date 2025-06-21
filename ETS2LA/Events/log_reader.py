@@ -1,7 +1,6 @@
 import ETS2LA.variables as variables
 from typing import Literal
 import time
-import sys
 import os
 
 start_time = time.perf_counter()

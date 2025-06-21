@@ -1,7 +1,6 @@
 import Plugins.Map.utils.math_helpers as math_helpers
 from Plugins.Map import classes as c
 from typing import List, TypeVar
-import time
 
 T = TypeVar('T')
 

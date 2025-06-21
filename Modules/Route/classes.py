@@ -1,6 +1,3 @@
-from typing import Literal
-import math
-
 class RouteItem():
     uid: int
     distance: float

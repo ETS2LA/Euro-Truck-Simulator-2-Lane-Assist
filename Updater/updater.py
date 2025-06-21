@@ -1,13 +1,12 @@
 try:
     from textual.app import App, ComposeResult
-    from textual.widgets import Header, Log, Label, Static, Button, Footer
+    from textual.widgets import Header, Log, Label, Static, Button
 except:
     from ETS2LA.Utils.shell import ExecuteCommand
     ExecuteCommand("pip install textual")
     from textual.app import App, ComposeResult
-    from textual.widgets import Header, Log, Label, Static, Button, Footer
+    from textual.widgets import Header, Log, Label, Static, Button
 
-from importlib.metadata import version 
 import asyncio
 import time
 

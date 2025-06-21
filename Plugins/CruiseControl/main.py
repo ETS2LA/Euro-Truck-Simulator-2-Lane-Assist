@@ -2,16 +2,9 @@
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import * 
-
-# ETS2LA imports
-from ETS2LA.Networking.cloud import SendCrashReport
-import ETS2LA.Handlers.controls as controls
-import ETS2LA.Utils.settings as settings
 from ETS2LA.Utils.Console.logging import logging
-import ETS2LA.variables as variables
 
 # Python imports
-from typing import cast
 import math
 import time
 
@@ -46,11 +39,10 @@ class Plugin(ETS2LAPlugin):
     
 
     def imports(self):
-        global Controller, np, screeninfo, pyautogui, torch, json, cv2, os
+        global Controller, np, screeninfo, torch, json, cv2, os
         from Modules.SDKController.main import SCSController as Controller
         import numpy as np
         import screeninfo
-        import pyautogui
         import torch
         import json
         import cv2

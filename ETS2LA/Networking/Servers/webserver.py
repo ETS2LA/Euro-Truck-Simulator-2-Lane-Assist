@@ -8,7 +8,7 @@ PLEASE NOTE:
 from ETS2LA.UI import * 
 
 from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency
-from ETS2LA.Networking.Servers.notifications import sonner, page
+from ETS2LA.Networking.Servers.notifications import sonner, navigate
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
 from ETS2LA.Window.utils import check_if_specified_window_open
@@ -100,7 +100,7 @@ def check_updates():
 
 @app.get("/backend/update")
 def update():
-    page("updater")
+    navigate("updater", "Frontend", "The frontend wants to perform an update.")
     return True
 
 @app.get("/api/sounds/play/{sound}")
@@ -180,7 +180,7 @@ def get_plugins():
             if answer["response"] == "Yes":
                 notifications.sonner("Re-enabling plugins...")
                 for plugin in to_enable:
-                    plugins.enable_plugin(plugin)
+                    plugins.start_plugin(name=plugin)
                     
             notifications.sonner("Plugins enabled!", "success")
                 
@@ -188,25 +188,25 @@ def get_plugins():
     
     try:
         # Get data
-        available_plugins = plugins.AVAILABLE_PLUGINS
-        enabled_plugins = plugins.RUNNING_PLUGINS
-        plugin_settings = plugins.get_plugin_settings()
+        available_plugins = plugins.plugins
+        enabled_plugins = [plugin for plugin in available_plugins if plugin.running]
+        # plugin_settings = plugins.get_plugin_settings() # TODO: Reimplement urls
             
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            name, description, authors = plugin.name, plugin.description, plugin.authors
+            name, description, authors = plugin.description.name, plugin.description, plugin.authors
             if type(authors) != list:
                 authors = [authors]
                 
             return_data[name] = {
                 "authors": [author.__dict__ for author in authors],
                 "description": description.__dict__,
-                "settings": plugin_settings[name],
+                "settings": None,
             }
-            if name in [enabled_plugin.plugin_name for enabled_plugin in enabled_plugins]:
+            if name in [enabled_plugin.description.name for enabled_plugin in enabled_plugins]:
                 return_data[name]["enabled"] = True
-                return_data[name]["frametimes"] = plugins.get_latest_frametime(name)
+                return_data[name]["frametimes"] = []#plugins.get_latest_frametime(name)
             else:
                 return_data[name]["enabled"] = False
                 return_data[name]["frametimes"] = 0
@@ -218,15 +218,15 @@ def get_plugins():
 
 @app.get("/backend/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
-    return plugins.enable_plugin(plugin)
+    return plugins.start_plugin(name=plugin)
 
 @app.get("/backend/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
-    return plugins.disable_plugin(plugin)
+    return plugins.stop_plugin(name=plugin)
 
 @app.get("/backend/plugins/performance")
 def get_performance():
-    return plugins.get_performances()
+    return {} # TODO: Reimplement this
 
 @app.get("/backend/plugins/states")
 def get_states():
@@ -234,34 +234,35 @@ def get_states():
 
 @app.post("/backend/plugins/{plugin}/function/call")
 def call_plugin_function(plugin: str, data: PluginCallData | None = None):
-    try:
-        if data is None:
-            logging.exception("Plugin function call has no arguments.")
-            return {"status": "error", "message": "Please provide arguments."}
-        
-        running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
-        available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
-        
-        if plugin in running_plugins:
-            index = running_plugins.index(plugin)
-            plugin_obj = plugins.RUNNING_PLUGINS[index]
-            return plugin_obj.call_function(data.target, data.args, data.kwargs)
-        
-        elif plugin in available_plugins:
-            index = available_plugins.index(plugin)
-            ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
-            if ui is not None:
-                return ui.call_function(data.target, data.args, data.kwargs)
-        
-        else:
-            index = pages.get_page_names().index(plugin)
-            return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
-        
-        logging.warning("Plugin or it's UI was not found")
-        return {"status": "error", "message": "Plugin or it's UI was not found"}
-    except:
-        logging.exception("Failed to call plugin function")
-        return {"status": "error", "message": "Plugin not found"}
+    return ""
+    # try:
+    #     if data is None:
+    #         logging.exception("Plugin function call has no arguments.")
+    #         return {"status": "error", "message": "Please provide arguments."}
+    #     
+    #     running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
+    #     available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
+    #     
+    #     if plugin in running_plugins:
+    #         index = running_plugins.index(plugin)
+    #         plugin_obj = plugins.RUNNING_PLUGINS[index]
+    #         return plugin_obj.call_function(data.target, data.args, data.kwargs)
+    #     
+    #     elif plugin in available_plugins:
+    #         index = available_plugins.index(plugin)
+    #         ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
+    #         if ui is not None:
+    #             return ui.call_function(data.target, data.args, data.kwargs)
+    #     
+    #     else:
+    #         index = pages.get_page_names().index(plugin)
+    #         return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
+    #     
+    #     logging.warning("Plugin or it's UI was not found")
+    #     return {"status": "error", "message": "Plugin or it's UI was not found"}
+    # except:
+    #     logging.exception("Failed to call plugin function")
+    #     return {"status": "error", "message": "Plugin not found"}
 
 # endregion
 # region Language
@@ -387,7 +388,7 @@ def get_tags_list():
 @app.get("/api/pages")
 def get_list_of_pages():
     try:
-        return pages.get_pages()
+        return plugins.get_page_list()
     except:
         logging.exception("Failed to get pages")
         return {}
@@ -395,6 +396,12 @@ def get_list_of_pages():
 @app.post("/api/page")
 def get_page(data: PageFetchData):
     try:
+        # Plugins
+        if data.page in plugins.get_page_list():
+            page = plugins.get_page_data(data.page)
+            return page
+            
+        # Pages
         return pages.get_page(data.page)
     except:
         logging.exception(f"Failed to get page data for page {data.page}")
@@ -406,7 +413,7 @@ def get_page(data: PageFetchData):
 @app.get("/api/plugins/reload")
 def reload_plugins():
     try:
-        plugins.update_plugins()
+        plugins.reload_plugins()
     except:
         logging.exception("Failed to reload plugins")
         return False

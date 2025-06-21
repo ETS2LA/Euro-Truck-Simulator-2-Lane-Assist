@@ -6,7 +6,6 @@
 
 import ETS2LA.variables as variables
 import logging
-import json
 import vdf
 import os
 try:

@@ -20,11 +20,12 @@ setup_global_logging() # has to be called first
 import ETS2LA.Networking.Servers.notifications as notifications
 import ETS2LA.Networking.Servers.webserver as webserver
 import ETS2LA.Networking.Servers.discovery as discovery
+import ETS2LA.Networking.Servers.pages as pages
 from ETS2LA.Window.utils import check_if_window_still_open
 import ETS2LA.Window.window as window
 
 # Backend
-import ETS2LA.Events.base_events as base_events
+#import ETS2LA.Events.base_events as base_events
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.listener as listener
@@ -56,10 +57,11 @@ plugins.run()       # Run the plugin handler
 
 notifications.run() # Websockets server for notifications
 webserver.run()     # Main webserver
+pages.run()         # Python to TS sockets server
 window.run()        # Webview window (if not --no-ui)
                     # This is blocking until the window opens (or a 10s timeout)
 
-base_events.run()   # Start listening for events
+#base_events.run()   # Start listening for events
 
 
 logging.info("[green]" + translator.Translate("core.backend_started") + "[/green]")
@@ -111,8 +113,7 @@ def run() -> None:
                 listener.check_for_changes()
         
         cloud.Ping()
-            
         frame_counter += 1
-        
+
 if __name__ == "__main__":
     run() # Start the main loop

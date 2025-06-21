@@ -1,5 +1,6 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
+from ETS2LA.UI import Text as UIText
 
 from Plugins.AR.classes import *
 from ETS2LA.Utils.Values.numbers import SmoothedValue
@@ -15,12 +16,15 @@ TELEMETRY_FPS = SmoothedValue("time", 1)
 
 VISION_COMPAT = settings.Get("AR", "vision_compat", True)
 TEST_OBJECTS = settings.Get("AR", "test_objects", False)
+SHOW_WHEN_NOT_IN_FOCUS = settings.Get("AR", "show_when_not_in_focus", False)
 
 def LoadSettings(data: dict):
     global VISION_COMPAT
     global TEST_OBJECTS
+    global SHOW_WHEN_NOT_IN_FOCUS
     VISION_COMPAT = data.get("vision_compat", True)
     TEST_OBJECTS = data.get("test_objects", False)
+    SHOW_WHEN_NOT_IN_FOCUS = data.get("show_when_not_in_focus", False)
 
 
 def InitializeWindow():
@@ -58,26 +62,22 @@ def Resize():
     dpg.set_viewport_height(WindowPosition[3] - WindowPosition[1])
 
 
-def CalculateAlpha(Distances=[], fade_end=10, fade_start=30, max_fade_start=150, max_fade_end=170):
-    # Filter out None values from the Distances list
-    Distances = [Distance for Distance in Distances if Distance is not None]
-    
-    # If no valid distances, return 0
-    if len(Distances) == 0:
+def CalculateAlpha(distances, fade_end=10, fade_start=30, max_fade_start=150, max_fade_end=170, verbose=False):
+    if not distances:
         return 0
     
     # Calculate the average distance
-    AverageDistance = sum(Distances) / len(Distances)
+    avg_distance = sum(distances) / len(distances)
     
     # Determine the alpha value based on the average distance
-    if AverageDistance < fade_end:
+    if avg_distance < fade_end:
         return 0
-    elif fade_end <= AverageDistance < fade_start:
-        return (255 * (AverageDistance - fade_end) / (fade_start - fade_end))
-    elif fade_start <= AverageDistance < max_fade_start:
+    elif fade_end <= avg_distance < fade_start:
+        return (255 * (avg_distance - fade_end) / (fade_start - fade_end))
+    elif fade_start <= avg_distance < max_fade_start:
         return 255
-    elif max_fade_start <= AverageDistance < max_fade_end:
-        return (255 * (max_fade_end - AverageDistance) / (max_fade_end - max_fade_start))
+    elif max_fade_start <= avg_distance < max_fade_end:
+        return (255 * (max_fade_end - avg_distance) / (max_fade_end - max_fade_start))
     else:
         return 0
 
@@ -150,18 +150,70 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
     return ScreenX, ScreenY, Distance
 
 
-class Settings(ETS2LASettingsMenu):
-    plugin_name = "AR"
-    dynamic = False
+class Settings(ETS2LAPage):
+    url = "/settings/AR"
+    location = ETS2LAPageLocation.SETTINGS
+    title = "plugins.ar"
+
+    def vision_compat_changed(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "vision_compat", True)
+        
+        settings.Set("AR", "vision_compat", value)
+        
+    def test_objects_changed(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "test_objects", False)
+        
+        settings.Set("AR", "test_objects", value)
+        
+    def show_when_not_in_focus_changed(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "show_when_not_in_focus", False)
+
+        settings.Set("AR", "show_when_not_in_focus", value)
 
     def render(self):
-        with Group("vertical", gap=14, padding=0):
-            Title("plugins.ar")
-            Description("This plugin provides no description.")
+        TitleAndDescription(
+            "plugins.ar",
+            "plugins.ar.description",
+        )
             
-        Switch("ar.settings.vision_compatible.name", "vision_compat", True, description="ar.settings.vision_compatible.description")
-        Switch("ar.settings.show_test_objects.name", "test_objects", False, description="ar.settings.show_test_objects.description")
-        return RenderUI()
+        CheckboxWithTitleDescription(
+            title="ar.settings.vision_compatible.name",
+            description="ar.settings.vision_compatible.description",
+            default=settings.Get("AR", "vision_compat", True),
+            changed=self.vision_compat_changed,
+        )
+        
+        CheckboxWithTitleDescription(
+            title="ar.settings.show_test_objects.name",
+            description="ar.settings.show_test_objects.description",
+            default=settings.Get("AR", "test_objects", False),
+            changed=self.test_objects_changed,
+        )
+        
+        CheckboxWithTitleDescription(
+            title="Show when not in focus",
+            description="Show the AR overlay even when the game is not in focus. This can be useful for changing settings.",
+            default=settings.Get("AR", "show_when_not_in_focus", False),
+            changed=self.show_when_not_in_focus_changed,
+        )
+        
+        try:
+            if self.plugin:
+                with Container(styles.FlexVertical() + styles.Gap("4px")):
+                    UIText("Items: " + str(self.plugin.item_count), styles.Description())
+                    UIText("Draw Calls: " + str(self.plugin.draw_calls), styles.Description())
+                    UIText("Render Time: " + f"{self.plugin.render_time * 1000:.2f} ms", styles.Description())
+        except:
+            pass
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -182,7 +234,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )]
 
-    settings_menu = Settings()
+    pages = [Settings]
 
     fps_cap = 1000
     camera = None
@@ -214,21 +266,22 @@ class Plugin(ETS2LAPlugin):
         TruckSimAPI = SCSTelemetry()
         DRAWLIST = []
         FRAME = None
-        FOV = self.globals.settings.FOV
-        if FOV == None:
-            # Commented, this is not needed anymore
-            # print(f"\n{PURPLE}Make sure to set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!{NORMAL}\n")
-            # self.notify("Please set the FOV in the global settings (Settings -> Global -> Variables) if you are not using the newest game version!")
-            FOV = 75
+        FOV = 75
         
         settings.Listen("AR", LoadSettings)
-
         InitializeWindow()
         
+        self.draw_calls = 0
+        self.render_time = 0
+        self.item_count = 0
         
 
 
     def Render(self, items=[]):
+        
+        render_start = time.perf_counter()
+        self.item_count = len(items)
+        
         global FRAME
         dpg.delete_item(FRAME)
         
@@ -245,6 +298,7 @@ class Plugin(ETS2LAPlugin):
             items.remove(item)
             
         sorted_items = [item for _, item in sorted(zip(distances, items), key=lambda pair: pair[0], reverse=True)]
+        draw_calls = 0
         
         with dpg.viewport_drawlist(label="draw") as FRAME:
             dpg.bind_font(regular_font)
@@ -258,11 +312,14 @@ class Plugin(ETS2LAPlugin):
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        item.color.a *= alpha / 255
-                        item.fill.a *= alpha / 255
+                        alpha = CalculateAlpha([screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        item.fill.am = alpha / 255
+                        if item.color.am <= 0 and item.fill.am <= 0:
+                            continue
                     
                     dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    draw_calls += 1
                     
                 elif type(item) == Line:
                     points = [item.start, item.end]
@@ -273,10 +330,13 @@ class Plugin(ETS2LAPlugin):
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        item.color.a *= alpha / 255
+                        alpha = CalculateAlpha([screen_start[2], screen_end[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        if item.color.am <= 0:
+                            continue
                     
                     dpg.draw_line(p1=screen_start, p2=screen_end, color=item.color.tuple(), thickness=item.thickness)
+                    draw_calls += 1
                     
                 elif type(item) == Polygon:
                     points = item.points
@@ -286,11 +346,14 @@ class Plugin(ETS2LAPlugin):
                         continue
                     
                     if type(points[0]) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[point[2] for point in screen_points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        item.color.a *= alpha / 255
-                        item.fill.a *= alpha / 255
+                        alpha = CalculateAlpha([point[2] for point in screen_points], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        item.fill.am = alpha / 255
+                        if item.color.am <= 0 and item.fill.am <= 0:
+                            continue
                     
                     dpg.draw_polygon(points=screen_points, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    draw_calls += 1
                     
                 elif type(item) == Circle:
                     center = item.center
@@ -300,11 +363,14 @@ class Plugin(ETS2LAPlugin):
                         continue
                     
                     if type(center) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[screen_center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        item.color.a *= alpha / 255
-                        item.fill.a *= alpha / 255
+                        alpha = CalculateAlpha([screen_center[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        item.fill.am = alpha / 255
+                        if item.color.am <= 0 and item.fill.am <= 0:
+                            continue
                     
                     dpg.draw_circle(center=screen_center, radius=item.radius, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    draw_calls += 1
                     
                 elif type(item) == Text:
                     position = item.point
@@ -313,12 +379,17 @@ class Plugin(ETS2LAPlugin):
                         continue
                     
                     if type(position) == Coordinate:
-                        alpha = CalculateAlpha(Distances=[screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
-                        item.color.a *= alpha / 255
+                        alpha = CalculateAlpha([screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        if item.color.am <= 0:
+                            continue
                     
                     dpg.draw_text(screen_position, text=item.text, color=item.color.tuple(), size=item.size)
+                    draw_calls += 1
                  
         dpg.render_dearpygui_frame()
+        self.render_time = time.perf_counter() - render_start
+        self.draw_calls = draw_calls
 
     def run(self):
         global DRAWLIST
@@ -357,13 +428,14 @@ class Plugin(ETS2LAPlugin):
 
         # Comment these lines if you want the AR to show up
         # even when the game is paused or not in focus.
-        if APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False:
+        if (APIDATA["pause"] == True or ScreenCapture.IsForegroundWindow(Name="Truck Simulator", Blacklist=["Discord"]) == False) and not SHOW_WHEN_NOT_IN_FOCUS:
             time.sleep(0.1)
             self.Render()
             return
         
         if APIDATA["renderTime"] == self.LastTimeStamp:
-            return
+            if not SHOW_WHEN_NOT_IN_FOCUS:
+                return
         else:
             # 166660.0 -> 60 FPS -> Unit is in microseconds
             microseconds = (APIDATA["renderTime"] - self.LastTimeStamp)
@@ -430,7 +502,7 @@ class Plugin(ETS2LAPlugin):
             HeadX = camera.position.x + camera.cx * 512
             HeadY = camera.position.y
             HeadZ = camera.position.z + camera.cz * 512
-            
+
             # We can use the old camera rotation if we are in the inside
             # camera view.
             if abs(HeadX - InsideHeadX) > 1 or abs(HeadY - InsideHeadY) > 1 or abs(HeadZ - InsideHeadZ) > 1:

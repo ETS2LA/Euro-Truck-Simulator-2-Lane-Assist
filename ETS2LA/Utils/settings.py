@@ -50,9 +50,17 @@ def WaitUntilLock(plugin):
         CreateLock(plugin)
         return
     
+    
     while True:
         if not os.path.exists(filename):
             break
+        
+        # Check if the lock file is too old (10s)
+        if os.path.getmtime(filename) + 10 < time.time():
+            logging.warning(f"Lock file for {plugin} is too old. Removing it.")
+            RemoveLock(plugin)
+            break
+        
         time.sleep(random.uniform(0, 0.1))
     
     CreateLock(plugin)
@@ -229,6 +237,6 @@ def Listen(plugin, callback):
                         logging.exception("Callback function call unsuccessful.")
                 
     import threading
-    t = threading.Thread(target=listen, args=(GetFilename(plugin), callback))
+    t = threading.Thread(target=listen, args=(GetFilename(plugin), callback), daemon=True)
     t.daemon = True
     t.start()

@@ -1,5 +1,4 @@
 from multiprocessing import Queue
-import time
 
 class EventSystem:
     queue: Queue

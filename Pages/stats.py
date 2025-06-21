@@ -3,9 +3,9 @@ from ETS2LA.UI import *
 import psutil
 
 class Page(ETS2LAPage):
-    dynamic = False
+
     url = "/stats"
-    settings_target = "stats"
+    refresh_rate = 5
     
     def get_all_python_process_mem_usage_percent(self):
         total = 0
@@ -37,23 +37,39 @@ class Page(ETS2LAPage):
         return by_plugin
     
     def render(self):
-        RefreshRate(5) # refresh every 5 seconds
-        with Padding(0):
-            with Geist():
-                with Group("horizontal", gap=4, padding=8, classname="flex w-full border shadow-md"):
-                    with Tooltip(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```", classname="p-0 bg-transparent text-muted-foreground border"):
-                        Description(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", size="xs")
-                    process_mem, per_type = self.get_all_python_process_mem_usage_percent()
-                    tooltip_text = f"```\n┏ Python: {round(per_type[0] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
-                    try:
-                        for key, value in self.get_all_plugin_mem_usage_percent().items():
-                            tooltip_text += f"┃  {key}: {round(value * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
-                    except: pass
-                    tooltip_text += "┃\n"
-                    tooltip_text += f"┣ Node: {round(per_type[1] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
-                    tooltip_text += "┃\n"
-                    tooltip_text += f"┗ Total: {round(process_mem * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n```"
-                    with Tooltip(tooltip_text, classname="text-muted-foreground border p-0 bg-transparent"):
-                        Description(f"<- {round(process_mem, 1)}% ETS2LA", size="xs")
+        with Container(styles.FlexHorizontal() + 
+                       styles.Classname("w-full border rounded-lg justify-center shadow-md") + 
+                       styles.Height("2.2rem") +
+                       styles.Padding("0 4px 0 0") +
+                       styles.Gap("4px")):
+            
+            content_style = styles.Style()
+            content_style.background = "#1e1e1e"
+            content_style.padding = "2px"
+            content_style.classname = "border"
+            with Tooltip() as t:
+                with t.trigger:
+                    Text(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", style=styles.Description() + styles.Classname("text-xs"))
+                with t.content as c:
+                    c.style = content_style
+                    Markdown(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```")
                     
-        return RenderUI()
+            process_mem, per_type = self.get_all_python_process_mem_usage_percent()
+            tooltip_text = f"```\n┏ Python: {round(per_type[0] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+            try:
+                for key, value in self.get_all_plugin_mem_usage_percent().items():
+                    tooltip_text += f"┃  {key}: {round(value * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+            except: pass
+            if per_type[1] > 0:
+                tooltip_text += "┃\n"
+                tooltip_text += f"┣ Node: {round(per_type[1] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+                
+            tooltip_text += "┃\n"
+            tooltip_text += f"┗ Total: {round(process_mem * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n```"
+            
+            with Tooltip() as t:
+                with t.trigger:
+                    Text(f"<- {round(process_mem, 1)}% ETS2LA", style=styles.Description() + styles.Classname("text-xs"))
+                with t.content as c:
+                    c.style = content_style
+                    Markdown(tooltip_text)

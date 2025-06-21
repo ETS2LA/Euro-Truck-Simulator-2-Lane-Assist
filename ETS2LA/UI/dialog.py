@@ -23,7 +23,7 @@ class ETS2LADialog():
     
     def __init__(self):
         if "render" not in dir(type(self)):
-            raise TypeError("Your page has to have a 'render' method.")
+            raise TypeError("Your dialog has to have a 'render' method.")
         self._json = {}
         
     def build(self) -> dict:

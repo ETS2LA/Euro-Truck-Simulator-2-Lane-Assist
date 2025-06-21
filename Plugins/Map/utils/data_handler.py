@@ -1,15 +1,7 @@
 """Data extraction utilities for map plugin."""
-try:
-    from ETS2LA.Utils.translator import Translate
-    import ETS2LA.Utils.settings as settings
-except ImportError:
-    def Translate(text): return text
-    settings = None
-
 import requests
 import logging
 import zipfile
-import hashlib
 import shutil
 import ujson
 import json

@@ -121,7 +121,14 @@ class RouteSection:
             if self._start_at_truck:
                 self.lane_change_start = c.Position(data.truck_x, data.truck_y, data.truck_z)
             else:
-                self.lane_change_start = c.Position(self.last_lane_points[0].x, self.last_lane_points[0].y, self.last_lane_points[0].z)
+                start = self.last_lane_points[0]
+                end = self.last_lane_points[-1]
+                s_distance = math_helpers.DistanceBetweenPoints(start.tuple(), (data.truck_x, data.truck_y, data.truck_z))
+                e_distance = math_helpers.DistanceBetweenPoints(end.tuple(), (data.truck_x, data.truck_y, data.truck_z))
+                if s_distance < e_distance:
+                    self.lane_change_start = c.Position(start.x, start.y, start.z)
+                else:
+                    self.lane_change_start = c.Position(end.x, end.y, end.z)
             
             self.lane_change_distance = lane_change_distance
             self.lane_change_points = self._calculate_lane_change_points(self.last_lane_points, new_lane_points)
@@ -201,6 +208,13 @@ class RouteSection:
         
         closest = min(value, key=lambda x: abs(x - self.lane_index))
         if closest == self.lane_index:
+            return
+        
+        # Check if the other lane is on the wrong side of the road
+        cur_lane = self.items[0].item.lanes[self.lane_index]
+        other_lane = self.items[0].item.lanes[closest]
+        if cur_lane.side != other_lane.side:
+            logging.warning(f"Something tried to change lanes to [dim]{closest}[/dim] but the lane is on the wrong side of the road.")
             return
         
         # Call lane_index setter to update the lane index
