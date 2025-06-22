@@ -287,7 +287,7 @@ def _calculate_distances(road, items):
             current_sorted = sorted(item_distances)
             current_sorted = current_sorted[:len(road.lanes)]
             sorted_distances.extend(current_sorted)
-            if all(distance <= 4.5 / 2 for distance in current_sorted):
+            if all(distance < 4.5 / 2 for distance in current_sorted):
                 if len(road.lanes) > 2:
                     # New: Detect the size of the first two items and filter odd/even indices
                     if len(item_distances) >= 2:
