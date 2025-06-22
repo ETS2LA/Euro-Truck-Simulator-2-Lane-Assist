@@ -4,6 +4,7 @@ It provides functionality to calculate, validate, and update road offsets based 
 with caching mechanisms and configurable thresholds.
 """
 # Caution!! Only enable dev logs if you know what you are doing, they are very verbose!
+# DO NOT DELETE LOGS, THEY ARE LEFT HERE IN PURPOSE!!!
 import json
 import math
 import os
@@ -212,6 +213,10 @@ def update_offset_config_generic(operation="add", allow_override=False):
         # Clean invalid offset values from the configuration
         config = _clean_invalid_offsets(config)
 
+        # Filter out failed roads from per_name
+        per_name = {name: offset for name, offset in per_name.items() if name not in fail}
+        config['offsets']['per_name'] = per_name
+
         # Sort per_name and rules before writing
         config['offsets']['per_name'] = dict(sorted(config['offsets']['per_name'].items()))
 
@@ -271,6 +276,7 @@ def _calculate_distances(road, items):
 
     min_distance = math.inf
     sorted_distances = []
+    current_sorted = []
     filtered = []
     dist0 = False
     is_add = False
@@ -313,13 +319,13 @@ def _calculate_distances(road, items):
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
-        #logger.warning(f"road: {road.road_look.name}, item_distances: {item_distances}, filtered: {filtered}, lane={len(road.lanes)}, is_add={is_add}")
+        logger.info(f"road: {road.road_look.name}, item_distances: {item_distances}, current_sorted: {current_sorted}, filtered: {filtered}, lane={len(road.lanes)}, is_add={is_add}")
             
         dist0 |= any(d < distance_threshold for d in item_distances)
     
     # Sort distances and filter out invalid values
     if min_distance != math.inf and sorted_distances:
-        #logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
+        logger.info(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
         pass
     
     # The result adds the left_lanes field (based on the current road)
