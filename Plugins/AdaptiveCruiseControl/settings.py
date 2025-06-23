@@ -47,6 +47,14 @@ class SettingsMenu(ETS2LAPage):
         
     def handle_overwrite_speed(self, value):
         settings.Set("AdaptiveCruiseControl", "overwrite_speed", value)
+        
+    def handle_ignore_speed_limit(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AdaptiveCruiseControl", "ignore_speed_limit")
+        
+        settings.Set("AdaptiveCruiseControl", "ignore_speed_limit", value)
     
     def render(self):
         TitleAndDescription(
@@ -78,6 +86,13 @@ class SettingsMenu(ETS2LAPage):
                     description="acc.settings.ignore_traffic_lights.description",
                     changed=self.handle_ignore_traffic_lights,
                     default=settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights"),
+                )
+                
+                CheckboxWithTitleDescription(
+                    title="Ignore Speed Limit",
+                    description="If enabled, ACC will not respect the speed limit signs. ACC will still slow down for turns according to the above friction coefficient.",
+                    changed=self.handle_ignore_speed_limit,
+                    default=settings.Get("AdaptiveCruiseControl", "ignore_speed_limit"),
                 )
                 
             with Tab("acc.settings.tab.speed_control.name", container_style=styles.FlexVertical() + styles.Gap("24px")):
