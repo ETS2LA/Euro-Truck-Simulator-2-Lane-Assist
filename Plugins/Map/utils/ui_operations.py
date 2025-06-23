@@ -28,7 +28,7 @@ def execute_offset_update():
             logging.info("The offset configuration has been updated, and the data is being reloaded...")
             return True
         else:
-            logging.info("No need to update the offset configuration.")
+            logging.warning("No need to update the offset configuration.")
             return False
     except Exception as e:
         logging.error(f"Failed to update the offset configuration: {str(e)}")
@@ -49,7 +49,7 @@ def generate_rules():
             logging.info("The rules configuration has been generated, and the data is being reloaded...")
             return True
         else:
-            logging.info("No need to generate the rules configuration.")
+            logging.warning("No need to generate the rules configuration.")
             return False
     except Exception as e:
         logging.error(f"Failed to generate the rules configuration: {str(e)}")
@@ -67,7 +67,7 @@ def clear_lane_offsets():
             logging.info("The lane offset has been cleared.")
             return True
         else:
-            logging.info("No lane offset to clear.")
+            logging.warning("No lane offset to clear.")
             return False
     except Exception as e:
         logging.error(f"Failed to clear the lane offset: {str(e)}")
@@ -85,7 +85,7 @@ def clear_rules():
             logging.info("The rules configuration has been cleared.")
             return True
         else:
-            logging.info("No rules configuration to clear.")
+            logging.warning("No rules configuration to clear.")
             return False
     except Exception as e:
         logging.error(f"Failed to clear the rules configuration: {str(e)}")

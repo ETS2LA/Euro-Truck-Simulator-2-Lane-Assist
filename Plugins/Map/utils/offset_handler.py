@@ -4,6 +4,7 @@ It provides functionality to calculate, validate, and update road offsets based 
 with caching mechanisms and configurable thresholds.
 """
 # Caution!! Only enable dev logs if you know what you are doing, they are very verbose!
+# DO NOT DELETE LOGS, THEY ARE LEFT HERE IN PURPOSE!!!
 import json
 import math
 import os
@@ -45,7 +46,7 @@ if variables.DEVELOPMENT_MODE:
 
 # Key parameters!!!
 # distance_threshold: Distance threshold in meters
-distance_threshold = 0.1
+distance_threshold = 0.25
 
 # Add cache dictionaries
 _distance_cache = {}
@@ -212,6 +213,10 @@ def update_offset_config_generic(operation="add", allow_override=False):
         # Clean invalid offset values from the configuration
         config = _clean_invalid_offsets(config)
 
+        # Filter out failed roads from per_name
+        per_name = {name: offset for name, offset in per_name.items() if name not in fail}
+        config['offsets']['per_name'] = per_name
+
         # Sort per_name and rules before writing
         config['offsets']['per_name'] = dict(sorted(config['offsets']['per_name'].items()))
 
@@ -271,6 +276,7 @@ def _calculate_distances(road, items):
 
     min_distance = math.inf
     sorted_distances = []
+    current_sorted = []
     filtered = []
     dist0 = False
     is_add = False
@@ -287,7 +293,7 @@ def _calculate_distances(road, items):
             current_sorted = sorted(item_distances)
             current_sorted = current_sorted[:len(road.lanes)]
             sorted_distances.extend(current_sorted)
-            if all(distance <= 4.5 / 2 for distance in current_sorted):
+            if all(distance < 4.5 / 2 for distance in current_sorted):
                 if len(road.lanes) > 2:
                     # New: Detect the size of the first two items and filter odd/even indices
                     if len(item_distances) >= 2:
@@ -313,13 +319,13 @@ def _calculate_distances(road, items):
         else:
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
-        #logger.warning(f"road: {road.road_look.name}, item_distances: {item_distances}, filtered: {filtered}, lane={len(road.lanes)}, is_add={is_add}")
+        logger.info(f"road: {road.road_look.name}, item_distances: {item_distances}, current_sorted: {current_sorted}, filtered: {filtered}, lane={len(road.lanes)}, is_add={is_add}")
             
         dist0 |= any(d < distance_threshold for d in item_distances)
     
     # Sort distances and filter out invalid values
     if min_distance != math.inf and sorted_distances:
-        #logger.warning(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
+        logger.info(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
         pass
     
     # The result adds the left_lanes field (based on the current road)
@@ -378,7 +384,8 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
             required_offset = current_offset - base_offset  # Corrected line
             #logger.warning(f"{prefix}Road: {road.road_look.name}, Subtracting offset: {current_offset} - {base_offset} = {required_offset}")
 
-    new_offset = round(required_offset * 4) / 4  # Round to 0.25 precision
+    # new_offset = round(required_offset * 4) / 4  # Round to 0.25 precision
+    new_offset = round(required_offset, 2)  # Round to 0.01 precision
     if road.road_look.name not in per_name:
         per_name[road.road_look.name] = new_offset
     elif per_name[road.road_look.name] != new_offset:
