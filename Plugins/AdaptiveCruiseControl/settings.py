@@ -82,11 +82,12 @@ class SettingsMenu(ETS2LAPage):
                 )
                 
             with Tab("acc.settings.tab.speed_control.name", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                ignore_speed_limit = settings.Get("AdaptiveCruiseControl", "ignore_speed_limit")
                 CheckboxWithTitleDescription(
                     title="acc.settings.ignore_speed_limit.name",
                     description="acc.settings.ignore_speed_limit.description",
                     changed=self.handle_ignore_speed_limit,
-                    default=settings.Get("AdaptiveCruiseControl", "ignore_speed_limit"),
+                    default=ignore_speed_limit
                 )
 
                 SliderWithTitleDescription(
@@ -100,7 +101,7 @@ class SettingsMenu(ETS2LAPage):
                     suffix=" μ",
                 )
                 
-                if settings.Get("AdaptiveCruiseControl", "ignore_speed_limit") != True:
+                if ignore_speed_limit != True:
                     SliderWithTitleDescription(
                         title="acc.settings.overwrite_speed.name",
                         description="acc.settings.overwrite_speed.description",
@@ -113,15 +114,16 @@ class SettingsMenu(ETS2LAPage):
                     )
                         
                     with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                        speed_offset_type = settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute")
                         ComboboxWithTitleDescription(
                             options=["Percentage", "Absolute"],
-                            default=settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute"),
+                            default=speed_offset_type,
                             title="acc.settings.speed_offset_type.name",
                             changed=self.handle_speed_offset_type,
                             description="acc.settings.speed_offset_type.description",
                         )
                         
-                        if settings.Get("AdaptiveCruiseControl", "speed_offset_type") == "Percentage":
+                        if speed_offset_type == "Percentage":
                             SliderWithTitleDescription(
                                 title="acc.settings.speed_offset.name",
                                 description="acc.settings.speed_offset.description",
