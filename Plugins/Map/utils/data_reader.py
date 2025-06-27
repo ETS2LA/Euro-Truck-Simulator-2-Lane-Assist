@@ -287,7 +287,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                     semaphore["type"],
                     semaphore["id"],
                 )
-                for semaphore in prefab_description["semaphores"]
+                for semaphore in TryReadExcept(prefab_description, "semaphores", [])
             ]
         )
 
