@@ -995,10 +995,31 @@ class Lane:
             "length": self.length
         }
 
+class Railing:
+    __slots__ = ["right_railing", "right_railing_offset", "left_railing", "left_railing_offset"]
+    
+    right_railing: str
+    right_railing_offset: int
+    left_railing: str
+    left_railing_offset: int
+    
+    def __init__(self, right_railing: str, right_railing_offset: int, left_railing: str, left_railing_offset: int):
+        self.right_railing = right_railing
+        self.right_railing_offset = right_railing_offset
+        self.left_railing = left_railing
+        self.left_railing_offset = left_railing_offset
+        
+    def json(self) -> dict:
+        return {
+            "right_railing": self.right_railing,
+            "right_railing_offset": self.right_railing_offset,
+            "left_railing": self.left_railing,
+            "left_railing_offset": self.left_railing_offset
+        }
 
 class Road(BaseItem):
     __slots__ = ['dlc_guard', 'hidden', 'road_look_token', 'start_node_uid', 'end_node_uid', 'length', 'maybe_divided',
-                 'type', 'road_look', '_bounding_box', '_lanes', '_points', 'start_node', 'end_node']
+                 'type', 'road_look', '_bounding_box', '_lanes', '_points', 'start_node', 'end_node', 'railings']
     
     dlc_guard: int
     hidden: bool
@@ -1009,6 +1030,7 @@ class Road(BaseItem):
     maybe_divided: bool
     type: ItemType
     road_look: RoadLook
+    railings: list[Railing] | None
 
     _bounding_box: BoundingBox
     _lanes: list[Lane]
@@ -1022,7 +1044,7 @@ class Road(BaseItem):
 
     def __init__(self, uid: int | str, x: float, y: float, sector_x: int, sector_y: int, dlc_guard: int,
                  hidden: bool | None, road_look_token: str, start_node_uid: int | str, end_node_uid: int | str,
-                 length: float, maybe_divided: bool | None):
+                 length: float, maybe_divided: bool | None, railings: list[Railing] | None = None):
         super().__init__(uid, ItemType.Road, x, y, sector_x, sector_y)
         super().parse_strings()
         
@@ -1034,6 +1056,7 @@ class Road(BaseItem):
         self.end_node_uid = end_node_uid
         self.length = length
         self.maybe_divided = maybe_divided
+        self.railings = railings if railings is not None else []
         
         self.road_look = None
         self.clear_data()
@@ -1163,7 +1186,8 @@ class Road(BaseItem):
             "maybe_divided": self.maybe_divided,
             "points": [point.json() for point in self.points],
             "lanes": [lane.json() for lane in self.lanes],
-            "bounding_box": self.bounding_box.json()
+            "bounding_box": self.bounding_box.json(),
+            "railings": [railing.json() for railing in self.railings],
         }
 
 
@@ -1960,9 +1984,35 @@ class PrefabNavRoute:
             "distance": self.distance
         }
 
+class Semaphore:
+    __slots__ = ["x", "y", "z", "rotation", "type", "id"]
+    x: float
+    y: float
+    z: float
+    rotation: float
+    type: str
+    id: int
+    
+    def __init__(self, x: float, y: float, z: float, rotation: float, type: str, id: int):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.rotation = rotation
+        self.type = type
+        self.id = id
+
+    def json(self) -> dict:
+        return {
+            "x": self.x,
+            "y": self.y,
+            "z": self.z,
+            "rotation": self.rotation,
+            "type": self.type,
+            "id": self.id
+        }
 
 class PrefabDescription:
-    __slots__ = ['token', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', '_nav_routes']
+    __slots__ = ['token', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', 'semaphores', '_nav_routes']
     
     token: str
     nodes: list[PrefabNode]
@@ -1972,11 +2022,12 @@ class PrefabDescription:
     trigger_points: list[PrefabTriggerPoint]
     nav_curves: list[PrefabNavCurve]
     nav_nodes: list[PrefabNavNode]
+    semaphores: list[Semaphore]
     _nav_routes: list[PrefabNavRoute]
 
     def __init__(self, token: str, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint,
                  spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint],
-                 nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode]):
+                 nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode], semaphores: list[Semaphore] | None = None):
         self._nav_routes = []
         self.token = token
         self.nodes = nodes
@@ -1985,6 +2036,7 @@ class PrefabDescription:
         self.trigger_points = trigger_points
         self.nav_curves = nav_curves
         self.nav_nodes = nav_nodes
+        self.semaphores = semaphores if semaphores is not None else []
 
     @property
     def nav_routes(self) -> list[PrefabNavRoute]:
@@ -2015,7 +2067,8 @@ class PrefabDescription:
             "trigger_points": [trigger.json() for trigger in self.trigger_points],
             "nav_curves": [curve.json() for curve in self.nav_curves],
             "nav_nodes": [node.json() for node in self.nav_nodes],
-            "nav_routes": [route.json() for route in self.nav_routes]
+            "nav_routes": [route.json() for route in self.nav_routes],
+            "semaphores": [semaphore.json() for semaphore in self.semaphores]
         }
 
 

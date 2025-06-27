@@ -105,6 +105,14 @@ def ReadRoads() -> list[c.Road]:
             road["endNodeUid"],
             road["length"],
             TryReadExcept(road, "maybeDivided", False),
+            [
+                c.Railing(
+                    railing["rightRailing"],
+                    railing["rightRailingOffset"],
+                    railing["leftRailing"],
+                    railing["leftRailingOffset"]
+                ) for railing in TryReadExcept(road, "railings", [])
+            ]
         ))
 
     return roads
@@ -145,7 +153,7 @@ def ReadPrefabs() -> list[c.Prefab]:
             TryReadExcept(prefab, "hidden", False),
             prefab["token"],
             [uid for uid in prefab["nodeUids"]],
-            prefab["originNodeIndex"]
+            prefab["originNodeIndex"],
         ))
 
     return prefabs
@@ -270,6 +278,17 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                 )
                 for node in prefab_description["navNodes"]
             ],
+            [
+                c.Semaphore(
+                    semaphore["x"],
+                    semaphore["y"],
+                    semaphore["z"],
+                    semaphore["rotation"],
+                    semaphore["type"],
+                    semaphore["id"],
+                )
+                for semaphore in prefab_description["semaphores"]
+            ]
         )
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
