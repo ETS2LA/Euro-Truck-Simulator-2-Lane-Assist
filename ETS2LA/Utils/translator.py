@@ -30,9 +30,13 @@ def LoadLanguageData():
     LANGUAGE_CODES = []
     
     for file in FILES:
-        LANGUAGE_DATA[file.split(".")[0]] = yaml.safe_load(open(os.path.join(DATA_FOLDER, file), "r", encoding="utf-8"))
-        LANGUAGES.append(LANGUAGE_DATA[file.split(".")[0]]["Language"]["name"])
-        LANGUAGE_CODES.append(file.split(".")[0])
+        try:
+            LANGUAGE_DATA[file.split(".")[0]] = yaml.safe_load(open(os.path.join(DATA_FOLDER, file), "r", encoding="utf-8"))
+            LANGUAGES.append(LANGUAGE_DATA[file.split(".")[0]]["Language"]["name"])
+            LANGUAGE_CODES.append(file.split(".")[0])
+        except:
+            logging.error(f"Failed to load language file {file}. Please check the file format.")
+            continue
         
 LoadLanguageData()
 
