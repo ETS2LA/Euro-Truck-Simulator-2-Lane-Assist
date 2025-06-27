@@ -3,6 +3,8 @@ import ETS2LA.UI.styles as styles
 
 from collections.abc import Callable
 from typing import Literal
+import base64 as b64
+import numpy as np
 import inspect
 
 dictionary: list[dict] = []
@@ -1286,6 +1288,61 @@ class Spinner():
             }
         })
         dictionary = self.previous
+        
+class Image():
+    """
+    An image element. You can use the style to specify the size and
+    other properties. By default the image will fill the container it is in.
+    
+    Please note that using URLs is the preferred way, as sending file information
+    to the frontend will take some time, especially for high quality images.
+    ```python
+    with Container():
+        Image(file="path/to/image.png") # only .png supported
+        # or as a base64 encoded string (this is what's sent when using file too)
+        Image(base64="iVBORw0KGgoAAAANSUhEUgAA...")
+        # or a URL
+        Image(url="https://example.com/image.png")
+    ```
+    """
+    def __init__(
+        self,
+        file: str | None = None,
+        base64: str | None = None,
+        url: str | None = None,
+        style: Style = Style(),
+        alt: str = ""
+    ):
+        self.id = increment()
+        
+        if file and base64:
+            raise ValueError("You can only specify one of file or base64.")
+        if not (file or base64 or url):
+            raise ValueError("You must specify either file, base64 or url.")
+        if file and url:
+            raise ValueError("You cannot specify both file and url.")
+        if base64 and url:
+            raise ValueError("You cannot specify both base64 and url.")
+        
+        self.file = file
+        self.url = url
+        self.style = style
+        self.alt = alt
+        self.base64 = base64
+        
+        if file:
+            array = np.fromfile(file, dtype=np.uint8)
+            base64 = b64.b64encode(array).decode('utf-8')
+            
+        dictionary.append({
+            "image": {
+                "id": self.id,
+                "base64": base64,
+                "url": url,
+                "style": style.to_dict(),
+                "alt": alt
+            }
+        })
         
 def RenderUI():
     global dictionary, current_id
