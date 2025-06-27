@@ -35,7 +35,7 @@ def LoadLanguageData():
             LANGUAGES.append(LANGUAGE_DATA[file.split(".")[0]]["Language"]["name"])
             LANGUAGE_CODES.append(file.split(".")[0])
         except:
-            logging.error(f"Failed to load language file {file}. Please check the file format.")
+            print(f"Failed to load language file {file}. This warning can be ignored.")
             continue
         
 LoadLanguageData()
