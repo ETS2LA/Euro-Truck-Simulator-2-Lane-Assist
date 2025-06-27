@@ -3,6 +3,7 @@ ETS2LA's change listener. This file will listen for file changes accross all
 main ETS2LA backend files when in development mode.
 """
 
+from ETS2LA import variables
 import importlib
 import logging
 import os
@@ -20,9 +21,10 @@ def discover_files(path):
                     
     logging.info(f"Discovered {len(py_files)} files, listening for changes.")
     return py_files
-                
-files = discover_files("ETS2LA")
-state = {file: os.path.getmtime(file) for file in files}
+
+if variables.DEVELOPMENT_MODE:       
+    files = discover_files("ETS2LA")
+    state = {file: os.path.getmtime(file) for file in files}
 
 def check_for_changes():
     """Check for changes in the files and reload the modules if any changes are detected."""

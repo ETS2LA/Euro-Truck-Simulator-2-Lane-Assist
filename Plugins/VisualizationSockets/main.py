@@ -237,7 +237,7 @@ class SettingsMenu(ETS2LAPage):
                                 Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", styles.Classname("font-semibold text-sm text-muted-foreground"))
                             Text("NOTE: You must load the site as http instead of https. Google Chrome will not work!", styles.Classname("font-bold text-muted-foreground"))
                         with Container(styles.FlexVertical() + styles.Gap("6px")):
-                            Text("2. Once the website loads it will ask you for the computer's IP address. Enter the following IP address:", styles.Description())
+                            Text("2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:", styles.Description())
                             Text(f"ws://{IP}:37522", styles.Classname("font-bold") + styles.Description())
 
                         Text("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.", styles.Description())
