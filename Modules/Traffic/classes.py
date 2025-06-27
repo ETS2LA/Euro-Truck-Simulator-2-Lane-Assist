@@ -1,5 +1,8 @@
 import math
 import time
+
+tmp_speed_update_frequency = 0.5 # seconds
+
 # TODO: Switch __dict__ to __iter__ and dict() for typing support.
 # TODO: f = Class() -> dict(f) instead of f.__dict__()
 
@@ -161,6 +164,7 @@ class Vehicle:
     is_tmp: bool
     is_trailer: bool
     time: float = 0.0
+    speed_position: Position = Position(0, 0, 0)
     
     def __init__(self, position: Position, rotation: Quaternion, size: Size, speed: float, acceleration: float, trailer_count: int, id: int, trailers: list[Trailer]):
         self.position = position
@@ -191,10 +195,13 @@ class Vehicle:
             return
         
         time_diff = time.time() - vehicle.time
-        if time_diff == 0:
+        if time_diff < tmp_speed_update_frequency:
+            self.time = vehicle.time
             self.speed = vehicle.speed
+            self.speed_position = vehicle.speed_position
+            return
         
-        last_position = vehicle.position
+        last_position = vehicle.speed_position
         distance = math.sqrt(
             (self.position.x - last_position.x) ** 2 +
             (self.position.y - last_position.y) ** 2 +
@@ -204,10 +211,9 @@ class Vehicle:
         if distance > 0.1:
             self.speed = distance / time_diff
         else:
-            self.speed = vehicle.speed
-            
-        if self.speed < 3:
             self.speed = 0
+            
+        self.speed_position = Position(self.position.x, self.position.y, self.position.z)
         
     def is_zero(self):
         return self.position.is_zero() and self.rotation.is_zero()
