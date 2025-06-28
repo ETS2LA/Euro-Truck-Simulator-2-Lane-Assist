@@ -179,7 +179,8 @@ class Plugin(ETS2LAPlugin):
         description="plugin.navigationsockets.description",
         modules=["TruckSimAPI"],
         tags=["Base", "Visualization", "Frontend"],
-        hidden=False
+        hidden=False,
+        fps_cap=2
     )
     
     author = Author(
@@ -188,7 +189,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    fps_cap = 2
     last_navigation_time = 0
     
     def init(self):

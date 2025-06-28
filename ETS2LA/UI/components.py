@@ -1344,6 +1344,88 @@ class Image():
             }
         })
         
+class GraphType():
+    BAR = "bar"
+    LINE = "line"
+    AREA = "area"
+    PIE = "pie"
+        
+class Graph():
+    """
+    A graph element that can be used to display data in a visual
+    way. The input data is a list of dictionaries, where each key
+    is the data label and the value is the data point.
+    
+    The config parameter is a dictionary that defines how each key
+    is represented in the graph.
+    
+    Please see the shadcn documentation for more information on
+    the correct formatting: https://ui.shadcn.com/docs/components/chart
+    
+    ```python
+    # Example data
+    data = [                              # You can set a custom fill color
+        { "browser": "chrome", "visitors": 275, "fill": "var(--color-chrome)" },
+        { "browser": "safari", "visitors": 200, "fill": "var(--color-safari)" },
+    ]
+    
+    # Example config
+    config = {
+        "visitors": {
+            "label": "Total Visitors",
+        },
+        "chrome": {
+            "label": "Chrome",
+            "icon": "chrome",  # If you want icons it has to be a valid icon name like the Icon component.
+            "color": "hsl(var(--chart-1))",
+        },
+        "safari": {
+            "label": "Safari",
+            "icon": "compass",
+            "color": "hsl(var(--chart-2))",
+        },
+    }
+    
+    Graph(
+        data=data,
+        config=config,
+        x_key="browser",   # The key that will be used for the x-axis
+        y_key="visitors",  # The key that will be used for the y-axis
+        style=Style(),  # You can specify a style to change the container properties
+    )
+    ```
+    """
+    
+    def __init__(
+        self,
+        data: list[dict],
+        config: dict,
+        x_key: str,
+        y_key: str,
+        type: GraphType = GraphType.AREA,
+        style: Style = Style(),
+    ):
+        self.id = increment()
+        
+        self.data = data
+        self.config = config
+        self.style = style
+        self.x_key = x_key
+        self.y_key = y_key
+        
+        dictionary.append({
+            "graph": {
+                "id": self.id,
+                "data": self.data,
+                "config": self.config,
+                "x_key": self.x_key,
+                "y_key": self.y_key,
+                "type": type,
+                "style": self.style.to_dict()
+            }
+        })
+
+
 def RenderUI():
     global dictionary, current_id
     current_id = 0

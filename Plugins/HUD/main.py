@@ -168,6 +168,7 @@ class Plugin(ETS2LAPlugin):
         description="plugin.hud.description",
         modules=["TruckSimAPI", "Semaphores", "Traffic"],
         tags=["AR", "Base"],
+        fps_cap=30
     )
     
     author = Author(
@@ -176,7 +177,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    fps_cap = 30
     
     pages = [Settings]
 

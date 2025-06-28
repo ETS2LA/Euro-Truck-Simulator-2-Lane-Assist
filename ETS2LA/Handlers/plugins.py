@@ -73,6 +73,8 @@ class Plugin:
     pages: dict = {}
     """All plugins share the same pages dictionary. This way they can easily share page data."""
     
+    frametimes: list[float]
+    
     def start_plugin(self) -> None:
         # First initialize / reset the variables
         self.stack = {}
@@ -80,6 +82,7 @@ class Plugin:
             "status": "",
             "progress": -1
         }
+        self.frametimes = []
         self.last_controls_state = {}
         self.stop = False
         self.running = False
@@ -155,6 +158,11 @@ class Plugin:
         
         threading.Thread(
             target=self.notification_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.performance_handler,
             daemon=True
         ).start()
 
@@ -283,6 +291,17 @@ class Plugin:
                         plugin = self.description.name
                         notifications.navigate(url, plugin, reason)
             time.sleep(0.1)
+
+    def performance_handler(self):
+        """Handle the performance data from the plugin."""
+        while True:
+            if Channel.FRAMETIME_UPDATE in self.stack:
+                while self.stack[Channel.FRAMETIME_UPDATE]:
+                    message = self.stack[Channel.FRAMETIME_UPDATE].popitem()[1]
+                    if "frametimes" in message.data:
+                        self.frametimes = message.data["frametimes"]
+            
+            time.sleep(1)
 
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""

@@ -65,12 +65,12 @@ class Plugin(ETS2LAPlugin):
         modules=["SDKController", "TruckSimAPI", "Steering", "Route"],
         tags=["Base", "Steering"],
         ui_filename="ui.py",
+        fps_cap=20
     )
     last_dest_company = None 
     
     controls = [enable_disable]
     
-    fps_cap = 20
     pages = [SettingsMenu]
     
     steering_smoothness: float = 0.2

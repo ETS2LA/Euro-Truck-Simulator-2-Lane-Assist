@@ -5,7 +5,6 @@ from ETS2LA.Plugin import *
 import time
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 2
     
     description = PluginDescription(
         name="Test",
@@ -13,6 +12,7 @@ class Plugin(ETS2LAPlugin):
         description="Test",
         modules=["Traffic", "TruckSimAPI"],
         listen=["*.py"],
+        fps_cap=2
     )
     
     author = Author(

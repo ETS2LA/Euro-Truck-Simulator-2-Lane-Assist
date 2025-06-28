@@ -22,7 +22,6 @@ class ETS2LAPlugin(object):
     This is the main plugin object, you will see a list of attributes below.
     
     
-    :param int fps_cap: The maximum frames per second the plugin will run at.
     :param Description description: The description of the plugin.
     :param Author author: The author of the plugin.
     :param list[ControlEvent] controls: The list of control events to listen to.
@@ -35,8 +34,6 @@ class ETS2LAPlugin(object):
         **notify(text: str, type: str)** - Show a notification in the frontend.
     """
     path: str
-
-    fps_cap: int = 30
     
     description: PluginDescription = PluginDescription()
     author: List[Author]
@@ -45,8 +42,6 @@ class ETS2LAPlugin(object):
     
     queue: Queue
     return_queue: Queue
-    
-    performance: list[tuple[float, float]] = []
     
     state: State
     """
@@ -223,12 +218,6 @@ class ETS2LAPlugin(object):
         
     def after(self) -> None:
         self.plugin_run_end_time = time.perf_counter()
-        time_to_sleep = max(1/self.fps_cap - (self.plugin_run_end_time - self.plugin_run_start_time), 0)
+        time_to_sleep = max(1/self.description.fps_cap - (self.plugin_run_end_time - self.plugin_run_start_time), 0)
         if time_to_sleep > 0:
             time.sleep(time_to_sleep)
-        
-        self.performance.append((self.plugin_run_start_time, time.perf_counter() - self.plugin_run_start_time))
-        
-        # Only save last 60 seconds of performance data
-        while self.performance[0][0] < time.perf_counter() - 60:
-            self.performance.pop(0)

@@ -12,14 +12,14 @@ import time
 MANUALMODE = True
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 15
     
     description = PluginDescription(
         name="plugins.cruisecontrol",
         version="1.0",
         description="plugins.cruisecontrol.description",
         modules=["SDKController", "ShowImage", "TruckSimAPI"],
-        tags=["Speed Control"]
+        tags=["Speed Control"],
+        fps_cap=15
     )
     
     author = [Author(

@@ -77,7 +77,8 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="Adaptive Cruise Control using vision to determine the distance to the leading vehicle.",
         modules=["TruckSimAPI", "SDKController", "Camera"],
-        tags=["Vision"]
+        tags=["Vision"],
+        fps_cap=500
     )
 
     author = Author(
@@ -86,7 +87,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
-    fps_cap = 500
 
     controls = [EnableDisable]
 

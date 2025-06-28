@@ -12,6 +12,14 @@ import logging
 import time
 import os
 
+class PerformanceEntry:
+    timestamp: float
+    frametime: float
+    
+    def __init__(self, timestamp: float, frametime: float):
+        self.timestamp = timestamp
+        self.frametime = frametime
+
 class PluginProcess:
     queue: Queue
     """
@@ -78,6 +86,12 @@ class PluginProcess:
     path: str = ""
     """
     The relative path of the files belonging to this process.
+    """
+    
+    performance: list[PerformanceEntry] = []
+    """
+    Performance entries for this plugin. This is used to
+    track the performance of the plugin.
     """
     
     output_needs_update: bool = False
@@ -218,6 +232,7 @@ class PluginProcess:
                 time.sleep(1)
                 continue
             
+            start = time.time()
             try: self.plugin.before()
             except: pass
             
@@ -226,7 +241,29 @@ class PluginProcess:
             
             try: self.plugin.after()
             except: pass
-        
+            end = time.time()
+            
+            frametime = (end - start) * 1000  # Convert to milliseconds
+            self.performance.append(PerformanceEntry(start, frametime))
+
+    def performance_updater(self) -> None:
+        """Update the performance data."""
+        while True:
+            time.sleep(1)
+            
+            if not self.performance:
+                continue
+            
+            while self.performance[0].timestamp < time.time() - 60:
+                self.performance.pop(0)
+                
+            message = PluginMessage(
+                Channel.FRAMETIME_UPDATE, {
+                    "frametimes": [entry.frametime for entry in self.performance]
+                }
+            )
+            self.return_queue.put(message, block=True)
+
     def page_updater(self) -> None:
         """Update the pages."""
         while True:
@@ -292,6 +329,11 @@ class PluginProcess:
         
         threading.Thread(
             target=self.page_updater,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.performance_updater,
             daemon=True
         ).start()
         

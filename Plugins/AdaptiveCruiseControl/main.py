@@ -68,14 +68,14 @@ class ACCGate(Gate):
         self.distance = distance
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 15
     
     description = PluginDescription(
         name="plugins.adaptivecruisecontrol",
         version="1.0",
         description="plugins.adaptivecruisecontrol.description",
         modules=["SDKController", "TruckSimAPI", "Traffic", "Semaphores"],
-        tags=["Base", "Speed Control"]
+        tags=["Base", "Speed Control"],
+        fps_cap=15
     )
     
     author = Author(

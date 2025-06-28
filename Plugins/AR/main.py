@@ -221,7 +221,8 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="plugins.ar.description",
         modules=["TruckSimAPI", "Camera"],
-        tags=["Visualization", "AR", "Base"]
+        tags=["Visualization", "AR", "Base"],
+        fps_cap=1000
     )
 
     author = [Author(
@@ -236,7 +237,6 @@ class Plugin(ETS2LAPlugin):
 
     pages = [Settings]
 
-    fps_cap = 1000
     camera = None
     last_camera_timestamp = 0
     LastTimeStamp = 0
