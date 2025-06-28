@@ -1979,7 +1979,7 @@ class PrefabNavRoute:
 
     def json(self) -> dict:
         return {
-            "curves": [curve.json() for curve in self.curves],
+            # "curves": [curve.json() for curve in self.curves],
             "points": [point.json() for point in self.points],
             "distance": self.distance
         }
@@ -2068,7 +2068,7 @@ class PrefabDescription:
             "nav_curves": [curve.json() for curve in self.nav_curves],
             "nav_nodes": [node.json() for node in self.nav_nodes],
             "nav_routes": [route.json() for route in self.nav_routes],
-            "semaphores": [semaphore.json() for semaphore in self.semaphores]
+            # "semaphores": [semaphore.json() for semaphore in self.semaphores]
         }
 
 
