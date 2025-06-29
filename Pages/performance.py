@@ -25,38 +25,13 @@ class Page(ETS2LAPage):
         if not frametimes:
             return []
             
-        # If we have more than 60 samples, we need to resample
-        if len(frametimes) > 60:
-            chunk_size = len(frametimes) / 60
-            graph_data = []
-            
-            for i in range(60):
-                # Calculate the start and end indices for this chunk
-                start_idx = int(i * chunk_size)
-                end_idx = int((i + 1) * chunk_size)
-                
-                end_idx = min(end_idx, len(frametimes))
-                chunk = frametimes[start_idx:end_idx]
-                
-                # Calculate the average frametime for this chunk
-                avg_frametime = sum(chunk) / len(chunk) if chunk else 0
-                
-                # Calculate FPS from the average frametime
-                fps = 1000 / avg_frametime if avg_frametime > 0 else 0
-                
-                graph_data.append({
-                    "time": i,
-                    "fps": fps
-                })
-        else:
-            # If we have 60 or fewer points, use them all
-            graph_data = []
-            for i, frametime in enumerate(frametimes):
-                fps = 1000 / frametime if frametime > 0 else 0
-                graph_data.append({
-                    "time": i,
-                    "fps": fps
-                })
+        graph_data = []
+        for i, frametime in enumerate(frametimes):
+            fps = 1000 / frametime if frametime > 0 else 0
+            graph_data.append({
+                "time": i,
+                "fps": fps
+            })
         
         return graph_data
 
@@ -78,21 +53,7 @@ class Page(ETS2LAPage):
                     with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4")):
                         with Container(styles.FlexHorizontal()):
                             Text(plugin.description.name)
-                            
-                            # Calculate the average frametime over the last 1 seconds
-                            total = 0
-                            count = 0
-                            i = 0
-                            inverted_frametimes = plugin.frametimes[::-1]  # Reverse the list to get the most recent first
-                            while i < len(plugin.frametimes):
-                                frametime = inverted_frametimes[i]
-                                total += frametime
-                                count += 1
-                                if total > 1000:  # Stop if we have more than 1 second of data
-                                    break
-                                
-                            average_frametime = total / count if count > 0 else 0
-                            Text(self.format_frametime(average_frametime, plugin.description.fps_cap), styles.Description())
+                            Text(self.format_frametime(plugin.frametimes[-1], plugin.description.fps_cap), styles.Description())
                         
                         if plugin.frametimes[0] == self.first_times[plugin.description.name]:
                             Text("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize.", styles.Description() + styles.Classname("text-xs"))

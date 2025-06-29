@@ -254,15 +254,17 @@ class PluginProcess:
             if not self.performance:
                 continue
             
-            while self.performance[0].timestamp < time.time() - 60:
-                self.performance.pop(0)
-                
+            count = len(self.performance)
+            total = sum(entry.frametime for entry in self.performance)
+            average = total / count if count > 0 else 0
+            self.performance = []
+            
             message = PluginMessage(
                 Channel.FRAMETIME_UPDATE, {
-                    "frametimes": [entry.frametime for entry in self.performance]
+                    "frametime": average,
                 }
             )
-            self.return_queue.put(message, block=True)
+            self.return_queue.put(message, block=False)
 
     def page_updater(self) -> None:
         """Update the pages."""

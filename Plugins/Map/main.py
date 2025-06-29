@@ -41,7 +41,7 @@ last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
 UPDATING_OFFSET_CONFIG = False
-DEVELOPER_PRINTING = False
+DEVELOPER_PRINTING = True
 
 enable_disable = ControlEvent(
     "toggle_map",

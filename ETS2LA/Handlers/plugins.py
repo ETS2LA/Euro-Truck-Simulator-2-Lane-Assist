@@ -298,10 +298,13 @@ class Plugin:
             if Channel.FRAMETIME_UPDATE in self.stack:
                 while self.stack[Channel.FRAMETIME_UPDATE]:
                     message = self.stack[Channel.FRAMETIME_UPDATE].popitem()[1]
-                    if "frametimes" in message.data:
-                        self.frametimes = message.data["frametimes"]
+                    if "frametime" in message.data:
+                        frametime = message.data["frametime"]
+                        self.frametimes.append(frametime)
+                        if len(self.frametimes) > 60:
+                            self.frametimes.pop(0)
             
-            time.sleep(1)
+            time.sleep(0.5)
 
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
