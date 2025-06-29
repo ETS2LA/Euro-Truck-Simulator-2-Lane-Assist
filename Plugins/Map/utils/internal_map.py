@@ -133,8 +133,8 @@ def SectorChanged() -> bool:
 def DrawStats(image: np.ndarray):
     # Top left
     cv2.putText(image, f"WARNING: This map is only indicative. Check all offsets in game!", (10, 20), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (100, 100, 220), 1, cv2.LINE_AA)
-    perf = data.plugin.performance[-1][-1]
-    cv2.putText(image, f"FPS: {1/perf:.1f}", (10, 40), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (220, 220, 220) if (1/perf > 15) else (100, 220, 220), 1, cv2.LINE_AA)
+    # perf = data.plugin.performance[-1][-1]
+    # cv2.putText(image, f"FPS: {1/perf:.1f}", (10, 40), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (220, 220, 220) if (1/perf > 15) else (100, 220, 220), 1, cv2.LINE_AA)
     
     # Bottom left
     coordinates = (round(data.truck_x), round(data.truck_y), round(data.truck_z))

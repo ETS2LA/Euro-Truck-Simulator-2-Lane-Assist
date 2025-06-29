@@ -10,6 +10,8 @@ import math
 import os
 import logging
 import time
+import re
+from collections import defaultdict, Counter
 from Plugins.Map.utils import prefab_helpers, road_helpers
 from Plugins.Map import data
 from Plugins.Map import main as map_main
@@ -197,9 +199,10 @@ def update_offset_config_generic(operation="add", allow_override=False):
                     succeed = False
             if succeed:
                 reprocess_count += 1
-                if reprocess_count % 10 == 0:
-                    # Log every 10th road for performance
-                    logger.warning(f"{prefix}Road calculation successful, total: {reprocess_count}/{len(roads)}")
+                # if reprocess_count % 10 == 0:
+                #     # Log every 10th road for performance
+                #     pass
+                logger.warning(f"{prefix}Road calculation successful, total: {reprocess_count}/{len(roads)}")
                 logger.info(f"{prefix}Road '{road_name}' successfully, total: {reprocess_count}/{len(roads)}")
                 continue  # Continue to next road if successful
             else:
@@ -320,9 +323,11 @@ def _calculate_distances(road, items):
             current_min = min(item_distances)
             min_distance = min(min_distance, current_min * 2)
         logger.info(f"road: {road.road_look.name}, item_distances: {item_distances}, current_sorted: {current_sorted}, filtered: {filtered}, lane={len(road.lanes)}, is_add={is_add}")
-            
-        dist0 |= any(d < distance_threshold for d in item_distances)
     
+    # New: If all distances are equal to 2.25, set is_add to True
+    if sorted_distances and all(distance == 2.25 for distance in sorted_distances):
+        is_add = True
+
     # Sort distances and filter out invalid values
     if min_distance != math.inf and sorted_distances:
         logger.info(f"Calculated distances for road {road.road_look.name}: min_distance={min_distance}, sorted_distances={sorted_distances}, dist0={dist0}, is_add={is_add}")
@@ -332,8 +337,6 @@ def _calculate_distances(road, items):
     result = (min_distance, is_add, dist0)
     _distance_cache[cache_key] = result
     return result
-
-
 
 def _calculate_item_distances(road, item):
     """Calculate distances for a single item (uses correct helper for prefabs/roads)"""
@@ -402,6 +405,7 @@ def _update_road_offset(road, min_distance, dist0, per_name, operation, allow_ov
     return True
 
 def generate_rules(config):
+    # FULL REWRITE IS NEEDED
     """Generate pattern - based offset rules from per - name configurations.
     
     Args:
@@ -479,131 +483,82 @@ def generate_rules(config):
         # Remove spaces and check if remaining chars are digits
         return suffix.replace(" ", "").isdigit()
 
-    # Process rules with combined roads
-    unmatched = dict(combined_roads)
-    final_rules = {}
-    matched_with_same_offset = set()
-    
-    # Generate rules in two rounds
-    for word_count in [2, 3]:
-        if not unmatched:
-            break
-            
-        patterns = generate_patterns(unmatched, word_count)
-        if not patterns:
-            continue
-            
-        logger.warning(f"Round {word_count}: Generated {len(patterns)} patterns")
-        
-        # Find best patterns
-        round_rules = {}
-        for pattern, offset_counts in patterns.items():
-            if _is_number_only(pattern):
-                logger.warning(f"Skipping number - only pattern: {pattern}")
-                continue
-                
-            offset, count = _get_most_common_offset(offset_counts)
-            # Change to 100% match
-            match_threshold = 1
-            if offset is not None and count / len(offset_counts) >= match_threshold:
-                round_rules[pattern] = offset
-                logger.warning(f"Rule found - Pattern: {pattern}, Offset: {offset}, Count: {count}, Total: {len(offset_counts)}")
-        
-        # Apply rules and update unmatched
-        matched = set()
-        for name, offset in unmatched.items():
-            name_words = set(name.split())
-            for pattern, rule_offset in round_rules.items():
-                # Remove ** prefix and split into word sets
-                pattern_words = set(pattern[2:].split())
-                # Check if all words in the rule are in the road name
-                if pattern_words.issubset(name_words) and abs(rule_offset - offset) <= 0.01:
-                    matched.add(name)
-                    matched_with_same_offset.add(name)
-                    break
-        
-        final_rules.update(round_rules)
-        unmatched = {name: offset for name, offset in unmatched.items() if name not in matched}
-        logger.warning(f"Round {word_count} complete - Matched: {len(matched)}, Same offset matches: {len(matched_with_same_offset)}")
+    # REWRITE 1: ATS Support
+    # Generate rules based on 'offset' keyword and preceding [number]m pattern
+    final_rules = defaultdict(list)
+    # Regex to match [number]m pattern (supports comma-separated numbers)
+    NUMBER_M_PATTERN = re.compile(r'([\d,]+)m')
+    # Constants
+    OFFSET_ADDITION = 4.5
 
-    # Merge rules with the same offset and same words
-    merged_rules = {}
-    patterns_by_offset = {}
+    # Collect all matching patterns
+    matched_patterns = set()
     
-    # Group rules by offset
-    for pattern, offset in final_rules.items():
-        if offset not in patterns_by_offset:
-            patterns_by_offset[offset] = []
-        patterns_by_offset[offset].append(pattern)
+    for name, offset in combined_roads.items():
+        words = name.split()
+        if 'offset' in words:
+            offset_idx = words.index('offset')
+            # Check preceding and following words
+            for delta in [-1, 1]:
+                word_idx = offset_idx + delta
+                if 0 <= word_idx < len(words):
+                    target_word = words[word_idx]
+                    match = NUMBER_M_PATTERN.match(target_word)
+                    if match:
+                        # Extract number and calculate new offset
+                        try:
+                            # Handle comma-separated numbers by summing them
+                            number_parts = match.group(1).split(',')
+                            number = sum(float(part.strip()) for part in number_parts)
+                            rule_offset = round(number + OFFSET_ADDITION, 1)
+                        except ValueError:
+                            logger.warning(f"Invalid number format in '{target_word}' for road name: {name}")
+                            continue
+                        # Determine pattern based on position relative to offset
+                    if delta == -1:
+                        rule_pattern = f"**{target_word} offset"
+                    else:
+                        rule_pattern = f"**offset {target_word}"
+                        final_rules[rule_pattern].append(rule_offset)
+                        matched_patterns.add(target_word)
     
-    # Merge rules within each offset group
-    for offset, patterns in patterns_by_offset.items():
-        # Group by word set
-        word_groups = {}
-        for pattern in patterns:
-            # Remove ** prefix and split into word list
-            words = pattern[2:].split()
-            # Use a tuple to store the word list to maintain order
-            key = tuple(words)
-            if key not in word_groups:
-                word_groups[key] = []
-            word_groups[key].append(pattern)
-        
-        # Merge rules with the same word sequence
-        for words, similar_patterns in word_groups.items():
-            if len(similar_patterns) > 1:
-                # Find the shortest pattern as the baseline
-                base_pattern = min(similar_patterns, key=len)
-                # Create a test road name (remove ** prefix)
-                test_name = base_pattern[2:]
-                
-                # Create a mock road object
-                mock_road = type('Road', (), {
-                    'road_look': type('RoadLook', (), {
-                        'name': test_name,
-                        'offset': 0  # Use default offset
-                    })
-                })()
-                
-                # Calculate offset using GetOffset
-                get_offset_result = road_helpers.GetOffset(mock_road)
-                
-                # If the result of GetOffset is different from the rule offset, keep the rule
-                if abs(get_offset_result - offset) > 0.01:
-                    logger.warning(f"Merging patterns with same words and offset {offset}: {similar_patterns} -> {base_pattern}")
-                    merged_rules[base_pattern] = offset
-                else:
-                    logger.warning(f"Skipping rule {base_pattern} as it can be represented by GetOffset")
-            else:
-                # Check GetOffset for single patterns
-                test_name = similar_patterns[0][2:]
-                mock_road = type('Road', (), {
-                    'road_look': type('RoadLook', (), {
-                        'name': test_name,
-                        'offset': 0
-                    })
-                })()
-                
-                get_offset_result = road_helpers.GetOffset(mock_road)
-                
-                if abs(get_offset_result - offset) > 0.01:
-                    merged_rules[similar_patterns[0]] = offset
-                else:
-                    logger.warning(f"Skipping rule {similar_patterns[0]} as it can be represented by GetOffset")
-    
-    # Update rules and sort alphabetically and by absolute value
+    # Update rules with only the new pattern-based rules
     rules.clear()
-    rules.update(merged_rules)
-    rules = dict(sorted(rules.items(), key=lambda item: (item[0], abs(item[1]))))
+    rules.update(final_rules)
+    # Sort rules alphabetically
+    rules = dict(sorted(rules.items()))
     
-    # Remove entries with the same offset that are also in per_name
-    to_remove = matched_with_same_offset & set(per_name.keys())
+    # Calculate mode for each pattern to determine the most frequent offset
+    processed_rules = {}
+    for pattern, offsets in final_rules.items():
+        if offsets:
+            offset_counter = Counter(offsets)
+            max_count = max(offset_counter.values())
+            # Select the first offset with maximum count
+            mode_offset = next(k for k, v in offset_counter.items() if v == max_count)
+            processed_rules[pattern] = mode_offset
+    final_rules = processed_rules
+
+    # Remove per_name entries that can be represented by rules
+    to_remove = []
+    for name in per_name:
+        words = name.split()
+        # Check if name contains the full rule pattern
+        name_lower = ' '.join(words)
+        current_offset = per_name[name]
+        for pattern, rule_offset in final_rules.items():
+            # Remove the ** prefix and check if pattern exists in name
+            if pattern[2:] in name_lower:
+                # Check if offset values are within the allowed threshold
+                if abs(current_offset - rule_offset) <= distance_threshold:
+                    to_remove.append(name)
+                    break
+    
     for name in to_remove:
-        del per_name[name]
+        if name in per_name:
+            del per_name[name]
     
-    logger.warning(f"Rule generation complete - Total rules after merging: {len(rules)}")
-    logger.warning(f"Matched entries with same offset: {len(matched_with_same_offset)}, Removed from per_name: {len(to_remove)}")
-    logger.warning(f"Entries removed from per_name: {to_remove}")
+    logger.warning(f"Rule generation complete - Created {len(rules)} specialized rules, Removed {len(to_remove)} entries from per_name: {to_remove}")
     
     with open(CONFIG_PATH, 'w') as f:
         json.dump(config, f, indent=4)
