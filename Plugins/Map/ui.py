@@ -156,7 +156,7 @@ class SettingsMenu(ETS2LAPage):
                 ComboboxWithTitleDescription(
                     title="Selected Data",
                     description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.",
-                    default=settings.Get("Map", "SelectedData", ""),
+                    default=settings.Get("Map", "selected_data", ""),
                     options=[config["name"] for config in configs.values()],
                     search=ComboboxSearch(
                         placeholder="Search data",
