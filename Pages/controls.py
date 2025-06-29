@@ -136,7 +136,7 @@ class Page(ETS2LAPage):
                             else:
                                 Text(control.device + ": " + control.key.capitalize().replace("_", " "))
                                 
-                with Container(styles.FlexVertical() + styles.Gap("4px") + right_style + styles.Classname("rounded-md border justify-center pl-2 pr-2 pt-2 pb-2 bg-input/10")):
+                with Container(styles.FlexVertical() + styles.Gap("4px") + right_style + styles.Classname("rounded-md border justify-center pl-2 pr-2 bg-input/10")):
                     with Button(action=self.handle_change, 
                                 name=control.alias,
                                 style=styles.Width("28px") + styles.Height("28px") + styles.Classname("default") + pointer):
