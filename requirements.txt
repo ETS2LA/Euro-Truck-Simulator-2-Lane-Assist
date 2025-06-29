@@ -20,7 +20,7 @@ bettercam
 zeroconf
 keyboard
 requests
-pywin32
+pywin32==306
 pyttsx3
 fastapi
 uvicorn
