@@ -341,7 +341,7 @@ class Plugin:
             Channel.GET_DESCRIPTION, {}
         )
         self.queue.put(message)
-        response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
+        response = self.wait_for_channel_message(message.channel, message.id, timeout=10)
         if response is None:
             logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
             self.remove()
@@ -396,7 +396,7 @@ def create_processes() -> None:
         threading.Thread(target=Plugin, name=f"Backend for {folder.split('/')[-1]}",
                          args=(folder,), daemon=True).start()
 
-    time.sleep(10)
+    time.sleep(15)
     logging.info(f"Loaded {len(plugins)} plugins.")
   
 def run() -> None:
