@@ -307,40 +307,30 @@ class Plugin(ETS2LAPlugin):
         if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
             self.last_navigation_time = time.time()
             
+            nodes = navigation["nodes"]
+            node_points = navigation["points"]
+            
             total_points = []
-            for i in range(len(navigation) - 1):
-                nav = navigation[i]
-                item = nav.item
+            for i in range(len(nodes) - 1):
+                node = nodes[i]
+                points = node_points[i]
                 
-                if not item or not hasattr(item, 'points'):
-                    total_points.append([nav.node.x, nav.node.y, nav.node.z])
+                if not points or len(points) < 5:
+                    total_points.append([node.x, node.y, node.z])
                     continue
                 
-                points = item.points
+                start = points[0]
+                end = points[-1]
+                last = total_points[-1]
                 
-                if len(points) < 5:
-                    points = [point.tuple() for point in points]
-                    points = [(point[0], point[2], point[1]) for point in points]  # Convert to (x, z, y) format
-                    continue
+                distance_start = DistanceBetweenPoints(start, last)
+                distance_end = DistanceBetweenPoints(end, last)
                 
-                # Get 5 equally spaced points
-                start_index = 0
-                end_index = len(points) - 1
-                step = (end_index - start_index) / 4
-                new_points = []
-                for j in range(5):
-                    index = int(start_index + j * step)
-                    if index < 0 or index >= len(points):
-                        continue
-                    point = points[index]
-                    point = (point.x, point.z, point.y)
-                    new_points.append(point)
-                    
-                # Check if we need to invert them
-                if nav.direction == "backward":
-                    new_points.reverse()
-                    
-                total_points.extend(new_points)
+                if distance_end < distance_start:
+                    # Reverse the points if the end point is closer to the last point
+                    points = points[::-1]
+                
+                total_points.extend(points)
                 
             packets.append({
                 "id": "1",
@@ -352,7 +342,7 @@ class Plugin(ETS2LAPlugin):
                                 {
                                     "key": "route",
                                     "lonLats": [CoordsToWGS84(point[0], point[1], game=game) for point in total_points],
-                                    "distance": math.sqrt((navigation[-1].node.x - navigation[0].node.x) ** 2 + (navigation[-1].node.y - navigation[0].node.y) ** 2),
+                                    "distance": math.sqrt((nodes[-1].x - nodes[0].x) ** 2 + (nodes[-1].y - nodes[0].y) ** 2),
                                     "time": 0,
                                     "strategy": "shortest",
                                 }

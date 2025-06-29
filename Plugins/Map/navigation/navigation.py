@@ -122,8 +122,35 @@ def get_path_to_destination():
 
         success = [node.is_possible for node in route]
         logging.warning(f"Successfully calculated lanes for {sum(success)} out of {len(success)} nodes ({sum(success) / len(success) * 100:.0f}%)")
+        nodes = [node.node for node in route]
+        node_points = []
+        for nav in route:
+            if type(nav.item) == c.Road:
+                new_points = []
+                points = nav.item.points
+                
+                # Get 5 equally spaced points
+                start_index = 0
+                end_index = len(points) - 1
+                step = (end_index - start_index) / 4
+                new_points = []
+                for j in range(5):
+                    index = int(start_index + j * step)
+                    if index < 0 or index >= len(points):
+                        continue
+                    point = points[index]
+                    point = (point.x, point.z, point.y)
+                    new_points.append(point)
+                    
+                node_points.append(new_points)
+            else:
+                node_points.append(None)
+                
         data.navigation_plan = route
-        data.plugin.globals.tags.navigation_plan = route
+        data.plugin.globals.tags.navigation_plan = {
+            "nodes": nodes,
+            "points": node_points,
+        }
         data.last_length = len(game_route)
         
     return data.navigation_plan
