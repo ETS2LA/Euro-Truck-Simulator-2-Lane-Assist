@@ -110,42 +110,43 @@ class Page(ETS2LAPage):
                             )
                         
                 with Tab("Plugins"):
-                    running_plugins = [plugin for plugin in plugins.plugins if plugin.running]
-                    if not running_plugins:
-                        Text("No plugins are currently running.", styles.Description() + styles.Classname("font-bold"))
-                    
-                    for plugin in running_plugins:
-                        try:
-                            if not plugin.frametimes:   
-                                continue
-                            
-                            if plugin.description.name not in self.first_times:
-                                self.first_times[plugin.description.name] = plugin.frametimes[0]
-                            
-                            with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4")):
-                                with Container(styles.FlexHorizontal()):
-                                    Text(plugin.description.name)
-                                    Text(self.format_frametime(plugin.frametimes[-1], plugin.description.fps_cap), styles.Description())
+                    with Container(styles.FlexVertical() + styles.Classname("gap-6")):
+                        running_plugins = [plugin for plugin in plugins.plugins if plugin.running]
+                        if not running_plugins:
+                            Text("No plugins are currently running.", styles.Description() + styles.Classname("font-bold"))
+                        
+                        for plugin in running_plugins:
+                            try:
+                                if not plugin.frametimes:   
+                                    continue
                                 
-                                if plugin.frametimes[0] == self.first_times[plugin.description.name]:
-                                    Text("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize.", styles.Description() + styles.Classname("text-xs"))
+                                if plugin.description.name not in self.first_times:
+                                    self.first_times[plugin.description.name] = plugin.frametimes[0]
+                                
+                                with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4")):
+                                    with Container(styles.FlexHorizontal()):
+                                        Text(plugin.description.name)
+                                        Text(self.format_frametime(plugin.frametimes[-1], plugin.description.fps_cap), styles.Description())
+                                    
+                                    if plugin.frametimes[0] == self.first_times[plugin.description.name]:
+                                        Text("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize.", styles.Description() + styles.Classname("text-xs"))
 
-                                graph_data = self.format_frametimes_to_graph_data(plugin.frametimes)
-                                graph_config = {
-                                    "fps": {
-                                        "label": "FPS ",
+                                    graph_data = self.format_frametimes_to_graph_data(plugin.frametimes)
+                                    graph_config = {
+                                        "fps": {
+                                            "label": "FPS ",
+                                        }
                                     }
-                                }
-                                Graph(
-                                    data=graph_data,
-                                    config=graph_config,
-                                    x=GraphAxisOptions("time"),
-                                    y=GraphAxisOptions("fps", max=plugin.description.fps_cap * 1.05, min=0),
-                                    type="area",
-                                    style=styles.MaxHeight("200px")
-                                )
-                        except:
-                            Text(f"Failed to render plugin {plugin.description.name}.", styles.Description() + styles.Classname("text-red-500"))
+                                    Graph(
+                                        data=graph_data,
+                                        config=graph_config,
+                                        x=GraphAxisOptions("time"),
+                                        y=GraphAxisOptions("fps", max=plugin.description.fps_cap * 1.05, min=0),
+                                        type="area",
+                                        style=styles.MaxHeight("200px")
+                                    )
+                            except:
+                                Text(f"Failed to render plugin {plugin.description.name}.", styles.Description() + styles.Classname("text-red-500"))
 
             Space(styles.Height("8px"))
             with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full")):
