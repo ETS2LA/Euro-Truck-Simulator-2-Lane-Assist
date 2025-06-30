@@ -177,10 +177,7 @@ class Plugin:
     def listener(self):
         """Send all messages into the stack."""
         while True:
-            while self.return_queue.empty():
-                time.sleep(0.01)
-                
-            try: message: PluginMessage = self.return_queue.get(timeout=1)
+            try: message: PluginMessage = self.return_queue.get(timeout=2)
             except: time.sleep(0.01); continue
             
             if message.channel == Channel.STOP_PLUGIN:
@@ -223,7 +220,7 @@ class Plugin:
                     
                     message.state = State.DONE
                     message.data = response
-                    self.queue.put(message)
+                    self.queue.put(message, block=True)
             
             if Channel.UPDATE_TAGS in self.stack:
                 while self.stack[Channel.UPDATE_TAGS]:
@@ -241,7 +238,7 @@ class Plugin:
                     
                     message.state = State.DONE
                     message.data = "success" # clear data for faster transmit
-                    self.queue.put(message)
+                    self.queue.put(message, block=True)
             
             time.sleep(0.01)
     

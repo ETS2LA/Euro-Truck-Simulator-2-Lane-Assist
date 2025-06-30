@@ -352,7 +352,10 @@ class Plugin(ETS2LAPlugin):
                 
                 if len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Prefab:
                     self.globals.tags.next_intersection_lane = data.route_plan[1].lane_index
-                    self.globals.tags.next_intersection_uid = data.route_plan[1].items[0].item.uid
+                    self.globals.tags.next_intersection = data.route_plan[1].items[0].item
+                elif len(data.route_plan) > 2 and type(data.route_plan[2].items[0].item) == c.Prefab:
+                    self.globals.tags.next_intersection_lane = data.route_plan[2].lane_index
+                    self.globals.tags.next_intersection = data.route_plan[2].items[0].item
                     
                 if type(data.route_plan[0].items[0].item) == c.Road:
                     self.globals.tags.road_type = "highway" if "hw" in data.route_plan[0].items[0].item.road_look.name else "normal"

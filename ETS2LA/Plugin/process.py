@@ -6,6 +6,7 @@ from ETS2LA.Controls import ControlEvent
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
 
+import sys
 import threading
 import importlib
 import logging
@@ -96,6 +97,7 @@ class PluginProcess:
     
     output_needs_update: bool = False
     pending_output_update: bool = False
+    last_output_time: int = 0
     output_tags: dict = {}
     """
     Output tags are tags that this plugin wants to send to others.
@@ -214,14 +216,17 @@ class PluginProcess:
                 self.input_tags_that_need_update = []
                 self.return_queue.put(message, block=False)
                 
-            if self.output_needs_update and not self.pending_output_update:
+            if self.output_needs_update and (not self.pending_output_update or time.time() > self.last_output_time + 1):
                 self.pending_output_update = True
                 message = PluginMessage(
                     Channel.UPDATE_TAGS, self.output_tags
                 )
-                
-                self.output_needs_update = False
+
                 self.return_queue.put(message, block=False)
+
+                self.last_output_time = time.time()
+                self.output_needs_update = False
+                self.output_tags = {}
 
             time.sleep(0.01)
     
