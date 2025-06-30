@@ -146,16 +146,23 @@ class PluginProcess:
             raise ImportError(f"Error importing plugin file: {e}")
         
         logging.info(f"Plugin file imported successfully: {self.file}")
+        
         self.description = self.file.Plugin.description
         self.authors = self.file.Plugin.author
+        if type(self.authors) is not list:
+            self.authors = [self.authors]
+            
+        logging.info(f"Read plugin description. {self.description.name} by {', '.join(author.name for author in self.authors)}")
         
         # Pages need to be instantiated before use.
         self.pages = self.file.Plugin.pages
         self.pages = [page() for page in self.pages] # type: ignore
+        logging.info(f"Loaded {len(self.pages)} pages")
         
         # Controls don't need to be instantiated before use.
         # They are instantiated when the plugin is created.
         self.controls = self.file.Plugin.controls
+        logging.info(f"Loaded {len(self.controls)} controls")
         
         return None
         
@@ -291,6 +298,8 @@ class PluginProcess:
                     logging.exception("Page build failed.")
         
     def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
+        start_time = time.time()
+        
         self.queue = queue
         self.return_queue = return_queue
         
@@ -300,7 +309,8 @@ class PluginProcess:
             console_level=logging.WARNING,
             filepath=os.path.join(os.getcwd(), "logs", f"{name}.log")
         )
-        
+        logging.info(f"Started logging")
+
         files = os.listdir(path)
         if "main.py" not in files:
             self.return_queue.put(PluginMessage(
@@ -318,6 +328,7 @@ class PluginProcess:
         )
         message.state = State.DONE
         self.return_queue.put(message)
+        logging.info(f"Indicated success in {time.time() - start_time:.2f} seconds")
         
         threading.Thread(
             target=self.listener,
@@ -338,6 +349,7 @@ class PluginProcess:
             target=self.performance_updater,
             daemon=True
         ).start()
+        logging.info(f"Threads started, moving to process loop")
         
         self.process()
         

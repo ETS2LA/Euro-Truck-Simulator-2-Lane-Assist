@@ -1,13 +1,14 @@
-opencv-contrib-python
-websockets==13.1
 windows-capture==1.3.6; platform_system == "Windows"
+opencv-contrib-python
+SimpleWindow>=1.0
+websockets==13.1
 umami-analytics
 textual==1.0.0
 beautifulsoup4
 pywebview==5.1
 opencv-python
 numpy==2.2.6
-SimpleWindow>=1.0
+pywin32==306
 audioop-lts; python_version >= "3.13"
 torchvision
 sounddevice
@@ -20,7 +21,6 @@ bettercam
 zeroconf
 keyboard
 requests
-pywin32==306
 pyttsx3
 fastapi
 uvicorn

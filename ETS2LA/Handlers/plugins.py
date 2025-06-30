@@ -108,9 +108,9 @@ class Plugin:
     
     def __init__(self, folder: str) -> None:
         self.folder = folder
+        
         self.start_plugin()
         
-        # Start to listen for messages from the plugin.
         threading.Thread(
             target=self.listener,
             daemon=True
@@ -118,7 +118,7 @@ class Plugin:
         
         message = self.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
         if message is None:
-            logging.error(f"Plugin {folder} failed to start: Timeout.")
+            logging.error(f"Plugin {folder} failed to start: Timeout.\nTry to close other programs to give more memory and CPU to the plugin.")
             self.remove()
             return
         
@@ -325,7 +325,10 @@ class Plugin:
     def remove(self) -> None:
         """Remove the current plugin"""
         self.stop = True
-        plugins.remove(self)
+        try:
+            plugins.remove(self)
+        except: pass
+        
         try:
             self.process.kill()
             self.process.join()
