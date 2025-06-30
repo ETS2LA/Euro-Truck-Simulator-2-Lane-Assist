@@ -144,7 +144,28 @@ class Page(ETS2LAPage):
                                 with Container(styles.FlexVertical() + styles.Classname("relative border rounded-md p-4") + styles.Height("200px")):
                                     with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
                                         Text(plugin.description.name)
-                                        Text(self.format_frametime(plugin.frametimes[-1], plugin.description.fps_cap), styles.Description())
+                                        with Tooltip() as t:
+                                            with t.trigger as tr:
+                                                tr.style = styles.Classname("w-max")
+                                                Text(self.format_frametime(plugin.frametimes[-1], plugin.description.fps_cap), styles.Description())
+                                            with t.content:
+                                                try:
+                                                    average = sum(plugin.frametimes) / len(plugin.frametimes) if plugin.frametimes else 0
+                                                    maximum = max(plugin.frametimes) if plugin.frametimes else 0
+                                                    minimum = min(plugin.frametimes) if plugin.frametimes else 0
+                                                    
+                                                    # Stutter is the percentage of the max fps between the minimum and maximum frametimes
+                                                    max_fps = 1000 / minimum if minimum > 0 else 0
+                                                    min_fps = 1000 / maximum if maximum > 0 else 0
+                                                    stutter = ((max_fps - min_fps) / max_fps) * 100 if max_fps > 0 else 0
+                                                
+                                                    Text(f"Avg: {round(1000/average, 2) if average > 0 else 0} FPS", styles.Description())
+                                                    Text(f"Min: {round(1000/maximum, 2) if maximum > 0 else 0} FPS", styles.Description())
+                                                    Text(f"Max: {round(1000/minimum, 2) if minimum > 0 else 0} FPS", styles.Description())
+                                                    Space(styles.Height("4px"))
+                                                    Text(f"-> Stutter: {stutter:.2f}%")
+                                                except:
+                                                    pass
                                     
                                     if plugin.frametimes[0] == self.first_times[plugin.description.name]:
                                         Text("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize.", styles.Description() + styles.Classname("text-xs"))
