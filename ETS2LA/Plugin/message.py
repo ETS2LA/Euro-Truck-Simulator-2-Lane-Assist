@@ -51,6 +51,9 @@ class Channel(Enum):
     # Functions
     CALL_FUNCTION = 22
     
+    # Performance
+    FRAMETIME_UPDATE = 23
+    
 class State(Enum):
     PENDING = 0
     PROCESSING = 1

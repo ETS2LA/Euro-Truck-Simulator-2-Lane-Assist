@@ -1747,22 +1747,24 @@ class PrefabTriggerPoint:
 
 
 class PrefabNavCurve:
-    __slots__ = ['nav_node_index', 'start', 'end', 'next_lines', 'prev_lines', '_points']
+    __slots__ = ['nav_node_index', 'start', 'end', 'next_lines', 'prev_lines', 'semaphore_id', '_points']
     
     nav_node_index: int
     start: Transform
     end: Transform
     next_lines: list[int]
     prev_lines: list[int]
+    semaphore_id: int
     _points: list[Position]
 
     def __init__(self, nav_node_index: int, start: Transform, end: Transform, next_lines: list[int],
-                 prev_lines: list[int], points: list[Position] = []):
+                 prev_lines: list[int], semaphore_id: int, points: list[Position] = []):
         self.nav_node_index = nav_node_index
         self.start = start
         self.end = end
         self.next_lines = next_lines
         self.prev_lines = prev_lines
+        self.semaphore_id = semaphore_id
         self._points = points
     
     @property
@@ -1828,7 +1830,7 @@ class PrefabNavCurve:
                                                            origin_node.x, origin_node.y)
             new_points.append(Position(new_point_pos[0], point.y + prefab_start_y, new_point_pos[1]))
 
-        return PrefabNavCurve(self.nav_node_index, new_start, new_end, self.next_lines, self.prev_lines,
+        return PrefabNavCurve(self.nav_node_index, new_start, new_end, self.next_lines, self.prev_lines, self.semaphore_id,
                               points=new_points)
 
     def json(self) -> dict:
@@ -1838,6 +1840,7 @@ class PrefabNavCurve:
             "end": self.end.json(),
             "next_lines": self.next_lines,
             "prev_lines": self.prev_lines,
+            "semaphore_id": self.semaphore_id,
             "points": [point.json() for point in self.points]
         }
 
@@ -1979,7 +1982,7 @@ class PrefabNavRoute:
 
     def json(self) -> dict:
         return {
-            "curves": [curve.json() for curve in self.curves],
+            # "curves": [curve.json() for curve in self.curves],
             "points": [point.json() for point in self.points],
             "distance": self.distance
         }
@@ -2068,7 +2071,7 @@ class PrefabDescription:
             "nav_curves": [curve.json() for curve in self.nav_curves],
             "nav_nodes": [node.json() for node in self.nav_nodes],
             "nav_routes": [route.json() for route in self.nav_routes],
-            "semaphores": [semaphore.json() for semaphore in self.semaphores]
+            # "semaphores": [semaphore.json() for semaphore in self.semaphores]
         }
 
 

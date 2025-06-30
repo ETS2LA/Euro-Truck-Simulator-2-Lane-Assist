@@ -1,6 +1,8 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
+from Plugins.Map.utils.math_helpers import Hermite3D, DistanceBetweenPoints
+
 from pyproj import CRS, Transformer
 import json
 import math
@@ -179,7 +181,8 @@ class Plugin(ETS2LAPlugin):
         description="plugin.navigationsockets.description",
         modules=["TruckSimAPI"],
         tags=["Base", "Visualization", "Frontend"],
-        hidden=False
+        hidden=False,
+        fps_cap=2
     )
     
     author = Author(
@@ -188,7 +191,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    fps_cap = 2
     last_navigation_time = 0
     
     def init(self):
@@ -304,25 +306,32 @@ class Plugin(ETS2LAPlugin):
         navigation = self.globals.tags.merge(navigation)
         if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
             self.last_navigation_time = time.time()
-            try:
-                driving_points = self.globals.tags.steering_points
-                driving_points = self.globals.tags.merge(driving_points)
-                driving_points = [(point[0], point[2]) for point in driving_points]
             
-                total_points = []
-                total_points.extend(driving_points)
-                
-                closest_node_end = min(navigation, key=lambda node: math.sqrt((total_points[-1][0] - node.x) ** 2 + (total_points[-1][1] - node.y) ** 2))
-                end_index = navigation.index(closest_node_end)
-                
-                closest_node_start = min(navigation, key=lambda node: math.sqrt((total_points[0][0] - node.x) ** 2 + (total_points[0][1] - node.y) ** 2))
-                start_index = navigation.index(closest_node_start)
-                
-                total_points.extend((node.x, node.y) for node in navigation[end_index+1:])
-                total_points = [(node.x, node.y) for node in navigation[:start_index]] + total_points
-            except:
-                total_points = [(node.x, node.y) for node in navigation]
+            nodes = navigation["nodes"]
+            node_points = navigation["points"]
             
+            total_points = []
+            for i in range(len(nodes) - 1):
+                node = nodes[i]
+                points = node_points[i]
+                
+                if not points or len(points) < 5:
+                    total_points.append([node.x, node.y, node.z])
+                    continue
+                
+                start = points[0]
+                end = points[-1]
+                last = total_points[-1]
+                
+                distance_start = DistanceBetweenPoints(start, last)
+                distance_end = DistanceBetweenPoints(end, last)
+                
+                if distance_end < distance_start:
+                    # Reverse the points if the end point is closer to the last point
+                    points = points[::-1]
+                
+                total_points.extend(points)
+                
             packets.append({
                 "id": "1",
                 "result": {
@@ -333,7 +342,7 @@ class Plugin(ETS2LAPlugin):
                                 {
                                     "key": "route",
                                     "lonLats": [CoordsToWGS84(point[0], point[1], game=game) for point in total_points],
-                                    "distance": math.sqrt((navigation[-1].x - navigation[0].x) ** 2 + (navigation[-1].y - navigation[0].y) ** 2),
+                                    "distance": math.sqrt((nodes[-1].x - nodes[0].x) ** 2 + (nodes[-1].y - nodes[0].y) ** 2),
                                     "time": 0,
                                     "strategy": "shortest",
                                 }

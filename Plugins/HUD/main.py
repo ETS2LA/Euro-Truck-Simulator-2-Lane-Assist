@@ -168,6 +168,7 @@ class Plugin(ETS2LAPlugin):
         description="plugin.hud.description",
         modules=["TruckSimAPI", "Semaphores", "Traffic"],
         tags=["AR", "Base"],
+        fps_cap=30
     )
     
     author = Author(
@@ -176,7 +177,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    fps_cap = 30
     
     pages = [Settings]
 
@@ -192,28 +192,13 @@ class Plugin(ETS2LAPlugin):
         
         self.get_start_end_time()
         
-    def get_map_data(self):
-        remote_update_time = self.globals.tags.map_update_time
-        remote_update_time = self.globals.tags.merge(remote_update_time)
-        if remote_update_time != self.update_time:
-            self.update_time = remote_update_time
-            self.map_data = self.globals.tags.map
-            self.map_data = self.globals.tags.merge(self.map_data)
-        
     def get_intersection(self):
-        next_intersection = self.globals.tags.next_intersection_uid
-        next_intersection = self.globals.tags.merge(next_intersection)
-        if next_intersection != self.intersection_uid:
-            if self.map_data is not None:
-                # json path: prefabs (list) -> uid
-                for prefab in self.map_data["prefabs"]:
-                    if str(prefab["uid"]) == str(next_intersection):
-                        self.intersection_uid = next_intersection
-                        self.intersection = prefab
-                        logging.debug(f"Intersection found: {prefab}")
-                        return
-                    
+        next_intersection = self.globals.tags.next_intersection
+        if next_intersection is None:
             self.intersection = None
+            return
+        
+        self.intersection = next_intersection["plugins.map"]
                 
     def create_intersection_map(self, anchor, offset: list[float] = [0, 0], data = None):
         # Top down map along the X and Z axis
@@ -223,9 +208,9 @@ class Plugin(ETS2LAPlugin):
         target_lane = self.globals.tags.next_intersection_lane
         target_lane = self.globals.tags.merge(target_lane)
         
-        bounding_box = self.intersection["bounding_box"]
-        bounding_box = [bounding_box["min_x"], bounding_box["min_y"], bounding_box["max_x"], bounding_box["max_y"]] # y = z
-        
+        bounding_box = self.intersection.bounding_box
+        bounding_box = [bounding_box.min_x, bounding_box.min_y, bounding_box.max_x, bounding_box.max_y] # y = z
+
         rotation = data["truckPlacement"]["rotationX"] * 360
         x = data["truckPlacement"]["coordinateX"]
         z = data["truckPlacement"]["coordinateZ"]
@@ -243,13 +228,13 @@ class Plugin(ETS2LAPlugin):
             return x >= bounding_box[0] - expand and x <= bounding_box[2] + expand and y >= bounding_box[1] - expand and y <= bounding_box[3] + expand
         
         lanes = []
-        for i, lane in enumerate(self.intersection["nav_routes"]):
+        for i, lane in enumerate(self.intersection.nav_routes):
             if i == target_lane:
                 continue
             cur_lane = []
-            for curve in lane["curves"]:
-                points = curve["points"]
-                points = [convert_to_center_aligned_coordinate(point["x"], point["z"]) for point in points]
+            for curve in lane.curves:
+                points = curve.points
+                points = [convert_to_center_aligned_coordinate(point.x, point.z) for point in points]
                 points = [rotate_around_center(point[0], point[1], rotation) for point in points]
                 
                 cur_lane.append((
@@ -266,12 +251,12 @@ class Plugin(ETS2LAPlugin):
         # Add target lane
         try:
             if target_lane is not None:
-                target_lane = self.intersection["nav_routes"][target_lane]
-                
+                target_lane = self.intersection.nav_routes[target_lane]
+
                 cur_lane = []
-                for curve in target_lane["curves"]:
-                    points = curve["points"]
-                    points = [convert_to_center_aligned_coordinate(point["x"], point["z"]) for point in points]
+                for curve in target_lane.curves:
+                    points = curve.points
+                    points = [convert_to_center_aligned_coordinate(point.x, point.z) for point in points]
                     points = [rotate_around_center(point[0], point[1], rotation) for point in points]
                     
                     cur_lane.append((
@@ -527,6 +512,7 @@ class Plugin(ETS2LAPlugin):
                     for line in lane:
                         ar_data.append(line)
         except:
+            logging.exception("Failed to create intersection map")
             pass
         
         return ar_data
@@ -549,8 +535,6 @@ class Plugin(ETS2LAPlugin):
 
     def HudUpdater(self):
         while True:
-            self.get_map_data()
-            
             speed_nav_offset_x = 0
             offset_x, offset_y, offset_z = self.get_offsets()
             anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)

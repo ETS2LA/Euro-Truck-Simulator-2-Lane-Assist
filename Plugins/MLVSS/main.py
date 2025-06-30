@@ -11,7 +11,8 @@ class Plugin(ETS2LAPlugin):
         name="MLVSS",
         version="1.0",
         description="ML Vision Sensor System. In Development.",
-        modules=["TruckSimAPI"]
+        modules=["TruckSimAPI"],
+        fps_cap=1000
     )
 
     author = Author(
@@ -20,7 +21,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
-    fps_cap = 1000
 
     def imports(self):
         global SCS_telemetry; from Modules.TruckSimAPI.main import scsTelemetry as SCS_telemetry

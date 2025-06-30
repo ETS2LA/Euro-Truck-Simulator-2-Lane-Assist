@@ -68,14 +68,14 @@ class ACCGate(Gate):
         self.distance = distance
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 15
     
     description = PluginDescription(
         name="plugins.adaptivecruisecontrol",
         version="1.0",
         description="plugins.adaptivecruisecontrol.description",
         modules=["SDKController", "TruckSimAPI", "Traffic", "Semaphores"],
-        tags=["Base", "Speed Control"]
+        tags=["Base", "Speed Control"],
+        fps_cap=15
     )
     
     author = Author(
@@ -470,21 +470,7 @@ class Plugin(ETS2LAPlugin):
             
         return ACCVehicle(closest_vehicle, closest_distance, time_to_vehicle)
     
-    
-    def get_traffic_light_in_front(self, api_data: dict) -> ACCTrafficLight:
-        try:    lights = self.modules.Semaphores.run()
-        except: return None
-        
-        points = self.map_points
-        
-        if points is None or points == []: return None
-        if lights is None: return None
-        
-        lights = [light for light in lights if light.type == "traffic_light"]
-        lights = [light for light in lights if self.get_distance([api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"]],
-                                                                 [light.position.x + 512 * light.cx, light.position.z + 512 * light.cy]) < 150]
-        if len(lights) == 0: return None
-        
+    def get_valid_lights(self, api_data: dict, lights: list) -> list:
         valid_lights = []
         rotationX = api_data["truckPlacement"]["rotationX"]
         angle = rotationX * 360
@@ -519,8 +505,24 @@ class Plugin(ETS2LAPlugin):
                     lateral_distance = abs(total_distance**2 - forward_distance**2)**0.5
                     if lateral_distance < 11:  # 2 * 4.5m lanes + 2m margin
                         valid_lights.append((forward_distance, light))
-                
                         
+        return valid_lights
+    
+    def get_traffic_light_in_front(self, api_data: dict) -> ACCTrafficLight:
+        try:    lights = self.modules.Semaphores.run()
+        except: return None
+        
+        points = self.map_points
+        
+        if points is None or points == []: return None
+        if lights is None: return None
+        
+        lights = [light for light in lights if light.type == "traffic_light"]
+        lights = [light for light in lights if self.get_distance([api_data["truckPlacement"]["coordinateX"], api_data["truckPlacement"]["coordinateZ"]],
+                                                                 [light.position.x + 512 * light.cx, light.position.z + 512 * light.cy]) < 150]
+        if len(lights) == 0: return None
+                        
+        valid_lights = self.get_valid_lights(api_data, lights)
         if len(valid_lights) == 0:
             return None
         
@@ -533,7 +535,58 @@ class Plugin(ETS2LAPlugin):
             
         return closest_light
     
-    
+    def get_next_prefab_traffic_light(self, api_data: dict) -> ACCTrafficLight:
+        try:    live_semaphores = self.modules.Semaphores.run()
+        except: return None
+        
+        prefab = self.globals.tags.next_intersection
+        prefab = self.globals.tags.merge(prefab)
+        if not prefab:
+            return None
+        
+        index = self.globals.tags.next_intersection_lane["plugins.map"]
+        if index is None:
+            return None
+        
+        route = prefab.nav_routes[index]
+        
+        semaphores = []
+        for curve in route.curves:
+            if curve.semaphore_id != -1:
+                possibilities = [light for light in live_semaphores if light.id == curve.semaphore_id]
+                closest = min(possibilities, key=lambda light: self.get_distance([
+                    curve.start.x,
+                    curve.start.y,
+                    curve.start.z
+                ], [
+                    light.position.x + 512 * light.cx,
+                    light.position.y,
+                    light.position.z + 512 * light.cy
+                ]), default=None)
+                if closest is not None:
+                    semaphores.append(closest)
+                  
+        truck_x = api_data["truckPlacement"]["coordinateX"]
+        truck_y = api_data["truckPlacement"]["coordinateZ"]
+        truck_z = api_data["truckPlacement"]["coordinateY"]
+        
+        if not semaphores:
+            return None
+        
+        semaphores = self.get_valid_lights(api_data, semaphores)
+        
+        closest = None
+        closest_distance = math.inf
+        for distance, semaphore in semaphores:
+            if distance < closest_distance:
+                closest_distance = distance
+                closest = semaphore
+                
+        if closest is not None:
+            return ACCTrafficLight(closest, closest_distance)
+        
+        return None
+
     def get_gate_in_front(self, api_data: dict) -> ACCGate:
         try:    gates = self.modules.Semaphores.run()
         except: return None
@@ -784,6 +837,12 @@ class Plugin(ETS2LAPlugin):
         
         try:    traffic_light = self.get_traffic_light_in_front(self.api_data)
         except: traffic_light = None
+        
+        # try:    traffic_light = self.get_next_prefab_traffic_light(self.api_data)
+        # except: traffic_light = None
+            
+        if traffic_light:
+            print("Traffic light in front:", traffic_light.state, traffic_light.distance)
         
         try:    gate = self.get_gate_in_front(self.api_data)
         except:

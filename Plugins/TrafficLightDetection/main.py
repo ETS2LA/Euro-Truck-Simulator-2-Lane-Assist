@@ -79,7 +79,8 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="In Development.",
         modules=["TruckSimAPI"],
-        tags=["Traffic Lights"]
+        tags=["Traffic Lights"],
+        fps_cap=500
     )
 
     author = Author(
@@ -88,7 +89,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
-    fps_cap = 500
 
 
     def imports(self):

@@ -30,8 +30,13 @@ def IsGameRunning():
         
     return False
 
+def GetFilesForVersion(version: str) -> list[str]:
+    if version not in files_for_version:
+        return []
+    return files_for_version[version]
+
 def CheckIfInstalled(path: str, version: str, detailed: bool = False) -> bool | dict:
-    files = files_for_version[version]
+    files = GetFilesForVersion(version)
     if not os.path.exists(path + target_path):
         if not detailed:
             return False
@@ -85,7 +90,7 @@ class Page(ETS2LAPage):
             if not CheckIfInstalled(game, version):
                 logging.info(f"Installing SDKs for {game}")
                 os.makedirs(game + target_path, exist_ok=True)
-                files = files_for_version[version]
+                files = GetFilesForVersion(version)
                 for file in files:
                     with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
                         with open(game + target_path + "\\" + file, "wb") as g:
@@ -107,7 +112,7 @@ class Page(ETS2LAPage):
         try:
             if CheckIfInstalled(game, version):
                 logging.info(f"Uninstalling SDKs for {game}")
-                files = files_for_version[version]
+                files = GetFilesForVersion(version)
                 for file in files:
                     os.remove(game + target_path + "\\" + file)
                     
@@ -169,7 +174,7 @@ class Page(ETS2LAPage):
                             file_install_status = []
                             is_installed = False
                         else:    
-                            files = files_for_version[version]
+                            files = GetFilesForVersion(version)
                             is_installed = [file_install_status[file] for file in files] == [True] * len(files)
                         
                     

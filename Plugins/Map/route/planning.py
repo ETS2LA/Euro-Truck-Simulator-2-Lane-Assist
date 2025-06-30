@@ -400,7 +400,7 @@ def GetNextNavigationItem():
         selected_node = end_node
 
     elif start_in_front and end_in_front:
-        if start_distance > 30 and end_distance > 30:
+        if start_distance > 50 and end_distance > 50:
             return None
         
         if start_distance < end_distance:
@@ -693,7 +693,7 @@ def UpdateRoutePlan():
         
         if len(data.route_plan) == 0:
             return
-   
+        
         if len(data.route_plan) < data.route_plan_length:
             item = GetNextNavigationItem()
             try:

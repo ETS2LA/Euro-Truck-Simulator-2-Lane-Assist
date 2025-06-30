@@ -73,6 +73,8 @@ class Plugin:
     pages: dict = {}
     """All plugins share the same pages dictionary. This way they can easily share page data."""
     
+    frametimes: list[float]
+    
     def start_plugin(self) -> None:
         # First initialize / reset the variables
         self.stack = {}
@@ -80,6 +82,7 @@ class Plugin:
             "status": "",
             "progress": -1
         }
+        self.frametimes = []
         self.last_controls_state = {}
         self.stop = False
         self.running = False
@@ -105,9 +108,9 @@ class Plugin:
     
     def __init__(self, folder: str) -> None:
         self.folder = folder
+        
         self.start_plugin()
         
-        # Start to listen for messages from the plugin.
         threading.Thread(
             target=self.listener,
             daemon=True
@@ -115,7 +118,7 @@ class Plugin:
         
         message = self.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
         if message is None:
-            logging.error(f"Plugin {folder} failed to start: Timeout.")
+            logging.error(f"Plugin {folder} failed to start: Timeout.\nTry to close other programs to give more memory and CPU to the plugin.")
             self.remove()
             return
         
@@ -157,6 +160,11 @@ class Plugin:
             target=self.notification_handler,
             daemon=True
         ).start()
+        
+        threading.Thread(
+            target=self.performance_handler,
+            daemon=True
+        ).start()
 
         self.keep_alive()
 
@@ -169,10 +177,7 @@ class Plugin:
     def listener(self):
         """Send all messages into the stack."""
         while True:
-            while self.return_queue.empty():
-                time.sleep(0.01)
-                
-            try: message: PluginMessage = self.return_queue.get(timeout=1)
+            try: message: PluginMessage = self.return_queue.get(timeout=2)
             except: time.sleep(0.01); continue
             
             if message.channel == Channel.STOP_PLUGIN:
@@ -215,7 +220,7 @@ class Plugin:
                     
                     message.state = State.DONE
                     message.data = response
-                    self.queue.put(message)
+                    self.queue.put(message, block=True)
             
             if Channel.UPDATE_TAGS in self.stack:
                 while self.stack[Channel.UPDATE_TAGS]:
@@ -233,7 +238,7 @@ class Plugin:
                     
                     message.state = State.DONE
                     message.data = "success" # clear data for faster transmit
-                    self.queue.put(message)
+                    self.queue.put(message, block=True)
             
             time.sleep(0.01)
     
@@ -284,6 +289,20 @@ class Plugin:
                         notifications.navigate(url, plugin, reason)
             time.sleep(0.1)
 
+    def performance_handler(self):
+        """Handle the performance data from the plugin."""
+        while True:
+            if Channel.FRAMETIME_UPDATE in self.stack:
+                while self.stack[Channel.FRAMETIME_UPDATE]:
+                    message = self.stack[Channel.FRAMETIME_UPDATE].popitem()[1]
+                    if "frametime" in message.data:
+                        frametime = message.data["frametime"]
+                        self.frametimes.append(frametime)
+                        if len(self.frametimes) > 60:
+                            self.frametimes.pop(0)
+            
+            time.sleep(0.5)
+
     def wait_for_channel_message(self, channel: Channel, id: int, timeout: float = -1) -> PluginMessage | None:
         """Wait for a message with the given ID."""
         start_time = time.perf_counter()
@@ -303,7 +322,10 @@ class Plugin:
     def remove(self) -> None:
         """Remove the current plugin"""
         self.stop = True
-        plugins.remove(self)
+        try:
+            plugins.remove(self)
+        except: pass
+        
         try:
             self.process.kill()
             self.process.join()
@@ -319,7 +341,7 @@ class Plugin:
             Channel.GET_DESCRIPTION, {}
         )
         self.queue.put(message)
-        response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
+        response = self.wait_for_channel_message(message.channel, message.id, timeout=10)
         if response is None:
             logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
             self.remove()
@@ -374,7 +396,7 @@ def create_processes() -> None:
         threading.Thread(target=Plugin, name=f"Backend for {folder.split('/')[-1]}",
                          args=(folder,), daemon=True).start()
 
-    time.sleep(10)
+    time.sleep(15)
     logging.info(f"Loaded {len(plugins)} plugins.")
   
 def run() -> None:

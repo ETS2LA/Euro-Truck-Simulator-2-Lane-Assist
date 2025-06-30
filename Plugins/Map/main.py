@@ -41,7 +41,7 @@ last_im_hash = hash(open(im.__file__).read())
 last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())  
 
 UPDATING_OFFSET_CONFIG = False
-DEVELOPER_PRINTING = False
+DEVELOPER_PRINTING = True
 
 enable_disable = ControlEvent(
     "toggle_map",
@@ -65,12 +65,12 @@ class Plugin(ETS2LAPlugin):
         modules=["SDKController", "TruckSimAPI", "Steering", "Route"],
         tags=["Base", "Steering"],
         ui_filename="ui.py",
+        fps_cap=20
     )
     last_dest_company = None 
     
     controls = [enable_disable]
     
-    fps_cap = 20
     pages = [SettingsMenu]
     
     steering_smoothness: float = 0.2
@@ -352,7 +352,10 @@ class Plugin(ETS2LAPlugin):
                 
                 if len(data.route_plan) > 1 and type(data.route_plan[1].items[0].item) == c.Prefab:
                     self.globals.tags.next_intersection_lane = data.route_plan[1].lane_index
-                    self.globals.tags.next_intersection_uid = data.route_plan[1].items[0].item.uid
+                    self.globals.tags.next_intersection = data.route_plan[1].items[0].item
+                elif len(data.route_plan) > 2 and type(data.route_plan[2].items[0].item) == c.Prefab:
+                    self.globals.tags.next_intersection_lane = data.route_plan[2].lane_index
+                    self.globals.tags.next_intersection = data.route_plan[2].items[0].item
                     
                 if type(data.route_plan[0].items[0].item) == c.Road:
                     self.globals.tags.road_type = "highway" if "hw" in data.route_plan[0].items[0].item.road_look.name else "normal"

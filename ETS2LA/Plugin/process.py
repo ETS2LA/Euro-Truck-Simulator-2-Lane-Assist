@@ -6,11 +6,20 @@ from ETS2LA.Controls import ControlEvent
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
 
+import sys
 import threading
 import importlib
 import logging
 import time
 import os
+
+class PerformanceEntry:
+    timestamp: float
+    frametime: float
+    
+    def __init__(self, timestamp: float, frametime: float):
+        self.timestamp = timestamp
+        self.frametime = frametime
 
 class PluginProcess:
     queue: Queue
@@ -80,8 +89,15 @@ class PluginProcess:
     The relative path of the files belonging to this process.
     """
     
+    performance: list[PerformanceEntry] = []
+    """
+    Performance entries for this plugin. This is used to
+    track the performance of the plugin.
+    """
+    
     output_needs_update: bool = False
     pending_output_update: bool = False
+    last_output_time: int = 0
     output_tags: dict = {}
     """
     Output tags are tags that this plugin wants to send to others.
@@ -132,16 +148,23 @@ class PluginProcess:
             raise ImportError(f"Error importing plugin file: {e}")
         
         logging.info(f"Plugin file imported successfully: {self.file}")
+        
         self.description = self.file.Plugin.description
         self.authors = self.file.Plugin.author
+        if type(self.authors) is not list:
+            self.authors = [self.authors]
+            
+        logging.info(f"Read plugin description. {self.description.name} by {', '.join(author.name for author in self.authors)}")
         
         # Pages need to be instantiated before use.
         self.pages = self.file.Plugin.pages
         self.pages = [page() for page in self.pages] # type: ignore
+        logging.info(f"Loaded {len(self.pages)} pages")
         
         # Controls don't need to be instantiated before use.
         # They are instantiated when the plugin is created.
         self.controls = self.file.Plugin.controls
+        logging.info(f"Loaded {len(self.controls)} controls")
         
         return None
         
@@ -193,14 +216,17 @@ class PluginProcess:
                 self.input_tags_that_need_update = []
                 self.return_queue.put(message, block=False)
                 
-            if self.output_needs_update and not self.pending_output_update:
+            if self.output_needs_update and (not self.pending_output_update or time.time() > self.last_output_time + 1):
                 self.pending_output_update = True
                 message = PluginMessage(
                     Channel.UPDATE_TAGS, self.output_tags
                 )
-                
-                self.output_needs_update = False
+
                 self.return_queue.put(message, block=False)
+
+                self.last_output_time = time.time()
+                self.output_needs_update = False
+                self.output_tags = {}
 
             time.sleep(0.01)
     
@@ -218,6 +244,7 @@ class PluginProcess:
                 time.sleep(1)
                 continue
             
+            start = time.time()
             try: self.plugin.before()
             except: pass
             
@@ -226,7 +253,31 @@ class PluginProcess:
             
             try: self.plugin.after()
             except: pass
-        
+            end = time.time()
+            
+            frametime = (end - start) * 1000  # Convert to milliseconds
+            self.performance.append(PerformanceEntry(start, frametime))
+
+    def performance_updater(self) -> None:
+        """Update the performance data."""
+        while True:
+            time.sleep(1)
+            
+            if not self.performance:
+                continue
+            
+            count = len(self.performance)
+            total = sum(entry.frametime for entry in self.performance)
+            average = total / count if count > 0 else 0
+            self.performance = []
+            
+            message = PluginMessage(
+                Channel.FRAMETIME_UPDATE, {
+                    "frametime": average,
+                }
+            )
+            self.return_queue.put(message, block=False)
+
     def page_updater(self) -> None:
         """Update the pages."""
         while True:
@@ -252,6 +303,8 @@ class PluginProcess:
                     logging.exception("Page build failed.")
         
     def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
+        start_time = time.time()
+        
         self.queue = queue
         self.return_queue = return_queue
         
@@ -261,7 +314,8 @@ class PluginProcess:
             console_level=logging.WARNING,
             filepath=os.path.join(os.getcwd(), "logs", f"{name}.log")
         )
-        
+        logging.info(f"Started logging")
+
         files = os.listdir(path)
         if "main.py" not in files:
             self.return_queue.put(PluginMessage(
@@ -279,6 +333,7 @@ class PluginProcess:
         )
         message.state = State.DONE
         self.return_queue.put(message)
+        logging.info(f"Indicated success in {time.time() - start_time:.2f} seconds")
         
         threading.Thread(
             target=self.listener,
@@ -294,6 +349,12 @@ class PluginProcess:
             target=self.page_updater,
             daemon=True
         ).start()
+        
+        threading.Thread(
+            target=self.performance_updater,
+            daemon=True
+        ).start()
+        logging.info(f"Threads started, moving to process loop")
         
         self.process()
         

@@ -24,7 +24,8 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="NavigationDetectionAI works by following the route on the route advisor using a ML model which generates a steering value from the image.",
         modules=["TruckSimAPI", "SDKController"],
-        tags=["Steering"]
+        tags=["Steering"],
+        fps_cap=500
     )
 
     author = Author(
@@ -33,7 +34,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
-    fps_cap = 500
 
     def imports(self):
         global SCSTelemetry, SCSController, ScreenCapture, ShowImage, variables, settings, pytorch, np, keyboard, time, cv2

@@ -61,6 +61,9 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
     
     def seconds_to_time(self, seconds):
+        if seconds == 0:
+            return Translate("about.statistics.usage_time_value_minute", [str(0)])
+        
         hours = round(seconds // 3600)
         minutes = round((seconds % 3600) // 60)
         if hours == 0:

@@ -296,7 +296,8 @@ class Plugin(ETS2LAPlugin):
         version="2.0",
         description="plugin.visualizationsockets.description",
         modules=["TruckSimAPI", "Traffic", "Semaphores"],
-        tags=["Base", "Visualization"]
+        tags=["Base", "Visualization"],
+        fps_cap=20
     )
     
     author = Author(
@@ -306,7 +307,6 @@ class Plugin(ETS2LAPlugin):
     )
     
     pages = [SettingsMenu]
-    fps_cap = 20
 
     def imports(self):
         global multiprocessing, websockets, threading, logging, asyncio, json, os, time
@@ -648,7 +648,7 @@ class Plugin(ETS2LAPlugin):
         api_data = TruckSimAPI.run()
         channel_data = {} # Cache data for each channel for a frame.
         
-        self.fps_cap = 20
+        self.description.fps_cap = 20
         self.last_timestamp = api_data["time"]
 
         try:

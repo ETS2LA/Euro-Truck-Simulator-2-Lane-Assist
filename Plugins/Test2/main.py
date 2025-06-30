@@ -5,7 +5,6 @@ from ETS2LA.Plugin import *
 import time
 
 class Plugin(ETS2LAPlugin):
-    fps_cap = 99999
     
     description = PluginDescription(
         name="Test2",
@@ -13,6 +12,7 @@ class Plugin(ETS2LAPlugin):
         description="Test",
         modules=["Camera"],
         listen=["*.py"],
+        fps_cap=99999
     )
     
     author = Author(

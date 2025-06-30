@@ -184,6 +184,7 @@ class PluginDescription:
     :param dict[str, str] update_log: The update log of the plugin.
     :param bool hidden: If the plugin is hidden from the frontend when development mode is not enabled.
     :param list[str] listen: List of files that will trigger a restart when changed. Default is ["*.py"] (all python files in the root folder). Listening only works in dev mode.
+    :param float fps_cap: The maximum frames per second the plugin will run at. Default is 30.
     """
     name: str
     version: str
@@ -197,6 +198,7 @@ class PluginDescription:
     hidden: bool = False
     listen: list[str] = ["*.py"]
     ui_filename: str = ""
+    fps_cap: float = 30.0
     
     def __init__(self, name: str = "", version: str = "", 
                  description: str = "", tags: list[str] = [], dependencies: list[str] = [], 
@@ -204,7 +206,7 @@ class PluginDescription:
                  compatible_game: list[Literal["ETS2", "ATS"]] = ["ETS2", "ATS"], 
                  update_log: dict[str, str] ={}, modules: list[str] = [], 
                  hidden: bool = False, listen: list[str] = ["*.py"],
-                 ui_filename: str = "") -> None:
+                 ui_filename: str = "", fps_cap: float = 30.0) -> None:
         self.name = name
         self.version = version
         self.description = description
@@ -217,3 +219,4 @@ class PluginDescription:
         self.hidden = hidden
         self.listen = listen
         self.ui_filename = ui_filename
+        self.fps_cap = fps_cap

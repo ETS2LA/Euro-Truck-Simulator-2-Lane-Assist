@@ -260,6 +260,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
                     ),
                     curve["nextLines"],
                     curve["prevLines"],
+                    TryReadExcept(curve, "semaphoreId", -1)
                 )
                 for curve in prefab_description["navCurves"]
             ],

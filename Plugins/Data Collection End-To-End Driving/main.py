@@ -195,7 +195,8 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description="plugin.datacollectionendtoenddriving.description",
         modules=["TruckSimAPI", "Camera"],
-        tags=[]
+        tags=[],
+        fps_cap=10
     )
 
     author = Author(
@@ -204,7 +205,6 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/145870870?v=4"
     )
 
-    fps_cap = 10
     # settings_menu = SettingsMenu()
 
     def imports(self):

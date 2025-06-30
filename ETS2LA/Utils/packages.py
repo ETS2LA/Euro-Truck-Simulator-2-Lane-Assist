@@ -81,7 +81,7 @@ def DownloadLibrary(library: str, force: bool = False):
         
     if not os.path.exists(library_path + library):
         print(f"{GREEN} -- Please wait, we need to download the library:{YELLOW} {library} {GREEN}--{END}")
-        print(f"{GREEN} -- If the download seems slow, then -- {END}")
+        print(f"{GREEN} -- If the download seems slow, then you can often run <winget install {library}> in a console -- {END}")
         
         with requests.get(url, stream=True, timeout=2) as response:
             total_size = int(response.headers.get('content-length', 0))
