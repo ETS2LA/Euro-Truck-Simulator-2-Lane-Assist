@@ -1350,6 +1350,29 @@ class GraphType():
     AREA = "area"
     PIE = "pie"
         
+class GraphAxisOptions():
+    data_key: str
+    hide: bool = True
+    max: int | None = None
+    min: int | None = None
+    tick_count: int | None = None
+        
+    def __init__(self, data_key: str, hide: bool = True, max: int | None = None, min: int | None = None, tick_count: int | None = None):
+        self.data_key = data_key
+        self.hide = hide
+        self.max = max
+        self.min = min
+        self.tick_count = tick_count
+        
+    def to_dict(self) -> dict:
+        return {
+            "data_key": self.data_key,
+            "hide": self.hide,
+            "max": self.max,
+            "min": self.min,
+            "tick_count": self.tick_count
+        }
+        
 class Graph():
     """
     A graph element that can be used to display data in a visual
@@ -1389,8 +1412,8 @@ class Graph():
     Graph(
         data=data,
         config=config,
-        x_key="browser",   # The key that will be used for the x-axis
-        y_key="visitors",  # The key that will be used for the y-axis
+        x=GraphAxisOptions("browser"),   # The key that will be used for the x-axis
+        y=GraphAxisOptions("visitors"),  # The key that will be used for the y-axis
         style=Style(),  # You can specify a style to change the container properties
     )
     ```
@@ -1400,8 +1423,8 @@ class Graph():
         self,
         data: list[dict],
         config: dict,
-        x_key: str,
-        y_key: str,
+        x: GraphAxisOptions,
+        y: GraphAxisOptions,
         type: GraphType = GraphType.AREA,
         style: Style = Style(),
     ):
@@ -1410,16 +1433,16 @@ class Graph():
         self.data = data
         self.config = config
         self.style = style
-        self.x_key = x_key
-        self.y_key = y_key
+        self.x = x
+        self.y = y
         
         dictionary.append({
             "graph": {
                 "id": self.id,
                 "data": self.data,
                 "config": self.config,
-                "x_key": self.x_key,
-                "y_key": self.y_key,
+                "x": self.x.to_dict(),
+                "y": self.y.to_dict(),
                 "type": type,
                 "style": self.style.to_dict()
             }
