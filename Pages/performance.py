@@ -13,6 +13,7 @@ class Page(ETS2LAPage):
     
     cpu_usage = []
     ram_usage = []
+    ets2la_mem_usage = []
     
     def cpu_thread(self):
         while True:
@@ -32,12 +33,26 @@ class Page(ETS2LAPage):
             if len(self.cpu_usage) > 60:
                 self.cpu_usage.pop(0)
     
+    def get_all_python_process_mem_usage_percent(self):
+        total = 0
+        for proc in psutil.process_iter():
+            try:
+                if "python" in proc.name().lower(): # backend
+                    total += proc.memory_percent()
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+            
+        return total
+    
     def ram_thread(self):
         while True:
             time.sleep(1)
             self.ram_usage.append(psutil.virtual_memory().percent)
+            self.ets2la_mem_usage.append(round(self.get_all_python_process_mem_usage_percent(), 1))
             if len(self.ram_usage) > 60:
                 self.ram_usage.pop(0)
+            if len(self.ets2la_mem_usage) > 60:
+                self.ets2la_mem_usage.pop(0)
 
     def __init__(self):
         super().__init__()
@@ -71,10 +86,6 @@ class Page(ETS2LAPage):
         
         return graph_data
 
-    def list_to_data(self, data: list[float], name:str = "value") -> list[dict]:
-        """Convert a list of floats to a list of dictionaries for graphing."""
-        return [{"time": i, name: value} for i, value in enumerate(data)]
-
     def render(self):
         start_time = time.perf_counter()
         with Container(styles.FlexVertical() + styles.Classname("p-4")):
@@ -86,28 +97,35 @@ class Page(ETS2LAPage):
                         Space(styles.Height("24px"))
                         
                     with Container(styles.FlexHorizontal() + styles.Classname("gap-6")):
-                        with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full h-full")):
-                            with Container(styles.FlexHorizontal()):
+                        with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full h-full relative") + styles.Height("320px")):
+                            with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
                                 Text("CPU Usage")
                                 if self.cpu_usage:
                                     Text(f"{round(self.cpu_usage[-1])}%", styles.Description())
-                            Graph(
-                                data=self.list_to_data(self.cpu_usage, name="cpu"),
-                                config={"cpu": {"label": "CPU Usage "}},
-                                x=GraphAxisOptions("time"),
-                                y=GraphAxisOptions("cpu", max=100, min=0),
-                            )
-                        with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full h-full")):
-                            with Container(styles.FlexHorizontal()):
+                                   
+                            with Container(styles.Classname("absolute bottom-0 left-0 right-0")): 
+                                Graph(
+                                    data=[{"time": i, "cpu": value} for i, value in enumerate(self.cpu_usage)],
+                                    config={"cpu": {"label": "CPU Usage "}},
+                                    x=GraphAxisOptions("time"),
+                                    y=GraphAxisOptions("cpu", max=100, min=0),
+                                    style=styles.MaxHeight("270px"),
+                                )
+                                
+                        with Container(styles.FlexVertical() + styles.Classname("relative border rounded-md p-4 w-full h-full") + styles.Height("320px")):
+                            with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
                                 Text("RAM Usage")
                                 if self.ram_usage:
                                     Text(f"{round(self.ram_usage[-1])}%", styles.Description())
-                            Graph(
-                                data=self.list_to_data(self.ram_usage, name="ram"),
-                                config={"ram": {"label": "RAM Usage "}},
-                                x=GraphAxisOptions("time"),
-                                y=GraphAxisOptions("ram", max=100, min=0),
-                            )
+                                    
+                            with Container(styles.Classname("absolute bottom-0 left-0 right-0")): 
+                                Graph(
+                                    data=[{"time": i, "ram": value, "ets2la_ram": self.ets2la_mem_usage[i]} for i, value in enumerate(self.ram_usage)],
+                                    config={"ram": {"label": "RAM Usage "}, "ets2la_ram": {"label": "ETS2LA RAM Usage  "}},
+                                    x=GraphAxisOptions("time"),
+                                    y=[GraphAxisOptions("ram", max=100, min=0), GraphAxisOptions("ets2la_ram", max=100, min=0, color="#395C5B")],
+                                    style=styles.MaxHeight("270px"),
+                                )
                         
                 with Tab("Plugins"):
                     with Container(styles.FlexVertical() + styles.Classname("gap-6")):
@@ -123,8 +141,8 @@ class Page(ETS2LAPage):
                                 if plugin.description.name not in self.first_times:
                                     self.first_times[plugin.description.name] = plugin.frametimes[0]
                                 
-                                with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4")):
-                                    with Container(styles.FlexHorizontal()):
+                                with Container(styles.FlexVertical() + styles.Classname("relative border rounded-md p-4") + styles.Height("200px")):
+                                    with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
                                         Text(plugin.description.name)
                                         Text(self.format_frametime(plugin.frametimes[-1], plugin.description.fps_cap), styles.Description())
                                     
@@ -137,14 +155,15 @@ class Page(ETS2LAPage):
                                             "label": "FPS ",
                                         }
                                     }
-                                    Graph(
-                                        data=graph_data,
-                                        config=graph_config,
-                                        x=GraphAxisOptions("time"),
-                                        y=GraphAxisOptions("fps", max=plugin.description.fps_cap * 1.05, min=0),
-                                        type="area",
-                                        style=styles.MaxHeight("200px")
-                                    )
+                                    with Container(styles.Classname("absolute bottom-0 left-0 right-0")): 
+                                        Graph(
+                                            data=graph_data,
+                                            config=graph_config,
+                                            x=GraphAxisOptions("time"),
+                                            y=GraphAxisOptions("fps", max=plugin.description.fps_cap, min=0),
+                                            type="area",
+                                            style=styles.MaxHeight("150px")
+                                        )
                             except:
                                 Text(f"Failed to render plugin {plugin.description.name}.", styles.Description() + styles.Classname("text-red-500"))
 

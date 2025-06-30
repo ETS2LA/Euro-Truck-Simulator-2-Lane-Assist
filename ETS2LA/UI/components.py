@@ -1353,13 +1353,15 @@ class GraphType():
 class GraphAxisOptions():
     data_key: str
     hide: bool = True
+    color: str | None = None
     max: int | None = None
     min: int | None = None
     tick_count: int | None = None
         
-    def __init__(self, data_key: str, hide: bool = True, max: int | None = None, min: int | None = None, tick_count: int | None = None):
+    def __init__(self, data_key: str, hide: bool = True, color: str | None = None, max: int | None = None, min: int | None = None, tick_count: int | None = None):
         self.data_key = data_key
         self.hide = hide
+        self.color = color
         self.max = max
         self.min = min
         self.tick_count = tick_count
@@ -1368,6 +1370,7 @@ class GraphAxisOptions():
         return {
             "data_key": self.data_key,
             "hide": self.hide,
+            "color": self.color,
             "max": self.max,
             "min": self.min,
             "tick_count": self.tick_count
@@ -1424,7 +1427,7 @@ class Graph():
         data: list[dict],
         config: dict,
         x: GraphAxisOptions,
-        y: GraphAxisOptions,
+        y: GraphAxisOptions | list[GraphAxisOptions],
         type: GraphType = GraphType.AREA,
         style: Style = Style(),
     ):
@@ -1442,7 +1445,7 @@ class Graph():
                 "data": self.data,
                 "config": self.config,
                 "x": self.x.to_dict(),
-                "y": self.y.to_dict(),
+                "y": [axis.to_dict() for axis in self.y] if isinstance(self.y, list) else self.y.to_dict(),
                 "type": type,
                 "style": self.style.to_dict()
             }
