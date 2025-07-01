@@ -512,7 +512,7 @@ class Plugin(ETS2LAPlugin):
                     for line in lane:
                         ar_data.append(line)
         except:
-            logging.exception("Failed to create intersection map")
+            # logging.exception("Failed to create intersection map")
             pass
         
         return ar_data
