@@ -1451,6 +1451,35 @@ class Graph():
             }
         })
 
+class Youtube():
+    """
+    A Youtube video embed. Provide the youtube video ID and it will embed the video.
+    You can use the `style` parameter to specify the size and other properties.
+    
+    ```python
+    Youtube("dQw4w9WgXcQ", style=Style())
+    ```
+    """
+    def __init__(
+        self,
+        video_id: str,
+        style: Style = Style(),
+    ):
+        self.id = increment()
+        
+        if not video_id:
+            raise ValueError("You must specify a video ID.")
+        
+        self.video_id = video_id
+        self.style = style
+        
+        dictionary.append({
+            "youtube": {
+                "id": self.id,
+                "video_id": self.video_id,
+                "style": self.style.to_dict()
+            }
+        })
 
 def RenderUI():
     global dictionary, current_id

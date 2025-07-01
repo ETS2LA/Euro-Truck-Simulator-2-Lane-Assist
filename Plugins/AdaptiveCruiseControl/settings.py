@@ -48,6 +48,23 @@ class SettingsMenu(ETS2LAPage):
             value = not settings.Get("AdaptiveCruiseControl", "ignore_speed_limit")
         
         settings.Set("AdaptiveCruiseControl", "ignore_speed_limit", value)
+        
+    def handle_pid_unlock(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AdaptiveCruiseControl", "unlock_pid")
+        
+        settings.Set("AdaptiveCruiseControl", "unlock_pid", value)
+        
+    def handle_pid_kp(self, value):
+        settings.Set("AdaptiveCruiseControl", "pid_kp", value)
+        
+    def handle_pid_ki(self, value):
+        settings.Set("AdaptiveCruiseControl", "pid_ki", value)
+        
+    def handle_pid_kd(self, value):
+        settings.Set("AdaptiveCruiseControl", "pid_kd", value)
     
     def render(self):
         TitleAndDescription(
@@ -145,3 +162,45 @@ class SettingsMenu(ETS2LAPage):
                                 changed=self.handle_speed_offset,
                                 suffix="km/h",
                             )
+                            
+            with Tab("PID", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                unlocked = settings.Get("AdaptiveCruiseControl", "unlock_pid", False)
+                CheckboxWithTitleDescription(
+                    title="Unlock PID",
+                    description="You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly.",
+                    changed=self.handle_pid_unlock,
+                    default=unlocked,
+                )
+                
+                if unlocked:
+                    SliderWithTitleDescription(
+                        title="PID Kp",
+                        description="Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)",
+                        min=0.01,
+                        max=1.0,
+                        step=0.01,
+                        default=settings.Get("AdaptiveCruiseControl", "pid_kp", 0.30),
+                        changed=self.handle_pid_kp,
+                    )
+                    SliderWithTitleDescription(
+                        title="PID Ki",
+                        description="Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)",
+                        min=0.01,
+                        max=1.0,
+                        step=0.01,
+                        default=settings.Get("AdaptiveCruiseControl", "pid_ki", 0.08),
+                        changed=self.handle_pid_ki,
+                    )
+                    SliderWithTitleDescription(
+                        title="PID Kd",
+                        description="How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)",
+                        min=0.01,
+                        max=1.0,
+                        step=0.01,
+                        default=settings.Get("AdaptiveCruiseControl", "pid_kd", 0.05),
+                        changed=self.handle_pid_kd,
+                    )
+                    
+                Text("This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them.", style=styles.Description())
+                with Container(styles.FlexHorizontal() + styles.Width("100%") + styles.Height("400px")):
+                    Youtube("qKy98Cbcltw")

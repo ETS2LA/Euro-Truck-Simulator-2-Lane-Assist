@@ -123,7 +123,7 @@ class Plugin(ETS2LAPlugin):
     # PID gains
     kp_accel = 0.30  # Proportional gain
     ki_accel = 0.08  # Integral gain
-    kd_accel = 0.02  # Derivative gain
+    kd_accel = 0.05  # Derivative gain
     
     # PID state variables
     graph = PIDGraph(history=10)
@@ -134,8 +134,6 @@ class Plugin(ETS2LAPlugin):
     
     # Control smoothing
     output_smoothing_factor = 0.6  # Lower value = smoother but slower response
-    
-    # Settings that could be moved to configuration
     pid_sample_time = 0.05  # 50ms for PID cycle
     
     max_speed = SmoothedValue("time", 0.5)
@@ -193,6 +191,12 @@ class Plugin(ETS2LAPlugin):
         following_accel += 0.3 * in_front.acceleration
         
         following_accel = min(self.max_accel, max(self.emergency_decel, following_accel))
+        
+        if following_accel < self.emergency_decel * 0.9: 
+            self.globals.tags.AEB = True
+        else: 
+            self.globals.tags.AEB = False
+        
         return following_accel
     
     
@@ -286,6 +290,20 @@ class Plugin(ETS2LAPlugin):
         self.speed_offset_type = speed_offset_type
         if self.speed_offset_type is None:
             self.speed_offset_type = "Absolute"
+            
+        if self.settings.unlock_pid:
+            self.kp_accel = self.settings.pid_kp
+            self.ki_accel = self.settings.pid_ki
+            self.kd_accel = self.settings.pid_kd
+            if self.kp_accel is None:
+                self.kp_accel = 0.30
+                self.settings.pid_kp = self.kp_accel
+            if self.ki_accel is None:
+                self.ki_accel = 0.08
+                self.settings.pid_ki = self.ki_accel
+            if self.kd_accel is None:
+                self.kd_accel = 0.05
+                self.settings.pid_kd = self.kd_accel
 
 
     def calculate_target_acceleration(self, 
@@ -748,7 +766,7 @@ class Plugin(ETS2LAPlugin):
         if self.speed > self.speedlimit and len(self.accel_errors) > 5:
             if sum(self.accel_errors) > 0:
                 overshoot = round((self.speed - self.speedlimit) * 3.6)
-                self.accel_errors = self.accel_errors[overshoot*2:]
+                self.accel_errors = self.accel_errors[max(1, overshoot)*2:]
         
         # Clear the integral term if we're under 10 km/h
         # (to prevent overshooting when starting from a stop)

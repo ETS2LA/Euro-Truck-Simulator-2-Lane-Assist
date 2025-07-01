@@ -569,7 +569,11 @@ class Plugin(ETS2LAPlugin):
         vehicle_highlights = self.globals.tags.vehicle_highlights
         vehicle_highlights = self.globals.tags.merge(vehicle_highlights)
         
+        aeb = self.globals.tags.AEB
+        aeb = self.globals.tags.merge(aeb)
+        
         send = {
+            "aeb": aeb,
             "vehicles": vehicle_highlights, # list of UIDs
         }
         
