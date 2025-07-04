@@ -11,7 +11,7 @@ from rich.console import Console
 from rich.theme import Theme
 import logging
 
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Utils.settings as settings
 

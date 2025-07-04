@@ -2,7 +2,7 @@ from ETS2LA.Utils import settings as utils_settings
 from ETS2LA import variables
 from ETS2LA.UI import *
 
-import ETS2LA.Utils.translator as translator
+import ETS2LA.Utils.old_translator as translator
 import ETS2LA.Handlers.sounds as sounds 
 
 import screeninfo

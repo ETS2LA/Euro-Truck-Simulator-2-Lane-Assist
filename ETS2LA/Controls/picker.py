@@ -1,6 +1,7 @@
 from ETS2LA.Handlers.utils.key_mappings import key_to_str
 from pynput import keyboard as pynput_keyboard
 from ETS2LA.Controls import ControlEvent
+from ETS2LA.Utils.translator import _
 from ETS2LA.UI import SendPopup
 import multiprocessing
 import time
@@ -63,9 +64,9 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
                         break
 
     if new_key == "":
-        SendPopup("Timeout, please try again.", "error")
+        SendPopup(_("Timeout, please try again."), "error")
         return "", ""
     
     name = "Keyboard key" if new_guid == "keyboard" else start_values[new_guid]["name"]
-    SendPopup("Event bound to " + name + " " + new_key.capitalize().replace("_", " "), "success")
+    SendPopup(_("Event bound to {device} {action}").format(device=name, action=new_key.capitalize().replace("_", " ")), "success")
     return new_guid, new_key

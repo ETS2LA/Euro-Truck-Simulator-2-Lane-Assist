@@ -33,7 +33,7 @@ import ETS2LA.Utils.listener as listener
 # Utils
 from ETS2LA.Utils.Console.visibility import RestoreConsole
 from ETS2LA.Utils.version import check_python_version
-import ETS2LA.Utils.translator as translator
+import ETS2LA.Utils.old_translator as translator
 import ETS2LA.Networking.cloud as cloud
 
 # Misc

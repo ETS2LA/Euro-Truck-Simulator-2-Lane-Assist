@@ -8,21 +8,20 @@ import os
 import sys
 import subprocess
 
-# This try/except block will either end in a successful import, update, or error
-try: from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+try: from ETS2LA.Utils.translator import _
 except: # Ensure the current PATH contains the install directory.
     sys.path.append(os.path.dirname(__file__))
-    try: # It should work here
-        from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
+    try:
+        from ETS2LA.Utils.translator import _
     except ModuleNotFoundError: # If modules are missing, this will trigger (generally tqdm)
         print("Import errors in ETS2LA/Utils/translator.py, this is a common sign of missing modules. An update will be triggered to install these modules.")
         subprocess.run("update.bat", shell=True, env=os.environ.copy())
-        from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
-    except Exception as e: # Unkown error
-        try: # Try to get the traceback for easier debugging
+        from ETS2LA.Utils.translator import _
+    except Exception as e: # Unexpected error, print it and exit
+        try:
             import traceback
             print(traceback.format_exc())
-        except: # If that fails, just print the exception
+        except:
             print(str(e))
         input("Press enter to exit...")
         sys.exit()
@@ -91,7 +90,7 @@ def get_current_version_information() -> dict:
         }
 
 def get_fastest_mirror() -> str:
-    print(f"Testing mirrors...")
+    print(_("Testing mirrors..."))
     response_times = {}
     for mirror in FRONTEND_MIRRORS:
         try:
@@ -99,10 +98,13 @@ def get_fastest_mirror() -> str:
             requests.get(mirror, timeout=5)
             end = time.perf_counter()
             response_times[mirror] = end - start
-            print(f"- Reached {YELLOW}{mirror}{END} in {response_times[mirror] * 1000:.0f}ms")
+            print(_("- Reached {0} in {1:.0f}ms").format(
+                YELLOW + mirror + END, 
+                response_times[mirror] * 1000
+            ))
         except requests.RequestException:
             response_times[mirror] = float('inf')
-            print(f" - Reached {YELLOW}{mirror}{END} in (TIMEOUT)")
+            print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
         
     fastest_mirror = min(response_times, key=response_times.get)
     return fastest_mirror
@@ -117,8 +119,7 @@ def update_frontend() -> bool:
     )
     
     if did_update:
-        print(f"{GREEN} -- Running post download action for submodule: {YELLOW} Interface {GREEN} -- {END}")
-        UpdateFrontendTranslations()
+        print(GREEN + _(" -- Running post download action for submodule:  Interface  -- ") + END)
         ExecuteCommand("cd Interface && npm install && npm run build-local")
     
     return did_update
@@ -136,16 +137,16 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
         import ETS2LA.variables
         
         if "--dev" in sys.argv:
-            print(f"{PURPLE}{Translate('main.development_mode')}{END}\n")
-        
+            print(PURPLE + _("Running ETS2LA in development mode.") + END)
+
         if "--local" in sys.argv:
             update_frontend()
-            print(f"{PURPLE}{'Running UI locally'}{END}\n")
-        
+            print(PURPLE + _("Running UI locally") + END)
+
         elif "--frontend-url" not in sys.argv:
             url = get_fastest_mirror()
             if not url:
-                print(f"{RED}{'No connection to remote UI mirrors. Running locally.'}{END}\n")
+                print(RED + _("No connection to remote UI mirrors. Running locally.") + END)
                 update_frontend()
                     
                 if not "--local" in sys.argv:
@@ -156,21 +157,21 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
                 if not "--china" in sys.argv:
                     sys.argv.append("--china")
                 ETS2LA.variables.CHINA_MODE = True
-                print(f"{PURPLE}{'Running UI in China mode'}{END}\n")
-                
-            print(f"\n> Using mirror {YELLOW}{url}{END} for UI.\n")
+                print(PURPLE + _("Running UI in China mode") + END)
+
+            print("\n" + YELLOW + _("> Using mirror {0} for UI.").format(url) + END + "\n")
             sys.argv.append("--frontend-url")
             sys.argv.append(url)
         
         if "--no-console" in sys.argv:
             if "--no-ui" in sys.argv:
-                print(f"{RED}{'--no-console cannot be used in combination with --no-ui. The console will not close.'}{END}\n")
+                print(RED + _("--no-console cannot be used in combination with --no-ui. The console will not close.") + END)
             else:
-                print(f"{PURPLE}{'Closing console after UI start.'}{END}\n")
-            
+                print(PURPLE + _("Closing console after UI start.") + END)
+
         if "--no-ui" in sys.argv:
-            print(f"{PURPLE}{'Running without UI.'}{END}\n")
-        
+            print(PURPLE + _("Running in the background without a window.") + END)
+
         close_node()
         ClearLogFiles()
         ETS2LA = importlib.import_module("ETS2LA.core")
@@ -187,8 +188,8 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
 
 if __name__ == "__main__":
     exception_queue = multiprocessing.Queue()
-    print(f"{BLUE}{Translate('main.overseer_started')}{END}\n")
-    
+    print(BLUE + _("ETS2LA Overseer started!") + END + "\n")
+
     while True:
         process = multiprocessing.Process(target=ets2la_process, args=(exception_queue,))
         process.start()
@@ -203,24 +204,24 @@ if __name__ == "__main__":
 
             if e.args[0] == "restart":
                 reset()
-                print(YELLOW + Translate("main.restarting") + END)
+                print(YELLOW + _("ETS2LA is restarting...") + END)
                 continue
             
             if e.args[0] == "Update":
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
                 if "--dev" in sys.argv:
-                    print(YELLOW + "Skipping update due to development mode." + END)
+                    print(YELLOW + _("Skipping update due to development mode.") + END)
                     continue
                 
-                print(YELLOW + Translate("main.updating") + END)
+                print(YELLOW + _("ETS2LA is updating...") + END)
                 ExecuteCommand("update.bat")
                 
-                print("\n" + GREEN + Translate("main.update_done") + END + "\n")
+                print(GREEN + _("Update done... restarting!") + END + "\n")
                 reset()
                 continue
             
             # At this point we're sure that this is a crash
-            print(Translate("main.crashed"))
+            print(RED + _("ETS2LA has crashed!") + END)
             print(trace)
             
             # Crash reports currently do not work, disabled to save bandwidth
@@ -228,11 +229,11 @@ if __name__ == "__main__":
             try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace, additional=get_current_version_information)
             except: pass
             '''
-            
-            print(Translate("main.send_report"))
+
+            print(_("Send the above traceback to the developers."))
             reset()
-            print(RED + Translate("main.closed") + END)
-            input(Translate("main.press_enter"))
+            print(RED + _("ETS2LA has closed.") + END)
+            input(_("Press enter to exit."))
             sys.exit(0)
         
         except queue.Empty:
