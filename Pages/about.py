@@ -138,14 +138,14 @@ class Page(ETS2LAPage):
                     Text("Support Development", styles.Title())
                     with Container(style=styles.FlexVertical() + styles.Gap("10px")):
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
-                            Text(_("• If you like the project and want to support the development, you can do so by donating via Ko-Fi."), styles.Description())
+                            Text("• " + _("If you like the project and want to support the development, you can do so by donating via Ko-Fi."), styles.Description())
                             Link("Ko-Fi", "https://ko-fi.com/tumppi066", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
-                            Text(_("• If you want to contribute, then I recommend joining the discord server and checking out the github page."), styles.Description())
+                            Text("• " + _("If you want to contribute, then I recommend joining the discord server and checking out the github page."), styles.Description())
                             Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                             Link("GitHub", "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
-                            Text(_("• If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."), styles.Description())
+                            Text("• " + _("If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."), styles.Description())
                             Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                 
                 Space(style=styles.Height("10px"))
