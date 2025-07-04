@@ -42,7 +42,6 @@ global.lock
 /End-To-End-Data-ID.txt
 
 # Submodules
-/Translations
 /Interface
 
 # Ignore start batch files

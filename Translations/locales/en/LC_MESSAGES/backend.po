@@ -1,0 +1,622 @@
+# ETS2LA Backend Translations for EN
+# Copyright (C) 2025 ETS2LA Team
+# This file is distributed under the same license as the root package.
+# ETS2LA Team <contact@ets2la.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ETS2LA Backend 1.0.0\n"
+"POT-Creation-Date: 2025-07-04 22:56\n"
+"PO-Revision-Date: 2025-07-04 22:56\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\ETS2LA\Controls\picker.py:67
+msgid "Timeout, please try again."
+msgstr "Timeout, please try again."
+
+#: .\ETS2LA\Controls\picker.py:71
+msgid "Event bound to {device} {action}"
+msgstr "Event bound to {device} {action}"
+
+#: .\ETS2LA\Handlers\controls.py:98
+msgid "Refreshing joysticks..."
+msgstr "Refreshing joysticks..."
+
+#: .\ETS2LA\Handlers\controls.py:112
+msgid "{} connected."
+msgstr "{} connected."
+
+#: .\ETS2LA\Handlers\controls.py:113
+msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
+msgstr "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
+
+#: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
+msgid "{} disconnected."
+msgstr "{} disconnected."
+
+#: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
+#: .\ETS2LA\Handlers\controls.py:364
+msgid "Event with alias '{0}' not found."
+msgstr "Event with alias '{0}' not found."
+
+#: .\ETS2LA\Handlers\controls.py:349
+msgid "Exception occurred while trying to edit the event."
+msgstr "Exception occurred while trying to edit the event."
+
+#: .\ETS2LA\Handlers\controls.py:378
+msgid "Controls listener started."
+msgstr "Controls listener started."
+
+#: .\ETS2LA\Handlers\plugins.py:121
+msgid ""
+"Plugin {0} failed to start: Timeout.\n"
+"Try to close other programs to give more memory and CPU to the plugin."
+msgstr ""
+"Plugin {0} failed to start: Timeout.\n"
+"Try to close other programs to give more memory and CPU to the plugin."
+
+#: .\ETS2LA\Handlers\plugins.py:126
+msgid "Plugin {0} failed to start: {1}"
+msgstr "Plugin {0} failed to start: {1}"
+
+#: .\ETS2LA\Handlers\plugins.py:173
+msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
+msgstr "Plugin [yellow]{0}[/yellow] loaded successfully."
+
+#: .\ETS2LA\Handlers\plugins.py:346
+msgid "Plugin {0} failed to get description: Timeout."
+msgstr "Plugin {0} failed to get description: Timeout."
+
+#: .\ETS2LA\Handlers\plugins.py:350
+msgid "Plugin {0} failed to get description: {1}"
+msgstr "Plugin {0} failed to get description: {1}"
+
+#: .\ETS2LA\Handlers\plugins.py:364
+msgid "Plugin {0} failed to get controls: Timeout."
+msgstr "Plugin {0} failed to get controls: Timeout."
+
+#: .\ETS2LA\Handlers\plugins.py:368
+msgid "Plugin {0} failed to get controls: {1}"
+msgstr "Plugin {0} failed to get controls: {1}"
+
+#: .\ETS2LA\Handlers\plugins.py:400
+msgid "Loaded {0} plugins."
+msgstr "Loaded {0} plugins."
+
+#: .\ETS2LA\Handlers\plugins.py:458 .\ETS2LA\Handlers\plugins.py:633
+msgid "Plugin not found."
+msgstr "Plugin not found."
+
+#: .\ETS2LA\Handlers\plugins.py:469
+msgid "Plugin [yellow]{0}[/yellow] started successfully."
+msgstr "Plugin [yellow]{0}[/yellow] started successfully."
+
+#: .\ETS2LA\Handlers\plugins.py:476
+msgid "Failed to start plugin: {0}"
+msgstr "Failed to start plugin: {0}"
+
+#: .\ETS2LA\Handlers\plugins.py:476 .\ETS2LA\Handlers\plugins.py:505
+msgid "Timeout"
+msgstr "Timeout"
+
+#: .\ETS2LA\Handlers\plugins.py:492
+msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
+msgstr "Plugin not found, this can be a result of a plugin crash or failure to load."
+
+#: .\ETS2LA\Handlers\plugins.py:502
+msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
+msgstr "Plugin [yellow]{0}[/yellow] stopped successfully."
+
+#: .\ETS2LA\Handlers\plugins.py:505
+msgid "Failed to stop plugin: {0}"
+msgstr "Failed to stop plugin: {0}"
+
+#: .\ETS2LA\Handlers\plugins.py:528
+msgid "Failed to restart plugin: {0}"
+msgstr "Failed to restart plugin: {0}"
+
+#: .\ETS2LA\Handlers\plugins.py:564 .\ETS2LA\Handlers\plugins.py:587
+msgid "Plugin {0} not found for page {1}."
+msgstr "Plugin {0} not found for page {1}."
+
+#: .\ETS2LA\Handlers\sounds.py:12
+msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
+msgstr "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
+
+#: .\ETS2LA\Handlers\sounds.py:43
+msgid "Soundpack '{0}' is missing the required sound '{1}'"
+msgstr "Soundpack '{0}' is missing the required sound '{1}'"
+
+#: .\ETS2LA\Handlers\sounds.py:48
+msgid "Soundpack '{0}' has an invalid file type '{1}'"
+msgstr "Soundpack '{0}' has an invalid file type '{1}'"
+
+#: .\ETS2LA\Handlers\sounds.py:76
+msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
+msgstr "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
+
+#: .\ETS2LA\Networking\Servers\notifications.py:93
+msgid "An error occurred while processing a message."
+msgstr "An error occurred while processing a message."
+
+#: .\ETS2LA\Networking\Servers\notifications.py:205
+msgid "Tried to send an empty page."
+msgstr "Tried to send an empty page."
+
+#: .\ETS2LA\Networking\Servers\notifications.py:281
+msgid "Frontend popup websocket started."
+msgstr "Frontend popup websocket started."
+
+#: .\ETS2LA\Networking\Servers\webserver.py:103
+msgid "Frontend"
+msgstr "Frontend"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:103
+msgid "The frontend wants to perform an update."
+msgstr "The frontend wants to perform an update."
+
+#: .\ETS2LA\Networking\Servers\webserver.py:161
+msgid "Failed to set transparency"
+msgstr "Failed to set transparency"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:326
+msgid "Failed to get tag data"
+msgstr "Failed to get tag data"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:361
+msgid "Failed to get pages"
+msgstr "Failed to get pages"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:375
+msgid "Failed to get page data for page {0}"
+msgstr "Failed to get page data for page {0}"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:386
+msgid "Failed to reload plugins"
+msgstr "Failed to reload plugins"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:399
+msgid "Failed to build frontend"
+msgstr "Failed to build frontend"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:407
+msgid "Building frontend... please wait..."
+msgstr "Building frontend... please wait..."
+
+#: .\ETS2LA\Networking\Servers\webserver.py:411
+msgid "Failed to start frontend"
+msgstr "Failed to start frontend"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:429
+msgid "Webserver started at http://{ip}:37520"
+msgstr "Webserver started at http://{ip}:37520"
+
+#: .\ETS2LA\Networking\Servers\webserver.py:434
+msgid "Frontend started at http://{ip}:{port}"
+msgstr "Frontend started at http://{ip}:{port}"
+
+#: .\ETS2LA\Utils\Console\logs.py:13
+msgid "Errors and warnings in the log files:"
+msgstr "Errors and warnings in the log files:"
+
+#: .\ETS2LA\Utils\Console\logs.py:29
+msgid "Errors: "
+msgstr "Errors: "
+
+#: .\ETS2LA\Utils\Console\logs.py:31
+msgid "Warnings: "
+msgstr "Warnings: "
+
+#: .\ETS2LA\Utils\Console\logs.py:36
+msgid "No errors or warnings found."
+msgstr "No errors or warnings found."
+
+#: .\ETS2LA\Window\html.py:82
+msgid "Please wait while we initialize the user interface"
+msgstr "Please wait while we initialize the user interface"
+
+#: .\Pages\about.py:14
+msgid "Lead developer and creator of ETS2LA, backend & frontend."
+msgstr "Lead developer and creator of ETS2LA, backend & frontend."
+
+#: .\Pages\about.py:15
+msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
+msgstr "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
+
+#: .\Pages\about.py:16
+msgid "Various additions and improvements, Object Detection AI models & development"
+msgstr "Various additions and improvements, Object Detection AI models & development"
+
+#: .\Pages\about.py:17
+msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
+msgstr "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
+
+#: .\Pages\about.py:18
+msgid "Game data extraction and processing"
+msgstr "Game data extraction and processing"
+
+#: .\Pages\about.py:19
+msgid "Linux & Unix Port, various improvements and bug fixes"
+msgstr "Linux & Unix Port, various improvements and bug fixes"
+
+#: .\Pages\about.py:20
+msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
+msgstr "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
+
+#: .\Pages\about.py:21
+msgid "Help with Navigate on ETS2LA & Map"
+msgstr "Help with Navigate on ETS2LA & Map"
+
+#: .\Pages\about.py:22
+msgid "scs-sdk-controller developer"
+msgstr "scs-sdk-controller developer"
+
+#: .\Pages\about.py:23
+msgid "3D models for the visualization"
+msgstr "3D models for the visualization"
+
+#: .\Pages\about.py:24
+msgid "Data extractor development, support for modded maps."
+msgstr "Data extractor development, support for modded maps."
+
+#: .\Pages\about.py:25
+msgid "Chinese translation, bug fixes"
+msgstr "Chinese translation, bug fixes"
+
+#: .\Pages\about.py:26
+msgid "Chinese translations, bug fixes"
+msgstr "Chinese translations, bug fixes"
+
+#: .\Pages\about.py:27
+msgid "Automatic offset calculations for the Map plugin."
+msgstr "Automatic offset calculations for the Map plugin."
+
+#: .\Pages\about.py:28
+msgid "Discord server support, Chinese-English translator developer."
+msgstr "Discord server support, Chinese-English translator developer."
+
+#: .\Pages\about.py:29
+msgid "Maintaining CN mirrors for ETS2LA services."
+msgstr "Maintaining CN mirrors for ETS2LA services."
+
+#: .\Pages\about.py:30
+msgid "Game hooks"
+msgstr "Game hooks"
+
+#: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
+#: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
+msgid "Bug fixes"
+msgstr "Bug fixes"
+
+#: .\Pages\about.py:43
+msgid "Fixing wipers (5s timer)"
+msgstr "Fixing wipers (5s timer)"
+
+#: .\Pages\about.py:48
+msgid "Fixing wipers in {0} seconds..."
+msgstr "Fixing wipers in {0} seconds..."
+
+#: .\Pages\about.py:54 .\Pages\about.py:55
+msgid "Wipers should be fixed now."
+msgstr "Wipers should be fixed now."
+
+#: .\Pages\about.py:58
+msgid "Triggering update"
+msgstr "Triggering update"
+
+#: .\Pages\about.py:76
+msgid "{0} and {1}"
+msgstr "{0} and {1}"
+
+#: .\Pages\about.py:83
+msgid "About"
+msgstr "About"
+
+#: .\Pages\about.py:85
+msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
+msgstr "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
+
+#: .\Pages\about.py:89
+msgid "Statistics"
+msgstr "Statistics"
+
+#: .\Pages\about.py:93
+msgid "Users online:"
+msgstr "Users online:"
+
+#: .\Pages\about.py:94
+msgid "{0} users"
+msgstr "{0} users"
+
+#: .\Pages\about.py:96
+msgid "Past 24 hours:"
+msgstr "Past 24 hours:"
+
+#: .\Pages\about.py:97
+msgid "{0} unique users"
+msgstr "{0} unique users"
+
+#: .\Pages\about.py:99
+msgid "Your usage time:"
+msgstr "Your usage time:"
+
+#: .\Pages\about.py:104
+msgid "You are not logged in."
+msgstr "You are not logged in."
+
+#: .\Pages\about.py:105
+msgid "Your anonymous user ID is: {0}"
+msgstr "Your anonymous user ID is: {0}"
+
+#: .\Pages\about.py:109
+msgid "You are logged in."
+msgstr "You are logged in."
+
+#: .\Pages\about.py:110
+msgid "Welcome back, {0}!"
+msgstr "Welcome back, {0}!"
+
+#: .\Pages\about.py:114
+msgid "Contributors"
+msgstr "Contributors"
+
+#: .\Pages\about.py:141
+msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
+msgstr "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
+
+#: .\Pages\about.py:144
+msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
+msgstr "If you want to contribute, then I recommend joining the discord server and checking out the github page."
+
+#: .\Pages\about.py:148
+msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
+msgstr "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
+
+#: .\Pages\about.py:153
+msgid "Utils"
+msgstr "Utils"
+
+#: .\Pages\about.py:157
+msgid "Fix Wipers"
+msgstr "Fix Wipers"
+
+#: .\Pages\about.py:158
+msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
+msgstr "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
+
+#: .\Pages\about.py:159
+msgid "Activate"
+msgstr "Activate"
+
+#: .\Pages\about.py:164
+msgid "Force an update"
+msgstr "Force an update"
+
+#: .\Pages\about.py:165
+msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
+msgstr "Do you think there should've been an update? Click this button and the app will restart and check for them."
+
+#: .\Pages\about.py:166
+msgid "Update"
+msgstr "Update"
+
+#: .\Pages\plugins.py:24
+msgid "Steering"
+msgstr "Steering"
+
+#: .\Pages\plugins.py:25
+msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
+msgstr "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
+
+#: .\Pages\plugins.py:29
+msgid "Lateral Control"
+msgstr "Lateral Control"
+
+#: .\Pages\plugins.py:30
+msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
+msgstr "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
+
+#: .\Pages\plugins.py:34
+msgid "Visualization"
+msgstr "Visualization"
+
+#: .\Pages\plugins.py:35
+msgid ""
+"Enable plugins that are needed for the visualization tab to work.\n"
+"\n"
+"**This is required for the visualization tab to work.**"
+msgstr ""
+"Enable plugins that are needed for the visualization tab to work.\n"
+"\n"
+"**This is required for the visualization tab to work.**"
+
+#: .\Pages\plugins.py:39
+msgid "HUD"
+msgstr "HUD"
+
+#: .\Pages\plugins.py:40
+msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
+msgstr "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
+
+#: .\Pages\plugins.py:45
+msgid "Text To Speech"
+msgstr "Text To Speech"
+
+#: .\Pages\plugins.py:46
+msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
+msgstr "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
+
+#: .\Pages\plugins.py:88
+msgid "Feature '{0}' not found."
+msgstr "Feature '{0}' not found."
+
+#: .\Pages\plugins.py:235
+msgid "Plugins (Basic)"
+msgstr "Plugins (Basic)"
+
+#: .\Pages\plugins.py:236
+msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
+msgstr "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
+
+#: .\Pages\plugins.py:244
+msgid "Disable Plugins"
+msgstr "Disable Plugins"
+
+#: .\Pages\plugins.py:244
+msgid "Enable Plugins"
+msgstr "Enable Plugins"
+
+#: .\Pages\plugins.py:247
+msgid "Currently enabled plugins:"
+msgstr "Currently enabled plugins:"
+
+#: .\Pages\plugins.py:247
+msgid "None"
+msgstr "None"
+
+#: .\Pages\plugins.py:269
+msgid "Enabled"
+msgstr "Enabled"
+
+#: .\Pages\plugins.py:269
+msgid "Disabled"
+msgstr "Disabled"
+
+#: .\Pages\plugins.py:274
+msgid "Switch to Advanced Mode"
+msgstr "Switch to Advanced Mode"
+
+#: .\Pages\plugins.py:296
+msgid "Search plugins..."
+msgstr "Search plugins..."
+
+#: .\Pages\plugins.py:305
+msgid "Search tags..."
+msgstr "Search tags..."
+
+#: .\Pages\plugins.py:306
+msgid "No tags found"
+msgstr "No tags found"
+
+#: .\Pages\plugins.py:315
+msgid "Search authors..."
+msgstr "Search authors..."
+
+#: .\Pages\plugins.py:316
+msgid "No authors found"
+msgstr "No authors found"
+
+#: .\Pages\plugins.py:320
+msgid "Back to Basic Mode"
+msgstr "Back to Basic Mode"
+
+#: .\Pages\plugins.py:351
+msgid "Running Plugins"
+msgstr "Running Plugins"
+
+#: .\Pages\plugins.py:355
+msgid "No plugins are currently running."
+msgstr "No plugins are currently running."
+
+#: .\Pages\plugins.py:358
+msgid "Want to enable the plugins you had running last time?"
+msgstr "Want to enable the plugins you had running last time?"
+
+#: .\Pages\plugins.py:360
+msgid "Enable Last Plugins"
+msgstr "Enable Last Plugins"
+
+#: .\Pages\plugins.py:366
+msgid "Available Plugins"
+msgstr "Available Plugins"
+
+#: .\main.py:93
+msgid "Testing mirrors..."
+msgstr "Testing mirrors..."
+
+#: .\main.py:101
+msgid "- Reached {0} in {1:.0f}ms"
+msgstr "- Reached {0} in {1:.0f}ms"
+
+#: .\main.py:107
+msgid " - Reached {0} in (TIMEOUT)"
+msgstr " - Reached {0} in (TIMEOUT)"
+
+#: .\main.py:122
+msgid " -- Running post download action for submodule:  Interface  -- "
+msgstr " -- Running post download action for submodule:  Interface  -- "
+
+#: .\main.py:140
+msgid "Running ETS2LA in development mode."
+msgstr "Running ETS2LA in development mode."
+
+#: .\main.py:144
+msgid "Running UI locally"
+msgstr "Running UI locally"
+
+#: .\main.py:149
+msgid "No connection to remote UI mirrors. Running locally."
+msgstr "No connection to remote UI mirrors. Running locally."
+
+#: .\main.py:160
+msgid "Running UI in China mode"
+msgstr "Running UI in China mode"
+
+#: .\main.py:162
+msgid "> Using mirror {0} for UI."
+msgstr "> Using mirror {0} for UI."
+
+#: .\main.py:168
+msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
+msgstr "--no-console cannot be used in combination with --no-ui. The console will not close."
+
+#: .\main.py:170
+msgid "Closing console after UI start."
+msgstr "Closing console after UI start."
+
+#: .\main.py:173
+msgid "Running in the background without a window."
+msgstr "Running in the background without a window."
+
+#: .\main.py:191
+msgid "ETS2LA Overseer started!"
+msgstr "ETS2LA Overseer started!"
+
+#: .\main.py:207
+msgid "ETS2LA is restarting..."
+msgstr "ETS2LA is restarting..."
+
+#: .\main.py:213
+msgid "Skipping update due to development mode."
+msgstr "Skipping update due to development mode."
+
+#: .\main.py:216
+msgid "ETS2LA is updating..."
+msgstr "ETS2LA is updating..."
+
+#: .\main.py:219
+msgid "Update done... restarting!"
+msgstr "Update done... restarting!"
+
+#: .\main.py:224
+msgid "ETS2LA has crashed!"
+msgstr "ETS2LA has crashed!"
+
+#: .\main.py:233
+msgid "Send the above traceback to the developers."
+msgstr "Send the above traceback to the developers."
+
+#: .\main.py:235
+msgid "ETS2LA has closed."
+msgstr "ETS2LA has closed."
+
+#: .\main.py:236
+msgid "Press enter to exit."
+msgstr "Press enter to exit."
