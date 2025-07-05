@@ -346,8 +346,6 @@ class Plugin(ETS2LAPlugin):
         self.api = self.modules.TruckSimAPI
         self.controller = self.modules.SDKController.SCSController()
         self.controller = cast(Controller, self.controller)
-        
-        logging.warning("AdaptiveCruiseControl plugin initialized")
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
         
         # if variables.DEVELOPMENT_MODE:

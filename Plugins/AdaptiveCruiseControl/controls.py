@@ -1,25 +1,26 @@
 from ETS2LA.Controls import ControlEvent
+from ETS2LA.Utils.translator import _
 
 enable_disable = ControlEvent(
     "toggle_acc",
-    "Toggle Speed Control",
+    _("Toggle Speed Control"),
     "button",
-    description="When ACC is running this will toggle it on/off.",
+    description=_("When ACC is running this will toggle the speed control on/off."),
     default="n"
 )
 
 increment = ControlEvent(
     "increment_speed",
-    "Increase Driving Speed Offset",
+    _("Increase Driving Speed Offset"),
     "button",
-    description="This will decrease the speed offset in the settings.",
+    description=_("This will increase the speed offset in the settings."),
     default="↑"
 )
 
 decrement = ControlEvent(
     "decrement_speed",
-    "Decrease Driving Speed Offset",
+    _("Decrease Driving Speed Offset"),
     "button",
-    description="This will increase the speed offset in the settings.",
+    description=_("This will decrease the speed offset in the settings."),
     default="↓"
 )

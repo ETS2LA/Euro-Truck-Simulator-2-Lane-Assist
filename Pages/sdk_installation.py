@@ -1,6 +1,6 @@
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Utils.Game import path as game
 from tkinter import filedialog
 
@@ -83,69 +83,69 @@ class Page(ETS2LAPage):
     def InstallSDK(self, game: str):
         version = game_versions[games.index(game)]
         if version == "Unknown":
-            logging.warning(f"Could not find version for {game}, skipping installation")
+            logging.warning(_("Could not find version for {game}, skipping installation").format(game=game))
             return
         
         try:
             if not CheckIfInstalled(game, version):
-                logging.info(f"Installing SDKs for {game}")
+                logging.info(_("Installing SDKs for {game}").format(game=game))
                 os.makedirs(game + target_path, exist_ok=True)
                 files = GetFilesForVersion(version)
                 for file in files:
                     with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
                         with open(game + target_path + "\\" + file, "wb") as g:
                             g.write(f.read())
-                            
-                SendPopup(f"SDKs for {'ETS2 ' if 'Euro Truck Simulator 2' in game else 'ATS '} installed successfully.", "success")
+
+                SendPopup(_("SDKs for {game} installed successfully.").format(game='ETS2 ' if 'Euro Truck Simulator 2' in game else 'ATS '), "success")
             else:
-                logging.info(f"SDKs for {game} already installed, skipping installation")
+                logging.info(_("SDKs for {game} already installed, skipping installation").format(game=game))
         except Exception as e:
-            SendPopup(f"Please make sure the game is closed and try again. {e.args}", "error")
-            logging.error(f"Error installing SDKs for {game}, please make sure the game is closed.")
+            SendPopup(_("Please make sure the game is closed and try again. {error}").format(error=e.args), "error")
+            logging.error(_("Error installing SDKs for {game}, please make sure the game is closed.").format(game=game))
     
     def UninstallSDK(self, game: str):
         version = game_versions[games.index(game)]
         if version == "Unknown":
-            logging.warning(f"Could not find version for {game}, skipping uninstallation")
+            logging.warning(_("Could not find version for {game}, skipping uninstallation").format(game=game))
             return
         
         try:
             if CheckIfInstalled(game, version):
-                logging.info(f"Uninstalling SDKs for {game}")
+                logging.info(_("Uninstalling SDKs for {game}").format(game=game))
                 files = GetFilesForVersion(version)
                 for file in files:
                     os.remove(game + target_path + "\\" + file)
-                    
-                SendPopup(f"SDKs for {'ETS2 ' if 'Euro Truck Simulator 2' in game else 'ATS '} uninstalled successfully.", "success")
+
+                SendPopup(_("SDKs for {game} uninstalled successfully.").format(game='ETS2 ' if 'Euro Truck Simulator 2' in game else 'ATS '), "success")
             else:
-                logging.info(f"SDKs for {game} not installed, skipping uninstallation")
+                logging.info(_("SDKs for {game} not installed, skipping uninstallation").format(game=game))
         except Exception as e:
-            SendPopup(f"Please make sure the game is closed and try again. {e.args}", "error")
-            logging.error(f"Error uninstalling SDKs for {game}, please make sure the game is closed.")
+            SendPopup(_("Please make sure the game is closed and try again. {error}").format(error=e.args), "error")
+            logging.error(_("Error uninstalling SDKs for {game}, please make sure the game is closed.").format(game=game))
     
     def AddGame(self):
-        path = filedialog.askdirectory(title="Select the game directory")
+        path = filedialog.askdirectory(title=_("Select the game directory"))
         version = game.GetVersionForGame(path)
         if version == "Unknown":
-            SendPopup("Could not find version for the selected game, please select a valid game directory.", "error")
-            logging.warning(f"Could not find version for {path}, skipping installation")
+            SendPopup(_("Could not find version for the selected game, please select a valid game directory.").format(path=path), "error")
+            logging.warning(_("Could not find version for {path}, skipping installation").format(path=path))
             return
         
         games.append(path)
         game_versions.append(version)
-        SendPopup(f"Found game version {version}.", "success")
+        SendPopup(_("Found game version {version}.").format(version=version), "success")
         
     def OpenPath(self, path: str):
         if os.path.exists(path):
             os.startfile(path)
         else:
-            SendPopup(f"Path {path} does not exist.", "error")
-    
+            SendPopup(_("Path {path} does not exist.").format(path=path), "error")
+
     def render(self):
         if not self.onboarding_mode:
             TitleAndDescription(
-                "sdk_install.title",
-                "sdk_install.description",
+                _("SDK Setup"),
+                _("Check that you have the necessary DLLs installed for us to communicate with the game."),
             )
         
         with Container(styles.FlexVertical() + styles.Gap("24px")):
@@ -153,10 +153,9 @@ class Page(ETS2LAPage):
                 red_text = styles.Style()
                 red_text.color = "var(--destructive)"
                 red_text.font_weight = "bold"
-                Text(Translate("sdk_install.no_games"), red_text)
+                Text(_("We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."), red_text)
                 with Button(action=self.AddGame):
-                    Text("Select directory manually")
-                        
+                    Text(_("Select directory manually"))
             else:
                 running = IsGameRunning()
 
@@ -183,7 +182,7 @@ class Page(ETS2LAPage):
                             title = "ETS2 " if "Euro Truck Simulator 2" in found_game else "ATS "
                             title += version
                             Text(title, styles.Classname("font-semibold"))
-                            Text("sdk_install.installed" if is_installed else "sdk_install.not_installed", styles.Description())
+                            Text(_("- Installed") if is_installed else _("- Not Installed"), styles.Description())
                         
                         with Container(styles.FlexHorizontal() + styles.Gap("4px")):
                             with Button(action=self.OpenPath, name=found_game, type="link"):
@@ -192,7 +191,7 @@ class Page(ETS2LAPage):
                         if not_supported:
                             red_text = styles.Style()
                             red_text.color = "var(--destructive)"
-                            Text("This game version is not supported", red_text)
+                            Text(_("This game version is not supported"), red_text)
                         
                         else:   
                             Space(styles.Height("4px"))
@@ -208,40 +207,39 @@ class Page(ETS2LAPage):
                                     with t.content:
                                         with Container(styles.FlexVertical() + styles.Gap("4px") + styles.Padding("4px")):
                                             if file_install_status == {}:
-                                                Text("No files found.", styles.Description())
+                                                Text(_("No files found."), styles.Description())
                                             else:
                                                 text_style = styles.Style()
                                                 text_style.color = "var(--foreground)"
                                                 for file in file_install_status:
                                                     with Container(styles.FlexHorizontal() + styles.Gap("4px")):
                                                         Text(file, text_style)
-                                                        Text("sdk_install.installed" if file_install_status[file] else "sdk_install.not_installed", styles.Description())
-                                                
+                                                        Text(_("- Installed") if file_install_status[file] else _("- Not Installed"), styles.Description())
+
                                                 with Button(action=self.OpenSources, name=version, type="link", style=styles.Padding("12px 0px 0px 0px") + styles.Classname("w-max h-max") + styles.Gap("6px")):
                                                     Icon("file")
-                                                    Text("File Sources", styles.Classname("text-xs"))
-                                    
+                                                    Text(_("File Sources"), styles.Classname("text-xs"))
+
                                 if running:
                                     with Tooltip() as t:
                                         with t.trigger as tr:
                                             tr.style = styles.Classname("w-full")
                                             if is_installed:
                                                 with Button(name=found_game, action=self.UninstallSDK, style=styles.Classname("default w-full"), enabled=not running):
-                                                    Text("sdk_install.uninstall")
+                                                    Text(_("Uninstall SDKs"))
                                             else:
                                                 with Button(name=found_game, action=self.InstallSDK, style=styles.Classname("default w-full"), enabled=not running):
-                                                    Text("sdk_install.install")
-                                        
+                                                    Text(_("Install SDKs"))
+
                                         with t.content:
                                             text_style = styles.Style()
                                             text_style.color = "var(--foreground)"
-                                            Text("Please close the game before installing or uninstalling SDKs.", text_style)
-                                                
+                                            Text(_("Please close the game before installing or uninstalling SDKs."), text_style)
+
                                 else:
                                     if is_installed:
                                         with Button(name=found_game, action=self.UninstallSDK, style=styles.Width("90.5%" if self.onboarding_mode else "93%")):
-                                            Text("sdk_install.uninstall")
+                                            Text(_("Uninstall SDKs"))
                                     else:
                                         with Button(name=found_game, action=self.InstallSDK, style=styles.Width("90.5%" if self.onboarding_mode else "93%")):
-                                            Text("sdk_install.install")
-                                
+                                            Text(_("Install SDKs"))

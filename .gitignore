@@ -43,6 +43,7 @@ global.lock
 
 # Submodules
 /Interface
+/Translations/old
 
 # Ignore start batch files
 start_dev.bat

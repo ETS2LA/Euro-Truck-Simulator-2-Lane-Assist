@@ -79,7 +79,7 @@ def setup_global_logging(write_file: bool = True) -> logging.Logger:
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.getLogger().addHandler(file_handler)
     
-    logging.info(Translate("logging.logger_initialized"))
+    logging.info(_("Logging initialized."))
     
     return logging.getLogger()
 

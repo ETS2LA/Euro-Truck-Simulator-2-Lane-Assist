@@ -18,7 +18,7 @@ import Plugins.Map.utils.data_reader as data_reader
 from Plugins.Map.ui import SettingsMenu
 
 from Plugins.Map.utils import ui_operations as ui
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 import ETS2LA.Utils.settings as settings
 from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
@@ -27,6 +27,7 @@ import Plugins.Map.classes as c
 import numpy as np
 import threading
 import importlib
+import logging
 import time
 
 navigation = importlib.import_module("Plugins.Map.navigation.navigation")
@@ -45,9 +46,9 @@ DEVELOPER_PRINTING = True
 
 enable_disable = ControlEvent(
     "toggle_map",
-    "Toggle Steering",
+    _("Toggle Steering"),
     "button",
-    description="When Map is running this will toggle it on/off.",
+    description=_("When the Map plugin is running, this will toggle the steering on/off."),
     default="n"
 )
 
@@ -59,8 +60,8 @@ class Plugin(ETS2LAPlugin):
     )]
     
     description = PluginDescription(
-        name="plugins.map",
-        description="plugins.map.description",
+        name=_("Map"),
+        description=_("This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."),
         version="2.0.0",
         modules=["SDKController", "TruckSimAPI", "Steering", "Route"],
         tags=["Base", "Steering"],
@@ -79,20 +80,12 @@ class Plugin(ETS2LAPlugin):
     last_city_update = time.time()
     
     def imports(self):
-        global json, data, time, math, sys, logging
+        global json, data, time, math, sys
         # General imports
         import Plugins.Map.data as data
-        import logging
         import json
         import math
         import sys
-
-        # Configure logging
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
-        )
 
     def update_road_data(self):
         global UPDATING_OFFSET_CONFIG
@@ -239,7 +232,7 @@ class Plugin(ETS2LAPlugin):
             logging.info("Map plugin initialized successfully")
             return True
         except Exception as e:
-            logging.error(f"Error initializing Map plugin: {e}", exc_info=True)
+            logging.exception(_("Error initializing Map plugin: {0}").format(e), exc_info=True)
             return False
                 
     def MapWindowInitialization(self):
@@ -268,7 +261,7 @@ class Plugin(ETS2LAPlugin):
             data.data_downloaded = False
             
             if data_handler.IsDownloaded(data.data_path) and not is_different_data:
-                self.state.text = "Preparing to load data..."
+                self.state.text = _("Preparing to load data...")
                 data_reader.path = data.data_path
                 del data.map
                 data.map = None
@@ -281,8 +274,8 @@ class Plugin(ETS2LAPlugin):
             if self.settings.selected_data and self.settings.selected_data != "":
                 data_handler.UpdateData(self.settings.selected_data)
                 return
-            
-            self.state.text = "Waiting for game selection in the Settings -> Map..."
+
+            self.state.text = _("Waiting for game data selection in the Settings -> Map...")
             return
         
         data_time = time.perf_counter() - data_start_time
@@ -311,8 +304,8 @@ class Plugin(ETS2LAPlugin):
 
                     steering.run(value=steering_value, sendToGame=data.enabled, drawLine=False)
                 else:
-                    logging.warning("Invalid steering value received")
-                    
+                    logging.warning(_("Invalid steering value received"))
+
                 steering_time = time.perf_counter() - steering_start_time
             else:
                 data.route_points = []
@@ -337,7 +330,7 @@ class Plugin(ETS2LAPlugin):
             external_map_time = time.perf_counter() - external_map_start_time
 
         except Exception as e:
-            logging.error(f"Error in Map plugin run loop: {e}", exc_info=True)
+            logging.exception(_("Error in Map plugin run loop: {0}").format(e), exc_info=True)
             data.route_points = []  # Clear route points on error
 
         external_data_start_time = time.perf_counter()
@@ -374,7 +367,7 @@ class Plugin(ETS2LAPlugin):
             frametime = self.performance[-1][1]
             if frametime > 0.13 and not data.disable_fps_notices: # ~7.7fps
                 if self.state.text == "" or "low FPS" in self.state.text: # Don't overwrite other states
-                    self.state.text = f"Warning: Steering might be compromised due to low FPS. ({1/frametime:.0f}fps)"
+                    self.state.text = _("Warning: Steering might be compromised due to low FPS. ({0} fps)").format(1/frametime)
             else:
                 if "low FPS" in self.state.text:
                     self.state.text = ""

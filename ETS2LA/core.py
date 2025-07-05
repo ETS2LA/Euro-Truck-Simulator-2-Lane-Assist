@@ -22,6 +22,7 @@ import ETS2LA.Networking.Servers.webserver as webserver
 import ETS2LA.Networking.Servers.discovery as discovery
 import ETS2LA.Networking.Servers.pages as pages
 from ETS2LA.Window.utils import check_if_window_still_open
+from ETS2LA.Utils.translator import _
 import ETS2LA.Window.window as window
 
 # Backend
@@ -33,7 +34,6 @@ import ETS2LA.Utils.listener as listener
 # Utils
 from ETS2LA.Utils.Console.visibility import RestoreConsole
 from ETS2LA.Utils.version import check_python_version
-import ETS2LA.Utils.old_translator as translator
 import ETS2LA.Networking.cloud as cloud
 
 # Misc
@@ -45,11 +45,6 @@ pygame.init()
 
 if not check_python_version():
     raise Exception("Python version not supported. Please install 3.11 or 3.12.")
-
-
-# Initialize the backend
-translator.CheckLanguageDatabase()      # Check if all languages have all keys
-translator.UpdateFrontendTranslations() # Update the frontend translations (if running --local)
 
 discovery.run()     # Rebind local IP to http://ets2la.local
 controls.run()      # Control handlers
@@ -64,7 +59,7 @@ window.run()        # Webview window (if not --no-ui)
 #base_events.run()   # Start listening for events
 
 
-logging.info("[green]" + translator.Translate("core.backend_started") + "[/green]")
+logging.info("[green]" + _("Backend started successfully") + "[/green]")
 
 frame_counter = 0
 def run() -> None:

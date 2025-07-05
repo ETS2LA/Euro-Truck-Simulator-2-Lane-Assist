@@ -5,7 +5,7 @@ from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Utils import settings
 import importlib
 import logging
@@ -67,12 +67,12 @@ class Settings(ETS2LAPage):
 
     def render(self):
         TitleAndDescription(
-            title="TTS",
-            description="The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements.",
+            title=_("TTS"),
+            description=_("The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."),
         )
         
         with Tabs():
-            with Tab("Voices", container_style=styles.Gap("20px") + styles.FlexVertical()):
+            with Tab(_("Voices"), container_style=styles.Gap("20px") + styles.FlexVertical()):
                 selected = settings.Get("TTS", "provider", "SAPI")
                 if self.plugin and self.plugin.selected_provider is not None:
                     provider = self.plugin.selected_provider
@@ -83,44 +83,44 @@ class Settings(ETS2LAPage):
                     if self.plugin:
                         Text(provider.custom_text)
                     elif not provider:
-                        Text("Please select a provider!", style=styles.TextColor("red"))
+                        Text(_("Please select a provider!"), style=styles.TextColor("red"))
                     else:
-                        Text("This will show provider information once the plugin is loaded.")
-                        
+                        Text(_("This will show provider information once the plugin is loaded."))
+
                 ComboboxWithTitleDescription(
-                    title="Select TTS provider",
-                    description="Select the TTS provider to use.",
+                    title=_("Select TTS provider"),
+                    description=_("Select the TTS provider to use."),
                     options=[provider.name for provider in providers],
                     default=provider.name if provider else "SAPI",
                     changed=self.handle_provider_change
                 )
                 
                 if provider is None:
-                    Text("Please select a provider to show voices.", style=styles.TextColor("red"))
+                    Text(_("Please select a provider to show voices."), style=styles.TextColor("red"))
                     return
                 
                 voice = settings.Get("TTS", "voice", provider.voices[0].name)
                 if voice not in [v.name for v in provider.voices]:
                     voice = provider.voices[0].name
                     settings.Set("TTS", "voice", voice)
-                    logging.warning(f"Voice {voice} not found, using default: {provider.voices[0].name}")
+                    logging.warning(_("Voice {0} not found, using default: {1}").format(voice, provider.voices[0].name))
                     
                 ComboboxWithTitleDescription(
-                    title="Select TTS voice",
-                    description="Select the TTS voice to use.",
+                    title=_("Select TTS voice"),
+                    description=_("Select the TTS voice to use."),
                     options=[voice.name for voice in provider.voices],
                     default=voice,
                     changed=self.handle_voice_change,
                     search=ComboboxSearch(
-                        placeholder="Search for a voice...",
-                        empty="No voices found."
+                        placeholder=_("Search for a voice..."),
+                        empty=_("No voices found.")
                     )
                 )
                 
                 with Container(style=styles.Gap("20px") + styles.FlexHorizontal()):
                     SliderWithTitleDescription(
-                        title="Speed",
-                        description="Set the target speed of the voice.",
+                        title=_("Speed"),
+                        description=_("Set the target speed of the voice."),
                         default=settings.Get("TTS", "speed", 1.0),
                         min=0.5,
                         max=2.0,
@@ -129,35 +129,34 @@ class Settings(ETS2LAPage):
                     )
                     
                     SliderWithTitleDescription(
-                        title="Volume",
-                        description="Set the target volume of the voice.",
+                        title=_("Volume"),
+                        description=_("Set the target volume of the voice."),
                         default=settings.Get("TTS", "volume", 0.5),
                         min=0.0,
                         max=1.0,
                         step=0.05,
                         changed=self.handle_volume_change,
                     )
-                
                 CheckboxWithTitleDescription(
-                    title="Test Mode",
-                    description="Enable test mode to test the TTS provider without loading the game.",
+                    title=_("Test Mode"),
+                    description=_("Enable test mode to test the TTS provider without loading the game."),
                     default=settings.Get("TTS", "test_mode", False),
                     changed=self.handle_test_mode_change,
                 )
                 
-            with Tab("Settings"):
+            with Tab(_("Settings")):
                 CheckboxWithTitleDescription(
-                    title="Enable Road Proximity Beep",
-                    description="Enable a proximity beep that indicates the distance and angle to the closest road.",
+                    title=_("Enable Road Proximity Beep"),
+                    description=_("Enable a proximity beep that indicates the distance and angle to the closest road."),
                     default=settings.Get("TTS", "road_proximity_beep", False),
                     changed=self.handle_prox_beep_change,
                 )
 
 class Plugin(ETS2LAPlugin): 
     description = PluginDescription(
-        name="TTS",
+        name=_("TTS"),
         version="1.0",
-        description="Text To Speech plugin for accessibility. Some people might also like voiced announcements.",
+        description=_("Text To Speech plugin for accessibility. Some people might also like voiced announcements."),
         modules=["TruckSimAPI"],
         tags=["Base", "Accessibility"],
         listen=["*.py"]
@@ -231,10 +230,10 @@ class Plugin(ETS2LAPlugin):
                     self.selected_provider.select_voice(voice)
                     break
             else:
-                logging.warning(f"Voice {voice_name} not found in provider {self.selected_provider.name}.")
+                logging.warning(_("Voice {0} not found in provider {1}.").format(voice_name, self.selected_provider.name))
                 self.selected_voice = None
         else:
-            logging.warning("No provider selected. Cannot select voice.")
+            logging.warning(_("No provider selected. Cannot select voice."))
 
     def init(self):
         self.load_settings()
@@ -258,15 +257,15 @@ class Plugin(ETS2LAPlugin):
             voice = "Microsoft Zira Desktop - English (United States)"
             
         if not self.selected_provider or self.selected_provider.name != provider:
-            logging.warning(f"Loading TTS provider: {provider}")
+            logging.warning(_("Loading TTS provider: {0}").format(provider))
             self.select_provider(provider)
             if voice not in [v.name for v in self.selected_provider.voices]:
                 voice = self.selected_provider.voices[0].name
                 self.settings.voice = voice
-                logging.warning(f"Voice {voice} not found, using default: {self.selected_provider.voices[0].name}")
+                logging.warning(_("Voice {0} not found, using default: {1}").format(voice, self.selected_provider.voices[0].name))
             
         if not self.selected_voice or self.selected_voice.name != voice:
-            logging.warning(f"Loading TTS voice: {voice}")
+            logging.warning(_("Loading TTS voice: {0}").format(voice))
             self.select_voice(voice)
             
         if self.selected_provider:
@@ -300,10 +299,10 @@ class Plugin(ETS2LAPlugin):
             if state != self.map_enabled:
                 print(f"Map state changed: {state}")
                 if state:
-                    self.speak(Translate("tts.map.enabled"))
+                    self.speak(_("Map steering enabled."))
                 elif self.state is not None:
-                    self.speak(Translate("tts.map.disabled"))
-                
+                    self.speak(_("Map steering disabled."))
+
                 self.map_enabled = state
         except:
             self.map_enabled = False
@@ -316,10 +315,10 @@ class Plugin(ETS2LAPlugin):
             state = self.globals.tags.status["plugins.adaptivecruisecontrol"]["AdaptiveCruiseControl"]
             if state != self.acc_enabled:
                 if state:
-                    self.speak(Translate("tts.acc.enabled"))
+                    self.speak(_("Adaptive Cruise Control enabled."))
                 elif self.state is not None:
-                    self.speak(Translate("tts.acc.disabled"))
-                
+                    self.speak(_("Adaptive Cruise Control disabled."))
+
                 self.acc_enabled = state
         except:
             self.acc_enabled = False
@@ -333,7 +332,7 @@ class Plugin(ETS2LAPlugin):
             distance = self.globals.tags.closest_city_distance
             if city != self.closest_city:
                 self.closest_city = city
-                self.speak(Translate("tts.closest.city", [city, round(distance / 1000, 1)]))
+                self.speak(_("Closest city is now {0} at a distance of {1} kilometers.").format(city, round(distance)))
         except:
             self.closest_city = None
             
@@ -345,7 +344,7 @@ class Plugin(ETS2LAPlugin):
             speed_limit = api["truckFloat"]["speedlimit"]
             if speed_limit != self.speed_limit:
                 self.speed_limit = speed_limit
-                self.speak(Translate("tts.speed.limit", [round(speed_limit)]))
+                self.speak(_("Speedlimit changed to {0} kilometers per hour.").format(round(speed_limit)))
         except:
             self.speed_limit = 0
             
@@ -353,10 +352,10 @@ class Plugin(ETS2LAPlugin):
         try:
             fuel = round(api["truckFloat"]["fuelRange"])
             if fuel < 200 and not self.has_notified_fuel:
-                self.speak(Translate("tts.fuel.low_range", [fuel]))
+                self.speak(_("Fuel range is now only {0} kilometers, please refuel soon.").format(fuel))
                 self.has_notified_fuel = True
             elif fuel < 50 and not self.has_notified_critical_fuel:
-                self.speak(Translate("tts.fuel.critical_range", [fuel]))
+                self.speak(_("Fuel range is now critical at only {0} kilometers, please refuel as soon as possible.").format(fuel))
                 self.has_notified_critical_fuel = True
             elif fuel >= 200:
                 self.has_notified_fuel = False
@@ -374,7 +373,7 @@ class Plugin(ETS2LAPlugin):
             for distance in self.notified_distances:
                 if route_distance <= distance and distance not in self.notified_markers:
                     if self.last_route_distance > 0 and route_distance < self.last_route_distance:
-                        self.speak(Translate("tts.route.distance", [distance]))
+                        self.speak(_("It's {0} kilometers to the next waypoint.").format(round(distance)))
                         self.notified_markers.add(distance)
             
             if route_distance > self.last_route_distance + 50:
@@ -395,22 +394,22 @@ class Plugin(ETS2LAPlugin):
             wear_cargo = round(api["jobFloat"]["cargoDamage"] * 100)
 
             if wear_engine > self.last_wear_engine:
-                self.speak(Translate("tts.damage.engine", [wear_engine]))
+                self.speak(_("Engine damage is now at {0}%.").format(wear_engine))
                 self.last_wear_engine = wear_engine
             if wear_cabin > self.last_wear_cabin:
-                self.speak(Translate("tts.damage.cabin", [wear_cabin]))
+                self.speak(_("Cabin damage is now at {0}%.").format(wear_cabin))
                 self.last_wear_cabin = wear_cabin
             if wear_chassis > self.last_wear_chassis:
-                self.speak(Translate("tts.damage.chassis", [wear_chassis]))
+                self.speak(_("Chassis damage is now at {0}%.").format(wear_chassis))
                 self.last_wear_chassis = wear_chassis
             if wear_transmission > self.last_wear_transmission:
-                self.speak(Translate("tts.damage.transmission", [wear_transmission]))
+                self.speak(_("Transmission damage is now at {0}%.").format(wear_transmission))
                 self.last_wear_transmission = wear_transmission
             if wear_wheels > self.last_wear_wheels:
-                self.speak(Translate("tts.damage.wheels", [wear_wheels]))
+                self.speak(_("Wheel damage is now at {0}%.").format(wear_wheels))
                 self.last_wear_wheels = wear_wheels
             if wear_cargo > self.last_wear_cargo:
-                self.speak(Translate("tts.damage.cargo", [wear_cargo]))
+                self.speak(_("Cargo damage is now at {0}%.").format(wear_cargo))
                 self.last_wear_cargo = wear_cargo
         except:
             self.last_wear_cargo = 0
@@ -427,7 +426,7 @@ class Plugin(ETS2LAPlugin):
             fuel = round(api["truckFloat"]["fuel"])
             distance = round(api["truckFloat"]["routeDistance"] / 1000)
 
-            self.speak(Translate("tts.status", [speed, speed_limit, fuel, distance]))
+            self.speak(_("Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint.").format(speed, speed_limit, fuel, distance))
         except Exception as e:
             self.speak(f"Error while processing status {e}")
 
@@ -468,7 +467,7 @@ class Plugin(ETS2LAPlugin):
         
         if self.test_mode:
             self.last_update = time.time()
-            self.speak("Test mode enabled. This is a test message.")
+            self.speak(_("Test mode enabled. This is a test message."))
             return
             
         self.map_enabled_disabled()

@@ -16,7 +16,6 @@ from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.shell import ExecuteCommand
 from ETS2LA.Utils.translator import _
 from ETS2LA.Window.utils import color_title_bar
-import ETS2LA.Utils.old_translator as translator
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.settings as settings
@@ -237,7 +236,8 @@ def get_states():
 
 @app.get("/api/language")
 def get_language():
-    return translator.LANGUAGE
+    return "English"
+    #return translator.LANGUAGE
 
 # endregion
 # region Popups

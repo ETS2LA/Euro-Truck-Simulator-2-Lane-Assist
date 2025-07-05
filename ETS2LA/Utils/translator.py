@@ -32,7 +32,7 @@ class Translate:
 lan = Get("global", "language", "en")
 _ = Translate("ets2la", "Translations/locales", lan)  # Default to English
 T_ = _
-_plural = _.ngettext  # Alias for ngettext
+ngettext = _.ngettext  # Alias for ngettext
 
 # region Generation
 
@@ -71,7 +71,7 @@ def generate_translations():
     current_year = datetime.datetime.now().year
     
     # Generate base .pot file
-    os.system(f'''python ETS2LA/Assets/gettext/pygettext.py -d ets2la -o {target_dir}/base.pot .''')
+    os.system(f"python ETS2LA/Assets/gettext/pygettext.py -d ets2la -w 9999 -c TRANSLATORS -o {target_dir}/base.pot .")
     
     # Header
     header_template = f'''# Translation template for {package_name}.
@@ -128,7 +128,7 @@ msgstr ""
         else:
             # If it doesn't exist, create a new one
             print(f"Creating new translation file for language: {lang}")
-            os.system(f'msginit --no-translator -l {lang} -i "{target_dir}/base.pot" -o "{po_file}" --no-wrap')
+            os.system(f'msginit --no-wrap --no-translator -l {lang} -i "{target_dir}/base.pot" -o "{po_file}"')
         
         # Fix the PO file header
         with open(po_file, "r", encoding="utf-8") as file:

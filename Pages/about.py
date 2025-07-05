@@ -4,8 +4,7 @@ from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
-from ETS2LA.Utils.translator import _, _plural
-import ETS2LA.Utils.old_translator as translator
+from ETS2LA.Utils.translator import _, ngettext
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
 import time
@@ -64,18 +63,18 @@ class Page(ETS2LAPage):
     
     def seconds_to_time(self, seconds):
         if seconds == 0:
-            return _plural("{0} minute", "{0} minutes", 0)
-        
+            return ngettext("{0} minute", "{0} minutes", 0).format(0)
+
         hours = round(seconds // 3600)
         minutes = round((seconds % 3600) // 60)
         if hours == 0:
-            return _plural("{0} minute", "{0} minutes", minutes)
+            return ngettext("{0} minute", "{0} minutes", minutes).format(minutes)
         elif minutes == 0:
-            return _plural("{0} hour", "{0} hours", hours)
+            return ngettext("{0} hour", "{0} hours", hours).format(hours)
         else:
             return _("{0} and {1}").format(
-                _plural("{0} hour", "{0} hours", hours),
-                _plural("{0} minute", "{0} minutes", minutes)
+                ngettext("{0} hour", "{0} hours", hours).format(hours),
+                ngettext("{0} minute", "{0} minutes", minutes).format(minutes)
             )
 
     def render(self):
