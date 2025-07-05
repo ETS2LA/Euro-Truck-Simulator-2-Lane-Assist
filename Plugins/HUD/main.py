@@ -416,13 +416,29 @@ class Plugin(ETS2LAPlugin):
         speed_limit_base_y = 4 * scaling
         speed_limit_base_x = -35 * scaling
         speed_limit_pos = Point(speed_limit_base_x + offset[0], speed_limit_base_y + offset[1], anchor=anchor)
-        speed_limit_text_pos = Point(speed_limit_base_x + offset[0] - 8 * scaling, speed_limit_base_y + offset[1] - 9 * scaling, anchor=anchor)
+        speed_limit_text_pos = Point(speed_limit_base_x + offset[0] - 9 * scaling, speed_limit_base_y + offset[1] - 9 * scaling, anchor=anchor)
         
+        status = self.globals.tags.status
+        if status:
+            acc_status = self.globals.tags.merge(status)["AdaptiveCruiseControl"]
+        else:
+            acc_status = False
+            
+        target_speed = self.globals.tags.acc
+        if target_speed:
+            target_speed = self.globals.tags.merge(target_speed)
+            if game == "ATS":
+                target_speed = target_speed * 3.6 * 0.621371
+            else:
+                target_speed = target_speed * 3.6  # Convert m/s to km/h
+        else:
+            target_speed = 0
+
         ar_data = [
             # Unit
             Text(
                 unit_pos,
-                unit,
+                (f"MAX {round(target_speed)} " if acc_status else "") + unit,
                 size=16 * scaling,
                 color=Color(255, 255, 255),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
@@ -664,6 +680,13 @@ class Plugin(ETS2LAPlugin):
             try:
                 points = self.globals.tags.steering_points
                 points = self.globals.tags.merge(points)
+                
+                status = self.globals.tags.status
+                if status:
+                    map_status = self.globals.tags.merge(status)["Map"]
+                else:
+                    map_status = None
+
                 steering_data = []
                 for i, point in enumerate(points):
                     if i == 0:
@@ -672,7 +695,7 @@ class Plugin(ETS2LAPlugin):
                         Coordinate(*point),
                         Coordinate(*points[i - 1]),
                         thickness=5 * self.scaling,
-                        color=Color(255, 255, 255, 60),
+                        color=Color(100, 100, 100, 120) if not map_status else Color(255, 255, 255, 80),
                         fade=Fade(prox_fade_end=10, prox_fade_start=20, dist_fade_start=50, dist_fade_end=150)
                     )
                     steering_data.append(line)
@@ -895,8 +918,8 @@ class Plugin(ETS2LAPlugin):
             self.get_start_end_time()
             return
         
-        if self.boot_sequence(time.time(), anchor, scaling=self.scaling):
-            return
+        # if self.boot_sequence(time.time(), anchor, scaling=self.scaling):
+        #     return
         
         data = []
         data += self.hud_data
