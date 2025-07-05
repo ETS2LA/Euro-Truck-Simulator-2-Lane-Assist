@@ -242,7 +242,7 @@ class Plugin(ETS2LAPlugin):
     LastTimeStamp = 0
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
+        global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time, ttext
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
@@ -250,6 +250,8 @@ class Plugin(ETS2LAPlugin):
         import ETS2LA.variables as variables
 
         import dearpygui.dearpygui as dpg
+        import Plugins.AR.text as ttext
+        
         import win32con
         import win32gui
         import ctypes
@@ -271,10 +273,12 @@ class Plugin(ETS2LAPlugin):
         settings.Listen("AR", LoadSettings)
         InitializeWindow()
         
+        renderer = ttext.create_text_renderer()
+        self.text_renderer = ttext.TextureText(renderer)
+                
         self.draw_calls = 0
         self.render_time = 0
         self.item_count = 0
-        
 
 
     def Render(self, items=[]):
@@ -376,14 +380,22 @@ class Plugin(ETS2LAPlugin):
                     screen_position = position.screen(self)
                     if screen_position is None:
                         continue
-                    
+                     
                     if type(position) == Coordinate:
                         alpha = CalculateAlpha([screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        screen_position = (screen_position[0], screen_position[1])
                         item.color.am = alpha / 255
-                        if item.color.am <= 0:
+                        if item.color.am <= 0: 
                             continue
                     
-                    dpg.draw_text(screen_position, text=item.text, color=item.color.tuple(), size=item.size)
+                    # Use our texture-based text renderer instead of dpg.draw_text
+                    self.text_renderer.draw_text(
+                        screen_position,
+                        item.text,
+                        size=item.size * 0.8,  
+                        color=item.color.tuple(),
+                        scale=1
+                    )
                     draw_calls += 1
                     
                 elif type(item) == Bezier:
@@ -590,6 +602,14 @@ class Plugin(ETS2LAPlugin):
                 color=Color(255, 255, 255, 255),
                 fill=Color(127, 127, 127, 255 / 2),
                 thickness=2
+            ))
+            
+            cur = time.time() % 2
+            position = Point(100 + cur * 10, 100 + cur * 10)
+            DRAWLIST.append(Text(
+                position,
+                "Testing text smoothness",
+                size=64
             ))
 
         other_plugins = self.globals.tags.AR
