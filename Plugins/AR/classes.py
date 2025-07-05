@@ -572,3 +572,67 @@ class Text:
             "color": self.color.json(),
             "size": self.size
         }
+        
+class Bezier:
+    """A 2D Bezier curve rendered from four points, can only be rendered in 2D.
+    
+    :param Point p1: The first control point of the Bezier curve.
+    :param Point p2: The second control point of the Bezier curve.
+    :param Point p3: The third control point of the Bezier curve.
+    :param Point p4: The fourth control point of the Bezier curve.
+    :param Color color: The color of the Bezier curve.
+    :param float thickness: The thickness of the Bezier curve.
+    :param int segments: The number of segments to use for the Bezier curve. More segments means smoother curve but more performance cost.
+    :param float custom_distance: A custom distance to be used for fade calculations
+    :param Fade fade: The fade effect applied to the Bezier curve. (Only works with custom_distance)
+    
+    """
+    
+    p1: Point
+    p2: Point
+    p3: Point
+    p4: Point
+    color: Color = Color(255, 255, 255, 255)
+    thickness: float = 1.0
+    segments: int = 10
+    custom_distance: float | None = None
+    fade: Fade = Fade()
+    
+    def __init__(self, 
+                 p1: Point, 
+                 p2: Point, 
+                 p3: Point, 
+                 p4: Point, 
+                 color: Color = Color(255, 255, 255, 255), 
+                 thickness: float = 1.0,
+                 segments: int = 100,
+                 custom_distance: float | None = None,
+                 fade: Fade = Fade()):
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+        self.p4 = p4
+        self.color = color
+        self.thickness = thickness
+        self.segments = segments
+        self.custom_distance = custom_distance
+        self.fade = fade
+        
+    def get_distance(self, x: float, y: float, z: float):
+        if self.custom_distance is not None:
+            return self.custom_distance
+        return 0
+        
+    def is_3D(self):
+        return False  # Bezier curves are always rendered in 2D
+        
+    def json(self):
+        return {
+            "p1": self.p1.json(),
+            "p2": self.p2.json(),
+            "p3": self.p3.json(),
+            "p4": self.p4.json(),
+            "color": self.color.json(),
+            "thickness": self.thickness,
+            "segments": self.segments
+        }

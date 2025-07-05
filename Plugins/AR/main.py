@@ -278,7 +278,6 @@ class Plugin(ETS2LAPlugin):
 
 
     def Render(self, items=[]):
-        
         render_start = time.perf_counter()
         self.item_count = len(items)
         
@@ -386,6 +385,25 @@ class Plugin(ETS2LAPlugin):
                     
                     dpg.draw_text(screen_position, text=item.text, color=item.color.tuple(), size=item.size)
                     draw_calls += 1
+                    
+                elif type(item) == Bezier:
+                    p1 = item.p1.tuple()
+                    p2 = item.p2.tuple()
+                    p3 = item.p3.tuple()
+                    p4 = item.p4.tuple()
+                    
+                    if item.custom_distance:
+                        alpha = CalculateAlpha([item.custom_distance], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        if item.color.am <= 0: 
+                            continue
+
+                    dpg.draw_bezier_cubic(
+                        p1, p2, p3, p4,
+                        color=item.color.tuple(),
+                        thickness=item.thickness,
+                        segments=item.segments,
+                    )
                  
         dpg.render_dearpygui_frame()
         self.render_time = time.perf_counter() - render_start
@@ -573,7 +591,6 @@ class Plugin(ETS2LAPlugin):
                 fill=Color(127, 127, 127, 255 / 2),
                 thickness=2
             ))
-
 
         other_plugins = self.globals.tags.AR
         if other_plugins is not None:
