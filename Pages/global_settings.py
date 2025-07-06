@@ -207,20 +207,8 @@ class Page(ETS2LAPage):
                     changed=self.change_startup_sound,
                 )
                 
-            with Tab("global.settings.variables", container_style=styles.FlexVertical() + styles.Gap("24px")):
-                CheckboxWithTitleDescription(
-                    title="TruckersMP Compatibility",
-                    description="TruckersMP disables some features of ETS2LA when it is running. Selecting this option will enable various compatibility features to make ETS2LA work. You cannot tab out of the game when this is selected.",
-                    default=utils_settings.Get("global", "tmp_compatibility", default=False), # type: ignore
-                    changed=self.handle_tmp_compatibility_change,
-                )
-                CheckboxWithTitleDescription(
-                    title="1.54 SDK Compatibility",
-                    description="This option will enable compatibility for the 1.54 SDK. This option will be removed in the future once TruckersMP has updated to game version 1.55.",
-                    default=utils_settings.Get("global", "old_compatibility", default=False), # type: ignore
-                    changed=self.handle_old_compatibility_change,
-                )
-                if self.monitors != 0:
+            if self.monitors != 0:
+                with Tab("global.settings.variables", container_style=styles.FlexVertical() + styles.Gap("24px")):
                     monitors = []
                     for i, monitor in enumerate(self.monitors):
                         if monitor.is_primary:

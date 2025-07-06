@@ -1,4 +1,3 @@
-from ETS2LA.Utils import settings
 from ETS2LA.Module import *
 import platform
 import struct
@@ -6,14 +5,6 @@ import mmap
 import math
 import time
 import os
-
-tmp_compatibility = settings.Get("global", "tmp_compatibility", False)
-def update_settings(new: dict):
-    global tmp_compatibility
-    if "tmp_compatibility" in new:
-        tmp_compatibility = new["tmp_compatibility"]
-
-settings.Listen("global", update_settings)
 
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
@@ -153,7 +144,7 @@ class SCSController:
         if key not in SCSController.__annotations__:
             raise AttributeError(f"'{key}' input is not known")
 
-        if self._input_buff and key == "aforward" and not tmp_compatibility:
+        if self._input_buff and key == "aforward":
             if self._input_buff is not None:
                 self._input_buff.seek(5)
                 self._input_buff.write(struct.pack("f", value))
@@ -164,7 +155,7 @@ class SCSController:
                 self._input_buff.flush()
                 return
             
-        if self._input_buff and key == "abackward" and not tmp_compatibility:
+        if self._input_buff and key == "abackward":
             if self._input_buff is not None:
                 self._input_buff.seek(10)
                 self._input_buff.write(struct.pack("f", value))
