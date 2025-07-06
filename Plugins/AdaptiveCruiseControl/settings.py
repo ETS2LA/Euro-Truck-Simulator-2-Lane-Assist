@@ -118,18 +118,18 @@ class SettingsMenu(ETS2LAPage):
                     suffix=" μ",
                 )
                 
-                if ignore_speed_limit != True:
-                    SliderWithTitleDescription(
-                        title="acc.settings.overwrite_speed.name",
-                        description="acc.settings.overwrite_speed.description",
-                        min=0,
-                        max=130,
-                        step=5,
-                        default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
-                        changed=self.handle_overwrite_speed,
-                        suffix=" km/h",
-                    )
-                        
+                SliderWithTitleDescription(
+                    title="acc.settings.overwrite_speed.name",
+                    description="acc.settings.overwrite_speed.description",
+                    min=0,
+                    max=130,
+                    step=5,
+                    default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
+                    changed=self.handle_overwrite_speed,
+                    suffix=" km/h",
+                )
+                
+                if ignore_speed_limit != True:        
                     with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                         speed_offset_type = settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute")
                         ComboboxWithTitleDescription(
