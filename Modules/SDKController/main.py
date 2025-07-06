@@ -1,3 +1,4 @@
+from ETS2LA.Utils import settings
 from ETS2LA.Module import *
 import platform
 import struct
@@ -6,9 +7,24 @@ import math
 import time
 import os
 
+old_compatibility = settings.Get("global", "old_compatibility", False)
+tmp_compatibility = settings.Get("global", "tmp_compatibility", False)
+def update_settings(new: dict):
+    global tmp_compatibility
+    global old_compatibility
+    if "tmp_compatibility" in new:
+        tmp_compatibility = new["tmp_compatibility"]
+    if "old_compatibility" in new:
+        old_compatibility = new["old_compatibility"]
+
+settings.Listen("global", update_settings)
+
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
+    # Legacy 1.54
     STEERING_MEM_NAME = r"Local\ETS2LAPluginInput"
+    # Current 1.55+
+    INPUT_MEM_NAME = r"Local\ETS2LAPluginInput"
     SHM_FILE = "/dev/shm/SCS/SCSControls"
 
     _BOOL_SIZE = struct.calcsize("?")
@@ -81,11 +97,20 @@ class SCSController:
         system = platform.system()
         if system == "Windows":
             self._shm_buff = mmap.mmap(0, shm_size, self.MEM_NAME)
-            try:
-                self._steering_buff = mmap.mmap(0, 9, self.STEERING_MEM_NAME)
-            except:
+            
+            if old_compatibility:
+                self._input_buff = None
+                try: self._steering_buff = mmap.mmap(0, 9, self.STEERING_MEM_NAME)
+                except:
+                    self._steering_buff = None
+                    print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
+            else:
                 self._steering_buff = None
-                print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
+                try: self._input_buff = mmap.mmap(0, 19, self.INPUT_MEM_NAME)
+                except:
+                    self._input_buff = None
+                    print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
+                    
         elif system == "Linux":
             try:
                 self._shm_fd = open(self.SHM_FILE, "rb+")
@@ -145,8 +170,40 @@ class SCSController:
         if key not in SCSController.__annotations__:
             raise AttributeError(f"'{key}' input is not known")
 
+        if self._input_buff and key == "aforward" and not tmp_compatibility:
+            if self._input_buff is not None:
+                self._input_buff.seek(5)
+                self._input_buff.write(struct.pack("f", value))
+                self._input_buff.seek(9)
+                self._input_buff.write(struct.pack("?", True if value != 0 else False))
+                self._input_buff.seek(15)
+                self._input_buff.write(struct.pack("l", math.floor(time.time())))
+                self._input_buff.flush()
+                return
+            
+        if self._input_buff and key == "abackward" and not tmp_compatibility:
+            if self._input_buff is not None:
+                self._input_buff.seek(10)
+                self._input_buff.write(struct.pack("f", value))
+                self._input_buff.seek(14)
+                self._input_buff.write(struct.pack("?", True if value != 0 else False))
+                self._input_buff.seek(15)
+                self._input_buff.write(struct.pack("l", math.floor(time.time())))
+                self._input_buff.flush()
+                return
+        
         if key == "steering":
-            if self._steering_buff is not None:
+            if self._input_buff:
+                self._input_buff.seek(0)
+                self._input_buff.write(struct.pack("f", -value))
+                self._input_buff.seek(4)
+                self._input_buff.write(struct.pack("?", True if value != 0 else False))
+                self._input_buff.seek(15)
+                self._input_buff.write(struct.pack("l", math.floor(time.time())))
+                self._input_buff.flush()
+                return
+            
+            if self._steering_buff:
                 self._steering_buff.seek(0)
                 self._steering_buff.write(struct.pack("f", -value))
                 self._steering_buff.seek(4)

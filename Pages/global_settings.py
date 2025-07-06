@@ -98,6 +98,22 @@ class Page(ETS2LAPage):
             snow = not utils_settings.Get("global", "snow", default=True)
             
         utils_settings.Set("global", "snow", snow)
+        
+    def handle_tmp_compatibility_change(self, *args):
+        if args:
+            tmp_compatibility = args[0]
+        else:
+            tmp_compatibility = not utils_settings.Get("global", "tmp_compatibility", default=False)
+            
+        utils_settings.Set("global", "tmp_compatibility", tmp_compatibility)
+        
+    def handle_old_compatibility_change(self, *args):
+        if args:
+            old_compatibility = args[0]
+        else:
+            old_compatibility = not utils_settings.Get("global", "old_compatibility", default=False)
+            
+        utils_settings.Set("global", "old_compatibility", old_compatibility)
     
     def render(self):
         
@@ -191,8 +207,20 @@ class Page(ETS2LAPage):
                     changed=self.change_startup_sound,
                 )
                 
-            if self.monitors != 0:
-                with Tab("global.settings.variables"):
+            with Tab("global.settings.variables", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title="TruckersMP Compatibility",
+                    description="TruckersMP disables some features of ETS2LA when it is running. Selecting this option will enable various compatibility features to make ETS2LA work. You cannot tab out of the game when this is selected.",
+                    default=utils_settings.Get("global", "tmp_compatibility", default=False), # type: ignore
+                    changed=self.handle_tmp_compatibility_change,
+                )
+                CheckboxWithTitleDescription(
+                    title="1.54 SDK Compatibility",
+                    description="This option will enable compatibility for the 1.54 SDK. This option will be removed in the future once TruckersMP has updated to game version 1.55.",
+                    default=utils_settings.Get("global", "old_compatibility", default=False), # type: ignore
+                    changed=self.handle_old_compatibility_change,
+                )
+                if self.monitors != 0:
                     monitors = []
                     for i, monitor in enumerate(self.monitors):
                         if monitor.is_primary:

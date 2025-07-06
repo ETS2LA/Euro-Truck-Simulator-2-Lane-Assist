@@ -722,6 +722,7 @@ class Plugin(ETS2LAPlugin):
         elif self.state.text == "Detected reverse gear. Please shift to drive.":
             self.state.text = ""
         
+        self.state.text = str(round(self.accel * 100, 1)) + "%"
         if self.accel > 0:
             self.controller.aforward = float(self.accel)
             if self.speed > 10 / 3.6:
