@@ -7,23 +7,16 @@ import math
 import time
 import os
 
-old_compatibility = settings.Get("global", "old_compatibility", False)
 tmp_compatibility = settings.Get("global", "tmp_compatibility", False)
 def update_settings(new: dict):
     global tmp_compatibility
-    global old_compatibility
     if "tmp_compatibility" in new:
         tmp_compatibility = new["tmp_compatibility"]
-    if "old_compatibility" in new:
-        old_compatibility = new["old_compatibility"]
 
 settings.Listen("global", update_settings)
 
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
-    # Legacy 1.54
-    STEERING_MEM_NAME = r"Local\ETS2LAPluginInput"
-    # Current 1.55+
     INPUT_MEM_NAME = r"Local\ETS2LAPluginInput"
     SHM_FILE = "/dev/shm/SCS/SCSControls"
 
@@ -97,24 +90,14 @@ class SCSController:
         system = platform.system()
         if system == "Windows":
             self._shm_buff = mmap.mmap(0, shm_size, self.MEM_NAME)
-            
-            if old_compatibility:
+            try: self._input_buff = mmap.mmap(0, 19, self.INPUT_MEM_NAME)
+            except:
                 self._input_buff = None
-                try: self._steering_buff = mmap.mmap(0, 9, self.STEERING_MEM_NAME)
-                except:
-                    self._steering_buff = None
-                    print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
-            else:
-                self._steering_buff = None
-                try: self._input_buff = mmap.mmap(0, 19, self.INPUT_MEM_NAME)
-                except:
-                    self._input_buff = None
-                    print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
+                print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
                     
         elif system == "Linux":
             try:
                 self._shm_fd = open(self.SHM_FILE, "rb+")
-                self._steering_buff = None
             except:
                 raise RuntimeError(f"ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)") #Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
             try:
@@ -201,16 +184,6 @@ class SCSController:
                 self._input_buff.seek(15)
                 self._input_buff.write(struct.pack("l", math.floor(time.time())))
                 self._input_buff.flush()
-                return
-            
-            if self._steering_buff:
-                self._steering_buff.seek(0)
-                self._steering_buff.write(struct.pack("f", -value))
-                self._steering_buff.seek(4)
-                self._steering_buff.write(struct.pack("?", True if value != 0 else False))
-                self._steering_buff.seek(5)
-                self._steering_buff.write(struct.pack("l", math.floor(time.time())))
-                self._steering_buff.flush()
                 return
 
         value_type = type(value)
