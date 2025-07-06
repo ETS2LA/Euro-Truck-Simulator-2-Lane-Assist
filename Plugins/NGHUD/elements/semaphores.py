@@ -1,7 +1,6 @@
 from Modules.Semaphores.classes import TrafficLight
 from Plugins.NGHUD.classes import HUDRenderer
 from Plugins.AR.classes import *
-from ETS2LA.UI import *
 
 class Renderer(HUDRenderer):
     name = "Traffic Lights"
@@ -56,5 +55,6 @@ class Renderer(HUDRenderer):
                     fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=20, dist_fade_end=80),
                     custom_distance=distance
                 )
-            ])    
+            ])
+            
         self.data += data

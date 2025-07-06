@@ -37,6 +37,10 @@ class Widget(HUDWidget):
             self.assist_alpha -= 0.2
         elif (acc or map) and self.assist_alpha < 1.0:
             self.assist_alpha += 0.2
+            
+        if self.assist_alpha <= 0.0:
+            self.data = []
+            return
         
         target_speed = self.plugin.globals.tags.acc
         game = self.plugin.data["scsValues"]["game"]

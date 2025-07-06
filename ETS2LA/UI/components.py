@@ -1631,6 +1631,7 @@ class ComboboxWithTitleDescription():
         style: Style = Style(),
         search: ComboboxSearch | None = None,
         side: str = Side.BOTTOM,
+        multiple: bool = False
     ):
         global dictionary
         
@@ -1643,6 +1644,7 @@ class ComboboxWithTitleDescription():
         self.description = description
         self.style = style
         self.search = search
+        self.multiple = multiple
         
         self.previous = dictionary
         dictionary = []
@@ -1657,6 +1659,7 @@ class ComboboxWithTitleDescription():
                 changed=changed,
                 side=side,
                 search=search,
+                multiple=multiple
             )
                 
         self.previous += dictionary

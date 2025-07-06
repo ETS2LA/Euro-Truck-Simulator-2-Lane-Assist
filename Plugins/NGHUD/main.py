@@ -26,8 +26,16 @@ class Plugin(ETS2LAPlugin):
     )
 
     pages = [UI]
-
     runners = []
+    
+    data = []
+    
+    renderers = []
+    widgets = {
+        "Left": None,
+        "Center": None,
+        "Right": None,
+    }
 
     def discover_elements(self):
         path = "Plugins/NGHUD/elements"
@@ -43,34 +51,50 @@ class Plugin(ETS2LAPlugin):
                     
         logging.warning(f"NGHUD: Found {len(self.runners)} elements in {path}.")
 
-    widgets = {
-        "Left": None,
-        "Center": None,
-        "Right": None,
-    }
-    
-    renderers = []
+    def set_widget(self, position: str, name: str):
+        if position not in self.widgets:
+            raise ValueError(f"Invalid position: {position}. Valid positions are: {list(self.widgets.keys())}")
+        
+        if self.widgets[position] is not None:
+            self.widgets[position].enabled = False
+            
+        target_widget = next((runner for runner in self.runners if runner.element.name == name), None)
+        if target_widget is None:
+            raise ValueError(f"Element '{name}' not found in runners.")
+        
+        self.widgets[position] = target_widget
+        self.widgets[position].enabled = True
+        
+    def remove_widget(self, position: str):
+        if position not in self.widgets:
+            raise ValueError(f"Invalid position: {position}. Valid positions are: {list(self.widgets.keys())}")
+        
+        if self.widgets[position] is not None:
+            self.widgets[position].enabled = False
+            self.widgets[position] = None
+        else:
+            logging.warning(f"NGHUD: No widget to remove at position '{position}'.")
+
+    def enable_renderer(self, name: str):
+        target_renderer = next((runner for runner in self.runners if runner.element.name == name), None)
+        if target_renderer is None:
+            raise ValueError(f"Renderer '{name}' not found in runners.")
+        
+        self.renderers.append(target_renderer.element)
+        self.renderers[-1].enabled = True
+        
+    def disable_renderer(self, name: str):
+        target_renderer = next((runner for runner in self.renderers if runner.name == name), None)
+        if target_renderer is None:
+            raise ValueError(f"Renderer '{name}' not found in renderers.")
+        
+        target_renderer.enabled = False
+        self.renderers.remove(target_renderer)
 
     def init(self):
         self.anchor = Coordinate(0, 0, 0, relative=True, rotation_relative=True)
         self.discover_elements()
         self.update_anchor()
-        
-        # TODO: Enable elements based on user selection
-        for runner in self.runners:
-            if runner.element.name != "Navigation":
-                runner.enabled = True
-            else:
-                continue
-                
-            if runner.element.name == "Speed":
-                self.widgets["Left"] = runner
-            elif runner.element.name == "Assist Information":
-                self.widgets["Center"] = runner
-            elif runner.element.name == "Media":
-                self.widgets["Right"] = runner
-            else:
-                self.renderers.append(runner.element)
     
     offsets = { # Calculated at runtime
         "Left": 0,
@@ -168,24 +192,84 @@ class Plugin(ETS2LAPlugin):
 
         padding = 20
         
+        if not self.widgets["Center"] or self.widgets["Center"].data == []:
+            self.center_width = 0
+        if not self.widgets["Left"] or self.widgets["Left"].data == []:
+            self.left_width = 0
+        if not self.widgets["Right"] or self.widgets["Right"].data == []: 
+            self.right_width = 0
+        
         total_width = self.left_width + self.center_width + self.right_width + padding * 2
         self.middle_pixels = total_width // 2 
         
-        self.widgets["Left"].width = self.left_width
-        self.widgets["Center"].width = self.center_width
-        self.widgets["Right"].width = self.right_width
+        if self.widgets["Left"]:
+            self.widgets["Left"].width = self.left_width
+            self.widgets["Left"].offset_x = -self.middle_pixels
         
-        self.widgets["Left"].offset_x = -self.middle_pixels
-        self.widgets["Center"].offset_x = -self.middle_pixels + self.left_width + padding
-        self.widgets["Right"].offset_x = -self.middle_pixels + self.left_width + self.center_width + padding * 2
+        if self.widgets["Center"]:
+            self.widgets["Center"].width = self.center_width
+            self.widgets["Center"].offset_x = -self.middle_pixels + self.left_width + padding
         
-    def run(self):
-        self.layout() 
-        self.data = self.modules.TruckSimAPI.run()
+        if self.widgets["Right"]:
+            self.widgets["Right"].width = self.right_width
+            self.widgets["Right"].offset_x = -self.middle_pixels + self.left_width + self.center_width + padding * 2
         
-        data = self.widgets["Left"].data \
-             + self.widgets["Center"].data \
-             + self.widgets["Right"].data 
+    def ensure_widgets_selected(self):
+        left_widget = self.settings.left_widget
+        if left_widget is None:
+            self.settings.left_widget = "Speed"
+            left_widget = "Speed"
+            
+        center_widget = self.settings.center_widget
+        if center_widget is None:
+            self.settings.center_widget = "Assist Information"
+            center_widget = "Assist Information"
+            
+        right_widget = self.settings.right_widget
+        if right_widget is None:
+            self.settings.right_widget = "Media"
+            right_widget = "Media"
+            
+        if not left_widget and self.widgets["Left"] is not None:
+            self.remove_widget("Left")
+        if left_widget and (self.widgets["Left"] is None or self.widgets["Left"].element.name != left_widget):
+            self.set_widget("Left", left_widget)
+        
+        if not center_widget and self.widgets["Center"] is not None:
+            self.remove_widget("Center")
+        if center_widget and (self.widgets["Center"] is None or self.widgets["Center"].element.name != center_widget):
+            self.set_widget("Center", center_widget)
+            
+        if not right_widget and self.widgets["Right"] is not None:
+            self.remove_widget("Right")
+        if right_widget and (self.widgets["Right"] is None or self.widgets["Right"].element.name != right_widget):
+            self.set_widget("Right", right_widget) 
+            
+    def ensure_renderers_selected(self):
+        renderers = self.settings.renderers
+        if renderers is None:
+            self.settings.renderers = ["ACC Information", "Traffic Lights", "Steering Line"]
+            renderers = ["ACC Information", "Traffic Lights", "Steering Line"]
+            
+        enabled = [runner.name for runner in self.renderers]
+        for renderer in enabled:
+            if renderer not in renderers:
+                self.disable_renderer(renderer)
+                
+        for renderer in renderers:
+            if renderer not in enabled:
+                self.enable_renderer(renderer)
+        
+    def run(self): 
+        self.layout()
+        self.ensure_widgets_selected()
+        self.ensure_renderers_selected() 
+        self.data = self.modules.TruckSimAPI.run() 
+        
+        data = []
+        if self.widgets["Left"]: data.extend(self.widgets["Left"].data)
+        if self.widgets["Center"]: data.extend(self.widgets["Center"].data)
+        if self.widgets["Right"]: data.extend(self.widgets["Right"].data) 
         
         for renderer in self.renderers:
             data += renderer.data
