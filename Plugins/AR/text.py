@@ -33,8 +33,8 @@ class TextureText:
         self.cache = renderer['cache']
         self.registry_id = renderer['registry_id']
     
-    def get_text_texture(self, text, color):
-        cache_key = f"{text}_{color[0]}_{color[1]}_{color[2]}_{color[3]}"
+    def get_text_texture(self, text):
+        cache_key = f"{text}"
         
         if cache_key in self.cache:
             return self.cache[cache_key]
@@ -54,10 +54,9 @@ class TextureText:
         image = Image.new('RGBA', (width, height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
         
-        r, g, b, a = color
         draw.text((1, 1), 
                   text, 
-                  fill=(round(r / 255), round(g / 255), round(b / 255), round(a / 255)), 
+                  fill=(1,1,1,1),
                   font=font)
         
         # Convert the image to a numpy array for DPG
@@ -84,7 +83,7 @@ class TextureText:
             a = 255
 
         # Get the texture
-        texture_info = self.get_text_texture(text, (r, g, b, a))
+        texture_info = self.get_text_texture(text)
         scale = size / 64 * scale
         
         # Calculate position and draw
@@ -97,5 +96,6 @@ class TextureText:
             (x, y), 
             (x + width, y + height),
             uv_min=(0, 0),
-            uv_max=(1, 1)
+            uv_max=(1, 1),
+            color=(r, g, b, a)
         )

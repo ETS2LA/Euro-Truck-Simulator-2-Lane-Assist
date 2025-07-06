@@ -302,6 +302,7 @@ class Rectangle:
     """
     start: Point | Coordinate
     end: Point | Coordinate
+    rounding: float = 0.0
     color: Color = Color(255, 255, 255, 255)
     fill: Color = Color(0, 0, 0, 0)
     thickness: int = 1
@@ -315,9 +316,11 @@ class Rectangle:
                  fill: Color = Color(0, 0, 0, 0), 
                  thickness: int = 1,
                  fade: Fade = Fade(),
-                 custom_distance: float = None):
+                 custom_distance: float = None,
+                 rounding: float = 0.0):
         self.start = start
         self.end = end
+        self.rounding = rounding
         self.color = color
         self.fill = fill
         self.thickness = thickness

@@ -320,8 +320,15 @@ class Plugin(ETS2LAPlugin):
                         item.fill.am = alpha / 255
                         if item.color.am <= 0 and item.fill.am <= 0:
                             continue
+                        
+                    elif item.custom_distance:
+                        alpha = CalculateAlpha([item.custom_distance], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        item.fill.am = alpha / 255
+                        if item.color.am <= 0 and item.fill.am <= 0:
+                            continue
                     
-                    dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness, rounding=item.rounding)
                     draw_calls += 1
                     
                 elif type(item) == Line:
@@ -384,6 +391,12 @@ class Plugin(ETS2LAPlugin):
                     if type(position) == Coordinate:
                         alpha = CalculateAlpha([screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         screen_position = (screen_position[0], screen_position[1])
+                        item.color.am = alpha / 255
+                        if item.color.am <= 0: 
+                            continue
+                    
+                    elif item.custom_distance:
+                        alpha = CalculateAlpha([item.custom_distance], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
                         item.color.am = alpha / 255
                         if item.color.am <= 0: 
                             continue

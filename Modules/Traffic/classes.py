@@ -265,10 +265,10 @@ class Vehicle:
         
         # Rotate the corners
         pitch, yaw, roll = self.rotation.euler()
-        front_left = rotate_around_point(front_left, ground_middle, -pitch, -yaw, 0)
-        front_right = rotate_around_point(front_right, ground_middle, -pitch, -yaw, 0)
-        back_right = rotate_around_point(back_right, ground_middle, -pitch, -yaw, 0)
-        back_left = rotate_around_point(back_left, ground_middle, -pitch, -yaw, 0)
+        front_left = rotate_around_point(front_left, ground_middle, pitch, -yaw, 0)
+        front_right = rotate_around_point(front_right, ground_middle, pitch, -yaw, 0)
+        back_right = rotate_around_point(back_right, ground_middle, pitch, -yaw, 0)
+        back_left = rotate_around_point(back_left, ground_middle, pitch, -yaw, 0)
         
         return front_left, front_right, back_right, back_left
 
