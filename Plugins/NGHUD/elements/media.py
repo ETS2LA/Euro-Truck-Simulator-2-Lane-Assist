@@ -32,7 +32,7 @@ class Widget(HUDWidget):
                     if media_properties and playback_info:
                         self.media_info = {
                             "title": media_properties.title,
-                            "artist": media_properties.artist,
+                            "artist": media_properties.artist.split("—")[0],
                             "start": playback_info.start_time,
                             "end": playback_info.end_time,
                             "position": playback_info.position
@@ -106,7 +106,7 @@ class Widget(HUDWidget):
                 size=16
             ),
             Text(
-                Point(10 + offset_x, height-20, anchor=self.plugin.anchor),
+                Point(10 + offset_x, height-22, anchor=self.plugin.anchor),
                 text=artist,
                 color=Color(255, 255, 255, 200),
                 size=14

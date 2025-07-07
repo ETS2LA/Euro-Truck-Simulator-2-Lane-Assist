@@ -50,6 +50,10 @@ class Renderer(HUDRenderer):
         truck_y = self.plugin.data["truckPlacement"]["coordinateY"]
         truck_z = self.plugin.data["truckPlacement"]["coordinateZ"]
         
+        game = self.plugin.data["scsValues"]["game"]
+        speed = highlighted_vehicle.speed * 3.6 if game == "ETS2" else highlighted_vehicle.speed * 2.23694
+        speed_unit = "km/h" if game == "ETS2" else "mph"
+        
         # Line under the vehicle
         front_left, front_right, back_right, back_left = highlighted_vehicle.get_corners() 
         distance = Coordinate(*front_left).get_distance_to(truck_x, truck_y, truck_z)
@@ -67,6 +71,9 @@ class Renderer(HUDRenderer):
         relative_back_right = self.plugin.get_relative_to_head(Coordinate(*back_right))
         relative_back_left = self.plugin.get_relative_to_head(Coordinate(*back_left))
         relative_center_back = self.plugin.get_relative_to_head(Coordinate(*center_back))
+        
+        distance_unit = "m" if game == "ETS2" else "ft"
+        distance = round(distance, 1) if distance_unit == "m" else round(distance * 3.28084, 1)
 
         # 3D box
         self.data = [
@@ -91,7 +98,7 @@ class Renderer(HUDRenderer):
             ),
             Text(
                 Point(-45, 22, anchor=relative_center_back),
-                text=f"{highlighted_vehicle.speed:.0f} km/h",
+                text=f"{speed:.0f} {speed_unit}",
                 size=16,
                 custom_distance=distance,
                 color=Color(255, 255, 255, 150),
@@ -99,7 +106,7 @@ class Renderer(HUDRenderer):
             ),
             Text(
                 Point(15, 22, anchor=relative_center_back),
-                text=f"{distance:.0f} m",
+                text=f"{distance:.0f} {distance_unit}",
                 size=16,
                 custom_distance=distance,
                 color=Color(255, 255, 255, 150),

@@ -79,9 +79,9 @@ class Plugin(ETS2LAPlugin):
         target_renderer = next((runner for runner in self.runners if runner.element.name == name), None)
         if target_renderer is None:
             raise ValueError(f"Renderer '{name}' not found in runners.")
-        
+         
+        target_renderer.enabled = True
         self.renderers.append(target_renderer.element)
-        self.renderers[-1].enabled = True
         
     def disable_renderer(self, name: str):
         target_renderer = next((runner for runner in self.renderers if runner.name == name), None)
@@ -153,7 +153,7 @@ class Plugin(ETS2LAPlugin):
             new_y_rotated,
             new_z_rotated,
             relative=True,
-            rotation_relative=True
+            rotation_relative=True 
         )
 
     def update_anchor(self):

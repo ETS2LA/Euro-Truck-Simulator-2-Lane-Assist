@@ -159,7 +159,6 @@ class UI(ETS2LAPage):
                 
                 all_renderers = [runner.element for runner in self.plugin.runners if isinstance(runner.element, HUDRenderer)]
                 all_renderers.sort(key=lambda x: x.name)
-                renderer_names = [renderer.name for renderer in all_renderers]
                 
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
                     Text("Renderers", styles.Classname("text-semibold"))

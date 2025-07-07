@@ -714,6 +714,9 @@ class Plugin(ETS2LAPlugin):
             self.controller.drive = False
             time.sleep(1/20)
             
+            self.controller.aforward = float(0.0001)
+            self.controller.abackward = float(0.0001)
+            
             self.state.text = "Detected reverse gear. Please shift to drive."
             return    
         elif self.state.text == "Detected reverse gear. Please shift to drive.":
@@ -721,7 +724,10 @@ class Plugin(ETS2LAPlugin):
         
         if self.accel > 0:
             self.controller.aforward = float(self.accel)
-            self.controller.abackward = float(0)
+            if self.speed > 10 / 3.6:
+                self.controller.abackward = float(0)
+            else:
+                self.controller.abackward = float(0.0001)
         else:
             self.controller.abackward = float(-self.accel)
             self.controller.aforward = float(0)
