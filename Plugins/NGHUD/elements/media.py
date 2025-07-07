@@ -1,6 +1,7 @@
 from Plugins.NGHUD.classes import HUDWidget
 from Plugins.AR.classes import *
 import threading
+import datetime
 import logging
 import asyncio
 import os
@@ -52,12 +53,12 @@ class Widget(HUDWidget):
         if not self.plugin.data:
             return
         
-        title = self.media_info.get("title", "")
-        artist = self.media_info.get("artist", "")
+        title = self.media_info.get("title", "No Title")
+        artist = self.media_info.get("artist", "No Artist")
         
-        if not title and not artist:
-            self.data = []
-            return
+        # if not title and not artist:
+        #     self.data = []
+        #     return
         
         title_character_width = 6
         artist_character_width = 5
@@ -74,11 +75,9 @@ class Widget(HUDWidget):
         position = self.media_info.get("position", 0)
         
         if isinstance(start, (int, float)):
-            self.data = []
-            return
+            start = datetime.timedelta(seconds=start)
         if isinstance(end, (int, float)):
-            self.data = []
-            return
+            end = datetime.timedelta(seconds=end)
 
         duration = end.total_seconds() - start.total_seconds()
         progress = position.total_seconds() / duration if duration > 0 else 0
