@@ -65,7 +65,7 @@ def ConvertCoordinateToScreen(coordinate, self):
             RelativeY = Y
             RelativeZ = Z
 
-            if abs(self.HeadX - self.InsideHeadX) > 1 or abs(self.HeadY - self.InsideHeadY) > 1 or abs(self.HeadZ - self.InsideHeadZ) > 1:
+            if abs(self.HeadX - self.InsideHeadX) > 3 or abs(self.HeadY - self.InsideHeadY) > 1 or abs(self.HeadZ - self.InsideHeadZ) > 3:
                 return None # TODO: Implement relative coordinates for other cameras
 
             if coordinate.rotation_relative:

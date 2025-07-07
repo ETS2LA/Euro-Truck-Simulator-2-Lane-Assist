@@ -30,11 +30,6 @@ def rotate_around_point(point, center, pitch, yaw, roll):
     y = point[1] - center[1]
     z = point[2] - center[2]
     
-    # Yaw rotation (around Y-axis)
-    rotated_x = x * math.cos(yaw_rad) - z * math.sin(yaw_rad)
-    rotated_z = x * math.sin(yaw_rad) + z * math.cos(yaw_rad)
-    x, z = rotated_x, rotated_z
-    
     # Pitch rotation (around X-axis)
     rotated_y = y * math.cos(pitch_rad) - z * math.sin(pitch_rad)
     rotated_z = y * math.sin(pitch_rad) + z * math.cos(pitch_rad)
@@ -44,6 +39,11 @@ def rotate_around_point(point, center, pitch, yaw, roll):
     rotated_x = x * math.cos(roll_rad) - y * math.sin(roll_rad)
     rotated_y = x * math.sin(roll_rad) + y * math.cos(roll_rad)
     x, y = rotated_x, rotated_y
+    
+    # Yaw rotation (around Y-axis)
+    rotated_x = x * math.cos(yaw_rad) - z * math.sin(yaw_rad)
+    rotated_z = x * math.sin(yaw_rad) + z * math.cos(yaw_rad)
+    x, z = rotated_x, rotated_z
     
     # Translate back
     return [
