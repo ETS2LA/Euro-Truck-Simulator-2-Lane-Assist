@@ -1,12 +1,15 @@
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 from Plugins.NGHUD.classes import HUDWidget
 from Plugins.AR.classes import *
 import logging
 import os
 
+throttle = SmoothedValue("time", 0.5)
+
 class Widget(HUDWidget):
     name = "Throttle / Brake"
     description = "Display current throttle and brake percentage."
-    fps = 10
+    fps = 20
     
     def __init__(self, plugin):
         super().__init__(plugin)
@@ -21,27 +24,30 @@ class Widget(HUDWidget):
         gameThrottle = self.plugin.data["truckFloat"]["userThrottle"]
         gameBrake = self.plugin.data["truckFloat"]["userBrake"]
         
+        total = gameThrottle - gameBrake
+        total = throttle.smooth(total)
+        
         data = []
         
         display_value = 0
-        if gameThrottle > 0.01:
-            display_value = gameThrottle
+        if total > 0.01:
+            display_value = total
             data.append(
                 # Progress for Throttle (left to right)
                 Rectangle(
                     Point(offset_x, 0, anchor=self.plugin.anchor),
-                    Point(width * gameThrottle + offset_x, height, anchor=self.plugin.anchor),
+                    Point(width * total + offset_x, height, anchor=self.plugin.anchor),
                     color=Color(150, 255, 150, 20),
                     fill=Color(150, 255, 150, 10),
                     rounding=6,
                 ),
             )
-        elif gameBrake > 0.01:
-            display_value = -gameBrake
+        elif total < -0.01:
+            display_value = total
             data.append(
                 # Progress for Brake (right to left)
                 Rectangle(
-                    Point(width * (1 - gameBrake) + offset_x, 0, anchor=self.plugin.anchor),
+                    Point(width * (1 + total) + offset_x, 0, anchor=self.plugin.anchor),
                     Point(width + offset_x, height, anchor=self.plugin.anchor),
                     color=Color(255, 150, 150, 20),
                     fill=Color(255, 150, 150, 10),

@@ -13,7 +13,63 @@ class Renderer(HUDRenderer):
     
     def settings(self):
         return super().settings()
+    
+    def lane_lines(self, p1, p2):
+        dx = p2.x - p1.x
+        dy = p2.y - p1.y
+        dz = p2.z - p1.z
         
+        # normalize
+        length = math.sqrt(dx*dx + dz*dz)
+        if length < 0.0001:
+            return []
+            
+        dx /= length
+        dz /= length
+        
+        # perpendicular (rotate 90 degrees in xz-plane)
+        perpx = -dz
+        perpz = dx
+        lane_half_width = 0.25 # steering line width is double this, so 0.5
+        
+        # left lane start and end
+        left_start = Coordinate(
+            p1.x - perpx * lane_half_width,
+            p1.y,
+            p1.z - perpz * lane_half_width,
+            rotation_relative=p1.rotation_relative,
+            relative=p1.relative
+        )
+        
+        left_end = Coordinate(
+            p2.x - perpx * lane_half_width,
+            p2.y,
+            p2.z - perpz * lane_half_width,
+            rotation_relative=p2.rotation_relative,
+            relative=p2.relative
+        )
+        
+        # right lane start and end
+        right_start = Coordinate(
+            p1.x + perpx * lane_half_width,
+            p1.y,
+            p1.z + perpz * lane_half_width,
+            rotation_relative=p1.rotation_relative,
+            relative=p1.relative
+        )
+        
+        right_end = Coordinate(
+            p2.x + perpx * lane_half_width,
+            p2.y,
+            p2.z + perpz * lane_half_width,
+            rotation_relative=p2.rotation_relative,
+            relative=p2.relative
+        )
+        
+        return (
+            left_start, left_end, right_end, right_start
+        )
+
     def draw(self):
         if not self.plugin.data:
             return
@@ -28,19 +84,31 @@ class Renderer(HUDRenderer):
             else:
                 map_status = None
 
+            if not points or len(points) < 2:
+                self.data = []
+                return
+            
             steering_data = []
             for i, point in enumerate(points):
                 if i == 0:
                     continue
-                line = Line(
-                    Coordinate(*point),
-                    Coordinate(*points[i - 1]),
-                    thickness=5,
-                    color=Color(100, 100, 100, 120) if not map_status else Color(255, 255, 255, 80),
-                    fade=Fade(prox_fade_end=10, prox_fade_start=20, dist_fade_start=50, dist_fade_end=150)
+
+                lane_lines = self.lane_lines(Coordinate(*point), Coordinate(*points[i - 1]))
+                if not lane_lines or len(lane_lines) < 2:
+                    continue
+                
+                steering_data.append(
+                    Polygon(
+                        lane_lines,
+                        color=Color(0, 0, 0, 0) if not map_status else Color(0, 0, 0, 0),
+                        fill=Color(150, 150, 150, 50) if not map_status else Color(150, 255, 150, 50),
+                        fade=Fade(prox_fade_end=10, prox_fade_start=20,
+                                  dist_fade_start=50, dist_fade_end=150),
+                    )
                 )
-                steering_data.append(line)
+                
             self.data = steering_data
         except:
+            logging.exception("Error while drawing steering line")
             self.data = []
             pass
