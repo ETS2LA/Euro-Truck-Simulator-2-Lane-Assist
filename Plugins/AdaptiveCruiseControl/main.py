@@ -192,7 +192,7 @@ class Plugin(ETS2LAPlugin):
         
         following_accel = min(self.max_accel, max(self.emergency_decel, following_accel))
         
-        if following_accel < self.emergency_decel * 0.9: 
+        if following_accel < -5.0: 
             self.globals.tags.AEB = True
         else: 
             self.globals.tags.AEB = False

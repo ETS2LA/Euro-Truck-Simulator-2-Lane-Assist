@@ -74,13 +74,21 @@ class Renderer(HUDRenderer):
         
         distance_unit = "m" if game == "ETS2" else "ft"
         distance = round(distance, 1) if distance_unit == "m" else round(distance * 3.28084, 1)
+        
+        color = [255, 255, 255]
+        alpha = 0.5
+        AEB = self.plugin.globals.tags.AEB
+        if AEB and self.plugin.globals.tags.merge(AEB):
+            color = [255, 120, 120]
+            alpha = 1
+            
 
         # 3D box
         self.data = [
             Polygon(
                 [relative_front_left, relative_front_right, relative_back_right, relative_back_left],
-                color=Color(255, 255, 255, 60),
-                fill=Color(255, 255, 255, 40),
+                color=Color(*color, 120 * alpha),
+                fill=Color(*color, 80 * alpha),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=80, dist_fade_end=100)
             )
         ]
@@ -92,8 +100,8 @@ class Renderer(HUDRenderer):
                 Point(50, 40, anchor=relative_center_back),
                 rounding=6,
                 custom_distance=distance,
-                color=Color(255, 255, 255, 20),
-                fill=Color(255, 255, 255, 10),
+                color=Color(*color, 40 * alpha),
+                fill=Color(*color, 20 * alpha),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=80, dist_fade_end=100)
             ),
             Text(
@@ -101,7 +109,7 @@ class Renderer(HUDRenderer):
                 text=f"{speed:.0f} {speed_unit}",
                 size=16,
                 custom_distance=distance,
-                color=Color(255, 255, 255, 150),
+                color=Color(*color, 255 * alpha),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=80, dist_fade_end=100)
             ),
             Text(
@@ -109,7 +117,7 @@ class Renderer(HUDRenderer):
                 text=f"{distance:.0f} {distance_unit}",
                 size=16,
                 custom_distance=distance,
-                color=Color(255, 255, 255, 150),
+                color=Color(*color, 255 * alpha),
                 fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=80, dist_fade_end=100)
             )
         ]

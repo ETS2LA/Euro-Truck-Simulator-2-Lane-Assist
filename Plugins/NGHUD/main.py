@@ -62,9 +62,9 @@ class Plugin(ETS2LAPlugin):
         if target_widget is None:
             raise ValueError(f"Element '{name}' not found in runners.")
         
-        self.widgets[position] = target_widget
+        self.widgets[position] = target_widget 
         self.widgets[position].enabled = True
-        
+
     def remove_widget(self, position: str):
         if position not in self.widgets:
             raise ValueError(f"Invalid position: {position}. Valid positions are: {list(self.widgets.keys())}")
