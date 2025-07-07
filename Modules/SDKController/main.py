@@ -1,3 +1,4 @@
+from ETS2LA.Utils import settings
 from ETS2LA.Module import *
 import platform
 import struct
@@ -6,6 +7,12 @@ import math
 import time
 import os
 
+fallback_acceleration = settings.Get("global", "acceleration_fallback", default=False)
+def update_fallback_acceleration(dictionary: dict):
+    global fallback_acceleration
+    fallback_acceleration = dictionary.get("acceleration_fallback", fallback_acceleration)
+    
+settings.Listen("global", update_fallback_acceleration)
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
     INPUT_MEM_NAME = r"Local\ETS2LAPluginInput"
@@ -144,7 +151,7 @@ class SCSController:
         if key not in SCSController.__annotations__:
             raise AttributeError(f"'{key}' input is not known")
 
-        if self._input_buff and key == "aforward":
+        if self._input_buff and key == "aforward" and not fallback_acceleration:
             if self._input_buff is not None:
                 self._input_buff.seek(5)
                 self._input_buff.write(struct.pack("f", value))
@@ -155,7 +162,7 @@ class SCSController:
                 self._input_buff.flush()
                 return
             
-        if self._input_buff and key == "abackward":
+        if self._input_buff and key == "abackward" and not fallback_acceleration:
             if self._input_buff is not None:
                 self._input_buff.seek(10)
                 self._input_buff.write(struct.pack("f", value))

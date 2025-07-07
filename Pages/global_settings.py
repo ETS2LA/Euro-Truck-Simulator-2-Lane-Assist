@@ -99,22 +99,14 @@ class Page(ETS2LAPage):
             
         utils_settings.Set("global", "snow", snow)
         
-    def handle_tmp_compatibility_change(self, *args):
+    def handle_acceleration_fallback_change(self, *args):
         if args:
-            tmp_compatibility = args[0]
+            acceleration_fallback = args[0]
         else:
-            tmp_compatibility = not utils_settings.Get("global", "tmp_compatibility", default=False)
-            
-        utils_settings.Set("global", "tmp_compatibility", tmp_compatibility)
-        
-    def handle_old_compatibility_change(self, *args):
-        if args:
-            old_compatibility = args[0]
-        else:
-            old_compatibility = not utils_settings.Get("global", "old_compatibility", default=False)
-            
-        utils_settings.Set("global", "old_compatibility", old_compatibility)
-    
+            acceleration_fallback = not utils_settings.Get("global", "acceleration_fallback", default=False)
+
+        utils_settings.Set("global", "acceleration_fallback", acceleration_fallback)
+
     def render(self):
         
         TitleAndDescription(
@@ -207,8 +199,14 @@ class Page(ETS2LAPage):
                     changed=self.change_startup_sound,
                 )
                 
-            if self.monitors != 0:
-                with Tab("global.settings.variables", container_style=styles.FlexVertical() + styles.Gap("24px")):
+            with Tab("global.settings.variables", container_style=styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title="Fallback to old acceleration method",
+                    description="If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this.",
+                    default=utils_settings.Get("global", "acceleration_fallback", default=False), # type: ignore
+                    changed=self.handle_acceleration_fallback_change
+                )
+                if self.monitors != 0:
                     monitors = []
                     for i, monitor in enumerate(self.monitors):
                         if monitor.is_primary:
