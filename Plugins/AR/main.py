@@ -542,16 +542,23 @@ class Plugin(ETS2LAPlugin):
         if camera is not None:
             FOV = camera.fov
             angles = camera.rotation.euler()
-            HeadX = camera.position.x + camera.cx * 512
-            HeadY = camera.position.y
-            HeadZ = camera.position.z + camera.cz * 512
+            CameraHeadX = camera.position.x + camera.cx * 512
+            CameraHeadY = camera.position.y
+            CameraHeadZ = camera.position.z + camera.cz * 512
 
-            # We can use the old camera rotation if we are in the inside
+            # We can use the old camera rotation and position if we are in the inside
             # camera view.
-            if abs(HeadX - InsideHeadX) > 1 or abs(HeadY - InsideHeadY) > 1 or abs(HeadZ - InsideHeadZ) > 1:
+            if abs(CameraHeadX - InsideHeadX) > 3 or abs(CameraHeadY - InsideHeadY) > 1 or abs(CameraHeadZ - InsideHeadZ) > 3:
                 HeadRotationDegreesX = angles[1]
                 HeadRotationDegreesY = angles[0]
                 HeadRotationDegreesZ = angles[2]
+                HeadX = CameraHeadX
+                HeadY = CameraHeadY
+                HeadZ = CameraHeadZ
+            else:
+                HeadX = InsideHeadX
+                HeadY = InsideHeadY
+                HeadZ = InsideHeadZ
         else:
             HeadX = InsideHeadX
             HeadY = InsideHeadY
