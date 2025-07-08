@@ -5,8 +5,14 @@ from Plugins.AR.classes import *
 from Plugins.NGHUD.ui import UI
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
+import random
 import time
 import os
+
+def in_out(t, minimum, maximum):
+    """Ease in and out function."""
+    t = max(0, min(1, t))
+    return minimum + (maximum - minimum) * (t * t * (3 - 2 * t))
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -95,6 +101,7 @@ class Plugin(ETS2LAPlugin):
         self.anchor = Coordinate(0, 0, 0, relative=True, rotation_relative=True)
         self.discover_elements()
         self.update_anchor()
+        self.get_load_time()
     
     offsets = { # Calculated at runtime
         "Left": 0,
@@ -305,11 +312,134 @@ class Plugin(ETS2LAPlugin):
             rounding=12
         )
         
+    load_start_time = 0
+    load_end_time = 0
+    def get_load_time(self):
+        self.load_start_time = time.time()
+        load_time = random.uniform(3, 4)  # Simulate a load time between 4 and 6 seconds
+        self.load_end_time = self.load_start_time + load_time
+        
+    def lerp(self, start: float, end: float, t: float) -> float:
+        """Linear interpolation between start and end based on t."""
+        return start + (end - start) * t
+        
+    def boot_sequence(self) -> bool:
+        t = (time.time() - self.load_start_time) / (self.load_end_time - self.load_start_time)
+        if t > 1.4:
+            return False
+        
+        width = 200
+        height = 50
+        offset_x = -width // 2
+        
+        darkness = self.settings.darkness
+        if not darkness:
+            self.settings.darkness = 0
+            darkness = 0
+            
+        day_darkness = self.settings.day_darkness
+        if day_darkness is None:
+            self.settings.day_darkness = 0.2
+            day_darkness = 0.2
+        
+        if t > 1:
+            t = (t - 1) / 0.4
+            t = in_out(t, 0, 1)
+            width = self.lerp(width, self.total_width, t)
+            offset_x = self.lerp(offset_x, -self.middle_pixels, t)
+            data = [
+                Rectangle(
+                    Point(offset_x - 10, -10, anchor=self.anchor),
+                    Point(offset_x + width + 10, height + 10, anchor=self.anchor),
+                    color=Color(0, 0, 0, 0),
+                    fill=Color(0, 0, 0, 255 * (darkness if not self.is_day() else day_darkness)),
+                    rounding=12
+                ),
+                    Rectangle(
+                    Point(offset_x, 0, anchor=self.anchor),
+                    Point(offset_x + width, height, anchor=self.anchor),
+                    color=Color(255, 255, 255, 20 * (1 - max((t - 0.5), 0))),
+                    fill=Color(255, 255, 255, 10 * (1 - max((t - 0.5), 0))),
+                    rounding=6
+                ),
+                # Text
+                Text(
+                    Point(10 + offset_x, 8, anchor=self.anchor),
+                    text="ETS2LA",
+                    color=Color(255, 255, 255, 200 * (1 - t)),
+                    size=16
+                ),
+                Text(
+                    Point(10 + offset_x, height-22, anchor=self.anchor),
+                    text=f"Loading...",
+                    color=Color(255, 255, 255, 200 * (1 - t)),
+                    size=14
+                )
+            ]
+            self.globals.tags.AR = data
+            return True
+        
+        data = [
+            Rectangle(
+                Point(offset_x - 10, -10, anchor=self.anchor),
+                Point(offset_x + width + 10, height + 10, anchor=self.anchor),
+                color=Color(0, 0, 0, 0),
+                fill=Color(0, 0, 0, 255 * (darkness if not self.is_day() else day_darkness)),
+                rounding=12
+            )
+        ]
+        
+        t = in_out(t, 0, 1)
+        data += [
+            # Background
+            Rectangle(
+                Point(offset_x, 0, anchor=self.anchor),
+                Point(offset_x + width, height, anchor=self.anchor),
+                color=Color(255, 255, 255, 20),
+                fill=Color(255, 255, 255, 10),
+                rounding=6
+            ),
+            # Progress bar
+            Rectangle(
+                Point(offset_x, 0, anchor=self.anchor),
+                Point(offset_x + width * t, height, anchor=self.anchor),
+                color=Color(255, 255, 255, 20),
+                fill=Color(255, 255, 255, 10),
+                rounding=6
+            ),
+            # Text
+            Text(
+                Point(10 + offset_x, 8, anchor=self.anchor),
+                text="ETS2LA",
+                color=Color(255, 255, 255, 200),
+                size=16
+            ),
+            Text(
+                Point(10 + offset_x, height-22, anchor=self.anchor),
+                text=f"Loading...",
+                color=Color(255, 255, 255, 200),
+                size=14
+            )
+        ]
+        
+        self.globals.tags.AR = data
+        return True
+        
     def run(self): 
+        self.data = self.modules.TruckSimAPI.run()
+        engine = self.data["truckBool"]["engineEnabled"]
+        
+        if not engine:
+            self.get_load_time()
+            self.globals.tags.AR = []
+            return
+        
         self.layout()
         self.ensure_widgets_selected()
         self.ensure_renderers_selected() 
-        self.data = self.modules.TruckSimAPI.run() 
+        
+        if self.boot_sequence():
+            return
         
         data = [self.background()]
         if self.widgets["Left"]: data.extend(self.widgets["Left"].data)

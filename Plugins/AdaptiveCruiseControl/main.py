@@ -869,6 +869,7 @@ class Plugin(ETS2LAPlugin):
         self.set_accel_brake(target_throttle)
 
         self.globals.tags.acc = self.speedlimit
+        self.globals.tags.acc_target = target_acceleration
         
         #self.state.text = "Integral length: " + str(len(self.accel_errors)) + "\nValue: " + str(round(sum(self.accel_errors), 2))
 
