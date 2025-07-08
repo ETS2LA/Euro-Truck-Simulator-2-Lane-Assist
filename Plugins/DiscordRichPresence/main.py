@@ -36,7 +36,7 @@ class Plugin(ETS2LAPlugin):
     def run(self):
         # The cooldown is in ticks
         self.cooldown_counter += 1
-        if self.cooldown_counter < 50: # increase this if you think it takes performance
+        if self.cooldown_counter < 50: # increase this if you think it lowers your performance and still want to use it
             return
         self.cooldown_counter = 0
 
@@ -49,16 +49,16 @@ class Plugin(ETS2LAPlugin):
             acc = status.get("AdaptiveCruiseControl", False)
             map = status.get("Map", False)
 
-        speed = int(float(data["truckFloat"]["speed"]))
+        speed = int(float(data["truckFloat"]["speed"]) * 3.6)
 
-        # print(f"[DiscordRichPresence] Autopilot: {'Enabled' if status else 'Disabled'} | Speed: {speed} km/h")
+        # print(f"[DiscordRichPresence] Autopilot: {'Enabled' if acc else 'Disabled'} | Speed: {speed} km/h")
 
-        state = f"Autopilot: {'Enabled' if status else 'Disabled'}"
-        speed = f"Speed: {speed} km/h"
+        state = f"Autopilot: {'Enabled' if acc else 'Disabled'}" # Would've used 'status' instead of 'acc' but some weird bug prevented me from doing so
+        truckspeed = f"Speed: {speed} km/h"
         
         try:
             self.rpc.update(
-                speed = speed,
+                details = truckspeed,
                 state = state,
                 large_text = "ETS2LA",
                 start = int(current_time)
