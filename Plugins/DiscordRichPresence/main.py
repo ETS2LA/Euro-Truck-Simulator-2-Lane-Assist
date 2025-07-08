@@ -12,12 +12,13 @@ class Plugin(ETS2LAPlugin):
         modules=["TruckSimAPI"],
         tags=["Base"],
         listen=["*.py"],
+        fps_cap=0.067
     )
 
     author = Author(
         name="Playzzero97",
-        url="",
-        icon=""
+        url="https://github.com/Playzzero97",
+        icon="https://avatars.githubusercontent.com/u/219891638?v=4"
     )
 
     def init(self):
@@ -27,18 +28,13 @@ class Plugin(ETS2LAPlugin):
 
         print("[DiscordRichPresence] Plugin initialized")
 
-        self.client_id = "1392138129636462642"
+        self.client_id = "1175725825493045268"
         self.rpc = Presence(self.client_id)
         self.rpc.connect()
         print("[DiscordRichPresence] Connected to Discord")
         
 
     def run(self):
-        # The cooldown is in ticks
-        self.cooldown_counter += 1
-        if self.cooldown_counter < 50: # increase this if you think it lowers your performance and still want to use it
-            return
-        self.cooldown_counter = 0
 
         data = self.modules.TruckSimAPI.run()
         status = self.globals.tags.status
@@ -49,17 +45,35 @@ class Plugin(ETS2LAPlugin):
             acc = status.get("AdaptiveCruiseControl", False)
             map = status.get("Map", False)
 
-        speed = int(float(data["truckFloat"]["speed"]) * 3.6)
+        speed = abs(data["truckFloat"]["speed"])
+        unit = "m/s"
+        game = data["scsValues"]["game"]
+        if game == "ATS":
+            speed = speed * 3.6 * 0.621371
+            unit = "mph"
+        else:
+            speed = speed * 3.6
+            unit = "km/h"
 
-        # print(f"[DiscordRichPresence] Autopilot: {'Enabled' if acc else 'Disabled'} | Speed: {speed} km/h")
+        truckspeed = f"{speed:.0f} {unit}"
 
-        state = f"Autopilot: {'Enabled' if acc else 'Disabled'}" # Would've used 'status' instead of 'acc' but some weird bug prevented me from doing so
-        truckspeed = f"Speed: {speed} km/h"
+        state = "Disabled"
+        if map and acc:
+            state = "Enabled"
+        elif map:
+            state = "Steering"
+        elif acc:
+            state = "ACC only"
+
+        text = "Autopilot: " + state
+
+        # print(f"[DiscordRichPresence] {text} | Speed: {truckspeed}")
+
         
         try:
             self.rpc.update(
                 details = truckspeed,
-                state = state,
+                state = text,
                 large_text = "ETS2LA",
                 start = int(current_time)
             )
