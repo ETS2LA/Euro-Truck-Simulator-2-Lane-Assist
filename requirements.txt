@@ -14,6 +14,7 @@ audioop-lts; python_version >= "3.13"
 torchvision
 sounddevice
 matplotlib
+pypresence
 setuptools
 screeninfo
 gitpython
