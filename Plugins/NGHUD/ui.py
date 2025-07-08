@@ -1,4 +1,5 @@
 from Plugins.NGHUD.classes import HUDRenderer, HUDWidget
+from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
 class UI(ETS2LAPage):
@@ -9,66 +10,72 @@ class UI(ETS2LAPage):
     
     def handle_x_offset(self, value: int):
         """Handle the offset X setting change."""
-        self.plugin.settings.offset_x = value
-        self.plugin.update_anchor()
+        settings.Set("NGHUD", "offset_x", value)
+        if self.plugin:
+            self.plugin.update_anchor()
         
     def handle_y_offset(self, value: int):
         """Handle the offset Y setting change."""
-        self.plugin.settings.offset_y = value
-        self.plugin.update_anchor()
+        settings.Set("NGHUD", "offset_y", value)
+        if self.plugin:
+            self.plugin.update_anchor()
         
     def handle_z_offset(self, value: int):
         """Handle the offset Z setting change."""
-        self.plugin.settings.offset_z = value
-        self.plugin.update_anchor()
+        settings.Set("NGHUD", "offset_z", value)
+        if self.plugin:
+            self.plugin.update_anchor()
         
     def handle_left_width_change(self, value: int):
         """Handle the left width setting change."""
-        self.plugin.settings.left_width = value
-        self.plugin.layout()
+        settings.Set("NGHUD", "left_width", value)
+        if self.plugin:
+            self.plugin.layout()
         
     def handle_center_width_change(self, value: int):
         """Handle the center width setting change."""
-        self.plugin.settings.center_width = value
-        self.plugin.layout()
+        settings.Set("NGHUD", "center_width", value)
+        if self.plugin:
+            self.plugin.layout()
         
     def handle_right_width_change(self, value: int):
         """Handle the right width setting change."""
-        self.plugin.settings.right_width = value
-        self.plugin.layout()
+        settings.Set("NGHUD", "right_width", value)
+        if self.plugin:
+            self.plugin.layout()
         
     def handle_left_widget_change(self, value: str):
-        self.plugin.settings.left_widget = value
-        
+        settings.Set("NGHUD", "left_widget", value)
+
     def handle_center_widget_change(self, value: str):
-        self.plugin.settings.center_widget = value
-        
+        settings.Set("NGHUD", "center_widget", value)
+
     def handle_right_widget_change(self, value: str):
-        self.plugin.settings.right_widget = value
-        
+        settings.Set("NGHUD", "right_widget", value)
+
     def handle_renderer_add(self, value: str):
-        current = self.plugin.settings.renderers
+        current = settings.Get("NGHUD", "renderers", [])
         if not current:
             current = []
             
         if value not in current:
             current.append(value)
-            self.plugin.settings.renderers = current
-            
+            settings.Set("NGHUD", "renderers", current)
+
     def handle_renderer_remove(self, value: str):
-        current = self.plugin.settings.renderers
+        current = settings.Get("NGHUD", "renderers", [])
         if value in current:
             current.remove(value)
-            self.plugin.settings.renderers = current
+            settings.Set("NGHUD", "renderers", current)
     
     def handle_darkness_change(self, value: float):
         """Handle the darkness setting change."""
-        self.plugin.settings.darkness = value
-        
+        settings.Set("NGHUD", "darkness", value)
+
     def handle_day_darkness_change(self, value: float):
         """Handle the day darkness setting change."""
-        self.plugin.settings.day_darkness = value
-    
+        settings.Set("NGHUD", "day_darkness", value)
+
     def render(self):
         TitleAndDescription(
             "NGHUD",
@@ -84,7 +91,7 @@ class UI(ETS2LAPage):
                 SliderWithTitleDescription(
                     title="Offset X",
                     description="The horizontal offset of the HUD.",
-                    default=self.plugin.settings.offset_x,
+                    default=settings.Get("NGHUD", "offset_x", 0),
                     min=-1,
                     max=1,
                     step=0.1,
@@ -93,7 +100,7 @@ class UI(ETS2LAPage):
                 SliderWithTitleDescription(
                     title="Offset Y",
                     description="The vertical offset of the HUD.",
-                    default=self.plugin.settings.offset_y,
+                    default=settings.Get("NGHUD", "offset_y", 0),
                     min=-1,
                     max=1,
                     step=0.1,
@@ -102,7 +109,7 @@ class UI(ETS2LAPage):
                 SliderWithTitleDescription(
                     title="Offset Z",
                     description="The depth offset of the HUD.",
-                    default=self.plugin.settings.offset_z,
+                    default=settings.Get("NGHUD", "offset_z", 0),
                     min=-10,
                     max=10,
                     step=0.1,
@@ -116,19 +123,19 @@ class UI(ETS2LAPage):
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                     InputWithTitleDescription(
                         title="L",
-                        default=self.plugin.settings.left_width,
+                        default=settings.Get("NGHUD", "left_width", 90),
                         type="number",
                         changed=self.handle_left_width_change,
                     )
                     InputWithTitleDescription(
                         title="C",
-                        default=self.plugin.settings.center_width,
+                        default=settings.Get("NGHUD", "center_width", 120),
                         type="number",
                         changed=self.handle_center_width_change,
                     )
                     InputWithTitleDescription(
                         title="R",
-                        default=self.plugin.settings.right_width,
+                        default=settings.Get("NGHUD", "right_width", 90),
                         type="number",
                         changed=self.handle_right_width_change,
                     )
@@ -141,7 +148,7 @@ class UI(ETS2LAPage):
                     SliderWithTitleDescription(
                         title="Darkness",
                         description="The darkness of the widget background. 0 is no darkness, 1 is fully dark.",
-                        default=self.plugin.settings.darkness,
+                        default=settings.Get("NGHUD", "darkness", 0),
                         min=0,
                         max=1,
                         step=0.01,
@@ -151,7 +158,7 @@ class UI(ETS2LAPage):
                     SliderWithTitleDescription(
                         title="Day Darkness",
                         description="The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark.",
-                        default=self.plugin.settings.day_darkness,
+                        default=settings.Get("NGHUD", "day_darkness", 0),
                         min=0,
                         max=1,
                         step=0.01,
@@ -160,19 +167,17 @@ class UI(ETS2LAPage):
                 
                     
             with Tab("Elements", container_style=styles.FlexVertical() + styles.Gap("24px")):
-                left_widget = self.plugin.settings.left_widget
-                center_widget = self.plugin.settings.center_widget
-                right_widget = self.plugin.settings.right_widget
-                
+                left_widget = settings.Get("NGHUD", "left_widget", "Speed")
+                center_widget = settings.Get("NGHUD", "center_widget", "Assist Information")
+                right_widget = settings.Get("NGHUD", "right_widget", "Media")
+
                 all_widgets = [runner.element for runner in self.plugin.runners if runner.element.__class__.__name__ == "Widget"]
                 all_widgets.sort(key=lambda x: x.name)
-                
-                names = [widget.name for widget in all_widgets]
                 
                 left_names = [widget.name for widget in all_widgets if widget.name != right_widget and widget.name != center_widget]
                 ComboboxWithTitleDescription(
                     options=left_names,
-                    default=self.plugin.settings.left_widget,
+                    default=left_widget,
                     title="Left Widget",
                     description="Select the widget to display on the left side of the HUD.",
                     changed=self.handle_left_widget_change,
@@ -181,7 +186,7 @@ class UI(ETS2LAPage):
                 center_names = [widget.name for widget in all_widgets if widget.name != left_widget and widget.name != right_widget]
                 ComboboxWithTitleDescription(
                     options=center_names,
-                    default=self.plugin.settings.center_widget,
+                    default=center_widget,
                     title="Center Widget",
                     description="Select the widget to display in the center of the HUD.",
                     changed=self.handle_center_widget_change,
@@ -190,13 +195,13 @@ class UI(ETS2LAPage):
                 right_names = [widget.name for widget in all_widgets if widget.name != left_widget and widget.name != center_widget]
                 ComboboxWithTitleDescription(
                     options=right_names,
-                    default=self.plugin.settings.right_widget,
+                    default=right_widget,
                     title="Right Widget",
                     description="Select the widget to display on the right side of the HUD.",
                     changed=self.handle_right_widget_change,
                 )
                 
-                selected_renderers = [runner.name for runner in self.plugin.renderers]
+                selected_renderers = settings.Get("NGHUD", "renderers", [])
                 
                 all_renderers = [runner.element for runner in self.plugin.runners if isinstance(runner.element, HUDRenderer)]
                 all_renderers.sort(key=lambda x: x.name)
