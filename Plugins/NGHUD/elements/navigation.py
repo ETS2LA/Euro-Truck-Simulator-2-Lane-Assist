@@ -24,6 +24,10 @@ class Widget(HUDWidget):
         time_left = self.plugin.data["truckFloat"]["routeTime"]
         game = self.plugin.data["scsValues"]["game"]
         
+        if not distance:
+            self.data = []
+            return
+        
         if time.time() - self.last_switch > 10:
             self.show_time = not self.show_time
             self.last_switch = time.time()

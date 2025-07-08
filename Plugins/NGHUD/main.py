@@ -191,29 +191,42 @@ class Plugin(ETS2LAPlugin):
             self.right_width = 100
 
         padding = 20
-        
+        count = 3
         if not self.widgets["Center"] or self.widgets["Center"].data == []:
             self.center_width = 0
+            count -= 1
         if not self.widgets["Left"] or self.widgets["Left"].data == []:
             self.left_width = 0
+            count -= 1
         if not self.widgets["Right"] or self.widgets["Right"].data == []: 
             self.right_width = 0
+            count -= 1
         
-        total_width = self.left_width + self.center_width + self.right_width + padding * 2
-        self.middle_pixels = total_width // 2 
+        self.total_width = self.left_width + self.center_width + self.right_width + padding * (count - 1)
+        self.middle_pixels = self.total_width // 2 
+        
+        current = 0
+        values = [
+            [self.left_width, -self.middle_pixels],
+            [self.center_width, -self.middle_pixels + self.left_width + padding],
+            [self.right_width, -self.middle_pixels + self.left_width + self.center_width + padding * 2]
+        ]
         
         if self.widgets["Left"]:
-            self.widgets["Left"].width = self.left_width
-            self.widgets["Left"].offset_x = -self.middle_pixels
+            self.widgets["Left"].width = values[0][0]
+            self.widgets["Left"].offset_x = values[current][1]
+            current += 1
         
         if self.widgets["Center"]:
-            self.widgets["Center"].width = self.center_width
-            self.widgets["Center"].offset_x = -self.middle_pixels + self.left_width + padding
-        
+            self.widgets["Center"].width = values[1][0]
+            self.widgets["Center"].offset_x = values[current][1]
+            current += 1
+
         if self.widgets["Right"]:
-            self.widgets["Right"].width = self.right_width
-            self.widgets["Right"].offset_x = -self.middle_pixels + self.left_width + self.center_width + padding * 2
-        
+            self.widgets["Right"].width = values[2][0]
+            self.widgets["Right"].offset_x = values[current][1]
+            current += 1
+
     def ensure_widgets_selected(self):
         left_widget = self.settings.left_widget
         if left_widget is None:
@@ -260,13 +273,45 @@ class Plugin(ETS2LAPlugin):
             if renderer not in enabled:
                 self.enable_renderer(renderer)
         
+    def is_day(self) -> bool:
+        if not self.data:
+            return False
+        
+        time = self.data["commonUI"]["timeRdbl"]
+        time = time.split(" ")[1].split(":")[0]
+        if time.isdigit():
+            time = int(time)
+            if 6 <= time < 20:
+                return True
+        
+        return False
+        
+    def background(self):
+        darkness = self.settings.darkness
+        if not darkness:
+            self.settings.darkness = 0
+            darkness = 0
+            
+        day_darkness = self.settings.day_darkness
+        if day_darkness is None:
+            self.settings.day_darkness = 0.2
+            day_darkness = 0.2
+            
+        return Rectangle(
+            Point(-self.middle_pixels - 10, -10, anchor=self.anchor),
+            Point(-self.middle_pixels + self.total_width + 10, 60, anchor=self.anchor),
+            color=Color(0, 0, 0, 0),
+            fill=Color(0, 0, 0, 255 * (darkness if not self.is_day() else day_darkness)),
+            rounding=12
+        )
+        
     def run(self): 
         self.layout()
         self.ensure_widgets_selected()
         self.ensure_renderers_selected() 
         self.data = self.modules.TruckSimAPI.run() 
         
-        data = []
+        data = [self.background()]
         if self.widgets["Left"]: data.extend(self.widgets["Left"].data)
         if self.widgets["Center"]: data.extend(self.widgets["Center"].data)
         if self.widgets["Right"]: data.extend(self.widgets["Right"].data) 

@@ -15,9 +15,12 @@ class Settings(object):
             self._load()
 
     def _load(self):
-        self.last_update = os.path.getmtime(f"{self._path}/settings.json")
-        with open(f"{self._path}/settings.json", "r") as file:
-            self._settings = json.load(file)
+        try:
+            self.last_update = os.path.getmtime(f"{self._path}/settings.json")
+            with open(f"{self._path}/settings.json", "r") as file:
+                self._settings = json.load(file)
+        except:
+            logging.warning("Failed to load settings, you can ignore this if it's not repeating consistently.")
 
     def _save(self):
         with open(f"{self._path}/settings.json", "w") as file:
