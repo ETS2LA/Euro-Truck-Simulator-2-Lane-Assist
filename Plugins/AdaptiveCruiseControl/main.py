@@ -84,7 +84,7 @@ class Plugin(ETS2LAPlugin):
         icon="https://avatars.githubusercontent.com/u/83072683?v=4"
     )
     
-    controls = [enable_disable, increment, decrement]
+    controls = [enable_disable, increment, decrement, increment_follow_dist, decrement_follow_dist]
     
     pages = [SettingsMenu]
     
@@ -369,6 +369,32 @@ class Plugin(ETS2LAPlugin):
             self.last_change = 0
             return # Callback for the lift up event
         self.holding_up = True
+        
+    @events.on("increment_follow_distance")
+    def on_increment_follow_distance(self, state:bool): 
+        if not state:
+            return # Callback for the lift up event
+        if self.settings.following_distance == "Far":
+            self.notify(f"You cannot set your Following Distance higher than: {self.settings.following_distance}")
+            return
+        elif self.settings.following_distance == "Normal":
+            self.settings.following_distance = "Far"
+        elif self.settings.following_distance == "Near":
+            self.settings.following_distance = "Normal"
+        self.notify(f"Following Distance set to: {self.settings.following_distance}")
+        
+    @events.on("decrement_follow_distance")
+    def on_decrement_follow_distance(self, state:bool):
+        if not state:
+            return # Callback for the lift up event
+        if self.settings.following_distance == "Near":
+            self.notify(f"You cannot set your Following Distance lower than: {self.settings.following_distance}")
+            return
+        elif self.settings.following_distance == "Normal":
+            self.settings.following_distance = "Near"
+        elif self.settings.following_distance == "Far":
+            self.settings.following_distance = "Normal"
+        self.notify(f"Following Distance set to: {self.settings.following_distance}")
         
     @events.on("decrement_speed")
     def on_decrement_speed(self, state:bool):
