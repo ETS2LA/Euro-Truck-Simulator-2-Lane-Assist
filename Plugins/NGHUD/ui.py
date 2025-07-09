@@ -202,6 +202,9 @@ class UI(ETS2LAPage):
                 )
                 
                 selected_renderers = settings.Get("NGHUD", "renderers", [])
+                if selected_renderers is None:
+                    selected_renderers = []
+                    settings.Set("NGHUD", "renderers", selected_renderers)
                 
                 all_renderers = [runner.element for runner in self.plugin.runners if isinstance(runner.element, HUDRenderer)]
                 all_renderers.sort(key=lambda x: x.name)
