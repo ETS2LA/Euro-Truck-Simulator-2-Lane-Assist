@@ -1,5 +1,4 @@
 from Plugins.NGHUD.classes import HUDRenderer, HUDWidget
-from ETS2LA.Utils import settings
 from ETS2LA.UI import *
 
 class UI(ETS2LAPage):
@@ -10,71 +9,87 @@ class UI(ETS2LAPage):
     
     def handle_x_offset(self, value: int):
         """Handle the offset X setting change."""
-        settings.Set("NGHUD", "offset_x", value)
+        self.plugin.settings.offset_x = value
         if self.plugin:
             self.plugin.update_anchor()
         
     def handle_y_offset(self, value: int):
         """Handle the offset Y setting change."""
-        settings.Set("NGHUD", "offset_y", value)
+        self.plugin.settings.offset_y = value
         if self.plugin:
             self.plugin.update_anchor()
         
     def handle_z_offset(self, value: int):
         """Handle the offset Z setting change."""
-        settings.Set("NGHUD", "offset_z", value)
+        self.plugin.settings.offset_z = value
         if self.plugin:
             self.plugin.update_anchor()
         
     def handle_left_width_change(self, value: int):
         """Handle the left width setting change."""
-        settings.Set("NGHUD", "left_width", value)
+        self.plugin.settings.left_width = value
         if self.plugin:
             self.plugin.layout()
         
     def handle_center_width_change(self, value: int):
         """Handle the center width setting change."""
-        settings.Set("NGHUD", "center_width", value)
+        self.plugin.settings.center_width = value
         if self.plugin:
             self.plugin.layout()
         
     def handle_right_width_change(self, value: int):
         """Handle the right width setting change."""
-        settings.Set("NGHUD", "right_width", value)
+        self.plugin.settings.right_width = value
         if self.plugin:
             self.plugin.layout()
         
-    def handle_left_widget_change(self, value: str):
-        settings.Set("NGHUD", "left_widget", value)
-
-    def handle_center_widget_change(self, value: str):
-        settings.Set("NGHUD", "center_widget", value)
-
-    def handle_right_widget_change(self, value: str):
-        settings.Set("NGHUD", "right_widget", value)
-
-    def handle_renderer_add(self, value: str):
-        current = settings.Get("NGHUD", "renderers", [])
+    def handle_widget_add(self, value: str):
+        """Handle the addition of a widget."""
+        current = self.plugin.settings.get("widgets", self.plugin.default_widgets)
         if not current:
             current = []
             
         if value not in current:
             current.append(value)
-            settings.Set("NGHUD", "renderers", current)
-
-    def handle_renderer_remove(self, value: str):
-        current = settings.Get("NGHUD", "renderers", [])
+            self.plugin.settings.widgets = current
+            
+    def handle_widget_remove(self, value: str):
+        """Handle the removal of a widget."""
+        current = self.plugin.settings.get("widgets", self.plugin.default_widgets)
         if value in current:
             current.remove(value)
-            settings.Set("NGHUD", "renderers", current)
-    
+            self.plugin.settings.widgets = current
+
+    def handle_renderer_add(self, value: str):
+        current = self.plugin.settings.renderers
+        if not current:
+            current = []
+            
+        if value not in current:
+            current.append(value)
+            self.plugin.settings.renderers = current
+
+    def handle_renderer_remove(self, value: str):
+        current = self.plugin.settings.renderers
+        if value in current:
+            current.remove(value)
+            self.plugin.settings.renderers = current
+
     def handle_darkness_change(self, value: float):
         """Handle the darkness setting change."""
-        settings.Set("NGHUD", "darkness", value)
+        self.plugin.settings.darkness = value
 
     def handle_day_darkness_change(self, value: float):
         """Handle the day darkness setting change."""
-        settings.Set("NGHUD", "day_darkness", value)
+        self.plugin.settings.day_darkness = value
+
+    def render_widget(self, widget: HUDWidget, enabled: bool):
+        with Container(styles.FlexVertical() + styles.Gap("8px") + styles.Classname("rounded-md border p-4 bg-input/10")):
+            with Container(styles.FlexHorizontal() + styles.Gap("8px")):
+                Text(widget.name, styles.Classname("text-semibold"))
+                Text(widget.description, styles.Description())
+            with Button(name=widget.name, action=self.handle_widget_add if not enabled else self.handle_widget_remove):
+                Text("Enable" if not enabled else "Disable", styles.Classname("text-semibold"))
 
     def render(self):
         TitleAndDescription(
@@ -91,7 +106,7 @@ class UI(ETS2LAPage):
                 SliderWithTitleDescription(
                     title="Offset X",
                     description="The horizontal offset of the HUD.",
-                    default=settings.Get("NGHUD", "offset_x", 0),
+                    default=self.plugin.settings.offset_x,
                     min=-1,
                     max=1,
                     step=0.1,
@@ -100,7 +115,7 @@ class UI(ETS2LAPage):
                 SliderWithTitleDescription(
                     title="Offset Y",
                     description="The vertical offset of the HUD.",
-                    default=settings.Get("NGHUD", "offset_y", 0),
+                    default=self.plugin.settings.offset_y,
                     min=-1,
                     max=1,
                     step=0.1,
@@ -109,7 +124,7 @@ class UI(ETS2LAPage):
                 SliderWithTitleDescription(
                     title="Offset Z",
                     description="The depth offset of the HUD.",
-                    default=settings.Get("NGHUD", "offset_z", 0),
+                    default=self.plugin.settings.offset_z,
                     min=-10,
                     max=10,
                     step=0.1,
@@ -123,19 +138,19 @@ class UI(ETS2LAPage):
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                     InputWithTitleDescription(
                         title="L",
-                        default=settings.Get("NGHUD", "left_width", 90),
+                        default=self.plugin.settings.left_width,
                         type="number",
                         changed=self.handle_left_width_change,
                     )
                     InputWithTitleDescription(
                         title="C",
-                        default=settings.Get("NGHUD", "center_width", 120),
+                        default=self.plugin.settings.center_width,
                         type="number",
                         changed=self.handle_center_width_change,
                     )
                     InputWithTitleDescription(
                         title="R",
-                        default=settings.Get("NGHUD", "right_width", 90),
+                        default=self.plugin.settings.right_width,
                         type="number",
                         changed=self.handle_right_width_change,
                     )
@@ -148,7 +163,7 @@ class UI(ETS2LAPage):
                     SliderWithTitleDescription(
                         title="Darkness",
                         description="The darkness of the widget background. 0 is no darkness, 1 is fully dark.",
-                        default=settings.Get("NGHUD", "darkness", 0),
+                        default=self.plugin.settings.darkness,
                         min=0,
                         max=1,
                         step=0.01,
@@ -158,7 +173,7 @@ class UI(ETS2LAPage):
                     SliderWithTitleDescription(
                         title="Day Darkness",
                         description="The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark.",
-                        default=settings.Get("NGHUD", "day_darkness", 0),
+                        default=self.plugin.settings.day_darkness,
                         min=0,
                         max=1,
                         step=0.01,
@@ -167,51 +182,61 @@ class UI(ETS2LAPage):
                 
                     
             with Tab("Elements", container_style=styles.FlexVertical() + styles.Gap("24px")):
-                left_widget = settings.Get("NGHUD", "left_widget", "Speed")
-                center_widget = settings.Get("NGHUD", "center_widget", "Assist Information")
-                right_widget = settings.Get("NGHUD", "right_widget", "Media")
-
                 all_widgets = [runner.element for runner in self.plugin.runners if runner.element.__class__.__name__ == "Widget"]
                 all_widgets.sort(key=lambda x: x.name)
                 
-                left_names = [widget.name for widget in all_widgets if widget.name != right_widget and widget.name != center_widget]
-                ComboboxWithTitleDescription(
-                    options=left_names,
-                    default=left_widget,
-                    title="Left Widget",
-                    description="Select the widget to display on the left side of the HUD.",
-                    changed=self.handle_left_widget_change,
-                )
+                enabled_widgets = self.plugin.settings.get("widgets", self.plugin.default_widgets)
+                sizes = self.plugin.widget_sizes
+                height = 50 # pixels
                 
-                center_names = [widget.name for widget in all_widgets if widget.name != left_widget and widget.name != right_widget]
-                ComboboxWithTitleDescription(
-                    options=center_names,
-                    default=center_widget,
-                    title="Center Widget",
-                    description="Select the widget to display in the center of the HUD.",
-                    changed=self.handle_center_widget_change,
-                )
+                with Container(styles.FlexVertical() + styles.Gap("4px")):
+                    Text("Enabled Widgets", styles.Classname("text-semibold"))
+                    Text("This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them.", styles.Description())
                 
-                right_names = [widget.name for widget in all_widgets if widget.name != left_widget and widget.name != center_widget]
-                ComboboxWithTitleDescription(
-                    options=right_names,
-                    default=right_widget,
-                    title="Right Widget",
-                    description="Select the widget to display on the right side of the HUD.",
-                    changed=self.handle_right_widget_change,
-                )
+                # Display the widgets with containers in the UI
+                container_height = 80
+                with Container(styles.FlexHorizontal() + styles.Width(f"100%") + styles.MaxWidth(f"100%") + styles.Height(f"{container_height}px") + styles.Classname("items-center justify-center rounded-md border p-4 bg-input/10")):
+                    with Container(styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px")):
+                        for widget in enabled_widgets:
+                            width = sizes.get(widget, {"width": 100})["width"]
+                            with Button(
+                                name=widget,
+                                action=self.handle_widget_remove,
+                                type="ghost",
+                                style=styles.Style(
+                                    text_align="left",
+                                    display="flex",
+                                    flex_direction="column",
+                                    align_items="flex-start",
+                                    justify_content="center",
+                                    width=f"{width}px",
+                                    height=f"{height}px",
+                                    gap="2px",
+                                    classname="rounded-md border bg-input/20 p-2"
+                                )
+                            ):
+                                Text(widget, styles.Classname("text-xs"))
+                                Text(f"{width}x{height}", styles.Classname("text-xs text-muted-foreground"))
+                        
+                with Container(styles.FlexVertical() + styles.Gap("4px")):
+                    Text("Available Widgets", styles.Classname("text-semibold"))
+                    Text("These widgets are available to be enabled:", styles.Description())
                 
-                selected_renderers = settings.Get("NGHUD", "renderers", [])
-                if selected_renderers is None:
-                    selected_renderers = []
-                    settings.Set("NGHUD", "renderers", selected_renderers)
-                
-                all_renderers = [runner.element for runner in self.plugin.runners if isinstance(runner.element, HUDRenderer)]
-                all_renderers.sort(key=lambda x: x.name)
+                for widget in all_widgets:
+                    enabled = widget.name in enabled_widgets
+                    if not enabled:
+                        self.render_widget(widget, enabled)
                 
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
                     Text("Renderers", styles.Classname("text-semibold"))
                     Text("These renderers are used to draw non anchored elements. These are usually elements in the game world that move around.", styles.Description())
+                
+                selected_renderers = self.plugin.settings.renderers
+                if selected_renderers is None:
+                    selected_renderers = []
+
+                all_renderers = [runner.element for runner in self.plugin.runners if isinstance(runner.element, HUDRenderer)]
+                all_renderers.sort(key=lambda x: x.name)
                     
                 for renderer in all_renderers:
                     enabled = renderer.name in selected_renderers

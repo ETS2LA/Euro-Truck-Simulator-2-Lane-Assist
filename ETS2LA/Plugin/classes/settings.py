@@ -62,7 +62,7 @@ class Settings(object):
         if name in self._settings:
             return self._settings[name]
         
-        logging.warning(f"Setting '{name}' not found in settings file")
+        # logging.warning(f"Setting '{name}' not found in settings file")
         return None
 
     def set(self, name: str, value):

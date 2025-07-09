@@ -37,10 +37,16 @@ class Plugin(ETS2LAPlugin):
     data = []
     
     renderers = []
-    widgets = {
-        "Left": None,
-        "Center": None,
-        "Right": None,
+    widgets = []
+    
+    default_widgets = [
+        "Speed",
+        "Media",
+        "RPM & Gear"
+    ]
+    widget_sizes = {
+        "Assist Information": {"width": 120},
+        "Media": {"width": 160}
     }
 
     def discover_elements(self):
@@ -57,29 +63,20 @@ class Plugin(ETS2LAPlugin):
                     
         logging.warning(f"NGHUD: Found {len(self.runners)} elements in {path}.")
 
-    def set_widget(self, position: str, name: str):
-        if position not in self.widgets:
-            raise ValueError(f"Invalid position: {position}. Valid positions are: {list(self.widgets.keys())}")
-        
-        if self.widgets[position] is not None:
-            self.widgets[position].enabled = False
-            
+    def set_widget(self, name: str):
         target_widget = next((runner for runner in self.runners if runner.element.name == name), None)
         if target_widget is None:
             raise ValueError(f"Element '{name}' not found in runners.")
         
-        self.widgets[position] = target_widget 
-        self.widgets[position].enabled = True
+        self.widgets.append(target_widget)
+        target_widget.enabled = True
 
-    def remove_widget(self, position: str):
-        if position not in self.widgets:
-            raise ValueError(f"Invalid position: {position}. Valid positions are: {list(self.widgets.keys())}")
-        
-        if self.widgets[position] is not None:
-            self.widgets[position].enabled = False
-            self.widgets[position] = None
-        else:
-            logging.warning(f"NGHUD: No widget to remove at position '{position}'.")
+    def remove_widget(self, name: str):
+        for widget in self.widgets:
+            if widget.element.name == name:
+                widget.enabled = False
+                self.widgets.remove(widget)
+                return
 
     def enable_renderer(self, name: str):
         target_renderer = next((runner for runner in self.runners if runner.element.name == name), None)
@@ -182,88 +179,41 @@ class Plugin(ETS2LAPlugin):
         self.anchor = Coordinate(0 + offset_x, -2 + offset_y, -10 + offset_z, relative=True, rotation_relative=True)
         
     def layout(self):
-        self.left_width = self.settings.left_width
-        if self.left_width is None:
-            self.settings.left_width = 100
-            self.left_width = 100
-            
-        self.center_width = self.settings.center_width
-        if self.center_width is None:
-            self.settings.center_width = 120
-            self.center_width = 120
-            
-        self.right_width = self.settings.right_width
-        if self.right_width is None:
-            self.settings.right_width = 100
-            self.right_width = 100
-
-        padding = 20
-        count = 3
-        if not self.widgets["Center"] or self.widgets["Center"].data == []:
-            self.center_width = 0
-            count -= 1
-        if not self.widgets["Left"] or self.widgets["Left"].data == []:
-            self.left_width = 0
-            count -= 1
-        if not self.widgets["Right"] or self.widgets["Right"].data == []: 
-            self.right_width = 0
-            count -= 1
+        widgets = self.widgets
+        sizes = self.widget_sizes
+        total_width = 0
+        total_count = 0
+        for widget in widgets:
+            if widget.data:
+                if widget.element.name in sizes:
+                    total_width += sizes[widget.element.name]["width"]
+                    total_count += 1
+                else:
+                    total_width += 100
+                    total_count += 1
+                
+        total_width += 20 * (total_count - 1) # add padding
+        self.total_width = total_width
+        self.middle_pixels = total_width // 2
         
-        self.total_width = self.left_width + self.center_width + self.right_width + padding * (count - 1)
-        self.middle_pixels = self.total_width // 2 
-        
-        current = 0
-        values = [
-            [self.left_width, -self.middle_pixels],
-            [self.center_width, -self.middle_pixels + self.left_width + padding],
-            [self.right_width, -self.middle_pixels + self.left_width + self.center_width + padding * 2]
-        ]
-        
-        if self.widgets["Left"]:
-            self.widgets["Left"].width = values[0][0]
-            self.widgets["Left"].offset_x = values[current][1]
-            current += 1
-        
-        if self.widgets["Center"]:
-            self.widgets["Center"].width = values[1][0]
-            self.widgets["Center"].offset_x = values[current][1]
-            current += 1
-
-        if self.widgets["Right"]:
-            self.widgets["Right"].width = values[2][0]
-            self.widgets["Right"].offset_x = values[current][1]
-            current += 1
+        # Now assign width and offsets to each widget
+        offset_x = -self.middle_pixels
+        for widget in widgets:
+            widget_width = sizes.get(widget.element.name, {"width": 100})["width"]
+            widget.offset_x = offset_x
+            widget.width = widget_width
+            if widget.data:
+                offset_x += widget_width + 20  # add padding between widgets
 
     def ensure_widgets_selected(self):
-        left_widget = self.settings.left_widget
-        if left_widget is None:
-            self.settings.left_widget = "Speed"
-            left_widget = "Speed"
-            
-        center_widget = self.settings.center_widget
-        if center_widget is None:
-            self.settings.center_widget = "Assist Information"
-            center_widget = "Assist Information"
-            
-        right_widget = self.settings.right_widget
-        if right_widget is None:
-            self.settings.right_widget = "Media"
-            right_widget = "Media"
-            
-        if not left_widget and self.widgets["Left"] is not None:
-            self.remove_widget("Left")
-        if left_widget and (self.widgets["Left"] is None or self.widgets["Left"].element.name != left_widget):
-            self.set_widget("Left", left_widget)
+        enabled = self.settings.get("widgets", self.default_widgets)
+        for widget in enabled:
+            if widget not in [runner.element.name for runner in self.widgets]:
+                self.set_widget(widget)
         
-        if not center_widget and self.widgets["Center"] is not None:
-            self.remove_widget("Center")
-        if center_widget and (self.widgets["Center"] is None or self.widgets["Center"].element.name != center_widget):
-            self.set_widget("Center", center_widget)
-            
-        if not right_widget and self.widgets["Right"] is not None:
-            self.remove_widget("Right")
-        if right_widget and (self.widgets["Right"] is None or self.widgets["Right"].element.name != right_widget):
-            self.set_widget("Right", right_widget) 
+        for widget in self.widgets:
+            if widget.element.name not in enabled:
+                self.remove_widget(widget.element.name)
             
     def ensure_renderers_selected(self):
         renderers = self.settings.renderers
@@ -434,17 +384,16 @@ class Plugin(ETS2LAPlugin):
             self.globals.tags.AR = []
             return
         
-        self.layout()
         self.ensure_widgets_selected()
         self.ensure_renderers_selected() 
+        self.layout()
         
-        if self.boot_sequence():
-            return
+        # if self.boot_sequence():
+        #     return
         
         data = [self.background()]
-        if self.widgets["Left"]: data.extend(self.widgets["Left"].data)
-        if self.widgets["Center"]: data.extend(self.widgets["Center"].data)
-        if self.widgets["Right"]: data.extend(self.widgets["Right"].data) 
+        for widget in self.widgets:
+            data += widget.data
         
         for renderer in self.renderers:
             data += renderer.data
