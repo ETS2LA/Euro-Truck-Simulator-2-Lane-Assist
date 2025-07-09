@@ -12,7 +12,7 @@ sdk_page.onboarding_mode = True
 
 class Page(ETS2LAPage):
     url = "/onboarding"
-    page = 0
+    page = 4
     
     # 2 = render loading page
     # 1 = start rendering
@@ -72,6 +72,14 @@ class Page(ETS2LAPage):
         
     def handle_height_change(self, value):
         settings.Set("global", "height", value)
+
+    def handle_high_priority_change(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("global", "high_priority", True)
+            
+        settings.Set("global", "high_priority", value)
 
     def loading(self):
         with Container(style=styles.FlexVertical() + styles.Classname("items-center relative justify-center gap-4 text-center") + styles.Height("100vh")):
@@ -170,7 +178,7 @@ class Page(ETS2LAPage):
                 Text("Plugins", styles.Title())
                 Text("ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings.", styles.Description() + styles.MaxWidth("520px"))
                 Space()
-                with Button(action=self.loading_increment, style=styles.Classname("default w-full")):
+                with Button(action=self.increment_page, style=styles.Classname("default w-full")):
                     Text("Continue")
                     
             with Container(style=styles.Classname("text-start") + styles.Width("550px") + styles.FlexVertical() + styles.Gap("12px")):
@@ -198,6 +206,34 @@ class Page(ETS2LAPage):
                             style.color = "var(--muted-foreground)"
                             Icon("info", style)
                             Markdown("**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA.", styles.Classname("text-muted-foreground"))
+        
+    def priority(self):
+        with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
+            with Container(style=styles.FlexVertical() + styles.Width("450px")):
+                Text("High Priority Mode", styles.Title())
+                Text("ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices.", styles.Description() + styles.MaxWidth("520px"))
+                Space()
+                with Button(action=self.loading_increment, style=styles.Classname("default w-full")):
+                    Text("Continue")
+                    
+            with Container(style=styles.Classname("text-start") + styles.Width("550px") + styles.FlexVertical() + styles.Gap("12px")):
+                state = settings.Get("global", "high_priority", True)
+                CheckboxWithTitleDescription(
+                    title="High Priority",
+                    description="Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications.",
+                    default=state, # type: ignore
+                    changed=self.handle_high_priority_change
+                )
+                if not state:
+                    with Alert(style=styles.FlexVertical() + styles.Padding("14px") + styles.Classname("default") + styles.Gap("6px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                            style = styles.Style()
+                            style.margin_top = "2px"
+                            style.width = "1rem"
+                            style.height = "1rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("info", style)
+                            Markdown("You'll need to restart ETS2LA after doing the onboarding to apply this change.", styles.Classname("text-muted-foreground"))
                     
 
     def map_data(self):
@@ -368,10 +404,11 @@ class Page(ETS2LAPage):
             1: self.language,
             2: self.sdk_setup,
             3: self.plugins,
-            4: self.map_data,
-            5: self.size,
-            6: self.window_controls,
-            7: self.complete
+            4: self.priority,
+            5: self.map_data,
+            6: self.size,
+            7: self.window_controls,
+            8: self.complete
         }
         
         if self.increment_and_load == 2:

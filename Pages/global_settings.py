@@ -8,9 +8,13 @@ import ETS2LA.Handlers.sounds as sounds
 import screeninfo
 
 class Page(ETS2LAPage):
-
     url = "/settings/global"
     monitors = screeninfo.get_monitors()
+    initial_high_priority = False
+    
+    def __init__(self):
+        super().__init__()
+        self.initial_high_priority = utils_settings.Get("global", "high_priority", default=True)
     
     def handle_width_change(self, width: int):
         utils_settings.Set("global", "width", width)
@@ -106,9 +110,16 @@ class Page(ETS2LAPage):
             acceleration_fallback = not utils_settings.Get("global", "acceleration_fallback", default=False)
 
         utils_settings.Set("global", "acceleration_fallback", acceleration_fallback)
+        
+    def handle_high_priority_change(self, *args):
+        if args:
+            high_priority = args[0]
+        else:
+            high_priority = not utils_settings.Get("global", "high_priority", default=True)
+
+        utils_settings.Set("global", "high_priority", high_priority)
 
     def render(self):
-        
         TitleAndDescription(
             "global.settings.1.title",
             "global.settings.1.description",
@@ -206,22 +217,42 @@ class Page(ETS2LAPage):
                     default=utils_settings.Get("global", "acceleration_fallback", default=False), # type: ignore
                     changed=self.handle_acceleration_fallback_change
                 )
-                if self.monitors != 0:
-                    monitors = []
-                    for i, monitor in enumerate(self.monitors):
-                        if monitor.is_primary:
-                            monitors.append(f"Display {i} - {monitor.width}x{monitor.height} (Primary)")
-                        else:
-                            monitors.append(f"Display {i} - {monitor.width}x{monitor.height}")
-                    
-                    default = monitors[utils_settings.Get("global", "monitor", default=0)] # type: ignore
-                    ComboboxWithTitleDescription(
-                        title=translator.Translate("global.settings.13.name"),
-                        description=translator.Translate("global.settings.13.description"),
-                        default=default,
-                        options=monitors,
-                        changed=self.change_monitor,
-                    )
+                
+                high_priority = utils_settings.Get("global", "high_priority", default=True) # type: ignore
+                CheckboxWithTitleDescription(
+                    title="High Priority",
+                    description="Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications.",
+                    default=high_priority, # type: ignore
+                    changed=self.handle_high_priority_change
+                )
+                
+                if high_priority != self.initial_high_priority:
+                    with Alert(style=styles.Padding("14px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                            style = styles.Style()
+                            style.margin_top = "2px"
+                            style.width = "1rem"
+                            style.height = "1rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("warning", style)
+                            Text("You need to restart ETS2LA to apply the priority change!", styles.Classname("text-muted-foreground"))
+                
+                # if self.monitors != 0:
+                #     monitors = []
+                #     for i, monitor in enumerate(self.monitors):
+                #         if monitor.is_primary:
+                #             monitors.append(f"Display {i} - {monitor.width}x{monitor.height} (Primary)")
+                #         else:
+                #             monitors.append(f"Display {i} - {monitor.width}x{monitor.height}")
+                #     
+                #     default = monitors[utils_settings.Get("global", "monitor", default=0)] # type: ignore
+                #     ComboboxWithTitleDescription(
+                #         title=translator.Translate("global.settings.13.name"),
+                #         description=translator.Translate("global.settings.13.description"),
+                #         default=default,
+                #         options=monitors,
+                #         changed=self.change_monitor,
+                #     )
                 
             with Tab("global.settings.misc", styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:
@@ -279,47 +310,3 @@ class Page(ETS2LAPage):
                     )
                     
                 Space(styles.Height("24px"))
-                
-                
-                
-        #with Group("vertical", gap=14, padding=0):
-        #    Title("global.settings.1.title")
-        #    Description("global.settings.1.description")
-        #    #Separator()
-#
-        #with TabView():
-        #    with Tab("global.settings.misc"):
-        #        
-        #        
-        #        Input("global.settings.4.name",
-        #            "frontend_port",
-        #            "number",
-        #            3005,
-        #            description="global.settings.4.description"
-        #        )
-        #        
-        #        Toggle("global.settings.9.name", "frameless", True, description="global.settings.9.description")
-#
-        #        Toggle("global.settings.6.name",
-        #            "send_crash_reports",
-        #            True,
-        #            description="global.settings.6.description"
-        #        )
-        #        
-        #        Toggle("global.settings.5.name",
-        #            "use_fancy_traceback",
-        #            True,
-        #            description="global.settings.5.description"
-        #        )
-#
-        #        Toggle("global.settings.7.name",
-        #            "debug_mode",
-        #            True,
-        #            description="global.settings.7.description"
-        #        )
-#
-        #        Toggle("global.settings.16.name", "fireworks", True, description="global.settings.16.description")
-        #
-        #        Toggle("global.settings.15.name", "snow", True, description="global.settings.15.description")
-    #
-        #return RenderUI()
