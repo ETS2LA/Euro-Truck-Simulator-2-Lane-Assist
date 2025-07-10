@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 17:23+0000\n"
+"PO-Revision-Date: 2025-07-10 18:31+0000\n"
 "Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
@@ -239,19 +239,25 @@ msgstr "Taustapalvelu aloitettu onnistuneesti"
 
 #: .\Pages\about.py:13
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "ETS2LA:n tekijä ja pääkehittäjä, taustapalvelu & käyttöliittymä."
 
 #: .\Pages\about.py:14
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr ""
+"\"Navigation Detection\", \"Traffic Light Detection\", ETS2LA Lite -tekijä "
+"ja \"yhteisomistaja\""
 
 #: .\Pages\about.py:15
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Parannuksia ja pieniä muutoksia, kappaleiden tunnistuksen AI mallit ja "
+"niiden kehitys"
 
 #: .\Pages\about.py:16
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"ETS2LA:n pelinpuoleisen SDK:n kehittäjä. Tarjoaa ajoneuvot, liikennevalot ja "
+"kameradatan ym. suoraan pelistä."
 
 #: .\Pages\about.py:17
 msgid "Game data extraction and processing"
