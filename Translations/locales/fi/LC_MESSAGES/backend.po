@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
 "PO-Revision-Date: 2025-07-10 23:21+0000\n"
-"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
+"Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
 "Language: fi\n"
@@ -513,7 +513,7 @@ msgstr "Tapahtuman näppäin poistettu."
 
 #: .\Pages\controls.py:70
 msgid "Controls"
-msgstr ""
+msgstr "Näppäimet"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
@@ -525,20 +525,20 @@ msgstr ""
 
 #: .\Pages\controls.py:108
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Ei näppäimiä löydetty, kokeile uudelleen eri suodatimilla."
 
 #: .\Pages\controls.py:133
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Tämä tapahtuma ei ole asetettu laiteelle."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
 msgid "Keyboard: "
-msgstr ""
+msgstr "Näppäimistö: "
 
 #: .\Pages\global_settings.py:125
 msgid "Global Settings"
-msgstr ""
+msgstr "Yleiset asetukset"
 
 #: .\Pages\global_settings.py:126
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
