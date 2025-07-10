@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 20:29+0000\n"
+"PO-Revision-Date: 2025-07-10 20:47+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
@@ -479,31 +479,33 @@ msgstr[1] "{0} päivää sitten"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Haetaan muutoslogia ja mahdollisia muutoksia."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Muutuslogi löydetty."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:78
 msgid "View Changes"
-msgstr ""
+msgstr "Katso muutokset"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:86
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Vain 20 viimeisntä päivitystä näkyy tässä. Voit tarkistaa arkistosta "
+"aikaisemman historian."
 
 #: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
 msgid "Show all plugins"
-msgstr ""
+msgstr "Näytä kaikki laajennukset"
 
 #: .\Pages\controls.py:45
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Ole hyvä ja paina näppäintä minkä haluat määrätä tähän tapahtumaan."
 
 #: .\Pages\controls.py:50
 msgid "Event unbound."
-msgstr ""
+msgstr "Tapahtuman näppäin poistettu."
 
 #: .\Pages\controls.py:70
 msgid "Controls"
