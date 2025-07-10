@@ -3,6 +3,7 @@ from ETS2LA import variables
 from ETS2LA.UI import *
 
 import ETS2LA.Handlers.sounds as sounds 
+from ETS2LA.Utils.translator import languages
 from ETS2LA.Utils.translator import _
 
 import screeninfo
@@ -161,15 +162,15 @@ class Page(ETS2LAPage):
                     changed=self.handle_alpha_change
                 )
                 
-                # ComboboxWithTitleDescription(
-                #     title=_("Language"),
-                #     description=_("Select the language for the application."),
-                #     default=utils_settings.Get("global", "language", default="English"), # type: ignore
-                #     options=translator.LANGUAGES,
-                #     changed=self.change_language,
-                #     side=Side.TOP,
-                #     search=ComboboxSearch("Search Languages...", "Help us translate on discord!"),
-                # )
+                ComboboxWithTitleDescription(
+                    title=_("Language"),
+                    description=_("Select the language for the application."),
+                    default=utils_settings.Get("global", "language", default="English"), # type: ignore
+                    options=[language.display_name(language.language).capitalize() for language in languages],
+                    changed=self.change_language,
+                    side=Side.TOP,
+                    search=ComboboxSearch(_("Search Languages..."), _("Help us translate on discord!")),
+                )
                 
                 # with Alert(style=styles.Padding("14px")):
                 #     with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):

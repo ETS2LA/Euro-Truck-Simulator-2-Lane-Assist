@@ -236,8 +236,7 @@ def get_states():
 
 @app.get("/api/language")
 def get_language():
-    return "English"
-    #return translator.LANGUAGE
+    return _.get_language()
 
 # endregion
 # region Popups

@@ -1,9 +1,26 @@
-from ETS2LA.Utils.settings import Get
+from ETS2LA.Utils.settings import Get, Listen
+from langcodes import Language
 import datetime
 import gettext
 import os
 
 # region Usage
+def get_available_languages(localedir: str) -> list:
+    """
+    Get a list of available languages from the specified locale directory.
+    
+    :param localedir: The directory where the locale files are stored.
+    :return: A list of available language codes.
+    """
+    languages = []
+    for lang in os.listdir(localedir):
+        if os.path.isdir(os.path.join(localedir, lang, "LC_MESSAGES")):
+            languages.append(
+                Language.get(lang)
+            )
+    return languages
+
+languages = get_available_languages("Translations/locales")
 
 class Translate:
     """
@@ -11,9 +28,23 @@ class Translate:
     """
     
     def __init__(self, domain: str, localedir: str, language: str):
-        self.translation = gettext.translation(domain, localedir=localedir, languages=[language], fallback=True)
+        self.domain = domain
+        self.localedir = localedir
+        self.set_language(language)
+
+    def set_language(self, language: str):
+        self.translation = gettext.translation(self.domain, localedir=self.localedir, languages=[language], fallback=True)
         self.translation.install()
         self._ = self.translation.gettext
+        self.language = language
+        
+    def get_language(self) -> str:
+        """
+        Get the currently set language.
+        
+        :return: The current language code.
+        """
+        return self.language
 
     def __call__(self, key: str, *args) -> str:
         return self._(key).format(*args) if args else self._(key)
@@ -29,10 +60,30 @@ class Translate:
         """
         return self.translation.ngettext(singular, plural, n)
     
-lan = Get("global", "language", "en")
-_ = Translate("ets2la", "Translations/locales", lan)  # Default to English
+default = Get("global", "language", "English")
+default = Language.find(default).language
+_ = Translate("ets2la", "Translations/locales", default)  # Default to English
 T_ = _
 ngettext = _.ngettext  # Alias for ngettext
+
+def set_language(language: str | Language):
+    """
+    Set the language for translations.
+    
+    :param language: The language code to set.
+    """
+    if isinstance(language, Language):
+        language = language.language
+        
+    _.set_language(language)
+    
+def detect_change(dictionary: dict):
+    language = dictionary.get("language", "English")
+    language = Language.find(language).language
+    if language != _.get_language():
+        set_language(language)
+    
+Listen("global", detect_change)
 
 # region Generation
 languages_to_generate = [
