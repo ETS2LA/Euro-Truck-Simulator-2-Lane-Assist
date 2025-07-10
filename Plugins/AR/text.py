@@ -3,6 +3,10 @@ import dearpygui.dearpygui as dpg
 import numpy as np
 import os
 
+def get_font_only():
+    font_path = 'Plugins/AR/Geist-Regular.ttf'
+    return ImageFont.truetype(font_path, 64)
+
 def create_text_renderer():
     os.makedirs("Plugins/AR/text_cache", exist_ok=True)
     

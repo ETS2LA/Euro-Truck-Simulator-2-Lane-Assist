@@ -1,10 +1,15 @@
+from ETS2LA.Utils.Values.text import ScrollingText
 from Plugins.NGHUD.classes import HUDWidget
+from PIL import Image, ImageDraw, ImageFont
+import Plugins.AR.text as ARText
 from Plugins.AR.classes import *
 import threading
 import datetime
 import logging
 import asyncio
 import os
+
+font = ARText.get_font_only()
 
 if os.name == "nt":
     from winsdk.windows.media.control import GlobalSystemMediaTransportControlsSessionManager as MediaManager
@@ -13,6 +18,9 @@ class Widget(HUDWidget):
     name = "Media"
     description = "Displays media information such as song title, artist and playback progress."
     fps = 2
+    
+    title = ScrollingText("No Media Playing", max_width=20)
+    artist = ScrollingText("No Artist", max_width=20)
     
     def __init__(self, plugin):
         super().__init__(plugin)
@@ -56,18 +64,19 @@ class Widget(HUDWidget):
         title = self.media_info.get("title", "No Title")
         artist = self.media_info.get("artist", "No Artist")
         
-        # if not title and not artist:
-        #     self.data = []
-        #     return
+        if title != self.title.text:
+            self.title.text = title
+
+        if artist != self.artist.text:
+            self.artist.text = artist
+
+        total_width = font.getbbox(title)[2] - font.getbbox(title)[0]
+        per_character_width = total_width / len(title) if title else 1
+        max_title_length = round((width - 10) / (per_character_width * (16/64)))
+        max_artist_length = round((width - 10) / (per_character_width * (14/64)))
         
-        title_character_width = 6
-        artist_character_width = 5
-        max_title_length = (width - 20) // title_character_width
-        max_artist_length = (width - 20) // artist_character_width
-        if len(title) > max_title_length:
-            title = title[:max_title_length - 3] + "..."
-        if len(artist) > max_artist_length:
-            artist = artist[:max_artist_length - 3] + "..."
+        self.title.max_width = max_title_length
+        self.artist.max_width = max_artist_length
         
         # Start and end are datetime.timedelta    
         start = self.media_info.get("start", 0)
@@ -101,13 +110,13 @@ class Widget(HUDWidget):
             ),
             Text(
                 Point(10 + offset_x, 8, anchor=self.plugin.anchor),
-                text=title,
+                text=self.title.get(),
                 color=Color(255, 255, 255, 200),
                 size=16
             ),
             Text(
                 Point(10 + offset_x, height-22, anchor=self.plugin.anchor),
-                text=artist,
+                text=self.artist.get(),
                 color=Color(255, 255, 255, 200),
                 size=14
             )

@@ -1,6 +1,5 @@
 # Framework
 from Plugins.NGHUD.classes import ElementRunner
-from ETS2LA.Utils import settings
 from Plugins.AR.classes import *
 from Plugins.NGHUD.ui import UI
 from ETS2LA.Events import *
