@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 22:30+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-07-10 22:37+0000\n"
+"Last-Translator: Roman Sonnik <romansonnik@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
 "Language: ru\n"
@@ -876,23 +876,23 @@ msgstr ""
 
 #: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
 msgid "download size"
-msgstr ""
+msgstr "размер загрузки"
 
 #: .\Pages\onboarding.py:278 .\Plugins\Map\ui.py:195
 msgid "for this data is"
-msgstr ""
+msgstr "для этих данных"
 
 #: .\Pages\onboarding.py:280 .\Plugins\Map\ui.py:197
 msgid "that will unpack to a"
-msgstr ""
+msgstr "это будет распаковано в"
 
 #: .\Pages\onboarding.py:281 .\Plugins\Map\ui.py:198
 msgid "total size"
-msgstr ""
+msgstr "общий размер"
 
 #: .\Pages\onboarding.py:286
 msgid "No data selected"
-msgstr ""
+msgstr "Данные не выбраны"
 
 #: .\Pages\onboarding.py:287
 msgid "Please select the data you want to use from the dropdown above."
