@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 17:04+0000\n"
+"PO-Revision-Date: 2025-07-10 17:12+0000\n"
 "Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
@@ -78,59 +78,63 @@ msgstr "Laajennus {0} ei saanut kuvausta syystä: Aika loppui."
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Laajennus {0} ei saanut kuvausta syystä: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:389
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Laajennus {0} ei saanut painikkeita syystä: Aika loppui."
 
 #: .\ETS2LA\Handlers\plugins.py:393
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Laajennus {0} ei saanut painikkeita syystä: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:425
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Ladattiin {0} laajennusta."
 
 #: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
 msgid "Plugin not found."
-msgstr ""
+msgstr "Laajennusta ei löydetty."
 
 #: .\ETS2LA\Handlers\plugins.py:494
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Laajennus [yellow]{0}[/yellow] käynnistetty onnistuneesti."
 
 #: .\ETS2LA\Handlers\plugins.py:501
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Laajennusta {0} ei voitu käynnistää"
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
-msgstr ""
+msgstr "Aika loppui"
 
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Laajennusta ei löytynyt, tämä voi johtua laajennuksen kaatumisesta tai "
+"lataamisen epäonnistumisesta."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Laajennus [yellow]{0}[/yellow] sammutettu onnistuneesti."
 
 #: .\ETS2LA\Handlers\plugins.py:530
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Laajennusta {0} ei voitu sammuttaa"
 
 #: .\ETS2LA\Handlers\plugins.py:553
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Laajennusta {0} ei voitu käynnistää uudelleen"
 
 #: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Laajennusta {0} ei löytynyt sivulle {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"ffmpeg kirjaston lataaminen epäonnistui, lataa se manuaalisesti (esim. [code]"
+"winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
