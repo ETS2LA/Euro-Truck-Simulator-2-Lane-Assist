@@ -3,13 +3,14 @@ from types import ModuleType
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
 from ETS2LA.Controls import ControlEvent
+from ETS2LA.Utils.settings import Get
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
 
-import sys
 import threading
 import importlib
 import logging
+import psutil
 import time
 import os
 
@@ -302,6 +303,16 @@ class PluginProcess:
                 except: 
                     logging.exception("Page build failed.")
         
+    def set_high_priority(self) -> None:
+        p = psutil.Process(os.getpid())
+        try:
+            if os.name == "nt":
+                p.nice(psutil.HIGH_PRIORITY_CLASS)
+            else:
+                p.nice(0) # negative values need root / sudo
+        except Exception as e:
+            logging.exception(f"Error setting high priority: {e}")
+        
     def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
         start_time = time.time()
         
@@ -315,6 +326,10 @@ class PluginProcess:
             filepath=os.path.join(os.getcwd(), "logs", f"{name}.log")
         )
         logging.info(f"Started logging")
+        
+        if Get("global", "high_priority", default=True):
+            self.set_high_priority()
+            logging.info("Set high priority for plugin process")
 
         files = os.listdir(path)
         if "main.py" not in files:

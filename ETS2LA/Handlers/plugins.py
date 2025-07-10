@@ -73,6 +73,8 @@ class Plugin:
     pages: dict = {}
     """All plugins share the same pages dictionary. This way they can easily share page data."""
     
+    edit_time: int
+    
     frametimes: list[float]
     
     def start_plugin(self) -> None:
@@ -97,6 +99,7 @@ class Plugin:
             self.process.close()
             self.process = None # type: ignore
             
+        self.edit_time = os.path.getmtime(self.folder + "/main.py")
         self.process = multiprocessing.Process(
             target=PluginProcess,
             args=(self.folder, self.queue, self.return_queue),
@@ -163,6 +166,11 @@ class Plugin:
         
         threading.Thread(
             target=self.performance_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.check_edit_thread,
             daemon=True
         ).start()
 
@@ -353,6 +361,23 @@ class Plugin:
         self.description, self.authors = response.data
         return response.data
     
+    def check_edit_thread(self) -> None:
+        if not variables.DEVELOPMENT_MODE:
+            return
+        
+        while True:
+            time.sleep(1)
+            current = os.path.getmtime(self.folder + "/main.py")
+            if current != self.edit_time:
+                logging.info(f"Plugin {self.description.name} has been edited. Reloading...")
+                self.edit_time = current
+                if self.running:
+                    threading.Thread(
+                        target=restart_plugin,
+                        args=(self.description, self.description.name, self.folder),
+                        daemon=True
+                    ).start()
+
     def get_controls(self) -> list[ControlEvent]:
         """Get the controls from the plugin process."""
         message = PluginMessage(

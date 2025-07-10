@@ -8,9 +8,13 @@ from ETS2LA.Utils.translator import _
 import screeninfo
 
 class Page(ETS2LAPage):
-
     url = "/settings/global"
     monitors = screeninfo.get_monitors()
+    initial_high_priority = False
+    
+    def __init__(self):
+        super().__init__()
+        self.initial_high_priority = utils_settings.Get("global", "high_priority", default=True)
     
     def handle_width_change(self, width: int):
         utils_settings.Set("global", "width", width)
@@ -98,9 +102,24 @@ class Page(ETS2LAPage):
             snow = not utils_settings.Get("global", "snow", default=True)
             
         utils_settings.Set("global", "snow", snow)
-    
-    def render(self):
         
+    def handle_acceleration_fallback_change(self, *args):
+        if args:
+            acceleration_fallback = args[0]
+        else:
+            acceleration_fallback = not utils_settings.Get("global", "acceleration_fallback", default=False)
+
+        utils_settings.Set("global", "acceleration_fallback", acceleration_fallback)
+        
+    def handle_high_priority_change(self, *args):
+        if args:
+            high_priority = args[0]
+        else:
+            high_priority = not utils_settings.Get("global", "high_priority", default=True)
+
+        utils_settings.Set("global", "high_priority", high_priority)
+
+    def render(self):
         TitleAndDescription(
             _("Global Settings"),
             _("Here you can find settings that affect the entire application. Things such as the window size and language."),
@@ -191,25 +210,34 @@ class Page(ETS2LAPage):
                     changed=self.change_startup_sound,
                 )
                 
-            if self.monitors != 0:
-                with Tab(_("Variables")):
-                    monitors = []
-                    for i, monitor in enumerate(self.monitors):
-                        if monitor.is_primary:
-                            monitors.append(_("Display {name} - {width}x{height} (Primary)").format(name=i, width=monitor.width, height=monitor.height))
-                        else:
-                            monitors.append(_("Display {name} - {width}x{height}").format(name=i, width=monitor.width, height=monitor.height))
+            with Tab(_("Variables"), container_style=styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title=_("Fallback to old acceleration method"),
+                    description=_("If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."),
+                    default=utils_settings.Get("global", "acceleration_fallback", default=False), # type: ignore
+                    changed=self.handle_acceleration_fallback_change
+                )
+                
+                high_priority = utils_settings.Get("global", "high_priority", default=True) # type: ignore
+                CheckboxWithTitleDescription(
+                    title=_("High Priority"),
+                    description=_("Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."),
+                    default=high_priority, # type: ignore
+                    changed=self.handle_high_priority_change
+                )
+                
+                if high_priority != self.initial_high_priority:
+                    with Alert(style=styles.Padding("14px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                            style = styles.Style()
+                            style.margin_top = "2px"
+                            style.width = "1rem"
+                            style.height = "1rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("warning", style)
+                            Text(_("You need to restart ETS2LA to apply the priority change!"), styles.Classname("text-muted-foreground"))
 
-                    default = monitors[utils_settings.Get("global", "monitor", default=0)] # type: ignore
-                    ComboboxWithTitleDescription(
-                        title=_("Selected Monitor"),
-                        description=_("Select the monitor to use, this only affects some legacy features."),
-                        default=default,
-                        options=monitors,
-                        changed=self.change_monitor,
-                    )
-
-            with Tab(_("Misc"), styles.FlexVertical() + styles.Gap("24px")):
+            with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:
                     port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
                     InputWithTitleDescription(

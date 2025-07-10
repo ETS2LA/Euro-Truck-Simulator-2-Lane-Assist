@@ -119,18 +119,18 @@ class SettingsMenu(ETS2LAPage):
                     suffix=" μ",
                 )
                 
-                if ignore_speed_limit != True:
-                    SliderWithTitleDescription(
-                        title=_("Speed when game speed limit is 0"),
-                        description=_("The speed to drive when the game tells us that the speed limit is 0 km/h."),
-                        min=0,
-                        max=130,
-                        step=5,
-                        default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
-                        changed=self.handle_overwrite_speed,
-                        suffix=" km/h",
-                    )
-                        
+                SliderWithTitleDescription(
+                    title=_("Speed when game speed limit is 0"),
+                    description=_("The speed to drive when the game tells us that the speed limit is 0 km/h."),
+                    min=0,
+                    max=130,
+                    step=5,
+                    default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
+                    changed=self.handle_overwrite_speed,
+                    suffix=" km/h",
+                )
+                
+                if ignore_speed_limit != True:        
                     with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                         speed_offset_type = settings.Get("AdaptiveCruiseControl", "speed_offset_type", "Absolute")
                         ComboboxWithTitleDescription(

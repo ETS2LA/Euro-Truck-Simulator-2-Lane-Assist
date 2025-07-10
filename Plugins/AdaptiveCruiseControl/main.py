@@ -192,7 +192,7 @@ class Plugin(ETS2LAPlugin):
         
         following_accel = min(self.max_accel, max(self.emergency_decel, following_accel))
         
-        if following_accel < self.emergency_decel * 0.9: 
+        if following_accel < -5.0: 
             self.globals.tags.AEB = True
         else: 
             self.globals.tags.AEB = False
@@ -856,9 +856,6 @@ class Plugin(ETS2LAPlugin):
         
         # try:    traffic_light = self.get_next_prefab_traffic_light(self.api_data)
         # except: traffic_light = None
-            
-        if traffic_light:
-            print("Traffic light in front:", traffic_light.state, traffic_light.distance)
         
         try:    gate = self.get_gate_in_front(self.api_data)
         except:
@@ -870,6 +867,7 @@ class Plugin(ETS2LAPlugin):
         self.set_accel_brake(target_throttle)
 
         self.globals.tags.acc = self.speedlimit
+        self.globals.tags.acc_target = target_acceleration
         
         #self.state.text = "Integral length: " + str(len(self.accel_errors)) + "\nValue: " + str(round(sum(self.accel_errors), 2))
 

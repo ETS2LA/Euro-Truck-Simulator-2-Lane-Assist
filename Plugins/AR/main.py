@@ -242,7 +242,7 @@ class Plugin(ETS2LAPlugin):
     LastTimeStamp = 0
 
     def imports(self):
-        global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time
+        global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time, ttext
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
@@ -250,6 +250,8 @@ class Plugin(ETS2LAPlugin):
         import ETS2LA.variables as variables
 
         import dearpygui.dearpygui as dpg
+        import Plugins.AR.text as ttext
+        
         import win32con
         import win32gui
         import ctypes
@@ -271,14 +273,15 @@ class Plugin(ETS2LAPlugin):
         settings.Listen("AR", LoadSettings)
         InitializeWindow()
         
+        renderer = ttext.create_text_renderer()
+        self.text_renderer = ttext.TextureText(renderer)
+                
         self.draw_calls = 0
         self.render_time = 0
         self.item_count = 0
-        
 
 
     def Render(self, items=[]):
-        
         render_start = time.perf_counter()
         self.item_count = len(items)
         
@@ -317,8 +320,15 @@ class Plugin(ETS2LAPlugin):
                         item.fill.am = alpha / 255
                         if item.color.am <= 0 and item.fill.am <= 0:
                             continue
+                        
+                    elif item.custom_distance:
+                        alpha = CalculateAlpha([item.custom_distance], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        item.fill.am = alpha / 255
+                        if item.color.am <= 0 and item.fill.am <= 0:
+                            continue
                     
-                    dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness)
+                    dpg.draw_rectangle(pmin=screen_start, pmax=screen_end, color=item.color.tuple(), fill=item.fill.tuple(), thickness=item.thickness, rounding=item.rounding)
                     draw_calls += 1
                     
                 elif type(item) == Line:
@@ -377,15 +387,48 @@ class Plugin(ETS2LAPlugin):
                     screen_position = position.screen(self)
                     if screen_position is None:
                         continue
-                    
+                     
                     if type(position) == Coordinate:
                         alpha = CalculateAlpha([screen_position[2]], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        screen_position = (screen_position[0], screen_position[1])
                         item.color.am = alpha / 255
-                        if item.color.am <= 0:
+                        if item.color.am <= 0: 
                             continue
                     
-                    dpg.draw_text(screen_position, text=item.text, color=item.color.tuple(), size=item.size)
+                    elif item.custom_distance:
+                        alpha = CalculateAlpha([item.custom_distance], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        if item.color.am <= 0: 
+                            continue
+                    
+                    # Use our texture-based text renderer instead of dpg.draw_text
+                    self.text_renderer.draw_text(
+                        screen_position,
+                        item.text,
+                        size=item.size * 0.8,  
+                        color=item.color.tuple(),
+                        scale=1
+                    )
                     draw_calls += 1
+                    
+                elif type(item) == Bezier:
+                    p1 = item.p1.tuple()
+                    p2 = item.p2.tuple()
+                    p3 = item.p3.tuple()
+                    p4 = item.p4.tuple()
+                    
+                    if item.custom_distance:
+                        alpha = CalculateAlpha([item.custom_distance], fade_end=item.fade.prox_fade_end, fade_start=item.fade.prox_fade_start, max_fade_start=item.fade.dist_fade_start, max_fade_end=item.fade.dist_fade_end)
+                        item.color.am = alpha / 255
+                        if item.color.am <= 0: 
+                            continue
+
+                    dpg.draw_bezier_cubic(
+                        p1, p2, p3, p4,
+                        color=item.color.tuple(),
+                        thickness=item.thickness,
+                        segments=item.segments,
+                    )
                  
         dpg.render_dearpygui_frame()
         self.render_time = time.perf_counter() - render_start
@@ -499,16 +542,23 @@ class Plugin(ETS2LAPlugin):
         if camera is not None:
             FOV = camera.fov
             angles = camera.rotation.euler()
-            HeadX = camera.position.x + camera.cx * 512
-            HeadY = camera.position.y
-            HeadZ = camera.position.z + camera.cz * 512
+            CameraHeadX = camera.position.x + camera.cx * 512
+            CameraHeadY = camera.position.y
+            CameraHeadZ = camera.position.z + camera.cz * 512
 
-            # We can use the old camera rotation if we are in the inside
+            # We can use the old camera rotation and position if we are in the inside
             # camera view.
-            if abs(HeadX - InsideHeadX) > 1 or abs(HeadY - InsideHeadY) > 1 or abs(HeadZ - InsideHeadZ) > 1:
+            if abs(CameraHeadX - InsideHeadX) > 3 or abs(CameraHeadY - InsideHeadY) > 1 or abs(CameraHeadZ - InsideHeadZ) > 3:
                 HeadRotationDegreesX = angles[1]
                 HeadRotationDegreesY = angles[0]
                 HeadRotationDegreesZ = angles[2]
+                HeadX = CameraHeadX
+                HeadY = CameraHeadY
+                HeadZ = CameraHeadZ
+            else:
+                HeadX = InsideHeadX
+                HeadY = InsideHeadY
+                HeadZ = InsideHeadZ
         else:
             HeadX = InsideHeadX
             HeadY = InsideHeadY
@@ -573,7 +623,14 @@ class Plugin(ETS2LAPlugin):
                 fill=Color(127, 127, 127, 255 / 2),
                 thickness=2
             ))
-
+            
+            cur = time.time() % 2
+            position = Point(100 + cur * 10, 100 + cur * 10)
+            DRAWLIST.append(Text(
+                position,
+                "Testing text smoothness",
+                size=64
+            ))
 
         other_plugins = self.globals.tags.AR
         if other_plugins is not None:
