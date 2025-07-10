@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 22:38+0000\n"
-"Last-Translator: DennisL <dennisl@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-10 23:21+0000\n"
+"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -319,7 +319,7 @@ msgstr "雨刷现在应该修好了。"
 
 #: .\Pages\about.py:57
 msgid "Triggering update"
-msgstr ""
+msgstr "触发更新"
 
 #: .\Pages\about.py:66 .\Pages\about.py:71 .\Pages\about.py:77
 msgid "{0} minute"
@@ -333,63 +333,66 @@ msgstr[0] ""
 
 #: .\Pages\about.py:75
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0}和{1｝"
 
 #: .\Pages\about.py:82
 msgid "About"
-msgstr ""
+msgstr "关于"
 
 #: .\Pages\about.py:84
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA 是一个旨在为 ETS2 和 ATS "
+"提供易于使用的自动驾驶解决方案的项目，如果您想了解更多信息，可以访问 github "
+"页面或通过侧边栏访问维基。"
 
 #: .\Pages\about.py:88
 msgid "Statistics"
-msgstr ""
+msgstr "统计信息"
 
 #: .\Pages\about.py:92
 msgid "Users online:"
-msgstr ""
+msgstr "当前在线用户："
 
 #: .\Pages\about.py:93
 msgid "{0} users"
-msgstr ""
+msgstr "{0} 用户"
 
 #: .\Pages\about.py:95
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "过去24小时："
 
 #: .\Pages\about.py:96
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} 个去重用户"
 
 #: .\Pages\about.py:98
 msgid "Your usage time:"
-msgstr ""
+msgstr "您的使用时长："
 
 #: .\Pages\about.py:103
 msgid "You are not logged in."
-msgstr ""
+msgstr "您尚未登录。"
 
 #: .\Pages\about.py:104
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "您的匿名用户 ID 是{0}"
 
 #: .\Pages\about.py:108
 msgid "You are logged in."
-msgstr ""
+msgstr "您已登录。"
 
 #: .\Pages\about.py:109
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "欢迎回来，{0}！"
 
 #: .\Pages\about.py:113
 msgid "Contributors"
-msgstr ""
+msgstr "开发者/贡献者"
 
 #: .\Pages\about.py:140
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
-msgstr ""
+msgstr "如果您喜欢该项目并希望支持其开发，可以通过 Ko-Fi 捐款。"
 
 #: .\Pages\about.py:143
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
