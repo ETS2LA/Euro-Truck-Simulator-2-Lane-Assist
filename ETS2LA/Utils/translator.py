@@ -45,6 +45,26 @@ class Translate:
         :return: The current language code.
         """
         return self.language
+    
+    def get_percentage(self) -> float:
+        """
+        Get the percentage of strings translated in the current language.
+        """
+        po_file = f"{self.localedir}/{self.language}/LC_MESSAGES/{self.domain}.po"
+        if not os.path.exists(po_file):
+            return 0.0
+        
+        total_strings = 0
+        translated_strings = 0
+        
+        with open(po_file, "r", encoding="utf-8") as file:
+            for line in file:
+                if line.startswith("msgid"):
+                    total_strings += 1
+                elif line.startswith("msgstr") and line.replace("msgstr ", "").strip() != '""':
+                    translated_strings += 1
+        
+        return (translated_strings / total_strings) * 100 if total_strings > 0 else 0.0
 
     def __call__(self, key: str, *args) -> str:
         return self._(key).format(*args) if args else self._(key)
@@ -62,7 +82,7 @@ class Translate:
     
 default = Get("global", "language", "English")
 default = Language.find(default).language
-_ = Translate("ets2la", "Translations/locales", default)  # Default to English
+_ = Translate("backend", "Translations/locales", default)  # Default to English
 T_ = _
 ngettext = _.ngettext  # Alias for ngettext
 

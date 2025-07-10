@@ -5,6 +5,7 @@ from ETS2LA.UI import *
 import ETS2LA.Handlers.sounds as sounds 
 from ETS2LA.Utils.translator import languages
 from ETS2LA.Utils.translator import _
+from langcodes import Language
 
 import screeninfo
 
@@ -162,25 +163,34 @@ class Page(ETS2LAPage):
                     changed=self.handle_alpha_change
                 )
                 
+                current = utils_settings.Get("global", "language", default="English")
+                current = Language.find(current)
                 ComboboxWithTitleDescription(
                     title=_("Language"),
                     description=_("Select the language for the application."),
-                    default=utils_settings.Get("global", "language", default="English"), # type: ignore
+                    default=current.display_name(current.language).capitalize(),
                     options=[language.display_name(language.language).capitalize() for language in languages],
                     changed=self.change_language,
                     side=Side.TOP,
                     search=ComboboxSearch(_("Search Languages..."), _("Help us translate on discord!")),
                 )
                 
-                # with Alert(style=styles.Padding("14px")):
-                #     with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
-                #         style = styles.Style()
-                #         style.margin_top = "2px"
-                #         style.width = "1rem"
-                #         style.height = "1rem"
-                #         style.color = "var(--muted-foreground)"
-                #         Icon("info", style)
-                #         Text(_("credits"), styles.Classname("text-muted-foreground"))
+                if current != "English":
+                    with Alert(style=styles.Padding("14px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                            style = styles.Style()
+                            style.margin_top = "2px"
+                            style.width = "1rem"
+                            style.height = "1rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("info", style)
+                            with Container(styles.FlexVertical() + styles.Gap("4px")):
+                                Text(f"This translation is {_.get_percentage():.2f}% complete.", styles.Classname("text-muted-foreground"))
+                                with Container(styles.FlexHorizontal() + styles.Gap("8px")):
+                                    Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{current.language}%20contributes:ets2la/backend", styles.Classname("text-sm text-muted-foreground hover:underline"))
+                                    Text("-")
+                                    Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{current.language}", styles.Classname("text-sm text-muted-foreground hover:underline"))
+                            
 
             with Tab(_("Audio"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):

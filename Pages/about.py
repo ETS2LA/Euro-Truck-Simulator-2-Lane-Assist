@@ -4,9 +4,10 @@ from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
-from ETS2LA.Utils.translator import _, ngettext
+from ETS2LA.Utils.translator import _, ngettext, languages
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
+from langcodes import Language 
 import time
 
 contributors = [
@@ -119,22 +120,25 @@ class Page(ETS2LAPage):
                                     Link(link[0], link[1], style=styles.Classname("text-xs hover:underline"))
                             Text(contributor["description"], styles.Description())
                             
-                # Space(style=styles.Height("10px"))
-                # with Container(style=styles.FlexVertical() + styles.Gap("16px")):
-                #     Text("about.translation_credits", styles.Title())
-                #     for language in translator.LANGUAGES:
-                #         with Container(style=styles.FlexVertical() + styles.Gap("4px")):
-                #             with Container(style=styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px 0px 0px 0px") + styles.Classname("items-center")):
-                #                 Text(language, styles.PlainText())
-                #                 Text("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", styles.Description() + styles.Classname("text-xs"))
-                #             credits = translator.TranslateToLanguage("credits", translator.GetCodeForLanguage(language))
-                #             if language != "English" and credits == translator.TranslateToLanguage("credits", translator.GetCodeForLanguage("English")):
-                #                 credits = Translate("about.no_credits")
-                #             Text(credits, styles.Description())
+                Space(style=styles.Height("10px"))
+                with Container(style=styles.FlexVertical() + styles.Gap("16px")):
+                    Text("about.translation_credits", styles.Title())
+                    for language in languages:
+                        if not isinstance(language, Language):
+                            continue
+                        
+                        with Container(style=styles.FlexVertical() + styles.Gap("4px") + styles.Classname("items-start")):
+                            with Container(style=styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px 0px 0px 0px") + styles.Classname("items-center")):
+                                Text(language.display_name(language.language).capitalize(), styles.PlainText())
+                                Text("(" + language.display_name() + ")", styles.Description() + styles.Classname("text-xs"))
+                            with Container(style=styles.FlexHorizontal() + styles.Gap("10px")):
+                                Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{language.language}%20contributes:ets2la/backend", styles.Classname("text-xs text-muted-foreground hover:underline"))
+                                Text("-")
+                                Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{language.language}", styles.Classname("text-xs text-muted-foreground hover:underline"))
                             
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("10px")):
-                    Text("Support Development", styles.Title())
+                    Text(_("Support Development"), styles.Title())
                     with Container(style=styles.FlexVertical() + styles.Gap("10px")):
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
                             Text("• " + _("If you like the project and want to support the development, you can do so by donating via Ko-Fi."), styles.Description())
