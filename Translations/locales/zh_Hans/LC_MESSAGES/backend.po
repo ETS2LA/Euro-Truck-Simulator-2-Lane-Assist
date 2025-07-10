@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 18:31+0000\n"
-"Last-Translator: DennisL <dennisl@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-10 22:24+0000\n"
+"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -133,19 +133,19 @@ msgstr "无法下载ffmpeg库，请手动下载（例如[code]winget install ffm
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "声音包'{0}'缺少所需的声音'{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "声音包'{0}'的文件类型'{1}'无效"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr ""
+msgstr "尝试播放声音\"{0}\"，但在声音包\"{1}\"中找不到该声音"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "处理消息时发生错误。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
