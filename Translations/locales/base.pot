@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-11 01:36\n"
+"POT-Creation-Date: 2025-07-10 19:21\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,211 +227,199 @@ msgstr ""
 msgid "Backend started successfully"
 msgstr ""
 
-#: .\Pages\about.py:14
+#: .\Pages\about.py:13
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
 msgstr ""
 
-#: .\Pages\about.py:15
+#: .\Pages\about.py:14
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr ""
 
-#: .\Pages\about.py:16
+#: .\Pages\about.py:15
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
 
-#: .\Pages\about.py:17
+#: .\Pages\about.py:16
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
 
-#: .\Pages\about.py:18
+#: .\Pages\about.py:17
 msgid "Game data extraction and processing"
 msgstr ""
 
-#: .\Pages\about.py:19
+#: .\Pages\about.py:18
 msgid "Linux & Unix Port, various improvements and bug fixes"
 msgstr ""
 
-#: .\Pages\about.py:20
+#: .\Pages\about.py:19
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr ""
 
-#: .\Pages\about.py:21
+#: .\Pages\about.py:20
 msgid "Help with Navigate on ETS2LA & Map"
 msgstr ""
 
-#: .\Pages\about.py:22
+#: .\Pages\about.py:21
 msgid "scs-sdk-controller developer"
 msgstr ""
 
-#: .\Pages\about.py:23
+#: .\Pages\about.py:22
 msgid "3D models for the visualization"
 msgstr ""
 
-#: .\Pages\about.py:24
+#: .\Pages\about.py:23
 msgid "Data extractor development, support for modded maps."
 msgstr ""
 
-#: .\Pages\about.py:25
+#: .\Pages\about.py:24
 msgid "Chinese translation, bug fixes"
 msgstr ""
 
-#: .\Pages\about.py:26
+#: .\Pages\about.py:25
 msgid "Chinese translations, bug fixes"
 msgstr ""
 
-#: .\Pages\about.py:27
+#: .\Pages\about.py:26
 msgid "Automatic offset calculations for the Map plugin."
 msgstr ""
 
-#: .\Pages\about.py:28
+#: .\Pages\about.py:27
 msgid "Discord server support, Chinese-English translator developer."
 msgstr ""
 
-#: .\Pages\about.py:29
+#: .\Pages\about.py:28
 msgid "Maintaining CN mirrors for ETS2LA services."
 msgstr ""
 
-#: .\Pages\about.py:30
+#: .\Pages\about.py:29
 msgid "Game hooks"
 msgstr ""
 
-#: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
+#: .\Pages\about.py:30 .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35
 msgid "Bug fixes"
 msgstr ""
 
-#: .\Pages\about.py:43
+#: .\Pages\about.py:42
 msgid "Fixing wipers (5s timer)"
 msgstr ""
 
-#: .\Pages\about.py:48
+#: .\Pages\about.py:47
 msgid "Fixing wipers in {0} seconds..."
 msgstr ""
 
-#: .\Pages\about.py:54 .\Pages\about.py:55
+#: .\Pages\about.py:53 .\Pages\about.py:54
 msgid "Wipers should be fixed now."
 msgstr ""
 
-#: .\Pages\about.py:58
+#: .\Pages\about.py:57
 msgid "Triggering update"
 msgstr ""
 
-#: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
+#: .\Pages\about.py:66 .\Pages\about.py:71 .\Pages\about.py:77
 msgid "{0} minute"
 msgid_plural "{0} minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: .\Pages\about.py:74 .\Pages\about.py:77
+#: .\Pages\about.py:73 .\Pages\about.py:76
 msgid "{0} hour"
 msgid_plural "{0} hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: .\Pages\about.py:76
+#: .\Pages\about.py:75
 msgid "{0} and {1}"
 msgstr ""
 
-#: .\Pages\about.py:83
+#: .\Pages\about.py:82
 msgid "About"
 msgstr ""
 
-#: .\Pages\about.py:85
+#: .\Pages\about.py:84
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
 
-#: .\Pages\about.py:89
+#: .\Pages\about.py:88
 msgid "Statistics"
 msgstr ""
 
-#: .\Pages\about.py:93
+#: .\Pages\about.py:92
 msgid "Users online:"
 msgstr ""
 
-#: .\Pages\about.py:94
+#: .\Pages\about.py:93
 msgid "{0} users"
 msgstr ""
 
-#: .\Pages\about.py:96
+#: .\Pages\about.py:95
 msgid "Past 24 hours:"
 msgstr ""
 
-#: .\Pages\about.py:97
+#: .\Pages\about.py:96
 msgid "{0} unique users"
 msgstr ""
 
-#: .\Pages\about.py:99
+#: .\Pages\about.py:98
 msgid "Your usage time:"
 msgstr ""
 
-#: .\Pages\about.py:104
+#: .\Pages\about.py:103
 msgid "You are not logged in."
 msgstr ""
 
-#: .\Pages\about.py:105
+#: .\Pages\about.py:104
 msgid "Your anonymous user ID is: {0}"
 msgstr ""
 
-#: .\Pages\about.py:109
+#: .\Pages\about.py:108
 msgid "You are logged in."
 msgstr ""
 
-#: .\Pages\about.py:110
+#: .\Pages\about.py:109
 msgid "Welcome back, {0}!"
 msgstr ""
 
-#: .\Pages\about.py:114
+#: .\Pages\about.py:113
 msgid "Contributors"
 msgstr ""
 
-#: .\Pages\about.py:135 .\Pages\global_settings.py:190
-msgid "List Contributors"
-msgstr ""
-
-#: .\Pages\about.py:137 .\Pages\global_settings.py:192
-msgid "Help Translate"
-msgstr ""
-
-#: .\Pages\about.py:141
-msgid "Support Development"
-msgstr ""
-
-#: .\Pages\about.py:144
+#: .\Pages\about.py:140
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
 
-#: .\Pages\about.py:147
+#: .\Pages\about.py:143
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
 
-#: .\Pages\about.py:151
+#: .\Pages\about.py:147
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
 
-#: .\Pages\about.py:156
+#: .\Pages\about.py:152
 msgid "Utils"
 msgstr ""
 
-#: .\Pages\about.py:160
+#: .\Pages\about.py:156
 msgid "Fix Wipers"
 msgstr ""
 
-#: .\Pages\about.py:161
+#: .\Pages\about.py:157
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
 
-#: .\Pages\about.py:162
+#: .\Pages\about.py:158
 msgid "Activate"
 msgstr ""
 
-#: .\Pages\about.py:167
+#: .\Pages\about.py:163
 msgid "Force an update"
 msgstr ""
 
-#: .\Pages\about.py:168
+#: .\Pages\about.py:164
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
 
-#: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
+#: .\Pages\about.py:165 .\Plugins\Map\ui.py:172
 msgid "Update"
 msgstr ""
 
@@ -512,167 +500,167 @@ msgstr ""
 msgid "Keyboard: "
 msgstr ""
 
-#: .\Pages\global_settings.py:126
+#: .\Pages\global_settings.py:125
 msgid "Global Settings"
 msgstr ""
 
-#: .\Pages\global_settings.py:127
+#: .\Pages\global_settings.py:126
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
 
-#: .\Pages\global_settings.py:131
+#: .\Pages\global_settings.py:130
 msgid "User Interface"
 msgstr ""
 
-#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
+#: .\Pages\global_settings.py:133 .\Pages\onboarding.py:300
 msgid "Window Width"
 msgstr ""
 
-#: .\Pages\global_settings.py:135
+#: .\Pages\global_settings.py:134
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
 
-#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
+#: .\Pages\global_settings.py:144 .\Pages\onboarding.py:309
 msgid "Window Height"
 msgstr ""
 
-#: .\Pages\global_settings.py:146
+#: .\Pages\global_settings.py:145
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
 
-#: .\Pages\global_settings.py:156
+#: .\Pages\global_settings.py:155
 msgid "Transparency mode Alpha"
 msgstr ""
 
-#: .\Pages\global_settings.py:157
+#: .\Pages\global_settings.py:156
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
 
-#: .\Pages\global_settings.py:169
+#: .\Pages\global_settings.py:166
 msgid "Language"
 msgstr ""
 
-#: .\Pages\global_settings.py:170
+#: .\Pages\global_settings.py:167
 msgid "Select the language for the application."
 msgstr ""
 
-#: .\Pages\global_settings.py:175
+#: .\Pages\global_settings.py:172
 msgid "Search Languages..."
 msgstr ""
 
-#: .\Pages\global_settings.py:175
+#: .\Pages\global_settings.py:172
 msgid "Help us translate on discord!"
 msgstr ""
 
-#: .\Pages\global_settings.py:195
+#: .\Pages\global_settings.py:185
 msgid "Audio"
 msgstr ""
 
-#: .\Pages\global_settings.py:198
+#: .\Pages\global_settings.py:188
 msgid "Soundpack"
 msgstr ""
 
-#: .\Pages\global_settings.py:199
+#: .\Pages\global_settings.py:189
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
 
-#: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:196 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr ""
 
-#: .\Pages\global_settings.py:207
+#: .\Pages\global_settings.py:197
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
 
-#: .\Pages\global_settings.py:218
+#: .\Pages\global_settings.py:208
 msgid "Startup Sound"
 msgstr ""
 
-#: .\Pages\global_settings.py:219
+#: .\Pages\global_settings.py:209
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
 
-#: .\Pages\global_settings.py:224
+#: .\Pages\global_settings.py:214
 msgid "Variables"
 msgstr ""
 
-#: .\Pages\global_settings.py:226
+#: .\Pages\global_settings.py:216
 msgid "Fallback to old acceleration method"
 msgstr ""
 
-#: .\Pages\global_settings.py:227
+#: .\Pages\global_settings.py:217
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
 
-#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:205
+#: .\Pages\global_settings.py:224 .\Pages\onboarding.py:205
 msgid "High Priority"
 msgstr ""
 
-#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:206
+#: .\Pages\global_settings.py:225 .\Pages\onboarding.py:206
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
 
-#: .\Pages\global_settings.py:249
+#: .\Pages\global_settings.py:239
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr ""
 
-#: .\Pages\global_settings.py:251
+#: .\Pages\global_settings.py:241
 msgid "Miscellaneous"
 msgstr ""
 
-#: .\Pages\global_settings.py:255
+#: .\Pages\global_settings.py:245
 msgid "Frontend Port"
 msgstr ""
 
-#: .\Pages\global_settings.py:256
+#: .\Pages\global_settings.py:246
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
 
-#: .\Pages\global_settings.py:263
+#: .\Pages\global_settings.py:253
 msgid "Frameless Window"
 msgstr ""
 
-#: .\Pages\global_settings.py:264
+#: .\Pages\global_settings.py:254
 msgid "Disable this option if you have any issues moving the window around."
 msgstr ""
 
-#: .\Pages\global_settings.py:269
+#: .\Pages\global_settings.py:259
 msgid "Send Crash Reports"
 msgstr ""
 
-#: .\Pages\global_settings.py:270
+#: .\Pages\global_settings.py:260
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
 
-#: .\Pages\global_settings.py:275
+#: .\Pages\global_settings.py:265
 msgid "Use Fancy Traceback"
 msgstr ""
 
-#: .\Pages\global_settings.py:276
+#: .\Pages\global_settings.py:266
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr ""
 
-#: .\Pages\global_settings.py:282
+#: .\Pages\global_settings.py:272
 msgid "Debug Mode"
 msgstr ""
 
-#: .\Pages\global_settings.py:283
+#: .\Pages\global_settings.py:273
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
 
-#: .\Pages\global_settings.py:291
+#: .\Pages\global_settings.py:281
 msgid "Fireworks"
 msgstr ""
 
-#: .\Pages\global_settings.py:292
+#: .\Pages\global_settings.py:282
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr ""
 
-#: .\Pages\global_settings.py:298
+#: .\Pages\global_settings.py:288
 msgid "Snow"
 msgstr ""
 
-#: .\Pages\global_settings.py:299
+#: .\Pages\global_settings.py:289
 msgid "Enable this option to use snow effects during the winter season."
 msgstr ""
 
