@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
 "PO-Revision-Date: 2025-07-10 17:04+0000\n"
-"Last-Translator: Tumppi066 <contact@ets2la.com>\n"
+"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
 "Language: fi\n"
@@ -74,7 +74,7 @@ msgstr "Laajennus [yellow]{0}[/yellow] käynnistyi onnistuneesti."
 
 #: .\ETS2LA\Handlers\plugins.py:354
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Laajennus {0} ei saanut kuvausta syystä: Aika loppui."
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
