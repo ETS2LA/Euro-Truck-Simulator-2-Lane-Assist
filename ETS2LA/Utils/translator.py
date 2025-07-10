@@ -35,25 +35,8 @@ T_ = _
 ngettext = _.ngettext  # Alias for ngettext
 
 # region Generation
-
 languages_to_generate = [
-    "de",
     "en",
-    "fi",
-    "hu",
-    "it",
-    "ja",
-    "nl",
-    "pl",
-    "pt-br",
-    "pt-pt",
-    "sk",
-    "tr",
-    "ua",
-    "uwu",
-    "vn",
-    "zh-cn",
-    "zh-tw",
 ]
 
 def generate_translations():
@@ -143,8 +126,5 @@ msgstr ""
         
         with open(po_file, "w", encoding="utf-8") as file:
             file.write(po_content)
-        
-        # Compile .po to .mo
-        os.system(f'msgfmt -o "{lang_dir}/backend.mo" "{po_file}"')
         
     print("Translation files have been successfully updated")
