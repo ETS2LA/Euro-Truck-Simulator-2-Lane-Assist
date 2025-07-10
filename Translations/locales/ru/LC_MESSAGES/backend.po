@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 22:24+0000\n"
+"PO-Revision-Date: 2025-07-10 22:28+0000\n"
 "Last-Translator: Roman Sonnik <romansonnik@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
@@ -804,34 +804,51 @@ msgstr "Расширенный режим плагинов"
 #: .\Pages\onboarding.py:170
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Включает расширенные функции управления плагинами. Можно изменить в любой "
+"момент в менеджере плагинов."
 
 #: .\Pages\onboarding.py:183
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Рекомендуется оставить **Расширенный режим плагинов** отключенным, однако "
+"опытные пользователи, желающие выбирать плагины самостоятельно, могут "
+"захотеть включить его."
 
 #: .\Pages\onboarding.py:191
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**Расширенный режим плагинов** открывает возможность ручного управления "
+"включёнными плагинами. Он также позволяет загружать дополнительные плагины "
+"из других репозиториев. Имейте в виду, что эти сторонние плагины *официально*"
+" не поддерживаются ETS2LA."
 
 #: .\Pages\onboarding.py:196
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Режим высокого приоритета"
 
 #: .\Pages\onboarding.py:197
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA может автоматически сообщать вашей операционной системе, что ей "
+"следует работать в режиме высокого приоритета. Это особенно рекомендуется "
+"для устройств начального уровня."
 
 #: .\Pages\onboarding.py:219
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"После завершения обучения вам потребуется перезапустить ETS2LA, чтобы "
+"применить это изменение."
 
 #: .\Pages\onboarding.py:224
 msgid "Map Data"
-msgstr ""
+msgstr "Данные карты"
 
 #: .\Pages\onboarding.py:225
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA использует предварительно извлечённые данные карт из игры. Мы "
+"обрабатываем данные заранее, и вы можете просто скачать их по мере "
+"необходимости. Выберите ниже нужные данные для вашей текущей версии игры."
 
 #: .\Pages\onboarding.py:232
 msgid "Waiting for data selection..."
