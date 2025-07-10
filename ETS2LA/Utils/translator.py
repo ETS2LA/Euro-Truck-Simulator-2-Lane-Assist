@@ -86,10 +86,6 @@ def detect_change(dictionary: dict):
 Listen("global", detect_change)
 
 # region Generation
-languages_to_generate = [
-    "en",
-]
-
 def generate_translations():
     """
     Generate translation files from the source code.
@@ -147,7 +143,7 @@ msgstr ""
         file.write(content)
     
     # Generate or update .po files for each language
-    for lang in languages_to_generate:
+    for lang in [language.language for language in languages]:
         lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"
         if not os.path.exists(lang_dir):
             os.makedirs(lang_dir)
@@ -159,6 +155,7 @@ msgstr ""
             # If it exists, merge with the new template to preserve translations
             print(f"Updating existing translations for language: {lang}")
             os.system(f'msgmerge --update --no-wrap --backup=none --no-fuzzy-matching "{po_file}" "{target_dir}/base.pot"')
+            continue
         else:
             # If it doesn't exist, create a new one
             print(f"Creating new translation file for language: {lang}")
