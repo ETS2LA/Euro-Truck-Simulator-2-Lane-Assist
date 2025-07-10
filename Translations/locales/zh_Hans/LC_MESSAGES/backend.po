@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 22:30+0000\n"
+"PO-Revision-Date: 2025-07-10 22:37+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -217,103 +217,105 @@ msgstr "错误： "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "警告： "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "未发现任何错误或警告。"
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "请稍候，正在初始化用户界面"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "后台启动成功"
 
 #: .\Pages\about.py:13
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "ETS2LA 的首席开发人员和创建者。"
 
 #: .\Pages\about.py:14
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "导航检测、交通信号灯检测、ETS2LA Lite、\"共同拥有者\""
 
 #: .\Pages\about.py:15
 msgid "Various additions and improvements, Object Detection AI models & development"
-msgstr ""
+msgstr "各种添加和改进、物体检测 AI 模型和开发"
 
 #: .\Pages\about.py:16
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
-msgstr ""
+msgstr "ETS2LA 游戏端 SDK "
+"开发者。实现了直接获取游戏内的车辆数据、交通信号灯数据、摄像头数据等实时信息"
+"。"
 
 #: .\Pages\about.py:17
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "游戏数据提取与处理"
 
 #: .\Pages\about.py:18
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux 和 Unix 适配,各种改进和错误修复"
 
 #: .\Pages\about.py:19
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C ++ 开发者、 linux与UNIX 移植、修复错误"
 
 #: .\Pages\about.py:20
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "协助开发地图插件与导航功能"
 
 #: .\Pages\about.py:21
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-controller 开发人员"
 
 #: .\Pages\about.py:22
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "环境可视化的 3D 模型"
 
 #: .\Pages\about.py:23
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "地图数据提取器开发、支持模块地图。"
 
 #: .\Pages\about.py:24
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "中文翻译,错误修复"
 
 #: .\Pages\about.py:25
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "中文翻译,错误修复"
 
 #: .\Pages\about.py:26
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "地图插件自动偏移计算。"
 
 #: .\Pages\about.py:27
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord 服务器支持、中英翻译机器人开发者。"
 
 #: .\Pages\about.py:28
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "维护ETS2LA服务的中国镜像站。"
 
 #: .\Pages\about.py:29
 msgid "Game hooks"
-msgstr ""
+msgstr "游戏功能扩充"
 
 #: .\Pages\about.py:30 .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35
 msgid "Bug fixes"
-msgstr ""
+msgstr "错误修复"
 
 #: .\Pages\about.py:42
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "修复雨刷器（5 秒倒计时）"
 
 #: .\Pages\about.py:47
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "在{0}秒内修复雨刷器..."
 
 #: .\Pages\about.py:53 .\Pages\about.py:54
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "雨刷现在应该修好了。"
 
 #: .\Pages\about.py:57
 msgid "Triggering update"
