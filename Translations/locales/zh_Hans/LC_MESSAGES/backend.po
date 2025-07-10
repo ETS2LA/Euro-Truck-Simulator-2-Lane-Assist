@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
 "PO-Revision-Date: 2025-07-10 22:30+0000\n"
-"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -323,13 +323,11 @@ msgstr ""
 msgid "{0} minute"
 msgid_plural "{0} minutes"
 msgstr[0] ""
-msgstr[1] ""
 
 #: .\Pages\about.py:73 .\Pages\about.py:76
 msgid "{0} hour"
 msgid_plural "{0} hours"
 msgstr[0] ""
-msgstr[1] ""
 
 #: .\Pages\about.py:75
 msgid "{0} and {1}"
@@ -431,25 +429,21 @@ msgstr ""
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
 msgstr[0] ""
-msgstr[1] ""
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
 msgstr[0] ""
-msgstr[1] ""
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
 msgstr[0] ""
-msgstr[1] ""
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
 msgstr[0] ""
-msgstr[1] ""
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
