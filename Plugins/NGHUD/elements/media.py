@@ -1,6 +1,7 @@
 from ETS2LA.Utils.Values.text import ScrollingText
 from Plugins.NGHUD.classes import HUDWidget
 from PIL import Image, ImageDraw, ImageFont
+from ETS2LA.Utils.translator import _
 import Plugins.AR.text as ARText
 from Plugins.AR.classes import *
 import threading
@@ -15,13 +16,13 @@ if os.name == "nt":
     from winsdk.windows.media.control import GlobalSystemMediaTransportControlsSessionManager as MediaManager
 
 class Widget(HUDWidget):
-    name = "Media"
-    description = "Displays media information such as song title, artist and playback progress."
+    name = _("Media")
+    description = _("Displays media information such as song title, artist and playback progress.")
     fps = 2
-    
-    title = ScrollingText("No Media Playing", max_width=20)
-    artist = ScrollingText("No Artist", max_width=20)
-    
+
+    title = ScrollingText(_("No Media Playing"), max_width=20)
+    artist = ScrollingText(_("No Artist"), max_width=20)
+
     def __init__(self, plugin):
         super().__init__(plugin)
         threading.Thread(target=self.run_media_thread, daemon=True).start()
@@ -60,10 +61,10 @@ class Widget(HUDWidget):
     def draw(self, offset_x, width, height=50):
         if not self.plugin.data:
             return
-        
-        title = self.media_info.get("title", "No Title")
-        artist = self.media_info.get("artist", "No Artist")
-        
+
+        title = self.media_info.get("title", _("No Title"))
+        artist = self.media_info.get("artist", _("No Artist"))
+
         if title != self.title.text:
             self.title.text = title
 

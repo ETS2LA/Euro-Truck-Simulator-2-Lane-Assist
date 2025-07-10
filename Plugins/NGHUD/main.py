@@ -1,5 +1,6 @@
 # Framework
 from Plugins.NGHUD.classes import ElementRunner
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 from Plugins.NGHUD.ui import UI
 from ETS2LA.Events import *
@@ -15,9 +16,9 @@ def in_out(t, minimum, maximum):
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="NGHUD",
+        name=_("NGHUD"),
         version="1.0",
-        description="Next-Gen HUD (basically I'm remaking HUD and needed a name for it)",
+        description=_("Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"),
         modules=["TruckSimAPI", "Semaphores", "Traffic"],
         tags=["Base"],
         listen=["*.py"],
@@ -37,15 +38,14 @@ class Plugin(ETS2LAPlugin):
     
     renderers = []
     widgets = []
-    
     default_widgets = [
-        "Speed",
-        "Media",
-        "RPM & Gear"
+        _("Speed"),
+        _("Media"),
+        _("RPM & Gear")
     ]
     widget_sizes = {
-        "Assist Information": {"width": 120},
-        "Media": {"width": 160}
+        _("Assist Information"): {"width": 120},
+        _("Media"): {"width": 160}
     }
 
     def discover_elements(self):
@@ -217,9 +217,9 @@ class Plugin(ETS2LAPlugin):
     def ensure_renderers_selected(self):
         renderers = self.settings.renderers
         if renderers is None:
-            self.settings.renderers = ["ACC Information", "Traffic Lights", "Steering Line"]
-            renderers = ["ACC Information", "Traffic Lights", "Steering Line"]
-            
+            self.settings.renderers = [_("ACC Information"), _("Traffic Lights"), _("Steering Line")]
+            renderers = [_("ACC Information"), _("Traffic Lights"), _("Steering Line")]
+
         enabled = [runner.name for runner in self.renderers]
         for renderer in enabled:
             if renderer not in renderers:
@@ -320,7 +320,7 @@ class Plugin(ETS2LAPlugin):
                 ),
                 Text(
                     Point(10 + offset_x, height-22, anchor=self.anchor),
-                    text=f"Loading...",
+                    text=_("Loading..."),
                     color=Color(255, 255, 255, 200 * (1 - t)),
                     size=14
                 )
@@ -365,7 +365,7 @@ class Plugin(ETS2LAPlugin):
             ),
             Text(
                 Point(10 + offset_x, height-22, anchor=self.anchor),
-                text=f"Loading...",
+                text=_("Loading..."),
                 color=Color(255, 255, 255, 200),
                 size=14
             )

@@ -1,10 +1,11 @@
 from Plugins.NGHUD.classes import HUDWidget
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import time
 
 class Widget(HUDWidget):
-    name = "Speed"
-    description = "Draw speed."
+    name = _("Speed")
+    description = _("A normal speed display, will also show speed limit changes.")
     fps = 2
     
     last_speedlimit = 0

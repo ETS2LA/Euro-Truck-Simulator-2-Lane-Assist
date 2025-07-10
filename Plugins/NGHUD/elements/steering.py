@@ -1,11 +1,12 @@
 from Modules.Semaphores.classes import TrafficLight
 from Plugins.NGHUD.classes import HUDRenderer
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 from ETS2LA.UI import *
 
 class Renderer(HUDRenderer):
-    name = "Steering Line"
-    description = "Draw steering line from Map."
+    name = _("Steering Line")
+    description = _("Draw steering line from Map.")
     fps = 2
     
     def __init__(self, plugin):

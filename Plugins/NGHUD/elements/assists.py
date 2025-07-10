@@ -1,4 +1,5 @@
 from Plugins.NGHUD.classes import HUDWidget
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 
 def in_out(value, min_value, max_value):
@@ -10,8 +11,8 @@ def in_out(value, min_value, max_value):
         return (value - min_value) / (max_value - min_value)
 
 class Widget(HUDWidget):
-    name = "Assist Information"
-    description = "Draw ACC and Steering status information."
+    name = _("Assist Information")
+    description = _("Draw ACC and Steering status information.")
     fps = 10
     
     def __init__(self, plugin):

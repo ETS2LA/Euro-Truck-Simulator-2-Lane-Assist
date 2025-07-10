@@ -1,12 +1,13 @@
 from Plugins.NGHUD.classes import HUDWidget
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import datetime
 import time
 
 class Widget(HUDWidget):
-    name = "Navigation"
-    description = "Draw navigation information."
-    
+    name = _("Navigation")
+    description = _("Draw navigation information.")
+
     def __init__(self, plugin):
         super().__init__(plugin)
     
@@ -61,7 +62,8 @@ class Widget(HUDWidget):
                 ),
                 Text(
                     Point(width-39 + offset_x, height-20, anchor=self.plugin.anchor),
-                    text="arrival",
+                    # TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
+                    text=_("arrival"),
                     color=Color(255, 255, 255, 200),
                     size=14
                 )

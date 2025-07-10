@@ -1,10 +1,11 @@
 from Modules.Semaphores.classes import TrafficLight
 from Plugins.NGHUD.classes import HUDRenderer
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 
 class Renderer(HUDRenderer):
-    name = "Traffic Lights"
-    description = "Draw traffic light information."
+    name = _("Traffic Lights")
+    description = _("Draw traffic light information.")
     fps = 2
     
     def __init__(self, plugin):

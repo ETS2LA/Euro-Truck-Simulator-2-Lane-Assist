@@ -1,4 +1,5 @@
 from Plugins.NGHUD.classes import HUDRenderer, HUDWidget
+from ETS2LA.Utils.translator import _
 from ETS2LA.UI import *
 
 class UI(ETS2LAPage):
@@ -89,23 +90,24 @@ class UI(ETS2LAPage):
                 Text(widget.name, styles.Classname("text-semibold"))
                 Text(widget.description, styles.Description())
             with Button(name=widget.name, action=self.handle_widget_add if not enabled else self.handle_widget_remove):
-                Text("Enable" if not enabled else "Disable", styles.Classname("text-semibold"))
+                Text(_("Enable") if not enabled else _("Disable"), styles.Classname("text-semibold"))
 
     def render(self):
         TitleAndDescription(
-            "NGHUD",
-            "This plugin provides a HUD using the AR plugin as the renderer."
+            _("NGHUD"),
+            _("This plugin provides a HUD using the AR plugin as the renderer.")
         )
         
         if not self.plugin:
-            Text("Please enable the plugin to edit the settings.")
+            Text(_("Please enable the plugin to edit the settings."))
             return
         
         with Tabs():
-            with Tab("Transform", container_style=styles.FlexVertical() + styles.Gap("24px")):
+            # TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
+            with Tab(_("Transform"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 SliderWithTitleDescription(
-                    title="Offset X",
-                    description="The horizontal offset of the HUD.",
+                    title=_("Offset X"),
+                    description=_("The horizontal offset of the HUD."),
                     default=self.plugin.settings.offset_x,
                     min=-1,
                     max=1,
@@ -113,8 +115,8 @@ class UI(ETS2LAPage):
                     changed=self.handle_x_offset
                 )
                 SliderWithTitleDescription(
-                    title="Offset Y",
-                    description="The vertical offset of the HUD.",
+                    title=_("Offset Y"),
+                    description=_("The vertical offset of the HUD."),
                     default=self.plugin.settings.offset_y,
                     min=-1,
                     max=1,
@@ -122,8 +124,8 @@ class UI(ETS2LAPage):
                     changed=self.handle_y_offset
                 )
                 SliderWithTitleDescription(
-                    title="Offset Z",
-                    description="The depth offset of the HUD.",
+                    title=_("Offset Z"),
+                    description=_("The depth offset of the HUD."),
                     default=self.plugin.settings.offset_z,
                     min=-10,
                     max=10,
@@ -132,9 +134,9 @@ class UI(ETS2LAPage):
                 )
                 
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    Text("Widget Widths", styles.Classname("text-semibold"))
-                    Text("These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much.", styles.Description())
-                
+                    Text(_("Widget Widths"), styles.Classname("text-semibold"))
+                    Text(_("These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."), styles.Description())
+
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                     InputWithTitleDescription(
                         title="L",
@@ -156,13 +158,13 @@ class UI(ETS2LAPage):
                     )
                     
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    Text("Widget Background", styles.Classname("text-semibold"))
-                    Text("You can control how much the widget background should be darkened by, either all the time or just during the day.", styles.Description())
-                
+                    Text(_("Widget Background"), styles.Classname("text-semibold"))
+                    Text(_("You can control how much the widget background should be darkened by, either all the time or just during the day."), styles.Description())
+
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                     SliderWithTitleDescription(
-                        title="Darkness",
-                        description="The darkness of the widget background. 0 is no darkness, 1 is fully dark.",
+                        title=_("Darkness"),
+                        description=_("The darkness of the widget background. 0 is no darkness, 1 is fully dark."),
                         default=self.plugin.settings.darkness,
                         min=0,
                         max=1,
@@ -171,17 +173,17 @@ class UI(ETS2LAPage):
                     )
                     
                     SliderWithTitleDescription(
-                        title="Day Darkness",
-                        description="The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark.",
+                        title=_("Day Darkness"),
+                        description=_("The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."),
                         default=self.plugin.settings.day_darkness,
                         min=0,
                         max=1,
                         step=0.01,
                         changed=self.handle_day_darkness_change
                     )
-                
-                    
-            with Tab("Elements", container_style=styles.FlexVertical() + styles.Gap("24px")):
+
+
+            with Tab(_("Elements"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 all_widgets = [runner.element for runner in self.plugin.runners if runner.element.__class__.__name__ == "Widget"]
                 all_widgets.sort(key=lambda x: x.name)
                 
@@ -190,9 +192,9 @@ class UI(ETS2LAPage):
                 height = 50 # pixels
                 
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    Text("Enabled Widgets", styles.Classname("text-semibold"))
-                    Text("This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them.", styles.Description())
-                
+                    Text(_("Enabled Widgets"), styles.Classname("text-semibold"))
+                    Text(_("This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."), styles.Description())
+
                 # Display the widgets with containers in the UI
                 container_height = 80
                 with Container(styles.FlexHorizontal() + styles.Width(f"100%") + styles.MaxWidth(f"100%") + styles.Height(f"{container_height}px") + styles.Classname("items-center justify-center rounded-md border p-4 bg-input/10")):
@@ -219,18 +221,18 @@ class UI(ETS2LAPage):
                                 Text(f"{width}x{height}", styles.Classname("text-xs text-muted-foreground"))
                         
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    Text("Available Widgets", styles.Classname("text-semibold"))
-                    Text("These widgets are available to be enabled:", styles.Description())
-                
+                    Text(_("Available Widgets"), styles.Classname("text-semibold"))
+                    Text(_("These widgets are available to be enabled:"), styles.Description())
+
                 for widget in all_widgets:
                     enabled = widget.name in enabled_widgets
                     if not enabled:
                         self.render_widget(widget, enabled)
                 
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    Text("Renderers", styles.Classname("text-semibold"))
-                    Text("These renderers are used to draw non anchored elements. These are usually elements in the game world that move around.", styles.Description())
-                
+                    Text(_("Renderers"), styles.Classname("text-semibold"))
+                    Text(_("These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."), styles.Description())
+
                 selected_renderers = self.plugin.settings.renderers
                 if selected_renderers is None:
                     selected_renderers = []
@@ -245,4 +247,4 @@ class UI(ETS2LAPage):
                             Text(renderer.name, styles.Classname("text-semibold"))
                             Text(renderer.description, styles.Description())
                         with Button(name=renderer.name, action=self.handle_renderer_add if not enabled else self.handle_renderer_remove):
-                            Text("Enable" if not enabled else "Disable", styles.Classname("text-semibold"))
+                            Text(_("Enable") if not enabled else _("Disable"), styles.Classname("text-semibold"))
