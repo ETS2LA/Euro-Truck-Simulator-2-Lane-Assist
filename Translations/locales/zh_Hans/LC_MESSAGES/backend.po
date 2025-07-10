@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
 "PO-Revision-Date: 2025-07-10 22:30+0000\n"
-"Last-Translator: DennisL <dennisl@ets2la.com>\n"
+"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -213,7 +213,7 @@ msgstr "日志文件中的错误和警告："
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "错误： "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
