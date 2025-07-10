@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 20:47+0000\n"
+"PO-Revision-Date: 2025-07-10 22:24+0000\n"
 "Last-Translator: lrnsxgod <lrnsxgod@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -194,83 +194,87 @@ msgstr "Frontend oluşturulamadı"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Frontend oluşturuluyor... lütfen bekleyin..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Frontend başlatılamadı"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Web sunucusu http://{ip}:37520 adresinde başlatıldı"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend http://{ip}:{port} adresinde başlatıldı"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Günlük kaydı başlatıldı."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Günlük dosyalarındaki hatalar ve uyarılar:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Hatalar: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Uyarılar: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Hata veya uyarı bulunamadı."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Kullanıcı arayüzünü başlatırken lütfen bekleyin"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend başarıyla başlatıldı"
 
 #: .\Pages\about.py:13
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "ETS2LA'nın baş geliştiricisi ve yaratıcısı, backend & frontend."
 
 #: .\Pages\about.py:14
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Navigasyon Algılama, Trafik Işığı Algılama, ETS2LA Lite, 'ortak sahip'"
 
 #: .\Pages\about.py:15
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Çeşitli eklemeler ve iyileştirmeler, Nesne Algılama AI modelleri ve "
+"geliştirme"
 
 #: .\Pages\about.py:16
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"ETS2LA oyun tarafı SDK geliştiricisi. Araçlar, trafik ışıkları, kamera "
+"verileri ve daha fazlası doğrudan oyundan."
 
 #: .\Pages\about.py:17
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Oyun verilerinin çıkarılması ve işlenmesi"
 
 #: .\Pages\about.py:18
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux ve Unix Portu, çeşitli iyileştirmeler ve hata düzeltmeleri"
 
 #: .\Pages\about.py:19
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C++ geliştiricisi, Linux ve Unix uyarlama, hata düzeltmeleri"
 
 #: .\Pages\about.py:20
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "ETS2LA ve Harita'da Navigasyon yardımı"
 
 #: .\Pages\about.py:21
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-denetleyici geliştiricisi"
 
 #: .\Pages\about.py:22
 msgid "3D models for the visualization"
