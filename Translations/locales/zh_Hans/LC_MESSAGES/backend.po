@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 22:29+0000\n"
+"PO-Revision-Date: 2025-07-10 22:30+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -205,11 +205,11 @@ msgstr "前端已在 http://{ip}:{port}上启动"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "日志系统已初始化。"
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "日志文件中的错误和警告："
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
