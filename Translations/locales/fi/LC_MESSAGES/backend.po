@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: 2025-07-10 18:31+0000\n"
-"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-10 20:29+0000\n"
+"Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
 "Language: fi\n"
@@ -261,140 +261,143 @@ msgstr ""
 
 #: .\Pages\about.py:17
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Pelin datan saaminen ja prosessointi"
 
 #: .\Pages\about.py:18
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux ja Unix portin monia päivityksiä ja bugi korjausia"
 
 #: .\Pages\about.py:19
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C++ kehittäjä, Linux ja Unix portti, bugi korjauksia"
 
 #: .\Pages\about.py:20
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Auttaa navigoimaan ETS2LA ja kartaa"
 
 #: .\Pages\about.py:21
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-ohjain kehittäjä"
 
 #: .\Pages\about.py:22
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D mallit visualisointiin"
 
 #: .\Pages\about.py:23
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Tiedon keräysen kehitys, tuki modattuihin karttoihin."
 
 #: .\Pages\about.py:24
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Kiinankielinen käänös, bugi korjauksia"
 
 #: .\Pages\about.py:25
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Kiinankielinen käännös, bugi korjauksia"
 
 #: .\Pages\about.py:26
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automaatiset offset lakselmat Map laajennusta varten."
 
 #: .\Pages\about.py:27
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord palvelimen tuki, Kiina-Englanti käänöksen kehittäjä."
 
 #: .\Pages\about.py:28
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Pitää CN peilit ETS2LA palveluihin."
 
 #: .\Pages\about.py:29
 msgid "Game hooks"
-msgstr ""
+msgstr "Pelikoukut"
 
 #: .\Pages\about.py:30 .\Pages\about.py:31 .\Pages\about.py:32
 #: .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35
 msgid "Bug fixes"
-msgstr ""
+msgstr "Bugi kojaukset"
 
 #: .\Pages\about.py:42
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Korjaa pyyhkijät (5s ajasitn)"
 
 #: .\Pages\about.py:47
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Korjataan pyyhkijöitä {0} sekunttia jäljellä..."
 
 #: .\Pages\about.py:53 .\Pages\about.py:54
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Pyyhkijöiden pitäisi olla nyt korjattu."
 
 #: .\Pages\about.py:57
 msgid "Triggering update"
-msgstr ""
+msgstr "Pakoitetaan päivitystä"
 
 #: .\Pages\about.py:66 .\Pages\about.py:71 .\Pages\about.py:77
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minuutti"
+msgstr[1] "{0} minuuttia"
 
 #: .\Pages\about.py:73 .\Pages\about.py:76
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} tunti"
+msgstr[1] "{0} tuntia"
 
 #: .\Pages\about.py:75
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} ja {1}"
 
 #: .\Pages\about.py:82
 msgid "About"
-msgstr ""
+msgstr "Tietoa"
 
 #: .\Pages\about.py:84
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA on projekti, mikä tähtää tarjoamaan helppokäyttöisen itseajavan "
+"ohjelman ETS2 ja ATS varten, jos haluat tietää lisää niin void käydä github "
+"sivulla tai wiki sivustolla sivupalkista."
 
 #: .\Pages\about.py:88
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiikat"
 
 #: .\Pages\about.py:92
 msgid "Users online:"
-msgstr ""
+msgstr "Käyttäjiä paikalla:"
 
 #: .\Pages\about.py:93
 msgid "{0} users"
-msgstr ""
+msgstr "{0} käyttäjää"
 
 #: .\Pages\about.py:95
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Viimeisen 24 tunnin aikana:"
 
 #: .\Pages\about.py:96
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} uniikkia käyttäjää"
 
 #: .\Pages\about.py:98
 msgid "Your usage time:"
-msgstr ""
+msgstr "Sinun käyttöaika:"
 
 #: .\Pages\about.py:103
 msgid "You are not logged in."
-msgstr ""
+msgstr "Sinä et ole kirjautunut sisään."
 
 #: .\Pages\about.py:104
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Sinun anonyymin käyttäjän ID on: {0}"
 
 #: .\Pages\about.py:108
 msgid "You are logged in."
-msgstr ""
+msgstr "Olet kirjautunut sisään."
 
 #: .\Pages\about.py:109
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Tervetuloa takaisin, {0}!"
 
 #: .\Pages\about.py:113
 msgid "Contributors"
@@ -403,14 +406,20 @@ msgstr ""
 #: .\Pages\about.py:140
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Jos pidät projektista ja haluat tukea kehitystä niin voit lahjoittaa Ko-Fi "
+"plavelun kautta meille."
 
 #: .\Pages\about.py:143
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Jos haluat auttaa niin suosittelen liittyämään discord palvelimelle ja "
+"vilkaisemaan github sivun."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Jos haluat auttaa käänöksissä niin voit tehdä niin liitymällä discord "
+"palvelimelle ja ottamalla yhteyttä moderaatoriin."
 
 #: .\Pages\about.py:152
 msgid "Utils"
@@ -418,51 +427,55 @@ msgstr ""
 
 #: .\Pages\about.py:156
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Korjaa pyyhkijät"
 
 #: .\Pages\about.py:157
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Jäikö pyyhkijät jumiin? Paina nappia ja mene alt+tab nappulalla peliin. "
+"Niiden pitäisi kytkeytyä pois 5 sekunnin sisällä."
 
 #: .\Pages\about.py:158
 msgid "Activate"
-msgstr ""
+msgstr "Aktivoi"
 
 #: .\Pages\about.py:163
 msgid "Force an update"
-msgstr ""
+msgstr "Pakota päivitys"
 
 #: .\Pages\about.py:164
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Luuletko että ohjelmassa pitäisi olla päivitys? Paina tätä nappia ja ohjelma "
+"uudelleenkäynistyy ja tarkistaa päivitykset."
 
 #: .\Pages\about.py:165 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Päivitys"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} sekuntti sitten"
+msgstr[1] "{0} sekunttia sitten"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minuutti sitten"
+msgstr[1] "{0} minuuttia sitten"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} tunti sitten"
+msgstr[1] "{0} tunita sitten"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} päivä sitten"
+msgstr[1] "{0} päivää sitten"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
