@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-10 22:38+0000\n"
+"PO-Revision-Date: 2025-07-11 13:12+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
+"\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -233,315 +234,338 @@ msgstr "Backend bol úspešne spustený"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Vedúci vývojár a tvorca ETS2LA, backendu a frontendu."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Detekcia navigácie, detekcia semaforov, ETS2LA Lite, „spoluvlastník“"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Rôzne doplnky a vylepšenia, modely a vývoj umelej inteligencie pre detekciu "
+"objektov"
 
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Vývojár herného SDK pre ETS2LA. Vozidlá, semafory, dáta z kamier a ďalšie "
+"priamo z hry."
 
 #: .\Pages\about.py:18
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Extrakcia a spracovanie herných dát"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Port pre Linux a Unix, rôzne vylepšenia a opravy chýb"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "Vývojár ETS2LA SDK v jazyku C++, port pre Linux a Unix, opravy chýb"
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Pomoc s navigáciou na ETS2LA a mape"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "vývojár ovládača scs-sdk"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D modely pre vizualizáciu"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Vývoj extraktora dát, podpora pre upravené mapy."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Čínsky preklad, opravy chýb"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Čínske preklady, opravy chýb"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatické výpočty odsadenia pre plugin Mapa."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Podpora Discord servera, vývojár čínsko-anglického prekladača."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Údržba zrkadiel CN pre služby ETS2LA."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Herné hooks"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
 #: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Opravy chýb"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Oprava stieračov (5s časovač)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Oprava stieračov o {0} sekúnd..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Stierače by sa mali teraz opraviť."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Spúšťa sa aktualizácia"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{0} minúta"
+msgstr[1] "{0} minúty"
+msgstr[2] "{0} minút"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{0} hodina"
+msgstr[1] "{0} hodiny"
+msgstr[2] "{0} hodín"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} a {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "O"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA je projekt, ktorého cieľom je poskytnúť ľahko použiteľné riešenie pre "
+"autonómne riadenie pre ETS2 a ATS. Ak sa chcete dozvedieť viac, môžete "
+"navštíviť stránku github alebo wiki cez bočný panel."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "Štatistiky"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
-msgstr ""
+msgstr "Používatelia online:"
 
 #: .\Pages\about.py:94
 msgid "{0} users"
-msgstr ""
+msgstr "{0} používateľov"
 
 #: .\Pages\about.py:96
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Posledných 24 hodín:"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} jedinečných používateľov"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
-msgstr ""
+msgstr "Váš čas používania:"
 
 #: .\Pages\about.py:104
 msgid "You are not logged in."
-msgstr ""
+msgstr "Nie ste prihlásený/á."
 
 #: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Vaše anonymné ID používateľa je: {0}"
 
 #: .\Pages\about.py:109
 msgid "You are logged in."
-msgstr ""
+msgstr "Ste prihlásený/á."
 
 #: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Vitaj späť, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Prispievatelia"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
-msgstr ""
+msgstr "Zoznam prispievateľov"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
 msgid "Help Translate"
-msgstr ""
+msgstr "Pomoc s prekladom"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "Podpora rozvoja"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Ak sa vám projekt páči a chcete podporiť jeho rozvoj, môžete tak urobiť "
+"darovaním prostredníctvom Ko-Fi."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Ak chcete prispieť, odporúčam pripojiť sa k Discord serveru a pozrieť si "
+"stránku na GitHube."
 
 #: .\Pages\about.py:151
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Ak chcete prispieť k prekladom, môžete tak urobiť pripojením sa k Discordu a "
+"kontaktovaním moderátora."
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr ""
+msgstr "Nástroje"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Opravte stierače"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Zasekli sa vám stierače? Kliknite na tlačidlo a potom stlačením klávesu Alt "
+"Tab prejdite do hry. Mali by sa vypnúť do 5 sekúnd."
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Aktivovať"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
-msgstr ""
+msgstr "Vynútiť aktualizáciu"
 
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Myslíte si, že mala byť k dispozícii aktualizácia? Kliknite na toto tlačidlo "
+"a aplikácia sa reštartuje a skontroluje ich dostupnosť."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovať"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pred {seconds} sekundou"
+msgstr[1] "Pred {seconds} sekundami"
+msgstr[2] "Pred {seconds} sekundami"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pred {minutes} minútou"
+msgstr[1] "Pred {minutes} minútami"
+msgstr[2] "Pred {minutes} minútami"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pred {hours} hodinou"
+msgstr[1] "Pred {hours} hodinami"
+msgstr[2] "Pred {hours} hodinami"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pred {days} dňom"
+msgstr[1] "Pred {days} dňami"
+msgstr[2] "Pred {days} dňami"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Načítava sa zoznam zmien a možné zmeny."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Zoznam zmien bol načítaný."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:78
 msgid "View Changes"
-msgstr ""
+msgstr "Zobraziť zmeny"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:86
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Zobrazuje sa iba posledných 20 aktualizácií. Ďalšiu históriu si môžete "
+"pozrieť v repozitári."
 
 #: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
 msgid "Show all plugins"
-msgstr ""
+msgstr "Zobraziť všetky pluginy"
 
 #: .\Pages\controls.py:45
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Stlačte kláves/tlačidlo, ktoré chcete prepojiť s touto udalosťou."
 
 #: .\Pages\controls.py:50
 msgid "Event unbound."
-msgstr ""
+msgstr "Udalosť neviazaná."
 
 #: .\Pages\controls.py:70
 msgid "Controls"
-msgstr ""
+msgstr "Ovládacie prvky"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Tu môžete zmeniť kontrolné udalosti pluginov."
 
 #: .\Pages\controls.py:82
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Vyhladávanie ovládacích prvkov alebo pluginov"
 
 #: .\Pages\controls.py:108
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Nenašli sa žiadne ovládacie prvky, skúste to znova s inými filtrami."
 
 #: .\Pages\controls.py:133
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Táto udalosť ešte nebola prepojená so žiadnym zariadením."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
 msgid "Keyboard: "
-msgstr ""
+msgstr "klávesnica: "
 
 #: .\Pages\global_settings.py:126
 msgid "Global Settings"
-msgstr ""
+msgstr "Globálne nastavenia"
 
 #: .\Pages\global_settings.py:127
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Tu nájdete nastavenia, ktoré ovplyvňujú celú aplikáciu. Napríklad veľkosť "
+"okna a jazyk."
 
 #: .\Pages\global_settings.py:131
 msgid "User Interface"
-msgstr ""
+msgstr "Používateľské rozhranie"
 
 #: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
 msgid "Window Width"
-msgstr ""
+msgstr "Šírka okna"
 
 #: .\Pages\global_settings.py:135
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Zmeňte šírku okna. Upozorňujeme, že ETS2LA nie je testovaný na "
+"neštandardných rozlíšeniach, takže ho používate na vlastné riziko!"
 
 #: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
 msgid "Window Height"
