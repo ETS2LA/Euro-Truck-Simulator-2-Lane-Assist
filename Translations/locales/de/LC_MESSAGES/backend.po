@@ -7,23 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-10 19:21\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-07-11 04:18+0000\n"
+"Last-Translator: Leo <leo@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Zeitüberschreitung, bitte versuche es erneut."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Ereignis gebunden an {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
@@ -85,11 +87,11 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:425
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Es wurden {0} Plugins geladen."
 
 #: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin nicht gefunden."
 
 #: .\ETS2LA\Handlers\plugins.py:494
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
@@ -101,11 +103,13 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
-msgstr ""
+msgstr "Zeitüberschreitung"
 
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin nicht gefunden, dies kann das Ergebnis eines Plugin-Absturzes oder "
+"eines Fehlers beim Laden sein."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
@@ -345,7 +349,7 @@ msgstr ""
 
 #: .\Pages\about.py:92
 msgid "Users online:"
-msgstr ""
+msgstr "Nutzer online:"
 
 #: .\Pages\about.py:93
 msgid "{0} users"
@@ -1782,7 +1786,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
@@ -1834,7 +1838,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:347
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "Geschwindigkeitsbegrenzung auf {0} km/h geändert."
 
 #: .\Plugins\TTS\main.py:355
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
@@ -1950,7 +1954,7 @@ msgstr ""
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA ist abgestürzt!"
 
 #: .\main.py:233
 msgid "Send the above traceback to the developers."
@@ -1958,8 +1962,8 @@ msgstr ""
 
 #: .\main.py:235
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA wurde geschlossen."
 
 #: .\main.py:236
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Drücke zum Beenden die Eingabetaste."
