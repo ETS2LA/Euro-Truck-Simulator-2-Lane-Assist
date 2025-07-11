@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-11 18:47+0000\n"
-"Last-Translator: Trevor Pilvar <trev@ets2la.com>\n"
+"Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "et/>\n"
 "Language: et\n"
@@ -25,7 +25,7 @@ msgstr "Timeout, palun proovige uuesti."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Sündmus on seotud {seadmega} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
@@ -53,13 +53,15 @@ msgstr "Sündmuse muutmisel tekkis viga."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Kontrolli kuulaja alustas."
 
 #: .\ETS2LA\Handlers\plugins.py:124
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Lisaosa {0} ei käivitunud: Aegumine.\n"
+"Püüdke sulgeda teised programmid, et anda pluginale rohkem mälu ja CPU-d."
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
