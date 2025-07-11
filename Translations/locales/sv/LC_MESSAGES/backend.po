@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 13:12+0000\n"
+"PO-Revision-Date: 2025-07-11 14:23+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
 ">\n"
@@ -529,333 +529,388 @@ msgstr "Sök kontroller eller plugins"
 
 #: .\Pages\controls.py:108
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Inga kontroller hittades, försök igen med andra filter."
 
 #: .\Pages\controls.py:133
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Den här händelsen har ännu inte kopplats till en enhet."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
 msgid "Keyboard: "
-msgstr ""
+msgstr "Tangentbord: "
 
 #: .\Pages\global_settings.py:126
 msgid "Global Settings"
-msgstr ""
+msgstr "Globala Inställningar"
 
 #: .\Pages\global_settings.py:127
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Här hittar du inställningar som påverkar hela programmet. Saker som "
+"fönsterstorlek och språk."
 
 #: .\Pages\global_settings.py:131
 msgid "User Interface"
-msgstr ""
+msgstr "Gräns-snittet"
 
 #: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
 msgid "Window Width"
-msgstr ""
+msgstr "Fönster Bredd"
 
 #: .\Pages\global_settings.py:135
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Ändra fönstrets bredd. Observera att ETS2LA inte är testad på icke-"
+"standardiserade upplösningar, så använd på egen risk!"
 
 #: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
 msgid "Window Height"
-msgstr ""
+msgstr "Fönster Höjd"
 
 #: .\Pages\global_settings.py:146
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Ändra fönstrets höjd. Observera att ETS2LA inte är testad på icke-"
+"standardiserade upplösningar, så använd på egen risk!"
 
 #: .\Pages\global_settings.py:156
 msgid "Transparency mode Alpha"
-msgstr ""
+msgstr "Transparensläge Alfa"
 
 #: .\Pages\global_settings.py:157
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Ändra fönstrets transparens när du går in i transparensläge. Detta kan göras "
+"genom att högerklicka på den gröna knappen i det övre högra hörnet."
 
 #: .\Pages\global_settings.py:169
 msgid "Language"
-msgstr ""
+msgstr "Språk"
 
 #: .\Pages\global_settings.py:170
 msgid "Select the language for the application."
-msgstr ""
+msgstr "Välj språk för applikationen."
 
 #: .\Pages\global_settings.py:175
 msgid "Search Languages..."
-msgstr ""
+msgstr "Sök Språk..."
 
 #: .\Pages\global_settings.py:175
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "Hjälp oss över att på discord!"
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
-msgstr ""
+msgstr "Ljud"
 
 #: .\Pages\global_settings.py:198
 msgid "Soundpack"
-msgstr ""
+msgstr "Ljudpaket"
 
 #: .\Pages\global_settings.py:199
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Välj det ljudpaket som ska användas. Dessa kan läggas till i app/ETS2LA/"
+"Assets/Sounds."
 
 #: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Volym"
 
 #: .\Pages\global_settings.py:207
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
-msgstr ""
+msgstr "Justera volymen. Detta påverkar alla ljud som spelas upp av ETS2LA."
 
 #: .\Pages\global_settings.py:218
 msgid "Startup Sound"
-msgstr ""
+msgstr "Startljud"
 
 #: .\Pages\global_settings.py:219
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Slå på eller av startljudet. Detta spelas varje gång ETS2LA-fönstret öppnas."
 
 #: .\Pages\global_settings.py:224
 msgid "Variables"
-msgstr ""
+msgstr "Variabler"
 
 #: .\Pages\global_settings.py:226
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Återgång till gammal accelerationsmetod"
 
 #: .\Pages\global_settings.py:227
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Om du har problem med att lastbilen inte accelererar/bromsar ordentligt kan "
+"du aktivera det här alternativet för att använda en annan metod. Tänk på att "
+"om den nya har fastnat kan du behöva starta om spelet efter att du har "
+"aktiverat det här alternativet."
 
 #: .\Pages\global_settings.py:234 .\Pages\onboarding.py:205
 msgid "High Priority"
-msgstr ""
+msgstr "Hög Prioritet"
 
 #: .\Pages\global_settings.py:235 .\Pages\onboarding.py:206
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Kör ETS2LA i högprioritetsläge. Detta kommer att instruera ditt "
+"operativsystem att ge mer CPU-tid till ETS2LA, vilket kan förbättra "
+"prestandan på bekostnad av andra applikationer."
 
 #: .\Pages\global_settings.py:249
 msgid "You need to restart ETS2LA to apply the priority change!"
-msgstr ""
+msgstr "Du måste starta om ETS2LA för att tillämpa prioritetsändringen!"
 
 #: .\Pages\global_settings.py:251
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: .\Pages\global_settings.py:255
 msgid "Frontend Port"
-msgstr ""
+msgstr "Frontend-port"
 
 #: .\Pages\global_settings.py:256
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
+"Ändra porten som används av frontend. Detta används endast i lokalt läge."
 
 #: .\Pages\global_settings.py:263
 msgid "Frameless Window"
-msgstr ""
+msgstr "Ramlöst fönster"
 
 #: .\Pages\global_settings.py:264
 msgid "Disable this option if you have any issues moving the window around."
 msgstr ""
+"Inaktivera det här alternativet om du har problem med att flytta fönstret."
 
 #: .\Pages\global_settings.py:269
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Skicka kraschrapporter"
 
 #: .\Pages\global_settings.py:270
 msgid "Automatically send crash reports to help improve the application."
-msgstr ""
+msgstr "Skicka automatiskt kraschrapporter för att förbättra applikationen."
 
 #: .\Pages\global_settings.py:275
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Använd Fancy Traceback"
 
 #: .\Pages\global_settings.py:276
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr ""
+"Aktivera det här alternativet för att använda en avancerad spårning för fel."
 
 #: .\Pages\global_settings.py:282
 msgid "Debug Mode"
-msgstr ""
+msgstr "Felsökningsläge"
 
 #: .\Pages\global_settings.py:283
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
+"Aktivera det här alternativet för att använda edge-felsökaren för "
+"användargränssnittet."
 
 #: .\Pages\global_settings.py:291
 msgid "Fireworks"
-msgstr ""
+msgstr "Fyrverkeri"
 
 #: .\Pages\global_settings.py:292
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr ""
+"Aktivera det här alternativet för att använda fyrverkerieffekter under nyår."
 
 #: .\Pages\global_settings.py:298
 msgid "Snow"
-msgstr ""
+msgstr "Snö"
 
 #: .\Pages\global_settings.py:299
 msgid "Enable this option to use snow effects during the winter season."
 msgstr ""
+"Aktivera det här alternativet för att använda snöeffekter under "
+"vintersäsongen."
 
 #: .\Pages\onboarding.py:52
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
+"Om du har gjort onboardingen tidigare vet du hur du avslutar. ETS2LA "
+"fungerar inte utan att göra onboardingen en gång."
 
 #: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323 .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
-msgstr ""
+msgstr "Laddar..."
 
 #: .\Pages\onboarding.py:87
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
-msgstr ""
+msgstr "Vi gör något som tar ett tag. Sitt bara lugnt och slappna av!"
 
 #: .\Pages\onboarding.py:91
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Välkommen till ETS2LA!"
 
 #: .\Pages\onboarding.py:92
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr ""
+"Nu kan vi hjälpa dig att komma igång med grunderna direkt! Tryck på knappen "
+"nedan för att fortsätta."
 
 #: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154 .\Pages\onboarding.py:165 .\Pages\onboarding.py:200 .\Pages\onboarding.py:230 .\Pages\onboarding.py:296 .\Pages\onboarding.py:337
 msgid "Continue"
-msgstr ""
+msgstr "Fortsätt"
 
 #: .\Pages\onboarding.py:99
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Hoppa över onboarding"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:106
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "Du kan byta app temat här!"
 
 #: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
-msgstr ""
+msgstr "SDK-konfiguration"
 
 #: .\Pages\onboarding.py:148
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"För att komma igång behöver vi konfigurera SDK:et. Detta gör att ETS2LA kan "
+"interagera med ditt spel. Till höger hittar du en lista med spel, klicka på "
+"installera på ett av dem och fortsätt sedan."
 
 #: .\Pages\onboarding.py:151
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "Väntar på SDK-installation..."
 
 #: .\Pages\onboarding.py:161 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: .\Pages\onboarding.py:162
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"ETS2LA använder plugins för att tillhandahålla det mesta av sin "
+"funktionalitet. Du kan välja mellan ett enkelt läge och ett avancerat läge. "
+"Detta kan ändras senare i inställningarna."
 
 #: .\Pages\onboarding.py:169
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Avancerat plugin-läge"
 
 #: .\Pages\onboarding.py:170
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Aktiverar avancerade funktioner för pluginhantering. Kan ändras när som "
+"helst i pluginhanteraren."
 
 #: .\Pages\onboarding.py:183
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Att hålla **Avancerat plugin-läge** inaktiverat rekommenderas, men "
+"avancerade användare som själva vill välja plugin-program kanske vill "
+"aktivera det."
 
 #: .\Pages\onboarding.py:191
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**Avancerat plugin-läge** låser upp manuell kontroll över aktiverade "
+"plugins. Det låter dig också ladda ner fler plugins från andra arkiv. Tänk "
+"på att dessa tredjepartsplugins inte *officiellt* stöds av ETS2LA."
 
 #: .\Pages\onboarding.py:196
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Hög Prioriterings-läge"
 
 #: .\Pages\onboarding.py:197
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA kan automatiskt meddela ditt operativsystem att det ska köras i ett "
+"högprioriterat läge. Detta rekommenderas särskilt på enheter i lägre "
+"prisklass."
 
 #: .\Pages\onboarding.py:219
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Du måste starta om ETS2LA efter att du har gjort onboardingen för att "
+"tillämpa den här ändringen."
 
 #: .\Pages\onboarding.py:224
 msgid "Map Data"
-msgstr ""
+msgstr "Kartdata"
 
 #: .\Pages\onboarding.py:225
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA använder förextraherad kartdata från spelet. Vi hanterar "
+"informationen i förväg och du kan sedan ladda ner den efter behov. Välj den "
+"data du behöver för din nuvarande spelversion nedan."
 
 #: .\Pages\onboarding.py:232
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Väntar på dataval..."
 
 #: .\Pages\onboarding.py:246 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Valda data"
 
 #: .\Pages\onboarding.py:247
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Välj de data som matchar ditt spel och dina moddar."
 
 #: .\Pages\onboarding.py:251 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Sök data"
 
 #: .\Pages\onboarding.py:252 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "Inga matchande data hittades"
 
 #: .\Pages\onboarding.py:276 .\Plugins\Map\ui.py:193
 msgid "The"
-msgstr ""
+msgstr "De"
 
 #: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
 msgid "download size"
-msgstr ""
+msgstr "nedladdningsstorlek"
 
 #: .\Pages\onboarding.py:278 .\Plugins\Map\ui.py:195
 msgid "for this data is"
-msgstr ""
+msgstr "för dessa uppgifter är"
 
 #: .\Pages\onboarding.py:280 .\Plugins\Map\ui.py:197
 msgid "that will unpack to a"
-msgstr ""
+msgstr "som kommer att packa upp till en"
 
 #: .\Pages\onboarding.py:281 .\Plugins\Map\ui.py:198
 msgid "total size"
-msgstr ""
+msgstr "total storlek"
 
 #: .\Pages\onboarding.py:286
 msgid "No data selected"
-msgstr ""
+msgstr "Ingen data vald"
 
 #: .\Pages\onboarding.py:287
 msgid "Please select the data you want to use from the dropdown above."
-msgstr ""
+msgstr "Välj de data du vill använda från rullgardinsmenyn ovan."
 
 #: .\Pages\onboarding.py:292
 msgid "Window Size"
-msgstr ""
+msgstr "Fönster storlek"
 
 #: .\Pages\onboarding.py:293
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA kringgår Windows för att tillhandahålla anpassade fönsterfunktioner. "
+"På grund av detta kan du inte ändra storleken på fönstret normalt. Det här "
+"är skjutreglage för att manuellt ändra fönsterstorleken."
 
 #: .\Pages\onboarding.py:301
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Justera bredden på ETS2LA-fönstret."
 
 #: .\Pages\onboarding.py:310
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Justera höjden på ETS2LA-fönstret."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:327
@@ -863,14 +918,19 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Att ändra fönsterstorleken kan göra att sidorna visas felaktigt**.\n"
+"Du kan justera fönsterskalningen genom att hålla vänster CTRL-tangent och "
+"använda rullhjulet."
 
 #: .\Pages\onboarding.py:333
 msgid "Window Controls"
-msgstr ""
+msgstr "Fönsterkontroller"
 
 #: .\Pages\onboarding.py:334
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA tillhandahåller anpassade fönsterkontroller som kan vara användbara "
+"för dig. Dessa kan nås via den gröna knappen i det övre högra hörnet."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:348
@@ -879,6 +939,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Håll dig överst**\n"
+"\n"
+"Du kan *vänsterklicka* på den gröna knappen för att få ETS2LA-fönstret att "
+"stanna överst på andra fönster."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -887,22 +951,28 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Transparens**\n"
+"\n"
+"Du kan *högerklicka* på den gröna knappen för att göra ETS2LA-fönstret något "
+"transparent. Graden av transparens kan justeras i inställningarna."
 
 #: .\Pages\onboarding.py:364
 msgid "It's this green button!"
-msgstr ""
+msgstr "Det är den här gröna knappen!"
 
 #: .\Pages\onboarding.py:374
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Onboarding Klar!"
 
 #: .\Pages\onboarding.py:375
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Du har slutfört onboardingprocessen. Du kan nu börja använda ETS2LA. Om du "
+"behöver hjälp är du välkommen att gå med i vår Discord-server."
 
 #: .\Pages\onboarding.py:378
 msgid "Finish"
-msgstr ""
+msgstr "Avsluta"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:385
@@ -910,82 +980,93 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Tryck på den här kanten för att öppna och stänga sidofältet.\n"
+"Öppna hanteraren för att aktivera plugin-program."
 
 #: .\Pages\onboarding.py:419
 msgid "Page not found"
-msgstr ""
+msgstr "Sidan hittades inte"
 
 #: .\Pages\onboarding.py:421
 msgid "Go back"
-msgstr ""
+msgstr "Gå tillbaka"
 
 #: .\Pages\performance.py:94
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Data samlas fortfarande in, vänligen vänta några sekunder tills graferna "
+"stabiliseras."
 
 #: .\Pages\performance.py:103
 msgid "CPU Usage"
-msgstr ""
+msgstr "CPU-användning"
 
 #: .\Pages\performance.py:110
 msgid "CPU Usage "
-msgstr ""
+msgstr "CPU-användning "
 
 #: .\Pages\performance.py:118
 msgid "RAM Usage"
-msgstr ""
+msgstr "RAM-användning"
 
 #: .\Pages\performance.py:125
 msgid "RAM Usage "
-msgstr ""
+msgstr "RAM-användning "
 
 #: .\Pages\performance.py:125
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "ETS2LA RAM-användning  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:355
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "Inga plugin-program körs för närvarande."
 
 #: .\Pages\performance.py:172
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Varning: Diagrammet samlar fortfarande in data, vänligen vänta 60 sekunder "
+"tills det stabiliseras."
 
 #: .\Pages\performance.py:190
 msgid "Failed to render plugin {plugin_name}."
-msgstr ""
+msgstr "Misslyckades med att rendera plugin {plugin_name}."
 
 #: .\Pages\performance.py:194
 msgid "All displayed data is averaged over a second."
-msgstr ""
+msgstr "All visad data är medelvärdet över en sekund."
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
-msgstr ""
+msgstr "Det tog {time:.2f} ms att rendera den här sidan."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr ""
+msgstr "Styrning"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
 msgstr ""
+"Aktivera automatisk styrning med ETS2LA. Du kan slå på och av den med "
+"knappen 'Växla styrning' i kontrollinställningarna."
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr ""
+msgstr "Sido-kontroll"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Aktivera automatisk acceleration och retardation med ETS2LA. Du kan slå på "
+"och av den med tangentbindningen 'Toggle Speed Control' i "
+"kontrollinställningarna."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Visualisering"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -993,66 +1074,76 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Aktivera plugins som behövs för att fliken Visualisering ska fungera. \n"
+"\n"
+"**Detta krävs för att fliken Visualisering ska fungera.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
+"Aktivera HUD:n för att visa information om lastbilen och rutten. Visas högst "
+"upp på spelskärmen med hjälp av exakt 3D-kartläggning."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
-msgstr ""
+msgstr "Text till tal"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"Aktivera text-till-tal för aviseringar och varningar. Detta är främst en "
+"tillgänglighetsfunktion, men vissa personer kan tycka att den är användbar."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
-msgstr ""
+msgstr "Funktionen '{0}' hittades inte."
 
 #: .\Pages\plugins.py:235
 msgid "Plugins (Basic)"
-msgstr ""
+msgstr "Plugins (grundläggande)"
 
 #: .\Pages\plugins.py:236
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"Du kan aktivera olika ETS2LA-funktioner på höger sida. Alla plugins som "
+"beskrivs av dessa funktioner kommer att aktiveras automatiskt utan "
+"ytterligare konfiguration."
 
 #: .\Pages\plugins.py:244
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Inaktivera plugins"
 
 #: .\Pages\plugins.py:244
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Aktivera plugins"
 
 #: .\Pages\plugins.py:247
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "För närvarande aktiverade plugins:"
 
 #: .\Pages\plugins.py:247
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: .\Pages\plugins.py:269
 msgid "Enabled"
-msgstr ""
+msgstr "Aktiverad"
 
 #: .\Pages\plugins.py:269
 msgid "Disabled"
-msgstr ""
+msgstr "Inaktiverad"
 
 #: .\Pages\plugins.py:274
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Byt till avancerat läge"
 
 #: .\Pages\plugins.py:296
 msgid "Search plugins..."
-msgstr ""
+msgstr "Sök plugins..."
 
 #: .\Pages\plugins.py:305
 msgid "Search tags..."
