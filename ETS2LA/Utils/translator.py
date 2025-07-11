@@ -106,6 +106,9 @@ def detect_change(dictionary: dict):
 Listen("global", detect_change)
 
 # region Generation
+overrides = {
+    "zh": "zh_Hans"
+}
 def generate_translations():
     """
     Generate translation files from the source code.
@@ -164,6 +167,9 @@ msgstr ""
     
     # Generate or update .po files for each language
     for lang in [language.language for language in languages]:
+        if lang in overrides:
+            lang = overrides[lang]
+            
         lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"
         if not os.path.exists(lang_dir):
             os.makedirs(lang_dir)
@@ -177,22 +183,7 @@ msgstr ""
             os.system(f'msgmerge --update --no-wrap --backup=none --no-fuzzy-matching "{po_file}" "{target_dir}/base.pot"')
             continue
         else:
-            # If it doesn't exist, create a new one
-            print(f"Creating new translation file for language: {lang}")
-            os.system(f'msginit --no-wrap --no-translator -l {lang} -i "{target_dir}/base.pot" -o "{po_file}"')
-        
-        # Fix the PO file header
-        with open(po_file, "r", encoding="utf-8") as file:
-            po_content = file.read()
-        
-        po_content = po_content.replace("PACKAGE VERSION", f"{package_name} {package_version}")
-        po_content = po_content.replace("PACKAGE package", f"{package_name} package")
-        
-        # Only replace this for new files to avoid changing customized headers
-        if "Translation template for" in po_content:
-            po_content = po_content.replace(f"Translation template for {package_name}.", f"ETS2LA Backend Translations for {lang.upper()}")
-        
-        with open(po_file, "w", encoding="utf-8") as file:
-            file.write(po_content)
+            print(f"ERROR: PO file for language {lang} does not exist.")
+            print("Please add the real language code to the overrides.")
         
     print("Translation files have been successfully updated")

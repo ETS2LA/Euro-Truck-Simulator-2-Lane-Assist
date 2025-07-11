@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-10 19:21\n"
+"POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-11 09:35+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
-">\n"
-"Language: fi\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -62,8 +61,7 @@ msgid ""
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
 "Laajennus {0} ei käynnistynyt syystä: Aika loppui\n"
-"Kokeile sulkea muita sovelluksia jotta ETS2LA saa lisää muistia ja "
-"prosessori tehoa."
+"Kokeile sulkea muita sovelluksia jotta ETS2LA saa lisää muistia ja prosessori tehoa."
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
@@ -111,9 +109,7 @@ msgstr "Aika loppui"
 
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
-msgstr ""
-"Laajennusta ei löytynyt, tämä voi johtua laajennuksen kaatumisesta tai "
-"lataamisen epäonnistumisesta."
+msgstr "Laajennusta ei löytynyt, tämä voi johtua laajennuksen kaatumisesta tai lataamisen epäonnistumisesta."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
@@ -133,9 +129,7 @@ msgstr "Laajennusta {0} ei löytynyt sivulle {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
-msgstr ""
-"ffmpeg kirjaston lataaminen epäonnistui, lataa se manuaalisesti (esim. [code]"
-"winget install ffmpeg[/code])"
+msgstr "ffmpeg kirjaston lataaminen epäonnistui, lataa se manuaalisesti (esim. [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
@@ -147,8 +141,7 @@ msgstr "Äänipakettissa '{0}' on virheellinen tiedostotyyppi '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr ""
-"Yritettiin toistaa ääni '{0}', mutta sitä ei löytynyt äänipaketista '{1}'"
+msgstr "Yritettiin toistaa ääni '{0}', mutta sitä ei löytynyt äänipaketista '{1}'"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -238,222 +231,212 @@ msgstr "Odota hetki kun alustamme käyttöliittymää"
 msgid "Backend started successfully"
 msgstr "Taustapalvelu aloitettu onnistuneesti"
 
-#: .\Pages\about.py:13
+#: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
 msgstr "ETS2LA:n tekijä ja pääkehittäjä, taustapalvelu & käyttöliittymä."
 
-#: .\Pages\about.py:14
-msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
-"\"Navigation Detection\", \"Traffic Light Detection\", ETS2LA Lite -tekijä "
-"ja \"yhteisomistaja\""
-
 #: .\Pages\about.py:15
-msgid "Various additions and improvements, Object Detection AI models & development"
-msgstr ""
-"Parannuksia ja pieniä muutoksia, kappaleiden tunnistuksen AI mallit ja "
-"niiden kehitys"
+msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
+msgstr "\"Navigation Detection\", \"Traffic Light Detection\", ETS2LA Lite -tekijä ja \"yhteisomistaja\""
 
 #: .\Pages\about.py:16
-msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
-msgstr ""
-"ETS2LA:n pelinpuoleisen SDK:n kehittäjä. Tarjoaa ajoneuvot, liikennevalot ja "
-"kameradatan ym. suoraan pelistä."
+msgid "Various additions and improvements, Object Detection AI models & development"
+msgstr "Parannuksia ja pieniä muutoksia, kappaleiden tunnistuksen AI mallit ja niiden kehitys"
 
 #: .\Pages\about.py:17
+msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
+msgstr "ETS2LA:n pelinpuoleisen SDK:n kehittäjä. Tarjoaa ajoneuvot, liikennevalot ja kameradatan ym. suoraan pelistä."
+
+#: .\Pages\about.py:18
 msgid "Game data extraction and processing"
 msgstr "Pelin datan kerääminen ja prosessointi"
 
-#: .\Pages\about.py:18
+#: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
 msgstr "Linux ja Unix versio, eri päivityksiä ja bugi korjausia"
 
-#: .\Pages\about.py:19
+#: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr "Kehittää ETS2LA SDK:ta, Linux ja Unix portti, bugi korjauksia"
 
-#: .\Pages\about.py:20
+#: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
 msgstr "\"Navigate on ETS2LA\" ja Kartta laajennuksen kehityksen apua"
 
-#: .\Pages\about.py:21
+#: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
 msgstr "\"scs-sdk-controller\" kehittäjä"
 
-#: .\Pages\about.py:22
+#: .\Pages\about.py:23
 msgid "3D models for the visualization"
 msgstr "3D mallit visualisointiin"
 
-#: .\Pages\about.py:23
+#: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
 msgstr "Pelin datan keräysen kehitys, tuki modattuihin karttoihin."
 
-#: .\Pages\about.py:24
+#: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
 msgstr "Kiinankielinen käännös, bugi korjauksia"
 
-#: .\Pages\about.py:25
+#: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
 msgstr "Kiinankielinen käännös, bugi korjauksia"
 
-#: .\Pages\about.py:26
+#: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
 msgstr "Automaatiset tienleveys laskelmat Map laajennusta varten."
 
-#: .\Pages\about.py:27
-msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
-"Tarjoaa tukea Discord -palvelimella, Kiina-Englanti kääntäjän kehittäjä."
-
 #: .\Pages\about.py:28
+msgid "Discord server support, Chinese-English translator developer."
+msgstr "Tarjoaa tukea Discord -palvelimella, Kiina-Englanti kääntäjän kehittäjä."
+
+#: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
 msgstr "Pitää kiinalaiset peilit ETS2LA:n palveluihin."
 
-#: .\Pages\about.py:29
+#: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
-"\"Game hook\" kehitys, siis se miten ETS2LA:n tiedostot saadaan toimimaan "
-"pelin kanssa"
+msgstr "\"Game hook\" kehitys, siis se miten ETS2LA:n tiedostot saadaan toimimaan pelin kanssa"
 
-#: .\Pages\about.py:30 .\Pages\about.py:31 .\Pages\about.py:32
-#: .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35
+#: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
+#: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
 msgstr "Bugi korjauksia"
 
-#: .\Pages\about.py:42
+#: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
 msgstr "Korjataan pyyhkijät 5 sekunnin päästä"
 
-#: .\Pages\about.py:47
+#: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
 msgstr "Korjataan pyyhkijät {0} sekuntin jälkeen..."
 
-#: .\Pages\about.py:53 .\Pages\about.py:54
+#: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
 msgstr "Pyyhkijöiden pitäisi olla nyt korjattu."
 
-#: .\Pages\about.py:57
+#: .\Pages\about.py:58
 msgid "Triggering update"
 msgstr "Aloitetaan päivitys"
 
-#: .\Pages\about.py:66 .\Pages\about.py:71 .\Pages\about.py:77
+#: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
 msgstr[0] "{0} minuutti"
 msgstr[1] "{0} minuuttia"
 
-#: .\Pages\about.py:73 .\Pages\about.py:76
+#: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
 msgstr[0] "{0} tunti"
 msgstr[1] "{0} tuntia"
 
-#: .\Pages\about.py:75
+#: .\Pages\about.py:76
 msgid "{0} and {1}"
 msgstr "{0} ja {1}"
 
-#: .\Pages\about.py:82
+#: .\Pages\about.py:83
 msgid "About"
 msgstr "Tietoa"
 
-#: .\Pages\about.py:84
+#: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
-msgstr ""
-"ETS2LA on projekti, joka tähtää tarjoamaan itseajavuuden sekä ETS2 että ATS "
-"peleille. Jos haluta tietää lisää, voit katso sivupalkin Github ja Wiki "
-"linkkejä."
+msgstr "ETS2LA on projekti, joka tähtää tarjoamaan itseajavuuden sekä ETS2 että ATS peleille. Jos haluta tietää lisää, voit katso sivupalkin Github ja Wiki linkkejä."
 
-#: .\Pages\about.py:88
+#: .\Pages\about.py:89
 msgid "Statistics"
 msgstr "Statistiikat"
 
-#: .\Pages\about.py:92
+#: .\Pages\about.py:93
 msgid "Users online:"
 msgstr "Käyttäjiä paikalla:"
 
-#: .\Pages\about.py:93
+#: .\Pages\about.py:94
 msgid "{0} users"
 msgstr "{0} käyttäjää"
 
-#: .\Pages\about.py:95
+#: .\Pages\about.py:96
 msgid "Past 24 hours:"
 msgstr "Viimeisen 24 tunnin aikana:"
 
-#: .\Pages\about.py:96
+#: .\Pages\about.py:97
 msgid "{0} unique users"
 msgstr "{0} uniikkia käyttäjää"
 
-#: .\Pages\about.py:98
+#: .\Pages\about.py:99
 msgid "Your usage time:"
 msgstr "Sinun käyttöaika:"
 
-#: .\Pages\about.py:103
+#: .\Pages\about.py:104
 msgid "You are not logged in."
 msgstr "Et ole kirjautunut sisään."
 
-#: .\Pages\about.py:104
+#: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
 msgstr "Sinun anonyymi käyttäjätunnus on: {0}"
 
-#: .\Pages\about.py:108
+#: .\Pages\about.py:109
 msgid "You are logged in."
 msgstr "Olet kirjautunut sisään."
 
-#: .\Pages\about.py:109
+#: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
 msgstr "Tervetuloa takaisin {0}!"
 
-#: .\Pages\about.py:113
+#: .\Pages\about.py:114
 msgid "Contributors"
 msgstr "Kehittäjät"
 
-#: .\Pages\about.py:140
-msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
+#: .\Pages\about.py:135 .\Pages\global_settings.py:190
+msgid "List Contributors"
 msgstr ""
-"Jos pidät projektista voit lähettää Ko-Fi -palvelun kautta rahaa kehityksen "
-"tukemista varten."
 
-#: .\Pages\about.py:143
-msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
+#: .\Pages\about.py:137 .\Pages\global_settings.py:192
+msgid "Help Translate"
 msgstr ""
-"Jos haluat kehittää omia laajennuksia, niin on suositeltavaa liittyä Discord "
-"palvelimelle ja vilkaisemaan projektin Github sivuja."
+
+#: .\Pages\about.py:141
+msgid "Support Development"
+msgstr ""
+
+#: .\Pages\about.py:144
+msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
+msgstr "Jos pidät projektista voit lähettää Ko-Fi -palvelun kautta rahaa kehityksen tukemista varten."
 
 #: .\Pages\about.py:147
-msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
-msgstr ""
-"Jos haluat auttaa käänöksissä niin voit tehdä niin liitymällä Discord "
-"palvelimelle ja ottamalla yhteyttä moderaatoriin."
+msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
+msgstr "Jos haluat kehittää omia laajennuksia, niin on suositeltavaa liittyä Discord palvelimelle ja vilkaisemaan projektin Github sivuja."
 
-#: .\Pages\about.py:152
+#: .\Pages\about.py:151
+msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
+msgstr "Jos haluat auttaa käänöksissä niin voit tehdä niin liitymällä Discord palvelimelle ja ottamalla yhteyttä moderaatoriin."
+
+#: .\Pages\about.py:156
 msgid "Utils"
 msgstr "Avustimet"
 
-#: .\Pages\about.py:156
+#: .\Pages\about.py:160
 msgid "Fix Wipers"
 msgstr "Korjaa pyyhkijät"
 
-#: .\Pages\about.py:157
+#: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
-msgstr ""
-"Jäikö pyyhkijät jumiin? Paina nappia ja mene takaisin peli-ikkunaan. "
-"Pyyhkijöiden pitäisi kytkeytyä pois 5 sekunnin sisällä."
+msgstr "Jäikö pyyhkijät jumiin? Paina nappia ja mene takaisin peli-ikkunaan. Pyyhkijöiden pitäisi kytkeytyä pois 5 sekunnin sisällä."
 
-#: .\Pages\about.py:158
+#: .\Pages\about.py:162
 msgid "Activate"
 msgstr "Aktivoi"
 
-#: .\Pages\about.py:163
+#: .\Pages\about.py:167
 msgid "Force an update"
 msgstr "Pakota päivitys"
 
-#: .\Pages\about.py:164
+#: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
-msgstr ""
-"Tuntuuko siltä, että ohjelmassa pitäisi olla päivitys? Paina tätä nappia ja "
-"ohjelma uudelleenkäynistyy ja tarkistaa päivitykset."
+msgstr "Tuntuuko siltä, että ohjelmassa pitäisi olla päivitys? Paina tätä nappia ja ohjelma uudelleenkäynistyy ja tarkistaa päivitykset."
 
-#: .\Pages\about.py:165 .\Plugins\Map\ui.py:172
+#: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
 msgstr "Päivitä"
 
@@ -495,9 +478,7 @@ msgstr "Katso muutokset"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:86
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
-msgstr ""
-"Vain 20 viimeistä päivitystä näytetään. Voit tarkistaa arkistosta lisää "
-"historiaa."
+msgstr "Vain 20 viimeistä päivitystä näytetään. Voit tarkistaa arkistosta lisää historiaa."
 
 #: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
 msgid "Show all plugins"
@@ -536,191 +517,167 @@ msgstr "Tämä tapahtuma ei ole asetettu laiteelle."
 msgid "Keyboard: "
 msgstr "Näppäimistö: "
 
-#: .\Pages\global_settings.py:125
+#: .\Pages\global_settings.py:126
 msgid "Global Settings"
 msgstr "Yleiset asetukset"
 
-#: .\Pages\global_settings.py:126
+#: .\Pages\global_settings.py:127
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
-msgstr ""
-"Täältä löydät asetukset, jotka vaikuttavat koko sovellukseen. Asiat, kuten "
-"ikkunan koko ja kieli."
+msgstr "Täältä löydät asetukset, jotka vaikuttavat koko sovellukseen. Asiat, kuten ikkunan koko ja kieli."
 
-#: .\Pages\global_settings.py:130
+#: .\Pages\global_settings.py:131
 msgid "User Interface"
 msgstr "Käyttöliittymä"
 
-#: .\Pages\global_settings.py:133 .\Pages\onboarding.py:300
+#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
 msgid "Window Width"
 msgstr "Ikkunan leveys"
 
-#: .\Pages\global_settings.py:134
+#: .\Pages\global_settings.py:135
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
-msgstr ""
-"Vaihda ikkunan leveys. Huomaathan, että ETS2LA ei ole testattu "
-"epätavanomaisilla resoluuttioilla, joten käytä omalla vastuullasi!"
+msgstr "Vaihda ikkunan leveys. Huomaathan, että ETS2LA ei ole testattu epätavanomaisilla resoluuttioilla, joten käytä omalla vastuullasi!"
 
-#: .\Pages\global_settings.py:144 .\Pages\onboarding.py:309
+#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
 msgid "Window Height"
 msgstr "Ikkunan korkeus"
 
-#: .\Pages\global_settings.py:145
+#: .\Pages\global_settings.py:146
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
-msgstr ""
-"Vaihda ikkunan korkeus. Huomaathan, että ETS2LA ei ole testattu "
-"epätavanomaisilla resoluuttioilla, joten käytä omalla vastuullasi!"
+msgstr "Vaihda ikkunan korkeus. Huomaathan, että ETS2LA ei ole testattu epätavanomaisilla resoluuttioilla, joten käytä omalla vastuullasi!"
 
-#: .\Pages\global_settings.py:155
+#: .\Pages\global_settings.py:156
 msgid "Transparency mode Alpha"
 msgstr "Läpinäkyvyystila Alfa"
 
-#: .\Pages\global_settings.py:156
+#: .\Pages\global_settings.py:157
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
-msgstr ""
-"Muuta ikkunan läpinäkyvyyttä, kun siirryt läpinäkyvyystilaan. Tämä voidaan "
-"tehdä napsauttamalla vihreää painiketta oikealla hiiren painikkeella "
-"oikeassa yläkulmassa."
+msgstr "Muuta ikkunan läpinäkyvyyttä, kun siirryt läpinäkyvyystilaan. Tämä voidaan tehdä napsauttamalla vihreää painiketta oikealla hiiren painikkeella oikeassa yläkulmassa."
 
-#: .\Pages\global_settings.py:166
+#: .\Pages\global_settings.py:169
 msgid "Language"
 msgstr "Kieli"
 
-#: .\Pages\global_settings.py:167
+#: .\Pages\global_settings.py:170
 msgid "Select the language for the application."
 msgstr "Valitse sovelluksen kieli."
 
-#: .\Pages\global_settings.py:172
+#: .\Pages\global_settings.py:175
 msgid "Search Languages..."
 msgstr "Etsi kieliä..."
 
-#: .\Pages\global_settings.py:172
+#: .\Pages\global_settings.py:175
 msgid "Help us translate on discord!"
 msgstr "Auta meitä kääntämään discordissa!"
 
-#: .\Pages\global_settings.py:185
+#: .\Pages\global_settings.py:195
 msgid "Audio"
 msgstr "Ääni"
 
-#: .\Pages\global_settings.py:188
+#: .\Pages\global_settings.py:198
 msgid "Soundpack"
 msgstr "Äänipaketti"
 
-#: .\Pages\global_settings.py:189
+#: .\Pages\global_settings.py:199
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
-msgstr ""
-"Valitse käytettävä äänipaketti, nämä voidaan lisätä app/ETS2LA/Assets/Sounds."
+msgstr "Valitse käytettävä äänipaketti, nämä voidaan lisätä app/ETS2LA/Assets/Sounds."
 
-#: .\Pages\global_settings.py:196 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr "Äänenvoimakkuus"
 
-#: .\Pages\global_settings.py:197
+#: .\Pages\global_settings.py:207
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr "Säädä äänenvoimakkuutta. Tämä vaikuttaa kaikkiin ETS2LA:n ääniin."
 
-#: .\Pages\global_settings.py:208
+#: .\Pages\global_settings.py:218
 msgid "Startup Sound"
 msgstr "Käynnistysääni"
 
-#: .\Pages\global_settings.py:209
+#: .\Pages\global_settings.py:219
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
-msgstr ""
-"Vaihda käynnistysääni päälle tai pois. Tämä soi aina, kun ETS2LA-ikkuna "
-"avataan."
+msgstr "Vaihda käynnistysääni päälle tai pois. Tämä soi aina, kun ETS2LA-ikkuna avataan."
 
-#: .\Pages\global_settings.py:214
+#: .\Pages\global_settings.py:224
 msgid "Variables"
 msgstr "Muuttujat"
 
-#: .\Pages\global_settings.py:216
+#: .\Pages\global_settings.py:226
 msgid "Fallback to old acceleration method"
 msgstr "Takaisin vanhaan kiihdytysmenetelmään"
 
-#: .\Pages\global_settings.py:217
+#: .\Pages\global_settings.py:227
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
-msgstr ""
-"Jos rekka ei kiihdyttä / jarrutta kunnolla, niin voit sallia tämän "
-"vaihtoehdon käyttää toista menetelmää. Muista, että jos uusi on jumissa, "
-"saatat joutua käynnistämään pelin uudelleen tämän kytkemisen jälkeen."
+msgstr "Jos rekka ei kiihdyttä / jarrutta kunnolla, niin voit sallia tämän vaihtoehdon käyttää toista menetelmää. Muista, että jos uusi on jumissa, saatat joutua käynnistämään pelin uudelleen tämän kytkemisen jälkeen."
 
-#: .\Pages\global_settings.py:224 .\Pages\onboarding.py:205
+#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:205
 msgid "High Priority"
 msgstr "Korkea prioriteetti"
 
-#: .\Pages\global_settings.py:225 .\Pages\onboarding.py:206
+#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:206
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
-msgstr ""
-"Suorita ETS2LA korkean prioriteetin tilassa. Tämä kertoo käyttöjärjestelmän "
-"antaa enemmän CPU aikaa ETS2LA:lle, joka voi parantaa suorituskykyä "
-"heikentämällä muita sovelluksia."
+msgstr "Suorita ETS2LA korkean prioriteetin tilassa. Tämä kertoo käyttöjärjestelmän antaa enemmän CPU aikaa ETS2LA:lle, joka voi parantaa suorituskykyä heikentämällä muita sovelluksia."
 
-#: .\Pages\global_settings.py:239
+#: .\Pages\global_settings.py:249
 msgid "You need to restart ETS2LA to apply the priority change!"
-msgstr ""
-"Sinun tarvitsee uudelleenkäynnistää ETS2LA, jotta voit otta muutekset "
-"käyttöön!"
+msgstr "Sinun tarvitsee uudelleenkäynnistää ETS2LA, jotta voit otta muutekset käyttöön!"
 
-#: .\Pages\global_settings.py:241
+#: .\Pages\global_settings.py:251
 msgid "Miscellaneous"
 msgstr ""
 
-#: .\Pages\global_settings.py:245
+#: .\Pages\global_settings.py:255
 msgid "Frontend Port"
 msgstr "Käyttöliittymän portti"
 
-#: .\Pages\global_settings.py:246
+#: .\Pages\global_settings.py:256
 msgid "Change the port used by the frontend. This is only used in local mode."
-msgstr ""
-"Vaihda käyttöliittymän käyttämä portti. Tätä käytetään vain paikallisessa "
-"tilassa."
+msgstr "Vaihda käyttöliittymän käyttämä portti. Tätä käytetään vain paikallisessa tilassa."
 
-#: .\Pages\global_settings.py:253
+#: .\Pages\global_settings.py:263
 msgid "Frameless Window"
 msgstr "Kehystön ikkuna"
 
-#: .\Pages\global_settings.py:254
+#: .\Pages\global_settings.py:264
 msgid "Disable this option if you have any issues moving the window around."
-msgstr ""
-"Poista tämä asetus käytöstä, jos sinulla on ongelmia ikkunan siirtämisessä."
+msgstr "Poista tämä asetus käytöstä, jos sinulla on ongelmia ikkunan siirtämisessä."
 
-#: .\Pages\global_settings.py:259
+#: .\Pages\global_settings.py:269
 msgid "Send Crash Reports"
 msgstr "Lähetä kaatumisilmoitukset"
 
-#: .\Pages\global_settings.py:260
+#: .\Pages\global_settings.py:270
 msgid "Automatically send crash reports to help improve the application."
 msgstr "Lähetä automaattisesti kaatumisilmoituksia sovelluksen parantamiseksi."
 
-#: .\Pages\global_settings.py:265
+#: .\Pages\global_settings.py:275
 msgid "Use Fancy Traceback"
 msgstr "Käytä Fancy Tracebackia"
 
-#: .\Pages\global_settings.py:266
+#: .\Pages\global_settings.py:276
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr ""
 
-#: .\Pages\global_settings.py:272
+#: .\Pages\global_settings.py:282
 msgid "Debug Mode"
 msgstr "Vianetsintätila"
 
-#: .\Pages\global_settings.py:273
+#: .\Pages\global_settings.py:283
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
 
-#: .\Pages\global_settings.py:281
+#: .\Pages\global_settings.py:291
 msgid "Fireworks"
 msgstr "Ilotulitukset"
 
-#: .\Pages\global_settings.py:282
+#: .\Pages\global_settings.py:292
 msgid "Enable this option to use fireworks effects during the new year's."
-msgstr ""
-"Kytke tämä asetus päälle nähdäksesi ilotulitusefektejä uuden vuoden aikana."
+msgstr "Kytke tämä asetus päälle nähdäksesi ilotulitusefektejä uuden vuoden aikana."
 
-#: .\Pages\global_settings.py:288
+#: .\Pages\global_settings.py:298
 msgid "Snow"
 msgstr "Lumi"
 
-#: .\Pages\global_settings.py:289
+#: .\Pages\global_settings.py:299
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Käytä tätä vaihtoehtoa näyttääksesi lumiefektit talvikaudella."
 
@@ -767,10 +724,7 @@ msgstr "SDK Asettaminen"
 
 #: .\Pages\onboarding.py:148
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
-msgstr ""
-"Aloittaaksemme meidän on perustettava SDK. Näin ETS2LA voi olla "
-"vuorovaikutuksessa pelisi kanssa. Oikealle löydät listan pelejä, klikkaa "
-"asentaa yksi niistä ja sitten jatkaa."
+msgstr "Aloittaaksemme meidän on perustettava SDK. Näin ETS2LA voi olla vuorovaikutuksessa pelisi kanssa. Oikealle löydät listan pelejä, klikkaa asentaa yksi niistä ja sitten jatkaa."
 
 #: .\Pages\onboarding.py:151
 msgid "Waiting for SDK installation..."
@@ -782,10 +736,7 @@ msgstr "Liitännäiset"
 
 #: .\Pages\onboarding.py:162
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
-msgstr ""
-"ETS2LA käyttää plugineita suurimaltaan oaltaan toimiakseen. Voit valita "
-"yksinkertaisen tilan ja kehittyneen tilan välillä. Tämä voidaan muuttaa "
-"myöhemmin asetuksista."
+msgstr "ETS2LA käyttää plugineita suurimaltaan oaltaan toimiakseen. Voit valita yksinkertaisen tilan ja kehittyneen tilan välillä. Tämä voidaan muuttaa myöhemmin asetuksista."
 
 #: .\Pages\onboarding.py:169
 msgid "Advanced Plugin Mode"
@@ -793,23 +744,15 @@ msgstr "Kehittyntyt laajennuksen tila"
 
 #: .\Pages\onboarding.py:170
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
-msgstr ""
-"Mahdollistaa kehittyneet plugin hallinta ominaisuudet. Voidaan muuttaa "
-"milloin tahansa plugin managerista."
+msgstr "Mahdollistaa kehittyneet plugin hallinta ominaisuudet. Voidaan muuttaa milloin tahansa plugin managerista."
 
 #: .\Pages\onboarding.py:183
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
-msgstr ""
-"Suositellaan pitämään **Advanced Plugin Mode** pois käytöstä. Käyttäjät, "
-"jotka haluavat itse valita pluginit saattaa haluta ottaa sen käyttöön."
+msgstr "Suositellaan pitämään **Advanced Plugin Mode** pois käytöstä. Käyttäjät, jotka haluavat itse valita pluginit saattaa haluta ottaa sen käyttöön."
 
 #: .\Pages\onboarding.py:191
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
-msgstr ""
-"** Advanced Plugin Mode** avaa käytössä olevien pluginien manuaalisen "
-"ohjauksen. Sen avulla voit myös ladata lisää plugineita muista arkistoista. "
-"Muista, että nämä kolmannen osapuolen pluginit eivät ole *virallisesti* "
-"tuettuja ETS2LA toimesta."
+msgstr "** Advanced Plugin Mode** avaa käytössä olevien pluginien manuaalisen ohjauksen. Sen avulla voit myös ladata lisää plugineita muista arkistoista. Muista, että nämä kolmannen osapuolen pluginit eivät ole *virallisesti* tuettuja ETS2LA toimesta."
 
 #: .\Pages\onboarding.py:196
 msgid "High Priority Mode"
@@ -817,16 +760,11 @@ msgstr "Suuren prioriteettin tila"
 
 #: .\Pages\onboarding.py:197
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
-msgstr ""
-"ETS2LA voi automaattisesti kertoa käyttöjärjestelmällesi, että sen pitäisi "
-"toimia erittäin korkean prioriteetin tilassa. Tätä suositellaan erityisesti "
-"huonoimissa laitteissa."
+msgstr "ETS2LA voi automaattisesti kertoa käyttöjärjestelmällesi, että sen pitäisi toimia erittäin korkean prioriteetin tilassa. Tätä suositellaan erityisesti huonoimissa laitteissa."
 
 #: .\Pages\onboarding.py:219
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
-msgstr ""
-"ETS2LA-järjestelmä on käynnistettävä uudelleen sen jälkeen, kun se on otettu "
-"käyttöön."
+msgstr "ETS2LA-järjestelmä on käynnistettävä uudelleen sen jälkeen, kun se on otettu käyttöön."
 
 #: .\Pages\onboarding.py:224
 msgid "Map Data"
@@ -834,10 +772,7 @@ msgstr "Karttatiedot"
 
 #: .\Pages\onboarding.py:225
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
-msgstr ""
-"ETS2LA käyttää valmiiksi poimittuja karttatietoja pelistä. Käsittelemme "
-"tiedot etukäteen ja voit sitten ladata ne tarvittaessa. Valitse tarvitsemasi "
-"tiedot alla olevaan peliversioon."
+msgstr "ETS2LA käyttää valmiiksi poimittuja karttatietoja pelistä. Käsittelemme tiedot etukäteen ja voit sitten ladata ne tarvittaessa. Valitse tarvitsemasi tiedot alla olevaan peliversioon."
 
 #: .\Pages\onboarding.py:232
 msgid "Waiting for data selection..."
