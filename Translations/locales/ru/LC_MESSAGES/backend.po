@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 16:08+0000\n"
+"PO-Revision-Date: 2025-07-11 18:47+0000\n"
 "Last-Translator: takedown <takedown@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
@@ -316,7 +316,7 @@ msgstr "Исправление дворников через {0} секунд...
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr "Дворники должны быть исправны сейчас."
+msgstr "Дворники теперь должны быть исправны."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
@@ -1019,7 +1019,6 @@ msgstr ""
 "**Это необходимо для работы вкладки \"Визуализация\".**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
-#, fuzzy
 msgid "HUD"
 msgstr "HUD"
 
@@ -1575,515 +1574,569 @@ msgstr ""
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "Выключить предупреждения о FPS"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
-msgstr ""
+msgstr "Когда включено, карта не будет предупреждать о любых проблемах с FPS."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Вычислять данные управления рулём"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
 msgstr ""
+"Когда включено, карта будет вычислять и отправлять данные управления рулём в "
+"игру."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Водить основываясь на прицепе"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Когда включено, карта будет брать в расчёт прицеп при вычислении текущей "
+"точки управления."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Сглаженность управления рулём"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Задать количество времени, по которому будут усредняться данные управления "
+"рулём. Значение 0.5 значит, что данные управления за последние полсекунды "
+"будут использоваться для вычисления текущего значения."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
-msgstr ""
+msgstr "Данные"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "ВНИМАНИЕ!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Если вы столкнётесь с ошибкой после изменения данных, пожалуйста, "
+"перезапустите плагин! Если это не решит вашу проблему, пожалуйста, свяжитесь "
+"с создателями данных или разработчиками в Discord!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Пожалуйста, выберите данные, которые вы хотите использовать. Это начнёт "
+"процесс загрузки и Карта будет готова после того, как данные загрузятся."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Обновить данные"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Обновить выбранные данные, это может помочь если данные повреждены или были "
+"обновлены."
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "ACC Information"
-msgstr ""
+msgstr "Информация АКК"
 
 #: .\Plugins\NGHUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
-msgstr ""
+msgstr "Отображать информацию АКК, такую как расстояние машин и скорость."
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "Ускорение"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Отображать текущее ускорение грузовика."
 
 #: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Вспомогательная Информация"
 
 #: .\Plugins\NGHUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "Отображать информацию о состоянии АКК и управления рулём."
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Состояние топлива"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Отображать текущее состояние топлива грузовика."
 
 #: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "Обороты & передача"
 
 #: .\Plugins\NGHUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Отображать текущие обороты и передачу грузовика."
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43
 #: .\Plugins\NGHUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Медиа"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
 msgstr ""
+"Отобажает информацию о медиа, такой как название песни, автора и ход "
+"воспроизведения."
 
 #: .\Plugins\NGHUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Медиа не воспроизводится"
 
 #: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Нет автора"
 
 #: .\Plugins\NGHUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Без названия"
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Навигация"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Отображать информацию о навигации."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "прибытие"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Газ / Тормоз"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Отображает текущую силу нажатия на газ и тормоз в процентах."
 
 #: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Светофоры"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Отображать информацию о светофорах."
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
 #: .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Скорость"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
 msgstr ""
+"Обычный дисплей скорости, также показывает измненения ограничения скорости."
 
 #: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "Steering Line"
-msgstr ""
+msgstr "Линия вождения"
 
 #: .\Plugins\NGHUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Отображать линию вождения из Карты."
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
 msgid "NGHUD"
-msgstr ""
+msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
 msgstr ""
+"Next-Gen HUD (короче я переделываю HUD и мне нужно было его как-то назвать)"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr ""
+msgstr "Включить"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Disable"
-msgstr ""
+msgstr "Выключить"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Пожалуйста, включите плагин, чтобы изменять настройки."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
 msgid "Transform"
-msgstr ""
+msgstr "Трансформация"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "Горизонтальное отклонение HUD."
 
 #: .\Plugins\NGHUD\ui.py:119
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "Вертикальное отклонение HUD."
 
 #: .\Plugins\NGHUD\ui.py:128
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "Отклонение глубины HUD."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
-msgstr ""
+msgstr "Ширина виджетов"
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
 msgstr ""
+"Эти настройки контролируют ширину каждого виджета в пикселях. Значения по "
+"умолчанию 90, 120, 90. Элементы изменяют размер в соответствии, но "
+"пожалуйста, имейте в виду, что они не сделаны для слишком сильных изменений "
+"размера."
 
 #: .\Plugins\NGHUD\ui.py:161
 msgid "Widget Background"
-msgstr ""
+msgstr "Фон виджетов"
 
 #: .\Plugins\NGHUD\ui.py:162
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Вы можете контролировать, насколько тёмным будет фон виджетов, либо всегда, "
+"либо только в течение дня."
 
 #: .\Plugins\NGHUD\ui.py:166
 msgid "Darkness"
-msgstr ""
+msgstr "Темнота"
 
 #: .\Plugins\NGHUD\ui.py:167
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr ""
+msgstr "Темнота фона виджетов. 0 - нет темноты, 1 - полностью тёмный."
 
 #: .\Plugins\NGHUD\ui.py:176
 msgid "Day Darkness"
-msgstr ""
+msgstr "Темнота днём"
 
 #: .\Plugins\NGHUD\ui.py:177
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Темнота фона виджетов в течение дня. 0 - нет темноты, 1 - полностью тёмный."
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
-msgstr ""
+msgstr "Элементы"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Включённые виджеты"
 
 #: .\Plugins\NGHUD\ui.py:196
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Здесь отображаются ваши включённые виджеты и их соответствующие размеры. "
+"Нажмите на виджет чтобы его выключить, пока что их нельзя двигать, так что "
+"вам придётся Выключить -> Включить чтобы переместить их в нужное место."
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
-msgstr ""
+msgstr "Доступные виджеты"
 
 #: .\Plugins\NGHUD\ui.py:225
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Данные виджеты доступны для включения:"
 
 #: .\Plugins\NGHUD\ui.py:233
 msgid "Renderers"
-msgstr ""
+msgstr "Отрисовщики"
 
 #: .\Plugins\NGHUD\ui.py:234
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Эти отрисовщики используются, чтобы отображать незакреплённые элементы. "
+"Такие элементы обычно двигаются в игровом мире."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "Озвучка текста"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"Плагин \"Озвучка текста\" обеспечивает фунционал озвучки текста в качестве "
+"специальных возвожностей и для озвученных объявлений."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Голоса"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Пожалуйста, выберите поставщика!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
 msgstr ""
+"Здесь будет отображаться информация о поставщиках когда плагин загрузится."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "Выбор поставщика озвучки текста"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Выберите поставщика озвучки текста."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Пожалуйста, выберите поставщика, чтобы отобразить голоса."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Голос {0} не найден, используется голос по умолчанию: {1}"
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "Выбрать голос озвучки текста"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Выберите голос озвучки текста."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Поиск голоса..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Голос не найден."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Установить скорость голоса."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Установить громкость голоса."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Тестовый режим"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
 msgstr ""
+"Включить тестовый режим, чтобы опробовать поставщика озвучки голоса без "
+"запуска игры."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Включить сигнал близости к дороге"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Включить сигнал близости, который сообщает расстояние и угол к ближайшей "
+"дороге."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Плагин озвучки текста для специальных возможностей. Некоторым также может "
+"понравиться озвученные объявления."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Голос {0} не найден у поставщика {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Поставщик не выбран. Нельзя выбрать голос."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Загрузка поставщика озвучки текста: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Загрузка голоса озвучки текста: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Управление рулём включено."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Управление рулём выключено."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Адаптивный круиз-контроль включен."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Адаптивный круиз-контроль выключен."
 
 #: .\Plugins\TTS\main.py:335
+#, fuzzy
 msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr ""
+msgstr "Ближайший город теперь {0} на расстоянии {1} км."
 
 #: .\Plugins\TTS\main.py:347
+#, fuzzy
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "Ограничение скорости изменено на {0} километров в час."
 
 #: .\Plugins\TTS\main.py:355
+#, fuzzy
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr ""
+"Запас хода теперь всего {0} километров, пожалуйста, заправьтесь как можно "
+"скорее."
 
 #: .\Plugins\TTS\main.py:358
+#, fuzzy
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr ""
+"Запас хода теперь критически низок, всего {0} километров, пожалуйста, "
+"заправьтесь как можно скорее."
 
 #: .\Plugins\TTS\main.py:376
+#, fuzzy
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "До следующей точки {0} километров."
 
 #: .\Plugins\TTS\main.py:397
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Двигатель повреждён на {0}%."
 
 #: .\Plugins\TTS\main.py:400
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Кабина повреждена на {0}%."
 
 #: .\Plugins\TTS\main.py:403
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Шасси повреждено на {0}%."
 
 #: .\Plugins\TTS\main.py:406
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Коробка передач повреждена на {0}%."
 
 #: .\Plugins\TTS\main.py:409
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Колёса повреждены на {0}%."
 
 #: .\Plugins\TTS\main.py:412
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Груз повреждён на {0}%."
 
 #: .\Plugins\TTS\main.py:429
+#, fuzzy
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Скорость {0} километров в час, ограничение {1}, топливо {2}%, и до следующей "
+"точки {3} км."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Тестовый режим активирован. Это тестовое сообщение."
 
 #: .\main.py:93
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Проверка зеркал..."
 
 #: .\main.py:101
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Соеденение к {0} установлено за {1:.0f}мс"
 
 #: .\main.py:107
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Соеденение к {0} установлено за (ВРЕМЯ ОЖИДАНИЯ ИСТЕКЛО)"
 
 #: .\main.py:122
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr ""
+" -- Выполняется послезагрузочное действие для подмодуля:  Интерфейс  -- "
 
 #: .\main.py:140
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "ETS2LA запущен в режиме разработчика."
 
 #: .\main.py:144
 msgid "Running UI locally"
-msgstr ""
+msgstr "Интерфейс запущен локально."
 
 #: .\main.py:149
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr ""
+msgstr "Нет соеденения к удалённым зеркалам интерфейса. Запускаю локально."
 
 #: .\main.py:160
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Интерфейс запущен в китайском режиме"
 
 #: .\main.py:162
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Используется зеркало {0} для интерфейса."
 
 #: .\main.py:168
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console не может быть использован вместе с --no-ui. Консоль не "
+"закроется."
 
 #: .\main.py:170
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Консоль будет закрыта после запуска интерфейса."
 
 #: .\main.py:173
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Запущен на фоне без окна."
 
 #: .\main.py:191
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "Надзиратель ETS2LA запущен!"
 
 #: .\main.py:207
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA перезапускается..."
 
 #: .\main.py:213
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Обновление пропущено из-за режима разработчика."
 
 #: .\main.py:216
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA обновляется..."
 
 #: .\main.py:219
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Обновление завершено... выполняется перезапуск!"
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA крашнулось!"
 
 #: .\main.py:233
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Отправьте отчёт об ошибке выше разработчикам."
 
 #: .\main.py:235
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA закрыт."
 
 #: .\main.py:236
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Нажмите Enter для выхода."
