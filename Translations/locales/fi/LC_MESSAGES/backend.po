@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 13:12+0000\n"
+"PO-Revision-Date: 2025-07-11 14:23+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
@@ -891,7 +891,7 @@ msgstr "Muuta ETS2LA:n ikkunan leveyttä."
 
 #: .\Pages\onboarding.py:310
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Muuta ETS2LA:n ikkunan korkeutta."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:327
@@ -899,14 +899,20 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Ikkunan koon muuttaminen voi aiheuttaa ongelmia joidenkin sivujen "
+"näyttämisessä.**\n"
+"Voit muuttaa sivun skaalausta pitämällä Vasen CTRL näppäin pohjassa ja "
+"skrollaamalla."
 
 #: .\Pages\onboarding.py:333
 msgid "Window Controls"
-msgstr ""
+msgstr "Ikkunan hallinta"
 
 #: .\Pages\onboarding.py:334
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA on kehittänyt omia ikkunanhallinta ominaisuuksia. Voit käyttää näitä "
+"oikean yläkulman vihreän napin kautta."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:348
@@ -915,6 +921,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Pidä ikkuna päällä**\n"
+"\n"
+"Voit painaa vihreaa nappia *vasemmalla* hiiren painikkeella jotta ETS2LA "
+"pysyy muiden ikkuinoiden päällä."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -923,22 +933,29 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Läpinäkyvyys**\n"
+"\n"
+"Voit painaa vihreaa nappia *oikealla* hiiren painikkeella jotta ETS2LA "
+"muuttuu hieman läpinäkyväksi. Läpinäkyvyyttä voi muuttaa asetuksissa."
 
 #: .\Pages\onboarding.py:364
 msgid "It's this green button!"
-msgstr ""
+msgstr "Tämä vihreä painike!"
 
 #: .\Pages\onboarding.py:374
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Perehdytys valmis!"
 
 #: .\Pages\onboarding.py:375
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Voit nyt alkaa käyttämään ETS2LA:ta. Jos tarvitset tulevaisuudessa lisää "
+"tukea niin suosittelemme liittymään Discord kanavalle. Olen itse siellä "
+"auttamassa terv. Tuomas! (Tumppi066)"
 
 #: .\Pages\onboarding.py:378
 msgid "Finish"
-msgstr ""
+msgstr "Valmista"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:385
@@ -946,82 +963,90 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Paina tätä sivua jotta voit avata / sulkea sivupalkin.\n"
+"      Avaa laajennusten hallinta käynnistääksesi ne."
 
 #: .\Pages\onboarding.py:419
 msgid "Page not found"
-msgstr ""
+msgstr "Sivua ei löytynyt"
 
 #: .\Pages\onboarding.py:421
 msgid "Go back"
-msgstr ""
+msgstr "Mene takaisin"
 
 #: .\Pages\performance.py:94
 msgid "System"
-msgstr ""
+msgstr "Järjestelmä"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Dataa kerätään vielä, odota muutama sekuntti, jotta kaaviot tasaantuvat."
 
 #: .\Pages\performance.py:103
 msgid "CPU Usage"
-msgstr ""
+msgstr "Prosessorin käyttö"
 
 #: .\Pages\performance.py:110
 msgid "CPU Usage "
-msgstr ""
+msgstr "Prosessorin käyttö "
 
 #: .\Pages\performance.py:118
 msgid "RAM Usage"
-msgstr ""
+msgstr "Muistin käyttö"
 
 #: .\Pages\performance.py:125
 msgid "RAM Usage "
-msgstr ""
+msgstr "Muistin käyttö "
 
 #: .\Pages\performance.py:125
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "ETS2LA:n muistin käyttö  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:355
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "Laajennuksia ei ole tällä hetkellä käynnissä."
 
 #: .\Pages\performance.py:172
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Varoitus: Kaavio kerää vielä dataa, odota 60 sekunttia että se tasaantuu."
 
 #: .\Pages\performance.py:190
 msgid "Failed to render plugin {plugin_name}."
-msgstr ""
+msgstr "Virhe laajennuksen {plugin_name} renderöimisessä."
 
 #: .\Pages\performance.py:194
 msgid "All displayed data is averaged over a second."
-msgstr ""
+msgstr "Kaikki data on keskiarvotettu sekuntin ajanjaksolla."
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
-msgstr ""
+msgstr "Tämä sivu käytti {time:.2f} ms prosessoriaikaa."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr ""
+msgstr "Ohjaus"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
 msgstr ""
+"Aktivoi automaattinen ohjaus ETS2LA:n avulla. Voit laittaa sen päälle ja "
+"pois \"Aktivoi ohjaus\" painikkeella. Tätä voidaan muuttaa asetuksissa."
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr ""
+msgstr "Nopeuden hallinta"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Aktivoi automaattinen kiihdytys ja jarrutus. Voit laittaa sen päälle ja pois "
+"\"Aktivoi nopeuden hallinta\" painikkeella. Tätä voidaan muuttaa asetuksissa."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Visualisaatio"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -1029,1022 +1054,1112 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Aktivoi laajennukset joita tarvitaan visualisaation toimintaan.\n"
+"\n"
+"**Tämä on pakollinen, jotta visualisaatio sivu toimii.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
-msgstr ""
+msgstr "Aktivoi HUD, joka näyttää tietoa rekasta ja reitistä."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
-msgstr ""
+msgstr "TTS Toiminto"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"Aktivoi ETS2LA:n TTS toiminto ilmoituksille ja varoituksille. Tämä on "
+"tarkoitettu esteettömyystoimintona, mutta jotkut saattavat pitää "
+"\"puhuvaasta rekasta\"."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
-msgstr ""
+msgstr "Toimintoa '{0}' ei löytynyt."
 
 #: .\Pages\plugins.py:235
 msgid "Plugins (Basic)"
-msgstr ""
+msgstr "Laajennukset (Yksinkertainen)"
 
 #: .\Pages\plugins.py:236
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"Voit aktivoida eri ETS2LA toimintoja sivun oikealla laidalla. Kaikki "
+"laajennukset, jotka ovat määritetty kyseiseen toimintoon käynnistetään "
+"automaattisesti ilman erillisiä säätöjä."
 
 #: .\Pages\plugins.py:244
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Sammuta laajennukset"
 
 #: .\Pages\plugins.py:244
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Käynnistä laajennukset"
 
 #: .\Pages\plugins.py:247
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "Tällä hetkellä on käynnissä:"
 
 #: .\Pages\plugins.py:247
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #: .\Pages\plugins.py:269
 msgid "Enabled"
-msgstr ""
+msgstr "Aktivoitu"
 
 #: .\Pages\plugins.py:269
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktivoitu"
 
 #: .\Pages\plugins.py:274
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Vaihda kehittyneeseen tilaan."
 
 #: .\Pages\plugins.py:296
 msgid "Search plugins..."
-msgstr ""
+msgstr "Etsi laajennuksia..."
 
 #: .\Pages\plugins.py:305
 msgid "Search tags..."
-msgstr ""
+msgstr "Etsi merkkejä..."
 
 #: .\Pages\plugins.py:306
 msgid "No tags found"
-msgstr ""
+msgstr "Merkkejä ei löytynyt"
 
 #: .\Pages\plugins.py:315
 msgid "Search authors..."
-msgstr ""
+msgstr "Etsi kehittäjiä..."
 
 #: .\Pages\plugins.py:316
 msgid "No authors found"
-msgstr ""
+msgstr "Kehittäjiä ei löytynyt"
 
 #: .\Pages\plugins.py:320
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Takaisin yksinkertaiseen tilaan"
 
 #: .\Pages\plugins.py:351
 msgid "Running Plugins"
-msgstr ""
+msgstr "Käynnissä olevat laajennukset"
 
 #: .\Pages\plugins.py:358
 msgid "Want to enable the plugins you had running last time?"
-msgstr ""
+msgstr "Haluatko käynnistää viime kerralla aktivoidut laajennukset?"
 
 #: .\Pages\plugins.py:360
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Käynnistä viime kerran laajennukset"
 
 #: .\Pages\plugins.py:366
 msgid "Available Plugins"
-msgstr ""
+msgstr "Saatavilla olevat laajennukset"
 
 #: .\Pages\sdk_installation.py:86
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "Ei voitu määrittää versiota pelille {game}, ohitetaan asennus"
 
 #: .\Pages\sdk_installation.py:91
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "Asennetaan SDK:ta pelille {game}"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "SDK asennettiin pelille {game} onnistuneesti."
 
 #: .\Pages\sdk_installation.py:101
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "Pelillä {game} on jo asennettu SDK, ohitetaan asennus"
 
 #: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr ""
+msgstr "Tarkista että peli on suljettu ja kokeile uudelleen. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr ""
+msgstr "Virhe asentaessa SDK pelille {game}, tarkista että peli on suljettu."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr ""
+msgstr "Ei voitu määrittää versiota pelille {game}, ohitetaan poisto"
 
 #: .\Pages\sdk_installation.py:114
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "Poistetaan SDK pelistä {game}"
 
 #: .\Pages\sdk_installation.py:119
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "Pelin {game} SDK on nyt poistettu onnistuneesti."
 
 #: .\Pages\sdk_installation.py:121
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "Pelissä {game} ei ole asennettuja SDK:ta, ohitetaan poisto"
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
-msgstr ""
+msgstr "Virhe poistaessa SDK:ta pelistä {game}, tarkista että peli on suljettu."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
-msgstr ""
+msgstr "Valitse pelin kansio"
 
 #: .\Pages\sdk_installation.py:130
 msgid "Could not find version for the selected game, please select a valid game directory."
-msgstr ""
+msgstr "Ei voitu määrittää pelin versiota, valitse pätevä pelikansio."
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "Ei voit määrittää versiota kansiolle {path}, ohitetaan asennus"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Löydettiin peli jonka versio on {version}."
 
 #: .\Pages\sdk_installation.py:142
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "Kansio {path} ei ole olemassa."
 
 #: .\Pages\sdk_installation.py:148
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr ""
+"Tarkista että tarpeelliset SDK:t ovat asennettu, jotta voimme kommunikoida "
+"pelin kanssa."
 
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"Emme löytäneet yhtään peliä. Ota huomioon, että ETS2LA toimii vain "
+"laillisten Steam versioiden kanssa."
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
-msgstr ""
+msgstr "Valitse kansio manuaalisesti"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
-msgstr ""
+msgstr "- Asennettu"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Ei asennettu"
 
 #: .\Pages\sdk_installation.py:194
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Tätä peliversiota ei tueta"
 
 #: .\Pages\sdk_installation.py:210
 msgid "No files found."
-msgstr ""
+msgstr "Tiedostoja ei löydetty."
 
 #: .\Pages\sdk_installation.py:221
 msgid "File Sources"
-msgstr ""
+msgstr "Tiedostojen lähde"
 
 #: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "Poista SDK pelistä"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
 msgid "Install SDKs"
-msgstr ""
+msgstr "Asenna SDK peliin"
 
 #: .\Pages\sdk_installation.py:237
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Sulje peli ennen SDK:n asentamista tai poistamista."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Sinulla on paikallinen lisäys joka odottaa puskemista."
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Päivityksiä ei ole saatavilla. (Voi mennä jopa minuutti että tämä sivu "
+"näyttää päivityksen sen tapahtumisen jälkeen)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Pakota päivitys"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update(s)"
-msgstr ""
+msgstr "Asenna {count} päivitystä ja käynnistä uudelleen"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr ""
+msgstr "Aktivoi nopeuden hallinta"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
 msgstr ""
+"Kun adaptiivinen vakionopeudensäädin on käynnissä, tämä kytkee sen hallinnan "
+"päälle ja pois."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Nosta nopeuden poikkeamaa"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
 msgstr ""
+"Tämä nostaa nopeuden poikkeamaa, esim jos nopeusrajoitus on 50km/h, niin "
+"painat tätä kerran ja ETS2LA ajaakin 51km/h."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Laske nopeuden poikkeamaa"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
 msgstr ""
+"Tämä laskee nopeuden poikkeamaa, esim jos nopeusrajoitus on 50km/h, niin "
+"painat tätä kerran ja ETS2LA ajaakin 49km/h."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
 #: .\Plugins\AdaptiveCruiseControl\settings.py:72
 #: .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Adaptiivinen vakionopeudensäädin"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"Adaptiivinen vakionopeudensäädin (ACC) ohjaa rekan nopeutta pelistä kerätyn "
+"tiedon perusteella."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Aggressiivisuus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
+"Kuinka agressiivisesti ACC seuraa edessä olevaa ajoneuvoa ja vaihtaa "
+"nopeusrajoitusta."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
-msgstr ""
+msgstr "Seuraus etäisyys"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "Kuinka pitkää matkaa ACC pitää edessä olevasta ajoneuvosta."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:96
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Ohita liikennevalot"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Jos tämä asetus on päällä, ACC ei ota liikennevaloja huomioon ollenkaan ajon "
+"aikana. Tämä siis tarkoittaa että ajetaan punasia päin."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
-msgstr ""
+msgstr "Nopeuden hallinta"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Ohita nopeusrajoitus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "Whether the ACC should ignore the speed limit."
 msgstr ""
+"Jos tämä asetus on päällä, ACC ei ota nopeusrajoitusta huomioon ollenkaan "
+"ajon aikana."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:112
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Kirkakerroin"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"ACC käyttää tätä kitkakerrointa kulmanopeuksien laskemisessa. Korkea arvo "
+"tarkoittaa kulmissa nopeampaa ajoa."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Nopeus kun rajoitus 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr ""
+"Peli kertoo joskus rajoituksen olevan 0 km/h, tässä tapauksessa ajetaan tätä "
+"nopeutta."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Nopeuspoikkeaman tyyppi"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:141
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Valitse poikkeaman tyyppi, siis prosentti vai kilometri arvo."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Speed Offset"
-msgstr ""
+msgstr "Nopeuspoikkeama"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147
 #: .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"Staattinen nopeuspoikkeama kaikkilla nopeuksilla. ETS2:n turvallinen "
+"poikkeama on 3 km/h ylinopeutta."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr ""
+msgstr "Tamä laajennus renderöi näytölle HUDin AR laajennuksen avulla."
 
 #: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: .\Plugins\HUD\main.py:89
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Virkistystaajuus"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
 msgstr ""
+"HUDin päivitysten virkistystaajuus, normaalisti tämä arvo on suositeltavaa "
+"pitää alhaisena."
 
 #: .\Plugins\HUD\main.py:99
 msgid "Scale"
-msgstr ""
+msgstr "Skaalaus"
 
 #: .\Plugins\HUD\main.py:100
 msgid "The scale of the HUD elements."
-msgstr ""
+msgstr "Skaalaa HUD elementtejä suuremmiksi tai pienemmiksi."
 
 #: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
 msgid "Offset X"
-msgstr ""
+msgstr "X siirto"
 
 #: .\Plugins\HUD\main.py:111
 msgid "The X offset (side to side) of the HUD elements."
-msgstr ""
+msgstr "Siirrä X akselilla (eli sivuttain)."
 
 #: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
 msgid "Offset Y"
-msgstr ""
+msgstr "Y siirto"
 
 #: .\Plugins\HUD\main.py:119
 msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr ""
+msgstr "Siirrä Y akselilla (eli ylös alas)."
 
 #: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
 msgid "Offset Z"
-msgstr ""
+msgstr "Z siirto"
 
 #: .\Plugins\HUD\main.py:127
 msgid "The Z offset (distance) of the HUD elements."
-msgstr ""
+msgstr "Siirrä Z akselilla (eli sisään ulos)."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr ""
+msgstr "Elementit"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
-msgstr ""
+msgstr "Näytä navigaatio"
 
 #: .\Plugins\HUD\main.py:136
 msgid "When enabled, the HUD will display navigation information."
-msgstr ""
+msgstr "HUD näyttää navigaatiodatan."
 
 #: .\Plugins\HUD\main.py:141
 msgid "Show ACC Info"
-msgstr ""
+msgstr "Näytä ACC (adaptiivinen vakionopeudensäädin)"
 
 #: .\Plugins\HUD\main.py:142
 msgid "When enabled, the HUD will display adaptive cruise control information."
 msgstr ""
+"Näyttää ACC:n antamaa tietoa, esimerkiksi etäisyys edellä menevään autoon."
 
 #: .\Plugins\HUD\main.py:147
 msgid "Draw Steering"
-msgstr ""
+msgstr "Piirrä ohjauslinja"
 
 #: .\Plugins\HUD\main.py:148
 msgid "Whether to draw the steering line in the HUD."
-msgstr ""
+msgstr "Piirtää tämänhetkisen ohjauslinjan, eli sen mihin ETS2LA haluaa ajaa."
 
 #: .\Plugins\HUD\main.py:153
 msgid "Show Traffic Light Times"
-msgstr ""
+msgstr "Näytä liikennevalojen ajat"
 
 #: .\Plugins\HUD\main.py:154
 msgid "When enabled, the HUD will display traffic light times."
-msgstr ""
+msgstr "Näyttää kuinka kauan liikennevaloilla menee vaihtua."
 
 #: .\Plugins\HUD\main.py:159
 msgid "Draw Wheel Paths"
-msgstr ""
+msgstr "Näytä renkaiden reitti"
 
 #: .\Plugins\HUD\main.py:160
 msgid "When enabled, the HUD will display where the wheels will go when turning."
 msgstr ""
+"Näyttää mihin renkaat ovat tällä hetkellä menossa, toimii siis samalla "
+"tavalla kuin peruutuskameroiden viivat."
 
 #: .\Plugins\HUD\main.py:169
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
-msgstr ""
+msgstr "Tekee tuulilasille HUDin, tarvitsee AR laajennuksen toimiakseen."
 
 #: .\Plugins\HUD\main.py:758
 msgid "Waiting for lane change approval"
-msgstr ""
+msgstr "Odotetaan lupaa vaihtaa kaistaa"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr ""
+msgstr "Vaihdetaan kaistaa... {percentage}%"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
-msgstr ""
+msgstr "Etäisyys: {distance:.0f} {units}"
 
 #: .\Plugins\HUD\main.py:892
 msgid "Target: {acc_gap:.0f} {units}"
-msgstr ""
+msgstr "Tavoite: {acc_gap:.0f} {units}"
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Aktivoi ohjaus"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
 msgstr ""
+"Kun Kartta -laajennus on käynnissä, tällä painikkeella voi kytkeä ohjauksen "
+"päälle ja pois."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Kartta"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
-msgstr ""
+msgstr "Tämä laajennus ohjaa ja navigoi valitun karttadatan pohjalta."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Virhe aktivoidessa Karttaa: {0}"
 
 #: .\Plugins\Map\main.py:264
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Valmistellaan tietojen latausta..."
 
 #: .\Plugins\Map\main.py:278
 msgid "Waiting for game data selection in the Settings -> Map..."
 msgstr ""
+"Odotetaan karttatietojen valintaa: Asetukset -> Kartta -> Karttatiedot..."
 
 #: .\Plugins\Map\main.py:307
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Saatiin virheellinen ohjausarvo"
 
 #: .\Plugins\Map\main.py:333
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Kartta -laajennuksen suoritussilmukassa tapahtui virhe: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
 msgstr ""
+"Varoitus: Ohjaus voi pätkiä alhaisen virkistystaajuuden takia. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Ei löytynyt"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Kartan asetukset"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Määritä Kartta -laajennuksen asetukset. Tällä sivulla voit muokata "
+"navigoinnin ja ohjauksen asetuksia."
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "Navigoi ETS2LA:lla"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
 msgstr ""
+"Aktivoi ETS2LA:n automaattiset navigaatio toiminnot. ETS2LA pyrkii "
+"seuraamaan pelinsisäistä navigaatioreittiä."
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr ""
+msgstr "Lähetä korkeusdata"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
+"Kun tämä asetus on päällä, Kartta -laajennus lähettää muille laajennuksille "
+"korkeusdataa ympäristöstä."
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "Poista virkistystaajuus ilmoitukset käytöstä"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
 msgstr ""
+"Et saa ilmoituksia kartan alhaisesta virkistystaajuudesta, tämähän ei siis "
+"tarkoita että se pyörii nyt nopeammin."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Laske ohjaus"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
 msgstr ""
+"Jos tämä asetus poistetaan käytöstä, Kartta -laajennus ei enää laske "
+"ohjauskulmaa."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Ota peräkärry huomioon"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Tämä asetus kertoo Kartalle ottaa rekan perkärryt huomioon ohjauksessa. Tämä "
+"pyrkii estämään kulmien leikkausta."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Ohjauksen tasoitus"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Kuinka monen sekuntin yli ohjaus tasoitetaan. Huomioi kuitenkin että korkeat "
+"arvot voivat aiheuttaa heilumista."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
-msgstr ""
+msgstr "Karttatiedot"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "Huomio!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Jos Kartta -laajennus kaatuu tietojen vaihtamisen jälkee, voit kokeillä "
+"käynnistää ETS2LA:n uudelleen. Jos tämäkään ei toimi, ota yhteyttä "
+"kehittäjiin."
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Valitse haluamasi karttatiedot, valinnan jälkee laajennus pyrkii lataamaan "
+"tiedot."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Päivitä tiedot"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Päivittää tällä hetkellä ladatut karttatiedot, tämä voi auttaa jos tiedot "
+"ovat syystä tai toisesta korruptoituneet."
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "ACC Information"
-msgstr ""
+msgstr "ACC tiedot"
 
 #: .\Plugins\NGHUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
 msgstr ""
+"Piirtää adaptiivisen vakionopeudensäätimen tiedot, kuten etäisyyden ja "
+"nopeuden."
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "Kiihtyvyys"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
 msgstr ""
+"Piirtää rekan tämänhetkisen kiihtyvyydeen, näyttää myös tavoitekiihtyvyyden "
+"jos ACC on päällä."
 
 #: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Avustimien tilanne"
 
 #: .\Plugins\NGHUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "Näyttää nopeuden ja ohjauksen hallinnan tilanteen."
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Polttoaine"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Näyttää polttoaineen ja jäljellä olevan etäisyyden."
 
 #: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "Kierrosluvut ja Vaihde"
 
 #: .\Plugins\NGHUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Piirtää tämänhetkiset kierrosluvut ja rekan vaihteen."
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43
 #: .\Plugins\NGHUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
-msgstr ""
+msgstr "Näyttää esimerkiksi musiikin nimen, artistin, ja tämänhetkisen asennon."
 
 #: .\Plugins\NGHUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Musiikkia ei soi"
 
 #: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Ei artistia"
 
 #: .\Plugins\NGHUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Ei otsikkoa"
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigaatio"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
 msgstr ""
+"Näyttää jäljellä olevan etäisyyden ja arvioidun oikean ajan saapumiseen."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "saapuu"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Kaasu / Jarru"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Näyttää tämänhetkisen kaasun ja jarrun prosenttiluvun."
 
 #: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Liikennevalot"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Piirtää liikennevalojen jäljellä olevan ajan."
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
 #: .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Nopeus"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
-msgstr ""
+msgstr "Näyttää nopeuden ja nopeusrajoituksen muutokset."
 
 #: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "Steering Line"
-msgstr ""
+msgstr "Ohjausviiva"
 
 #: .\Plugins\NGHUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Piirtää ohjausviivan, siis sen mihin ETS2LA aikoo ajaa seuraavaksi."
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
 msgid "NGHUD"
-msgstr ""
+msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
 msgstr ""
+"Seuraavan generaation HUD -laajennus (tarvittiin joku nimi joka ei ole HUD)"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr ""
+msgstr "Aktivoi"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivoi"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Käynnistäthän laajennuksen ennen asetusten muokkaamista."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
 msgid "Transform"
-msgstr ""
+msgstr "Paikka"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "Vasen / oikea siirtymä."
 
 #: .\Plugins\NGHUD\ui.py:119
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "Ylös alas siirtymä."
 
 #: .\Plugins\NGHUD\ui.py:128
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "Eteen taakse siirtmä."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
-msgstr ""
+msgstr "Ikkunoiden leveydet."
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
 msgstr ""
+"Nämä asetukset säätävät jokaisen ikkunan leveyttä pikseleinä. Normaalileveys "
+"on 100px. Elementit yrittävät skaalata itseään uuteen leveyteen, mutta tämä "
+"ei aina ole mahdollista."
 
 #: .\Plugins\NGHUD\ui.py:161
 msgid "Widget Background"
-msgstr ""
+msgstr "Tausta-asetukset"
 
 #: .\Plugins\NGHUD\ui.py:162
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
-msgstr ""
+msgstr "Voit säätää kuinka paljon taustaa tulisi tummentaa päivällä ja yöllä."
 
 #: .\Plugins\NGHUD\ui.py:166
 msgid "Darkness"
-msgstr ""
+msgstr "Tummennus (yö)"
 
 #: .\Plugins\NGHUD\ui.py:167
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr ""
+msgstr "0 tarkoittaa läpinäkyvää, 1 tarkoittaa täysin mustaa."
 
 #: .\Plugins\NGHUD\ui.py:176
 msgid "Day Darkness"
-msgstr ""
+msgstr "Tummennus (päivä)"
 
 #: .\Plugins\NGHUD\ui.py:177
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
-msgstr ""
+msgstr "0 tarkoittaa läpinäkyvää, 1 tarkoittaa täysin mustaa."
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
-msgstr ""
+msgstr "Elementit"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Käynnissä olevat ikkunat"
 
 #: .\Plugins\NGHUD\ui.py:196
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Tämä näyttää tällä hetkellä käynnissä olevat ikkunat ja niiden koot, voit "
+"painaa ikkunaa sammuttaaksesi sen. Ikkunoita ei voi liikuttaa."
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
-msgstr ""
+msgstr "Saatavilla olevat ikkunat"
 
 #: .\Plugins\NGHUD\ui.py:225
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Voit käynnistää nämä ikkunat, ja lisätä ne ylle."
 
 #: .\Plugins\NGHUD\ui.py:233
 msgid "Renderers"
-msgstr ""
+msgstr "Renderöijät"
 
 #: .\Plugins\NGHUD\ui.py:234
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Nämä renderöijät ovat koko näytön kokoisia, ne siis piirtävät jotain joka "
+"liikkuu pelimaailmassa, ja ei voi olla linkitetty itse HUDiin."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"TTS -laajennus tarjoaa erityisesti esteettömyyttä niille, jotka sitä "
+"tarvitsevat."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Äänet"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Valitse äänitarjoaja."
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
-msgstr ""
+msgstr "Tämä näyttää tietoja kunhan laajennus on käynnissä."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "Valitse TTS tarjoaja"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Valitse saatavilla olevista tarjoajista se jota haluat käyttää."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Valitse ensin tarjoaja, jotta näet äänet."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Ääntä {0} ei löydetti, käytetään oletusta {1}"
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "Valitse TTS ääni"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Valitse mitä saatavilla olevista TTS äänistä haluat käyttää."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Etsi ääntä..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Ääniä ei löytynyt."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Säädä äänen nopeutta."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Säädä äänen voimakkuutta."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Testimoodi"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
-msgstr ""
+msgstr "Voit laittaa testimoodin päälle kun säädät asetuksia."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Asetukset"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Piippaa tien läheisyyttä"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Piippaa riippuen tien etäisyydestä ja kulmasta siihen, auttaa sokeita "
+"löytämään tielle jotta ETS2LA voidaan aktivoida."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Teksti puheeksi laajennus esteettömyyttä varten. Jotkut voivat myös tykätä "
+"\"puhuvasta\" rekasta."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Ääntä {0} ei löydetty tarjoajassa {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Tarjoajaa ei valittu, et voi valita ääntä."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Ladataan TTS tarjoajaa: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Ladataan TTS ääntä: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Kartan ohjaus aktivoitu."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Kartan ohjaus deaktivoitu."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Adaptiivinen vakionopeudensäädin aktivoitu."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Adaptiivinen vakionopeudensäädin deaktivoitu."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr ""
+msgstr "Lähin kaupunki on nyt {0}, etäisyydellä {1} kilometriä."
 
 #: .\Plugins\TTS\main.py:347
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "Nopeusrajoitus on nyt {0} kilometriä tunnissa."
 
 #: .\Plugins\TTS\main.py:355
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr ""
+msgstr "Polttoainetta on vain {0} kilometria, tankkaathan pian."
 
 #: .\Plugins\TTS\main.py:358
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr ""
+"Polttoaine on nyt kritiikaalinen, sitä on enää {0} kilometriä jäljellä. "
+"Tankkaa nyt."
 
 #: .\Plugins\TTS\main.py:376
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Seuraavaan reittipisteeseen on {0} kilometriä."
 
 #: .\Plugins\TTS\main.py:397
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Moottorin vahinko on nyt {0}%."
 
 #: .\Plugins\TTS\main.py:400
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Ohjaamon vahinko on nyt {0}%."
 
 #: .\Plugins\TTS\main.py:403
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Alustan vahinko on nyt {0}%."
 
 #: .\Plugins\TTS\main.py:406
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Vaihteiston vahinko on nyt {0}%."
 
 #: .\Plugins\TTS\main.py:409
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Renkaiden vahinko on nyt {0}%."
 
 #: .\Plugins\TTS\main.py:412
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Lastin vahinko on nyt {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Nopeus {0} kilometriä tunnissa, rajoitus {1}, polttoainetta {2}%, ja "
+"seuraavaan reittipisteeseen on {3} kilometriä."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Testimoodi aktivoitu, tämä on testiviesti."
 
 #: .\main.py:93
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Testataan palvelimia..."
 
 #: .\main.py:101
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Saavutettiin {0} {1:.0f} millisekunnissa"
 
 #: .\main.py:107
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Saavutettiin {0} (TIMEOUT) millisekunnissa"
 
 #: .\main.py:122
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " -- Latauksen jälkeistä toimintoa ajetaan moduulille:  Interface  -- "
 
 #: .\main.py:140
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "ETS2LA käynnistetään kehittäjämoodissa."
 
 #: .\main.py:144
 msgid "Running UI locally"
-msgstr ""
+msgstr "Käyttöliittymä ajetaan paikallisesti"
 
 #: .\main.py:149
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr ""
+msgstr "Yhteyttä palvelimiin ei ole, ajetaan käyttöliittymä paikallisesti."
 
 #: .\main.py:160
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Käyttöliittymä aktivoitu \"Kiina\" moodissa"
 
 #: .\main.py:162
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Käytetään käyttöliittymälle palvelinta {0}."
 
 #: .\main.py:168
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console ei voi olla päällä samaan aikaan kuin --no-ui. Konsoli ei "
+"sulkeudu automaattisesti."
 
 #: .\main.py:170
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Suljetaan konsoli kunhan käyttöliittymä aukeaa."
 
 #: .\main.py:173
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Käyttöliittymää ei avata, ETS2LA toimii taustalla."
 
 #: .\main.py:191
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "ETS2LA:n valvoja käynnistetty!"
 
 #: .\main.py:207
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA käynnistyy uudelleen..."
 
 #: .\main.py:213
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Ohitetaan päivitys koska olemme kehitysmoodissa."
 
 #: .\main.py:216
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA päivittää..."
 
 #: .\main.py:219
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Päivitys valmis... käynnistetään uudelleen!"
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA on kaatunut!"
 
 #: .\main.py:233
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Lähetä yllä oleva virhetulostus kehittäjille."
 
 #: .\main.py:235
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA on sammutettu."
 
 #: .\main.py:236
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Paina enter painiketta sulkeaksesi sovelluksen."
