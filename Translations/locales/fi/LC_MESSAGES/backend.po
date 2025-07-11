@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 14:23+0000\n"
-"Last-Translator: Tumppi066 <contact@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-11 18:47+0000\n"
+"Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
 "Language: fi\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr "Aika loppui, kokeile uudelleen."
+msgstr "Aikakatkaisu, kokeile uudelleen."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
@@ -832,11 +832,11 @@ msgstr "Odotetaan karttatietojen valintaa..."
 
 #: .\Pages\onboarding.py:246 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr "Valittu karttatieto"
+msgstr "Valitut karttatiedot"
 
 #: .\Pages\onboarding.py:247
 msgid "Select the data that matches your game and mods."
-msgstr "Valitse peliä ja modeja vastaavat tiedot."
+msgstr "Valitse peliä ja modeja vastaavat karttatiedot."
 
 #: .\Pages\onboarding.py:251 .\Plugins\Map\ui.py:163
 msgid "Search data"
@@ -1118,7 +1118,7 @@ msgstr "Deaktivoitu"
 
 #: .\Pages\plugins.py:274
 msgid "Switch to Advanced Mode"
-msgstr "Vaihda kehittyneeseen tilaan."
+msgstr "Vaihda kehittyneeseen tilaan"
 
 #: .\Pages\plugins.py:296
 msgid "Search plugins..."
@@ -1284,7 +1284,7 @@ msgstr ""
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr "Pakota päivitys"
+msgstr "Päivitä joka tapauksessa"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update(s)"
@@ -1340,7 +1340,7 @@ msgstr "Aggressiivisuus"
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
 "Kuinka agressiivisesti ACC seuraa edessä olevaa ajoneuvoa ja vaihtaa "
-"nopeusrajoitusta."
+"nopeusrajoitusta?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
@@ -1348,7 +1348,7 @@ msgstr "Seuraus etäisyys"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr "Kuinka pitkää matkaa ACC pitää edessä olevasta ajoneuvosta."
+msgstr "Kuinka pitkää matkaa ACC pitää edessä olevasta ajoneuvosta?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:96
 msgid "Ignore Traffic Lights"
@@ -1362,7 +1362,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
-msgstr "Nopeuden hallinta"
+msgstr "Nopeudensäätö"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Ignore Speed Limit"
@@ -1466,7 +1466,7 @@ msgstr "Siirrä Z akselilla (eli sisään ulos)."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr "Elementit"
+msgstr "HUD- elementit"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
@@ -1660,9 +1660,9 @@ msgstr "Huomio!"
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
-"Jos Kartta -laajennus kaatuu tietojen vaihtamisen jälkee, voit kokeillä "
+"Jos Kartta -laajennus kaatuu tietojen vaihtamisen jälkeen, voit kokeilla "
 "käynnistää ETS2LA:n uudelleen. Jos tämäkään ei toimi, ota yhteyttä "
-"kehittäjiin."
+"kehittäjiin discordissa!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
@@ -1806,7 +1806,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr "Aktivoi"
+msgstr "Salli"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Disable"
@@ -1835,7 +1835,7 @@ msgstr "Eteen taakse siirtmä."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
-msgstr "Ikkunoiden leveydet."
+msgstr "Ikkunoiden leveydet"
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
@@ -1888,7 +1888,7 @@ msgstr "Saatavilla olevat ikkunat"
 
 #: .\Plugins\NGHUD\ui.py:225
 msgid "These widgets are available to be enabled:"
-msgstr "Voit käynnistää nämä ikkunat, ja lisätä ne ylle."
+msgstr "Voit käynnistää nämä ikkunat, ja lisätä ne ylle:"
 
 #: .\Plugins\NGHUD\ui.py:233
 msgid "Renderers"
@@ -1916,7 +1916,7 @@ msgstr "Äänet"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr "Valitse äänitarjoaja."
+msgstr "Valitse äänitarjoaja!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
