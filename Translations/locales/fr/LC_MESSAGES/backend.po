@@ -7,392 +7,415 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-10 22:38+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
-"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>\n"
+"PO-Revision-Date: 2025-07-12 08:21+0000\n"
+"Last-Translator: Nesquik <nesquik@ets2la.com>\n"
+"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>"
+"\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Délai d’attente dépassé, veuillez réessayer."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Événement {action} lié à {device}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Actualisation des joysticks..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} connecté."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Joystick trouvé : [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} déconnecté."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Événement avec l'alias '{0}' introuvable."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
 msgstr ""
+"Une exception s’est produite lors de la tentative de modification de "
+"l’événement."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Écoute des contrôles lancée."
 
 #: .\ETS2LA\Handlers\plugins.py:124
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Échec du démarrage du plugin {0} : délai dépassé.\n"
+"Essayez de fermer d'autres programmes pour libérer de la mémoire et du CPU "
+"pour le plugin."
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Échec du démarrage du plugin {0} : {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:181
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] chargé avec succès."
 
 #: .\ETS2LA\Handlers\plugins.py:354
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Le plugin {0} n’a pas pu obtenir la description : délai dépassé."
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Le plugin {0} n’a pas pu obtenir la description : {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:389
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Le plugin {0} n’a pas pu récupérer les contrôles : délai dépassé."
 
 #: .\ETS2LA\Handlers\plugins.py:393
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Le plugin {0} n’a pas pu récupérer les contrôles : {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:425
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "{0} plugins chargés."
 
 #: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin introuvable."
 
 #: .\ETS2LA\Handlers\plugins.py:494
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] démarré avec succès."
 
 #: .\ETS2LA\Handlers\plugins.py:501
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Échec du démarrage du plugin : {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
-msgstr ""
+msgstr "Délai dépassé"
 
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin introuvable, cela peut être dû à un plantage ou à un échec de "
+"chargement."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin \\[yellow]{0}\\[/yellow] arrêté avec succès."
 
 #: .\ETS2LA\Handlers\plugins.py:530
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Échec de l’arrêt du plugin : {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:553
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Échec du redémarrage du plugin : {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} introuvable pour la page {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Échec du téléchargement de la bibliothèque ffmpeg, veuillez la télécharger "
+"manuellement. (par exemple : [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Le son requis '{1}' est manquant du pack son '{0}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Le pack son '{0}' contient un type de fichier invalide '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Tentative de lecture du son '{0}', mais il est introuvable dans le pack son "
+"'{1}'"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Une erreur s’est produite lors du traitement d’un message."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Tentative d’envoi d’une page vide."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Le websocket de la popup interface utilisateur a démarré."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Interface utilisateur"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "L’interface souhaite effectuer une mise à jour."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Échec de la configuration de la transparence"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Échec de la récupération des données du tag"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Échec de la récupération des pages"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Échec de la récupération des données pour la page {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Échec du rechargement des plugins"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Échec de la construction de l’interface"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Construction de l’interface... veuillez patienter..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Échec du démarrage de l’interface"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Serveur web démarré à l’adresse http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Interface démarrée à l’adresse http ://{ip} :{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Journalisation initialisée."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Erreurs et avertissements dans les fichiers journaux :"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Erreurs : "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Avertissements : "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Aucune erreur ni avertissement détecté."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Veuillez patienter pendant l'initialisation de l'interface utilisateur"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend démarré avec succès"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Développeur principal et créateur d’ETS2LA, backend et frontend."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr ""
+"Détection de navigation, détection des feux de circulation, ETS2LA Lite, 'co-"
+"propriétaire'"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Divers ajouts et améliorations, modèles d’IA pour la détection d’objets & "
+"développement"
 
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Développeur du SDK côté jeu pour ETS2LA. Gestion des véhicules, feux de "
+"circulation, données caméra, et plus, directement extraits du jeu."
 
 #: .\Pages\about.py:18
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Extraction et traitement des données de jeu"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Portage Linux & Unix, diverses améliorations et corrections de bugs"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr ""
+"Développeur C++ du SDK ETS2LA, portage Linux & Unix, corrections de bugs"
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Assistance pour la navigation sur ETS2LA et la carte"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "Développeur du scs-sdk-controller"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "Modèles 3D pour la visualisation"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
 msgstr ""
+"Développement d’extracteur de données, prise en charge des cartes modifiées."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Traduction chinoise, corrections de bugs"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Traductions chinoise, corrections de bugs"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Calculs automatiques des décalages pour le plugin Carte."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Support du serveur Discord, développeur traducteur chinois-anglais."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Maintenance des miroirs CN pour les services ETS2LA."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Hooks de jeu"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
 #: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Corrections de bugs"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Correction des essuie-glaces (timer de 5 secondes)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Correction des essuie-glaces dans {0} secondes..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Les essuie-glaces devraient maintenant être réparés."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Déclenchement de la mise à jour"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minute"
+msgstr[1] "{0} minutes"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} heure"
+msgstr[1] "{0} heures"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} et {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA est un projet visant à fournir une solution de conduite autonome "
+"facile à utiliser pour ETS2 et ATS. Si tu veux en savoir plus, tu peux "
+"visiter la page GitHub ou le wiki via la barre latérale."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiques"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
-msgstr ""
+msgstr "Utilisateurs en ligne :"
 
 #: .\Pages\about.py:94
 msgid "{0} users"
-msgstr ""
+msgstr "{0} utilisateurs"
 
 #: .\Pages\about.py:96
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Dernières 24 heures :"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} utilisateurs unique"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
-msgstr ""
+msgstr "Votre temps d'utilisation :"
 
 #: .\Pages\about.py:104
 msgid "You are not logged in."
-msgstr ""
+msgstr "Vous n'êtes pas connecté(e)."
 
 #: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Votre identifiant anonyme est : {0}"
 
 #: .\Pages\about.py:109
 msgid "You are logged in."
-msgstr ""
+msgstr "Vous êtes connecté(e)."
 
 #: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Bienvenue à nouveau, {0} !"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Contributeurs"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
-msgstr ""
+msgstr "Liste des contributeurs"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
 msgid "Help Translate"
-msgstr ""
+msgstr "Contribuer à la traduction"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
