@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 14:23+0000\n"
+"PO-Revision-Date: 2025-07-11 16:08+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
 ">\n"
@@ -1147,415 +1147,440 @@ msgstr "Sök plugins..."
 
 #: .\Pages\plugins.py:305
 msgid "Search tags..."
-msgstr ""
+msgstr "Sök efter taggar..."
 
 #: .\Pages\plugins.py:306
 msgid "No tags found"
-msgstr ""
+msgstr "Inga taggar hittades"
 
 #: .\Pages\plugins.py:315
 msgid "Search authors..."
-msgstr ""
+msgstr "Sök författare..."
 
 #: .\Pages\plugins.py:316
 msgid "No authors found"
-msgstr ""
+msgstr "Inga författare hittades"
 
 #: .\Pages\plugins.py:320
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Tillbaka till grundläget"
 
 #: .\Pages\plugins.py:351
 msgid "Running Plugins"
-msgstr ""
+msgstr "Kör plugins"
 
 #: .\Pages\plugins.py:358
 msgid "Want to enable the plugins you had running last time?"
-msgstr ""
+msgstr "Vill du aktivera de plugins du körde förra gången?"
 
 #: .\Pages\plugins.py:360
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Aktivera senaste plugins"
 
 #: .\Pages\plugins.py:366
 msgid "Available Plugins"
-msgstr ""
+msgstr "Tillgängliga plugins"
 
 #: .\Pages\sdk_installation.py:86
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "Kunde inte hitta versionen för {game}, hoppar över installationen"
 
 #: .\Pages\sdk_installation.py:91
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "Installera SDK:er för {game}"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "SDK:erna för {game} har installerats."
 
 #: .\Pages\sdk_installation.py:101
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "SDK:er för {game} är redan installerade, hoppar över installationen"
 
 #: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr ""
+msgstr "Se till att spelet är stängt och försök igen. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr ""
+msgstr "Error installing SDKs for {game}, please make sure the game is closed."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr ""
+msgstr "Kunde inte hitta versionen för {game}, hoppar över avinstallationen"
 
 #: .\Pages\sdk_installation.py:114
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "Avinstallerar SDK:er för {game}"
 
 #: .\Pages\sdk_installation.py:119
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "SDK:erna för {game} har avinstallerats."
 
 #: .\Pages\sdk_installation.py:121
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "SDK:er för {game} är inte installerade, hoppar över avinstallationen"
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Fel vid avinstallation av SDK:er för {game}, se till att spelet är stängt."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
-msgstr ""
+msgstr "Välj spelkatalogen"
 
 #: .\Pages\sdk_installation.py:130
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr ""
+"Kunde inte hitta versionen för det valda spelet, vänligen välj en giltig "
+"spelkatalog."
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "Kunde inte hitta versionen för {path}, hoppar över installationen"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Hittade spelversion {version}."
 
 #: .\Pages\sdk_installation.py:142
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "Sökvägen {path} finns inte."
 
 #: .\Pages\sdk_installation.py:148
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr ""
+"Kontrollera att du har de nödvändiga DLL-filerna installerade för att vi ska "
+"kunna kommunicera med spelet."
 
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"Vi kunde inte hitta några SCS-spel på ditt system. Observera att ETS2LA "
+"endast fungerar med legitima versioner som laddats ner från Steam."
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
-msgstr ""
+msgstr "Välj katalog manuellt"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
-msgstr ""
+msgstr "- Installerad"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Inte installerad"
 
 #: .\Pages\sdk_installation.py:194
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Den här spelversionen stöds inte"
 
 #: .\Pages\sdk_installation.py:210
 msgid "No files found."
-msgstr ""
+msgstr "Inga filer hittades."
 
 #: .\Pages\sdk_installation.py:221
 msgid "File Sources"
-msgstr ""
+msgstr "Filkällor"
 
 #: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "Avinstallera SDK:erna"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
 msgid "Install SDKs"
-msgstr ""
+msgstr "Installera SDK:er"
 
 #: .\Pages\sdk_installation.py:237
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Stäng spelet innan du installerar eller avinstallerar SDK:er."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Du har en lokal commit som väntar på att skickas."
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Inga uppdateringar tillgängliga. (Det kan ta upp till en minut för sidan att "
+"uppdateras efter en ny commit)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Uppdatera ändå"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update(s)"
-msgstr ""
+msgstr "Starta om och tillämpa {count} uppdatering(ar)"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr ""
+msgstr "Växla hastighetskontroll"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
-msgstr ""
+msgstr "När ACC är igång växlar detta mellan hastighetskontrollen på/av."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Öka körhastighetsförskjutningen"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
-msgstr ""
+msgstr "Detta kommer att öka hastighetsförskjutningen i inställningarna."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Minska körhastighetskompensation"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr ""
+msgstr "Detta minskar hastighetsförskjutningen i inställningarna."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8 .\Plugins\AdaptiveCruiseControl\settings.py:72 .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Adaptiv farthållare"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"Adaptiv farthållare (ACC) styr lastbilens hastighet baserat på information "
+"som samlats in från spelet."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Aggressivitet"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
-msgstr ""
+msgstr "Hur aggressivt ska ACC följa bilen framför och ändra hastighetsgränsen?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
-msgstr ""
+msgstr "Följande avstånd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "Hur långt ska ACC:n hålla sig från framförvarande fordon?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:96
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Ignorera trafikljus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Huruvida ACC ska ignorera trafikljus. Observera att detta, som det står, "
+"kommer att ignorera trafikljusen."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
-msgstr ""
+msgstr "Hastighetskontroll"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Ignorera hastighetsbegränsning"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "Om ACC ska ignorera hastighetsgränsen."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:112
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Friktionskoefficient"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"Friktionskoefficienten som används för ACC-beräkningarna. Högre värden gör "
+"att lastbilen kan köra snabbare i kurvor."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Hastighet när spelets hastighetsgräns är 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
-msgstr ""
+msgstr "Hastigheten att köra när spelet säger att hastighetsgränsen är 0 km/h."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Hastighetsförskjutningstyp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:141
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Välj vilken typ av hastighetsförskjutning som ska tillämpas."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146 .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Speed Offset"
-msgstr ""
+msgstr "Hastighetsförskjutning"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147 .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"Hastighetsförskjutningen som ska gälla för alla hastighetsgränser. Observera "
+"att du också kan ändra detta dynamiskt med tangentkombinationerna i "
+"kontrollerna."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr ""
+msgstr "Detta plugin tillhandahåller en HUD med AR-pluginet som renderer."
 
 #: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: .\Plugins\HUD\main.py:89
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Uppdateringsfrekvens"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
 msgstr ""
+"Hastigheten med vilken HUD:n uppdateras. Det rekommenderas inte att öka "
+"detta värde för mycket."
 
 #: .\Plugins\HUD\main.py:99
 msgid "Scale"
-msgstr ""
+msgstr "Skala"
 
 #: .\Plugins\HUD\main.py:100
 msgid "The scale of the HUD elements."
-msgstr ""
+msgstr "Skalan på HUD-elementen."
 
 #: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
 msgid "Offset X"
-msgstr ""
+msgstr "Förskjutning X"
 
 #: .\Plugins\HUD\main.py:111
 msgid "The X offset (side to side) of the HUD elements."
-msgstr ""
+msgstr "X-förskjutningen (sida till sida) för HUD-elementen."
 
 #: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
 msgid "Offset Y"
-msgstr ""
+msgstr "Förskjutning Y"
 
 #: .\Plugins\HUD\main.py:119
 msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr ""
+msgstr "Y-förskjutningen (topp till botten) för HUD-elementen."
 
 #: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
 msgid "Offset Z"
-msgstr ""
+msgstr "Förskjutning Z"
 
 #: .\Plugins\HUD\main.py:127
 msgid "The Z offset (distance) of the HUD elements."
-msgstr ""
+msgstr "Z-offset (avstånd) för HUD-elementen."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr ""
+msgstr "HUD-element"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
-msgstr ""
+msgstr "Visa navigering"
 
 #: .\Plugins\HUD\main.py:136
 msgid "When enabled, the HUD will display navigation information."
-msgstr ""
+msgstr "När den är aktiverad visar HUD:n navigationsinformation."
 
 #: .\Plugins\HUD\main.py:141
 msgid "Show ACC Info"
-msgstr ""
+msgstr "Visa ACC-information"
 
 #: .\Plugins\HUD\main.py:142
 msgid "When enabled, the HUD will display adaptive cruise control information."
 msgstr ""
+"När den är aktiverad visar HUD-displayen information om adaptiv farthållare."
 
 #: .\Plugins\HUD\main.py:147
 msgid "Draw Steering"
-msgstr ""
+msgstr "Visa styrning"
 
 #: .\Plugins\HUD\main.py:148
 msgid "Whether to draw the steering line in the HUD."
-msgstr ""
+msgstr "Om styrlinjen ska ritas i HUD:n."
 
 #: .\Plugins\HUD\main.py:153
 msgid "Show Traffic Light Times"
-msgstr ""
+msgstr "Visa trafikljustider"
 
 #: .\Plugins\HUD\main.py:154
 msgid "When enabled, the HUD will display traffic light times."
-msgstr ""
+msgstr "När den är aktiverad visar HUD-displayen trafikljustider."
 
 #: .\Plugins\HUD\main.py:159
 msgid "Draw Wheel Paths"
-msgstr ""
+msgstr "Visa hjulspår"
 
 #: .\Plugins\HUD\main.py:160
 msgid "When enabled, the HUD will display where the wheels will go when turning."
 msgstr ""
+"När den är aktiverad visar HUD:n var hjulen kommer att gå när du svänger."
 
 #: .\Plugins\HUD\main.py:169
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr ""
+"Skapar en head-up-display på vindrutan. Kräver AR-plugin för att fungera."
 
 #: .\Plugins\HUD\main.py:758
 msgid "Waiting for lane change approval"
-msgstr ""
+msgstr "Väntar på godkännande av filbyte"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr ""
+msgstr "Filbyte pågår {percentage}%"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
-msgstr ""
+msgstr "Avstånd: {distance:.0f} {units}"
 
 #: .\Plugins\HUD\main.py:892
 msgid "Target: {acc_gap:.0f} {units}"
-msgstr ""
+msgstr "Mål: {acc_gap:.0f} {units}"
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Växla styrning"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
-msgstr ""
+msgstr "När kartpluginet körs växlar detta mellan styrning på/av."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Karta"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
 msgstr ""
+"Detta plugin tillhandahåller styrnings- och navigeringsfunktioner. Det är "
+"det viktigaste pluginet i ETS2LA."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Fel vid initialisering av kart-plugin: {0}"
 
 #: .\Plugins\Map\main.py:264
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Förbereder för att ladda data..."
 
 #: .\Plugins\Map\main.py:278
 msgid "Waiting for game data selection in the Settings -> Map..."
-msgstr ""
+msgstr "Väntar på val av speldata i inställningarna -> Karta..."
 
 #: .\Plugins\Map\main.py:307
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Ogiltigt styrvärde mottaget"
 
 #: .\Plugins\Map\main.py:333
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Fel i kartplugin Run Loop: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
-msgstr ""
+msgstr "VARNING: Styrningen kan äventyras på grund av låg FPS. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
