@@ -7,19 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-07-11 18:47+0000\n"
+"Last-Translator: Trevor Pilvar <trev@ets2la.com>\n"
+"Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"et/>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Timeout, palun proovige uuesti."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
@@ -27,27 +29,27 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Juhtkange värskendatakse..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} ühendati."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Leitud juhtkang: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} ühendus katkes."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338 .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Sündmust aliasega '{0}' ei leitud."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Sündmuse muutmisel tekkis viga."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
@@ -101,7 +103,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
-msgstr ""
+msgstr "Timeout"
 
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
@@ -152,8 +154,9 @@ msgid "Frontend popup websocket started."
 msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
+#, fuzzy
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
@@ -201,7 +204,7 @@ msgstr ""
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Logimine initsialiseeritud."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
@@ -209,11 +212,11 @@ msgstr ""
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Vigu: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Hoiatusi: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
@@ -261,7 +264,7 @@ msgstr ""
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-controller developer"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
@@ -341,7 +344,7 @@ msgstr ""
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
@@ -381,7 +384,7 @@ msgstr ""
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Panustajad"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
@@ -409,7 +412,7 @@ msgstr ""
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr ""
+msgstr "Utils"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
@@ -421,7 +424,7 @@ msgstr ""
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Aktiveeri"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
@@ -433,7 +436,7 @@ msgstr ""
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Uuenda"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -489,7 +492,7 @@ msgstr ""
 
 #: .\Pages\controls.py:70
 msgid "Controls"
-msgstr ""
+msgstr "Kontrollid"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
@@ -510,7 +513,7 @@ msgstr ""
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
 msgid "Keyboard: "
-msgstr ""
+msgstr "Klaviatuur: "
 
 #: .\Pages\global_settings.py:126
 msgid "Global Settings"
@@ -550,7 +553,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:169
 msgid "Language"
-msgstr ""
+msgstr "Keel"
 
 #: .\Pages\global_settings.py:170
 msgid "Select the language for the application."
@@ -566,11 +569,11 @@ msgstr ""
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
-msgstr ""
+msgstr "Heli"
 
 #: .\Pages\global_settings.py:198
 msgid "Soundpack"
-msgstr ""
+msgstr "Helipakett"
 
 #: .\Pages\global_settings.py:199
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
@@ -578,7 +581,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Helitugevus"
 
 #: .\Pages\global_settings.py:207
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
@@ -594,7 +597,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:224
 msgid "Variables"
-msgstr ""
+msgstr "Muutujad"
 
 #: .\Pages\global_settings.py:226
 msgid "Fallback to old acceleration method"
@@ -618,7 +621,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:251
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Mitmesugused"
 
 #: .\Pages\global_settings.py:255
 msgid "Frontend Port"
@@ -661,8 +664,9 @@ msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
 
 #: .\Pages\global_settings.py:291
+#, fuzzy
 msgid "Fireworks"
-msgstr ""
+msgstr "Ilutulestik"
 
 #: .\Pages\global_settings.py:292
 msgid "Enable this option to use fireworks effects during the new year's."
@@ -670,7 +674,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:298
 msgid "Snow"
-msgstr ""
+msgstr "Lumi"
 
 #: .\Pages\global_settings.py:299
 msgid "Enable this option to use snow effects during the winter season."
@@ -682,7 +686,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323 .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
-msgstr ""
+msgstr "Laeb..."
 
 #: .\Pages\onboarding.py:87
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
@@ -698,7 +702,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154 .\Pages\onboarding.py:165 .\Pages\onboarding.py:200 .\Pages\onboarding.py:230 .\Pages\onboarding.py:296 .\Pages\onboarding.py:337
 msgid "Continue"
-msgstr ""
+msgstr "Jätka"
 
 #: .\Pages\onboarding.py:99
 msgid "Skip Onboarding"
@@ -722,8 +726,9 @@ msgid "Waiting for SDK installation..."
 msgstr ""
 
 #: .\Pages\onboarding.py:161 .\Pages\performance.py:131
+#, fuzzy
 msgid "Plugins"
-msgstr ""
+msgstr "Pluginad"
 
 #: .\Pages\onboarding.py:162
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
@@ -874,7 +879,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:378
 msgid "Finish"
-msgstr ""
+msgstr "Lõpeta"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:385
@@ -893,7 +898,7 @@ msgstr ""
 
 #: .\Pages\performance.py:94
 msgid "System"
-msgstr ""
+msgstr "Süsteem"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
@@ -941,7 +946,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr ""
+msgstr "Roolimine"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
@@ -957,7 +962,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Visualatsioon"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -968,7 +973,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
@@ -1408,7 +1413,7 @@ msgstr ""
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Kaart"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
@@ -1500,11 +1505,11 @@ msgstr ""
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
-msgstr ""
+msgstr "Andmed"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "MÄRKUS!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
@@ -1532,7 +1537,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "Kiirendus"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
@@ -1564,7 +1569,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43 .\Plugins\NGHUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Meedia"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
@@ -1584,7 +1589,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigatsioon"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
@@ -1593,7 +1598,7 @@ msgstr ""
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "saabumine"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
@@ -1613,7 +1618,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42 .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Kiirus"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
@@ -1629,19 +1634,21 @@ msgstr ""
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
 msgid "NGHUD"
-msgstr ""
+msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
 msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
+#, fuzzy
 msgid "Enable"
-msgstr ""
+msgstr "Luba"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
+#, fuzzy
 msgid "Disable"
-msgstr ""
+msgstr "Keela"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
@@ -1650,7 +1657,7 @@ msgstr ""
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
 msgid "Transform"
-msgstr ""
+msgstr "Muundamine"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
@@ -1697,8 +1704,9 @@ msgid "The darkness of the widget background during the day. 0 is no darkness, 1
 msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:186
+#, fuzzy
 msgid "Elements"
-msgstr ""
+msgstr "Elemente"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
@@ -1726,7 +1734,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
@@ -1734,7 +1742,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Hääled"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
@@ -1794,7 +1802,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Seadistused"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
