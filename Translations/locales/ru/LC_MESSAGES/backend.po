@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-11 18:47+0000\n"
-"Last-Translator: takedown <takedown@ets2la.com>\n"
+"Last-Translator: maz1lovo <maz1lozo@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
 "Language: ru\n"
@@ -394,15 +394,15 @@ msgstr "Участники"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
-msgstr ""
+msgstr "Список участников"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
 msgid "Help Translate"
-msgstr ""
+msgstr "Помощь в переводе"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "Поддержка разработчиков"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
