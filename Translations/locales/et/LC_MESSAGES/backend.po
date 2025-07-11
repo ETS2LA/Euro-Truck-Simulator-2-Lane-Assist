@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 18:47+0000\n"
+"PO-Revision-Date: 2025-07-12 08:21+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "et/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr "Timeout, palun proovige uuesti."
+msgstr "Aegumine, palun proovige uuesti."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
@@ -65,11 +65,11 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Lisaosa {0} ebaõnnestus alustada: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:181
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Lisaosa [yellow] {0}[/yellow] on edukalt laaditud."
 
 #: .\ETS2LA\Handlers\plugins.py:354
 msgid "Plugin {0} failed to get description: Timeout."
