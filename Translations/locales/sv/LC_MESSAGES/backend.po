@@ -7,497 +7,525 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-07-11 13:12+0000\n"
+"Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
+"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
+">\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Tidsgräns, försök igen."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Händelse bunden till {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Uppdaterar joysticks..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} kopplad."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Hittade joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} avkopplad."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338 .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Händelse med alias '{0}' hittades inte."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Ett undantag uppstod när händelsen skulle redigeras."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Kontrollerar att lyssnaren startade."
 
 #: .\ETS2LA\Handlers\plugins.py:124
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Plugin {0} kunde inte starta: Timeout.\n"
+"Försök att stänga andra program för att ge plugin mer minne och "
+"processorkraft."
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Plugin {0} kunde inte starta: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:181
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] har laddats."
 
 #: .\ETS2LA\Handlers\plugins.py:354
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Plugin {0} kunde inte hämta beskrivningen: Timeout."
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Plugin {0} kunde inte hämta beskrivningen: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:389
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Plugin {0} kunde inte hämta kontroller: Timeout."
 
 #: .\ETS2LA\Handlers\plugins.py:393
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Plugin {0} kunde inte hämta kontroller: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:425
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Laddade {0} plugins."
 
 #: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin hittades inte."
 
 #: .\ETS2LA\Handlers\plugins.py:494
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] startade."
 
 #: .\ETS2LA\Handlers\plugins.py:501
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Misslyckades med att starta plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
-msgstr ""
+msgstr "Timeout"
 
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin hittades inte, detta kan bero på en krasch eller ett fel vid laddning."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] stoppades utan problem."
 
 #: .\ETS2LA\Handlers\plugins.py:530
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Misslyckades med att stoppa plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:553
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Misslyckades med att starta om plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} hittades inte för sidan {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Misslyckades med att ladda ner ffmpeg-biblioteket, vänligen ladda ner det "
+"manuellt. (t.ex. [code]winget installera ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Ljudpaketet '{0}' saknar det obligatoriska ljudet '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Ljudpaketet '{0}' har en ogiltig filtyp '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Försökte spela upp ljudet '{0}', men det hittades inte i ljudpaketet '{1}'"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Ett fel uppstod när ett meddelande bearbetades."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Försökte skicka en tom sida."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Frontend-popup-webbsocket har startats."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Frontend-systemet vill utföra en uppdatering."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Misslyckades med att ställa in transparens"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Misslyckades med att hämta taggdata"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Misslyckades att hämta sidor"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Misslyckades med att hämta siddata för sidan {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Misslyckades med att ladda om plugins"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Misslyckades med att bygga frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Bygger frontend... vänligen vänta..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Misslyckades med att starta frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Webbservern startade på http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend startade på http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Loggning initierad."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Fel och varningar i loggfilerna:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Fel: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Varningar: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Inga fel eller varningar hittades."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Vänta medan vi initierar användargränssnittet"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend startade utan problem"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Huvudutvecklare och skapare av ETS2LA, backend och frontend."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Navigationsdetektering, trafikljusdetektering, ETS2LA Lite, 'delägare'"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Diverse tillägg och förbättringar, AI-modeller och utveckling för "
+"objektdetektering"
 
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Utvecklare av ETS2LA SDK för spelet. Fordon, trafikljus, kameradata och mer "
+"direkt från spelet."
 
 #: .\Pages\about.py:18
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Utvinning och bearbetning av speldata"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux- och Unix-portering, diverse förbättringar och buggfixar"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C++-utvecklare, Linux- och Unix-portering, buggfixar"
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Hjälp med navigering på ETS2LA och karta"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-kontroller-utvecklare"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D-modeller för visualisering"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Utveckling av dataextraktor, stöd för moddade kartor."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Kinesisk översättning, buggfixar"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Kinesisk översättningar, buggfixar"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatiska offsetberäkningar för Map-pluginet."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord-serversupport, utvecklare av kinesisk-engelsk översättning."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Underhåller CN-speglar för ETS2LA-tjänster."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Spelkrokar"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Buggfixar"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Fixering av vindrutetorkare (5s timer)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Lagar vindrutetorkarna på {0} sekunder..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Vindrutetorkarna borde vara lagade nu."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Utlöser uppdatering"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minut"
+msgstr[1] "{0} minuter"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} timme"
+msgstr[1] "{0} timmar"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} och {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA är ett projekt som syftar till att tillhandahålla en lättanvänd "
+"självkörande lösning för ETS2 och ATS. Om du vill veta mer kan du besöka "
+"github-sidan eller wikin via sidofältet."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiker"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
-msgstr ""
+msgstr "Användare online:"
 
 #: .\Pages\about.py:94
 msgid "{0} users"
-msgstr ""
+msgstr "{0} användare"
 
 #: .\Pages\about.py:96
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Senaste 24 timmar:"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} unika användare"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
-msgstr ""
+msgstr "Din användningstid:"
 
 #: .\Pages\about.py:104
 msgid "You are not logged in."
-msgstr ""
+msgstr "Du är inte inloggad."
 
 #: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Ditt anonyma användar-ID är: {0}"
 
 #: .\Pages\about.py:109
 msgid "You are logged in."
-msgstr ""
+msgstr "Du är inloggad."
 
 #: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Välkommen tillbaks, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Bidragsgivare"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
-msgstr ""
+msgstr "Lista bidragsgivare"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
 msgid "Help Translate"
-msgstr ""
+msgstr "Hjälp Översätta"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "Stöda Utvecklingen"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Om du gillar projektet och vill stödja utvecklingen kan du göra det genom "
+"att donera via Ko-Fi."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Om du vill bidra rekommenderar jag att du går med i Discord-servern och "
+"kollar in github-sidan."
 
 #: .\Pages\about.py:151
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Om du vill bidra till översättningarna kan du göra det genom att gå med i "
+"discord och kontakta en moderator."
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr ""
+msgstr "Utils"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Fixa Vindrutetorkare"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Har dina vindrutetorkare fastnat? Klicka på knappen och alt-tabbtangenten "
+"för att komma till spelet. De borde stängas av om 5 sekunder."
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Aktivera"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
-msgstr ""
+msgstr "Tvinga fram en uppdatering"
 
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Tycker du att det borde ha funnits en uppdatering? Klicka på den här knappen "
+"så startar appen om och letar efter dem."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Uppdatera"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{seconds} sekund sedan"
+msgstr[1] "{seconds} sekunder sedan"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{minutes} minut sedan"
+msgstr[1] "{minutes} minuter sedan"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{hours} timme sedan"
+msgstr[1] "{hours} timmar sedan"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{days} dag sedan"
+msgstr[1] "{days} dagar sedan"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Hämtar ändringslogg och möjliga ändringar."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Ändringslogg hämtad."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:78
 msgid "View Changes"
-msgstr ""
+msgstr "Visa ändringar"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:86
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Endast de senaste 20 uppdateringarna visas. Du kan kontrollera arkivet för "
+"ytterligare historik."
 
 #: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
 msgid "Show all plugins"
-msgstr ""
+msgstr "Visa alla plugins"
 
 #: .\Pages\controls.py:45
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Tryck på tangenten/knappen du vill koppla till den här händelsen."
 
 #: .\Pages\controls.py:50
 msgid "Event unbound."
-msgstr ""
+msgstr "Händelse obunden."
 
 #: .\Pages\controls.py:70
 msgid "Controls"
-msgstr ""
+msgstr "Kontroller"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Du kan ändra insticksprogrammens kontrollhändelser här."
 
 #: .\Pages\controls.py:82
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Sök kontroller eller plugins"
 
 #: .\Pages\controls.py:108
 msgid "No controls found, try again with different filters."
