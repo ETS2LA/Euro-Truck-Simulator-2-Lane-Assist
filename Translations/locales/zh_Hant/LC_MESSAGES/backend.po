@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 16:08+0000\n"
+"PO-Revision-Date: 2025-07-12 08:21+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hant/>\n"
@@ -658,64 +658,65 @@ msgstr "啟用此選項可使用進階錯誤追蹤。"
 
 #: .\Pages\global_settings.py:282
 msgid "Debug Mode"
-msgstr ""
+msgstr "除錯模式"
 
 #: .\Pages\global_settings.py:283
 msgid "Enable this option to use the edge debugger for the frontend."
-msgstr ""
+msgstr "開啟這個選項可以在前端介面使用 Edge 瀏覽器的除錯模式。"
 
 #: .\Pages\global_settings.py:291
 msgid "Fireworks"
-msgstr ""
+msgstr "煙火"
 
 #: .\Pages\global_settings.py:292
 msgid "Enable this option to use fireworks effects during the new year's."
-msgstr ""
+msgstr "開啟這個選項可在新年時使用煙火效果。"
 
 #: .\Pages\global_settings.py:298
 msgid "Snow"
-msgstr ""
+msgstr "雪花"
 
 #: .\Pages\global_settings.py:299
 msgid "Enable this option to use snow effects during the winter season."
-msgstr ""
+msgstr "開啟這個選項可在冬季時使用雪花效果。"
 
 #: .\Pages\onboarding.py:52
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
-msgstr ""
+msgstr "如果您以前已經完成過新手引導，您應該知道如何離開，但如果沒有進行過新手引導，E"
+"TS2LA將無法正常運作。"
 
 #: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323 .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
-msgstr ""
+msgstr "載入中..."
 
 #: .\Pages\onboarding.py:87
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
-msgstr ""
+msgstr "您可以坐著放鬆一下。因為我們正在處理一些需要時間的事情！"
 
 #: .\Pages\onboarding.py:91
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "歡迎使用 ETS2LA！"
 
 #: .\Pages\onboarding.py:92
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
-msgstr ""
+msgstr "讓我們幫你快速了解基礎操作！請按下方按鈕繼續。"
 
 #: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154 .\Pages\onboarding.py:165 .\Pages\onboarding.py:200 .\Pages\onboarding.py:230 .\Pages\onboarding.py:296 .\Pages\onboarding.py:337
 msgid "Continue"
-msgstr ""
+msgstr "繼續"
 
 #: .\Pages\onboarding.py:99
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "跳過新手引導"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:106
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "您可以在這裡切換主題！"
 
 #: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
-msgstr ""
+msgstr "SDK 設定"
 
 #: .\Pages\onboarding.py:148
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
