@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-12 08:21+0000\n"
+"PO-Revision-Date: 2025-07-12 12:08+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hant/>\n"
@@ -721,26 +721,31 @@ msgstr "SDK 設定"
 #: .\Pages\onboarding.py:148
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"在開始前，我們需要先設定 SDK。這將會允許讓 ETS2LA "
+"跟您的遊戲傳送資料。您在右側會看到遊戲列表，點擊其中一個遊戲的「安裝」按鈕然"
+"後繼續。"
 
 #: .\Pages\onboarding.py:151
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "正在等待 SDK 安裝..."
 
 #: .\Pages\onboarding.py:161 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "插件"
 
 #: .\Pages\onboarding.py:162
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
-msgstr ""
+msgstr "ETS2LA "
+"使用插件提供大部分的功能。您可以選擇基礎模式與進階模式。之後可以在設定中進行"
+"更改。"
 
 #: .\Pages\onboarding.py:169
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "進階插件模式"
 
 #: .\Pages\onboarding.py:170
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
-msgstr ""
+msgstr "開啟進階插件管理器。隨時可以在插件管理器中進行更改。"
 
 #: .\Pages\onboarding.py:183
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
