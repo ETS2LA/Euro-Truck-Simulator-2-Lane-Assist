@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 04:18+0000\n"
-"Last-Translator: Leo <leo@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>\n"
+"PO-Revision-Date: 2025-07-13 12:36+0000\n"
+"Last-Translator: TheWildPlant <thewildplant@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
+"\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -32,20 +33,20 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} verbunden."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Gefundener Joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} getrennt."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Ereignis mit Alias '{0}' nicht gefunden."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
