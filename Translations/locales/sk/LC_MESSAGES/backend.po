@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-12 12:08+0000\n"
+"PO-Revision-Date: 2025-07-12 13:00+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
 "\n"
@@ -1980,19 +1980,20 @@ msgstr "Nastavte cieľovú rýchlosť hlasu."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Nastavte cieľovú hlasitosť hlasu."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Testovací režim"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
 msgstr ""
+"Povoľte testovací režim na otestovanie poskytovateľa TTS bez načítania hry."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Nastavenia"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
