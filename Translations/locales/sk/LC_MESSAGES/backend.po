@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-12 13:00+0000\n"
+"PO-Revision-Date: 2025-07-13 12:36+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
 "\n"
@@ -1997,180 +1997,190 @@ msgstr "Nastavenia"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Povoliť zvukový signál priblíženia sa k ceste"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Povoľte zvukový signál oznamujúci vzdialenosť a uhol k najbližšej ceste."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Plugin Text To Speech pre zjednodušenie ovládania. Niektorým ľuďom sa môžu "
+"páčiť aj hlasové oznámenia."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Hlas {0} sa nenašiel u poskytovateľa {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Nie je vybraný žiadny poskytovateľ. Nemožno vybrať hlas."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Načítava sa poskytovateľ TTS: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Načítava sa hlas pre TTS: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Mapové riadenie povolené."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Mapové riadenie je vypnuté."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Adaptívny tempomat je zapnutý."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Adaptívny tempomat je vypnutý."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr ""
+msgstr "Najbližšie mesto je teraz {0} vo vzdialenosti {1} kilometrov."
 
 #: .\Plugins\TTS\main.py:347
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "Rýchlostný limit zmenený na {0} kilometrov za hodinu."
 
 #: .\Plugins\TTS\main.py:355
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr ""
+"Dojazd na palivo je teraz len {0} kilometrov, prosím, natankujte čoskoro."
 
 #: .\Plugins\TTS\main.py:358
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr ""
+"Dojazd je teraz kritický, iba {0} kilometrov, prosím, natankujte čo najskôr."
 
 #: .\Plugins\TTS\main.py:376
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Do ďalšieho bodu na trase je to {0} kilometrov."
 
 #: .\Plugins\TTS\main.py:397
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Poškodenie motora je teraz na úrovni {0} %."
 
 #: .\Plugins\TTS\main.py:400
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Poškodenie kabíny je teraz na úrovni {0} %."
 
 #: .\Plugins\TTS\main.py:403
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Poškodenie podvozku je teraz na úrovni {0} %."
 
 #: .\Plugins\TTS\main.py:406
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Poškodenie prevodovky je teraz na úrovni {0} %."
 
 #: .\Plugins\TTS\main.py:409
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Poškodenie kolesa je teraz na úrovni {0} %."
 
 #: .\Plugins\TTS\main.py:412
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Poškodenie nákladu je teraz na úrovni {0} %."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Rýchlosť {0} kilometrov za hodinu, limit {1}, palivo {2} % a do ďalšieho "
+"bodu na trase je to {3} kilometrov."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Testovací režim je povolený. Toto je testovacia správa."
 
 #: .\main.py:93
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Testovanie zrkadiel..."
 
 #: .\main.py:101
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Dosiahnuté {0} za {1:.0f}ms"
 
 #: .\main.py:107
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Dosiahnuté {0} za (ČASOVÝ LIMIT)"
 
 #: .\main.py:122
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " -- Spustenie akcie po stiahnutí pre podmodul:  Rozhranie  -- "
 
 #: .\main.py:140
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "Spustenie ETS2LA vo vývojovom režime."
 
 #: .\main.py:144
 msgid "Running UI locally"
-msgstr ""
+msgstr "Lokálne spustené používateľské rozhranie"
 
 #: .\main.py:149
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr ""
+"Žiadne pripojenie k zrkadlám vzdialeného používateľského rozhrania. Spustené "
+"lokálne."
 
 #: .\main.py:160
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Spustenie používateľského rozhrania v režime Číny"
 
 #: .\main.py:162
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Používanie zrkadla {0} pre používateľské rozhranie."
 
 #: .\main.py:168
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console nemožno použiť v kombinácii s --no-ui. Konzola sa nezatvorí."
 
 #: .\main.py:170
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Zatvorenie konzoly po spustení používateľského rozhrania."
 
 #: .\main.py:173
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Beží na pozadí bez okna."
 
 #: .\main.py:191
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "Dozorca ETS2LA začal!"
 
 #: .\main.py:207
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA sa reštartuje..."
 
 #: .\main.py:213
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Preskakovanie aktualizácie z dôvodu vývojového režimu."
 
 #: .\main.py:216
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA sa aktualizuje..."
 
 #: .\main.py:219
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Aktualizácia dokončená... reštartovanie!"
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA zlyhalo!"
 
 #: .\main.py:233
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Pošlite vyššie uvedený traceback vývojárom."
 
 #: .\main.py:235
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA sa zatvorila."
 
 #: .\main.py:236
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Stlačením klávesu Enter ukončíte."
