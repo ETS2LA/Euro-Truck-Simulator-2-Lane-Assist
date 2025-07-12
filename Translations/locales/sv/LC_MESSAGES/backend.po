@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 16:08+0000\n"
+"PO-Revision-Date: 2025-07-12 08:21+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
 ">\n"
@@ -1584,273 +1584,307 @@ msgstr "VARNING: Styrningen kan äventyras på grund av låg FPS. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Hittades Ej"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Kartinställningar"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Konfigurera inställningarna för kartpluginet. Här kan du justera olika "
+"alternativ relaterade till navigering, styrning och datahantering."
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "Navigera på ETS2LA"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
-msgstr ""
+msgstr "Aktivera de automatiska navigeringsfunktionerna i ETS2LA."
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr ""
+msgstr "Skicka höjd"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
+"När den är aktiverad skickar kartan höjddata till användargränssnittet. "
+"Denna data används för att rita marken i visualiseringen. Experimentellt och "
+"väldigt trasigt!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "Inaktivera FPS-notiser"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
 msgstr ""
+"När den är aktiverad kommer kartan inte att meddela om några FPS-relaterade "
+"problem."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Beräkna styrdata"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
-msgstr ""
+msgstr "När den är aktiverad beräknar och skickar kartan styrdata till spelet."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Körning baserad på släpvagn"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"När den är aktiverad tar kartan hänsyn till släpvagnen vid beräkning av "
+"aktuell styrpunkt."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Styrningsjämnhet"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Ställ in den tid vi ska beräkna medelvärdet av styrdata över. Ett värde på "
+"0,5 innebär att styrningen från den senaste halvsekunden används för att "
+"beräkna det aktuella värdet."
 
 #: .\Plugins\Map\ui.py:142
+#, fuzzy
 msgid "Data"
-msgstr ""
+msgstr "Data"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "NOTERA!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Om du stöter på ett fel efter att du har ändrat data, vänligen starta om "
+"pluginet! Om detta inte löser problemet, vänligen kontakta dataskaparna "
+"eller utvecklarna på Discord!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Välj de data du vill använda. Detta startar nedladdningsprocessen och kartan "
+"är klar när informationen har laddats."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Uppdatera data"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Uppdatera den aktuella valda informationen. Detta kan vara användbart om "
+"informationen är skadad eller om det har skett en uppdatering."
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
+#, fuzzy
 msgid "ACC Information"
-msgstr ""
+msgstr "ACC Information"
 
 #: .\Plugins\NGHUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
-msgstr ""
+msgstr "Visa ACC-information som fordonets avstånd och hastighet."
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
+#, fuzzy
 msgid "Acceleration"
-msgstr ""
+msgstr "Acceleration"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Visa lastbilens aktuella acceleration."
 
 #: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Assistansinformation"
 
 #: .\Plugins\NGHUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "Visa information om ACC och styrningsstatus."
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Bränslestatus"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Visa lastbilens aktuella bränslestatus."
 
 #: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "Varvtal & växel"
 
 #: .\Plugins\NGHUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Visa lastbilens aktuella varvtal och växel."
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43 .\Plugins\NGHUD\main.py:48
+#, fuzzy
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
-msgstr ""
+msgstr "Visar medieinformation som låttitel, artist och uppspelningsförlopp."
 
 #: .\Plugins\NGHUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Ingen mediauppspelning"
 
 #: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Ingen artist"
 
 #: .\Plugins\NGHUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Ingen titel"
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigering"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Visa navigeringsinformation."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "ankomst"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Gasreglage / Broms"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Visar aktuell gas- och bromsprocent."
 
 #: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Trafikljus"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Visa trafikljusinformation."
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42 .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
-msgstr ""
+msgstr "En normal hastighetsdisplay visar även ändringar i hastighetsgränsen."
 
 #: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
 msgid "Steering Line"
-msgstr ""
+msgstr "Styrningslinje"
 
 #: .\Plugins\NGHUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Visa styrningslinje från karta."
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
+#, fuzzy
 msgid "NGHUD"
-msgstr ""
+msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
 msgstr ""
+"Nästa generations HUD (i princip gör jag om HUD och behövde ett namn för det)"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr ""
+msgstr "Aktivera"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Disable"
-msgstr ""
+msgstr "Inaktivera"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Aktivera pluginet för att redigera inställningarna."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
 msgid "Transform"
-msgstr ""
+msgstr "Omvandla"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "HUD:ens horisontella förskjutning."
 
 #: .\Plugins\NGHUD\ui.py:119
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "HUD:ens vertikala förskjutning."
 
 #: .\Plugins\NGHUD\ui.py:128
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "HUD:s djupförskjutning."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
-msgstr ""
+msgstr "Widgetbredder"
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
 msgstr ""
+"Dessa inställningar styr bredden på varje widget i pixlar. Standardvärdena "
+"är 90, 120, 90. Elementen kommer att försöka ändra storlek för att passa, "
+"men kom ihåg att de inte är gjorda för att ändra storlek för mycket."
 
 #: .\Plugins\NGHUD\ui.py:161
 msgid "Widget Background"
-msgstr ""
+msgstr "Widgetbakgrund"
 
 #: .\Plugins\NGHUD\ui.py:162
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Du kan styra hur mycket widgetens bakgrund ska mörkas, antingen hela tiden "
+"eller bara under dagen."
 
 #: .\Plugins\NGHUD\ui.py:166
 msgid "Darkness"
-msgstr ""
+msgstr "Mörker"
 
 #: .\Plugins\NGHUD\ui.py:167
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr ""
+msgstr "Mörkret i widgetens bakgrund. 0 är ingen mörker, 1 är helt mörk."
 
 #: .\Plugins\NGHUD\ui.py:176
 msgid "Day Darkness"
-msgstr ""
+msgstr "Dagmörker"
 
 #: .\Plugins\NGHUD\ui.py:177
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Mörkret i widgetens bakgrund under dagen. 0 är inget mörker, 1 är helt mörk."
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
-msgstr ""
+msgstr "Element"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Aktiverade widgetar"
 
 #: .\Plugins\NGHUD\ui.py:196
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Detta visar dina aktiverade widgetar och deras respektive storlekar. Klicka "
+"på en för att inaktivera den. Du kan ännu inte flytta runt dem, du måste "
+"istället Inaktivera -> Aktivera för att få dem dit du vill ha dem."
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
@@ -1999,34 +2033,36 @@ msgstr ""
 #: .\Plugins\TTS\main.py:358
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr ""
+"Bränsleförbrukningens räckvidd är nu kritisk vid endast {0} kilometer, "
+"vänligen tanka så snart som möjligt."
 
 #: .\Plugins\TTS\main.py:376
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Det är {0} kilometer till nästa delpunkt."
 
 #: .\Plugins\TTS\main.py:397
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Motorskadorna är nu {0} %."
 
 #: .\Plugins\TTS\main.py:400
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Skadorna i kupén är nu {0} %."
 
 #: .\Plugins\TTS\main.py:403
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Skadan på chassiet är nu {0} %."
 
 #: .\Plugins\TTS\main.py:406
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Skadan på växellådan är nu {0}%."
 
 #: .\Plugins\TTS\main.py:409
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Hjulskadorna är nu {0}%."
 
 #: .\Plugins\TTS\main.py:412
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Lastskadorna är nu {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
