@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:54+0000\n"
-"Last-Translator: \"Leon.S\" <leons@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 15:01+0000\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -762,14 +762,15 @@ msgstr "Willkommen bei ETS2LA!"
 #: .\Pages\onboarding.py:92
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr ""
-"Lass und die Basics einrichten! Klicke auf den Button unten, um fortzufahren."
+"Lass und die Grundlagen einrichten! Klicke auf die Schaltfläche unten, um "
+"fortzufahren."
 
 #: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154
 #: .\Pages\onboarding.py:165 .\Pages\onboarding.py:200
 #: .\Pages\onboarding.py:230 .\Pages\onboarding.py:296
 #: .\Pages\onboarding.py:337
 msgid "Continue"
-msgstr ""
+msgstr "Weiter"
 
 #: .\Pages\onboarding.py:99
 msgid "Skip Onboarding"
@@ -782,55 +783,76 @@ msgstr "Hier kannst du das Design ändern!"
 
 #: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
-msgstr ""
+msgstr "SDK-Einrichtung"
 
 #: .\Pages\onboarding.py:148
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"Um loszulegen, müssen wir das SDK einrichten. Dies ermöglicht es ETS2LA, mit "
+"dem Spiel zu interagieren. Auf der rechten Seite findest du eine Liste von "
+"Spielen. Klicke auf eines davon und fahre fort."
 
 #: .\Pages\onboarding.py:151
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "Warten auf SDK-Installation..."
 
 #: .\Pages\onboarding.py:161 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: .\Pages\onboarding.py:162
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"ETS2LA verwendet Plugins, um den größten Teil seiner Funktionalität "
+"bereitzustellen. Du kannst zwischen einem einfachen Modus und einem "
+"erweiterten Modus wählen. Dies kann später in den Einstellungen geändert "
+"werden."
 
 #: .\Pages\onboarding.py:169
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Erweiterter Plugin-Modus"
 
 #: .\Pages\onboarding.py:170
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Ermöglicht erweiterte Plugin-Verwaltungsfunktionen. Kann jederzeit im Plugin-"
+"Manager geändert werden."
 
 #: .\Pages\onboarding.py:183
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Es wird empfohlen, den **Erweiterten Plugin-Modus** deaktiviert zu lassen. "
+"Fortgeschrittene Benutzer, die selbst Plugins auswählen möchten, sollten ihn "
+"jedoch aktivieren."
 
 #: .\Pages\onboarding.py:191
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"Der **Erweiterte Plugin-Modus** ermöglicht die manuelle Steuerung der "
+"aktivierten Plugins. Außerdem kannst du damit weitere Plugins aus anderen "
+"Repositories herunterladen. Bitte beachte, dass diese Plugins von "
+"Drittanbietern nicht *offiziell* von ETS2LA unterstützt werden."
 
 #: .\Pages\onboarding.py:196
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Modus mit hoher Priorität"
 
 #: .\Pages\onboarding.py:197
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA kann dem Betriebssystem automatisch mitteilen, dass es in einem Modus "
+"mit hoher Priorität laufen soll. Dies ist vor allem bei leistungsschwachen "
+"Systemen zu empfehlen."
 
 #: .\Pages\onboarding.py:219
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Du musst ETS2LA nach dem Onboarding neu starten, um diese Änderung zu "
+"übernehmen."
 
 #: .\Pages\onboarding.py:224
 msgid "Map Data"
-msgstr ""
+msgstr "Kartendaten"
 
 #: .\Pages\onboarding.py:225
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
