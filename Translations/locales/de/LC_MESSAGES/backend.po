@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 14:13+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -477,20 +477,20 @@ msgstr[1] "{seconds} Sekunden her"
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor {minutes} Minute"
+msgstr[1] "Vor {minutes} Minuten"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor {hours} Stunde"
+msgstr[1] "Vor {hours} Stunden"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor {days} Tag"
+msgstr[1] "Vor {days} Tagen"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
@@ -502,15 +502,18 @@ msgstr ""
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:78
 msgid "View Changes"
-msgstr ""
+msgstr "Änderungen ansehen"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:86
+#, fuzzy
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Nur die letzten 20 Updates werden angezeigt. Schau in der Repository nach "
+"weiteren Updates."
 
 #: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
 msgid "Show all plugins"
-msgstr ""
+msgstr "Zeige alle Plugins"
 
 #: .\Pages\controls.py:45
 msgid "Please press the key / button you want to bind to this event."
@@ -522,7 +525,7 @@ msgstr ""
 
 #: .\Pages\controls.py:70
 msgid "Controls"
-msgstr ""
+msgstr "Steuerung"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
