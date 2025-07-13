@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:52+0000\n"
-"Last-Translator: EndergamerMC <endergamermc@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 14:54+0000\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -753,6 +753,7 @@ msgstr "Lade..."
 #: .\Pages\onboarding.py:87
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
 msgstr ""
+"Wir tun etwas, das eine Weile dauert. Bleibe ruhig sitzen und entspanne dich!"
 
 #: .\Pages\onboarding.py:91
 msgid "Welcome to ETS2LA!"
