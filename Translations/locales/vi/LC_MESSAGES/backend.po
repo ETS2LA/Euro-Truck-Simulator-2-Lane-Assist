@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:22+0000\n"
+"PO-Revision-Date: 2025-07-13 14:47+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -25,7 +25,7 @@ msgstr "Hết thời gian chờ, bạn vui lòng thử lại."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Chức năng đã gán cho {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
@@ -37,17 +37,19 @@ msgstr "{} đã kết nối."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Đã tìm thấy thiết bị điều khiển: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
 msgstr "{} đã mất kết nối."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338 .\ETS2LA\Handlers\controls.py:364
+#, fuzzy
 msgid "Event with alias '{0}' not found."
 msgstr "Sự kiện với biệt danh '{0}' không được tìm thấy."
 
 #: .\ETS2LA\Handlers\controls.py:349
+#, fuzzy
 msgid "Exception occurred while trying to edit the event."
 msgstr "Đã xảy ra ngoại lệ khi đang cố gắng chỉnh sửa một sự kiện."
 
