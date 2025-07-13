@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-12 08:21+0000\n"
+"PO-Revision-Date: 2025-07-13 12:36+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
 ">\n"
@@ -1655,7 +1655,6 @@ msgstr ""
 "beräkna det aktuella värdet."
 
 #: .\Plugins\Map\ui.py:142
-#, fuzzy
 msgid "Data"
 msgstr "Data"
 
@@ -1687,7 +1686,6 @@ msgstr ""
 "informationen är skadad eller om det har skett en uppdatering."
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
-#, fuzzy
 msgid "ACC Information"
 msgstr "ACC Information"
 
@@ -1696,7 +1694,6 @@ msgid "Draw ACC information like vehicle distance and speed."
 msgstr "Visa ACC-information som fordonets avstånd och hastighet."
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
-#, fuzzy
 msgid "Acceleration"
 msgstr "Acceleration"
 
@@ -1729,7 +1726,6 @@ msgid "Draw the current RPM and gear of the truck."
 msgstr "Visa lastbilens aktuella varvtal och växel."
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43 .\Plugins\NGHUD\main.py:48
-#, fuzzy
 msgid "Media"
 msgstr "Media"
 
@@ -1795,7 +1791,6 @@ msgid "Draw steering line from Map."
 msgstr "Visa styrningslinje från karta."
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
-#, fuzzy
 msgid "NGHUD"
 msgstr "NGHUD"
 
@@ -1888,147 +1883,155 @@ msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
-msgstr ""
+msgstr "Tillgängliga widgetar"
 
 #: .\Plugins\NGHUD\ui.py:225
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Dessa widgetar kan aktiveras:"
 
 #: .\Plugins\NGHUD\ui.py:233
 msgid "Renderers"
-msgstr ""
+msgstr "Renderare"
 
 #: .\Plugins\NGHUD\ui.py:234
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Dessa renderare används för att rita icke-förankrade element. Det är "
+"vanligtvis element i spelvärlden som rör sig."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"TTS-pluginet tillhandahåller text-till-tal-funktionalitet för tillgänglighet "
+"och röstmeddelanden."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Röster"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Vänligen välj en leverantör!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
-msgstr ""
+msgstr "Detta visar leverantörsinformation när pluginet har laddats."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "Välj TTS-leverantör"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Välj den TTS-leverantör som ska användas."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Välj en leverantör för att visa röster."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Röst {0} hittades inte, standardinställningen är {1}"
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "Välj TTS röst"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Välj den TTS-röst som ska användas."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Sök efter en röst..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Inga röster hittades."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Ställ in röstens målhastighet."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Ställ in önskad volym för rösten."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Testläge"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
-msgstr ""
+msgstr "Aktivera testläge för att testa TTS-leverantören utan att ladda spelet."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Inställningar"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Aktivera signal för vägnärvaro"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Aktivera ett närhetspip som indikerar avståndet och vinkeln till närmaste "
+"väg."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Plugin för text-till-tal för tillgänglighet. Vissa personer kanske också "
+"gillar röstmeddelanden."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Röst {0} hittades inte hos leverantören {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Ingen leverantör vald. Det går inte att välja röst."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Laddar TTS-leverantör: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Laddar TTS-röst: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Kartstyrning aktiverad."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Kartstyrning inaktiverad."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Adaptiv farthållare aktiverad."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Adaptiv farthållare inaktiverad."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr ""
+msgstr "Närmaste stad är nu {0} på ett avstånd av {1} kilometer."
 
 #: .\Plugins\TTS\main.py:347
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "Hastighetsgränsen har ändrats till {0} kilometer i timmen."
 
 #: .\Plugins\TTS\main.py:355
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr ""
+msgstr "Bränsleomfånget är nu bara {0} kilometer, vänligen tanka snart."
 
 #: .\Plugins\TTS\main.py:358
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
@@ -2067,91 +2070,95 @@ msgstr "Lastskadorna är nu {0}%."
 #: .\Plugins\TTS\main.py:429
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Hastighet {0} kilometer i timmen, gräns {1}, bränsle {2}%, och det är {3} "
+"kilometer till nästa waypoint."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Testläge aktiverat. Detta är ett testmeddelande."
 
 #: .\main.py:93
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Testar speglar..."
 
 #: .\main.py:101
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Nådde {0} på {1:.0f}ms"
 
 #: .\main.py:107
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Nådde {0} om (TIMEOUT)"
 
 #: .\main.py:122
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " -- Kör nedladdningsåtgärd för undermodulen: Gränssnitt -- "
 
 #: .\main.py:140
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "Kör ETS2LA i utvecklingsläge."
 
 #: .\main.py:144
 msgid "Running UI locally"
-msgstr ""
+msgstr "Kör UI:n lokalt"
 
 #: .\main.py:149
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr ""
+msgstr "Ingen anslutning till fjärrgränssnittsspeglar. Körs lokalt."
 
 #: .\main.py:160
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Kör UI:n i Kina-läget"
 
 #: .\main.py:162
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Använder spegel {0} för UI:n."
 
 #: .\main.py:168
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console kan inte användas i kombination med --no-ui. Konsolen stängs "
+"inte."
 
 #: .\main.py:170
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Stänger konsoll efter UI start."
 
 #: .\main.py:173
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Körs i bakgrunden utan fönster."
 
 #: .\main.py:191
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "ETS2LA-övervakaren har börjat!"
 
 #: .\main.py:207
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA startar om..."
 
 #: .\main.py:213
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Hoppar över uppdatering på grund av utvecklingsläge."
 
 #: .\main.py:216
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA uppdaterar..."
 
 #: .\main.py:219
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Uppdatering klar... startar om!"
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA har kraschat!"
 
 #: .\main.py:233
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Skicka ovanstående spårning till utvecklarna."
 
 #: .\main.py:235
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA har stängt."
 
 #: .\main.py:236
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Tryck på Enter för att avsluta."
