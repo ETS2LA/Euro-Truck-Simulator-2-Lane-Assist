@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 14:52+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -687,7 +687,7 @@ msgstr "Ändere den Port für das Frontend. Wird nur im Lokalmodus verwendet."
 
 #: .\Pages\global_settings.py:263
 msgid "Frameless Window"
-msgstr ""
+msgstr "Rahmenloses Fenster"
 
 #: .\Pages\global_settings.py:264
 msgid "Disable this option if you have any issues moving the window around."
