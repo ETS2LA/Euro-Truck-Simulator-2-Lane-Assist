@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:07+0000\n"
+"PO-Revision-Date: 2025-07-13 14:18+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -53,7 +53,7 @@ msgstr "Đã xảy ra ngoại lệ khi đang cố gắng chỉnh sửa một s�
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr "Trình theo dõi các thiết bị điều khiển đã được khởi động."
+msgstr "Trình theo dõi các bộ điều khiển đã được khởi động."
 
 #: .\ETS2LA\Handlers\plugins.py:124
 msgid ""
