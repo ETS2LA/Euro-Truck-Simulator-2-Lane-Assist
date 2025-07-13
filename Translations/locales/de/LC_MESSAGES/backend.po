@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:07+0000\n"
+"PO-Revision-Date: 2025-07-13 14:13+0000\n"
 "Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
@@ -404,65 +404,75 @@ msgstr "Willkommen zurück, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Mitwirkende"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
-msgstr ""
+msgstr "Liste der Mitwirkenden"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
 msgid "Help Translate"
-msgstr ""
+msgstr "Helfe zu übersetzen"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "Unterstütze die Entwicklung"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Wenn du das Projekt magst und es unterstützen möchtest kannst du dies mit "
+"einer Spende über Ko-Fi tun."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Wenn du etwas beitragen möchtest, empfehle ich dir, dem Discord-Server "
+"beizutreten und die GitHub-Seite zu besuchen."
 
 #: .\Pages\about.py:151
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Wenn du zu der Übersetzung beitragen möchtest kannst du das tun, indem du "
+"dem Discord beitrittst und einen Moderator kontaktierst."
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr ""
+msgstr "Werkzeuge"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Behebe Scheibenwischer"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Sind deine Scheibenwischer stecken geblieben? Klicke auf den Knopf und alt "
+"tab zurück in das Spiel. Sie sollten in 5 Sekunden ausgehen."
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Aktiviere"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
-msgstr ""
+msgstr "Erzwinge ein Update"
 
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Denkst du es hätte eine Aktualisierung geben sollen? Klicke auf diesen Knopf "
+"und die App wird neu gestartet. Es wird nach Updates gesucht."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Aktualisierung"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{seconds} Sekunde her"
+msgstr[1] "{seconds} Sekunden her"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
