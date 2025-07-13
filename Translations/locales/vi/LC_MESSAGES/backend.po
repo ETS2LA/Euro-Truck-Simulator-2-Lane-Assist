@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:18+0000\n"
+"PO-Revision-Date: 2025-07-13 14:22+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -495,7 +495,7 @@ msgstr ""
 
 #: .\Pages\controls.py:70
 msgid "Controls"
-msgstr ""
+msgstr "Các bộ điều khiển"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
