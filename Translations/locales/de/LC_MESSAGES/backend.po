@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 14:47+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -679,7 +679,7 @@ msgstr "Sonstiges"
 
 #: .\Pages\global_settings.py:255
 msgid "Frontend Port"
-msgstr ""
+msgstr "Frontend Port"
 
 #: .\Pages\global_settings.py:256
 msgid "Change the port used by the frontend. This is only used in local mode."
@@ -695,7 +695,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:269
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Sende Absturzberichte"
 
 #: .\Pages\global_settings.py:270
 msgid "Automatically send crash reports to help improve the application."
