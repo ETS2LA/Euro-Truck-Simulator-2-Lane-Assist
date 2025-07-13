@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 14:54+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: EndergamerMC <endergamermc@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -762,6 +762,7 @@ msgstr "Willkommen bei ETS2LA!"
 #: .\Pages\onboarding.py:92
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr ""
+"Lass und die Basics einrichten! Klicke auf den Button unten, um fortzufahren."
 
 #: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154
 #: .\Pages\onboarding.py:165 .\Pages\onboarding.py:200
@@ -772,12 +773,12 @@ msgstr ""
 
 #: .\Pages\onboarding.py:99
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Einführung überspringen"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:106
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "Hier kannst du das Design ändern!"
 
 #: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
