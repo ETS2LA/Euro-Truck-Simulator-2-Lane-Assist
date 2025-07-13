@@ -50,19 +50,30 @@ class Translate:
         """
         Get the percentage of strings translated in the current language.
         """
+        if self.language == "en":
+            return 100.0
+        
         po_file = f"{self.localedir}/{self.language}/LC_MESSAGES/{self.domain}.po"
         if not os.path.exists(po_file):
             return 0.0
         
-        total_strings = 0
+        total_strings = -1 # Starts with one msgid that is not counted
         translated_strings = 0
+        found_text = False
         
         with open(po_file, "r", encoding="utf-8") as file:
             for line in file:
-                if line.startswith("msgid"):
+                if line.startswith("msgid") and not line.startswith("msgid_plural"):
                     total_strings += 1
-                elif line.startswith("msgstr") and line.replace("msgstr ", "").strip() != '""':
-                    translated_strings += 1
+                    if found_text:
+                        translated_strings += 1
+                        found_text = False
+                    
+                elif '"' in line and not line.startswith("#") and '""' not in line:
+                    found_text = True
+        
+        if found_text:
+            translated_strings += 1
         
         return (translated_strings / total_strings) * 100 if total_strings > 0 else 0.0
 
@@ -75,8 +86,6 @@ class Translate:
         :return: The cleaned-up string.
         """
         string = string.strip()
-        string = string.replace("“", '"').replace("”", '"')
-        string = string.replace("‘", "'").replace("’", "'")
         string = string.replace("｝", "}").replace("｛", "{")
         return string
 

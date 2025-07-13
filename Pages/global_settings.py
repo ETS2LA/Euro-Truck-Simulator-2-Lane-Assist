@@ -3,7 +3,7 @@ from ETS2LA import variables
 from ETS2LA.UI import *
 
 import ETS2LA.Handlers.sounds as sounds 
-from ETS2LA.Utils.translator import languages
+from ETS2LA.Utils.translator import languages, parse_language
 from ETS2LA.Utils.translator import _
 from langcodes import Language
 
@@ -187,9 +187,9 @@ class Page(ETS2LAPage):
                             with Container(styles.FlexVertical() + styles.Gap("4px")):
                                 Text(f"This translation is {_.get_percentage():.2f}% complete.", styles.Classname("text-muted-foreground"))
                                 with Container(styles.FlexHorizontal() + styles.Gap("8px")):
-                                    Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{current.language}%20contributes:ets2la/backend", styles.Classname("text-sm text-muted-foreground hover:underline"))
+                                    Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{parse_language(current)}%20contributes:ets2la/backend", styles.Classname("text-sm text-muted-foreground hover:underline"))
                                     Text("-")
-                                    Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{current.language}", styles.Classname("text-sm text-muted-foreground hover:underline"))
+                                    Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{parse_language(current)}", styles.Classname("text-sm text-muted-foreground hover:underline"))
                             
 
             with Tab(_("Audio"), container_style=styles.FlexVertical() + styles.Gap("24px")):

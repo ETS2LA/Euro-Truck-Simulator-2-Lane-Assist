@@ -47,8 +47,9 @@ import git
 
 LOG_FILE_FOLDER = "logs"
 FRONTEND_MIRRORS = [
-    "https://app.ets2la.com",
-    "https://app.ets2la.cn",
+    "https://beta.ets2la.com",
+    # "https://app.ets2la.com",
+    # "https://app.ets2la.cn",
 ]
 
 def close_node() -> None:

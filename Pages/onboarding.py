@@ -1,5 +1,7 @@
 from ETS2LA.UI import *
+from ETS2LA.Utils.translator import languages, parse_language
 from ETS2LA.Utils.translator import _
+from langcodes import Language
 from ETS2LA.Utils import settings
 from ETS2LA.Window.window import get_transparency, get_on_top 
 import time
@@ -12,7 +14,7 @@ sdk_page.onboarding_mode = True
 
 class Page(ETS2LAPage):
     url = "/onboarding"
-    page = 4
+    page = 0
     
     # 2 = render loading page
     # 1 = start rendering
@@ -111,35 +113,43 @@ class Page(ETS2LAPage):
             icon_style.color = "var(--muted-foreground)"
             Icon("arrow-down", icon_style)
                 
-    # def language(self):
-    #     with Container(style=styles.FlexHorizontal() + styles.Classname("items-center") + styles.Width("800px") + styles.Gap("48px")):
-    #         with Container(style=styles.FlexVertical() + styles.Width("400px")):
-    #             Text(_("Language Selection"), styles.Title())
-    #             Text(_("Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"), styles.Description())
-    #             Space()
-    #             with Button(action=self.increment_page, style=styles.Classname("default w-full")):
-    #                 Text(_("Continue"))
-# 
-    #         with Container(style=styles.FlexVertical()):
-    #             ComboboxWithTitleDescription(
-    #                 title=_("Language"),
-    #                 description=_("Select your preferred language for ETS2LA."),
-    #                 options=translator.LANGUAGES,
-    #                 default=settings.Get("global", "language", default="English"),
-    #                 changed=self.change_language,
-    #                 search=ComboboxSearch("Search Languages...", "Help us translate on discord!"),
-    #                 style=styles.MinWidth("300px")
-    #             )
-    #             
-    #             with Alert(style=styles.Padding("14px") + styles.Width("400px") + styles.Classname("default")):
-    #                 with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
-    #                     style = styles.Style()
-    #                     style.margin_top = "2px"
-    #                     style.width = "1rem"
-    #                     style.height = "1rem"
-    #                     style.color = "var(--muted-foreground)"
-    #                     Icon("info", style)
-    #                     Text(translator.Translate("credits"), styles.Classname("text-muted-foreground"))
+    def language(self):
+        with Container(style=styles.FlexHorizontal() + styles.Classname("items-center") + styles.Width("800px") + styles.Gap("48px")):
+            with Container(style=styles.FlexVertical() + styles.Width("400px")):
+                Text(_("Language Selection"), styles.Title())
+                Text(_("Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"), styles.Description())
+                Space()
+                with Button(action=self.increment_page, style=styles.Classname("default w-full")):
+                    Text(_("Continue"))
+            
+            current = settings.Get("global", "language", default="English")
+            current = Language.find(current)
+            
+            with Container(style=styles.FlexVertical()):
+                ComboboxWithTitleDescription(
+                    title=_("Language"),
+                    description=_("Select your preferred language for ETS2LA."),
+                    default=current.display_name().capitalize(),
+                    options=[language.display_name().capitalize() for language in languages],
+                    changed=self.change_language,
+                    search=ComboboxSearch(_("Search Languages..."), _("Help us translate on discord!")),
+                    style=styles.MinWidth("300px")
+                )
+                
+                with Alert(style=styles.Padding("14px") + styles.Width("400px") + styles.Classname("default")):
+                    with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                        style = styles.Style()
+                        style.margin_top = "2px"
+                        style.width = "1rem"
+                        style.height = "1rem"
+                        style.color = "var(--muted-foreground)"
+                        Icon("info", style)
+                        with Container(styles.FlexVertical() + styles.Gap("4px")):
+                            Text(f"This translation is {_.get_percentage():.2f}% complete.", styles.Classname("text-muted-foreground"))
+                            with Container(styles.FlexHorizontal() + styles.Gap("8px")):
+                                Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{parse_language(current)}%20contributes:ets2la/backend", styles.Classname("text-sm text-muted-foreground hover:underline"))
+                                Text("-")
+                                Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{parse_language(current)}", styles.Classname("text-sm text-muted-foreground hover:underline"))
                         
     def sdk_setup(self):
         with Container(style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")):
@@ -387,14 +397,14 @@ class Page(ETS2LAPage):
     def render(self):
         pages = {
             0: self.welcome,
-            # 1: self.language,
-            1: self.sdk_setup,
-            2: self.plugins,
-            3: self.priority,
-            4: self.map_data,
-            5: self.size,
-            6: self.window_controls,
-            7: self.complete
+            1: self.language,
+            2: self.sdk_setup,
+            3: self.plugins,
+            4: self.priority,
+            5: self.map_data,
+            6: self.size,
+            7: self.window_controls,
+            8: self.complete
         }
         
         if self.increment_and_load == 2:
