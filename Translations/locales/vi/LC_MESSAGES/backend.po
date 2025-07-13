@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 15:23+0000\n"
+"PO-Revision-Date: 2025-07-13 20:42+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -97,7 +97,7 @@ msgstr "Đã nạp {0} plugins."
 
 #: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
 msgid "Plugin not found."
-msgstr "Không tìm thấy Plugin."
+msgstr "Không tìm thấy plugin."
 
 #: .\ETS2LA\Handlers\plugins.py:494
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
@@ -105,7 +105,7 @@ msgstr "Plugin [yellow]{0}[/yellow] đã khởi động thành công."
 
 #: .\ETS2LA\Handlers\plugins.py:501
 msgid "Failed to start plugin: {0}"
-msgstr "Thất bại khi  khởi động plugin: {0}"
+msgstr "Thất bại khi khởi động plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
@@ -114,58 +114,65 @@ msgstr "Hết thời gian chờ"
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Không tìm thấy plugin, đây có thể là kết quả của việc plugin bị ngừng hoạt "
+"động đột ngột hoặc không nạp được."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] đã dừng thành công."
 
 #: .\ETS2LA\Handlers\plugins.py:530
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Thất bại khi dừng plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:553
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Thất bại khi khởi động lại plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} không được tìm thấy để hiển thị trên trang này [1]."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Thất bại khi tải xuống thư viện ffmpeg, bạn cần cài đặt nó thủ công. (dùng "
+"lệnh \"winget\" trong Windows Powershell. [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Gói âm thanh '{0} đang bị thiếu âm thanh cần thiết '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Gói âm thanh '{0} chứa một loại tệp không hợp lệ '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Đã cố gắng phát âm thanh '{0}', nhưng nó không được tìm thấy trong gói âm "
+"thanh '{1}'"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Đã có lỗi xảy ra khi đang xử lí một tin nhắn."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
+#, fuzzy
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Đã thử gửi một trang trống."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Frontend popup websocket đã được khởi động."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Giao diện phía người dùng"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Giao diện phía người dùng cần thực hiện một cập nhật."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
