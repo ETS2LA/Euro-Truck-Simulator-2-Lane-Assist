@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 15:01+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: \"Leon.S\" <leons@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -915,10 +915,14 @@ msgstr "Fenstergröße"
 #: .\Pages\onboarding.py:293
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA umgeht Windows, um benutzerdefinierte Fensterfunktionen "
+"bereitzustellen. Daher kann die Fenstergröße nicht wie gewohnt angepasst "
+"werden. Verwenden Sie stattdessen diese Schieberegler, um die Fenstergröße "
+"manuell zu ändern."
 
 #: .\Pages\onboarding.py:301
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Passen Sie die Breite des ETS2LA-Fensters an."
 
 #: .\Pages\onboarding.py:310
 msgid "Adjust the height of the ETS2LA window."
