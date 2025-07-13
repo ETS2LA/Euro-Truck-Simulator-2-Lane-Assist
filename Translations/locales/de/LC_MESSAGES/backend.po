@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 13:11+0000\n"
-"Last-Translator: Eibeluca <eibeluca@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 13:53+0000\n"
+"Last-Translator: \"Leon.S\" <leons@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -29,7 +29,7 @@ msgstr "Ereignis gebunden an {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Joysticks werden aktualisiert..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -82,7 +82,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Plugin {0} konnte die Beschreibung nicht abrufen: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:389
 msgid "Plugin {0} failed to get controls: Timeout."
@@ -102,11 +102,11 @@ msgstr "Plugin nicht gefunden."
 
 #: .\ETS2LA\Handlers\plugins.py:494
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich gestartet."
 
 #: .\ETS2LA\Handlers\plugins.py:501
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Plugin konnte nicht gestartet werden: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
 msgid "Timeout"
@@ -118,43 +118,47 @@ msgstr "Plugin nicht gefunden, dies kann das Ergebnis eines Plugin-Absturzes ode
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich gestoppt."
 
 #: .\ETS2LA\Handlers\plugins.py:530
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Plugin konnte nicht gestoppt werden: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:553
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Plugin konnte nicht neu gestartet werden: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} wurde für die Seite {1} nicht gefunden."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Fehler beim Herunterladen der ffmpeg-Bibliothek. Bitte lade sie manuell "
+"herunter (z. B. mit [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Soundpaket „{0}“ fehlt der erforderliche Sound „{1}“"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Soundpaket „{0}“ enthält einen ungültigen Dateityp: „{1}“"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Versuch, den Sound „{0}“ abzuspielen, aber er wurde im Soundpaket „{1}“ "
+"nicht gefunden"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Beim Verarbeiten einer Nachricht ist ein Fehler aufgetreten."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Es wurde versucht, eine leere Seite zu senden."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
@@ -206,47 +210,51 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend gestartet unter http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Protokollierung initialisiert."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Fehler und Warnungen in den Protokolldateien:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
+#, fuzzy
 msgid "Errors: "
-msgstr ""
+msgstr "Fehler: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
+#, fuzzy
 msgid "Warnings: "
-msgstr ""
+msgstr "Warnungen: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Keine Fehler oder Warnungen gefunden."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Bitte warten Sie, während die Benutzeroberfläche initialisiert wird"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend wurde erfolgreich gestartet"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Hauptentwickler und Ersteller von ETS2LA, Backend & Frontend."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Navigationserkennung, Ampelerkennung, ETS2LA Lite, „Mitinhaber“"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Verschiedene Erweiterungen und Verbesserungen, KI-Modelle zur "
+"Objekterkennung und deren Entwicklung"
 
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
