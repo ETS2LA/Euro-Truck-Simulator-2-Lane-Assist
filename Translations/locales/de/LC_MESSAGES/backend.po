@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 12:36+0000\n"
-"Last-Translator: TheWildPlant <thewildplant@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 13:11+0000\n"
+"Last-Translator: Eibeluca <eibeluca@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -50,29 +50,35 @@ msgstr "Ereignis mit Alias '{0}' nicht gefunden."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Fehler ist vorgetreten während der Änderung eines Events."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Eingaben Zuhörer wurde gestartet."
 
 #: .\ETS2LA\Handlers\plugins.py:124
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Plugin {0} Konnte nicht Gestartet werden, da die Eingabezeit Überschritten "
+"wurde!\n"
+"Versuche andere Programme zu Schließen und dem Plugin Mehr Arbeitsspeicher "
+"und CPU Ressourcen Zur Verfügung zu Stellen."
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Plugin {0} konnte nicht Gestartet werden: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:181
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] wurde Erfolgreich Gestartet."
 
 #: .\ETS2LA\Handlers\plugins.py:354
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr ""
+"Es konnte die Beschreibung von Plugin {0} nicht geladen werden wegen "
+"Zeitüberschreitung!"
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
