@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 12:36+0000\n"
+"PO-Revision-Date: 2025-07-13 15:23+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -234,7 +234,7 @@ msgstr "A háttérrendszer indítása sikeres volt"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Fő fejlesztője és megalkotója az ETS2LA-nak."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
@@ -259,7 +259,7 @@ msgstr "Játék adatok gyűjtése és elemzése"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux & Unix Port, különboző implementációk és hiba javítások"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
@@ -275,11 +275,13 @@ msgstr "scs-sdk-controller fejlesztője"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D modellek a vizualizációhoz"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
 msgstr ""
+"Továbbfejlesztette az adat kinyerőt, hogy támogason közösség által készített "
+"térképeket."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
