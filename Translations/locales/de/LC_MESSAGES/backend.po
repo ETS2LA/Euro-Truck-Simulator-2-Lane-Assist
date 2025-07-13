@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 14:18+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -546,7 +546,7 @@ msgstr "Dieses Ereignis wurde noch nicht an ein Gerät gebunden."
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
 msgid "Keyboard: "
-msgstr ""
+msgstr "Tastatur: "
 
 #: .\Pages\global_settings.py:126
 msgid "Global Settings"
@@ -555,14 +555,16 @@ msgstr "Globale Einstellungen"
 #: .\Pages\global_settings.py:127
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Hier findest du die Einstellungen, die das gesamte Programm beeinflussen. "
+"Zum Beispiel die Größe des Fensters und die Sprache."
 
 #: .\Pages\global_settings.py:131
 msgid "User Interface"
-msgstr ""
+msgstr "Benutzeroberfläche"
 
 #: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
 msgid "Window Width"
-msgstr ""
+msgstr "Fensterbreite"
 
 #: .\Pages\global_settings.py:135
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
@@ -570,7 +572,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
 msgid "Window Height"
-msgstr ""
+msgstr "Fensterhöhe"
 
 #: .\Pages\global_settings.py:146
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
