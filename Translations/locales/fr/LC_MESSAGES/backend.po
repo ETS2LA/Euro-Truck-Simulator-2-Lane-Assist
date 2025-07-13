@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-12 12:08+0000\n"
+"PO-Revision-Date: 2025-07-14 09:42+0000\n"
 "Last-Translator: Nesquik <nesquik@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>"
 "\n"
@@ -926,22 +926,28 @@ msgstr "Aucune donnée sélectionnée"
 #: .\Pages\onboarding.py:287
 msgid "Please select the data you want to use from the dropdown above."
 msgstr ""
+"Veuillez sélectionner les données que vous souhaitez utiliser dans le menu "
+"déroulant ci-dessus."
 
 #: .\Pages\onboarding.py:292
 msgid "Window Size"
-msgstr ""
+msgstr "Taille de la fenêtre"
 
 #: .\Pages\onboarding.py:293
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA contourne Windows pour proposer des fonctionnalités de fenêtre "
+"personnalisées. En conséquence, vous ne pouvez pas redimensionner la fenêtre "
+"normalement. Utilisez ces curseurs pour ajuster manuellement la taille de la "
+"fenêtre."
 
 #: .\Pages\onboarding.py:301
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Ajustez la largeur de la fenêtre ETS2LA."
 
 #: .\Pages\onboarding.py:310
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Ajustez la hauteur de la fenêtre ETS2LA."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:327
@@ -949,14 +955,20 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Changer la taille de la fenêtre peut entraîner un affichage incorrect de "
+"certaines pages**.\n"
+"Vous pouvez ajuster l’échelle de la fenêtre en maintenant la touche CTRL "
+"gauche enfoncée et en utilisant la molette de la souris."
 
 #: .\Pages\onboarding.py:333
 msgid "Window Controls"
-msgstr ""
+msgstr "Contrôles de la fenêtre"
 
 #: .\Pages\onboarding.py:334
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA propose des contrôles de fenêtre personnalisés qui peuvent vous être "
+"utiles. Vous pouvez y accéder via le bouton vert situé en haut à droite."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:348
@@ -965,6 +977,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Rester au premier plan**\n"
+"\n"
+"Vous pouvez *cliquer avec le bouton gauche* sur le bouton vert pour que la "
+"fenêtre ETS2LA reste au-dessus des autres fenêtres."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -973,22 +989,30 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Transparence**\n"
+"\n"
+"Vous pouvez *cliquer avec le bouton droit* sur le bouton vert pour rendre la "
+"fenêtre ETS2LA légèrement transparente. Le niveau de transparence peut être "
+"ajusté dans les paramètres."
 
 #: .\Pages\onboarding.py:364
 msgid "It's this green button!"
-msgstr ""
+msgstr "C’est ce bouton vert !"
 
 #: .\Pages\onboarding.py:374
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Introduction terminé !"
 
 #: .\Pages\onboarding.py:375
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Vous avez réussi l'introduction. Vous pouvez maintenant commencer à utiliser "
+"ETS2LA. Si vous avez besoin d’aide, n’hésitez pas à rejoindre notre serveur "
+"Discord."
 
 #: .\Pages\onboarding.py:378
 msgid "Finish"
-msgstr ""
+msgstr "Terminer"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:385
@@ -996,50 +1020,56 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Appuyez sur ce bord pour ouvrir ou fermer la barre latérale.\n"
+"      Ouvrez le gestionnaire pour activer les plugins."
 
 #: .\Pages\onboarding.py:419
 msgid "Page not found"
-msgstr ""
+msgstr "Page non trouvée"
 
 #: .\Pages\onboarding.py:421
 msgid "Go back"
-msgstr ""
+msgstr "Retourner en arrière"
 
 #: .\Pages\performance.py:94
 msgid "System"
-msgstr ""
+msgstr "Système"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Les données sont encore en cours de collecte, veuillez patienter quelques "
+"secondes que les graphiques se stabilisent."
 
 #: .\Pages\performance.py:103
 msgid "CPU Usage"
-msgstr ""
+msgstr "Utilisation du processeur"
 
 #: .\Pages\performance.py:110
 msgid "CPU Usage "
-msgstr ""
+msgstr "Utilisation du processeur "
 
 #: .\Pages\performance.py:118
 msgid "RAM Usage"
-msgstr ""
+msgstr "Utilisation de la mémoire vive"
 
 #: .\Pages\performance.py:125
 msgid "RAM Usage "
-msgstr ""
+msgstr "Utilisation de la mémoire vive "
 
 #: .\Pages\performance.py:125
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "Utilisation de la RAM par ETS2LA  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:355
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "Aucun plugin n’est actuellement en cours d’exécution."
 
 #: .\Pages\performance.py:172
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Attention : le graphique collecte encore des données, veuillez patienter 60 "
+"secondes pour qu’il se stabilise."
 
 #: .\Pages\performance.py:190
 msgid "Failed to render plugin {plugin_name}."
