@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 15:01+0000\n"
-"Last-Translator: \"Leon.S\" <leons@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 15:23+0000\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -857,30 +857,34 @@ msgstr "Kartendaten"
 #: .\Pages\onboarding.py:225
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA verwendet vor-extrahierte Kartendaten aus dem Spiel. Wir bearbeiten "
+"die Daten im Vorfeld und du kannst sie dann bei Bedarf einfach "
+"herunterladen. Bitte wähle unten die Daten aus, die du für die aktuelle "
+"Spielversion benötigen."
 
 #: .\Pages\onboarding.py:232
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Warten auf die Datenauswahl..."
 
 #: .\Pages\onboarding.py:246 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Ausgewählte Daten"
 
 #: .\Pages\onboarding.py:247
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Wähle die Daten aus, die zu deinem Spiel und den Mods passen."
 
 #: .\Pages\onboarding.py:251 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Suche Daten"
 
 #: .\Pages\onboarding.py:252 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "Keine passenden Daten gefunden"
 
 #: .\Pages\onboarding.py:276 .\Plugins\Map\ui.py:193
 msgid "The"
-msgstr ""
+msgstr "Die"
 
 #: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
 msgid "download size"
@@ -922,11 +926,11 @@ msgstr ""
 
 #: .\Pages\onboarding.py:301
 msgid "Adjust the width of the ETS2LA window."
-msgstr "Passen Sie die Breite des ETS2LA-Fensters an."
+msgstr "Passe die Breite des ETS2LA-Fensters an."
 
 #: .\Pages\onboarding.py:310
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Passe die Höhe des ETS2LA Fensters an."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:327
@@ -934,14 +938,21 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Eine Änderung der Fenstergröße kann zu einer fehlerhaften Anzeige der "
+"Seiten führen**.\n"
+"Du kannst die Skalierung des Fensters anpassen, indem du die linke STRG-"
+"Taste gedrückt hältst und das Scroll-Rad verwendest."
 
 #: .\Pages\onboarding.py:333
 msgid "Window Controls"
-msgstr ""
+msgstr "Fenstersteuerungen"
 
 #: .\Pages\onboarding.py:334
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA bietet benutzerdefinierte Fenstersteuerungen, die nützlich sein "
+"könnten. Diese können über die grüne Schaltfläche in der oberen rechten Ecke "
+"aufgerufen werden."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:348
@@ -950,6 +961,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Im Vordergrund bleiben**\n"
+"\n"
+"Klicke mit der linken Maustaste auf die grüne Schaltfläche, um das ETS2LA-"
+"Fenster über andere Fenster zu legen."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -958,18 +973,25 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Transparenz**\n"
+"\n"
+"Klicke *mit der rechten Maustaste* auf die grüne Schaltfläche, um das ETS2LA-"
+"Fenster leicht transparent zu machen. Der Grad der Transparenz kann in den "
+"Einstellungen angepasst werden."
 
 #: .\Pages\onboarding.py:364
 msgid "It's this green button!"
-msgstr ""
+msgstr "Es ist der grüne Knopf!"
 
 #: .\Pages\onboarding.py:374
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Onboarding abgeschlossen!"
 
 #: .\Pages\onboarding.py:375
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Du hast das Onboarding erfolgreich abgeschlossen. Du kannst nun ETS2LA "
+"verwenden. Wenn du Hilfe benötigst, trete gerne unserem Discord-Server bei."
 
 #: .\Pages\onboarding.py:378
 msgid "Finish"
