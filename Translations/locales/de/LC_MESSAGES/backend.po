@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 13:53+0000\n"
-"Last-Translator: \"Leon.S\" <leons@ets2la.com>\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -86,11 +86,11 @@ msgstr "Plugin {0} konnte die Beschreibung nicht abrufen: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:389
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Plugin {0} keine Einstellungen erhalten: Zeitüberschreitung."
 
 #: .\ETS2LA\Handlers\plugins.py:393
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Plugin {0} keine Einstellungen erhalten: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:425
 msgid "Loaded {0} plugins."
@@ -162,51 +162,51 @@ msgstr "Es wurde versucht, eine leere Seite zu senden."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Frontend Popup Websocket gestartet."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Das Frontend möchte eine Aktualisierung durchführen."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Transparenz könnte nicht eingestellt werden"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Tag-Daten konnten nicht abgerufen werden"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Seite konnte nicht abgerufen werden"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Fehler beim Abrufen von Seitendaten für Seite {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Plugins konnten nicht neu geladen werden"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Frontend konnte nicht erstellt werden"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Frontend aufbauen... bitte warten..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Frontend konnte nicht gestartet werden"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Webserver gestartet unter http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
