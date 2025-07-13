@@ -221,7 +221,6 @@ msgid "Errors and warnings in the log files:"
 msgstr "Fehler und Warnungen in den Protokolldateien:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
-#, fuzzy
 msgid "Errors: "
 msgstr "Fehler: "
 
