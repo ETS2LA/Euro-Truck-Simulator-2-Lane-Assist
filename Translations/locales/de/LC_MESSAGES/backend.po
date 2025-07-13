@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 14:52+0000\n"
-"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
+"Last-Translator: EndergamerMC <endergamermc@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -442,7 +442,7 @@ msgstr "Werkzeuge"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr "Behebe Scheibenwischer"
+msgstr "Repariere Scheibenwischer"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
@@ -748,7 +748,7 @@ msgstr ""
 #: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323
 #: .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
-msgstr ""
+msgstr "Lade..."
 
 #: .\Pages\onboarding.py:87
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
@@ -756,7 +756,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:91
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Willkommen bei ETS2LA!"
 
 #: .\Pages\onboarding.py:92
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
