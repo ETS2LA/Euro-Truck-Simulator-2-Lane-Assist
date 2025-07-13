@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:22+0000\n"
+"PO-Revision-Date: 2025-07-13 14:47+0000\n"
 "Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
@@ -589,78 +589,93 @@ msgstr "Transparenz-modus Alpha"
 #: .\Pages\global_settings.py:157
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Ändere die Transparenz des Fensters. wenn du den Transparenzmodus aufrufst. "
+"Dazu klickst du mit der rechten Maustaste auf die grüne Schaltfläche in der "
+"oberen rechten Ecke."
 
 #: .\Pages\global_settings.py:169
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: .\Pages\global_settings.py:170
 msgid "Select the language for the application."
-msgstr ""
+msgstr "Wähle eine Sprache für die Anwendung."
 
 #: .\Pages\global_settings.py:175
 msgid "Search Languages..."
-msgstr ""
+msgstr "Suche Sprachen..."
 
 #: .\Pages\global_settings.py:175
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "Helfe uns bei der Übersetzung auf Discord!"
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: .\Pages\global_settings.py:198
 msgid "Soundpack"
-msgstr ""
+msgstr "Soundpaket"
 
 #: .\Pages\global_settings.py:199
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Wähle ein Soundpaket aus. Diese kannst du unter app/ETS2LA/Assets/Sounds "
+"hinzufügen."
 
 #: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Lautstärke"
 
 #: .\Pages\global_settings.py:207
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
+"Stelle die Lautstärke ein. Dies betrifft alle von der ETS2LA gespielten Töne."
 
 #: .\Pages\global_settings.py:218
 msgid "Startup Sound"
-msgstr ""
+msgstr "Startup-Sound"
 
 #: .\Pages\global_settings.py:219
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Schalte den Start-Sound ein oder aus. Dieser wird jedes Mal abgespielt, wenn "
+"das ETS2LA-Fenster geöffnet wird."
 
 #: .\Pages\global_settings.py:224
 msgid "Variables"
-msgstr ""
+msgstr "Variablen"
 
 #: .\Pages\global_settings.py:226
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Zurückgreifen auf alte Beschleunigungsmethode"
 
 #: .\Pages\global_settings.py:227
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Wenn du Probleme damit hast, dass der LKW nicht richtig beschleunigt/bremst, "
+"kannst du diese Option aktivieren, um eine andere Methode zu verwenden. "
+"Bitte denke daran, dass das Spiel nach dem Aktivieren dieser Option "
+"möglicherweise neu starten muss, wenn die neue Methode stecken geblieben ist."
 
 #: .\Pages\global_settings.py:234 .\Pages\onboarding.py:205
 msgid "High Priority"
-msgstr ""
+msgstr "Hohe Priorität"
 
 #: .\Pages\global_settings.py:235 .\Pages\onboarding.py:206
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Führe ETS2LA mit hoher Priorität aus. Dadurch wird das Betriebssystem "
+"angewiesen, ETS2LA mehr CPU-Zeit zu geben, was die Leistung auf Kosten "
+"anderer Anwendungen verbessern kann."
 
 #: .\Pages\global_settings.py:249
 msgid "You need to restart ETS2LA to apply the priority change!"
-msgstr ""
+msgstr "Du musst ETS2LA neu starten, um die Prioritätsänderung zu übernehmen!"
 
 #: .\Pages\global_settings.py:251
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Sonstiges"
 
 #: .\Pages\global_settings.py:255
 msgid "Frontend Port"
