@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:47+0000\n"
-"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 14:52+0000\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -683,7 +683,7 @@ msgstr "Frontend Port"
 
 #: .\Pages\global_settings.py:256
 msgid "Change the port used by the frontend. This is only used in local mode."
-msgstr ""
+msgstr "Ändere den Port für das Frontend. Wird nur im Lokalmodus verwendet."
 
 #: .\Pages\global_settings.py:263
 msgid "Frameless Window"
@@ -692,6 +692,7 @@ msgstr ""
 #: .\Pages\global_settings.py:264
 msgid "Disable this option if you have any issues moving the window around."
 msgstr ""
+"Deaktiviere diese Option, wenn du Probleme hast, das Fenster zu verschieben."
 
 #: .\Pages\global_settings.py:269
 msgid "Send Crash Reports"
@@ -699,43 +700,50 @@ msgstr "Sende Absturzberichte"
 
 #: .\Pages\global_settings.py:270
 msgid "Automatically send crash reports to help improve the application."
-msgstr ""
+msgstr "Sende automatisch Absturzberichte, um die Anwendung zu verbessern."
 
 #: .\Pages\global_settings.py:275
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Fancy Traceback verwenden"
 
 #: .\Pages\global_settings.py:276
 msgid "Enable this option to use a fancy traceback for errors."
-msgstr ""
+msgstr "Aktiviere diese Option, um Fancy Traceback für Fehler zu verwenden."
 
 #: .\Pages\global_settings.py:282
 msgid "Debug Mode"
-msgstr ""
+msgstr "Debug-Modus"
 
 #: .\Pages\global_settings.py:283
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
+"Aktiviere diese Option, um den Edge-Debugger für das Frontend zu verwenden."
 
 #: .\Pages\global_settings.py:291
 msgid "Fireworks"
-msgstr ""
+msgstr "Feuerwerk"
 
 #: .\Pages\global_settings.py:292
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr ""
+"Aktiviere diese Option, um Feuerwerkseffekte während des Jahreswechsels zu "
+"verwenden."
 
 #: .\Pages\global_settings.py:298
 msgid "Snow"
-msgstr ""
+msgstr "Schnee"
 
 #: .\Pages\global_settings.py:299
 msgid "Enable this option to use snow effects during the winter season."
 msgstr ""
+"Aktiviere diese Option, um in der Wintersaison Schneeeffekte zu verwenden."
 
 #: .\Pages\onboarding.py:52
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
+"Wenn du das Onboarding schon einmal absolviert hast, weißt du, wie man es "
+"beendet. ETS2LA funktioniert nicht, ohne dass das Onboarding einmal "
+"durchgeführt wurde."
 
 #: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323
 #: .\Plugins\NGHUD\main.py:368
