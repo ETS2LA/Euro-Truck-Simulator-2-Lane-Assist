@@ -66,8 +66,23 @@ class Translate:
         
         return (translated_strings / total_strings) * 100 if total_strings > 0 else 0.0
 
+    def cleanup(self, string: str) -> str:
+        """
+        Clean up a string to remove unnecessary whitespace and
+        fix common issues with foreign curly braces.
+        
+        :param string: The string to clean up.
+        :return: The cleaned-up string.
+        """
+        string = string.strip()
+        string = string.replace("“", '"').replace("”", '"')
+        string = string.replace("‘", "'").replace("’", "'")
+        string = string.replace("｝", "}").replace("｛", "{")
+        return string
+
     def __call__(self, key: str, *args) -> str:
-        return self._(key).format(*args) if args else self._(key)
+        text = self.cleanup(self._(key))
+        return text.format(*args) if args else text
     
     def ngettext(self, singular: str, plural: str, n: int) -> str:
         """
@@ -78,10 +93,23 @@ class Translate:
         :param n: The count to determine which form to use.
         :return: The translated string in singular or plural form.
         """
-        return self.translation.ngettext(singular, plural, n)
+        return self.cleanup(
+            self.translation.ngettext(singular, plural, n)
+        )
+
+def parse_language(language: Language) -> str:
+    code = ""
+    if language.script:
+        code = language.language + "_" + language.script
+    elif language.language == "zh" and not language.script:
+        code = "zh_Hans"
+    else:
+        code = language.language
+        
+    return code
     
 default = Get("global", "language", "English")
-default = Language.find(default).language
+default = parse_language(Language.find(default))
 _ = Translate("backend", "Translations/locales", default)  # Default to English
 T_ = _
 ngettext = _.ngettext  # Alias for ngettext
@@ -99,7 +127,8 @@ def set_language(language: str | Language):
     
 def detect_change(dictionary: dict):
     language = dictionary.get("language", "English")
-    language = Language.find(language).language
+    language = parse_language(Language.find(language))
+    
     if language != _.get_language():
         set_language(language)
     

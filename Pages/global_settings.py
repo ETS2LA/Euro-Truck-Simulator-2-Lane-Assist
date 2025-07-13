@@ -168,8 +168,8 @@ class Page(ETS2LAPage):
                 ComboboxWithTitleDescription(
                     title=_("Language"),
                     description=_("Select the language for the application."),
-                    default=current.display_name(current.language).capitalize(),
-                    options=[language.display_name(language.language).capitalize() for language in languages],
+                    default=current.display_name().capitalize(),
+                    options=[language.display_name().capitalize() for language in languages],
                     changed=self.change_language,
                     side=Side.TOP,
                     search=ComboboxSearch(_("Search Languages..."), _("Help us translate on discord!")),
