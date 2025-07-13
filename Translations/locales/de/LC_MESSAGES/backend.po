@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 13:53+0000\n"
+"PO-Revision-Date: 2025-07-13 14:07+0000\n"
 "Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
@@ -225,7 +225,6 @@ msgid "Errors: "
 msgstr "Fehler: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
-#, fuzzy
 msgid "Warnings: "
 msgstr "Warnungen: "
 
@@ -258,107 +257,114 @@ msgstr ""
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"ETS2LA spiel-seitige SDK-Entwickler. Fahrzeuge, Ampeln, Kameradaten und mehr "
+"direkt aus dem Spiel."
 
 #: .\Pages\about.py:18
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Extrahieren und Verarbeitung von Spieldaten"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux & Unix Port, diverse Verbesserungen und Fehlerbehebungen"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C++ Entwickler, Linux & Unix Port, Fehlerkorrekturen"
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Hilfe bei der Navigation auf ETS2LA & der Karte"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-controller Entwickler"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D-Modelle zur Visualisierung"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
 msgstr ""
+"Entwicklung von Datenextraktoren, Unterstützung für modifizierte Karten."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Chinesische Übersetzung, Fehlerbehebungen"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Chinesische Übersetzungen, Fehlerbehebungen"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatische Offset-Berechnungen für das Map-Plugin."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord-Server-Support, Entwickler für Chinesisch-Englisch-Übersetzer."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Pflege der CN-Spiegel für ETS2LA-Dienste."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Spiel-Hooks"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
 #: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Fehlerbehebungen"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Beheben der Scheibenwischer (5s Timer)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Behebe Scheibenwischer in {0} Sekunden..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Scheibenwischer sollten nun behoben sein."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Aktualisierung auslösen"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} Minute"
+msgstr[1] "{0} Minuten"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} Stunde"
+msgstr[1] "{0} Stunden"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} und {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "Über"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA ist ein Projekt, das darauf abzielt, eine einfach zu bedienende "
+"selbstfahrende Lösung für ETS2 und ATS bereitzustellen. Wenn Sie mehr "
+"erfahren möchten, können sie die Github-Seite oder das Wiki über die "
+"Seitenleiste besuchen."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
@@ -366,35 +372,35 @@ msgstr "Nutzer online:"
 
 #: .\Pages\about.py:94
 msgid "{0} users"
-msgstr ""
+msgstr "{0} Nutzer"
 
 #: .\Pages\about.py:96
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Vergangene 24 Stunden:"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} einzigartige Nutzer"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
-msgstr ""
+msgstr "Deine Nutzungsdauer:"
 
 #: .\Pages\about.py:104
 msgid "You are not logged in."
-msgstr ""
+msgstr "Du bist nicht eingeloggt."
 
 #: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Deine anonyme Nutzer-ID ist: {0}"
 
 #: .\Pages\about.py:109
 msgid "You are logged in."
-msgstr ""
+msgstr "Du bist eingeloggt."
 
 #: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Willkommen zurück, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
