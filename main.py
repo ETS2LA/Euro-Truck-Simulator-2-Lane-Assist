@@ -7,19 +7,17 @@ look at the core.py file in the ETS2LA folder.
 import os
 import sys
 import subprocess
-import ctypes
 
-def is_running_as_admin():
+if os.name == "nt":
+    import ctypes
     try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
-        return False
-    
-if is_running_as_admin():
-    print("ERROR: ETS2LA is running with Administrator privileges.\n"
-          "This is not recommended, as it may interfere with system behavior or cause unintended issues.\n"
-          "Please restart ETS2LA without Administrator mode.")
-    sys.exit(1)
+        if ctypes.windll.shell32.IsUserAnAdmin()():
+            print("ERROR: ETS2LA is running with Administrator privileges.\n"
+                "This is not recommended, as it may interfere with system behavior or cause unintended issues.\n"
+                "Please restart ETS2LA without Administrator mode.")
+            input("Press enter to exit...")
+            sys.exit(1)
+    except: pass
 
 # This try/except block will either end in a successful import, update, or error
 try: from ETS2LA.Utils.translator import Translate, UpdateFrontendTranslations
