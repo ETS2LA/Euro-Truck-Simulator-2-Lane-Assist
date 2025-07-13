@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 12:36+0000\n"
+"PO-Revision-Date: 2025-07-13 20:42+0000\n"
 "Last-Translator: TheWildPlant <thewildplant@ets2la.com>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.ets2la.com/projects/ets2la/"
 "backend/nb_NO/>\n"
@@ -115,15 +115,15 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [gul]{0}[/gul] stoppet vellykket."
 
 #: .\ETS2LA\Handlers\plugins.py:530
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Klarte ikke å stoppe programtillegget: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:553
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Klarte ikke å starte programtillegg på nytt: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
 msgid "Plugin {0} not found for page {1}."
@@ -132,30 +132,32 @@ msgstr ""
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Klarte ikke å laste ned ffmpeg-biblioteket, vennligst last det ned manuelt. ("
+"dvs. [kode] winget installere ffmpeg[/kode])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Soundpack «{0}» mangler den nødvendige lyden {0} \\\""
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Soundpack «{0}» har en ugyldig filtype {0} \\\""
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr ""
+msgstr "Prøvde å spille lyd «{0}», men den ble ikke funnet i lydpakke '{1} \\\""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "En feil oppstod under behandling av en melding."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Prøvde å sende en tom side."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Frontend popup websocket startet."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
@@ -163,7 +165,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Frontend ønsker å utføre en oppdatering."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
