@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 14:13+0000\n"
-"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 14:18+0000\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -494,11 +494,11 @@ msgstr[1] "Vor {days} Tagen"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Rufe Changelog und mögliche Änderungen ab."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Changelogs abgerufen."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:78
 msgid "View Changes"
@@ -517,11 +517,11 @@ msgstr "Zeige alle Plugins"
 
 #: .\Pages\controls.py:45
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Drücke die Taste, die du mit diesem Ereignis verbinden möchtest."
 
 #: .\Pages\controls.py:50
 msgid "Event unbound."
-msgstr ""
+msgstr "Ereignis nicht gebunden."
 
 #: .\Pages\controls.py:70
 msgid "Controls"
@@ -529,19 +529,19 @@ msgstr "Steuerung"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Hier kannst du die Steuerereignisse der Plugins ändern."
 
 #: .\Pages\controls.py:82
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Suche Steuerung oder Plugins"
 
 #: .\Pages\controls.py:108
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Keine Steuerung gefunden, versuche es erneut mit anderen Filtern."
 
 #: .\Pages\controls.py:133
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Dieses Ereignis wurde noch nicht an ein Gerät gebunden."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
@@ -550,7 +550,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:126
 msgid "Global Settings"
-msgstr ""
+msgstr "Globale Einstellungen"
 
 #: .\Pages\global_settings.py:127
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
