@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-13 20:42+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
+"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -2212,7 +2212,7 @@ msgstr "ETS2LA Überwacher gestartet!"
 
 #: .\main.py:207
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA wird neugestartet..."
 
 #: .\main.py:213
 msgid "Skipping update due to development mode."
@@ -2220,11 +2220,11 @@ msgstr "Überspringen der Aktualisierung aufgrund des Entwicklungsmodus."
 
 #: .\main.py:216
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA wird aktualisiert..."
 
 #: .\main.py:219
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Aktualisierung abgeschlossen... Starte neu!"
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
