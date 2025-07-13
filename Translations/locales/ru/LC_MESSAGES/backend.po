@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-11 18:47+0000\n"
-"Last-Translator: maz1lovo <maz1lozo@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-13 20:42+0000\n"
+"Last-Translator: takedown <takedown@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
 "Language: ru\n"
@@ -2077,7 +2077,7 @@ msgstr "ETS2LA запущен в режиме разработчика."
 
 #: .\main.py:144
 msgid "Running UI locally"
-msgstr "Интерфейс запущен локально."
+msgstr "Интерфейс запущен локально"
 
 #: .\main.py:149
 msgid "No connection to remote UI mirrors. Running locally."
