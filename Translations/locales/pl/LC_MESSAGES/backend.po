@@ -7,14 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-13 20:42+0000\n"
+"PO-Revision-Date: 2025-07-15 10:52+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
-"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>\n"
+"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
+"\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
@@ -24,28 +26,28 @@ msgstr "Przekroczono limit czasu, spróbuj ponownie."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Zdarzenie związane z {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Odświeżanie joysticków..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} połączony."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Znaleziony joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} odłączony."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Nie znaleziono zdarzenia o aliasie '{0}'."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
@@ -333,14 +335,16 @@ msgstr ""
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minuta"
+msgstr[1] "{0} minuty"
+msgstr[2] "{0} minut"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} godzina"
+msgstr[1] "{0} godziny"
+msgstr[2] "{0} godzin"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
@@ -469,8 +473,9 @@ msgstr[2] "{minuty} minut temu"
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{hours} godzina temu"
+msgstr[1] "{hours} godziny temu"
+msgstr[2] "{hours} godzin temu"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
