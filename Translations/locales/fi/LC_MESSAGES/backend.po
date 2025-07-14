@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
 "PO-Revision-Date: 2025-07-14 10:45+0000\n"
-"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
+"Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
 ">\n"
 "Language: fi\n"
@@ -2151,11 +2151,11 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Odotetaan pluginin käynnistymistä..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Odotetaan plugin latausta..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
@@ -2163,11 +2163,11 @@ msgstr "Seuraavat laitteet ovat yhdistetty:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Viive: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Kanavat: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
@@ -2175,11 +2175,14 @@ msgstr "Vastausta ei ole vielä saapunut."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Ei ole olemassa tällä hetkellä toisiinsa liittyviä asiakkaita."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Tämä laajennus tarjoaa websocket-palvelimen ETS2LA Visualisointiin. Sen "
+"avulla voit muodostaa yhteyden muiden laitteiden visualisointiin ja "
+"tarkastella ETS2LA-tietoja reaaliaikaisesti."
 
 #: .\main.py:94
 msgid "Testing mirrors..."
