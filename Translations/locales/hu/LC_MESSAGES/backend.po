@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-14 10:00+0000\n"
+"PO-Revision-Date: 2025-07-14 12:31+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
-"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/hu/>\n"
+"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"hu/>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -585,7 +586,7 @@ msgstr "Segíts fordítani discordon!"
 
 #: .\Pages\global_settings.py:188
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Ez a fordítás {percentage:.2f}%-ban van kész."
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
@@ -739,7 +740,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Nyelv választó"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
@@ -1047,7 +1048,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:244
 msgid "Disable Plugins"
-msgstr "Pluginok leállítása"
+msgstr "Pluginok letiltása"
 
 #: .\Pages\plugins.py:244
 msgid "Enable Plugins"
@@ -1067,7 +1068,7 @@ msgstr "Engedélyezve"
 
 #: .\Pages\plugins.py:269
 msgid "Disabled"
-msgstr "Kikapcsolva"
+msgstr "Letiltva"
 
 #: .\Pages\plugins.py:274
 msgid "Switch to Advanced Mode"
@@ -1239,7 +1240,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR (Kiterjesztett valóság)"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
@@ -1752,7 +1753,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigáció"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
@@ -1784,8 +1785,9 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
 #: .\Plugins\TTS\main.py:122
+#, fuzzy
 msgid "Speed"
-msgstr ""
+msgstr "Sebbeség kijezés"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
@@ -1900,7 +1902,7 @@ msgstr ""
 
 #: .\Plugins\NavigationSockets\main.py:180
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigációs aljzatok"
 
 #: .\Plugins\NavigationSockets\main.py:182
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
@@ -2008,11 +2010,11 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Térkép kormányzás engedélyezve."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Térkép kormányzás letiltva."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
@@ -2020,65 +2022,70 @@ msgstr "Adaptív Tempomat engedélyezve."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Adaptív Tempomat letiltva."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr ""
+msgstr "A legközelebbi város most {0}, {1} kilométer távolságra."
 
 #: .\Plugins\TTS\main.py:347
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "A sebességhatár {0} kilométer/órára változott."
 
 #: .\Plugins\TTS\main.py:355
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr ""
+"Az üzemanyagod már csak {0} kilométere elegendő, kérjük, hamarosan tankoljon."
 
 #: .\Plugins\TTS\main.py:358
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr ""
+"Az üzemanyag szinted kritikusan alacsony, már csak {0} kilométere elegendő, "
+"kérjük, térjen le a következő benzikútnál."
 
 #: .\Plugins\TTS\main.py:376
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "{0} kilométer van hátra a következő útpontig."
 
 #: .\Plugins\TTS\main.py:397
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "A motor sérülése most {0}%."
 
 #: .\Plugins\TTS\main.py:400
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "A fülke sérülése most {0}%."
 
 #: .\Plugins\TTS\main.py:403
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Az alváz sérülése most {0}%."
 
 #: .\Plugins\TTS\main.py:406
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "A sebességváltó sérülése most {0}%."
 
 #: .\Plugins\TTS\main.py:409
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "A kerekek sérülése most {0}%."
 
 #: .\Plugins\TTS\main.py:412
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "A rakomány sérülése most {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Sebesség {0} kilométer/óra, korlát {1}, üzemanyag {2}%, és {3} kilométer van "
+"hátra a következő útpontig."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Teszt mód engedélyezve. Ez egy teszt üzenet."
 
 #: .\Plugins\VisualizationSockets\main.py:205
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Vizualizációs aljzatok"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
@@ -2203,11 +2210,11 @@ msgstr ""
 
 #: .\main.py:192
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "Az ETS2LA Felügyelő elindult!"
 
 #: .\main.py:208
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "Az ETS2LA újraindul..."
 
 #: .\main.py:214
 msgid "Skipping update due to development mode."
@@ -2215,24 +2222,24 @@ msgstr ""
 
 #: .\main.py:217
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "Az ETS2LA frissítése..."
 
 #: .\main.py:220
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Frissítés kész... újraindítás!"
 
 #: .\main.py:225
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "Az ETS2LA összeomlott!"
 
 #: .\main.py:234
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Küldd el a fenti traceback-et a fejlesztőknek."
 
 #: .\main.py:236
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "Az ETS2LA be lett zárva."
 
 #: .\main.py:237
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Nyomj Entert a kilépéshez."

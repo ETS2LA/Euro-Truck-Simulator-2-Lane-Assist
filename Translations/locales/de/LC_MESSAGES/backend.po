@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-14 10:47+0000\n"
-"Last-Translator: Veqro <veqro@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-14 12:31+0000\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -232,7 +232,7 @@ msgstr "Keine Fehler oder Warnungen gefunden."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr "Bitte warten Sie, während die Benutzeroberfläche initialisiert wird"
+msgstr "Bitte warte, während die Benutzeroberfläche initialisiert wird"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
@@ -859,7 +859,8 @@ msgstr "Keine Daten ausgewählt"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
-msgstr "Bitte wählen Sie die Daten aus, die Sie oben im Dropdown-Menü verwenden möchten."
+msgstr ""
+"Bitte wähle die Daten aus, die du oben im Dropdown-Menü verwenden möchtest."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
@@ -867,7 +868,11 @@ msgstr "Fenstergröße"
 
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
-msgstr "ETS2LA umgeht Windows, um benutzerdefinierte Fensterfunktionen bereitzustellen. Daher kann die Fenstergröße nicht wie gewohnt angepasst werden. Verwenden Sie stattdessen diese Schieberegler, um die Fenstergröße manuell zu ändern."
+msgstr ""
+"ETS2LA umgeht Windows, um benutzerdefinierte Fensterfunktionen "
+"bereitzustellen. Daher kann die Fenstergröße nicht wie gewohnt angepasst "
+"werden. Verwende stattdessen diese Schieberegler, um die Fenstergröße "
+"manuell zu ändern."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
@@ -1249,51 +1254,61 @@ msgstr "Starte neu und wende {count} Update(s) an"
 
 #: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Ändere die AR-Overlay-Einstellungen hier."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "Verberge AR nicht vor Aufnahmesoftware"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Standardmäßig wird das AR-Overlay vor Aufnahmesoftware verborgen, damit es "
+"nicht angezeigt wird, wenn ETS2LA visuelle Systeme verwendet. Wenn Sie "
+"Videos mit Overlay aufnehmen oder streamen möchten, sollten Sie diese Option "
+"aktivieren."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Testobjekte anzeigen"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Testobjekte im AR-Overlay anzeigen."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Anzeigen, wenn nicht im Fokus"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Zeige das AR-Overlay an, auch wenn das Spiel nicht im Fokus ist. Dies kann "
+"nützlich sein, wenn du Einstellungen anpassen möchtest. Bitte beachte, dass "
+"AR dadurch mit den maximal möglichen FPS ausgeführt wird, was zu Lags führen "
+"kann."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Gegenstände: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "Zeichenaufrufe: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "Renderzeit: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"Das AR Plugin bietet ein Augmented-Reality-Overlay für ETS2LA. Es wird von "
+"Plugins wie dem HUD verwendet, um Informationen in der Spielwelt anzuzeigen."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1329,6 +1344,8 @@ msgstr "Adaptive Geschwindigkeitsregelung"
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Adaptive Cruise Control (ACC) ermöglicht automatisches Beschleunigen und "
+"Bremsen je nach Straßenbedingungen und vorausfahrenden Fahrzeugen."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1406,43 +1423,54 @@ msgstr "Der Geschwindigkeitsversatz, der auf alle Geschwindigkeitsbegrenzungen a
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "Entsperre PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Du kannst die PID Einstellungen entsperren, um sie manuell anzupassen. Dies "
+"wird nicht aber nicht empfohlen, außer wenn du weißt was ein PID ist und wie "
+"man es richtig einstellt."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Sind wir schon da? Nein? Dann müssen wir mehr beschleunigen! (Proportionale "
+"Verstärkung für den PID-Regler.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Ist es schon eine Weile, seit wir dort waren? Dann müssen wir mehr "
+"beschleunigen! (Integraler Verstärkungsfaktor für den PID-Regler.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Wie schnell nähern wir uns dem Ziel? Wenn wir uns zu schnell nähern, müssen "
+"wir stärker abbremsen! (Differenzielle Verstärkung für den PID-controller.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Dieses Video erklärt visuell, wie ein PID-controller funktioniert. Bitte "
+"schauen Sie es vollständig an, wenn Sie mit dem Thema nicht vertraut sind."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1682,11 +1710,11 @@ msgstr "Aktualisiere die aktuell ausgewählten Daten. Dies kann hilfreich sein, 
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "Die Downloadgröße für diese Daten beträgt"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "die entpackt wird zu einer Gesamtgröße von"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1897,11 +1925,13 @@ msgstr "Diese Renderer werden verwendet, um nicht verankerte Elemente zu zeichne
 
 #: .\Plugins\NavigationSockets\main.py:180
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigationsschnittstellen"
 
 #: .\Plugins\NavigationSockets\main.py:182
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Dieses Plugin stellt einen WebSocket-Server für Navigationsdaten auf einer "
+"Weltkarte bereit."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2075,80 +2105,100 @@ msgstr "Testmodus aktiviert. Dies ist eine Testmeldung."
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Visualisierung Sockets"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
 msgstr ""
+"Dieses Plugin stellt einen WebSocket-Server für die ETS2LA-Visualisierung "
+"bereit."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Host-Gerät"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Wenn du die ETS2LA-Visualisierung auf deinem aktuellen Gerät ansehen "
+"möchtest, öffne einfach den Tab „Visualisierung“ in der Seitenleiste. Dort "
+"kannst du zwischen dem offiziellen Mirror und dem von Goodnightan wählen."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Du kannst auch die folgende Website verwenden:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Anderes Gerät"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Öffne die folgende URL im Browser deines Geräts: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"ACHTUNG: Du musst die Seite über http und nicht https aufrufen. Google "
+"Chrome funktioniert nicht!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Sobald die Website geladen ist, drücke den roten Button „Remote "
+"Connection“.\n"
+"Wenn keine Verbindung hergestellt wird, gib folgende IP-Adresse manuell ein."
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Wenn du Probleme hast, überprüfe bitte, ob dein Gerät mit demselben "
+"Netzwerk wie der Host verbunden ist.\n"
+"Stelle außerdem sicher, dass deine Firewall die Verbindung zwischen den "
+"Geräten nicht blockiert."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Deine IP-Adresse konnte nicht gefunden werden wahrscheinlich liegt ein "
+"Netzwerkproblem vor. Die Visualisierung kann daher nicht extern angezeigt "
+"werden."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Warte auf den Start des Plugins..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Warte, bis das Plugin geladen ist..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Folgende Clients sind derzeit verbunden:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Latenz: {latency:.2f} ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Channels: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Noch nicht bestätigt."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Es sind derzeit keine Clients verbunden."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Dieses Plugin stellt einen WebSocket-Server für die ETS2LA-Visualisierung "
+"bereit. Es ermöglicht dir, von anderen Geräten aus eine Verbindung zur "
+"Visualisierung herzustellen und die ETS2LA-Daten in Echtzeit anzuzeigen."
 
 #: .\main.py:94
 msgid "Testing mirrors..."
