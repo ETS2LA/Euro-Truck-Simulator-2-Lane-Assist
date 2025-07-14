@@ -194,21 +194,21 @@ def get_plugins():
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            name, description, authors = plugin.description.name, plugin.description, plugin.authors
+            id, description, authors = plugin.description.id, plugin.description, plugin.authors
             if type(authors) != list:
                 authors = [authors]
                 
-            return_data[name] = {
+            return_data[id] = {
                 "authors": [author.__dict__ for author in authors],
                 "description": description.__dict__,
                 "settings": None,
             }
-            if name in [enabled_plugin.description.name for enabled_plugin in enabled_plugins]:
-                return_data[name]["enabled"] = True
-                return_data[name]["frametimes"] = []#plugins.get_latest_frametime(name)
+            if id in [enabled_plugin.description.id for enabled_plugin in enabled_plugins]:
+                return_data[id]["enabled"] = True
+                return_data[id]["frametimes"] = []#plugins.get_latest_frametime(id)
             else:
-                return_data[name]["enabled"] = False
-                return_data[name]["frametimes"] = 0
+                return_data[id]["enabled"] = False
+                return_data[id]["frametimes"] = 0
         
         return return_data
     except:

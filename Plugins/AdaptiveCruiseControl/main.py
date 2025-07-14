@@ -69,7 +69,6 @@ class ACCGate(Gate):
         self.distance = distance
 
 class Plugin(ETS2LAPlugin):
-    
     description = PluginDescription(
         name=_("Adaptive Cruise Control"),
         version="1.0",

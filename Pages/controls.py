@@ -1,6 +1,7 @@
 from ETS2LA.UI import *
 
 from ETS2LA.Handlers.controls import get_event_information_dictionary, edit_event, unbind_event, event_information_update
+from ETS2LA.Handlers.plugins import match_plugin_by_id
 from ETS2LA.Utils.translator import _
 
 class Control:
@@ -123,7 +124,14 @@ class Page(ETS2LAPage):
                     with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("items-center")):
                         with Container(styles.FlexVertical() + styles.Gap("4px") + styles.Classname("min-w-max")):
                             Text(control.name, styles.Classname("font-semibold"))
-                            Text("" + control.plugin, styles.Description() + styles.Classname("text-xs"))
+                            try:
+                                plugin = match_plugin_by_id(control.plugin)
+                                if plugin:
+                                    Text(plugin.description.name, styles.Description() + styles.Classname("text-xs"))
+                                else:
+                                    Text(control.plugin, styles.Description() + styles.Classname("text-xs"))
+                            except:
+                                Text(control.plugin, styles.Description() + styles.Classname("text-xs"))
 
                         Separator(direction="vertical", style=styles.Width("1px") + styles.Height("100%"))
                         

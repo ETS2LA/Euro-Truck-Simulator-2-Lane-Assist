@@ -1,3 +1,4 @@
+from ETS2LA.Utils.translator import _
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
@@ -176,9 +177,9 @@ def ConvertAngleToWGS84Heading(position, speed, game="ETS2"):
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="plugin.navigationsockets",
+        name=_("Navigation Sockets"),
         version="1.0",
-        description="plugin.navigationsockets.description",
+        description=_("This plugin provides a WebSocket server for navigation data on a world map."),
         modules=["TruckSimAPI"],
         tags=["Base", "Visualization", "Frontend"],
         hidden=False,
@@ -209,10 +210,8 @@ class Plugin(ETS2LAPlugin):
         import os
 
     async def server(self, websocket):
-        print("Client Connected!")
         connection = WebSocketConnection(websocket)
         self.connected_clients[websocket] = connection
-        print("Number of connected clients: ", len(self.connected_clients))
         response = [
             #{"id": 1,"result": {"type": "started"}},
             {"id": 2,"result": {"type": "started"}},
@@ -222,10 +221,8 @@ class Plugin(ETS2LAPlugin):
         ]
         try:
             async for message in websocket:
-                print("Received message from client: ", message)
                 # Respond to any message with the response
                 await websocket.send(json.dumps(response))
-                print("Sent response to client.")
                 
                 
         except Exception as e:
@@ -252,8 +249,6 @@ class Plugin(ETS2LAPlugin):
         
         socket = threading.Thread(target=self.run_server_thread, daemon=True)
         socket.start()
-        
-        print("Navigation sockets waiting for client...")
 
     def run(self):
         data = TruckSimAPI.run()

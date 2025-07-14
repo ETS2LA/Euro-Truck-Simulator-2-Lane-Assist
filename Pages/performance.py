@@ -139,8 +139,8 @@ class Page(ETS2LAPage):
                                 if not plugin.frametimes:   
                                     continue
                                 
-                                if plugin.description.name not in self.first_times:
-                                    self.first_times[plugin.description.name] = plugin.frametimes[0]
+                                if plugin.description.id not in self.first_times:
+                                    self.first_times[plugin.description.id] = plugin.frametimes[0]
                                 
                                 with Container(styles.FlexVertical() + styles.Classname("relative border rounded-md p-4") + styles.Height("200px")):
                                     with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
@@ -168,7 +168,7 @@ class Page(ETS2LAPage):
                                                 except:
                                                     pass
                                     
-                                    if plugin.frametimes[0] == self.first_times[plugin.description.name]:
+                                    if plugin.frametimes[0] == self.first_times[plugin.description.id]:
                                         Text(_("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."), styles.Description() + styles.Classname("text-xs"))
 
                                     graph_data = self.format_frametimes_to_graph_data(plugin.frametimes)

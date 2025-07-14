@@ -176,6 +176,7 @@ class PluginDescription:
     :param str name: The name of the plugin.
     :param str version: The version of the plugin.
     :param str description: The description of the plugin.
+    :param str id: The ID of the plugin. If not set, it will be generated from the filepath. This ID is used to identify the plugin in the backend.
     :param list[str] tags: The list of tags to show on the frontend.
     :param list[str] dependencies: List of plugin names that this plugin depends on. FOLDER NAMES NOT THE name ATTRIBUTE!
     :param list[str] modules: List of modules that the plugin uses. FOLDER NAMES NOT THE name ATTRIBUTE!
@@ -189,6 +190,7 @@ class PluginDescription:
     name: str
     version: str
     description: str
+    id: str = ""
     tags: list[str]
     dependencies: list[str]
     modules: list[str]

@@ -239,10 +239,10 @@ class Plugin:
                         if tag not in self.tags:
                             self.tags[tag] = {}
                             
-                        if self.description.name not in self.tags[tag]:
-                            self.tags[tag][self.description.name] = {}
+                        if self.description.id not in self.tags[tag]:
+                            self.tags[tag][self.description.id] = {}
                             
-                        self.tags[tag][self.description.name] = value
+                        self.tags[tag][self.description.id] = value
                     
                     message.state = State.DONE
                     message.data = "success" # clear data for faster transmit
@@ -269,7 +269,7 @@ class Plugin:
                     if "url" in message.data:
                         url = message.data["url"]
                         data = message.data["data"]
-                        data[0]["plugin"] = self.description.name
+                        data[0]["plugin"] = self.description.id
                         self.pages[url] = data
 
             time.sleep(0.01)
@@ -293,7 +293,7 @@ class Plugin:
                     if "url" in message.data:
                         url = message.data["url"]
                         reason = message.data.get("reason", "")
-                        plugin = self.description.name
+                        plugin = self.description.id
                         notifications.navigate(url, plugin, reason)
             time.sleep(0.1)
 
@@ -395,7 +395,7 @@ class Plugin:
             
         self.controls = response.data
         for control in self.controls:
-            control.plugin = self.description.name
+            control.plugin = self.description.id
             
         controls.validate_events(self.controls)
         return response.data
@@ -450,11 +450,19 @@ def match_plugin_by_folder(folder: str) -> Plugin | None:
         if plugin.folder == folder:
             return plugin
     return None
+
+def match_plugin_by_id(id: str) -> Plugin | None:
+    """Match a plugin by its ID."""
+    for plugin in plugins:
+        if plugin.description.id == id:
+            return plugin
+    return None
     
 def match_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> Plugin | None:
+    folder: str | None = None,
+    id: str | None = None) -> Plugin | None:
     """Match a plugin by its description, name or folder."""
     if description is not None:
         return match_plugin_by_description(description)
@@ -462,6 +470,8 @@ def match_plugin(
         return match_plugin_by_name(name)
     if folder is not None:
         return match_plugin_by_folder(folder)
+    if id is not None:
+        return match_plugin_by_id(id)
     
     return None
     
@@ -472,12 +482,14 @@ def match_plugin(
 def start_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> bool:
+    folder: str | None = None,
+    id: str | None = None) -> bool:
     """Start a plugin based on one of the parameters."""
     plugin: Plugin | None = match_plugin(
         description=description,
         name=name,
-        folder=folder
+        folder=folder,
+        id=id
     )
     if not plugin:
         logging.error(_("Plugin not found."))
@@ -506,12 +518,14 @@ def start_plugin(
 def stop_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> bool:
+    folder: str | None = None,
+    id: str | None = None) -> bool:
     """Stop a plugin based on one of the parameters."""
     plugin: Plugin | None = match_plugin(
         description=description,
         name=name,
-        folder=folder
+        folder=folder,
+        id=id
     )
     if not plugin:
         logging.error(_("Plugin not found, this can be a result of a plugin crash or failure to load."))
@@ -535,18 +549,21 @@ def stop_plugin(
 def restart_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> bool:
+    folder: str | None = None,
+    id: str | None = None) -> bool:
     """Restart a plugin based on one of the parameters."""
     try:
         stop_plugin(
             description=description,
             name=name,
-            folder=folder
+            folder=folder,
+            id=id
         )
         start_plugin(
             description=description,
             name=name,
-            folder=folder
+            folder=folder,
+            id=id
         )
         return True
     except Exception as e:
@@ -636,7 +653,7 @@ def get_states() -> dict:
     states = {}
     for plugin in plugins:
         if plugin.state["status"] != "":
-            states[plugin.description.name] = plugin.state
+            states[plugin.description.id] = plugin.state
         
     return states
 
@@ -673,6 +690,6 @@ def save_running_plugins() -> None:
     running = []
     for plugin in plugins:
         if plugin.running:
-            running.append(plugin.description.name)
+            running.append(plugin.description.id)
             
     settings.Set("global", "running_plugins", running)

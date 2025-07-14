@@ -155,6 +155,11 @@ class PluginProcess:
         if type(self.authors) is not list:
             self.authors = [self.authors]
             
+        if self.description.id == "":
+            # Plugins/AdaptiveCruiseControl/main.py
+            # -> plugins.adaptivecruisecontrol
+            self.description.id = import_path.replace(".main", "").lower()
+
         logging.info(f"Read plugin description. {self.description.name} by {', '.join(author.name for author in self.authors)}")
         
         # Pages need to be instantiated before use.

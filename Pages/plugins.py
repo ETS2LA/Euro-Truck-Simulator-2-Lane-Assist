@@ -9,13 +9,13 @@ import time
 class BasicModeFeature():
     name: str = "Feature"
     description: str = "Description of the feature."
-    plugin_names: list[str] = "Plugin names to enable this feature."
+    plugin_ids: list[str] = "Plugin names to enable this feature."
     default: bool = True
     
-    def __init__(self, name: str, description: str, plugin_names: list[str], default: bool = True):
+    def __init__(self, name: str, description: str, plugin_ids: list[str], default: bool = True):
         self.name = name
         self.description = description
-        self.plugin_names = plugin_names
+        self.plugin_ids = plugin_ids
         self.default = default
 
 
@@ -23,28 +23,28 @@ basic_mode_features = [
     BasicModeFeature(
         name=_("Steering"),
         description=_("Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."),
-        plugin_names=["Map"]
+        plugin_ids=["plugins.map"]
     ),
     BasicModeFeature(
         name=_("Lateral Control"),
         description=_("Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."),
-        plugin_names=["AdaptiveCruiseControl"]
+        plugin_ids=["plugins.adaptivecruisecontrol"]
     ),
     BasicModeFeature(
         name=_("Visualization"),
         description=_("Enable plugins that are needed for the visualization tab to work.\n\n**This is required for the visualization tab to work.**"),
-        plugin_names=["VisualizationSockets", "NavigationSockets"]
+        plugin_ids=["plugins.visualizationsockets", "plugins.navigationsockets"]
     ),
     BasicModeFeature(
         name=_("HUD"),
         description=_("Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."),
-        plugin_names=["AR", "HUD"],
+        plugin_ids=["plugins.ar", "plugins.hud"],
         default=False
     ),
     BasicModeFeature(
         name=_("Text To Speech"),
         description=_("Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."),
-        plugin_names=["TTS"],
+        plugin_ids=["plugins.tts"],
         default=False
     )
 ]
@@ -75,12 +75,12 @@ class Page(ETS2LAPage):
         if not settings.Get("global", "advanced_plugin_mode", False):
             for feature in basic_mode_features:
                 if self.feature_toggles[feature.name] and self.running:
-                    for plugin_name in feature.plugin_names:
-                        plugins.start_plugin(folder="Plugins\\" + plugin_name)
+                    for id in feature.plugin_ids:
+                        plugins.start_plugin(id=id)
                 else:
-                    for plugin_name in feature.plugin_names:
-                        plugins.stop_plugin(folder="Plugins\\" + plugin_name)
-    
+                    for id in feature.plugin_ids:
+                        plugins.stop_plugin(id=id)
+
     def toggle_feature(self, name: str):
         if name in self.feature_toggles:
             self.feature_toggles[name] = not self.feature_toggles[name]
