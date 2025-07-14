@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-14 12:31+0000\n"
-"Last-Translator: delilevente <delilevente@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-14 16:27+0000\n"
+"Last-Translator: H4ck3r_pr0_g4m3r <hpg@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
 "Language: hu\n"
@@ -25,7 +25,7 @@ msgstr "Időtúllépés, próbáld újra."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Esemény hozzákötve {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
@@ -37,7 +37,7 @@ msgstr "{} csatlakoztatva."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Joystick megtalálva: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
@@ -46,11 +46,11 @@ msgstr "{} leválasztva."
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Esemény ezzel a névvel: '{0}' nem talált."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Kivétel történt az esemény szerkesztése közben."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
@@ -74,19 +74,19 @@ msgstr "A(z) [yellow]{0}[/yellow] plugin betöltése sikeres volt."
 
 #: .\ETS2LA\Handlers\plugins.py:354
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Plugin {0} nem kapott leírást: Időtúllépés."
 
 #: .\ETS2LA\Handlers\plugins.py:358
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Plugin {0} nem kapott leírást: {1]"
 
 #: .\ETS2LA\Handlers\plugins.py:389
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "A plugin {0} hoz nem sikerült a vezérlést megkapni: Időtúllépés."
 
 #: .\ETS2LA\Handlers\plugins.py:393
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "A plugin {0} hoz nem sikerült a vezérlést megkapni: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:425
 msgid "Loaded {0} plugins."
@@ -126,27 +126,33 @@ msgstr "A(z) {0} plugin újraindítása sikertelen volt"
 
 #: .\ETS2LA\Handlers\plugins.py:606 .\ETS2LA\Handlers\plugins.py:629
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} Nem található a(z) {1} oldalon."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Nem sikerült letölteni a ffmpeg könyvtárat, kérjük töltse le kézzel. (pl. "
+"[code] winget install ffmpeg [/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "A Hangcsomagból '{0}' hiányzik az egyik kötelező hang: '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "A Hangcsomag '{0}'-ban az egyik fájlnak érvénytelen a fájltípusa: '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"'{0}' hangot próbált játszani, de nem volt megtalálható a hangcsomagban. {1} "
+"'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Sikeresen regisztrált [bold] http: / / {address} [/ bold] to point to [dim] {"
+"local _ ip} [/ dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -154,11 +160,11 @@ msgstr "Hiba történt egy üzenet feldolgozása során."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Próbált küldeni egy üres lapot."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Felhasználói felület felugró ablak webfoglalata elindult."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
@@ -166,7 +172,7 @@ msgstr "Felhasználói felület"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "A felhasználói felület frissíteni szeretne."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
@@ -174,15 +180,15 @@ msgstr "Nem sikerült beállítani átlászóra az ablakot"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Nem sikerült beszerezni a címkeadatokat"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Nem sikerült oldalakat beszerezni"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Nem sikerült beszerezni az oldaladatokat a {0} oldalra"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
@@ -190,7 +196,7 @@ msgstr "A plugin(ok) újratöltése sikertelen volt"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Nem sikerült felépíteni a felhasználói felületet"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
@@ -710,9 +716,8 @@ msgid "Loading..."
 msgstr "Betöltés..."
 
 #: .\Pages\onboarding.py:89
-#, fuzzy
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
-msgstr "Még elkell végeznünk pár dolgot. Adig is dölj hátra és lazits!"
+msgstr "Még el kell végeznünk pár dolgot. Addig is dőlj hátra és lazíts!"
 
 #: .\Pages\onboarding.py:93
 msgid "Welcome to ETS2LA!"
@@ -812,7 +817,6 @@ msgid "Waiting for data selection..."
 msgstr "Várakozás az adat kiválasztására..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
-#, fuzzy
 msgid "Selected Data"
 msgstr "Kiválasztott adat"
 
@@ -821,17 +825,14 @@ msgid "Select the data that matches your game and mods."
 msgstr ""
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
-#, fuzzy
 msgid "Search data"
 msgstr "Adat keresése"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
-#, fuzzy
 msgid "No matching data found"
 msgstr "A kereset adat nem található"
 
 #: .\Pages\onboarding.py:286
-#, fuzzy
 msgid "The"
 msgstr "A"
 
@@ -934,7 +935,6 @@ msgid "Page not found"
 msgstr "Az oldal nem találhaató"
 
 #: .\Pages\onboarding.py:431
-#, fuzzy
 msgid "Go back"
 msgstr "Vissza"
 
@@ -947,29 +947,24 @@ msgid "Data is still being collected, please wait a few seconds for the graphs t
 msgstr ""
 
 #: .\Pages\performance.py:103
-#, fuzzy
 msgid "CPU Usage"
-msgstr "CPU fogyasztás"
+msgstr "CPU Használat"
 
 #: .\Pages\performance.py:110
-#, fuzzy
 msgid "CPU Usage "
-msgstr "CPU fogyasztás "
+msgstr "CPU Használat. "
 
 #: .\Pages\performance.py:118
-#, fuzzy
 msgid "RAM Usage"
-msgstr "RAM fogyasztás"
+msgstr "RAM Használat"
 
 #: .\Pages\performance.py:125
-#, fuzzy
 msgid "RAM Usage "
-msgstr "RAM fogyasztás "
+msgstr "RAM Használat. "
 
 #: .\Pages\performance.py:125
-#, fuzzy
 msgid "ETS2LA RAM Usage  "
-msgstr "ETS2LA RAM fogyasztása  "
+msgstr "ETS2LA RAM Használata.  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:355
 msgid "No plugins are currently running."
@@ -1347,9 +1342,11 @@ msgid "Ignore Traffic Lights"
 msgstr "Közlekedési lámpák figyelmen kívül hagyása"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
-#, fuzzy
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
-msgstr "Vezetés közben hagyja figyelmen kívül a közlekedési lámpákat. Haladjon tovább, amíg a közlekedési lámpa piros. (Ajánlott ATS-sel és mod térképekkel való használatra.)"
+msgstr ""
+"Vezetés közben hagyja figyelmen kívül a közlekedési lámpákat. Haladjon "
+"tovább, amíg a közlekedési lámpa piros. (Ajánlott ATS-el és modos "
+"térképekkel való használatra.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
@@ -1360,7 +1357,6 @@ msgid "Ignore Speed Limit"
 msgstr "Sebességkorlátozás figyelmen kívül hagyása"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
-#, fuzzy
 msgid "Whether the ACC should ignore the speed limit."
 msgstr "Vezetés közben hagyja figyelmen kívül a sebességkorlátozásokat."
 
@@ -1369,19 +1365,21 @@ msgid "Coefficient of Friction"
 msgstr "Súrlódási együttható"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
-#, fuzzy
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
-msgstr "Szabályozza a (képzeletbeli) súrlódást a gumiabroncsok és az út között. Az alacsonyabb értékek miatt a teherautó jobban lelassul, míg a magasabb értékek miatt gyorsabban halad a kanyarokban."
+msgstr ""
+"Szabályozza a (képzeletbeli) súrlódást a gumiabroncsok és az út között. Az "
+"alacsonyabb értékek miatt a teherautó jobban lelassul, míg a magasabb "
+"értékek miatt gyorsabban halad a kanyarokban."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
-#, fuzzy
 msgid "Speed when game speed limit is 0"
-msgstr "Sebesség, ha az út sebességkorlátozása 0"
+msgstr "Sebesség tartása, mikor az út sebességkorlátozása 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
-#, fuzzy
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
-msgstr "A sebesség, amellyel akkor halad, amikor az API (út) 0 vagy annál alacsonyabb sebességkorlátozást olvas."
+msgstr ""
+"A sebesség, amellyel akkor halad, amikor az API (út) 0 vagy annál "
+"alacsonyabb sebességkorlátozást olvas."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
@@ -1630,7 +1628,6 @@ msgid "When enabled map will not notify of any FPS related issues."
 msgstr ""
 
 #: .\Plugins\Map\ui.py:121
-#, fuzzy
 msgid "Compute Steering Data"
 msgstr "Kormányzási adatok kiszámítása"
 
@@ -1655,7 +1652,6 @@ msgid "Set the time we average the steering data over. A value of 0.5 means that
 msgstr ""
 
 #: .\Plugins\Map\ui.py:142
-#, fuzzy
 msgid "Data"
 msgstr "Adat"
 
@@ -1672,7 +1668,6 @@ msgid "Please select the data you want to use. This will begin the download proc
 msgstr ""
 
 #: .\Plugins\Map\ui.py:170
-#, fuzzy
 msgid "Update Data"
 msgstr "Adatok frissítése"
 
@@ -1714,9 +1709,8 @@ msgid "Draw ACC and Steering status information."
 msgstr ""
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
-#, fuzzy
 msgid "Fuel Status"
-msgstr "Üzemanyag szint jelző"
+msgstr "Üzemanyag állapota"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
@@ -1765,9 +1759,8 @@ msgid "arrival"
 msgstr ""
 
 #: .\Plugins\NGHUD\elements\power.py:11
-#, fuzzy
 msgid "Throttle / Brake"
-msgstr "Gáz / Fékerő mutató"
+msgstr "Gáz / Fékerő"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
@@ -1777,7 +1770,7 @@ msgstr ""
 #: .\Plugins\NGHUD\main.py:221
 #, fuzzy
 msgid "Traffic Lights"
-msgstr "Közlekedési lámpa visszaszámláló"
+msgstr "Közlekedési lámpák jelzése"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
@@ -1785,9 +1778,8 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
 #: .\Plugins\TTS\main.py:122
-#, fuzzy
 msgid "Speed"
-msgstr "Sebbeség kijezés"
+msgstr "Sebesség"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
@@ -1815,7 +1807,6 @@ msgid "Enable"
 msgstr "Engedélyezés"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-#, fuzzy
 msgid "Disable"
 msgstr "Letiltás"
 
