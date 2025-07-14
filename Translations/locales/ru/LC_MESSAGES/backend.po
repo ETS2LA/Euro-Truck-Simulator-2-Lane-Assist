@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-14 12:31+0000\n"
+"PO-Revision-Date: 2025-07-14 16:27+0000\n"
 "Last-Translator: takedown <takedown@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
@@ -1455,18 +1455,24 @@ msgstr "Ki ПИД"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Давно не были у цели? Тогда нам нужно ускориться больше! (Интегральный "
+"компонент ПИД регулятора.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "Kd ПИД"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Насколько быстро мы приближаемся к цели? Если слишком быстро, нам нужно "
+"замедлиться больше! (Производный компонент ПИД регулятора.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Это видео визуально объясняет, как работает ПИД регулятор. Пожалуйста, "
+"посмотрите его полностью, если вы не знакомы с тем, как он работает."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1706,11 +1712,11 @@ msgstr "Обновить выбранные данные, это может по
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "Размер загрузки этих данных"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "полный размер после распаковки будет"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1921,11 +1927,13 @@ msgstr "Эти отрисовщики используются, чтобы от�
 
 #: .\Plugins\NavigationSockets\main.py:180
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Сокеты навигации"
 
 #: .\Plugins\NavigationSockets\main.py:182
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Этот плагин предоставляет WebSocket сервер для данных навигации на карте "
+"мира."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2105,80 +2113,96 @@ msgstr "Тестовый режим активирован. Это тестов�
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Сокеты визуализации"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
+msgstr "Этот плагин предоставляет WebSocket сервер для визуализации ETS2LA."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Хост-устройство"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Если вы хотите, чтобы визуализация ETS2LA отображалась на текущем "
+"устройстве, просто откройте вкладку \"Визуализация\" на боковой панели, "
+"затем вы сможете выбрать между официальными зеркалом и зеркалом Goodnightan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Также вы можете использовать следующий вебсайт:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Другое устройство"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Откройте следующую ссылку в браузере вашего устройства: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"ВНИМАНИЕ: Вы должны зайти на сайт через http вместо https. Google Chrome "
+"работать не будет!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. После того, как сайт загрузился, нажмите на красную кнопку "
+"\"Remote Connection\". Если это не сработает, введите следующий IP адрес:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Если у вас возникли проблемы, пожалуйста, удостоверьтесь, что ваше "
+"устройство подключено к той же сети, что и хост-устройство. Также вы должны "
+"удостовериться, что ваш файрвол (брандмауэер) не блокирует соеденение между "
+"устройствами."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Не удалось найти ваш IP адрес, скорее всего, это связано с проблемой сети. "
+"Удалённое отображение визуализации недоступно."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Ожидание запуска плагина..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Ожидание загрузки плагина..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Следующие клиенты подключены в данный момент:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Задержка: {latency:.2f}мс"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Каналы: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Ещё не подтверждено."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Подключённых клиентов нет."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Этот плагин предоставляет WebSocket сервер для визуализации ETS2LA. Он даёт "
+"возможность подключаться к визуализации с других устройств и просматривать "
+"данные из ETS2LA в реальном времени."
 
 #: .\main.py:94
 msgid "Testing mirrors..."
