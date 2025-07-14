@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-11 18:47+0000\n"
-"Last-Translator: Roke <roke@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/>\n"
+"PO-Revision-Date: 2025-07-14 10:45+0000\n"
+"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
+">\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -146,6 +147,8 @@ msgstr "Yritettiin toistaa ääni '{0}', mutta sitä ei löytynyt äänipaketist
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Osoitettiin [bold]http://{address}[/bold] paikalliseen IP osoitteeseen [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -233,11 +236,13 @@ msgstr "Odota hetki kun alustamme käyttöliittymää"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "Etsitään ETS2LA:n ikkunaa... [dim](10s aikakatkaisu)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"ETS2LA:n ikkunaa ei löydetty. Onko tietokoneesi tarpeeksi nopea? Voit "
+"käyttää https://app.ets2la.com sivua avataksesi sen manuaalisesti."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -585,7 +590,7 @@ msgstr "Auta meitä kääntämään Discordissa!"
 
 #: .\Pages\global_settings.py:188
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Tämä kieli on {percentage:.2f}% valmis."
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
@@ -738,15 +743,17 @@ msgstr "Voit muuttaa väriteemaa täältä!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Kielen valinta"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Valitse haluamasi kieli. Tätä asetusta voi vaihtaa myöhemminkin, kaikki "
+"käännökset tulevat yhteisöltä!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Valitse haluamasi kieli."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
@@ -1240,51 +1247,59 @@ msgstr "Asenna {count} päivitystä ja käynnistä uudelleen"
 
 #: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Voit muokata AR laajennuksen asetuksia täällä."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "Älä piilota nauhoitussovelluksilta"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Normaalisti AR piilotetaan nauhoitussovelluksilta, jotta ETS2LA voi käyttää "
+"laajennuksia jotka seuraavat peliä visuaalisesti. Jos haluat kuvata videoita "
+"tai streamata, voit kytkeä tämän päälle."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Näytä testikappaleet"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Näytä testikappaleet pelimaailmassa."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Näytä kun peli ei ole päälimmäisenä"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Renderöi AR kappaleet vaikka peli ei olisi päälimmäisenä. Tämä voi olla "
+"hyödyllinen asetus kun muokkaa esimerkiksi HUDin paikkaa. Huomaa kuitenkin "
+"että tämä antaa AR:n pyöriä maksimi nopeudella."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Kappaleita: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "Kirjoitus tapahtumia: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "Renderöinti aika: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"AR laajennus renderöi kappaleitä pelin päälle. Tätä käyttää esim HUD, joka "
+"voi näyttää realistisen HUDin pelimaailman päällä."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1320,6 +1335,8 @@ msgstr "Adaptiivinen vakionopeudensäädin"
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Adaptiviinen vakionopeudensäädin (ACC) ohjaa automaattisesti ajoneuvon "
+"nopeutta, tieolosuhteet ja muut ajoneuvot huomioon ottaen."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1397,43 +1414,49 @@ msgstr "Staattinen nopeuspoikkeama kaikkilla nopeuksilla. ETS2:n turvallinen poi
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "Avaa PID muokkaus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Voit avata PID muokkauksen, jos haluat säätää sitä itse. Suositus on olla "
+"muokkaamatta PID:tä jos et ole jo hyvin perillä siitä."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
-msgstr ""
+msgstr "Olemmeko me jo perillä? Ei? Sitten pitää kiihdyttää!"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Olemmeko olleet kaukana nopeudesta kauan? Sitten pitää kiihdyttää lisää!"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Lähestytäänkö me tavoitetta nopeasti? Pitää hidastaa, että ei mennä yli!"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Tämä video näyttää visuaalisesti miten PID ohjain toimii. Katso se tarkasti, "
+"jos et ole ennen käyttänyt PID ohjaimia."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1673,11 +1696,11 @@ msgstr "Päivittää tällä hetkellä ladatut karttatiedot, tämä voi auttaa j
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "Karttatietojen lautauskoko on"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr ", joka puretaan kokonaiskokoon"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1888,11 +1911,13 @@ msgstr "Nämä renderöijät ovat koko näytön kokoisia, ne siis piirtävät jo
 
 #: .\Plugins\NavigationSockets\main.py:180
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigaation Viestipalvelin"
 
 #: .\Plugins\NavigationSockets\main.py:182
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Tämä laajennus tarjoaa ulkoisille sovelluksille (kuten kartalle) "
+"viestipalvelimen navigaatiotiedoille."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2066,48 +2091,63 @@ msgstr "Testimoodi aktivoitu, tämä on testiviesti."
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Visualisaation Viestipalvelin"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
 msgstr ""
+"Tämä laajennus on kehitetty, jotta ETS2LA voi keskustella ulkoisen "
+"visualisaation kanssa. Laajennus on pakollinen jotta visualisaatio sivu "
+"toimii oikein."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Tämä tietokone"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Voit avata vasemmalla sivupalkista \"Visualisaatio\" sivun, valitse tällä "
+"sivulla \"Virallinen\" tai \"Official\" palvelin, jotta yhdistät oikeaan "
+"paikkaan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Voit avata myös tämän sivun selaimella:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Toinen laite"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Avaa seuraava sivu laitteesi selaimessa: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"HUOM: Sivu on avattava HTTP protokollalla. Tähän pystyy esim Firefox, mutta "
+"Chrome ja Safari eivät!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Kunhan sivu on avautunut paina punaista 'Remote Connection' nappia. Jos "
+"se ei automaattisesti toimi, niin kirjoita seuraava IP osoite:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Jos yhteys ei toimi kunnolla, niin tarkista että laitteesi on samassa "
+"WiFi verkossa tietokoneesi kanssa. Tarkasta myös että olet päästänyt ETS2LA:"
+"n palomuurin läpi lähiverkkoon."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"IP osoitettasi ei löydetty, tämä voi johtua lähiverkon ongelmista. "
+"Visualisaation avaaminen ulkoisesti ei ole mahdollista."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
@@ -2119,7 +2159,7 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Seuraavat laitteet ovat yhdistetty:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
@@ -2131,7 +2171,7 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Vastausta ei ole vielä saapunut."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
