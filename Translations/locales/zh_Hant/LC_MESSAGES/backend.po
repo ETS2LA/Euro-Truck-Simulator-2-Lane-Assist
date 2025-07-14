@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-12 12:08+0000\n"
+"PO-Revision-Date: 2025-07-14 09:42+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hant/>\n"
@@ -749,15 +749,17 @@ msgstr "開啟進階插件管理器。隨時可以在插件管理器中進行更
 
 #: .\Pages\onboarding.py:183
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
-msgstr ""
+msgstr "建議將**進階插件模式**保持關閉，但對於希望自行選擇插件的進階使用者來說，可以"
+"考慮開啟此功能。"
 
 #: .\Pages\onboarding.py:191
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
-msgstr ""
+msgstr "**進階插件模式**可讓你手動控制啟用哪些插件，並且能從其他來源下載更多插件。但"
+"請注意，這些第三方插件並非由 ETS2LA 官方支援。"
 
 #: .\Pages\onboarding.py:196
 msgid "High Priority Mode"
-msgstr ""
+msgstr "高優先權模式"
 
 #: .\Pages\onboarding.py:197
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
