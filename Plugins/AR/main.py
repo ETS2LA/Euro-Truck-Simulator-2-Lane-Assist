@@ -152,7 +152,7 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
 class Settings(ETS2LAPage):
     url = "/settings/AR"
     location = ETS2LAPageLocation.SETTINGS
-    title = "plugins.ar"
+    title = _("AR")
 
     def vision_compat_changed(self, *args):
         if args:

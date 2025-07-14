@@ -123,7 +123,7 @@ class Page(ETS2LAPage):
                 with Container(styles.FlexVertical() + left_style + styles.Gap("8px") + styles.Classname("w-full rounded-md border p-4 bg-input/10")):
                     with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("items-center")):
                         with Container(styles.FlexVertical() + styles.Gap("4px") + styles.Classname("min-w-max")):
-                            Text(control.name, styles.Classname("font-semibold"))
+                            Text(_(control.name), styles.Classname("font-semibold"))
                             try:
                                 plugin = match_plugin_by_id(control.plugin)
                                 if plugin:
@@ -136,7 +136,7 @@ class Page(ETS2LAPage):
                         Separator(direction="vertical", style=styles.Width("1px") + styles.Height("100%"))
                         
                         with Container(styles.FlexVertical() + styles.Gap("4px")):
-                            Text(control.description, styles.Description())
+                            Text(_(control.description), styles.Description())
                             if control.device == "":
                                 Text(_("This event has not been bound to a device yet."))
                             elif control.device == "Keyboard":

@@ -65,7 +65,7 @@ def handle_functions(data: dict):
         
         if plugin:
             plugins.function_call(
-                name=plugin,
+                id=plugin,
                 function=func,
                 args=args,
             )

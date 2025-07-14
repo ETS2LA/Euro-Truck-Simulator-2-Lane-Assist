@@ -600,10 +600,10 @@ def page_open_event(url: str):
     if not page:
         return
     
-    plugin_name = page[0]["plugin"]
-    plugin = match_plugin(name=plugin_name)
+    plugin_id = page[0]["plugin"]
+    plugin = match_plugin(id=plugin_id)
     if not plugin:
-        logging.error(_("Plugin {0} not found for page {1}.").format(plugin_name, url))
+        logging.error(_("Plugin {0} not found for page {1}.").format(plugin_id, url))
         return
     
     plugin.queue.put(PluginMessage(
@@ -623,10 +623,10 @@ def page_close_event(url: str):
     if not page:
         return
     
-    plugin_name = page[0]["plugin"]
-    plugin = match_plugin(name=plugin_name)
+    plugin_id = page[0]["plugin"]
+    plugin = match_plugin(id=plugin_id)
     if not plugin:
-        logging.error(_("Plugin {0} not found for page {1}.").format(plugin_name, url))
+        logging.error(_("Plugin {0} not found for page {1}.").format(plugin_id, url))
         return
     
     plugin.queue.put(PluginMessage(
@@ -661,6 +661,7 @@ def function_call(
     description: PluginDescription | None = None,
     name: str | None = None,
     folder: str | None = None,
+    id: str | None = None,
     function: str = "",
     *args,
     **kwargs) -> bool:
@@ -668,7 +669,8 @@ def function_call(
     plugin: Plugin | None = match_plugin(
         description=description,
         name=name,
-        folder=folder
+        folder=folder,
+        id=id
     )
     
     if not plugin:
