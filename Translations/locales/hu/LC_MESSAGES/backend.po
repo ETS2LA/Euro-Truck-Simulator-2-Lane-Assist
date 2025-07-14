@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-14 09:44+0000\n"
-"Last-Translator: Drk <drk@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-14 10:00+0000\n"
+"Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
 "Language: hu\n"
@@ -1701,15 +1701,16 @@ msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr ""
+msgstr "Engedélyezés"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
+#, fuzzy
 msgid "Disable"
-msgstr ""
+msgstr "Letiltás"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Engedélyezd a plugint a beállítások szerkeztéséhez."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
@@ -1762,7 +1763,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
-msgstr ""
+msgstr "Elemek"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
@@ -1798,7 +1799,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Hangok"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
@@ -1834,7 +1835,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Hang keresése..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
@@ -1850,7 +1851,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Teszt mód"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
@@ -1858,7 +1859,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
@@ -1898,7 +1899,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Adaptív Tempomat engedélyezve."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
