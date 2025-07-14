@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 20:42+0000\n"
+"PO-Revision-Date: 2025-07-14 09:42+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -675,7 +675,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:282
 msgid "Debug Mode"
-msgstr ""
+msgstr "Debug mód"
 
 #: .\Pages\global_settings.py:283
 msgid "Enable this option to use the edge debugger for the frontend."
@@ -683,7 +683,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:291
 msgid "Fireworks"
-msgstr ""
+msgstr "Tűzijáték"
 
 #: .\Pages\global_settings.py:292
 msgid "Enable this option to use fireworks effects during the new year's."
@@ -691,11 +691,11 @@ msgstr ""
 
 #: .\Pages\global_settings.py:298
 msgid "Snow"
-msgstr ""
+msgstr "Hó"
 
 #: .\Pages\global_settings.py:299
 msgid "Enable this option to use snow effects during the winter season."
-msgstr ""
+msgstr "Télen engedélyezheted a hó szállingózást a képernyődön."
 
 #: .\Pages\onboarding.py:52
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
@@ -703,15 +703,16 @@ msgstr ""
 
 #: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323 .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
-msgstr ""
+msgstr "Betöltés..."
 
 #: .\Pages\onboarding.py:87
+#, fuzzy
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
-msgstr ""
+msgstr "Még elkell végeznünk pár dolgot. Adig is dölj hátra és lazits!"
 
 #: .\Pages\onboarding.py:91
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Köszöntjük az ETS2LA-ban!"
 
 #: .\Pages\onboarding.py:92
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
@@ -719,7 +720,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154 .\Pages\onboarding.py:165 .\Pages\onboarding.py:200 .\Pages\onboarding.py:230 .\Pages\onboarding.py:296 .\Pages\onboarding.py:337
 msgid "Continue"
-msgstr ""
+msgstr "Folytatás"
 
 #: .\Pages\onboarding.py:99
 msgid "Skip Onboarding"
@@ -732,7 +733,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
-msgstr ""
+msgstr "SDK beállítása"
 
 #: .\Pages\onboarding.py:148
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
@@ -740,11 +741,11 @@ msgstr ""
 
 #: .\Pages\onboarding.py:151
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "Egy pilanat csak telepítjük a SDK-kat..."
 
 #: .\Pages\onboarding.py:161 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Pluginok"
 
 #: .\Pages\onboarding.py:162
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
@@ -752,7 +753,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:169
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Haladó plugin mód"
 
 #: .\Pages\onboarding.py:170
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
@@ -768,7 +769,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:196
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Magas prioritási mód"
 
 #: .\Pages\onboarding.py:197
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
@@ -780,39 +781,44 @@ msgstr ""
 
 #: .\Pages\onboarding.py:224
 msgid "Map Data"
-msgstr ""
+msgstr "Térkép adat"
 
 #: .\Pages\onboarding.py:225
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
 
 #: .\Pages\onboarding.py:232
+#, fuzzy
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Várakozás az adat kiválasztására..."
 
 #: .\Pages\onboarding.py:246 .\Plugins\Map\ui.py:158
+#, fuzzy
 msgid "Selected Data"
-msgstr ""
+msgstr "Kiválasztott adat"
 
 #: .\Pages\onboarding.py:247
 msgid "Select the data that matches your game and mods."
 msgstr ""
 
 #: .\Pages\onboarding.py:251 .\Plugins\Map\ui.py:163
+#, fuzzy
 msgid "Search data"
-msgstr ""
+msgstr "Adat keresése"
 
 #: .\Pages\onboarding.py:252 .\Plugins\Map\ui.py:164
+#, fuzzy
 msgid "No matching data found"
-msgstr ""
+msgstr "A kereset adat nem található"
 
 #: .\Pages\onboarding.py:276 .\Plugins\Map\ui.py:193
+#, fuzzy
 msgid "The"
-msgstr ""
+msgstr "A"
 
 #: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
 msgid "download size"
-msgstr ""
+msgstr "Letöltési méret"
 
 #: .\Pages\onboarding.py:278 .\Plugins\Map\ui.py:195
 msgid "for this data is"
@@ -824,7 +830,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:281 .\Plugins\Map\ui.py:198
 msgid "total size"
-msgstr ""
+msgstr "Teljes méret"
 
 #: .\Pages\onboarding.py:286
 msgid "No data selected"
@@ -836,7 +842,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:292
 msgid "Window Size"
-msgstr ""
+msgstr "Ablak mérete"
 
 #: .\Pages\onboarding.py:293
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
@@ -844,11 +850,11 @@ msgstr ""
 
 #: .\Pages\onboarding.py:301
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Meghatározza az ablak szélességét."
 
 #: .\Pages\onboarding.py:310
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Meghatározza az ablak magaságát."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:327
@@ -859,7 +865,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:333
 msgid "Window Controls"
-msgstr ""
+msgstr "Ablak vezérlés"
 
 #: .\Pages\onboarding.py:334
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
@@ -895,7 +901,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:378
 msgid "Finish"
-msgstr ""
+msgstr "Kész"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:385
@@ -906,39 +912,45 @@ msgstr ""
 
 #: .\Pages\onboarding.py:419
 msgid "Page not found"
-msgstr ""
+msgstr "Az oldal nem találhaató"
 
 #: .\Pages\onboarding.py:421
+#, fuzzy
 msgid "Go back"
-msgstr ""
+msgstr "Vissza"
 
 #: .\Pages\performance.py:94
 msgid "System"
-msgstr ""
+msgstr "Rendszer"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
 
 #: .\Pages\performance.py:103
+#, fuzzy
 msgid "CPU Usage"
-msgstr ""
+msgstr "CPU fogyasztás"
 
 #: .\Pages\performance.py:110
+#, fuzzy
 msgid "CPU Usage "
-msgstr ""
+msgstr "CPU fogyasztás "
 
 #: .\Pages\performance.py:118
+#, fuzzy
 msgid "RAM Usage"
-msgstr ""
+msgstr "RAM fogyasztás"
 
 #: .\Pages\performance.py:125
+#, fuzzy
 msgid "RAM Usage "
-msgstr ""
+msgstr "RAM fogyasztás "
 
 #: .\Pages\performance.py:125
+#, fuzzy
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "ETS2LA RAM fogyasztása  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:355
 msgid "No plugins are currently running."
@@ -962,7 +974,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr ""
+msgstr "Kormányzás"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
@@ -978,7 +990,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Vizualizáció"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -989,7 +1001,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
@@ -1017,11 +1029,11 @@ msgstr ""
 
 #: .\Pages\plugins.py:244
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Pluginok leállítása"
 
 #: .\Pages\plugins.py:244
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Pluginok engedélyezése"
 
 #: .\Pages\plugins.py:247
 msgid "Currently enabled plugins:"
@@ -1029,23 +1041,23 @@ msgstr ""
 
 #: .\Pages\plugins.py:247
 msgid "None"
-msgstr ""
+msgstr "Semmi"
 
 #: .\Pages\plugins.py:269
 msgid "Enabled"
-msgstr ""
+msgstr "Engedélyezve"
 
 #: .\Pages\plugins.py:269
 msgid "Disabled"
-msgstr ""
+msgstr "Kikapcsolva"
 
 #: .\Pages\plugins.py:274
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Váltás haladó módra"
 
 #: .\Pages\plugins.py:296
 msgid "Search plugins..."
-msgstr ""
+msgstr "Pluginok keresése..."
 
 #: .\Pages\plugins.py:305
 msgid "Search tags..."
@@ -1069,7 +1081,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:351
 msgid "Running Plugins"
-msgstr ""
+msgstr "Futó pluginok"
 
 #: .\Pages\plugins.py:358
 msgid "Want to enable the plugins you had running last time?"
@@ -1081,7 +1093,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:366
 msgid "Available Plugins"
-msgstr ""
+msgstr "Elérhető pluginok"
 
 #: .\Pages\sdk_installation.py:86
 msgid "Could not find version for {game}, skipping installation"
@@ -1154,6 +1166,9 @@ msgstr ""
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"Mi nem talátunk semmilyen SCS játékot a te rendszereden. Kérünk vedd "
+"figylembe, hogy az ETS2LA csak akkor müködik, ha eredeti verzió van letöltve "
+"a Steam-ről."
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
@@ -1161,15 +1176,15 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
-msgstr ""
+msgstr "- Letöltve"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Nincs letöltve"
 
 #: .\Pages\sdk_installation.py:194
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Ez a játék verzió nem támogatott"
 
 #: .\Pages\sdk_installation.py:210
 msgid "No files found."
@@ -1181,11 +1196,11 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "SDK(ák) eltávolítása"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
 msgid "Install SDKs"
-msgstr ""
+msgstr "SDK(ák) letöltése"
 
 #: .\Pages\sdk_installation.py:237
 msgid "Please close the game before installing or uninstalling SDKs."
@@ -1233,7 +1248,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8 .\Plugins\AdaptiveCruiseControl\settings.py:72 .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Adaptív Tempomat"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1241,59 +1256,73 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Agresszivitás"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
+#, fuzzy
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
-msgstr ""
+msgstr "Milyen agresszívan gyorsít és lassít a teherautó."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
-msgstr ""
+msgstr "Követési távolság"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "Milyen messze tartsa magát a teherautó az előtte haladó járműtől?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:96
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Közlekedési lámpák figyelmen kívül hagyása"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
+#, fuzzy
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Vezetés közben hagyja figyelmen kívül a közlekedési lámpákat. Haladjon "
+"tovább, amíg a közlekedési lámpa piros. (Ajánlott ATS-sel és mod térképekkel "
+"való használatra.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
-msgstr ""
+msgstr "Sebességszabályozás"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Sebességkorlátozás figyelmen kívül hagyása"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
+#, fuzzy
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "Vezetés közben hagyja figyelmen kívül a sebességkorlátozásokat."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:112
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Súrlódási együttható"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
+#, fuzzy
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"Szabályozza a (képzeletbeli) súrlódást a gumiabroncsok és az út között. Az "
+"alacsonyabb értékek miatt a teherautó jobban lelassul, míg a magasabb "
+"értékek miatt gyorsabban halad a kanyarokban."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
+#, fuzzy
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Sebesség, ha az út sebességkorlátozása 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
+#, fuzzy
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr ""
+"A sebesség, amellyel akkor halad, amikor az API (út) 0 vagy annál "
+"alacsonyabb sebességkorlátozást olvas."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Sebességeltolás típusa"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:141
 msgid "Select the type of speed offset to apply."
@@ -1301,7 +1330,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146 .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Speed Offset"
-msgstr ""
+msgstr "Sebességeltolás"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147 .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
@@ -1313,11 +1342,11 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Általános"
 
 #: .\Plugins\HUD\main.py:89
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Frissítési ráta"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
@@ -1325,43 +1354,43 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:99
 msgid "Scale"
-msgstr ""
+msgstr "Méretarány"
 
 #: .\Plugins\HUD\main.py:100
 msgid "The scale of the HUD elements."
-msgstr ""
+msgstr "A HUD elemek méretaránya."
 
 #: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
 msgid "Offset X"
-msgstr ""
+msgstr "Eltolás X"
 
 #: .\Plugins\HUD\main.py:111
 msgid "The X offset (side to side) of the HUD elements."
-msgstr ""
+msgstr "A HUD elemek X eltolása (oldalról oldalra)."
 
 #: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
 msgid "Offset Y"
-msgstr ""
+msgstr "Eltolás Y"
 
 #: .\Plugins\HUD\main.py:119
 msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr ""
+msgstr "A HUD elemek Y eltolása (fentről lefelé)."
 
 #: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
 msgid "Offset Z"
-msgstr ""
+msgstr "Eltolás Z"
 
 #: .\Plugins\HUD\main.py:127
 msgid "The Z offset (distance) of the HUD elements."
-msgstr ""
+msgstr "A HUD elemek Z eltolása (távolság)."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr ""
+msgstr "HUD elemek"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
-msgstr ""
+msgstr "Navigáció megjelenítése"
 
 #: .\Plugins\HUD\main.py:136
 msgid "When enabled, the HUD will display navigation information."
@@ -1369,7 +1398,7 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:141
 msgid "Show ACC Info"
-msgstr ""
+msgstr "ACC információk megjelenítése"
 
 #: .\Plugins\HUD\main.py:142
 msgid "When enabled, the HUD will display adaptive cruise control information."
@@ -1385,7 +1414,7 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:153
 msgid "Show Traffic Light Times"
-msgstr ""
+msgstr "Közlekedési lámpák idejének megjelenítése"
 
 #: .\Plugins\HUD\main.py:154
 msgid "When enabled, the HUD will display traffic light times."
@@ -1393,7 +1422,7 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:159
 msgid "Draw Wheel Paths"
-msgstr ""
+msgstr "Keréknyomvonalak rajzolása"
 
 #: .\Plugins\HUD\main.py:160
 msgid "When enabled, the HUD will display where the wheels will go when turning."
@@ -1405,19 +1434,19 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:758
 msgid "Waiting for lane change approval"
-msgstr ""
+msgstr "Várakozás a sávváltás jóváhagyására"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr ""
+msgstr "A sávváltás folyamatban {percentage}%"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
-msgstr ""
+msgstr "Távolság: {distance:.0f} {units}"
 
 #: .\Plugins\HUD\main.py:892
 msgid "Target: {acc_gap:.0f} {units}"
-msgstr ""
+msgstr "Cél: {acc_gap:.0f} {units}"
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
@@ -1429,7 +1458,7 @@ msgstr ""
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Térkép"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
@@ -1465,7 +1494,7 @@ msgstr ""
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Térkép beállítások"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
@@ -1473,7 +1502,7 @@ msgstr ""
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "Navigálás az ETS2LA-n"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
@@ -1496,8 +1525,9 @@ msgid "When enabled map will not notify of any FPS related issues."
 msgstr ""
 
 #: .\Plugins\Map\ui.py:121
+#, fuzzy
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Kormányzási adatok kiszámítása"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
@@ -1520,12 +1550,13 @@ msgid "Set the time we average the steering data over. A value of 0.5 means that
 msgstr ""
 
 #: .\Plugins\Map\ui.py:142
+#, fuzzy
 msgid "Data"
-msgstr ""
+msgstr "Adat"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "MEGJEGYZÉS!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
@@ -1536,8 +1567,9 @@ msgid "Please select the data you want to use. This will begin the download proc
 msgstr ""
 
 #: .\Plugins\Map\ui.py:170
+#, fuzzy
 msgid "Update Data"
-msgstr ""
+msgstr "Adatok frissítése"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
@@ -1568,8 +1600,9 @@ msgid "Draw ACC and Steering status information."
 msgstr ""
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
+#, fuzzy
 msgid "Fuel Status"
-msgstr ""
+msgstr "Üzemanyag szint jelző"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
@@ -1585,7 +1618,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43 .\Plugins\NGHUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Média"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
@@ -1617,8 +1650,9 @@ msgid "arrival"
 msgstr ""
 
 #: .\Plugins\NGHUD\elements\power.py:11
+#, fuzzy
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Gáz / Fékerő mutató"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
