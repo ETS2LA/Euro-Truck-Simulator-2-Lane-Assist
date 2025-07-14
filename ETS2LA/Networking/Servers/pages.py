@@ -93,7 +93,7 @@ async def push_update(url: str):
 # Handles incoming websocket connections
 async def handler(ws, path):
     ip = ws.remote_address[0]
-    logging.info(f"UI client connected from [dim]{ip}[/dim]")
+    #logging.info(f"UI client connected from [dim]{ip}[/dim]")
     try:
         async for message in ws:
             try:
@@ -130,7 +130,7 @@ async def handler(ws, path):
             except Exception as e:
                 logging.exception(f"Error handling message from {ip}: {e}")
     finally:
-        logging.info(f"UI client disconnected from [dim]{ip}[/dim]")
+        #logging.info(f"UI client disconnected from [dim]{ip}[/dim]")
         for s in subscribers.values():
             s.discard(ws)
 
@@ -148,7 +148,6 @@ async def update_loop():
 # Start server + updater loop
 async def start():
     server = await websockets.serve(handler, "0.0.0.0", 37523)
-    logging.info("WebSocket server started on ws://0.0.0.0:37523")
     await update_loop()
 
 # Threaded entry point
@@ -160,4 +159,3 @@ def run_thread():
 
 def run():
     threading.Thread(target=run_thread, daemon=True).start()
-    logging.info("UI Sockets server running at ws://0.0.0.0:37523")

@@ -190,12 +190,9 @@ class SettingsMenu(ETS2LAPage):
                                     Text(credit, styles.Classname("text-xs"))
 
                         with Container(style=styles.FlexHorizontal() + styles.Gap("4px") + styles.Padding("0px")):
-                            Text(_("The"), styles.Description() + styles.Classname("text-xs"))
-                            Text(_("download size"), styles.Description() + styles.Classname("text-xs"))
-                            Text(_("for this data is"), styles.Description() + styles.Classname("text-xs"))
+                            Text(_("The download size for this data is"), styles.Description() + styles.Classname("text-xs"))
                             Text(f"{config['packed_size'] / 1024 / 1024:.1f} MB", styles.Classname("text-xs"))
-                            Text(_("that will unpack to a"), styles.Description() + styles.Classname("text-xs"))
-                            Text(_("total size"), styles.Description() + styles.Classname("text-xs"))
+                            Text(_("that will unpack to a total size of"), styles.Description() + styles.Classname("text-xs"))
                             Text(f"{config['size'] / 1024 / 1024:.1f} MB.", styles.Classname("text-xs"))
              
             if variables.DEVELOPMENT_MODE:

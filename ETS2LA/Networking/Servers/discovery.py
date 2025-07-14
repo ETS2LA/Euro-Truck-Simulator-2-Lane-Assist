@@ -4,6 +4,7 @@ Clients can access ETS2LA via http://ets2la.local:port
 """
 
 from zeroconf import Zeroconf, ServiceInfo
+from ETS2LA.Utils.translator import _
 import threading
 import logging
 import socket
@@ -28,9 +29,9 @@ info = ServiceInfo(
 def socket_thread():
     zeroconf = Zeroconf()
     zeroconf.register_service(info)
-    
-    logging.info(f"Successfully registered [bold]http://{address[:-1]}[/bold] to point to [dim]{local_ip}[/dim].")
-    
+
+    logging.info(_("Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim].").format(address=address[:-1], local_ip=local_ip))
+
     try:
         while True:
             time.sleep(2)
