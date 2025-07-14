@@ -185,7 +185,7 @@ class Page(ETS2LAPage):
                             style.color = "var(--muted-foreground)"
                             Icon("info", style)
                             with Container(styles.FlexVertical() + styles.Gap("4px")):
-                                Text(f"This translation is {_.get_percentage():.2f}% complete.", styles.Classname("text-muted-foreground"))
+                                Text(_("This translation is {percentage:.2f}% complete.").format(percentage=_.get_percentage()), styles.Classname("text-muted-foreground"))
                                 with Container(styles.FlexHorizontal() + styles.Gap("8px")):
                                     Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{parse_language(current)}%20contributes:ets2la/backend", styles.Classname("text-sm text-muted-foreground hover:underline"))
                                     Text("-")

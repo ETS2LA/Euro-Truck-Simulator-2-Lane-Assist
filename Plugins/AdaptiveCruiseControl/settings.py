@@ -164,19 +164,19 @@ class SettingsMenu(ETS2LAPage):
                                 suffix="km/h",
                             )
                             
-            with Tab("PID", container_style=styles.FlexVertical() + styles.Gap("24px")):
+            with Tab(_("PID"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 unlocked = settings.Get("AdaptiveCruiseControl", "unlock_pid", False)
                 CheckboxWithTitleDescription(
-                    title="Unlock PID",
-                    description="You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly.",
+                    title=_("Unlock PID"),
+                    description=_("You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."),
                     changed=self.handle_pid_unlock,
                     default=unlocked,
                 )
                 
                 if unlocked:
                     SliderWithTitleDescription(
-                        title="PID Kp",
-                        description="Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)",
+                        title=_("PID Kp"),
+                        description=_("Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"),
                         min=0.01,
                         max=1.0,
                         step=0.01,
@@ -184,8 +184,8 @@ class SettingsMenu(ETS2LAPage):
                         changed=self.handle_pid_kp,
                     )
                     SliderWithTitleDescription(
-                        title="PID Ki",
-                        description="Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)",
+                        title=_("PID Ki"),
+                        description=_("Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"),
                         min=0.01,
                         max=1.0,
                         step=0.01,
@@ -193,15 +193,15 @@ class SettingsMenu(ETS2LAPage):
                         changed=self.handle_pid_ki,
                     )
                     SliderWithTitleDescription(
-                        title="PID Kd",
-                        description="How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)",
+                        title=_("PID Kd"),
+                        description=_("How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"),
                         min=0.01,
                         max=1.0,
                         step=0.01,
                         default=settings.Get("AdaptiveCruiseControl", "pid_kd", 0.05),
                         changed=self.handle_pid_kd,
                     )
-                    
-                Text("This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them.", style=styles.Description())
+
+                Text(_("This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."), style=styles.Description())
                 with Container(styles.FlexHorizontal() + styles.Width("100%") + styles.Height("400px")):
                     Youtube("qKy98Cbcltw")
