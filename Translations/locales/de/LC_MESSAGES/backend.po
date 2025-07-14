@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-14 10:45+0000\n"
+"PO-Revision-Date: 2025-07-14 10:47+0000\n"
 "Last-Translator: Veqro <veqro@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
@@ -749,10 +749,13 @@ msgstr "Sprachauswahl"
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Bitte wähle deine bevorzugte Sprache für ETS2LA. Diese Option kann später in "
+"den Einstellungen geändert werden. Alle unsere Übersetzungen wurden von der "
+"Community erstellt!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Wähle deine bevorzugte Sprache für ETS2LA."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
