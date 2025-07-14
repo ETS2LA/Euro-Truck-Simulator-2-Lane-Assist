@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-13 12:36+0000\n"
+"PO-Revision-Date: 2025-07-14 16:29+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
+"\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -146,6 +147,8 @@ msgstr "Pokúsil som sa prehrať zvuk '{0}', ale nenašiel sa v zvukovom balíku
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Úspešne zaregistrovaný [bold]http://{address}[/bold] odkazujúci na [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -233,11 +236,14 @@ msgstr "Počkajte, prosím, kým inicializujeme používateľské rozhranie"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "Hľadám okno ETS2LA... [dim](10s časový limit)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Nepodarilo sa nájsť/spustiť okno ETS2LA. Je váš počítač dostatočne výkonný? "
+"Ak si myslíte, že by ste ho mali vedieť spustiť, použite stránku "
+"https://app.ets2la.com."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -591,7 +597,7 @@ msgstr "Pomôžte nám s prekladom na Discorde!"
 
 #: .\Pages\global_settings.py:188
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Tento preklad je dokončený na {percentage:.2f}%."
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
@@ -744,15 +750,17 @@ msgstr "Tému si môžete zmeniť tu!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Výber jazyka"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Vyberte si preferovaný jazyk pre ETS2LA. Túto možnosť je možné neskôr zmeniť "
+"v nastaveniach. Všetky naše preklady sú vytvorené komunitou!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Vyberte si preferovaný jazyk pre ETS2LA."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
@@ -1246,51 +1254,59 @@ msgstr "Reštartujte a použite {count} aktualizáciu/í/e"
 
 #: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Tu zmeňte nastavenia prekrytia AR."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "Neskrývajte AR pred nahrávacím softvérom"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Predvolene je AR prekrytie skryté pred nahrávacím softvérom, aby sa "
+"nezobrazovalo, keď ETS2LA používa systémy videnia. Ak chcete nahrávať videá "
+"alebo streamovať s prekrytím, možno budete chcieť túto možnosť povoliť."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Zobraziť testovacie objekty"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Zobraziť testovacie objekty v AR prekrytí."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Zobraziť, keď nie je zaostrené"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Zobraziť AR prekrytie, aj keď hra nie je zaostrená. Toto môže byť užitočné "
+"pri zmene nastavení. Upozorňujeme, že v tomto prípade bude AR bežať na "
+"maximálnom možnom FPS, čo môže spôsobiť určité oneskorenie."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Položky: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "Volania kreslenia: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "Čas vykreslenia: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"AR plugin poskytuje prekrytie rozšírenej reality pre ETS2LA. Používa sa "
+"pluginmi ako HUD na zobrazenie informácií v hernom svete."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1326,6 +1342,8 @@ msgstr "Adaptívny tempomat"
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Adaptívny tempomat (ACC) zabezpečuje automatické zrýchľovanie a brzdenie v "
+"závislosti od stavu vozovky a vozidiel vpredu."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1403,43 +1421,53 @@ msgstr "Odchýlka rýchlosti, ktorá sa aplikuje na všetky rýchlostné limity.
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "Odomknúť PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Nastavenia PID regulátora môžete odomknúť a upraviť ich manuálne. Toto sa "
+"neodporúča, pokiaľ neviete, čo je PID regulátor a ako ho správne naladiť."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "PID proporcionálny zisk"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Sme tam už? Nie? Potom musíme ešte viac zrýchliť! (Proporcionálne zosilnenie "
+"pre PID regulátor.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID integračný zisk"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Boli sme tam už nejaký čas? Potom musíme viac zrýchliť! (Integračné "
+"zosilnenie pre PID regulátor.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID derivačný zisk"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Ako rýchlo sa blížime k cieľu? Ak sa blížime príliš rýchlo, musíme viac "
+"spomaliť! (Derivačný zisk pre PID regulátor.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Toto video vizuálne vysvetľuje, ako funguje PID regulátor. Ak s ním nie ste "
+"oboznámení, pozrite si ho celé."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1679,11 +1707,11 @@ msgstr "Aktualizujte aktuálne vybraté údaje, čo môže byť užitočné, ak 
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "Veľkosť sťahovania týchto údajov je"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "ktorý sa rozbalí na celkovú veľkosť"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1894,11 +1922,12 @@ msgstr "Tieto renderery sa používajú na vykresľovanie neukotvených prvkov. 
 
 #: .\Plugins\NavigationSockets\main.py:180
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigačné zásuvky"
 
 #: .\Plugins\NavigationSockets\main.py:182
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Tento plugin poskytuje WebSocket server pre navigačné dáta na mape sveta."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2072,80 +2101,95 @@ msgstr "Testovací režim je povolený. Toto je testovacia správa."
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Vizualizačné zásuvky"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
+msgstr "Tento plugin poskytuje websocket server pre vizualizáciu ETS2LA."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Hostiteľské zariadenie"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Ak si chcete zobraziť vizualizáciu ETS2LA na aktuálnom zariadení, jednoducho "
+"otvorte kartu „Vizualizácia“ na bočnom paneli a potom si môžete vybrať medzi "
+"oficiálnym zrkadlom a zrkadlom Goodnightan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Môžete tiež použiť nasledujúcu webovú stránku:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Iné zariadenie"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Otvorte nasledujúcu URL adresu v prehliadači vášho zariadenia: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"POZNÁMKA: Stránku musíte načítať ako http namiesto https. Prehliadač Google "
+"Chrome nebude fungovať!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Po načítaní webovej stránky stlačte červené tlačidlo „Vzdialené "
+"pripojenie“. Ak sa pripojenie nenadviaže, zadajte nasledujúcu IP adresu:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Ak máte akékoľvek problémy, overte, či je vaše zariadenie v rovnakej "
+"sieti ako hostiteľ. Mali by ste sa tiež uistiť, že váš firewall neblokuje "
+"pripojenie medzi zariadeniami."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Vašu IP adresu sa nepodarilo nájsť, pravdepodobne je to spôsobené problémom "
+"so sieťou. Zobrazenie vizualizácie externe nie je možné."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Čaká sa na spustenie pluginu..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Čaká sa na načítanie pluginu..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Momentálne sú pripojení nasledujúci klienti:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Latencia: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Kanály: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Zatiaľ nepotvrdené."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Momentálne nie sú pripojení žiadni klienti."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Tento plugin poskytuje websocket server pre vizualizáciu ETS2LA. Umožňuje "
+"vám pripojiť sa k vizualizácii z iných zariadení a zobraziť dáta ETS2LA v "
+"reálnom čase."
 
 #: .\main.py:94
 msgid "Testing mirrors..."
