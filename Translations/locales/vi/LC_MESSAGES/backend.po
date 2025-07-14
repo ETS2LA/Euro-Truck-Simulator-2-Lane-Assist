@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-14 09:44+0000\n"
+"PO-Revision-Date: 2025-07-14 16:27+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
-"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/vi/>\n"
+"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
+"vi/>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -63,7 +64,8 @@ msgid ""
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
 "Plugin {0} khởi động thất bại: Hết thời gian chờ.\n"
-"Hãy thử đóng các phần mềm không liên quan để cấp cho plugin nhiều RAM và CPU hơn."
+"Hãy thử đóng các ứng dụng không liên quan để cấp cho plugin nhiều RAM và CPU "
+"hơn."
 
 #: .\ETS2LA\Handlers\plugins.py:129
 msgid "Plugin {0} failed to start: {1}"
@@ -111,7 +113,9 @@ msgstr "Hết thời gian chờ"
 
 #: .\ETS2LA\Handlers\plugins.py:531
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
-msgstr "Không tìm thấy plugin, đây có thể là kết quả của việc plugin bị ngừng hoạt động đột ngột hoặc không nạp được."
+msgstr ""
+"Không tìm thấy plugin, đây có thể là kết quả của việc plugin bị crash hoặc "
+"không nạp được."
 
 #: .\ETS2LA\Handlers\plugins.py:541
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
@@ -148,6 +152,7 @@ msgstr "Đã cố gắng phát âm thanh '{0}', nhưng nó không được tìm 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Đã ghi nhận [bold]http://{address}[/bold] trỏ đến [dim]{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -238,10 +243,14 @@ msgstr "Bạn hãy chờ trong lúc chúng tôi đang khởi tạo giao diện n
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
 msgstr ""
+"Đamg kiểm tra sự tồn tại của cửa sổ ETS2LA... [dim](hết thời gian chờ trong "
+"10 giây)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Không tìm thấy / khởi động cửa sổ ETS2LA. PC của bạn có đủ mạnh không? Truy "
+"cập http://app.ets2la.com nếu bạn nghĩ PC của bạn có khả năng chạy nó."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -556,114 +565,137 @@ msgstr "Chiều cao cửa sổ"
 #: .\Pages\global_settings.py:146
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Thay đổi chiều cao của cửa sổ. Ghi nhớ rằng ETS2LA chưa được thử nghiệm trên "
+"các độ phân giải không tiêu chuẩn, bạn tự chịu rủi ro!"
 
 #: .\Pages\global_settings.py:156
+#, fuzzy
 msgid "Transparency mode Alpha"
-msgstr ""
+msgstr "Chế độ trong suốt Alpha"
 
 #: .\Pages\global_settings.py:157
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Thay đổi độ trong suốt của sổ khi đang ở chế độ trong suốt. Việc này có thể "
+"hoàn thành bằng cách nhấn chuột phải vào nút màu xanh ở góc trên cùng bên "
+"phải."
 
 #: .\Pages\global_settings.py:169 .\Pages\onboarding.py:130
 msgid "Language"
-msgstr ""
+msgstr "Ngôn ngữ"
 
 #: .\Pages\global_settings.py:170
 msgid "Select the language for the application."
-msgstr ""
+msgstr "Chọn ngôn ngữ cho ứng dụng."
 
 #: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
 msgid "Search Languages..."
-msgstr ""
+msgstr "Tìm kiếm ngôn ngữ..."
 
 #: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "Giúp chúng tôi biên dịch trên discord!"
 
 #: .\Pages\global_settings.py:188
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Bàn dịch này đã hoàn thành {percentage:..2f}%."
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
-msgstr ""
+msgstr "Âm thanh"
 
 #: .\Pages\global_settings.py:198
 msgid "Soundpack"
-msgstr ""
+msgstr "Gói âm thanh"
 
 #: .\Pages\global_settings.py:199
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Chọn gói âm thanh để sử dụng, chúng có thể được thêm vào thư mục app/ETS2LA/"
+"Assets/Sounds."
 
 #: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Âm lượng"
 
 #: .\Pages\global_settings.py:207
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
+"Điều chỉnh mức âm lượng. Nó sẽ tác động đến tất cả âm thanh mà ETS2LA phát "
+"ra."
 
 #: .\Pages\global_settings.py:218
 msgid "Startup Sound"
-msgstr ""
+msgstr "Âm thanh khởi động"
 
 #: .\Pages\global_settings.py:219
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Bật hoặc tắt âm thanh khởi động. Cái này luôn được phát mỗi khi cửa sổ "
+"ETS2LA được mở."
 
 #: .\Pages\global_settings.py:224
 msgid "Variables"
-msgstr ""
+msgstr "Các biến"
 
 #: .\Pages\global_settings.py:226
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Chuyển sang phương pháp tăng tốc cũ"
 
 #: .\Pages\global_settings.py:227
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Nếu bạn đang gặp vấn đề về xe tải không tự đạp ga / phanh đúng cách, thì bạn "
+"có thể bật tùy chọn này để sử dụng phương pháp khác. Xin bạn luôn nhớ trong "
+"đầu rằng nếu phương pháp mới bị kẹt, bạn có thể sẽ phải khởi động lại game "
+"sau khi bật cái này."
 
 #: .\Pages\global_settings.py:234 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr ""
+msgstr "Mức yêu tiên cao"
 
 #: .\Pages\global_settings.py:235 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Chạy ETS2LA ở chế độ mức yêu tiên cao. Nó sẽ nói với hệ điều hành của bạn "
+"dành nhiều CPU hơn cho ETS2LA, có thể mượt hơn nhưng đồng nghĩa với việc các "
+"ứng dụng khác sẽ chạy chậm hơn."
 
 #: .\Pages\global_settings.py:249
 msgid "You need to restart ETS2LA to apply the priority change!"
-msgstr ""
+msgstr "Bạn cần khởi động lại ETS2LA để áp dụng thay đổi mức ưu tiên!"
 
 #: .\Pages\global_settings.py:251
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Tùy chọn bổ sung"
 
 #: .\Pages\global_settings.py:255
 msgid "Frontend Port"
-msgstr ""
+msgstr "Cổng frontend"
 
 #: .\Pages\global_settings.py:256
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
+"Thay đổi cổng được sử dụng bởi frontend. Nó chỉ được dùng trong chế độ cục "
+"bộ."
 
 #: .\Pages\global_settings.py:263
 msgid "Frameless Window"
-msgstr ""
+msgstr "Cửa sổ không viền"
 
 #: .\Pages\global_settings.py:264
 msgid "Disable this option if you have any issues moving the window around."
 msgstr ""
+"Tắt tùy chọn này nếu bạn gặp bất kì vấn đề nào liên quan đến việc di chuyển "
+"cửa sổ."
 
 #: .\Pages\global_settings.py:269
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Gửi báo cáo crash"
 
 #: .\Pages\global_settings.py:270
 msgid "Automatically send crash reports to help improve the application."
-msgstr ""
+msgstr "Tự động gửi báo cáo crash để giúp cải thiện ứng dụng."
 
 #: .\Pages\global_settings.py:275
 msgid "Use Fancy Traceback"
@@ -760,67 +792,85 @@ msgstr ""
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"Các plugin được sử dụng để cung cấp hầu hết các tính năng của ETS2LA. Bạn có "
+"thể chọn chế độ đơn giản hoặc chế độ nâng cao. Bạn có thể thay đổi nó sau "
+"này trong cài đặt."
 
 #: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Chế độ quản lí plugin nâng cao"
 
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Bật chế độ quản lí plugin nâng cao. Có thể được thay đổi được ở mọi lúc "
+"trong mục quản lí plugin."
 
 #: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Giữ **Chế độ quản lí plugin nâng cao** tắt được khuyến nghị, tuy nhiên người "
+"dùng nâng cao muốn tự chọn plugin có thể muốn nó bật."
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**Chế độ quản lí plugin nâng cao** mở khóa khả năng điều khiển thủ công của "
+"các plugin đã bật. Nó cũng cho bạn tải xuống thêm plugin từ các nguồn ngoài. "
+"Nhớ rằng các plugin bên thứ 3 không được ETS2LA hỗ trợ *chính thức*."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Chế độ mức ưu tiên cao"
 
 #: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA có thể tự động nới với hệ điều hành của bạn rằng nó nên chạy ở mức ưu "
+"tiên cao. Chức năng này rất được khuyến nghị đặc biệt là ở trên các thiết bị "
+"yếu."
 
 #: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Bạn sẽ phải khởi động lại ETS2LA sau khi thực hiện thiết lập ban đầu để áp "
+"dụng thay đổi."
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr ""
+msgstr "Dữ liệu bản đồ"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA sử dụng dữ liệu bản đồ khai thác từ game. Chúng tôi đã xử lý các dữ "
+"liệu đó từ trước và bạn chỉ cần tải xuống phiên bản phù hợp. Hãy chọn dữ "
+"liệu cho phiên bản game hiện tại mà bạn cần ở dưới đây."
 
 #: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Đang chờ bạn chọn dữ liệu..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Dữ liệu đã chọn"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Chọn dữ liệu trùng khớp với game và các mod của bạn."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Tìm kiếm dữ liệu"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "Không có dữ liệu nào trùng khớp được tìm thấy"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
@@ -828,43 +878,46 @@ msgstr ""
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
-msgstr ""
+msgstr "kích cỡ tải xuống"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr ""
+msgstr "cho dữ liệu này là"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr ""
+msgstr "sau khi giải nén nó có thể đạt"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
-msgstr ""
+msgstr "dung lượng tổng"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
-msgstr ""
+msgstr "Không có dữ liệu nào được chọn"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
-msgstr ""
+msgstr "Hãy chọn dữ liệu bạn muốn sử dùng từ danh sánh được thả xuống ở trên."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
-msgstr ""
+msgstr "Kích cỡ cửa sổ"
 
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA vô hiệu hóa Windows để cung cấp tính năng tùy chỉnh cửa sổ. Do đó bạn "
+"không thể thay đổi kích thước một cách bình thường.Ở đây có các thanh trượt "
+"giúp bạn điều chỉnh kích cỡ của cửa sổ thủ công."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Điều chỉnh chiều rộng của cửa sổ ETS2LA."
 
 #: .\Pages\onboarding.py:320
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Điều chỉnh chiều cao của cửa sổ ETS2LA."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:337
@@ -872,14 +925,20 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Thay đổi kích cỡ cửa sổ có thể khiến các trang không được hiển thị đúng "
+"cách**\n"
+"Bạn có thể điều chỉnh tỉ lệ hiển thị của cửa sổ bằng cách giữ phím CTRL ở "
+"bên trái và lăn bánh lăn của chuột."
 
 #: .\Pages\onboarding.py:343
 msgid "Window Controls"
-msgstr ""
+msgstr "Điều khiển cửa sổ"
 
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA cung cấp điều khiển cửa sổ tùy chỉnh, có thể sẽ giúp ích cho bạn. "
+"Chúng có thể được truy cập thông qua nút màu xanh ở góc trên cùng bên phải."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -888,6 +947,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Luôn ở trên cùng**\n"
+"\n"
+"Bạn có thể *nhấn chuột trái* vào nút màu xanh để cửa sổ ETS2LA luôn nằm trên "
+"cùng các cửa sổ khác."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:368
@@ -896,22 +959,29 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Trong suốt**\n"
+"\n"
+"Bạn có thể *nhấn chuột phải* vào nút màu xanh để cửa sổ ETS2LA trở nên hơi "
+"trong suốt. Độ trong suốt có thể được điều chỉnh trong cài đặt."
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
-msgstr ""
+msgstr "Nó là nút màu xanh này!"
 
 #: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Thiết lập ban đầu đã hoàn thành!"
 
 #: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Bạn đã hoàn thành quá trình thiết lập ban đầu thành công. Bây giờ, bạn có "
+"thể bắt đầu sử dụng ETS2LA. Nếu bạn cần trợ giúp, hãy cảm thấy thoải mái, "
+"tham gia máy chủ Discord của chúng tôi."
 
 #: .\Pages\onboarding.py:388
 msgid "Finish"
-msgstr ""
+msgstr "Kết thúc"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:395
