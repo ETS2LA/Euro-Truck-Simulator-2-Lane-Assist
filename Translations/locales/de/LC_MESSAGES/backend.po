@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-13 20:42+0000\n"
-"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>\n"
+"PO-Revision-Date: 2025-07-14 10:45+0000\n"
+"Last-Translator: Veqro <veqro@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
+"\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -146,6 +147,8 @@ msgstr "Versuche den Sound „{0}“ abzuspielen, aber er wurde im Soundpaket �
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Erfolgreich registriert [bold]http://{address}[/bold] to point to [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -233,11 +236,14 @@ msgstr "Bitte warten Sie, während die Benutzeroberfläche initialisiert wird"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "Suche nach ETS2LA Fenster... [dim](10s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Das ETS2LA Fenster konnte nicht gefunden/ gestartet werden. Hat dein PC "
+"genug Leistung? Öffne https://app.ets2la.com wenn du denkst, dass es bei dir "
+"laufen sollte."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -585,7 +591,7 @@ msgstr "Helfe uns bei der Übersetzung auf Discord!"
 
 #: .\Pages\global_settings.py:188
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Diese Übersetzung ist zu {percentage:.2f}% fertig."
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
@@ -738,7 +744,7 @@ msgstr "Hier kannst du das Design ändern!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Sprachauswahl"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
