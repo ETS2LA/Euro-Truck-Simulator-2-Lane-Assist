@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
 "PO-Revision-Date: 2025-07-14 12:31+0000\n"
-"Last-Translator: \"Leon.S\" <leons@ets2la.com>\n"
+"Last-Translator: vD <vd@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -232,7 +232,7 @@ msgstr "Keine Fehler oder Warnungen gefunden."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr "Bitte warten Sie, während die Benutzeroberfläche initialisiert wird"
+msgstr "Bitte warte, während die Benutzeroberfläche initialisiert wird"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
@@ -859,7 +859,8 @@ msgstr "Keine Daten ausgewählt"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
-msgstr "Bitte wählen Sie die Daten aus, die Sie oben im Dropdown-Menü verwenden möchten."
+msgstr ""
+"Bitte wähle die Daten aus, die du oben im Dropdown-Menü verwenden möchtest."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
@@ -867,7 +868,11 @@ msgstr "Fenstergröße"
 
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
-msgstr "ETS2LA umgeht Windows, um benutzerdefinierte Fensterfunktionen bereitzustellen. Daher kann die Fenstergröße nicht wie gewohnt angepasst werden. Verwenden Sie stattdessen diese Schieberegler, um die Fenstergröße manuell zu ändern."
+msgstr ""
+"ETS2LA umgeht Windows, um benutzerdefinierte Fensterfunktionen "
+"bereitzustellen. Daher kann die Fenstergröße nicht wie gewohnt angepasst "
+"werden. Verwende stattdessen diese Schieberegler, um die Fenstergröße "
+"manuell zu ändern."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
