@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 20:42+0000\n"
+"PO-Revision-Date: 2025-07-14 09:42+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -168,339 +168,359 @@ msgstr "Frontend popup websocket đã được khởi động."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr "Giao diện phía người dùng"
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr "Giao diện phía người dùng cần thực hiện một cập nhật."
+msgstr "Frontend cần thực hiện một cập nhật."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Thất bại khi cài đặt độ trong suốt"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Thất bại khi lấy dữ liệu thẻ"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Thất bại khi lấy các trang"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
+#, fuzzy
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Thất bại khi lấy dữ liệu của trang {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Thất bại khi nạp lại các plugins"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Tạo dựng frontend thất bại"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Đang tạo frontend... hãy chờ chút..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Khởi động frontend thất bại"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Webserver đã được khởi động tại http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend đã được khởi động tại http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Trình ghi log đã được khởi tạo."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Các lỗi và cảnh báo đều nằm trong tệp log:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Lỗi: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Cảnh báo: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Không có lỗi, cảnh báo nào được tìm thấy."
 
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Bạn hãy chờ trong lúc chúng tôi đang khởi tạo giao diện người dùng"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend đã được khởi động thành công"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Lập trình viên và nhà sáng tạo chính của ETS2LA, backend & frontend."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr ""
+"Phát hiện điều hướng, Phát hiện đèn giao thông, ETS2LA Bản rút gọn, 'đồng "
+"sáng lập'"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Thực hiện nhiều bổ sung và cải tiến, mô hình AI \"Phát hiện đối tượng\" & "
+"phát triển"
 
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Nhà phát triển SDK phía game của ETS2LA. Xe cộ, đèn giao thông, dữ liệu "
+"camera và nhiều dữ liệu trực tiếp từ game."
 
 #: .\Pages\about.py:18
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Khai thác và xử lí dữ liệu game"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Chuyển đổi phần mềm sang Linux & Unix, cùng nhiều cải tiến và sửa lỗi"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr ""
+"Lập trình viên SDK C++ của ETS2LA, Chuyển đổi phần mềm sang Linux & Unix, "
+"sửa lỗi"
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Hỗ trợ điều hướng trên ETS2LA & Bản đồ"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "lập trình viên scs-sdk-controller"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "Mô hình 3D cho việc mô phỏng trực quan"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Phát triển khai thác dữ liệu, hỗ trợ các bản đồ được mod."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Bản dịch tiếng Trung Quốc, sửa lỗi"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Bản dịch tiếng Trung Quốc, sửa lỗi"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Tự động tính toán offset cho plugin \"Bản đồ\"."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
 msgstr ""
+"Hỗ trợ qua máy chủ Discord, lập trình viên biên dịch Tiếng Trung Quốc-Tiếng "
+"Anh."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Duy trì mirrors CN cho dịch vụ ETS2LA."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Game hooks"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Sửa lỗi"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Sửa cần gạt nước (5 giây đếm ngược)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Đang sửa cần gạt nước trong {0} giây..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Cần gạt nước đã được sửa xong."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Kích hoạt cập nhật"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} phút {0} phút"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} giờ {0} giờ"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} và {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "Về chúng tôi"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA là một dự án hướng đến việc cung cấp một trải nghiệm tự động lái dễ "
+"dàng cho ETS2 và ATS, nếu bạn muốn tìm hiểu, bạn có thể truy cập trang "
+"github hoặc trang wiki ở thanh bên."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "Thống kê"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
-msgstr ""
+msgstr "Người dùng đang trực tuyến:"
 
 #: .\Pages\about.py:94
 msgid "{0} users"
-msgstr ""
+msgstr "{0} người dùng"
 
 #: .\Pages\about.py:96
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Trong 24 giờ qua:"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} người dùng riêng biệt"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
-msgstr ""
+msgstr "Thời gian sử dụng của bạn:"
 
 #: .\Pages\about.py:104
 msgid "You are not logged in."
-msgstr ""
+msgstr "Bạn đang không đăng nhập."
 
 #: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "ID người dùng ẩn danh của bạn là: {0}"
 
 #: .\Pages\about.py:109
 msgid "You are logged in."
-msgstr ""
+msgstr "Bạn đang không đăng nhập."
 
 #: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Chào mừng trở lại, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Những người đóng góp"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
 msgid "List Contributors"
-msgstr ""
+msgstr "Danh sách những người đóng góp"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
 msgid "Help Translate"
-msgstr ""
+msgstr "Hỗ trợ dịch thuật"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "Ủng hộ nhà phát triển"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Nếu bạn thích dự án này và muốn hỗ trợ nhà phát triển, bạn có thể làm bằng "
+"cách quyên góp qua Ko-Fi."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Nếu bạn muốn đóng góp, bạn nên tham gia máy chủ discord và khám phá trang "
+"github."
 
 #: .\Pages\about.py:151
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Nếu bạn muốn đóng góp các bản dịch, bạn có thể làm bằng cách tham gia máy "
+"chủ discord và liên hệ trực tiếp với Tumppi066."
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr ""
+msgstr "Các tiện ích"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Sửa cần gạt nước"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Cần gạt nước của bạn đang bị ket? Đừng lo, hãy nhấn vào nút này và alt tab "
+"vào lại game. Cần gạt nước sẽ được tắt chỉ sau 5 giây."
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Kích hoạt"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
-msgstr ""
+msgstr "Kiểm tra cập nhật thủ công"
 
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Bạn nghĩ ở đây đã có một bản cập nhật mới? Nhấn vào nút này, ứng dụng sẽ "
+"khởi động lại và kiểm tra chúng."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Cập nhật"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{seconds} giây trước {seconds} giây trước"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{minutes} phút trước {minutes} phút trước"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{hours} giờ trước {hours} giờ trước"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{days} ngày trước {days} ngày trước"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Đang lấy dữ liệu từ changelog và các thay đổi khả thi."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Đã lấy dữ liệu từ changelog."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:78
 msgid "View Changes"
-msgstr ""
+msgstr "Xem các thay đổi"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:86
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Chỉ 20 bản cập nhật gần đây nhất được hiện ra. Bạn có thể xem nguồn cho các "
+"bản cập nhật cũ hơn nữa."
 
 #: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
 msgid "Show all plugins"
-msgstr ""
+msgstr "Hiển thị tất cả các plugin"
 
 #: .\Pages\controls.py:45
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Hãy nhấn phím / nút mà bạn muốn gán cho chức năng này."
 
 #: .\Pages\controls.py:50
 msgid "Event unbound."
-msgstr ""
+msgstr "Hủy gán chức năng."
 
 #: .\Pages\controls.py:70
 msgid "Controls"
@@ -508,48 +528,52 @@ msgstr "Các bộ điều khiển"
 
 #: .\Pages\controls.py:71
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Bạn có thể thay đổi chức năng điều khiển của các plugin ở đây."
 
 #: .\Pages\controls.py:82
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Tìm kiếm các điều khiển hoặc Plugins"
 
 #: .\Pages\controls.py:108
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Không có điều khiển nào được tìm thấy, hãy thử lại với các bộ lọc khác."
 
 #: .\Pages\controls.py:133
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Chức năng này chưa được gán cho một thết bị."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:136
 msgid "Keyboard: "
-msgstr ""
+msgstr "Phím: "
 
 #: .\Pages\global_settings.py:126
 msgid "Global Settings"
-msgstr ""
+msgstr "Cài đặt chung"
 
 #: .\Pages\global_settings.py:127
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Ở đây bạn có thể tìm thấy các cài đặt ảnh hưởng đến cả ứng dụng. Như là kích "
+"cỡ cửa sổ và ngôn ngữ."
 
 #: .\Pages\global_settings.py:131
 msgid "User Interface"
-msgstr ""
+msgstr "Giao diện người dùng"
 
 #: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
 msgid "Window Width"
-msgstr ""
+msgstr "Chiều rộng cửa sổ"
 
 #: .\Pages\global_settings.py:135
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Thay đổi chiều rộng của cửa sổ. Ghi nhớ rằng ETS2LA chưa được thử với các độ "
+"phân giải không tiêu chuẩn, bạn tự chịu rủi ro!"
 
 #: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
 msgid "Window Height"
-msgstr ""
+msgstr "Chiều cao cửa sổ"
 
 #: .\Pages\global_settings.py:146
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
