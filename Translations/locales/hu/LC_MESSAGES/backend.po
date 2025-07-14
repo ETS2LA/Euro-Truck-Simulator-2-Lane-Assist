@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-14 09:42+0000\n"
-"Last-Translator: Drk <drk@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-14 09:44+0000\n"
+"Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
 "Language: hu\n"
@@ -1667,8 +1667,9 @@ msgid "Display current throttle and brake percentage."
 msgstr ""
 
 #: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
+#, fuzzy
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Közlekedési lámpa visszaszámláló"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
@@ -1692,7 +1693,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
 msgid "NGHUD"
-msgstr ""
+msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
