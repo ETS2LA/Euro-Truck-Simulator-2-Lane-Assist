@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
 "PO-Revision-Date: 2025-07-14 09:42+0000\n"
-"Last-Translator: delilevente <delilevente@ets2la.com>\n"
+"Last-Translator: Drk <drk@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
 "Language: hu\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Joystickek frissítése..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -111,6 +111,8 @@ msgstr "Időtúllépés"
 #: .\ETS2LA\Handlers\plugins.py:517
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin nem található, ez lehet a plugin összeomlásának vagy betöltési "
+"hibájának az eredménye."
 
 #: .\ETS2LA\Handlers\plugins.py:527
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
@@ -146,7 +148,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Hiba történt egy üzenet feldolgozása során."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
@@ -190,7 +192,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Felhasználói felület építése... kérem várjon..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
@@ -442,7 +444,7 @@ msgstr ""
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Aktiválás"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
@@ -552,6 +554,9 @@ msgstr "Ablak szélesség"
 #: .\Pages\global_settings.py:135
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Az ablak szélességének módosítása. Kérjük, vegye figyelembe, hogy az ETS2LA "
+"nem tesztelt nem szabványos felbontásokon, ezért csak saját felelősségre "
+"használja!"
 
 #: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
 msgid "Window Height"
@@ -604,6 +609,7 @@ msgstr "Hangerő"
 #: .\Pages\global_settings.py:207
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
+"Állítsa be a hangerőt. Ez az ETS2LA által lejátszott összes hangot érinti."
 
 #: .\Pages\global_settings.py:218
 msgid "Startup Sound"
@@ -612,6 +618,8 @@ msgstr "Indulási hang"
 #: .\Pages\global_settings.py:219
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Az indítási hang be- vagy kikapcsolása. Ez minden alkalommal megszólal, "
+"amikor az ETS2LA ablak megnyílik."
 
 #: .\Pages\global_settings.py:224
 msgid "Variables"
@@ -619,7 +627,7 @@ msgstr "Változók"
 
 #: .\Pages\global_settings.py:226
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Visszatérés a régi gyorsítási módszerhez"
 
 #: .\Pages\global_settings.py:227
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
