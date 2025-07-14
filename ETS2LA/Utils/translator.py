@@ -112,6 +112,8 @@ def parse_language(language: Language) -> str:
         code = language.language + "_" + language.script
     elif language.language == "zh" and not language.script:
         code = "zh_Hans"
+    elif language.language == "nb":
+        code = "nb_NO"
     else:
         code = language.language
         
@@ -145,7 +147,8 @@ Listen("global", detect_change)
 
 # region Generation
 overrides = {
-    "zh": "zh_Hans"
+    "zh": "zh_Hans",
+    "nb": "nb_NO"
 }
 def generate_translations():
     """

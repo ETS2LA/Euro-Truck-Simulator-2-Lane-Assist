@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-11 12:37\n"
+"POT-Creation-Date: 2025-07-14 13:24\n"
 "PO-Revision-Date: 2025-07-11 13:12+0000\n"
 "Last-Translator: hpfrunner <hpfrunner@ets2la.com>\n"
-"Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>"
-"\n"
-"Language: nl\n"
+"Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -92,39 +91,39 @@ msgstr "Plugin {0} kan geen besturingselementen krijgen: {1}"
 msgid "Loaded {0} plugins."
 msgstr "{0} plugins geladen."
 
-#: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
+#: .\ETS2LA\Handlers\plugins.py:495 .\ETS2LA\Handlers\plugins.py:675
 msgid "Plugin not found."
 msgstr "Plugin niet gevonden."
 
-#: .\ETS2LA\Handlers\plugins.py:494
+#: .\ETS2LA\Handlers\plugins.py:506
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Plugin [yellow]{0}[/yellow] met succes gestart."
 
-#: .\ETS2LA\Handlers\plugins.py:501
+#: .\ETS2LA\Handlers\plugins.py:513
 msgid "Failed to start plugin: {0}"
 msgstr "Plugin niet gestart: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
+#: .\ETS2LA\Handlers\plugins.py:513 .\ETS2LA\Handlers\plugins.py:544
 msgid "Timeout"
 msgstr "Time-out"
 
-#: .\ETS2LA\Handlers\plugins.py:517
+#: .\ETS2LA\Handlers\plugins.py:531
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Plugin niet gevonden, dit kan het gevolg zijn van een plugincrash of het niet laden van de plugin."
 
-#: .\ETS2LA\Handlers\plugins.py:527
+#: .\ETS2LA\Handlers\plugins.py:541
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Plugin [yellow]{0}[/yellow] met succes gestopt."
 
-#: .\ETS2LA\Handlers\plugins.py:530
+#: .\ETS2LA\Handlers\plugins.py:544
 msgid "Failed to stop plugin: {0}"
 msgstr "Mislukt om plugin te stoppen: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:553
+#: .\ETS2LA\Handlers\plugins.py:570
 msgid "Failed to restart plugin: {0}"
 msgstr "Plugin niet opnieuw gestart: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
+#: .\ETS2LA\Handlers\plugins.py:606 .\ETS2LA\Handlers\plugins.py:629
 msgid "Plugin {0} not found for page {1}."
 msgstr "Plugin {0} niet gevonden voor pagina {1}."
 
@@ -143,6 +142,10 @@ msgstr "Soundpack ‘{0}’ heeft een ongeldig bestandstype ‘{1}’"
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr "Geprobeerd geluid ‘{0}’ af te spelen, maar het werd niet gevonden in soundpack ‘{1}’"
+
+#: .\ETS2LA\Networking\Servers\discovery.py:33
+msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
+msgstr ""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -227,6 +230,14 @@ msgstr "Geen fouten of waarschuwingen gevonden."
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
 msgstr "Even geduld terwijl we de gebruikersinterface initialiseren"
+
+#: .\ETS2LA\Window\utils.py:190
+msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
+msgstr ""
+
+#: .\ETS2LA\Window\utils.py:199
+msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
+msgstr ""
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -390,10 +401,12 @@ msgid "Contributors"
 msgstr "Bijdragen"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
+#: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Lijst bijdragers"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
+#: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Help vertalen"
 
@@ -481,40 +494,40 @@ msgstr "Wijzigingen tonen"
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr "Alleen de laatste 20 updates worden getoond. U kunt de repository controleren op verdere geschiedenis."
 
-#: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
+#: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
 msgstr "Alle plugins tonen"
 
-#: .\Pages\controls.py:45
+#: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
 msgstr "Druk op de toets / knop die u wilt binden aan deze actie."
 
-#: .\Pages\controls.py:50
+#: .\Pages\controls.py:51
 msgid "Event unbound."
 msgstr "Ongebonden actie."
 
-#: .\Pages\controls.py:70
+#: .\Pages\controls.py:71
 msgid "Controls"
 msgstr "Controles"
 
-#: .\Pages\controls.py:71
+#: .\Pages\controls.py:72
 msgid "You can change plugins' control events here."
 msgstr "U kunt de controle van de plugins hier wijzigen."
 
-#: .\Pages\controls.py:82
+#: .\Pages\controls.py:83
 msgid "Search Controls or Plugins"
 msgstr "Zoekopdrachten of plugins"
 
-#: .\Pages\controls.py:108
+#: .\Pages\controls.py:109
 msgid "No controls found, try again with different filters."
 msgstr "Geen controles gevonden, probeer opnieuw met verschillende filters."
 
-#: .\Pages\controls.py:133
+#: .\Pages\controls.py:141
 msgid "This event has not been bound to a device yet."
 msgstr "Deze actie is nog niet aan een apparaat gebonden."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
-#: .\Pages\controls.py:136
+#: .\Pages\controls.py:144
 msgid "Keyboard: "
 msgstr "Toetsenbord: "
 
@@ -530,7 +543,7 @@ msgstr "Hier vindt u instellingen die de gehele toepassing beïnvloeden. Dingen 
 msgid "User Interface"
 msgstr "Gebruikersinterface"
 
-#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
+#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Vensterbreedte"
 
@@ -538,7 +551,7 @@ msgstr "Vensterbreedte"
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Wijzig de breedte van het venster. Houd er rekening mee dat ETS2LA niet is getest op niet-standaardresoluties, dus gebruik het op eigen risico!"
 
-#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
+#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Vensterhoogte"
 
@@ -554,7 +567,7 @@ msgstr "Transparantiemodus Alpha"
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Verander de transparantie van het venster bij het invoeren van de transparantiemodus. Dit kan door met de rechtermuisknop rechtsboven op de groene knop te klikken."
 
-#: .\Pages\global_settings.py:169
+#: .\Pages\global_settings.py:169 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Taal"
 
@@ -562,13 +575,17 @@ msgstr "Taal"
 msgid "Select the language for the application."
 msgstr "Selecteer de taal voor de toepassing."
 
-#: .\Pages\global_settings.py:175
+#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Talen zoeken..."
 
-#: .\Pages\global_settings.py:175
+#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Help ons vertalen op discord!"
+
+#: .\Pages\global_settings.py:188
+msgid "This translation is {percentage:.2f}% complete."
+msgstr ""
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
@@ -610,11 +627,11 @@ msgstr "Terugval naar oude acceleratiemethode"
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Als u problemen ondervindt met de vrachtwagen niet goed versnellen / remmen, dan kunt u deze optie inschakelen om een andere methode te gebruiken. Houd er rekening mee dat als de nieuwe vast zit, je het spel misschien moet herstarten na het schakelen."
 
-#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:205
+#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Hoge prioriteit"
 
-#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:206
+#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Voer ETS2LA in hoge prioriteit modus. Dit zal uw besturingssysteem vertellen om meer CPU tijd te geven aan ETS2LA, die de prestaties kan verbeteren ten koste van andere toepassingen."
 
@@ -682,165 +699,177 @@ msgstr "Sneeuw"
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Schakel deze optie in om tijdens het winterseizoen sneeuweffecten te gebruiken."
 
-#: .\Pages\onboarding.py:52
+#: .\Pages\onboarding.py:54
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Als je eerder aan boord bent geweest, weet je hoe je moet vertrekken. ETS2LA zal niet werken zonder één keer aan boord te gaan."
 
-#: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323
+#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:323
 #: .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
 msgstr "Laden..."
 
-#: .\Pages\onboarding.py:87
+#: .\Pages\onboarding.py:89
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
 msgstr "We doen iets wat een tijdje duurt. Blijf zitten en ontspan je!"
 
-#: .\Pages\onboarding.py:91
+#: .\Pages\onboarding.py:93
 msgid "Welcome to ETS2LA!"
 msgstr "Welkom bij ETS2LA!"
 
-#: .\Pages\onboarding.py:92
+#: .\Pages\onboarding.py:94
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr "Laten we je klaarmaken met de basis. Druk op de knop hieronder om verder te gaan."
 
-#: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154
-#: .\Pages\onboarding.py:165 .\Pages\onboarding.py:200
-#: .\Pages\onboarding.py:230 .\Pages\onboarding.py:296
-#: .\Pages\onboarding.py:337
+#: .\Pages\onboarding.py:97 .\Pages\onboarding.py:123
+#: .\Pages\onboarding.py:164 .\Pages\onboarding.py:175
+#: .\Pages\onboarding.py:210 .\Pages\onboarding.py:240
+#: .\Pages\onboarding.py:306 .\Pages\onboarding.py:347
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: .\Pages\onboarding.py:99
+#: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
 msgstr "Aan boord overslaan"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
-#: .\Pages\onboarding.py:106
+#: .\Pages\onboarding.py:108
 msgid "You can change the theme here!"
 msgstr "U kunt het thema hier veranderen!"
 
-#: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
+#: .\Pages\onboarding.py:119
+msgid "Language Selection"
+msgstr ""
+
+#: .\Pages\onboarding.py:120
+msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
+msgstr ""
+
+#: .\Pages\onboarding.py:131
+msgid "Select your preferred language for ETS2LA."
+msgstr ""
+
+#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
 msgstr "SDK Instellen"
 
-#: .\Pages\onboarding.py:148
+#: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr "Om te beginnen moeten we de SDK opzetten. Dit zal ETS2LA in staat stellen om te communiceren met uw spel. Rechts vindt u een lijst van games, klik op installeren op een van hen en ga verder."
 
-#: .\Pages\onboarding.py:151
+#: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
 msgstr "Wachten op SDK-installatie..."
 
-#: .\Pages\onboarding.py:161 .\Pages\performance.py:131
+#: .\Pages\onboarding.py:171 .\Pages\performance.py:131
 msgid "Plugins"
 msgstr "Plugins"
 
-#: .\Pages\onboarding.py:162
+#: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr "ETS2LA maakt gebruik van plugins om de meeste functionaliteit te bieden. U kunt kiezen tussen een eenvoudige modus en een geavanceerde modus. Dit kan later in de instellingen worden gewijzigd."
 
-#: .\Pages\onboarding.py:169
+#: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
 msgstr "Geavanceerde plugin-modus"
 
-#: .\Pages\onboarding.py:170
+#: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr "Schakel geavanceerde plugin management functies. Kan op elk moment worden gewijzigd in de plugin manager."
 
-#: .\Pages\onboarding.py:183
+#: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr "Het behouden van **Advanced Plugin Mode** wordt aanbevolen, maar geavanceerde gebruikers die zelf plugins willen selecteren, willen het misschien wel inschakelen."
 
-#: .\Pages\onboarding.py:191
+#: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr "**Geavanceerde pluginmodus** ontgrendelt handmatige bediening van ingeschakelde plugins. Het laat je ook meer plugins downloaden van andere repositories. Houd er rekening mee dat deze 3rd party plugins niet *officieel* worden ondersteund door ETS2LA."
 
-#: .\Pages\onboarding.py:196
+#: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
 msgstr "Hoge prioriteitsmodus"
 
-#: .\Pages\onboarding.py:197
+#: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr "ETS2LA kan automatisch uw besturingssysteem vertellen dat het moet draaien in een hoge prioriteit modus. Dit wordt vooral aanbevolen bij apparaten met een lager eind."
 
-#: .\Pages\onboarding.py:219
+#: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr "U moet ETS2LA herstarten na de onboarding om deze wijziging toe te passen."
 
-#: .\Pages\onboarding.py:224
+#: .\Pages\onboarding.py:234
 msgid "Map Data"
 msgstr "Kaartgegevens"
 
-#: .\Pages\onboarding.py:225
+#: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr "ETS2LA gebruikt vooraf verkregen kaartgegevens uit het spel. Wij verwerken de gegevens vooraf en u kunt het dan gewoon downloaden als dat nodig is. Selecteer hieronder de gegevens die u nodig heeft voor uw huidige spelversie."
 
-#: .\Pages\onboarding.py:232
+#: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
 msgstr "Wachten op gegevensselectie..."
 
-#: .\Pages\onboarding.py:246 .\Plugins\Map\ui.py:158
+#: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
 msgstr "Geselecteerde gegevens"
 
-#: .\Pages\onboarding.py:247
+#: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
 msgstr "Selecteer de gegevens die overeenkomen met uw spel en mods."
 
-#: .\Pages\onboarding.py:251 .\Plugins\Map\ui.py:163
+#: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
 msgstr "Zoekgegevens"
 
-#: .\Pages\onboarding.py:252 .\Plugins\Map\ui.py:164
+#: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
 msgstr "Geen overeenkomende gegevens gevonden"
 
-#: .\Pages\onboarding.py:276 .\Plugins\Map\ui.py:193
+#: .\Pages\onboarding.py:286
 msgid "The"
 msgstr "De"
 
-#: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
+#: .\Pages\onboarding.py:287
 msgid "download size"
 msgstr "downloadgrootte"
 
-#: .\Pages\onboarding.py:278 .\Plugins\Map\ui.py:195
+#: .\Pages\onboarding.py:288
 msgid "for this data is"
 msgstr "voor deze gegevens"
 
-#: .\Pages\onboarding.py:280 .\Plugins\Map\ui.py:197
+#: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
 msgstr "die zal uitpakken naar een"
 
-#: .\Pages\onboarding.py:281 .\Plugins\Map\ui.py:198
+#: .\Pages\onboarding.py:291
 msgid "total size"
 msgstr "totale grootte"
 
-#: .\Pages\onboarding.py:286
+#: .\Pages\onboarding.py:296
 msgid "No data selected"
 msgstr "Geen gegevens geselecteerd"
 
-#: .\Pages\onboarding.py:287
+#: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
 msgstr "Selecteer de gegevens die u wilt gebruiken in de dropdown hierboven."
 
-#: .\Pages\onboarding.py:292
+#: .\Pages\onboarding.py:302
 msgid "Window Size"
 msgstr "Venstergrootte"
 
-#: .\Pages\onboarding.py:293
+#: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr "ETS2LA bypasses Windows om aangepaste vensterfuncties te bieden. Hierdoor kunt u het venster normaal niet wijzigen. Dit zijn schuifregelaars om handmatig de venstergrootte te wijzigen."
 
-#: .\Pages\onboarding.py:301
+#: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
 msgstr "Pas de breedte van het ETS2LA-venster aan."
 
-#: .\Pages\onboarding.py:310
+#: .\Pages\onboarding.py:320
 msgid "Adjust the height of the ETS2LA window."
 msgstr "Pas de hoogte van het ETS2LA venster aan."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
-#: .\Pages\onboarding.py:327
+#: .\Pages\onboarding.py:337
 msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
@@ -848,16 +877,16 @@ msgstr ""
 "**Het wijzigen van de venstergrootte kan ervoor zorgen dat pagina's onjuist worden weergegeven**.\n"
 "U kunt het schalen van het venster aanpassen door links CTRL vast te houden en het scrollwiel te gebruiken."
 
-#: .\Pages\onboarding.py:333
+#: .\Pages\onboarding.py:343
 msgid "Window Controls"
 msgstr "Vensterbesturing"
 
-#: .\Pages\onboarding.py:334
+#: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr "ETS2LA biedt aangepaste vensterbesturingen die nuttig kunnen zijn voor u. Deze zijn toegankelijk via de groene knop in de rechterbovenhoek."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
-#: .\Pages\onboarding.py:348
+#: .\Pages\onboarding.py:358
 msgid ""
 "**Stay on top**\n"
 "\n"
@@ -868,7 +897,7 @@ msgstr ""
 "U kunt *links klikken* de groene knop om ervoor te zorgen dat het ETS2LA venster bovenop andere vensters blijft."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
-#: .\Pages\onboarding.py:358
+#: .\Pages\onboarding.py:368
 msgid ""
 "**Transparency**\n"
 "\n"
@@ -878,24 +907,24 @@ msgstr ""
 "\n"
 "U kunt * rechts klikken* de groene knop om het ETS2LA venster enigszins transparant te maken. De mate van transparantie kan worden aangepast in de instellingen."
 
-#: .\Pages\onboarding.py:364
+#: .\Pages\onboarding.py:374
 msgid "It's this green button!"
 msgstr "Het is deze groene knop!"
 
-#: .\Pages\onboarding.py:374
+#: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
 msgstr "Onboarding Compleet!"
 
-#: .\Pages\onboarding.py:375
+#: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr "Je hebt het onboarding proces succesvol afgerond. U kunt nu beginnen met het gebruik van ETS2LA. Als je hulp nodig hebt, voel je vrij om je aan te sluiten bij onze Discord server."
 
-#: .\Pages\onboarding.py:378
+#: .\Pages\onboarding.py:388
 msgid "Finish"
 msgstr "Afmaken"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
-#: .\Pages\onboarding.py:385
+#: .\Pages\onboarding.py:395
 msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
@@ -903,11 +932,11 @@ msgstr ""
 "<- Druk op deze rand om de zijbalk te openen en te sluiten.\n"
 "Open de Manager om plugins in te schakelen."
 
-#: .\Pages\onboarding.py:419
+#: .\Pages\onboarding.py:429
 msgid "Page not found"
 msgstr "Pagina niet gevonden"
 
-#: .\Pages\onboarding.py:421
+#: .\Pages\onboarding.py:431
 msgid "Go back"
 msgstr "Ga terug"
 
@@ -1209,6 +1238,54 @@ msgstr "Hoe dan ook bijwerken"
 msgid "Restart and apply {count} update(s)"
 msgstr "Herstarten en toepassen {count} update(s)"
 
+#: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
+msgid "AR"
+msgstr ""
+
+#: .\Plugins\AR\main.py:184
+msgid "Change the AR overlay settings here."
+msgstr ""
+
+#: .\Plugins\AR\main.py:188
+msgid "Don't hide AR from recording software"
+msgstr ""
+
+#: .\Plugins\AR\main.py:189
+msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
+msgstr ""
+
+#: .\Plugins\AR\main.py:195
+msgid "Show test objects"
+msgstr ""
+
+#: .\Plugins\AR\main.py:196
+msgid "Show test objects in the AR overlay."
+msgstr ""
+
+#: .\Plugins\AR\main.py:202
+msgid "Show when not in focus"
+msgstr ""
+
+#: .\Plugins\AR\main.py:203
+msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
+msgstr ""
+
+#: .\Plugins\AR\main.py:211
+msgid "Items: {}"
+msgstr ""
+
+#: .\Plugins\AR\main.py:212
+msgid "Draw Calls: {}"
+msgstr ""
+
+#: .\Plugins\AR\main.py:213
+msgid "Render Time: {:.2f} ms"
+msgstr ""
+
+#: .\Plugins\AR\main.py:221
+msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
+msgstr ""
+
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
 msgstr "Snelheidscontrole aan/uit"
@@ -1233,11 +1310,16 @@ msgstr "Verlaag de rijsnelheid Verschuiving"
 msgid "This will decrease the speed offset in the settings."
 msgstr "Dit vermindert de snelheidsverschuiving in de instellingen."
 
+#: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
 #: .\Plugins\AdaptiveCruiseControl\settings.py:72
 #: .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
 msgstr "Adaptive Cruise Control"
+
+#: .\Plugins\AdaptiveCruiseControl\main.py:75
+msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
+msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1312,6 +1394,46 @@ msgstr "Snelheidsverschuiving"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr "De snelheidscompensatie voor alle snelheidsbeperkingen. Houd er rekening mee dat u dit ook dynamisch kunt wijzigen met de toetsenborden in de bediening."
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:167
+msgid "PID"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:170
+msgid "Unlock PID"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:171
+msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:178
+msgid "PID Kp"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:179
+msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:187
+msgid "PID Ki"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:188
+msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:196
+msgid "PID Kd"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:197
+msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:205
+msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
+msgstr ""
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1549,6 +1671,14 @@ msgstr "Gegevens bijwerken"
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr "Update de momenteel geselecteerde gegevens, dit kan nuttig zijn als de gegevens zijn beschadigd of er een update is geweest."
 
+#: .\Plugins\Map\ui.py:193
+msgid "The download size for this data is"
+msgstr ""
+
+#: .\Plugins\Map\ui.py:195
+msgid "that will unpack to a total size of"
+msgstr ""
+
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
 msgid "ACC Information"
@@ -1756,6 +1886,14 @@ msgstr "Renders"
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr "Deze renders worden gebruikt om niet verankerde elementen te trekken. Dit zijn meestal elementen in de spelwereld die bewegen."
 
+#: .\Plugins\NavigationSockets\main.py:180
+msgid "Navigation Sockets"
+msgstr ""
+
+#: .\Plugins\NavigationSockets\main.py:182
+msgid "This plugin provides a WebSocket server for navigation data on a world map."
+msgstr ""
+
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
 msgstr "TTS"
@@ -1924,86 +2062,165 @@ msgstr "Snelheid {0} kilometer per uur, limiet {1}, brandstof {2}%, en het is {3
 msgid "Test mode enabled. This is a test message."
 msgstr "Testmodus ingeschakeld. Dit is een testbericht."
 
-#: .\main.py:93
+#: .\Plugins\VisualizationSockets\main.py:205
+#: .\Plugins\VisualizationSockets\main.py:220
+#: .\Plugins\VisualizationSockets\main.py:297
+msgid "Visualization Sockets"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:221
+msgid "This plugin provides a websocket server for the ETS2LA Visualization."
+msgstr ""
+
+#. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
+#: .\Plugins\VisualizationSockets\main.py:226
+msgid "Host Device"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:228
+msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:230
+msgid "You can also use the following website:"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:233
+msgid "Other Device"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:238
+msgid "1. Open the following URL in your device's browser: "
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:240
+msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:242
+msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:245
+msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:247
+msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:252
+msgid "Waiting for plugin start..."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:258
+msgid "Waiting for plugin to load..."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:262
+msgid "The following clients are currently connected:"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:271
+msgid "Latency: {latency:.2f}ms"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:273
+msgid "Channels: {channels}"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:275
+msgid "Not acknowledged yet."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:277
+msgid "There are no currently connected clients."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:299
+msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
+msgstr ""
+
+#: .\main.py:94
 msgid "Testing mirrors..."
 msgstr "Spiegels testen..."
 
-#: .\main.py:101
+#: .\main.py:102
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- bereikt {0} in {1:.0f}ms"
 
-#: .\main.py:107
+#: .\main.py:108
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - bereikt {0} in (TIMEOUT)"
 
-#: .\main.py:122
+#: .\main.py:123
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Actie na het downloaden van de submodule uitvoeren: Interface -- "
 
-#: .\main.py:140
+#: .\main.py:141
 msgid "Running ETS2LA in development mode."
 msgstr "Het uitvoeren van ETS2LA in ontwikkelingsmodus."
 
-#: .\main.py:144
+#: .\main.py:145
 msgid "Running UI locally"
 msgstr "Lokaal draaien van UI"
 
-#: .\main.py:149
+#: .\main.py:150
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Geen verbinding met externe UI spiegels. Locatie."
 
-#: .\main.py:160
+#: .\main.py:161
 msgid "Running UI in China mode"
 msgstr "Uitvoeren van UI in China-modus"
 
-#: .\main.py:162
+#: .\main.py:163
 msgid "> Using mirror {0} for UI."
 msgstr "> Gebruik van spiegel {0} voor UI."
 
-#: .\main.py:168
+#: .\main.py:169
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console kan niet gebruikt worden in combinatie met --no-ui. De console zal niet sluiten."
 
-#: .\main.py:170
+#: .\main.py:171
 msgid "Closing console after UI start."
 msgstr "Console sluiten na het starten van de UI."
 
-#: .\main.py:173
+#: .\main.py:174
 msgid "Running in the background without a window."
 msgstr "Op de achtergrond zonder raam."
 
-#: .\main.py:191
+#: .\main.py:192
 msgid "ETS2LA Overseer started!"
 msgstr "ETS2LA Overziener begon!"
 
-#: .\main.py:207
+#: .\main.py:208
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA start opnieuw op..."
 
-#: .\main.py:213
+#: .\main.py:214
 msgid "Skipping update due to development mode."
 msgstr "Update overslaan vanwege de ontwikkelingsmodus."
 
-#: .\main.py:216
+#: .\main.py:217
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA is aan het updaten..."
 
-#: .\main.py:219
+#: .\main.py:220
 msgid "Update done... restarting!"
 msgstr "Update voltooid... opnieuw opstarten!"
 
-#: .\main.py:224
+#: .\main.py:225
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA is gecrashed!"
 
-#: .\main.py:233
+#: .\main.py:234
 msgid "Send the above traceback to the developers."
 msgstr "Stuur bovenstaande traceback naar de ontwikkelaars."
 
-#: .\main.py:235
+#: .\main.py:236
 msgid "ETS2LA has closed."
 msgstr "ETS2LA is gesloten."
 
-#: .\main.py:236
+#: .\main.py:237
 msgid "Press enter to exit."
 msgstr "Druk op Enter om af te sluiten."

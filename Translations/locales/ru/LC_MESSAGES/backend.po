@@ -6,17 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-11 12:37\n"
+"POT-Creation-Date: 2025-07-14 13:24\n"
 "PO-Revision-Date: 2025-07-13 20:42+0000\n"
 "Last-Translator: takedown <takedown@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
-">\n"
-"Language: ru\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
@@ -93,39 +91,39 @@ msgstr "Плагин {0} не смог получить клавиши упра�
 msgid "Loaded {0} plugins."
 msgstr "Загружено {0} плагинов."
 
-#: .\ETS2LA\Handlers\plugins.py:483 .\ETS2LA\Handlers\plugins.py:658
+#: .\ETS2LA\Handlers\plugins.py:495 .\ETS2LA\Handlers\plugins.py:675
 msgid "Plugin not found."
 msgstr "Плагин не найден."
 
-#: .\ETS2LA\Handlers\plugins.py:494
+#: .\ETS2LA\Handlers\plugins.py:506
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Плагин [yellow]{0}[/yellow] запущен успешно."
 
-#: .\ETS2LA\Handlers\plugins.py:501
+#: .\ETS2LA\Handlers\plugins.py:513
 msgid "Failed to start plugin: {0}"
 msgstr "Ошибка при включении: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:501 .\ETS2LA\Handlers\plugins.py:530
+#: .\ETS2LA\Handlers\plugins.py:513 .\ETS2LA\Handlers\plugins.py:544
 msgid "Timeout"
 msgstr "Время истекло"
 
-#: .\ETS2LA\Handlers\plugins.py:517
+#: .\ETS2LA\Handlers\plugins.py:531
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Плагин не найден, это может результатом сбоя плагина или невозможности его загрузки."
 
-#: .\ETS2LA\Handlers\plugins.py:527
+#: .\ETS2LA\Handlers\plugins.py:541
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Плагин [yellow]{0}[/yellow] остановлен успешно."
 
-#: .\ETS2LA\Handlers\plugins.py:530
+#: .\ETS2LA\Handlers\plugins.py:544
 msgid "Failed to stop plugin: {0}"
 msgstr "Ошибка при остановке плагина: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:553
+#: .\ETS2LA\Handlers\plugins.py:570
 msgid "Failed to restart plugin: {0}"
 msgstr "Ошибка при перезапуске плагина: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:589 .\ETS2LA\Handlers\plugins.py:612
+#: .\ETS2LA\Handlers\plugins.py:606 .\ETS2LA\Handlers\plugins.py:629
 msgid "Plugin {0} not found for page {1}."
 msgstr "Плагин {0} не найден для страницы {1}."
 
@@ -144,6 +142,10 @@ msgstr "Звуковой сборник '{0}' имеет неверный тип
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr "Была попытка воспроизвести звук '{0}', но он не найден в звуковом пакете '{1}'"
+
+#: .\ETS2LA\Networking\Servers\discovery.py:33
+msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
+msgstr ""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -228,6 +230,14 @@ msgstr "Ошибок и предупреждений не обнаружено."
 #: .\ETS2LA\Window\html.py:82
 msgid "Please wait while we initialize the user interface"
 msgstr "Пожалуйста, подождите, пока инициализируется интерфейс"
+
+#: .\ETS2LA\Window\utils.py:190
+msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
+msgstr ""
+
+#: .\ETS2LA\Window\utils.py:199
+msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
+msgstr ""
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -393,10 +403,12 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:190
+#: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Список участников"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:192
+#: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Помощь в переводе"
 
@@ -488,40 +500,40 @@ msgstr "Посмотреть изменения"
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr "Отображаются только последние 20 обновлений. Более подробную историю можно найти в репозитории."
 
-#: .\Pages\controls.py:33 .\Pages\controls.py:74 .\Pages\controls.py:75
+#: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
 msgstr "Показать все плагины"
 
-#: .\Pages\controls.py:45
+#: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
 msgstr "Нажмите клавишу/кнопку, которую вы хотите привязать к этому событию."
 
-#: .\Pages\controls.py:50
+#: .\Pages\controls.py:51
 msgid "Event unbound."
 msgstr "Событие отвязано."
 
-#: .\Pages\controls.py:70
+#: .\Pages\controls.py:71
 msgid "Controls"
 msgstr "Элементы управления"
 
-#: .\Pages\controls.py:71
+#: .\Pages\controls.py:72
 msgid "You can change plugins' control events here."
 msgstr "Здесь вы можете изменить события управления плагинами."
 
-#: .\Pages\controls.py:82
+#: .\Pages\controls.py:83
 msgid "Search Controls or Plugins"
 msgstr "Поиск элементов управления или плагинов"
 
-#: .\Pages\controls.py:108
+#: .\Pages\controls.py:109
 msgid "No controls found, try again with different filters."
 msgstr "Элементы управления не найдены, попробуйте снова с другими фильтрами."
 
-#: .\Pages\controls.py:133
+#: .\Pages\controls.py:141
 msgid "This event has not been bound to a device yet."
 msgstr "Это событие еще не привязано к устройству."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
-#: .\Pages\controls.py:136
+#: .\Pages\controls.py:144
 msgid "Keyboard: "
 msgstr "Клавиатура: "
 
@@ -537,7 +549,7 @@ msgstr "Здесь можно найти настройки, которые вл
 msgid "User Interface"
 msgstr "Пользовательский интерфейс"
 
-#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:300
+#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Ширина окна"
 
@@ -545,7 +557,7 @@ msgstr "Ширина окна"
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Изменение ширины окна. Обратите внимание, что ETS2LA не тестировался на нестандартных разрешениях, поэтому используйте его на свой страх и риск!"
 
-#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:309
+#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Высота окна"
 
@@ -561,7 +573,7 @@ msgstr "Режим прозрачности Alpha"
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Изменить прозрачность окна при переходе в режим прозрачности. Это можно сделать, щёлкнув правой кнопкой мыши по зелёной кнопке в правом верхнем углу."
 
-#: .\Pages\global_settings.py:169
+#: .\Pages\global_settings.py:169 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Язык"
 
@@ -569,13 +581,17 @@ msgstr "Язык"
 msgid "Select the language for the application."
 msgstr "Выберете язык приложения."
 
-#: .\Pages\global_settings.py:175
+#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Поиск языков..."
 
-#: .\Pages\global_settings.py:175
+#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Помогите нам перевести в Discord!"
+
+#: .\Pages\global_settings.py:188
+msgid "This translation is {percentage:.2f}% complete."
+msgstr ""
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
@@ -617,11 +633,11 @@ msgstr "Возврат к старому методу ускорения"
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Если у вас возникли проблемы с разгоном/торможением грузовика, включите эту опцию, чтобы использовать другой метод. Имейте в виду, что если новый грузовик застрял, вам может потребоваться перезапустить игру после включения этой опции."
 
-#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:205
+#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Высокий приоритет"
 
-#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:206
+#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Запуск ETS2LA в режиме высокого приоритета. Это позволит вашей ОС выделить больше процессорного времени для ETS2LA, что может повысить производительность за счёт других приложений."
 
@@ -689,189 +705,194 @@ msgstr "Снег"
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Включите эту опцию, чтобы использовать эффекты снега в зимний сезон."
 
-#: .\Pages\onboarding.py:52
+#: .\Pages\onboarding.py:54
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Если вы уже прошли обучение, то вы знаете, как выйти. ETS2LA не будет работать без прохождения обучения."
 
-#: .\Pages\onboarding.py:86 .\Plugins\NGHUD\main.py:323
+#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:323
 #: .\Plugins\NGHUD\main.py:368
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: .\Pages\onboarding.py:87
+#: .\Pages\onboarding.py:89
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
 msgstr "Мы делаем кое-что, что займёт какое-то время. Просто посидите спокойно и расслабьтесь!"
 
-#: .\Pages\onboarding.py:91
+#: .\Pages\onboarding.py:93
 msgid "Welcome to ETS2LA!"
 msgstr "Добро пожаловать в ETS2LA!"
 
-#: .\Pages\onboarding.py:92
+#: .\Pages\onboarding.py:94
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr "Давайте сразу же настроим всё необходимое! Нажмите кнопку ниже, чтобы продолжить."
 
-#: .\Pages\onboarding.py:95 .\Pages\onboarding.py:154
-#: .\Pages\onboarding.py:165 .\Pages\onboarding.py:200
-#: .\Pages\onboarding.py:230 .\Pages\onboarding.py:296
-#: .\Pages\onboarding.py:337
+#: .\Pages\onboarding.py:97 .\Pages\onboarding.py:123
+#: .\Pages\onboarding.py:164 .\Pages\onboarding.py:175
+#: .\Pages\onboarding.py:210 .\Pages\onboarding.py:240
+#: .\Pages\onboarding.py:306 .\Pages\onboarding.py:347
 msgid "Continue"
 msgstr "Продолжить"
 
-#: .\Pages\onboarding.py:99
+#: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
 msgstr "Пропустить обучение"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
-#: .\Pages\onboarding.py:106
+#: .\Pages\onboarding.py:108
 msgid "You can change the theme here!"
 msgstr "Вы можете изменить тему здесь!"
 
-#: .\Pages\onboarding.py:147 .\Pages\sdk_installation.py:147
+#: .\Pages\onboarding.py:119
+msgid "Language Selection"
+msgstr ""
+
+#: .\Pages\onboarding.py:120
+msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
+msgstr ""
+
+#: .\Pages\onboarding.py:131
+msgid "Select your preferred language for ETS2LA."
+msgstr ""
+
+#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
 msgstr "Настройка SDK"
 
-#: .\Pages\onboarding.py:148
+#: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr "Для начала нам нужно настроить SDK. Это позволит ETS2LA взаимодействовать с вашей игрой. Справа вы найдёте список игр, нажмите «Установить» на одну из них и продолжайте."
 
-#: .\Pages\onboarding.py:151
+#: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
 msgstr "Ожидание установки SDK..."
 
-#: .\Pages\onboarding.py:161 .\Pages\performance.py:131
+#: .\Pages\onboarding.py:171 .\Pages\performance.py:131
 msgid "Plugins"
 msgstr "Плагины"
 
-#: .\Pages\onboarding.py:162
+#: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr "ETS2LA использует плагины для реализации большей части своих функций. Вы можете выбрать простой и расширенный режим. Это можно изменить позже в настройках."
 
-#: .\Pages\onboarding.py:169
+#: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
 msgstr "Расширенный режим плагинов"
 
-#: .\Pages\onboarding.py:170
+#: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr "Включает расширенные функции управления плагинами. Можно изменить в любой момент в менеджере плагинов."
 
-#: .\Pages\onboarding.py:183
+#: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr "Рекомендуется оставить **Расширенный режим плагинов** отключенным, однако опытные пользователи, желающие выбирать плагины самостоятельно, могут захотеть включить его."
 
-#: .\Pages\onboarding.py:191
+#: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr "**Расширенный режим плагинов** открывает возможность ручного управления включёнными плагинами. Он также позволяет загружать дополнительные плагины из других репозиториев. Имейте в виду, что эти сторонние плагины *официально* не поддерживаются ETS2LA."
 
-#: .\Pages\onboarding.py:196
+#: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
 msgstr "Режим высокого приоритета"
 
-#: .\Pages\onboarding.py:197
+#: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr "ETS2LA может автоматически сообщать вашей операционной системе, что ей следует работать в режиме высокого приоритета. Это особенно рекомендуется для устройств начального уровня."
 
-#: .\Pages\onboarding.py:219
+#: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr "После завершения обучения вам потребуется перезапустить ETS2LA, чтобы применить это изменение."
 
-#: .\Pages\onboarding.py:224
+#: .\Pages\onboarding.py:234
 msgid "Map Data"
 msgstr "Данные карты"
 
-#: .\Pages\onboarding.py:225
+#: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr "ETS2LA использует предварительно извлечённые данные карт из игры. Мы обрабатываем данные заранее, и вы можете просто скачать их по мере необходимости. Выберите ниже нужные данные для вашей текущей версии игры."
 
-#: .\Pages\onboarding.py:232
+#: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
 msgstr "Ожидание выбора данных..."
 
-#: .\Pages\onboarding.py:246 .\Plugins\Map\ui.py:158
+#: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
 msgstr "Выбранные данные"
 
-#: .\Pages\onboarding.py:247
+#: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
 msgstr "Выберите данные, соответствующие вашей игре и модам."
 
-#: .\Pages\onboarding.py:251 .\Plugins\Map\ui.py:163
+#: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
 msgstr "Поиск данных"
 
-#: .\Pages\onboarding.py:252 .\Plugins\Map\ui.py:164
+#: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
 msgstr "Соответствующие данные не найдены"
 
-#: .\Pages\onboarding.py:276 .\Plugins\Map\ui.py:193
+#: .\Pages\onboarding.py:286
 msgid "The"
 msgstr ""
 
-#: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
+#: .\Pages\onboarding.py:287
 msgid "download size"
 msgstr "размер загрузки"
 
-#: .\Pages\onboarding.py:278 .\Plugins\Map\ui.py:195
+#: .\Pages\onboarding.py:288
 msgid "for this data is"
 msgstr "для этих данных"
 
-#: .\Pages\onboarding.py:280 .\Plugins\Map\ui.py:197
+#: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
 msgstr "это будет распаковано в"
 
-#: .\Pages\onboarding.py:281 .\Plugins\Map\ui.py:198
+#: .\Pages\onboarding.py:291
 msgid "total size"
 msgstr "общий размер"
 
-#: .\Pages\onboarding.py:286
+#: .\Pages\onboarding.py:296
 msgid "No data selected"
 msgstr "Данные не выбраны"
 
-#: .\Pages\onboarding.py:287
+#: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
 msgstr "Пожалуйста, выберите данные, которые вы хотите использовать, из выпадающего списка выше."
 
-#: .\Pages\onboarding.py:292
+#: .\Pages\onboarding.py:302
 msgid "Window Size"
 msgstr "Размер окна"
 
-#: .\Pages\onboarding.py:293
+#: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
-msgstr ""
-"ETS2LA обходит Windows, чтобы использовать нестандартные функции окон. Из-за "
-"этого вы не сможете изменить размер окна обычным способом. Это ползунки, "
-"чтобы вручную изменять размер окна."
+msgstr "ETS2LA обходит Windows, чтобы использовать нестандартные функции окон. Из-за этого вы не сможете изменить размер окна обычным способом. Это ползунки, чтобы вручную изменять размер окна."
 
-#: .\Pages\onboarding.py:301
+#: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
 msgstr "Изменение ширины окна ETS2LA."
 
-#: .\Pages\onboarding.py:310
+#: .\Pages\onboarding.py:320
 msgid "Adjust the height of the ETS2LA window."
 msgstr "Изменение высоты окна ETS2LA."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
-#: .\Pages\onboarding.py:327
+#: .\Pages\onboarding.py:337
 msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
 "**Изменение размера окна может вызвать некорректное отображение страниц**.\n"
-"Вы можете изменить размер окна удерживая левый CTRL и используя колёсико "
-"мыши."
+"Вы можете изменить размер окна удерживая левый CTRL и используя колёсико мыши."
 
-#: .\Pages\onboarding.py:333
+#: .\Pages\onboarding.py:343
 msgid "Window Controls"
 msgstr "Элементы управления окном"
 
-#: .\Pages\onboarding.py:334
+#: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
-msgstr ""
-"ETS2LA предоставляет пользовательские элементы управления окном, которые "
-"могут быть для вас полезными. Их можно найти, нажав зелёную кнопку в верхнем "
-"правом углу."
+msgstr "ETS2LA предоставляет пользовательские элементы управления окном, которые могут быть для вас полезными. Их можно найти, нажав зелёную кнопку в верхнем правом углу."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
-#: .\Pages\onboarding.py:348
+#: .\Pages\onboarding.py:358
 msgid ""
 "**Stay on top**\n"
 "\n"
@@ -879,11 +900,10 @@ msgid ""
 msgstr ""
 "**Поверх всех окон**\n"
 "\n"
-"Вы можете нажать на зелёную кнопку *левой кнопкой мыши*, чтобы закрепить "
-"окно ETS2LA поверх других окон."
+"Вы можете нажать на зелёную кнопку *левой кнопкой мыши*, чтобы закрепить окно ETS2LA поверх других окон."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
-#: .\Pages\onboarding.py:358
+#: .\Pages\onboarding.py:368
 msgid ""
 "**Transparency**\n"
 "\n"
@@ -891,30 +911,26 @@ msgid ""
 msgstr ""
 "**Прозрачность**\n"
 "\n"
-"Вы можете нажать на зелёную кнопку *правой кнопкой мыши*, чтобы сделать окно "
-"ETS2LA немного прозрачным. Степень прозрачности можно изменить в настройках."
+"Вы можете нажать на зелёную кнопку *правой кнопкой мыши*, чтобы сделать окно ETS2LA немного прозрачным. Степень прозрачности можно изменить в настройках."
 
-#: .\Pages\onboarding.py:364
+#: .\Pages\onboarding.py:374
 msgid "It's this green button!"
 msgstr "Вот эта зелёная кнопка!"
 
-#: .\Pages\onboarding.py:374
+#: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
 msgstr "Обучение завершено!"
 
-#: .\Pages\onboarding.py:375
+#: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
-msgstr ""
-"Вы успешно прошли процесс обучения. Теперь вы можете начать пользоваться "
-"ETS2LA. Если вам потребуется помощь, не стесняйтесь зайти на наш сервер в "
-"Discord."
+msgstr "Вы успешно прошли процесс обучения. Теперь вы можете начать пользоваться ETS2LA. Если вам потребуется помощь, не стесняйтесь зайти на наш сервер в Discord."
 
-#: .\Pages\onboarding.py:378
+#: .\Pages\onboarding.py:388
 msgid "Finish"
 msgstr "Завершить"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
-#: .\Pages\onboarding.py:385
+#: .\Pages\onboarding.py:395
 msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
@@ -922,11 +938,11 @@ msgstr ""
 "<- Нажмите на эту границу, чтобы открыть и закрыть боковую панель.\n"
 "      Откройте менеджер плагинов, чтобы их включить."
 
-#: .\Pages\onboarding.py:419
+#: .\Pages\onboarding.py:429
 msgid "Page not found"
 msgstr "Страница не найдена"
 
-#: .\Pages\onboarding.py:421
+#: .\Pages\onboarding.py:431
 msgid "Go back"
 msgstr "Назад"
 
@@ -936,9 +952,7 @@ msgstr "Система"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
-msgstr ""
-"Данные всё ещё собираются, пожалуйста, подождите несколько секунд, чтобы "
-"графики стабилизировались."
+msgstr "Данные всё ещё собираются, пожалуйста, подождите несколько секунд, чтобы графики стабилизировались."
 
 #: .\Pages\performance.py:103
 msgid "CPU Usage"
@@ -966,9 +980,7 @@ msgstr "Ни один плагин в данный момент не запущ�
 
 #: .\Pages\performance.py:172
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
-msgstr ""
-"Внимание: График всё ещё собирает данные, пожалуйста, подождите 60 секунд, "
-"чтобы он стабилизировался."
+msgstr "Внимание: График всё ещё собирает данные, пожалуйста, подождите 60 секунд, чтобы он стабилизировался."
 
 #: .\Pages\performance.py:190
 msgid "Failed to render plugin {plugin_name}."
@@ -988,10 +1000,7 @@ msgstr "Управление рулём"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
-msgstr ""
-"Включить автоматическое управление рулём используя ETS2LA. Вы можете "
-"переключать эту настройку, используя привязку клавиши 'Переключение "
-"управления рулём' в настройках управления."
+msgstr "Включить автоматическое управление рулём используя ETS2LA. Вы можете переключать эту настройку, используя привязку клавиши 'Переключение управления рулём' в настройках управления."
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
@@ -999,10 +1008,7 @@ msgstr "Контроль скорости"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
-msgstr ""
-"Включить автоматическое ускорение и замедление используя ETS2LA. Вы можете "
-"переключать эту настройку, используя привязку клавиши 'Переключение контроля "
-"скорости' в настройках управления."
+msgstr "Включить автоматическое ускорение и замедление используя ETS2LA. Вы можете переключать эту настройку, используя привязку клавиши 'Переключение контроля скорости' в настройках управления."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
@@ -1024,9 +1030,7 @@ msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
-msgstr ""
-"Включить HUD чтобы отображать информацию о грузовике и маршруте. Отображён "
-"сверху окна игры, используя точное 3D проецирование."
+msgstr "Включить HUD чтобы отображать информацию о грузовике и маршруте. Отображён сверху окна игры, используя точное 3D проецирование."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
@@ -1034,9 +1038,7 @@ msgstr "Озвучка текста"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
-msgstr ""
-"Включить озвучку текста для уведомлений и предупреждений. В основном это "
-"функция специальных возможностей, но некоторые могут найти её полезной."
+msgstr "Включить озвучку текста для уведомлений и предупреждений. В основном это функция специальных возможностей, но некоторые могут найти её полезной."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
@@ -1048,10 +1050,7 @@ msgstr "Плагины (простой режим)"
 
 #: .\Pages\plugins.py:236
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
-msgstr ""
-"Справа вы можете включать разные функции ETS2LA. Все плагины, которые "
-"описаны в этих функциях, будут автоматически включены без дополнительной "
-"конфигурации."
+msgstr "Справа вы можете включать разные функции ETS2LA. Все плагины, которые описаны в этих функциях, будут автоматически включены без дополнительной конфигурации."
 
 #: .\Pages\plugins.py:244
 msgid "Disable Plugins"
@@ -1139,14 +1138,11 @@ msgstr "SDK для {game} уже установлена, пропускаю ус
 
 #: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr ""
-"Пожалуйста, удостоверьтесь, что игра закрыта и попробуйте снова. {error}"
+msgstr "Пожалуйста, удостоверьтесь, что игра закрыта и попробуйте снова. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr ""
-"Ошибка при установке SDK для {game}, пожалуйста, удостоверьтесь, что игра "
-"закрыта."
+msgstr "Ошибка при установке SDK для {game}, пожалуйста, удостоверьтесь, что игра закрыта."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
@@ -1166,9 +1162,7 @@ msgstr "SDK для {game} не установлена, пропускаю уда
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
-msgstr ""
-"Ошибка при удалении SDK для {game}, пожалуйста, удостоверьтесь, что игра "
-"закрыта."
+msgstr "Ошибка при удалении SDK для {game}, пожалуйста, удостоверьтесь, что игра закрыта."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
@@ -1176,9 +1170,7 @@ msgstr "Укажите директорию игры"
 
 #: .\Pages\sdk_installation.py:130
 msgid "Could not find version for the selected game, please select a valid game directory."
-msgstr ""
-"Не удалось найти версию указанной игры, пожалуйста, укажите правильную "
-"директорию игры."
+msgstr "Не удалось найти версию указанной игры, пожалуйста, укажите правильную директорию игры."
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
@@ -1194,16 +1186,11 @@ msgstr "Путь {path} не существует."
 
 #: .\Pages\sdk_installation.py:148
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
-msgstr ""
-"Удостоверьтесь, что у вас установлены необходимые DLL файлы, чтобы мы могли "
-"взаимодействовать с игрой."
+msgstr "Удостоверьтесь, что у вас установлены необходимые DLL файлы, чтобы мы могли взаимодействовать с игрой."
 
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
-msgstr ""
-"Нам не удалось найти ни одной игры SCS на вашей системе. Пожалуйста, имейте "
-"в виду, что ETS2LA будет работать только с лицензионными версиями игры, "
-"загруженными через Steam."
+msgstr "Нам не удалось найти ни одной игры SCS на вашей системе. Пожалуйста, имейте в виду, что ETS2LA будет работать только с лицензионными версиями игры, загруженными через Steam."
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
@@ -1247,9 +1234,7 @@ msgstr "У вас имеется локальный коммит, который
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
-msgstr ""
-"Нет доступных обновлений. (Обновление страницы может занять до минуты после "
-"нового коммита)"
+msgstr "Нет доступных обновлений. (Обновление страницы может занять до минуты после нового коммита)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
@@ -1259,6 +1244,54 @@ msgstr "Всё равно обновить"
 #, fuzzy
 msgid "Restart and apply {count} update(s)"
 msgstr "Перезапустить и применить {count} обновлений"
+
+#: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
+msgid "AR"
+msgstr ""
+
+#: .\Plugins\AR\main.py:184
+msgid "Change the AR overlay settings here."
+msgstr ""
+
+#: .\Plugins\AR\main.py:188
+msgid "Don't hide AR from recording software"
+msgstr ""
+
+#: .\Plugins\AR\main.py:189
+msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
+msgstr ""
+
+#: .\Plugins\AR\main.py:195
+msgid "Show test objects"
+msgstr ""
+
+#: .\Plugins\AR\main.py:196
+msgid "Show test objects in the AR overlay."
+msgstr ""
+
+#: .\Plugins\AR\main.py:202
+msgid "Show when not in focus"
+msgstr ""
+
+#: .\Plugins\AR\main.py:203
+msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
+msgstr ""
+
+#: .\Plugins\AR\main.py:211
+msgid "Items: {}"
+msgstr ""
+
+#: .\Plugins\AR\main.py:212
+msgid "Draw Calls: {}"
+msgstr ""
+
+#: .\Plugins\AR\main.py:213
+msgid "Render Time: {:.2f} ms"
+msgstr ""
+
+#: .\Plugins\AR\main.py:221
+msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
+msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1284,17 +1317,20 @@ msgstr "Уменьшить отклонение скорости вождени�
 msgid "This will decrease the speed offset in the settings."
 msgstr "Это уменьшит отклонение скорости в настройках."
 
+#: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
 #: .\Plugins\AdaptiveCruiseControl\settings.py:72
 #: .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
 msgstr "Адаптивный круиз-контроль"
 
+#: .\Plugins\AdaptiveCruiseControl\main.py:75
+msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
+msgstr ""
+
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
-msgstr ""
-"Адаптивный круиз-контроль (АКК) контролирует скорость грузовика, основываясь "
-"на информации, полученной из игры."
+msgstr "Адаптивный круиз-контроль (АКК) контролирует скорость грузовика, основываясь на информации, полученной из игры."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
@@ -1302,9 +1338,7 @@ msgstr "Агрессивность"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
-msgstr ""
-"Насколько агрессивно АКК будет следовать за машиной впереди и изменять "
-"ограничение скорости?"
+msgstr "Насколько агрессивно АКК будет следовать за машиной впереди и изменять ограничение скорости?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
@@ -1320,9 +1354,7 @@ msgstr "Игнорировать светофоры"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
-msgstr ""
-"Должен ли АКК игнорировать светофоры. Пожалуйста, учитите, что это, как "
-"написано, будет игнорировать светофоры."
+msgstr "Должен ли АКК игнорировать светофоры. Пожалуйста, учитите, что это, как написано, будет игнорировать светофоры."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
@@ -1342,9 +1374,7 @@ msgstr "Коэффициент трения"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
-msgstr ""
-"Коэффициент трения используется для вычислений АКК. Высокие значения "
-"позволяют грузовику ехать быстрее на изгибах."
+msgstr "Коэффициент трения используется для вычислений АКК. Высокие значения позволяют грузовику ехать быстрее на изгибах."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
 msgid "Speed when game speed limit is 0"
@@ -1352,8 +1382,7 @@ msgstr "Скорость, когда внутриигровое ограниче
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
-msgstr ""
-"Скорость движения, когда игра сообщает нам, что ограничение скорости 0 км/ч."
+msgstr "Скорость движения, когда игра сообщает нам, что ограничение скорости 0 км/ч."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
@@ -1371,15 +1400,51 @@ msgstr "Отклонение скорости"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147
 #: .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
+msgstr "Значение отклонения скорости, которое нужно применить ко всем ограничениям скорости. Пожалуйста, имейте в виду, что вы также можете изменять это динамически путём привязывания клавиш в настройках управления."
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:167
+msgid "PID"
 msgstr ""
-"Значение отклонения скорости, которое нужно применить ко всем ограничениям "
-"скорости. Пожалуйста, имейте в виду, что вы также можете изменять это "
-"динамически путём привязывания клавиш в настройках управления."
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:170
+msgid "Unlock PID"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:171
+msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:178
+msgid "PID Kp"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:179
+msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:187
+msgid "PID Ki"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:188
+msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:196
+msgid "PID Kd"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:197
+msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\settings.py:205
+msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
+msgstr ""
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr ""
-"Этот плагин предоставляет HUD используя плагин ДР в качестве визуализатора."
+msgstr "Этот плагин предоставляет HUD используя плагин ДР в качестве визуализатора."
 
 #: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
 msgid "General"
@@ -1391,9 +1456,7 @@ msgstr "Частота обновления"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
-msgstr ""
-"Частота обновления HUD. Не рекомендуется увеличивать это значение слишком "
-"сильно."
+msgstr "Частота обновления HUD. Не рекомендуется увеличивать это значение слишком сильно."
 
 #: .\Plugins\HUD\main.py:99
 msgid "Scale"
@@ -1445,8 +1508,7 @@ msgstr "Показывать информацию АКК"
 
 #: .\Plugins\HUD\main.py:142
 msgid "When enabled, the HUD will display adaptive cruise control information."
-msgstr ""
-"Когда ключено, HUD будет показывать информацию адаптивного круиз-контроля."
+msgstr "Когда ключено, HUD будет показывать информацию адаптивного круиз-контроля."
 
 #: .\Plugins\HUD\main.py:147
 msgid "Draw Steering"
@@ -1470,9 +1532,7 @@ msgstr "Показывать путь колёс"
 
 #: .\Plugins\HUD\main.py:160
 msgid "When enabled, the HUD will display where the wheels will go when turning."
-msgstr ""
-"Когда включено, HUD будет показывать путь, по которому поедут колёса при "
-"повороте."
+msgstr "Когда включено, HUD будет показывать путь, по которому поедут колёса при повороте."
 
 #: .\Plugins\HUD\main.py:169
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
@@ -1500,9 +1560,7 @@ msgstr "Переключение управления рулём"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
-msgstr ""
-"Когда плагин \"Карта\" включён, это будет включать и выключать управление "
-"рулём."
+msgstr "Когда плагин \"Карта\" включён, это будет включать и выключать управление рулём."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
@@ -1510,9 +1568,7 @@ msgstr "Карта"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
-msgstr ""
-"Этот плагин обеспечивает функции управления рулём и навагации. Это самый "
-"важный плагин в ETS2LA."
+msgstr "Этот плагин обеспечивает функции управления рулём и навагации. Это самый важный плагин в ETS2LA."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
@@ -1536,8 +1592,7 @@ msgstr "Ошибка в цикле плагина Карта: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
-msgstr ""
-"Внимание: Управление рулём может быть нарушено из-за низкого FPS ({0} fps)"
+msgstr "Внимание: Управление рулём может быть нарушено из-за низкого FPS ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
@@ -1549,9 +1604,7 @@ msgstr "Настройки Карты"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
-msgstr ""
-"Изменение настроек плагина \"Карта\". Здесь мы можете изменить разные "
-"настройки, относящиеся к навигации, управлению рулём, и обработке данных."
+msgstr "Изменение настроек плагина \"Карта\". Здесь мы можете изменить разные настройки, относящиеся к навигации, управлению рулём, и обработке данных."
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
@@ -1567,10 +1620,7 @@ msgstr "Отправлять высоту"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
-msgstr ""
-"Когда включено, карта будет отправлять данные о высоте в интерфейс. Эти "
-"данные используются для отрисовки земли в визуализации. Экспериментально и "
-"очень сломано!"
+msgstr "Когда включено, карта будет отправлять данные о высоте в интерфейс. Эти данные используются для отрисовки земли в визуализации. Экспериментально и очень сломано!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
@@ -1586,9 +1636,7 @@ msgstr "Вычислять данные управления рулём"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
-msgstr ""
-"Когда включено, карта будет вычислять и отправлять данные управления рулём в "
-"игру."
+msgstr "Когда включено, карта будет вычислять и отправлять данные управления рулём в игру."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
@@ -1596,9 +1644,7 @@ msgstr "Водить основываясь на прицепе"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
-msgstr ""
-"Когда включено, карта будет брать в расчёт прицеп при вычислении текущей "
-"точки управления."
+msgstr "Когда включено, карта будет брать в расчёт прицеп при вычислении текущей точки управления."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
@@ -1606,10 +1652,7 @@ msgstr "Сглаженность управления рулём"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
-msgstr ""
-"Задать количество времени, по которому будут усредняться данные управления "
-"рулём. Значение 0.5 значит, что данные управления за последние полсекунды "
-"будут использоваться для вычисления текущего значения."
+msgstr "Задать количество времени, по которому будут усредняться данные управления рулём. Значение 0.5 значит, что данные управления за последние полсекунды будут использоваться для вычисления текущего значения."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
@@ -1621,16 +1664,11 @@ msgstr "ВНИМАНИЕ!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
-msgstr ""
-"Если вы столкнётесь с ошибкой после изменения данных, пожалуйста, "
-"перезапустите плагин! Если это не решит вашу проблему, пожалуйста, свяжитесь "
-"с создателями данных или разработчиками в Discord!"
+msgstr "Если вы столкнётесь с ошибкой после изменения данных, пожалуйста, перезапустите плагин! Если это не решит вашу проблему, пожалуйста, свяжитесь с создателями данных или разработчиками в Discord!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
-msgstr ""
-"Пожалуйста, выберите данные, которые вы хотите использовать. Это начнёт "
-"процесс загрузки и Карта будет готова после того, как данные загрузятся."
+msgstr "Пожалуйста, выберите данные, которые вы хотите использовать. Это начнёт процесс загрузки и Карта будет готова после того, как данные загрузятся."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
@@ -1638,9 +1676,15 @@ msgstr "Обновить данные"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
+msgstr "Обновить выбранные данные, это может помочь если данные повреждены или были обновлены."
+
+#: .\Plugins\Map\ui.py:193
+msgid "The download size for this data is"
 msgstr ""
-"Обновить выбранные данные, это может помочь если данные повреждены или были "
-"обновлены."
+
+#: .\Plugins\Map\ui.py:195
+msgid "that will unpack to a total size of"
+msgstr ""
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1690,9 +1734,7 @@ msgstr "Медиа"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
-msgstr ""
-"Отобажает информацию о медиа, такой как название песни, автора и ход "
-"воспроизведения."
+msgstr "Отобажает информацию о медиа, такой как название песни, автора и ход воспроизведения."
 
 #: .\Plugins\NGHUD\elements\media.py:23
 msgid "No Media Playing"
@@ -1743,8 +1785,7 @@ msgstr "Скорость"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
-msgstr ""
-"Обычный дисплей скорости, также показывает измненения ограничения скорости."
+msgstr "Обычный дисплей скорости, также показывает измненения ограничения скорости."
 
 #: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1761,8 +1802,7 @@ msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
-msgstr ""
-"Next-Gen HUD (короче я переделываю HUD и мне нужно было его как-то назвать)"
+msgstr "Next-Gen HUD (короче я переделываю HUD и мне нужно было его как-то назвать)"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
@@ -1799,11 +1839,7 @@ msgstr "Ширина виджетов"
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
-msgstr ""
-"Эти настройки контролируют ширину каждого виджета в пикселях. Значения по "
-"умолчанию 90, 120, 90. Элементы изменяют размер в соответствии, но "
-"пожалуйста, имейте в виду, что они не сделаны для слишком сильных изменений "
-"размера."
+msgstr "Эти настройки контролируют ширину каждого виджета в пикселях. Значения по умолчанию 90, 120, 90. Элементы изменяют размер в соответствии, но пожалуйста, имейте в виду, что они не сделаны для слишком сильных изменений размера."
 
 #: .\Plugins\NGHUD\ui.py:161
 msgid "Widget Background"
@@ -1811,9 +1847,7 @@ msgstr "Фон виджетов"
 
 #: .\Plugins\NGHUD\ui.py:162
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
-msgstr ""
-"Вы можете контролировать, насколько тёмным будет фон виджетов, либо всегда, "
-"либо только в течение дня."
+msgstr "Вы можете контролировать, насколько тёмным будет фон виджетов, либо всегда, либо только в течение дня."
 
 #: .\Plugins\NGHUD\ui.py:166
 msgid "Darkness"
@@ -1829,8 +1863,7 @@ msgstr "Темнота днём"
 
 #: .\Plugins\NGHUD\ui.py:177
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
-msgstr ""
-"Темнота фона виджетов в течение дня. 0 - нет темноты, 1 - полностью тёмный."
+msgstr "Темнота фона виджетов в течение дня. 0 - нет темноты, 1 - полностью тёмный."
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
@@ -1842,10 +1875,7 @@ msgstr "Включённые виджеты"
 
 #: .\Plugins\NGHUD\ui.py:196
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
-msgstr ""
-"Здесь отображаются ваши включённые виджеты и их соответствующие размеры. "
-"Нажмите на виджет чтобы его выключить, пока что их нельзя двигать, так что "
-"вам придётся Выключить -> Включить чтобы переместить их в нужное место."
+msgstr "Здесь отображаются ваши включённые виджеты и их соответствующие размеры. Нажмите на виджет чтобы его выключить, пока что их нельзя двигать, так что вам придётся Выключить -> Включить чтобы переместить их в нужное место."
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
@@ -1861,9 +1891,15 @@ msgstr "Отрисовщики"
 
 #: .\Plugins\NGHUD\ui.py:234
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
+msgstr "Эти отрисовщики используются, чтобы отображать незакреплённые элементы. Такие элементы обычно двигаются в игровом мире."
+
+#: .\Plugins\NavigationSockets\main.py:180
+msgid "Navigation Sockets"
 msgstr ""
-"Эти отрисовщики используются, чтобы отображать незакреплённые элементы. "
-"Такие элементы обычно двигаются в игровом мире."
+
+#: .\Plugins\NavigationSockets\main.py:182
+msgid "This plugin provides a WebSocket server for navigation data on a world map."
+msgstr ""
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -1871,9 +1907,7 @@ msgstr "Озвучка текста"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
-msgstr ""
-"Плагин \"Озвучка текста\" обеспечивает фунционал озвучки текста в качестве "
-"специальных возвожностей и для озвученных объявлений."
+msgstr "Плагин \"Озвучка текста\" обеспечивает фунционал озвучки текста в качестве специальных возвожностей и для озвученных объявлений."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
@@ -1885,8 +1919,7 @@ msgstr "Пожалуйста, выберите поставщика!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
-msgstr ""
-"Здесь будет отображаться информация о поставщиках когда плагин загрузится."
+msgstr "Здесь будет отображаться информация о поставщиках когда плагин загрузится."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
@@ -1934,9 +1967,7 @@ msgstr "Тестовый режим"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
-msgstr ""
-"Включить тестовый режим, чтобы опробовать поставщика озвучки голоса без "
-"запуска игры."
+msgstr "Включить тестовый режим, чтобы опробовать поставщика озвучки голоса без запуска игры."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
@@ -1948,15 +1979,11 @@ msgstr "Включить сигнал близости к дороге"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
-msgstr ""
-"Включить сигнал близости, который сообщает расстояние и угол к ближайшей "
-"дороге."
+msgstr "Включить сигнал близости, который сообщает расстояние и угол к ближайшей дороге."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
-msgstr ""
-"Плагин озвучки текста для специальных возможностей. Некоторым также может "
-"понравиться озвученные объявления."
+msgstr "Плагин озвучки текста для специальных возможностей. Некоторым также может понравиться озвученные объявления."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
@@ -2003,16 +2030,12 @@ msgstr "Ограничение скорости изменено на {0} кил
 #: .\Plugins\TTS\main.py:355
 #, fuzzy
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr ""
-"Запас хода теперь всего {0} километров, пожалуйста, заправьтесь как можно "
-"скорее."
+msgstr "Запас хода теперь всего {0} километров, пожалуйста, заправьтесь как можно скорее."
 
 #: .\Plugins\TTS\main.py:358
 #, fuzzy
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr ""
-"Запас хода теперь критически низок, всего {0} километров, пожалуйста, "
-"заправьтесь как можно скорее."
+msgstr "Запас хода теперь критически низок, всего {0} километров, пожалуйста, заправьтесь как можно скорее."
 
 #: .\Plugins\TTS\main.py:376
 #, fuzzy
@@ -2046,97 +2069,171 @@ msgstr "Груз повреждён на {0}%."
 #: .\Plugins\TTS\main.py:429
 #, fuzzy
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
-msgstr ""
-"Скорость {0} километров в час, ограничение {1}, топливо {2}%, и до следующей "
-"точки {3} км."
+msgstr "Скорость {0} километров в час, ограничение {1}, топливо {2}%, и до следующей точки {3} км."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
 msgstr "Тестовый режим активирован. Это тестовое сообщение."
 
-#: .\main.py:93
+#: .\Plugins\VisualizationSockets\main.py:205
+#: .\Plugins\VisualizationSockets\main.py:220
+#: .\Plugins\VisualizationSockets\main.py:297
+msgid "Visualization Sockets"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:221
+msgid "This plugin provides a websocket server for the ETS2LA Visualization."
+msgstr ""
+
+#. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
+#: .\Plugins\VisualizationSockets\main.py:226
+msgid "Host Device"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:228
+msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:230
+msgid "You can also use the following website:"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:233
+msgid "Other Device"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:238
+msgid "1. Open the following URL in your device's browser: "
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:240
+msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:242
+msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:245
+msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:247
+msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:252
+msgid "Waiting for plugin start..."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:258
+msgid "Waiting for plugin to load..."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:262
+msgid "The following clients are currently connected:"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:271
+msgid "Latency: {latency:.2f}ms"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:273
+msgid "Channels: {channels}"
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:275
+msgid "Not acknowledged yet."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:277
+msgid "There are no currently connected clients."
+msgstr ""
+
+#: .\Plugins\VisualizationSockets\main.py:299
+msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
+msgstr ""
+
+#: .\main.py:94
 msgid "Testing mirrors..."
 msgstr "Проверка зеркал..."
 
-#: .\main.py:101
+#: .\main.py:102
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Соеденение к {0} установлено за {1:.0f}мс"
 
-#: .\main.py:107
+#: .\main.py:108
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Соеденение к {0} установлено за (ВРЕМЯ ОЖИДАНИЯ ИСТЕКЛО)"
 
-#: .\main.py:122
+#: .\main.py:123
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
-" -- Выполняется послезагрузочное действие для подмодуля:  Интерфейс  -- "
+msgstr " -- Выполняется послезагрузочное действие для подмодуля:  Интерфейс  -- "
 
-#: .\main.py:140
+#: .\main.py:141
 msgid "Running ETS2LA in development mode."
 msgstr "ETS2LA запущен в режиме разработчика."
 
-#: .\main.py:144
+#: .\main.py:145
 msgid "Running UI locally"
 msgstr "Интерфейс запущен локально"
 
-#: .\main.py:149
+#: .\main.py:150
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Нет соеденения к удалённым зеркалам интерфейса. Запускаю локально."
 
-#: .\main.py:160
+#: .\main.py:161
 msgid "Running UI in China mode"
 msgstr "Интерфейс запущен в китайском режиме"
 
-#: .\main.py:162
+#: .\main.py:163
 msgid "> Using mirror {0} for UI."
 msgstr "> Используется зеркало {0} для интерфейса."
 
-#: .\main.py:168
+#: .\main.py:169
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
-msgstr ""
-"--no-console не может быть использован вместе с --no-ui. Консоль не "
-"закроется."
+msgstr "--no-console не может быть использован вместе с --no-ui. Консоль не закроется."
 
-#: .\main.py:170
+#: .\main.py:171
 msgid "Closing console after UI start."
 msgstr "Консоль будет закрыта после запуска интерфейса."
 
-#: .\main.py:173
+#: .\main.py:174
 msgid "Running in the background without a window."
 msgstr "Запущен на фоне без окна."
 
-#: .\main.py:191
+#: .\main.py:192
 msgid "ETS2LA Overseer started!"
 msgstr "Надзиратель ETS2LA запущен!"
 
-#: .\main.py:207
+#: .\main.py:208
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA перезапускается..."
 
-#: .\main.py:213
+#: .\main.py:214
 msgid "Skipping update due to development mode."
 msgstr "Обновление пропущено из-за режима разработчика."
 
-#: .\main.py:216
+#: .\main.py:217
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA обновляется..."
 
-#: .\main.py:219
+#: .\main.py:220
 msgid "Update done... restarting!"
 msgstr "Обновление завершено... выполняется перезапуск!"
 
-#: .\main.py:224
+#: .\main.py:225
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA крашнулось!"
 
-#: .\main.py:233
+#: .\main.py:234
 msgid "Send the above traceback to the developers."
 msgstr "Отправьте отчёт об ошибке выше разработчикам."
 
-#: .\main.py:235
+#: .\main.py:236
 msgid "ETS2LA has closed."
 msgstr "ETS2LA закрыт."
 
-#: .\main.py:236
+#: .\main.py:237
 msgid "Press enter to exit."
 msgstr "Нажмите Enter для выхода."
