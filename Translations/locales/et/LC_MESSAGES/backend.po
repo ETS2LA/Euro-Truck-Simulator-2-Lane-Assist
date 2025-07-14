@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-13 20:42+0000\n"
+"PO-Revision-Date: 2025-07-14 09:42+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "et/>\n"
@@ -144,9 +144,8 @@ msgid "Soundpack '{0}' has an invalid file type '{1}'"
 msgstr "Helipakett '{0}' on vigane failitüüp '{1} '"
 
 #: .\ETS2LA\Handlers\sounds.py:76
-#, fuzzy
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr "Proovis mängida heli '{0}', kuid seda ei leitud helipaketist '{1} '"
+msgstr "Heli '{0}' prooviddi mängida, kuid seda ei leitud helipaketist '{1} '"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -181,9 +180,8 @@ msgid "Failed to get pages"
 msgstr "Lehekülgede hankimine nurjus"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
-#, fuzzy
 msgid "Failed to get page data for page {0}"
-msgstr "Lehekülje andmete hankimine {0} nurjus"
+msgstr "Lehekülje andmete hankimine lehele {0} nurjus"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
@@ -230,7 +228,6 @@ msgid "No errors or warnings found."
 msgstr "Vigu ega hoiatusi ei leitud."
 
 #: .\ETS2LA\Window\html.py:82
-#, fuzzy
 msgid "Please wait while we initialize the user interface"
 msgstr "Palun oodake, kuni me initsialiseerime kasutajaliidese"
 
@@ -283,7 +280,6 @@ msgid "3D models for the visualization"
 msgstr "3D mudelid visualiseerimiseks"
 
 #: .\Pages\about.py:24
-#, fuzzy
 msgid "Data extractor development, support for modded maps."
 msgstr "Andmeekstraktori arendamine, muudetud kaartide toetamine."
 
@@ -304,7 +300,6 @@ msgid "Discord server support, Chinese-English translator developer."
 msgstr "Discordi serveri tugi, hiina-inglise tõlkija arendaja."
 
 #: .\Pages\about.py:29
-#, fuzzy
 msgid "Maintaining CN mirrors for ETS2LA services."
 msgstr "CN-peegleid säilitatakse ETS2LA teenuste jaoks."
 
@@ -435,7 +430,7 @@ msgstr ""
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr "Utils"
+msgstr "Utiliidid"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
@@ -536,7 +531,6 @@ msgid "No controls found, try again with different filters."
 msgstr "Juhtnuppe ei leitud, proovi uuesti erinevate filtritega."
 
 #: .\Pages\controls.py:133
-#, fuzzy
 msgid "This event has not been bound to a device yet."
 msgstr "See sündmus ei ole veel seadmega seotud."
 
@@ -580,7 +574,6 @@ msgstr ""
 "resolutsioonidega, nii et kasutage omal vastutusel!"
 
 #: .\Pages\global_settings.py:156
-#, fuzzy
 msgid "Transparency mode Alpha"
 msgstr "Läbipaistvusrežiim Alfa"
 
@@ -710,7 +703,6 @@ msgid "Debug Mode"
 msgstr "Silumisrežiim"
 
 #: .\Pages\global_settings.py:283
-#, fuzzy
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr "Sisselülitamisel kasutatakse kasutajaliidese serva silurit."
 
@@ -868,7 +860,7 @@ msgstr "Sobivaid andmeid ei leitud"
 
 #: .\Pages\onboarding.py:276 .\Plugins\Map\ui.py:193
 msgid "The"
-msgstr ""
+msgstr "see"
 
 #: .\Pages\onboarding.py:277 .\Plugins\Map\ui.py:194
 msgid "download size"
@@ -948,7 +940,6 @@ msgstr ""
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
-#, fuzzy
 msgid ""
 "**Transparency**\n"
 "\n"
@@ -1085,7 +1076,6 @@ msgid "HUD"
 msgstr "HUD"
 
 #: .\Pages\plugins.py:40
-#, fuzzy
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
 "Võimaldab HUDil kuvada teavet veoki ja marsruudi kohta. Näidatakse mängu "
@@ -1113,418 +1103,443 @@ msgstr "Lisaosad (põhilised)"
 #: .\Pages\plugins.py:236
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"Võite lubada erinevaid ETS2LA funktsioone paremal küljel. Kõik nende "
+"funktsioonidega kirjeldatud lisaosad lubatakse automaatselt ilma "
+"lisakonfigureerimiseta."
 
 #: .\Pages\plugins.py:244
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Lisaosade keelamine"
 
 #: .\Pages\plugins.py:244
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Lisaosade lubamine"
 
 #: .\Pages\plugins.py:247
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "Praegu lubatud lisaosad:"
 
 #: .\Pages\plugins.py:247
 msgid "None"
-msgstr ""
+msgstr "Mitte ühtegi"
 
 #: .\Pages\plugins.py:269
 msgid "Enabled"
-msgstr ""
+msgstr "Lubatud"
 
 #: .\Pages\plugins.py:269
 msgid "Disabled"
-msgstr ""
+msgstr "Keelatud"
 
 #: .\Pages\plugins.py:274
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Lülitumine täiustatud režiimile"
 
 #: .\Pages\plugins.py:296
 msgid "Search plugins..."
-msgstr ""
+msgstr "Otsime lisaosi..."
 
 #: .\Pages\plugins.py:305
 msgid "Search tags..."
-msgstr ""
+msgstr "Otsime siltte..."
 
 #: .\Pages\plugins.py:306
 msgid "No tags found"
-msgstr ""
+msgstr "Silte ei leitud"
 
 #: .\Pages\plugins.py:315
 msgid "Search authors..."
-msgstr ""
+msgstr "Otsime autoreid..."
 
 #: .\Pages\plugins.py:316
 msgid "No authors found"
-msgstr ""
+msgstr "Autoreid ei leitud"
 
 #: .\Pages\plugins.py:320
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Tagasi põhirežiimi"
 
 #: .\Pages\plugins.py:351
 msgid "Running Plugins"
-msgstr ""
+msgstr "Töötavad lisaosad"
 
 #: .\Pages\plugins.py:358
 msgid "Want to enable the plugins you had running last time?"
-msgstr ""
+msgstr "Kas soovite lubada lisaosad, mida eelmisel korral kasutasite?"
 
 #: .\Pages\plugins.py:360
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Viimase lisaosa lubamine"
 
 #: .\Pages\plugins.py:366
 msgid "Available Plugins"
-msgstr ""
+msgstr "Saadaolevad lisaosad"
 
 #: .\Pages\sdk_installation.py:86
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "{game} versiooni ei leitud, installimise vahelejätmine"
 
 #: .\Pages\sdk_installation.py:91
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "SDKde paigaldamine {game} jaoks"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "SDK- d {game} edukalt paigaldatud."
 
 #: .\Pages\sdk_installation.py:101
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "SDK- d juba paigaldatud {game} jaoks, paigaldamine vahele jäetud"
 
 #: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr ""
+msgstr "Veenduge, et mäng on suletud ja proovige uuesti. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Viga SDK-de installimisel {game} jaoks, palun veenduge, et mäng on suletud."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr ""
+msgstr "{game} versiooni ei leitud, eemaldamata jätmine"
 
 #: .\Pages\sdk_installation.py:114
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "SDK- de eemaldamine {game} jaoks"
 
 #: .\Pages\sdk_installation.py:119
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "SDK- d {game} edukalt desinstallitud."
 
 #: .\Pages\sdk_installation.py:121
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "SDK- d {game} installimata, eemaldamise vahelejätmine"
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Viga SDK-de desinstallimisel {game} jaoks, palun veenduge, et mäng on "
+"suletud."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
-msgstr ""
+msgstr "Palun valige mängukataloog"
 
 #: .\Pages\sdk_installation.py:130
 msgid "Could not find version for the selected game, please select a valid game directory."
-msgstr ""
+msgstr "Valitud mängu versiooni ei leitud, palun vali sobiv mängukataloog."
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "{path} versiooni ei leitud, paigaldamine jäetakse vahele"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Leiti mängu versioon {version}."
 
 #: .\Pages\sdk_installation.py:142
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "Kausta {path} ei ole olemas."
 
 #: .\Pages\sdk_installation.py:148
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr ""
+"Kontrollige, kas teil on installitud vajalikud DLL-id, et saaksime mänguga "
+"suhelda."
 
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"Me ei leidnud teie süsteemist ühtegi SCS-i mängu. Pange tähele, et ETS2LA "
+"töötab ainult Steamist allalaaditud seaduslike versioonidega."
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
-msgstr ""
+msgstr "Vali kataloog käsitsi"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
-msgstr ""
+msgstr "- Paigaldatud"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Pole paigaldatud"
 
 #: .\Pages\sdk_installation.py:194
 msgid "This game version is not supported"
-msgstr ""
+msgstr "See mänguversioon ei ole toetatud"
 
 #: .\Pages\sdk_installation.py:210
 msgid "No files found."
-msgstr ""
+msgstr "Faile ei leitud."
 
 #: .\Pages\sdk_installation.py:221
 msgid "File Sources"
-msgstr ""
+msgstr "Failiallikad"
 
 #: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "SDK desinstallimine"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
 msgid "Install SDKs"
-msgstr ""
+msgstr "Paigalda SDK"
 
 #: .\Pages\sdk_installation.py:237
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Palun sulgege mäng enne SDK-de installimist või desinstallimist."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Teil on kohalik kohustus, mis ootab surumist."
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Uuendused puuduvad. (See võib võtta kuni minut lehe värskendamiseks pärast "
+"uut pühendumist)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Uuenda igal juhul"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update(s)"
-msgstr ""
+msgstr "Taaskäivita ja rakenda {count} uuendus(d)"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr ""
+msgstr "Kiiruse reguleerimise lülitamine"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
-msgstr ""
+msgstr "Kui ACC töötab, lülitab see kiiruse reguleerimise sisse/välja."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Sõidukiiruse tasaarvestuse suurendamine"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
-msgstr ""
+msgstr "See suurendab kiiruse tasakaalustamist seadistustes."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Vähenda sõidukiiruse tasaarvestust"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr ""
+msgstr "See vähendab kiiruse tasakaalustamist seadistustes."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8 .\Plugins\AdaptiveCruiseControl\settings.py:72 .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Kohanev kiirushoidik"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"Adaptiivne püsikiiruse hoidja (ACC) kontrollib mängust kogutud teabe põhjal "
+"veoki kiirust."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Agressiivsus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
+"Kui agressiivselt peaks ACC järgima eesolevat autot ja muutma "
+"kiiruspiirangut?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
-msgstr ""
+msgstr "Jälgimiskaugus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "Kui kaugele peaks ACC jääma eesolevast sõidukist?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:96
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Valgusfoori eiramine"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Kas ACC peaks valgusfoori ignoreerima. Pange tähele, et see on nii, nagu see "
+"ütleb, ignoreerige valgusfoori."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
-msgstr ""
+msgstr "Kiirusekontroll"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Kiirusepiirangu eiramine"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "Kas ACC peaks kiirusepiirangut eirama."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:112
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Hõõrdetegur"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"Hõõrdetegur, mida kasutatakse ACC arvutustes. Kõrgemad väärtused võimaldavad "
+"veokil kurvides kiiremini sõita."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Kiirus, kui mängu kiirusepiirang on 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
-msgstr ""
+msgstr "Sõidukiirus, kui mäng ütleb meile, et kiiruspiirang on 0 km/h."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Kiiruse nihke tüüp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:141
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Vali rakendatava kiiruse nihke tüüp."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146 .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Speed Offset"
-msgstr ""
+msgstr "Kiiruse nihe"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147 .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"Kiiruse nihe kehtib kõigi kiiruspiirangute puhul. Pange tähele, et saate "
+"seda dünaamiliselt muuta ka juhtseadiste klaviatuuridega."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr ""
+msgstr "See lisaosa pakub HUD- i, kasutades renderdajana AR-lisaosa."
 
 #: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Üldine"
 
 #: .\Plugins\HUD\main.py:89
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Värskendussagedus"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
 msgstr ""
+"Kiirus, millega HUD uuendab. Seda väärtust ei soovitata liiga palju "
+"suurendada."
 
 #: .\Plugins\HUD\main.py:99
 msgid "Scale"
-msgstr ""
+msgstr "Skaala"
 
 #: .\Plugins\HUD\main.py:100
 msgid "The scale of the HUD elements."
-msgstr ""
+msgstr "HUD elementide skaala."
 
 #: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
 msgid "Offset X"
-msgstr ""
+msgstr "Nihe X"
 
 #: .\Plugins\HUD\main.py:111
 msgid "The X offset (side to side) of the HUD elements."
-msgstr ""
+msgstr "HUD-elementide X nihe (küljelt küljele)."
 
 #: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
 msgid "Offset Y"
-msgstr ""
+msgstr "Nihe Y"
 
 #: .\Plugins\HUD\main.py:119
 msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr ""
+msgstr "HUD elementide Y nihe (ülevalt alla)."
 
 #: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
 msgid "Offset Z"
-msgstr ""
+msgstr "Nihe Z"
 
 #: .\Plugins\HUD\main.py:127
 msgid "The Z offset (distance) of the HUD elements."
-msgstr ""
+msgstr "HUD elementide Z nihe (kaugus)."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr ""
+msgstr "HUD-elemendid"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
-msgstr ""
+msgstr "Näitab navigeerimist"
 
 #: .\Plugins\HUD\main.py:136
 msgid "When enabled, the HUD will display navigation information."
-msgstr ""
+msgstr "Sisselülitamisel kuvab HUD navigeerimisinfot."
 
 #: .\Plugins\HUD\main.py:141
 msgid "Show ACC Info"
-msgstr ""
+msgstr "ACC näitamine Info"
 
 #: .\Plugins\HUD\main.py:142
 msgid "When enabled, the HUD will display adaptive cruise control information."
 msgstr ""
+"Sisselülitamisel kuvab HUD adaptiivse püsikiiruse juhtimise informatsiooni."
 
 #: .\Plugins\HUD\main.py:147
 msgid "Draw Steering"
-msgstr ""
+msgstr "Rooli tõmbamine"
 
 #: .\Plugins\HUD\main.py:148
 msgid "Whether to draw the steering line in the HUD."
-msgstr ""
+msgstr "Kas tõmmata HUDis roolijoon."
 
 #: .\Plugins\HUD\main.py:153
 msgid "Show Traffic Light Times"
-msgstr ""
+msgstr "Näita valgusfooride aeg"
 
 #: .\Plugins\HUD\main.py:154
 msgid "When enabled, the HUD will display traffic light times."
-msgstr ""
+msgstr "Sisselülitamisel näitab HUD valgusfoori aegu."
 
 #: .\Plugins\HUD\main.py:159
 msgid "Draw Wheel Paths"
-msgstr ""
+msgstr "Rattatee näitamine"
 
 #: .\Plugins\HUD\main.py:160
 msgid "When enabled, the HUD will display where the wheels will go when turning."
-msgstr ""
+msgstr "Sisselülitamisel näitab HUD, kuhu rattad pööramisel lähevad."
 
 #: .\Plugins\HUD\main.py:169
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
-msgstr ""
+msgstr "Loob esiklaasil pea ülespoole. Tööks on vaja AR lisaosa."
 
 #: .\Plugins\HUD\main.py:758
 msgid "Waiting for lane change approval"
-msgstr ""
+msgstr "Sõidurajavahetuse tüübikinnituse ootamine"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr ""
+msgstr "Käiguraja muutus {percentage}%"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
-msgstr ""
+msgstr "Kaugus: {distance:.0f} {units}"
 
 #: .\Plugins\HUD\main.py:892
 msgid "Target: {acc_gap:.0f} {units}"
-msgstr ""
+msgstr "Sihtmärk: {acc_ gap:. 0f} {units}"
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Lülitage juhtimine sisse/välja"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
-msgstr ""
+msgstr "Kui kaardilisaosa töötab, lülitab see juhtimise sisse/ välja."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
@@ -1533,90 +1548,101 @@ msgstr "Kaart"
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
 msgstr ""
+"See lisaosa pakub juhtimis- ja navigeerimisfunktsioone. See on ETS2LA kõige "
+"olulisem lisaosa."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Viga initsialiseerimisel Kaardilisaosa: {0}"
 
 #: .\Plugins\Map\main.py:264
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Valmistumine andmete laadimiseks..."
 
 #: .\Plugins\Map\main.py:278
 msgid "Waiting for game data selection in the Settings -> Map..."
-msgstr ""
+msgstr "Oodatakse mänguandmete valikut seadistustes -> Kaart..."
 
 #: .\Plugins\Map\main.py:307
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Saadud vigane juhtimisväärtus"
 
 #: .\Plugins\Map\main.py:333
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Viga kaardilisaosa käivitamisel: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
-msgstr ""
+msgstr "Hoiatus: Juhtimist võib ohustada madal FPS. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Ei leitud"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Kaardi seadistused"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Kaardilisaosa seadistuste seadistamine. Siin saate kohandada erinevaid "
+"navigeerimise, juhtimise ja andmetöötlusega seotud valikuid."
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "Liikumine ETS2LA-s"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
-msgstr ""
+msgstr "ETS2LA automaatsete navigeerimisfunktsioonide lubamine."
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr ""
+msgstr "Saada reljeef"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
+"Sisselülitamisel saadab kaart lisaosale kõrgusandmed. Neid andmeid "
+"kasutatakse visualiseerimisel maapinna joonistamiseks. Eksperimentaalne ja "
+"väga katkine!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "FPS- i keelamine Teated"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
-msgstr ""
+msgstr "Sisselülitamisel ei teavitata FPSiga seotud probleemidest."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Juhtimisandmete arvutamine"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
-msgstr ""
+msgstr "Sisselülitamisel arvutatakse ja saadetakse mängule juhtimisandmed."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Haagisel põhinev sõit"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Sisselülitamisel arvestab kaart aktiivse roolimispunkti arvutamisel haagist."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Juhtimise siledus"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Määrake aeg, mille jooksul keskmistame juhtimisandmeid. Väärtus 0,5 "
+"tähendab, et jooksva väärtuse arvutamiseks kasutatakse viimase poole sekundi "
+"roolimehhanismi."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
@@ -1629,26 +1655,33 @@ msgstr "MÄRKUS!"
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Kui pärast andmete muutmist tekib viga, palun taaskäivitage lisaosa! Kui see "
+"ei lahenda teie probleemi, võtke palun ühendust andmete loojate või "
+"arendajatega lahknevuste kohta!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Palun valige andmed, mida soovite kasutada. See käivitab "
+"allalaadimisprotsessi ja kaart on valmis, kui andmed on laaditud."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Uuendamise andmet"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Uuenda parajasti valitud andmeid, see võib olla kasulik, kui andmed on "
+"rikutud või neid on uuendatud."
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
 msgid "ACC Information"
-msgstr ""
+msgstr "ACC Info"
 
 #: .\Plugins\NGHUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
-msgstr ""
+msgstr "ACC teabe näitamine, näiteks sõiduki kaugus ja kiirus."
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
 msgid "Acceleration"
@@ -1656,31 +1689,31 @@ msgstr "Kiirendus"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Joonistage veoki praegune kiirendus."
 
 #: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Abiinfo"
 
 #: .\Plugins\NGHUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "ACC ja juhtimise oleku info näitamine."
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Kütuse seisund"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Joonista veoki praegune kütuseolek."
 
 #: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "RPM & käik"
 
 #: .\Plugins\NGHUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Joonista veoki praegune RPM ja käigukast."
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43 .\Plugins\NGHUD\main.py:48
 msgid "Media"
@@ -1689,18 +1722,20 @@ msgstr "Meedia"
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
 msgstr ""
+"Näitab meediateavet, näiteks laulu pealkirja, artisti ja taasesituse "
+"edenemist."
 
 #: .\Plugins\NGHUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Meedia ei mängi"
 
 #: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Ei kunstnikud"
 
 #: .\Plugins\NGHUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Ei pealkirja"
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
@@ -1708,7 +1743,7 @@ msgstr "Navigatsioon"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Näita navigeerimisinfot."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
@@ -1717,19 +1752,19 @@ msgstr "saabumine"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "gaas / pidur"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Näidatakse gaasi ja pidurdusprotsenti."
 
 #: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Valgusfoor"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Valgusfooriinfo näitamine."
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42 .\Plugins\TTS\main.py:122
 msgid "Speed"
@@ -1737,15 +1772,15 @@ msgstr "Kiirus"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
-msgstr ""
+msgstr "Normaalne kiiruskuva näitab ka kiirusepiirangute muutusi."
 
 #: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220 .\Plugins\NGHUD\main.py:221
 msgid "Steering Line"
-msgstr ""
+msgstr "Juhtimise joon"
 
 #: .\Plugins\NGHUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Joonista kaardilt juhtimise joon."
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
 msgid "NGHUD"
@@ -1753,21 +1788,19 @@ msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
-msgstr ""
+msgstr "Next-Gen HUD (põhiliselt ma teen HUD-i ümber ja vajasin selle nime)"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-#, fuzzy
 msgid "Enable"
 msgstr "Luba"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-#, fuzzy
 msgid "Disable"
 msgstr "Keela"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Palun lubage lisaosa seadistusi muuta."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
@@ -1776,76 +1809,85 @@ msgstr "Muundamine"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "HUD horisontaalne nihe."
 
 #: .\Plugins\NGHUD\ui.py:119
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "HUD vertikaalne nihe."
 
 #: .\Plugins\NGHUD\ui.py:128
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "HUD sügavuse nihe."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
-msgstr ""
+msgstr "Vidinate laiused"
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
 msgstr ""
+"Need seadistused määravad iga vidina laiuse pikslites. Vaikimisi 90, 120, "
+"90. Elemendid püüavad suurust muuta, et see sobiks, kuid pidage meeles, et "
+"neid ei muudeta liiga palju."
 
 #: .\Plugins\NGHUD\ui.py:161
 msgid "Widget Background"
-msgstr ""
+msgstr "Vidina taust"
 
 #: .\Plugins\NGHUD\ui.py:162
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Saate kontrollida, kui palju vidina tausta peaks tumenema kas kogu aeg või "
+"lihtsalt päeva jooksul."
 
 #: .\Plugins\NGHUD\ui.py:166
 msgid "Darkness"
-msgstr ""
+msgstr "Pimedus"
 
 #: .\Plugins\NGHUD\ui.py:167
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr ""
+msgstr "Vidina tausta pimedus. 0 ei ole pime, 1 on täiesti pime."
 
 #: .\Plugins\NGHUD\ui.py:176
 msgid "Day Darkness"
-msgstr ""
+msgstr "Päevapimedus"
 
 #: .\Plugins\NGHUD\ui.py:177
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
-msgstr ""
+msgstr "Vidina tausta pimedus päeva jooksul. 0 ei ole pime, 1 on täiesti pime."
 
 #: .\Plugins\NGHUD\ui.py:186
-#, fuzzy
 msgid "Elements"
-msgstr "Elemente"
+msgstr "Elemendid"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Vidinate lubamine"
 
 #: .\Plugins\NGHUD\ui.py:196
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"See näitab sinu lubatud vidinaid ja nende suurust. Klõpsa selle keelamiseks, "
+"te ei saa neid veel liigutada, peate selle asemel keelama -> Võimaldab neid "
+"viia sinna, kuhu soovite."
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
-msgstr ""
+msgstr "Saadaolevad vidinad"
 
 #: .\Plugins\NGHUD\ui.py:225
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Need vidinad on saadaval sisselülitamiseks:"
 
 #: .\Plugins\NGHUD\ui.py:233
 msgid "Renderers"
-msgstr ""
+msgstr "Renderdajad"
 
 #: .\Plugins\NGHUD\ui.py:234
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Neid renderdajaid kasutatakse ankurdamata elementide joonistamiseks. Need on "
+"tavaliselt mängumaailma elemendid, mis liiguvad ringi."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -1854,6 +1896,8 @@ msgstr "TTS"
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"Lisaosa TTS pakub teksti kõneks funktsionaalsust juurdepääsetavuse ja "
+"hääldatud teadete jaoks."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
@@ -1861,59 +1905,59 @@ msgstr "Hääled"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Palun vali teenusepakkuja!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
-msgstr ""
+msgstr "See näitab pakkuja teavet, kui lisaosa on laaditud."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "TTS-teenuse pakkuja valimine"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Vali kasutatav TTS pakkuja."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Palun valige teenusepakkuja, kes et näidata hääli."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Häält {0} ei leitud, vaikimisi: {1}"
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "TTS hääle valimine"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Vali kasutatav TTS hääl."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Otsi häält..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Hääli ei leitud."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Määrab hääle sihtkiiruse."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Määrab hääle sihtmahu."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Katserežiim"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
-msgstr ""
+msgstr "Testrežiimi lubamine TTS- pakkuja testimiseks ilma mängu laadimata."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
@@ -1921,180 +1965,188 @@ msgstr "Seadistused"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Teeläheduse lubamine Piip"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Läheduse piiksu lubamine, mis näitab kaugust ja nurka lähima tee suhtes."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Kättesaadavuse teksti kõnelisaosa. Mõnele võib meeldida ka väljaütlemised."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Häält {0} ei leitud pakkujald {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Pakkujat pole valitud. Hääle valimine nurjus."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "TTS-teenuse pakkuja laadimine: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "TTS hääle laadimine: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Kaardi juhtimine lubatud."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Kaardi juhtimine keelatud."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Adaptiivne kiiruskontroll lubatud."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Adaptive Cruise Control on välja lülitatud."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr ""
+msgstr "Lähim linn on nüüd {0}. {1} kilomeetri kaugusel."
 
 #: .\Plugins\TTS\main.py:347
 msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr ""
+msgstr "Kiirusepiirang muutus {0} kilomeetriks tunnis."
 
 #: .\Plugins\TTS\main.py:355
 msgid "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr ""
+msgstr "Kütusevalik on nüüd ainult {0} kilomeetrit, palun tankige varsti."
 
 #: .\Plugins\TTS\main.py:358
 msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr ""
+"Kütusevalik on nüüd kriitiline ainult {0} kilomeetritel, palun tankige nii "
+"kiiresti kui võimalik."
 
 #: .\Plugins\TTS\main.py:376
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "See on [0} kilomeetri kaugusel järgmisest teepunktist."
 
 #: .\Plugins\TTS\main.py:397
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Mootori kahjustused on nüüd {0}%."
 
 #: .\Plugins\TTS\main.py:400
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Salongikahjustus on nüüd {0}%."
 
 #: .\Plugins\TTS\main.py:403
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Šassiikahjustus on nüüd {0}%."
 
 #: .\Plugins\TTS\main.py:406
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Ülekandekahjustus on nüüd {0}%."
 
 #: .\Plugins\TTS\main.py:409
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Rattakahjustused on nüüd {0}%."
 
 #: .\Plugins\TTS\main.py:412
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Veoste kahjustused on nüüd {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Kiirus {0} kilomeetrit tunnis, piir {1}, kütus {2}% ja see on {3} "
+"kilomeetrit järgmise teepunktini."
 
 #: .\Plugins\TTS\main.py:470
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Katserežiim lubatud. See on testsõnum."
 
 #: .\main.py:93
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Peeglite testimine..."
 
 #: .\main.py:101
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Jõudnud {0} {1:.0f}ms"
 
 #: .\main.py:107
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Jõudsin {0} sisse (Aegumine)"
 
 #: .\main.py:122
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " -- Alammooduli allalaadimise järeltoiming: Liides -- "
 
 #: .\main.py:140
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "ETS2LA käivitamine arendusrežiimis."
 
 #: .\main.py:144
 msgid "Running UI locally"
-msgstr ""
+msgstr "Kasutajaliidese lokaalne käivitamine"
 
 #: .\main.py:149
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr ""
+"Puudub ühendus kaugjuhitavate kasutajaliidese peeglitega. Jooksen kohapeal."
 
 #: .\main.py:160
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Kasutajaliidese käivitamine Hiina režiimis"
 
 #: .\main.py:162
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Kasutatakse peeglit {0} kasutajaliidese jaoks."
 
 #: .\main.py:168
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"-- no- konsooli ei saa kasutada koos võtmega -- no- ui. Konsool ei sulgu."
 
 #: .\main.py:170
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Konsooli sulgemine pärast kasutajaliidese käivitamist."
 
 #: .\main.py:173
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Jooksmine taustal ilma aknata."
 
 #: .\main.py:191
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "ETS2LA Järelvaataja alustas!"
 
 #: .\main.py:207
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA taaskäivitab..."
 
 #: .\main.py:213
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Uuenduse vahelejätmine arendusrežiimi tõttu."
 
 #: .\main.py:216
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA uuendab..."
 
 #: .\main.py:219
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Uuendamine tehtud... taaskäivitamine!"
 
 #: .\main.py:224
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA kukkus alla!"
 
 #: .\main.py:233
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Saatke ülaltoodud jäljed arendajatele."
 
 #: .\main.py:235
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA on suletud."
 
 #: .\main.py:236
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Vajuta väljumiseks Enteri."
