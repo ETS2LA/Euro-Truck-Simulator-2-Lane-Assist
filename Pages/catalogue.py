@@ -161,7 +161,7 @@ class Page(ETS2LAPage):
                     Text("Back", styles.Classname("font-semibold"))
                 with Button(name=self.selected_plugin.name, action=self.open_source_code):
                     Icon("github")
-                    Text("Source Code", styles.Classname("text-xs"))
+                    Text("Source Code", styles.Classname("font-semibold"))
                 
             with Container(styles.FlexHorizontal() + styles.Classname("w-full justify-between border rounded-md p-4 bg-input/10")):
                 with Container(styles.FlexVertical() + styles.Gap("5px") + styles.Classname("w-full")):

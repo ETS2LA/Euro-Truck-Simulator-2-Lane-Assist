@@ -122,7 +122,7 @@ class Page(ETS2LAPage):
                             
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):
-                    Text("about.translation_credits", styles.Title())
+                    Text(_("Translations"), styles.Title())
                     for language in languages:
                         if not isinstance(language, Language):
                             continue
