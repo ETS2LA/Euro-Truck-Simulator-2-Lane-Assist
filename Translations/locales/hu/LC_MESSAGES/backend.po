@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-14 16:29+0000\n"
-"Last-Translator: H4ck3r_pr0_g4m3r <hpg@ets2la.com>\n"
-"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/hu/>\n"
+"PO-Revision-Date: 2025-07-15 17:48+0000\n"
+"Last-Translator: delilevente <delilevente@ets2la.com>\n"
+"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"hu/>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -402,7 +403,7 @@ msgstr "Közreműködők"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Fordítások"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
@@ -645,7 +646,7 @@ msgstr "Az ETS2LA újraindítást igényel a prioritás változtatásához!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Lassú betöltés"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
