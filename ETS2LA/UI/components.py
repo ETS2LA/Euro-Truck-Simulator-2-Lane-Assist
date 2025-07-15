@@ -1458,6 +1458,43 @@ class Graph():
             }
         })
 
+class Adsense():
+    """
+    Embed an adsense ad. Please provide at least the `client` and `slot` 
+    parameters, you can customize the ad further with the `style` parameter.
+    
+    ```python
+    Adsense(
+        client="ca-pub-XXXXXXXXXXXXXXXX",
+        slot="XXXXXXXXXX",
+        style=Style()
+    )
+    ```
+    """
+    def __init__(
+        self,
+        client: str,
+        slot: str,
+        style: Style = Style(),
+    ):
+        self.id = increment()
+        
+        if not client or not slot:
+            raise ValueError("You must specify both client and slot.")
+        
+        self.client = client
+        self.slot = slot
+        self.style = style
+        
+        dictionary.append({
+            "adsense": {
+                "id": self.id,
+                "client": self.client,
+                "slot": self.slot,
+                "style": self.style.to_dict()
+            }
+        })
+
 class Youtube():
     """
     A Youtube video embed. Provide the youtube video ID and it will embed the video.
