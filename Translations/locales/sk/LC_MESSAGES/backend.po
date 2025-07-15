@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-14 16:29+0000\n"
+"PO-Revision-Date: 2025-07-15 17:48+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
+"\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -404,7 +405,7 @@ msgstr "Prispievatelia"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Preklady"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
@@ -651,11 +652,15 @@ msgstr "Pre uplatnenie zmeny priority je potrebné reštartovať ETS2LA!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Pomalé načítanie"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Ak má váš počítač problémy s paralelným načítaním všetkých pluginov, môžete "
+"túto možnosť povoliť a načítať ich jeden po druhom. Upozorňujeme, že po "
+"povolení tejto možnosti budete musieť chvíľu počkať, kým budú pluginy k "
+"dispozícii."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -1058,7 +1063,7 @@ msgstr "Funkcia „{0}“ sa nenašla."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Načítavajú sa pluginy..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
@@ -1259,9 +1264,9 @@ msgstr "Napriek tomu aktualizovať"
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Reštartujte a použite {count} aktualizáciu"
+msgstr[1] "Reštartujte a použite {count} aktualizácie"
+msgstr[2] "Reštartujte a použite {count} aktualizácií"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
@@ -2038,30 +2043,33 @@ msgstr "Adaptívny tempomat je vypnutý."
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Najbližšie mesto je teraz {city} vo vzdialenosti {distance} kilometra."
+msgstr[1] "Najbližšie mesto je teraz {city} vo vzdialenosti {distance} kilometrov."
+msgstr[2] "Najbližšie mesto je teraz {city} vo vzdialenosti {distance} kilometrov."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Rýchlostný limit zmenený na {0} kilometer za hodinu."
+msgstr[1] "Rýchlostný limit zmenený na {0} kilometre za hodinu."
+msgstr[2] "Rýchlostný limit zmenený na {0} kilometrov za hodinu."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Dojazd je teraz len {0} kilometer, prosím, dotankujte čoskoro."
+msgstr[1] "Dojazd je teraz len {0} kilometre, prosím, dotankujte čoskoro."
+msgstr[2] "Dojazd je teraz len {0} kilometrov, prosím, dotankujte čoskoro."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Dojazd je teraz kritický, iba {0} kilometer, prosím, dotankujte čo najskôr."
 msgstr[1] ""
+"Dojazd je teraz kritický, iba {0} kilometre, prosím, dotankujte čo najskôr."
 msgstr[2] ""
+"Dojazd je teraz kritický, iba {0} kilometrov, prosím, dotankujte čo najskôr."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
