@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-15 11:36+0000\n"
+"PO-Revision-Date: 2025-07-15 12:00+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -1055,7 +1055,7 @@ msgstr "Tất cả các dữ liệu được hiển thị đều tính trung bì
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
-msgstr "Trang này cần {time:..2f}mili giây để render."
+msgstr "Trang này cần {time:.2f}mili giây để render."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
@@ -2321,7 +2321,7 @@ msgstr "Các máy khách hiện tại đang được kết nối:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr "Độ trễ: {latency:..2f}mili giây"
+msgstr "Độ trễ: {latency:.2f}mili giây"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
