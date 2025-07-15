@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-14 16:29+0000\n"
-"Last-Translator: vD <vd@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>\n"
+"PO-Revision-Date: 2025-07-15 17:48+0000\n"
+"Last-Translator: Veqro <veqro@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
+"\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -402,7 +403,7 @@ msgstr "Mitwirkende"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Übersetzungen"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
@@ -645,11 +646,15 @@ msgstr "Du musst ETS2LA neu starten, um die Prioritätsänderung zu übernehmen!
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Langsames Laden"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Wenn dein PC Probleme hat alle Plugins parallel zu laden, kannst du diese "
+"Option aktivieren um alle Plugins nacheinander zu laden. Bitte beachte, dass "
+"wenn du diese Funktion aktivierst, es länger dauert bis alle Plugins geladen "
+"sind."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -1052,7 +1057,7 @@ msgstr "Funktion '{0} nicht gefunden."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Plugins werden geladen..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
@@ -1253,8 +1258,8 @@ msgstr "Dennoch aktualisieren"
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Neustarten und {count} Update anwenden"
+msgstr[1] "Neustarten und {count} Updates anwenden"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
@@ -2032,25 +2037,33 @@ msgstr "Adaptiver Geschwindigkeitsregler deaktiviert."
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
 msgstr[0] ""
+"Nicht nächstgelegene Stadt ist jetzt {city} in einer Entfernung von "
+"{distance} Kilometer."
 msgstr[1] ""
+"Nicht nächstgelegene Stadt ist jetzt {city} in einer Entfernung von "
+"{distance} Kilometern."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Geschwindigkeitsbegrenzung wurde zu {0} Kilometer pro Stunde geändert."
+msgstr[1] "Geschwindigkeitsbegrenzung wurde zu {0} Kilometern pro Stunde geändert."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Die Reichweite ist jetzt nur noch {0} Kilometer, bitte tanke bald."
+msgstr[1] "Die Reichweite ist jetzt nur noch {0} Kilometer, bitte tanke bald."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Die Reichweite mit nur noch {0} Kilometer ist jetzt kritisch, bitte tanke so "
+"schnell wie möglich."
 msgstr[1] ""
+"Die Reichweite mit nur noch {0} Kilometern ist jetzt kritisch, bitte tanke "
+"so schnell wie möglich."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
