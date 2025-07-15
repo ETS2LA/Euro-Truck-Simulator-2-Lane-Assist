@@ -19,8 +19,8 @@ body:
     id: app_version
     attributes:
       label: App Version
-      description: What version of the app are you running?
-      placeholder: x.x.x
+      description: What version of the app are you running? Use the hash to the right of the actual version number.
+      placeholder: xxxxxx
     validations:
       required: true
   - type: input
