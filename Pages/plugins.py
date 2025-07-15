@@ -232,13 +232,13 @@ class Page(ETS2LAPage):
                 with Spinner():
                     Icon("loader")
                 
-                Text("Loading plugins...", styles.Description())
+                Text(_("Loading plugins..."), styles.Description())
                 if plugins.plugins:
                     target = plugins.plugins[-1]
                     if not hasattr(target, "description") and len(plugins.plugins) > 1:
                         target = plugins.plugins[-2]
                         
-                    Text(f"{Translate(target.description.name, return_original=True)}", styles.Classname("text-xs text-muted-foreground absolute bottom-2"))
+                    Text(target.description.name, styles.Classname("text-xs text-muted-foreground absolute bottom-2"))
             return
         
         isBasic = not settings.Get("global", "advanced_plugin_mode", False)
