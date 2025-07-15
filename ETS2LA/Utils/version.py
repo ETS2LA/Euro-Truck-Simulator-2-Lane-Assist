@@ -1,3 +1,8 @@
+"""
+Version information utils for ETS2LA.
+This file is used by a lot of frontend code to determine the current
+version and to check for updates.
+"""
 import ETS2LA.variables as variables
 import requests
 import logging

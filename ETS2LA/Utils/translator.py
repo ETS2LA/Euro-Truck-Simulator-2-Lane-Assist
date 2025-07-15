@@ -1,3 +1,16 @@
+"""
+The main translation interface for ETS2LA. Usual usage is to import the `_`
+function and use it to translate strings, e.g. `_("Hello, World!")`.
+
+Also provides a `ngettext` function for plural translations, e.g.
+`ngettext("There is one apple", "There are {n} apples", n)`. This will
+automatically handle pluralization for languages with more than two forms (or only one).
+
+The `generate_translations` function should be called with the python file at the 
+root of the project to update the translation files. Please lock and update the 
+translations from weblate before generating, as you might hit merge conflicts otherwise.
+"""
+
 from ETS2LA.Utils.settings import Get, Listen
 from langcodes import Language
 import datetime

@@ -1,5 +1,7 @@
 from ETS2LA.Utils.translator import _
 
+# This it the HTML template for the loading screen
+# before we connect to the actual webview.
 html = """
 <html>
     <style>

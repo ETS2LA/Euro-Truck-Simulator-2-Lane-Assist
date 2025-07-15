@@ -1,3 +1,8 @@
+"""
+Please use rich tags for colors instead of ANSI codes like in this file.
+Example: logging.info("[yellow]This is a yellow message[/yellow]")
+"""
+
 YELLOW = "\033[93m"
 DARK_YELLOW = "\033[33m"
 
