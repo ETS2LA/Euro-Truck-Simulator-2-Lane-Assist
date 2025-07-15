@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-14 13:24\n"
+"POT-Creation-Date: 2025-07-15 15:05\n"
 "PO-Revision-Date: 2025-07-14 16:29+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
-"\n"
-"Language: sk\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -56,7 +55,7 @@ msgstr "Pri pokuse o úpravu udalosti sa vyskytla výnimka."
 msgid "Controls listener started."
 msgstr "Poslucháč ovládacích prvkov spustený."
 
-#: .\ETS2LA\Handlers\plugins.py:124
+#: .\ETS2LA\Handlers\plugins.py:126
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -64,67 +63,67 @@ msgstr ""
 "Spustenie pluginu {0} zlyhalo: Časový limit.\n"
 "Skúste zatvoriť ostatné programy, aby ste pluginu poskytli viac pamäte a CPU."
 
-#: .\ETS2LA\Handlers\plugins.py:129
+#: .\ETS2LA\Handlers\plugins.py:131
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Spustenie pluginu {0} zlyhalo: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:181
+#: .\ETS2LA\Handlers\plugins.py:183
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Plugin [yellow]{0}[/yellow] bol úspešne načítaný."
 
-#: .\ETS2LA\Handlers\plugins.py:354
+#: .\ETS2LA\Handlers\plugins.py:356
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Pluginu {0} sa nepodarilo získať popis: Časový limit vypršal."
 
-#: .\ETS2LA\Handlers\plugins.py:358
+#: .\ETS2LA\Handlers\plugins.py:360
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Pluginu {0} sa nepodarilo získať popis: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:389
+#: .\ETS2LA\Handlers\plugins.py:391
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Pluginu {0} sa nepodarilo získať ovládacie prvky: Časový limit uplynul."
 
-#: .\ETS2LA\Handlers\plugins.py:393
+#: .\ETS2LA\Handlers\plugins.py:395
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Pluginu {0} sa nepodarilo získať ovládacie prvky: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:425
+#: .\ETS2LA\Handlers\plugins.py:445
 msgid "Loaded {0} plugins."
 msgstr "Načítaných {0} pluginov."
 
-#: .\ETS2LA\Handlers\plugins.py:495 .\ETS2LA\Handlers\plugins.py:675
+#: .\ETS2LA\Handlers\plugins.py:515 .\ETS2LA\Handlers\plugins.py:697
 msgid "Plugin not found."
 msgstr "Plugin sa nenašiel."
 
-#: .\ETS2LA\Handlers\plugins.py:506
+#: .\ETS2LA\Handlers\plugins.py:526
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Plugin [yellow]{0}[/yellow] bol úspešne spustený."
 
-#: .\ETS2LA\Handlers\plugins.py:513
+#: .\ETS2LA\Handlers\plugins.py:533
 msgid "Failed to start plugin: {0}"
 msgstr "Nepodarilo sa spustiť plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:513 .\ETS2LA\Handlers\plugins.py:544
+#: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
 msgid "Timeout"
 msgstr "Časový limit"
 
-#: .\ETS2LA\Handlers\plugins.py:531
+#: .\ETS2LA\Handlers\plugins.py:551
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Plugin sa nenašiel, môže to byť dôsledok zlyhania pluginu alebo zlyhania jeho načítania."
 
-#: .\ETS2LA\Handlers\plugins.py:541
+#: .\ETS2LA\Handlers\plugins.py:561
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Plugin [yellow]{0}[/yellow] bol úspešne zastavený."
 
-#: .\ETS2LA\Handlers\plugins.py:544
+#: .\ETS2LA\Handlers\plugins.py:564
 msgid "Failed to stop plugin: {0}"
 msgstr "Nepodarilo sa zastaviť plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:570
+#: .\ETS2LA\Handlers\plugins.py:590
 msgid "Failed to restart plugin: {0}"
 msgstr "Nepodarilo sa reštartovať plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:606 .\ETS2LA\Handlers\plugins.py:629
+#: .\ETS2LA\Handlers\plugins.py:626 .\ETS2LA\Handlers\plugins.py:649
 msgid "Plugin {0} not found for page {1}."
 msgstr "Plugin {0} sa nenašiel pre stránku {1}."
 
@@ -146,9 +145,7 @@ msgstr "Pokúsil som sa prehrať zvuk '{0}', ale nenašiel sa v zvukovom balíku
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr ""
-"Úspešne zaregistrovaný [bold]http://{address}[/bold] odkazujúci na [dim]"
-"{local_ip}[/dim]."
+msgstr "Úspešne zaregistrovaný [bold]http://{address}[/bold] odkazujúci na [dim]{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -230,7 +227,7 @@ msgstr "Varovania: "
 msgid "No errors or warnings found."
 msgstr "Neboli nájdené žiadne chyby ani upozornenia."
 
-#: .\ETS2LA\Window\html.py:82
+#: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
 msgstr "Počkajte, prosím, kým inicializujeme používateľské rozhranie"
 
@@ -240,10 +237,7 @@ msgstr "Hľadám okno ETS2LA... [dim](10s časový limit)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
-msgstr ""
-"Nepodarilo sa nájsť/spustiť okno ETS2LA. Je váš počítač dostatočne výkonný? "
-"Ak si myslíte, že by ste ho mali vedieť spustiť, použite stránku "
-"https://app.ets2la.com."
+msgstr "Nepodarilo sa nájsť/spustiť okno ETS2LA. Je váš počítač dostatočne výkonný? Ak si myslíte, že by ste ho mali vedieť spustiť, použite stránku https://app.ets2la.com."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -408,12 +402,16 @@ msgstr "Vitaj späť, {0}!"
 msgid "Contributors"
 msgstr "Prispievatelia"
 
-#: .\Pages\about.py:135 .\Pages\global_settings.py:190
+#: .\Pages\about.py:125
+msgid "Translations"
+msgstr ""
+
+#: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Zoznam prispievateľov"
 
-#: .\Pages\about.py:137 .\Pages\global_settings.py:192
+#: .\Pages\about.py:137 .\Pages\global_settings.py:200
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Pomoc s prekladom"
@@ -498,11 +496,11 @@ msgstr "Načítava sa zoznam zmien a možné zmeny."
 msgid "Changelog fetched."
 msgstr "Zoznam zmien bol načítaný."
 
-#: .\Pages\changelog.py:67 .\Pages\updater.py:78
+#: .\Pages\changelog.py:67 .\Pages\updater.py:82
 msgid "View Changes"
 msgstr "Zobraziť zmeny"
 
-#: .\Pages\changelog.py:75 .\Pages\updater.py:86
+#: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr "Zobrazuje sa iba posledných 20 aktualizácií. Ďalšiu históriu si môžete pozrieť v repozitári."
 
@@ -543,171 +541,179 @@ msgstr "Táto udalosť ešte nebola prepojená so žiadnym zariadením."
 msgid "Keyboard: "
 msgstr "klávesnica: "
 
-#: .\Pages\global_settings.py:126
+#: .\Pages\global_settings.py:134
 msgid "Global Settings"
 msgstr "Globálne nastavenia"
 
-#: .\Pages\global_settings.py:127
+#: .\Pages\global_settings.py:135
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr "Tu nájdete nastavenia, ktoré ovplyvňujú celú aplikáciu. Napríklad veľkosť okna a jazyk."
 
-#: .\Pages\global_settings.py:131
+#: .\Pages\global_settings.py:139
 msgid "User Interface"
 msgstr "Používateľské rozhranie"
 
-#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:310
+#: .\Pages\global_settings.py:142 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Šírka okna"
 
-#: .\Pages\global_settings.py:135
+#: .\Pages\global_settings.py:143
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Zmeňte šírku okna. Upozorňujeme, že ETS2LA nie je testovaný na neštandardných rozlíšeniach, takže ho používate na vlastné riziko!"
 
-#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:319
+#: .\Pages\global_settings.py:153 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Výška okna"
 
-#: .\Pages\global_settings.py:146
+#: .\Pages\global_settings.py:154
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Zmeňte výšku okna. Upozorňujeme, že ETS2LA nie je testovaný na neštandardných rozlíšeniach, takže ho používate na vlastné riziko!"
 
-#: .\Pages\global_settings.py:156
+#: .\Pages\global_settings.py:164
 msgid "Transparency mode Alpha"
 msgstr "Režim priehľadnosti Alpha"
 
-#: .\Pages\global_settings.py:157
+#: .\Pages\global_settings.py:165
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Zmeňte priehľadnosť okna pri prechode do režimu priehľadnosti. To môžete urobiť kliknutím pravým tlačidlom myši na zelené tlačidlo v pravom hornom rohu."
 
-#: .\Pages\global_settings.py:169 .\Pages\onboarding.py:130
+#: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Jazyk"
 
-#: .\Pages\global_settings.py:170
+#: .\Pages\global_settings.py:178
 msgid "Select the language for the application."
 msgstr "Vyberte jazyk pre aplikáciu."
 
-#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Hľadať jazyky..."
 
-#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Pomôžte nám s prekladom na Discorde!"
 
-#: .\Pages\global_settings.py:188
+#: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
 msgstr "Tento preklad je dokončený na {percentage:.2f}%."
 
-#: .\Pages\global_settings.py:195
+#: .\Pages\global_settings.py:203
 msgid "Audio"
 msgstr "Zvuk"
 
-#: .\Pages\global_settings.py:198
+#: .\Pages\global_settings.py:206
 msgid "Soundpack"
 msgstr "Zvukový balík"
 
-#: .\Pages\global_settings.py:199
+#: .\Pages\global_settings.py:207
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr "Vyberte zvukový balíček, ktorý chcete použiť, môžete ho pridať do priečinka app/ETS2LA/Assets/Sounds."
 
-#: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr "Hlasitosť"
 
-#: .\Pages\global_settings.py:207
+#: .\Pages\global_settings.py:215
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr "Upravte hlasitosť. Toto ovplyvní všetky zvuky prehrávané ETS2LA."
 
-#: .\Pages\global_settings.py:218
+#: .\Pages\global_settings.py:226
 msgid "Startup Sound"
 msgstr "Zvuk pri spustení"
 
-#: .\Pages\global_settings.py:219
+#: .\Pages\global_settings.py:227
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr "Zapnite alebo vypnite zvuk pri spustení. Prehrá sa pri každom otvorení okna ETS2LA."
 
-#: .\Pages\global_settings.py:224
+#: .\Pages\global_settings.py:232
 msgid "Variables"
 msgstr "Premenné"
 
-#: .\Pages\global_settings.py:226
+#: .\Pages\global_settings.py:234
 msgid "Fallback to old acceleration method"
 msgstr "Návrat k starej metóde zrýchlenia"
 
-#: .\Pages\global_settings.py:227
+#: .\Pages\global_settings.py:235
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Ak máte problémy s nesprávnym zrýchľovaním/brzdením nákladného auta, môžete túto možnosť povoliť a použiť inú metódu. Majte na pamäti, že ak sa nové vozidlo zaseklo, po prepnutí tejto možnosti možno budete musieť hru reštartovať."
 
-#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:215
+#: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Vysoká priorita"
 
-#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:216
+#: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Spustite ETS2LA v režime s vysokou prioritou. Toto povie vášmu operačnému systému, aby pridelil ETS2LA viac času CPU, čo môže zlepšiť výkon na úkor iných aplikácií."
 
-#: .\Pages\global_settings.py:249
+#: .\Pages\global_settings.py:257
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr "Pre uplatnenie zmeny priority je potrebné reštartovať ETS2LA!"
 
-#: .\Pages\global_settings.py:251
+#: .\Pages\global_settings.py:260
+msgid "Slow Loading"
+msgstr ""
+
+#: .\Pages\global_settings.py:261
+msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
+msgstr ""
+
+#: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
 msgstr "Rôzne"
 
-#: .\Pages\global_settings.py:255
+#: .\Pages\global_settings.py:270
 msgid "Frontend Port"
 msgstr "Frontend Port"
 
-#: .\Pages\global_settings.py:256
+#: .\Pages\global_settings.py:271
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr "Zmeňte port používaný frontendom. Toto sa používa iba v lokálnom režime."
 
-#: .\Pages\global_settings.py:263
+#: .\Pages\global_settings.py:278
 msgid "Frameless Window"
 msgstr "Bezrámové okno"
 
-#: .\Pages\global_settings.py:264
+#: .\Pages\global_settings.py:279
 msgid "Disable this option if you have any issues moving the window around."
 msgstr "Túto možnosť vypnite, ak máte problémy s presúvaním okna."
 
-#: .\Pages\global_settings.py:269
+#: .\Pages\global_settings.py:284
 msgid "Send Crash Reports"
 msgstr "Odoslať správy o zlyhaní"
 
-#: .\Pages\global_settings.py:270
+#: .\Pages\global_settings.py:285
 msgid "Automatically send crash reports to help improve the application."
 msgstr "Automaticky odosielať hlásenia o zlyhaní s cieľom pomôcť vylepšiť aplikáciu."
 
-#: .\Pages\global_settings.py:275
+#: .\Pages\global_settings.py:290
 msgid "Use Fancy Traceback"
 msgstr "Použite efektné spätné sledovanie"
 
-#: .\Pages\global_settings.py:276
+#: .\Pages\global_settings.py:291
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr "Povoľte túto možnosť, ak chcete použiť efektné spätné sledovanie chýb."
 
-#: .\Pages\global_settings.py:282
+#: .\Pages\global_settings.py:297
 msgid "Debug Mode"
 msgstr "Režim ladenia"
 
-#: .\Pages\global_settings.py:283
+#: .\Pages\global_settings.py:298
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr "Povoľte túto možnosť, ak chcete pre frontend použiť ladenie Edge."
 
-#: .\Pages\global_settings.py:291
+#: .\Pages\global_settings.py:306
 msgid "Fireworks"
 msgstr "Ohňostroje"
 
-#: .\Pages\global_settings.py:292
+#: .\Pages\global_settings.py:307
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr "Povoľte túto možnosť, ak chcete počas nového roka použiť ohňostrojné efekty."
 
-#: .\Pages\global_settings.py:298
+#: .\Pages\global_settings.py:313
 msgid "Snow"
 msgstr "Sneh"
 
-#: .\Pages\global_settings.py:299
+#: .\Pages\global_settings.py:314
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Povoľte túto možnosť, ak chcete počas zimnej sezóny používať snehové efekty."
 
@@ -754,9 +760,7 @@ msgstr "Výber jazyka"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
-msgstr ""
-"Vyberte si preferovaný jazyk pre ETS2LA. Túto možnosť je možné neskôr zmeniť "
-"v nastaveniach. Všetky naše preklady sú vytvorené komunitou!"
+msgstr "Vyberte si preferovaný jazyk pre ETS2LA. Túto možnosť je možné neskôr zmeniť v nastaveniach. Všetky naše preklady sú vytvorené komunitou!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
@@ -982,7 +986,7 @@ msgstr "Využitie RAM "
 msgid "ETS2LA RAM Usage  "
 msgstr "Využitie pamäte RAM ETS2LA  "
 
-#: .\Pages\performance.py:135 .\Pages\plugins.py:355
+#: .\Pages\performance.py:135 .\Pages\plugins.py:371
 msgid "No plugins are currently running."
 msgstr "Momentálne nie sú spustené žiadne pluginy."
 
@@ -1053,78 +1057,82 @@ msgid "Feature '{0}' not found."
 msgstr "Funkcia „{0}“ sa nenašla."
 
 #: .\Pages\plugins.py:235
+msgid "Loading plugins..."
+msgstr ""
+
+#: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
 msgstr "Pluginy (základné)"
 
-#: .\Pages\plugins.py:236
+#: .\Pages\plugins.py:249
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr "Na pravej strane môžete povoliť rôzne funkcie ETS2LA. Všetky pluginy popísané týmito funkciami sa automaticky povolia bez akejkoľvek ďalšej konfigurácie."
 
-#: .\Pages\plugins.py:244
+#: .\Pages\plugins.py:257
 msgid "Disable Plugins"
 msgstr "Vypnúť pluginy"
 
-#: .\Pages\plugins.py:244
+#: .\Pages\plugins.py:257
 msgid "Enable Plugins"
 msgstr "Zapnúť pluginy"
 
-#: .\Pages\plugins.py:247
+#: .\Pages\plugins.py:260
 msgid "Currently enabled plugins:"
 msgstr "Aktuálne zapnuté pluginy:"
 
-#: .\Pages\plugins.py:247
+#: .\Pages\plugins.py:260
 msgid "None"
 msgstr "žiadne"
 
-#: .\Pages\plugins.py:269
+#: .\Pages\plugins.py:282
 msgid "Enabled"
 msgstr "Zapnuté"
 
-#: .\Pages\plugins.py:269
+#: .\Pages\plugins.py:282
 msgid "Disabled"
 msgstr "Vypnuté"
 
-#: .\Pages\plugins.py:274
+#: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
 msgstr "Prepnite do pokročilého režimu"
 
-#: .\Pages\plugins.py:296
+#: .\Pages\plugins.py:312
 msgid "Search plugins..."
 msgstr "Hľadať pluginy..."
 
-#: .\Pages\plugins.py:305
+#: .\Pages\plugins.py:321
 msgid "Search tags..."
 msgstr "Hľadať značky..."
 
-#: .\Pages\plugins.py:306
+#: .\Pages\plugins.py:322
 msgid "No tags found"
 msgstr "Nenašli sa žiadne značky"
 
-#: .\Pages\plugins.py:315
+#: .\Pages\plugins.py:331
 msgid "Search authors..."
 msgstr "Hľadať autorov..."
 
-#: .\Pages\plugins.py:316
+#: .\Pages\plugins.py:332
 msgid "No authors found"
 msgstr "Nenašli sa žiadni autori"
 
-#: .\Pages\plugins.py:320
+#: .\Pages\plugins.py:336
 msgid "Back to Basic Mode"
 msgstr "Späť do základného režimu"
 
-#: .\Pages\plugins.py:351
+#: .\Pages\plugins.py:367
 msgid "Running Plugins"
 msgstr "Spustené pluginy"
 
-#: .\Pages\plugins.py:358
+#: .\Pages\plugins.py:374
 msgid "Want to enable the plugins you had running last time?"
 msgstr "Chcete povoliť pluginy, ktoré ste mali spustené naposledy?"
 
-#: .\Pages\plugins.py:360
+#: .\Pages\plugins.py:376
 msgid "Enable Last Plugins"
 msgstr "Zapnúť posledné pluginy"
 
-#: .\Pages\plugins.py:366
+#: .\Pages\plugins.py:382
 msgid "Available Plugins"
 msgstr "Dostupné pluginy"
 
@@ -1249,10 +1257,13 @@ msgid "Update Anyway"
 msgstr "Napriek tomu aktualizovať"
 
 #: .\Pages\updater.py:55
-msgid "Restart and apply {count} update(s)"
-msgstr "Reštartujte a použite {count} aktualizáciu/í/e"
+msgid "Restart and apply {count} update"
+msgid_plural "Restart and apply {count} updates"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
+#: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
 msgstr "AR"
 
@@ -1266,10 +1277,7 @@ msgstr "Neskrývajte AR pred nahrávacím softvérom"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
-msgstr ""
-"Predvolene je AR prekrytie skryté pred nahrávacím softvérom, aby sa "
-"nezobrazovalo, keď ETS2LA používa systémy videnia. Ak chcete nahrávať videá "
-"alebo streamovať s prekrytím, možno budete chcieť túto možnosť povoliť."
+msgstr "Predvolene je AR prekrytie skryté pred nahrávacím softvérom, aby sa nezobrazovalo, keď ETS2LA používa systémy videnia. Ak chcete nahrávať videá alebo streamovať s prekrytím, možno budete chcieť túto možnosť povoliť."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
@@ -1285,10 +1293,7 @@ msgstr "Zobraziť, keď nie je zaostrené"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
-msgstr ""
-"Zobraziť AR prekrytie, aj keď hra nie je zaostrená. Toto môže byť užitočné "
-"pri zmene nastavení. Upozorňujeme, že v tomto prípade bude AR bežať na "
-"maximálnom možnom FPS, čo môže spôsobiť určité oneskorenie."
+msgstr "Zobraziť AR prekrytie, aj keď hra nie je zaostrená. Toto môže byť užitočné pri zmene nastavení. Upozorňujeme, že v tomto prípade bude AR bežať na maximálnom možnom FPS, čo môže spôsobiť určité oneskorenie."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
@@ -1304,9 +1309,7 @@ msgstr "Čas vykreslenia: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
-msgstr ""
-"AR plugin poskytuje prekrytie rozšírenej reality pre ETS2LA. Používa sa "
-"pluginmi ako HUD na zobrazenie informácií v hernom svete."
+msgstr "AR plugin poskytuje prekrytie rozšírenej reality pre ETS2LA. Používa sa pluginmi ako HUD na zobrazenie informácií v hernom svete."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1341,9 +1344,7 @@ msgstr "Adaptívny tempomat"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
-msgstr ""
-"Adaptívny tempomat (ACC) zabezpečuje automatické zrýchľovanie a brzdenie v "
-"závislosti od stavu vozovky a vozidiel vpredu."
+msgstr "Adaptívny tempomat (ACC) zabezpečuje automatické zrýchľovanie a brzdenie v závislosti od stavu vozovky a vozidiel vpredu."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1429,9 +1430,7 @@ msgstr "Odomknúť PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
-msgstr ""
-"Nastavenia PID regulátora môžete odomknúť a upraviť ich manuálne. Toto sa "
-"neodporúča, pokiaľ neviete, čo je PID regulátor a ako ho správne naladiť."
+msgstr "Nastavenia PID regulátora môžete odomknúť a upraviť ich manuálne. Toto sa neodporúča, pokiaľ neviete, čo je PID regulátor a ako ho správne naladiť."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
@@ -1439,9 +1438,7 @@ msgstr "PID proporcionálny zisk"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
-msgstr ""
-"Sme tam už? Nie? Potom musíme ešte viac zrýchliť! (Proporcionálne zosilnenie "
-"pre PID regulátor.)"
+msgstr "Sme tam už? Nie? Potom musíme ešte viac zrýchliť! (Proporcionálne zosilnenie pre PID regulátor.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
@@ -1449,9 +1446,7 @@ msgstr "PID integračný zisk"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
-msgstr ""
-"Boli sme tam už nejaký čas? Potom musíme viac zrýchliť! (Integračné "
-"zosilnenie pre PID regulátor.)"
+msgstr "Boli sme tam už nejaký čas? Potom musíme viac zrýchliť! (Integračné zosilnenie pre PID regulátor.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
@@ -1459,15 +1454,11 @@ msgstr "PID derivačný zisk"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
-msgstr ""
-"Ako rýchlo sa blížime k cieľu? Ak sa blížime príliš rýchlo, musíme viac "
-"spomaliť! (Derivačný zisk pre PID regulátor.)"
+msgstr "Ako rýchlo sa blížime k cieľu? Ak sa blížime príliš rýchlo, musíme viac spomaliť! (Derivačný zisk pre PID regulátor.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
-msgstr ""
-"Toto video vizuálne vysvetľuje, ako funguje PID regulátor. Ak s ním nie ste "
-"oboznámení, pozrite si ho celé."
+msgstr "Toto video vizuálne vysvetľuje, ako funguje PID regulátor. Ak s ním nie ste oboznámení, pozrite si ho celé."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1920,14 +1911,13 @@ msgstr "Renderery"
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr "Tieto renderery sa používajú na vykresľovanie neukotvených prvkov. Zvyčajne ide o prvky v hernom svete, ktoré sa pohybujú."
 
-#: .\Plugins\NavigationSockets\main.py:180
+#: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
 msgstr "Navigačné zásuvky"
 
-#: .\Plugins\NavigationSockets\main.py:182
+#: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
-msgstr ""
-"Tento plugin poskytuje WebSocket server pre navigačné dáta na mape sveta."
+msgstr "Tento plugin poskytuje WebSocket server pre navigačné dáta na mape sveta."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2046,54 +2036,66 @@ msgid "Adaptive Cruise Control disabled."
 msgstr "Adaptívny tempomat je vypnutý."
 
 #: .\Plugins\TTS\main.py:335
-msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr "Najbližšie mesto je teraz {0} vo vzdialenosti {1} kilometrov."
+msgid "Closest city is now {city} at a distance of {distance} kilometer."
+msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: .\Plugins\TTS\main.py:347
-msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr "Rýchlostný limit zmenený na {0} kilometrov za hodinu."
+#: .\Plugins\TTS\main.py:352
+msgid "Speed limit changed to {0} kilometer per hour."
+msgid_plural "Speed limit changed to {0} kilometers per hour."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: .\Plugins\TTS\main.py:355
-msgid "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr "Dojazd na palivo je teraz len {0} kilometrov, prosím, natankujte čoskoro."
+#: .\Plugins\TTS\main.py:364
+msgid "Fuel range is now only {0} kilometer, please refuel soon."
+msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: .\Plugins\TTS\main.py:358
-msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr "Dojazd je teraz kritický, iba {0} kilometrov, prosím, natankujte čo najskôr."
+#: .\Plugins\TTS\main.py:371
+msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
+msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: .\Plugins\TTS\main.py:376
+#: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
 msgstr "Do ďalšieho bodu na trase je to {0} kilometrov."
 
-#: .\Plugins\TTS\main.py:397
+#: .\Plugins\TTS\main.py:414
 msgid "Engine damage is now at {0}%."
 msgstr "Poškodenie motora je teraz na úrovni {0} %."
 
-#: .\Plugins\TTS\main.py:400
+#: .\Plugins\TTS\main.py:417
 msgid "Cabin damage is now at {0}%."
 msgstr "Poškodenie kabíny je teraz na úrovni {0} %."
 
-#: .\Plugins\TTS\main.py:403
+#: .\Plugins\TTS\main.py:420
 msgid "Chassis damage is now at {0}%."
 msgstr "Poškodenie podvozku je teraz na úrovni {0} %."
 
-#: .\Plugins\TTS\main.py:406
+#: .\Plugins\TTS\main.py:423
 msgid "Transmission damage is now at {0}%."
 msgstr "Poškodenie prevodovky je teraz na úrovni {0} %."
 
-#: .\Plugins\TTS\main.py:409
+#: .\Plugins\TTS\main.py:426
 msgid "Wheel damage is now at {0}%."
 msgstr "Poškodenie kolesa je teraz na úrovni {0} %."
 
-#: .\Plugins\TTS\main.py:412
+#: .\Plugins\TTS\main.py:429
 msgid "Cargo damage is now at {0}%."
 msgstr "Poškodenie nákladu je teraz na úrovni {0} %."
 
-#: .\Plugins\TTS\main.py:429
+#: .\Plugins\TTS\main.py:446
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr "Rýchlosť {0} kilometrov za hodinu, limit {1}, palivo {2} % a do ďalšieho bodu na trase je to {3} kilometrov."
 
-#: .\Plugins\TTS\main.py:470
+#: .\Plugins\TTS\main.py:487
 msgid "Test mode enabled. This is a test message."
 msgstr "Testovací režim je povolený. Toto je testovacia správa."
 
@@ -2114,10 +2116,7 @@ msgstr "Hostiteľské zariadenie"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
-msgstr ""
-"Ak si chcete zobraziť vizualizáciu ETS2LA na aktuálnom zariadení, jednoducho "
-"otvorte kartu „Vizualizácia“ na bočnom paneli a potom si môžete vybrať medzi "
-"oficiálnym zrkadlom a zrkadlom Goodnightan."
+msgstr "Ak si chcete zobraziť vizualizáciu ETS2LA na aktuálnom zariadení, jednoducho otvorte kartu „Vizualizácia“ na bočnom paneli a potom si môžete vybrať medzi oficiálnym zrkadlom a zrkadlom Goodnightan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
@@ -2133,28 +2132,19 @@ msgstr "1. Otvorte nasledujúcu URL adresu v prehliadači vášho zariadenia: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
-msgstr ""
-"POZNÁMKA: Stránku musíte načítať ako http namiesto https. Prehliadač Google "
-"Chrome nebude fungovať!"
+msgstr "POZNÁMKA: Stránku musíte načítať ako http namiesto https. Prehliadač Google Chrome nebude fungovať!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
-msgstr ""
-"2. Po načítaní webovej stránky stlačte červené tlačidlo „Vzdialené "
-"pripojenie“. Ak sa pripojenie nenadviaže, zadajte nasledujúcu IP adresu:"
+msgstr "2. Po načítaní webovej stránky stlačte červené tlačidlo „Vzdialené pripojenie“. Ak sa pripojenie nenadviaže, zadajte nasledujúcu IP adresu:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
-msgstr ""
-"3. Ak máte akékoľvek problémy, overte, či je vaše zariadenie v rovnakej "
-"sieti ako hostiteľ. Mali by ste sa tiež uistiť, že váš firewall neblokuje "
-"pripojenie medzi zariadeniami."
+msgstr "3. Ak máte akékoľvek problémy, overte, či je vaše zariadenie v rovnakej sieti ako hostiteľ. Mali by ste sa tiež uistiť, že váš firewall neblokuje pripojenie medzi zariadeniami."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
-msgstr ""
-"Vašu IP adresu sa nepodarilo nájsť, pravdepodobne je to spôsobené problémom "
-"so sieťou. Zobrazenie vizualizácie externe nie je možné."
+msgstr "Vašu IP adresu sa nepodarilo nájsť, pravdepodobne je to spôsobené problémom so sieťou. Zobrazenie vizualizácie externe nie je možné."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
@@ -2186,91 +2176,103 @@ msgstr "Momentálne nie sú pripojení žiadni klienti."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
-msgstr ""
-"Tento plugin poskytuje websocket server pre vizualizáciu ETS2LA. Umožňuje "
-"vám pripojiť sa k vizualizácii z iných zariadení a zobraziť dáta ETS2LA v "
-"reálnom čase."
+msgstr "Tento plugin poskytuje websocket server pre vizualizáciu ETS2LA. Umožňuje vám pripojiť sa k vizualizácii z iných zariadení a zobraziť dáta ETS2LA v reálnom čase."
 
-#: .\main.py:94
+#: .\main.py:106
 msgid "Testing mirrors..."
 msgstr "Testovanie zrkadiel..."
 
-#: .\main.py:102
+#: .\main.py:114
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Dosiahnuté {0} za {1:.0f}ms"
 
-#: .\main.py:108
+#: .\main.py:120
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Dosiahnuté {0} za (ČASOVÝ LIMIT)"
 
-#: .\main.py:123
+#: .\main.py:135
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Spustenie akcie po stiahnutí pre podmodul:  Rozhranie  -- "
 
-#: .\main.py:141
+#: .\main.py:153
 msgid "Running ETS2LA in development mode."
 msgstr "Spustenie ETS2LA vo vývojovom režime."
 
-#: .\main.py:145
+#: .\main.py:157
 msgid "Running UI locally"
 msgstr "Lokálne spustené používateľské rozhranie"
 
-#: .\main.py:150
+#: .\main.py:162
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Žiadne pripojenie k zrkadlám vzdialeného používateľského rozhrania. Spustené lokálne."
 
-#: .\main.py:161
+#: .\main.py:173
 msgid "Running UI in China mode"
 msgstr "Spustenie používateľského rozhrania v režime Číny"
 
-#: .\main.py:163
+#: .\main.py:175
 msgid "> Using mirror {0} for UI."
 msgstr "> Používanie zrkadla {0} pre používateľské rozhranie."
 
-#: .\main.py:169
+#: .\main.py:181
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console nemožno použiť v kombinácii s --no-ui. Konzola sa nezatvorí."
 
-#: .\main.py:171
+#: .\main.py:183
 msgid "Closing console after UI start."
 msgstr "Zatvorenie konzoly po spustení používateľského rozhrania."
 
-#: .\main.py:174
+#: .\main.py:186
 msgid "Running in the background without a window."
 msgstr "Beží na pozadí bez okna."
 
-#: .\main.py:192
+#: .\main.py:204
 msgid "ETS2LA Overseer started!"
 msgstr "Dozorca ETS2LA začal!"
 
-#: .\main.py:208
+#: .\main.py:220
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA sa reštartuje..."
 
-#: .\main.py:214
+#: .\main.py:226
 msgid "Skipping update due to development mode."
 msgstr "Preskakovanie aktualizácie z dôvodu vývojového režimu."
 
-#: .\main.py:217
+#: .\main.py:229
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA sa aktualizuje..."
 
-#: .\main.py:220
+#: .\main.py:232
 msgid "Update done... restarting!"
 msgstr "Aktualizácia dokončená... reštartovanie!"
 
-#: .\main.py:225
+#: .\main.py:237
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA zlyhalo!"
 
-#: .\main.py:234
+#: .\main.py:246
 msgid "Send the above traceback to the developers."
 msgstr "Pošlite vyššie uvedený traceback vývojárom."
 
-#: .\main.py:236
+#: .\main.py:248
 msgid "ETS2LA has closed."
 msgstr "ETS2LA sa zatvorila."
 
-#: .\main.py:237
+#: .\main.py:249
 msgid "Press enter to exit."
 msgstr "Stlačením klávesu Enter ukončíte."
+
+#~ msgid "Restart and apply {count} update(s)"
+#~ msgstr "Reštartujte a použite {count} aktualizáciu/í/e"
+
+#~ msgid "Closest city is now {0} at a distance of {1} kilometers."
+#~ msgstr "Najbližšie mesto je teraz {0} vo vzdialenosti {1} kilometrov."
+
+#~ msgid "Speedlimit changed to {0} kilometers per hour."
+#~ msgstr "Rýchlostný limit zmenený na {0} kilometrov za hodinu."
+
+#~ msgid "Fuel range is now only {0} kilometers, please refuel soon."
+#~ msgstr "Dojazd na palivo je teraz len {0} kilometrov, prosím, natankujte čoskoro."
+
+#~ msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
+#~ msgstr "Dojazd je teraz kritický, iba {0} kilometrov, prosím, natankujte čo najskôr."

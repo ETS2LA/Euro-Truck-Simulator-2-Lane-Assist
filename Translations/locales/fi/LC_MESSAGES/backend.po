@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-14 13:24\n"
+"POT-Creation-Date: 2025-07-15 15:05\n"
 "PO-Revision-Date: 2025-07-14 10:45+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
-">\n"
-"Language: fi\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -56,7 +55,7 @@ msgstr "Tapahtumaa muokattaessa tapahtui virhe."
 msgid "Controls listener started."
 msgstr "Ohjaimien kuunteleminen aloitettu."
 
-#: .\ETS2LA\Handlers\plugins.py:124
+#: .\ETS2LA\Handlers\plugins.py:126
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -64,67 +63,67 @@ msgstr ""
 "Laajennus {0} ei käynnistynyt syystä: Aika loppui\n"
 "Kokeile sulkea muita sovelluksia jotta ETS2LA saa lisää muistia ja prosessori tehoa."
 
-#: .\ETS2LA\Handlers\plugins.py:129
+#: .\ETS2LA\Handlers\plugins.py:131
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Laajennus {0} ei käynnistynyt syystä: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:181
+#: .\ETS2LA\Handlers\plugins.py:183
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Laajennus [yellow]{0}[/yellow] käynnistyi onnistuneesti."
 
-#: .\ETS2LA\Handlers\plugins.py:354
+#: .\ETS2LA\Handlers\plugins.py:356
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Laajennus {0} ei saanut kuvausta syystä: Aika loppui."
 
-#: .\ETS2LA\Handlers\plugins.py:358
+#: .\ETS2LA\Handlers\plugins.py:360
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Laajennus {0} ei saanut kuvausta syystä: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:389
+#: .\ETS2LA\Handlers\plugins.py:391
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Laajennus {0} ei saanut painikkeita syystä: Aika loppui."
 
-#: .\ETS2LA\Handlers\plugins.py:393
+#: .\ETS2LA\Handlers\plugins.py:395
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Laajennus {0} ei saanut painikkeita syystä: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:425
+#: .\ETS2LA\Handlers\plugins.py:445
 msgid "Loaded {0} plugins."
 msgstr "Ladattiin {0} laajennusta."
 
-#: .\ETS2LA\Handlers\plugins.py:495 .\ETS2LA\Handlers\plugins.py:675
+#: .\ETS2LA\Handlers\plugins.py:515 .\ETS2LA\Handlers\plugins.py:697
 msgid "Plugin not found."
 msgstr "Laajennusta ei löydetty."
 
-#: .\ETS2LA\Handlers\plugins.py:506
+#: .\ETS2LA\Handlers\plugins.py:526
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Laajennus [yellow]{0}[/yellow] käynnistetty onnistuneesti."
 
-#: .\ETS2LA\Handlers\plugins.py:513
+#: .\ETS2LA\Handlers\plugins.py:533
 msgid "Failed to start plugin: {0}"
 msgstr "Laajennusta {0} ei voitu käynnistää"
 
-#: .\ETS2LA\Handlers\plugins.py:513 .\ETS2LA\Handlers\plugins.py:544
+#: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
 msgid "Timeout"
 msgstr "Aika loppui"
 
-#: .\ETS2LA\Handlers\plugins.py:531
+#: .\ETS2LA\Handlers\plugins.py:551
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Laajennusta ei löytynyt, tämä voi johtua laajennuksen kaatumisesta tai lataamisen epäonnistumisesta."
 
-#: .\ETS2LA\Handlers\plugins.py:541
+#: .\ETS2LA\Handlers\plugins.py:561
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Laajennus [yellow]{0}[/yellow] sammutettu onnistuneesti."
 
-#: .\ETS2LA\Handlers\plugins.py:544
+#: .\ETS2LA\Handlers\plugins.py:564
 msgid "Failed to stop plugin: {0}"
 msgstr "Laajennusta {0} ei voitu sammuttaa"
 
-#: .\ETS2LA\Handlers\plugins.py:570
+#: .\ETS2LA\Handlers\plugins.py:590
 msgid "Failed to restart plugin: {0}"
 msgstr "Laajennusta {0} ei voitu käynnistää uudelleen"
 
-#: .\ETS2LA\Handlers\plugins.py:606 .\ETS2LA\Handlers\plugins.py:629
+#: .\ETS2LA\Handlers\plugins.py:626 .\ETS2LA\Handlers\plugins.py:649
 msgid "Plugin {0} not found for page {1}."
 msgstr "Laajennusta {0} ei löytynyt sivulle {1}."
 
@@ -146,9 +145,7 @@ msgstr "Yritettiin toistaa ääni '{0}', mutta sitä ei löytynyt äänipaketist
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr ""
-"Osoitettiin [bold]http://{address}[/bold] paikalliseen IP osoitteeseen [dim]"
-"{local_ip}[/dim]."
+msgstr "Osoitettiin [bold]http://{address}[/bold] paikalliseen IP osoitteeseen [dim]{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -230,7 +227,7 @@ msgstr "Varoituksia: "
 msgid "No errors or warnings found."
 msgstr "Virheitä tai varoituksia ei löytynyt."
 
-#: .\ETS2LA\Window\html.py:82
+#: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
 msgstr "Odota hetki kun alustamme käyttöliittymää"
 
@@ -240,9 +237,7 @@ msgstr "Etsitään ETS2LA:n ikkunaa... [dim](10s aikakatkaisu)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
-msgstr ""
-"ETS2LA:n ikkunaa ei löydetty. Onko tietokoneesi tarpeeksi nopea? Voit "
-"käyttää https://app.ets2la.com sivua avataksesi sen manuaalisesti."
+msgstr "ETS2LA:n ikkunaa ei löydetty. Onko tietokoneesi tarpeeksi nopea? Voit käyttää https://app.ets2la.com sivua avataksesi sen manuaalisesti."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -405,12 +400,16 @@ msgstr "Tervetuloa takaisin {0}!"
 msgid "Contributors"
 msgstr "Kehittäjät"
 
-#: .\Pages\about.py:135 .\Pages\global_settings.py:190
+#: .\Pages\about.py:125
+msgid "Translations"
+msgstr ""
+
+#: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Näytä Kehittäjät"
 
-#: .\Pages\about.py:137 .\Pages\global_settings.py:192
+#: .\Pages\about.py:137 .\Pages\global_settings.py:200
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Auta Kääntämään"
@@ -491,11 +490,11 @@ msgstr "Haetaan muutoslokia ja mahdollisia muutoksia."
 msgid "Changelog fetched."
 msgstr "Muutosloki noudettu."
 
-#: .\Pages\changelog.py:67 .\Pages\updater.py:78
+#: .\Pages\changelog.py:67 .\Pages\updater.py:82
 msgid "View Changes"
 msgstr "Katso muutokset"
 
-#: .\Pages\changelog.py:75 .\Pages\updater.py:86
+#: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr "Vain 20 viimeistä päivitystä näytetään. Voit tarkistaa arkistosta lisää historiaa."
 
@@ -536,171 +535,179 @@ msgstr "Tätä tapahtumaa ei ole vielä asetettu."
 msgid "Keyboard: "
 msgstr "Näppäimistö: "
 
-#: .\Pages\global_settings.py:126
+#: .\Pages\global_settings.py:134
 msgid "Global Settings"
 msgstr "Yleiset asetukset"
 
-#: .\Pages\global_settings.py:127
+#: .\Pages\global_settings.py:135
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr "Täältä löydät asetukset, jotka vaikuttavat koko sovellukseen. Näitä ovat asiat kuiten ikkunan koko ja sovelluksen kieli."
 
-#: .\Pages\global_settings.py:131
+#: .\Pages\global_settings.py:139
 msgid "User Interface"
 msgstr "Käyttöliittymä"
 
-#: .\Pages\global_settings.py:134 .\Pages\onboarding.py:310
+#: .\Pages\global_settings.py:142 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Ikkunan leveys"
 
-#: .\Pages\global_settings.py:135
+#: .\Pages\global_settings.py:143
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Vaihda ikkunan leveyttä. Huomaathan, että ETS2LA ei ole testattu epätavanomaisilla leveyksillä, joten käytä omalla vastuullasi!"
 
-#: .\Pages\global_settings.py:145 .\Pages\onboarding.py:319
+#: .\Pages\global_settings.py:153 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Ikkunan korkeus"
 
-#: .\Pages\global_settings.py:146
+#: .\Pages\global_settings.py:154
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Vaihda ikkunan korkeutta. Huomaathan, että ETS2LA ei ole testattu epätavanomaisilla korkeuksilla, joten käytä omalla vastuullasi!"
 
-#: .\Pages\global_settings.py:156
+#: .\Pages\global_settings.py:164
 msgid "Transparency mode Alpha"
 msgstr "Ikkunan läpinäkyvyys läpinäkyvyystilassa"
 
-#: .\Pages\global_settings.py:157
+#: .\Pages\global_settings.py:165
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Muuta ikkunan läpinäkyvyyttä läpinäkyvyystilassa. Voit siityä tilaan napsauttamalla oikeassa yläkulmassa olevaa vihreää nappia hiiren oikealla painikkeella."
 
-#: .\Pages\global_settings.py:169 .\Pages\onboarding.py:130
+#: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Kieli"
 
-#: .\Pages\global_settings.py:170
+#: .\Pages\global_settings.py:178
 msgid "Select the language for the application."
 msgstr "Valitse sovelluksen kieli."
 
-#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Etsi kieliä..."
 
-#: .\Pages\global_settings.py:175 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Auta meitä kääntämään Discordissa!"
 
-#: .\Pages\global_settings.py:188
+#: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
 msgstr "Tämä kieli on {percentage:.2f}% valmis."
 
-#: .\Pages\global_settings.py:195
+#: .\Pages\global_settings.py:203
 msgid "Audio"
 msgstr "Ääni"
 
-#: .\Pages\global_settings.py:198
+#: .\Pages\global_settings.py:206
 msgid "Soundpack"
 msgstr "Äänipaketti"
 
-#: .\Pages\global_settings.py:199
+#: .\Pages\global_settings.py:207
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr "Valitse käytettävä äänipaketti, näitä voidaan lisätä kansioon: app/ETS2LA/Assets/Sounds."
 
-#: .\Pages\global_settings.py:206 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr "Äänenvoimakkuus"
 
-#: .\Pages\global_settings.py:207
+#: .\Pages\global_settings.py:215
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr "Säädä äänenvoimakkuutta. Tämä vaikuttaa kaikkiin ETS2LA:n ääniin."
 
-#: .\Pages\global_settings.py:218
+#: .\Pages\global_settings.py:226
 msgid "Startup Sound"
 msgstr "Käynnistysääni"
 
-#: .\Pages\global_settings.py:219
+#: .\Pages\global_settings.py:227
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr "Vaihda käynnistysääni päälle tai pois. Tämä soi aina ETS2LA:n ikkunan avautuessa."
 
-#: .\Pages\global_settings.py:224
+#: .\Pages\global_settings.py:232
 msgid "Variables"
 msgstr "Muuttujat"
 
-#: .\Pages\global_settings.py:226
+#: .\Pages\global_settings.py:234
 msgid "Fallback to old acceleration method"
 msgstr "Takaisin vanhaan kiihdytysmenetelmään"
 
-#: .\Pages\global_settings.py:227
+#: .\Pages\global_settings.py:235
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Jos rekka ei kiihdyttä / jarrutta kunnolla, niin voit asettaa tämän vaihtoehdon, jotta ETS2LA käyttää vanhaa järjestelmää. Muista, että jos uusi järjestelmä on jumissa, voit joutua käynnistämään pelin uudelleen sen korjaamiseksi."
 
-#: .\Pages\global_settings.py:234 .\Pages\onboarding.py:215
+#: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Korkea prioriteetti"
 
-#: .\Pages\global_settings.py:235 .\Pages\onboarding.py:216
+#: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Suorita ETS2LA korkean prioriteetin tilassa. Tämä kertoo käyttöjärjestelmälle antaa enemmän prosessori aikaa ETS2LA:lle, joka voi parantaa suorituskykyä."
 
-#: .\Pages\global_settings.py:249
+#: .\Pages\global_settings.py:257
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr "ETS2LA täytyy uudelleenkäynnistää, jotta voit ottaa muutokset käyttöön!"
 
-#: .\Pages\global_settings.py:251
+#: .\Pages\global_settings.py:260
+msgid "Slow Loading"
+msgstr ""
+
+#: .\Pages\global_settings.py:261
+msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
+msgstr ""
+
+#: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
 msgstr "Sekalaiset"
 
-#: .\Pages\global_settings.py:255
+#: .\Pages\global_settings.py:270
 msgid "Frontend Port"
 msgstr "Käyttöliittymän portti"
 
-#: .\Pages\global_settings.py:256
+#: .\Pages\global_settings.py:271
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr "Vaihda käyttöliittymän käyttämä portti. Tätä käytetään vain paikallisessa tilassa."
 
-#: .\Pages\global_settings.py:263
+#: .\Pages\global_settings.py:278
 msgid "Frameless Window"
 msgstr "Kehyksetön ikkuna"
 
-#: .\Pages\global_settings.py:264
+#: .\Pages\global_settings.py:279
 msgid "Disable this option if you have any issues moving the window around."
 msgstr "Poista tämä asetus käytöstä, jos sinulla on ongelmia ikkunan siirtämisessä."
 
-#: .\Pages\global_settings.py:269
+#: .\Pages\global_settings.py:284
 msgid "Send Crash Reports"
 msgstr "Lähetä kaatumisilmoitukset"
 
-#: .\Pages\global_settings.py:270
+#: .\Pages\global_settings.py:285
 msgid "Automatically send crash reports to help improve the application."
 msgstr "Lähetä automaattisesti kaatumisilmoituksia sovelluksen parantamiseksi."
 
-#: .\Pages\global_settings.py:275
+#: .\Pages\global_settings.py:290
 msgid "Use Fancy Traceback"
 msgstr "Käytä uutta virhetulostusta"
 
-#: .\Pages\global_settings.py:276
+#: .\Pages\global_settings.py:291
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr "Uusi virhetulostus antaa paremman kuvan virheen paikasta ja ympäristöstä."
 
-#: .\Pages\global_settings.py:282
+#: .\Pages\global_settings.py:297
 msgid "Debug Mode"
 msgstr "Vianetsintätila"
 
-#: .\Pages\global_settings.py:283
+#: .\Pages\global_settings.py:298
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr "Tämä asetus avaa Microsoft Edgen sisäänrakennetun käyttöliittymä vianetsintätyökalun."
 
-#: .\Pages\global_settings.py:291
+#: .\Pages\global_settings.py:306
 msgid "Fireworks"
 msgstr "Ilotulitukset"
 
-#: .\Pages\global_settings.py:292
+#: .\Pages\global_settings.py:307
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr "Kytke tämä asetus päälle nähdäksesi ilotulituseffektejä uudenvuoden aikana."
 
-#: .\Pages\global_settings.py:298
+#: .\Pages\global_settings.py:313
 msgid "Snow"
 msgstr "Lumisade"
 
-#: .\Pages\global_settings.py:299
+#: .\Pages\global_settings.py:314
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Käytä tätä vaihtoehtoa näyttääksesi lumieffektit talvikaudella."
 
@@ -747,9 +754,7 @@ msgstr "Kielen valinta"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
-msgstr ""
-"Valitse haluamasi kieli. Tätä asetusta voi vaihtaa myöhemminkin, kaikki "
-"käännökset tulevat yhteisöltä!"
+msgstr "Valitse haluamasi kieli. Tätä asetusta voi vaihtaa myöhemminkin, kaikki käännökset tulevat yhteisöltä!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
@@ -975,7 +980,7 @@ msgstr "Muistin käyttö "
 msgid "ETS2LA RAM Usage  "
 msgstr "ETS2LA:n muistin käyttö  "
 
-#: .\Pages\performance.py:135 .\Pages\plugins.py:355
+#: .\Pages\performance.py:135 .\Pages\plugins.py:371
 msgid "No plugins are currently running."
 msgstr "Laajennuksia ei ole tällä hetkellä käynnissä."
 
@@ -1046,78 +1051,82 @@ msgid "Feature '{0}' not found."
 msgstr "Toimintoa '{0}' ei löytynyt."
 
 #: .\Pages\plugins.py:235
+msgid "Loading plugins..."
+msgstr ""
+
+#: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
 msgstr "Laajennukset (Yksinkertainen)"
 
-#: .\Pages\plugins.py:236
+#: .\Pages\plugins.py:249
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr "Voit aktivoida eri ETS2LA toimintoja sivun oikealla laidalla. Kaikki laajennukset, jotka ovat määritetty kyseiseen toimintoon käynnistetään automaattisesti ilman erillisiä säätöjä."
 
-#: .\Pages\plugins.py:244
+#: .\Pages\plugins.py:257
 msgid "Disable Plugins"
 msgstr "Sammuta laajennukset"
 
-#: .\Pages\plugins.py:244
+#: .\Pages\plugins.py:257
 msgid "Enable Plugins"
 msgstr "Käynnistä laajennukset"
 
-#: .\Pages\plugins.py:247
+#: .\Pages\plugins.py:260
 msgid "Currently enabled plugins:"
 msgstr "Tällä hetkellä on käynnissä:"
 
-#: .\Pages\plugins.py:247
+#: .\Pages\plugins.py:260
 msgid "None"
 msgstr "Ei mitään"
 
-#: .\Pages\plugins.py:269
+#: .\Pages\plugins.py:282
 msgid "Enabled"
 msgstr "Aktivoitu"
 
-#: .\Pages\plugins.py:269
+#: .\Pages\plugins.py:282
 msgid "Disabled"
 msgstr "Deaktivoitu"
 
-#: .\Pages\plugins.py:274
+#: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
 msgstr "Vaihda kehittyneeseen tilaan"
 
-#: .\Pages\plugins.py:296
+#: .\Pages\plugins.py:312
 msgid "Search plugins..."
 msgstr "Etsi laajennuksia..."
 
-#: .\Pages\plugins.py:305
+#: .\Pages\plugins.py:321
 msgid "Search tags..."
 msgstr "Etsi merkkejä..."
 
-#: .\Pages\plugins.py:306
+#: .\Pages\plugins.py:322
 msgid "No tags found"
 msgstr "Merkkejä ei löytynyt"
 
-#: .\Pages\plugins.py:315
+#: .\Pages\plugins.py:331
 msgid "Search authors..."
 msgstr "Etsi kehittäjiä..."
 
-#: .\Pages\plugins.py:316
+#: .\Pages\plugins.py:332
 msgid "No authors found"
 msgstr "Kehittäjiä ei löytynyt"
 
-#: .\Pages\plugins.py:320
+#: .\Pages\plugins.py:336
 msgid "Back to Basic Mode"
 msgstr "Takaisin yksinkertaiseen tilaan"
 
-#: .\Pages\plugins.py:351
+#: .\Pages\plugins.py:367
 msgid "Running Plugins"
 msgstr "Käynnissä olevat laajennukset"
 
-#: .\Pages\plugins.py:358
+#: .\Pages\plugins.py:374
 msgid "Want to enable the plugins you had running last time?"
 msgstr "Haluatko käynnistää viime kerralla aktivoidut laajennukset?"
 
-#: .\Pages\plugins.py:360
+#: .\Pages\plugins.py:376
 msgid "Enable Last Plugins"
 msgstr "Käynnistä viime kerran laajennukset"
 
-#: .\Pages\plugins.py:366
+#: .\Pages\plugins.py:382
 msgid "Available Plugins"
 msgstr "Saatavilla olevat laajennukset"
 
@@ -1242,10 +1251,12 @@ msgid "Update Anyway"
 msgstr "Päivitä joka tapauksessa"
 
 #: .\Pages\updater.py:55
-msgid "Restart and apply {count} update(s)"
-msgstr "Asenna {count} päivitystä ja käynnistä uudelleen"
+msgid "Restart and apply {count} update"
+msgid_plural "Restart and apply {count} updates"
+msgstr[0] ""
+msgstr[1] ""
 
-#: .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
+#: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
 msgstr "AR"
 
@@ -1259,10 +1270,7 @@ msgstr "Älä piilota nauhoitussovelluksilta"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
-msgstr ""
-"Normaalisti AR piilotetaan nauhoitussovelluksilta, jotta ETS2LA voi käyttää "
-"laajennuksia jotka seuraavat peliä visuaalisesti. Jos haluat kuvata videoita "
-"tai streamata, voit kytkeä tämän päälle."
+msgstr "Normaalisti AR piilotetaan nauhoitussovelluksilta, jotta ETS2LA voi käyttää laajennuksia jotka seuraavat peliä visuaalisesti. Jos haluat kuvata videoita tai streamata, voit kytkeä tämän päälle."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
@@ -1278,10 +1286,7 @@ msgstr "Näytä kun peli ei ole päälimmäisenä"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
-msgstr ""
-"Renderöi AR kappaleet vaikka peli ei olisi päälimmäisenä. Tämä voi olla "
-"hyödyllinen asetus kun muokkaa esimerkiksi HUDin paikkaa. Huomaa kuitenkin "
-"että tämä antaa AR:n pyöriä maksimi nopeudella."
+msgstr "Renderöi AR kappaleet vaikka peli ei olisi päälimmäisenä. Tämä voi olla hyödyllinen asetus kun muokkaa esimerkiksi HUDin paikkaa. Huomaa kuitenkin että tämä antaa AR:n pyöriä maksimi nopeudella."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
@@ -1297,9 +1302,7 @@ msgstr "Renderöinti aika: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
-msgstr ""
-"AR laajennus renderöi kappaleitä pelin päälle. Tätä käyttää esim HUD, joka "
-"voi näyttää realistisen HUDin pelimaailman päällä."
+msgstr "AR laajennus renderöi kappaleitä pelin päälle. Tätä käyttää esim HUD, joka voi näyttää realistisen HUDin pelimaailman päällä."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1334,9 +1337,7 @@ msgstr "Adaptiivinen vakionopeudensäädin"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
-msgstr ""
-"Adaptiviinen vakionopeudensäädin (ACC) ohjaa automaattisesti ajoneuvon "
-"nopeutta, tieolosuhteet ja muut ajoneuvot huomioon ottaen."
+msgstr "Adaptiviinen vakionopeudensäädin (ACC) ohjaa automaattisesti ajoneuvon nopeutta, tieolosuhteet ja muut ajoneuvot huomioon ottaen."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1422,9 +1423,7 @@ msgstr "Avaa PID muokkaus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
-msgstr ""
-"Voit avata PID muokkauksen, jos haluat säätää sitä itse. Suositus on olla "
-"muokkaamatta PID:tä jos et ole jo hyvin perillä siitä."
+msgstr "Voit avata PID muokkauksen, jos haluat säätää sitä itse. Suositus on olla muokkaamatta PID:tä jos et ole jo hyvin perillä siitä."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
@@ -1440,8 +1439,7 @@ msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
-msgstr ""
-"Olemmeko olleet kaukana nopeudesta kauan? Sitten pitää kiihdyttää lisää!"
+msgstr "Olemmeko olleet kaukana nopeudesta kauan? Sitten pitää kiihdyttää lisää!"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
@@ -1449,14 +1447,11 @@ msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
-msgstr ""
-"Lähestytäänkö me tavoitetta nopeasti? Pitää hidastaa, että ei mennä yli!"
+msgstr "Lähestytäänkö me tavoitetta nopeasti? Pitää hidastaa, että ei mennä yli!"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
-msgstr ""
-"Tämä video näyttää visuaalisesti miten PID ohjain toimii. Katso se tarkasti, "
-"jos et ole ennen käyttänyt PID ohjaimia."
+msgstr "Tämä video näyttää visuaalisesti miten PID ohjain toimii. Katso se tarkasti, jos et ole ennen käyttänyt PID ohjaimia."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1909,15 +1904,13 @@ msgstr "Renderöijät"
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr "Nämä renderöijät ovat koko näytön kokoisia, ne siis piirtävät jotain joka liikkuu pelimaailmassa, ja ei voi olla linkitetty itse HUDiin."
 
-#: .\Plugins\NavigationSockets\main.py:180
+#: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
 msgstr "Navigaation Viestipalvelin"
 
-#: .\Plugins\NavigationSockets\main.py:182
+#: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
-msgstr ""
-"Tämä laajennus tarjoaa ulkoisille sovelluksille (kuten kartalle) "
-"viestipalvelimen navigaatiotiedoille."
+msgstr "Tämä laajennus tarjoaa ulkoisille sovelluksille (kuten kartalle) viestipalvelimen navigaatiotiedoille."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2036,54 +2029,62 @@ msgid "Adaptive Cruise Control disabled."
 msgstr "Adaptiivinen vakionopeudensäädin deaktivoitu."
 
 #: .\Plugins\TTS\main.py:335
-msgid "Closest city is now {0} at a distance of {1} kilometers."
-msgstr "Lähin kaupunki on nyt {0}, etäisyydellä {1} kilometriä."
+msgid "Closest city is now {city} at a distance of {distance} kilometer."
+msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
+msgstr[0] ""
+msgstr[1] ""
 
-#: .\Plugins\TTS\main.py:347
-msgid "Speedlimit changed to {0} kilometers per hour."
-msgstr "Nopeusrajoitus on nyt {0} kilometriä tunnissa."
+#: .\Plugins\TTS\main.py:352
+msgid "Speed limit changed to {0} kilometer per hour."
+msgid_plural "Speed limit changed to {0} kilometers per hour."
+msgstr[0] ""
+msgstr[1] ""
 
-#: .\Plugins\TTS\main.py:355
-msgid "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr "Polttoainetta on vain {0} kilometria, tankkaathan pian."
+#: .\Plugins\TTS\main.py:364
+msgid "Fuel range is now only {0} kilometer, please refuel soon."
+msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
+msgstr[0] ""
+msgstr[1] ""
 
-#: .\Plugins\TTS\main.py:358
-msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr "Polttoaine on nyt kritiikaalinen, sitä on enää {0} kilometriä jäljellä. Tankkaa nyt."
+#: .\Plugins\TTS\main.py:371
+msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
+msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
+msgstr[0] ""
+msgstr[1] ""
 
-#: .\Plugins\TTS\main.py:376
+#: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
 msgstr "Seuraavaan reittipisteeseen on {0} kilometriä."
 
-#: .\Plugins\TTS\main.py:397
+#: .\Plugins\TTS\main.py:414
 msgid "Engine damage is now at {0}%."
 msgstr "Moottorin vahinko on nyt {0}%."
 
-#: .\Plugins\TTS\main.py:400
+#: .\Plugins\TTS\main.py:417
 msgid "Cabin damage is now at {0}%."
 msgstr "Ohjaamon vahinko on nyt {0}%."
 
-#: .\Plugins\TTS\main.py:403
+#: .\Plugins\TTS\main.py:420
 msgid "Chassis damage is now at {0}%."
 msgstr "Alustan vahinko on nyt {0}%."
 
-#: .\Plugins\TTS\main.py:406
+#: .\Plugins\TTS\main.py:423
 msgid "Transmission damage is now at {0}%."
 msgstr "Vaihteiston vahinko on nyt {0}%."
 
-#: .\Plugins\TTS\main.py:409
+#: .\Plugins\TTS\main.py:426
 msgid "Wheel damage is now at {0}%."
 msgstr "Renkaiden vahinko on nyt {0}%."
 
-#: .\Plugins\TTS\main.py:412
+#: .\Plugins\TTS\main.py:429
 msgid "Cargo damage is now at {0}%."
 msgstr "Lastin vahinko on nyt {0}%."
 
-#: .\Plugins\TTS\main.py:429
+#: .\Plugins\TTS\main.py:446
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr "Nopeus {0} kilometriä tunnissa, rajoitus {1}, polttoainetta {2}%, ja seuraavaan reittipisteeseen on {3} kilometriä."
 
-#: .\Plugins\TTS\main.py:470
+#: .\Plugins\TTS\main.py:487
 msgid "Test mode enabled. This is a test message."
 msgstr "Testimoodi aktivoitu, tämä on testiviesti."
 
@@ -2095,10 +2096,7 @@ msgstr "Visualisaation Viestipalvelin"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
-"Tämä laajennus on kehitetty, jotta ETS2LA voi keskustella ulkoisen "
-"visualisaation kanssa. Laajennus on pakollinen jotta visualisaatio sivu "
-"toimii oikein."
+msgstr "Tämä laajennus on kehitetty, jotta ETS2LA voi keskustella ulkoisen visualisaation kanssa. Laajennus on pakollinen jotta visualisaatio sivu toimii oikein."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
@@ -2107,10 +2105,7 @@ msgstr "Tämä tietokone"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
-msgstr ""
-"Voit avata vasemmalla sivupalkista \"Visualisaatio\" sivun, valitse tällä "
-"sivulla \"Virallinen\" tai \"Official\" palvelin, jotta yhdistät oikeaan "
-"paikkaan."
+msgstr "Voit avata vasemmalla sivupalkista \"Visualisaatio\" sivun, valitse tällä sivulla \"Virallinen\" tai \"Official\" palvelin, jotta yhdistät oikeaan paikkaan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
@@ -2126,28 +2121,19 @@ msgstr "1. Avaa seuraava sivu laitteesi selaimessa: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
-msgstr ""
-"HUOM: Sivu on avattava HTTP protokollalla. Tähän pystyy esim Firefox, mutta "
-"Chrome ja Safari eivät!"
+msgstr "HUOM: Sivu on avattava HTTP protokollalla. Tähän pystyy esim Firefox, mutta Chrome ja Safari eivät!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
-msgstr ""
-"2. Kunhan sivu on avautunut paina punaista 'Remote Connection' nappia. Jos "
-"se ei automaattisesti toimi, niin kirjoita seuraava IP osoite:"
+msgstr "2. Kunhan sivu on avautunut paina punaista 'Remote Connection' nappia. Jos se ei automaattisesti toimi, niin kirjoita seuraava IP osoite:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
-msgstr ""
-"3. Jos yhteys ei toimi kunnolla, niin tarkista että laitteesi on samassa "
-"WiFi verkossa tietokoneesi kanssa. Tarkasta myös että olet päästänyt ETS2LA:"
-"n palomuurin läpi lähiverkkoon."
+msgstr "3. Jos yhteys ei toimi kunnolla, niin tarkista että laitteesi on samassa WiFi verkossa tietokoneesi kanssa. Tarkasta myös että olet päästänyt ETS2LA:n palomuurin läpi lähiverkkoon."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
-msgstr ""
-"IP osoitettasi ei löydetty, tämä voi johtua lähiverkon ongelmista. "
-"Visualisaation avaaminen ulkoisesti ei ole mahdollista."
+msgstr "IP osoitettasi ei löydetty, tämä voi johtua lähiverkon ongelmista. Visualisaation avaaminen ulkoisesti ei ole mahdollista."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
@@ -2179,91 +2165,103 @@ msgstr "Ei ole olemassa tällä hetkellä toisiinsa liittyviä asiakkaita."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
-msgstr ""
-"Tämä laajennus tarjoaa websocket-palvelimen ETS2LA Visualisointiin. Sen "
-"avulla voit muodostaa yhteyden muiden laitteiden visualisointiin ja "
-"tarkastella ETS2LA-tietoja reaaliaikaisesti."
+msgstr "Tämä laajennus tarjoaa websocket-palvelimen ETS2LA Visualisointiin. Sen avulla voit muodostaa yhteyden muiden laitteiden visualisointiin ja tarkastella ETS2LA-tietoja reaaliaikaisesti."
 
-#: .\main.py:94
+#: .\main.py:106
 msgid "Testing mirrors..."
 msgstr "Testataan palvelimia..."
 
-#: .\main.py:102
+#: .\main.py:114
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Saavutettiin {0} {1:.0f} millisekunnissa"
 
-#: .\main.py:108
+#: .\main.py:120
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Saavutettiin {0} (TIMEOUT) millisekunnissa"
 
-#: .\main.py:123
+#: .\main.py:135
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Latauksen jälkeistä toimintoa ajetaan moduulille:  Interface  -- "
 
-#: .\main.py:141
+#: .\main.py:153
 msgid "Running ETS2LA in development mode."
 msgstr "ETS2LA käynnistetään kehittäjämoodissa."
 
-#: .\main.py:145
+#: .\main.py:157
 msgid "Running UI locally"
 msgstr "Käyttöliittymä ajetaan paikallisesti"
 
-#: .\main.py:150
+#: .\main.py:162
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Yhteyttä palvelimiin ei ole, ajetaan käyttöliittymä paikallisesti."
 
-#: .\main.py:161
+#: .\main.py:173
 msgid "Running UI in China mode"
 msgstr "Käyttöliittymä aktivoitu \"Kiina\" moodissa"
 
-#: .\main.py:163
+#: .\main.py:175
 msgid "> Using mirror {0} for UI."
 msgstr "> Käytetään käyttöliittymälle palvelinta {0}."
 
-#: .\main.py:169
+#: .\main.py:181
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console ei voi olla päällä samaan aikaan kuin --no-ui. Konsoli ei sulkeudu automaattisesti."
 
-#: .\main.py:171
+#: .\main.py:183
 msgid "Closing console after UI start."
 msgstr "Suljetaan konsoli kunhan käyttöliittymä aukeaa."
 
-#: .\main.py:174
+#: .\main.py:186
 msgid "Running in the background without a window."
 msgstr "Käyttöliittymää ei avata, ETS2LA toimii taustalla."
 
-#: .\main.py:192
+#: .\main.py:204
 msgid "ETS2LA Overseer started!"
 msgstr "ETS2LA:n valvoja käynnistetty!"
 
-#: .\main.py:208
+#: .\main.py:220
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA käynnistyy uudelleen..."
 
-#: .\main.py:214
+#: .\main.py:226
 msgid "Skipping update due to development mode."
 msgstr "Ohitetaan päivitys koska olemme kehitysmoodissa."
 
-#: .\main.py:217
+#: .\main.py:229
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA päivittää..."
 
-#: .\main.py:220
+#: .\main.py:232
 msgid "Update done... restarting!"
 msgstr "Päivitys valmis... käynnistetään uudelleen!"
 
-#: .\main.py:225
+#: .\main.py:237
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA on kaatunut!"
 
-#: .\main.py:234
+#: .\main.py:246
 msgid "Send the above traceback to the developers."
 msgstr "Lähetä yllä oleva virhetulostus kehittäjille."
 
-#: .\main.py:236
+#: .\main.py:248
 msgid "ETS2LA has closed."
 msgstr "ETS2LA on sammutettu."
 
-#: .\main.py:237
+#: .\main.py:249
 msgid "Press enter to exit."
 msgstr "Paina enter painiketta sulkeaksesi sovelluksen."
+
+#~ msgid "Restart and apply {count} update(s)"
+#~ msgstr "Asenna {count} päivitystä ja käynnistä uudelleen"
+
+#~ msgid "Closest city is now {0} at a distance of {1} kilometers."
+#~ msgstr "Lähin kaupunki on nyt {0}, etäisyydellä {1} kilometriä."
+
+#~ msgid "Speedlimit changed to {0} kilometers per hour."
+#~ msgstr "Nopeusrajoitus on nyt {0} kilometriä tunnissa."
+
+#~ msgid "Fuel range is now only {0} kilometers, please refuel soon."
+#~ msgstr "Polttoainetta on vain {0} kilometria, tankkaathan pian."
+
+#~ msgid "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
+#~ msgstr "Polttoaine on nyt kritiikaalinen, sitä on enää {0} kilometriä jäljellä. Tankkaa nyt."
