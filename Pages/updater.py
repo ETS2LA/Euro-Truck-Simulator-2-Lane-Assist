@@ -52,7 +52,11 @@ class Page(ETS2LAPage):
                     Text(_("Update Anyway"), styles.Classname("font-semibold"))
             else:
                 with Button(self.update):
-                    Text(_("Restart and apply {count} update(s)").format(count=len(updates)), styles.Classname("font-semibold"))
+                    Text(ngettext(
+                        "Restart and apply {count} update",
+                        "Restart and apply {count} updates",
+                        len(updates)
+                    ).format(count=len(updates)), styles.Classname("font-semibold"))
                 Space(styles.Height("20px"))
                 
                 updates = updates[::-1]

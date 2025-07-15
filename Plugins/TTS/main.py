@@ -5,7 +5,7 @@ from ETS2LA.Events import *
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.translator import _
+from ETS2LA.Utils.translator import _, ngettext
 from ETS2LA.Utils import settings
 import importlib
 import logging
@@ -332,7 +332,12 @@ class Plugin(ETS2LAPlugin):
             distance = self.globals.tags.closest_city_distance
             if city != self.closest_city:
                 self.closest_city = city
-                self.speak(_("Closest city is now {0} at a distance of {1} kilometers.").format(city, round(distance)))
+                text = ngettext(
+                    "Closest city is now {city} at a distance of {distance} kilometer.",
+                    "Closest city is now {city} at a distance of {distance} kilometers.",
+                    round(distance)
+                ).format(city=city, distance=round(distance))
+                self.speak(text)
         except:
             self.closest_city = None
             
@@ -344,7 +349,11 @@ class Plugin(ETS2LAPlugin):
             speed_limit = api["truckFloat"]["speedlimit"]
             if speed_limit != self.speed_limit:
                 self.speed_limit = speed_limit
-                self.speak(_("Speedlimit changed to {0} kilometers per hour.").format(round(speed_limit)))
+                self.speak(ngettext(
+                    "Speed limit changed to {0} kilometer per hour.",
+                    "Speed limit changed to {0} kilometers per hour.",
+                    round(speed_limit)
+                ).format(round(speed_limit)))
         except:
             self.speed_limit = 0
             
@@ -352,10 +361,18 @@ class Plugin(ETS2LAPlugin):
         try:
             fuel = round(api["truckFloat"]["fuelRange"])
             if fuel < 200 and not self.has_notified_fuel:
-                self.speak(_("Fuel range is now only {0} kilometers, please refuel soon.").format(fuel))
+                self.speak(ngettext(
+                    "Fuel range is now only {0} kilometer, please refuel soon.",
+                    "Fuel range is now only {0} kilometers, please refuel soon.",
+                    fuel
+                ).format(fuel))
                 self.has_notified_fuel = True
             elif fuel < 50 and not self.has_notified_critical_fuel:
-                self.speak(_("Fuel range is now critical at only {0} kilometers, please refuel as soon as possible.").format(fuel))
+                self.speak(ngettext(
+                    "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible.",
+                    "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible.",
+                    fuel
+                ).format(fuel))
                 self.has_notified_critical_fuel = True
             elif fuel >= 200:
                 self.has_notified_fuel = False
