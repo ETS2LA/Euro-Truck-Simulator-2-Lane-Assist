@@ -4,7 +4,7 @@ from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
-from ETS2LA.Utils.translator import _, ngettext, languages
+from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
 from langcodes import Language 
@@ -132,9 +132,9 @@ class Page(ETS2LAPage):
                                 Text(language.display_name(language.language).capitalize(), styles.PlainText())
                                 Text("(" + language.display_name() + ")", styles.Description() + styles.Classname("text-xs"))
                             with Container(style=styles.FlexHorizontal() + styles.Gap("10px")):
-                                Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{language.language}%20contributes:ets2la/backend", styles.Classname("text-xs text-muted-foreground hover:underline"))
+                                Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{parse_language(language)}%20contributes:ets2la/backend", styles.Classname("text-xs text-muted-foreground hover:underline"))
                                 Text("-")
-                                Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{language.language}", styles.Classname("text-xs text-muted-foreground hover:underline"))
+                                Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{parse_language(language)}", styles.Classname("text-xs text-muted-foreground hover:underline"))
                             
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("10px")):
