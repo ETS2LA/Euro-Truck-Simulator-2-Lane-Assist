@@ -940,18 +940,25 @@ class Progress():
     
     def __init__(
         self,
-        min: int = 0,
         value: int = 0,
         max: int = 100,
         style: Style = Style()
     ):
         self.id = increment()
         
-        self.min = min
         self.value = value
         self.max = max
         self.style = style
         
+        dictionary.append({
+            "progress": {
+                "id": self.id,
+                "value": self.value,
+                "max": self.max,
+                "style": self.style.to_dict()
+            }
+        })
+
 class Table():
     """
     An automatically generated table. You can input a list of dictionaries

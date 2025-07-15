@@ -18,6 +18,9 @@ search_folders: list[str] = [
     "Plugins"
 ]
 
+loading: bool = False
+"""Indicator for other files that the plugin handler is still loading plugins."""
+
 # Discover all plugins in the search folders.
 plugin_folders: list[str] = []
 def discover_plugins() -> None:
@@ -111,7 +114,6 @@ class Plugin:
     
     def __init__(self, folder: str) -> None:
         self.folder = folder
-        
         self.start_plugin()
         
         threading.Thread(
@@ -416,14 +418,32 @@ def reload_plugins() -> None:
 # MARK: Startup      
 plugins: list[Plugin] = []
 def create_processes() -> None:
+    global loading
+    loading = True
+    
+    timeout = 12
+    low_performance = settings.Get("global", "slow_loading", False)
+    
     for folder in plugin_folders:
+        initial_state = len(plugins)
         logging.debug(f"Creating plugin process for {folder}")
         threading.Thread(target=Plugin, name=f"Backend for {folder.split('/')[-1]}",
                          args=(folder,), daemon=True).start()
 
-    time.sleep(15)
+        if low_performance:
+            waiting_since = time.time()
+            while len(plugins) == initial_state:
+                time.sleep(0.1)
+                if time.time() - waiting_since > timeout:
+                    logging.warning(f"Timeout waiting for plugin {folder} to load.")
+                    break
+    
+    if not low_performance:
+        time.sleep(10)
+    
+    loading = False
     logging.info(_("Loaded {0} plugins.").format(len(plugins)))
-
+  
 def run() -> None:
     discover_plugins()
     threading.Thread(target=create_processes, daemon=True).start()

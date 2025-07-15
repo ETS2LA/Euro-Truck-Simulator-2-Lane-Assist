@@ -227,8 +227,21 @@ class Page(ETS2LAPage):
         threading.Thread(target=self.basic_mode_updater, daemon=True).start()
     
     def render(self):
-        isBasic = not settings.Get("global", "advanced_plugin_mode", False)
+        if plugins.loading:
+            with Container(styles.FlexVertical() + styles.Classname("w-full h-full items-center justify-center relative")):
+                with Spinner():
+                    Icon("loader")
+                
+                Text("Loading plugins...", styles.Description())
+                if plugins.plugins:
+                    target = plugins.plugins[-1]
+                    if not hasattr(target, "description") and len(plugins.plugins) > 1:
+                        target = plugins.plugins[-2]
+                        
+                    Text(f"{Translate(target.description.name, return_original=True)}", styles.Classname("text-xs text-muted-foreground absolute bottom-2"))
+            return
         
+        isBasic = not settings.Get("global", "advanced_plugin_mode", False)
         if isBasic:
             with Container(styles.FlexHorizontal() + styles.Padding("40px") + styles.Gap("40px")):
                 with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Width("400px") + styles.Classname("relative")):
@@ -277,6 +290,9 @@ class Page(ETS2LAPage):
             tags = []
             authors = []
             for plugin in plugins.plugins:
+                if not hasattr(plugin, "description"):
+                    continue
+                
                 for tag in plugin.description.tags:
                     if tag not in tags:
                         tags.append(tag)

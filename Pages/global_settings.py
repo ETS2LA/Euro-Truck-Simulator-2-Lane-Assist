@@ -120,6 +120,14 @@ class Page(ETS2LAPage):
             high_priority = not utils_settings.Get("global", "high_priority", default=True)
 
         utils_settings.Set("global", "high_priority", high_priority)
+        
+    def handle_slow_loading_change(self, *args):
+        if args:
+            slow_loading = args[0]
+        else:
+            slow_loading = not utils_settings.Get("global", "slow_loading", default=False)
+
+        utils_settings.Set("global", "slow_loading", slow_loading)
 
     def render(self):
         TitleAndDescription(
@@ -247,7 +255,14 @@ class Page(ETS2LAPage):
                             style.color = "var(--muted-foreground)"
                             Icon("warning", style)
                             Text(_("You need to restart ETS2LA to apply the priority change!"), styles.Classname("text-muted-foreground"))
-
+                
+                CheckboxWithTitleDescription(
+                    title=_("Slow Loading"),
+                    description=_("If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."),
+                    default=utils_settings.Get("global", "slow_loading", default=False), # type: ignore
+                    changed=self.handle_slow_loading_change
+                )
+                
             with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:
                     port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
