@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-15 11:04+0000\n"
+"PO-Revision-Date: 2025-07-15 11:31+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -45,12 +45,10 @@ msgstr "{} đã mất kết nối."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
-#, fuzzy
 msgid "Event with alias '{0}' not found."
 msgstr "Sự kiện với biệt danh '{0}' không được tìm thấy."
 
 #: .\ETS2LA\Handlers\controls.py:349
-#, fuzzy
 msgid "Exception occurred while trying to edit the event."
 msgstr "Đã xảy ra ngoại lệ khi đang cố gắng chỉnh sửa một sự kiện."
 
@@ -159,7 +157,6 @@ msgid "An error occurred while processing a message."
 msgstr "Đã có lỗi xảy ra khi đang xử lí một tin nhắn."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
-#, fuzzy
 msgid "Tried to send an empty page."
 msgstr "Đã thử gửi một trang trống."
 
@@ -188,7 +185,6 @@ msgid "Failed to get pages"
 msgstr "Thất bại khi lấy các trang"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
-#, fuzzy
 msgid "Failed to get page data for page {0}"
 msgstr "Thất bại khi lấy dữ liệu của trang {0}"
 
@@ -294,7 +290,7 @@ msgstr "lập trình viên scs-sdk-controller"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr "Mô hình 3D cho việc hiển thị"
+msgstr "Mô hình 3D cho việc trực quan hóa dữ liệu"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
@@ -569,7 +565,6 @@ msgstr ""
 "các độ phân giải không tiêu chuẩn, bạn tự chịu rủi ro!"
 
 #: .\Pages\global_settings.py:156
-#, fuzzy
 msgid "Transparency mode Alpha"
 msgstr "Chế độ trong suốt Alpha"
 
@@ -1085,7 +1080,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr "Hiển thị"
+msgstr "Trực quan hóa dữ liệu"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -1093,9 +1088,9 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
-"Tab hiển thị cần plugin này bật để hoạt động\n"
+"Tab trực quan hóa dữ liệu cần plugin này bật để hoạt động\n"
 "\n"
-"**Đây là điều cần thiết để tab hiển thị hoạt động.**"
+"**Đây là điều cần thiết để tab trực quan hóa dữ liệu hoạt động.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
@@ -1758,8 +1753,8 @@ msgstr "Gửi dữ liệu địa hình"
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
 "Khi bật cái này, bản đồ sẽ gửi dữ liệu địa hình cho forntend. Những dữ liệu "
-"này được dùng để hiển thị mặt đất trong mục hiển thị. Đang trong quá trình "
-"thử nghiệm và không hề ổn!"
+"này được dùng để hiển thị mặt đất trong mục trực quan hóa dữ liệu. Đang "
+"trong quá trình thử nghiệm và không hề ổn định!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
@@ -2255,11 +2250,13 @@ msgstr "Chế độ thử nghiệm đã được bật. Đây là một tin nh�
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr "Sockets hiển thị"
+msgstr "Sockets của trực quan hóa dữ liệu"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr "Plugin này cung cấp một máy chủ WebSocket cho hiển thị của ETS2LA."
+msgstr ""
+"Plugin này cung cấp một máy chủ WebSocket cho trực quan hóa dữ liệu của "
+"ETS2LA."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
@@ -2269,9 +2266,9 @@ msgstr "Máy chủ (máy đang chạy ETS2LA)"
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
-"Nếu bạn muốn xem ETS2LA hiển thị trên thiết bị này, chỉ cần mở tab 'Hiển "
-"thị' ở trên thanh bên. Bạn có thể chọn giữa mirror chính chủ và Goodnightan "
-"mirror."
+"Nếu bạn muốn xem ETS2LA trực quan hóa dữ liệu trên thiết bị này, chỉ cần mở "
+"tab 'trực quan hóa dữ liệu' ở trên thanh bên. Bạn có thể chọn giữa mirror "
+"chính chủ và Goodnightan mirror."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
@@ -2308,7 +2305,7 @@ msgstr ""
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
 "Không thể tìm thấy địa chỉ IP của bạn, đây giống như là do lỗi mạng. Xem "
-"hiển thị ở các thiết bị khác sẽ không khả thi."
+"trực quan hóa dữ liệu ở các thiết bị khác sẽ không khả thi."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
@@ -2341,90 +2338,91 @@ msgstr "Hiện tại không có máy khách nào đã được kết nối."
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
-"Plugin này cung cấp một máy chủ WebSocket cho ETS2LA hiển thị. Nó cho phép "
-"bạn kết nối với hiển thị bằng các thiết bị khác và xem dữ liệu của ETS2LA "
-"theo thời gian thực."
+"Plugin này cung cấp một máy chủ WebSocket cho ETS2LA trực quan hóa dữ liệu. "
+"Nó cho phép bạn kết nối với trực quan hóa dữ liệu bằng các thiết bị khác và "
+"xem dữ liệu của ETS2LA theo thời gian thực."
 
 #: .\main.py:94
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Đang kiểm tra các mirror..."
 
 #: .\main.py:102
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Đã đến {0} trong {1:.f} mili giây"
 
 #: .\main.py:108
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " -Đã đến {0} trong (Hết thời gian chờ)"
 
 #: .\main.py:123
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " _Đang chạy các tác vụ sau tải về cho submodule:  Giao diện  -- "
 
 #: .\main.py:141
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "Đang chạy ETS2LA ở chế độ nhà phát triển."
 
 #: .\main.py:145
 msgid "Running UI locally"
-msgstr ""
+msgstr "Đang chạy UI cục bộ"
 
 #: .\main.py:150
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr ""
+msgstr "Không có kết nối để điều khiển các UI mirror. Đang chạy cục bộ."
 
 #: .\main.py:161
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Đang chạy UI ở chế độ Trung Quốc"
 
 #: .\main.py:163
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Đang dùng mirror {0} cho UI."
 
 #: .\main.py:169
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console không thể sử dụng cùng với --no-ui. Console sẽ không được đóng."
 
 #: .\main.py:171
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Đang đóng console sau khi UI được khởi động."
 
 #: .\main.py:174
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Đang chạy trong nền với không cửa sổ."
 
 #: .\main.py:192
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "Trình giám sát ETS2LA đã được khởi động!"
 
 #: .\main.py:208
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA đang khởi động lại..."
 
 #: .\main.py:214
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Đang bỏ qua cập nhật do chế độ nhà phát triển."
 
 #: .\main.py:217
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA đang cập nhật..."
 
 #: .\main.py:220
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Cập nhật hoàn tất... đang khởi động lại!"
 
 #: .\main.py:225
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA đã bị crash!"
 
 #: .\main.py:234
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Gửi bản ghi lỗi ở trên đến nhà phát triển."
 
 #: .\main.py:236
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA đã được đóng."
 
 #: .\main.py:237
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Nhấn phím enter để thoát."
