@@ -105,7 +105,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
 msgid "Timeout"
-msgstr ""
+msgstr "עבר הזמן הקצוב"
 
 #: .\ETS2LA\Handlers\plugins.py:551
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
