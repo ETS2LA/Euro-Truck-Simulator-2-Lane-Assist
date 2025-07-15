@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-14 13:24\n"
-"PO-Revision-Date: 2025-07-15 11:31+0000\n"
+"PO-Revision-Date: 2025-07-15 11:35+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -593,7 +593,7 @@ msgstr "Giúp chúng tôi biên dịch trên discord!"
 
 #: .\Pages\global_settings.py:188
 msgid "This translation is {percentage:.2f}% complete."
-msgstr "Bàn dịch này đã hoàn thành {percentage:..2f}%."
+msgstr "Bàn dịch này đã hoàn thành {percentage:.2f}%."
 
 #: .\Pages\global_settings.py:195
 msgid "Audio"
