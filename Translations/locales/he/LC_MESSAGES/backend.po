@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-15 18:45+0000\n"
+"PO-Revision-Date: 2025-07-15 21:01+0000\n"
 "Last-Translator: techcatgato <techcatgato@ets2la.com>\n"
 "Language-Team: Hebrew <http://weblate.ets2la.com/projects/ets2la/backend/he/>"
 "\n"
@@ -130,14 +130,16 @@ msgstr ""
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"כשלון בהורדת ספריית ffmpeg, אנא נסה להוריד אותה באופן ידני. (לדוגמא: [code]"
+"winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "חסר הסאונד הדרוש '{1}' בחבילה '{0}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "לחבילה'{0}' סוג קובץ לא נתמך '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
@@ -149,11 +151,11 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "קרתה שגיאה בעיבוד הודעה."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "היה נסיון לשלוח עמוד ריק."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
@@ -225,7 +227,7 @@ msgstr ""
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "לא נמצאו אזהרות או שגיאות."
 
 #: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
@@ -244,12 +246,13 @@ msgid "Backend started successfully"
 msgstr ""
 
 #: .\Pages\about.py:14
+#, fuzzy
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "המפתח הראשי של ETS2LA, חזיות קדמיות ואחוריות."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "זיהוי ניווט, זיהוי רמזורים, ETS2LA Lit"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
