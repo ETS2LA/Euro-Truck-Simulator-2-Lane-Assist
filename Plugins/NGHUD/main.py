@@ -229,11 +229,17 @@ class Plugin(ETS2LAPlugin):
         enabled = [runner.name for runner in self.renderers]
         for renderer in enabled:
             if renderer not in renderers:
-                self.disable_renderer(renderer)
-                
+                try:
+                    self.disable_renderer(renderer)
+                except:
+                    logging.debug(f"NGHUD: Renderer '{renderer}' not found in runners.")
+
         for renderer in renderers:
             if renderer not in enabled:
-                self.enable_renderer(renderer)
+                try:
+                    self.enable_renderer(renderer)
+                except:
+                    logging.debug(f"NGHUD: Renderer '{renderer}' not found in runners.")
         
     def is_day(self) -> bool:
         if not self.data:
