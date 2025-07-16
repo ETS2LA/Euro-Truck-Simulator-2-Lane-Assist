@@ -208,12 +208,18 @@ class Plugin(ETS2LAPlugin):
         enabled = self.settings.get("widgets", self.default_widgets)
         for widget in enabled:
             if widget not in [runner.element.name for runner in self.widgets]:
-                self.set_widget(widget)
+                try:
+                    self.set_widget(widget)
+                except:
+                    logging.debug(f"NGHUD: Widget '{widget}' not found in runners.")
         
         for widget in self.widgets:
             if widget.element.name not in enabled:
-                self.remove_widget(widget.element.name)
-            
+                try:
+                    self.remove_widget(widget.element.name)
+                except:
+                    logging.debug(f"NGHUD: Widget '{widget.element.name}' not found in runners.")
+
     def ensure_renderers_selected(self):
         renderers = self.settings.renderers
         if renderers is None:
