@@ -192,4 +192,4 @@ class Page(ETS2LAPage):
             Space(styles.Height("8px"))
             with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full")):
                 Text(_("All displayed data is averaged over a second."), styles.Description())
-                Text(_("This page took {time:.2f} ms to render.", time=(time.perf_counter() - start_time) * 1000), styles.Description())
+                Text(_("This page took {time:.2f} ms to render.").format(time=(time.perf_counter() - start_time) * 1000), styles.Description())
