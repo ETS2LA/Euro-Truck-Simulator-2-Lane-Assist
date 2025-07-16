@@ -10,6 +10,7 @@ import math
 import os
         
 from ETS2LA.Utils.Values.numbers import SmoothedValue
+from ETS2LA.Utils.translator import _
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 
@@ -201,8 +202,8 @@ class SettingsMenu(ETS2LAPage):
     refresh_rate = 0.5
     url = "/settings/VisualizationSockets"
     location = ETS2LAPageLocation.SETTINGS
-    title = "Visualization Sockets"
-    
+    title = _("Visualization Sockets")
+
     def test(self):
         print("hi")
     
@@ -216,48 +217,49 @@ class SettingsMenu(ETS2LAPage):
             IP = "127.0.0.1"
 
         TitleAndDescription(
-            title="Visualization Sockets",
-            description="This plugin provides a websocket server for the ETS2LA Visualization."
+            title=_("Visualization Sockets"),
+            description=_("This plugin provides a websocket server for the ETS2LA Visualization.")
         )
 
         with Tabs():
-            with Tab(name="Host Device"):
+            # TRANSLATORS: Host device in this context means the device that is running ETS2LA.
+            with Tab(name=_("Host Device")):
                 with Container(styles.FlexVertical() + styles.Gap("14px")):
-                    Text("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors.", style=styles.Description())
+                    Text(_("If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."), style=styles.Description())
                     with Container(styles.FlexHorizontal() + styles.Gap("4px")):
-                        Text("You can also use the following website:", style=styles.Description())
+                        Text(_("You can also use the following website:"), style=styles.Description())
                         Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", styles.Classname("font-semibold text-sm"))
 
-            with Tab(name="Other Device"):
+            with Tab(name=_("Other Device")):
                 with Container(styles.FlexVertical() + styles.Gap("14px")):
                     if IP != "127.0.0.1":
                         with Container(styles.FlexVertical() + styles.Gap("6px")):
                             with Container(styles.FlexHorizontal() + styles.Gap("4px")):
-                                Text("1. Open the following URL in your device's browser: ", style=styles.Description())
+                                Text(_("1. Open the following URL in your device's browser: "), style=styles.Description())
                                 Link("http://visualization.ets2la.com", "http://visualization.ets2la.com", styles.Classname("font-semibold text-sm text-muted-foreground"))
-                            Text("NOTE: You must load the site as http instead of https. Google Chrome will not work!", styles.Classname("font-bold text-muted-foreground"))
+                            Text(_("NOTE: You must load the site as http instead of https. Google Chrome will not work!"), styles.Classname("font-bold text-muted-foreground"))
                         with Container(styles.FlexVertical() + styles.Gap("6px")):
-                            Text("2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:", styles.Description())
+                            Text(_("2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"), styles.Description())
                             Text(f"ws://{IP}:37522", styles.Classname("font-bold") + styles.Description())
 
-                        Text("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices.", styles.Description())
+                        Text(_("3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."), styles.Description())
                     else:
-                        Text("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible.", styles.Classname("font-bold") + styles.Description())
+                        Text(_("Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."), styles.Classname("font-bold") + styles.Description())
 
         Separator()
         
         if not self.plugin:
-            Text("Waiting for plugin start...", styles.Classname("font-bold"))
+            Text(_("Waiting for plugin start..."), styles.Classname("font-bold"))
             return
         
         try:
             clients = self.plugin.connected_clients
         except:
-            Text("Waiting for plugin to load...", styles.Classname("font-bold"))
+            Text(_("Waiting for plugin to load..."), styles.Classname("font-bold"))
             return
         
         if len(clients) > 0:
-            Text("The following clients are currently connected:")
+            Text(_("The following clients are currently connected:"))
             with Container(styles.FlexVertical() + styles.Gap("14px")):
                 for client in clients:
                     with Container(styles.FlexVertical() + styles.Gap("6px") + styles.Classname("border rounded-lg p-4 bg-input/10")):
@@ -266,13 +268,13 @@ class SettingsMenu(ETS2LAPage):
                             Text(f"- {client.id}", styles.Classname("text-sm") + styles.Description())
                         connection = clients[client]
                         with Container(styles.FlexVertical() + styles.Gap("4px")):
-                            Text(f"- Latency: {client.latency * 1000:.2f}ms", styles.Classname("text-sm"))
+                            Text("- " + _("Latency: {latency:.2f}ms").format(latency=client.latency * 1000), styles.Classname("text-sm"))
                             if connection.subscribed_channels:
-                                Text(f"- Channels: {connection.subscribed_channels}", styles.Classname("text-sm"))
+                                Text("- " + _("Channels: {channels}").format(channels=", ".join(str(channel) for channel in connection.subscribed_channels)), styles.Classname("text-sm"))
                             else:
-                                Text("Not acknowledged yet.", styles.Classname("font-semibold text-sm"))
+                                Text(_("Not acknowledged yet."), styles.Classname("font-semibold text-sm"))
         else:
-            Text("There are no currently connected clients.", styles.Classname("font-bold"))
+            Text(_("There are no currently connected clients."), styles.Classname("font-bold"))
 
 class WebSocketConnection:
     def __init__(self, websocket):
@@ -292,9 +294,9 @@ class WebSocketConnection:
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="plugin.visualizationsockets",
+        name=_("Visualization Sockets"),
         version="2.0",
-        description="plugin.visualizationsockets.description",
+        description=_("This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."),
         modules=["TruckSimAPI", "Traffic", "Semaphores"],
         tags=["Base", "Visualization"],
         fps_cap=20

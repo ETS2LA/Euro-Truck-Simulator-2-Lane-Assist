@@ -2,11 +2,10 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 from ETS2LA.UI import Text as UIText
 
-from Plugins.AR.classes import *
 from ETS2LA.Utils.Values.numbers import SmoothedValue
-
-# ETS2LA imports
 import ETS2LA.Utils.settings as settings
+from ETS2LA.Utils.translator import _
+from Plugins.AR.classes import *
 
 
 PURPLE = "\033[95m"
@@ -153,7 +152,7 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float, relative: bool = Fal
 class Settings(ETS2LAPage):
     url = "/settings/AR"
     location = ETS2LAPageLocation.SETTINGS
-    title = "plugins.ar"
+    title = _("AR")
 
     def vision_compat_changed(self, *args):
         if args:
@@ -181,27 +180,27 @@ class Settings(ETS2LAPage):
 
     def render(self):
         TitleAndDescription(
-            "plugins.ar",
-            "plugins.ar.description",
+            _("AR"),
+            _("Change the AR overlay settings here."),
         )
             
         CheckboxWithTitleDescription(
-            title="ar.settings.vision_compatible.name",
-            description="ar.settings.vision_compatible.description",
+            title=_("Don't hide AR from recording software"),
+            description=_("By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."),
             default=settings.Get("AR", "vision_compat", True),
             changed=self.vision_compat_changed,
         )
         
         CheckboxWithTitleDescription(
-            title="ar.settings.show_test_objects.name",
-            description="ar.settings.show_test_objects.description",
+            title=_("Show test objects"),
+            description=_("Show test objects in the AR overlay."),
             default=settings.Get("AR", "test_objects", False),
             changed=self.test_objects_changed,
         )
         
         CheckboxWithTitleDescription(
-            title="Show when not in focus",
-            description="Show the AR overlay even when the game is not in focus. This can be useful for changing settings.",
+            title=_("Show when not in focus"),
+            description=_("Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."),
             default=settings.Get("AR", "show_when_not_in_focus", False),
             changed=self.show_when_not_in_focus_changed,
         )
@@ -209,17 +208,17 @@ class Settings(ETS2LAPage):
         try:
             if self.plugin:
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    UIText("Items: " + str(self.plugin.item_count), styles.Description())
-                    UIText("Draw Calls: " + str(self.plugin.draw_calls), styles.Description())
-                    UIText("Render Time: " + f"{self.plugin.render_time * 1000:.2f} ms", styles.Description())
+                    UIText(_("Items: {}").format(self.plugin.item_count), styles.Description())
+                    UIText(_("Draw Calls: {}").format(self.plugin.draw_calls), styles.Description())
+                    UIText(_("Render Time: {:.2f} ms").format(self.plugin.render_time * 1000), styles.Description())
         except:
             pass
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="plugins.ar",
+        name=_("AR"),
         version="1.0",
-        description="plugins.ar.description",
+        description=_("The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."),
         modules=["TruckSimAPI", "Camera"],
         tags=["Visualization", "AR", "Base"],
         fps_cap=1000

@@ -1,216 +1,243 @@
-from ETS2LA.Utils.submodules import EnsureSubmoduleExists
-import ETS2LA.Utils.settings as settings
-import ETS2LA.variables as variables
-import logging
-import yaml
-import ftfy
+"""
+The main translation interface for ETS2LA. Usual usage is to import the `_`
+function and use it to translate strings, e.g. `_("Hello, World!")`.
+
+Also provides a `ngettext` function for plural translations, e.g.
+`ngettext("There is one apple", "There are {n} apples", n)`. This will
+automatically handle pluralization for languages with more than two forms (or only one).
+
+The `generate_translations` function should be called with the python file at the 
+root of the project to update the translation files. Please lock and update the 
+translations from weblate before generating, as you might hit merge conflicts otherwise.
+"""
+
+from ETS2LA.Utils.settings import Get, Listen
+from langcodes import Language
+import datetime
+import gettext
 import os
 
-DATA_FOLDER = "Translations"
-FRONTEND_DATA_FOLDER = "Interface/translations"
-
-EnsureSubmoduleExists("Translations", "https://gitlab.com/ETS2LA/translations.git",
-                      cdn_url="https://cdn.ets2la.com/translations", cdn_path="translations-main",
-                      download_updates=False)
-
-FILES = [file for file in os.listdir(DATA_FOLDER) if file.endswith(".yaml")]
-FILES.remove("keys.yaml")
-KEYS = yaml.safe_load(open(os.path.join(DATA_FOLDER, "keys.yaml"), "r", encoding="utf-8"))
-
-LANGUAGE_DATA = {}
-LANGUAGES = []
-LANGUAGE_CODES = []
-
-def LoadLanguageData():
-    global LANGUAGE_DATA
-    global LANGUAGES, LANGUAGE_CODES
+# region Usage
+def get_available_languages(localedir: str) -> list:
+    """
+    Get a list of available languages from the specified locale directory.
     
-    LANGUAGE_DATA = {}
-    LANGUAGES = []
-    LANGUAGE_CODES = []
+    :param localedir: The directory where the locale files are stored.
+    :return: A list of available language codes.
+    """
+    languages = []
+    for lang in os.listdir(localedir):
+        if os.path.isdir(os.path.join(localedir, lang, "LC_MESSAGES")):
+            languages.append(
+                Language.get(lang)
+            )
+    return languages
+
+languages = get_available_languages("Translations/locales")
+
+class Translate:
+    """
+    A class to handle translations using gettext.
+    """
     
-    for file in FILES:
-        try:
-            LANGUAGE_DATA[file.split(".")[0]] = yaml.safe_load(open(os.path.join(DATA_FOLDER, file), "r", encoding="utf-8"))
-            LANGUAGES.append(LANGUAGE_DATA[file.split(".")[0]]["Language"]["name"])
-            LANGUAGE_CODES.append(file.split(".")[0])
-        except:
-            print(f"Failed to load language file {file}. This warning can be ignored.")
+    def __init__(self, domain: str, localedir: str, language: str):
+        self.domain = domain
+        self.localedir = localedir
+        self.set_language(language)
+
+    def set_language(self, language: str):
+        self.translation = gettext.translation(self.domain, localedir=self.localedir, languages=[language], fallback=True)
+        self.translation.install()
+        self._ = self.translation.gettext
+        self.language = language
+        
+    def get_language(self) -> str:
+        """
+        Get the currently set language.
+        
+        :return: The current language code.
+        """
+        return self.language
+    
+    def get_percentage(self) -> float:
+        """
+        Get the percentage of strings translated in the current language.
+        """
+        if self.language == "en":
+            return 100.0
+        
+        po_file = f"{self.localedir}/{self.language}/LC_MESSAGES/{self.domain}.po"
+        if not os.path.exists(po_file):
+            return 0.0
+        
+        total_strings = -1 # Starts with one msgid that is not counted
+        translated_strings = 0
+        found_text = False
+        
+        with open(po_file, "r", encoding="utf-8") as file:
+            for line in file:
+                if line.startswith("msgid") and not line.startswith("msgid_plural"):
+                    total_strings += 1
+                    if found_text:
+                        translated_strings += 1
+                        found_text = False
+                    
+                elif '"' in line and not line.startswith("#") and '""' not in line:
+                    found_text = True
+        
+        if found_text:
+            translated_strings += 1
+        
+        return (translated_strings / total_strings) * 100 if total_strings > 0 else 0.0
+
+    def cleanup(self, string: str) -> str:
+        """
+        Clean up a string to remove unnecessary whitespace and
+        fix common issues with foreign curly braces.
+        
+        :param string: The string to clean up.
+        :return: The cleaned-up string.
+        """
+        string = string.strip()
+        string = string.replace("｝", "}").replace("｛", "{")
+        return string
+
+    def __call__(self, key: str, *args) -> str:
+        text = self.cleanup(self._(key))
+        return text.format(*args) if args else text
+    
+    def ngettext(self, singular: str, plural: str, n: int) -> str:
+        """
+        Get the pluralized translation based on the count.
+        
+        :param singular: The singular form of the string.
+        :param plural: The plural form of the string.
+        :param n: The count to determine which form to use.
+        :return: The translated string in singular or plural form.
+        """
+        return self.cleanup(
+            self.translation.ngettext(singular, plural, n)
+        )
+
+def parse_language(language: Language) -> str:
+    code = ""
+    if language.script:
+        code = language.language + "_" + language.script
+    elif language.language == "zh" and not language.script:
+        code = "zh_Hans"
+    elif language.language == "nb":
+        code = "nb_NO"
+    else:
+        code = language.language
+        
+    return code
+    
+default = Get("global", "language", "English")
+default = parse_language(Language.find(default))
+_ = Translate("backend", "Translations/locales", default)  # Default to English
+T_ = _
+ngettext = _.ngettext  # Alias for ngettext
+
+def set_language(language: str | Language):
+    """
+    Set the language for translations.
+    
+    :param language: The language code to set.
+    """
+    if isinstance(language, Language):
+        language = language.language
+        
+    _.set_language(language)
+    
+def detect_change(dictionary: dict):
+    language = dictionary.get("language", "English")
+    language = parse_language(Language.find(language))
+    
+    if language != _.get_language():
+        set_language(language)
+    
+Listen("global", detect_change)
+
+# region Generation
+overrides = {
+    "zh": "zh_Hans",
+    "nb": "nb_NO"
+}
+def generate_translations():
+    """
+    Generate translation files from the source code.
+    """
+    target_dir = "Translations/locales"
+    if not os.path.exists(target_dir):
+        os.makedirs(target_dir)
+    
+    package_name = "ETS2LA Backend"
+    package_version = "1.0.0"
+    organization = "ETS2LA Team"
+    organization_email = "contact@ets2la.com"
+    current_year = datetime.datetime.now().year
+    
+    # Generate base .pot file
+    os.system(f"python ETS2LA/Assets/gettext/pygettext.py -d ets2la -w 9999 -c TRANSLATORS -o {target_dir}/base.pot .")
+    
+    # Header
+    header_template = f'''# Translation template for {package_name}.
+# Copyright (C) {current_year} {organization}
+# This file is distributed under the same license as the root package.
+# {organization} <{organization_email}>, {current_year}.
+#
+
+msgid ""
+msgstr ""
+"Project-Id-Version: {package_name} {package_version}\\n"
+"POT-Creation-Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M%z')}\\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n"
+"Language-Team: LANGUAGE <LL@li.org>\\n"
+"MIME-Version: 1.0\\n"
+"Content-Type: text/plain; charset=UTF-8\\n"
+"Content-Transfer-Encoding: 8bit\\n"
+"Generated-By: pygettext.py 1.5\\n"
+'''
+    
+    # Replace the header in the base.pot file
+    with open(f"{target_dir}/base.pot", "r", encoding="utf-8") as file:
+        content = file.read()
+        
+    msgid_index = content.find("msgid \"\"")
+    if msgid_index == -1:
+        raise ValueError("msgid section not found in base.pot file.")
+    
+    generated_by_index = content.find("Generated-By:")
+    if generated_by_index == -1:
+        raise ValueError("Generated-By section not found in base.pot file.")
+    
+    msg_part = content[msgid_index:]
+    content = header_template + msg_part[msg_part.find('\n', msg_part.find('Generated-By:')) + 1:]
+
+    # Write back the updated content
+    with open(f"{target_dir}/base.pot", "w", encoding="utf-8") as file:
+        file.write(content)
+    
+    # Generate or update .po files for each language
+    for lang in [language.language for language in languages]:
+        if lang in overrides:
+            lang = overrides[lang]
+            
+        lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"
+        if not os.path.exists(lang_dir):
+            os.makedirs(lang_dir)
+        
+        po_file = f"{lang_dir}/backend.po"
+        
+        # Check if the PO file already exists
+        if os.path.exists(po_file):
+            # If it exists, merge with the new template to preserve translations
+            print(f"Updating existing translations for language: {lang}")
+            os.system(f'msgmerge --update --no-wrap --backup=none --no-fuzzy-matching "{po_file}" "{target_dir}/base.pot"')
             continue
-        
-LoadLanguageData()
-
-try:
-    cur = settings.Get("global", "language")
-    if not cur and os.name == "nt":
-        logging.info("Detecting default language...")
-        # Ugly hack to get the default locale on Windows
-        import locale
-        default_locale = locale.getlocale()[0]
-        if default_locale is None:
-            default_locale = "English"
         else:
-            name = default_locale.split("_")[0].split("(")[0]
-            if "Taiwan" in default_locale:
-                name = "Traditional Chinese (Taiwan)"
-            elif "China" in default_locale:
-                name = "Simplified Chinese"
-            default_locale = name
+            print(f"ERROR: PO file for language {lang} does not exist.")
+            print("Please add the real language code to the overrides.")
         
-        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", default_locale))]
-        logging.info(f"Found default language: {default_locale}")
-    else:
-        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
-        
-except ValueError:
-    logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
-    LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
-    settings.Set("global", "language", "English")
-
-def UpdateFrontendTranslations():
-    if not variables.LOCAL_MODE:
-        return
-    
-    try:
-        if os.path.exists(FRONTEND_DATA_FOLDER):
-            # Remove old translations
-            for file in os.listdir(FRONTEND_DATA_FOLDER):
-                os.remove(os.path.join(FRONTEND_DATA_FOLDER, file))
-                
-            # Add new translations
-            for language in LANGUAGE_DATA:
-                with open(os.path.join(FRONTEND_DATA_FOLDER, f"{language}.yaml"), "w", encoding="utf-8") as f:
-                    yaml.dump(LANGUAGE_DATA[language], f, indent=4)
-    except:
-        pass
-                
-def CheckLanguageDatabase():
-    for language in LANGUAGE_CODES:
-        not_found = []
-        for key in KEYS:
-            if key not in LANGUAGE_DATA[language]["Translations"] and key not in LANGUAGE_DATA[language]["Language"]:
-                try:
-                    not_found.append(key)
-                except:
-                    pass # Probably encoding issue
-                
-        not_in_keys = []
-        for key in LANGUAGE_DATA[language]["Translations"]:
-            if key not in KEYS:
-                if not key.startswith("_"):
-                    not_in_keys.append(key)
-        
-        if len(not_found) > 0:
-            if variables.DEVELOPMENT_MODE:
-                logging.warning(f"Did not find values for the following keys in [dim]{LANGUAGE_DATA[language]['Language']['name_en']}[/dim]: {not_found}")
-        if len(not_in_keys) > 0:
-            if variables.DEVELOPMENT_MODE:
-                logging.warning(f"Found keys that are not in the keys.yaml file in [dim]{LANGUAGE_DATA[language]['Language']['name_en']}[/dim]: {not_in_keys}")
-
-def GetCodeForLanguage(language: str) -> str:
-    if language in LANGUAGES:
-        return LANGUAGE_CODES[LANGUAGES.index(language)]
-    else:
-        logging.error(f"{language} is not a valid language.")
-        return ""
-    
-def GetLanguageForCode(code: str):
-    if code in LANGUAGE_CODES:
-        return LANGUAGES[LANGUAGE_CODES.index(code)]
-    else:
-        logging.error(f"{code} is not a valid language code.")
-        return None
-
-def CheckKey(key: str):
-    if key in KEYS:
-        return True
-    else:
-        return False
-    
-def SpecialCases(key: str | None, language: str | None = None) -> str:
-    if language:
-        if key in LANGUAGE_DATA[language]["Language"]:
-            return LANGUAGE_DATA[language]["Language"][key]
-        return ""
-    
-    if LANGUAGE not in LANGUAGE_DATA:
-        logging.error(f"{LANGUAGE} is not a valid language.")
-        return ""
-    
-    if key in LANGUAGE_DATA[LANGUAGE]["Language"]:
-        return LANGUAGE_DATA[LANGUAGE]["Language"][key]
-    return ""
-
-def TranslateToLanguage(key: str, language: str, values: list = None) -> str: # type: ignore
-    if not CheckKey(key):
-        logging.error(f"{key} is not a valid key.")
-        return ""
-    
-    if SpecialCases(key, language=language) != "":
-        return SpecialCases(key, language=language)
-    
-    if values is None:
-        values = []
-    
-    if language not in LANGUAGE_DATA:
-        logging.error(f"{language} is not a valid language.")
-        return ""
-    
-    if key not in LANGUAGE_DATA[language]["Translations"]:
-        if language == "en":
-            logging.error(f"Did not find a value for {key} in English!")
-            return ""
-        if key not in LANGUAGE_DATA["en"]:
-            logging.error(f"Did not find a value for {key} in English!")
-            return ""
-        return LANGUAGE_DATA["en"][key].format(*values)
-    
-    return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
-
-def Translate(key: str, values: list = None, return_original: bool = False, language: str = "") -> str: # type: ignore
-    if not CheckKey(key):
-        if return_original:
-            return key
-        
-        logging.error(f"{key} is not a valid key.")
-        return ""
-    
-    if SpecialCases(key) != "":
-        return SpecialCases(key)
-    
-    if values is None:
-        values = []
-    
-    if not language:
-        language = LANGUAGE
-        
-    if language not in LANGUAGE_DATA:
-        logging.error(f"{LANGUAGE} is not a valid language.")
-        return ""
-    
-    if key not in LANGUAGE_DATA[language]["Translations"]:
-        if language == "en":
-            logging.error(f"Did not find a value for {key} in English!")
-            if return_original:
-                return key
-            return ""
-        if key not in LANGUAGE_DATA["en"]:
-            logging.error(f"Did not find a value for {key} in English!")
-            if return_original:
-                return key
-            return ""
-        return LANGUAGE_DATA["en"][key].format(*values)
-    
-    return ftfy.fix_text(LANGUAGE_DATA[language]["Translations"][key].format(*values))
-
-def SettingsUpdate(new: dict):
-    global LANGUAGE
-    
-    try:
-        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index(settings.Get("global", "language", "English"))]
-    except ValueError:
-        logging.warning(f"Language '{settings.Get('global', 'language', 'English')}' not found. Falling back to English.")
-        LANGUAGE = LANGUAGE_CODES[LANGUAGES.index("English")]
-        settings.Set("global", "language", "English")
-        
-settings.Listen("global", SettingsUpdate)
+    print("Translation files have been successfully updated")

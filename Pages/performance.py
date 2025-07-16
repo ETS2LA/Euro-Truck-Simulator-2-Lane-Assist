@@ -1,3 +1,4 @@
+from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
 import threading
@@ -90,23 +91,23 @@ class Page(ETS2LAPage):
         start_time = time.perf_counter()
         with Container(styles.FlexVertical() + styles.Classname("p-4")):
             with Tabs():
-                with Tab("System"):
+                with Tab(_("System")):
                     if len(self.cpu_usage) < 60 or len(self.ram_usage) < 60:
                         with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full")):
-                            Text("Data is still being collected, please wait a few seconds for the graphs to stabilize.", styles.Description())
+                            Text(_("Data is still being collected, please wait a few seconds for the graphs to stabilize."), styles.Description())
                         Space(styles.Height("24px"))
                         
                     with Container(styles.FlexHorizontal() + styles.Classname("gap-6")):
                         with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full h-full relative") + styles.Height("320px")):
                             with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
-                                Text("CPU Usage")
+                                Text(_("CPU Usage"))
                                 if self.cpu_usage:
                                     Text(f"{round(self.cpu_usage[-1])}%", styles.Description())
                                    
                             with Container(styles.Classname("absolute bottom-0 left-0 right-0")): 
                                 Graph(
                                     data=[{"time": i, "cpu": value} for i, value in enumerate(self.cpu_usage)],
-                                    config={"cpu": {"label": "CPU Usage "}},
+                                    config={"cpu": {"label": _("CPU Usage ")}},
                                     x=GraphAxisOptions("time"),
                                     y=GraphAxisOptions("cpu", max=100, min=0),
                                     style=styles.MaxHeight("270px"),
@@ -114,32 +115,32 @@ class Page(ETS2LAPage):
                                 
                         with Container(styles.FlexVertical() + styles.Classname("relative border rounded-md p-4 w-full h-full") + styles.Height("320px")):
                             with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
-                                Text("RAM Usage")
+                                Text(_("RAM Usage"))
                                 if self.ram_usage:
                                     Text(f"{round(self.ram_usage[-1])}%", styles.Description())
                                     
                             with Container(styles.Classname("absolute bottom-0 left-0 right-0")): 
                                 Graph(
                                     data=[{"time": i, "ram": value, "ets2la_ram": self.ets2la_mem_usage[i]} for i, value in enumerate(self.ram_usage)],
-                                    config={"ram": {"label": "RAM Usage "}, "ets2la_ram": {"label": "ETS2LA RAM Usage  "}},
+                                    config={"ram": {"label": _("RAM Usage ")}, "ets2la_ram": {"label": _("ETS2LA RAM Usage  ")}},
                                     x=GraphAxisOptions("time"),
                                     y=[GraphAxisOptions("ram", max=100, min=0), GraphAxisOptions("ets2la_ram", max=100, min=0, color="#395C5B")],
                                     style=styles.MaxHeight("270px"),
                                 )
-                        
-                with Tab("Plugins"):
+
+                with Tab(_("Plugins")):
                     with Container(styles.FlexVertical() + styles.Classname("gap-6")):
                         running_plugins = [plugin for plugin in plugins.plugins if plugin.running]
                         if not running_plugins:
-                            Text("No plugins are currently running.", styles.Description() + styles.Classname("font-bold"))
-                        
+                            Text(_("No plugins are currently running."), styles.Description() + styles.Classname("font-bold"))
+
                         for plugin in running_plugins:
                             try:
                                 if not plugin.frametimes:   
                                     continue
                                 
-                                if plugin.description.name not in self.first_times:
-                                    self.first_times[plugin.description.name] = plugin.frametimes[0]
+                                if plugin.description.id not in self.first_times:
+                                    self.first_times[plugin.description.id] = plugin.frametimes[0]
                                 
                                 with Container(styles.FlexVertical() + styles.Classname("relative border rounded-md p-4") + styles.Height("200px")):
                                     with Container(styles.FlexHorizontal() + styles.Classname("z-10 w-max")):
@@ -167,8 +168,8 @@ class Page(ETS2LAPage):
                                                 except:
                                                     pass
                                     
-                                    if plugin.frametimes[0] == self.first_times[plugin.description.name]:
-                                        Text("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize.", styles.Description() + styles.Classname("text-xs"))
+                                    if plugin.frametimes[0] == self.first_times[plugin.description.id]:
+                                        Text(_("Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."), styles.Description() + styles.Classname("text-xs"))
 
                                     graph_data = self.format_frametimes_to_graph_data(plugin.frametimes)
                                     graph_config = {
@@ -186,9 +187,9 @@ class Page(ETS2LAPage):
                                             style=styles.MaxHeight("150px")
                                         )
                             except:
-                                Text(f"Failed to render plugin {plugin.description.name}.", styles.Description() + styles.Classname("text-red-500"))
+                                Text(_("Failed to render plugin {plugin_name}.", plugin_name=plugin.description.name), styles.Description() + styles.Classname("text-red-500"))
 
             Space(styles.Height("8px"))
             with Container(styles.FlexVertical() + styles.Classname("border rounded-md p-4 w-full")):
-                Text("All displayed data is averaged over a second.", styles.Description())
-                Text(f"This page took {(time.perf_counter() - start_time) * 1000:.2f} ms to render.", styles.Description())
+                Text(_("All displayed data is averaged over a second."), styles.Description())
+                Text(_("This page took {time:.2f} ms to render.", time=(time.perf_counter() - start_time) * 1000), styles.Description())

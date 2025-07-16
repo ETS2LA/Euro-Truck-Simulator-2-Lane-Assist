@@ -3,12 +3,13 @@ from ETS2LA.Plugin import *
 from ETS2LA.UI import *
 from ETS2LA import variables
 
+from ETS2LA.Utils.translator import _
 import ETS2LA.Utils.settings as settings
 import Plugins.Map.data as data
 
 class SettingsMenu(ETS2LAPage):
     url = "/settings/map"
-    title = "Map"
+    title = _("Map")
     location = ETS2LAPageLocation.SETTINGS
     refresh_rate = 0.25
 
@@ -17,7 +18,7 @@ class SettingsMenu(ETS2LAPage):
             return "N/A"
         if key in data.__dict__:
             return data.__dict__[key]
-        return "Not Found"
+        return _("Not Found")
 
     def handle_navigation(self, *args):
         if args:
@@ -90,55 +91,55 @@ class SettingsMenu(ETS2LAPage):
 
     def render(self):
         TitleAndDescription(
-            title="map.settings.1.title",
-            description="map.settings.1.description",
+            title=_("Map Settings"),
+            description=_("Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."),
         )
         
         with Tabs():
-            with Tab("map.settings.tab.general.name", container_style=styles.FlexVertical() + styles.Gap("20px")):
+            with Tab(_("General"), container_style=styles.FlexVertical() + styles.Gap("20px")):
                 CheckboxWithTitleDescription(
-                    title="map.settings.use_navigation.name",
-                    description="map.settings.use_navigation.description",
+                    title=_("Navigate on ETS2LA"),
+                    description=_("Enable the automatic navigation features of ETS2LA."),
                     default=settings.Get("Map", "UseNavigation", True),
                     changed=self.handle_navigation,
                 )
                 CheckboxWithTitleDescription(
-                    title="Send Elevation",
-                    description="When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization.",
+                    title=_("Send Elevation"),
+                    description=_("When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"),
                     default=settings.Get("Map", "SendElevationData", False),
                     changed=self.handle_elevation,
                 )
                 CheckboxWithTitleDescription(
-                    title="Disable FPS Notices",
-                    description="When enabled map will not notify of any FPS related issues.",
+                    title=_("Disable FPS Notices"),
+                    description=_("When enabled map will not notify of any FPS related issues."),
                     default=settings.Get("Map", "DisableFPSNotices", False),
                     changed=self.handle_fps_notices,
                 )
-                
-            with Tab("map.settings.tab.steering.name", container_style=styles.FlexVertical() + styles.Gap("20px")):
+
+            with Tab(_("Steering"), container_style=styles.FlexVertical() + styles.Gap("20px")):
                 CheckboxWithTitleDescription(
-                    title="map.settings.compute_steering_data.name",
-                    description="map.settings.compute_steering_data.description",
+                    title=_("Compute Steering Data"),
+                    description=_("When enabled map will compute and send steering data to the game."),
                     default=settings.Get("Map", "ComputeSteeringData", True),
                     changed=self.handle_steering_data,
                 )
                 CheckboxWithTitleDescription(
-                    title="map.settings.drive_based_on_trailer.name",
-                    description="map.settings.drive_based_on_trailer.description",
+                    title=_("Drive Based On Trailer"),
+                    description=_("When enabled map will take into account the trailer when calculating the current steering point."),
                     default=settings.Get("Map", "DriveBasedOnTrailer", True),
                     changed=self.handle_drive_based_on_trailer,
                 )
                 SliderWithTitleDescription(
-                    title="map.settings.steering_smooth_time.name",
-                    description="map.settings.steering_smooth_time.description",
+                    title=_("Steering Smoothness"),
+                    description=_("Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."),
                     default=settings.Get("Map", "SteeringSmoothTime", 0.2),
                     min=0,
                     max=2,
                     step=0.1,
                     changed=self.handle_steering_smooth_time,
                 )
-                
-            with Tab("Data", container_style=styles.FlexVertical() + styles.Gap("20px")):
+
+            with Tab(_("Data"), container_style=styles.FlexVertical() + styles.Gap("20px")):
                 import Plugins.Map.utils.data_handler as dh
                 index = dh.GetIndex()
                 configs = {}
@@ -150,25 +151,25 @@ class SettingsMenu(ETS2LAPage):
                         configs[key] = config
                         
                 with Container(style=styles.FlexVertical() + styles.Gap("4px") + styles.Padding("0px")):
-                    Text("NOTE!", styles.Classname("pl-4 font-semibold text-xs"))
-                    Text("If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!", styles.Description() + styles.Classname("pl-4 text-xs"))
-        
+                    Text(_("NOTE!"), styles.Classname("pl-4 font-semibold text-xs"))
+                    Text(_("If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"), styles.Description() + styles.Classname("pl-4 text-xs"))
+
                 ComboboxWithTitleDescription(
-                    title="Selected Data",
-                    description="Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded.",
+                    title=_("Selected Data"),
+                    description=_("Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."),
                     default=settings.Get("Map", "selected_data", ""),
                     options=[config["name"] for config in configs.values()],
                     search=ComboboxSearch(
-                        placeholder="Search data",
-                        empty="No matching data found"
+                        placeholder=_("Search data"),
+                        empty=_("No matching data found")
                     ),
                     changed=self.handle_data_selection,
                 )
                 
                 ButtonWithTitleDescription(
-                    title="Update Data",
-                    description="Update the currently selected data, this can be helpful if the data is corrupted or there has been an update.",
-                    text="Update",
+                    title=_("Update Data"),
+                    description=_("Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."),
+                    text=_("Update"),
                     action=self.handle_data_update
                 )
                 
@@ -189,12 +190,9 @@ class SettingsMenu(ETS2LAPage):
                                     Text(credit, styles.Classname("text-xs"))
 
                         with Container(style=styles.FlexHorizontal() + styles.Gap("4px") + styles.Padding("0px")):
-                            Text("The", styles.Description() + styles.Classname("text-xs"))
-                            Text("download size", styles.Description() + styles.Classname("text-xs"))
-                            Text("for this data is", styles.Description() + styles.Classname("text-xs"))
+                            Text(_("The download size for this data is"), styles.Description() + styles.Classname("text-xs"))
                             Text(f"{config['packed_size'] / 1024 / 1024:.1f} MB", styles.Classname("text-xs"))
-                            Text("that will unpack to a", styles.Description() + styles.Classname("text-xs"))
-                            Text("total size", styles.Description() + styles.Classname("text-xs"))
+                            Text(_("that will unpack to a total size of"), styles.Description() + styles.Classname("text-xs"))
                             Text(f"{config['size'] / 1024 / 1024:.1f} MB.", styles.Classname("text-xs"))
              
             if variables.DEVELOPMENT_MODE:
@@ -233,8 +231,8 @@ class SettingsMenu(ETS2LAPage):
                 with Tab("Development", container_style=styles.FlexVertical() + styles.Gap("20px")):
                     if self.plugin:
                         CheckboxWithTitleDescription(
-                            title="map.settings.6.name",
-                            description="map.settings.6.description",
+                            title="Internal Visualisation",
+                            description="Enable internal visualisation for debugging.",
                             changed=self.handle_internal_visualisation,
                             default=settings.Get("Map", "InternalVisualisation", False),
                         )

@@ -1,7 +1,9 @@
+"""
+We use umami to track events in the app.
+This file creates an umami instance and lets you trigger events.
+"""
 import logging
-
-# Create a logger to silence httpx
-logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING) # silence httpx logs
 
 try:
     import umami

@@ -1,6 +1,10 @@
 """
 This file contains handlers for ETS2LA's submodules.
-Note that they are not actual submodules, instead we git clone them and handle the updates in this file.
+Note that they are not actual git submodules, instead we 
+git clone them and handle the updates in this file.
+
+This file is only used for the local Interface, but previously it was
+used by quite a lot of other projects.
 """
 
 from ETS2LA.Utils.Console.colors import *

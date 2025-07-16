@@ -1,4 +1,4 @@
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Utils.Console.colors import *
 import os
 
@@ -10,7 +10,7 @@ def ClearLogFiles(folder="logs"):
             os.remove(os.path.join(folder, file))
             
 def CountErrorsAndWarnings(folder="logs"):
-    print("\n" + Translate("main.errors_and_warnings"))
+    print("\n" + _("Errors and warnings in the log files:"))
     if not os.path.exists(folder):
         os.makedirs(folder)
     
@@ -26,11 +26,11 @@ def CountErrorsAndWarnings(folder="logs"):
                     print()
                     print(f"{DARK_GRAY}┌─── {file}{END}")
                 if errors != 0:
-                    print(f"{DARK_GRAY}│{RED} {Translate('main.errors')} {errors} {END}")
+                    print(f"{DARK_GRAY}│{RED} {_('Errors: ')} {errors} {END}")
                 if warnings != 0:
-                    print(f"{DARK_GRAY}│{YELLOW} {Translate('main.warnings')} {warnings} {END}")
+                    print(f"{DARK_GRAY}│{YELLOW} {_('Warnings: ')} {warnings} {END}")
                 if errors != 0 or warnings != 0:
                     print(f"{DARK_GRAY}└───{END}")
                     
     if count == 0:
-        print(f"{GREEN}{Translate('main.no_errors_or_warnings')}{END}")
+        print(f"{GREEN}{_('No errors or warnings found.')}{END}")

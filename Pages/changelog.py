@@ -1,6 +1,7 @@
 from ETS2LA.UI import *
 
 from ETS2LA.Utils.version import GetHistory
+from ETS2LA.Utils.translator import _, ngettext
 
 from datetime import datetime
 import logging
@@ -14,34 +15,25 @@ last_update_check = 0
 class Page(ETS2LAPage):
     dynamic = True
     url = "/changelog"
-    settings_target = "changelog" 
         
     def time_since(self, target_time):
         diff = time.time() - target_time
         if diff < 60:
-            if int(diff) == 1:
-                return "1 second ago"
-            return f"{int(diff)} seconds ago"
+            return ngettext("{seconds} second ago", "{seconds} seconds ago", int(diff)).format(seconds=int(diff))
         elif diff < 3600:
-            if int(diff / 60) == 1:
-                return "1 minute ago"
-            return f"{int(diff / 60)} minutes ago"
+            return ngettext("{minutes} minute ago", "{minutes} minutes ago", int(diff / 60)).format(minutes=int(diff / 60))
         elif diff < 86400:
-            if int(diff / 3600) == 1:
-                return "1 hour ago"
-            return f"{int(diff / 3600)} hours ago"
+            return ngettext("{hours} hour ago", "{hours} hours ago", int(diff / 3600)).format(hours=int(diff / 3600))
         else:
-            if int(diff / 86400) == 1:
-                return "1 day ago"
-            return f"{int(diff / 86400)} days ago"
+            return ngettext("{days} day ago", "{days} days ago", int(diff / 86400)).format(days=int(diff / 86400))
     
     def render(self):
         global last_update_check, last_updates, ran_fetch
         
         if not ran_fetch:
-            logging.info("Fetching changelog and possible changes.")
+            logging.info(_("Fetching changelog and possible changes."))
             os.system("git fetch --prune --quiet")
-            logging.info("Changelog fetched.")
+            logging.info(_("Changelog fetched."))
             ran_fetch = True
         
         if time.perf_counter() - last_update_check > 10:
@@ -72,12 +64,12 @@ class Page(ETS2LAPage):
                         Text(update["author"], styles.Description() + styles.Classname("text-xs"))
                         with Container(styles.FlexHorizontal() + styles.Padding("0") + styles.Classname("flex justify-between w-full")):
                             Text(update["message"], styles.Classname("text-sm font-semibold"))
-                            Link("View Changes", update["url"], styles.Classname("text-xs font-light"))
-                              
+                            Link(_("View Changes"), update["url"], styles.Classname("text-xs font-light"))
+
                     if update["description"] != "":
                         Markdown(update["description"])
                         
                     Space(styles.Height("4px"))
                     Text(local_time + f"  -  {self.time_since(update['time'])}  -  {update['hash'][:9]}", styles.Description() + styles.Classname("text-xs"))
-                    
-            Text("Only the last 20 updates are shown. For more, please check the repository.", styles.Description() + styles.Classname("text-xs"))
+
+            Text(_("Only the last 20 updates are shown. You can check the repository for further history."), styles.Description() + styles.Classname("text-xs"))

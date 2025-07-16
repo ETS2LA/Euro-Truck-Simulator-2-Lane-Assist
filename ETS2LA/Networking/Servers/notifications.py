@@ -37,7 +37,7 @@ dialog (open dialog):
 }
 """
 
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import sounds
 
 from typing import Literal
@@ -90,7 +90,7 @@ async def server(websocket, path) -> None:
                     connected[websocket] = message
                     condition.notify_all()
     except:
-        logging.exception(Translate("immediate.message_error"))
+        logging.exception(_("An error occurred while processing a message."))
         pass
     
     finally:
@@ -202,7 +202,7 @@ def navigate(url: str, sender: str, reason: str = "") -> None:
     Non-async function that will send a command to the frontend to navigate to a new page.
     """
     if url == "":
-        logging.error(Translate("immediate.empty_page"))
+        logging.error(_("Tried to send an empty page."))
         return
     asyncio.run(send_navigate(url, sender, reason))
 
@@ -278,4 +278,4 @@ def run():
     close when the parent thread closes.
     """
     threading.Thread(target=run_thread, daemon=True).start()
-    logging.info(Translate("immediate.websocket_started"))
+    logging.info(_("Frontend popup websocket started."))

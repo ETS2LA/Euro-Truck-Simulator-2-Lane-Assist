@@ -1,3 +1,12 @@
+"""
+This file is used by the backend and pages.
+Plugins should use self.settings for a more reliable way with less of a chance
+for a race condition to occur.
+
+Basically if you would be sending anything other than "global" as the plugin
+name, then you should probably use self.settings instead.
+"""
+
 import logging
 import random
 import time

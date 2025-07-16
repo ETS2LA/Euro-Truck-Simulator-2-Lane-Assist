@@ -6,6 +6,7 @@ from Plugins.Map.classes import *
 from Plugins.AR.classes import *
 from Modules.Semaphores.classes import TrafficLight
 import ETS2LA.Utils.settings as settings
+from ETS2LA.Utils.translator import _
 
 # General imports
 import threading
@@ -77,16 +78,16 @@ class Settings(ETS2LAPage):
     
     def render(self):
         TitleAndDescription(
-            "HUD",
-            "This plugin provides a HUD using the AR plugin as the renderer."
+            title=_("HUD"),
+            description=_("This plugin provides a HUD using the AR plugin as the renderer.")
         )
 
         with Tabs():
-            with Tab("hud.settings.tab.general.name", styles.FlexVertical() + styles.Gap("24px")):
+            with Tab(_("General"), styles.FlexVertical() + styles.Gap("24px")):
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
                     SliderWithTitleDescription(
-                        title="hud.settings.refresh_rate.name",
-                        description="hud.settings.refresh_rate.description",
+                        title=_("Refresh Rate"),
+                        description=_("The rate at which the HUD updates. It's not recommended to increase this value too much."),
                         min=1,
                         max=10,
                         step=1,
@@ -95,8 +96,8 @@ class Settings(ETS2LAPage):
                         changed=self.handle_refresh_rate,
                     )
                     SliderWithTitleDescription(
-                        title="hud.settings.scale.name",
-                        description="hud.settings.scale.description",
+                        title=_("Scale"),
+                        description=_("The scale of the HUD elements."),
                         min=0.5,
                         max=2,
                         step=0.05,
@@ -106,66 +107,66 @@ class Settings(ETS2LAPage):
                     )
                     
                 InputWithTitleDescription(
-                    title="hud.settings.offset_x.name",
-                    description="hud.settings.offset_x.description",
+                    title=_("Offset X"),
+                    description=_("The X offset (side to side) of the HUD elements."),
                     type="number",
                     default=settings.Get("HUD", "offset_x", 0),
                     changed=self.handle_offset_x,
                 )
                 
                 InputWithTitleDescription(
-                    title="hud.settings.offset_y.name",
-                    description="hud.settings.offset_y.description",
+                    title=_("Offset Y"),
+                    description=_("The Y offset (top to bottom) of the HUD elements."),
                     type="number",
                     default=settings.Get("HUD", "offset_y", 0),
                     changed=self.handle_offset_y,
                 )
                 
                 InputWithTitleDescription(
-                    title="hud.settings.offset_z.name",
-                    description="hud.settings.offset_z.description",
+                    title=_("Offset Z"),
+                    description=_("The Z offset (distance) of the HUD elements."),
                     type="number",
                     default=settings.Get("HUD", "offset_z", 0),
                     changed=self.handle_offset_z,
                 )
-            
-            with Tab("hud.settings.tab.elements.name", styles.FlexVertical() + styles.Gap("24px")):
+
+            with Tab(_("HUD Elements"), styles.FlexVertical() + styles.Gap("24px")):
                 CheckboxWithTitleDescription(
-                    title="hud.settings.show_navigation.name",
-                    description="hud.settings.show_navigation.description",
+                    title=_("Show Navigation"),
+                    description=_("When enabled, the HUD will display navigation information."),
                     default=settings.Get("HUD", "show_navigation", True),
                     changed=self.handle_show_navigation,
                 )
                 CheckboxWithTitleDescription(
-                    title="hud.settings.show_acc_info.name",
-                    description="hud.settings.show_acc_info.description",
+                    title=_("Show ACC Info"),
+                    description=_("When enabled, the HUD will display adaptive cruise control information."),
                     default=settings.Get("HUD", "show_acc_info", True),
                     changed=self.handle_show_acc_info,
                 )
                 CheckboxWithTitleDescription(
-                    title="hud.settings.draw_steering.name",
-                    description="hud.settings.draw_steering.description",
+                    title=_("Draw Steering"),
+                    description=_("Whether to draw the steering line in the HUD."),
                     default=settings.Get("HUD", "draw_steering", False),
                     changed=self.handle_draw_steering,
                 )
                 CheckboxWithTitleDescription(
-                    title="hud.settings.show_traffic_light_times.name",
-                    description="hud.settings.show_traffic_light_times.description",
+                    title=_("Show Traffic Light Times"),
+                    description=_("When enabled, the HUD will display traffic light times."),
                     default=settings.Get("HUD", "show_traffic_light_times", True),
                     changed=self.handle_show_traffic_light_times,
                 )
                 CheckboxWithTitleDescription(
-                    title="hud.settings.draw_wheel_paths.name",
-                    description="hud.settings.draw_wheel_paths.description",
+                    title=_("Draw Wheel Paths"),
+                    description=_("When enabled, the HUD will display where the wheels will go when turning."),
                     default=settings.Get("HUD", "draw_wheel_paths", False),
                     changed=self.handle_draw_wheel_paths,
                 )
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
-        name="plugin.hud",
+        name=_("HUD"),
         version="1.0",
-        description="plugin.hud.description",
+        description=_("Creates a heads up display on the windshield. Needs the AR plugin to work."),
         modules=["TruckSimAPI", "Semaphores", "Traffic"],
         tags=["AR", "Base"],
         fps_cap=30
@@ -754,7 +755,7 @@ class Plugin(ETS2LAPlugin):
                 self.lane_change_data.append(
                     Text(
                         Point(-70 * self.scaling, 30 * self.scaling, anchor=anchor),
-                        "Waiting for lane change approval" + dots,
+                        _("Waiting for lane change approval") + dots,
                         size=16 * self.scaling,
                         color=Color(255, 255, 255),
                         fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
@@ -765,7 +766,7 @@ class Plugin(ETS2LAPlugin):
                 self.lane_change_data.append(
                     Text(
                         Point(-70 * self.scaling, 30 * self.scaling, anchor=anchor),
-                        f"Lane change in progress {percentage}%" + dots,
+                        _("Lane change in progress {percentage}%").format(percentage=percentage) + dots,
                         size=16 * self.scaling,
                         color=Color(255, 255, 255),
                         fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_end=100, dist_fade_start=100),
@@ -840,7 +841,7 @@ class Plugin(ETS2LAPlugin):
             data += [
                 Text(
                     Coordinate(*back_right),
-                    f"  Distance: {distance:.0f}{units}",
+                    "  " + _("Distance: {distance:.0f} {units}").format(distance=distance, units=units),
                     size=16,
                     color=Color(255, 255, 255, 200),
                     fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),
@@ -888,7 +889,7 @@ class Plugin(ETS2LAPlugin):
                     ),
                     Text(
                         Coordinate(*right),
-                        f"  Target: {acc_gap:.0f}{units}",
+                        "  " + _("Target: {acc_gap:.0f} {units}").format(acc_gap=acc_gap, units=units),
                         size=16,
                         color=Color(255, 255, 255, 60),
                         fade=Fade(prox_fade_end=0, prox_fade_start=0, dist_fade_start=100, dist_fade_end=120),

@@ -1,11 +1,12 @@
 from Modules.Traffic.classes import Vehicle
 from Plugins.NGHUD.classes import HUDRenderer
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import time
 
 class Renderer(HUDRenderer):
-    name = "ACC Information"
-    description = "Draw ACC information like vehicle distance and speed."
+    name = _("ACC Information")
+    description = _("Draw ACC information like vehicle distance and speed.")
     fps = 30
     
     def __init__(self, plugin):

@@ -1,7 +1,8 @@
 from ETS2LA.UI import *
 
 from ETS2LA.Handlers.controls import get_event_information_dictionary, edit_event, unbind_event, event_information_update
-from ETS2LA.Utils import translator
+from ETS2LA.Handlers.plugins import match_plugin_by_id
+from ETS2LA.Utils.translator import _
 
 class Control:
     alias: str = ""
@@ -30,7 +31,7 @@ class Page(ETS2LAPage):
     target_control = ""
     
     def handle_sort_change(self, value: str):
-        if value == "Show all plugins":
+        if value == _("Show all plugins"):
             self.target_plugin = ""
         else:
             self.target_plugin = value
@@ -42,12 +43,12 @@ class Page(ETS2LAPage):
             self.target_control = value
             
     def handle_change(self, alias: str):
-        SendPopup("Please press the key / button you want to bind to this event.", type="info")
+        SendPopup(_("Please press the key / button you want to bind to this event."), type="info")
         edit_event(alias)
         
     def handle_unbind(self, alias: str):
         unbind_event(alias)
-        SendPopup("Event unbound.", type="success")
+        SendPopup(_("Event unbound."), type="success")
 
     def render(self):
         event_information = get_event_information_dictionary()
@@ -61,31 +62,31 @@ class Page(ETS2LAPage):
             event.from_dict(dict)
             controls.append(event)
             
-            plugin = translator.Translate(event.plugin, return_original=True)
+            plugin = event.plugin
             if plugin not in plugin_names:
                 plugin_names.append(plugin)
         
         with Container(styles.FlexHorizontal() + styles.Classname("justify-between")):
             with Container(styles.FlexVertical() + styles.Gap("12px")):
-                Text("Controls", styles.Title())
-                Text("You can change plugins' control events here.", styles.Description())
+                Text(_("Controls"), styles.Title())
+                Text(_("You can change plugins' control events here."), styles.Description())
 
             Combobox(
-                ["Show all plugins"] + plugin_names,
-                default="Show all plugins",
+                [_("Show all plugins")] + plugin_names,
+                default=_("Show all plugins"),
                 style=styles.MinWidth("250px"),
                 search=ComboboxSearch(),
                 changed=self.handle_sort_change
             )
             
         Input(
-            default="Search Controls or Plugins",
+            default=_("Search Controls or Plugins"),
             changed=self.handle_search,
         )
         
         valid_controls = []
         for control in controls:
-            if self.target_plugin and translator.Translate(control.plugin, return_original=True) != self.target_plugin:
+            if self.target_plugin and control.plugin != self.target_plugin:
                 continue
             
             if self.target_control != "":
@@ -105,8 +106,8 @@ class Page(ETS2LAPage):
                     style.height = "1rem"
                     style.color = "var(--muted-foreground)"
                     Icon("triangle-alert", style)
-                    Text("No controls found, try again with different filters.", styles.Classname("text-muted-foreground"))
-            
+                    Text(_("No controls found, try again with different filters."), styles.Classname("text-muted-foreground"))
+
         for control in valid_controls:
             pointer = styles.Style()
             pointer.cursor = "pointer"
@@ -122,17 +123,25 @@ class Page(ETS2LAPage):
                 with Container(styles.FlexVertical() + left_style + styles.Gap("8px") + styles.Classname("w-full rounded-md border p-4 bg-input/10")):
                     with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("items-center")):
                         with Container(styles.FlexVertical() + styles.Gap("4px") + styles.Classname("min-w-max")):
-                            Text(control.name, styles.Classname("font-semibold"))
-                            Text("" + control.plugin, styles.Description() + styles.Classname("text-xs"))
+                            Text(_(control.name), styles.Classname("font-semibold"))
+                            try:
+                                plugin = match_plugin_by_id(control.plugin)
+                                if plugin:
+                                    Text(plugin.description.name, styles.Description() + styles.Classname("text-xs"))
+                                else:
+                                    Text(control.plugin, styles.Description() + styles.Classname("text-xs"))
+                            except:
+                                Text(control.plugin, styles.Description() + styles.Classname("text-xs"))
 
                         Separator(direction="vertical", style=styles.Width("1px") + styles.Height("100%"))
                         
                         with Container(styles.FlexVertical() + styles.Gap("4px")):
-                            Text(control.description, styles.Description())
+                            Text(_(control.description), styles.Description())
                             if control.device == "":
-                                Text("This event has not been bound to a device yet.")
+                                Text(_("This event has not been bound to a device yet."))
                             elif control.device == "Keyboard":
-                                Text("Keyboard: " + control.key.capitalize().replace("_", " "))
+                                # TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
+                                Text(_("Keyboard: ") + control.key.capitalize().replace("_", " "))
                             else:
                                 Text(control.device + ": " + control.key.capitalize().replace("_", " "))
                                 

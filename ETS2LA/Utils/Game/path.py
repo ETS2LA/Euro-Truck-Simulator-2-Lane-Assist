@@ -1,8 +1,8 @@
-# This file has been copied from the installer
-# it will need to be rebuilt before release as the
-# code is very bad.
-
-# TODO: Use the ETS2 and ATS registry keys directly!
+"""
+This file is used to discover ETS2 and ATS game files.
+The functions here work fine, but the code is very old so it's not
+all that pretty.
+"""
 
 import ETS2LA.variables as variables
 import logging

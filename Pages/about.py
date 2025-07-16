@@ -4,56 +4,58 @@ from ETS2LA.UI import *
 
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
-from ETS2LA.Utils.translator import Translate
-import ETS2LA.Utils.translator as translator
+from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
+from langcodes import Language 
 import time
 
 contributors = [
-    {"name": "Tumppi066", "description": Translate("about.tumppi066.description"), "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
-    {"name": "Glas42", "description": Translate("about.glas42.description"), "links": [["Github", "https://github.com/OleFranz"]]},
-    {"name": "DylDev", "description": Translate("about.dyldev.description"), "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
-    {"name": "Roccovax", "description": Translate("about.roccovax.description"), "links": [["Github", "https://github.com/DarioWouters"]]},
-    {"name": "truckermudgeon", "description": Translate("about.truckersmudgeon.description"), "links": []},
-    {"name": "Cloud", "description": Translate("about.cloud.description"), "links": []},
-    {"name": "ziakhan4505", "description": Translate("about.ziakhan4505.description"), "links": []},
-    {"name": "WhyTrevorWhy", "description": Translate("about.whytrevorwhy.description"), "links": []},
-    {"name": "mimi89999", "description": Translate("about.mimi89999.description"), "links": []},
-    {"name": "zhaoyj", "description": Translate("about.zhaoyj.description"), "links": []},
-    {"name": "JimJokes", "description": Translate("about.jimjokes.description"), "links": []},
-    {"name": "Lun", "description": Translate("about.lun.description"), "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
-    {"name": "MRUIAW", "description": Translate("about.mruiaw.description"), "links": [["BiliBili", "https://space.bilibili.com/357816575"]]},
-    {"name": "PiggyWu981", "description": Translate("about.piggywu981.description"), "links": [["GitHub", "https://github.com/Piggywu981"], ["BiliBili", "https://space.bilibili.com/355054416"], ["Discord", "https://discordapp.com/users/763642553412223008"]]},
-    {"name": "Sheng FAN", "description": Translate("about.shengfan.description"), "links": [["Github", "https://github.com/fred913"]]},
-    {"name": "goodnightan", "description": Translate("about.goodnightan.description"), "links": [["BiliBili", "https://space.bilibili.com/525984002"]]},
-    {"name": "Piotrke", "description": Translate("about.piotrke.description"), "links": []},
-    {"name": "DTheIcyDragon", "description": Translate("about.dtheicydragon.description"), "links": []},
-    {"name": "Roman Sonnik", "description": Translate("about.romansonnik.description"), "links": [["Github", "https://github.com/RomanSonnik"]]},
-    {"name": "atac_helicopter", "description": Translate("about.atac_helicopter.description"), "links": []},
-    {"name": "ғʟᴇxғʟᴇxᴇɴ", "description": Translate("about.flexflexen.description"), "links": []},
-    {"name": "LookAtYourSkill", "description": Translate("about.lookatyourskill.description"), "links": []},
-    {"name": "ViSzKe", "description": Translate("about.viszke.description"), "links": []},
+    {"name": "Tumppi066", "description": _("Lead developer and creator of ETS2LA, backend & frontend."), "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
+    {"name": "Glas42", "description": _("Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"), "links": [["Github", "https://github.com/OleFranz"]]},
+    {"name": "DylDev", "description": _("Various additions and improvements, Object Detection AI models & development"), "links": [["Github", "https://github.com/DylDevs"], ["Youtube", "https://www.youtube.com/@DylDev"]]},
+    {"name": "Roccovax", "description": _("ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."), "links": [["Github", "https://github.com/DarioWouters"]]},
+    {"name": "truckermudgeon", "description": _("Game data extraction and processing"), "links": []},
+    {"name": "Cloud", "description": _("Linux & Unix Port, various improvements and bug fixes"), "links": []},
+    {"name": "ziakhan4505", "description": _("ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"), "links": []},
+    {"name": "WhyTrevorWhy", "description": _("Help with Navigate on ETS2LA & Map"), "links": []},
+    {"name": "mimi89999", "description": _("scs-sdk-controller developer"), "links": []},
+    {"name": "zhaoyj", "description": _("3D models for the visualization"), "links": []},
+    {"name": "JimJokes", "description": _("Data extractor development, support for modded maps."), "links": []},
+    {"name": "Lun", "description": _("Chinese translation, bug fixes"), "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
+    {"name": "MRUIAW", "description": _("Chinese translations, bug fixes"), "links": [["BiliBili", "https://space.bilibili.com/357816575"]]},
+    {"name": "PiggyWu981", "description": _("Automatic offset calculations for the Map plugin."), "links": [["GitHub", "https://github.com/Piggywu981"], ["BiliBili", "https://space.bilibili.com/355054416"], ["Discord", "https://discordapp.com/users/763642553412223008"]]},
+    {"name": "Sheng FAN", "description": _("Discord server support, Chinese-English translator developer."), "links": [["Github", "https://github.com/fred913"]]},
+    {"name": "goodnightan", "description": _("Maintaining CN mirrors for ETS2LA services."), "links": [["BiliBili", "https://space.bilibili.com/525984002"]]},
+    {"name": "Piotrke", "description": _("Game hooks"), "links": []},
+    {"name": "DTheIcyDragon", "description": _("Bug fixes"), "links": []},
+    {"name": "Roman Sonnik", "description": _("Bug fixes"), "links": [["Github", "https://github.com/RomanSonnik"]]},
+    {"name": "atac_helicopter", "description": _("Bug fixes"), "links": []},
+    {"name": "ғʟᴇxғʟᴇxᴇɴ", "description": _("Bug fixes"), "links": []},
+    {"name": "LookAtYourSkill", "description": _("Bug fixes"), "links": []},
+    {"name": "ViSzKe", "description": _("Bug fixes"), "links": []},
 ]
 
 class Page(ETS2LAPage):
     url = "/about"
     
     def fix_wipers(self):
-        print("Fixing wipers (5s timer)")
+        print(_("Fixing wipers (5s timer)"))
         controller = SCSController()
+        
         start_time = time.perf_counter()
         while time.perf_counter() - start_time < 5:
-            SendPopup(f"Fixing wipers in {5 - int(time.perf_counter() - start_time)} seconds...", "info")
+            SendPopup(_("Fixing wipers in {0} seconds...").format(5 - int(time.perf_counter() - start_time)), "info")
             time.sleep(1)
+            
         controller.wipers0 = True
         time.sleep(0.5)
         controller.wipers0 = False
-        print("Wipers should be fixed now.")
-        SendPopup("Wipers should be fixed now.", "success")
-        
+        print(_("Wipers should be fixed now."))
+        SendPopup(_("Wipers should be fixed now."), "success")
+
     def update(self, *args, **kwargs):
-        print("Triggering update")
+        print(_("Triggering update"))
         try:
             TriggerEvent("Update App")
         except:
@@ -61,52 +63,55 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
     
     def seconds_to_time(self, seconds):
-        if not seconds or seconds <= 0:
-            return Translate("about.statistics.usage_time_value_minute", [str(0)])
-        
+        if seconds == 0:
+            return ngettext("{0} minute", "{0} minutes", 0).format(0)
+
         hours = round(seconds // 3600)
         minutes = round((seconds % 3600) // 60)
         if hours == 0:
-            return Translate("about.statistics.usage_time_value_minute", [str(minutes)])
+            return ngettext("{0} minute", "{0} minutes", minutes).format(minutes)
         elif minutes == 0:
-            return Translate("about.statistics.usage_time_value_hour", [str(hours)])
+            return ngettext("{0} hour", "{0} hours", hours).format(hours)
         else:
-            return Translate("about.statistics.usage_time_value_hour_and_minute", [str(hours), str(minutes)])
-    
+            return _("{0} and {1}").format(
+                ngettext("{0} hour", "{0} hours", hours).format(hours),
+                ngettext("{0} minute", "{0} minutes", minutes).format(minutes)
+            )
+
     def render(self):
         with Container(style=styles.FlexVertical() + styles.Padding("80px 0px 0px 80px") + styles.MaxWidth("900px")):
-            Text("about.about", styles.Title())
+            Text(_("About"), styles.Title())
             Space()
-            Text("about.description", styles.Description())
+            Text(_("ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."), styles.Description())
             Space(style=styles.Height("14px"))
             
             with Container(style=styles.FlexVertical()):
-                Text("about.statistics", styles.Title())
+                Text(_("Statistics"), styles.Title())
                 Space()
                 with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                     with Container(style=styles.FlexHorizontal()):
-                        Text(f"{Translate('about.statistics.users_online')} ")
-                        Text(Translate("about.statistics.users_online_value", [str(GetUserCount())]), styles.Description())
+                        Text(f"{_('Users online:')} ")
+                        Text(_("{0} users").format(GetUserCount()), styles.Description())
                     with Container(style=styles.FlexHorizontal()):
-                        Text(f"{Translate('about.statistics.past_24h')} ")
-                        Text(Translate("about.statistics.past_24h_value", [str(GetUniqueUsers())]), styles.Description())
+                        Text(f"{_('Past 24 hours:')} ")
+                        Text(_("{0} unique users").format(GetUniqueUsers()), styles.Description())
                     with Container(style=styles.FlexHorizontal()):
-                        Text(f"{Translate('about.statistics.usage_time')} ")
+                        Text(f"{_('Your usage time:')} ")
                         Text(self.seconds_to_time(GetUserTime()), styles.Description())
                     if token is None:
                         with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
-                            Text(f"{Translate('about.statistics.not_logged_in')} ")
-                            Text(Translate("about.statistics.anonymous_user_id", [str(user_id)]), styles.Description())
+                            Text(f"{_('You are not logged in.')} ")
+                            Text(_("Your anonymous user ID is: {0}").format(str(user_id)), styles.Description())
                     else:
                         with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
-                            Text(f"{Translate('about.statistics.logged_in')} ")
-                            Text(Translate("about.statistics.welcome", [str(GetUsername())]), styles.Description())
-        
+                            Text(f"{_('You are logged in.')} ")
+                            Text(_("Welcome back, {0}!").format(str(GetUsername())), styles.Description())
+
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):
-                    Text("about.developers", styles.Title())
+                    Text(_("Contributors"), styles.Title())
                     for contributor in contributors:
                         with Container(style=styles.FlexVertical() + styles.Gap("4px")):
                             with Container(style=styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px 0px 0px 0px") + styles.Classname("items-center")):
@@ -117,48 +122,51 @@ class Page(ETS2LAPage):
                             
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):
-                    Text("about.translation_credits", styles.Title())
-                    for language in translator.LANGUAGES:
-                        with Container(style=styles.FlexVertical() + styles.Gap("4px")):
+                    Text(_("Translations"), styles.Title())
+                    for language in languages:
+                        if not isinstance(language, Language):
+                            continue
+                        
+                        with Container(style=styles.FlexVertical() + styles.Gap("4px") + styles.Classname("items-start")):
                             with Container(style=styles.FlexHorizontal() + styles.Gap("10px") + styles.Padding("0px 0px 0px 0px") + styles.Classname("items-center")):
-                                Text(language, styles.PlainText())
-                                Text("(" + translator.TranslateToLanguage("name_en", translator.GetCodeForLanguage(language)) + ")", styles.Description() + styles.Classname("text-xs"))
-                            credits = translator.TranslateToLanguage("credits", translator.GetCodeForLanguage(language))
-                            if language != "English" and credits == translator.TranslateToLanguage("credits", translator.GetCodeForLanguage("English")):
-                                credits = Translate("about.no_credits")
-                            Text(credits, styles.Description())
+                                Text(language.display_name(language.language).capitalize(), styles.PlainText())
+                                Text("(" + language.display_name() + ")", styles.Description() + styles.Classname("text-xs"))
+                            with Container(style=styles.FlexHorizontal() + styles.Gap("10px")):
+                                Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{parse_language(language)}%20contributes:ets2la/backend", styles.Classname("text-xs text-muted-foreground hover:underline"))
+                                Text("-")
+                                Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{parse_language(language)}", styles.Classname("text-xs text-muted-foreground hover:underline"))
                             
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("10px")):
-                    Text("about.support_development", styles.Title())
+                    Text(_("Support Development"), styles.Title())
                     with Container(style=styles.FlexVertical() + styles.Gap("10px")):
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
-                            Text(Translate("about.kofi_description"), styles.Description())
+                            Text("• " + _("If you like the project and want to support the development, you can do so by donating via Ko-Fi."), styles.Description())
                             Link("Ko-Fi", "https://ko-fi.com/tumppi066", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
-                            Text(Translate("about.contribute_description"), styles.Description())
+                            Text("• " + _("If you want to contribute, then I recommend joining the discord server and checking out the github page."), styles.Description())
                             Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                             Link("GitHub", "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                         with Container(style=styles.FlexVertical() + styles.Gap("6px") + styles.Padding("0px 0px 0px 0px")):
-                            Text(Translate("about.translate_description"), styles.Description())
+                            Text("• " + _("If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."), styles.Description())
                             Link("Discord", "https://ets2la.com/discord", style=styles.Classname("text-xs hover:underline w-max") + styles.Padding("0px 0px 0px 7px"))
                 
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):
-                    Text("Utils", styles.Title())
+                    Text(_("Utils"), styles.Title())
                     
                     ButtonWithTitleDescription(
                         self.fix_wipers,
-                        title="Fix Wipers",
-                        description="Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds.",
-                        text="Activate"
+                        title=_("Fix Wipers"),
+                        description=_("Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."),
+                        text=_("Activate")
                     )
                     
                     ButtonWithTitleDescription(
                         self.update,
-                        title="Force an update",
-                        description="Do you think there should've been an update? Click this button and the app will restart and check for them.",
-                        text="Update"
+                        title=_("Force an update"),
+                        description=_("Do you think there should've been an update? Click this button and the app will restart and check for them."),
+                        text=_("Update")
                     )
                     
             Space(style=styles.Height("60px"))

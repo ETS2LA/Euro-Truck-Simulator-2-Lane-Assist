@@ -14,9 +14,8 @@ from ETS2LA.Utils.Values.dictionaries import merge
 from ETS2LA.Window.utils import check_if_specified_window_open
 from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.shell import ExecuteCommand
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Window.utils import color_title_bar
-import ETS2LA.Utils.translator as translator
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.settings as settings
@@ -100,7 +99,7 @@ def check_updates():
 
 @app.get("/backend/update")
 def update():
-    navigate("updater", "Frontend", "The frontend wants to perform an update.")
+    navigate("updater", _("Frontend"), _("The frontend wants to perform an update."))
     return True
 
 @app.get("/api/sounds/play/{sound}")
@@ -158,7 +157,7 @@ def set_transparency_to(state: bool):
         newState = set_transparency(state)
         return newState
     except:
-        logging.exception("Failed to set transparency")
+        logging.exception(_("Failed to set transparency"))
         return False
 
 @app.get("/window/transparency")
@@ -195,21 +194,21 @@ def get_plugins():
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            name, description, authors = plugin.description.name, plugin.description, plugin.authors
+            id, description, authors = plugin.description.id, plugin.description, plugin.authors
             if type(authors) != list:
                 authors = [authors]
                 
-            return_data[name] = {
+            return_data[id] = {
                 "authors": [author.__dict__ for author in authors],
                 "description": description.__dict__,
                 "settings": None,
             }
-            if name in [enabled_plugin.description.name for enabled_plugin in enabled_plugins]:
-                return_data[name]["enabled"] = True
-                return_data[name]["frametimes"] = []#plugins.get_latest_frametime(name)
+            if id in [enabled_plugin.description.id for enabled_plugin in enabled_plugins]:
+                return_data[id]["enabled"] = True
+                return_data[id]["frametimes"] = []#plugins.get_latest_frametime(id)
             else:
-                return_data[name]["enabled"] = False
-                return_data[name]["frametimes"] = 0
+                return_data[id]["enabled"] = False
+                return_data[id]["frametimes"] = 0
         
         return return_data
     except:
@@ -232,44 +231,12 @@ def get_performance():
 def get_states():
     return plugins.get_states()
 
-@app.post("/backend/plugins/{plugin}/function/call")
-def call_plugin_function(plugin: str, data: PluginCallData | None = None):
-    return ""
-    # try:
-    #     if data is None:
-    #         logging.exception("Plugin function call has no arguments.")
-    #         return {"status": "error", "message": "Please provide arguments."}
-    #     
-    #     running_plugins = [plugin.plugin_name for plugin in plugins.RUNNING_PLUGINS]
-    #     available_plugins = [plugin.description.name for plugin in plugins.AVAILABLE_PLUGINS if plugin.description is not None]
-    #     
-    #     if plugin in running_plugins:
-    #         index = running_plugins.index(plugin)
-    #         plugin_obj = plugins.RUNNING_PLUGINS[index]
-    #         return plugin_obj.call_function(data.target, data.args, data.kwargs)
-    #     
-    #     elif plugin in available_plugins:
-    #         index = available_plugins.index(plugin)
-    #         ui = plugins.AVAILABLE_PLUGINS[index].settings_menu
-    #         if ui is not None:
-    #             return ui.call_function(data.target, data.args, data.kwargs)
-    #     
-    #     else:
-    #         index = pages.get_page_names().index(plugin)
-    #         return pages.page_function_call(plugin, data.target, data.args, data.kwargs)
-    #     
-    #     logging.warning("Plugin or it's UI was not found")
-    #     return {"status": "error", "message": "Plugin or it's UI was not found"}
-    # except:
-    #     logging.exception("Failed to call plugin function")
-    #     return {"status": "error", "message": "Plugin not found"}
-
 # endregion
 # region Language
 
 @app.get("/api/language")
 def get_language():
-    return translator.LANGUAGE
+    return _.get_language()
 
 # endregion
 # region Popups
@@ -355,7 +322,7 @@ def get_tag_data(data: TagFetchData):
 
         return HTMLResponse(content=return_data, status_code=200, headers=headers)
     except:
-        logging.exception("Failed to get tag data")
+        logging.exception(_("Failed to get tag data"))
         return False
 
 @app.get("/api/tags/{tag}")
@@ -390,7 +357,7 @@ def get_list_of_pages():
     try:
         return plugins.get_page_list()
     except:
-        logging.exception("Failed to get pages")
+        logging.exception(_("Failed to get pages"))
         return {}
     
 @app.post("/api/page")
@@ -404,7 +371,7 @@ def get_page(data: PageFetchData):
         # Pages
         return pages.get_page(data.page)
     except:
-        logging.exception(f"Failed to get page data for page {data.page}")
+        logging.exception(_("Failed to get page data for page {0}").format(data.page))
         return []
 
 # endregion
@@ -415,7 +382,7 @@ def reload_plugins():
     try:
         plugins.reload_plugins()
     except:
-        logging.exception("Failed to reload plugins")
+        logging.exception(_("Failed to reload plugins"))
         return False
     return True
 
@@ -428,7 +395,7 @@ def BuildFrontend():
         ExecuteCommand(f"cd Interface && npm install")
         result = ExecuteCommand(f"cd Interface && npm run build")
         if result != 0:
-            logging.error("Failed to build frontend")
+            logging.error(_("Failed to build frontend"))
 
 def RunFrontendDev():
     ExecuteCommand(f"cd Interface && npm run dev -- -p {FRONTEND_PORT}")
@@ -436,12 +403,12 @@ def RunFrontendDev():
 def RunFrontend():
     result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
     if result != 0:
-        logging.info("Building frontend... please wait...")
+        logging.info(_("Building frontend... please wait..."))
         BuildFrontend()
         result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
         if result != 0:
-            logging.error("Failed to start frontend")
-        
+            logging.error(_("Failed to start frontend"))
+
 def ExtractIP():
     global IP
     try:
@@ -458,11 +425,11 @@ def run():
     thread = threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True)
     thread.start()
     
-    logging.info(Translate("webserver.webserver_started", values=[f"http://{IP}:37520", "http://localhost:37520"]))
+    logging.info(_("Webserver started at http://{ip}:37520").format(ip=IP))
 
     if variables.LOCAL_MODE:
         p = multiprocessing.Process(target=RunFrontend if not variables.DEVELOPMENT_MODE else RunFrontendDev, daemon=True)
         p.start()
-        logging.info(Translate("webserver.frontend_started", values=[f"http://{IP}:{FRONTEND_PORT}", f"http://localhost:{FRONTEND_PORT}"]))
-   
+        logging.info(_("Frontend started at http://{ip}:{port}").format(ip=IP, port=FRONTEND_PORT))
+
 # endregion

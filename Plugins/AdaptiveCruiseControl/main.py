@@ -1,6 +1,7 @@
 # Framework
 from ETS2LA.Events import *
 from ETS2LA.Plugin import *
+from ETS2LA.Utils.translator import _
 
 # Local imports
 from Plugins.AdaptiveCruiseControl.speed import get_maximum_speed_for_points
@@ -68,11 +69,10 @@ class ACCGate(Gate):
         self.distance = distance
 
 class Plugin(ETS2LAPlugin):
-    
     description = PluginDescription(
-        name="plugins.adaptivecruisecontrol",
+        name=_("Adaptive Cruise Control"),
         version="1.0",
-        description="plugins.adaptivecruisecontrol.description",
+        description=_("Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."),
         modules=["SDKController", "TruckSimAPI", "Traffic", "Semaphores"],
         tags=["Base", "Speed Control"],
         fps_cap=15
@@ -346,8 +346,6 @@ class Plugin(ETS2LAPlugin):
         self.api = self.modules.TruckSimAPI
         self.controller = self.modules.SDKController.SCSController()
         self.controller = cast(Controller, self.controller)
-        
-        logging.warning("AdaptiveCruiseControl plugin initialized")
         self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
         
         # if variables.DEVELOPMENT_MODE:

@@ -1,5 +1,6 @@
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from Plugins.NGHUD.classes import HUDWidget
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import logging
 import os
@@ -7,8 +8,8 @@ import os
 throttle = SmoothedValue("time", 0.5)
 
 class Widget(HUDWidget):
-    name = "Throttle / Brake"
-    description = "Display current throttle and brake percentage."
+    name = _("Throttle / Brake")
+    description = _("Display current throttle and brake percentage.")
     fps = 20
     
     def __init__(self, plugin):

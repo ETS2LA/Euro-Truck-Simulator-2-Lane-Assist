@@ -13,7 +13,7 @@ NOTE: If you are using controls from a plugin, DO NOT import this file.
 
 from ETS2LA.Handlers.utils.key_mappings import key_to_str
 from ETS2LA.Controls.picker import control_picker
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Controls import ControlEvent
 import ETS2LA.Utils.settings as settings
 from ETS2LA.UI import SendPopup
@@ -95,7 +95,7 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     state = {}
     
     def load_joysticks(count: int):
-        logging.info(f"Refreshing joysticks...")
+        logging.info(_("Refreshing joysticks..."))
         joystick_objects.clear()
         old_state = state.copy()
         state.clear()
@@ -109,18 +109,17 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
                 name = name[1:]
             if name.endswith(")"):
                 name = name[:-1]
-                
-            SendPopup(f"{name} connected.")
-            logging.info(f"Found joystick: [bold]{name}[/bold] [dim]({joystick.get_guid()})[/dim]")
+            SendPopup(_("{} connected.").format(name))
+            logging.info(_("Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]").format(name=name, uid=joystick.get_guid()))
             joystick_objects.append(joystick)
             state[joystick.get_guid()] = {}
             
         not_found = [guid for guid in old_state if guid not in [j.get_guid() for j in joystick_objects]]
         names = [old_state[guid]["name"] for guid in not_found]
         for name in names:
-            SendPopup(f"{name} disconnected.", "warning")
-            logging.info(f"{name} disconnected.")  
-            
+            SendPopup(_("{} disconnected.").format(name), "warning")
+            logging.info(_("{} disconnected.").format(name))
+
     load_joysticks(last_count)
         
     while True:
@@ -172,19 +171,6 @@ def queue_listener_thread(joystick_queue: multiprocessing.Queue) -> None:
         joysticks = state
 
 
-def migrate_controls() -> None:
-    """
-    This function will remove the old controls.json file
-    if it detects the old keys.
-    """
-    for control, data in event_information.items():
-        if "deviceGUID" in data:
-            os.remove(settings_file)
-            settings.GetJSON(settings_file) # create the new file
-            logging.info("controls.json has been migrated to the new format.")
-            break
-
-
 def event_information_update(once: bool = False) -> None:
     """This thread will check the modified time of the
     settings file. If the modified time doesn't match then
@@ -202,7 +188,6 @@ def event_information_update(once: bool = False) -> None:
     while True:
         if os.path.getmtime(settings_file) != last_modify_time:
             event_information = settings.GetJSON(settings_file)
-            migrate_controls()
             last_modify_time = os.path.getmtime(settings_file)
         
         if once:
@@ -279,7 +264,7 @@ def load_event_from_alias(alias: str) -> ControlEvent:
     :return ControlEvent: The event object.
     """
     if alias not in event_information:
-        raise ValueError(f"Event with alias '{alias}' not found.")
+        raise ValueError(_("Event with alias '{0}' not found.").format(alias))
     
     info = event_information[alias]
     return ControlEvent(alias, info["name"], info["type"], info["description"], info["key"], info["plugin"] if "plugin" in info else "")
@@ -350,7 +335,7 @@ def edit_event(event: ControlEvent | str) -> None:
         try:
             event = load_event_from_alias(event)
         except ValueError:
-            logging.error(f"Event with alias '{event}' not found.")
+            logging.error(_("Event with alias '{0}' not found.").format(event))
             return
     
     try:
@@ -361,8 +346,8 @@ def edit_event(event: ControlEvent | str) -> None:
         else:
             save_event_information(event.alias, new_guid, new_key, event.type, event.name, event.description, device_name, event.plugin)
     except:
-        logging.exception("Exception occurred while trying to edit the event.")
-        
+        logging.exception(_("Exception occurred while trying to edit the event."))
+
     pause_queue_listener = False
 
 
@@ -376,7 +361,7 @@ def unbind_event(event: ControlEvent | str) -> None:
         try:
             event = load_event_from_alias(event)
         except ValueError:
-            logging.error(f"Event with alias '{event}' not found.")
+            logging.error(_("Event with alias '{0}' not found.").format(event))
             return
     
     save_event_information(event.alias, "", "", event.type, event.name, event.description, "", event.plugin)
@@ -390,4 +375,4 @@ def run():
     # Start the event information update thread.
     threading.Thread(target=event_information_update, daemon=True).start()
 
-    logging.info(Translate("controls.listener_started"))
+    logging.info(_("Controls listener started."))

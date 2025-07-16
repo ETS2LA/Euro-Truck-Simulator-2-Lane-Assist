@@ -142,7 +142,7 @@ class ETS2LAPlugin(object):
     def __init__(self, *args) -> None:
         self.ensure_functions()
         self.load_modules()
-            
+
         if "pages" in dir(type(self)) and self.pages != None:
             for page in self.pages:
                 page.plugin = self

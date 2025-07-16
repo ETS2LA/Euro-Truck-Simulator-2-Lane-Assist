@@ -4,6 +4,7 @@ with the window, mainly via the win32 APIs.
 """
 import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
+from ETS2LA.Utils.translator import _
 
 from typing import Literal
 import colorsys  
@@ -186,7 +187,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         "light": 0xFFFFFF
     }
 
-    logging.info("Looking for ETS2LA window... [dim](10s timeout)[/dim]")
+    logging.info(_("Looking for ETS2LA window... [dim](10s timeout)[/dim]"))
     while returnCode != 0:
         time.sleep(0.01)
         
@@ -195,12 +196,9 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         
         set_window_icon(variables.ICONPATH)
         if time.perf_counter() - sinceStart > 10:
-            logging.error("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it.")
+            logging.error(_("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."))
             dont_check_window_open = True
             break
-    
-    if returnCode == 0:
-        logging.info("ETS2LA window found!")
 
 
 def check_if_window_still_open() -> bool:

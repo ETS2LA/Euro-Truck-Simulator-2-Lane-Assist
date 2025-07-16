@@ -1,6 +1,8 @@
-'''
-Reades the files like configs or controls from the game files.
-'''
+"""
+Reads information like configs or controls from the game files.
+This file is quite old but still works, it just means the code is not
+that pretty... well that might be an understatement, it's quite ugly :)
+"""
 
 import os
 import winreg

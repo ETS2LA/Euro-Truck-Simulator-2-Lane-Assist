@@ -1,7 +1,7 @@
 from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage, Author
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Plugin.message import Channel, State
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.Handlers import controls
 from ETS2LA.Utils import settings
@@ -123,12 +123,12 @@ class Plugin:
         
         message = self.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
         if message is None:
-            logging.error(f"Plugin {folder} failed to start: Timeout.\nTry to close other programs to give more memory and CPU to the plugin.")
+            logging.error(_("Plugin {0} failed to start: Timeout.\nTry to close other programs to give more memory and CPU to the plugin.").format(folder))
             self.remove()
             return
         
         if message.data != {}:
-            logging.error(f"Plugin {folder} failed to start: {message.data}")
+            logging.error(_("Plugin {0} failed to start: {1}").format(folder, message.data))
             self.remove()
             return
         
@@ -180,7 +180,7 @@ class Plugin:
 
     def keep_alive(self) -> None:
         """Keep the process alive."""
-        logging.debug(f"Plugin [yellow]{Translate(self.description.name, return_original=True)}[/yellow] loaded successfully.")
+        logging.debug(_("Plugin [yellow]{0}[/yellow] loaded successfully.").format(self.description.name))
         while not self.stop:
             time.sleep(1)
     
@@ -241,10 +241,10 @@ class Plugin:
                         if tag not in self.tags:
                             self.tags[tag] = {}
                             
-                        if self.description.name not in self.tags[tag]:
-                            self.tags[tag][self.description.name] = {}
+                        if self.description.id not in self.tags[tag]:
+                            self.tags[tag][self.description.id] = {}
                             
-                        self.tags[tag][self.description.name] = value
+                        self.tags[tag][self.description.id] = value
                     
                     message.state = State.DONE
                     message.data = "success" # clear data for faster transmit
@@ -271,7 +271,7 @@ class Plugin:
                     if "url" in message.data:
                         url = message.data["url"]
                         data = message.data["data"]
-                        data[0]["plugin"] = self.description.name
+                        data[0]["plugin"] = self.description.id
                         self.pages[url] = data
 
             time.sleep(0.01)
@@ -285,7 +285,7 @@ class Plugin:
                         text = message.data["text"]
                         type_ = message.data["type"]
                         notifications.sonner(
-                            text=Translate(text, return_original=True),
+                            text=text,
                             type=type_
                         )
             
@@ -295,7 +295,7 @@ class Plugin:
                     if "url" in message.data:
                         url = message.data["url"]
                         reason = message.data.get("reason", "")
-                        plugin = self.description.name
+                        plugin = self.description.id
                         notifications.navigate(url, plugin, reason)
             time.sleep(0.1)
 
@@ -353,11 +353,11 @@ class Plugin:
         self.queue.put(message)
         response = self.wait_for_channel_message(message.channel, message.id, timeout=10)
         if response is None:
-            logging.error(f"Plugin {self.folder} failed to get description: Timeout.")
+            logging.error(_("Plugin {0} failed to get description: Timeout.").format(self.folder))
             self.remove()
             
         if response.state == State.ERROR:
-            logging.error(f"Plugin {self.folder} failed to get description: {response.data}")
+            logging.error(_("Plugin {0} failed to get description: {1}").format(self.folder, response.data))
             self.remove()
             
         self.description, self.authors = response.data
@@ -388,16 +388,16 @@ class Plugin:
         self.queue.put(message)
         response = self.wait_for_channel_message(message.channel, message.id, timeout=5)
         if response is None:
-            logging.error(f"Plugin {self.folder} failed to get controls: Timeout.")
+            logging.error(_("Plugin {0} failed to get controls: Timeout.").format(self.folder))
             self.remove()
             
         if response.state == State.ERROR:
-            logging.error(f"Plugin {self.folder} failed to get controls: {response.data}")
+            logging.error(_("Plugin {0} failed to get controls: {1}").format(self.folder, response.data))
             self.remove()
             
         self.controls = response.data
         for control in self.controls:
-            control.plugin = self.description.name
+            control.plugin = self.description.id
             
         controls.validate_events(self.controls)
         return response.data
@@ -429,7 +429,7 @@ def create_processes() -> None:
         logging.debug(f"Creating plugin process for {folder}")
         threading.Thread(target=Plugin, name=f"Backend for {folder.split('/')[-1]}",
                          args=(folder,), daemon=True).start()
-        
+
         if low_performance:
             waiting_since = time.time()
             while len(plugins) == initial_state:
@@ -442,7 +442,7 @@ def create_processes() -> None:
         time.sleep(10)
     
     loading = False
-    logging.info(f"Loaded {len(plugins)} plugins.")
+    logging.info(_("Loaded {0} plugins.").format(len(plugins)))
   
 def run() -> None:
     discover_plugins()
@@ -470,11 +470,19 @@ def match_plugin_by_folder(folder: str) -> Plugin | None:
         if plugin.folder == folder:
             return plugin
     return None
+
+def match_plugin_by_id(id: str) -> Plugin | None:
+    """Match a plugin by its ID."""
+    for plugin in plugins:
+        if plugin.description.id == id:
+            return plugin
+    return None
     
 def match_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> Plugin | None:
+    folder: str | None = None,
+    id: str | None = None) -> Plugin | None:
     """Match a plugin by its description, name or folder."""
     if description is not None:
         return match_plugin_by_description(description)
@@ -482,6 +490,8 @@ def match_plugin(
         return match_plugin_by_name(name)
     if folder is not None:
         return match_plugin_by_folder(folder)
+    if id is not None:
+        return match_plugin_by_id(id)
     
     return None
     
@@ -492,18 +502,19 @@ def match_plugin(
 def start_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> bool:
+    folder: str | None = None,
+    id: str | None = None) -> bool:
     """Start a plugin based on one of the parameters."""
     plugin: Plugin | None = match_plugin(
         description=description,
         name=name,
-        folder=folder
+        folder=folder,
+        id=id
     )
     if not plugin:
-        logging.error(f"Plugin not found.")
+        logging.error(_("Plugin not found."))
         return False
     
-    # logging.info(f"Starting plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
     if plugin.process.is_alive():
         message = PluginMessage(
             Channel.ENABLE_PLUGIN, {}
@@ -512,14 +523,14 @@ def start_plugin(
         response = plugin.wait_for_channel_message(message.channel, message.id, timeout=30)
         if response and response.state == State.DONE:
             plugin.running = True
-            logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] started successfully.")
+            logging.info(_("Plugin [yellow]{0}[/yellow] started successfully.").format(plugin.description.name))
             return True
         else:
             if response.data == "Plugin is already enabled":
                 return False
             else:
                 plugin.running = False
-                logging.error(f"Failed to start plugin: {response.data if response else 'Timeout'}")
+                logging.error(_("Failed to start plugin: {0}").format(response.data if response else _("Timeout")))
                 return False
         
     return False
@@ -527,29 +538,30 @@ def start_plugin(
 def stop_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> bool:
+    folder: str | None = None,
+    id: str | None = None) -> bool:
     """Stop a plugin based on one of the parameters."""
     plugin: Plugin | None = match_plugin(
         description=description,
         name=name,
-        folder=folder
+        folder=folder,
+        id=id
     )
     if not plugin:
-        logging.error(f"Plugin not found.")
+        logging.error(_("Plugin not found, this can be a result of a plugin crash or failure to load."))
         return False
     
     if not plugin.running:
         return False
     
-    logging.info(f"Stopping plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow]")
     plugin.start_plugin()
     response = plugin.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
     plugin.running = False
     if response and response.state == State.DONE:
-        logging.info(f"Plugin [yellow]{Translate(plugin.description.name, return_original=True)}[/yellow] stopped successfully.")
+        logging.info(_("Plugin [yellow]{0}[/yellow] stopped successfully.").format(plugin.description.name))
         return True
     else:
-        logging.error(f"Failed to stop plugin: {response.data if response else 'Timeout'}")
+        logging.error(_("Failed to stop plugin: {0}").format(response.data if response else _("Timeout")))
         return False
         
     return False
@@ -557,22 +569,25 @@ def stop_plugin(
 def restart_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
-    folder: str | None = None) -> bool:
+    folder: str | None = None,
+    id: str | None = None) -> bool:
     """Restart a plugin based on one of the parameters."""
     try:
         stop_plugin(
             description=description,
             name=name,
-            folder=folder
+            folder=folder,
+            id=id
         )
         start_plugin(
             description=description,
             name=name,
-            folder=folder
+            folder=folder,
+            id=id
         )
         return True
     except Exception as e:
-        logging.error(f"Failed to restart plugin: {e}")
+        logging.error(_("Failed to restart plugin: {0}").format(e))
         return False
 
 
@@ -605,10 +620,10 @@ def page_open_event(url: str):
     if not page:
         return
     
-    plugin_name = page[0]["plugin"]
-    plugin = match_plugin(name=plugin_name)
+    plugin_id = page[0]["plugin"]
+    plugin = match_plugin(id=plugin_id)
     if not plugin:
-        logging.error(f"Plugin {plugin_name} not found for page {url}.")
+        logging.error(_("Plugin {0} not found for page {1}.").format(plugin_id, url))
         return
     
     plugin.queue.put(PluginMessage(
@@ -628,10 +643,10 @@ def page_close_event(url: str):
     if not page:
         return
     
-    plugin_name = page[0]["plugin"]
-    plugin = match_plugin(name=plugin_name)
+    plugin_id = page[0]["plugin"]
+    plugin = match_plugin(id=plugin_id)
     if not plugin:
-        logging.error(f"Plugin {plugin_name} not found for page {url}.")
+        logging.error(_("Plugin {0} not found for page {1}.").format(plugin_id, url))
         return
     
     plugin.queue.put(PluginMessage(
@@ -658,7 +673,7 @@ def get_states() -> dict:
     states = {}
     for plugin in plugins:
         if plugin.state["status"] != "":
-            states[Translate(plugin.description.name, return_original=True)] = plugin.state
+            states[plugin.description.id] = plugin.state
         
     return states
 
@@ -666,6 +681,7 @@ def function_call(
     description: PluginDescription | None = None,
     name: str | None = None,
     folder: str | None = None,
+    id: str | None = None,
     function: str = "",
     *args,
     **kwargs) -> bool:
@@ -673,11 +689,12 @@ def function_call(
     plugin: Plugin | None = match_plugin(
         description=description,
         name=name,
-        folder=folder
+        folder=folder,
+        id=id
     )
     
     if not plugin:
-        logging.error(f"Plugin not found.")
+        logging.error(_("Plugin not found."))
         return False
     
     plugin.queue.put(PluginMessage(
@@ -695,6 +712,6 @@ def save_running_plugins() -> None:
     running = []
     for plugin in plugins:
         if plugin.running:
-            running.append(plugin.description.name)
+            running.append(plugin.description.id)
             
     settings.Set("global", "running_plugins", running)

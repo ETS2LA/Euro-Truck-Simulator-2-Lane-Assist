@@ -23,8 +23,6 @@ if os.name == 'nt':
     try: ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("Python.GitHub.App.ETS2LAv2")
     except: pass
 
-# TODO: Implement get_int, get_float etc... so that this isn't necessary.
-
 fl = settings.Get("global", "frameless", True)
 dm = settings.Get("global", "debug_mode", False)
 fp = settings.Get("global", "frontend_port", 3005)

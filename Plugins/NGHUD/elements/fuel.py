@@ -1,11 +1,12 @@
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from Plugins.NGHUD.classes import HUDWidget
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import time
 
 class Widget(HUDWidget):
-    name = "Fuel Status"
-    description = "Draw the current fuel status of the truck."
+    name = _("Fuel Status")
+    description = _("Draw the current fuel status of the truck.")
     fps = 2
     
     def __init__(self, plugin):

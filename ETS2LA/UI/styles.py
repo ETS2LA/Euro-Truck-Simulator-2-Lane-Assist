@@ -1,3 +1,8 @@
+"""
+This is an almost complete CSS implementation for use in Python. You can 
+either add styles together `styles.Style() + styles.Style()`, or you can
+customize a single style class like `styles.Style(classname="my-class")`.
+"""
 from dataclasses import dataclass
 from typing import Optional, Literal
 

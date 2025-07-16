@@ -1,11 +1,12 @@
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from Plugins.NGHUD.classes import HUDWidget
+from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import time
 
 class Widget(HUDWidget):
-    name = "Acceleration"
-    description = "Draw the current acceleration of the truck."
+    name = _("Acceleration")
+    description = _("Draw the current acceleration of the truck.")
     fps = 10
     
     acceleration = SmoothedValue("time", 0.5)

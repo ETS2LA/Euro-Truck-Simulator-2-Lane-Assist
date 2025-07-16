@@ -1,5 +1,6 @@
 # TODO: This file is garbage. Rewrite it completely.
 from ETS2LA.Utils.packages import DownloadLibrary
+from ETS2LA.Utils.translator import _
 import logging
 import sys
 import os
@@ -8,14 +9,13 @@ try:
     path = DownloadLibrary("ffmpeg")
 except:
     path = None
-    logging.error("Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])")
-    
+    logging.error(_("Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"))
+
 if path is not None:
     path = path.replace("ffmpeg.exe", "")
     sys.path.append(path)
     os.environ["PATH"] += path
 
-from ETS2LA.Utils.translator import Translate
 import ETS2LA.Utils.settings as settings
 from ETS2LA.variables import PATH
 from pydub import AudioSegment
@@ -40,12 +40,12 @@ for i in range(len(SOUNDPACKS)):
     file_types = [sound.split(".")[1] for sound in os.listdir(SOUNDPACKS_PATH + "/" + pack)]
     for sound in REQUIRED_SOUNDS:
         if sound not in sounds:
-            logging.error(Translate("sounds.missing_sound", values=[pack, sound]))
+            logging.error(_("Soundpack '{0}' is missing the required sound '{1}'").format(pack, sound))
             temp.remove(pack)
             break
     for file_type in file_types:
         if file_type not in ACCEPTED_FORMATS:
-            logging.error(Translate("sounds.invalid_file_type", values=[pack, file_type]))
+            logging.error(_("Soundpack '{0}' has an invalid file type '{1}'").format(pack, file_type))
             temp.remove(pack)
             break
 
@@ -73,7 +73,7 @@ def GetFilenameForSound(sound: str):
     for pack_sound in sounds:
         if sound in pack_sound:
             return PATH + SOUNDPACKS_PATH + SELECTED_SOUNDPACK + "/" + pack_sound
-    logging.error(Translate("sounds.sound_not_found_in_soundpack", values=[sound, SELECTED_SOUNDPACK]))
+    logging.error(_("Tried to play sound '{0}', but it was not found in soundpack '{1}'").format(sound, SELECTED_SOUNDPACK))
     return None
 
 def play_audio(filename, volume = 0.5):

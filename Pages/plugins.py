@@ -1,7 +1,7 @@
 from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
 
-from ETS2LA.Utils.translator import Translate
+from ETS2LA.Utils.translator import _
 from ETS2LA.Utils import settings
 import threading
 import time
@@ -9,42 +9,42 @@ import time
 class BasicModeFeature():
     name: str = "Feature"
     description: str = "Description of the feature."
-    plugin_names: list[str] = "Plugin names to enable this feature."
+    plugin_ids: list[str] = "Plugin names to enable this feature."
     default: bool = True
     
-    def __init__(self, name: str, description: str, plugin_names: list[str], default: bool = True):
+    def __init__(self, name: str, description: str, plugin_ids: list[str], default: bool = True):
         self.name = name
         self.description = description
-        self.plugin_names = plugin_names
+        self.plugin_ids = plugin_ids
         self.default = default
 
 
 basic_mode_features = [
     BasicModeFeature(
-        name="Steering",
-        description="Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings.",
-        plugin_names=["Map"]
+        name=_("Steering"),
+        description=_("Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."),
+        plugin_ids=["plugins.map"]
     ),
     BasicModeFeature(
-        name="Lateral Control",
-        description="Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings.",
-        plugin_names=["AdaptiveCruiseControl"]
+        name=_("Lateral Control"),
+        description=_("Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."),
+        plugin_ids=["plugins.adaptivecruisecontrol"]
     ),
     BasicModeFeature(
-        name="Visualization",
-        description="Enable plugins that are needed for the visualization tab to work.\n\n**This is required for the visualization tab to work.**",
-        plugin_names=["VisualizationSockets", "NavigationSockets"]
+        name=_("Visualization"),
+        description=_("Enable plugins that are needed for the visualization tab to work.\n\n**This is required for the visualization tab to work.**"),
+        plugin_ids=["plugins.visualizationsockets", "plugins.navigationsockets"]
     ),
     BasicModeFeature(
-        name="HUD",
-        description="Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping.",
-        plugin_names=["AR", "HUD"],
+        name=_("HUD"),
+        description=_("Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."),
+        plugin_ids=["plugins.ar", "plugins.hud"],
         default=False
     ),
     BasicModeFeature(
-        name="Text To Speech",
-        description="Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful.",
-        plugin_names=["TTS"],
+        name=_("Text To Speech"),
+        description=_("Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."),
+        plugin_ids=["plugins.tts"],
         default=False
     )
 ]
@@ -75,18 +75,18 @@ class Page(ETS2LAPage):
         if not settings.Get("global", "advanced_plugin_mode", False):
             for feature in basic_mode_features:
                 if self.feature_toggles[feature.name] and self.running:
-                    for plugin_name in feature.plugin_names:
-                        plugins.start_plugin(folder="Plugins\\" + plugin_name)
+                    for id in feature.plugin_ids:
+                        plugins.start_plugin(id=id)
                 else:
-                    for plugin_name in feature.plugin_names:
-                        plugins.stop_plugin(folder="Plugins\\" + plugin_name)
-    
+                    for id in feature.plugin_ids:
+                        plugins.stop_plugin(id=id)
+
     def toggle_feature(self, name: str):
         if name in self.feature_toggles:
             self.feature_toggles[name] = not self.feature_toggles[name]
         else:
-            SendPopup(f"Feature '{name}' not found.", type="error")
-        
+            SendPopup(_("Feature '{0}' not found.").format(name), type="error")
+
         self.update_queue.append(name)
         return True
     
@@ -132,7 +132,7 @@ class Page(ETS2LAPage):
     def enable_last_plugins(self):
         for plugin_name in last_plugins:
             if plugin_name not in self.enabling and plugin_name not in self.disabling:
-                self.enabling.append(Translate(plugin_name, return_original=True))
+                self.enabling.append(plugin_name)
                 threading.Thread(
                     target=plugins.start_plugin,
                     kwargs={"name": plugin_name},
@@ -194,8 +194,8 @@ class Page(ETS2LAPage):
                         style=styles.FlexVertical() 
                             + styles.Gap("5px")
                     ):
-                        Text(Translate(plugin.description.name, return_original=True), styles.Classname("font-semibold"))
-                        Text(Translate(plugin.description.description, return_original=True), styles.Description() + styles.Classname("text-xs"))
+                        Text(plugin.description.name, styles.Classname("font-semibold"))
+                        Text(plugin.description.description, styles.Description() + styles.Classname("text-xs"))
                         
                 with Container(styles.FlexHorizontal() + styles.Gap("5px")):
                     if not isinstance(plugin.authors, list):
@@ -232,21 +232,21 @@ class Page(ETS2LAPage):
                 with Spinner():
                     Icon("loader")
                 
-                Text("Loading plugins...", styles.Description())
+                Text(_("Loading plugins..."), styles.Description())
                 if plugins.plugins:
                     target = plugins.plugins[-1]
                     if not hasattr(target, "description") and len(plugins.plugins) > 1:
                         target = plugins.plugins[-2]
                         
-                    Text(f"{Translate(target.description.name, return_original=True)}", styles.Classname("text-xs text-muted-foreground absolute bottom-2"))
+                    Text(target.description.name, styles.Classname("text-xs text-muted-foreground absolute bottom-2"))
             return
         
         isBasic = not settings.Get("global", "advanced_plugin_mode", False)
         if isBasic:
             with Container(styles.FlexHorizontal() + styles.Padding("40px") + styles.Gap("40px")):
                 with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Width("400px") + styles.Classname("relative")):
-                    Text("Plugins (Basic)", styles.Title())
-                    Text("You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration.", styles.Description())
+                    Text(_("Plugins (Basic)"), styles.Title())
+                    Text(_("You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."), styles.Description())
                     with Button(
                         self.toggle_running,
                         enabled=not self.update_queue
@@ -254,10 +254,10 @@ class Page(ETS2LAPage):
                         if self.update_queue:
                             with Spinner():
                                 Icon("loader")
-                        Text("Disable Plugins" if self.running else "Enable Plugins")
-                        
-                    enabled_plugins = [Translate(plugin.description.name, return_original=True) for plugin in plugins.plugins if plugin.running]
-                    Markdown("Currently enabled plugins:\n- " + ("\n- ".join(enabled_plugins) if enabled_plugins else "None"), styles.Description())
+                        Text(_("Disable Plugins") if self.running else _("Enable Plugins"))
+
+                    enabled_plugins = [plugin.description.name for plugin in plugins.plugins if plugin.running]
+                    Markdown(_("Currently enabled plugins:") + "\n- " + ("\n- ".join(enabled_plugins) if enabled_plugins else _("None")), styles.Description())
 
                 with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Width("525px")):
                     for feature in basic_mode_features:
@@ -279,13 +279,13 @@ class Page(ETS2LAPage):
                                         with Spinner():
                                             Icon("loader")
                                     else:
-                                        Text("Enabled" if self.feature_toggles[feature.name] else "Disabled", styles.Classname("text-xs font-semibold" + ("" if self.feature_toggles[feature.name] else " text-muted-foreground")))
-                                    
+                                        Text(_("Enabled") if self.feature_toggles[feature.name] else _("Disabled"), styles.Classname("text-xs font-semibold" + ("" if self.feature_toggles[feature.name] else " text-muted-foreground")))
+
                                 Markdown(feature.description, styles.Description() + styles.Classname("font-normal"))
                     
                     with Button(self.handle_advanced_mode_toggle):
-                        Text("Switch to Advanced Mode")
-                                
+                        Text(_("Switch to Advanced Mode"))
+
         else:
             tags = []
             authors = []
@@ -309,7 +309,7 @@ class Page(ETS2LAPage):
                 # Top bar with search and tags
                 with Container(styles.FlexHorizontal() + styles.Gap("20px") + styles.Classname("items-center") + styles.Padding("0 40px 0 0")):
                     Input(
-                        "Search plugins...",
+                        _("Search plugins..."),
                         changed=self.handle_search
                     )
                     Combobox(
@@ -318,8 +318,8 @@ class Page(ETS2LAPage):
                         changed=self.handle_tags,
                         multiple=True,
                         search=ComboboxSearch(
-                            placeholder="Search tags...",
-                            empty="No tags found"
+                            placeholder=_("Search tags..."),
+                            empty=_("No tags found")
                         )
                     )
                     Combobox(
@@ -328,16 +328,16 @@ class Page(ETS2LAPage):
                         changed=self.handle_authors,
                         multiple=True,
                         search=ComboboxSearch(
-                            placeholder="Search authors...",
-                            empty="No authors found"
+                            placeholder=_("Search authors..."),
+                            empty=_("No authors found")
                         )
                     )
                     with Button(self.handle_advanced_mode_toggle):
-                        Text("Back to Basic Mode")
-                
+                        Text(_("Back to Basic Mode"))
+
             running_plugins = [plugin for plugin in plugins.plugins if plugin.running and plugin.folder not in self.disabling]
             running_plugins += [plugin for plugin in plugins.plugins if plugin.folder in self.enabling and plugin not in running_plugins]
-            running_plugins.sort(key=lambda p: Translate(p.description.name, return_original=True).lower())
+            running_plugins.sort(key=lambda p: p.description.name.lower())
                 
             # filter out running plugins
             filtered_plugins = [
@@ -360,26 +360,24 @@ class Page(ETS2LAPage):
                 if (not self.authors or (isinstance(plugin.authors, list) and any(author.name.lower() in self.authors for author in plugin.authors)) or (not isinstance(plugin.authors, list) and plugin.authors.name.lower() in self.authors))
             ]
             # sort by name
-            filtered_plugins.sort(key=lambda p: Translate(p.description.name, return_original=True).lower())
+            filtered_plugins.sort(key=lambda p: p.description.name.lower())
             
             # Render the lists
             with Container(styles.FlexVertical() + styles.Padding("0 20px") + styles.Gap("20px")):
-                Text("Running Plugins", styles.Classname("font-semibold"))
+                Text(_("Running Plugins"), styles.Classname("font-semibold"))
                 if not running_plugins:
                     if not last_plugins:
                         with Alert():
-                            Text("No plugins are currently running.", styles.Description())
+                            Text(_("No plugins are currently running."), styles.Description())
                     else:
                         with Alert(style=styles.Gap("20px") + styles.FlexVertical()):
-                            names = [Translate(plugin, return_original=True) for plugin in last_plugins]
-                            Markdown(f"Want to enable the plugins you had running last time?\n\n**{', '.join(names)}**", styles.Description())
+                            Markdown(f"{_('Want to enable the plugins you had running last time?')}\n\n**{', '.join(last_plugins)}**", styles.Description())
                             with Button(action=self.enable_last_plugins):
-                                Text("Enable Last Plugins")
-                                
+                                Text(_("Enable Last Plugins"))
+
                 else:
                     self.render_plugin_list(running_plugins)
             
             with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0 20px")):
-                Text("Available Plugins", styles.Classname("font-semibold"))
+                Text(_("Available Plugins"), styles.Classname("font-semibold"))
                 self.render_plugin_list(filtered_plugins)
-                
