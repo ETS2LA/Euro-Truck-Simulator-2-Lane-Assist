@@ -184,10 +184,14 @@ class Plugin:
         logging.debug(_("Plugin [yellow]{0}[/yellow] loaded successfully.").format(self.description.name))
         while not self.stop:
             time.sleep(1)
+        self.remove()
     
     def listener(self):
         """Send all messages into the stack."""
         while True:
+            if self.stop:
+                return
+            
             try: message: PluginMessage = self.return_queue.get(timeout=2)
             except: time.sleep(0.01); continue
             
@@ -207,6 +211,9 @@ class Plugin:
     
     def controls_updater(self):
         while True:
+            if self.stop:
+                return
+            
             states = controls.get_states(self.controls)
             if not self.last_controls_state or states != self.last_controls_state:
                 self.last_controls_state = states
@@ -219,7 +226,10 @@ class Plugin:
             time.sleep(0.025)
     
     def tag_handler(self):
-        while True:            
+        while True:   
+            if self.stop:
+                return
+                     
             if Channel.GET_TAGS in self.stack:
                 while self.stack[Channel.GET_TAGS]:
                     message = self.stack[Channel.GET_TAGS].popitem()[1]
@@ -255,6 +265,9 @@ class Plugin:
     
     def state_handler(self):
         while True:
+            if self.stop:
+                return
+            
             if Channel.STATE_UPDATE in self.stack:
                 while self.stack[Channel.STATE_UPDATE]:
                     message = self.stack[Channel.STATE_UPDATE].popitem()[1]
@@ -266,6 +279,9 @@ class Plugin:
             
     def page_handler(self):
         while True:
+            if self.stop:
+                return
+            
             if Channel.UPDATE_PAGE in self.stack:
                 while self.stack[Channel.UPDATE_PAGE]:
                     message = self.stack[Channel.UPDATE_PAGE].popitem()[1]
@@ -279,6 +295,9 @@ class Plugin:
             
     def notification_handler(self):
         while True:
+            if self.stop:
+                return
+            
             if Channel.NOTIFICATION in self.stack:
                 while self.stack[Channel.NOTIFICATION]:
                     message = self.stack[Channel.NOTIFICATION].popitem()[1]
@@ -303,6 +322,9 @@ class Plugin:
     def performance_handler(self):
         """Handle the performance data from the plugin."""
         while True:
+            if self.stop:
+                return
+            
             if Channel.FRAMETIME_UPDATE in self.stack:
                 while self.stack[Channel.FRAMETIME_UPDATE]:
                     message = self.stack[Channel.FRAMETIME_UPDATE].popitem()[1]
@@ -369,6 +391,9 @@ class Plugin:
             return
         
         while True:
+            if self.stop:
+                return
+            
             time.sleep(1)
             current = os.path.getmtime(self.folder + "/main.py")
             if current != self.edit_time:
@@ -415,6 +440,26 @@ def reload_plugins() -> None:
     discover_plugins()
     threading.Thread(target=create_processes, daemon=True).start()
     
+def create_process(folder: str) -> bool:
+    initial_state = len(plugins)
+    try:
+        threading.Thread(
+            target=Plugin,
+            name=f"Backend for {folder.split('/')[-1]}",
+            args=(folder,),
+            daemon=True
+        ).start()
+    except:
+        return False
+    
+    start = time.time()
+    while len(plugins) == initial_state:
+        time.sleep(0.1)
+        if time.time() - start > 10:
+            logging.warning(f"Timeout waiting for plugin {folder} to load.")
+            return False
+        
+    return True
 
 # MARK: Startup      
 plugins: list[Plugin] = []
@@ -553,7 +598,7 @@ def stop_plugin(
         logging.error(_("Plugin not found, this can be a result of a plugin crash or failure to load."))
         return False
     
-    if not plugin.running:
+    if not plugin.running and not stop_process:
         return False
     
     plugin.start_plugin()

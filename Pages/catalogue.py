@@ -105,7 +105,7 @@ class Page(ETS2LAPage):
     def refresh_data(self):
         self.loading = True
         self.plugins = []
-        threading.Thread(target=self.update_data).start()
+        threading.Thread(target=self.update_data, daemon=True).start()
 
     def open_event(self):
         if self.plugins:
@@ -121,10 +121,10 @@ class Page(ETS2LAPage):
         self.want_to_uninstall = True
         
     def trigger_install(self, plugin: str):
-        threading.Thread(target=self.install_plugin, args=(plugin,)).start()
+        threading.Thread(target=self.install_plugin, args=(plugin,), daemon=True).start()
         
     def trigger_uninstall(self, plugin: str):
-        threading.Thread(target=self.uninstall_plugin, args=(plugin,)).start()
+        threading.Thread(target=self.uninstall_plugin, args=(plugin,), daemon=True).start()
         
     def install_plugin(self, plugin: str):
         self.installing = True
@@ -149,8 +149,15 @@ class Page(ETS2LAPage):
                 self.installing_state = "Installing requirements"
                 os.system(f"pip install -r CataloguePlugins/{target.name}/requirements.txt")
             
+            self.installing_state = "Starting plugin background process"
+            if not plugins.create_process(
+                folder=f"CataloguePlugins\\{target.name}"
+            ):
+                raise Exception("Failed to start plugin background process, but the plugin files were installed.")
+            
             self.installing_state = "Success"
             self.installing = False
+            self.unselect_plugin()
             SendPopup(f"Plugin '{target.name}' installed successfully.")
         except Exception as e:
             self.installing_state = "Failed"
@@ -176,7 +183,7 @@ class Page(ETS2LAPage):
         try:
             self.uninstalling_state = "Closing plugin processes"
             if plugins.match_plugin_by_folder(f"CataloguePlugins/{target.name}"):
-                if not plugins.stop_plugin(folder="CataloguePlugins/" + target.name, stop_process=True):
+                if not plugins.stop_plugin(folder=f"CataloguePlugins/{target.name}", stop_process=True):
                     raise Exception("Failed to stop plugin processes.")
             
             self.uninstalling_state = "Unregistering git repository"
@@ -216,6 +223,7 @@ class Page(ETS2LAPage):
                 
             self.uninstalling_state = "Success"
             self.uninstalling = False
+            self.unselect_plugin()
             SendPopup(f"Plugin '{target.name}' uninstalled successfully.")
         except Exception as e:
             self.uninstalling_state = "Failed"
@@ -380,7 +388,6 @@ class Page(ETS2LAPage):
         
         with Container(styles.FlexVertical() + styles.Classname("w-full h-full items-center justify-center relative")):
             Text("Are you sure you want to uninstall this plugin?\n" + self.selected_plugin.name, styles.Classname("text-center"))
-            Text("ETS2LA is not responsible for any issues caused by 3rd party plugins.", styles.Classname("text-xs text-muted-foreground"))
             with Container(styles.FlexHorizontal() + styles.Gap("10px") + styles.Classname("pt-4")):
                 with Button(action=self.unselect_plugin, type="ghost"):
                     Icon("arrow-left")
