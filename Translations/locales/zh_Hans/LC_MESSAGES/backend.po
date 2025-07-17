@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-15 15:05\n"
+"POT-Creation-Date: 2025-07-17 16:40\n"
 "PO-Revision-Date: 2025-07-11 09:35+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/projects/ets2la/backend/zh_Hans/>\n"
@@ -55,7 +55,7 @@ msgstr "尝试编辑事件时发生异常。"
 msgid "Controls listener started."
 msgstr "开始识别控制器。"
 
-#: .\ETS2LA\Handlers\plugins.py:126
+#: .\ETS2LA\Handlers\plugins.py:127
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -63,67 +63,67 @@ msgstr ""
 "插件{0}开启失败：已超时。\n"
 "请尝试关闭其他应用，为插件提供更多内存和CPU资源。"
 
-#: .\ETS2LA\Handlers\plugins.py:131
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid "Plugin {0} failed to start: {1}"
 msgstr "插件{0}开启失败：{1}"
 
-#: .\ETS2LA\Handlers\plugins.py:183
+#: .\ETS2LA\Handlers\plugins.py:184
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "插件[yellow]{0}[/yellow]已成功加载。"
 
-#: .\ETS2LA\Handlers\plugins.py:356
+#: .\ETS2LA\Handlers\plugins.py:379
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "插件{0}未找到介绍：已超时。"
 
-#: .\ETS2LA\Handlers\plugins.py:360
+#: .\ETS2LA\Handlers\plugins.py:383
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "插件{0}未找到介绍：{1}"
 
-#: .\ETS2LA\Handlers\plugins.py:391
+#: .\ETS2LA\Handlers\plugins.py:417
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "插件 {0}未找到按键：已超时。"
 
-#: .\ETS2LA\Handlers\plugins.py:395
+#: .\ETS2LA\Handlers\plugins.py:421
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "插件 {0}未找到按键：{1}"
 
-#: .\ETS2LA\Handlers\plugins.py:445
+#: .\ETS2LA\Handlers\plugins.py:491
 msgid "Loaded {0} plugins."
 msgstr "已成功加载{0}插件。"
 
-#: .\ETS2LA\Handlers\plugins.py:515 .\ETS2LA\Handlers\plugins.py:697
+#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
 msgid "Plugin not found."
 msgstr "插件未找到。"
 
-#: .\ETS2LA\Handlers\plugins.py:526
+#: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "插件[yellow]{0}[/yellow]已成功开启。"
 
-#: .\ETS2LA\Handlers\plugins.py:533
+#: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
 msgstr "未能成功开启插件：{0}"
 
-#: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
 msgstr "已超时"
 
-#: .\ETS2LA\Handlers\plugins.py:551
+#: .\ETS2LA\Handlers\plugins.py:598
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "未找到插件，这可能因为插件奔溃或者加载失败造成的。"
 
-#: .\ETS2LA\Handlers\plugins.py:561
+#: .\ETS2LA\Handlers\plugins.py:615
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "插件[yellow]{0}[/yellow]已成功退出。"
 
-#: .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
 msgstr "插件未能成功退出：{0}"
 
-#: .\ETS2LA\Handlers\plugins.py:590
+#: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
 msgstr "尝试重启插件失败：{0}"
 
-#: .\ETS2LA\Handlers\plugins.py:626 .\ETS2LA\Handlers\plugins.py:649
+#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
 msgstr "未能找到页面{1}的插件 {0}。"
 
@@ -456,6 +456,171 @@ msgstr "您认为应该进行更新吗？点击此按钮，应用程序将重新
 msgid "Update"
 msgstr "更新"
 
+#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+msgid "Unknown"
+msgstr ""
+
+#: .\Pages\catalogue.py:83
+msgid "No overview provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:84
+msgid "No description provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:132
+msgid "Installing"
+msgstr ""
+
+#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+msgid "Plugin not found in the catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:147
+msgid "Cloning repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:150
+msgid "Installing requirements"
+msgstr ""
+
+#: .\Pages\catalogue.py:153
+msgid "Starting plugin background process"
+msgstr ""
+
+#: .\Pages\catalogue.py:157
+msgid "Failed to start plugin background process, but the plugin files were installed."
+msgstr ""
+
+#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+msgid "Success"
+msgstr ""
+
+#: .\Pages\catalogue.py:162
+msgid "Plugin '{name}' installed successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+msgid "Failed"
+msgstr ""
+
+#: .\Pages\catalogue.py:166
+msgid "Failed to install plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:170
+msgid "Uninstalling"
+msgstr ""
+
+#: .\Pages\catalogue.py:185
+msgid "Closing plugin processes"
+msgstr ""
+
+#: .\Pages\catalogue.py:188
+msgid "Failed to stop plugin processes."
+msgstr ""
+
+#: .\Pages\catalogue.py:190
+msgid "Unregistering git repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:199
+msgid "Removing plugin files"
+msgstr ""
+
+#: .\Pages\catalogue.py:219
+msgid "Retrying removal ({cur}/{max})"
+msgstr ""
+
+#: .\Pages\catalogue.py:223
+msgid "Failed to remove plugin files after {max} attempts"
+msgstr ""
+
+#: .\Pages\catalogue.py:228
+msgid "Plugin '{name}' uninstalled successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:232
+msgid "Failed to uninstall plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:263
+msgid "Couldn't find source code for this plugin."
+msgstr ""
+
+#. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
+#: .\Pages\catalogue.py:272
+msgid "Refreshing..."
+msgstr ""
+
+#: .\Pages\catalogue.py:274
+msgid "Found {count} plugins"
+msgstr ""
+
+#: .\Pages\catalogue.py:314
+msgid "Back"
+msgstr ""
+
+#: .\Pages\catalogue.py:317
+msgid "Source Code"
+msgstr ""
+
+#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+msgid "Uninstall"
+msgstr ""
+
+#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+msgid "Install"
+msgstr ""
+
+#: .\Pages\catalogue.py:355
+msgid "Are you sure you want to install this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:356
+msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
+msgstr ""
+
+#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+msgid "Cancel"
+msgstr ""
+
+#: .\Pages\catalogue.py:369
+msgid "Installing {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+msgid "Close"
+msgstr ""
+
+#: .\Pages\catalogue.py:379
+msgid "Uninstalling {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:392
+msgid "Are you sure you want to uninstall this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:409
+msgid "Plugin Catalogue"
+msgstr ""
+
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+msgid "Search plugins..."
+msgstr "搜索插件..."
+
+#: .\Pages\catalogue.py:418
+msgid "Refresh"
+msgstr ""
+
+#: .\Pages\catalogue.py:426
+msgid "No plugins found in the plugin catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:429
+msgid "Refresh Catalogue"
+msgstr ""
+
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
@@ -709,8 +874,8 @@ msgstr "启用此选项可在冬季使用雪景效果。"
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "如果您以前进行过新手引导，则知道如何退出。如果没有进行过新手引导，ETS2LA 将无法运行。"
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:323
-#: .\Plugins\NGHUD\main.py:368
+#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
+#: .\Plugins\NGHUD\main.py:380
 msgid "Loading..."
 msgstr "加载中...."
 
@@ -1083,10 +1248,6 @@ msgstr "禁用"
 #: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
 msgstr "切换到高级模式"
-
-#: .\Pages\plugins.py:312
-msgid "Search plugins..."
-msgstr "搜索插件..."
 
 #: .\Pages\plugins.py:321
 msgid "Search tags..."
@@ -1690,8 +1851,8 @@ msgstr ""
 msgid "that will unpack to a total size of"
 msgstr ""
 
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "ACC Information"
 msgstr "ACC 信息"
 
@@ -1773,8 +1934,8 @@ msgstr "油门/刹车"
 msgid "Display current throttle and brake percentage."
 msgstr "显示当前油门和制动百分比。"
 
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Traffic Lights"
 msgstr "交通信号灯"
 
@@ -1791,8 +1952,8 @@ msgstr "速度"
 msgid "A normal speed display, will also show speed limit changes."
 msgstr "正常速度显示屏也会显示速度限制的变化。"
 
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Steering Line"
 msgstr "转向线"
 
@@ -2156,87 +2317,87 @@ msgstr ""
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
 
-#: .\main.py:106
+#: .\main.py:105
 msgid "Testing mirrors..."
 msgstr "延迟测试..."
 
-#: .\main.py:114
+#: .\main.py:113
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- 在 {1:.0f}ms 内到达 {0}"
 
-#: .\main.py:120
+#: .\main.py:119
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - 在 (TIMEOUT) 内到达 {0}"
 
-#: .\main.py:135
+#: .\main.py:134
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- 运行子模块的下载后操作：  接口 -- "
 
-#: .\main.py:153
+#: .\main.py:152
 msgid "Running ETS2LA in development mode."
 msgstr "在开发者模式下运行 ETS2LA。"
 
-#: .\main.py:157
+#: .\main.py:156
 msgid "Running UI locally"
 msgstr "本地运行用户界面"
 
-#: .\main.py:162
+#: .\main.py:161
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "无法连接远程用户界面镜像。本地运行。"
 
-#: .\main.py:173
+#: .\main.py:172
 msgid "Running UI in China mode"
 msgstr "在中国模式下运行 UI"
 
-#: .\main.py:175
+#: .\main.py:174
 msgid "> Using mirror {0} for UI."
 msgstr "> 使用镜像 {0} 作为用户界面。"
 
-#: .\main.py:181
+#: .\main.py:180
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console不能与--no-ui同时使用。控制台不会关闭。"
 
-#: .\main.py:183
+#: .\main.py:182
 msgid "Closing console after UI start."
 msgstr "用户界面启动后关闭控制台。"
 
-#: .\main.py:186
+#: .\main.py:185
 msgid "Running in the background without a window."
 msgstr "在没有窗口的情况下在后台运行。"
 
-#: .\main.py:204
+#: .\main.py:203
 msgid "ETS2LA Overseer started!"
 msgstr "ETS2LA 监督员启动！"
 
-#: .\main.py:220
+#: .\main.py:219
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA 正在重启..."
 
-#: .\main.py:226
+#: .\main.py:225
 msgid "Skipping update due to development mode."
 msgstr "由于开发模式，跳过更新。"
 
-#: .\main.py:229
+#: .\main.py:228
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA 正在更新..."
 
-#: .\main.py:232
+#: .\main.py:231
 msgid "Update done... restarting!"
 msgstr "更新完成......重新启动！"
 
-#: .\main.py:237
+#: .\main.py:236
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA 崩溃了！"
 
-#: .\main.py:246
+#: .\main.py:245
 msgid "Send the above traceback to the developers."
 msgstr "将上述回溯信息发送给开发人员。"
 
-#: .\main.py:248
+#: .\main.py:247
 msgid "ETS2LA has closed."
 msgstr "ETS2LA 已关闭。"
 
-#: .\main.py:249
+#: .\main.py:248
 msgid "Press enter to exit."
 msgstr "按回车键退出。"
 

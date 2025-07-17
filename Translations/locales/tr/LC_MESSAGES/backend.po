@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-15 15:05\n"
+"POT-Creation-Date: 2025-07-17 16:40\n"
 "PO-Revision-Date: 2025-07-17 13:06+0000\n"
 "Last-Translator: lrnsxgod <lrnsxgod@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
-">\n"
-"Language: tr\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -56,7 +55,7 @@ msgstr "Etkinliği düzenlemeye çalışırken bir hata oluştu."
 msgid "Controls listener started."
 msgstr "Kontrol dinleyicisi başlatıldı."
 
-#: .\ETS2LA\Handlers\plugins.py:126
+#: .\ETS2LA\Handlers\plugins.py:127
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -64,67 +63,67 @@ msgstr ""
 "Eklenti {0} başlatılamadı: Zaman aşımı.\n"
 "Eklentiye daha fazla bellek ve CPU ayırmak için diğer programları kapatmayı deneyin."
 
-#: .\ETS2LA\Handlers\plugins.py:131
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Eklenti {0} başlatılamadı: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:183
+#: .\ETS2LA\Handlers\plugins.py:184
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Eklenti [yellow]{0}[/yellow] başarıyla yüklendi."
 
-#: .\ETS2LA\Handlers\plugins.py:356
+#: .\ETS2LA\Handlers\plugins.py:379
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Eklenti {0} açıklamayı alamadı: Zaman aşımı."
 
-#: .\ETS2LA\Handlers\plugins.py:360
+#: .\ETS2LA\Handlers\plugins.py:383
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Eklenti {0} açıklamayı alamadı: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:391
+#: .\ETS2LA\Handlers\plugins.py:417
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Eklenti {0} kontrolleri alamadı: Zaman aşımı."
 
-#: .\ETS2LA\Handlers\plugins.py:395
+#: .\ETS2LA\Handlers\plugins.py:421
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Eklenti {0} kontroller alınamadı: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:445
+#: .\ETS2LA\Handlers\plugins.py:491
 msgid "Loaded {0} plugins."
 msgstr "{0} eklenti yüklendi."
 
-#: .\ETS2LA\Handlers\plugins.py:515 .\ETS2LA\Handlers\plugins.py:697
+#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
 msgid "Plugin not found."
 msgstr "Eklenti bulunamadı."
 
-#: .\ETS2LA\Handlers\plugins.py:526
+#: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Eklenti [yellow]{0}[/yellow] başarıyla başlatıldı."
 
-#: .\ETS2LA\Handlers\plugins.py:533
+#: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
 msgstr "Eklentiyi başlatılamadı: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
 msgstr "Zaman aşımı"
 
-#: .\ETS2LA\Handlers\plugins.py:551
+#: .\ETS2LA\Handlers\plugins.py:598
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Eklenti bulunamadı, bu durum eklentinin çökmesi veya yüklenememesi nedeniyle olabilir."
 
-#: .\ETS2LA\Handlers\plugins.py:561
+#: .\ETS2LA\Handlers\plugins.py:615
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Eklenti [yellow]{0}[/yellow] başarıyla durduruldu."
 
-#: .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
 msgstr "Eklentiyi durdurulamadı: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:590
+#: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
 msgstr "Eklentiyi yeniden başlatılamadı: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:626 .\ETS2LA\Handlers\plugins.py:649
+#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
 msgstr "Eklenti {0} sayfada bulunamadı {1}."
 
@@ -146,9 +145,7 @@ msgstr "Ses ‘{0}’ çalınmaya çalışıldı, ancak ses paketi ‘{1}’ iç
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr ""
-"[bold]http://{address}[/bold] başarıyla kaydedildi ve [dim]{local_ip}[/dim] "
-"adresine yönlendirildi."
+msgstr "[bold]http://{address}[/bold] başarıyla kaydedildi ve [dim]{local_ip}[/dim] adresine yönlendirildi."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -240,10 +237,7 @@ msgstr "ETS2LA penceresi aranıyor... [dim](10 saniye zaman aşımı)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
-msgstr ""
-"ETS2LA penceresi bulunamadı/başlatılamadı. Bilgisayarınız yeterince güçlü "
-"mü? Çalıştırmanız gerektiğini düşünüyorsanız https://app.ets2la.com adresini "
-"kullanın."
+msgstr "ETS2LA penceresi bulunamadı/başlatılamadı. Bilgisayarınız yeterince güçlü mü? Çalıştırmanız gerektiğini düşünüyorsanız https://app.ets2la.com adresini kullanın."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -360,10 +354,7 @@ msgstr "Hakkında"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
-msgstr ""
-"ETS2LA, ETS2 ve ATS için kullanımı kolay bir otonom sürüş çözümü sunmayı "
-"amaçlayan bir projedir. Daha fazla bilgi edinmek isterseniz, kenar "
-"çubuğundan github sayfasına veya wiki'ye ulaşabilirsiniz."
+msgstr "ETS2LA, ETS2 ve ATS için kullanımı kolay bir otonom sürüş çözümü sunmayı amaçlayan bir projedir. Daha fazla bilgi edinmek isterseniz, kenar çubuğundan github sayfasına veya wiki'ye ulaşabilirsiniz."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
@@ -429,21 +420,15 @@ msgstr "Destek Geliştirme"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
-msgstr ""
-"Projeyi beğendiyseniz ve geliştirilmesini desteklemek istiyorsanız, Ko-Fi "
-"aracılığıyla bağışta bulunabilirsiniz."
+msgstr "Projeyi beğendiyseniz ve geliştirilmesini desteklemek istiyorsanız, Ko-Fi aracılığıyla bağışta bulunabilirsiniz."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
-msgstr ""
-"Katkıda bulunmak istiyorsanız, Discord sunucusuna katılmanızı ve GitHub "
-"sayfasını kontrol etmenizi öneririm."
+msgstr "Katkıda bulunmak istiyorsanız, Discord sunucusuna katılmanızı ve GitHub sayfasını kontrol etmenizi öneririm."
 
 #: .\Pages\about.py:151
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
-msgstr ""
-"Çevirilere katkıda bulunmak istiyorsanız, Discord'a katılarak ve bir "
-"moderatörle iletişime geçerek bunu yapabilirsiniz."
+msgstr "Çevirilere katkıda bulunmak istiyorsanız, Discord'a katılarak ve bir moderatörle iletişime geçerek bunu yapabilirsiniz."
 
 #: .\Pages\about.py:156
 msgid "Utils"
@@ -455,9 +440,7 @@ msgstr "Silecekleri Tamir Et"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
-msgstr ""
-"Silecekleriniz takıldı mı? Düğmeye tıklayın ve oyuna alt sekmesine geçin. 5 "
-"saniye içinde kapanmaları gerekir."
+msgstr "Silecekleriniz takıldı mı? Düğmeye tıklayın ve oyuna alt sekmesine geçin. 5 saniye içinde kapanmaları gerekir."
 
 #: .\Pages\about.py:162
 msgid "Activate"
@@ -469,13 +452,176 @@ msgstr "Güncellemeye zorla"
 
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
-msgstr ""
-"Güncelleme olması gerektiğini düşünüyor musunuz? Bu düğmeye tıklayın, "
-"uygulama yeniden başlatılacak ve güncellemeleri kontrol edecektir."
+msgstr "Güncelleme olması gerektiğini düşünüyor musunuz? Bu düğmeye tıklayın, uygulama yeniden başlatılacak ve güncellemeleri kontrol edecektir."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
 msgstr "Güncelleme"
+
+#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+msgid "Unknown"
+msgstr ""
+
+#: .\Pages\catalogue.py:83
+msgid "No overview provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:84
+msgid "No description provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:132
+msgid "Installing"
+msgstr ""
+
+#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+msgid "Plugin not found in the catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:147
+msgid "Cloning repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:150
+msgid "Installing requirements"
+msgstr ""
+
+#: .\Pages\catalogue.py:153
+msgid "Starting plugin background process"
+msgstr ""
+
+#: .\Pages\catalogue.py:157
+msgid "Failed to start plugin background process, but the plugin files were installed."
+msgstr ""
+
+#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+msgid "Success"
+msgstr ""
+
+#: .\Pages\catalogue.py:162
+msgid "Plugin '{name}' installed successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+msgid "Failed"
+msgstr ""
+
+#: .\Pages\catalogue.py:166
+msgid "Failed to install plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:170
+msgid "Uninstalling"
+msgstr ""
+
+#: .\Pages\catalogue.py:185
+msgid "Closing plugin processes"
+msgstr ""
+
+#: .\Pages\catalogue.py:188
+msgid "Failed to stop plugin processes."
+msgstr ""
+
+#: .\Pages\catalogue.py:190
+msgid "Unregistering git repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:199
+msgid "Removing plugin files"
+msgstr ""
+
+#: .\Pages\catalogue.py:219
+msgid "Retrying removal ({cur}/{max})"
+msgstr ""
+
+#: .\Pages\catalogue.py:223
+msgid "Failed to remove plugin files after {max} attempts"
+msgstr ""
+
+#: .\Pages\catalogue.py:228
+msgid "Plugin '{name}' uninstalled successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:232
+msgid "Failed to uninstall plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:263
+msgid "Couldn't find source code for this plugin."
+msgstr ""
+
+#. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
+#: .\Pages\catalogue.py:272
+msgid "Refreshing..."
+msgstr ""
+
+#: .\Pages\catalogue.py:274
+msgid "Found {count} plugins"
+msgstr ""
+
+#: .\Pages\catalogue.py:314
+msgid "Back"
+msgstr ""
+
+#: .\Pages\catalogue.py:317
+msgid "Source Code"
+msgstr ""
+
+#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+msgid "Uninstall"
+msgstr ""
+
+#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+msgid "Install"
+msgstr ""
+
+#: .\Pages\catalogue.py:355
+msgid "Are you sure you want to install this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:356
+msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
+msgstr ""
+
+#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+msgid "Cancel"
+msgstr ""
+
+#: .\Pages\catalogue.py:369
+msgid "Installing {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+msgid "Close"
+msgstr ""
+
+#: .\Pages\catalogue.py:379
+msgid "Uninstalling {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:392
+msgid "Are you sure you want to uninstall this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:409
+msgid "Plugin Catalogue"
+msgstr ""
+
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+msgid "Search plugins..."
+msgstr ""
+
+#: .\Pages\catalogue.py:418
+msgid "Refresh"
+msgstr ""
+
+#: .\Pages\catalogue.py:426
+msgid "No plugins found in the plugin catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:429
+msgid "Refresh Catalogue"
+msgstr ""
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -515,9 +661,7 @@ msgstr "Değişiklikleri Görüntüle"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
-msgstr ""
-"Sadece son 20 güncelleme gösterilir. Daha fazla geçmiş bilgisi için depoyu "
-"kontrol edebilirsiniz."
+msgstr "Sadece son 20 güncelleme gösterilir. Daha fazla geçmiş bilgisi için depoyu kontrol edebilirsiniz."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
@@ -736,8 +880,8 @@ msgstr ""
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:323
-#: .\Plugins\NGHUD\main.py:368
+#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
+#: .\Plugins\NGHUD\main.py:380
 msgid "Loading..."
 msgstr ""
 
@@ -1096,10 +1240,6 @@ msgstr ""
 
 #: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
-msgstr ""
-
-#: .\Pages\plugins.py:312
-msgid "Search plugins..."
 msgstr ""
 
 #: .\Pages\plugins.py:321
@@ -1705,8 +1845,8 @@ msgstr ""
 msgid "that will unpack to a total size of"
 msgstr ""
 
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "ACC Information"
 msgstr ""
 
@@ -1788,8 +1928,8 @@ msgstr ""
 msgid "Display current throttle and brake percentage."
 msgstr ""
 
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Traffic Lights"
 msgstr ""
 
@@ -1806,8 +1946,8 @@ msgstr ""
 msgid "A normal speed display, will also show speed limit changes."
 msgstr ""
 
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Steering Line"
 msgstr ""
 
@@ -2175,86 +2315,86 @@ msgstr ""
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
 
-#: .\main.py:106
+#: .\main.py:105
 msgid "Testing mirrors..."
 msgstr ""
 
-#: .\main.py:114
+#: .\main.py:113
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr ""
 
-#: .\main.py:120
+#: .\main.py:119
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr ""
 
-#: .\main.py:135
+#: .\main.py:134
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr ""
 
-#: .\main.py:153
+#: .\main.py:152
 msgid "Running ETS2LA in development mode."
 msgstr ""
 
-#: .\main.py:157
+#: .\main.py:156
 msgid "Running UI locally"
 msgstr ""
 
-#: .\main.py:162
+#: .\main.py:161
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr ""
 
-#: .\main.py:173
+#: .\main.py:172
 msgid "Running UI in China mode"
 msgstr ""
 
-#: .\main.py:175
+#: .\main.py:174
 msgid "> Using mirror {0} for UI."
 msgstr ""
 
-#: .\main.py:181
+#: .\main.py:180
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
 
-#: .\main.py:183
+#: .\main.py:182
 msgid "Closing console after UI start."
 msgstr ""
 
-#: .\main.py:186
+#: .\main.py:185
 msgid "Running in the background without a window."
 msgstr ""
 
-#: .\main.py:204
+#: .\main.py:203
 msgid "ETS2LA Overseer started!"
 msgstr ""
 
-#: .\main.py:220
+#: .\main.py:219
 msgid "ETS2LA is restarting..."
 msgstr ""
 
-#: .\main.py:226
+#: .\main.py:225
 msgid "Skipping update due to development mode."
 msgstr ""
 
-#: .\main.py:229
+#: .\main.py:228
 msgid "ETS2LA is updating..."
 msgstr ""
 
-#: .\main.py:232
+#: .\main.py:231
 msgid "Update done... restarting!"
 msgstr ""
 
-#: .\main.py:237
+#: .\main.py:236
 msgid "ETS2LA has crashed!"
 msgstr ""
 
-#: .\main.py:246
+#: .\main.py:245
 msgid "Send the above traceback to the developers."
 msgstr ""
 
-#: .\main.py:248
+#: .\main.py:247
 msgid "ETS2LA has closed."
 msgstr ""
 
-#: .\main.py:249
+#: .\main.py:248
 msgid "Press enter to exit."
 msgstr ""

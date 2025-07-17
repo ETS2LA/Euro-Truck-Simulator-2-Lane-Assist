@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-15 15:05\n"
+"POT-Creation-Date: 2025-07-17 16:40\n"
 "PO-Revision-Date: 2025-07-15 17:48+0000\n"
 "Last-Translator: Veqro <veqro@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
-"\n"
-"Language: de\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -56,7 +55,7 @@ msgstr "Fehler ist vorgetreten während der Änderung eines Events."
 msgid "Controls listener started."
 msgstr "Eingaben Zuhörer wurde gestartet."
 
-#: .\ETS2LA\Handlers\plugins.py:126
+#: .\ETS2LA\Handlers\plugins.py:127
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -64,67 +63,67 @@ msgstr ""
 "Plugin {0} Konnte nicht gestartet werden, da die Eingabezeit überschritten wurde!\n"
 "Versuche andere Programme zu schließen und dem Plugin mehr Arbeitsspeicher und CPU Ressourcen zur Verfügung zu stellen."
 
-#: .\ETS2LA\Handlers\plugins.py:131
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Plugin {0} konnte nicht gestartet werden: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:183
+#: .\ETS2LA\Handlers\plugins.py:184
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich gestartet."
 
-#: .\ETS2LA\Handlers\plugins.py:356
+#: .\ETS2LA\Handlers\plugins.py:379
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Es konnte die Beschreibung von Plugin {0} nicht geladen werden: Zeitüberschreitung!"
 
-#: .\ETS2LA\Handlers\plugins.py:360
+#: .\ETS2LA\Handlers\plugins.py:383
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Plugin {0} konnte die Beschreibung nicht abrufen: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:391
+#: .\ETS2LA\Handlers\plugins.py:417
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Plugin {0} keine Einstellungen erhalten: Zeitüberschreitung."
 
-#: .\ETS2LA\Handlers\plugins.py:395
+#: .\ETS2LA\Handlers\plugins.py:421
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Plugin {0} keine Einstellungen erhalten: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:445
+#: .\ETS2LA\Handlers\plugins.py:491
 msgid "Loaded {0} plugins."
 msgstr "Es wurden {0} Plugins geladen."
 
-#: .\ETS2LA\Handlers\plugins.py:515 .\ETS2LA\Handlers\plugins.py:697
+#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
 msgid "Plugin not found."
 msgstr "Plugin nicht gefunden."
 
-#: .\ETS2LA\Handlers\plugins.py:526
+#: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich gestartet."
 
-#: .\ETS2LA\Handlers\plugins.py:533
+#: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
 msgstr "Plugin konnte nicht gestartet werden: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
 msgstr "Zeitüberschreitung"
 
-#: .\ETS2LA\Handlers\plugins.py:551
+#: .\ETS2LA\Handlers\plugins.py:598
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Plugin nicht gefunden, dies kann das Ergebnis eines Plugin-Absturzes oder eines Fehlers beim Laden sein."
 
-#: .\ETS2LA\Handlers\plugins.py:561
+#: .\ETS2LA\Handlers\plugins.py:615
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich gestoppt."
 
-#: .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
 msgstr "Plugin konnte nicht gestoppt werden: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:590
+#: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
 msgstr "Plugin konnte nicht neu gestartet werden: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:626 .\ETS2LA\Handlers\plugins.py:649
+#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
 msgstr "Plugin {0} wurde für die Seite {1} nicht gefunden."
 
@@ -459,6 +458,171 @@ msgstr "Denkst du es hätte eine Aktualisierung geben sollen? Klicke auf diesen 
 msgid "Update"
 msgstr "Aktualisierung"
 
+#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+msgid "Unknown"
+msgstr ""
+
+#: .\Pages\catalogue.py:83
+msgid "No overview provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:84
+msgid "No description provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:132
+msgid "Installing"
+msgstr ""
+
+#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+msgid "Plugin not found in the catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:147
+msgid "Cloning repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:150
+msgid "Installing requirements"
+msgstr ""
+
+#: .\Pages\catalogue.py:153
+msgid "Starting plugin background process"
+msgstr ""
+
+#: .\Pages\catalogue.py:157
+msgid "Failed to start plugin background process, but the plugin files were installed."
+msgstr ""
+
+#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+msgid "Success"
+msgstr ""
+
+#: .\Pages\catalogue.py:162
+msgid "Plugin '{name}' installed successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+msgid "Failed"
+msgstr ""
+
+#: .\Pages\catalogue.py:166
+msgid "Failed to install plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:170
+msgid "Uninstalling"
+msgstr ""
+
+#: .\Pages\catalogue.py:185
+msgid "Closing plugin processes"
+msgstr ""
+
+#: .\Pages\catalogue.py:188
+msgid "Failed to stop plugin processes."
+msgstr ""
+
+#: .\Pages\catalogue.py:190
+msgid "Unregistering git repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:199
+msgid "Removing plugin files"
+msgstr ""
+
+#: .\Pages\catalogue.py:219
+msgid "Retrying removal ({cur}/{max})"
+msgstr ""
+
+#: .\Pages\catalogue.py:223
+msgid "Failed to remove plugin files after {max} attempts"
+msgstr ""
+
+#: .\Pages\catalogue.py:228
+msgid "Plugin '{name}' uninstalled successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:232
+msgid "Failed to uninstall plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:263
+msgid "Couldn't find source code for this plugin."
+msgstr ""
+
+#. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
+#: .\Pages\catalogue.py:272
+msgid "Refreshing..."
+msgstr ""
+
+#: .\Pages\catalogue.py:274
+msgid "Found {count} plugins"
+msgstr ""
+
+#: .\Pages\catalogue.py:314
+msgid "Back"
+msgstr ""
+
+#: .\Pages\catalogue.py:317
+msgid "Source Code"
+msgstr ""
+
+#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+msgid "Uninstall"
+msgstr ""
+
+#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+msgid "Install"
+msgstr ""
+
+#: .\Pages\catalogue.py:355
+msgid "Are you sure you want to install this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:356
+msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
+msgstr ""
+
+#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+msgid "Cancel"
+msgstr ""
+
+#: .\Pages\catalogue.py:369
+msgid "Installing {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+msgid "Close"
+msgstr ""
+
+#: .\Pages\catalogue.py:379
+msgid "Uninstalling {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:392
+msgid "Are you sure you want to uninstall this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:409
+msgid "Plugin Catalogue"
+msgstr ""
+
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+msgid "Search plugins..."
+msgstr "Suche Plugins..."
+
+#: .\Pages\catalogue.py:418
+msgid "Refresh"
+msgstr ""
+
+#: .\Pages\catalogue.py:426
+msgid "No plugins found in the plugin catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:429
+msgid "Refresh Catalogue"
+msgstr ""
+
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
@@ -650,11 +814,7 @@ msgstr "Langsames Laden"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
-msgstr ""
-"Wenn dein PC Probleme hat alle Plugins parallel zu laden, kannst du diese "
-"Option aktivieren um alle Plugins nacheinander zu laden. Bitte beachte, dass "
-"wenn du diese Funktion aktivierst, es länger dauert bis alle Plugins geladen "
-"sind."
+msgstr "Wenn dein PC Probleme hat alle Plugins parallel zu laden, kannst du diese Option aktivieren um alle Plugins nacheinander zu laden. Bitte beachte, dass wenn du diese Funktion aktivierst, es länger dauert bis alle Plugins geladen sind."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -720,8 +880,8 @@ msgstr "Aktiviere diese Option, um in der Wintersaison Schneeeffekte zu verwende
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Wenn du das Onboarding schon einmal absolviert hast, weißt du, wie man es beendet. ETS2LA funktioniert nicht, ohne dass das Onboarding einmal durchgeführt wurde."
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:323
-#: .\Plugins\NGHUD\main.py:368
+#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
+#: .\Plugins\NGHUD\main.py:380
 msgid "Loading..."
 msgstr "Lade..."
 
@@ -1094,10 +1254,6 @@ msgstr "Deaktiviert"
 #: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
 msgstr "Zu erweiterten Modus wechseln"
-
-#: .\Pages\plugins.py:312
-msgid "Search plugins..."
-msgstr "Suche Plugins..."
 
 #: .\Pages\plugins.py:321
 msgid "Search tags..."
@@ -1702,8 +1858,8 @@ msgstr "Die Downloadgröße für diese Daten beträgt"
 msgid "that will unpack to a total size of"
 msgstr "die entpackt wird zu einer Gesamtgröße von"
 
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "ACC Information"
 msgstr "ACC Information"
 
@@ -1785,8 +1941,8 @@ msgstr "Gas / Bremse"
 msgid "Display current throttle and brake percentage."
 msgstr "Anzeige des aktuellen Gas- und Bremsprozentsatzes."
 
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Traffic Lights"
 msgstr "Ampeln"
 
@@ -1803,8 +1959,8 @@ msgstr "Geschwindigkeit"
 msgid "A normal speed display, will also show speed limit changes."
 msgstr "Eine normale Geschwindigkeitsanzeige zeigt auch Änderungen der Geschwindigkeitsbegrenzung an."
 
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Steering Line"
 msgstr "Lenkungslinie"
 
@@ -2036,12 +2192,8 @@ msgstr "Adaptiver Geschwindigkeitsregler deaktiviert."
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] ""
-"Nicht nächstgelegene Stadt ist jetzt {city} in einer Entfernung von "
-"{distance} Kilometer."
-msgstr[1] ""
-"Nicht nächstgelegene Stadt ist jetzt {city} in einer Entfernung von "
-"{distance} Kilometern."
+msgstr[0] "Nicht nächstgelegene Stadt ist jetzt {city} in einer Entfernung von {distance} Kilometer."
+msgstr[1] "Nicht nächstgelegene Stadt ist jetzt {city} in einer Entfernung von {distance} Kilometern."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
@@ -2058,12 +2210,8 @@ msgstr[1] "Die Reichweite ist jetzt nur noch {0} Kilometer, bitte tanke bald."
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr[0] ""
-"Die Reichweite mit nur noch {0} Kilometer ist jetzt kritisch, bitte tanke so "
-"schnell wie möglich."
-msgstr[1] ""
-"Die Reichweite mit nur noch {0} Kilometern ist jetzt kritisch, bitte tanke "
-"so schnell wie möglich."
+msgstr[0] "Die Reichweite mit nur noch {0} Kilometer ist jetzt kritisch, bitte tanke so schnell wie möglich."
+msgstr[1] "Die Reichweite mit nur noch {0} Kilometern ist jetzt kritisch, bitte tanke so schnell wie möglich."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
@@ -2184,87 +2332,87 @@ msgstr "Es sind derzeit keine Clients verbunden."
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr "Dieses Plugin stellt einen WebSocket-Server für die ETS2LA-Visualisierung bereit. Es ermöglicht dir, von anderen Geräten aus eine Verbindung zur Visualisierung herzustellen und die ETS2LA-Daten in Echtzeit anzuzeigen."
 
-#: .\main.py:106
+#: .\main.py:105
 msgid "Testing mirrors..."
 msgstr "Teste Spiegel..."
 
-#: .\main.py:114
+#: .\main.py:113
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Erreichte {0} in {1:.0f}ms"
 
-#: .\main.py:120
+#: .\main.py:119
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Erreichte {0} in (TIMEOUT)"
 
-#: .\main.py:135
+#: .\main.py:134
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Ausführung der Post-Download-Aktion für das Submodul:  Schnittstelle-- "
 
-#: .\main.py:153
+#: .\main.py:152
 msgid "Running ETS2LA in development mode."
 msgstr "ETS2LA läuft im Entwicklungsmodus."
 
-#: .\main.py:157
+#: .\main.py:156
 msgid "Running UI locally"
 msgstr "UI lokal ausführen"
 
-#: .\main.py:162
+#: .\main.py:161
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Keine Verbindung zu entfernten UI-Spiegeln. Wird lokal ausgeführt."
 
-#: .\main.py:173
+#: .\main.py:172
 msgid "Running UI in China mode"
 msgstr "UI im China-Modus ausführen"
 
-#: .\main.py:175
+#: .\main.py:174
 msgid "> Using mirror {0} for UI."
 msgstr "> Verwendung der Spiegel {0} für UI."
 
-#: .\main.py:181
+#: .\main.py:180
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console kann nicht in Kombination mit --no-ui verwendet werden. Die Konsole wird nicht geschlossen."
 
-#: .\main.py:183
+#: .\main.py:182
 msgid "Closing console after UI start."
 msgstr "Schließen der Konsole nach UI-Start."
 
-#: .\main.py:186
+#: .\main.py:185
 msgid "Running in the background without a window."
 msgstr "Läuft im Hintergrund ohne Fenster."
 
-#: .\main.py:204
+#: .\main.py:203
 msgid "ETS2LA Overseer started!"
 msgstr "ETS2LA Überwacher gestartet!"
 
-#: .\main.py:220
+#: .\main.py:219
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA wird neugestartet..."
 
-#: .\main.py:226
+#: .\main.py:225
 msgid "Skipping update due to development mode."
 msgstr "Überspringen der Aktualisierung aufgrund des Entwicklungsmodus."
 
-#: .\main.py:229
+#: .\main.py:228
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA wird aktualisiert..."
 
-#: .\main.py:232
+#: .\main.py:231
 msgid "Update done... restarting!"
 msgstr "Aktualisierung abgeschlossen... Starte neu!"
 
-#: .\main.py:237
+#: .\main.py:236
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA ist abgestürzt!"
 
-#: .\main.py:246
+#: .\main.py:245
 msgid "Send the above traceback to the developers."
 msgstr "Sende den obigen Traceback an die Entwickler."
 
-#: .\main.py:248
+#: .\main.py:247
 msgid "ETS2LA has closed."
 msgstr "ETS2LA wurde geschlossen."
 
-#: .\main.py:249
+#: .\main.py:248
 msgid "Press enter to exit."
 msgstr "Drücke zum Beenden die Eingabetaste."
 

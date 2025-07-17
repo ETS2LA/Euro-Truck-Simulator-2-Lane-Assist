@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-15 15:05\n"
+"POT-Creation-Date: 2025-07-17 16:40\n"
 "PO-Revision-Date: 2025-07-15 17:48+0000\n"
 "Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
-">\n"
-"Language: fi\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -56,7 +55,7 @@ msgstr "Tapahtumaa muokattaessa tapahtui virhe."
 msgid "Controls listener started."
 msgstr "Ohjaimien kuunteleminen aloitettu."
 
-#: .\ETS2LA\Handlers\plugins.py:126
+#: .\ETS2LA\Handlers\plugins.py:127
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -64,67 +63,67 @@ msgstr ""
 "Laajennus {0} ei käynnistynyt syystä: Aika loppui\n"
 "Kokeile sulkea muita sovelluksia jotta ETS2LA saa lisää muistia ja prosessori tehoa."
 
-#: .\ETS2LA\Handlers\plugins.py:131
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Laajennus {0} ei käynnistynyt syystä: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:183
+#: .\ETS2LA\Handlers\plugins.py:184
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Laajennus [yellow]{0}[/yellow] käynnistyi onnistuneesti."
 
-#: .\ETS2LA\Handlers\plugins.py:356
+#: .\ETS2LA\Handlers\plugins.py:379
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Laajennus {0} ei saanut kuvausta syystä: Aika loppui."
 
-#: .\ETS2LA\Handlers\plugins.py:360
+#: .\ETS2LA\Handlers\plugins.py:383
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Laajennus {0} ei saanut kuvausta syystä: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:391
+#: .\ETS2LA\Handlers\plugins.py:417
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Laajennus {0} ei saanut painikkeita syystä: Aika loppui."
 
-#: .\ETS2LA\Handlers\plugins.py:395
+#: .\ETS2LA\Handlers\plugins.py:421
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Laajennus {0} ei saanut painikkeita syystä: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:445
+#: .\ETS2LA\Handlers\plugins.py:491
 msgid "Loaded {0} plugins."
 msgstr "Ladattiin {0} laajennusta."
 
-#: .\ETS2LA\Handlers\plugins.py:515 .\ETS2LA\Handlers\plugins.py:697
+#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
 msgid "Plugin not found."
 msgstr "Laajennusta ei löydetty."
 
-#: .\ETS2LA\Handlers\plugins.py:526
+#: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Laajennus [yellow]{0}[/yellow] käynnistetty onnistuneesti."
 
-#: .\ETS2LA\Handlers\plugins.py:533
+#: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
 msgstr "Laajennusta {0} ei voitu käynnistää"
 
-#: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
 msgstr "Aika loppui"
 
-#: .\ETS2LA\Handlers\plugins.py:551
+#: .\ETS2LA\Handlers\plugins.py:598
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Laajennusta ei löytynyt, tämä voi johtua laajennuksen kaatumisesta tai lataamisen epäonnistumisesta."
 
-#: .\ETS2LA\Handlers\plugins.py:561
+#: .\ETS2LA\Handlers\plugins.py:615
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Laajennus [yellow]{0}[/yellow] sammutettu onnistuneesti."
 
-#: .\ETS2LA\Handlers\plugins.py:564
+#: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
 msgstr "Laajennusta {0} ei voitu sammuttaa"
 
-#: .\ETS2LA\Handlers\plugins.py:590
+#: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
 msgstr "Laajennusta {0} ei voitu käynnistää uudelleen"
 
-#: .\ETS2LA\Handlers\plugins.py:626 .\ETS2LA\Handlers\plugins.py:649
+#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
 msgstr "Laajennusta {0} ei löytynyt sivulle {1}."
 
@@ -459,6 +458,171 @@ msgstr "Tuntuuko siltä, että ohjelmassa pitäisi olla päivitys? Paina tätä 
 msgid "Update"
 msgstr "Päivitä"
 
+#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+msgid "Unknown"
+msgstr ""
+
+#: .\Pages\catalogue.py:83
+msgid "No overview provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:84
+msgid "No description provided."
+msgstr ""
+
+#: .\Pages\catalogue.py:132
+msgid "Installing"
+msgstr ""
+
+#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+msgid "Plugin not found in the catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:147
+msgid "Cloning repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:150
+msgid "Installing requirements"
+msgstr ""
+
+#: .\Pages\catalogue.py:153
+msgid "Starting plugin background process"
+msgstr ""
+
+#: .\Pages\catalogue.py:157
+msgid "Failed to start plugin background process, but the plugin files were installed."
+msgstr ""
+
+#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+msgid "Success"
+msgstr ""
+
+#: .\Pages\catalogue.py:162
+msgid "Plugin '{name}' installed successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+msgid "Failed"
+msgstr ""
+
+#: .\Pages\catalogue.py:166
+msgid "Failed to install plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:170
+msgid "Uninstalling"
+msgstr ""
+
+#: .\Pages\catalogue.py:185
+msgid "Closing plugin processes"
+msgstr ""
+
+#: .\Pages\catalogue.py:188
+msgid "Failed to stop plugin processes."
+msgstr ""
+
+#: .\Pages\catalogue.py:190
+msgid "Unregistering git repository"
+msgstr ""
+
+#: .\Pages\catalogue.py:199
+msgid "Removing plugin files"
+msgstr ""
+
+#: .\Pages\catalogue.py:219
+msgid "Retrying removal ({cur}/{max})"
+msgstr ""
+
+#: .\Pages\catalogue.py:223
+msgid "Failed to remove plugin files after {max} attempts"
+msgstr ""
+
+#: .\Pages\catalogue.py:228
+msgid "Plugin '{name}' uninstalled successfully."
+msgstr ""
+
+#: .\Pages\catalogue.py:232
+msgid "Failed to uninstall plugin '{name}': {error}"
+msgstr ""
+
+#: .\Pages\catalogue.py:263
+msgid "Couldn't find source code for this plugin."
+msgstr ""
+
+#. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
+#: .\Pages\catalogue.py:272
+msgid "Refreshing..."
+msgstr ""
+
+#: .\Pages\catalogue.py:274
+msgid "Found {count} plugins"
+msgstr ""
+
+#: .\Pages\catalogue.py:314
+msgid "Back"
+msgstr ""
+
+#: .\Pages\catalogue.py:317
+msgid "Source Code"
+msgstr ""
+
+#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+msgid "Uninstall"
+msgstr ""
+
+#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+msgid "Install"
+msgstr ""
+
+#: .\Pages\catalogue.py:355
+msgid "Are you sure you want to install this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:356
+msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
+msgstr ""
+
+#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+msgid "Cancel"
+msgstr ""
+
+#: .\Pages\catalogue.py:369
+msgid "Installing {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+msgid "Close"
+msgstr ""
+
+#: .\Pages\catalogue.py:379
+msgid "Uninstalling {plugin}"
+msgstr ""
+
+#: .\Pages\catalogue.py:392
+msgid "Are you sure you want to uninstall this plugin?"
+msgstr ""
+
+#: .\Pages\catalogue.py:409
+msgid "Plugin Catalogue"
+msgstr ""
+
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+msgid "Search plugins..."
+msgstr "Etsi laajennuksia..."
+
+#: .\Pages\catalogue.py:418
+msgid "Refresh"
+msgstr ""
+
+#: .\Pages\catalogue.py:426
+msgid "No plugins found in the plugin catalogue."
+msgstr ""
+
+#: .\Pages\catalogue.py:429
+msgid "Refresh Catalogue"
+msgstr ""
+
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
@@ -650,11 +814,7 @@ msgstr "Hidas Lataus"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
-msgstr ""
-"Lataa laajennukset hitaasti yksi kerrallaan. Tämä voi auttaa käynnistyksen "
-"yhteydessä vähempitehoisilla tietokoneilla. Muista kuitenkin että "
-"laajennuksien hallinta lataa hetken ennen kaikkien laajennusten "
-"käynnistymistä."
+msgstr "Lataa laajennukset hitaasti yksi kerrallaan. Tämä voi auttaa käynnistyksen yhteydessä vähempitehoisilla tietokoneilla. Muista kuitenkin että laajennuksien hallinta lataa hetken ennen kaikkien laajennusten käynnistymistä."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -720,8 +880,8 @@ msgstr "Käytä tätä vaihtoehtoa näyttääksesi lumieffektit talvikaudella."
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Jos olet tehnyt perehdytyksen jo kerran, tiedät miten lähteä tältä sivulta. ETS2LA ei toimi ilman perehdytystä."
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:323
-#: .\Plugins\NGHUD\main.py:368
+#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
+#: .\Plugins\NGHUD\main.py:380
 msgid "Loading..."
 msgstr "Ladataan..."
 
@@ -1094,10 +1254,6 @@ msgstr "Deaktivoitu"
 #: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
 msgstr "Vaihda kehittyneeseen tilaan"
-
-#: .\Pages\plugins.py:312
-msgid "Search plugins..."
-msgstr "Etsi laajennuksia..."
 
 #: .\Pages\plugins.py:321
 msgid "Search tags..."
@@ -1702,8 +1858,8 @@ msgstr "Karttatietojen lautauskoko on"
 msgid "that will unpack to a total size of"
 msgstr ", joka puretaan kokonaiskokoon"
 
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "ACC Information"
 msgstr "ACC tiedot"
 
@@ -1785,8 +1941,8 @@ msgstr "Kaasu / Jarru"
 msgid "Display current throttle and brake percentage."
 msgstr "Näyttää tämänhetkisen kaasun ja jarrun prosenttiluvun."
 
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Traffic Lights"
 msgstr "Liikennevalot"
 
@@ -1803,8 +1959,8 @@ msgstr "Nopeus"
 msgid "A normal speed display, will also show speed limit changes."
 msgstr "Näyttää nopeuden ja nopeusrajoituksen muutokset."
 
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:220
-#: .\Plugins\NGHUD\main.py:221
+#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
+#: .\Plugins\NGHUD\main.py:227
 msgid "Steering Line"
 msgstr "Ohjausviiva"
 
@@ -2054,10 +2210,8 @@ msgstr[1] "Polttoainetta on jäljellä enää {0} kilometria. Tankkaa pian."
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr[0] ""
-"Polttoaine on kriittinen, sitä on jäljellä enää {0} kilometri. Tankkaa heti."
-msgstr[1] ""
-"Polttoaine on kriittinen, sitä on jäljellä enää {0} kilometria. Tankkaa heti."
+msgstr[0] "Polttoaine on kriittinen, sitä on jäljellä enää {0} kilometri. Tankkaa heti."
+msgstr[1] "Polttoaine on kriittinen, sitä on jäljellä enää {0} kilometria. Tankkaa heti."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
@@ -2174,87 +2328,87 @@ msgstr "Ei ole olemassa tällä hetkellä toisiinsa liittyviä asiakkaita."
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr "Tämä laajennus tarjoaa websocket-palvelimen ETS2LA Visualisointiin. Sen avulla voit muodostaa yhteyden muiden laitteiden visualisointiin ja tarkastella ETS2LA-tietoja reaaliaikaisesti."
 
-#: .\main.py:106
+#: .\main.py:105
 msgid "Testing mirrors..."
 msgstr "Testataan palvelimia..."
 
-#: .\main.py:114
+#: .\main.py:113
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Saavutettiin {0} {1:.0f} millisekunnissa"
 
-#: .\main.py:120
+#: .\main.py:119
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Saavutettiin {0} (TIMEOUT) millisekunnissa"
 
-#: .\main.py:135
+#: .\main.py:134
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Latauksen jälkeistä toimintoa ajetaan moduulille:  Interface  -- "
 
-#: .\main.py:153
+#: .\main.py:152
 msgid "Running ETS2LA in development mode."
 msgstr "ETS2LA käynnistetään kehittäjämoodissa."
 
-#: .\main.py:157
+#: .\main.py:156
 msgid "Running UI locally"
 msgstr "Käyttöliittymä ajetaan paikallisesti"
 
-#: .\main.py:162
+#: .\main.py:161
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Yhteyttä palvelimiin ei ole, ajetaan käyttöliittymä paikallisesti."
 
-#: .\main.py:173
+#: .\main.py:172
 msgid "Running UI in China mode"
 msgstr "Käyttöliittymä aktivoitu \"Kiina\" moodissa"
 
-#: .\main.py:175
+#: .\main.py:174
 msgid "> Using mirror {0} for UI."
 msgstr "> Käytetään käyttöliittymälle palvelinta {0}."
 
-#: .\main.py:181
+#: .\main.py:180
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console ei voi olla päällä samaan aikaan kuin --no-ui. Konsoli ei sulkeudu automaattisesti."
 
-#: .\main.py:183
+#: .\main.py:182
 msgid "Closing console after UI start."
 msgstr "Suljetaan konsoli kunhan käyttöliittymä aukeaa."
 
-#: .\main.py:186
+#: .\main.py:185
 msgid "Running in the background without a window."
 msgstr "Käyttöliittymää ei avata, ETS2LA toimii taustalla."
 
-#: .\main.py:204
+#: .\main.py:203
 msgid "ETS2LA Overseer started!"
 msgstr "ETS2LA:n valvoja käynnistetty!"
 
-#: .\main.py:220
+#: .\main.py:219
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA käynnistyy uudelleen..."
 
-#: .\main.py:226
+#: .\main.py:225
 msgid "Skipping update due to development mode."
 msgstr "Ohitetaan päivitys koska olemme kehitysmoodissa."
 
-#: .\main.py:229
+#: .\main.py:228
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA päivittää..."
 
-#: .\main.py:232
+#: .\main.py:231
 msgid "Update done... restarting!"
 msgstr "Päivitys valmis... käynnistetään uudelleen!"
 
-#: .\main.py:237
+#: .\main.py:236
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA on kaatunut!"
 
-#: .\main.py:246
+#: .\main.py:245
 msgid "Send the above traceback to the developers."
 msgstr "Lähetä yllä oleva virhetulostus kehittäjille."
 
-#: .\main.py:248
+#: .\main.py:247
 msgid "ETS2LA has closed."
 msgstr "ETS2LA on sammutettu."
 
-#: .\main.py:249
+#: .\main.py:248
 msgid "Press enter to exit."
 msgstr "Paina enter painiketta sulkeaksesi sovelluksen."
 
