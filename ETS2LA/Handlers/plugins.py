@@ -15,7 +15,8 @@ import time
 import os
 
 search_folders: list[str] = [
-    "Plugins"
+    "Plugins",
+    "CataloguePlugins"
 ]
 
 loading: bool = False
@@ -467,7 +468,7 @@ def match_plugin_by_name(name: str) -> Plugin | None:
 def match_plugin_by_folder(folder: str) -> Plugin | None:
     """Match a plugin by its folder."""
     for plugin in plugins:
-        if plugin.folder == folder:
+        if plugin.folder.replace("\\", "/") == folder.replace("\\", "/"):
             return plugin
     return None
 
@@ -539,7 +540,8 @@ def stop_plugin(
     description: PluginDescription | None = None,
     name: str | None = None,
     folder: str | None = None,
-    id: str | None = None) -> bool:
+    id: str | None = None,
+    stop_process: bool = False) -> bool:
     """Stop a plugin based on one of the parameters."""
     plugin: Plugin | None = match_plugin(
         description=description,
@@ -557,6 +559,13 @@ def stop_plugin(
     plugin.start_plugin()
     response = plugin.wait_for_channel_message(Channel.SUCCESS, 1, timeout=30)
     plugin.running = False
+    
+    if stop_process:
+        plugin.stop = True
+        plugin.process.kill()
+        plugin.process.join()
+        plugin.process.close()
+    
     if response and response.state == State.DONE:
         logging.info(_("Plugin [yellow]{0}[/yellow] stopped successfully.").format(plugin.description.name))
         return True

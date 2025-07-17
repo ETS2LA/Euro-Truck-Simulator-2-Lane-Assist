@@ -7,6 +7,9 @@ logs
 # Ignore global.lock file
 global.lock
 
+# Ignore Catalogue plugins
+CataloguePlugins
+
 # Ignore Python venv
 /venv
 
