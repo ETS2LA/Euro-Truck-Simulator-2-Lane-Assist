@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-10 22:38+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/>\n"
+"PO-Revision-Date: 2025-07-17 13:06+0000\n"
+"Last-Translator: lrnsxgod <lrnsxgod@ets2la.com>\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
+">\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -146,6 +147,8 @@ msgstr "Ses ‘{0}’ çalınmaya çalışıldı, ancak ses paketi ‘{1}’ iç
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"[bold]http://{address}[/bold] başarıyla kaydedildi ve [dim]{local_ip}[/dim] "
+"adresine yönlendirildi."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -233,11 +236,14 @@ msgstr "Kullanıcı arayüzünü başlatırken lütfen bekleyin"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "ETS2LA penceresi aranıyor... [dim](10 saniye zaman aşımı)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"ETS2LA penceresi bulunamadı/başlatılamadı. Bilgisayarınız yeterince güçlü "
+"mü? Çalıştırmanız gerektiğini düşünüyorsanız https://app.ets2la.com adresini "
+"kullanın."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -285,250 +291,265 @@ msgstr "Görselleştirme için 3D modeller"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Veri çıkarıcı geliştirme, modlanmış haritalar için destek."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Çince çeviri, hata düzeltmeleri"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Çince çeviriler, hata düzeltmeleri"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Harita eklentisi için otomatik ofset hesaplamaları."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord sunucu desteği, Çince-İngilizce çevirmen geliştirici."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "ETS2LA servisleri için CN sunucularının bakımı."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Oyun kancaları"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
 #: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Hata düzeltmeleri"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Sileceklerin sabitlenmesi (5 saniye zamanlayıcı)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Silecekleri {0} saniye içinde tamir ediyorum..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Silecekler şimdi tamir edildi."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Güncellemeyi tetikle"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} dakika"
+msgstr[1] "{0} dakika"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} saat"
+msgstr[1] "{0} saat"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} ve {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA, ETS2 ve ATS için kullanımı kolay bir otonom sürüş çözümü sunmayı "
+"amaçlayan bir projedir. Daha fazla bilgi edinmek isterseniz, kenar "
+"çubuğundan github sayfasına veya wiki'ye ulaşabilirsiniz."
 
 #: .\Pages\about.py:89
 msgid "Statistics"
-msgstr ""
+msgstr "İstatistikler"
 
 #: .\Pages\about.py:93
 msgid "Users online:"
-msgstr ""
+msgstr "Çevrimiçi kullanıcılar:"
 
 #: .\Pages\about.py:94
 msgid "{0} users"
-msgstr ""
+msgstr "{0} kullanıcı"
 
 #: .\Pages\about.py:96
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Son 24 saat:"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} benzersiz kullanıcı"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
-msgstr ""
+msgstr "Kullanım süreniz:"
 
 #: .\Pages\about.py:104
 msgid "You are not logged in."
-msgstr ""
+msgstr "Giriş yapmadınız."
 
 #: .\Pages\about.py:105
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Anonim kullanıcı kimliğiniz: {0}"
 
 #: .\Pages\about.py:109
 msgid "You are logged in."
-msgstr ""
+msgstr "Giriş yaptınız."
 
 #: .\Pages\about.py:110
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Hoş geldin, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr ""
+msgstr "Katkıda bulunanlar"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Çeviriler"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
-msgstr ""
+msgstr "Liste Katılımcıları"
 
 #: .\Pages\about.py:137 .\Pages\global_settings.py:200
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
-msgstr ""
+msgstr "Çevirmeye Yardımcı Olun"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "Destek Geliştirme"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Projeyi beğendiyseniz ve geliştirilmesini desteklemek istiyorsanız, Ko-Fi "
+"aracılığıyla bağışta bulunabilirsiniz."
 
 #: .\Pages\about.py:147
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Katkıda bulunmak istiyorsanız, Discord sunucusuna katılmanızı ve GitHub "
+"sayfasını kontrol etmenizi öneririm."
 
 #: .\Pages\about.py:151
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Çevirilere katkıda bulunmak istiyorsanız, Discord'a katılarak ve bir "
+"moderatörle iletişime geçerek bunu yapabilirsiniz."
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr ""
+msgstr "Yardımcı Programlar"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Silecekleri Tamir Et"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Silecekleriniz takıldı mı? Düğmeye tıklayın ve oyuna alt sekmesine geçin. 5 "
+"saniye içinde kapanmaları gerekir."
 
 #: .\Pages\about.py:162
 msgid "Activate"
-msgstr ""
+msgstr "Etkinleştir"
 
 #: .\Pages\about.py:167
 msgid "Force an update"
-msgstr ""
+msgstr "Güncellemeye zorla"
 
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Güncelleme olması gerektiğini düşünüyor musunuz? Bu düğmeye tıklayın, "
+"uygulama yeniden başlatılacak ve güncellemeleri kontrol edecektir."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Güncelleme"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{seconds} saniye önce"
+msgstr[1] "{seconds} saniye önce"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{minutes} dakika önce"
+msgstr[1] "{minutes} dakika önce"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{hours} saat önce"
+msgstr[1] "{hours} saat önce"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{days} gün önce"
+msgstr[1] "{days} gün önce"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Değişiklik günlüğünü ve olası değişiklikleri getiriyor."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Değişiklik günlüğü alındı."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:82
 msgid "View Changes"
-msgstr ""
+msgstr "Değişiklikleri Görüntüle"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Sadece son 20 güncelleme gösterilir. Daha fazla geçmiş bilgisi için depoyu "
+"kontrol edebilirsiniz."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
-msgstr ""
+msgstr "Tüm eklentileri göster"
 
 #: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Bu olaya bağlamak istediğiniz tuşa / düğmeye basın."
 
 #: .\Pages\controls.py:51
 msgid "Event unbound."
-msgstr ""
+msgstr "Etkinlik sınırsız."
 
 #: .\Pages\controls.py:71
 msgid "Controls"
-msgstr ""
+msgstr "Kontroller"
 
 #: .\Pages\controls.py:72
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Burada eklentilerin kontrol olaylarını değiştirebilirsiniz."
 
 #: .\Pages\controls.py:83
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Arama Denetimleri veya Eklentiler"
 
 #: .\Pages\controls.py:109
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Kontrol bulunamadı, farklı filtrelerle tekrar deneyin."
 
 #: .\Pages\controls.py:141
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Bu etkinlik henüz bir cihaza bağlanmamıştır."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:144

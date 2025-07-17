@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-15 17:48+0000\n"
+"PO-Revision-Date: 2025-07-17 13:06+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -1240,10 +1240,11 @@ msgid "Update Anyway"
 msgstr ""
 
 #: .\Pages\updater.py:55
+#, fuzzy
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Frissítés és újraindítás jelenleg: {count} frissítés várakozik"
+msgstr[1] "Frissítés és újraindítás jelenleg: {count} frissítés várakozik"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"

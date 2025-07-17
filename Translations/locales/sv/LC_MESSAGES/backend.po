@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-15 15:05\n"
-"PO-Revision-Date: 2025-07-13 12:36+0000\n"
-"Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
-"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/>\n"
+"PO-Revision-Date: 2025-07-17 13:06+0000\n"
+"Last-Translator: luftSvensken <luftsvensken@ets2la.com>\n"
+"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
+">\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -105,7 +106,7 @@ msgstr "Misslyckades med att starta plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:533 .\ETS2LA\Handlers\plugins.py:564
 msgid "Timeout"
-msgstr "Timeout"
+msgstr "Tidsgräns"
 
 #: .\ETS2LA\Handlers\plugins.py:551
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
@@ -146,6 +147,8 @@ msgstr "Försökte spela upp ljudet '{0}', men det hittades inte i ljudpaketet '
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Registrering lyckades. [bold]http://{address}[/bold] pekar nu till [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -233,11 +236,14 @@ msgstr "Vänta medan vi initierar användargränssnittet"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "Letar efter ETS2LA fönstret... [dim](10s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Kunde inte hitta / starta ETS2LA fönstret. Är din dator tillräckligt "
+"kraftfull? Använd https://app.ets2la.com om du tror att din dator är "
+"tillräckligt kraftfull."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -402,7 +408,7 @@ msgstr "Bidragsgivare"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Översättningar"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
@@ -432,7 +438,7 @@ msgstr "Om du vill bidra till översättningarna kan du göra det genom att gå 
 
 #: .\Pages\about.py:156
 msgid "Utils"
-msgstr "Utils"
+msgstr "Användning"
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
@@ -589,7 +595,7 @@ msgstr "Hjälp oss över att på discord!"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Den här översättningen är {percentage:.2f}% klar."
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
@@ -645,11 +651,15 @@ msgstr "Du måste starta om ETS2LA för att tillämpa prioritetsändringen!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Långsam laddning"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Ifall din dator har problem med att ladda alla plugins parallellt så kan du "
+"ändra den här inställningen för att ladda de en efter en. Notera att om du "
+"ändrar den här inställningen så behöver du vänta ett tag på att alla plugins "
+"laddat klart."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -750,15 +760,17 @@ msgstr "Du kan byta app temat här!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Språkval"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Välj ditt föredraget språk för ETS2LA. Denna inställning kan ändras senare i "
+"inställningarna. Alla våra översättningar är gjorda av communytin!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Välj ditt föredragna språk för ETS2LA."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
@@ -1052,7 +1064,7 @@ msgstr "Funktionen '{0}' hittades inte."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Laddar plugins..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
@@ -1152,7 +1164,9 @@ msgstr "Se till att spelet är stängt och försök igen. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr "Error installing SDKs for {game}, please make sure the game is closed."
+msgstr ""
+"Fel vid installation av SDK:et för {game}, vänligen se till att spelet inte "
+"körs."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
@@ -1254,55 +1268,68 @@ msgstr "Uppdatera ändå"
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
 msgstr[0] ""
+"Startar om och verkställer {count} uppdatering.Startar om och verkställer "
+"{count} uppdateringar."
 msgstr[1] ""
+"Startar om och verkställer {count} uppdatering.Startar om och verkställer "
+"{count} uppdateringar."
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Ändra inställningar för AR overlayen här."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "Göm inte AR från inspelnings mjukvara"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Från början är AR overlayen gömd från inspelnings mjukvaran för att "
+"förhindra att den dyker upp när ETS2LA använder visions systemen. Om du vill "
+"spela in videos eller strömma med overlayen så vill du nog sätta på den här "
+"inställningen."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Visa test objekt"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Visa test objekt i AR overlayen."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Visa när inte i fokus"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Visa AR overlayen även när spelet inte är i fokus. Detta kan vara användbart "
+"för att ändra inställningar. Vänligen notera att detta kommer leda till att "
+"AR kommer köra på den högsta FPS:en möjlig, vilket kan introducera lagg."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Föremål: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "Hämta Calls: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "Renderingstid: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"Detta AR plugin ger en förstärkt verklighets overlay för ETS2LA. Den används "
+"av plugins som HUD för att visa information i spelvärlden."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1338,6 +1365,8 @@ msgstr "Adaptiv farthållare"
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Adaptiva Farthållaren (ACC) kontrollerar automatiskt farten beroende på "
+"miljön och fordon framför."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1415,43 +1444,54 @@ msgstr "Hastighetsförskjutningen som ska gälla för alla hastighetsgränser. O
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "Lås upp PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Du kan låsa upp PID inställningarna så att du manuellt kan justera de. Detta "
+"är inte rekommenderat om du inte vet vad en PID är eller hur du kan justera "
+"den."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Är vi där än? Nej? Då måste vi accelerera mer! (Proportionell förstärkning "
+"för PID-regulatorn.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Var det ett tag sen vi var där? Då måste vi accelerera mer! ("
+"Integralförstärkning för PID-regulatorn.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Hur snabbt närmar vi oss målet? Ifall vi närmar oss för snabbt måste vi "
+"sakta in. (Derivatförstärkning för PID-regulatorn.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Denna video visar visuellt hur en PID-regulator fungerar. Vänligen kolla "
+"hela om du är osäker om dess funktion."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1691,11 +1731,11 @@ msgstr "Uppdatera den aktuella valda informationen. Detta kan vara användbart o
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "Nedladdningsstorleken för denna data är"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "den kommer packa ur till en total storlek av"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:220
 #: .\Plugins\NGHUD\main.py:221
@@ -1906,11 +1946,13 @@ msgstr "Dessa renderare används för att rita icke-förankrade element. Det är
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigeringssocketar"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Detta plugin fungerar som en WebSocket server för navigations data på "
+"världskartan."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2032,25 +2074,43 @@ msgstr "Adaptiv farthållare inaktiverad."
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
 msgstr[0] ""
+"Närmsta staden är nu {city} som ligger {distance} kilometer bort.Närmsta "
+"staden är nu {city} som ligger {distance} kilometer bort."
 msgstr[1] ""
+"Närmsta staden är nu {city} som ligger {distance} kilometer bort.Närmsta "
+"staden är nu {city} som ligger {distance} kilometer bort."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
 msgstr[0] ""
+"Fartbegränsningen ändrades till {0} kilometer per timme.Fartbegränsningen "
+"ändrades till {0} kilometer per timme."
 msgstr[1] ""
+"Fartbegränsningen ändrades till {0} kilometer per timme.Fartbegränsningen "
+"ändrades till {0} kilometer per timme."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr[0] ""
+"Bränsleräckvidden är nu bara {0} kilometer. Tanka snarast.Bränsleräckvidden "
+"är nu bara {0} kilometer. Tanka snarast."
 msgstr[1] ""
+"Bränsleräckvidden är nu bara {0} kilometer. Tanka snarast.Bränsleräckvidden "
+"är nu bara {0} kilometer. Tanka snarast."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Bränslenivå kritisk! Du har bara {0} kilometer kvar. av din räckvidd Tanka "
+"snarast.Bränslenivå kritisk! Du har bara {0} kilometer kvar av din räckvidd. "
+"Tanka snarast."
 msgstr[1] ""
+"Bränslenivå kritisk! Du har bara {0} kilometer kvar. av din räckvidd Tanka "
+"snarast.Bränslenivå kritisk! Du har bara {0} kilometer kvar av din räckvidd. "
+"Tanka snarast."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
@@ -2092,80 +2152,95 @@ msgstr "Testläge aktiverat. Detta är ett testmeddelande."
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Visualiseringssocketar"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
+msgstr "Detta plugin skapar en WebSocket server för ETS2LA visualiseringen."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Värd"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Ifall du vill se ETS2LA Visualiseringen på denna enhet, öppna "
+"'Visualisering's tabben på sidomenyn, du kan sedan välja mellan den "
+"officiella eller Goodnightan speglarna."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Du kan också använda följande hemsidan:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Annan enhet"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Öppna den följande länken i din enhets webbläsare: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"NOTERA: Du måste ladda in hemsidan med HTTP istället för HTTPS. Google "
+"Chrome kommer inte att funka!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Medans hemsidan laddar, tryck den röda 'Fjärranslutning's knappen. Ifall "
+"detta inte ansluter dig, skriv då in följane IP adress:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Om du har något problem, vänligen verifiera att din enhet är på samma "
+"nätverk som värden. Se även till att din brandvägg inte blockerar "
+"anslutningen mellan enheterna."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Din IP-adress kunde inte hittas, detta är troligen på grund av ett nätverks "
+"problem. Du kommer inte kunna se visualiseringen på en extern enhet."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Väntar på att pluginet startar..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Väntar på att pluginet laddar..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Följande klienter är för nuvarande anslutna:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Latens: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Kanaler: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Inte bekräftat än."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Det finns för nuvarande inga anslutna klienter."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Detta plugin skapar en WebSocket server för ETS2LA Visualiseringen. Den "
+"tillåter dig att se visualiseringen från externa enheter och se datan från "
+"ETS2LA i real tid."
 
 #: .\main.py:106
 msgid "Testing mirrors..."
