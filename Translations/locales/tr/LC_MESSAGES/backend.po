@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-18 20:40+0000\n"
+"PO-Revision-Date: 2025-07-19 05:42+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -122,7 +122,7 @@ msgstr "Eklentiyi durdurulamadı: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
-msgstr "Eklentiyi yeniden başlatılamadı: {0}"
+msgstr "Eklenti yeniden başlatılamadı: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
@@ -465,11 +465,11 @@ msgstr "Belirsiz"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
-msgstr ""
+msgstr "Özet bilgisi bulunmamaktadır."
 
 #: .\Pages\catalogue.py:84
 msgid "No description provided."
-msgstr ""
+msgstr "Hiçbir açıklama bulunmamaktadır."
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
@@ -481,11 +481,11 @@ msgstr "Eklenti katalogda bulunamadı."
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
-msgstr ""
+msgstr "Depo Klonlanıyor"
 
 #: .\Pages\catalogue.py:150
 msgid "Installing requirements"
-msgstr ""
+msgstr "Gerekli bileşenler kuruluyor"
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
@@ -510,7 +510,7 @@ msgstr "Başarısız"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "'{name}' eklentisi yüklenirken bir hata oluştu: {error}"
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
@@ -518,7 +518,7 @@ msgstr "Kaldırılıyor"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Eklenti işlemleri sonlandırılıyor"
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
@@ -526,7 +526,7 @@ msgstr "Eklenti süreçleri durdurulamadı."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Git deposu kayıttan çıkarılıyor"
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
@@ -546,7 +546,7 @@ msgstr "Eklenti ‘{isim}’ başarıyla kaldırıldı."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "'{name}' eklentisi kaldırılırken bir hata oluştu: {error}"
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
@@ -563,7 +563,7 @@ msgstr "Bulunan {sayı} eklentiler"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
-msgstr ""
+msgstr "Geri"
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
@@ -613,7 +613,7 @@ msgstr "Eklenti Kataloğu"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
-msgstr ""
+msgstr "Eklentileri Ara..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
@@ -702,7 +702,7 @@ msgstr "Bu etkinlik henüz bir cihaza bağlanmamıştır."
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:144
 msgid "Keyboard: "
-msgstr "Klavye: - "
+msgstr "Klavye: "
 
 #: .\Pages\global_settings.py:134
 msgid "Global Settings"
@@ -742,7 +742,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:164
 msgid "Transparency mode Alpha"
-msgstr ""
+msgstr "Saydamlık Modu: Alfa"
 
 #: .\Pages\global_settings.py:165
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
@@ -851,7 +851,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Çeşitli"
 
 #: .\Pages\global_settings.py:270
 msgid "Frontend Port"
@@ -954,7 +954,7 @@ msgstr "Devam"
 
 #: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Kılavuzu Atla"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:108
@@ -1061,7 +1061,7 @@ msgstr "Veri seçimi bekleniyor..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Seçili Veri"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
@@ -1069,7 +1069,7 @@ msgstr "Oyununuz ve modlarınız ile uyumlu olan veriyi seçin."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Veri arama"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
@@ -1085,7 +1085,7 @@ msgstr "İndirilecek boyut"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr ""
+msgstr "Bu veri için"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
@@ -1171,7 +1171,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
-msgstr ""
+msgstr "Bu yeşil buton!"
 
 #: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
@@ -1203,7 +1203,7 @@ msgstr "Sayfa bulunamadı"
 
 #: .\Pages\onboarding.py:431
 msgid "Go back"
-msgstr ""
+msgstr "Geri dön"
 
 #: .\Pages\performance.py:94
 msgid "System"
@@ -1257,7 +1257,7 @@ msgstr ""
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
-msgstr ""
+msgstr "Bu sayfa {time:.2f} ms sürede görüntülendi."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
@@ -1266,18 +1266,24 @@ msgstr "Direksiyon"
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
 msgstr ""
+"ETS2LA kullanarak otomatik direksiyon kontrolünü etkinleştirin. Bunu, "
+"kontrol ayarlarında 'Direksiyon Değiştirme' tuş atamasını kullanarak açıp "
+"kapatabilirsiniz."
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr ""
+msgstr "Yan Yön Kontrolü"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"ETS2LA kullanarak otomatik hızlanma ve yavaşlama sistemini etkinleştir. "
+"Bunu, kontrol ayarlarında yer alan 'Hız Kontrolünü Değiştir' tuş atamasını "
+"kullanarak açıp kapatabilirsiniz."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Görselleştirme"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -1296,217 +1302,237 @@ msgstr ""
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
-msgstr ""
+msgstr "Metin Okuma"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"Bildirimler ve uyarılar için metin okuma özelliğini etkinleştirin. Bu "
+"genellikle erişilebilirlik amacıyla bir özellik olsa da, bazı kullanıcılar "
+"için faydalı olabilir."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
-msgstr ""
+msgstr "Feature '{0}' özelliği bulunamadı."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Eklentiler yükleniyor..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
-msgstr ""
+msgstr "Eklentiler (Temel)"
 
 #: .\Pages\plugins.py:249
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"Sağ tarafta çeşitli ETS2LA özelliklerini etkinleştirebilirsiniz. Bu "
+"özelliklerle tanımlanan eklentiler, ekstra bir yapılandırmaya gerek kalmadan "
+"otomatik olarak etkinleştirilecektir."
 
 #: .\Pages\plugins.py:257
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Eklentileri devre dışı bırak"
 
 #: .\Pages\plugins.py:257
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Eklentileri Etkinleştir"
 
 #: .\Pages\plugins.py:260
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "Şu anda etkin olan eklentiler:"
 
 #: .\Pages\plugins.py:260
 msgid "None"
-msgstr ""
+msgstr "Hiçbiri"
 
 #: .\Pages\plugins.py:282
 msgid "Enabled"
-msgstr ""
+msgstr "Etkinleştirildi"
 
 #: .\Pages\plugins.py:282
 msgid "Disabled"
-msgstr ""
+msgstr "Devre dışı"
 
 #: .\Pages\plugins.py:287
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Gelişmiş Mod'a Geç"
 
 #: .\Pages\plugins.py:321
 msgid "Search tags..."
-msgstr ""
+msgstr "Etiketleri ara..."
 
 #: .\Pages\plugins.py:322
 msgid "No tags found"
-msgstr ""
+msgstr "Etiket bulunamadı"
 
 #: .\Pages\plugins.py:331
 msgid "Search authors..."
-msgstr ""
+msgstr "Yazarları Ara..."
 
 #: .\Pages\plugins.py:332
 msgid "No authors found"
-msgstr ""
+msgstr "Yazar bulunamadı"
 
 #: .\Pages\plugins.py:336
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Temel Mod'a Geri Dön"
 
 #: .\Pages\plugins.py:367
 msgid "Running Plugins"
-msgstr ""
+msgstr "Çalışan Eklentiler"
 
 #: .\Pages\plugins.py:374
 msgid "Want to enable the plugins you had running last time?"
 msgstr ""
+"En son çalıştırmış olduğunuz eklentileri tekrardan etkinleştirmek ister "
+"misiniz?"
 
 #: .\Pages\plugins.py:376
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Son Eklentileri Etkinleştir"
 
 #: .\Pages\plugins.py:382
 msgid "Available Plugins"
-msgstr ""
+msgstr "Kullanılabilir Eklentiler"
 
 #: .\Pages\sdk_installation.py:86
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "{game} için uygun sürüm bulunamadı, kurulum atlanıyor"
 
 #: .\Pages\sdk_installation.py:91
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "{game} için SDK'lar kuruluyor"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "{game} için SDK'lar başarıyla kuruldu."
 
 #: .\Pages\sdk_installation.py:101
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "{game} için SDK'lar zaten kurulu, kurulum atlanıyor"
 
 #: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr ""
+msgstr "Lütfen oyunun kapalı olduğundan emin olun ve tekrar deneyin. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"SDK'lar {game} için kurulum sırasında hata oluştu, lütfen oyunun kapalı "
+"olduğundan emin olun."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr ""
+msgstr "{game} için sürüm bulunamadı, kaldırma işlemi atlanıyor"
 
 #: .\Pages\sdk_installation.py:114
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "{game} için SDK'lar kaldırılıyor"
 
 #: .\Pages\sdk_installation.py:119
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "{game} için SDK'lar başarıyla kaldırıldı."
 
 #: .\Pages\sdk_installation.py:121
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "{game} için SDK'lar yüklü değil, kaldırma işlemi atlanıyor"
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"{game} için SDK'lar kaldırılırken hata oluştu, lütfen oyunun kapalı "
+"olduğundan emin olun."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
-msgstr ""
+msgstr "Oyun dizinini seçin"
 
 #: .\Pages\sdk_installation.py:130
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr ""
+"Seçilen oyun için sürüm bulunamadı, lütfen geçerli bir oyun dizini seçin ve "
+"tekrardan deneyin."
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "{path} için uygun sürüm bulunamadı, yükleme işlemi atlanıyor"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Oyunun {version} sürümü bulundu."
 
 #: .\Pages\sdk_installation.py:142
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "Path {path} dizini mevcut değil."
 
 #: .\Pages\sdk_installation.py:148
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr ""
+"Oyunla iletişim kurabilmemiz için gerekli DLL dosyalarının yüklü olup "
+"olmadığını kontrol edin ve yüklü olduğundan emin olun."
 
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"Sisteminizde herhangi bir SCS oyunu tespit edilemedi. Lütfen unutmayınız ki "
+"ETS2LA yalnızca Steam üzerinden indirilen yasal sürümlerle çalışmaktadır."
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
-msgstr ""
+msgstr "Dizini manuel olarak elle seçin"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
-msgstr ""
+msgstr "Kuruldu"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Not Installed"
-msgstr ""
+msgstr "Kurulu değil"
 
 #: .\Pages\sdk_installation.py:194
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Bu oyun sürümü desteklenmemektedir"
 
 #: .\Pages\sdk_installation.py:210
 msgid "No files found."
-msgstr ""
+msgstr "Hiçbir dosya bulunamadı."
 
 #: .\Pages\sdk_installation.py:221
 msgid "File Sources"
-msgstr ""
+msgstr "Dosya Kaynakları"
 
 #: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "SDK'ları Kaldır"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
 msgid "Install SDKs"
-msgstr ""
+msgstr "SDK'ları Kur"
 
 #: .\Pages\sdk_installation.py:237
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Lütfen SDK'ları yüklemeden veya kaldırmadan önce oyunu kapatın."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Gönderilmek üzere bekleyen bir yerel işleminiz var."
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Mevcut güncelleme bulunmamaktadır. (Yeni bir işlem kaydı yapıldıktan sonra "
+"sayfanın güncellenmesi bir dakikaya kadar sürebilir.)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Yine de güncelle"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Yeniden başlatın ve {count} güncellemesini uygulayın"
+msgstr[1] "Yeniden başlatın ve {count} güncellemelerini uygulayın"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
@@ -1514,7 +1540,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Buradan AR kaplama ayarlarını değiştirin."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
@@ -1523,14 +1549,18 @@ msgstr ""
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Varsayılan olarak, AR kaplaması kayıt yazılımlarından gizlenir; bu, "
+"ETS2LA'nın görsel sistemleri kullanırken görünmesini engellemek içindir. "
+"Eğer kaplama ile video kaydetmek veya yayın yapmak isterseniz, bu seçeneği "
+"etkinleştirmeniz gerekebilir."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Test nesnelerini göster"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "AR kaplamasında test nesnelerini göster."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
