@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-18 18:42+0000\n"
+"PO-Revision-Date: 2025-07-18 20:18+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -768,7 +768,7 @@ msgstr "Bize Discord üzerinden çeviri konusunda yardımcı olabilirsiniz!"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr "Bu çeviri {yüzde:.2f}% oranında tamamlandı."
+msgstr "Bu çeviri {percentage:.2f}% oranında tamamlandı."
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
@@ -1069,7 +1069,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "Eşleşen veri bulunamadı"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
@@ -1077,7 +1077,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
-msgstr ""
+msgstr "İndirilecek boyut"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
@@ -1089,31 +1089,35 @@ msgstr ""
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
-msgstr ""
+msgstr "Toplam boyut"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
-msgstr ""
+msgstr "Veri seçimi yapılmadı"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
-msgstr ""
+msgstr "Lütfen kullanmak istediğiniz veriyi yukarıdaki açılır listeden seçiniz."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
-msgstr ""
+msgstr "Pencere Boyutu"
 
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"Windows’un pencere yönetimini devre dışı bırakarak özel pencere özellikleri "
+"sunar. Bu yüzden pencereyi normal yoldan yeniden boyutlandıramazsınız. "
+"Pencere boyutunu manuel olarak değiştirmek için kaydırıcıları "
+"kullanabilirsiniz."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "ETS2LA penceresinin genişliğini ayarlayın."
 
 #: .\Pages\onboarding.py:320
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "ETS2LA penceresinin yüksekliğini ayarlayın."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:337
@@ -1121,14 +1125,20 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"\"Pencere boyutunun değiştirilmesi, sayfaların yanlış görüntülenmesine neden "
+"olabilir.\"\n"
+"Sol CTRL tuşuna basılı tutup fare tekerleğini kullanarak pencere "
+"ölçeklemesini ayarlayabilirsiniz."
 
 #: .\Pages\onboarding.py:343
 msgid "Window Controls"
-msgstr ""
+msgstr "Pencere Kontrolleri"
 
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA, size faydalı olabilecek özel pencere kontrolleri sunuyor. Bu "
+"kontrollere, sağ üst köşedeki yeşil butondan erişebilirsiniz."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -1137,6 +1147,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"\"\"En önde tut\"\"\n"
+"\n"
+"Yeşil butona sol tıklayarak ETS2LA penceresinin diğer pencerelerin üstünde "
+"kalmasını sağlayabilirsiniz."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:368
@@ -1145,6 +1159,11 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"\"\"Şeffaflık\"\"\n"
+"\n"
+"Yeşil butona sağ tıklama yaparak ETS2LA penceresini hafifçe şeffaf hale "
+"getirebilirsiniz. Şeffaflık oranını ayarlardan istediğiniz zaman "
+"değiştirebilirsiniz."
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
@@ -1152,15 +1171,18 @@ msgstr ""
 
 #: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Başlangıç Rehberi Tamamlandı!"
 
 #: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Başlangıç sürecini başarıyla tamamladınız. Artık ETS2LA’yı kullanmaya "
+"hazırsınız. Yardıma ihtiyacınız olursa, Discord sunucumuza katılmaktan "
+"çekinmeyin."
 
 #: .\Pages\onboarding.py:388
 msgid "Finish"
-msgstr ""
+msgstr "Bitir"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:395
@@ -1168,10 +1190,12 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Kenar çubuğunu açıp kapatmak için buraya tıklayın.\n"
+"      Eklentileri etkinleştirmek için Eklentiler Yöneticisi'ni açın."
 
 #: .\Pages\onboarding.py:429
 msgid "Page not found"
-msgstr ""
+msgstr "Sayfa bulunamadı"
 
 #: .\Pages\onboarding.py:431
 msgid "Go back"
@@ -1179,47 +1203,53 @@ msgstr ""
 
 #: .\Pages\performance.py:94
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Veri toplama işlemi devam etmektedir, grafiklerin kararlı hale gelmesi için "
+"lütfen birkaç saniye bekleyiniz."
 
 #: .\Pages\performance.py:103
 msgid "CPU Usage"
-msgstr ""
+msgstr "CPU Kullanımı"
 
 #: .\Pages\performance.py:110
 msgid "CPU Usage "
-msgstr ""
+msgstr "CPU Kullanımı "
 
 #: .\Pages\performance.py:118
 msgid "RAM Usage"
-msgstr ""
+msgstr "RAM Kullanımı"
 
 #: .\Pages\performance.py:125
 msgid "RAM Usage "
-msgstr ""
+msgstr "RAM Kullanımı "
 
 #: .\Pages\performance.py:125
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "ETS2LA RAM Kullanımı  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:371
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "Şu anda çalışan eklenti bulunmamaktadır."
 
 #: .\Pages\performance.py:172
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Uyarı: Grafik hâlâ veri toplamaktadır, lütfen stabil hale gelmesi için 60 "
+"saniye bekleyin."
 
 #: .\Pages\performance.py:190
 msgid "Failed to render plugin {plugin_name}."
-msgstr ""
+msgstr "{plugin_name} eklentisi işlenirken hata oluştu."
 
 #: .\Pages\performance.py:194
 msgid "All displayed data is averaged over a second."
 msgstr ""
+"Görüntülenen tüm veriler, saniyelik ortalamaya dayanır, bir saniyelik "
+"ortalama üzerinden alınır."
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
@@ -1227,7 +1257,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr ""
+msgstr "Direksiyon"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
