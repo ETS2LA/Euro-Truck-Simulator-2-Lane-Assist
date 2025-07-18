@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-11 13:12+0000\n"
+"PO-Revision-Date: 2025-07-18 18:29+0000\n"
 "Last-Translator: hpfrunner <hpfrunner@ets2la.com>\n"
-"Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>\n"
+"Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>"
+"\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -146,6 +147,8 @@ msgstr "Geprobeerd geluid ‘{0}’ af te spelen, maar het werd niet gevonden in
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Succesvol geregistreerd [bold]http://{address}[/bold] naar wijzen [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -233,11 +236,13 @@ msgstr "Even geduld terwijl we de gebruikersinterface initialiseren"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "Op zoek naar ETS2LA venster... [dim](10s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Kon het ETS2LA venster niet vinden of starten. Is uw PC krachtig genoeg? "
+"Gebruik https://app.ets2la.com als u denkt dat u het moet kunnen uitvoeren."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -402,7 +407,7 @@ msgstr "Bijdragen"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Vertalingen"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
@@ -460,152 +465,156 @@ msgstr "Bijwerken"
 
 #: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
-msgstr ""
+msgstr "Geen overzicht verstrekt."
 
 #: .\Pages\catalogue.py:84
 msgid "No description provided."
-msgstr ""
+msgstr "Geen beschrijving gegeven."
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
-msgstr ""
+msgstr "Installatie"
 
 #: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin niet gevonden in de catalogus."
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
-msgstr ""
+msgstr "Klonende repository"
 
 #: .\Pages\catalogue.py:150
 msgid "Installing requirements"
-msgstr ""
+msgstr "Installatievoorschriften"
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Start plugin-achtergrondproces"
 
 #: .\Pages\catalogue.py:157
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Kon plugin-achtergrondproces niet starten, maar de plugin-bestanden zijn "
+"geïnstalleerd."
 
 #: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
 msgid "Success"
-msgstr ""
+msgstr "Succes"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Plugin \"{name}' is succesvol geïnstalleerd."
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
-msgstr ""
+msgstr "Mislukt"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Kon plugin \"{name}' niet installeren: {error}"
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
-msgstr ""
+msgstr "Verwijderen"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Afsluiten plugin processen"
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Stoppen van plugin-processen is mislukt."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Git repository uitschrijven"
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Verwijderen van plugin-bestanden"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Verwijdering opnieuw proberen ({cur}/{max})"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Verwijderen van plugin-bestanden is mislukt na {max} pogingen"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin \"{name}' is succesvol verwijderd."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Kon plugin \"{name}' niet verwijderen: {error}"
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Kon broncode voor deze plugin niet vinden."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:272
 msgid "Refreshing..."
-msgstr ""
+msgstr "Verversen..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Plugins {count} gevonden"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
-msgstr ""
+msgstr "Broncode"
 
 #: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
 msgid "Uninstall"
-msgstr ""
+msgstr "Verwijderen"
 
 #: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
 msgid "Install"
-msgstr ""
+msgstr "Installeren"
 
 #: .\Pages\catalogue.py:355
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Weet u zeker dat u deze plugin wilt installeren?"
 
 #: .\Pages\catalogue.py:356
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA is niet verantwoordelijk voor eventuele problemen veroorzaakt door "
+"3rd party plugins."
 
 #: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #: .\Pages\catalogue.py:369
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "{plugin} installeren"
 
 #: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #: .\Pages\catalogue.py:379
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Verwijderen van {plugin}"
 
 #: .\Pages\catalogue.py:392
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Weet u zeker dat u deze plugin wilt verwijderen?"
 
 #: .\Pages\catalogue.py:409
 msgid "Plugin Catalogue"
-msgstr ""
+msgstr "Plugincatalogus"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
@@ -613,15 +622,15 @@ msgstr "Zoekplugins..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Verversen"
 
 #: .\Pages\catalogue.py:426
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Geen plugins gevonden in de plugincatalogus."
 
 #: .\Pages\catalogue.py:429
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Catalogus vernieuwen"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -754,7 +763,7 @@ msgstr "Help ons vertalen op discord!"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Deze vertaling is {percentage:.2f}% voltooid."
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
@@ -810,11 +819,15 @@ msgstr "Je moet ETS2LA herstarten om de prioriteitsverandering toe te passen!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Langzaam laden"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Als uw PC problemen heeft met het laden van alle plugins parallel, kunt u "
+"deze optie inschakelen om ze een voor een te laden. Houd er rekening mee dat "
+"het inschakelen van deze optie betekent dat je een tijdje moet wachten tot "
+"de plugins beschikbaar zijn."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -915,15 +928,17 @@ msgstr "U kunt het thema hier veranderen!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Taalselectie"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Selecteer uw gewenste taal voor ETS2LA. Deze optie kan later in de opties "
+"worden gewijzigd. Al onze vertalingen zijn community gemaakt!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Selecteer uw voorkeurstaal voor ETS2LA."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
@@ -1217,7 +1232,7 @@ msgstr "Functie \"{0}' niet gevonden."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Plugins laden..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
@@ -1414,56 +1429,66 @@ msgstr "Hoe dan ook bijwerken"
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Herstarten en toepassen {count} update"
+msgstr[1] "Herstarten en toepassen {count} updates"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Wijzig hier de AR overlay instellingen."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "Verberg AR niet voor opnamesoftware"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Standaard is de AR-overlay verborgen voor het opnemen van software om te "
+"voorkomen dat het verschijnt wanneer ETS2LA gebruik maakt van visiesystemen. "
+"Als u video's wilt opnemen of streamen met de overlay, kunt u deze optie "
+"inschakelen."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Testobjecten tonen"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Toon testobjecten in de AR-overlay."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Toon wanneer niet in de focus"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Laat de AR-overlay zien, zelfs als het spel niet in focus staat. Dit kan "
+"nuttig zijn voor het wijzigen van instellingen. Houd er rekening mee dat dit "
+"AR ook zal draaien op de max mogelijke FPS, dit kan enige vertraging "
+"veroorzaken."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Items: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "Aanroepen tekenen: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "Rendertijd: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"De AR plugin biedt een augmented reality overlay voor ETS2LA. Het wordt "
+"gebruikt door plugin zoals HUD om informatie in de game wereld weer te geven."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1499,6 +1524,8 @@ msgstr "Adaptive Cruise Control"
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Adaptive Cruise Control (ACC) zorgt voor automatische acceleratie en remmen, "
+"afhankelijk van de wegomstandigheden en voertuigen vooruit."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1576,43 +1603,54 @@ msgstr "De snelheidscompensatie voor alle snelheidsbeperkingen. Houd er rekening
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "PID ontgrendelen"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"U kunt de PID-instellingen openen om ze handmatig aan te passen. Dit wordt "
+"niet aanbevolen tenzij je weet wat een PID is en hoe je het correct kunt "
+"afstemmen."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Zijn we er al? Nee? Dan moeten we meer versnellen! (Proportioneel voordeel "
+"voor de PID controller.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Is het al een tijdje geleden dat we er waren? Dan moeten we meer versnellen! "
+"(Integraal voordeel voor de PID controller.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Hoe snel naderen we het doel? Als we te snel naderen, moeten we meer "
+"vertragen! (Derivative gain voor de PID controller.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Deze video legt visueel uit hoe een PID controller werkt. Let er alsjeblieft "
+"volledig op als je ze niet kent."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1624,7 +1662,7 @@ msgstr "Algemeen"
 
 #: .\Plugins\HUD\main.py:89
 msgid "Refresh Rate"
-msgstr "Verversen"
+msgstr "vernieuwingsfrequentie"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
@@ -1852,11 +1890,11 @@ msgstr "Update de momenteel geselecteerde gegevens, dit kan nuttig zijn als de g
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "De downloadgrootte voor deze gegevens is"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "die zal uitpakken tot een totale grootte van"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
 #: .\Plugins\NGHUD\main.py:227
@@ -2067,11 +2105,13 @@ msgstr "Deze renders worden gebruikt om niet verankerde elementen te trekken. Di
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigatiesockets"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Deze plugin biedt een WebSocket-server voor navigatiegegevens op een "
+"wereldkaart."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
@@ -2193,25 +2233,33 @@ msgstr "Adaptive Cruise Control uitgeschakeld."
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
 msgstr[0] ""
+"De dichtstbijzijnde stad is nu {stad} op een afstand van {afstand} kilometer."
 msgstr[1] ""
+"De dichtstbijzijnde stad is nu {stad} op een afstand van {afstand} "
+"kilometers."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Snelheidslimiet veranderd in {0} kilometer per uur."
+msgstr[1] "Snelheidslimiet veranderd in {0} kilometers per uur."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] ""
+msgstr[0] "Brandstofbereik is nu slechts {0} kilometer, tank snel bij."
 msgstr[1] ""
+"Brandstofbereik is nu slechts {0} kilometer, gelieve snel bij te tanken."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Brandstofbereik is nu kritiek op slechts {0} kilometer, tank zo snel "
+"mogelijk bij."
 msgstr[1] ""
+"Brandstofbereik is nu kritiek op slechts {0} kilometer, gelieve zo snel "
+"mogelijk bij te tanken."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
@@ -2253,80 +2301,96 @@ msgstr "Testmodus ingeschakeld. Dit is een testbericht."
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Visualisatiesockets"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
+msgstr "Deze plugin biedt een websocket server voor de ETS2LA Visualisatie."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Host-apparaat"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Als u de ETS2LA Visualisatie op het huidige apparaat wilt bekijken, open dan "
+"het tabblad 'Visualisatie' op de zijbalk, dan kunt u tussen de officiële en "
+"Goodnightan spiegels kiezen."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "U kunt ook gebruik maken van de volgende website:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Ander apparaat"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Open de volgende URL in de browser van uw apparaat: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"OPMERKING: U moet de site laden als http in plaats van https. Google Chrome "
+"zal niet werken!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Zodra de website geladen is drukt u op de rode 'Remote Connection' knop. "
+"Als dit geen verbinding maakt, voer dan het volgende IP-adres in:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Als u problemen heeft, controleer dan of uw apparaat zich op hetzelfde "
+"netwerk bevindt als de host. U moet er ook voor zorgen dat uw firewall de "
+"verbinding tussen de apparaten niet blokkeert."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Uw IP-adres kon niet gevonden worden, dit is waarschijnlijk te wijten aan "
+"een netwerkprobleem. Het extern bekijken van de visualisatie is niet "
+"mogelijk."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Wachten op plugin-start..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Wachten op laden van plugin..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "De volgende apparaten zijn momenteel verbonden:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Latency: {latentie:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Kanaals: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Nog niet erkend."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Er zijn momenteel geen verbonden apparaten."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Deze plugin biedt een websocket server voor de ETS2LA Visualisatie. Hiermee "
+"kunt u verbinding maken met de visualisatie vanaf andere apparaten en de "
+"ETS2LA-gegevens realtime bekijken."
 
 #: .\main.py:105
 msgid "Testing mirrors..."
