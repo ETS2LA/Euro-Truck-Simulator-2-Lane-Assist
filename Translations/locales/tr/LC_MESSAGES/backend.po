@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-17 13:06+0000\n"
-"Last-Translator: lrnsxgod <lrnsxgod@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/>\n"
+"PO-Revision-Date: 2025-07-18 18:29+0000\n"
+"Last-Translator: Kivanc <kivanc@ets2la.com>\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
+">\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -460,7 +461,7 @@ msgstr "Güncelleme"
 
 #: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
 msgid "Unknown"
-msgstr ""
+msgstr "Belirsiz"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
@@ -472,11 +473,11 @@ msgstr ""
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
-msgstr ""
+msgstr "Kuruluyor"
 
 #: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Eklenti katalogda bulunamadı."
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
@@ -488,23 +489,24 @@ msgstr ""
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Eklentinin arka planda çalışması başlatılıyor"
 
 #: .\Pages\catalogue.py:157
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Eklenti arka plan işlemi başlatılamadı, ancak eklenti dosyaları yüklendi."
 
 #: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
 msgid "Success"
-msgstr ""
+msgstr "Başarı"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "'{isim}' eklentisi başarıyla kuruldu."
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
-msgstr ""
+msgstr "Başarısız"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
@@ -512,7 +514,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
-msgstr ""
+msgstr "Kaldırılıyor"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
@@ -520,7 +522,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Eklenti süreçleri durdurulamadı."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
@@ -528,19 +530,19 @@ msgstr ""
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Eklenti dosyalarını kaldırma"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Kaldırma işlemi yeniden deneniyor ({cur}/{max})"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "{max} denemenin ardından eklenti dosyaları silinemedi"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Eklenti ‘{isim}’ başarıyla kaldırıldı."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
@@ -548,16 +550,16 @@ msgstr ""
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Bu eklentinin kaynak kodu bulunamadı."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:272
 msgid "Refreshing..."
-msgstr ""
+msgstr "Yenileniyor..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Bulunan {sayı} eklentiler"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
@@ -565,47 +567,49 @@ msgstr ""
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
-msgstr ""
+msgstr "Kaynak Kodu"
 
 #: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
 msgid "Uninstall"
-msgstr ""
+msgstr "Kaldır"
 
 #: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
 msgid "Install"
-msgstr ""
+msgstr "Kur"
 
 #: .\Pages\catalogue.py:355
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Bu eklentiyi kurmak istediğinizden emin misiniz?"
 
 #: .\Pages\catalogue.py:356
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA, 3. parti eklentilerin neden olduğu herhangi bir sorundan sorumlu "
+"değildir."
 
 #: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: .\Pages\catalogue.py:369
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Kuruluyor {eklenti}"
 
 #: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
 #: .\Pages\catalogue.py:379
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "{eklenti} kaldırılıyor"
 
 #: .\Pages\catalogue.py:392
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Bu eklentiyi kaldırmak istediğinizden emin misiniz?"
 
 #: .\Pages\catalogue.py:409
 msgid "Plugin Catalogue"
-msgstr ""
+msgstr "Eklenti Kataloğu"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
@@ -613,15 +617,15 @@ msgstr ""
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Yenile"
 
 #: .\Pages\catalogue.py:426
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Eklenti kataloğunda hiç eklenti bulunamadı."
 
 #: .\Pages\catalogue.py:429
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Katalogu Yenile"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -698,35 +702,43 @@ msgstr "Bu etkinlik henüz bir cihaza bağlanmamıştır."
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:144
 msgid "Keyboard: "
-msgstr ""
+msgstr "Klavye: - "
 
 #: .\Pages\global_settings.py:134
 msgid "Global Settings"
-msgstr ""
+msgstr "Genel Ayarlar"
 
 #: .\Pages\global_settings.py:135
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Burada tüm uygulamayı etkileyen ayarları bulabilirsiniz. Pencere boyutu ve "
+"dil vb."
 
 #: .\Pages\global_settings.py:139
 msgid "User Interface"
-msgstr ""
+msgstr "Kullanıcı Arayüzü"
 
 #: .\Pages\global_settings.py:142 .\Pages\onboarding.py:310
 msgid "Window Width"
-msgstr ""
+msgstr "Pencere Genişliği"
 
 #: .\Pages\global_settings.py:143
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Pencere genişliğini değiştirin. Lütfen ETS2LA'nın standart olmayan "
+"çözünürlüklerde test edilmediğini unutmayın, bu durumda sorumluluğun size "
+"ait olduğunu unutmayın!"
 
 #: .\Pages\global_settings.py:153 .\Pages\onboarding.py:319
 msgid "Window Height"
-msgstr ""
+msgstr "Pencere Yüksekliği"
 
 #: .\Pages\global_settings.py:154
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Pencere yüksekliğini değiştirin. Lütfen ETS2LA'nın standart olmayan "
+"çözünürlüklerde test edilmediğini unutmayın, bu durumda sorumluluğun size "
+"ait olduğunu unutmayın!"
 
 #: .\Pages\global_settings.py:164
 msgid "Transparency mode Alpha"
@@ -735,86 +747,107 @@ msgstr ""
 #: .\Pages\global_settings.py:165
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Şeffaflık moduna geçildiğinde pencerenin saydamlığını değiştirin. Bunu, sağ "
+"üst köşedeki yeşil düğmeye sağ tıklayarak yapabilirsiniz."
 
 #: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
 msgid "Language"
-msgstr ""
+msgstr "Dil"
 
 #: .\Pages\global_settings.py:178
 msgid "Select the language for the application."
-msgstr ""
+msgstr "Uygulama dilini seçin."
 
 #: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Search Languages..."
-msgstr ""
+msgstr "Dilleri ara..."
 
 #: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "Bize Discord üzerinden çeviri konusunda yardımcı olabilirsiniz!"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Bu çeviri {yüzde:.2f}% oranında tamamlandı."
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
-msgstr ""
+msgstr "Ses"
 
 #: .\Pages\global_settings.py:206
 msgid "Soundpack"
-msgstr ""
+msgstr "Ses paketi"
 
 #: .\Pages\global_settings.py:207
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Kullanılacak ses paketini seçin, bunlar app/ETS2LA/Assets/Sounds bölümüne "
+"eklenebilir."
 
 #: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Ses seviyesi"
 
 #: .\Pages\global_settings.py:215
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
+"Ses seviyesini ayarlayın. Bu, ETS2LA tarafından çalınan tüm sesleri "
+"etkileyecektir."
 
 #: .\Pages\global_settings.py:226
 msgid "Startup Sound"
-msgstr ""
+msgstr "Başlangıç Sesi"
 
 #: .\Pages\global_settings.py:227
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Başlangıç sesini açar veya kapatır. Bu, ETS2LA penceresi her açıldığında "
+"çalar."
 
 #: .\Pages\global_settings.py:232
 msgid "Variables"
-msgstr ""
+msgstr "Değişkenler"
 
 #: .\Pages\global_settings.py:234
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Eski hızlandırma yöntemine geri dönülüyor"
 
 #: .\Pages\global_settings.py:235
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Eğer kamyonunuzun düzgün hızlanma/frenleme yapmamasıyla ilgili sorunlar "
+"yaşıyorsanız, bu seçeneği etkinleştirerek başka bir yöntem "
+"kullanabilirsiniz. Yeni yöntem takılıp kalırsa, bu seçeneği "
+"etkinleştirdikten sonra oyunu yeniden başlatmanız gerekebileceğini lütfen "
+"unutmayın."
 
 #: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr ""
+msgstr "Yüksek Öncelikli"
 
 #: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"ETS2LA'yı yüksek öncelik modunda çalıştırmanıza yarar. Bu, işletim "
+"sisteminize ETS2LA'ya daha fazla CPU zamanı vermesini söyleyecektir, bu da "
+"diğer uygulamalar pahasına performansı artırabilir."
 
 #: .\Pages\global_settings.py:257
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr ""
+"Öncelik değişikliğini uygulamak için ETS2LA'yı yeniden başlatmanız gerekir!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Yavaş Yükleniyor"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Bilgisayarınız tüm eklentileri paralel olarak yüklemekte sorun yaşıyorsa, "
+"eklentileri tek tek yüklemek için bu seçeneği etkinleştirebilirsiniz. Bu "
+"seçeneğin etkinleştirilmesinin, eklentilerin kullanılabilir hale gelmesi "
+"için bir süre beklemeniz gerektiği anlamına geleceğini lütfen unutmayın."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -822,68 +855,79 @@ msgstr ""
 
 #: .\Pages\global_settings.py:270
 msgid "Frontend Port"
-msgstr ""
+msgstr "Kullanıcı Arayüzü Portu / Arayüz Bağlantı Noktası"
 
 #: .\Pages\global_settings.py:271
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
+"Arayüzün kullandığı bağlantı noktasını değiştirin. Bu ayar yalnızca yerel "
+"modda kullanılır."
 
 #: .\Pages\global_settings.py:278
 msgid "Frameless Window"
-msgstr ""
+msgstr "Çerçevesiz Pencere"
 
 #: .\Pages\global_settings.py:279
 msgid "Disable this option if you have any issues moving the window around."
-msgstr ""
+msgstr "Pencereyi taşımada sorun yaşıyorsanız, bu seçeneği devre dışı bırakın."
 
 #: .\Pages\global_settings.py:284
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Hata Raporlarını Gönder"
 
 #: .\Pages\global_settings.py:285
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
+"Uygulamanın geliştirilmesine yardımcı olmak için hata raporlarını otomatik "
+"olarak gönderin."
 
 #: .\Pages\global_settings.py:290
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Gelişmiş Hata Takibini Kullan"
 
 #: .\Pages\global_settings.py:291
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr ""
+"Hatalar için gelişmiş hata izlemeyi kullanmak için bu seçeneği etkinleştirin."
 
 #: .\Pages\global_settings.py:297
 msgid "Debug Mode"
-msgstr ""
+msgstr "Hata Ayıklama Modu"
 
 #: .\Pages\global_settings.py:298
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
+"Arayüz için Edge hata ayıklayıcısını kullanmak için bu seçeneği "
+"etkinleştirin."
 
 #: .\Pages\global_settings.py:306
 msgid "Fireworks"
-msgstr ""
+msgstr "Havai fişekler"
 
 #: .\Pages\global_settings.py:307
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr ""
+"Yeni yıl zamanı havai fişek efektlerini kullanmak için bu seçeneği açın."
 
 #: .\Pages\global_settings.py:313
 msgid "Snow"
-msgstr ""
+msgstr "Kar"
 
 #: .\Pages\global_settings.py:314
 msgid "Enable this option to use snow effects during the winter season."
 msgstr ""
+"Kış mevsiminde kar efektlerini kullanmak için bu seçeneği etkinleştirin."
 
 #: .\Pages\onboarding.py:54
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
+"Daha önce başlangıç işlemlerini yaptıysanız, nasıl çıkacağınızı "
+"biliyorsunuzdur. ETS2LA, başlangıç işlemi bir kez yapılmadan çalışmaz."
 
 #: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
 #: .\Plugins\NGHUD\main.py:380
 msgid "Loading..."
-msgstr ""
+msgstr "Yükleniyor..."
 
 #: .\Pages\onboarding.py:89
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
@@ -891,7 +935,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:93
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "ETS2LA'ya hoş geldiniz!"
 
 #: .\Pages\onboarding.py:94
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
@@ -902,7 +946,7 @@ msgstr ""
 #: .\Pages\onboarding.py:210 .\Pages\onboarding.py:240
 #: .\Pages\onboarding.py:306 .\Pages\onboarding.py:347
 msgid "Continue"
-msgstr ""
+msgstr "Devam"
 
 #: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
@@ -911,47 +955,58 @@ msgstr ""
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:108
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "Temayı buradan değiştirebilirsiniz!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Dil seçiniz"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Lütfen ETS2LA için tercih ettiğiniz dili seçiniz. Bu seçenek daha sonra "
+"ayarlar kısmından değiştirilebilir. Tüm çevirilerimiz topluluk tarafından "
+"yapılmaktadır!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "ETS2LA için tercih ettiğiniz dili seçiniz."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
-msgstr ""
+msgstr "SDK Kurulumu"
 
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"Başlamak için SDK’yı kurmamız gerekiyor. Bu, ETS2LA’nın oyununuzla iletişim "
+"kurmasını sağlar. Sağ tarafta oyunların bir listesi var, birinin yanındaki "
+"“Yükle” butonuna tıklayın ve sonra devam edin."
 
 #: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "SDK kurulumu bekleniyor..."
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Eklentiler"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"ETS2LA, işlevselliğinin çoğunu sağlamak için eklentiler kullanır. Basit mod "
+"ve gelişmiş mod olmak üzere arasında seçim yapabilirsiniz. Bunu daha sonra "
+"ayarlardan değiştirebilirsiniz."
 
 #: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Gelişmiş eklenti modu"
 
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Eklenti yönetimi için gelişmiş özellikleri etkinleştirir. İstediğiniz zaman "
+"eklenti yöneticisinden ayarlanabilir."
 
 #: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
