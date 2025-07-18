@@ -3,12 +3,10 @@ import requests
 import logging
 import zipfile
 import shutil
-import ujson
 import json
 import yaml
 import os
 
-fallback = False
 plugin = None
 index_url = "https://gitlab.com/ETS2LA/data/-/raw/main/index.yaml"
 
@@ -61,16 +59,10 @@ def ReadData(path: str) -> dict:
     global fallback
     f = open(path, "r", encoding="utf-8")
     
-    if fallback: 
-        data = json.load(f) 
-        if not data:
-            logging.error(f"Failed to load Map data JSON file: {path}")
-    else: 
-        data = ujson.load(f)
-        if not data:
-            fallback = True
-            data = ReadData(path)
-    
+    data = json.load(f) 
+    if not data:
+        logging.error(f"Failed to load Map data JSON file: {path}")
+
     f.close()
     return data
 

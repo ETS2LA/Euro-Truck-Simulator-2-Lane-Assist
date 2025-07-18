@@ -35,7 +35,6 @@ pyyaml
 pydub
 scipy
 torch
-ujson
 tqdm
 ftfy
 rich
