@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-18 18:29+0000\n"
+"PO-Revision-Date: 2025-07-18 18:42+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -1011,34 +1011,49 @@ msgstr ""
 #: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"“Gelişmiş Eklenti Modu”nun devre dışı bırakılması önerilir; ancak "
+"eklentileri kendileri seçmek isteyen ileri düzey kullanıcılar etkinleştirmek "
+"isteyebilir."
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"“Gelişmiş Eklenti Modu”, aktif eklentiler üzerinde elle kontrol imkanı sunar "
+"ve farklı kaynaklardan ek eklentiler indirmenizi sağlar. Bu üçüncü taraf "
+"eklentiler ETS2LA tarafından resmi olarak desteklenmez."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Yüksek Öncelik Modu"
 
 #: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA, işletim sisteminize programın yüksek öncelik modunda çalışması "
+"gerektiğini otomatik olarak bildirebilir. Bu, özellikle düşük donanımlı "
+"cihazlarda önerilir."
 
 #: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Bu değişikliğin aktif olması için başlangıç işlemi sonrası ETS2LA’yı yeniden "
+"başlatmanız gerekiyor."
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr ""
+msgstr "Harita Verileri"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA, oyundan önceden çıkarılmış harita verilerini kullanmaktadır. Bu "
+"veriler önceden işlenmiş olup, ihtiyaç duyduğunuzda yalnızca indirmeniz "
+"yeterlidir. Lütfen aşağıdaki listeden, mevcut oyun sürümünüzle uyumlu olan "
+"harita verisini seçiniz."
 
 #: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Veri seçimi bekleniyor..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
@@ -1046,7 +1061,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Oyununuz ve modlarınız ile uyumlu olan veriyi seçin."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
