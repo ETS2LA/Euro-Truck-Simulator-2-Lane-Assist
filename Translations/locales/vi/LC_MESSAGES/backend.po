@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-17 13:06+0000\n"
+"PO-Revision-Date: 2025-07-18 04:37+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
-"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/vi/>\n"
+"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
+"vi/>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -458,152 +459,156 @@ msgstr "Cập nhật"
 
 #: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
 msgid "Unknown"
-msgstr ""
+msgstr "Không xác định"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
-msgstr ""
+msgstr "Không có tổng quát nào được cung cấp."
 
 #: .\Pages\catalogue.py:84
 msgid "No description provided."
-msgstr ""
+msgstr "Không có mô tả nào được cung cấp."
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
-msgstr ""
+msgstr "Đang cài đặt"
 
 #: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin không được tìm thấy trong danh mục."
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
-msgstr ""
+msgstr "Đang nhân bản kho lưu trữ"
 
 #: .\Pages\catalogue.py:150
 msgid "Installing requirements"
-msgstr ""
+msgstr "Đang cài đặt những thứ cần thiết"
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Đang khởi động tiến trình chạy nền của plugin"
 
 #: .\Pages\catalogue.py:157
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Thất bại khi khởi động tiến trình nền của plugin, nhưng các tệp của plugin "
+"đã được cài đặt."
 
 #: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
 msgid "Success"
-msgstr ""
+msgstr "Thành công"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Plugin '{name}' đã được cài đặt thành công."
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
-msgstr ""
+msgstr "Thất bại"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Thất bại khi cài đặt plugin '{name}': {error}"
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
-msgstr ""
+msgstr "Đang gỡ cài đặt"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Đang đóng các tiến trình plugin"
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Thất bại khi dừng các tiến trình plugin."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Đang hủy đăng kí kho lưu trữ git"
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Đang xóa các tệp plugin"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Đang thử lại việc gỡ bỏ ({cur}/{max})"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Thất bại khi xóa các tệp plugin sau {max} lần thử"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin '{name}' đã được gỡ cài đặt thành công."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Thất bại khi gỡ cài đặt plugin '{name}: {error}"
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Không thể tìm thấy mã nguồn cho plugin này."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:272
 msgid "Refreshing..."
-msgstr ""
+msgstr "Đang làm mới..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Đã tìm thấy {count} plugin"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
-msgstr ""
+msgstr "Trở lại"
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
-msgstr ""
+msgstr "Mã nguồn"
 
 #: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
 msgid "Uninstall"
-msgstr ""
+msgstr "Gỡ cài đặt"
 
 #: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
 msgid "Install"
-msgstr ""
+msgstr "Cài đặt"
 
 #: .\Pages\catalogue.py:355
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Bạn có chắc chắn muốn cài đặt plugin này không?"
 
 #: .\Pages\catalogue.py:356
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA không có trách nhiệm với bất kì vấn đề nào mà các plugin bên thứ 3 "
+"gây ra."
 
 #: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy"
 
 #: .\Pages\catalogue.py:369
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Đang cài đặt {plugin}"
 
 #: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
 msgid "Close"
-msgstr ""
+msgstr "Đóng"
 
 #: .\Pages\catalogue.py:379
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Đang gỡ cài đặt {plugin}"
 
 #: .\Pages\catalogue.py:392
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Bạn có chắc chắn muốn gỡ cài đặt plugin này?"
 
 #: .\Pages\catalogue.py:409
 msgid "Plugin Catalogue"
-msgstr ""
+msgstr "Danh mục plugin"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
@@ -611,15 +616,15 @@ msgstr "Tìm kiếm plugin..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Làm mới"
 
 #: .\Pages\catalogue.py:426
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Không có plugin nào được tìm thấy trong danh mục plugin."
 
 #: .\Pages\catalogue.py:429
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Làm mới danh mục"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -655,7 +660,9 @@ msgstr "Xem các thay đổi"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
-msgstr "Chỉ 20 bản cập nhật gần đây nhất được hiện ra. Bạn có thể xem nguồn cho các bản cập nhật cũ hơn nữa."
+msgstr ""
+"Chỉ 20 bản cập nhật gần đây nhất được hiện ra. Bạn có thể xem kho lưu trữ "
+"cho các bản cập nhật cũ hơn nữa."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
@@ -953,7 +960,10 @@ msgstr "Giữ **Chế độ quản lí plugin nâng cao** tắt được khuyế
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
-msgstr "**Chế độ quản lí plugin nâng cao** mở khóa khả năng điều khiển thủ công của các plugin đã bật. Nó cũng cho bạn tải xuống thêm plugin từ các nguồn ngoài. Nhớ rằng các plugin bên thứ 3 không được ETS2LA hỗ trợ *chính thức*."
+msgstr ""
+"**Chế độ quản lí plugin nâng cao** mở khóa khả năng điều khiển thủ công của "
+"các plugin đã bật. Nó cũng cho bạn tải xuống thêm plugin từ các kho lưu trữ "
+"ngoài. Nhớ rằng các plugin bên thứ 3 không được ETS2LA hỗ trợ *chính thức*."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
