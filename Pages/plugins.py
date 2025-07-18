@@ -135,7 +135,7 @@ class Page(ETS2LAPage):
                 self.enabling.append(plugin_name)
                 threading.Thread(
                     target=plugins.start_plugin,
-                    kwargs={"name": plugin_name},
+                    kwargs={"id": plugin_name},
                     daemon=True
                 ).start()
         
