@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-18 04:37+0000\n"
+"PO-Revision-Date: 2025-07-18 18:29+0000\n"
 "Last-Translator: Veqro <veqro@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
@@ -1306,7 +1306,7 @@ msgstr "SDKs für {Spiel} installieren"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
-msgstr "SDKs für {Spiel} erfolgreich installiert."
+msgstr "SDKs für {game} erfolgreich installiert."
 
 #: .\Pages\sdk_installation.py:101
 msgid "SDKs for {game} already installed, skipping installation"
@@ -1318,27 +1318,31 @@ msgstr "Bitte stelle sicher, dass das Spiel geschlossen ist und versuche es erne
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr "Fehler bei der Installation der SDKs für {Spiel}, bitte stelle sicher, dass das Spiel geschlossen ist."
+msgstr ""
+"Fehler bei der Installation der SDKs für {game}, bitte stelle sicher, dass "
+"das Spiel geschlossen ist."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr "Konnte keine Version für {Spiel} finden, überspringe Deinstallation"
+msgstr "Konnte keine Version für {game} finden, überspringe Deinstallation"
 
 #: .\Pages\sdk_installation.py:114
 msgid "Uninstalling SDKs for {game}"
-msgstr "SDKs für {Spiel} deinstallieren"
+msgstr "SDKs für {game} deinstallieren"
 
 #: .\Pages\sdk_installation.py:119
 msgid "SDKs for {game} uninstalled successfully."
-msgstr "SDKs für {Spiel} erfolgreich deinstalliert."
+msgstr "SDKs für {game} erfolgreich deinstalliert."
 
 #: .\Pages\sdk_installation.py:121
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr "SDKs für {Spiel} nicht installiert, überspringe Deinstallation"
+msgstr "SDKs für {game} nicht installiert, überspringe Deinstallation"
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
-msgstr "Fehler beim Deinstallieren der SDKs für {Spiel}, bitte stelle sicher, dass das Spiel geschlossen ist."
+msgstr ""
+"Fehler beim Deinstallieren der SDKs für {game}, bitte stelle sicher, dass "
+"das Spiel geschlossen ist."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
@@ -1350,7 +1354,7 @@ msgstr "Es konnte keine Version für das ausgewählte Spiel gefunden werden, bit
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
-msgstr "Konnte keine Version für {Pfad} finden, überspringe Installation"
+msgstr "Konnte keine Version für {path} finden, überspringe Installation"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Found game version {version}."
