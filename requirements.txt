@@ -30,6 +30,7 @@ uvicorn
 pyproj
 psutil
 pygame
+orjson
 pynput
 pyyaml
 pydub
