@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-11 12:37\n"
-"PO-Revision-Date: 2025-07-18 18:29+0000\n"
+"PO-Revision-Date: 2025-07-18 18:42+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hant/>\n"
@@ -1244,7 +1244,7 @@ msgstr "這會增加設定中的速度偏移值。"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr "這會增加設定中的速度偏移值"
+msgstr "減少行駛速度偏移值"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
