@@ -277,6 +277,7 @@ class Page(ETS2LAPage):
         return False
     
     def render_plugin_card(self, plugin: CataloguePlugin):
+        installed = os.path.exists(f"CataloguePlugins/{plugin.name}")
         with Button(name=plugin.name, action=self.select_plugin, type="ghost",
                 style=styles.FlexHorizontal() 
                     + styles.Classname("w-full border rounded-md p-4 gap-4 bg-input/10 h-max")):
@@ -294,7 +295,11 @@ class Page(ETS2LAPage):
                     + styles.Width("100%")
             ):
                 with Container(styles.FlexVertical() + styles.Gap("5px")):
-                    Text(plugin.name, styles.Classname("font-semibold"))
+                    with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
+                        Text(plugin.name, styles.Classname("font-semibold"))
+                        if installed:
+                            with Container(styles.Classname("bg-input/30 rounded-md border px-2 py-1 h-min")):
+                                Text(_("Installed"), styles.Classname("text-xs"))
                     Text(plugin.overview, styles.Description())
                 
                 with Container(styles.FlexHorizontal() + styles.Gap("5px")):
