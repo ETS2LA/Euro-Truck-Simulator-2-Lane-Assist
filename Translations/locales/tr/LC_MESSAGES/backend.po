@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-19 05:42+0000\n"
+"PO-Revision-Date: 2025-07-20 13:06+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -102,7 +102,7 @@ msgstr "Eklenti [yellow]{0}[/yellow] başarıyla başlatıldı."
 
 #: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
-msgstr "Eklentiyi başlatılamadı: {0}"
+msgstr "Eklenti başlatılamadı: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
@@ -118,7 +118,7 @@ msgstr "Eklenti [yellow]{0}[/yellow] başarıyla durduruldu."
 
 #: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
-msgstr "Eklentiyi durdurulamadı: {0}"
+msgstr "Eklenti durdurulamadı: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
@@ -234,7 +234,7 @@ msgstr "Kullanıcı arayüzünü başlatırken lütfen bekleyin"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr "ETS2LA penceresi aranıyor... [dim](10 saniye zaman aşımı)[/dim]"
+msgstr "ETS2LA penceresi aranıyor... [dim](10s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -502,7 +502,7 @@ msgstr "Başarı"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr "'{isim}' eklentisi başarıyla kuruldu."
+msgstr "'{name}' eklentisi başarıyla kuruldu."
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
@@ -542,7 +542,7 @@ msgstr "{max} denemenin ardından eklenti dosyaları silinemedi"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr "Eklenti ‘{isim}’ başarıyla kaldırıldı."
+msgstr "Eklenti ‘{name}’ başarıyla kaldırıldı."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
@@ -559,7 +559,7 @@ msgstr "Yenileniyor..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr "Bulunan {sayı} eklentiler"
+msgstr "Bulunan {count} eklentiler"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
@@ -855,7 +855,7 @@ msgstr "Çeşitli"
 
 #: .\Pages\global_settings.py:270
 msgid "Frontend Port"
-msgstr "Kullanıcı Arayüzü Portu / Arayüz Bağlantı Noktası"
+msgstr "Frontend Port"
 
 #: .\Pages\global_settings.py:271
 msgid "Change the port used by the frontend. This is only used in local mode."
@@ -1089,7 +1089,7 @@ msgstr "Bu veri için"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr ""
+msgstr "Bu, şuna açılacak"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
@@ -1291,14 +1291,21 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Görselleştirme sekmesinin çalışabilmesi için gerekli eklentileri "
+"etkinleştirmelisiniz.\n"
+"\n"
+"**Bu işlem, görselleştirme sekmesinin düzgün çalışması için gerekiyor.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
+"Kamyon ve rota bilgilerini görüntülemek için HUD'u etkinleştirin. Bu "
+"bilgiler, oyun ekranının üst kısmında gerçekçi ve detaylı 3D haritalamayla "
+"sunulur."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
@@ -1536,7 +1543,7 @@ msgstr[1] "Yeniden başlatın ve {count} güncellemelerini uygulayın"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "Artırılmış gerçeklik"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
@@ -1544,7 +1551,7 @@ msgstr "Buradan AR kaplama ayarlarını değiştirin."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "AR içeriğinin kayıt yazılımı tarafından görünmesini engellemeyin"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
@@ -1564,15 +1571,18 @@ msgstr "AR kaplamasında test nesnelerini göster."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Odak dışında olduğunda da göster"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Oyun odakta olmasa bile AR katmanını göster. Bu, ayarları değiştirmek için "
+"faydalı olabilir. Lütfen AR'nin mümkün olan en yüksek FPS'de çalışmasına "
+"neden olacağını ve bu durumun bazı gecikmelere yol açabileceğini unutmayın."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Ögeler: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
@@ -1580,400 +1590,466 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "İşleme Süresi: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"AR eklentisi, ETS2LA için artırılmış gerçeklik tabanlı bir görsel katman "
+"sağlar. Bu katman, HUD gibi eklentiler tarafından oyun dünyasında bilgileri "
+"görüntülemek amacıyla kullanılır."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr ""
+msgstr "Hız Kontrolünü Değiştir"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
 msgstr ""
+"Uyarlanabilir Hız Kontrolü (ACC) etkin olduğunda, bu özellik hız kontrolünü "
+"açıp kapatır."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Sürüş Hızı Ofsetini Arttır"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
-msgstr ""
+msgstr "Bu seçenek, ayarlarda belirlenen hız farkını artırır."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Sürüş hızı ofsetini azalt"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr ""
+msgstr "Bu işlem, hız ofsetini azaltır."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
 #: .\Plugins\AdaptiveCruiseControl\settings.py:72
 #: .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Uyumlu Hız Kontrol Sistemi"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Uyumlu Hız Kontrol Sistemi (ACC), yol üzerindeki araçlara ve koşullara göre "
+"hızınızı otomatik şekilde ayarlayarak frenleme ve hızlanma işlemlerini "
+"gerçekleştirir."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"ACC (Uyumlu Hız Kontrol Sistemi), oyun içinden elde edilen verileri analiz "
+"ederek kamyonun hızını dinamik bir şekilde kontrol etmeye yarar."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Agresiflik Seviyesi"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
+"ACC (Uyumlu Hız Kontrol Sistemi), öndeki aracı ne kadar hızlı takip etmeli "
+"ve hız limitini ne kadar agresif bir şekilde değiştirmeli?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
-msgstr ""
+msgstr "Takip Mesafesi"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
 msgstr ""
+"ACC (Uyumlu Hız Kontrol Sistemi), öndeki araçla olan takip mesafesini ne "
+"kadar korumalı?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:96
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Trafik Işıklarını Yoksay"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"ACC'nin trafik ışıklarını görmezden gelip gelmemesi gerektiği. Lütfen "
+"unutmayın ki, bu seçenek trafik ışıklarını tamamen görmezden gelmenize neden "
+"olacaktır."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "Speed Control"
-msgstr ""
+msgstr "Hız Kontrolü"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Hız Limitini Yoksay"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "ACC'nin hız limitini görmezden gelip gelmemesi gerektiği."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:112
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Sürtünme Katsayısı"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:113
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"ACC (Uyumlu Hız Kontrol Sistemi) hesaplamalarında kullanılan sürtünme "
+"katsayısı, yüksek değerlerle kamyonun virajlarda daha yüksek hızlara "
+"ulaşmasını sağlar."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:123
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Oyun hız limiti 0 olduğunda geçerli hız"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:124
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr ""
+"Oyun, hız sınırını 0 km/s olarak belirttiğinde, sürülmesi gereken hızı "
+"belirtir."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Hız Değişim Türü"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:141
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Uygulanacak hız ofseti türünü seçin."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Speed Offset"
-msgstr ""
+msgstr "Hız Değişimi"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147
 #: .\Plugins\AdaptiveCruiseControl\settings.py:158
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"Tüm hız limitlerine uygulanacak hız değişimi. Ayrıca bunu kontrol tuşlarıyla "
+"dinamik olarak değiştirebileceğinizi unutmayın."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "PID Kilidini Aç"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"PID ayarlarını manuel olarak değiştirebilmek için kilidini açabilirsiniz. "
+"Ancak, PID nedir ve doğru şekilde nasıl ayarlanır bildiğinizden emin "
+"değilseniz, bu işlem önerilmez."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Henüz varmadık mı? Hayır mı? O zaman biraz daha hızlanmamız gerekiyor! (PID "
+"kontrolcüsü için oransal kazanç.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Uzun bir süre geçti mi? O zaman daha fazla hızlanmamız gerekecek! (PID "
+"kontrolörü için İntegral Kazanç.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Hedefe ne kadar hızla yaklaşıyoruz? Eğer çok hızlı yaklaşıyorsak, biraz daha "
+"yavaşlamamız gerekiyor! (PID kontrolü için Türev Kazancı.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Bu video, PID kontrollerinin nasıl çalıştığını görsel olarak anlatıyor. Eğer "
+"bu konuda bilginiz yoksa, lütfen tamamını izleyin."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr ""
+msgstr "Bu eklenti, AR eklentisini kullanarak HUD görüntüsü sunar."
 
 #: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Genel"
 
 #: .\Plugins\HUD\main.py:89
 msgid "Refresh Rate"
-msgstr ""
+msgstr "Yenileme Hızı"
 
 #: .\Plugins\HUD\main.py:90
 msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
-msgstr ""
+msgstr "HUD'un yenilenme hızı. Bu değeri çok fazla artırmanız önerilmez."
 
 #: .\Plugins\HUD\main.py:99
 msgid "Scale"
-msgstr ""
+msgstr "Ölçek"
 
 #: .\Plugins\HUD\main.py:100
 msgid "The scale of the HUD elements."
-msgstr ""
+msgstr "HUD elemanlarının ölçeği."
 
 #: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
 msgid "Offset X"
-msgstr ""
+msgstr "X Ekseni"
 
 #: .\Plugins\HUD\main.py:111
 msgid "The X offset (side to side) of the HUD elements."
-msgstr ""
+msgstr "HUD elemanlarının X eksenindeki kayması (yatayda hareket)."
 
 #: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
 msgid "Offset Y"
-msgstr ""
+msgstr "Y Ekseni"
 
 #: .\Plugins\HUD\main.py:119
 msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr ""
+msgstr "HUD elemanlarının Y eksenindeki kayması (yukarıdan aşağıya)."
 
 #: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
 msgid "Offset Z"
-msgstr ""
+msgstr "Z Ekseni"
 
 #: .\Plugins\HUD\main.py:127
 msgid "The Z offset (distance) of the HUD elements."
-msgstr ""
+msgstr "HUD elemanlarının Z eksenindeki (mesafesi)."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr ""
+msgstr "HUD Elemanları"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
-msgstr ""
+msgstr "Navigasyonu Göster"
 
 #: .\Plugins\HUD\main.py:136
 msgid "When enabled, the HUD will display navigation information."
-msgstr ""
+msgstr "Aktif edildiğinde, HUD navigasyon bilgilerini görüntüleyecektir."
 
 #: .\Plugins\HUD\main.py:141
 msgid "Show ACC Info"
-msgstr ""
+msgstr "ACC Bilgilerini Göster"
 
 #: .\Plugins\HUD\main.py:142
 msgid "When enabled, the HUD will display adaptive cruise control information."
 msgstr ""
+"Aktif hale getirildiğinde HUD uyarlanabilir hız kontrol sisteminin "
+"bilgilerini görüntüleyecektir."
 
 #: .\Plugins\HUD\main.py:147
 msgid "Draw Steering"
-msgstr ""
+msgstr "Direksiyonun Görselleştirilmesi"
 
 #: .\Plugins\HUD\main.py:148
 msgid "Whether to draw the steering line in the HUD."
-msgstr ""
+msgstr "HUD'da direksiyon çizgisinin gösterilip gösterilmeyeceği durumu."
 
 #: .\Plugins\HUD\main.py:153
 msgid "Show Traffic Light Times"
-msgstr ""
+msgstr "Trafik Işığı Sürelerini Göster"
 
 #: .\Plugins\HUD\main.py:154
 msgid "When enabled, the HUD will display traffic light times."
-msgstr ""
+msgstr "Etkinleştirildiğinde, HUD trafik ışığı sürelerini görüntüler."
 
 #: .\Plugins\HUD\main.py:159
 msgid "Draw Wheel Paths"
-msgstr ""
+msgstr "Tekerlek izlerini göster"
 
 #: .\Plugins\HUD\main.py:160
 msgid "When enabled, the HUD will display where the wheels will go when turning."
 msgstr ""
+"Etkinleştirildiğinde, HUD direksiyon çevrildiğinde tekerleklerin izleyeceği "
+"yolu gösterecektir."
 
 #: .\Plugins\HUD\main.py:169
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr ""
+"Ön camda uyarı ekranı oluşturur. Çalışması için AR eklentisi gerekmektedir."
 
 #: .\Plugins\HUD\main.py:758
 msgid "Waiting for lane change approval"
-msgstr ""
+msgstr "Şerit değişikliği için onay bekleniyor"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr ""
+msgstr "Şerit değiştirme işlemi devam ediyor {percentage}% tamamlandı"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
-msgstr ""
+msgstr "Mesafe: {distance:.0f} {units}"
 
 #: .\Plugins\HUD\main.py:892
 msgid "Target: {acc_gap:.0f} {units}"
-msgstr ""
+msgstr "Hedef: {acc_gap:.0f} {units}"
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Direksiyon Kontrolünü Değiştir"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
 msgstr ""
+"Harita eklentisi çalışırken, bu seçenek direksiyon kontrolünü devreye alıp "
+"devre dışı bırakacaktır."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Harita"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
 msgstr ""
+"Bu eklenti, direksiyon ve navigasyon özelliklerini sağlar. ETS2LA'nın en "
+"önemli eklentisidir."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Harita eklentisi başlatılırken bir hata meydana geldi: {0}"
 
 #: .\Plugins\Map\main.py:264
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Veriler yüklenmeye hazırlanıyor..."
 
 #: .\Plugins\Map\main.py:278
 msgid "Waiting for game data selection in the Settings -> Map..."
-msgstr ""
+msgstr "Ayarlar -> Harita kısmında oyun verisi seçimi için bekleniyor..."
 
 #: .\Plugins\Map\main.py:307
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Geçersiz direksiyon değeri algılandı, lütfen kontrol edin"
 
 #: .\Plugins\Map\main.py:333
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Harita eklentisi çalışma döngüsünde bir hata oluştu: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
-msgstr ""
+msgstr "Uyarı: Düşük FPS nedeniyle direksiyon kontrolü etkilenebilir. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Bulunamadı"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Harita Ayarları"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Harita eklentisi için yapılandırma ayarlarını yapılandırın. Navigasyon, "
+"direksiyon ve veri işlemleri ile alakalı birçok seçeneği buradan "
+"değiştirebilirsiniz."
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "ETS2LA Navigasyonunu Aktifleştir"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
-msgstr ""
+msgstr "ETS2LA'nın otomatik yönlendirme işlevlerini etkinleştirir."
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr ""
+msgstr "Yüksekliği Gönder"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
+"Bu özellik etkinleştirildiğinde, harita verileri frontend gönderilecek ve bu "
+"veri, görselleştirmede zeminin doğru şekilde çizilmesine yardımcı olacaktır. "
+"Deneysel olup, hatalar içerebilir!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "FPS Bildirimlerini Devre Dışı Bırak"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
 msgstr ""
+"Bu özellik etkinleştirildğinde, harita FPS ile ilgili herhangi bir "
+"bildirimde bulunmayacaktır."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Direksiyon Verilerini Hesapla"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
 msgstr ""
+"Bu özellik etkinleştirildiğinde, harita direksiyon verilerini hesaplayacak "
+"ve oyuna iletecektir."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Römorka Dayalı Sürüş"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Etkinleştirildiğinde, harita mevcut direksiyon noktasını hesaplarken römorku "
+"da göz önünde bulunduracaktır."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Direksiyon Yumuşaklığı"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Direksiyon verilerini hangi süreyle ortalama alacağınızı ayarlayın. 0.5 "
+"değeri, son yarım saniye içindeki direksiyon hareketlerinin, mevcut değeri "
+"hesaplamak için kullanıldığını ifade eder."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
-msgstr ""
+msgstr "Veri"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "NOT!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Verileri değiştirdikten sonra bir hatayla karşılaşırsanız lütfen eklentiyi "
+"yeniden başlatın! Bu sorununuzu çözmezse, lütfen Discord'daki "
+"geliştiricilerle iletişime geçin!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Kullanmak istediğiniz veriyi seçin. İndirme işlemi başlayacak ve veriler "
+"yüklendikten sonra Harita hazır hale gelecektir."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Verileri Güncelle"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Şu anda seçili olan veriyi güncelleyin, bu işlem veri bozulduysa veya bir "
+"güncelleme yapılmışsa faydalı olabilir."
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "İndirilecek veri boyutu"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
@@ -1982,149 +2058,153 @@ msgstr ""
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
 #: .\Plugins\NGHUD\main.py:227
 msgid "ACC Information"
-msgstr ""
+msgstr "ACC Bilgileri"
 
 #: .\Plugins\NGHUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
-msgstr ""
+msgstr "ACC bilgilerini araç mesafesi ve hızı gibi unsurları çizerek gösterin."
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "İvme"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Kamyonun mevcut ivmesini görselleştirin."
 
 #: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Asist Bilgisi"
 
 #: .\Plugins\NGHUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "ACC ve Direksiyon durum bilgilerini çizin."
 
 #: .\Plugins\NGHUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Yakıt Durumu"
 
 #: .\Plugins\NGHUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Kamyonun mevcut yakıt durumunu görselleştirin."
 
 #: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "Devir ve Vites"
 
 #: .\Plugins\NGHUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Kamyonun mevcut deviri ve vitesini çizin."
 
 #: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43
 #: .\Plugins\NGHUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Medya"
 
 #: .\Plugins\NGHUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
 msgstr ""
+"Medya bilgilerini, örneğin şarkı ismi, sanatçı ve çalma durumu gibi medya "
+"bilgilerini görüntüler."
 
 #: .\Plugins\NGHUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Medya Oynatılmıyor"
 
 #: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Sanatçı bulunamadı"
 
 #: .\Plugins\NGHUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Başlık Bulunamadı"
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigasyon"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Navigasyon bilgilerini görselleştir."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "Varış"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Gaz / Fren"
 
 #: .\Plugins\NGHUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Mevcut gaz ve fren oranını göster."
 
 #: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
 #: .\Plugins\NGHUD\main.py:227
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Trafik Işıkları"
 
 #: .\Plugins\NGHUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Trafik ışığı bilgisini görselleştir."
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
 #: .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Hız"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
-msgstr ""
+msgstr "Genel bir hız göstergesi, hız sınırı değişikliklerini de gösterecektir."
 
 #: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
 #: .\Plugins\NGHUD\main.py:227
 msgid "Steering Line"
-msgstr ""
+msgstr "Direksiyon Hattı"
 
 #: .\Plugins\NGHUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Haritadan direksiyon hattını çizin."
 
 #: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
 msgid "NGHUD"
-msgstr ""
+msgstr "NGHUD"
 
 #: .\Plugins\NGHUD\main.py:21
 msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
 msgstr ""
+"Gelişmiş HUD (temel olarak HUD yeniden yapılıyor ve bunun için bir isme "
+"ihtiyaç olduğundan ötürü bir isim verildi.)"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr ""
+msgstr "Etkinleştir"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Disable"
-msgstr ""
+msgstr "Devre Dışı Bırak"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Ayarları düzenlemek için lütfen eklentiyi etkinleştirin."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
 msgid "Transform"
-msgstr ""
+msgstr "Dönüşüm"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "HUD'un yatay ofseti."
 
 #: .\Plugins\NGHUD\ui.py:119
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "HUD'ın dikey ofseti."
 
 #: .\Plugins\NGHUD\ui.py:128
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "HUD'un derinlik ofseti."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
