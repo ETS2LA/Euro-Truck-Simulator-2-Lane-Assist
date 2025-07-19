@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-14 12:31+0000\n"
-"Last-Translator: Roke <roke@ets2la.com>\n"
-"Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/et/>\n"
+"PO-Revision-Date: 2025-07-20 13:06+0000\n"
+"Last-Translator: Trevor Pilvar <trev@ets2la.com>\n"
+"Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"et/>\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: et\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -402,7 +403,7 @@ msgstr "Arendajad"
 
 #: .\Pages\about.py:125
 msgid "Translations"
-msgstr ""
+msgstr "Tõlked"
 
 #: .\Pages\about.py:135 .\Pages\global_settings.py:198
 #: .\Pages\onboarding.py:150
@@ -460,67 +461,68 @@ msgstr "Uuenda"
 
 #: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
 msgid "Unknown"
-msgstr ""
+msgstr "Tundmatu"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
-msgstr ""
+msgstr "Ülevaadet ei ole antud."
 
 #: .\Pages\catalogue.py:84
 msgid "No description provided."
-msgstr ""
+msgstr "Kirjeldust ei ole antud."
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
-msgstr ""
+msgstr "Paigaldamine"
 
 #: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Lisaosa ei ole leitud kataloogis."
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
-msgstr ""
+msgstr "Kloonin hoidlat"
 
 #: .\Pages\catalogue.py:150
 msgid "Installing requirements"
-msgstr ""
+msgstr "Paigaldan nõudeid"
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Käivitan lisaosa taustaprotsessi"
 
 #: .\Pages\catalogue.py:157
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Lisaosa taustaprotsessi käivitamine nurjus, kuid lisaosa failid paigaldati."
 
 #: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
 msgid "Success"
-msgstr ""
+msgstr "Õnnestus"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Lisaosa '{name}' paigaldati edukalt."
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
-msgstr ""
+msgstr "Ebaõnnestus"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Lisaosa '{name}' paigaldamine ebaõnnestus: {error}"
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
-msgstr ""
+msgstr "Deinstallimine"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Lisaosa protsesside sulgemine"
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Lisaosa protsesside peatamine nurjus."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
@@ -528,19 +530,19 @@ msgstr ""
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Lisaosa failide eemaldamine"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Proovin uuesti eemaldada ({cur}/{max})"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Lisaosa eemaldamine nurjus pärast {max} korda"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Lisaosa '{name}' eemaldati edukalt."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
