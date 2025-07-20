@@ -172,6 +172,9 @@ class Page(ETS2LAPage):
                 )
                 
                 current = utils_settings.Get("global", "language", default="English")
+                if not current:
+                    current = "English"
+                
                 current = Language.find(current)
                 ComboboxWithTitleDescription(
                     title=_("Language"),

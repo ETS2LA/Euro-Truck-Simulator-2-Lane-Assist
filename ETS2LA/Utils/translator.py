@@ -11,7 +11,7 @@ root of the project to update the translation files. Please lock and update the
 translations from weblate before generating, as you might hit merge conflicts otherwise.
 """
 
-from ETS2LA.Utils.settings import Get, Listen
+from ETS2LA.Utils.settings import Get, Listen, Set
 from langcodes import Language
 import datetime
 import gettext
@@ -133,6 +133,10 @@ def parse_language(language: Language) -> str:
     return code
     
 default = Get("global", "language", "English")
+if not default:
+    Set("global", "language", "English")
+    default = "English"
+    
 default = parse_language(Language.find(default))
 _ = Translate("backend", "Translations/locales", default)  # Default to English
 T_ = _
@@ -144,6 +148,10 @@ def set_language(language: str | Language):
     
     :param language: The language code to set.
     """
+    if not language:
+        Set("global", "language", "English")
+        language = "English"
+    
     if isinstance(language, Language):
         language = language.language
         
@@ -151,8 +159,10 @@ def set_language(language: str | Language):
     
 def detect_change(dictionary: dict):
     language = dictionary.get("language", "English")
-    language = parse_language(Language.find(language))
+    if not language:
+        language = "English"
     
+    language = parse_language(Language.find(language))
     if language != _.get_language():
         set_language(language)
     
