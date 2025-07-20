@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-20 13:06+0000\n"
+"PO-Revision-Date: 2025-07-21 14:06+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -186,7 +186,7 @@ msgstr "Sayfa {0} için sayfa verileri alınamadı"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr "Eklentileri yeniden yükleyemedi"
+msgstr "Eklentiler yeniden yüklenemedi"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
@@ -1077,7 +1077,7 @@ msgstr "Eşleşen veri bulunamadı"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
-msgstr ""
+msgstr "Bu"
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
@@ -1586,7 +1586,7 @@ msgstr "Ögeler: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "İşlem Çağrıları: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
@@ -1619,7 +1619,7 @@ msgstr "Bu seçenek, ayarlarda belirlenen hız farkını artırır."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr "Sürüş hızı ofsetini azalt"
+msgstr "Sürüş Hızı Ofsetini Azalt"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
@@ -2053,7 +2053,7 @@ msgstr "İndirilecek veri boyutu"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "Açıldığında toplamda şu kadar bir boyuta ulaşacak"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
 #: .\Plugins\NGHUD\main.py:227
@@ -2208,407 +2208,467 @@ msgstr "HUD'un derinlik ofseti."
 
 #: .\Plugins\NGHUD\ui.py:137
 msgid "Widget Widths"
-msgstr ""
+msgstr "Widget Genişlikleri"
 
 #: .\Plugins\NGHUD\ui.py:138
 msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
 msgstr ""
+"Bu ayarlar, her widget için genişlik değerlerini piksel cinsinden belirler. "
+"Varsayılan değerler 90, 120, 90’dır. Öğeler, bu genişliğe uyum sağlamak için "
+"yeniden boyutlandırmaya çalışacak, ancak aşırı boyutlandırma yapmamaya özen "
+"gösterin. Lütfen aşırı boyutlandırılmaların tasarlanmadığını göz önünde "
+"bulundurun."
 
 #: .\Plugins\NGHUD\ui.py:161
 msgid "Widget Background"
-msgstr ""
+msgstr "Widget Arka Planı"
 
 #: .\Plugins\NGHUD\ui.py:162
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Widget arka planının ne kadar koyulaştırılmasını istediğinizi, her zaman mı "
+"yoksa sadece gündüz saatlerinde mi olup olmayacağını kontrol edebilirsiniz."
 
 #: .\Plugins\NGHUD\ui.py:166
 msgid "Darkness"
-msgstr ""
+msgstr "Koyuluk"
 
 #: .\Plugins\NGHUD\ui.py:167
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Widget arka planının koyuluk derecesi. 0 hiç koyuluk olmadığını, 1 tamamen "
+"koyu olduğunu belirtir."
 
 #: .\Plugins\NGHUD\ui.py:176
 msgid "Day Darkness"
-msgstr ""
+msgstr "Gündüz Karanlığı"
 
 #: .\Plugins\NGHUD\ui.py:177
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Widget arka planının gündüz saatlerinde ne kadar kararmasını istediğinizi "
+"ayarlayın. 0 hiç kararma yok, 1 tamamen karardığını belirtir."
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
-msgstr ""
+msgstr "Bileşenler"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Etkinleştirilmiş Widgetlar"
 
 #: .\Plugins\NGHUD\ui.py:196
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Bu, etkin widget'ları ve bunların boyutlarını görüntüler. Birine tıklayarak "
+"devre dışı bırakabilirsiniz, ancak henüz taşıma işlemi yapılmamaktadır. "
+"Widget'ları istediğiniz yere yerleştirebilmek için önce devre dışı "
+"bırakmanız ondan sonra yeniden etkinleştirmeniz gerekiyor."
 
 #: .\Plugins\NGHUD\ui.py:224
 msgid "Available Widgets"
-msgstr ""
+msgstr "Kullanılabilir Widget'lar"
 
 #: .\Plugins\NGHUD\ui.py:225
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Bu widget'lar etkinleştirilebilir:"
 
 #: .\Plugins\NGHUD\ui.py:233
 msgid "Renderers"
-msgstr ""
+msgstr "Görüntüleyiciler"
 
 #: .\Plugins\NGHUD\ui.py:234
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Bu render araçları sabitlenmemiş öğeleri göstermek için kullanılır. Bunlar "
+"genellikle oyun dünyasında hareket eden öğelerdir."
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Navigasyon Soketleri"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Bu eklenti, dünya haritası üzerindeki navigasyon verilerine erişim için bir "
+"WebSocket sunucusu sağlar."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"TTS eklentisi, erişilebilirlik amacıyla yazılı metinleri sesli hale getirir "
+"ve sesli duyurular yapma işlevi sağlar."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Sesler"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Lütfen bir sağlayıcı seçin!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
-msgstr ""
+msgstr "Eklenti yüklendikten sonra, sağlayıcıya ait bilgiler görüntülenecektir."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "TTS Hizmet sağlayıcısını seçin"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Hangi TTS sağlayıcısının kullanılacağını seçin."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Seslerin gösterilebilmesi için lütfen bir sağlayıcı seçin."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Ses {0} bulunamadı, varsayılan olarak {1} kullanılacak."
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "TTS Sesini seçin"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Kullanılacak TTS sesini seçin."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Bir ses arayın..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Ses bulunamadı."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Sesin hızını ayarlayın."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Sesin hedef çıkış seviyesini ayarlayın."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Test Modu"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
 msgstr ""
+"Oyunu başlatmadan önce TTS sağlayıcısını test etmek için test modunu "
+"etkinleştirebilirsiniz."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "En Yakın Yol Uyarısını Etkinleştir"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"En yakın yolun mesafesini ve açı bilgisini gösteren sesli uyarıyı "
+"etkinleştirin."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Erişilebilirlik için Metin Okuma eklentisi. Bazı kullanıcılar sesli "
+"bildirimleri tercih edebilir."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "{1} sağlayıcısında {0} sesi bulunamadı."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Sağlayıcı seçilmediği için ses seçimi yapılamıyor."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "TTS sağlayıcısı yükleniyor: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "TTS sesi yükleniyor: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Harita yönlendirmesi etkinleştirildi."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Harita yönlendirmesi devre dışı."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Uyumlu Hız Kontrol Sistemi aktif hale getirildi."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Uyumlu Hız Kontrol Sistemi devre dışı."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "En yakın {city} şehri şu anda {distance} kilometre uzaklıktadır."
+msgstr[1] "En yakın {city} şehri şu anda {distance} kilometre uzaklıktadır."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hız limiti saatte {0} kilometre olarak değiştirildi."
+msgstr[1] "Hız limiti saatte {0} kilometre olarak değiştirildi."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr[0] ""
+"Yakıt menzili şu anda yalnızca {0} kilometre, lütfen en kısa sürede yakıt "
+"alın."
 msgstr[1] ""
+"Yakıt menzili şu anda yalnızca {0} kilometre, lütfen en kısa sürede yakıt "
+"alın."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Yakıt menzili şu an {0} kilometre ile çok düşük seviyede, lütfen en kısa "
+"sürede yakıt alın."
 msgstr[1] ""
+"Yakıt menzili şu an {0} kilometre ile çok düşük seviyede, lütfen en kısa "
+"sürede yakıt alın."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Bir sonraki varış noktasına {0} kilometre kaldı."
 
 #: .\Plugins\TTS\main.py:414
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Motor hasarı şu an %{0} seviyesinde."
 
 #: .\Plugins\TTS\main.py:417
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Kabin hasarı şu an %{0} seviyesinde."
 
 #: .\Plugins\TTS\main.py:420
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Şasi hasarı şu an %{0} seviyesinde."
 
 #: .\Plugins\TTS\main.py:423
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Şanzıman hasarı şu an %{0} seviyesinde."
 
 #: .\Plugins\TTS\main.py:426
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Tekerlek hasarı şu an %{0} seviyesinde."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Yük hasarı şu an %{0} seviyesinde."
 
 #: .\Plugins\TTS\main.py:446
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Hız {0} kilometre/saat, limit {1}, yakıt {2}%, ve bir sonraki varış "
+"noktasına {3} kilometre kaldı."
 
 #: .\Plugins\TTS\main.py:487
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Test modu etkinleştirildi. Bu bir test mesajıdır."
 
 #: .\Plugins\VisualizationSockets\main.py:205
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Görselleştirme Soketleri"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
 msgstr ""
+"Bu eklenti, ETS2LA Görselleştirme desteği sağlayan bir websocket sunucusu "
+"içerir."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Ana Makine Cihazı"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Mevcut cihazınızda ETS2LA Görselleştirmesini görüntülemek için, yan menüdeki "
+"'Görünüleştirme' sekmesini açın, ardından resmi ve Goodnightan yansımaları "
+"arasında tercihinizi yapabilirsiniz."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Aşağıdaki web sitesini de kullanabilirsiniz:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Diğer Cihaz"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Cihazınızın tarayıcısında aşağıdaki URL'yi açın: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"UYARI: Siteyi https yerine http olarak yüklemeniz gerekiyor. Google Chrome "
+"ile çalışmaz uyumlu değildir!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Web sitesi yüklendikten sonra kırmızı 'Uzaktan Bağlantı' butonuna basın. "
+"Eğer bağlantı kurulmazsa, aşağıdaki IP adresini girin:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Eğer herhangi bir sorunla karşılaşırsanız, cihazınızın host (ana makine) "
+"ile aynı ağda bulunduğundan emin olun. Ayrıca, güvenlik duvarınızın cihazlar "
+"arasındaki bağlantıyı engellemediğinden emin olun."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"IP adresiniz tespit edilemedi, bu genellikle ağla ilgili bir problemden "
+"kaynaklanır. Görselleştirmeyi harici bir cihazdan görüntülemek mümkün "
+"değildir."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Eklenti başlatılmak üzere hazırlanıyor..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Eklentinin yüklenmesi bekleniyor..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Şu anda bağlı olan istemciler şunlardır:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Gecikme: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Kanallar: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Henüz onaylanmadı."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Şu anda bağlı herhangi bir istemci bulunmamaktadır."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Bu eklenti, ETS2LA Görselleştirmesi için bir websocket sunucu sağlar. Diğer "
+"cihazlardan görselleştirmeye bağlanmanıza ETS2LA verilerini gerçek zamanlı "
+"olarak görüntülemenize olanak tanır."
 
 #: .\main.py:105
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Yansımalar test ediliyor..."
 
 #: .\main.py:113
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- {1:.0f}ms içinde {0} değerine ulaşıldı"
 
 #: .\main.py:119
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - {0}'a (ZAMAN AŞIMI) nedeniyle bağlantı sağlanamadı"
 
 #: .\main.py:134
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " ‐‐ Alt modül için indirme sonrası eylem çalıştırılıyor:  Arayüz  ‐‐ "
 
 #: .\main.py:152
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "ETS2LA, geliştirme modunda çalıştırılıyor."
 
 #: .\main.py:156
 msgid "Running UI locally"
-msgstr ""
+msgstr "Kullanıcı Arayüzü yerel olarak çalıştırılıyor"
 
 #: .\main.py:161
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr ""
+"Uzak kullanıcı arayüzüne bağlantı sağlanamadı. Yerel ortamda çalıştırılıyor."
 
 #: .\main.py:172
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Kullanıcı arayüzü Çin modunda çalıştırılıyor"
 
 #: .\main.py:174
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "Kullanıcı arayüzü için {0} yansıması kullanılıyor."
 
 #: .\main.py:180
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console ve --no-ui seçeneklerini bir arada kullanmak mümkün değil. "
+"Konsol kapanmayacaktır."
 
 #: .\main.py:182
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Kullanıcı arayüzü başlatıldıktan sonra konsol kapanacak."
 
 #: .\main.py:185
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Penceresiz olarak arka planda çalışıyor."
 
 #: .\main.py:203
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "ETS2LA İzleyicisi başlatıldı!"
 
 #: .\main.py:219
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA yeniden başlatılıyor..."
 
 #: .\main.py:225
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Geliştirme modu aktif olduğu için güncelleme atlanıyor."
 
 #: .\main.py:228
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA güncelleniyor..."
 
 #: .\main.py:231
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Güncelleme tamamlandı... yeniden başlatılıyor!"
 
 #: .\main.py:236
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA'da bir sorun oluştu, çökme meydana geldi!"
 
 #: .\main.py:245
 msgid "Send the above traceback to the developers."
 msgstr ""
+"Yukarıdaki hata raporunu (traceback) geliştirici ekibe iletmek üzere "
+"gönderin."
 
 #: .\main.py:247
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA'nın çalışması sona erdi."
 
 #: .\main.py:248
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Çıkmak için Enter tuşuna tıklayın."
