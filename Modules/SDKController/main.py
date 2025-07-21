@@ -99,8 +99,6 @@ class SCSController:
     clutch: float = 0.0
     activate: bool = False
     menu: bool = False
-    engine: bool = False
-    engineelect: bool = False
     ignitionoff: bool = False
     ignitionon: bool = False
     ignitionstrt: bool = False
