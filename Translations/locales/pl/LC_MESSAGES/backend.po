@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-20 13:06+0000\n"
+"PO-Revision-Date: 2025-07-22 14:16+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
@@ -30,7 +30,7 @@ msgstr "Zdarzenie związane z {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr "Odświeżanie joysticków..."
+msgstr "Odświeżanie kontrolerów..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -38,7 +38,7 @@ msgstr "{} połączony."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr "Znaleziony joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
+msgstr "Znaleziony kontroler: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
@@ -97,7 +97,7 @@ msgstr "Plugin nie znaleziony."
 
 #: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin[yellow]{0}[/yellow] uruchomiony poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
@@ -183,7 +183,7 @@ msgstr "Nie udało się pobrać stron"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Nie udało się pobrać danych strony dla strony {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
@@ -322,7 +322,7 @@ msgstr ""
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
 #: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Poprawa błędów"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
@@ -360,7 +360,7 @@ msgstr "{0} i {1}"
 
 #: .\Pages\about.py:83
 msgid "About"
-msgstr ""
+msgstr "Informacje"
 
 #: .\Pages\about.py:85
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
@@ -627,7 +627,7 @@ msgstr "Katalog pluginów"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
-msgstr "Szukaj wtyczek..."
+msgstr "Szukaj pluginów..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
@@ -830,7 +830,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr ""
+msgstr "Wysoki Priorytet"
 
 #: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
