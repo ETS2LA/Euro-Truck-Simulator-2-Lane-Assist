@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-21 14:06+0000\n"
+"PO-Revision-Date: 2025-07-22 16:01+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -1543,7 +1543,7 @@ msgstr[1] "Yeniden başlatın ve {count} güncellemelerini uygulayın"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr "Artırılmış gerçeklik"
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
