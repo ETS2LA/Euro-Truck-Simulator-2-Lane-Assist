@@ -297,9 +297,6 @@ class Page(ETS2LAPage):
                 with Container(styles.FlexVertical() + styles.Gap("5px")):
                     with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
                         Text(plugin.name, styles.Classname("font-semibold"))
-                        if installed:
-                            with Container(styles.Classname("bg-input/30 rounded-md border px-2 py-1 h-min")):
-                                Text(_("Installed"), styles.Classname("text-xs"))
                     Text(plugin.overview, styles.Description())
                 
                 with Container(styles.FlexHorizontal() + styles.Gap("5px")):
@@ -456,10 +453,26 @@ class Page(ETS2LAPage):
         self.want_to_install = False
         with Container(styles.Classname("w-full h-full p-4 gap-4") + styles.FlexVertical()):
             self.header()
+
+            installed_plugins = []
+            not_installed_plugins = []
             for plugin in self.plugins:
                 if self.search_term \
                    and self.search_term not in plugin.name.lower() \
                    and self.search_term not in plugin.overview.lower() \
                    and self.search_term not in plugin.author.lower():
                     continue
-                self.render_plugin_card(plugin)
+                if os.path.exists(f"CataloguePlugins/{plugin.name}"):
+                    installed_plugins.append(plugin)
+                else:
+                    not_installed_plugins.append(plugin)
+            
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0 20px")):
+                Text(_("Installed Plugins"), styles.Classname("font-semibold"))
+                for plugin in installed_plugins:
+                    self.render_plugin_card(plugin)
+            
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0 20px")):
+                Text(_("Available Plugins"), styles.Classname("font-semibold"))
+                for plugin in not_installed_plugins:
+                    self.render_plugin_card(plugin)
