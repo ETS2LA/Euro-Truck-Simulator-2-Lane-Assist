@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-17 13:06+0000\n"
-"Last-Translator: delilevente <delilevente@ets2la.com>\n"
-"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/hu/>\n"
+"PO-Revision-Date: 2025-07-24 17:06+0000\n"
+"Last-Translator: Drk <drk@ets2la.com>\n"
+"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"hu/>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -233,11 +234,14 @@ msgstr "Kérjük várjon amíg inicializáljuk a felhasználói felületett"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "ETS2LA ablak keresése... [dim](10 másodperces időkorlát)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Nem sikerült megtalálni/elindítani az ETS2LA ablakot. Elég erős a "
+"számítógépe? Ha úgy gondolja, hogy képes futtatni a programot, használja az "
+"https://app.ets2la.com oldalt."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
@@ -297,15 +301,15 @@ msgstr "Kínai fordítások, hiba javítások"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatikus offszet számítások a Térkép pluginhoz."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord szerver támogatás, Kínai-Angol fordító fejlesztő."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "CN tükrök karbantartása az ETS2LA szolgáltatásokhoz."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
@@ -318,19 +322,19 @@ msgstr "Hiba javítások"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Az ablaktörlők javítása (5 másodperces időzítő)"
 
 #: .\Pages\about.py:48
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Az ablaktörlők javítása {0} másodperc múlva..."
 
 #: .\Pages\about.py:54 .\Pages\about.py:55
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Ablaktörlők megjavítva."
 
 #: .\Pages\about.py:58
 msgid "Triggering update"
-msgstr ""
+msgstr "Frissítés elindítása"
 
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
@@ -436,11 +440,13 @@ msgstr ""
 
 #: .\Pages\about.py:160
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Ablaktörlők javítása"
 
 #: .\Pages\about.py:161
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Beragadtak az ablaktörlők? Kattints a gombra, és válts át a játékra. 5 "
+"másodperc múlva kikapcsolódnak."
 
 #: .\Pages\about.py:162
 msgid "Activate"
@@ -453,6 +459,8 @@ msgstr "Frissítés kényszerítése"
 #: .\Pages\about.py:168
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Gondolod, hogy frissítésre lett volna szükség? Kattints erre a gombra, és az "
+"alkalmazás újraindul, és ellenőrzi a frissítéseket."
 
 #: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
 msgid "Update"
@@ -460,67 +468,69 @@ msgstr "Frissítés"
 
 #: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
-msgstr ""
+msgstr "Áttekintés nem áll rendelkezésre."
 
 #: .\Pages\catalogue.py:84
 msgid "No description provided."
-msgstr ""
+msgstr "Nincs leírás megadva."
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
-msgstr ""
+msgstr "Telepítés"
 
 #: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "A plugin nem található a katalógusban."
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
-msgstr ""
+msgstr "Repozitórium klónozása"
 
 #: .\Pages\catalogue.py:150
 msgid "Installing requirements"
-msgstr ""
+msgstr "Követelmények telepítése"
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Plugin háttérfolyamat indítása"
 
 #: .\Pages\catalogue.py:157
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"A plugin háttérfolyamatának indítása sikertelen volt, de a plugin fájlok "
+"telepítve lettek."
 
 #: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
 msgid "Success"
-msgstr ""
+msgstr "Siker"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "A '{name}' plugin telepítése sikeresen megtörtént."
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
-msgstr ""
+msgstr "Sikertelen"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "A '{name}' plugin telepítése sikertelen: {error}"
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Plugin folyamatok bezárása"
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "A plugin folyamatok leállítása nem sikerült."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
@@ -528,84 +538,86 @@ msgstr ""
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Plugin fájlok eltávolítása"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Az eltávolítás újbóli megkísérlése ({cur}/{max})"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "A plugin fájlok eltávolítása {max} kísérlet után sem sikerült"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "A '{name}' plugin sikeresen eltávolítva."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "A '{name}' plugin eltávolítása sikertelen: {error}"
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "A plugin forráskódja nem található."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:272
 msgid "Refreshing..."
-msgstr ""
+msgstr "Frissítés..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "{count} plugin található"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
-msgstr ""
+msgstr "Forráskód"
 
 #: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
 msgid "Uninstall"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
 msgid "Install"
-msgstr ""
+msgstr "Telepítés"
 
 #: .\Pages\catalogue.py:355
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Biztosan telepíteni szeretnéd ezt a plugint?"
 
 #: .\Pages\catalogue.py:356
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"Az ETS2LA nem vállal felelősséget harmadik féltől származó pluginok által "
+"okozott problémákért."
 
 #: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: .\Pages\catalogue.py:369
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "{plugin} telepítése"
 
 #: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 #: .\Pages\catalogue.py:379
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "{plugin} eltávolítása"
 
 #: .\Pages\catalogue.py:392
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Biztosan törölni szeretné ezt a plugint?"
 
 #: .\Pages\catalogue.py:409
 msgid "Plugin Catalogue"
-msgstr ""
+msgstr "Plugin katalógus"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
@@ -613,15 +625,15 @@ msgstr "Pluginok keresése..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Frissítés"
 
 #: .\Pages\catalogue.py:426
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Nem található plugin a katalógusban."
 
 #: .\Pages\catalogue.py:429
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Katalógus frissítése"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -669,11 +681,11 @@ msgstr "Összes plugin megtekintése"
 
 #: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Nyomd meg azt a gombot, amelyet ehhez az eseményhez szeretnéd rendelni."
 
 #: .\Pages\controls.py:51
 msgid "Event unbound."
-msgstr ""
+msgstr "Esemény feloldva."
 
 #: .\Pages\controls.py:71
 msgid "Controls"
@@ -681,19 +693,19 @@ msgstr "Vezérlés"
 
 #: .\Pages\controls.py:72
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Itt módosíthatod a bővítmények vezérlőit."
 
 #: .\Pages\controls.py:83
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Keress vezérlőket vagy pluginokat"
 
 #: .\Pages\controls.py:109
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Nincs találat, próbálkozz újra más szűrőkkel."
 
 #: .\Pages\controls.py:141
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Ez az esemény még nem lett eszközhöz rendelve."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:144
@@ -707,6 +719,8 @@ msgstr "Általános beállítások"
 #: .\Pages\global_settings.py:135
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Itt találhatók az egész alkalmazásra hatással lévő beállítások. Ilyenek "
+"például az ablak mérete és a nyelv."
 
 #: .\Pages\global_settings.py:139
 msgid "User Interface"
@@ -727,6 +741,9 @@ msgstr "Ablak magasság"
 #: .\Pages\global_settings.py:154
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Módosítja az ablak magasságát. Felhívjuk figyelmed, hogy az ETS2LA-t nem "
+"tesztelték nem szabványos felbontásokon, ezért használd a saját "
+"felelősséggel!"
 
 #: .\Pages\global_settings.py:164
 msgid "Transparency mode Alpha"
@@ -735,6 +752,8 @@ msgstr "Átlátszó mód alfa"
 #: .\Pages\global_settings.py:165
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Átlátszó módba lépéskor módosítja az ablak átlátszóságát. Ehhez kattints a "
+"jobb felső sarokban található zöld gombra a jobb egérgombbal."
 
 #: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
 msgid "Language"
@@ -767,6 +786,8 @@ msgstr "Hangcsomag"
 #: .\Pages\global_settings.py:207
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Válaszd ki a használni kívánt hangcsomagot. Ezeket az app/ETS2LA/Assets/"
+"Sounds mappába teheted."
 
 #: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
 msgid "Volume"
@@ -795,6 +816,10 @@ msgstr "Visszatérés a régi gyorsítási módszerhez"
 #: .\Pages\global_settings.py:235
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Ha azt tapasztalod, hogy a kamion nem gyorsul/fékez megfelelően, akkor "
+"bekapcsolhatod ezt az opciót, hogy egy másik módszert használjon. Kérjük, "
+"vedd figyelembe, hogy ha az új módszer beakadt, akkor előfordulhat, hogy "
+"újra kell indítanod a játékot, miután átállítottad ezt."
 
 #: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
@@ -803,6 +828,9 @@ msgstr "Magas prioritás"
 #: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Futtasd az ETS2LA-t magas prioritású módban. Ezzel az operációs rendszer "
+"több CPU-időt biztosít az ETS2LA-nak, ami javíthatja a teljesítményt, de más "
+"alkalmazások lassúbbak lehetnek."
 
 #: .\Pages\global_settings.py:257
 msgid "You need to restart ETS2LA to apply the priority change!"
@@ -815,6 +843,10 @@ msgstr "Lassú betöltés"
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Ha a számítógépednek problémája van az összes plugin párhuzamos "
+"betöltésével, akkor engedélyezheted ezt az opciót, hogy egyenként töltsd be "
+"őket. Kérjük, vedd figyelembe, hogy ennek az opciónak az engedélyezése azt "
+"jelenti, hogy egy ideig várnod kell, amíg a pluginok elérhetővé válnak."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
