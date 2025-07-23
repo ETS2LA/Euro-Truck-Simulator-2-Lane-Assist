@@ -466,10 +466,18 @@ class Page(ETS2LAPage):
             
             with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
                 Text(_("Installed Plugins"), styles.Classname("font-semibold"))
-                for plugin in installed_plugins:
-                    self.render_plugin_card(plugin)
+                if not installed_plugins:
+                    with Alert():
+                        Text(_("No plugins are installed."), styles.Description())
+                else:
+                    for plugin in installed_plugins:
+                        self.render_plugin_card(plugin)
             
             with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
                 Text(_("Available Plugins"), styles.Classname("font-semibold"))
-                for plugin in not_installed_plugins:
-                    self.render_plugin_card(plugin)
+                if not not_installed_plugins:
+                    with Alert():
+                        Text(_("You have installed all available plugins."), styles.Description())
+                else:
+                    for plugin in not_installed_plugins:
+                        self.render_plugin_card(plugin)
