@@ -406,10 +406,7 @@ class Page(ETS2LAPage):
         self.search_term = search_term.lower()
     
     def header(self):
-        with Container(styles.FlexHorizontal() + styles.Classname("w-full h-16 items-center justify-between px-2 pr-12")):
-            with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
-                Text(_("Plugin Catalogue"), styles.Title())
-                
+        with Container(styles.FlexHorizontal() + styles.Classname("w-full h-16 items-center justify-between") + styles.Padding("4px 4px 8px 4px")):
             with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
                 Input(
                     _("Search plugins..."),
@@ -467,12 +464,12 @@ class Page(ETS2LAPage):
                 else:
                     not_installed_plugins.append(plugin)
             
-            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0 20px")):
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
                 Text(_("Installed Plugins"), styles.Classname("font-semibold"))
                 for plugin in installed_plugins:
                     self.render_plugin_card(plugin)
             
-            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0 20px")):
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
                 Text(_("Available Plugins"), styles.Classname("font-semibold"))
                 for plugin in not_installed_plugins:
                     self.render_plugin_card(plugin)
