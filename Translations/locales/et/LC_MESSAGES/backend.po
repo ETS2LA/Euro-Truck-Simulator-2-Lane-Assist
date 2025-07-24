@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-20 13:06+0000\n"
-"Last-Translator: Trevor Pilvar <trev@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-24 22:49+0000\n"
+"Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "et/>\n"
 "Language: et\n"
@@ -526,7 +526,7 @@ msgstr "Lisaosa protsesside peatamine nurjus."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Registreerimata giti hoidla"
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
@@ -546,68 +546,68 @@ msgstr "Lisaosa '{name}' eemaldati edukalt."
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Lisaosa '{name}' eemaldamine nurjus: {error}"
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Selle lisaosa lähtekoodi ei leitud."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:272
 msgid "Refreshing..."
-msgstr ""
+msgstr "Värskendattakse..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Leiti {count} lisaosi"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
-msgstr ""
+msgstr "Tagasi"
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
-msgstr ""
+msgstr "Lähtekood"
 
 #: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
 msgid "Uninstall"
-msgstr ""
+msgstr "Kustuta"
 
 #: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
 msgid "Install"
-msgstr ""
+msgstr "Paigalda"
 
 #: .\Pages\catalogue.py:355
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Kas oled kindel, et soovid selle lisaosa installida?"
 
 #: .\Pages\catalogue.py:356
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
-msgstr ""
+msgstr "ETS2LA ei vastuta 3. osapoole lisaosade põhjustatud probleemide eest."
 
 #: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
 msgid "Cancel"
-msgstr ""
+msgstr "Tühistage"
 
 #: .\Pages\catalogue.py:369
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Paigaldamine {plugin}"
 
 #: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
 msgid "Close"
-msgstr ""
+msgstr "Sulge"
 
 #: .\Pages\catalogue.py:379
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Deinstallime {plugin}"
 
 #: .\Pages\catalogue.py:392
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Kas tõesti eemaldada see lisaosa?"
 
 #: .\Pages\catalogue.py:409
 msgid "Plugin Catalogue"
-msgstr ""
+msgstr "Lisaosade kataloog"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
@@ -615,15 +615,15 @@ msgstr "Otsime lisaosi..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Värskenda"
 
 #: .\Pages\catalogue.py:426
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Lisaosate kataloogist lisaosi ei leitud."
 
 #: .\Pages\catalogue.py:429
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Kataloogi värskendamine"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -812,11 +812,15 @@ msgstr "Prioriteetse muudatuse rakendamiseks tuleb ETS2LA uuesti käivitada!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Aeglane laadimine"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Kui teie arvutil on probleeme kõigi lisaosade laadimisega paralleelselt, "
+"saate selle sisse lülitada, et neid ükshaaval laadida. Pange tähele, et "
+"selle valiku lubamine tähendab, et peate ootama kauvem, kuni pluginad "
+"muutuvad kättesaadavaks."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -1219,7 +1223,7 @@ msgstr "Funktsiooni '{0} ei leitud."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Lisaosade laadimine..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
@@ -1416,8 +1420,8 @@ msgstr "Uuenda igal juhul"
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Taaskäivitamine ja {count} värskenduse rakendamine"
+msgstr[1] "Taaskäivita ja rakenda {count} värskendust"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
@@ -2194,26 +2198,30 @@ msgstr "Adaptive Cruise Control on välja lülitatud."
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lähim linn {city} on nüüd {distance} kilomeetri kaugusel."
+msgstr[1] "Lähim linn {city} on nüüd {distance} kilomeetri kaugusel."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kiirusepiirang on nüüd {0} kilomeetrit tunnis."
+msgstr[1] "Kiirusepiirang on nüüd {0} kilomeetrit tunnis."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kütusevaru on nüüd ainult {0} kilomeeter, palun tankige varsti."
+msgstr[1] "Kütusevalik on nüüd ainult {0} kilomeetrit, palun tankige varsti."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Kütusevahemik on nüüd kriitiline ainult {0} kilomeetril, palun tankige nii "
+"kiiresti kui võimalik."
 msgstr[1] ""
+"Kütusevalik on nüüd kriitiline ainult {0} kilomeetritel, palun tankige nii "
+"kiiresti kui võimalik."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
