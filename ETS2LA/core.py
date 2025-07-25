@@ -46,7 +46,7 @@ pygame.init()
 if not check_python_version():
     raise Exception("Python version not supported. Please install 3.11 or 3.12.")
 
-discovery.run()     # Rebind local IP to http://ets2la.local
+discovery.run()     # Rebind local IP to http://ets2la.local:37520
 controls.run()      # Control handlers
 plugins.run()       # Run the plugin handler
 

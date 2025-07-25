@@ -6,7 +6,7 @@ from Plugins.AR.classes import *
 class Renderer(HUDRenderer):
     name = _("Traffic Lights")
     description = _("Draw traffic light information.")
-    fps = 2
+    fps = 1
     
     def __init__(self, plugin):
         super().__init__(plugin)

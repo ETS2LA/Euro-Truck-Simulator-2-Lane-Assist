@@ -691,13 +691,12 @@ class Plugin(ETS2LAPlugin):
             target_speed = smoothed_max_speed
             
         return target_speed
-           
-           
+
     def reset(self) -> None:
         self.controller.aforward = float(0)
         self.controller.abackward = float(0)
 
-
+    set_zero = False
     def set_accel_brake(self, accel:float) -> None:
         is_reversing = False
         if self.api_data:
@@ -722,11 +721,13 @@ class Plugin(ETS2LAPlugin):
         
         if self.accel > 0:
             self.controller.aforward = float(self.accel)
-            if self.speed > 10 / 3.6:
+            if self.speed > 10 / 3.6 and not self.set_zero:
                 self.controller.abackward = float(0)
-            else:
+                self.set_zero = True
+            elif not self.set_zero:
                 self.controller.abackward = float(0.0001)
         else:
+            self.set_zero = False
             self.controller.abackward = float(-self.accel)
             self.controller.aforward = float(0)
                

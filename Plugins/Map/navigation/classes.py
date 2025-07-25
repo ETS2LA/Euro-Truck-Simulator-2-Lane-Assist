@@ -99,7 +99,10 @@ class RouteNode:
         # r r r
         last_lanes = self.get_item_lanes(last.item)
         current_lanes = self.get_item_lanes(self.item)
-        if type(last.item) == Road and type(self.item) == Prefab and len(last_lanes) == len(current_lanes):
+        if type(last.item) == Road and \
+           type(self.item) == Prefab and \
+           len(last_lanes) == len(current_lanes) and \
+           last_lanes[0].length > 80:
             self.lanes = lanes
             self.is_possible = len(lanes) > 0
             return

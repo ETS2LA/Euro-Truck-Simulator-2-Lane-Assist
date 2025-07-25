@@ -87,6 +87,15 @@ def RoadToRouteSection(road: c.Road, lane_index: int, target_lanes: list[int] = 
         return None
     
     route_section.lane_index = lane_index
+    
+    # Prioritize lanes (valid) on the right side of the road
+    if route_section.distance_left(from_index=0) > 200:
+        side = route_section.items[0].item.lanes[lane_index].side
+        if side == "left":
+            target_lanes = [min(target_lanes)]
+        else:
+            target_lanes = [max(target_lanes)]
+    
     route_section.target_lanes = target_lanes
     return route_section
                 
@@ -168,7 +177,7 @@ def GetNextRouteSection(route: list[rc.RouteSection] = []) -> rc.RouteSection:
         next_item = None
         if end_node_is_in_front and start_node_is_in_front:
             return None # We don't need to plan a new route section
-        elif end_node_is_in_front:
+        elif end_node_is_in_front: 
             next_item = data.map.get_item_by_uid(end_node.forward_item_uid)
         elif start_node_is_in_front:
             next_item = data.map.get_item_by_uid(start_node.backward_item_uid)
@@ -458,7 +467,6 @@ def GetNextNavigationItem():
         return RoadToRouteSection(next_item, closest_lane, target_lanes=target_lanes)
     
     if type(next_item) == c.Prefab:
-        
         accepted_lanes = current.lanes
         best_lane = math.inf
         best_distance = math.inf
@@ -552,7 +560,7 @@ def CheckForLaneChange():
         ResetState()
         return
     if current.is_lane_changing:
-        if current.lane_change_factor < 0.6:
+        if current.lane_change_factor < 0.3:
             data.route_plan = [current]
         data.plugin.globals.tags.lane_change_status = f"executing:{current.lane_change_factor}"
         data.plugin.state.text = "Executing lane change..."
@@ -676,7 +684,7 @@ def UpdateRoutePlan():
             was_indicating = False
             
     else: # We have a navigation plan that we can drive on.
-        update = False
+        update = False 
         if len(data.route_plan) == 0:
             data.route_plan.append(GetCurrentNavigationPlan())
             

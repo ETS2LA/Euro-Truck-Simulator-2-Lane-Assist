@@ -9,6 +9,9 @@ class Renderer(HUDRenderer):
     description = _("Draw steering line from Map.")
     fps = 2
     
+    length = 0
+    was_disabled = False
+    
     def __init__(self, plugin):
         super().__init__(plugin)
     
@@ -84,11 +87,26 @@ class Renderer(HUDRenderer):
                 map_status = self.plugin.globals.tags.merge(status)["Map"]
             else:
                 map_status = None
+                
+            if not map_status:
+                self.was_disabled = True
+            elif self.was_disabled:
+                self.fps = 20
+                self.was_disabled = False
+                self.length = 0
 
             if not points or len(points) < 2:
                 self.data = []
                 return
             
+            if len(points) > self.length:
+                self.length += 1
+                self.fps = 20
+            elif len(points) < self.length:
+                self.length = len(points)
+                self.fps = 2
+            
+            points = points[:self.length]
             steering_data = []
             for i, point in enumerate(points):
                 if i == 0:
