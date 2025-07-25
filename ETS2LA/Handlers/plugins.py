@@ -111,6 +111,11 @@ class Plugin:
             name=f"Plugin {self.folder.split('/')[-1]} Process",
         )
         
+        if "description" in self.__dict__:
+            for tag in self.tags:
+                if self.description.id in self.tags[tag]:
+                    self.tags[tag][self.description.id] = {}
+        
         self.process.start()
     
     def __init__(self, folder: str) -> None:
