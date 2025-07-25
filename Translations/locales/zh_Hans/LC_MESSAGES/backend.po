@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-24 17:06+0000\n"
+"PO-Revision-Date: 2025-07-25 21:43+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -412,11 +412,11 @@ msgstr "贡献者名单"
 #: .\Pages\about.py:137 .\Pages\global_settings.py:200
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
-msgstr ""
+msgstr "协助翻译"
 
 #: .\Pages\about.py:141
 msgid "Support Development"
-msgstr ""
+msgstr "支持开发"
 
 #: .\Pages\about.py:144
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
@@ -460,152 +460,152 @@ msgstr "更新"
 
 #: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: .\Pages\catalogue.py:83
 msgid "No overview provided."
-msgstr ""
+msgstr "没有提供描述。"
 
 #: .\Pages\catalogue.py:84
 msgid "No description provided."
-msgstr ""
+msgstr "没有提供描述。"
 
 #: .\Pages\catalogue.py:132
 msgid "Installing"
-msgstr ""
+msgstr "安装中"
 
 #: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "未在目录中找到插件。"
 
 #: .\Pages\catalogue.py:147
 msgid "Cloning repository"
-msgstr ""
+msgstr "克隆存储库"
 
 #: .\Pages\catalogue.py:150
 msgid "Installing requirements"
-msgstr ""
+msgstr "安装需求"
 
 #: .\Pages\catalogue.py:153
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "启动插件加载过程"
 
 #: .\Pages\catalogue.py:157
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr ""
+msgstr "未能启动插件加载过程，但是安装了插件文件。"
 
 #: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
 msgid "Success"
-msgstr ""
+msgstr "完成"
 
 #: .\Pages\catalogue.py:162
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "插件{name}'安装成功。"
 
 #: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
 msgid "Failed"
-msgstr ""
+msgstr "失败"
 
 #: .\Pages\catalogue.py:166
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "安装插件'{name}失败'：错误信息如下{error}"
 
 #: .\Pages\catalogue.py:170
 msgid "Uninstalling"
-msgstr ""
+msgstr "卸载"
 
 #: .\Pages\catalogue.py:185
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "关闭插件加载"
 
 #: .\Pages\catalogue.py:188
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "无法停止插件进程。"
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "未注册的git存储库"
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
-msgstr ""
+msgstr "删除插件文件"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "重试删除（{cur} / {max}）"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "{max}尝试后，无法删除插件文件"
 
 #: .\Pages\catalogue.py:228
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "插件{name}'卸载成功。"
 
 #: .\Pages\catalogue.py:232
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "无法卸载插件'{name}'：错误信息如下{error}"
 
 #: .\Pages\catalogue.py:263
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "找不到此插件的源代码。"
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:272
 msgid "Refreshing..."
-msgstr ""
+msgstr "刷新..."
 
 #: .\Pages\catalogue.py:274
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "找到{count}插件"
 
 #: .\Pages\catalogue.py:314
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: .\Pages\catalogue.py:317
 msgid "Source Code"
-msgstr ""
+msgstr "源代码"
 
 #: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
 msgid "Uninstall"
-msgstr ""
+msgstr "卸载"
 
 #: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
 #: .\Pages\catalogue.py:355
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "您确定要安装此插件吗？"
 
 #: .\Pages\catalogue.py:356
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
-msgstr ""
+msgstr "ETS2LA对第三方插件引起的任何问题概不负责。"
 
 #: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: .\Pages\catalogue.py:369
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "安装 {plugin}"
 
 #: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: .\Pages\catalogue.py:379
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "卸载 {plugin}"
 
 #: .\Pages\catalogue.py:392
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "您确定要卸载此插件吗？"
 
 #: .\Pages\catalogue.py:409
 msgid "Plugin Catalogue"
-msgstr ""
+msgstr "插件目录"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
 msgid "Search plugins..."
@@ -613,35 +613,35 @@ msgstr "搜索插件..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "刷新"
 
 #: .\Pages\catalogue.py:426
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "在插件目录中未找到插件。"
 
 #: .\Pages\catalogue.py:429
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "刷新目录"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
+msgstr[0] "{seconds} 秒之前"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
+msgstr[0] "{minutes} 分之前"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
+msgstr[0] "{hours} 小时之前"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
+msgstr[0] "{days} 天之前"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
@@ -750,7 +750,7 @@ msgstr "在 discord 上帮助我们翻译！"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "此翻译为{百分比:.2f}％完成。"
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
@@ -806,11 +806,12 @@ msgstr "您需要重新启动 ETS2LA 才能应用优先级更改！"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "缓慢加载中"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
-msgstr ""
+msgstr "如果您的电脑在并行加载所有插件时遇到问题，则可以启用此选项让插件顺序加载。请"
+"注意，启用此选项将意味着您必须等待一段时间才能使用插件。"
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -911,15 +912,16 @@ msgstr "您可以在此更改主题！"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "选择语言"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
-msgstr ""
+msgstr "请为ETS2LA选择您首选的语言。以后可以在选项中更改此选项。我们所有的翻译都是社"
+"区提供的！"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "为ETS2LA选择您首选的语言。"
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
@@ -999,7 +1001,7 @@ msgstr "未找到匹配数据"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
-msgstr ""
+msgstr "这"
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
@@ -1213,7 +1215,7 @@ msgstr "未找到功能'{0}'。"
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "插件加载中..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
@@ -1410,55 +1412,63 @@ msgstr "无论如何更新"
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
+msgstr[0] "重启并应用{count}更新"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
+#, fuzzy
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "在此处更改AR覆盖设置。"
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "不要在录制软件中隐藏AR"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"默认情况下，AR覆盖层将在录制软件中隐藏，以防止在ETS2LA使用视觉系统时出现。如"
+"果要录制视频或使用覆盖层进行流式传输，则可能需要启用此选项。"
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "显示测试对象"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "在AR覆盖层中显示测试对象。"
 
 #: .\Plugins\AR\main.py:202
+#, fuzzy
 msgid "Show when not in focus"
-msgstr ""
+msgstr "显示何时不重点"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
-msgstr ""
+msgstr "即使游戏没有焦点，也显示AR覆盖层。这对于更改设置可能很有用。请注意，这也将使A"
+"R以最大的fps运行，这可能会导致一些滞后。"
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "项目：{}"
 
 #: .\Plugins\AR\main.py:212
+#, fuzzy
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "绘制呼叫：{}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "渲染时间：{:.2f} 毫秒"
 
 #: .\Plugins\AR\main.py:221
+#, fuzzy
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
-msgstr ""
+msgstr "AR插件为ETS2LA提供了增强现实覆盖层。它由插件（例如HUD）使用，以在游戏世界中显"
+"示信息。"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1493,15 +1503,16 @@ msgstr "自适应巡航控制系统"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
-msgstr ""
+msgstr "自适应巡航控制（ACC）可根据道路状况和前方的车辆提供自动加速和制动。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:73
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr "自适应巡航控制系统（ACC）可根据从游戏中收集到的信息控制卡车的速度。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
+#, fuzzy
 msgid "Aggressiveness"
-msgstr ""
+msgstr "侵略的"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
@@ -1570,16 +1581,20 @@ msgid "The speed offset to apply to all speedlimits. Please note that you can al
 msgstr "适用于所有限速的速度偏移。请注意，您也可以通过控件中的按键绑定动态更改该值。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
+#, fuzzy
 msgid "PID"
-msgstr ""
+msgstr "进程标识符"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
+#, fuzzy
 msgid "Unlock PID"
-msgstr ""
+msgstr "解锁进程标识符"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
+#, fuzzy
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
-msgstr ""
+msgstr "您可以解锁进程标识符设置以手动调整它们。除非您知道什么是PID以及如何正确调整它"
+"，否则不建议这样做。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
