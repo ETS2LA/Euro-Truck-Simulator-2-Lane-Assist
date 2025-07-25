@@ -89,7 +89,7 @@ def RoadToRouteSection(road: c.Road, lane_index: int, target_lanes: list[int] = 
     route_section.lane_index = lane_index
     
     # Prioritize lanes (valid) on the right side of the road
-    if route_section.distance_left(from_index=0) > 200:
+    if route_section.distance_left(from_index=0) > 200 and target_lanes:
         side = route_section.items[0].item.lanes[lane_index].side
         if side == "left":
             target_lanes = [min(target_lanes)]
