@@ -87,8 +87,15 @@ class Translate:
         
         if found_text:
             translated_strings += 1
+
+        if total_strings > 0:
+            translated_percentage = (translated_strings / total_strings) * 100
+            if translated_percentage > 100.0:
+                translated_percentage = 100.0
+        else:
+            translated_percentage = 0
         
-        return (translated_strings / total_strings) * 100 if total_strings > 0 else 0.0
+        return translated_percentage
 
     def cleanup(self, string: str) -> str:
         """
