@@ -359,30 +359,33 @@ class RouteSection:
         return False
             
     def reset_indicators(self):
-        if data.truck_indicating_left:
-            data.controller.lblinker = True
-            time.sleep(1/20)
-            data.controller.lblinker = False
-            time.sleep(1/20)
-        elif data.truck_indicating_right:
-            data.controller.rblinker = True
-            time.sleep(1/20)
-            data.controller.rblinker = False
-            time.sleep(1/20)
+        if data.enabled:
+            if data.truck_indicating_left:
+                data.controller.lblinker = True
+                time.sleep(1/20)
+                data.controller.lblinker = False
+                time.sleep(1/20)
+            elif data.truck_indicating_right:
+                data.controller.rblinker = True
+                time.sleep(1/20)
+                data.controller.rblinker = False
+                time.sleep(1/20)
     
     def indicate_right(self):
-        if not data.truck_indicating_right:
-            data.controller.rblinker = True
-            time.sleep(1/20)
-            data.controller.rblinker = False
-            time.sleep(1/20)
+        if data.enabled:
+            if not data.truck_indicating_right:
+                data.controller.rblinker = True
+                time.sleep(1/20)
+                data.controller.rblinker = False
+                time.sleep(1/20)
             
     def indicate_left(self):
-        if not data.truck_indicating_left:
-            data.controller.lblinker = True
-            time.sleep(1/20)
-            data.controller.lblinker = False
-            time.sleep(1/20)
+        if data.enabled:
+            if not data.truck_indicating_left:
+                data.controller.lblinker = True
+                time.sleep(1/20)
+                data.controller.lblinker = False
+                time.sleep(1/20)
             
     def get_points(self):
         if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
