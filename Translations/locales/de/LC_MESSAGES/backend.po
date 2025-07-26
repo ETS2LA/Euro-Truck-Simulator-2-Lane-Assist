@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-18 18:29+0000\n"
-"Last-Translator: Veqro <veqro@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-26 15:47+0000\n"
+"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -1302,7 +1302,7 @@ msgstr "Konnte keine Version für {game} finden, überspringe Installation"
 
 #: .\Pages\sdk_installation.py:91
 msgid "Installing SDKs for {game}"
-msgstr "SDKs für {Spiel} installieren"
+msgstr "SDKs für {game} installieren"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
