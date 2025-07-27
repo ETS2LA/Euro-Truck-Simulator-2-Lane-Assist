@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-25 21:43+0000\n"
+"PO-Revision-Date: 2025-07-27 10:12+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -337,12 +337,12 @@ msgstr "触发更新"
 #: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
+msgstr[0] "{0} 分钟"
 
 #: .\Pages\about.py:74 .\Pages\about.py:77
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
+msgstr[0] "{0} 小时"
 
 #: .\Pages\about.py:76
 msgid "{0} and {1}"
@@ -1419,9 +1419,8 @@ msgid "AR"
 msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
-#, fuzzy
 msgid "Change the AR overlay settings here."
-msgstr "在此处更改AR覆盖设置。"
+msgstr "在此处更改AR覆盖层设置。"
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
@@ -1442,9 +1441,8 @@ msgid "Show test objects in the AR overlay."
 msgstr "在AR覆盖层中显示测试对象。"
 
 #: .\Plugins\AR\main.py:202
-#, fuzzy
 msgid "Show when not in focus"
-msgstr "显示何时不重点"
+msgstr "在未对焦时显示"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
@@ -1456,19 +1454,17 @@ msgid "Items: {}"
 msgstr "项目：{}"
 
 #: .\Plugins\AR\main.py:212
-#, fuzzy
 msgid "Draw Calls: {}"
-msgstr "绘制呼叫：{}"
+msgstr "绘制调用：{}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
 msgstr "渲染时间：{:.2f} 毫秒"
 
 #: .\Plugins\AR\main.py:221
-#, fuzzy
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
-msgstr "AR插件为ETS2LA提供了增强现实覆盖层。它由插件（例如HUD）使用，以在游戏世界中显"
-"示信息。"
+msgstr "AR插件为ETS2LA提供了增强现实显示基础层。它被插件（例如HUD）使用，以在游戏世界"
+"中显示信息。"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1510,9 +1506,8 @@ msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on in
 msgstr "自适应巡航控制系统（ACC）可根据从游戏中收集到的信息控制卡车的速度。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
-#, fuzzy
 msgid "Aggressiveness"
-msgstr "侵略的"
+msgstr "激进模式"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
@@ -1581,48 +1576,47 @@ msgid "The speed offset to apply to all speedlimits. Please note that you can al
 msgstr "适用于所有限速的速度偏移。请注意，您也可以通过控件中的按键绑定动态更改该值。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
-#, fuzzy
 msgid "PID"
 msgstr "进程标识符"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
-#, fuzzy
 msgid "Unlock PID"
 msgstr "解锁进程标识符"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
-#, fuzzy
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr "您可以解锁进程标识符设置以手动调整它们。除非您知道什么是PID以及如何正确调整它"
 "，否则不建议这样做。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "PID Kp"
-msgstr ""
+msgstr "保持PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:179
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
-msgstr ""
+msgstr "我们到了吗？ 没有？ 那么我们需要加速更多！ （Pid控制器的比例增益。)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:187
 msgid "PID Ki"
-msgstr ""
+msgstr "PID 积分增益"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:188
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
-msgstr ""
+msgstr "我们已经有一段时间没有去那里了吗？那么我们需要进一步加速！（PID "
+"控制器的积分增益。）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:196
 msgid "PID Kd"
-msgstr ""
+msgstr "PID 微分增益"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:197
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
-msgstr ""
+msgstr "我们接近目标的速度？如果我们走得太快，我们需要减速更多！ "
+"（PID控制器的导数增益。）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
-msgstr ""
+msgstr "该视频直观地解释了 PID 控制器的工作原理。如果您不熟悉它们，请完整观看。"
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1862,11 +1856,11 @@ msgstr "更新当前选择的数据，如果数据已损坏或已更新，这将
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "此数据的下载大小为"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "解压后的大小为"
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
 #: .\Plugins\NGHUD\main.py:227
@@ -2077,15 +2071,15 @@ msgstr "这些呈现器用于绘制非固定元素。这些元素通常是游戏
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "导航 Sockets"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
-msgstr ""
+msgstr "该插件为世界地图上的导航数据提供了一个 WebSocket 服务器。"
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS(文本转语音)"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
@@ -2202,22 +2196,22 @@ msgstr "禁用自适应巡航控制。"
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] ""
+msgstr[0] "最近的城市现在是 {city}，距离 {distance} 公里。"
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
+msgstr[0] "限速改为每小时 {0} 公里。"
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] ""
+msgstr[0] "燃油续航里程现在仅剩{0}公里，请尽快加油。"
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr[0] ""
+msgstr[0] "燃油续航里程现在仅剩最后{0}公里，请速速前往加油站加注燃油。"
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
@@ -2259,80 +2253,87 @@ msgstr "测试模式已启用。这是一条测试信息。"
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "可视化 Sockets"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
+msgstr "该插件为 ETS2LA 可视化提供了一个 websocket 服务器。"
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "主机设备"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"如果您想在当前设备上查看 ETS2LA 可视化，只需打开侧边栏上的“可视化”选项卡，"
+"然后您可以在官方镜像和 Goodnightan 镜像之间进行选择。"
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "您还可以使用以下网站："
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "其他设备"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. 在设备的浏览器中打开以下 链接： "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
-msgstr ""
+msgstr "注意：您必须以 http 而不是 https "
+"的形式加载站点。谷歌浏览器无法直接使用http协议访问网站！"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
-msgstr ""
+msgstr "2. 网站加载后，按红色的“Remote Connection”按钮。如果未连接，请输入以下 IP "
+"地址："
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
-msgstr ""
+msgstr "3. "
+"如果您有任何问题，请验证您的设备是否与主机设备处于同一局域网下。您还应该确保"
+"您的防火墙不会阻止设备之间的连接。"
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
-msgstr ""
+msgstr "找不到您的 IP 地址，这可能是由于网络问题造成的。无法从外部查看可视化。"
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "等待插件启动..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "等待插件加载..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "当前已连接到以下客户端："
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "延迟：{latency：.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "频道：{channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "暂不确定。"
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "当前没有连接的客户端。"
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
-msgstr ""
+msgstr "该插件为 ETS2LA 可视化提供了一个 websocket 服务。"
+"它允许您从其他设备连接到可视化并实时查看 ETS2LA 数据。"
 
 #: .\main.py:105
 msgid "Testing mirrors..."
@@ -2364,7 +2365,7 @@ msgstr "无法连接远程用户界面镜像。本地运行。"
 
 #: .\main.py:172
 msgid "Running UI in China mode"
-msgstr "在中国模式下运行 UI"
+msgstr "使用中国镜像运行UI"
 
 #: .\main.py:174
 msgid "> Using mirror {0} for UI."
