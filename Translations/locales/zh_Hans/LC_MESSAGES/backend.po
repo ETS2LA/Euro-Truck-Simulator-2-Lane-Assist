@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-27 10:12+0000\n"
+"PO-Revision-Date: 2025-07-27 19:45+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -750,7 +750,7 @@ msgstr "在 discord 上帮助我们翻译！"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr "此翻译为{百分比:.2f}％完成。"
+msgstr "此翻译为{percentage:.2f}%完成。"
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
@@ -1173,7 +1173,7 @@ msgstr "使用 ETS2LA 启用自动转向。您可以使用控制设置中的“T
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr "横向控制"
+msgstr "转向控制"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
@@ -1720,7 +1720,7 @@ msgstr "等待变道批准"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr "正在进行车道变更{百分比}%"
+msgstr "正在进行车道变更{percentage}%"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
