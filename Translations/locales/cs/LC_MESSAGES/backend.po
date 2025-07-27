@@ -7,165 +7,179 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-07-27 19:45+0000\n"
+"Last-Translator: bread <bread@ets2la.com>\n"
+"Language-Team: Czech <http://weblate.ets2la.com/projects/ets2la/backend/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Časový limit vypršel, prosím zkuste to znovu."
 
 #: .\ETS2LA\Controls\picker.py:71
+#, fuzzy
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Událost vázaná na {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Obnovení joysticků..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} připojeno."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Joystick nalezen: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} odpojeno."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338 .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Událost s aliasem '{0}' nebyla nalezena."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Při pokusu o úpravu události došlo k výjimce."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Ovládací prvky posluchače spuštěny."
 
 #: .\ETS2LA\Handlers\plugins.py:127
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Plugin {0} se nepodařilo spustit: Časový limit vypršel.\n"
+"Zkuste zavřít ostatní programy, abyste pluginu poskytli více paměti a výkonu "
+"procesoru."
 
 #: .\ETS2LA\Handlers\plugins.py:132
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Plugin {0} nepovedlo zapnout: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:184
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] načetl vpořádku."
 
 #: .\ETS2LA\Handlers\plugins.py:379
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Plugin {0} se nepodařilo načíst popis: Časový limit vypršel."
 
 #: .\ETS2LA\Handlers\plugins.py:383
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Plugin {0} se nepodařilo získat popis: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:417
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Plugin {0} se nepodařilo získat ovládací prvky: Časový limit vypršel."
 
 #: .\ETS2LA\Handlers\plugins.py:421
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Plugin {0} se nepodařilo získat ovládací prvky: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:491
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Načteno {0} pluginů."
 
 #: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin nebyl najít."
 
 #: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] byl úspěšně spuštěn."
 
 #: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Nepodařilo se spustit plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
-msgstr ""
+msgstr "Časový limit"
 
 #: .\ETS2LA\Handlers\plugins.py:598
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin nebyl nalezen, což může být způsobeno selháním pluginu nebo jeho "
+"nenačtením."
 
 #: .\ETS2LA\Handlers\plugins.py:615
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] byl úspěšně zastaven."
 
 #: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Nepodařilo se zastavit plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Nepodařilo se restartovat plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} nebyl nalezen pro stránku {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Stažení knihovny ffmpeg se nezdařilo, stáhněte ji prosím ručně. (tj. [code]"
+"winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "V zvukovém balíčku '{0}' chybí požadovaný zvuk '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Zvukový balíček '{0}' má neplatný typ souboru '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Zvuk '{0}' se nepodařilo přehrát, protože nebyl nalezen ve zvukovém balíčku "
+"'{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Adresa [bold]http://{address}[/bold] byla úspěšně zaregistrována a směřuje "
+"na [dim]{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Při zpracování zprávy došlo k chybě."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Pokusil jsem se odeslat prázdnou stránku."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Spuštěn frontendový popup websocket."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Frontend chce provést aktualizaci."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Nedaří se nastavit průhlednost"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
