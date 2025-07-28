@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-27 19:45+0000\n"
+"PO-Revision-Date: 2025-07-28 14:42+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -2316,7 +2316,7 @@ msgstr "当前已连接到以下客户端："
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr "延迟：{latency：.2f}ms"
+msgstr "延迟：{latency:.2f}毫秒"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
@@ -2385,7 +2385,7 @@ msgstr "在没有窗口的情况下在后台运行。"
 
 #: .\main.py:203
 msgid "ETS2LA Overseer started!"
-msgstr "ETS2LA 监督员启动！"
+msgstr "ETS2LA 控制台已启动！"
 
 #: .\main.py:219
 msgid "ETS2LA is restarting..."
