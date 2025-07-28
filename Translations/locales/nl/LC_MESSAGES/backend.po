@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-18 18:29+0000\n"
-"Last-Translator: hpfrunner <hpfrunner@ets2la.com>\n"
+"PO-Revision-Date: 2025-07-28 14:42+0000\n"
+"Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>"
 "\n"
 "Language: nl\n"
@@ -2371,7 +2371,7 @@ msgstr "De volgende apparaten zijn momenteel verbonden:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr "Latency: {latentie:.2f}ms"
+msgstr "Latency: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
