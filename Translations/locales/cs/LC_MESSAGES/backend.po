@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-27 19:45+0000\n"
+"PO-Revision-Date: 2025-07-29 18:20+0000\n"
 "Last-Translator: bread <bread@ets2la.com>\n"
 "Language-Team: Czech <http://weblate.ets2la.com/projects/ets2la/backend/cs/>"
 "\n"
@@ -183,147 +183,152 @@ msgstr "Nedaří se nastavit průhlednost"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Nepodařilo se získat data tagu."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Nepodařilo se získat stránky"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Nepodařilo se získat data stránky pro stránku {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Nepodařilo se znovu načíst pluginy"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Nepodařilo se sestavit frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Sestavování frontendu... prosím, počkejte..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Nepodařilo se zapnout frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Webserver zapnut na http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend zapnut na http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
-msgstr ""
+msgstr "Záznamy byly inicializovány."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Problémy a varování v log souboru:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Problémy: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Varování: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Žádné varování nebo problémy nebyly nalezeny."
 
 #: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Prosím, počkejte, zatímco inicializujeme uživatelské rozhraní"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr ""
+msgstr "Hledání okna ETS2LA... [dim](10s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:199
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Nepodařilo se najít/spustit okno ETS2LA. Je váš počítač dostatečně výkonný? "
+"Použijte https://app.ets2la.com, pokud si myslíte, že byste to měli být "
+"schopni spustit."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend byl úspěšně spuštěn"
 
 #: .\Pages\about.py:14
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Hlavní vývojář a tvůrce ETS2LA, backend a frontend."
 
 #: .\Pages\about.py:15
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Detekce navigace, detekce semaforů, ETS2LA Lite, 'co-owner'"
 
 #: .\Pages\about.py:16
 msgid "Various additions and improvements, Object Detection AI models & development"
-msgstr ""
+msgstr "Různé přídavky a vylepšení, modely AI pro detekci objektů a vývoj"
 
 #: .\Pages\about.py:17
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Vývojář SDK na straně hry ETS2LA. Vozidla, semafory, data z kamery a další "
+"přímo ze hry."
 
 #: .\Pages\about.py:18
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Extrahování a zpracování herních dat"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Port pro Linux a Unix, různé vylepšení a opravy chyb"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "Vývojář ETS2LA SDK v C++, port pro Linux a Unix, opravy chyb"
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Pomoc s navigací na ETS2LA a mapě"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "Vývojář scs-sdk-controller"
 
 #: .\Pages\about.py:23
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D modely pro vizualizaci"
 
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Vývoj extraktoru dat, podpora pro modifikované mapy."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Čínský překlad, opravy chyb"
 
 #: .\Pages\about.py:26
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Čínské překlady, opravy chyb"
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatické výpočty posunu pro mapový plugin."
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Podpora pro Discord server, vývojář čínského-anglického překladače."
 
 #: .\Pages\about.py:29
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Údržba čínských zrcadel pro služby ETS2LA."
 
 #: .\Pages\about.py:30
 msgid "Game hooks"
-msgstr ""
+msgstr "Herní hooks"
 
 #: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33 .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
 msgid "Bug fixes"
-msgstr ""
+msgstr "Opravy chyb"
 
 #: .\Pages\about.py:43
 msgid "Fixing wipers (5s timer)"
