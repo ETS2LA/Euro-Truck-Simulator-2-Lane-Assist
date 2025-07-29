@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-24 17:06+0000\n"
+"PO-Revision-Date: 2025-07-30 20:06+0000\n"
 "Last-Translator: Drk <drk@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -534,7 +534,7 @@ msgstr "A plugin folyamatok leállítása nem sikerült."
 
 #: .\Pages\catalogue.py:190
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Git-tárhely regisztrációjának törlése"
 
 #: .\Pages\catalogue.py:199
 msgid "Removing plugin files"
@@ -661,11 +661,11 @@ msgstr[1] "{days} napja"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Változásnapló és lehetséges változások lekérése."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Változásnapló letöltve."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:82
 msgid "View Changes"
@@ -674,6 +674,8 @@ msgstr "Változtatások megtekintése"
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Csak az utolsó 20 frissítés jelenik meg. A további előzményekért nézd meg a "
+"github depót."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
@@ -859,6 +861,8 @@ msgstr "Felhasználói felület port"
 #: .\Pages\global_settings.py:271
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
+"A frontend által használt port megváltoztatása. Ez csak helyi módban "
+"használható."
 
 #: .\Pages\global_settings.py:278
 msgid "Frameless Window"
@@ -866,23 +870,25 @@ msgstr "Keret nélküli ablak"
 
 #: .\Pages\global_settings.py:279
 msgid "Disable this option if you have any issues moving the window around."
-msgstr ""
+msgstr "Ha problémát okoz az ablak mozgatása, kapcsold ki ezt az opciót."
 
 #: .\Pages\global_settings.py:284
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Hibaüzenetek elküldése"
 
 #: .\Pages\global_settings.py:285
 msgid "Automatically send crash reports to help improve the application."
-msgstr ""
+msgstr "Hibajelentések automatikus küldése az alkalmazás fejlesztése érdekében."
 
 #: .\Pages\global_settings.py:290
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Használja a részletes visszakeresés funkciót"
 
 #: .\Pages\global_settings.py:291
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr ""
+"Engedélyezze ezt az opciót, ha hiba esetén részletes visszakeresést szeretne "
+"használni."
 
 #: .\Pages\global_settings.py:297
 msgid "Debug Mode"
@@ -891,6 +897,8 @@ msgstr "Debug mód"
 #: .\Pages\global_settings.py:298
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr ""
+"Engedélyezd ezt az opciót, ha a frontendhez az edge debugger-t szeretnéd "
+"használni."
 
 #: .\Pages\global_settings.py:306
 msgid "Fireworks"
@@ -899,6 +907,7 @@ msgstr "Tűzijáték"
 #: .\Pages\global_settings.py:307
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr ""
+"Engedélyezd ezt az opciót, ha újévkor tűzijáték effektusokat szeretnél látni."
 
 #: .\Pages\global_settings.py:313
 msgid "Snow"
@@ -911,6 +920,9 @@ msgstr "Télen engedélyezheted a hó szállingózást a képernyődön."
 #: .\Pages\onboarding.py:54
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
+"Ha már korábban elvégezted az 'onboardingot' (azaz a bevezető/betanítási "
+"folyamatot), akkor tudni fogod, hogyan kell kilépni. Az ETS2LA nem fog "
+"működni, amíg egyszer nem csináltad meg az 'onboardingot'."
 
 #: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
 #: .\Plugins\NGHUD\main.py:380
@@ -927,7 +939,7 @@ msgstr "Köszöntjük az ETS2LA-ban!"
 
 #: .\Pages\onboarding.py:94
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
-msgstr ""
+msgstr "Kezdjük az alapokkal! Nyomjd meg az alábbi gombot a folytatáshoz."
 
 #: .\Pages\onboarding.py:97 .\Pages\onboarding.py:123
 #: .\Pages\onboarding.py:164 .\Pages\onboarding.py:175
@@ -938,12 +950,12 @@ msgstr "Folytatás"
 
 #: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Bevezető kihagyása"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:108
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "Itt megváltoztathatod a témát!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
@@ -952,10 +964,12 @@ msgstr "Nyelv választó"
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Kérjük, válaszd ki az ETS2LA számára kívánt nyelvet. Ez az opció később az "
+"opciók között módosítható. Minden fordításunk közösségi alapú!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Válaszd ki az ETS2LA kívánt nyelvét."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
@@ -964,6 +978,9 @@ msgstr "SDK beállítása"
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"Első lépésként be kell állítanunk az SDK-t. Ez lehetővé teszi az ETS2LA "
+"számára, hogy kommunikáljon a játékkal. A jobb oldalon található játékok "
+"listájából válassz ki egyet, kattints a telepítés gombra, majd folytasd."
 
 #: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
@@ -976,6 +993,9 @@ msgstr "Pluginok"
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"Az ETS2LA a legtöbb funkcióját pluginok segítségével biztosítja. "
+"Választhatsz egyszerű és haladó mód között. Ez később a beállításokban "
+"módosítható."
 
 #: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
@@ -984,14 +1004,23 @@ msgstr "Haladó plugin mód"
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Lehetővé teszi a pluginok fejlett kezelési funkcióinak használatát. Bármikor "
+"megváltoztatható a pluginkezelőben."
 
 #: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"A **Speciális plugin mód** kikapcsolt állapotának fenntartása ajánlott, "
+"azonban a speciális felhasználók, akik maguk szeretnék kiválasztani a "
+"pluginokat, érdemes lehet engedélyezni."
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**A haladó plugin mód** lehetővé teszi az engedélyezett pluginok kézi "
+"vezérlését. Ezenkívül lehetővé teszi további pluginok letöltését más "
+"tárolókból. Ne feledd, hogy ezeket a harmadik féltől származó pluginokat az "
+"ETS2LA *hivatalosan* nem támogatja."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
@@ -1000,10 +1029,15 @@ msgstr "Magas prioritási mód"
 #: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"Az ETS2LA automatikusan jelzi az operációs rendszernek, hogy magas "
+"prioritású módban kell futnia. Ez különösen alacsonyabb kategóriájú eszközök "
+"esetén ajánlott."
 
 #: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"A beállítások végrehajtása után újra kell indítanod az ETS2LA programot, "
+"hogy a változások érvénybe lépjenek."
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
@@ -1012,6 +1046,10 @@ msgstr "Térkép adat"
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"Az ETS2LA a játékból előre kivont térképadatokat használ. Mi előzetesen "
+"feldolgozzuk az adatokat, Te pedig csak letöltöd azokat, amikor szükséged "
+"van rájuk. Válaszd ki az alábbiak közül a jelenlegi játékverzióhoz szükséges "
+"adatokat."
 
 #: .\Pages\onboarding.py:242
 #, fuzzy
@@ -1024,7 +1062,7 @@ msgstr "Kiválasztott adat"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Válaszd ki a játékodhoz és modjaidhoz illő adatokat."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
@@ -1044,11 +1082,11 @@ msgstr "Letöltési méret"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr ""
+msgstr "ezek az adatok"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr ""
+msgstr "amely kibontásra kerül egy"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
@@ -1056,11 +1094,11 @@ msgstr "Teljes méret"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
-msgstr ""
+msgstr "Nincs adat kiválasztva"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
-msgstr ""
+msgstr "Válaszd ki a használni kívánt adatokat a fenti legördülő menüből."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
@@ -1069,6 +1107,9 @@ msgstr "Ablak mérete"
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"Az ETS2LA megkerüli a Windows rendszert, hogy egyedi ablakfunkciókat "
+"biztosítson. Emiatt az ablak mérete nem módosítható a szokásos módon. Ezek a "
+"csúszkák az ablak méretének kézi megváltoztatására szolgálnak."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
@@ -1084,6 +1125,10 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Az ablak méretének megváltoztatása az oldalak helytelen megjelenését "
+"okozhatja**.\n"
+"Az ablak méretét a bal CTRL gomb lenyomva tartásával és a görgő "
+"használatával állíthatod be."
 
 #: .\Pages\onboarding.py:343
 msgid "Window Controls"
@@ -1092,6 +1137,9 @@ msgstr "Ablak vezérlés"
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"Az ETS2LA egyedi ablakvezérlőket biztosít, amelyek hasznosak lehetnek "
+"számodra. Ezek a jobb felső sarokban található zöld gomb segítségével "
+"érhetők el."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -1100,6 +1148,9 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Maradjon a felül**\n"
+"\n"
+"A zöld gombra kattintva az ETS2LA ablak a többi ablak felett marad."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:368
@@ -1108,18 +1159,24 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Átlátszóság**\n"
+"\n"
+"A zöld gombra kattintva az ETS2LA ablakot kissé átlátszóvá teheti. Az "
+"átlátszóság mértékét a beállításokban lehet módosítani."
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
-msgstr ""
+msgstr "Ez az a zöld gomb!"
 
 #: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Bevezető befejezve!"
 
 #: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Sikeresen befejezted a bevezető folyamatot. Mostantól használhatod az ETS2LA-"
+"t. Ha segítségre van szükséged, csatlakozz Discord szerverünkhöz."
 
 #: .\Pages\onboarding.py:388
 msgid "Finish"
@@ -1131,6 +1188,8 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Nyomd meg ezt a szélét az oldalsáv megnyitásához és bezárásához.\n"
+"      Nyisd meg a Kezelőt a pluginok engedélyezéséhez."
 
 #: .\Pages\onboarding.py:429
 msgid "Page not found"
@@ -1147,6 +1206,8 @@ msgstr "Rendszer"
 #: .\Pages\performance.py:97
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Az adatok gyűjtése még folyamatban van, várj néhány másodpercet, amíg a "
+"grafikonok stabilizálódnak."
 
 #: .\Pages\performance.py:103
 msgid "CPU Usage"
@@ -1170,19 +1231,21 @@ msgstr "ETS2LA RAM Használata.  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:371
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "Jelenleg nincs futó plugin."
 
 #: .\Pages\performance.py:172
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Figyelem: A grafikon még adatokat gyűjt, várj 60 másodpercet, amíg "
+"stabilizálódik."
 
 #: .\Pages\performance.py:190
 msgid "Failed to render plugin {plugin_name}."
-msgstr ""
+msgstr "A {plugin_name} plugin renderelése sikertelen."
 
 #: .\Pages\performance.py:194
 msgid "All displayed data is averaged over a second."
-msgstr ""
+msgstr "Az összes megjelenített adat egy másodperc alatt átlagolt."
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
