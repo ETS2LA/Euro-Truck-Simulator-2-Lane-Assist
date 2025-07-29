@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-28 14:42+0000\n"
+"PO-Revision-Date: 2025-07-29 18:20+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -794,7 +794,7 @@ msgstr "如果您遇到卡车无法正常加速/制动的问题，那么您可�
 
 #: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr "高度优先"
+msgstr "高优先级"
 
 #: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
@@ -957,7 +957,9 @@ msgstr "建议禁用 \"高级插件模式 \"**，但希望自行选择插件的�
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
-msgstr "**高级插件模式**可对启用的插件进行手动控制。它还允许您从其他软件源下载更多插件。请注意，这些第三方插件并非由 ETS2LA 官方*支持。"
+msgstr ""
+"**高级插件模式**可对启用的插件进行手动控制。它还允许您从其他软件源下载更多插"
+"件。请注意，这些第三方插件并非由 *ETS2LA 官方* 支持。"
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
@@ -1001,7 +1003,7 @@ msgstr "未找到匹配数据"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
-msgstr "这"
+msgstr "该数据"
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
@@ -1009,15 +1011,15 @@ msgstr "下载大小"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr "该数据的"
+msgstr "为"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr "这将解压缩为"
+msgstr "解压之后"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
-msgstr "总大小"
+msgstr "总大小为"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
@@ -1067,9 +1069,9 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
-"**保持领先地位**\n"
+"**置顶**\n"
 "\n"
-"您可以*左击*绿色按钮，使 ETS2LA 窗口位于其他窗口之上。"
+"鼠标*左键*绿色按钮，使 ETS2LA 窗口位于其他窗口之上。"
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:368
@@ -1080,7 +1082,7 @@ msgid ""
 msgstr ""
 "**透明度**\n"
 "\n"
-"您可以*右击*绿色按钮，使 ETS2LA 窗口略微透明。透明度的大小可在设置中调整。"
+"鼠标*右键*绿色按钮，使 ETS2LA 窗口略微透明。透明度的大小可在设置中调整。"
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
@@ -1165,7 +1167,7 @@ msgstr "该页面渲染耗时 {time:.2f} ms。"
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr "转向"
+msgstr "转向控制"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
@@ -1173,7 +1175,7 @@ msgstr "使用 ETS2LA 启用自动转向。您可以使用控制设置中的“T
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr "转向控制"
+msgstr "速度控制"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
@@ -2071,7 +2073,7 @@ msgstr "这些呈现器用于绘制非固定元素。这些元素通常是游戏
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr "导航 Sockets"
+msgstr "导航"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
@@ -2253,7 +2255,7 @@ msgstr "测试模式已启用。这是一条测试信息。"
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr "可视化 Sockets"
+msgstr "可视化"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
