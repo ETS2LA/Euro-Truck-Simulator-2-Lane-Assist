@@ -24,17 +24,10 @@ class SettingsMenu(ETS2LAPage):
     
     def handle_speed_offset_type(self, value):
         settings.Set("AdaptiveCruiseControl", "speed_offset_type", value)
-        
-        if value == "Percentage":
-            settings.Set("AdaptiveCruiseControl", "speed_offset", 0)
-        else:
-            settings.Set("AdaptiveCruiseControl", "speed_offset", 0)
-            
+        settings.Set("AdaptiveCruiseControl", "speed_offset", 0)
+
     def handle_speed_offset(self, value):
-        if settings.Get("AdaptiveCruiseControl", "speed_offset_type") == "Percentage":
-            settings.Set("AdaptiveCruiseControl", "speed_offset", value)
-        else:
-            settings.Set("AdaptiveCruiseControl", "speed_offset", value)
+        settings.Set("AdaptiveCruiseControl", "speed_offset", value)
             
     def handle_coefficient_of_friction(self, value):
         settings.Set("AdaptiveCruiseControl", "MU", value)
@@ -141,28 +134,16 @@ class SettingsMenu(ETS2LAPage):
                             description=_("Select the type of speed offset to apply."),
                         )
                         
-                        if speed_offset_type == "Percentage":
-                            SliderWithTitleDescription(
-                                title=_("Speed Offset"),
-                                description=_("The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."),
-                                min=-30,
-                                max=30,
-                                step=1,
-                                default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
-                                changed=self.handle_speed_offset,
-                                suffix="%",
-                            )
-                        else:
-                            SliderWithTitleDescription(
-                                title=_("Speed Offset"),
-                                description=_("The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."),
-                                min=-30,
-                                max=30,
-                                step=1,
-                                default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
-                                changed=self.handle_speed_offset,
-                                suffix="km/h",
-                            )
+                        SliderWithTitleDescription(
+                            title=_("Speed Offset"),
+                            description=_("The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."),
+                            min=-30,
+                            max=30,
+                            step=1,
+                            default=settings.Get("AdaptiveCruiseControl", "speed_offset"),
+                            changed=self.handle_speed_offset,
+                            suffix="%" if speed_offset_type == "Percentage" else "km/h",
+                        )
                             
             with Tab(_("PID"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 unlocked = settings.Get("AdaptiveCruiseControl", "unlock_pid", False)
