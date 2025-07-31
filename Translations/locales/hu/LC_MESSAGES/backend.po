@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-30 20:06+0000\n"
+"PO-Revision-Date: 2025-08-01 13:06+0000\n"
 "Last-Translator: Drk <drk@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -1249,7 +1249,7 @@ msgstr "Az összes megjelenített adat egy másodperc alatt átlagolt."
 
 #: .\Pages\performance.py:195
 msgid "This page took {time:.2f} ms to render."
-msgstr ""
+msgstr "Ez az oldal {time:.2f} ms alatt töltődött be."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
@@ -1261,11 +1261,14 @@ msgstr ""
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr ""
+msgstr "Oldalirányú vezérlés"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Az ETS2LA segítségével engedélyezheted az automatikus gyorsítást és "
+"lassítást. A vezérlőbeállítások 'Sebességszabályozás'gombjával kapcsolható "
+"be és ki."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
@@ -1277,6 +1280,9 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Engedélyezze a vizualizációs fül működéséhez szükséges pluginokat.\n"
+"\n"
+"**Ez szükséges a vizualizációs fül működéséhez.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
@@ -1285,30 +1291,39 @@ msgstr "HUD"
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
+"Engedélyezze a HUD-ot, hogy információkat jelenítsen meg a teherautóról és "
+"az útvonalról. A játék képernyőjének tetején jelenik meg, pontos 3D-s térkép "
+"segítségével."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
-msgstr ""
+msgstr "Szövegfelolvasás"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"A szövegfelolvasás funkció engedélyezése az értesítések és riasztások "
+"esetében. Ez elsősorban egy akadálymentesítési funkció, de egyesek "
+"hasznosnak találhatják."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
-msgstr ""
+msgstr "A '{0}' funkció nem található."
 
 #: .\Pages\plugins.py:235
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Pluginok betöltése..."
 
 #: .\Pages\plugins.py:248
 msgid "Plugins (Basic)"
-msgstr ""
+msgstr "Pluginok (alap)"
 
 #: .\Pages\plugins.py:249
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"A jobb oldalon különböző ETS2LA funkciókat engedélyezhetsz. Az ezekkel a "
+"funkciókkal leírt összes plugin automatikusan engedélyezésre kerül, további "
+"konfigurálás nélkül."
 
 #: .\Pages\plugins.py:257
 msgid "Disable Plugins"
@@ -1320,7 +1335,7 @@ msgstr "Pluginok engedélyezése"
 
 #: .\Pages\plugins.py:260
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "Jelenleg engedélyezett pluginok:"
 
 #: .\Pages\plugins.py:260
 msgid "None"
@@ -1340,23 +1355,23 @@ msgstr "Váltás haladó módra"
 
 #: .\Pages\plugins.py:321
 msgid "Search tags..."
-msgstr ""
+msgstr "Keresési címkék..."
 
 #: .\Pages\plugins.py:322
 msgid "No tags found"
-msgstr ""
+msgstr "Címke nem található"
 
 #: .\Pages\plugins.py:331
 msgid "Search authors..."
-msgstr ""
+msgstr "Szerzők keresése..."
 
 #: .\Pages\plugins.py:332
 msgid "No authors found"
-msgstr ""
+msgstr "Nem található szerző"
 
 #: .\Pages\plugins.py:336
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Vissza az alap módhoz"
 
 #: .\Pages\plugins.py:367
 msgid "Running Plugins"
@@ -1364,11 +1379,11 @@ msgstr "Futó pluginok"
 
 #: .\Pages\plugins.py:374
 msgid "Want to enable the plugins you had running last time?"
-msgstr ""
+msgstr "Szeretnéd engedélyezni a legutóbb futtatott pluginokat?"
 
 #: .\Pages\plugins.py:376
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Utolsó pluginok engedélyezése"
 
 #: .\Pages\plugins.py:382
 msgid "Available Plugins"
@@ -1376,71 +1391,78 @@ msgstr "Elérhető pluginok"
 
 #: .\Pages\sdk_installation.py:86
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "Nem található verzió a {game} számára, a telepítés kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:91
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "SDK-k telepítése a {game} számára"
 
 #: .\Pages\sdk_installation.py:99
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "A {game} SDK-k sikeresen telepítve."
 
 #: .\Pages\sdk_installation.py:101
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "A {game} SDK-k már telepítve vannak, a telepítés kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
 msgid "Please make sure the game is closed and try again. {error}"
 msgstr ""
+"Győződj meg arról, hogy a játék be van zárva, majd próbáld meg újra. {error}"
 
 #: .\Pages\sdk_installation.py:104
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Hiba történt a {game} SDK-k telepítésekor, győződj meg arról, hogy a játék "
+"be van zárva."
 
 #: .\Pages\sdk_installation.py:109
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr ""
+msgstr "Nem található verzió a {game} számára, az eltávolítás kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:114
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "{game} SDK-k eltávolítása"
 
 #: .\Pages\sdk_installation.py:119
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "A {game} SDK-k sikeresen eltávolítva."
 
 #: .\Pages\sdk_installation.py:121
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "A {game} SDK-k nincsenek telepítve, az eltávolítás kihagyásara kerül"
 
 #: .\Pages\sdk_installation.py:124
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Hiba történt a {game} SDK-k eltávolításakor. Győződj meg arról, hogy a játék "
+"be van zárva."
 
 #: .\Pages\sdk_installation.py:127
 msgid "Select the game directory"
-msgstr ""
+msgstr "Válaszd ki a játék könyvtárát"
 
 #: .\Pages\sdk_installation.py:130
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr ""
+"Nem található a kiválasztott játék verziója, válassz egy érvényes játék "
+"könyvtárat."
 
 #: .\Pages\sdk_installation.py:131
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "Nem található verzió a {path} útvonalon, a telepítés kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Megtalált játékverzió {verzió}."
 
 #: .\Pages\sdk_installation.py:142
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "A {path} elérési út nem létezik."
 
 #: .\Pages\sdk_installation.py:148
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
-msgstr ""
+msgstr "Ellenőrizd, hogy telepítetted-e a játékhoz szükséges DLL-fájlokat."
 
 #: .\Pages\sdk_installation.py:156
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
@@ -1448,7 +1470,7 @@ msgstr "Mi nem talátunk semmilyen SCS játékot a te rendszereden. Kérünk ved
 
 #: .\Pages\sdk_installation.py:158
 msgid "Select directory manually"
-msgstr ""
+msgstr "Válaszd ki a könyvtárat manuálisan"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
@@ -1464,11 +1486,11 @@ msgstr "Ez a játék verzió nem támogatott"
 
 #: .\Pages\sdk_installation.py:210
 msgid "No files found."
-msgstr ""
+msgstr "Fájlok nem találhatók."
 
 #: .\Pages\sdk_installation.py:221
 msgid "File Sources"
-msgstr ""
+msgstr "Fájlforrások"
 
 #: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
 msgid "Uninstall SDKs"
@@ -1480,7 +1502,7 @@ msgstr "SDK(ák) letöltése"
 
 #: .\Pages\sdk_installation.py:237
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Zárd be a játékot az SDK-k telepítése vagy eltávolítása előtt."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
@@ -1489,10 +1511,12 @@ msgstr ""
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Nincs frissítés. (Az oldal frissítése új commit után akár egy percig is "
+"eltarthat.)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Frissítés mindenképpen"
 
 #: .\Pages\updater.py:55
 #, fuzzy
@@ -1507,7 +1531,7 @@ msgstr "AR (Kiterjesztett valóság)"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Itt módosíthatod az AR-átfedés beállításait."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
