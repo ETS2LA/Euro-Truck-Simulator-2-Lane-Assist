@@ -21,9 +21,8 @@ class Page(ETS2LAPage):
         while True:
             # This is an old way of getting cpu usage, complicated and not cross-platform
             # Switched mainly because it would throw errors about AddCounter not existing on some PCs
-            '''
-            # This is some windows black magic... don't ask
-            path = r"\Processor(_Total)\% Processor Time"
+            #path = r"\Processor(_Total)\% Processor Time" (This needs its own comment to prevent invalid escape warnings)
+            ''' 
             hq = win32pdh.OpenQuery()
             hc = win32pdh.AddCounter(hq, path)
 
