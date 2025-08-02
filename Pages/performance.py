@@ -18,28 +18,27 @@ class Page(ETS2LAPage):
     ets2la_mem_usage : list[float] = []
     
     def cpu_thread(self):
-        try:
-            while True:
-                # This is some windows black magic... don't ask
-                path = r"\Processor(_Total)\% Processor Time"
-                hq = win32pdh.OpenQuery()
-                hc = win32pdh.AddCounter(hq, path)
+        while True:
+            # This is an old way of getting cpu usage, complicated and not cross-platform
+            # Switched mainly because it would throw errors about AddCounter not existing on some PCs
+            '''
+            # This is some windows black magic... don't ask
+            path = r"\Processor(_Total)\% Processor Time"
+            hq = win32pdh.OpenQuery()
+            hc = win32pdh.AddCounter(hq, path)
 
-                win32pdh.CollectQueryData(hq)
-                time.sleep(1)
-                win32pdh.CollectQueryData(hq)
-                
-                # Get formatted value
-                _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
-                self.cpu_usage.append(round(val, 1))
-                
-                if len(self.cpu_usage) > 60:
-                    self.cpu_usage.pop(0)
-        except pywintypes.error as e:
-            self.cpu_usage = []
-            return # Windows just decides that AddCounter doesn't exist on some PCs.... smh
-        except Exception as e:
-            print(e)
+            win32pdh.CollectQueryData(hq)
+            time.sleep(1)
+            win32pdh.CollectQueryData(hq)
+            
+            # Get formatted value
+            _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
+            '''
+            val = psutil.cpu_percent(interval=1)
+            self.cpu_usage.append(round(val, 1))
+            
+            if len(self.cpu_usage) > 60:
+                self.cpu_usage.pop(0)
     
     def get_all_python_process_mem_usage_percent(self):
         total = 0
