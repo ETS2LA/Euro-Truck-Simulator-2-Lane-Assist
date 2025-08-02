@@ -1,6 +1,7 @@
 from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
+import pywintypes
 import threading
 import win32pdh
 import psutil
@@ -12,27 +13,33 @@ class Page(ETS2LAPage):
     
     first_times = {}
     
-    cpu_usage = []
-    ram_usage = []
-    ets2la_mem_usage = []
+    cpu_usage : list[float] = []
+    ram_usage : list[float] = []
+    ets2la_mem_usage : list[float] = []
     
     def cpu_thread(self):
-        while True:
-            # This is some windows black magic... don't ask
-            path = r"\Processor(_Total)\% Processor Time"
-            hq = win32pdh.OpenQuery()
-            hc = win32pdh.AddCounter(hq, path)
-            
-            win32pdh.CollectQueryData(hq)
-            time.sleep(1)
-            win32pdh.CollectQueryData(hq)
-            
-            # Get formatted value
-            _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
-            self.cpu_usage.append(round(val, 1))
-            
-            if len(self.cpu_usage) > 60:
-                self.cpu_usage.pop(0)
+        try:
+            while True:
+                # This is some windows black magic... don't ask
+                path = r"\Processor(_Total)\% Processor Time"
+                hq = win32pdh.OpenQuery()
+                hc = win32pdh.AddCounter(hq, path)
+
+                win32pdh.CollectQueryData(hq)
+                time.sleep(1)
+                win32pdh.CollectQueryData(hq)
+                
+                # Get formatted value
+                _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
+                self.cpu_usage.append(round(val, 1))
+                
+                if len(self.cpu_usage) > 60:
+                    self.cpu_usage.pop(0)
+        except pywintypes.error as e:
+            self.cpu_usage = []
+            return # Windows just decides that AddCounter doesn't exist on some PCs.... smh
+        except Exception as e:
+            print(e)
     
     def get_all_python_process_mem_usage_percent(self):
         total = 0
