@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-29 18:20+0000\n"
+"PO-Revision-Date: 2025-08-02 16:04+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -806,7 +806,7 @@ msgstr "您需要重新启动 ETS2LA 才能应用优先级更改！"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr "缓慢加载中"
+msgstr "缓慢加载"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
@@ -903,7 +903,7 @@ msgstr "继续"
 
 #: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
-msgstr "跳过入职培训"
+msgstr "跳过新手引导"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:108
@@ -2351,7 +2351,7 @@ msgstr " - 在 (TIMEOUT) 内到达 {0}"
 
 #: .\main.py:134
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr " -- 运行子模块的下载后操作：  接口 -- "
+msgstr " 执行子模块 Interface 的下载后的 操作——编译。 "
 
 #: .\main.py:152
 msgid "Running ETS2LA in development mode."
@@ -2359,7 +2359,7 @@ msgstr "在开发者模式下运行 ETS2LA。"
 
 #: .\main.py:156
 msgid "Running UI locally"
-msgstr "本地运行用户界面"
+msgstr "在本地运行用户界面"
 
 #: .\main.py:161
 msgid "No connection to remote UI mirrors. Running locally."
