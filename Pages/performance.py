@@ -6,6 +6,7 @@ import threading
 import win32pdh
 import psutil
 import time
+import os
 
 class Page(ETS2LAPage):
     url = "/performance"
@@ -18,24 +19,27 @@ class Page(ETS2LAPage):
     ets2la_mem_usage : list[float] = []
     
     def cpu_thread(self):
+        use_fallback = os.name != 'nt' # Linux automatically uses the fallback
         while True:
-            # This is an old way of getting cpu usage, complicated and not cross-platform
-            # Switched mainly because it would throw errors about AddCounter not existing on some PCs
-            #path = r"\Processor(_Total)\% Processor Time" (This needs its own comment to prevent invalid escape warnings)
-            ''' 
-            hq = win32pdh.OpenQuery()
-            hc = win32pdh.AddCounter(hq, path)
+            if not use_fallback:
+                try:
+                    path = r"\Processor(_Total)\% Processor Time"
+                    hq = win32pdh.OpenQuery()
+                    hc = win32pdh.AddCounter(hq, path)
 
-            win32pdh.CollectQueryData(hq)
-            time.sleep(1)
-            win32pdh.CollectQueryData(hq)
-            
-            # Get formatted value
-            _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
-            '''
-            val = psutil.cpu_percent(interval=1)
+                    win32pdh.CollectQueryData(hq)
+                    time.sleep(1)
+                    win32pdh.CollectQueryData(hq)
+                    
+                    # Get formatted value
+                    _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
+                except pywintypes.error:
+                    use_fallback = True # Use the fallback if Windows says that AddCounter doesn't exist
+                    continue
+            else:
+                val = psutil.cpu_percent(interval=1) # Can be a little less accurate
+
             self.cpu_usage.append(round(val, 1))
-            
             if len(self.cpu_usage) > 60:
                 self.cpu_usage.pop(0)
     
