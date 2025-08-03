@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-08-02 16:04+0000\n"
+"PO-Revision-Date: 2025-08-03 02:07+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -766,7 +766,7 @@ msgstr "选择要使用的音效包，这些音效包可添加到 app/ETS2LA/Ass
 
 #: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr "卷"
+msgstr "大小"
 
 #: .\Pages\global_settings.py:215
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
@@ -1794,7 +1794,7 @@ msgstr "启用 ETS2LA 的自动导航功能。"
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr "发送海拔"
+msgstr "显示高程数据"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
@@ -1997,7 +1997,7 @@ msgstr "请启用插件以编辑设置。"
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\NGHUD\ui.py:107
 msgid "Transform"
-msgstr "变换"
+msgstr "位置"
 
 #: .\Plugins\NGHUD\ui.py:110
 msgid "The horizontal offset of the HUD."
