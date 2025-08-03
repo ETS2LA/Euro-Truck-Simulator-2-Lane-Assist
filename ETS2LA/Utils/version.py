@@ -45,7 +45,7 @@ def CheckForUpdate():
         
         origin = repo.remotes.origin
         try:
-            origin_state = origin.fetch(kill_after_timeout=2)
+            origin_state = origin.fetch(kill_after_timeout=4)
         except Exception as e:
             logging.warning(f"Unable to fetch origin: {e}\nUpdate check will be skipped.")
             return False
