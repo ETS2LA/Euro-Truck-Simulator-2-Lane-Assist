@@ -48,6 +48,7 @@ from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 from ETS2LA.Utils.shell import ExecuteCommand
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Networking.cloud as cloud
+import ETS2LA.variables as variables
 
 import multiprocessing
 import traceback
@@ -58,10 +59,6 @@ import time
 import git
 
 LOG_FILE_FOLDER = "logs"
-FRONTEND_MIRRORS = [
-    "https://app.ets2la.com",
-    "https://app.ets2la.cn",
-]
 
 def close_node() -> None:
     if os.name == "nt":
@@ -104,7 +101,7 @@ def get_current_version_information() -> dict:
 def get_fastest_mirror() -> str:
     print(_("Testing mirrors..."))
     response_times = {}
-    for mirror in FRONTEND_MIRRORS:
+    for mirror in variables.FRONTEND_MIRRORS:
         try:
             start = time.perf_counter()
             requests.get(mirror, timeout=5)
