@@ -35,9 +35,9 @@ import ETS2LA.Utils.listener as listener
 from ETS2LA.Utils.Console.visibility import RestoreConsole
 from ETS2LA.Utils.version import check_python_version
 import ETS2LA.Networking.cloud as cloud
+import ETS2LA.variables as variables
 
 # Misc
-import ETS2LA.variables as variables
 import pygame
 import time
 

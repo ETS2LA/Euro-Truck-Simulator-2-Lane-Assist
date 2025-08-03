@@ -91,6 +91,9 @@ class Page(ETS2LAPage):
 
     def handle_frontend_mirror_change(self, mirror: str):
         utils_settings.Set("global", "frontend_mirror", mirror)
+    
+    def handle_window_timeout_change(self, window_timeout: int):
+        utils_settings.Set("global", "window_timeout", window_timeout)
         
     def handle_fireworks_change(self, *args):
         if args:
@@ -312,6 +315,16 @@ class Page(ETS2LAPage):
                     options=["Auto", *variables.FRONTEND_MIRRORS],
                     default=utils_settings.Get("global", "frontend_mirror", default="Auto"), # type: ignore
                     changed=self.handle_frontend_mirror_change
+                )
+
+                SliderWithTitleDescription(
+                    title=_("ETS2LA Window Timeout"),
+                    description=_("The amount of time ETS2LA waits for the window to show up."),
+                    default=utils_settings.Get("global", "window_timeout", default=10), # type: ignore
+                    min=1,
+                    max=30,
+                    step=1,
+                    changed=self.handle_window_timeout_change
                 )
                 
                 Separator()

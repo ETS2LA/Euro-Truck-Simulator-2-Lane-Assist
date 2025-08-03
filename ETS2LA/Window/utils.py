@@ -187,7 +187,8 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         "light": 0xFFFFFF
     }
 
-    logging.info(_("Looking for ETS2LA window... [dim](10s timeout)[/dim]"))
+    timeout = settings.Get("global", "window_timeout", 10)
+    logging.info(_("Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]").format(timeout=timeout))
     while returnCode != 0:
         time.sleep(0.01)
         
@@ -195,7 +196,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
         
         set_window_icon(variables.ICONPATH)
-        if time.perf_counter() - sinceStart > 10:
+        if time.perf_counter() - sinceStart > timeout:
             logging.error(_("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."))
             dont_check_window_open = True
             break
