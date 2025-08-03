@@ -49,6 +49,7 @@ from ETS2LA.Utils.shell import ExecuteCommand
 from ETS2LA.Utils.Console.colors import *
 import ETS2LA.Networking.cloud as cloud
 import ETS2LA.variables as variables
+from ETS2LA.Utils import settings
 
 import multiprocessing
 import traceback
@@ -99,24 +100,29 @@ def get_current_version_information() -> dict:
         }
 
 def get_fastest_mirror() -> str:
-    print(_("Testing mirrors..."))
-    response_times = {}
-    for mirror in variables.FRONTEND_MIRRORS:
-        try:
-            start = time.perf_counter()
-            requests.get(mirror, timeout=5)
-            end = time.perf_counter()
-            response_times[mirror] = end - start
-            print(_("- Reached {0} in {1:.0f}ms").format(
-                YELLOW + mirror + END, 
-                response_times[mirror] * 1000
-            ))
-        except requests.RequestException:
-            response_times[mirror] = float('inf')
-            print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
-        
-    fastest_mirror = min(response_times, key=response_times.get)
-    return fastest_mirror
+    if settings.Get("global", "frontend_mirror", "Auto") == "Auto":
+        print(_("Testing mirrors..."))
+        response_times = {}
+        for mirror in variables.FRONTEND_MIRRORS:
+            try:
+                start = time.perf_counter()
+                requests.get(mirror, timeout=5)
+                end = time.perf_counter()
+                response_times[mirror] = end - start
+                print(_("- Reached {0} in {1:.0f}ms").format(
+                    YELLOW + mirror + END, 
+                    response_times[mirror] * 1000
+                ))
+            except requests.RequestException:
+                response_times[mirror] = float('inf')
+                print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
+            
+        fastest_mirror = min(response_times, key=response_times.get) # type: ignore
+        return fastest_mirror
+    else:
+        mirror = settings.Get("global", "frontend_mirror", "Auto")
+        print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END)) # type: ignore
+        return mirror # type: ignore
 
 def update_frontend() -> bool:
     did_update = EnsureSubmoduleExists(

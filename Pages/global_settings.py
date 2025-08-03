@@ -88,6 +88,9 @@ class Page(ETS2LAPage):
             debug_mode = not utils_settings.Get("global", "debug_mode", default=True)
             
         utils_settings.Set("global", "debug_mode", debug_mode)
+
+    def handle_frontend_mirror_change(self, mirror: str):
+        utils_settings.Set("global", "frontend_mirror", mirror)
         
     def handle_fireworks_change(self, *args):
         if args:
@@ -301,6 +304,14 @@ class Page(ETS2LAPage):
                     description=_("Enable this option to use the edge debugger for the frontend."),
                     default=utils_settings.Get("global", "debug_mode", default=False), # type: ignore
                     changed=self.handle_debug_mode_change
+                )
+
+                ComboboxWithTitleDescription(
+                    title=_("Default UI Mirror"),
+                    description=_("The default ETS2LA UI mirror to use. Auto will choose the best available mirror."),
+                    options=["Auto", *variables.FRONTEND_MIRRORS],
+                    default=utils_settings.Get("global", "frontend_mirror", default="Auto"), # type: ignore
+                    changed=self.handle_frontend_mirror_change
                 )
                 
                 Separator()
