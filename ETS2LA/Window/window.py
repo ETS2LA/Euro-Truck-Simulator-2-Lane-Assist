@@ -177,6 +177,8 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             window.load_url('http://localhost:' + str(FRONTEND_PORT))
         else:
             window.load_url(variables.FRONTEND_URL)
+            if "ets2la.com" not in variables.FRONTEND_URL:
+                settings.Set("global", "ad_preference", 0) # disable ads if not on ets2la.com
         
         last_check = 0
         while True:
