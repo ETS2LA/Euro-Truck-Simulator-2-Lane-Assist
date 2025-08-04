@@ -1,6 +1,7 @@
 from ETS2LA.Networking.cloud import GetUserCount, GetUserTime, GetUniqueUsers, token, user_id, GetUsername
 from ETS2LA.UI.utils import SendPopup
 from ETS2LA.UI import *
+from ETS2LA import UI
 
 from ETS2LA.Utils.Game import path as game
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
@@ -8,6 +9,7 @@ from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
+from ETS2LA.Utils import settings
 from langcodes import Language 
 import hashlib
 import time
@@ -132,7 +134,20 @@ class Page(ETS2LAPage):
             )
 
     def render(self):
-        with Container(style=styles.FlexVertical() + styles.Padding("80px 0px 0px 80px") + styles.MaxWidth("900px")):
+        ads = settings.Get("global", "ad_preference", default=1)
+        if ads >= 1:
+            with Container(style=styles.FlexHorizontal()):
+                AdSense(
+                    client="ca-pub-6002744323117854",
+                    slot="6129868382",
+                    style=styles.Style(
+                        display="inline-block",
+                        width="1043px",
+                        height="90px"
+                    )
+                )
+        
+        with Container(style=styles.FlexVertical() + styles.Padding(("40px" if ads else "80px") + " 0px 0px 80px") + styles.MaxWidth("900px")):
             if any(self.game_needs_update.values()):
                 for game, needs_update in self.game_needs_update.items():
                     if needs_update:

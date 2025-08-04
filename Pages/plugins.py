@@ -227,6 +227,9 @@ class Page(ETS2LAPage):
         threading.Thread(target=self.basic_mode_updater, daemon=True).start()
     
     def render(self):
+        
+        ads = settings.Get("global", "ad_preference", default=1)
+        
         if plugins.loading:
             with Container(styles.FlexVertical() + styles.Classname("w-full h-full items-center justify-center relative")):
                 with Spinner():
@@ -258,6 +261,18 @@ class Page(ETS2LAPage):
 
                     enabled_plugins = [plugin.description.name for plugin in plugins.plugins if plugin.running]
                     Markdown(_("Currently enabled plugins:") + "\n- " + ("\n- ".join(enabled_plugins) if enabled_plugins else _("None")), styles.Description())
+
+                    if ads >= 2:
+                        with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
+                            AdSense(
+                                client="ca-pub-6002744323117854",
+                                slot="3283698879",
+                                style=styles.Style(
+                                    display="inline-block",
+                                    width="100%",
+                                    height="120px"
+                                )
+                            )
 
                 with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Width("525px")):
                     for feature in basic_mode_features:

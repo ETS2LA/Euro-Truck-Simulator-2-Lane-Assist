@@ -9,6 +9,13 @@ from langcodes import Language
 
 import screeninfo
 
+ad_preferences = {
+    _("None"): 0,
+    _("Minimal (recommended)"): 1,
+    _("Medium"): 2,
+    _("Full"): 3,
+}
+
 class Page(ETS2LAPage):
     url = "/settings/global"
     monitors = screeninfo.get_monitors()
@@ -135,14 +142,44 @@ class Page(ETS2LAPage):
 
         utils_settings.Set("global", "slow_loading", slow_loading)
 
+    def match_value_to_preference_name(self, value: int) -> str:
+        for name, val in ad_preferences.items():
+            if val == value:
+                return name
+        return _("Minimal (recommended)")
+
+    def handle_ad_preference(self, *args):
+        if args:
+            ad_preference = args[0]
+        else:
+            ad_preference = utils_settings.Get("global", "ad_preference", default=1)
+            utils_settings.Set("global", "ad_preference", ad_preference)
+            return
+
+        utils_settings.Set("global", "ad_preference", ad_preferences.get(ad_preference, 1))
+
     def render(self):
         TitleAndDescription(
             _("Global Settings"),
             _("Here you can find settings that affect the entire application. Things such as the window size and language."),
         )
         
+        ads = utils_settings.Get("global", "ad_preference", default=1) # type: ignore
+        
         with Tabs():
             with Tab(_("User Interface"), styles.FlexVertical() + styles.Gap("24px")):
+                if ads >= 2:
+                    with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
+                        AdSense(
+                            client="ca-pub-6002744323117854",
+                            slot="3283698879",
+                            style=styles.Style(
+                                display="inline-block",
+                                width="700px",
+                                height="90px"
+                            )
+                        )
+                        
                 with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
                     SliderWithTitleDescription(
                         title=_("Window Width"),
@@ -239,6 +276,49 @@ class Page(ETS2LAPage):
                 )
                 
             with Tab(_("Variables"), container_style=styles.FlexVertical() + styles.Gap("24px")):
+                Text("Ad Preferences", styles.Classname("text-lg font-semibold"))
+                default = self.match_value_to_preference_name(
+                    utils_settings.Get("global", "ad_preference", default=1) # type: ignore
+                )
+                ComboboxWithTitleDescription(
+                    options=[_("None"), _("Minimal (recommended)"), _("Medium"), _("Full")],
+                    default=default, # type: ignore
+                    changed=self.handle_ad_preference,
+                    title="How many ads do you want to see?",
+                    description="This will control how many ads you see in ETS2LA. Minimal is recommended to support development without affecting usage."
+                )
+                
+                with Alert(style=styles.Padding("14px")):
+                    with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                        style = styles.Style()
+                        style.margin_top = "2px"
+                        style.width = "1.5rem"
+                        style.height = "1.5rem"
+                        style.color = "var(--muted-foreground)"
+                        Icon("info", style)
+                        with Container(styles.FlexVertical() + styles.Gap("4px")):
+                            if ads == 0:
+                                Text(_("You have disabled ads in the settings, so you won't see any ads. I appreciate you using ETS2LA, there is no need to support us if you don't want to."), styles.Classname("text-muted-foreground"))
+                            elif ads == 1:
+                                Text(_("You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."), styles.Classname("text-muted-foreground"))
+                            elif ads == 2:
+                                Text(_("You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."), styles.Classname("text-muted-foreground"))
+                            elif ads == 3:
+                                Text(_("You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."), styles.Classname("text-muted-foreground"))
+                
+                if ads >= 2:
+                    with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
+                        AdSense(
+                            client="ca-pub-6002744323117854",
+                            slot="3283698879",
+                            style=styles.Style(
+                                display="inline-block",
+                                width="700px",
+                                height="90px"
+                            )
+                        )
+                
+                Text("Backend Settings", styles.Classname("text-lg font-semibold"))
                 CheckboxWithTitleDescription(
                     title=_("Fallback to old acceleration method"),
                     description=_("If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."),

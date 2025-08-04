@@ -5,6 +5,7 @@ from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
 from ETS2LA.Window.html import html
 import multiprocessing  
+import webbrowser
 import requests
 import logging
 import webview
@@ -176,7 +177,8 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             window.load_url('http://localhost:' + str(FRONTEND_PORT))
         else:
             window.load_url(variables.FRONTEND_URL)
-            
+        
+        last_check = 0
         while True:
             time.sleep(0.01)
             try:
@@ -205,6 +207,17 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                     
             except:
                 pass
+            
+            if last_check + 0.1 < time.time():  # Check 10x per second
+                last_check = time.time()
+                if "ets2la" not in window.get_current_url():
+                    time.sleep(0.5) # 0.5s load time wait
+                    webbrowser.open(window.get_current_url())
+                    if variables.LOCAL_MODE:
+                        window.load_url('http://localhost:' + str(FRONTEND_PORT))
+                    else:
+                        window.load_url(variables.FRONTEND_URL)
+                
 
     window_x = settings.Get("global", "window_position", (
         get_screen_dimensions()[2] // 2 - WIDTH // 2, 

@@ -1458,13 +1458,13 @@ class Graph():
             }
         })
 
-class Adsense():
+class AdSense():
     """
     Embed an adsense ad. Please provide at least the `client` and `slot` 
     parameters, you can customize the ad further with the `style` parameter.
     
     ```python
-    Adsense(
+    AdSense(
         client="ca-pub-XXXXXXXXXXXXXXXX",
         slot="XXXXXXXXXX",
         style=Style()

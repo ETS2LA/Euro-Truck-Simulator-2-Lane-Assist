@@ -1,6 +1,7 @@
 from ETS2LA.UI import *
 from ETS2LA.Handlers import plugins
 from ETS2LA.Utils.translator import _
+from ETS2LA.Utils import settings
 import webbrowser
 import threading
 import requests
@@ -417,6 +418,8 @@ class Page(ETS2LAPage):
                     Text(_("Refresh"), styles.Classname("text-xs"))
     
     def render(self):
+        ads = settings.Get("global", "ad_preference", default=1)
+        
         if self.loading_screen():
             return
 
@@ -475,9 +478,23 @@ class Page(ETS2LAPage):
             
             with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
                 Text(_("Available Plugins"), styles.Classname("font-semibold"))
+                if ads >= 2:
+                    with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
+                        AdSense(
+                            client="ca-pub-6002744323117854",
+                            slot="3283698879",
+                            style=styles.Style(
+                                display="inline-block",
+                                width="100%",
+                                height="120px"
+                            )
+                        )
+                        
                 if not not_installed_plugins:
                     with Alert():
                         Text(_("You have installed all available plugins."), styles.Description())
                 else:
                     for plugin in not_installed_plugins:
                         self.render_plugin_card(plugin)
+                        
+            Space(styles.Height("80px"))
