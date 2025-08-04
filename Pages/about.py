@@ -136,18 +136,18 @@ class Page(ETS2LAPage):
     def render(self):
         ads = settings.Get("global", "ad_preference", default=1)
         if ads >= 1:
-            with Container(style=styles.FlexHorizontal()):
+            with Container(style=styles.FlexHorizontal() + styles.Padding("40px 0px 0px 80px")):
                 AdSense(
                     client="ca-pub-6002744323117854",
                     slot="6129868382",
                     style=styles.Style(
                         display="inline-block",
-                        width="1043px",
+                        width="900px",
                         height="90px"
                     )
                 )
         
-        with Container(style=styles.FlexVertical() + styles.Padding(("40px" if ads else "80px") + " 0px 0px 80px") + styles.MaxWidth("900px")):
+        with Container(style=styles.FlexVertical() + styles.Padding(("20px" if ads else "80px") + " 0px 0px 80px") + styles.MaxWidth("900px")):
             if any(self.game_needs_update.values()):
                 for game, needs_update in self.game_needs_update.items():
                     if needs_update:

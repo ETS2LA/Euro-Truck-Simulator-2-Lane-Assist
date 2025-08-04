@@ -6,6 +6,7 @@ import ETS2LA.Handlers.sounds as sounds
 from ETS2LA.Utils.translator import languages, parse_language
 from ETS2LA.Utils.translator import _
 from langcodes import Language
+import webbrowser
 
 import screeninfo
 
@@ -158,6 +159,9 @@ class Page(ETS2LAPage):
 
         utils_settings.Set("global", "ad_preference", ad_preferences.get(ad_preference, 1))
 
+    def open_kofi(self):
+        webbrowser.open("https://ko-fi.com/tumppi066")
+
     def render(self):
         TitleAndDescription(
             _("Global Settings"),
@@ -288,23 +292,32 @@ class Page(ETS2LAPage):
                     description="This will control how many ads you see in ETS2LA. Minimal is recommended to support development without affecting usage."
                 )
                 
-                with Alert(style=styles.Padding("14px")):
-                    with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                if ads == 0:
+                    with Button(style=styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-center bg-kofi hover:bg-kofi-active!") + styles.Height("70px"), action=self.open_kofi):
                         style = styles.Style()
                         style.margin_top = "2px"
                         style.width = "1.5rem"
                         style.height = "1.5rem"
-                        style.color = "var(--muted-foreground)"
-                        Icon("info", style)
-                        with Container(styles.FlexVertical() + styles.Gap("4px")):
-                            if ads == 0:
-                                Text(_("You have disabled ads in the settings, so you won't see any ads. I appreciate you using ETS2LA, there is no need to support us if you don't want to."), styles.Classname("text-muted-foreground"))
-                            elif ads == 1:
-                                Text(_("You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."), styles.Classname("text-muted-foreground"))
-                            elif ads == 2:
-                                Text(_("You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."), styles.Classname("text-muted-foreground"))
-                            elif ads == 3:
-                                Text(_("You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."), styles.Classname("text-muted-foreground"))
+                        style.color = ""
+                        Icon("heart", style)
+                        Text(_("Support ETS2LA Development on Ko-Fi"), styles.Classname("font-semibold"))
+                    
+                else:
+                    with Alert(style=styles.Padding("14px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
+                            style = styles.Style()
+                            style.margin_top = "2px"
+                            style.width = "1.5rem"
+                            style.height = "1.5rem"
+                            style.color = "var(--muted-foreground)"
+                            Icon("info", style)
+                            with Container(styles.FlexVertical() + styles.Gap("4px")):
+                                if ads == 1:
+                                    Text(_("You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."), styles.Classname("text-muted-foreground"))
+                                elif ads == 2:
+                                    Text(_("You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."), styles.Classname("text-muted-foreground"))
+                                elif ads == 3:
+                                    Text(_("You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."), styles.Classname("text-muted-foreground"))
                 
                 if ads >= 2:
                     with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
