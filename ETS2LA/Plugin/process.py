@@ -140,12 +140,12 @@ class PluginProcess:
         try:
             self.file = importlib.import_module(import_path)
         except ImportError as e:
+            logging.error(f"Error importing plugin file: {e}")
             self.return_queue.put(PluginMessage(
                 Channel.CRASHED, {
                     "message": f"Error importing plugin file: {e}"
                 }
             ))
-            logging.error(f"Error importing plugin file: {e}")
             raise ImportError(f"Error importing plugin file: {e}")
         
         logging.info(f"Plugin file imported successfully: {self.file}")
