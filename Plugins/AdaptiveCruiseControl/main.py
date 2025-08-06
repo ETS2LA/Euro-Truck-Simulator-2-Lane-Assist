@@ -699,8 +699,10 @@ class Plugin(ETS2LAPlugin):
     set_zero = False
     def set_accel_brake(self, accel:float) -> None:
         is_reversing = False
+        clutch = 0.0
         if self.api_data:
             gear = self.api_data["truckInt"]["gear"]
+            clutch = self.api_data["truckFloat"]["gameClutch"]
             is_reversing = gear < 0
             
         self.accel = min(1, max(-1, accel))
@@ -720,7 +722,11 @@ class Plugin(ETS2LAPlugin):
             self.state.text = ""
         
         if self.accel > 0:
-            self.controller.aforward = float(self.accel)
+            if clutch < 0.1:
+                self.controller.aforward = float(self.accel)
+            else: # disable acceleration if clutch is pressed
+                self.controller.aforward = float(0)
+                
             if self.speed > 10 / 3.6 and not self.set_zero:
                 self.controller.abackward = float(0)
                 self.set_zero = True
