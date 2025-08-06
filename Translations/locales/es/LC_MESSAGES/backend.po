@@ -7,149 +7,161 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-08-07 12:06+0000\n"
+"Last-Translator: erjulixn <erjulixn@ets2la.com>\n"
+"Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
+">\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Tiempo agotado, porfavor, inténtalo de nuevo."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Evento vinculado a {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Actualizando joysticks..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} conectado."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Joystick encontrado: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} desconectado."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338 .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Evento con alias '{0} no encontrado."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Ocurrió un error al intentar editar el evento."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "La detección de controles ha comenzado."
 
 #: .\ETS2LA\Handlers\plugins.py:127
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"El plugin {0} no pudo iniciarse: tiempo de espera agotado.\n"
+"Intenta cerrar otros programas para liberar memoria y CPU."
 
 #: .\ETS2LA\Handlers\plugins.py:132
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "El plugin {0} no pudo iniciarse: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:184
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "El plugin [yellow]{0}[/yellow] se cargó correctamente."
 
 #: .\ETS2LA\Handlers\plugins.py:379
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "El plugin {0} no pudo obtener la descripción: tiempo de espera agotado."
 
 #: .\ETS2LA\Handlers\plugins.py:383
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "El plugin {0} no pudo obtener la descripción: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:417
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "El plugin {0} no pudo obtener los controles: tiempo de espera agotado."
 
 #: .\ETS2LA\Handlers\plugins.py:421
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "El plugin {0} no pudo obtener los controles: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:491
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Se cargaron {0} plugins."
 
 #: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin no encontrado."
 
 #: .\ETS2LA\Handlers\plugins.py:572
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "El plugin [yellow]{0}[/yellow] se inició correctamente."
 
 #: .\ETS2LA\Handlers\plugins.py:579
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "No se pudo iniciar el plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
 msgid "Timeout"
-msgstr ""
+msgstr "Tiempo de espera agotado"
 
 #: .\ETS2LA\Handlers\plugins.py:598
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin no encontrado, esto puede deberse a un fallo o bloqueo del plugin "
+"durante la carga."
 
 #: .\ETS2LA\Handlers\plugins.py:615
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "El plugin [yellow]{0}[/yellow] se detuvo correctamente."
 
 #: .\ETS2LA\Handlers\plugins.py:618
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "No se pudo detener el plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:644
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "No se pudo reiniciar el plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "No se encontró el plugin {0} para la página {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"No se pudo descargar la biblioteca ffmpeg, por favor descárgala manualmente. "
+"(por ejemplo: [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Soundpack '{0}' no contiene el sonido requerido '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Soundpack '{0}' tiene un tipo de archivo inválido '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Se intentó reproducir el sonido '{0}', pero no se encontró en el soundpack "
+"'{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Se registró correctamente [bold]http://{address}[/bold] para apuntar a [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Ocurrió un error al procesar un mensaje."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Se intentó enviar una página vacía."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
@@ -731,83 +743,99 @@ msgstr ""
 
 #: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: .\Pages\global_settings.py:178
 msgid "Select the language for the application."
-msgstr ""
+msgstr "Seleccione el idioma para la aplicación."
 
 #: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Search Languages..."
-msgstr ""
+msgstr "Buscar idiomas..."
 
 #: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "¡Ayúdanos a traducir en discord!"
 
 #: .\Pages\global_settings.py:196
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Esta traducción es {porcentaje:.2f}% completa."
 
 #: .\Pages\global_settings.py:203
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: .\Pages\global_settings.py:206
 msgid "Soundpack"
-msgstr ""
+msgstr "Soundpack"
 
 #: .\Pages\global_settings.py:207
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Seleccione el soundpack para usar, se pueden añadir a app/ETS2LA/Assets/"
+"Sounds."
 
 #: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Volumen"
 
 #: .\Pages\global_settings.py:215
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
+"Ajusta el volumen. Esto afectará todos los sonidos interpretados por ETS2LA."
 
 #: .\Pages\global_settings.py:226
 msgid "Startup Sound"
-msgstr ""
+msgstr "Sonido de inicio"
 
 #: .\Pages\global_settings.py:227
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Activa o desactiva el sonido de inicio. Se reproduce cada vez que se abre la "
+"ventana de ETS2LA."
 
 #: .\Pages\global_settings.py:232
 msgid "Variables"
-msgstr ""
+msgstr "Variables"
 
 #: .\Pages\global_settings.py:234
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Volver al método antiguo de aceleración"
 
 #: .\Pages\global_settings.py:235
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Si tienes problemas con que el camión no acelere o frene correctamente, "
+"puedes activar esta opción para usar otro método. Ten en cuenta que si el "
+"nuevo método se queda bloqueado, puede que necesites reiniciar el juego "
+"después de cambiar esta configuración."
 
 #: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr ""
+msgstr "Alta Prioridad"
 
 #: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Ejecuta ETS2LA en modo de alta prioridad. Esto indicará a tu sistema "
+"operativo que asigne más tiempo de CPU a ETS2LA, lo que puede mejorar el "
+"rendimiento a costa de otras aplicaciones."
 
 #: .\Pages\global_settings.py:257
 msgid "You need to restart ETS2LA to apply the priority change!"
-msgstr ""
+msgstr "¡Necesitas reiniciar ETS2LA para aplicar el cambio de prioridad!"
 
 #: .\Pages\global_settings.py:260
 msgid "Slow Loading"
-msgstr ""
+msgstr "Carga lenta"
 
 #: .\Pages\global_settings.py:261
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Si tu PC tiene problemas para cargar todos los plugins en paralelo, puedes "
+"activar esta opción para cargarlos uno por uno. Ten en cuenta que al activar "
+"esta opción tendrás que esperar un tiempo para que los plugins estén "
+"disponibles."
 
 #: .\Pages\global_settings.py:266
 msgid "Miscellaneous"
@@ -883,7 +911,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:93
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "¡Bienvenido a ETS2LA!"
 
 #: .\Pages\onboarding.py:94
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
@@ -916,19 +944,22 @@ msgstr ""
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
 msgid "SDK Setup"
-msgstr ""
+msgstr "Configuración del SDK"
 
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"Para comenzar, necesitamos configurar el SDK. Esto permitirá que ETS2LA "
+"interactúe con tu juego. A la derecha encontrarás una lista de juegos; haz "
+"clic en instalar en uno de ellos y luego continúa."
 
 #: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "Esperando la instalación de SDK..."
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
@@ -952,43 +983,52 @@ msgstr ""
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Modo de alta prioridad"
 
 #: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA puede indicarle automáticamente a tu sistema operativo que debe "
+"ejecutarse en modo de alta prioridad. Esto se recomienda especialmente en "
+"dispositivos de gama baja."
 
 #: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Necesitarás reiniciar ETS2LA después de completar la configuración inicial "
+"para aplicar este cambio."
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr ""
+msgstr "Datos del mapa"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA usa datos del mapa preextraídos del juego. Nosotros gestionamos esos "
+"datos previamente y tú solo tienes que descargarlos según sea necesario. Por "
+"favor, selecciona los datos que necesitas para tu versión actual del juego a "
+"continuación."
 
 #: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Esperando la selección de datos..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Datos seleccionados"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Seleccione los datos que coincidan con su juego y mods."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Buscar datos"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "No se encontraron datos coincidentes"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
@@ -996,7 +1036,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
-msgstr ""
+msgstr "tamaño de descarga"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
