@@ -123,7 +123,7 @@ class Page(ETS2LAPage):
         if args:
             acceleration_fallback = args[0]
         else:
-            acceleration_fallback = not utils_settings.Get("global", "acceleration_fallback", default=False)
+            acceleration_fallback = not utils_settings.Get("global", "acceleration_fallback", default=True)
 
         utils_settings.Set("global", "acceleration_fallback", acceleration_fallback)
         
@@ -335,7 +335,7 @@ class Page(ETS2LAPage):
                 CheckboxWithTitleDescription(
                     title=_("Fallback to old acceleration method"),
                     description=_("If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."),
-                    default=utils_settings.Get("global", "acceleration_fallback", default=False), # type: ignore
+                    default=utils_settings.Get("global", "acceleration_fallback", default=True), # type: ignore
                     changed=self.handle_acceleration_fallback_change
                 )
                 

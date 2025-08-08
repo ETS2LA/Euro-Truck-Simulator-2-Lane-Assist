@@ -7,7 +7,7 @@ import math
 import time
 import os
 
-fallback_acceleration = settings.Get("global", "acceleration_fallback", default=False)
+fallback_acceleration = settings.Get("global", "acceleration_fallback", default=True)
 def update_fallback_acceleration(dictionary: dict):
     global fallback_acceleration
     fallback_acceleration = dictionary.get("acceleration_fallback", fallback_acceleration)
