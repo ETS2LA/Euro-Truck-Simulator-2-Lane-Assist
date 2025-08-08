@@ -6,15 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-08-08 13:02\n"
+"POT-Creation-Date: 2025-08-08 13:14\n"
 "PO-Revision-Date: 2025-08-08 10:13+0000\n"
 "Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/"
-">\n"
-"Language: fi\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/backend/fi/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -359,9 +358,7 @@ msgstr "Huomio!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
-msgstr ""
-"SDK pelille {0} on vanhentunut. Asenna SDK uudelleen asetuksista, jotta peli "
-"ja ETS2LA toimivat kunnolla."
+msgstr "SDK pelille {0} on vanhentunut. Asenna SDK uudelleen asetuksista, jotta peli ja ETS2LA toimivat kunnolla."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -839,23 +836,15 @@ msgstr "Tue ETS2LA:n kehitysta Ko-Fi:ssa"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
-msgstr ""
-"Näet tasan yhden mainoksen etusivulla. Millään muuilla sivulla ei ole "
-"mainoksia. Tämä asetus on suositelut ETS2LA:n jatkokehityksen tukemista "
-"varten."
+msgstr "Näet tasan yhden mainoksen etusivulla. Millään muuilla sivulla ei ole mainoksia. Tämä asetus on suositelut ETS2LA:n jatkokehityksen tukemista varten."
 
 #: .\Pages\global_settings.py:318
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
-msgstr ""
-"Näet mainoksia muillakin sivuilla. Yksikään mainoksista ei haittaa "
-"sovelluksen toimintaa, ja pää sivuilla kuten Visualisaatio sivulla ei ole "
-"mainoksia. Tämä on suositeltu jos haluat tukea kehitystä enemmän."
+msgstr "Näet mainoksia muillakin sivuilla. Yksikään mainoksista ei haittaa sovelluksen toimintaa, ja pää sivuilla kuten Visualisaatio sivulla ei ole mainoksia. Tämä on suositeltu jos haluat tukea kehitystä enemmän."
 
 #: .\Pages\global_settings.py:320
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
-msgstr ""
-"Näet niin paljon mainoksia kun uskalsimme laittaa tuhoamatta sovelluksen "
-"käytettävyyden. Visualisaatio sivut ovat silti mainoksettomia."
+msgstr "Näet niin paljon mainoksia kun uskalsimme laittaa tuhoamatta sovelluksen käytettävyyden. Visualisaatio sivut ovat silti mainoksettomia."
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
@@ -935,9 +924,7 @@ msgstr "Käyttöliittymän palvelin"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
-msgstr ""
-"Käyttöliittymän palvelin jota käyttää. \"Auto\" valitsee parhaan palvelimen "
-"sijaintisi perusteella."
+msgstr "Käyttöliittymän palvelin jota käyttää. \"Auto\" valitsee parhaan palvelimen sijaintisi perusteella."
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
@@ -1876,9 +1863,7 @@ msgstr "Skaalaa korkeus"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
-msgstr ""
-"Skaalaa myös ikkunoiden korkeus, huomioi että tämä voi aiheuttaa ongelmia "
-"ikkunoiden elementtien sijoituksessa."
+msgstr "Skaalaa myös ikkunoiden korkeus, huomioi että tämä voi aiheuttaa ongelmia ikkunoiden elementtien sijoituksessa."
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"

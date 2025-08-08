@@ -178,8 +178,11 @@ Listen("global", detect_change)
 # region Generation
 overrides = {
     "zh": "zh_Hans",
+    "zh_2": "zh_Hant",
     "nb": "nb_NO"
 }
+count = {}
+
 def generate_translations():
     """
     Generate translation files from the source code.
@@ -239,6 +242,9 @@ msgstr ""
     # Generate or update .po files for each language
     for lang in [language.language for language in languages]:
         if lang in overrides:
+            count[lang] = count.get(lang, 0) + 1
+            if count.get(lang, 0) >= 2:
+                lang = f"{lang}_{count[lang]}"
             lang = overrides[lang]
             
         lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"
