@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-07-22 16:01+0000\n"
+"PO-Revision-Date: 2025-08-09 04:37+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/>\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
+">\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -233,7 +234,7 @@ msgstr "Kullanıcı arayüzünü başlatırken lütfen bekleyin"
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "ETS2LA Penceresi aranıyor... [dim]({timeout}s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -290,6 +291,8 @@ msgstr "Veri çıkarıcı geliştirme, modlanmış haritalar için destek."
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
 msgstr ""
+"Discord rich presence eklentisi geliştiricisi, az miktarda backend "
+"güncellemeleri."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
@@ -354,11 +357,13 @@ msgstr "{0} ve {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "Dikkat!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"{0} için SDK güncel değil. Lütfen SDK ayarlarından en son sürüme güncellemek "
+"için yeniden yükleyin."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -633,11 +638,11 @@ msgstr "Katalogu Yenile"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Yüklü Eklentiler"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Hiçbir eklenti kurulmadı."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -645,7 +650,7 @@ msgstr "Kullanılabilir Eklentiler"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Kullanılabilir tüm eklentileri yüklediniz."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -732,15 +737,15 @@ msgstr "Hiçbiri"
 #: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
 #: .\Pages\global_settings.py:288
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Minimum (önerilen)"
 
 #: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
 msgid "Medium"
-msgstr ""
+msgstr "Orta"
 
 #: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
 msgid "Full"
-msgstr ""
+msgstr "Yüksek"
 
 #: .\Pages\global_settings.py:167
 msgid "Global Settings"
@@ -832,19 +837,27 @@ msgstr "Değişkenler"
 
 #: .\Pages\global_settings.py:303
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "ETS2LA gelişimine Ko-Fi aracılığıyla destek olun"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
 msgstr ""
+"Hakkında sayfasında yalnızca bir reklam göreceksiniz. Başka hiçbir reklam "
+"gösterilmeyecek. Bu seçenek, ETS2LA'nın geliştirilmesine daha fazla katkı "
+"sağlamak için önerilir."
 
 #: .\Pages\global_settings.py:318
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
 msgstr ""
+"Önemli olmayan sayfalarda rahatsız edici olmayan reklamlar görünecek. "
+"Görselleştirme sayfaları ise reklam içermez. Eğer gelişimi daha fazla "
+"desteklemek isterseniz, bu seçenek önerilir."
 
 #: .\Pages\global_settings.py:320
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
 msgstr ""
+"Kullanım deneyimini bozmayacak kadar reklam göreceksiniz. Görselleştirme "
+"sayfaları etkinleştirildiğinde hala reklamsız olacaktır."
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
@@ -920,19 +933,21 @@ msgstr "Arayüz için Edge hata ayıklayıcısını kullanmak için bu seçeneğ
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "Varsayılan UI Yansıması"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
+"Kullanılacak varsayılan ETS2LA UI yansıması. Otomatik olarak en iyi yansıma "
+"seçilecektir."
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
-msgstr ""
+msgstr "ETS2LA Pencere Zaman Aşımı"
 
 #: .\Pages\global_settings.py:415
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "ETS2LA'nın pencereyi görüntülemek için beklediği süre."
 
 #: .\Pages\global_settings.py:426
 msgid "Fireworks"
@@ -1435,7 +1450,7 @@ msgstr "Dizini manuel olarak elle seçin"
 
 #: .\Pages\sdk_installation.py:230
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " ‐ Yeniden yüklenmesi gerekiyor"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
@@ -1843,27 +1858,31 @@ msgstr "HUD'un derinlik ofseti."
 
 #: .\Plugins\HUD\ui.py:150
 msgid "Widget Sizing"
-msgstr ""
+msgstr "Widget Boyutlandırma"
 
 #: .\Plugins\HUD\ui.py:151
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "Bu ayarlar widget'ların boyutlandırılmasını kontrol eder, yönetir."
 
 #: .\Plugins\HUD\ui.py:158
 msgid "Widget Scaling"
-msgstr ""
+msgstr "Widget Ölçeklendirme"
 
 #: .\Plugins\HUD\ui.py:159
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
 msgstr ""
+"Widget'lar için ölçeklendirme, boyutlandırma faktörü. 1 normal boyut, 0.5 "
+"yarım boyut, 2 ise iki katı, çift boyuttur."
 
 #: .\Plugins\HUD\ui.py:164
 msgid "Scale Height"
-msgstr ""
+msgstr "Yükseklik Ölçeklendirme"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
 msgstr ""
+"Widget'ların yüksekliğini de ölçeklendirin, bu işlemin bazı widget'larda "
+"düzen sorunlarına yol açabileceğini unutmayın, dikkatli kullanın."
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"
@@ -2330,7 +2349,7 @@ msgstr " - {0}'a (ZAMAN AŞIMI) nedeniyle bağlantı sağlanamadı"
 
 #: .\main.py:124
 msgid "Using mirror from settings: {0}"
-msgstr ""
+msgstr "Ayarlar kısmından seçilen yansıma kullanılıyor: {0}"
 
 #: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
