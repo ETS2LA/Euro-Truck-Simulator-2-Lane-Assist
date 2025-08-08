@@ -1,12 +1,12 @@
-from Plugins.NGHUD.classes import HUDRenderer, HUDWidget
+from Plugins.HUD.classes import HUDRenderer, HUDWidget
 from ETS2LA.Utils.translator import _
 from ETS2LA.UI import *
 
 class UI(ETS2LAPage):
-    url = "/settings/NGHUD"
+    url = "/settings/HUD"
     refresh_rate = 0.5
     location = ETS2LAPageLocation.SETTINGS
-    title = "NGHUD"
+    title = "HUD"
     
     def handle_x_offset(self, value: int):
         """Handle the offset X setting change."""
@@ -43,6 +43,12 @@ class UI(ETS2LAPage):
         self.plugin.settings.right_width = value
         if self.plugin:
             self.plugin.layout()
+        
+    def handle_widget_scaling(self, value: float):
+        """Handle the widget scaling setting change."""
+        self.plugin.settings.widget_scaling = value
+        if self.plugin:
+            self.plugin.widget_scaling = value
         
     def handle_widget_add(self, value: str):
         """Handle the addition of a widget."""
@@ -84,6 +90,13 @@ class UI(ETS2LAPage):
         """Handle the day darkness setting change."""
         self.plugin.settings.day_darkness = value
 
+    def handle_widget_height_change(self, *args):
+        """Handle the widget height scaling setting change."""
+        if args:
+            self.plugin.settings.scale_height = args[0]
+        else:
+            self.plugin.settings.scale_height = not self.plugin.settings.get("scale_height", False)
+
     def render_widget(self, widget: HUDWidget, enabled: bool):
         with Container(styles.FlexVertical() + styles.Gap("8px") + styles.Classname("rounded-md border p-4 bg-input/10")):
             with Container(styles.FlexHorizontal() + styles.Gap("8px")):
@@ -94,7 +107,7 @@ class UI(ETS2LAPage):
 
     def render(self):
         TitleAndDescription(
-            _("NGHUD"),
+            _("HUD"),
             _("This plugin provides a HUD using the AR plugin as the renderer.")
         )
         
@@ -134,28 +147,25 @@ class UI(ETS2LAPage):
                 )
                 
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    Text(_("Widget Widths"), styles.Classname("text-semibold"))
-                    Text(_("These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."), styles.Description())
+                    Text(_("Widget Sizing"), styles.Classname("text-semibold"))
+                    Text(_("These settings control the sizing of the widgets."), styles.Description())
 
-                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
-                    InputWithTitleDescription(
-                        title="L",
-                        default=self.plugin.settings.left_width,
-                        type="number",
-                        changed=self.handle_left_width_change,
-                    )
-                    InputWithTitleDescription(
-                        title="C",
-                        default=self.plugin.settings.center_width,
-                        type="number",
-                        changed=self.handle_center_width_change,
-                    )
-                    InputWithTitleDescription(
-                        title="R",
-                        default=self.plugin.settings.right_width,
-                        type="number",
-                        changed=self.handle_right_width_change,
-                    )
+                SliderWithTitleDescription(
+                    min=0.5,
+                    default=self.plugin.settings.get("widget_scaling", 1.0),
+                    max=2.0,
+                    step=0.05,
+                    title=_("Widget Scaling"),
+                    description=_("The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."),
+                    changed=self.handle_widget_scaling
+                )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Scale Height"),
+                    description=_("Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."),
+                    default=self.plugin.settings.get("scale_height", False),
+                    changed=self.handle_widget_height_change
+                )
                     
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
                     Text(_("Widget Background"), styles.Classname("text-semibold"))

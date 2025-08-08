@@ -1,4 +1,4 @@
-from Plugins.NGHUD.classes import HUDWidget
+from Plugins.HUD.classes import HUDWidget
 from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import time

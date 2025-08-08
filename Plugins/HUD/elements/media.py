@@ -1,5 +1,5 @@
 from ETS2LA.Utils.Values.text import ScrollingText
-from Plugins.NGHUD.classes import HUDWidget
+from Plugins.HUD.classes import HUDWidget
 from PIL import Image, ImageDraw, ImageFont
 from ETS2LA.Utils.translator import _
 import Plugins.AR.text as ARText
