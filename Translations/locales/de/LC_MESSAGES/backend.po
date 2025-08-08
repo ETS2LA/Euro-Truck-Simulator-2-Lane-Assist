@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-07-26 15:47+0000\n"
-"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>\n"
+"PO-Revision-Date: 2025-08-09 04:37+0000\n"
+"Last-Translator: Colin Shark <colinshark@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
+"\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -359,6 +360,8 @@ msgstr ""
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"Die SDK für {0} ist nicht mehr aktuell. Zum aktualisieren bitte in den SDK "
+"Einstellungen neu installieren."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -633,11 +636,11 @@ msgstr "Katalog aktualisieren"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Installierte Plugins"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Keine Plugins installiert."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -645,7 +648,7 @@ msgstr "Verfügbare Plugins"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Du hast alle verfügbaren Plugins installiert."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -732,7 +735,7 @@ msgstr "Keine"
 #: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
 #: .\Pages\global_settings.py:288
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Minimum (Empfohlen)"
 
 #: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
 msgid "Medium"
@@ -832,7 +835,7 @@ msgstr "Variablen"
 
 #: .\Pages\global_settings.py:303
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Unterstütze die Entwicklung von ETS2LA auf Ko-Fi"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
@@ -920,7 +923,7 @@ msgstr "Aktiviere diese Option, um den Edge-Debugger für das Frontend zu verwen
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "Standard UI Spiegel"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
