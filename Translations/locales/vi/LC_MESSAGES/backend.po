@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-07-18 04:37+0000\n"
+"PO-Revision-Date: 2025-08-09 04:37+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
-"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/vi/>\n"
+"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
+"vi/>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -233,7 +234,7 @@ msgstr "Bạn hãy chờ trong lúc chúng tôi đang khởi tạo giao diện n
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "Đang chờ của sổ ETS2LA xuất hiện... [dim]({timeout}s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -289,7 +290,7 @@ msgstr "Phát triển khai thác dữ liệu, hỗ trợ các bản đồ đư�
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr ""
+msgstr "Phát triển plugin, các bản cập nhật nhỏ cho backend."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
@@ -352,11 +353,13 @@ msgstr "{0} và {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "Thông báo!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"SDK cho {0} đã lỗi thời. Để cập nhật lên phiên bản mới nhất, hãy cài đặt lại "
+"trong mục cài đặt SDK."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -631,11 +634,11 @@ msgstr "Làm mới danh mục"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Plugin đã cài đặt"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Không có plugin nào đã được cài đặt."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -643,7 +646,7 @@ msgstr "Các plugin có sẵn"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Bạn đã cài đặt tất cả các plugin có sẵn."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -726,15 +729,15 @@ msgstr "Không có gì hết"
 #: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
 #: .\Pages\global_settings.py:288
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Ít nhất (khuyến nghị)"
 
 #: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
 msgid "Medium"
-msgstr ""
+msgstr "Trung bình"
 
 #: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
 msgid "Full"
-msgstr ""
+msgstr "Nhiều"
 
 #: .\Pages\global_settings.py:167
 msgid "Global Settings"
@@ -826,19 +829,28 @@ msgstr "Các biến"
 
 #: .\Pages\global_settings.py:303
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Hỗ trợ việc phát triển ETS2LA trên Ko-Fi"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
 msgstr ""
+"Bạn sẽ thấy đúng 1 quảng cáo xuất hiện trong trang \"Về chúng tôi\". Sẽ "
+"không có thêm bất kì quảng cáo nào. Tùy chọn này được khuyến nghị, giúp việc "
+"phát triển ETS2LA tiến xa hơn nữa."
 
 #: .\Pages\global_settings.py:318
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
 msgstr ""
+"Bạn sẽ thấy quảng cáo trong các trang không quan trọng và chúng cũng sẽ "
+"không làm phiền bạn. Riêng trang \"Hiển thị\" sẽ được miễn quảng cáo. Nếu "
+"bạn muốn hỗ trợ việc phát tiến xa hơn nữa, chúng tôi khuyến khích tùy chọn "
+"này."
 
 #: .\Pages\global_settings.py:320
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
 msgstr ""
+"Bạn sẽ thấy rất nhiều quảng cáo, nhưng chúng tôi sẽ không để chúng phá hủy "
+"trải nghiệm của bạn. Trang \"Hiển thị\" vẫn được miễn quảng cáo."
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
@@ -914,19 +926,20 @@ msgstr "Bật tùy chọn này để sử dụng tính năng gỡ lỗi của ed
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "UI Mirror mặc định"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
+"UI mirror mặc định của ETS2LA. \"Tự động\" sẽ chọn mirror tốt nhất sẵn có."
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
-msgstr ""
+msgstr "Thời gian chờ của sổ ETS2LA"
 
 #: .\Pages\global_settings.py:415
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "Lượng thời gian ETS2LA cần chờ để cửa sổ hiện lên."
 
 #: .\Pages\global_settings.py:426
 msgid "Fireworks"
@@ -1429,7 +1442,7 @@ msgstr "Chọn thư mục thủ công"
 
 #: .\Pages\sdk_installation.py:230
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " -Cần được cài đặt lại"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
@@ -1836,27 +1849,31 @@ msgstr "Offset chiều sâu của HUD."
 
 #: .\Plugins\HUD\ui.py:150
 msgid "Widget Sizing"
-msgstr ""
+msgstr "Kích cỡ tiện ích"
 
 #: .\Plugins\HUD\ui.py:151
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "Các cài đặt này điều khiển kích cỡ của các tiện ích."
 
 #: .\Plugins\HUD\ui.py:158
 msgid "Widget Scaling"
-msgstr ""
+msgstr "Tỉ lệ của tiện ích"
 
 #: .\Plugins\HUD\ui.py:159
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
 msgstr ""
+"Hệ số tỉ lệ của các tiện ích. 1 là kích cỡ bình thường, 0.5 là một nửa, 2 là "
+"gấp đôi."
 
 #: .\Plugins\HUD\ui.py:164
 msgid "Scale Height"
-msgstr ""
+msgstr "Tỉ lệ chiều cao"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
 msgstr ""
+"Chỉnh tỉ lệ chiều cao của các tiện ích, nhớ rằng cái này sẽ gây ra một số "
+"vấn đề về layout với một số tiện ích, sử dụng cẩn trọng."
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"
@@ -2319,7 +2336,7 @@ msgstr " -Đã đến {0} trong (Hết thời gian chờ)"
 
 #: .\main.py:124
 msgid "Using mirror from settings: {0}"
-msgstr ""
+msgstr "Sử dụng mirror từ cài đặt: {0}"
 
 #: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
