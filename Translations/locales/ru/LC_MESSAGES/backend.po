@@ -7,14 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-07-18 04:37+0000\n"
+"PO-Revision-Date: 2025-08-10 07:06+0000\n"
 "Last-Translator: takedown <takedown@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/>\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
+">\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
@@ -233,7 +235,7 @@ msgstr "Пожалуйста, подождите, пока инициализи�
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "Поиск окна ETS2LA... [dim](Осталось {timeout}с)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -290,6 +292,7 @@ msgstr "Разработка извлечения данных, поддержк
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
 msgstr ""
+"Разработчик плагина Discord Rich Presence, небольшие изменения в backend."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
@@ -356,11 +359,13 @@ msgstr "{0} и {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "Внимание!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"SDK для {0} устарел. Пожалуйста, переустановите его в настройках SDK, чтобы "
+"обновиться до последний версии."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -635,11 +640,11 @@ msgstr "Обновить каталог"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Установленные плагины"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Нет установленных плагинов."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -647,7 +652,7 @@ msgstr "Доступные плагины"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Вы установили все доступные плагины."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -738,15 +743,15 @@ msgstr "Нет"
 #: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
 #: .\Pages\global_settings.py:288
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Минимально (рекомендовано)"
 
 #: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
 msgid "Medium"
-msgstr ""
+msgstr "Среднее"
 
 #: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
 msgid "Full"
-msgstr ""
+msgstr "Полное"
 
 #: .\Pages\global_settings.py:167
 msgid "Global Settings"
@@ -838,19 +843,28 @@ msgstr "Переменные"
 
 #: .\Pages\global_settings.py:303
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Поддержать разработку ETS2LA на Ko-Fi"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
 msgstr ""
+"Вы увидите только одну рекламу на странице \"О программе\". На других "
+"страницах рекламы не будет. Этот вариант рекомендован, чтобы поддержать "
+"дальнейшую разработку ETS2LA."
 
 #: .\Pages\global_settings.py:318
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
 msgstr ""
+"Вы будете видеть ненавязчивую рекламу на неосновных страницах. Страницы "
+"визуализации будут без рекламы. Этот вариант рекомендован, если вы ещё "
+"больше хотите поддержать разработку."
 
 #: .\Pages\global_settings.py:320
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
 msgstr ""
+"Вы будете видеть столько рекламы, сколько я посчитал возможным без "
+"уничтожения опыта использования. Страницы визуализации по-прежнему останутся "
+"без рекламы, когда она включена."
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
@@ -926,19 +940,21 @@ msgstr "Включите эту опцию, чтобы использовать 
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "Зеркало интерфейса по умолчанию"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
+"Зеркало интерфейса ETS2LA, используемое по умолчанию. \"Авто\" выберет "
+"лучшее доступное зеркало."
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
-msgstr ""
+msgstr "Время ожидания окна ETS2LA"
 
 #: .\Pages\global_settings.py:415
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "Количество времени, которое ETS2LA будет ждать до появления окна."
 
 #: .\Pages\global_settings.py:426
 msgid "Fireworks"
@@ -1441,7 +1457,7 @@ msgstr "Выбрать директорию вручную"
 
 #: .\Pages\sdk_installation.py:230
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " - Требуется переустановка"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
@@ -1850,27 +1866,32 @@ msgstr "Отклонение глубины HUD."
 
 #: .\Plugins\HUD\ui.py:150
 msgid "Widget Sizing"
-msgstr ""
+msgstr "Размер виджетов"
 
 #: .\Plugins\HUD\ui.py:151
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "Эти настройки управляют размером виджетов."
 
 #: .\Plugins\HUD\ui.py:158
 msgid "Widget Scaling"
-msgstr ""
+msgstr "Масштабирование виджетов"
 
 #: .\Plugins\HUD\ui.py:159
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
 msgstr ""
+"Фактор масштабирования виджетов. 1 - обычный размер, 0.5 - половина, 2 - "
+"двойной размер."
 
 #: .\Plugins\HUD\ui.py:164
 msgid "Scale Height"
-msgstr ""
+msgstr "Масштаб по высоте"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
 msgstr ""
+"Также можно масштабировать по высоте, пожалуйста, имейте в виду, что это "
+"может вызвать проблемы с расположением у некоторых виджетов, используйте с "
+"осторожностью."
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"
@@ -2341,7 +2362,7 @@ msgstr " - Соеденение к {0} установлено за (ВРЕМЯ �
 
 #: .\main.py:124
 msgid "Using mirror from settings: {0}"
-msgstr ""
+msgstr "Используется зеркало из настроек: {0}"
 
 #: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
