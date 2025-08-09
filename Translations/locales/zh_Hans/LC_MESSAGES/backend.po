@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-09 04:37+0000\n"
+"PO-Revision-Date: 2025-08-10 07:06+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -290,7 +290,7 @@ msgstr "地图数据提取器开发、支持模块地图。"
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr ""
+msgstr "Discord rich presence插件开发者，一些后端更新。"
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
@@ -353,11 +353,11 @@ msgstr "{0}和{1｝"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "注意！"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
-msgstr ""
+msgstr "{0} SDK 已过时。请在设置-SDK中重新安装以更新到最新版本。"
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -632,11 +632,11 @@ msgstr "刷新目录"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "安装插件"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "未安装任何插件。"
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -644,7 +644,7 @@ msgstr "可用插件"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "您已安装所有可用的插件。"
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -727,15 +727,15 @@ msgstr "无"
 #: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
 #: .\Pages\global_settings.py:288
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "最小（推荐）"
 
 #: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
 msgid "Medium"
-msgstr ""
+msgstr "适中"
 
 #: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
 msgid "Full"
-msgstr ""
+msgstr "最多"
 
 #: .\Pages\global_settings.py:167
 msgid "Global Settings"
@@ -827,19 +827,22 @@ msgstr "变量"
 
 #: .\Pages\global_settings.py:303
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "支持 Ko-Fi 上支持 ETS2LA 的开发"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
-msgstr ""
+msgstr "您将在“概览”页面中看到一个广告。不会有其他广告。建议使用该选项来支持 ETS2LA "
+"的进一步开发。"
 
 #: .\Pages\global_settings.py:318
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
-msgstr ""
+msgstr "您将在非必要页面中看到非侵入性广告。可视化页面将无广告。如果要进一步支持开发"
+"，建议使用此选项。"
 
 #: .\Pages\global_settings.py:320
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
-msgstr ""
+msgstr "你会看到尽可能多的广告，我认为不会完全破坏使用。启用可视化页面后仍然没有广告"
+"。"
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
@@ -915,19 +918,19 @@ msgstr "启用该选项可在前端使用边缘调试器。"
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "设置UI 来源"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
-msgstr ""
+msgstr "要使用的默认 ETS2LA UI 镜像。Auto将会选择最合适的镜像来源。"
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
-msgstr ""
+msgstr "ETS2LA 窗口丢失"
 
 #: .\Pages\global_settings.py:415
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "ETS2LA 等待窗口出现的时间值。"
 
 #: .\Pages\global_settings.py:426
 msgid "Fireworks"
@@ -1430,7 +1433,7 @@ msgstr "手动选择目录"
 
 #: .\Pages\sdk_installation.py:230
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " - 需要重新安装"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
@@ -1837,27 +1840,27 @@ msgstr "HUD 的深度偏移。"
 
 #: .\Plugins\HUD\ui.py:150
 msgid "Widget Sizing"
-msgstr ""
+msgstr "小组件大小调整"
 
 #: .\Plugins\HUD\ui.py:151
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "这些设置可以调整小组件的大小。"
 
 #: .\Plugins\HUD\ui.py:158
 msgid "Widget Scaling"
-msgstr ""
+msgstr "小组件缩放"
 
 #: .\Plugins\HUD\ui.py:159
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
-msgstr ""
+msgstr "小组件的缩放系数。1 是正常大小，0.5 是一半大小，2 是双倍大小。"
 
 #: .\Plugins\HUD\ui.py:164
 msgid "Scale Height"
-msgstr ""
+msgstr "缩放高度"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
-msgstr ""
+msgstr "缩放小组件的高度，请注意，这会导致某些小部件出现布局问题，请谨慎使用。"
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"
@@ -2320,7 +2323,7 @@ msgstr " - 在 (TIMEOUT) 内到达 {0}"
 
 #: .\main.py:124
 msgid "Using mirror from settings: {0}"
-msgstr ""
+msgstr "使用已选择的镜像来源: {0}"
 
 #: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
