@@ -330,13 +330,10 @@ class RouteSection:
             average_distance = 1
         
         closest_distance = 0
-        truck = c.Position(data.truck_x, data.truck_y, data.truck_z)
-        closest_id = 0
         for i in range(len(temp_points) - 1):
             distance = distances_to_truck[i]
             if distance < closest_distance:
                 closest_distance = distance
-                closest_id = i
                 
         if closest_distance > 20:
             return []
@@ -359,7 +356,7 @@ class RouteSection:
         return False
             
     def reset_indicators(self):
-        if data.enabled:
+        if data.enabled and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
             if data.truck_indicating_left:
                 data.controller.lblinker = True
                 time.sleep(1/20)
