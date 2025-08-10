@@ -41,6 +41,8 @@ class Module(ETS2LAModule):
         acceleration = data["acceleration"]
         trailer_count = data["trailer_count"]
         id = data["id"]
+        is_tmp = data["is_tmp"]
+        is_trailer = data["is_trailer"]
         
         trailers = []
         for trailer in data["trailers"]:
@@ -49,9 +51,9 @@ class Module(ETS2LAModule):
             trailer_size = Size(trailer["size"]["width"], trailer["size"]["height"], trailer["size"]["length"])
             
             trailers.append(Trailer(trailer_position, trailer_rotation, trailer_size))
-        
-        return Vehicle(position, rotation, size, speed, acceleration, trailer_count, id, trailers)
-    
+
+        return Vehicle(position, rotation, size, speed, acceleration, trailer_count, trailers, id, is_tmp, is_trailer)
+
     def get_traffic(self):
         if self.buf is None:
             return None

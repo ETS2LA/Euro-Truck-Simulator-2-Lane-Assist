@@ -32,8 +32,10 @@ class ACCVehicle(Vehicle):
             vehicle.speed,
             vehicle.acceleration,
             vehicle.trailer_count,
+            vehicle.trailers,
             vehicle.id,
-            vehicle.trailers
+            vehicle.is_tmp,
+            vehicle.is_trailer
         )
         self.distance = distance
         self.time_gap = time_gap
@@ -856,7 +858,7 @@ class Plugin(ETS2LAPlugin):
 
         try:    in_front = self.get_vehicle_in_front(self.api_data)
         except: in_front = None
-        
+            
         if not in_front:
             self.globals.tags.vehicle_highlights = []
         
