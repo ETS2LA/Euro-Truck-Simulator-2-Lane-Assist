@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-10 07:06+0000\n"
+"PO-Revision-Date: 2025-08-12 03:06+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -1593,7 +1593,7 @@ msgstr "无视交通信号灯"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
-msgstr "自动空调是否应忽略交通信号灯。请注意，如其所述，这将忽略交通信号灯。"
+msgstr "是否应忽略交通信号灯。请注意，如其所述，这将忽略交通信号灯。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
