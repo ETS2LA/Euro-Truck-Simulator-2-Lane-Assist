@@ -212,6 +212,9 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             
             if last_check + 0.1 < time.time():  # Check 10x per second
                 last_check = time.time()
+                if variables.DEVELOPMENT_MODE:
+                    continue
+                
                 if "ets2la" not in window.get_current_url():
                     time.sleep(0.5) # 0.5s load time wait
                     webbrowser.open(window.get_current_url())
