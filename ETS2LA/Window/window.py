@@ -66,6 +66,13 @@ def set_on_top(state: bool):
     queue.task_done()
     return value
 
+def toggle_fullscreen():
+    queue.put({"type": "fullscreen"})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
 def get_on_top():
     queue.put({"type": "stay_on_top", "state": None})
     queue.join() # Wait for the queue to be processed
@@ -196,6 +203,11 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                     settings.Set("global", "stay_on_top", data["state"] == True)
                     queue.task_done()
                     queue.put(data["state"])
+                    
+                if data["type"] == "fullscreen":
+                    window.toggle_fullscreen()
+                    queue.task_done()
+                    queue.put(window.fullscreen)
                     
                 if data["type"] == "minimize":
                     window.minimize()

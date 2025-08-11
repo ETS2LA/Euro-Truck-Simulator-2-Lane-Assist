@@ -7,7 +7,7 @@ PLEASE NOTE:
 """
 from ETS2LA.UI import * 
 
-from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency
+from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency, toggle_fullscreen
 from ETS2LA.Networking.Servers.notifications import sonner, navigate
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
@@ -163,6 +163,10 @@ def set_transparency_to(state: bool):
 @app.get("/window/transparency")
 def get_transparency_state():
     return get_transparency()
+
+@app.get("/window/fullscreen")
+def toggle_fullscreen_from_ui():
+    return toggle_fullscreen()
 
 # endregion
 # region Plugins
