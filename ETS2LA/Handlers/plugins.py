@@ -577,7 +577,7 @@ def start_plugin(
             logging.info(_("Plugin [yellow]{0}[/yellow] started successfully.").format(plugin.description.name))
             return True
         else:
-            if response.data == "Plugin is already enabled":
+            if response and response.data == "Plugin is already enabled":
                 return False
             else:
                 plugin.running = False
