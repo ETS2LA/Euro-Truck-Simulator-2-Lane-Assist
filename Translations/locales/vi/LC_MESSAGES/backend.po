@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-09 04:37+0000\n"
+"PO-Revision-Date: 2025-08-12 05:28+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "vi/>\n"
@@ -2247,7 +2247,7 @@ msgstr "Chế độ thử nghiệm đã được bật. Đây là một tin nh�
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr "Sockets của trực quan hóa dữ liệu"
+msgstr "Visualization Sockets"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
