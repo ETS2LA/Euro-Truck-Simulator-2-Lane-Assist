@@ -228,11 +228,9 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                     continue
                 
                 if "ets2la" not in window.get_current_url():
-                    time.sleep(0.5) # 0.5s load time wait
-                    webbrowser.open(window.get_current_url())
-                    if variables.LOCAL_MODE:
-                        window.load_url('http://localhost:' + str(FRONTEND_PORT))
-                    else:
+                    if not variables.LOCAL_MODE:
+                        time.sleep(0.5) # 0.5s load time wait
+                        webbrowser.open(window.get_current_url())
                         window.load_url(variables.FRONTEND_URL)
                 
 
