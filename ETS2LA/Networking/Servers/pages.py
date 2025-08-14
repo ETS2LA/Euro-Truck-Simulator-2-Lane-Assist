@@ -9,7 +9,6 @@ import asyncio
 import json
 import time
 
-last_sent_data: Dict = {}  # stores the last JSON-serialized version of the page
 connected: Dict[websockets.WebSocketServerProtocol, list[str]] = {}
 """
 {
@@ -88,19 +87,11 @@ async def push_update(url: str):
         if url in urls:
             websockets.append(ws)
     
-    if not websockets:
-        return
-    
     current_data = render_page(url)
     current_data = json.dumps(current_data)
     
-    if url not in last_sent_data:
-        last_sent_data[url] = []
-    
-    if last_sent_data[url] != current_data:
-        last_sent_data[url] = current_data
-        for ws in websockets:
-            await ws.send('{"url": "' + url + '", "data": ' + current_data + '}')
+    for ws in websockets:
+        await ws.send('{"url": "' + url + '", "data": ' + current_data + '}')
 
 # Websocket handler itself, ws.recv() will block until a message is received
 async def handler(ws: websockets.WebSocketServerProtocol, path):
@@ -146,13 +137,15 @@ async def handler(ws: websockets.WebSocketServerProtocol, path):
 async def update_loop():
     last_update = time.perf_counter()
     while True:
+        last_update = time.perf_counter()
+        
         urls = []
         for websocket in connected:
             for url in connected[websocket]:
                 if url not in urls:
                     urls.append(url)
-        
         await asyncio.gather(*(push_update(url) for url in urls))
+        
         variables.REFRESH_PAGES = False
         while not variables.REFRESH_PAGES:
             await asyncio.sleep(0.05)

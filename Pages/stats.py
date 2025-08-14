@@ -14,6 +14,9 @@ class PerformanceMetrics:
     def __init__(self, output: multiprocessing.Queue):
         self.output = output
         threading.Thread(target=self.ram_thread, daemon=True).start()
+        threading.Thread(target=self.unsupported_thread, daemon=True).start()
+        while True:
+            time.sleep(1)
     
     def ram_thread(self):
         while True:
@@ -33,9 +36,9 @@ class PerformanceMetrics:
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     pass
                 
-            self.output.put_nowait({
+            self.output.put({
                 "ram": {
-                    "total": total,
+                    "total": psutil.virtual_memory(),
                     "python": python,
                     "node": node,
                 }
@@ -54,7 +57,7 @@ class PerformanceMetrics:
                     except psutil.NoSuchProcess:
                         pass # Usually indicates that a process has exited
                 
-            self.output.put_nowait({
+            self.output.put({
                 "unsupported": found
             })
 
@@ -65,7 +68,13 @@ class Page(ETS2LAPage):
     def init(self):
         threading.Thread(target=self.data_thread, daemon=True).start()
     
-    data = {}
+    data = {
+        "ram": psutil.virtual_memory(),
+        "python_mem_usage": 0.0,
+        "python_per_type": [0.0, 0.0],
+        "plugin_mem_usage": {},
+        "unsupported": []
+    }
     def data_thread(self):
         self.input = multiprocessing.Queue()
         self.metrics_process = multiprocessing.Process(
@@ -88,7 +97,7 @@ class Page(ETS2LAPage):
             time.sleep(2.5)
     
     def render(self):
-        if "plugin_mem_usage" not in self.data:
+        if "python_per_type" not in self.data:
             return
         
         unsupported = self.data["unsupported"]

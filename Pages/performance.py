@@ -19,6 +19,8 @@ class PerformanceMetrics:
         self.output = output
         threading.Thread(target=self.cpu_thread, daemon=True).start()
         threading.Thread(target=self.ram_thread, daemon=True).start()
+        while True:
+            time.sleep(1) # Keep the process alive
         
     def cpu_thread(self):
         use_fallback = os.name != 'nt' # Linux automatically uses the fallback
