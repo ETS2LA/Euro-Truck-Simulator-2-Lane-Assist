@@ -1,10 +1,75 @@
 from ETS2LA.Plugin import *
 from ETS2LA.UI import *
-
+import math
+import time
+import cv2
+import numpy as np
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
 
+# 新增变道控制参数
+SAFE_DISTANCE = 15.0  # 安全变道距离(米)
+MIN_SPEED_FOR_LANE_CHANGE = 20.0  # 允许变道的最低速度(km/h)
+LANE_CHANGE_DURATION = 2.5  # 变道持续时间(秒)
+LANE_CHANGE_TRIGGER_DELAY = 0.3  # 转向灯触发后的延迟时间(秒)
+
+class LaneChangeController:
+    def __init__(self):
+        self.state = "IDLE"  # IDLE, PREPARING, CHANGING
+        self.direction = None  # LEFT, RIGHT
+        self.start_time = 0
+        self.target_lateral_offset = 0.0
+        self.current_lateral_offset = 0.0
+        self.lane_width = 3.5  # 标准车道宽度(米)
+
+    def update(self, turn_signal, current_speed, dt):
+        """更新变道状态机"""
+        # 检查是否满足变道基本条件
+        if current_speed < MIN_SPEED_FOR_LANE_CHANGE * 0.2778:  # 转换为m/s
+            self.state = "IDLE"
+            return 0.0
+
+        # 状态转换逻辑
+        if self.state == "IDLE":
+            if turn_signal == "LEFT":
+                self.state = "PREPARING"
+                self.direction = "LEFT"
+                self.start_time = time.time()
+                self.target_lateral_offset = -self.lane_width
+            elif turn_signal == "RIGHT":
+                self.state = "PREPARING"
+                self.direction = "RIGHT"
+                self.start_time = time.time()
+                self.target_lateral_offset = self.lane_width
+
+        elif self.state == "PREPARING":
+            # 等待短暂延迟后开始变道
+            if time.time() - self.start_time > LANE_CHANGE_TRIGGER_DELAY:
+                self.state = "CHANGING"
+                self.start_time = time.time()
+
+        elif self.state == "CHANGING":
+            # 计算变道进度(0-1)
+            progress = min(1.0, (time.time() - self.start_time) / LANE_CHANGE_DURATION)
+
+            # 使用S型曲线实现平滑变道
+            progress = 1 / (1 + math.exp(-12 * (progress - 0.5)))
+
+            # 计算当前横向偏移
+            self.current_lateral_offset = self.target_lateral_offset * progress
+
+            # 变道完成
+            if progress >= 1.0:
+                self.state = "IDLE"
+                self.direction = None
+
+        # 重置条件
+        if self.state != "IDLE" and turn_signal == "OFF":
+            self.state = "IDLE"
+            self.direction = None
+
+        return self.current_lateral_offset
 
 def ConvertToScreenCoordinate(X: float, Y: float, Z: float):
     HeadYaw = HeadRotationDegreesX
@@ -34,7 +99,7 @@ def ConvertToScreenCoordinate(X: float, Y: float, Z: float):
         return None, None, None
 
     FovRad = math.radians(FOV)
-    
+
     WindowDistance = ((ScreenCapture.MonitorY2 - ScreenCapture.MonitorY1) * (4 / 3) / 2) / math.tan(FovRad / 2)
 
     ScreenX = (FinalX / FinalZ) * WindowDistance + (ScreenCapture.MonitorX2 - ScreenCapture.MonitorX1) / 2
