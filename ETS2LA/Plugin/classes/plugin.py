@@ -107,13 +107,18 @@ class ETS2LAPlugin(object):
         if type(self).__name__ != "Plugin":
             raise TypeError("Please make sure the class is named 'Plugin'")
     
-    def __new__(cls, path: str, queue: Queue, return_queue: Queue, get_tag: Callable, set_tag: Callable) -> object:
+    get_mem_tag: Callable
+    set_mem_tag: Callable
+    def __new__(cls, path: str, queue: Queue, return_queue: Queue, get_tag: Callable, set_tag: Callable, get_mem_tag: Callable, set_mem_tag: Callable) -> object:
         instance = super().__new__(cls)
         instance.path = path
         
         instance.queue = queue
         instance.return_queue = return_queue
                 
+        instance.get_mem_tag = get_mem_tag
+        instance.set_mem_tag = set_mem_tag
+        
         instance.globals = Global(get_tag, set_tag)
         instance.state = State(return_queue)
         
@@ -221,3 +226,6 @@ class ETS2LAPlugin(object):
         time_to_sleep = max(1/self.description.fps_cap - (self.plugin_run_end_time - self.plugin_run_start_time), 0)
         if time_to_sleep > 0:
             time.sleep(time_to_sleep)
+            
+    def send_large(self) -> None:
+        ...

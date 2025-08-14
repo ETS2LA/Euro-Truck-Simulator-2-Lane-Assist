@@ -1,23 +1,25 @@
 from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
+import multiprocessing
 import pywintypes
 import threading
 import win32pdh
+import logging
 import psutil
 import time
 import os
 
-class Page(ETS2LAPage):
-    url = "/performance"
-    refresh_rate = 1
-    
-    first_times = {}
-    
-    cpu_usage : list[float] = []
-    ram_usage : list[float] = []
-    ets2la_mem_usage : list[float] = []
-    
+# Has to be a class to not lag the main
+# process when collecting data.
+# (multiprocessed)
+class PerformanceMetrics:
+    output: multiprocessing.Queue
+    def __init__(self, output: multiprocessing.Queue):
+        self.output = output
+        threading.Thread(target=self.cpu_thread, daemon=True).start()
+        threading.Thread(target=self.ram_thread, daemon=True).start()
+        
     def cpu_thread(self):
         use_fallback = os.name != 'nt' # Linux automatically uses the fallback
         while True:
@@ -34,16 +36,18 @@ class Page(ETS2LAPage):
                     # Get formatted value
                     _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
                 except pywintypes.error:
+                    time.sleep(1)
+                    logging.warning("Failed to get CPU usage from Windows Performance Counters. Falling back to psutil.")
                     use_fallback = True # Use the fallback if Windows says that AddCounter doesn't exist
                     continue
             else:
                 val = psutil.cpu_percent(interval=1) # Can be a little less accurate
 
-            self.cpu_usage.append(round(val, 1))
-            if len(self.cpu_usage) > 60:
-                self.cpu_usage.pop(0)
-    
-    def get_all_python_process_mem_usage_percent(self):
+            self.output.put_nowait({
+                "cpu" : round(val, 1)
+            })
+            
+    def get_python_mem(self) -> float:
         total = 0
         for proc in psutil.process_iter():
             try:
@@ -57,17 +61,48 @@ class Page(ETS2LAPage):
     def ram_thread(self):
         while True:
             time.sleep(1)
-            self.ram_usage.append(psutil.virtual_memory().percent)
-            self.ets2la_mem_usage.append(round(self.get_all_python_process_mem_usage_percent(), 1))
-            if len(self.ram_usage) > 60:
-                self.ram_usage.pop(0)
-            if len(self.ets2la_mem_usage) > 60:
-                self.ets2la_mem_usage.pop(0)
+            self.output.put_nowait({
+                "ram" : psutil.virtual_memory().percent,
+                "ets2la_ram" : round(self.get_python_mem(), 1)
+            })
+
+class Page(ETS2LAPage):
+    url = "/performance"
+    refresh_rate = 1
+    
+    first_times = {}
+    
+    cpu_usage : list[float] = []
+    ram_usage : list[float] = []
+    ets2la_mem_usage : list[float] = []
 
     def __init__(self):
         super().__init__()
-        threading.Thread(target=self.cpu_thread, daemon=True).start()
-        threading.Thread(target=self.ram_thread, daemon=True).start()
+        threading.Thread(target=self.performance_thread, daemon=True).start()
+
+    def performance_thread(self):
+        input = multiprocessing.Queue()
+        self.metrics_process = multiprocessing.Process(
+            target=PerformanceMetrics, args=(input,),
+            daemon=True
+        )
+        self.metrics_process.start()
+        while True:
+            try:
+                data = input.get(timeout=0.5)
+                if "cpu" in data:
+                    self.cpu_usage.append(data["cpu"])
+                    if len(self.cpu_usage) > 60:
+                        self.cpu_usage.pop(0)
+                if "ram" in data:
+                    self.ram_usage.append(data["ram"])
+                    self.ets2la_mem_usage.append(data["ets2la_ram"])
+                    if len(self.ram_usage) > 60:
+                        self.ram_usage.pop(0)
+                        self.ets2la_mem_usage.pop(0)
+            except multiprocessing.queues.Empty:
+                time.sleep(0.5)
+                continue
 
     def format_frametime(self, frametime: float, max_fps: float) -> str:
         """Format the frametime in milliseconds."""
@@ -130,7 +165,7 @@ class Page(ETS2LAPage):
                                     
                             with Container(styles.Classname("absolute bottom-0 left-0 right-0")): 
                                 Graph(
-                                    data=[{"time": i, "ram": value, "ets2la_ram": self.ets2la_mem_usage[i]} for i, value in enumerate(self.ram_usage)],
+                                    data=[{"time": i, "ram": value, "ets2la_ram": self.ets2la_mem_usage[i] if len(self.ets2la_mem_usage) > i else 0} for i, value in enumerate(self.ram_usage)],
                                     config={"ram": {"label": _("RAM Usage ")}, "ets2la_ram": {"label": _("ETS2LA RAM Usage  ")}},
                                     x=GraphAxisOptions("time"),
                                     y=[GraphAxisOptions("ram", max=100, min=0), GraphAxisOptions("ets2la_ram", max=100, min=0, color="#395C5B")],

@@ -636,6 +636,17 @@ class Plugin(ETS2LAPlugin):
             for plugin in other_plugins:
                 if type(other_plugins[plugin]) == list:
                     DRAWLIST.extend(other_plugins[plugin])
+                    
+        other_plugins = self.get_mem_tag("ARraw")
+        if other_plugins is not None:
+            for plugin in other_plugins:
+                # if type(other_plugins[plugin]) == list:
+                #     DRAWLIST.extend(other_plugins[plugin])
+                if type(other_plugins[plugin]) == list:
+                    for item in other_plugins[plugin]:
+                        object = get_object_from_dict(item)
+                        if object is not None:
+                            DRAWLIST.append(object)
         
         self.Render(items=DRAWLIST)
         DRAWLIST = []

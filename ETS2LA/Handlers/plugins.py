@@ -7,6 +7,7 @@ from ETS2LA.Handlers import controls
 from ETS2LA.Utils import settings
 from ETS2LA import variables
 
+from memory import create_shared_memory_pair, SharedMemorySender, SharedMemoryReceiver
 import multiprocessing
 import threading
 
@@ -43,6 +44,12 @@ class Plugin:
     
     return_queue: multiprocessing.Queue
     """The queue used to send messages back to the backend."""
+    
+    sender: SharedMemorySender
+    """The sender for shared memory messages."""
+    
+    receiver: SharedMemoryReceiver
+    """The receiver for shared memory messages."""
     
     stack: dict[Channel, dict[int, PluginMessage]]
     """All the messages that have arrived from the plugin."""
@@ -95,6 +102,8 @@ class Plugin:
         
         self.queue = multiprocessing.Queue()
         self.return_queue = multiprocessing.Queue()
+        plugin_sender, self.receiver = create_shared_memory_pair(1)
+        self.sender, plugin_receiver = create_shared_memory_pair(1)
         
         # Then kill and start the new process
         if "process" in self.__dict__ and self.process.is_alive():
@@ -106,7 +115,9 @@ class Plugin:
         self.edit_time = os.path.getmtime(self.folder + "/main.py")
         self.process = multiprocessing.Process(
             target=PluginProcess,
-            args=(self.folder, self.queue, self.return_queue),
+            args=(self.folder, 
+                  self.queue, self.return_queue,
+                  plugin_sender, plugin_receiver),
             daemon=True,
             name=f"Plugin {self.folder.split('/')[-1]} Process",
         )
@@ -149,6 +160,11 @@ class Plugin:
         
         threading.Thread(
             target=self.tag_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.memory_handler,
             daemon=True
         ).start()
         
@@ -266,6 +282,39 @@ class Plugin:
                     message.data = "success" # clear data for faster transmit
                     self.queue.put(message, block=True)
             
+            time.sleep(0.01)
+    
+    def memory_handler(self):
+        last_check = time.perf_counter()
+        while True:
+            if self.stop:
+                return
+            
+            if Channel.GET_MEM_TAGS in self.stack:
+                while self.stack[Channel.GET_MEM_TAGS]:
+                    message = self.stack[Channel.GET_MEM_TAGS].popitem()[1]
+                    
+                    tags = message.data["tags"]
+                    response = {}
+                    for tag in tags:
+                        response[tag] = self.tags.get(tag, {})
+                        
+                    self.sender.put(response)
+                    
+            try:
+                data = self.receiver.get_nowait()
+                if data:
+                    for tag, value in data.items():
+                        if tag not in self.tags:
+                            self.tags[tag] = {}
+                            
+                        if self.description.id not in self.tags[tag]:
+                            self.tags[tag][self.description.id] = {}
+                            
+                        self.tags[tag][self.description.id] = value
+            except:
+                pass
+                    
             time.sleep(0.01)
     
     def state_handler(self):

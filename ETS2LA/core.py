@@ -51,8 +51,8 @@ controls.run()      # Control handlers
 plugins.run()       # Run the plugin handler
 
 notifications.run() # Websockets server for notifications
+pages.run()         # Websocket for sending page data to the frontend
 webserver.run()     # Main webserver
-pages.run()         # Python to TS sockets server
 window.run()        # Webview window (if not --no-ui)
                     # This is blocking until the window opens (or a 10s timeout)
 

@@ -85,6 +85,7 @@ def needs_update(game: str) -> bool:
 class Page(ETS2LAPage):
     url = "/about"
     game_needs_update = {}
+    refresh_rate = 60
     
     def fix_wipers(self):
         print(_("Fixing wipers (5s timer)"))

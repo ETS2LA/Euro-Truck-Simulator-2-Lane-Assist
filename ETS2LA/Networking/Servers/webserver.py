@@ -20,7 +20,6 @@ import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.settings as settings
 import ETS2LA.Handlers.sounds as sounds
-import ETS2LA.Handlers.pages as pages
 import ETS2LA.variables as variables
 import ETS2LA.Utils.version as git
 
@@ -37,6 +36,7 @@ import uvicorn
 import socket
 import json
 import zlib
+import time
 
 asked_plugins = False # Will trigger the "Do you want to re-enable plugins?" popup
 mainThreadQueue = []
@@ -279,14 +279,16 @@ def get_plugin_settings(plugin: str):
 def change_control(control: str):
     mainThreadQueue.append([controls.edit_event, [control], {}])
     while [controls.edit_event, [control], {}] in mainThreadQueue:
-        pass
+        time.sleep(0.01)
+        
     return {"status": "ok"}
 
 @app.post("/api/controls/{control}/unbind")
 def unbind_control(control: str):
     mainThreadQueue.append([controls.unbind_event, [control], {}])
     while [controls.unbind_event, [control], {}] in mainThreadQueue:
-        pass
+        time.sleep(0.01)
+        
     return {"status": "ok"}
 
 # endregion
@@ -363,20 +365,6 @@ def get_list_of_pages():
     except:
         logging.exception(_("Failed to get pages"))
         return {}
-    
-@app.post("/api/page")
-def get_page(data: PageFetchData):
-    try:
-        # Plugins
-        if data.page in plugins.get_page_list():
-            page = plugins.get_page_data(data.page)
-            return page
-            
-        # Pages
-        return pages.get_page(data.page)
-    except:
-        logging.exception(_("Failed to get page data for page {0}").format(data.page))
-        return []
 
 # endregion
 # region Developers
