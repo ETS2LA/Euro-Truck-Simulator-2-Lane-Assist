@@ -183,9 +183,7 @@ class Plugin(ETS2LAPlugin):
         
         data.enabled = not data.enabled
         Play("start" if data.enabled else "end")
-        if data.enabled:
-         self.state.text = _("Pay attention, be attentive, take-over when necessary.")
-         return
+    
         self.globals.tags.status = {"Map": data.enabled}
         
     @events.on("JobFinished")
