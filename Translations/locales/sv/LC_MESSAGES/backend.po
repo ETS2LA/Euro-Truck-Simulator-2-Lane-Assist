@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-17 13:06+0000\n"
-"Last-Translator: luftSvensken <luftsvensken@ets2la.com>\n"
+"POT-Creation-Date: 2025-08-08 13:02\n"
+"PO-Revision-Date: 2025-07-23 09:56+0000\n"
+"Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Ett undantag uppstod när händelsen skulle redigeras."
 msgid "Controls listener started."
 msgstr "Kontrollerar att lyssnaren startade."
 
-#: .\ETS2LA\Handlers\plugins.py:127
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -63,67 +63,67 @@ msgstr ""
 "Plugin {0} kunde inte starta: Timeout.\n"
 "Försök att stänga andra program för att ge plugin mer minne och processorkraft."
 
-#: .\ETS2LA\Handlers\plugins.py:132
+#: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Plugin {0} kunde inte starta: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:184
+#: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Plugin [yellow]{0}[/yellow] har laddats."
 
-#: .\ETS2LA\Handlers\plugins.py:379
+#: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Plugin {0} kunde inte hämta beskrivningen: Timeout."
 
-#: .\ETS2LA\Handlers\plugins.py:383
+#: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Plugin {0} kunde inte hämta beskrivningen: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:417
+#: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Plugin {0} kunde inte hämta kontroller: Timeout."
 
-#: .\ETS2LA\Handlers\plugins.py:421
+#: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Plugin {0} kunde inte hämta kontroller: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:491
+#: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
 msgstr "Laddade {0} plugins."
 
-#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
+#: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
 msgstr "Plugin hittades inte."
 
-#: .\ETS2LA\Handlers\plugins.py:572
+#: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Plugin [yellow]{0}[/yellow] startade."
 
-#: .\ETS2LA\Handlers\plugins.py:579
+#: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
 msgstr "Misslyckades med att starta plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
+#: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
 msgstr "Tidsgräns"
 
-#: .\ETS2LA\Handlers\plugins.py:598
+#: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Plugin hittades inte, detta kan bero på en krasch eller ett fel vid laddning."
 
-#: .\ETS2LA\Handlers\plugins.py:615
+#: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Plugin [yellow]{0}[/yellow] stoppades utan problem."
 
-#: .\ETS2LA\Handlers\plugins.py:618
+#: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
 msgstr "Misslyckades med att stoppa plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:644
+#: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
 msgstr "Misslyckades med att starta om plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
+#: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
 msgstr "Plugin {0} hittades inte för sidan {1}."
 
@@ -207,7 +207,7 @@ msgstr "Webbservern startade på http://{ip}:37520"
 msgid "Frontend started at http://{ip}:{port}"
 msgstr "Frontend startade på http://{ip}:{port}"
 
-#: .\ETS2LA\Utils\Console\logging.py:82
+#: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
 msgstr "Loggning initierad."
 
@@ -231,11 +231,11 @@ msgstr "Inga fel eller varningar hittades."
 msgid "Please wait while we initialize the user interface"
 msgstr "Vänta medan vi initierar användargränssnittet"
 
-#: .\ETS2LA\Window\utils.py:190
-msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr "Letar efter ETS2LA fönstret... [dim](10s timeout)[/dim]"
+#: .\ETS2LA\Window\utils.py:191
+msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
+msgstr ""
 
-#: .\ETS2LA\Window\utils.py:199
+#: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr "Kunde inte hitta / starta ETS2LA fönstret. Är din dator tillräckligt kraftfull? Använd https://app.ets2la.com om du tror att din dator är tillräckligt kraftfull."
 
@@ -243,384 +243,408 @@ msgstr "Kunde inte hitta / starta ETS2LA fönstret. Är din dator tillräckligt 
 msgid "Backend started successfully"
 msgstr "Backend startade utan problem"
 
-#: .\Pages\about.py:14
+#: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
 msgstr "Huvudutvecklare och skapare av ETS2LA, backend och frontend."
 
-#: .\Pages\about.py:15
+#: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr "Navigationsdetektering, trafikljusdetektering, ETS2LA Lite, 'delägare'"
 
-#: .\Pages\about.py:16
+#: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr "Diverse tillägg och förbättringar, AI-modeller och utveckling för objektdetektering"
 
-#: .\Pages\about.py:17
+#: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr "Utvecklare av ETS2LA SDK för spelet. Fordon, trafikljus, kameradata och mer direkt från spelet."
 
-#: .\Pages\about.py:18
+#: .\Pages\about.py:23
 msgid "Game data extraction and processing"
 msgstr "Utvinning och bearbetning av speldata"
 
-#: .\Pages\about.py:19
+#: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
 msgstr "Linux- och Unix-portering, diverse förbättringar och buggfixar"
 
-#: .\Pages\about.py:20
+#: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr "ETS2LA SDK C++-utvecklare, Linux- och Unix-portering, buggfixar"
 
-#: .\Pages\about.py:21
+#: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
 msgstr "Hjälp med navigering på ETS2LA och karta"
 
-#: .\Pages\about.py:22
+#: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
 msgstr "scs-sdk-kontroller-utvecklare"
 
-#: .\Pages\about.py:23
+#: .\Pages\about.py:28
 msgid "3D models for the visualization"
 msgstr "3D-modeller för visualisering"
 
-#: .\Pages\about.py:24
+#: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
 msgstr "Utveckling av dataextraktor, stöd för moddade kartor."
 
-#: .\Pages\about.py:25
+#: .\Pages\about.py:30
+msgid "Discord rich presence plugin developer, slight backend updates."
+msgstr ""
+
+#: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
 msgstr "Kinesisk översättning, buggfixar"
 
-#: .\Pages\about.py:26
+#: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
 msgstr "Kinesisk översättningar, buggfixar"
 
-#: .\Pages\about.py:27
+#: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
 msgstr "Automatiska offsetberäkningar för Map-pluginet."
 
-#: .\Pages\about.py:28
+#: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
 msgstr "Discord-serversupport, utvecklare av kinesisk-engelsk översättning."
 
-#: .\Pages\about.py:29
+#: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
 msgstr "Underhåller CN-speglar för ETS2LA-tjänster."
 
-#: .\Pages\about.py:30
+#: .\Pages\about.py:36
 msgid "Game hooks"
 msgstr "Spelkrokar"
 
-#: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
-#: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
+#: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
+#: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
 msgstr "Buggfixar"
 
-#: .\Pages\about.py:43
+#: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
 msgstr "Fixering av vindrutetorkare (5s timer)"
 
-#: .\Pages\about.py:48
+#: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
 msgstr "Lagar vindrutetorkarna på {0} sekunder..."
 
-#: .\Pages\about.py:54 .\Pages\about.py:55
+#: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
 msgstr "Vindrutetorkarna borde vara lagade nu."
 
-#: .\Pages\about.py:58
+#: .\Pages\about.py:105
 msgid "Triggering update"
 msgstr "Utlöser uppdatering"
 
-#: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
+#: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
 msgstr[0] "{0} minut"
 msgstr[1] "{0} minuter"
 
-#: .\Pages\about.py:74 .\Pages\about.py:77
+#: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
 msgstr[0] "{0} timme"
 msgstr[1] "{0} timmar"
 
-#: .\Pages\about.py:76
+#: .\Pages\about.py:131
 msgid "{0} and {1}"
 msgstr "{0} och {1}"
 
-#: .\Pages\about.py:83
+#: .\Pages\about.py:155
+msgid "Notice!"
+msgstr ""
+
+#: .\Pages\about.py:156
+msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
+msgstr ""
+
+#: .\Pages\about.py:158
 msgid "About"
 msgstr "Om"
 
-#: .\Pages\about.py:85
+#: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr "ETS2LA är ett projekt som syftar till att tillhandahålla en lättanvänd självkörande lösning för ETS2 och ATS. Om du vill veta mer kan du besöka github-sidan eller wikin via sidofältet."
 
-#: .\Pages\about.py:89
+#: .\Pages\about.py:164
 msgid "Statistics"
 msgstr "Statistiker"
 
-#: .\Pages\about.py:93
+#: .\Pages\about.py:168
 msgid "Users online:"
 msgstr "Användare online:"
 
-#: .\Pages\about.py:94
+#: .\Pages\about.py:169
 msgid "{0} users"
 msgstr "{0} användare"
 
-#: .\Pages\about.py:96
+#: .\Pages\about.py:171
 msgid "Past 24 hours:"
 msgstr "Senaste 24 timmar:"
 
-#: .\Pages\about.py:97
+#: .\Pages\about.py:172
 msgid "{0} unique users"
 msgstr "{0} unika användare"
 
-#: .\Pages\about.py:99
+#: .\Pages\about.py:174
 msgid "Your usage time:"
 msgstr "Din användningstid:"
 
-#: .\Pages\about.py:104
+#: .\Pages\about.py:179
 msgid "You are not logged in."
 msgstr "Du är inte inloggad."
 
-#: .\Pages\about.py:105
+#: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
 msgstr "Ditt anonyma användar-ID är: {0}"
 
-#: .\Pages\about.py:109
+#: .\Pages\about.py:184
 msgid "You are logged in."
 msgstr "Du är inloggad."
 
-#: .\Pages\about.py:110
+#: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
 msgstr "Välkommen tillbaks, {0}!"
 
-#: .\Pages\about.py:114
+#: .\Pages\about.py:189
 msgid "Contributors"
 msgstr "Bidragsgivare"
 
-#: .\Pages\about.py:125
+#: .\Pages\about.py:200
 msgid "Translations"
 msgstr "Översättningar"
 
-#: .\Pages\about.py:135 .\Pages\global_settings.py:198
+#: .\Pages\about.py:210 .\Pages\global_settings.py:248
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Lista bidragsgivare"
 
-#: .\Pages\about.py:137 .\Pages\global_settings.py:200
+#: .\Pages\about.py:212 .\Pages\global_settings.py:250
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Hjälp Översätta"
 
-#: .\Pages\about.py:141
+#: .\Pages\about.py:216
 msgid "Support Development"
 msgstr "Stöda Utvecklingen"
 
-#: .\Pages\about.py:144
+#: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr "Om du gillar projektet och vill stödja utvecklingen kan du göra det genom att donera via Ko-Fi."
 
-#: .\Pages\about.py:147
+#: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr "Om du vill bidra rekommenderar jag att du går med i Discord-servern och kollar in github-sidan."
 
-#: .\Pages\about.py:151
+#: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr "Om du vill bidra till översättningarna kan du göra det genom att gå med i discord och kontakta en moderator."
 
-#: .\Pages\about.py:156
+#: .\Pages\about.py:231
 msgid "Utils"
 msgstr "Användning"
 
-#: .\Pages\about.py:160
+#: .\Pages\about.py:235
 msgid "Fix Wipers"
 msgstr "Fixa Vindrutetorkare"
 
-#: .\Pages\about.py:161
+#: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr "Har dina vindrutetorkare fastnat? Klicka på knappen och alt-tabbtangenten för att komma till spelet. De borde stängas av om 5 sekunder."
 
-#: .\Pages\about.py:162
+#: .\Pages\about.py:237
 msgid "Activate"
 msgstr "Aktivera"
 
-#: .\Pages\about.py:167
+#: .\Pages\about.py:242
 msgid "Force an update"
 msgstr "Tvinga fram en uppdatering"
 
-#: .\Pages\about.py:168
+#: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr "Tycker du att det borde ha funnits en uppdatering? Klicka på den här knappen så startar appen om och letar efter dem."
 
-#: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
+#: .\Pages\about.py:244 .\Plugins\Map\ui.py:172
 msgid "Update"
 msgstr "Uppdatera"
 
-#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+#: .\Pages\catalogue.py:83 .\Pages\catalogue.py:88
 msgid "Unknown"
-msgstr ""
-
-#: .\Pages\catalogue.py:83
-msgid "No overview provided."
-msgstr ""
+msgstr "Okänd"
 
 #: .\Pages\catalogue.py:84
+msgid "No overview provided."
+msgstr "Ingen översikt tillhandahålls."
+
+#: .\Pages\catalogue.py:85
 msgid "No description provided."
-msgstr ""
+msgstr "Ingen beskrivning tillhandahålls."
 
-#: .\Pages\catalogue.py:132
+#: .\Pages\catalogue.py:133
 msgid "Installing"
-msgstr ""
+msgstr "Installerar"
 
-#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+#: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin hittades inte i katalogen."
 
-#: .\Pages\catalogue.py:147
+#: .\Pages\catalogue.py:148
 msgid "Cloning repository"
-msgstr ""
+msgstr "Kloningsförråd"
 
-#: .\Pages\catalogue.py:150
+#: .\Pages\catalogue.py:151
 msgid "Installing requirements"
-msgstr ""
+msgstr "Installationskrav"
 
-#: .\Pages\catalogue.py:153
+#: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Startar plugin-bakgrundsprocesser"
 
-#: .\Pages\catalogue.py:157
+#: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr ""
+msgstr "Misslyckades med att starta plugin bakgrundsprocessen, men plugin-filerna installerades."
 
-#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+#: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
-msgstr ""
+msgstr "Lyckat"
 
-#: .\Pages\catalogue.py:162
+#: .\Pages\catalogue.py:163
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Pluginet '{name}' har installerats."
 
-#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+#: .\Pages\catalogue.py:165 .\Pages\catalogue.py:231
 msgid "Failed"
-msgstr ""
+msgstr "Misslyckades"
 
-#: .\Pages\catalogue.py:166
+#: .\Pages\catalogue.py:167
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Misslyckades med att installera plugin '{name}': {error}"
 
-#: .\Pages\catalogue.py:170
+#: .\Pages\catalogue.py:171
 msgid "Uninstalling"
-msgstr ""
+msgstr "Avinstallerar"
 
-#: .\Pages\catalogue.py:185
+#: .\Pages\catalogue.py:186
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Stänger plugin-processer"
 
-#: .\Pages\catalogue.py:188
+#: .\Pages\catalogue.py:189
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Misslyckades med att stoppa plugin-processer."
 
-#: .\Pages\catalogue.py:190
+#: .\Pages\catalogue.py:191
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Avregistrerar git-arkivet"
 
-#: .\Pages\catalogue.py:199
+#: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Tar bort plugin-filer"
 
-#: .\Pages\catalogue.py:219
+#: .\Pages\catalogue.py:220
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Försöker ta bort igen ({cur}/{max})"
 
-#: .\Pages\catalogue.py:223
+#: .\Pages\catalogue.py:224
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Misslyckades med att ta bort plugin-filer efter {max} försök"
 
-#: .\Pages\catalogue.py:228
+#: .\Pages\catalogue.py:229
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Pluginet '{name}' har avinstallerats."
 
-#: .\Pages\catalogue.py:232
+#: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Misslyckades med att avinstallera plugin-programmet '{name}': {error}"
 
-#: .\Pages\catalogue.py:263
+#: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Kunde inte hitta källkoden för detta plugin."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
-#: .\Pages\catalogue.py:272
+#: .\Pages\catalogue.py:273
 msgid "Refreshing..."
-msgstr ""
+msgstr "Återhämtar..."
 
-#: .\Pages\catalogue.py:274
+#: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
-msgstr ""
-
-#: .\Pages\catalogue.py:314
-msgid "Back"
-msgstr ""
+msgstr "Hittade {count} plugins"
 
 #: .\Pages\catalogue.py:317
+msgid "Back"
+msgstr "Bak"
+
+#: .\Pages\catalogue.py:320
 msgid "Source Code"
-msgstr ""
+msgstr "Källkod"
 
-#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+#: .\Pages\catalogue.py:325 .\Pages\catalogue.py:402
 msgid "Uninstall"
-msgstr ""
+msgstr "Avinstallera"
 
-#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+#: .\Pages\catalogue.py:329 .\Pages\catalogue.py:366
 msgid "Install"
-msgstr ""
+msgstr "Installera"
 
-#: .\Pages\catalogue.py:355
+#: .\Pages\catalogue.py:358
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Är du säker på att du vill installera det här pluginet?"
 
-#: .\Pages\catalogue.py:356
+#: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
-msgstr ""
+msgstr "ETS2LA ansvarar inte för några problem orsakade av plugins från tredje part."
 
-#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+#: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
-msgstr ""
+msgstr "Avboka"
 
-#: .\Pages\catalogue.py:369
+#: .\Pages\catalogue.py:372
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Installerar {plugin}"
 
-#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+#: .\Pages\catalogue.py:378 .\Pages\catalogue.py:388
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
-#: .\Pages\catalogue.py:379
+#: .\Pages\catalogue.py:382
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Avinstallera {plugin}"
 
-#: .\Pages\catalogue.py:392
+#: .\Pages\catalogue.py:395
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Är du säker på att du vill avinstallera det här pluginet?"
 
-#: .\Pages\catalogue.py:409
-msgid "Plugin Catalogue"
-msgstr ""
-
-#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:327
 msgid "Search plugins..."
 msgstr "Sök plugins..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Återhämta"
 
-#: .\Pages\catalogue.py:426
+#: .\Pages\catalogue.py:428
 msgid "No plugins found in the plugin catalogue."
+msgstr "Inga plugin hittades i pluginkatalogen."
+
+#: .\Pages\catalogue.py:431
+msgid "Refresh Catalogue"
+msgstr "Återhämta katalog"
+
+#: .\Pages\catalogue.py:471
+msgid "Installed Plugins"
 msgstr ""
 
-#: .\Pages\catalogue.py:429
-msgid "Refresh Catalogue"
+#: .\Pages\catalogue.py:474
+msgid "No plugins are installed."
+msgstr ""
+
+#: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
+msgid "Available Plugins"
+msgstr "Tillgängliga plugins"
+
+#: .\Pages\catalogue.py:495
+msgid "You have installed all available plugins."
 msgstr ""
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
@@ -700,179 +724,229 @@ msgstr "Den här händelsen har ännu inte kopplats till en enhet."
 msgid "Keyboard: "
 msgstr "Tangentbord: "
 
-#: .\Pages\global_settings.py:134
+#: .\Pages\global_settings.py:14 .\Pages\global_settings.py:288
+#: .\Pages\plugins.py:263
+msgid "None"
+msgstr "Ingen"
+
+#: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
+#: .\Pages\global_settings.py:288
+msgid "Minimal (recommended)"
+msgstr ""
+
+#: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
+msgid "Medium"
+msgstr ""
+
+#: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
+msgid "Full"
+msgstr ""
+
+#: .\Pages\global_settings.py:167
 msgid "Global Settings"
 msgstr "Globala Inställningar"
 
-#: .\Pages\global_settings.py:135
+#: .\Pages\global_settings.py:168
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr "Här hittar du inställningar som påverkar hela programmet. Saker som fönsterstorlek och språk."
 
-#: .\Pages\global_settings.py:139
+#: .\Pages\global_settings.py:174
 msgid "User Interface"
 msgstr "Gräns-snittet"
 
-#: .\Pages\global_settings.py:142 .\Pages\onboarding.py:310
+#: .\Pages\global_settings.py:189 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Fönster Bredd"
 
-#: .\Pages\global_settings.py:143
+#: .\Pages\global_settings.py:190
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Ändra fönstrets bredd. Observera att ETS2LA inte är testad på icke-standardiserade upplösningar, så använd på egen risk!"
 
-#: .\Pages\global_settings.py:153 .\Pages\onboarding.py:319
+#: .\Pages\global_settings.py:200 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Fönster Höjd"
 
-#: .\Pages\global_settings.py:154
+#: .\Pages\global_settings.py:201
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Ändra fönstrets höjd. Observera att ETS2LA inte är testad på icke-standardiserade upplösningar, så använd på egen risk!"
 
-#: .\Pages\global_settings.py:164
+#: .\Pages\global_settings.py:211
 msgid "Transparency mode Alpha"
 msgstr "Transparensläge Alfa"
 
-#: .\Pages\global_settings.py:165
+#: .\Pages\global_settings.py:212
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Ändra fönstrets transparens när du går in i transparensläge. Detta kan göras genom att högerklicka på den gröna knappen i det övre högra hörnet."
 
-#: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
+#: .\Pages\global_settings.py:227 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Språk"
 
-#: .\Pages\global_settings.py:178
+#: .\Pages\global_settings.py:228
 msgid "Select the language for the application."
 msgstr "Välj språk för applikationen."
 
-#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Sök Språk..."
 
-#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Hjälp oss över att på discord!"
 
-#: .\Pages\global_settings.py:196
+#: .\Pages\global_settings.py:246
 msgid "This translation is {percentage:.2f}% complete."
 msgstr "Den här översättningen är {percentage:.2f}% klar."
 
-#: .\Pages\global_settings.py:203
+#: .\Pages\global_settings.py:253
 msgid "Audio"
 msgstr "Ljud"
 
-#: .\Pages\global_settings.py:206
+#: .\Pages\global_settings.py:256
 msgid "Soundpack"
 msgstr "Ljudpaket"
 
-#: .\Pages\global_settings.py:207
+#: .\Pages\global_settings.py:257
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr "Välj det ljudpaket som ska användas. Dessa kan läggas till i app/ETS2LA/Assets/Sounds."
 
-#: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:264 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr "Volym"
 
-#: .\Pages\global_settings.py:215
+#: .\Pages\global_settings.py:265
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr "Justera volymen. Detta påverkar alla ljud som spelas upp av ETS2LA."
 
-#: .\Pages\global_settings.py:226
+#: .\Pages\global_settings.py:276
 msgid "Startup Sound"
 msgstr "Startljud"
 
-#: .\Pages\global_settings.py:227
+#: .\Pages\global_settings.py:277
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr "Slå på eller av startljudet. Detta spelas varje gång ETS2LA-fönstret öppnas."
 
-#: .\Pages\global_settings.py:232
+#: .\Pages\global_settings.py:282
 msgid "Variables"
 msgstr "Variabler"
 
-#: .\Pages\global_settings.py:234
+#: .\Pages\global_settings.py:303
+msgid "Support ETS2LA Development on Ko-Fi"
+msgstr ""
+
+#: .\Pages\global_settings.py:316
+msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
+msgstr ""
+
+#: .\Pages\global_settings.py:318
+msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
+msgstr ""
+
+#: .\Pages\global_settings.py:320
+msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
+msgstr ""
+
+#: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
 msgstr "Återgång till gammal accelerationsmetod"
 
-#: .\Pages\global_settings.py:235
+#: .\Pages\global_settings.py:337
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Om du har problem med att lastbilen inte accelererar/bromsar ordentligt kan du aktivera det här alternativet för att använda en annan metod. Tänk på att om den nya har fastnat kan du behöva starta om spelet efter att du har aktiverat det här alternativet."
 
-#: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
+#: .\Pages\global_settings.py:344 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Hög Prioritet"
 
-#: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
+#: .\Pages\global_settings.py:345 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Kör ETS2LA i högprioritetsläge. Detta kommer att instruera ditt operativsystem att ge mer CPU-tid till ETS2LA, vilket kan förbättra prestandan på bekostnad av andra applikationer."
 
-#: .\Pages\global_settings.py:257
+#: .\Pages\global_settings.py:359
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr "Du måste starta om ETS2LA för att tillämpa prioritetsändringen!"
 
-#: .\Pages\global_settings.py:260
+#: .\Pages\global_settings.py:362
 msgid "Slow Loading"
 msgstr "Långsam laddning"
 
-#: .\Pages\global_settings.py:261
+#: .\Pages\global_settings.py:363
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr "Ifall din dator har problem med att ladda alla plugins parallellt så kan du ändra den här inställningen för att ladda de en efter en. Notera att om du ändrar den här inställningen så behöver du vänta ett tag på att alla plugins laddat klart."
 
-#: .\Pages\global_settings.py:266
+#: .\Pages\global_settings.py:368
 msgid "Miscellaneous"
 msgstr "Diverse"
 
-#: .\Pages\global_settings.py:270
+#: .\Pages\global_settings.py:372
 msgid "Frontend Port"
 msgstr "Frontend-port"
 
-#: .\Pages\global_settings.py:271
+#: .\Pages\global_settings.py:373
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr "Ändra porten som används av frontend. Detta används endast i lokalt läge."
 
-#: .\Pages\global_settings.py:278
+#: .\Pages\global_settings.py:380
 msgid "Frameless Window"
 msgstr "Ramlöst fönster"
 
-#: .\Pages\global_settings.py:279
+#: .\Pages\global_settings.py:381
 msgid "Disable this option if you have any issues moving the window around."
 msgstr "Inaktivera det här alternativet om du har problem med att flytta fönstret."
 
-#: .\Pages\global_settings.py:284
+#: .\Pages\global_settings.py:386
 msgid "Send Crash Reports"
 msgstr "Skicka kraschrapporter"
 
-#: .\Pages\global_settings.py:285
+#: .\Pages\global_settings.py:387
 msgid "Automatically send crash reports to help improve the application."
 msgstr "Skicka automatiskt kraschrapporter för att förbättra applikationen."
 
-#: .\Pages\global_settings.py:290
+#: .\Pages\global_settings.py:392
 msgid "Use Fancy Traceback"
 msgstr "Använd Fancy Traceback"
 
-#: .\Pages\global_settings.py:291
+#: .\Pages\global_settings.py:393
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr "Aktivera det här alternativet för att använda en avancerad spårning för fel."
 
-#: .\Pages\global_settings.py:297
+#: .\Pages\global_settings.py:399
 msgid "Debug Mode"
 msgstr "Felsökningsläge"
 
-#: .\Pages\global_settings.py:298
+#: .\Pages\global_settings.py:400
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr "Aktivera det här alternativet för att använda edge-felsökaren för användargränssnittet."
 
-#: .\Pages\global_settings.py:306
+#: .\Pages\global_settings.py:406
+msgid "Default UI Mirror"
+msgstr ""
+
+#: .\Pages\global_settings.py:407
+msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
+msgstr ""
+
+#: .\Pages\global_settings.py:414
+msgid "ETS2LA Window Timeout"
+msgstr ""
+
+#: .\Pages\global_settings.py:415
+msgid "The amount of time ETS2LA waits for the window to show up."
+msgstr ""
+
+#: .\Pages\global_settings.py:426
 msgid "Fireworks"
 msgstr "Fyrverkeri"
 
-#: .\Pages\global_settings.py:307
+#: .\Pages\global_settings.py:427
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr "Aktivera det här alternativet för att använda fyrverkerieffekter under nyår."
 
-#: .\Pages\global_settings.py:313
+#: .\Pages\global_settings.py:433
 msgid "Snow"
 msgstr "Snö"
 
-#: .\Pages\global_settings.py:314
+#: .\Pages\global_settings.py:434
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Aktivera det här alternativet för att använda snöeffekter under vintersäsongen."
 
@@ -880,8 +954,8 @@ msgstr "Aktivera det här alternativet för att använda snöeffekter under vint
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Om du har gjort onboardingen tidigare vet du hur du avslutar. ETS2LA fungerar inte utan att göra onboardingen en gång."
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
-#: .\Plugins\NGHUD\main.py:380
+#: .\Pages\onboarding.py:88 .\Plugins\HUD\main.py:355
+#: .\Plugins\HUD\main.py:400
 msgid "Loading..."
 msgstr "Laddar..."
 
@@ -925,7 +999,7 @@ msgstr "Välj ditt föredraget språk för ETS2LA. Denna inställning kan ändra
 msgid "Select your preferred language for ETS2LA."
 msgstr "Välj ditt föredragna språk för ETS2LA."
 
-#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
+#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
 msgstr "SDK-konfiguration"
 
@@ -937,7 +1011,7 @@ msgstr "För att komma igång behöver vi konfigurera SDK:et. Detta gör att ETS
 msgid "Waiting for SDK installation..."
 msgstr "Väntar på SDK-installation..."
 
-#: .\Pages\onboarding.py:171 .\Pages\performance.py:131
+#: .\Pages\onboarding.py:171 .\Pages\performance.py:140
 msgid "Plugins"
 msgstr "Plugins"
 
@@ -1117,51 +1191,51 @@ msgstr "Sidan hittades inte"
 msgid "Go back"
 msgstr "Gå tillbaka"
 
-#: .\Pages\performance.py:94
+#: .\Pages\performance.py:103
 msgid "System"
 msgstr "System"
 
-#: .\Pages\performance.py:97
+#: .\Pages\performance.py:106
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr "Data samlas fortfarande in, vänligen vänta några sekunder tills graferna stabiliseras."
 
-#: .\Pages\performance.py:103
+#: .\Pages\performance.py:112
 msgid "CPU Usage"
 msgstr "CPU-användning"
 
-#: .\Pages\performance.py:110
+#: .\Pages\performance.py:119
 msgid "CPU Usage "
 msgstr "CPU-användning "
 
-#: .\Pages\performance.py:118
+#: .\Pages\performance.py:127
 msgid "RAM Usage"
 msgstr "RAM-användning"
 
-#: .\Pages\performance.py:125
+#: .\Pages\performance.py:134
 msgid "RAM Usage "
 msgstr "RAM-användning "
 
-#: .\Pages\performance.py:125
+#: .\Pages\performance.py:134
 msgid "ETS2LA RAM Usage  "
 msgstr "ETS2LA RAM-användning  "
 
-#: .\Pages\performance.py:135 .\Pages\plugins.py:371
+#: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
 msgstr "Inga plugin-program körs för närvarande."
 
-#: .\Pages\performance.py:172
+#: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr "Varning: Diagrammet samlar fortfarande in data, vänligen vänta 60 sekunder tills det stabiliseras."
 
-#: .\Pages\performance.py:190
+#: .\Pages\performance.py:199
 msgid "Failed to render plugin {plugin_name}."
 msgstr "Misslyckades med att rendera plugin {plugin_name}."
 
-#: .\Pages\performance.py:194
+#: .\Pages\performance.py:203
 msgid "All displayed data is averaged over a second."
 msgstr "All visad data är medelvärdet över en sekund."
 
-#: .\Pages\performance.py:195
+#: .\Pages\performance.py:204
 msgid "This page took {time:.2f} ms to render."
 msgstr "Det tog {time:.2f} ms att rendera den här sidan."
 
@@ -1195,7 +1269,7 @@ msgstr ""
 "\n"
 "**Detta krävs för att fliken Visualisering ska fungera.**"
 
-#: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
+#: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:19 .\Plugins\HUD\ui.py:110
 msgid "HUD"
 msgstr "HUD"
 
@@ -1215,187 +1289,183 @@ msgstr "Aktivera text-till-tal för aviseringar och varningar. Detta är främst
 msgid "Feature '{0}' not found."
 msgstr "Funktionen '{0}' hittades inte."
 
-#: .\Pages\plugins.py:235
+#: .\Pages\plugins.py:238
 msgid "Loading plugins..."
 msgstr "Laddar plugins..."
 
-#: .\Pages\plugins.py:248
+#: .\Pages\plugins.py:251
 msgid "Plugins (Basic)"
 msgstr "Plugins (grundläggande)"
 
-#: .\Pages\plugins.py:249
+#: .\Pages\plugins.py:252
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr "Du kan aktivera olika ETS2LA-funktioner på höger sida. Alla plugins som beskrivs av dessa funktioner kommer att aktiveras automatiskt utan ytterligare konfiguration."
 
-#: .\Pages\plugins.py:257
+#: .\Pages\plugins.py:260
 msgid "Disable Plugins"
 msgstr "Inaktivera plugins"
 
-#: .\Pages\plugins.py:257
+#: .\Pages\plugins.py:260
 msgid "Enable Plugins"
 msgstr "Aktivera plugins"
 
-#: .\Pages\plugins.py:260
+#: .\Pages\plugins.py:263
 msgid "Currently enabled plugins:"
 msgstr "För närvarande aktiverade plugins:"
 
-#: .\Pages\plugins.py:260
-msgid "None"
-msgstr "Ingen"
-
-#: .\Pages\plugins.py:282
+#: .\Pages\plugins.py:297
 msgid "Enabled"
 msgstr "Aktiverad"
 
-#: .\Pages\plugins.py:282
+#: .\Pages\plugins.py:297
 msgid "Disabled"
 msgstr "Inaktiverad"
 
-#: .\Pages\plugins.py:287
+#: .\Pages\plugins.py:302
 msgid "Switch to Advanced Mode"
 msgstr "Byt till avancerat läge"
 
-#: .\Pages\plugins.py:321
+#: .\Pages\plugins.py:336
 msgid "Search tags..."
 msgstr "Sök efter taggar..."
 
-#: .\Pages\plugins.py:322
+#: .\Pages\plugins.py:337
 msgid "No tags found"
 msgstr "Inga taggar hittades"
 
-#: .\Pages\plugins.py:331
+#: .\Pages\plugins.py:346
 msgid "Search authors..."
 msgstr "Sök författare..."
 
-#: .\Pages\plugins.py:332
+#: .\Pages\plugins.py:347
 msgid "No authors found"
 msgstr "Inga författare hittades"
 
-#: .\Pages\plugins.py:336
+#: .\Pages\plugins.py:351
 msgid "Back to Basic Mode"
 msgstr "Tillbaka till grundläget"
 
-#: .\Pages\plugins.py:367
+#: .\Pages\plugins.py:382
 msgid "Running Plugins"
 msgstr "Kör plugins"
 
-#: .\Pages\plugins.py:374
+#: .\Pages\plugins.py:389
 msgid "Want to enable the plugins you had running last time?"
 msgstr "Vill du aktivera de plugins du körde förra gången?"
 
-#: .\Pages\plugins.py:376
+#: .\Pages\plugins.py:391
 msgid "Enable Last Plugins"
 msgstr "Aktivera senaste plugins"
 
-#: .\Pages\plugins.py:382
-msgid "Available Plugins"
-msgstr "Tillgängliga plugins"
-
-#: .\Pages\sdk_installation.py:86
+#: .\Pages\sdk_installation.py:118
 msgid "Could not find version for {game}, skipping installation"
 msgstr "Kunde inte hitta versionen för {game}, hoppar över installationen"
 
-#: .\Pages\sdk_installation.py:91
+#: .\Pages\sdk_installation.py:123
 msgid "Installing SDKs for {game}"
 msgstr "Installera SDK:er för {game}"
 
-#: .\Pages\sdk_installation.py:99
+#: .\Pages\sdk_installation.py:131
 msgid "SDKs for {game} installed successfully."
 msgstr "SDK:erna för {game} har installerats."
 
-#: .\Pages\sdk_installation.py:101
+#: .\Pages\sdk_installation.py:133
 msgid "SDKs for {game} already installed, skipping installation"
 msgstr "SDK:er för {game} är redan installerade, hoppar över installationen"
 
-#: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
+#: .\Pages\sdk_installation.py:135 .\Pages\sdk_installation.py:157
 msgid "Please make sure the game is closed and try again. {error}"
 msgstr "Se till att spelet är stängt och försök igen. {error}"
 
-#: .\Pages\sdk_installation.py:104
+#: .\Pages\sdk_installation.py:136
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr "Fel vid installation av SDK:et för {game}, vänligen se till att spelet inte körs."
 
-#: .\Pages\sdk_installation.py:109
+#: .\Pages\sdk_installation.py:143
 msgid "Could not find version for {game}, skipping uninstallation"
 msgstr "Kunde inte hitta versionen för {game}, hoppar över avinstallationen"
 
-#: .\Pages\sdk_installation.py:114
+#: .\Pages\sdk_installation.py:148
 msgid "Uninstalling SDKs for {game}"
 msgstr "Avinstallerar SDK:er för {game}"
 
-#: .\Pages\sdk_installation.py:119
+#: .\Pages\sdk_installation.py:153
 msgid "SDKs for {game} uninstalled successfully."
 msgstr "SDK:erna för {game} har avinstallerats."
 
-#: .\Pages\sdk_installation.py:121
+#: .\Pages\sdk_installation.py:155
 msgid "SDKs for {game} not installed, skipping uninstallation"
 msgstr "SDK:er för {game} är inte installerade, hoppar över avinstallationen"
 
-#: .\Pages\sdk_installation.py:124
+#: .\Pages\sdk_installation.py:158
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr "Fel vid avinstallation av SDK:er för {game}, se till att spelet är stängt."
 
-#: .\Pages\sdk_installation.py:127
+#: .\Pages\sdk_installation.py:163
 msgid "Select the game directory"
 msgstr "Välj spelkatalogen"
 
-#: .\Pages\sdk_installation.py:130
+#: .\Pages\sdk_installation.py:166
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr "Kunde inte hitta versionen för det valda spelet, vänligen välj en giltig spelkatalog."
 
-#: .\Pages\sdk_installation.py:131
+#: .\Pages\sdk_installation.py:167
 msgid "Could not find version for {path}, skipping installation"
 msgstr "Kunde inte hitta versionen för {path}, hoppar över installationen"
 
-#: .\Pages\sdk_installation.py:136
+#: .\Pages\sdk_installation.py:172
 msgid "Found game version {version}."
 msgstr "Hittade spelversion {version}."
 
-#: .\Pages\sdk_installation.py:142
+#: .\Pages\sdk_installation.py:178
 msgid "Path {path} does not exist."
 msgstr "Sökvägen {path} finns inte."
 
-#: .\Pages\sdk_installation.py:148
+#: .\Pages\sdk_installation.py:192
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr "Kontrollera att du har de nödvändiga DLL-filerna installerade för att vi ska kunna kommunicera med spelet."
 
-#: .\Pages\sdk_installation.py:156
+#: .\Pages\sdk_installation.py:200
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr "Vi kunde inte hitta några SCS-spel på ditt system. Observera att ETS2LA endast fungerar med legitima versioner som laddats ner från Steam."
 
-#: .\Pages\sdk_installation.py:158
+#: .\Pages\sdk_installation.py:202
 msgid "Select directory manually"
 msgstr "Välj katalog manuellt"
 
-#: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
+#: .\Pages\sdk_installation.py:230
+msgid " - Needs Reinstall"
+msgstr ""
+
+#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
 msgstr "- Installerad"
 
-#: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
+#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Not Installed"
 msgstr "- Inte installerad"
 
-#: .\Pages\sdk_installation.py:194
+#: .\Pages\sdk_installation.py:241
 msgid "This game version is not supported"
 msgstr "Den här spelversionen stöds inte"
 
-#: .\Pages\sdk_installation.py:210
+#: .\Pages\sdk_installation.py:257
 msgid "No files found."
 msgstr "Inga filer hittades."
 
-#: .\Pages\sdk_installation.py:221
+#: .\Pages\sdk_installation.py:268
 msgid "File Sources"
 msgstr "Filkällor"
 
-#: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
+#: .\Pages\sdk_installation.py:276 .\Pages\sdk_installation.py:289
 msgid "Uninstall SDKs"
 msgstr "Avinstallera SDK:erna"
 
-#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
+#: .\Pages\sdk_installation.py:279 .\Pages\sdk_installation.py:292
 msgid "Install SDKs"
 msgstr "Installera SDK:er"
 
-#: .\Pages\sdk_installation.py:237
+#: .\Pages\sdk_installation.py:284
 msgid "Please close the game before installing or uninstalling SDKs."
 msgstr "Stäng spelet innan du installerar eller avinstallerar SDK:er."
 
@@ -1491,8 +1561,8 @@ msgstr "Detta minskar hastighetsförskjutningen i inställningarna."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
-#: .\Plugins\AdaptiveCruiseControl\settings.py:72
-#: .\Plugins\AdaptiveCruiseControl\settings.py:77
+#: .\Plugins\AdaptiveCruiseControl\settings.py:65
+#: .\Plugins\AdaptiveCruiseControl\settings.py:70
 msgid "Adaptive Cruise Control"
 msgstr "Adaptiv farthållare"
 
@@ -1500,231 +1570,352 @@ msgstr "Adaptiv farthållare"
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr "Adaptiva Farthållaren (ACC) kontrollerar automatiskt farten beroende på miljön och fordon framför."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:73
+#: .\Plugins\AdaptiveCruiseControl\settings.py:66
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr "Adaptiv farthållare (ACC) styr lastbilens hastighet baserat på information som samlats in från spelet."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:82
+#: .\Plugins\AdaptiveCruiseControl\settings.py:75
 msgid "Aggressiveness"
 msgstr "Aggressivitet"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:83
+#: .\Plugins\AdaptiveCruiseControl\settings.py:76
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr "Hur aggressivt ska ACC följa bilen framför och ändra hastighetsgränsen?"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:90
+#: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "Following Distance"
 msgstr "Följande avstånd"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:91
+#: .\Plugins\AdaptiveCruiseControl\settings.py:84
 msgid "How far should the ACC keep from the vehicle in front?"
 msgstr "Hur långt ska ACC:n hålla sig från framförvarande fordon?"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:96
+#: .\Plugins\AdaptiveCruiseControl\settings.py:89
 msgid "Ignore Traffic Lights"
 msgstr "Ignorera trafikljus"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:97
+#: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr "Huruvida ACC ska ignorera trafikljus. Observera att detta, som det står, kommer att ignorera trafikljusen."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:102
+#: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
 msgstr "Hastighetskontroll"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:105
+#: .\Plugins\AdaptiveCruiseControl\settings.py:98
 msgid "Ignore Speed Limit"
 msgstr "Ignorera hastighetsbegränsning"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:106
+#: .\Plugins\AdaptiveCruiseControl\settings.py:99
 msgid "Whether the ACC should ignore the speed limit."
 msgstr "Om ACC ska ignorera hastighetsgränsen."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:112
+#: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Coefficient of Friction"
 msgstr "Friktionskoefficient"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:113
+#: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr "Friktionskoefficienten som används för ACC-beräkningarna. Högre värden gör att lastbilen kan köra snabbare i kurvor."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:123
+#: .\Plugins\AdaptiveCruiseControl\settings.py:116
 msgid "Speed when game speed limit is 0"
 msgstr "Hastighet när spelets hastighetsgräns är 0"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:124
+#: .\Plugins\AdaptiveCruiseControl\settings.py:117
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr "Hastigheten att köra när spelet säger att hastighetsgränsen är 0 km/h."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:139
+#: .\Plugins\AdaptiveCruiseControl\settings.py:132
 msgid "Speed Offset Type"
 msgstr "Hastighetsförskjutningstyp"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:141
+#: .\Plugins\AdaptiveCruiseControl\settings.py:134
 msgid "Select the type of speed offset to apply."
 msgstr "Välj vilken typ av hastighetsförskjutning som ska tillämpas."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:146
-#: .\Plugins\AdaptiveCruiseControl\settings.py:157
+#: .\Plugins\AdaptiveCruiseControl\settings.py:138
 msgid "Speed Offset"
 msgstr "Hastighetsförskjutning"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:147
-#: .\Plugins\AdaptiveCruiseControl\settings.py:158
+#: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr "Hastighetsförskjutningen som ska gälla för alla hastighetsgränser. Observera att du också kan ändra detta dynamiskt med tangentkombinationerna i kontrollerna."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:167
+#: .\Plugins\AdaptiveCruiseControl\settings.py:148
 msgid "PID"
 msgstr "PID"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:170
+#: .\Plugins\AdaptiveCruiseControl\settings.py:151
 msgid "Unlock PID"
 msgstr "Lås upp PID"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:171
+#: .\Plugins\AdaptiveCruiseControl\settings.py:152
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr "Du kan låsa upp PID inställningarna så att du manuellt kan justera de. Detta är inte rekommenderat om du inte vet vad en PID är eller hur du kan justera den."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:178
+#: .\Plugins\AdaptiveCruiseControl\settings.py:159
 msgid "PID Kp"
 msgstr "PID Kp"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:179
+#: .\Plugins\AdaptiveCruiseControl\settings.py:160
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr "Är vi där än? Nej? Då måste vi accelerera mer! (Proportionell förstärkning för PID-regulatorn.)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:187
+#: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "PID Ki"
 msgstr "PID Ki"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:188
+#: .\Plugins\AdaptiveCruiseControl\settings.py:169
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr "Var det ett tag sen vi var där? Då måste vi accelerera mer! (Integralförstärkning för PID-regulatorn.)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:196
+#: .\Plugins\AdaptiveCruiseControl\settings.py:177
 msgid "PID Kd"
 msgstr "PID Kd"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:197
+#: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr "Hur snabbt närmar vi oss målet? Ifall vi närmar oss för snabbt måste vi sakta in. (Derivatförstärkning för PID-regulatorn.)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:205
+#: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr "Denna video visar visuellt hur en PID-regulator fungerar. Vänligen kolla hela om du är osäker om dess funktion."
 
-#: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
-msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr "Detta plugin tillhandahåller en HUD med AR-pluginet som renderer."
+#: .\Plugins\HUD\elements\acc.py:8 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "ACC Information"
+msgstr "ACC Information"
 
-#: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
-msgid "General"
-msgstr "Allmänt"
+#: .\Plugins\HUD\elements\acc.py:9
+msgid "Draw ACC information like vehicle distance and speed."
+msgstr "Visa ACC-information som fordonets avstånd och hastighet."
 
-#: .\Plugins\HUD\main.py:89
-msgid "Refresh Rate"
-msgstr "Uppdateringsfrekvens"
+#: .\Plugins\HUD\elements\acceleration.py:8
+msgid "Acceleration"
+msgstr "Acceleration"
 
-#: .\Plugins\HUD\main.py:90
-msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
-msgstr "Hastigheten med vilken HUD:n uppdateras. Det rekommenderas inte att öka detta värde för mycket."
+#: .\Plugins\HUD\elements\acceleration.py:9
+msgid "Draw the current acceleration of the truck."
+msgstr "Visa lastbilens aktuella acceleration."
 
-#: .\Plugins\HUD\main.py:99
-msgid "Scale"
-msgstr "Skala"
+#: .\Plugins\HUD\elements\assists.py:14 .\Plugins\HUD\main.py:47
+msgid "Assist Information"
+msgstr "Assistansinformation"
 
-#: .\Plugins\HUD\main.py:100
-msgid "The scale of the HUD elements."
-msgstr "Skalan på HUD-elementen."
+#: .\Plugins\HUD\elements\assists.py:15
+msgid "Draw ACC and Steering status information."
+msgstr "Visa information om ACC och styrningsstatus."
 
-#: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
-msgid "Offset X"
-msgstr "Förskjutning X"
+#: .\Plugins\HUD\elements\fuel.py:8
+msgid "Fuel Status"
+msgstr "Bränslestatus"
 
-#: .\Plugins\HUD\main.py:111
-msgid "The X offset (side to side) of the HUD elements."
-msgstr "X-förskjutningen (sida till sida) för HUD-elementen."
+#: .\Plugins\HUD\elements\fuel.py:9
+msgid "Draw the current fuel status of the truck."
+msgstr "Visa lastbilens aktuella bränslestatus."
 
-#: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
-msgid "Offset Y"
-msgstr "Förskjutning Y"
+#: .\Plugins\HUD\elements\gear.py:8 .\Plugins\HUD\main.py:44
+msgid "RPM & Gear"
+msgstr "Varvtal & växel"
 
-#: .\Plugins\HUD\main.py:119
-msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr "Y-förskjutningen (topp till botten) för HUD-elementen."
+#: .\Plugins\HUD\elements\gear.py:9
+msgid "Draw the current RPM and gear of the truck."
+msgstr "Visa lastbilens aktuella varvtal och växel."
 
-#: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
-msgid "Offset Z"
-msgstr "Förskjutning Z"
+#: .\Plugins\HUD\elements\media.py:19 .\Plugins\HUD\main.py:43
+#: .\Plugins\HUD\main.py:48
+msgid "Media"
+msgstr "Media"
 
-#: .\Plugins\HUD\main.py:127
-msgid "The Z offset (distance) of the HUD elements."
-msgstr "Z-offset (avstånd) för HUD-elementen."
+#: .\Plugins\HUD\elements\media.py:20
+msgid "Displays media information such as song title, artist and playback progress."
+msgstr "Visar medieinformation som låttitel, artist och uppspelningsförlopp."
 
-#: .\Plugins\HUD\main.py:133
-msgid "HUD Elements"
-msgstr "HUD-element"
+#: .\Plugins\HUD\elements\media.py:23
+msgid "No Media Playing"
+msgstr "Ingen mediauppspelning"
 
-#: .\Plugins\HUD\main.py:135
-msgid "Show Navigation"
-msgstr "Visa navigering"
+#: .\Plugins\HUD\elements\media.py:24 .\Plugins\HUD\elements\media.py:66
+msgid "No Artist"
+msgstr "Ingen artist"
 
-#: .\Plugins\HUD\main.py:136
-msgid "When enabled, the HUD will display navigation information."
-msgstr "När den är aktiverad visar HUD:n navigationsinformation."
+#: .\Plugins\HUD\elements\media.py:65
+msgid "No Title"
+msgstr "Ingen titel"
 
-#: .\Plugins\HUD\main.py:141
-msgid "Show ACC Info"
-msgstr "Visa ACC-information"
+#: .\Plugins\HUD\elements\navigation.py:8
+msgid "Navigation"
+msgstr "Navigering"
 
-#: .\Plugins\HUD\main.py:142
-msgid "When enabled, the HUD will display adaptive cruise control information."
-msgstr "När den är aktiverad visar HUD-displayen information om adaptiv farthållare."
+#: .\Plugins\HUD\elements\navigation.py:9
+msgid "Draw navigation information."
+msgstr "Visa navigeringsinformation."
 
-#: .\Plugins\HUD\main.py:147
-msgid "Draw Steering"
-msgstr "Visa styrning"
+#. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
+#: .\Plugins\HUD\elements\navigation.py:66
+msgid "arrival"
+msgstr "ankomst"
 
-#: .\Plugins\HUD\main.py:148
-msgid "Whether to draw the steering line in the HUD."
-msgstr "Om styrlinjen ska ritas i HUD:n."
+#: .\Plugins\HUD\elements\power.py:11
+msgid "Throttle / Brake"
+msgstr "Gasreglage / Broms"
 
-#: .\Plugins\HUD\main.py:153
-msgid "Show Traffic Light Times"
-msgstr "Visa trafikljustider"
+#: .\Plugins\HUD\elements\power.py:12
+msgid "Display current throttle and brake percentage."
+msgstr "Visar aktuell gas- och bromsprocent."
 
-#: .\Plugins\HUD\main.py:154
-msgid "When enabled, the HUD will display traffic light times."
-msgstr "När den är aktiverad visar HUD-displayen trafikljustider."
+#: .\Plugins\HUD\elements\semaphores.py:7 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "Traffic Lights"
+msgstr "Trafikljus"
 
-#: .\Plugins\HUD\main.py:159
-msgid "Draw Wheel Paths"
-msgstr "Visa hjulspår"
+#: .\Plugins\HUD\elements\semaphores.py:8
+msgid "Draw traffic light information."
+msgstr "Visa trafikljusinformation."
 
-#: .\Plugins\HUD\main.py:160
-msgid "When enabled, the HUD will display where the wheels will go when turning."
-msgstr "När den är aktiverad visar HUD:n var hjulen kommer att gå när du svänger."
+#: .\Plugins\HUD\elements\speed.py:7 .\Plugins\HUD\main.py:42
+#: .\Plugins\TTS\main.py:122
+msgid "Speed"
+msgstr "Hastighet"
 
-#: .\Plugins\HUD\main.py:169
+#: .\Plugins\HUD\elements\speed.py:8
+msgid "A normal speed display, will also show speed limit changes."
+msgstr "En normal hastighetsdisplay visar även ändringar i hastighetsgränsen."
+
+#: .\Plugins\HUD\elements\steering.py:8 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "Steering Line"
+msgstr "Styrningslinje"
+
+#: .\Plugins\HUD\elements\steering.py:9
+msgid "Draw steering line from Map."
+msgstr "Visa styrningslinje från karta."
+
+#: .\Plugins\HUD\main.py:21
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr "Skapar en head-up-display på vindrutan. Kräver AR-plugin för att fungera."
 
-#: .\Plugins\HUD\main.py:758
-msgid "Waiting for lane change approval"
-msgstr "Väntar på godkännande av filbyte"
+#: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
+msgid "Enable"
+msgstr "Aktivera"
 
-#: .\Plugins\HUD\main.py:769
-msgid "Lane change in progress {percentage}%"
-msgstr "Filbyte pågår {percentage}%"
+#: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
+msgid "Disable"
+msgstr "Inaktivera"
 
-#: .\Plugins\HUD\main.py:844
-msgid "Distance: {distance:.0f} {units}"
-msgstr "Avstånd: {distance:.0f} {units}"
+#: .\Plugins\HUD\ui.py:111
+msgid "This plugin provides a HUD using the AR plugin as the renderer."
+msgstr "Detta plugin tillhandahåller en HUD med AR-pluginet som renderer."
 
-#: .\Plugins\HUD\main.py:892
-msgid "Target: {acc_gap:.0f} {units}"
-msgstr "Mål: {acc_gap:.0f} {units}"
+#: .\Plugins\HUD\ui.py:115
+msgid "Please enable the plugin to edit the settings."
+msgstr "Aktivera pluginet för att redigera inställningarna."
+
+#. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
+#: .\Plugins\HUD\ui.py:120
+msgid "Transform"
+msgstr "Omvandla"
+
+#: .\Plugins\HUD\ui.py:122
+msgid "Offset X"
+msgstr "Förskjutning X"
+
+#: .\Plugins\HUD\ui.py:123
+msgid "The horizontal offset of the HUD."
+msgstr "HUD:ens horisontella förskjutning."
+
+#: .\Plugins\HUD\ui.py:131
+msgid "Offset Y"
+msgstr "Förskjutning Y"
+
+#: .\Plugins\HUD\ui.py:132
+msgid "The vertical offset of the HUD."
+msgstr "HUD:ens vertikala förskjutning."
+
+#: .\Plugins\HUD\ui.py:140
+msgid "Offset Z"
+msgstr "Förskjutning Z"
+
+#: .\Plugins\HUD\ui.py:141
+msgid "The depth offset of the HUD."
+msgstr "HUD:s djupförskjutning."
+
+#: .\Plugins\HUD\ui.py:150
+msgid "Widget Sizing"
+msgstr ""
+
+#: .\Plugins\HUD\ui.py:151
+msgid "These settings control the sizing of the widgets."
+msgstr ""
+
+#: .\Plugins\HUD\ui.py:158
+msgid "Widget Scaling"
+msgstr ""
+
+#: .\Plugins\HUD\ui.py:159
+msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
+msgstr ""
+
+#: .\Plugins\HUD\ui.py:164
+msgid "Scale Height"
+msgstr ""
+
+#: .\Plugins\HUD\ui.py:165
+msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
+msgstr ""
+
+#: .\Plugins\HUD\ui.py:171
+msgid "Widget Background"
+msgstr "Widgetbakgrund"
+
+#: .\Plugins\HUD\ui.py:172
+msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
+msgstr "Du kan styra hur mycket widgetens bakgrund ska mörkas, antingen hela tiden eller bara under dagen."
+
+#: .\Plugins\HUD\ui.py:176
+msgid "Darkness"
+msgstr "Mörker"
+
+#: .\Plugins\HUD\ui.py:177
+msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
+msgstr "Mörkret i widgetens bakgrund. 0 är ingen mörker, 1 är helt mörk."
+
+#: .\Plugins\HUD\ui.py:186
+msgid "Day Darkness"
+msgstr "Dagmörker"
+
+#: .\Plugins\HUD\ui.py:187
+msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
+msgstr "Mörkret i widgetens bakgrund under dagen. 0 är inget mörker, 1 är helt mörk."
+
+#: .\Plugins\HUD\ui.py:196
+msgid "Elements"
+msgstr "Element"
+
+#: .\Plugins\HUD\ui.py:205
+msgid "Enabled Widgets"
+msgstr "Aktiverade widgetar"
+
+#: .\Plugins\HUD\ui.py:206
+msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
+msgstr "Detta visar dina aktiverade widgetar och deras respektive storlekar. Klicka på en för att inaktivera den. Du kan ännu inte flytta runt dem, du måste istället Inaktivera -> Aktivera för att få dem dit du vill ha dem."
+
+#: .\Plugins\HUD\ui.py:234
+msgid "Available Widgets"
+msgstr "Tillgängliga widgetar"
+
+#: .\Plugins\HUD\ui.py:235
+msgid "These widgets are available to be enabled:"
+msgstr "Dessa widgetar kan aktiveras:"
+
+#: .\Plugins\HUD\ui.py:243
+msgid "Renderers"
+msgstr "Renderare"
+
+#: .\Plugins\HUD\ui.py:244
+msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
+msgstr "Dessa renderare används för att rita icke-förankrade element. Det är vanligtvis element i spelvärlden som rör sig."
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
@@ -1777,6 +1968,10 @@ msgstr "Kartinställningar"
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr "Konfigurera inställningarna för kartpluginet. Här kan du justera olika alternativ relaterade till navigering, styrning och datahantering."
+
+#: .\Plugins\Map\ui.py:99
+msgid "General"
+msgstr "Allmänt"
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
@@ -1857,213 +2052,6 @@ msgstr "Nedladdningsstorleken för denna data är"
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
 msgstr "den kommer packa ur till en total storlek av"
-
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "ACC Information"
-msgstr "ACC Information"
-
-#: .\Plugins\NGHUD\elements\acc.py:9
-msgid "Draw ACC information like vehicle distance and speed."
-msgstr "Visa ACC-information som fordonets avstånd och hastighet."
-
-#: .\Plugins\NGHUD\elements\acceleration.py:8
-msgid "Acceleration"
-msgstr "Acceleration"
-
-#: .\Plugins\NGHUD\elements\acceleration.py:9
-msgid "Draw the current acceleration of the truck."
-msgstr "Visa lastbilens aktuella acceleration."
-
-#: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
-msgid "Assist Information"
-msgstr "Assistansinformation"
-
-#: .\Plugins\NGHUD\elements\assists.py:15
-msgid "Draw ACC and Steering status information."
-msgstr "Visa information om ACC och styrningsstatus."
-
-#: .\Plugins\NGHUD\elements\fuel.py:8
-msgid "Fuel Status"
-msgstr "Bränslestatus"
-
-#: .\Plugins\NGHUD\elements\fuel.py:9
-msgid "Draw the current fuel status of the truck."
-msgstr "Visa lastbilens aktuella bränslestatus."
-
-#: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
-msgid "RPM & Gear"
-msgstr "Varvtal & växel"
-
-#: .\Plugins\NGHUD\elements\gear.py:9
-msgid "Draw the current RPM and gear of the truck."
-msgstr "Visa lastbilens aktuella varvtal och växel."
-
-#: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43
-#: .\Plugins\NGHUD\main.py:48
-msgid "Media"
-msgstr "Media"
-
-#: .\Plugins\NGHUD\elements\media.py:20
-msgid "Displays media information such as song title, artist and playback progress."
-msgstr "Visar medieinformation som låttitel, artist och uppspelningsförlopp."
-
-#: .\Plugins\NGHUD\elements\media.py:23
-msgid "No Media Playing"
-msgstr "Ingen mediauppspelning"
-
-#: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
-msgid "No Artist"
-msgstr "Ingen artist"
-
-#: .\Plugins\NGHUD\elements\media.py:65
-msgid "No Title"
-msgstr "Ingen titel"
-
-#: .\Plugins\NGHUD\elements\navigation.py:8
-msgid "Navigation"
-msgstr "Navigering"
-
-#: .\Plugins\NGHUD\elements\navigation.py:9
-msgid "Draw navigation information."
-msgstr "Visa navigeringsinformation."
-
-#. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
-#: .\Plugins\NGHUD\elements\navigation.py:66
-msgid "arrival"
-msgstr "ankomst"
-
-#: .\Plugins\NGHUD\elements\power.py:11
-msgid "Throttle / Brake"
-msgstr "Gasreglage / Broms"
-
-#: .\Plugins\NGHUD\elements\power.py:12
-msgid "Display current throttle and brake percentage."
-msgstr "Visar aktuell gas- och bromsprocent."
-
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "Traffic Lights"
-msgstr "Trafikljus"
-
-#: .\Plugins\NGHUD\elements\semaphores.py:8
-msgid "Draw traffic light information."
-msgstr "Visa trafikljusinformation."
-
-#: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
-#: .\Plugins\TTS\main.py:122
-msgid "Speed"
-msgstr "Hastighet"
-
-#: .\Plugins\NGHUD\elements\speed.py:8
-msgid "A normal speed display, will also show speed limit changes."
-msgstr "En normal hastighetsdisplay visar även ändringar i hastighetsgränsen."
-
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "Steering Line"
-msgstr "Styrningslinje"
-
-#: .\Plugins\NGHUD\elements\steering.py:9
-msgid "Draw steering line from Map."
-msgstr "Visa styrningslinje från karta."
-
-#: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
-msgid "NGHUD"
-msgstr "NGHUD"
-
-#: .\Plugins\NGHUD\main.py:21
-msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
-msgstr "Nästa generations HUD (i princip gör jag om HUD och behövde ett namn för det)"
-
-#: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-msgid "Enable"
-msgstr "Aktivera"
-
-#: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-msgid "Disable"
-msgstr "Inaktivera"
-
-#: .\Plugins\NGHUD\ui.py:102
-msgid "Please enable the plugin to edit the settings."
-msgstr "Aktivera pluginet för att redigera inställningarna."
-
-#. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
-#: .\Plugins\NGHUD\ui.py:107
-msgid "Transform"
-msgstr "Omvandla"
-
-#: .\Plugins\NGHUD\ui.py:110
-msgid "The horizontal offset of the HUD."
-msgstr "HUD:ens horisontella förskjutning."
-
-#: .\Plugins\NGHUD\ui.py:119
-msgid "The vertical offset of the HUD."
-msgstr "HUD:ens vertikala förskjutning."
-
-#: .\Plugins\NGHUD\ui.py:128
-msgid "The depth offset of the HUD."
-msgstr "HUD:s djupförskjutning."
-
-#: .\Plugins\NGHUD\ui.py:137
-msgid "Widget Widths"
-msgstr "Widgetbredder"
-
-#: .\Plugins\NGHUD\ui.py:138
-msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
-msgstr "Dessa inställningar styr bredden på varje widget i pixlar. Standardvärdena är 90, 120, 90. Elementen kommer att försöka ändra storlek för att passa, men kom ihåg att de inte är gjorda för att ändra storlek för mycket."
-
-#: .\Plugins\NGHUD\ui.py:161
-msgid "Widget Background"
-msgstr "Widgetbakgrund"
-
-#: .\Plugins\NGHUD\ui.py:162
-msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
-msgstr "Du kan styra hur mycket widgetens bakgrund ska mörkas, antingen hela tiden eller bara under dagen."
-
-#: .\Plugins\NGHUD\ui.py:166
-msgid "Darkness"
-msgstr "Mörker"
-
-#: .\Plugins\NGHUD\ui.py:167
-msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr "Mörkret i widgetens bakgrund. 0 är ingen mörker, 1 är helt mörk."
-
-#: .\Plugins\NGHUD\ui.py:176
-msgid "Day Darkness"
-msgstr "Dagmörker"
-
-#: .\Plugins\NGHUD\ui.py:177
-msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
-msgstr "Mörkret i widgetens bakgrund under dagen. 0 är inget mörker, 1 är helt mörk."
-
-#: .\Plugins\NGHUD\ui.py:186
-msgid "Elements"
-msgstr "Element"
-
-#: .\Plugins\NGHUD\ui.py:195
-msgid "Enabled Widgets"
-msgstr "Aktiverade widgetar"
-
-#: .\Plugins\NGHUD\ui.py:196
-msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
-msgstr "Detta visar dina aktiverade widgetar och deras respektive storlekar. Klicka på en för att inaktivera den. Du kan ännu inte flytta runt dem, du måste istället Inaktivera -> Aktivera för att få dem dit du vill ha dem."
-
-#: .\Plugins\NGHUD\ui.py:224
-msgid "Available Widgets"
-msgstr "Tillgängliga widgetar"
-
-#: .\Plugins\NGHUD\ui.py:225
-msgid "These widgets are available to be enabled:"
-msgstr "Dessa widgetar kan aktiveras:"
-
-#: .\Plugins\NGHUD\ui.py:233
-msgid "Renderers"
-msgstr "Renderare"
-
-#: .\Plugins\NGHUD\ui.py:234
-msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
-msgstr "Dessa renderare används för att rita icke-förankrade element. Det är vanligtvis element i spelvärlden som rör sig."
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
@@ -2328,89 +2316,177 @@ msgstr "Det finns för nuvarande inga anslutna klienter."
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr "Detta plugin skapar en WebSocket server för ETS2LA Visualiseringen. Den tillåter dig att se visualiseringen från externa enheter och se datan från ETS2LA i real tid."
 
-#: .\main.py:105
+#: .\main.py:104
 msgid "Testing mirrors..."
 msgstr "Testar speglar..."
 
-#: .\main.py:113
+#: .\main.py:112
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Nådde {0} på {1:.0f}ms"
 
-#: .\main.py:119
+#: .\main.py:118
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Nådde {0} om (TIMEOUT)"
 
-#: .\main.py:134
+#: .\main.py:124
+msgid "Using mirror from settings: {0}"
+msgstr ""
+
+#: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Kör nedladdningsåtgärd för undermodulen: Gränssnitt -- "
 
-#: .\main.py:152
+#: .\main.py:155
 msgid "Running ETS2LA in development mode."
 msgstr "Kör ETS2LA i utvecklingsläge."
 
-#: .\main.py:156
+#: .\main.py:159
 msgid "Running UI locally"
 msgstr "Kör UI:n lokalt"
 
-#: .\main.py:161
+#: .\main.py:164
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Ingen anslutning till fjärrgränssnittsspeglar. Körs lokalt."
 
-#: .\main.py:172
+#: .\main.py:175
 msgid "Running UI in China mode"
 msgstr "Kör UI:n i Kina-läget"
 
-#: .\main.py:174
+#: .\main.py:177
 msgid "> Using mirror {0} for UI."
 msgstr "> Använder spegel {0} för UI:n."
 
-#: .\main.py:180
+#: .\main.py:183
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console kan inte användas i kombination med --no-ui. Konsolen stängs inte."
 
-#: .\main.py:182
+#: .\main.py:185
 msgid "Closing console after UI start."
 msgstr "Stänger konsoll efter UI start."
 
-#: .\main.py:185
+#: .\main.py:188
 msgid "Running in the background without a window."
 msgstr "Körs i bakgrunden utan fönster."
 
-#: .\main.py:203
+#: .\main.py:206
 msgid "ETS2LA Overseer started!"
 msgstr "ETS2LA-övervakaren har börjat!"
 
-#: .\main.py:219
+#: .\main.py:222
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA startar om..."
 
-#: .\main.py:225
+#: .\main.py:228
 msgid "Skipping update due to development mode."
 msgstr "Hoppar över uppdatering på grund av utvecklingsläge."
 
-#: .\main.py:228
+#: .\main.py:231
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA uppdaterar..."
 
-#: .\main.py:231
+#: .\main.py:234
 msgid "Update done... restarting!"
 msgstr "Uppdatering klar... startar om!"
 
-#: .\main.py:236
+#: .\main.py:239
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA har kraschat!"
 
-#: .\main.py:245
+#: .\main.py:248
 msgid "Send the above traceback to the developers."
 msgstr "Skicka ovanstående spårning till utvecklarna."
 
-#: .\main.py:247
+#: .\main.py:250
 msgid "ETS2LA has closed."
 msgstr "ETS2LA har stängt."
 
-#: .\main.py:248
+#: .\main.py:251
 msgid "Press enter to exit."
 msgstr "Tryck på Enter för att avsluta."
+
+#~ msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
+#~ msgstr "Letar efter ETS2LA fönstret... [dim](10s timeout)[/dim]"
+
+#~ msgid "Plugin Catalogue"
+#~ msgstr "Plugin-katalog"
+
+#~ msgid "Refresh Rate"
+#~ msgstr "Uppdateringsfrekvens"
+
+#~ msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
+#~ msgstr "Hastigheten med vilken HUD:n uppdateras. Det rekommenderas inte att öka detta värde för mycket."
+
+#~ msgid "Scale"
+#~ msgstr "Skala"
+
+#~ msgid "The scale of the HUD elements."
+#~ msgstr "Skalan på HUD-elementen."
+
+#~ msgid "The X offset (side to side) of the HUD elements."
+#~ msgstr "X-förskjutningen (sida till sida) för HUD-elementen."
+
+#~ msgid "The Y offset (top to bottom) of the HUD elements."
+#~ msgstr "Y-förskjutningen (topp till botten) för HUD-elementen."
+
+#~ msgid "The Z offset (distance) of the HUD elements."
+#~ msgstr "Z-offset (avstånd) för HUD-elementen."
+
+#~ msgid "HUD Elements"
+#~ msgstr "HUD-element"
+
+#~ msgid "Show Navigation"
+#~ msgstr "Visa navigering"
+
+#~ msgid "When enabled, the HUD will display navigation information."
+#~ msgstr "När den är aktiverad visar HUD:n navigationsinformation."
+
+#~ msgid "Show ACC Info"
+#~ msgstr "Visa ACC-information"
+
+#~ msgid "When enabled, the HUD will display adaptive cruise control information."
+#~ msgstr "När den är aktiverad visar HUD-displayen information om adaptiv farthållare."
+
+#~ msgid "Draw Steering"
+#~ msgstr "Visa styrning"
+
+#~ msgid "Whether to draw the steering line in the HUD."
+#~ msgstr "Om styrlinjen ska ritas i HUD:n."
+
+#~ msgid "Show Traffic Light Times"
+#~ msgstr "Visa trafikljustider"
+
+#~ msgid "When enabled, the HUD will display traffic light times."
+#~ msgstr "När den är aktiverad visar HUD-displayen trafikljustider."
+
+#~ msgid "Draw Wheel Paths"
+#~ msgstr "Visa hjulspår"
+
+#~ msgid "When enabled, the HUD will display where the wheels will go when turning."
+#~ msgstr "När den är aktiverad visar HUD:n var hjulen kommer att gå när du svänger."
+
+#~ msgid "Waiting for lane change approval"
+#~ msgstr "Väntar på godkännande av filbyte"
+
+#~ msgid "Lane change in progress {percentage}%"
+#~ msgstr "Filbyte pågår {percentage}%"
+
+#~ msgid "Distance: {distance:.0f} {units}"
+#~ msgstr "Avstånd: {distance:.0f} {units}"
+
+#~ msgid "Target: {acc_gap:.0f} {units}"
+#~ msgstr "Mål: {acc_gap:.0f} {units}"
+
+#~ msgid "NGHUD"
+#~ msgstr "NGHUD"
+
+#~ msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
+#~ msgstr "Nästa generations HUD (i princip gör jag om HUD och behövde ett namn för det)"
+
+#~ msgid "Widget Widths"
+#~ msgstr "Widgetbredder"
+
+#~ msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
+#~ msgstr "Dessa inställningar styr bredden på varje widget i pixlar. Standardvärdena är 90, 120, 90. Elementen kommer att försöka ändra storlek för att passa, men kom ihåg att de inte är gjorda för att ändra storlek för mycket."
 
 #~ msgid "Restart and apply {count} update(s)"
 #~ msgstr "Starta om och tillämpa {count} uppdatering(ar)"

@@ -10,6 +10,7 @@ class HUDWidget():
     
     name: str
     description: str
+    scale: float = 1.0
     
     def __init__(self, plugin: ETS2LAPlugin):
         self.plugin = plugin
@@ -28,6 +29,7 @@ class HUDRenderer():
     
     name: str
     description: str
+    scale: float = 1.0
     
     def __init__(self, plugin: ETS2LAPlugin):
         self.plugin = plugin
@@ -41,6 +43,7 @@ class HUDRenderer():
         
 class ElementRunner():
     element: HUDRenderer | HUDWidget
+    plugin: ETS2LAPlugin
 
     offset_x: int = 0
     width: int = 0
@@ -50,8 +53,8 @@ class ElementRunner():
     data: list = []
 
     def __init__(self, plugin: ETS2LAPlugin, name: str):
-        path = f"Plugins.NGHUD.elements.{name}"
-        print(f"Loading NGHUD element: {path}")
+        path = f"Plugins.HUD.elements.{name}"
+        print(f"Loading HUD element: {path}")
         module = importlib.import_module(path)
         # Try to find "Renderer" or "Widget" class in the module
         try:
@@ -62,6 +65,7 @@ class ElementRunner():
             except AttributeError:
                 raise ImportError(f"Element {name} does not have a Renderer or Widget class.")
         
+        self.plugin = plugin
         threading.Thread(target=self.run_element, daemon=True).start()
         
     def run_element(self):
@@ -70,9 +74,12 @@ class ElementRunner():
             
             if not self.enabled:
                 continue
+            
+            self.element.scale = self.plugin.widget_scaling
 
             if isinstance(self.element, HUDRenderer):
                 self.element.draw()
             elif isinstance(self.element, HUDWidget):
                 self.element.draw(self.offset_x, self.width, self.height)
+                
             self.data = self.element.data

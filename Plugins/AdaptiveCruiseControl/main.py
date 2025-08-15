@@ -32,8 +32,10 @@ class ACCVehicle(Vehicle):
             vehicle.speed,
             vehicle.acceleration,
             vehicle.trailer_count,
+            vehicle.trailers,
             vehicle.id,
-            vehicle.trailers
+            vehicle.is_tmp,
+            vehicle.is_trailer
         )
         self.distance = distance
         self.time_gap = time_gap
@@ -691,17 +693,20 @@ class Plugin(ETS2LAPlugin):
             target_speed = smoothed_max_speed
             
         return target_speed
-           
-           
+
     def reset(self) -> None:
         self.controller.aforward = float(0)
         self.controller.abackward = float(0)
 
-
+    set_zero = False
     def set_accel_brake(self, accel:float) -> None:
         is_reversing = False
+        clutch = 0.0
+        speed = 0.0
         if self.api_data:
             gear = self.api_data["truckInt"]["gear"]
+            clutch = self.api_data["truckFloat"]["gameClutch"]
+            speed = self.api_data["truckFloat"]["speed"] * 3.6
             is_reversing = gear < 0
             
         self.accel = min(1, max(-1, accel))
@@ -721,12 +726,18 @@ class Plugin(ETS2LAPlugin):
             self.state.text = ""
         
         if self.accel > 0:
-            self.controller.aforward = float(self.accel)
-            if self.speed > 10 / 3.6:
+            if clutch < 0.1 or speed < 10 / 3.6: # ignore clutch when low speed (at traffic lights)
+                self.controller.aforward = float(self.accel)
+            else: # disable acceleration if clutch is pressed
+                self.controller.aforward = float(0)
+                
+            if self.speed > 10 / 3.6 and not self.set_zero:
                 self.controller.abackward = float(0)
-            else:
+                self.set_zero = True
+            elif not self.set_zero:
                 self.controller.abackward = float(0.0001)
         else:
+            self.set_zero = False
             self.controller.abackward = float(-self.accel)
             self.controller.aforward = float(0)
                
@@ -847,7 +858,7 @@ class Plugin(ETS2LAPlugin):
 
         try:    in_front = self.get_vehicle_in_front(self.api_data)
         except: in_front = None
-        
+            
         if not in_front:
             self.globals.tags.vehicle_highlights = []
         

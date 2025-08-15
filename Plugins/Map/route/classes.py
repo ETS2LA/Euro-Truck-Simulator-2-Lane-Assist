@@ -33,6 +33,7 @@ class RouteItem:
 class RouteSection:
     items: list[RouteItem]
     _lane_index: int = 0
+    _last_lane_index: int = 0
     lane_points: list[c.Position] = []
     lane_change_points: list[c.Position] = []
     last_lane_points: list[c.Position] = []
@@ -44,6 +45,7 @@ class RouteSection:
     invert: bool = False
     last_actual_points: list[c.Position] = []
     force_lane_change: bool = False
+    skip_indicate_state: bool = False
     _start_node: c.Node = None
     _end_node: c.Node = None
     _first_set_done: bool = False
@@ -80,6 +82,7 @@ class RouteSection:
             self._first_set_done = True
         
         if type(self.items[0].item) == c.Prefab:
+            self._last_lane_index = self._lane_index
             self._lane_index = value
             self.lane_points = self.items[0].item.nav_routes[self.lane_index].points
             return
@@ -103,7 +106,8 @@ class RouteSection:
         
         if self.lane_points:
             lanes_to_move_over = abs(value - self.lane_index)
-            lane_change_distance = self.get_planned_lane_change_distance(lane_count=lanes_to_move_over)
+            self.skip_indicate_state = False
+            lane_change_distance = self.get_planned_lane_change_distance(lane_count=lanes_to_move_over) * 2 # * 2 for the initial static area
             
             dist_left = 0
             if not self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
@@ -113,6 +117,7 @@ class RouteSection:
 
             if dist_left < lane_change_distance:
                 if self.force_lane_change:
+                    self.skip_indicate_state = True
                     lane_change_distance = dist_left
                 else:
                     logging.warning(f"Something tried to do a lane change requiring [dim]{lane_change_distance:.0f}m[/dim], but only [dim]{dist_left:.0f}m[/dim] is left.")
@@ -138,6 +143,7 @@ class RouteSection:
                 self._lane_change_progress = 0.0
             
         self.lane_points = new_lane_points
+        self._last_lane_index = self._lane_index
         self._lane_index = value
 
     def _calculate_lane_change_points(self, start_points, end_points):
@@ -173,7 +179,14 @@ class RouteSection:
                     break
                     
                 # Calculate the smoothed transition factor
-                factor = math_helpers.InOut(distance / self.lane_change_distance)
+                s = distance / self.lane_change_distance
+                if not self.skip_indicate_state:
+                    if s < 0.5:
+                        s = 0
+                    else:
+                        s = (s - 0.5) * 2
+                    
+                factor = math_helpers.InOut(s)
                 factors.append(factor)
             except:
                 continue
@@ -317,13 +330,10 @@ class RouteSection:
             average_distance = 1
         
         closest_distance = 0
-        truck = c.Position(data.truck_x, data.truck_y, data.truck_z)
-        closest_id = 0
         for i in range(len(temp_points) - 1):
             distance = distances_to_truck[i]
             if distance < closest_distance:
                 closest_distance = distance
-                closest_id = i
                 
         if closest_distance > 20:
             return []
@@ -335,22 +345,56 @@ class RouteSection:
         
         return new_points
             
-    def is_in_bounds(self, point: c.Position) -> bool:
+    def is_in_bounds(self, point: c.Position, offset: int = -5) -> bool:
         temp_y = point.y
         point.y = point.z
         point.z = temp_y
         for item in self.items:
             if type(item.item) == c.Road:
-                if item.item.bounding_box.is_in(point, offset=-5):
+                if item.item.bounding_box.is_in(point, offset=offset):
                     return True
         return False
             
+    def reset_indicators(self):
+        if data.enabled and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+            if data.truck_indicating_left:
+                data.controller.lblinker = True
+                time.sleep(1/20)
+                data.controller.lblinker = False
+                time.sleep(1/20)
+            elif data.truck_indicating_right:
+                data.controller.rblinker = True
+                time.sleep(1/20)
+                data.controller.rblinker = False
+                time.sleep(1/20)
+    
+    def indicate_right(self):
+        if data.enabled:
+            if not data.truck_indicating_right:
+                data.controller.rblinker = True
+                time.sleep(1/20)
+                data.controller.rblinker = False
+                time.sleep(1/20)
+            
+    def indicate_left(self):
+        if data.enabled:
+            if not data.truck_indicating_left:
+                data.controller.lblinker = True
+                time.sleep(1/20)
+                data.controller.lblinker = False
+                time.sleep(1/20)
+            
     def get_points(self):
+        if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+            self.reset_indicators()
+            
         # If not lane changing, return the normal lane points
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
             current_lane_points = self.discard_points_behind(self.lane_points)
             if len(current_lane_points) < 2:
                 self.is_ended = True
+                if self.is_lane_changing:
+                    self.reset_indicators()
             else:
                 self.is_ended = False
                 
@@ -368,21 +412,27 @@ class RouteSection:
             ) / self.lane_change_distance
             self.lane_change_factor = math_helpers.InOut(self._lane_change_progress)
         
+        # Check if lane change is in progress and not indicating
+        if self.is_lane_changing and self._lane_change_progress > 0:
+            side = self.items[0].item.lanes[self.lane_index].side
+            if side == "left":
+                diff = self._last_lane_index - self.lane_index
+                if diff > 0 and not data.truck_indicating_right:
+                    self.indicate_right()
+                elif diff < 0 and not data.truck_indicating_left:
+                    self.indicate_left()
+            elif side == "right":
+                diff = self._last_lane_index - self.lane_index
+                if diff < 0 and not data.truck_indicating_right:
+                    self.indicate_right()
+                elif diff > 0 and not data.truck_indicating_left:
+                    self.indicate_left()
         
         # Check if lane change is complete
         if self._lane_change_progress > 0.98:
             self.is_lane_changing = False
             # Turn off blinkers after lane change
-            if data.truck_indicating_left:
-                data.controller.lblinker = True
-                time.sleep(1/20)
-                data.controller.lblinker = False
-                time.sleep(1/20)
-            elif data.truck_indicating_right:
-                data.controller.rblinker = True
-                time.sleep(1/20)
-                data.controller.rblinker = False
-                time.sleep(1/20)
+            self.reset_indicators()
             
             self.lane_change_factor = 0
             self._lane_change_progress = 0

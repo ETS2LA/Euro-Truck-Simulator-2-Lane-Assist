@@ -36,6 +36,7 @@ class Settings(ETS2LAPage):
     url = "/settings/TTS"
     location = ETS2LAPageLocation.SETTINGS
     title = "TTS"
+    refresh_rate = 10
     
     def handle_provider_change(self, value: str):
         settings.Set("TTS", "provider", value)
@@ -218,6 +219,8 @@ class Plugin(ETS2LAPlugin):
         else:
             raise ValueError(f"Provider {provider_name} not found.")
 
+        self.pages[0].reset_timer() # Reset the settings page to update the provider selection
+
     def select_voice(self, voice_name: str):
         """
         Select a voice.
@@ -234,6 +237,8 @@ class Plugin(ETS2LAPlugin):
                 self.selected_voice = None
         else:
             logging.warning(_("No provider selected. Cannot select voice."))
+
+        self.pages[0].reset_timer() # Reset the settings page to update the provider selection
 
     def init(self):
         self.load_settings()
@@ -272,10 +277,12 @@ class Plugin(ETS2LAPlugin):
             volume = self.settings.volume
             if not volume: volume = 0.5; self.settings.volume = 0.5
             self.selected_provider.set_volume(volume)
+            self.pages[0].reset_timer() # Reset the settings page to update the volume
             
             speed = self.settings.speed
             if not speed: speed = 1.0; self.settings.speed = 1.0
             self.selected_provider.set_speed(speed)
+            self.pages[0].reset_timer() # Reset the settings page to update the speed
         
     def speak(self, text: str):
         """

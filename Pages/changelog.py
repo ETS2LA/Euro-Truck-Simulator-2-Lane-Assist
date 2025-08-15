@@ -15,6 +15,7 @@ last_update_check = 0
 class Page(ETS2LAPage):
     dynamic = True
     url = "/changelog"
+    refresh_rate = 30
         
     def time_since(self, target_time):
         diff = time.time() - target_time
@@ -26,6 +27,9 @@ class Page(ETS2LAPage):
             return ngettext("{hours} hour ago", "{hours} hours ago", int(diff / 3600)).format(hours=int(diff / 3600))
         else:
             return ngettext("{days} day ago", "{days} days ago", int(diff / 86400)).format(days=int(diff / 86400))
+    
+    def open_event(self):
+        self.reset_timer()
     
     def render(self):
         global last_update_check, last_updates, ran_fetch

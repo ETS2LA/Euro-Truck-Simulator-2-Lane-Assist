@@ -5,6 +5,7 @@ from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
 from ETS2LA.Window.html import html
 import multiprocessing  
+import webbrowser
 import requests
 import logging
 import webview
@@ -60,6 +61,13 @@ webview.settings = {
 
 def set_on_top(state: bool):
     queue.put({"type": "stay_on_top", "state": state})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def toggle_fullscreen():
+    queue.put({"type": "fullscreen"})
     queue.join() # Wait for the queue to be processed
     value = queue.get()
     queue.task_done()
@@ -176,7 +184,10 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
             window.load_url('http://localhost:' + str(FRONTEND_PORT))
         else:
             window.load_url(variables.FRONTEND_URL)
-            
+            if "ets2la.com" not in variables.FRONTEND_URL:
+                settings.Set("global", "ad_preference", 0) # disable ads if not on ets2la.com
+        
+        last_check = 0
         while True:
             time.sleep(0.01)
             try:
@@ -193,6 +204,11 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                     queue.task_done()
                     queue.put(data["state"])
                     
+                if data["type"] == "fullscreen":
+                    window.toggle_fullscreen()
+                    queue.task_done()
+                    queue.put(window.fullscreen)
+                    
                 if data["type"] == "minimize":
                     window.minimize()
                     queue.task_done()
@@ -205,6 +221,18 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
                     
             except:
                 pass
+            
+            if last_check + 0.1 < time.time():  # Check 10x per second
+                last_check = time.time()
+                if variables.DEVELOPMENT_MODE:
+                    continue
+                
+                if "ets2la" not in window.get_current_url():
+                    if not variables.LOCAL_MODE:
+                        time.sleep(0.5) # 0.5s load time wait
+                        webbrowser.open(window.get_current_url())
+                        window.load_url(variables.FRONTEND_URL)
+                
 
     window_x = settings.Get("global", "window_position", (
         get_screen_dimensions()[2] // 2 - WIDTH // 2, 

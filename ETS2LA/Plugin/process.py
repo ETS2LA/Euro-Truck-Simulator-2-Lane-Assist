@@ -7,6 +7,7 @@ from ETS2LA.Utils.settings import Get
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import *
 
+from memory import SharedMemorySender, SharedMemoryReceiver
 import threading
 import importlib
 import logging
@@ -33,6 +34,18 @@ class PluginProcess:
     """
     The queue that is connected between this process and
     the backend. This one is for sending messages to the backend.
+    """
+    
+    sender: SharedMemorySender
+    """
+    Shared memory sender for large data.
+    Only used for tags.
+    """
+    
+    receiver: SharedMemoryReceiver
+    """
+    Shared memory receiver for large data.
+    Only used for tags.
     """
     
     stack: dict[int, PluginMessage] = {}
@@ -96,12 +109,26 @@ class PluginProcess:
     track the performance of the plugin.
     """
     
+    mem_needs_update: bool = False
+    pending_mem_out_update: bool = False
+    last_mem_output_time: int = 0
+    mem_output: dict = {}
+    """
+    Memory tag output.
+    """
+    
     output_needs_update: bool = False
     pending_output_update: bool = False
     last_output_time: int = 0
     output_tags: dict = {}
     """
     Output tags are tags that this plugin wants to send to others.
+    """
+    
+    mem_tags_that_need_update: list[str] = []
+    pending_mem_update: bool = False
+    """
+    Memory tags that need to be updated.
     """
     
     input_tags_that_need_update: list[str] = []
@@ -124,6 +151,20 @@ class PluginProcess:
             
         return self.input_tags[name]
     
+    def get_mem_tag(self, name: str) -> dict:
+        """
+        Get the tags from the plugin without updating them.
+        This is used to get the tags from the plugin without
+        sending them to the backend.
+        """
+        if name not in self.mem_tags_that_need_update:
+            self.mem_tags_that_need_update.append(name)
+        
+        if name not in self.input_tags:
+            self.input_tags[name] = None
+            
+        return self.input_tags[name]
+    
     def set_tag(self, name: str, value) -> None:
         """
         Set a tag in the plugin. This is used to set a tag
@@ -133,6 +174,14 @@ class PluginProcess:
         self.output_needs_update = True
         return None
     
+    def set_mem_tag(self, name: str, value) -> None:
+        """
+        Set a memory tag.
+        """
+        self.mem_output[name] = value
+        self.mem_needs_update = True
+        return None
+    
     def update_plugin(self) -> None:
         logging.info(f"Importing plugin file from {self.path}")
         import_path = self.path.replace("\\", ".").replace("/", ".") + ".main"
@@ -140,12 +189,12 @@ class PluginProcess:
         try:
             self.file = importlib.import_module(import_path)
         except ImportError as e:
+            logging.error(f"Error importing plugin file: {e}")
             self.return_queue.put(PluginMessage(
                 Channel.CRASHED, {
                     "message": f"Error importing plugin file: {e}"
                 }
             ))
-            logging.error(f"Error importing plugin file: {e}")
             raise ImportError(f"Error importing plugin file: {e}")
         
         logging.info(f"Plugin file imported successfully: {self.file}")
@@ -177,12 +226,14 @@ class PluginProcess:
     def listener(self) -> None:
         """Send all messages into the stack."""
         while True:
-            while self.queue.empty():
-                time.sleep(0.01)
-            
             try:
                 message: PluginMessage = self.queue.get(timeout=1)
-            except: time.sleep(0.01); continue
+            except: 
+                if self.plugin:
+                    time.sleep(0.01) 
+                else:
+                    time.sleep(0.1)
+                continue
             
             # Handle the message based on the channel
             match message.channel:
@@ -198,16 +249,71 @@ class PluginProcess:
                     Controls(self)(message)
                 case Channel.OPEN_EVENT | Channel.CLOSE_EVENT:
                     Page(self)(message)
+                case Channel.MEM_TAGS_RECEIVED:
+                    self.pending_mem_out_update = False
                 case _:
                     self.stack[message.id] = message
+        
+    def memory_listener(self) -> None:
+        """Listen to data tags from the shared memory"""
+        while True:
+            try:
+                data = self.receiver.get(timeout=1)
+            except:
+                if self.plugin:
+                    time.sleep(0.01)
+                else:
+                    time.sleep(1)
+                continue
+            
+            if type(data) is not dict:
+                logging.error(f"Received invalid data type: {type(data)}")
+                continue
+            
+            for tag in data:
+                if tag not in self.input_tags:
+                    self.input_tags[tag] = None
+                
+                self.input_tags[tag] = data[tag]
+                self.pending_mem_update = False
         
     def wait_for_id(self, id: int) -> PluginMessage:
         """Wait for a message with the given ID."""
         while id not in self.stack:
-            time.sleep(0.01)
+            time.sleep(0.025)
             
         message = self.stack.pop(id)
         return message
+    
+    def memory_updater(self) -> None:
+        while True:
+            if self.mem_tags_that_need_update and not self.pending_mem_update:
+                self.pending_mem_update = True
+                message = PluginMessage(
+                    Channel.GET_MEM_TAGS, {
+                        "tags": self.mem_tags_that_need_update
+                    }
+                )
+                
+                self.mem_tags_that_need_update = []
+                self.return_queue.put(message, block=False)
+                
+            if self.mem_needs_update:
+                try:
+                    self.sender.put(
+                        self.mem_output,
+                        block=True
+                    )
+                    self.last_mem_output_time = time.time()
+                    self.mem_needs_update = False
+                    self.mem_output = {}
+                except:
+                    pass
+            
+            if self.plugin:
+                time.sleep(0.01)
+            else:
+                time.sleep(1)
     
     def tag_updater(self) -> None:
         while True:
@@ -234,7 +340,10 @@ class PluginProcess:
                 self.output_needs_update = False
                 self.output_tags = {}
 
-            time.sleep(0.01)
+            if self.plugin:
+                time.sleep(0.01)
+            else:
+                time.sleep(0.1)
     
     def process(self) -> None:
         """Keep the process alive."""
@@ -268,7 +377,6 @@ class PluginProcess:
         """Update the performance data."""
         while True:
             time.sleep(1)
-            
             if not self.performance:
                 continue
             
@@ -318,11 +426,14 @@ class PluginProcess:
         except Exception as e:
             logging.exception(f"Error setting high priority: {e}")
         
-    def __init__(self, path: str, queue: Queue, return_queue: Queue) -> None:
+    def __init__(self, path: str, queue: Queue, return_queue: Queue, sender: SharedMemorySender, receiver: SharedMemoryReceiver) -> None:
         start_time = time.time()
         
         self.queue = queue
         self.return_queue = return_queue
+        
+        self.sender = sender
+        self.receiver = receiver
         
         name = os.path.basename(path)
         setup_process_logging(
@@ -361,7 +472,17 @@ class PluginProcess:
         ).start()
         
         threading.Thread(
+            target=self.memory_listener,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
             target=self.tag_updater,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.memory_updater,
             daemon=True
         ).start()
         
@@ -454,7 +575,9 @@ class PluginManagement(ChannelHandler):
                         self.plugin.queue,
                         self.plugin.return_queue,  
                         self.plugin.get_tag,
-                        self.plugin.set_tag  
+                        self.plugin.set_tag,
+                        self.plugin.get_mem_tag,
+                        self.plugin.set_mem_tag 
                     )
                     
                     for page in self.plugin.pages:
@@ -492,7 +615,9 @@ class PluginManagement(ChannelHandler):
                         self.plugin.queue,
                         self.plugin.return_queue,  
                         self.plugin.get_tag,
-                        self.plugin.set_tag      
+                        self.plugin.set_tag,
+                        self.plugin.get_mem_tag,
+                        self.plugin.set_mem_tag     
                     )
                     
                     for page in self.plugin.pages:
@@ -573,6 +698,7 @@ class Function(ChannelHandler):
                     return None
                 
                 function = getattr(page, function)
+                page.reset_timer() # trigger a refresh of the page data
             
             try:
                 if args and kwargs:

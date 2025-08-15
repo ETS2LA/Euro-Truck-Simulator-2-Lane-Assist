@@ -1,5 +1,5 @@
 from Modules.Traffic.classes import Vehicle
-from Plugins.NGHUD.classes import HUDRenderer
+from Plugins.HUD.classes import HUDRenderer
 from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import *
 import time

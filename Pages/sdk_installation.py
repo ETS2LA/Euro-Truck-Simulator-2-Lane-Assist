@@ -5,6 +5,7 @@ from ETS2LA.Utils.Game import path as game
 from tkinter import filedialog
 
 import logging
+import hashlib
 import psutil
 import os
 
@@ -14,9 +15,14 @@ target_path = "\\bin\\win_x64\\plugins"
 
 data_versions = os.listdir("ETS2LA/Assets/DLLs")
 files_for_version = {}
+hashes_for_version = {}
 for version in data_versions:
     files_for_version[version] = os.listdir(f"ETS2LA/Assets/DLLs/{version}")
     files_for_version[version].pop(files_for_version[version].index("sources.txt"))
+    hashes_for_version[version] = {}
+    for file in files_for_version[version]:
+        with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
+            hashes_for_version[version][file] = hashlib.sha256(f.read()).hexdigest()
 
 def IsGameRunning():
     execs = ["amtrucks", "eurotrucks2"]
@@ -61,11 +67,37 @@ def CheckIfInstalled(path: str, version: str, detailed: bool = False) -> bool | 
     
     return return_dict
 
+def needs_update(game: str) -> bool:
+    if not os.path.exists(game + target_path):
+        return False # not even installed
+    
+    missing_files = []
+    for file in files_for_version[game_versions[games.index(game)]]:
+        if not os.path.exists(game + target_path + "\\" + file):
+            missing_files.append(file)
+            
+    if len(missing_files) != 0 and len(missing_files) != len(files_for_version[game_versions[games.index(game)]]):
+        return True # some files are missing, but not all of them
+    if len(missing_files) == len(files_for_version[game_versions[games.index(game)]]):
+        return False # all files are missing, which means the user has never installed the plugin
+    
+    game_hashes = {}
+    for file in files_for_version[game_versions[games.index(game)]]:
+        with open(game + target_path + "\\" + file, "rb") as f:
+            game_hashes[file] = hashlib.sha256(f.read()).hexdigest()
+            
+    for file, hash in hashes_for_version[game_versions[games.index(game)]].items():
+        if file not in game_hashes or game_hashes[file] != hash:
+            return True # file is missing or has a different hash, which means it is outdated
+        
+    return False # everything is fine, no update needed
+
 class Page(ETS2LAPage):
     dynamic = True
     url = "/settings/sdk"
     settings_target = "sdk_installation"
     onboarding_mode = False
+    game_needs_update = {}
 
     def CanContinue(self):
         for game in games:
@@ -102,6 +134,8 @@ class Page(ETS2LAPage):
         except Exception as e:
             SendPopup(_("Please make sure the game is closed and try again. {error}").format(error=e.args), "error")
             logging.error(_("Error installing SDKs for {game}, please make sure the game is closed.").format(game=game))
+            
+        self.open_event()
     
     def UninstallSDK(self, game: str):
         version = game_versions[games.index(game)]
@@ -122,6 +156,8 @@ class Page(ETS2LAPage):
         except Exception as e:
             SendPopup(_("Please make sure the game is closed and try again. {error}").format(error=e.args), "error")
             logging.error(_("Error uninstalling SDKs for {game}, please make sure the game is closed.").format(game=game))
+            
+        self.open_event()
     
     def AddGame(self):
         path = filedialog.askdirectory(title=_("Select the game directory"))
@@ -140,6 +176,14 @@ class Page(ETS2LAPage):
             os.startfile(path)
         else:
             SendPopup(_("Path {path} does not exist.").format(path=path), "error")
+
+    def open_event(self):
+        self.game_needs_update = {}
+        for path in games:
+            try:
+                self.game_needs_update[path] = needs_update(path)
+            except:
+                pass
 
     def render(self):
         if not self.onboarding_mode:
@@ -182,7 +226,10 @@ class Page(ETS2LAPage):
                             title = "ETS2 " if "Euro Truck Simulator 2" in found_game else "ATS "
                             title += version
                             Text(title, styles.Classname("font-semibold"))
-                            Text(_("- Installed") if is_installed else _("- Not Installed"), styles.Description())
+                            if self.game_needs_update.get(found_game, False):
+                                Text(_(" - Needs Reinstall"), styles.Description() + styles.Classname("text-red-500"))
+                            else:
+                                Text(_("- Installed") if is_installed else _("- Not Installed"), styles.Description())
                         
                         with Container(styles.FlexHorizontal() + styles.Gap("4px")):
                             with Button(action=self.OpenPath, name=found_game, type="link"):

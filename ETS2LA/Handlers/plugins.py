@@ -7,6 +7,7 @@ from ETS2LA.Handlers import controls
 from ETS2LA.Utils import settings
 from ETS2LA import variables
 
+from memory import create_shared_memory_pair, SharedMemorySender, SharedMemoryReceiver
 import multiprocessing
 import threading
 
@@ -43,6 +44,12 @@ class Plugin:
     
     return_queue: multiprocessing.Queue
     """The queue used to send messages back to the backend."""
+    
+    sender: SharedMemorySender
+    """The sender for shared memory messages."""
+    
+    receiver: SharedMemoryReceiver
+    """The receiver for shared memory messages."""
     
     stack: dict[Channel, dict[int, PluginMessage]]
     """All the messages that have arrived from the plugin."""
@@ -95,6 +102,8 @@ class Plugin:
         
         self.queue = multiprocessing.Queue()
         self.return_queue = multiprocessing.Queue()
+        plugin_sender, self.receiver = create_shared_memory_pair(1)
+        self.sender, plugin_receiver = create_shared_memory_pair(1)
         
         # Then kill and start the new process
         if "process" in self.__dict__ and self.process.is_alive():
@@ -106,10 +115,17 @@ class Plugin:
         self.edit_time = os.path.getmtime(self.folder + "/main.py")
         self.process = multiprocessing.Process(
             target=PluginProcess,
-            args=(self.folder, self.queue, self.return_queue),
+            args=(self.folder, 
+                  self.queue, self.return_queue,
+                  plugin_sender, plugin_receiver),
             daemon=True,
             name=f"Plugin {self.folder.split('/')[-1]} Process",
         )
+        
+        if "description" in self.__dict__:
+            for tag in self.tags:
+                if self.description.id in self.tags[tag]:
+                    self.tags[tag][self.description.id] = {}
         
         self.process.start()
     
@@ -144,6 +160,11 @@ class Plugin:
         
         threading.Thread(
             target=self.tag_handler,
+            daemon=True
+        ).start()
+        
+        threading.Thread(
+            target=self.memory_handler,
             daemon=True
         ).start()
         
@@ -192,8 +213,12 @@ class Plugin:
             if self.stop:
                 return
             
-            try: message: PluginMessage = self.return_queue.get(timeout=2)
-            except: time.sleep(0.01); continue
+            try: 
+                message: PluginMessage = self.return_queue.get(timeout=2)
+            except: 
+                if self.running: time.sleep(0.01)
+                else: time.sleep(0.1)
+                continue
             
             if message.channel == Channel.STOP_PLUGIN:
                 threading.Thread(
@@ -223,7 +248,10 @@ class Plugin:
                 )
                 self.queue.put(message)
             
-            time.sleep(0.025)
+            if self.running:
+                time.sleep(0.025)
+            else:
+                time.sleep(0.25)
     
     def tag_handler(self):
         while True:   
@@ -261,7 +289,45 @@ class Plugin:
                     message.data = "success" # clear data for faster transmit
                     self.queue.put(message, block=True)
             
-            time.sleep(0.01)
+            if self.running:
+                time.sleep(0.01)
+            else:
+                time.sleep(0.25)
+    
+    def memory_handler(self):
+        while True:
+            if self.stop:
+                return
+            
+            if Channel.GET_MEM_TAGS in self.stack:
+                while self.stack[Channel.GET_MEM_TAGS]:
+                    message = self.stack[Channel.GET_MEM_TAGS].popitem()[1]
+                    
+                    tags = message.data["tags"]
+                    response = {}
+                    for tag in tags:
+                        response[tag] = self.tags.get(tag, {})
+                        
+                    self.sender.put(response)
+                    
+            try:
+                data = self.receiver.get_nowait()
+                if data:
+                    for tag, value in data.items():
+                        if tag not in self.tags:
+                            self.tags[tag] = {}
+                            
+                        if self.description.id not in self.tags[tag]:
+                            self.tags[tag][self.description.id] = {}
+                            
+                        self.tags[tag][self.description.id] = value
+            except:
+                pass
+                 
+            if self.running:   
+                time.sleep(0.01)
+            else:
+                time.sleep(0.25)
     
     def state_handler(self):
         while True:
@@ -275,7 +341,10 @@ class Plugin:
                         self.state["progress"] = message.data["progress"]
                         self.state["status"] = message.data["status"]
             
-            time.sleep(0.1)
+            if self.running:
+                time.sleep(0.1)
+            else:
+                time.sleep(1)
             
     def page_handler(self):
         while True:
@@ -317,6 +386,7 @@ class Plugin:
                         reason = message.data.get("reason", "")
                         plugin = self.description.id
                         notifications.navigate(url, plugin, reason)
+                        
             time.sleep(0.1)
 
     def performance_handler(self):
@@ -572,7 +642,7 @@ def start_plugin(
             logging.info(_("Plugin [yellow]{0}[/yellow] started successfully.").format(plugin.description.name))
             return True
         else:
-            if response.data == "Plugin is already enabled":
+            if response and response.data == "Plugin is already enabled":
                 return False
             else:
                 plugin.running = False

@@ -166,30 +166,23 @@ class Vehicle:
     time: float = 0.0
     speed_position: Position = Position(0, 0, 0)
     
-    def __init__(self, position: Position, rotation: Quaternion, size: Size, speed: float, acceleration: float, trailer_count: int, id: int, trailers: list[Trailer]):
+    def __init__(self, position: Position, rotation: Quaternion, size: Size, 
+                 speed: float, acceleration: float, 
+                 trailer_count: int, trailers: list[Trailer],
+                 id: int, is_tmp: bool, is_trailer: bool):
         self.position = position
         self.rotation = rotation
         self.size = size
         self.speed = speed
         self.acceleration = acceleration
         self.trailer_count = trailer_count
-        self.id = id
         self.trailers = trailers
-        
-        if acceleration == -1:
-            self.is_tmp = True
-            self.is_trailer = False
-            self.acceleration = 0
-        elif acceleration == -2:
-            self.is_tmp = True
-            self.is_trailer = True
-            self.acceleration = 0
-        else:
-            self.is_tmp = False
-            self.is_trailer = False
-            
+        self.id = id
+        self.is_tmp = is_tmp
+        self.is_trailer = is_trailer
+
         self.time = time.time()
-        
+
     def update_from_last(self, vehicle):
         if not self.is_tmp:
             return
@@ -280,8 +273,8 @@ class Vehicle:
             "speed": self.speed,
             "acceleration": self.acceleration,
             "trailer_count": self.trailer_count,
-            "id": self.id,
             "trailers": [trailer.__dict__() for trailer in self.trailers],
+            "id": self.id,
             "is_tmp": self.is_tmp,
             "is_trailer": self.is_trailer,
         }

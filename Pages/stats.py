@@ -1,61 +1,108 @@
-from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
+import multiprocessing
+import threading
 import psutil
+import time
 
-class Page(ETS2LAPage):
-
-    url = "/stats"
-    refresh_rate = 5
+class PerformanceMetrics:
+    output: multiprocessing.Queue
     
-    # Key is the .exe name without the extension, value is the description.
     descriptions = {
         "trucksbook": "Trucksbook will invalidate any jobs you do while having ETS2LA running / the SDK installed."
     }
     
-    def is_unsupported_software_running(self) -> list[str]:
-        execs = self.descriptions.keys()
-        found = []
-        for p in psutil.process_iter():
-            for app in execs:
+    def __init__(self, output: multiprocessing.Queue):
+        self.output = output
+        threading.Thread(target=self.ram_thread, daemon=True).start()
+        threading.Thread(target=self.unsupported_thread, daemon=True).start()
+        while True:
+            time.sleep(1)
+    
+    def ram_thread(self):
+        while True:
+            time.sleep(10)
+            total = 0
+            python = 0
+            node = 0
+            for proc in psutil.process_iter():
                 try:
-                    if app in p.name():
-                        found.append(app)
-                except psutil.NoSuchProcess:
-                    pass # Usually indicates that a process has exited
+                    time.sleep(0.01)  # Prevents high CPU usage
+                    if "python" in proc.name().lower(): # backend
+                        total += proc.memory_percent()
+                        python += proc.memory_percent()
+                    if "node" in proc.name().lower():   # frontend
+                        total += proc.memory_percent()
+                        node += proc.memory_percent()
+                        
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                    pass
+                
+            self.output.put({
+                "ram": {
+                    "total": psutil.virtual_memory(),
+                    "python": python,
+                    "node": node,
+                }
+            })
             
-        return found
+    def unsupported_thread(self) -> list[str]:
+        while True:
+            time.sleep(30)
+            execs = self.descriptions.keys()
+            found = []
+            for p in psutil.process_iter():
+                for app in execs:
+                    try:
+                        if app in p.name():
+                            found.append(app)
+                    except psutil.NoSuchProcess:
+                        pass # Usually indicates that a process has exited
+                
+            self.output.put({
+                "unsupported": found
+            })
+
+class Page(ETS2LAPage):
+    url = "/stats"
+    refresh_rate = 5
     
-    def get_all_python_process_mem_usage_percent(self):
-        total = 0
-        python = 0
-        node = 0
-        for proc in psutil.process_iter():
+    def init(self):
+        threading.Thread(target=self.data_thread, daemon=True).start()
+    
+    data = {
+        "ram": psutil.virtual_memory(),
+        "python_mem_usage": 0.0,
+        "python_per_type": [0.0, 0.0],
+        "plugin_mem_usage": {},
+        "unsupported": []
+    }
+    def data_thread(self):
+        self.input = multiprocessing.Queue()
+        self.metrics_process = multiprocessing.Process(
+            target=PerformanceMetrics, 
+            args=(self.input,),
+            daemon=True
+        )
+        self.metrics_process.start()
+        while True:
             try:
-                if "python" in proc.name().lower(): # backend
-                    total += proc.memory_percent()
-                    python += proc.memory_percent()
-                if "node" in proc.name().lower():   # frontend
-                    total += proc.memory_percent()
-                    node += proc.memory_percent()
+                data = self.input.get(timeout=1)
+                if "unsupported" in data:
+                    self.data["unsupported"] = data["unsupported"]
+                if "ram" in data:
+                    self.data["ram"] = data["ram"]["total"]
+                    self.data["python_mem_usage"] = data["ram"]["python"]
+                    self.data["python_per_type"] = [data["ram"]["python"], data["ram"]["node"]]
                     
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                pass
-        return total, [python, node]
-    
-    def get_all_plugin_mem_usage_percent(self):
-        by_plugin = {}
-        pids = plugins.get_all_process_pids()
-        for key, value in pids.items():
-            by_plugin[key] = 0
-            try:
-                proc = psutil.Process(value)
-                by_plugin[key] = proc.memory_percent()
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                pass
-        return by_plugin
+            except multiprocessing.queues.Empty:
+                continue
+            time.sleep(1)
     
     def render(self):
-        unsupported = self.is_unsupported_software_running()
+        if "python_per_type" not in self.data:
+            return
+        
+        unsupported = self.data["unsupported"]
         if unsupported:
             with Container(styles.FlexHorizontal() + styles.Style(
                     classname="w-full border rounded-lg justify-center shadow-md",
@@ -86,23 +133,25 @@ class Page(ETS2LAPage):
                 content_style.classname = "border"
                 with Tooltip() as t:
                     with t.trigger:
-                        Text(f"RAM: {round(psutil.virtual_memory().percent, 1)}%", style=styles.Description() + styles.Classname("text-xs"))
+                        Text(f"RAM: {round(self.data['ram'].percent, 1)}%", style=styles.Description() + styles.Classname("text-xs"))
                     with t.content as c:
                         c.style = content_style
-                        Markdown(f"```\n{round(psutil.virtual_memory().used / 1024 ** 3, 1)} GB / {round(psutil.virtual_memory().total / 1024 ** 3, 1)} GB\n```")
+                        Markdown(f"```\n{round(self.data['ram'].used / 1024 ** 3, 1)} GB / {round(self.data['ram'].total / 1024 ** 3, 1)} GB\n```")
                         
-                process_mem, per_type = self.get_all_python_process_mem_usage_percent()
-                tooltip_text = f"```\n┏ Python: {round(per_type[0] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+                process_mem, per_type = self.data["python_mem_usage"], self.data["python_per_type"]
+                tooltip_text = f"```\n┏ Python: {round(per_type[0] * self.data['ram'].total / 100 / 1024 ** 3,1)} GB\n"
+                
                 try:
-                    for key, value in self.get_all_plugin_mem_usage_percent().items():
-                        tooltip_text += f"┃  {key}: {round(value * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+                    for key, value in self.data["plugin_mem_usage"].items():
+                        tooltip_text += f"┃  {key}: {round(value * self.data['ram'].total / 100 / 1024 ** 3,1)} GB\n"
                 except: pass
+                
                 if per_type[1] > 0:
                     tooltip_text += "┃\n"
-                    tooltip_text += f"┣ Node: {round(per_type[1] * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n"
+                    tooltip_text += f"┣ Node: {round(per_type[1] * self.data['ram'].total / 100 / 1024 ** 3,1)} GB\n"
                     
                 tooltip_text += "┃\n"
-                tooltip_text += f"┗ Total: {round(process_mem * psutil.virtual_memory().total / 100 / 1024 ** 3,1)} GB\n```"
+                tooltip_text += f"┗ Total: {round(process_mem * self.data['ram'].total / 100 / 1024 ** 3,1)} GB\n```"
                 
                 with Tooltip() as t:
                     with t.trigger:

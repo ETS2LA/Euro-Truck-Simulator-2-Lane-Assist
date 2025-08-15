@@ -54,6 +54,10 @@ class Channel(Enum):
     # Performance
     FRAMETIME_UPDATE = 23
     
+    # Shared Memory
+    GET_MEM_TAGS = 24
+    MEM_TAGS_RECEIVED = 25
+    
 class State(Enum):
     PENDING = 0
     PROCESSING = 1

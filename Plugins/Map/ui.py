@@ -11,7 +11,7 @@ class SettingsMenu(ETS2LAPage):
     url = "/settings/map"
     title = _("Map")
     location = ETS2LAPageLocation.SETTINGS
-    refresh_rate = 0.25
+    refresh_rate = 10
 
     def get_value_from_data(self, key: str):
         if "data" not in globals():
@@ -199,6 +199,7 @@ class SettingsMenu(ETS2LAPage):
                 with Tab("Debug Data", container_style=styles.FlexVertical() + styles.Gap("20px")):
                     with Container(style=styles.FlexHorizontal() + styles.Gap("4px") + styles.Padding("0px")):
                         if self.plugin:
+                            self.refresh_rate = 0.25
                             with Container(style=styles.FlexVertical() + styles.Gap("4px") + styles.Padding("0px")):
                                 Text("Map Data:")
                                 Space()
@@ -226,6 +227,7 @@ class SettingsMenu(ETS2LAPage):
                                 try: Text(f"FPS: {1/self.plugin.performance[-1][1]:.0f}", styles.Description() + styles.Classname("text-xs"))
                                 except: Text("FPS: Still loading...", styles.Description() + styles.Classname("text-xs"))
                         else:
+                            self.refresh_rate = 10
                             Text("Plugin not loaded, cannot display debug data.", styles.Description() + styles.Classname("text-xs"))
                         
                 with Tab("Development", container_style=styles.FlexVertical() + styles.Gap("20px")):

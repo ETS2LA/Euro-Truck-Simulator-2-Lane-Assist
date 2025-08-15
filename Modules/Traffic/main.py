@@ -6,7 +6,7 @@ import mmap
 import time
 
 class Module(ETS2LAModule):
-    vehicle_format = "ffffffffffffhh"
+    vehicle_format = "ffffffffffffhhbb"
     trailer_format = "ffffffffff"
     vehicle_object_format = vehicle_format + trailer_format + trailer_format
     total_format = "=" + vehicle_object_format * 40
@@ -24,7 +24,7 @@ class Module(ETS2LAModule):
         self.buf = None
         while self.buf is None:
             try:
-                size = 5280
+                size = 5360
                 self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
             except: 
                 if time.time() - self.start_time > 5 and not self.message_shown:
@@ -41,6 +41,8 @@ class Module(ETS2LAModule):
         acceleration = data["acceleration"]
         trailer_count = data["trailer_count"]
         id = data["id"]
+        is_tmp = data["is_tmp"]
+        is_trailer = data["is_trailer"]
         
         trailers = []
         for trailer in data["trailers"]:
@@ -49,15 +51,15 @@ class Module(ETS2LAModule):
             trailer_size = Size(trailer["size"]["width"], trailer["size"]["height"], trailer["size"]["length"])
             
             trailers.append(Trailer(trailer_position, trailer_rotation, trailer_size))
-        
-        return Vehicle(position, rotation, size, speed, acceleration, trailer_count, id, trailers)
-    
+
+        return Vehicle(position, rotation, size, speed, acceleration, trailer_count, trailers, id, is_tmp, is_trailer)
+
     def get_traffic(self):
         if self.buf is None:
             return None
         
         try:
-            data = struct.unpack(self.total_format, self.buf[:5280])
+            data = struct.unpack(self.total_format, self.buf[:5360])
             vehicles: list[Vehicle] = []
             for i in range(0, 40):
                 position = Position(data[0], data[1], data[2])
@@ -67,10 +69,12 @@ class Module(ETS2LAModule):
                 acceleration = data[11]
                 trailer_count = data[12]
                 id = data[13]
+                is_tmp = data[14]
+                is_trailer = data[15]
                 
                 trailers = []
                 for j in range(0, trailer_count):
-                    offset = 14 + (j * 10)
+                    offset = 16 + (j * 10)
                     trailer_position = Position(data[offset], data[offset + 1], data[offset + 2])
                     trailer_rotation = Quaternion(data[offset + 3], data[offset + 4], data[offset + 5], data[offset + 6])
                     trailer_size = Size(data[offset + 7], data[offset + 8], data[offset + 9])
@@ -78,9 +82,9 @@ class Module(ETS2LAModule):
                     trailers.append(Trailer(trailer_position, trailer_rotation, trailer_size))
                 
                 if not position.is_zero() and not rotation.is_zero():
-                    vehicles.append(Vehicle(position, rotation, size, speed, acceleration, trailer_count, id, trailers))
+                    vehicles.append(Vehicle(position, rotation, size, speed, acceleration, trailer_count, trailers, id, is_tmp, is_trailer))
                 
-                data = data[14 + (2 * 10):]
+                data = data[16 + (2 * 10):]
             
             if len(vehicles) > 0:
                 if vehicles[0].is_tmp:

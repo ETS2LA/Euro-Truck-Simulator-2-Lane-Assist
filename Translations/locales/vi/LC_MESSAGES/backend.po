@@ -6,14 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-17 13:06+0000\n"
+"POT-Creation-Date: 2025-08-08 13:02\n"
+"PO-Revision-Date: 2025-08-12 05:28+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
-"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/vi/>\n"
+"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
+"vi/>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -55,7 +56,7 @@ msgstr "Đã xảy ra ngoại lệ khi đang cố gắng chỉnh sửa một s�
 msgid "Controls listener started."
 msgstr "Trình theo dõi các bộ điều khiển đã được khởi động."
 
-#: .\ETS2LA\Handlers\plugins.py:127
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -63,67 +64,67 @@ msgstr ""
 "Plugin {0} khởi động thất bại: Hết thời gian chờ.\n"
 "Hãy thử đóng các ứng dụng không liên quan để cấp cho plugin nhiều RAM và CPU hơn."
 
-#: .\ETS2LA\Handlers\plugins.py:132
+#: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Plugin {0} khởi động thất bại: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:184
+#: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Plugin [yellow]{0}[/yellow] đã được nạp thành công."
 
-#: .\ETS2LA\Handlers\plugins.py:379
+#: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Plugin {0} thất bại khi lấy mô tả: Hết thời gian chờ."
 
-#: .\ETS2LA\Handlers\plugins.py:383
+#: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Plugin {0} thất bại khi lấy mô tả: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:417
+#: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Plugin {0} thất bại khi tương tác với các bộ điều khiển: Hết thời gian chờ."
 
-#: .\ETS2LA\Handlers\plugins.py:421
+#: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Plugin {0} thất bại khi tương tác với các bộ điều khiển: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:491
+#: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
 msgstr "Đã nạp {0} plugin."
 
-#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
+#: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
 msgstr "Không tìm thấy plugin."
 
-#: .\ETS2LA\Handlers\plugins.py:572
+#: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Plugin [yellow]{0}[/yellow] đã khởi động thành công."
 
-#: .\ETS2LA\Handlers\plugins.py:579
+#: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
 msgstr "Thất bại khi khởi động plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
+#: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
 msgstr "Hết thời gian chờ"
 
-#: .\ETS2LA\Handlers\plugins.py:598
+#: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Không tìm thấy plugin, đây có thể là kết quả của việc plugin bị crash hoặc không nạp được."
 
-#: .\ETS2LA\Handlers\plugins.py:615
+#: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Plugin [yellow]{0}[/yellow] đã dừng thành công."
 
-#: .\ETS2LA\Handlers\plugins.py:618
+#: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
 msgstr "Thất bại khi dừng plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:644
+#: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
 msgstr "Thất bại khi khởi động lại plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
+#: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
 msgstr "Plugin {0} không được tìm thấy để hiển thị trên trang này [1]."
 
@@ -207,7 +208,7 @@ msgstr "Webserver đã được khởi động tại http://{ip}:37520"
 msgid "Frontend started at http://{ip}:{port}"
 msgstr "Frontend đã được khởi động tại http://{ip}:{port}"
 
-#: .\ETS2LA\Utils\Console\logging.py:82
+#: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
 msgstr "Trình ghi log đã được khởi tạo."
 
@@ -231,11 +232,11 @@ msgstr "Không có lỗi, cảnh báo nào được tìm thấy."
 msgid "Please wait while we initialize the user interface"
 msgstr "Bạn hãy chờ trong lúc chúng tôi đang khởi tạo giao diện người dùng"
 
-#: .\ETS2LA\Window\utils.py:190
-msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr "Đamg kiểm tra sự tồn tại của cửa sổ ETS2LA... [dim](hết thời gian chờ trong 10 giây)[/dim]"
+#: .\ETS2LA\Window\utils.py:191
+msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
+msgstr "Đang chờ của sổ ETS2LA xuất hiện... [dim]({timeout}s timeout)[/dim]"
 
-#: .\ETS2LA\Window\utils.py:199
+#: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr "Không tìm thấy / khởi động cửa sổ ETS2LA. PC của bạn có đủ mạnh không? Truy cập http://app.ets2la.com nếu bạn nghĩ PC của bạn có khả năng chạy nó."
 
@@ -243,383 +244,409 @@ msgstr "Không tìm thấy / khởi động cửa sổ ETS2LA. PC của bạn c�
 msgid "Backend started successfully"
 msgstr "Backend đã được khởi động thành công"
 
-#: .\Pages\about.py:14
+#: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
 msgstr "Lập trình viên và nhà sáng tạo chính của ETS2LA, backend & frontend."
 
-#: .\Pages\about.py:15
+#: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr "Phát hiện điều hướng, Phát hiện đèn giao thông, ETS2LA Bản rút gọn, 'đồng sáng lập'"
 
-#: .\Pages\about.py:16
+#: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr "Thực hiện nhiều bổ sung và cải tiến, mô hình AI \"Phát hiện đối tượng\" & phát triển"
 
-#: .\Pages\about.py:17
+#: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr "Nhà phát triển SDK phía game của ETS2LA. Xe cộ, đèn giao thông, dữ liệu camera và nhiều dữ liệu trực tiếp từ game."
 
-#: .\Pages\about.py:18
+#: .\Pages\about.py:23
 msgid "Game data extraction and processing"
 msgstr "Khai thác và xử lí dữ liệu game"
 
-#: .\Pages\about.py:19
+#: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
 msgstr "Chuyển đổi phần mềm sang Linux & Unix, cùng nhiều cải tiến và sửa lỗi"
 
-#: .\Pages\about.py:20
+#: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr "Lập trình viên SDK C++ của ETS2LA, Chuyển đổi phần mềm sang Linux & Unix, sửa lỗi"
 
-#: .\Pages\about.py:21
+#: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
 msgstr "Hỗ trợ điều hướng trên ETS2LA & Bản đồ"
 
-#: .\Pages\about.py:22
+#: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
 msgstr "lập trình viên scs-sdk-controller"
 
-#: .\Pages\about.py:23
+#: .\Pages\about.py:28
 msgid "3D models for the visualization"
 msgstr "Mô hình 3D cho việc trực quan hóa dữ liệu"
 
-#: .\Pages\about.py:24
+#: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
 msgstr "Phát triển khai thác dữ liệu, hỗ trợ các bản đồ được mod."
 
-#: .\Pages\about.py:25
+#: .\Pages\about.py:30
+msgid "Discord rich presence plugin developer, slight backend updates."
+msgstr "Phát triển plugin, các bản cập nhật nhỏ cho backend."
+
+#: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
 msgstr "Bản dịch tiếng Trung Quốc, sửa lỗi"
 
-#: .\Pages\about.py:26
+#: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
 msgstr "Bản dịch tiếng Trung Quốc, sửa lỗi"
 
-#: .\Pages\about.py:27
+#: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
 msgstr "Tự động tính toán offset cho plugin \"Bản đồ\"."
 
-#: .\Pages\about.py:28
+#: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
 msgstr "Hỗ trợ qua máy chủ Discord, lập trình viên biên dịch Tiếng Trung Quốc-Tiếng Anh."
 
-#: .\Pages\about.py:29
+#: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
 msgstr "Duy trì mirrors CN cho dịch vụ ETS2LA."
 
-#: .\Pages\about.py:30
+#: .\Pages\about.py:36
 msgid "Game hooks"
 msgstr "Game hooks"
 
-#: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
-#: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
+#: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
+#: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
 msgstr "Sửa lỗi"
 
-#: .\Pages\about.py:43
+#: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
 msgstr "Sửa cần gạt nước (5 giây đếm ngược)"
 
-#: .\Pages\about.py:48
+#: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
 msgstr "Đang sửa cần gạt nước trong {0} giây..."
 
-#: .\Pages\about.py:54 .\Pages\about.py:55
+#: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
 msgstr "Cần gạt nước đã được sửa xong."
 
-#: .\Pages\about.py:58
+#: .\Pages\about.py:105
 msgid "Triggering update"
 msgstr "Kích hoạt cập nhật"
 
-#: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
+#: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
 msgstr[0] "{0} phút {0} phút"
 
-#: .\Pages\about.py:74 .\Pages\about.py:77
+#: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
 msgstr[0] "{0} giờ {0} giờ"
 
-#: .\Pages\about.py:76
+#: .\Pages\about.py:131
 msgid "{0} and {1}"
 msgstr "{0} và {1}"
 
-#: .\Pages\about.py:83
+#: .\Pages\about.py:155
+msgid "Notice!"
+msgstr "Thông báo!"
+
+#: .\Pages\about.py:156
+msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
+msgstr ""
+"SDK cho {0} đã lỗi thời. Để cập nhật lên phiên bản mới nhất, hãy cài đặt lại "
+"trong mục cài đặt SDK."
+
+#: .\Pages\about.py:158
 msgid "About"
 msgstr "Về chúng tôi"
 
-#: .\Pages\about.py:85
+#: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr "ETS2LA là một dự án hướng đến việc cung cấp một trải nghiệm tự động lái dễ dàng cho ETS2 và ATS, nếu bạn muốn tìm hiểu, bạn có thể truy cập trang github hoặc trang wiki ở thanh bên."
 
-#: .\Pages\about.py:89
+#: .\Pages\about.py:164
 msgid "Statistics"
 msgstr "Thống kê"
 
-#: .\Pages\about.py:93
+#: .\Pages\about.py:168
 msgid "Users online:"
 msgstr "Người dùng đang trực tuyến:"
 
-#: .\Pages\about.py:94
+#: .\Pages\about.py:169
 msgid "{0} users"
 msgstr "{0} người dùng"
 
-#: .\Pages\about.py:96
+#: .\Pages\about.py:171
 msgid "Past 24 hours:"
 msgstr "Trong 24 giờ qua:"
 
-#: .\Pages\about.py:97
+#: .\Pages\about.py:172
 msgid "{0} unique users"
 msgstr "{0} người dùng riêng biệt"
 
-#: .\Pages\about.py:99
+#: .\Pages\about.py:174
 msgid "Your usage time:"
 msgstr "Thời gian sử dụng của bạn:"
 
-#: .\Pages\about.py:104
+#: .\Pages\about.py:179
 msgid "You are not logged in."
 msgstr "Bạn đang không đăng nhập."
 
-#: .\Pages\about.py:105
+#: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
 msgstr "ID người dùng ẩn danh của bạn là: {0}"
 
-#: .\Pages\about.py:109
+#: .\Pages\about.py:184
 msgid "You are logged in."
 msgstr "Bạn đang không đăng nhập."
 
-#: .\Pages\about.py:110
+#: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
 msgstr "Chào mừng trở lại, {0}!"
 
-#: .\Pages\about.py:114
+#: .\Pages\about.py:189
 msgid "Contributors"
 msgstr "Những người đóng góp"
 
-#: .\Pages\about.py:125
+#: .\Pages\about.py:200
 msgid "Translations"
 msgstr "Các bản dịch"
 
-#: .\Pages\about.py:135 .\Pages\global_settings.py:198
+#: .\Pages\about.py:210 .\Pages\global_settings.py:248
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Danh sách những người đóng góp"
 
-#: .\Pages\about.py:137 .\Pages\global_settings.py:200
+#: .\Pages\about.py:212 .\Pages\global_settings.py:250
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Hỗ trợ dịch thuật"
 
-#: .\Pages\about.py:141
+#: .\Pages\about.py:216
 msgid "Support Development"
 msgstr "Ủng hộ nhà phát triển"
 
-#: .\Pages\about.py:144
+#: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr "Nếu bạn thích dự án này và muốn hỗ trợ nhà phát triển, bạn có thể làm bằng cách quyên góp qua Ko-Fi."
 
-#: .\Pages\about.py:147
+#: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr "Nếu bạn muốn đóng góp, bạn nên tham gia máy chủ discord và khám phá trang github."
 
-#: .\Pages\about.py:151
+#: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr "Nếu bạn muốn đóng góp các bản dịch, bạn có thể làm bằng cách tham gia máy chủ discord và liên hệ trực tiếp với Tumppi066."
 
-#: .\Pages\about.py:156
+#: .\Pages\about.py:231
 msgid "Utils"
 msgstr "Các tiện ích"
 
-#: .\Pages\about.py:160
+#: .\Pages\about.py:235
 msgid "Fix Wipers"
 msgstr "Sửa cần gạt nước"
 
-#: .\Pages\about.py:161
+#: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr "Cần gạt nước của bạn đang bị ket? Đừng lo, hãy nhấn vào nút này và alt tab vào lại game. Cần gạt nước sẽ được tắt chỉ sau 5 giây."
 
-#: .\Pages\about.py:162
+#: .\Pages\about.py:237
 msgid "Activate"
 msgstr "Kích hoạt"
 
-#: .\Pages\about.py:167
+#: .\Pages\about.py:242
 msgid "Force an update"
 msgstr "Kiểm tra cập nhật thủ công"
 
-#: .\Pages\about.py:168
+#: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr "Bạn nghĩ ở đây đã có một bản cập nhật mới? Nhấn vào nút này, ứng dụng sẽ khởi động lại và kiểm tra chúng."
 
-#: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
+#: .\Pages\about.py:244 .\Plugins\Map\ui.py:172
 msgid "Update"
 msgstr "Cập nhật"
 
-#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+#: .\Pages\catalogue.py:83 .\Pages\catalogue.py:88
 msgid "Unknown"
-msgstr ""
-
-#: .\Pages\catalogue.py:83
-msgid "No overview provided."
-msgstr ""
+msgstr "Không xác định"
 
 #: .\Pages\catalogue.py:84
+msgid "No overview provided."
+msgstr "Không có tổng quát nào được cung cấp."
+
+#: .\Pages\catalogue.py:85
 msgid "No description provided."
-msgstr ""
+msgstr "Không có mô tả nào được cung cấp."
 
-#: .\Pages\catalogue.py:132
+#: .\Pages\catalogue.py:133
 msgid "Installing"
-msgstr ""
+msgstr "Đang cài đặt"
 
-#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+#: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin không được tìm thấy trong danh mục."
 
-#: .\Pages\catalogue.py:147
+#: .\Pages\catalogue.py:148
 msgid "Cloning repository"
-msgstr ""
+msgstr "Đang nhân bản kho lưu trữ"
 
-#: .\Pages\catalogue.py:150
+#: .\Pages\catalogue.py:151
 msgid "Installing requirements"
-msgstr ""
+msgstr "Đang cài đặt những thứ cần thiết"
 
-#: .\Pages\catalogue.py:153
+#: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Đang khởi động tiến trình chạy nền của plugin"
 
-#: .\Pages\catalogue.py:157
+#: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr ""
+msgstr "Thất bại khi khởi động tiến trình nền của plugin, nhưng các tệp của plugin đã được cài đặt."
 
-#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+#: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
-msgstr ""
+msgstr "Thành công"
 
-#: .\Pages\catalogue.py:162
+#: .\Pages\catalogue.py:163
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Plugin '{name}' đã được cài đặt thành công."
 
-#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+#: .\Pages\catalogue.py:165 .\Pages\catalogue.py:231
 msgid "Failed"
-msgstr ""
+msgstr "Thất bại"
 
-#: .\Pages\catalogue.py:166
+#: .\Pages\catalogue.py:167
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Thất bại khi cài đặt plugin '{name}': {error}"
 
-#: .\Pages\catalogue.py:170
+#: .\Pages\catalogue.py:171
 msgid "Uninstalling"
-msgstr ""
+msgstr "Đang gỡ cài đặt"
 
-#: .\Pages\catalogue.py:185
+#: .\Pages\catalogue.py:186
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Đang đóng các tiến trình plugin"
 
-#: .\Pages\catalogue.py:188
+#: .\Pages\catalogue.py:189
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Thất bại khi dừng các tiến trình plugin."
 
-#: .\Pages\catalogue.py:190
+#: .\Pages\catalogue.py:191
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Đang hủy đăng kí kho lưu trữ git"
 
-#: .\Pages\catalogue.py:199
+#: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Đang xóa các tệp plugin"
 
-#: .\Pages\catalogue.py:219
+#: .\Pages\catalogue.py:220
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Đang thử lại việc gỡ bỏ ({cur}/{max})"
 
-#: .\Pages\catalogue.py:223
+#: .\Pages\catalogue.py:224
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Thất bại khi xóa các tệp plugin sau {max} lần thử"
 
-#: .\Pages\catalogue.py:228
+#: .\Pages\catalogue.py:229
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin '{name}' đã được gỡ cài đặt thành công."
 
-#: .\Pages\catalogue.py:232
+#: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Thất bại khi gỡ cài đặt plugin '{name}: {error}"
 
-#: .\Pages\catalogue.py:263
+#: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Không thể tìm thấy mã nguồn cho plugin này."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
-#: .\Pages\catalogue.py:272
+#: .\Pages\catalogue.py:273
 msgid "Refreshing..."
-msgstr ""
+msgstr "Đang làm mới..."
 
-#: .\Pages\catalogue.py:274
+#: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
-msgstr ""
-
-#: .\Pages\catalogue.py:314
-msgid "Back"
-msgstr ""
+msgstr "Đã tìm thấy {count} plugin"
 
 #: .\Pages\catalogue.py:317
+msgid "Back"
+msgstr "Trở lại"
+
+#: .\Pages\catalogue.py:320
 msgid "Source Code"
-msgstr ""
+msgstr "Mã nguồn"
 
-#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+#: .\Pages\catalogue.py:325 .\Pages\catalogue.py:402
 msgid "Uninstall"
-msgstr ""
+msgstr "Gỡ cài đặt"
 
-#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+#: .\Pages\catalogue.py:329 .\Pages\catalogue.py:366
 msgid "Install"
-msgstr ""
+msgstr "Cài đặt"
 
-#: .\Pages\catalogue.py:355
+#: .\Pages\catalogue.py:358
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Bạn có chắc chắn muốn cài đặt plugin này không?"
 
-#: .\Pages\catalogue.py:356
+#: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
-msgstr ""
+msgstr "ETS2LA không có trách nhiệm với bất kì vấn đề nào mà các plugin bên thứ 3 gây ra."
 
-#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+#: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy"
 
-#: .\Pages\catalogue.py:369
+#: .\Pages\catalogue.py:372
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Đang cài đặt {plugin}"
 
-#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+#: .\Pages\catalogue.py:378 .\Pages\catalogue.py:388
 msgid "Close"
-msgstr ""
+msgstr "Đóng"
 
-#: .\Pages\catalogue.py:379
+#: .\Pages\catalogue.py:382
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Đang gỡ cài đặt {plugin}"
 
-#: .\Pages\catalogue.py:392
+#: .\Pages\catalogue.py:395
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Bạn có chắc chắn muốn gỡ cài đặt plugin này?"
 
-#: .\Pages\catalogue.py:409
-msgid "Plugin Catalogue"
-msgstr ""
-
-#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:327
 msgid "Search plugins..."
 msgstr "Tìm kiếm plugin..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Làm mới"
 
-#: .\Pages\catalogue.py:426
+#: .\Pages\catalogue.py:428
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Không có plugin nào được tìm thấy trong danh mục plugin."
 
-#: .\Pages\catalogue.py:429
+#: .\Pages\catalogue.py:431
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Làm mới danh mục"
+
+#: .\Pages\catalogue.py:471
+msgid "Installed Plugins"
+msgstr "Plugin đã cài đặt"
+
+#: .\Pages\catalogue.py:474
+msgid "No plugins are installed."
+msgstr "Không có plugin nào đã được cài đặt."
+
+#: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
+msgid "Available Plugins"
+msgstr "Các plugin có sẵn"
+
+#: .\Pages\catalogue.py:495
+msgid "You have installed all available plugins."
+msgstr "Bạn đã cài đặt tất cả các plugin có sẵn."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -655,7 +682,7 @@ msgstr "Xem các thay đổi"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
-msgstr "Chỉ 20 bản cập nhật gần đây nhất được hiện ra. Bạn có thể xem nguồn cho các bản cập nhật cũ hơn nữa."
+msgstr "Chỉ 20 bản cập nhật gần đây nhất được hiện ra. Bạn có thể xem kho lưu trữ cho các bản cập nhật cũ hơn nữa."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
@@ -694,179 +721,239 @@ msgstr "Chức năng này chưa được gán cho một thết bị."
 msgid "Keyboard: "
 msgstr "Phím: "
 
-#: .\Pages\global_settings.py:134
+#: .\Pages\global_settings.py:14 .\Pages\global_settings.py:288
+#: .\Pages\plugins.py:263
+msgid "None"
+msgstr "Không có gì hết"
+
+#: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
+#: .\Pages\global_settings.py:288
+msgid "Minimal (recommended)"
+msgstr "Ít nhất (khuyến nghị)"
+
+#: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
+msgid "Medium"
+msgstr "Trung bình"
+
+#: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
+msgid "Full"
+msgstr "Nhiều"
+
+#: .\Pages\global_settings.py:167
 msgid "Global Settings"
 msgstr "Cài đặt chung"
 
-#: .\Pages\global_settings.py:135
+#: .\Pages\global_settings.py:168
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr "Ở đây bạn có thể tìm thấy các cài đặt ảnh hưởng đến cả ứng dụng. Như là kích cỡ cửa sổ và ngôn ngữ."
 
-#: .\Pages\global_settings.py:139
+#: .\Pages\global_settings.py:174
 msgid "User Interface"
 msgstr "Giao diện người dùng"
 
-#: .\Pages\global_settings.py:142 .\Pages\onboarding.py:310
+#: .\Pages\global_settings.py:189 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Chiều rộng cửa sổ"
 
-#: .\Pages\global_settings.py:143
+#: .\Pages\global_settings.py:190
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Thay đổi chiều rộng của cửa sổ. Ghi nhớ rằng ETS2LA chưa được thử với các độ phân giải không tiêu chuẩn, bạn tự chịu rủi ro!"
 
-#: .\Pages\global_settings.py:153 .\Pages\onboarding.py:319
+#: .\Pages\global_settings.py:200 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Chiều cao cửa sổ"
 
-#: .\Pages\global_settings.py:154
+#: .\Pages\global_settings.py:201
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Thay đổi chiều cao của cửa sổ. Ghi nhớ rằng ETS2LA chưa được thử nghiệm trên các độ phân giải không tiêu chuẩn, bạn tự chịu rủi ro!"
 
-#: .\Pages\global_settings.py:164
+#: .\Pages\global_settings.py:211
 msgid "Transparency mode Alpha"
 msgstr "Chế độ trong suốt Alpha"
 
-#: .\Pages\global_settings.py:165
+#: .\Pages\global_settings.py:212
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Thay đổi độ trong suốt của sổ khi đang ở chế độ trong suốt. Việc này có thể hoàn thành bằng cách nhấn chuột phải vào nút màu xanh ở góc trên cùng bên phải."
 
-#: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
+#: .\Pages\global_settings.py:227 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Ngôn ngữ"
 
-#: .\Pages\global_settings.py:178
+#: .\Pages\global_settings.py:228
 msgid "Select the language for the application."
 msgstr "Chọn ngôn ngữ cho ứng dụng."
 
-#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Tìm kiếm ngôn ngữ..."
 
-#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Giúp chúng tôi biên dịch trên discord!"
 
-#: .\Pages\global_settings.py:196
+#: .\Pages\global_settings.py:246
 msgid "This translation is {percentage:.2f}% complete."
 msgstr "Bàn dịch này đã hoàn thành {percentage:.2f}%."
 
-#: .\Pages\global_settings.py:203
+#: .\Pages\global_settings.py:253
 msgid "Audio"
 msgstr "Âm thanh"
 
-#: .\Pages\global_settings.py:206
+#: .\Pages\global_settings.py:256
 msgid "Soundpack"
 msgstr "Gói âm thanh"
 
-#: .\Pages\global_settings.py:207
+#: .\Pages\global_settings.py:257
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr "Chọn gói âm thanh để sử dụng, chúng có thể được thêm vào thư mục app/ETS2LA/Assets/Sounds."
 
-#: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:264 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr "Âm lượng"
 
-#: .\Pages\global_settings.py:215
+#: .\Pages\global_settings.py:265
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr "Điều chỉnh mức âm lượng. Nó sẽ tác động đến tất cả âm thanh mà ETS2LA phát ra."
 
-#: .\Pages\global_settings.py:226
+#: .\Pages\global_settings.py:276
 msgid "Startup Sound"
 msgstr "Âm thanh khởi động"
 
-#: .\Pages\global_settings.py:227
+#: .\Pages\global_settings.py:277
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr "Bật hoặc tắt âm thanh khởi động. Cái này luôn được phát mỗi khi cửa sổ ETS2LA được mở."
 
-#: .\Pages\global_settings.py:232
+#: .\Pages\global_settings.py:282
 msgid "Variables"
 msgstr "Các biến"
 
-#: .\Pages\global_settings.py:234
+#: .\Pages\global_settings.py:303
+msgid "Support ETS2LA Development on Ko-Fi"
+msgstr "Hỗ trợ việc phát triển ETS2LA trên Ko-Fi"
+
+#: .\Pages\global_settings.py:316
+msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
+msgstr ""
+"Bạn sẽ thấy đúng 1 quảng cáo xuất hiện trong trang \"Về chúng tôi\". Sẽ "
+"không có thêm bất kì quảng cáo nào. Tùy chọn này được khuyến nghị, giúp việc "
+"phát triển ETS2LA tiến xa hơn nữa."
+
+#: .\Pages\global_settings.py:318
+msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
+msgstr ""
+"Bạn sẽ thấy quảng cáo trong các trang không quan trọng và chúng cũng sẽ "
+"không làm phiền bạn. Riêng trang \"Hiển thị\" sẽ được miễn quảng cáo. Nếu "
+"bạn muốn hỗ trợ việc phát tiến xa hơn nữa, chúng tôi khuyến khích tùy chọn "
+"này."
+
+#: .\Pages\global_settings.py:320
+msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
+msgstr ""
+"Bạn sẽ thấy rất nhiều quảng cáo, nhưng chúng tôi sẽ không để chúng phá hủy "
+"trải nghiệm của bạn. Trang \"Hiển thị\" vẫn được miễn quảng cáo."
+
+#: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
 msgstr "Chuyển sang phương pháp gia tốc cũ"
 
-#: .\Pages\global_settings.py:235
+#: .\Pages\global_settings.py:337
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Nếu bạn đang gặp vấn đề về xe tải không tự đạp ga / phanh đúng cách, thì bạn có thể bật tùy chọn này để sử dụng phương pháp khác. Xin bạn luôn nhớ trong đầu rằng nếu phương pháp mới bị kẹt, bạn có thể sẽ phải khởi động lại game sau khi bật cái này."
 
-#: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
+#: .\Pages\global_settings.py:344 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Mức yêu tiên cao"
 
-#: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
+#: .\Pages\global_settings.py:345 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Chạy ETS2LA ở chế độ mức yêu tiên cao. Nó sẽ nói với hệ điều hành của bạn dành nhiều CPU hơn cho ETS2LA, có thể mượt hơn nhưng đồng nghĩa với việc các ứng dụng khác sẽ chạy chậm hơn."
 
-#: .\Pages\global_settings.py:257
+#: .\Pages\global_settings.py:359
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr "Bạn cần khởi động lại ETS2LA để áp dụng thay đổi mức ưu tiên!"
 
-#: .\Pages\global_settings.py:260
+#: .\Pages\global_settings.py:362
 msgid "Slow Loading"
 msgstr "Tốc độ nạp chậm hơn"
 
-#: .\Pages\global_settings.py:261
+#: .\Pages\global_settings.py:363
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr "Nếu PC của bạn gặp vấn đề với việc nạp tất cả các plugin song song, bạn có thể bật tùy chọn này để nạp từng plugin một. Nhớ rằng việc bật tùy chọn này sẽ tốn thêm một chút thời gian cho tất cả các plugin trở nên sẵn có."
 
-#: .\Pages\global_settings.py:266
+#: .\Pages\global_settings.py:368
 msgid "Miscellaneous"
 msgstr "Tùy chọn bổ sung"
 
-#: .\Pages\global_settings.py:270
+#: .\Pages\global_settings.py:372
 msgid "Frontend Port"
 msgstr "Cổng frontend"
 
-#: .\Pages\global_settings.py:271
+#: .\Pages\global_settings.py:373
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr "Thay đổi cổng được sử dụng bởi frontend. Nó chỉ được dùng trong chế độ cục bộ."
 
-#: .\Pages\global_settings.py:278
+#: .\Pages\global_settings.py:380
 msgid "Frameless Window"
 msgstr "Cửa sổ không viền"
 
-#: .\Pages\global_settings.py:279
+#: .\Pages\global_settings.py:381
 msgid "Disable this option if you have any issues moving the window around."
 msgstr "Tắt tùy chọn này nếu bạn gặp bất kì vấn đề nào liên quan đến việc di chuyển cửa sổ."
 
-#: .\Pages\global_settings.py:284
+#: .\Pages\global_settings.py:386
 msgid "Send Crash Reports"
 msgstr "Gửi báo cáo crash"
 
-#: .\Pages\global_settings.py:285
+#: .\Pages\global_settings.py:387
 msgid "Automatically send crash reports to help improve the application."
 msgstr "Tự động gửi báo cáo crash để giúp cải thiện ứng dụng."
 
-#: .\Pages\global_settings.py:290
+#: .\Pages\global_settings.py:392
 msgid "Use Fancy Traceback"
 msgstr "Hiển thị lỗi \"dễ đọc\" hơn"
 
-#: .\Pages\global_settings.py:291
+#: .\Pages\global_settings.py:393
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr "Bật tùy chọn này giúp các bản ghi lỗi \"dễ đọc\" hơn."
 
-#: .\Pages\global_settings.py:297
+#: .\Pages\global_settings.py:399
 msgid "Debug Mode"
 msgstr "Chế độ gỡ lỗi"
 
-#: .\Pages\global_settings.py:298
+#: .\Pages\global_settings.py:400
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr "Bật tùy chọn này để sử dụng tính năng gỡ lỗi của edge cho frontend."
 
-#: .\Pages\global_settings.py:306
+#: .\Pages\global_settings.py:406
+msgid "Default UI Mirror"
+msgstr "UI Mirror mặc định"
+
+#: .\Pages\global_settings.py:407
+msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
+msgstr ""
+"UI mirror mặc định của ETS2LA. \"Tự động\" sẽ chọn mirror tốt nhất sẵn có."
+
+#: .\Pages\global_settings.py:414
+msgid "ETS2LA Window Timeout"
+msgstr "Thời gian chờ của sổ ETS2LA"
+
+#: .\Pages\global_settings.py:415
+msgid "The amount of time ETS2LA waits for the window to show up."
+msgstr "Lượng thời gian ETS2LA cần chờ để cửa sổ hiện lên."
+
+#: .\Pages\global_settings.py:426
 msgid "Fireworks"
 msgstr "Pháo hoa"
 
-#: .\Pages\global_settings.py:307
+#: .\Pages\global_settings.py:427
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr "Bật tùy chọn này, sẽ có hiệu ứng pháo hoa vào năm mới."
 
-#: .\Pages\global_settings.py:313
+#: .\Pages\global_settings.py:433
 msgid "Snow"
 msgstr "Tuyết"
 
-#: .\Pages\global_settings.py:314
+#: .\Pages\global_settings.py:434
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Bật tùy chọn này, sẽ có hiệu ứng tuyết rơi vào mùa đông."
 
@@ -874,8 +961,8 @@ msgstr "Bật tùy chọn này, sẽ có hiệu ứng tuyết rơi vào mùa đ�
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Nếu bạn đã hoàn thành các thiết lập ban đâu trước đây, bạn biết cách để thoát. ETS2LA sẽ không hoạt động nếu bạn chưa hoàn thành các thiết lập ban đầu một lần nào."
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
-#: .\Plugins\NGHUD\main.py:380
+#: .\Pages\onboarding.py:88 .\Plugins\HUD\main.py:355
+#: .\Plugins\HUD\main.py:400
 msgid "Loading..."
 msgstr "Đang nạp..."
 
@@ -919,7 +1006,7 @@ msgstr "Hãy chọn ngôn ngữ mà bạn muốn cho ETS2LA. Tùy chọn này c�
 msgid "Select your preferred language for ETS2LA."
 msgstr "Chọn ngôn ngữ bạn muốn cho ETS2LA."
 
-#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
+#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
 msgstr "Cài đặt SDK"
 
@@ -931,7 +1018,7 @@ msgstr "Để bắt đầu, chúng ta cần cài đặt SDK. Nó giúp ETS2LA t�
 msgid "Waiting for SDK installation..."
 msgstr "Đang chờ SDK được cài đặt..."
 
-#: .\Pages\onboarding.py:171 .\Pages\performance.py:131
+#: .\Pages\onboarding.py:171 .\Pages\performance.py:140
 msgid "Plugins"
 msgstr "Plugin"
 
@@ -953,7 +1040,7 @@ msgstr "Giữ **Chế độ quản lí plugin nâng cao** tắt được khuyế
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
-msgstr "**Chế độ quản lí plugin nâng cao** mở khóa khả năng điều khiển thủ công của các plugin đã bật. Nó cũng cho bạn tải xuống thêm plugin từ các nguồn ngoài. Nhớ rằng các plugin bên thứ 3 không được ETS2LA hỗ trợ *chính thức*."
+msgstr "**Chế độ quản lí plugin nâng cao** mở khóa khả năng điều khiển thủ công của các plugin đã bật. Nó cũng cho bạn tải xuống thêm plugin từ các kho lưu trữ ngoài. Nhớ rằng các plugin bên thứ 3 không được ETS2LA hỗ trợ *chính thức*."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
@@ -1111,51 +1198,51 @@ msgstr "Không tìm thấy trang"
 msgid "Go back"
 msgstr "Quay lại"
 
-#: .\Pages\performance.py:94
+#: .\Pages\performance.py:103
 msgid "System"
 msgstr "Hệ thống"
 
-#: .\Pages\performance.py:97
+#: .\Pages\performance.py:106
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr "Dữ liệu vẫn đang được thu thập, hãy chờ vài giây để biểu đồ được ổn định."
 
-#: .\Pages\performance.py:103
+#: .\Pages\performance.py:112
 msgid "CPU Usage"
 msgstr "Mức sử dụng CPU"
 
-#: .\Pages\performance.py:110
+#: .\Pages\performance.py:119
 msgid "CPU Usage "
 msgstr "Mức sử dụng CPU "
 
-#: .\Pages\performance.py:118
+#: .\Pages\performance.py:127
 msgid "RAM Usage"
 msgstr "Mức sử dụng RAM"
 
-#: .\Pages\performance.py:125
+#: .\Pages\performance.py:134
 msgid "RAM Usage "
 msgstr "Mức sử dụng RAM "
 
-#: .\Pages\performance.py:125
+#: .\Pages\performance.py:134
 msgid "ETS2LA RAM Usage  "
 msgstr "Mức sử dụng RAM của ETS2LA  "
 
-#: .\Pages\performance.py:135 .\Pages\plugins.py:371
+#: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
 msgstr "Hiện tại không có plugin nào đang hoạt động."
 
-#: .\Pages\performance.py:172
+#: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr "Cảnh báo: Biểu đồ vẫn đang thu thập dữ liệu, hãy chờ 60 giây để nó được ổn định."
 
-#: .\Pages\performance.py:190
+#: .\Pages\performance.py:199
 msgid "Failed to render plugin {plugin_name}."
 msgstr "Thất bại khi render plugin {plugin_name}."
 
-#: .\Pages\performance.py:194
+#: .\Pages\performance.py:203
 msgid "All displayed data is averaged over a second."
 msgstr "Tất cả các dữ liệu được hiển thị đều tính trung bình theo từng giây."
 
-#: .\Pages\performance.py:195
+#: .\Pages\performance.py:204
 msgid "This page took {time:.2f} ms to render."
 msgstr "Trang này cần {time:.2f}mili giây để render."
 
@@ -1189,7 +1276,7 @@ msgstr ""
 "\n"
 "**Đây là điều cần thiết để tab trực quan hóa dữ liệu hoạt động.**"
 
-#: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
+#: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:19 .\Plugins\HUD\ui.py:110
 msgid "HUD"
 msgstr "HUD"
 
@@ -1209,187 +1296,183 @@ msgstr "Bật văn bản thành giọng nói cho các thông báo và cảnh bá
 msgid "Feature '{0}' not found."
 msgstr "Không tìm thấy tính năng '{0}'."
 
-#: .\Pages\plugins.py:235
+#: .\Pages\plugins.py:238
 msgid "Loading plugins..."
 msgstr "Đang nạp các plugin..."
 
-#: .\Pages\plugins.py:248
+#: .\Pages\plugins.py:251
 msgid "Plugins (Basic)"
 msgstr "Các plugin (Cơ bản)"
 
-#: .\Pages\plugins.py:249
+#: .\Pages\plugins.py:252
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr "Bạn có thể bật các tính năng khác nhau của ETS2LA ở phía bên phải. Tất cả plugin được mô tả bằng tính năng của chúng sẽ được bật tự động mà không cần phải cấu hình thêm."
 
-#: .\Pages\plugins.py:257
+#: .\Pages\plugins.py:260
 msgid "Disable Plugins"
 msgstr "Tắt các plugin"
 
-#: .\Pages\plugins.py:257
+#: .\Pages\plugins.py:260
 msgid "Enable Plugins"
 msgstr "Bật các plugin"
 
-#: .\Pages\plugins.py:260
+#: .\Pages\plugins.py:263
 msgid "Currently enabled plugins:"
 msgstr "Các plugin đang được bật:"
 
-#: .\Pages\plugins.py:260
-msgid "None"
-msgstr "Không có gì hết"
-
-#: .\Pages\plugins.py:282
+#: .\Pages\plugins.py:297
 msgid "Enabled"
 msgstr "Đã bật"
 
-#: .\Pages\plugins.py:282
+#: .\Pages\plugins.py:297
 msgid "Disabled"
 msgstr "Đã tắt"
 
-#: .\Pages\plugins.py:287
+#: .\Pages\plugins.py:302
 msgid "Switch to Advanced Mode"
 msgstr "Chuyển qua chế độ nâng cao"
 
-#: .\Pages\plugins.py:321
+#: .\Pages\plugins.py:336
 msgid "Search tags..."
 msgstr "Tìm kiếm thẻ tag..."
 
-#: .\Pages\plugins.py:322
+#: .\Pages\plugins.py:337
 msgid "No tags found"
 msgstr "Không có thẻ tag nào được tìm thấy"
 
-#: .\Pages\plugins.py:331
+#: .\Pages\plugins.py:346
 msgid "Search authors..."
 msgstr "Tìm kiếm tác giả..."
 
-#: .\Pages\plugins.py:332
+#: .\Pages\plugins.py:347
 msgid "No authors found"
 msgstr "Không có tác giả nào được tìm thấy"
 
-#: .\Pages\plugins.py:336
+#: .\Pages\plugins.py:351
 msgid "Back to Basic Mode"
 msgstr "Quay về chế độ cơ bản"
 
-#: .\Pages\plugins.py:367
+#: .\Pages\plugins.py:382
 msgid "Running Plugins"
 msgstr "Các plugin đang chạy"
 
-#: .\Pages\plugins.py:374
+#: .\Pages\plugins.py:389
 msgid "Want to enable the plugins you had running last time?"
 msgstr "Bạn có muốn bật các plugin mà bạn đã dùng từ lần trước không?"
 
-#: .\Pages\plugins.py:376
+#: .\Pages\plugins.py:391
 msgid "Enable Last Plugins"
 msgstr "Bật các plugin đã dùng từ lần trước"
 
-#: .\Pages\plugins.py:382
-msgid "Available Plugins"
-msgstr "Các plugin có sẵn"
-
-#: .\Pages\sdk_installation.py:86
+#: .\Pages\sdk_installation.py:118
 msgid "Could not find version for {game}, skipping installation"
 msgstr "Không thể tìm thấy phiên bản phù hợp cho {game}, đang bỏ qua cài đặt"
 
-#: .\Pages\sdk_installation.py:91
+#: .\Pages\sdk_installation.py:123
 msgid "Installing SDKs for {game}"
 msgstr "Đang cài đặt các SDK cho {game}"
 
-#: .\Pages\sdk_installation.py:99
+#: .\Pages\sdk_installation.py:131
 msgid "SDKs for {game} installed successfully."
 msgstr "Các SDK cho {game} đã được cài đặt thành công."
 
-#: .\Pages\sdk_installation.py:101
+#: .\Pages\sdk_installation.py:133
 msgid "SDKs for {game} already installed, skipping installation"
 msgstr "Các SDK cho {game} đã được cài đặt từ trước, đang bỏ qua cài đặt"
 
-#: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
+#: .\Pages\sdk_installation.py:135 .\Pages\sdk_installation.py:157
 msgid "Please make sure the game is closed and try again. {error}"
 msgstr "Hãy chắc chắn rằng game của bạn đã đóng và thử lại. {error}"
 
-#: .\Pages\sdk_installation.py:104
+#: .\Pages\sdk_installation.py:136
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr "Lỗi khi đang cài đặt các SDK cho {game}, hãy chắc chắn game của bạn đã đóng."
 
-#: .\Pages\sdk_installation.py:109
+#: .\Pages\sdk_installation.py:143
 msgid "Could not find version for {game}, skipping uninstallation"
 msgstr "Không tìm thấy phiên bản phù hợp cho {game}, đang bỏ qua cài đặt"
 
-#: .\Pages\sdk_installation.py:114
+#: .\Pages\sdk_installation.py:148
 msgid "Uninstalling SDKs for {game}"
 msgstr "Đang gỡ cài đặt các SDK ra khỏi {game}"
 
-#: .\Pages\sdk_installation.py:119
+#: .\Pages\sdk_installation.py:153
 msgid "SDKs for {game} uninstalled successfully."
 msgstr "Các SDK cho {game} đã được gỡ cài đặt thành công."
 
-#: .\Pages\sdk_installation.py:121
+#: .\Pages\sdk_installation.py:155
 msgid "SDKs for {game} not installed, skipping uninstallation"
 msgstr "Các SDK cho {game} chưa được cài đặt, đang bỏ qua gỡ cài đặt"
 
-#: .\Pages\sdk_installation.py:124
+#: .\Pages\sdk_installation.py:158
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr "Lỗi khi đang gỡ cài đặt các SDK ra khởi {game}, hãy chắc chắn rằng game của bạn đã đóng."
 
-#: .\Pages\sdk_installation.py:127
+#: .\Pages\sdk_installation.py:163
 msgid "Select the game directory"
 msgstr "Chọn thư mục game của bạn"
 
-#: .\Pages\sdk_installation.py:130
+#: .\Pages\sdk_installation.py:166
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr "Không thể tìm thấy phiên bản game đã chọn, bạn hãy chọn lại một thư mục game hợp lệ."
 
-#: .\Pages\sdk_installation.py:131
+#: .\Pages\sdk_installation.py:167
 msgid "Could not find version for {path}, skipping installation"
 msgstr "Không tìm thấy phiên bản game ở {path}, đang bỏ qua cài đặt"
 
-#: .\Pages\sdk_installation.py:136
+#: .\Pages\sdk_installation.py:172
 msgid "Found game version {version}."
 msgstr "Đã tìm thấy phiên bản game {version}."
 
-#: .\Pages\sdk_installation.py:142
+#: .\Pages\sdk_installation.py:178
 msgid "Path {path} does not exist."
 msgstr "Đường dẫn {path} không tồn tại."
 
-#: .\Pages\sdk_installation.py:148
+#: .\Pages\sdk_installation.py:192
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr "Kiểm tra xem bạn đã có đủ các DLL cần thiết để chúng tôi tương tác với game."
 
-#: .\Pages\sdk_installation.py:156
+#: .\Pages\sdk_installation.py:200
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr "Chúng tôi không tìm thấy bất kì game nào của SCS Software trên thiết bị của bạn. Nhớ rằng ETS2LA sẽ chỉ hoạt động với các phiên bản hợp pháp được tải từ Steam."
 
-#: .\Pages\sdk_installation.py:158
+#: .\Pages\sdk_installation.py:202
 msgid "Select directory manually"
 msgstr "Chọn thư mục thủ công"
 
-#: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
+#: .\Pages\sdk_installation.py:230
+msgid " - Needs Reinstall"
+msgstr " -Cần được cài đặt lại"
+
+#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
 msgstr "- Đã cài đặt"
 
-#: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
+#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Not Installed"
 msgstr "- Chưa được cài đặt"
 
-#: .\Pages\sdk_installation.py:194
+#: .\Pages\sdk_installation.py:241
 msgid "This game version is not supported"
 msgstr "Phiên bản game này không được hỗ trợ"
 
-#: .\Pages\sdk_installation.py:210
+#: .\Pages\sdk_installation.py:257
 msgid "No files found."
 msgstr "Không tìm thấy tệp."
 
-#: .\Pages\sdk_installation.py:221
+#: .\Pages\sdk_installation.py:268
 msgid "File Sources"
 msgstr "Các nguồn của tệp"
 
-#: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
+#: .\Pages\sdk_installation.py:276 .\Pages\sdk_installation.py:289
 msgid "Uninstall SDKs"
 msgstr "Gỡ cài đặt các SDK"
 
-#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
+#: .\Pages\sdk_installation.py:279 .\Pages\sdk_installation.py:292
 msgid "Install SDKs"
 msgstr "Cài đặt các SDK"
 
-#: .\Pages\sdk_installation.py:237
+#: .\Pages\sdk_installation.py:284
 msgid "Please close the game before installing or uninstalling SDKs."
 msgstr "Hãy đóng game trước khi cài đặt hoặc gỡ cài đặt các SDK."
 
@@ -1484,8 +1567,8 @@ msgstr "Nó sẽ giảm offset tốc độ trong cài đặt."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
-#: .\Plugins\AdaptiveCruiseControl\settings.py:72
-#: .\Plugins\AdaptiveCruiseControl\settings.py:77
+#: .\Plugins\AdaptiveCruiseControl\settings.py:65
+#: .\Plugins\AdaptiveCruiseControl\settings.py:70
 msgid "Adaptive Cruise Control"
 msgstr "Kiểm soát hành trình tự động"
 
@@ -1493,231 +1576,356 @@ msgstr "Kiểm soát hành trình tự động"
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr "Kiểm soát hành trình thông minh (ACC) tự động ga và phanh dựa trên điều kiện của đường và phương tiện phía trước."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:73
+#: .\Plugins\AdaptiveCruiseControl\settings.py:66
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr "Kiểm soát hành trình tự động (ACC) sẽ điều khiển tốc độ của xe tải dựa vào thông tin được thu thập từ game."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:82
+#: .\Plugins\AdaptiveCruiseControl\settings.py:75
 msgid "Aggressiveness"
 msgstr "Mức độ phản ứng"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:83
+#: .\Plugins\AdaptiveCruiseControl\settings.py:76
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr "Mức độ phản ứng nào mà ACC nên dùng để theo sau phương tiện phía trước và thay đổi giới hạn tốc độ?"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:90
+#: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "Following Distance"
 msgstr "Khoảng cách theo sau"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:91
+#: .\Plugins\AdaptiveCruiseControl\settings.py:84
 msgid "How far should the ACC keep from the vehicle in front?"
 msgstr "ACC nên giữ khoảng cách như thế nào với các phương tiện phía trước?"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:96
+#: .\Plugins\AdaptiveCruiseControl\settings.py:89
 msgid "Ignore Traffic Lights"
 msgstr "Mặc kệ đèn giao thông"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:97
+#: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr "ACC có nên mặc kệ đèn giao thông không? Nhớ rằng, nó sẽ như đã nói, mặc kệ tất cả đèn giao thông."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:102
+#: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
 msgstr "Điều khiển tốc độ tự động"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:105
+#: .\Plugins\AdaptiveCruiseControl\settings.py:98
 msgid "Ignore Speed Limit"
 msgstr "Mặc kệ giới hạn tốc độ"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:106
+#: .\Plugins\AdaptiveCruiseControl\settings.py:99
 msgid "Whether the ACC should ignore the speed limit."
 msgstr "ACC có nên mặc kệ giới hạn tốc độ không? Nhớ rằng **chắc chắn nó sẽ không an toàn**."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:112
+#: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Coefficient of Friction"
 msgstr "Hệ số ma sát"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:113
+#: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr "Hệ số ma sát được dùng cho các tính toán của ACC. Giá trị cao hơn cho phép xe tải vào cua nhanh hơn."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:123
+#: .\Plugins\AdaptiveCruiseControl\settings.py:116
 msgid "Speed when game speed limit is 0"
 msgstr "Tốc độ chạy khi game không có giới hạn tốc độ"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:124
+#: .\Plugins\AdaptiveCruiseControl\settings.py:117
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr "Tốc độ chạy khi game nói với ETS2LA rằng giới hạn tốc độ là 0km/h."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:139
+#: .\Plugins\AdaptiveCruiseControl\settings.py:132
 msgid "Speed Offset Type"
 msgstr "Loại offset tốc độ"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:141
+#: .\Plugins\AdaptiveCruiseControl\settings.py:134
 msgid "Select the type of speed offset to apply."
 msgstr "Chọn loại offset tốc độ để áp dụng."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:146
-#: .\Plugins\AdaptiveCruiseControl\settings.py:157
+#: .\Plugins\AdaptiveCruiseControl\settings.py:138
 msgid "Speed Offset"
 msgstr "Offset tốc độ"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:147
-#: .\Plugins\AdaptiveCruiseControl\settings.py:158
+#: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr "Offset tốc độ sẽ áp dụng cho tất cả giới hạn tốc độ. Bạn cũng có thể thay đổi cái này một cách linh hoạt với các phím tắt trong cài đặt điều khiển."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:167
+#: .\Plugins\AdaptiveCruiseControl\settings.py:148
 msgid "PID"
 msgstr "PID"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:170
+#: .\Plugins\AdaptiveCruiseControl\settings.py:151
 msgid "Unlock PID"
 msgstr "Mở khóa PID"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:171
+#: .\Plugins\AdaptiveCruiseControl\settings.py:152
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr "Bạn có thể mở khóa các cài đặt PID để điều chỉnh chúng thủ công. Nhưng chúng tôi không khuyến khích trừ khi bạn hiểu rõ PID là gì và có thể tinh chỉnh một cách chính xác."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:178
+#: .\Plugins\AdaptiveCruiseControl\settings.py:159
 msgid "PID Kp"
 msgstr "Hệ số tỉ lệ (Kp)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:179
+#: .\Plugins\AdaptiveCruiseControl\settings.py:160
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr "Chúng ta đến đích chưa? Chưa? Chúng ta cần tăng tốc thêm! (Kp quyết định mức độ phản ứng ngay lập tức của hệ thống khi có sai lệch. Giá trị cao đồng nghĩa với phản ứng nhanh nhưng cũng đồng nghĩa là kém ổn định)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:187
+#: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "PID Ki"
 msgstr "Hệ số tích phân (Ki)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:188
+#: .\Plugins\AdaptiveCruiseControl\settings.py:169
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr "Đã lâu rồi chúng ta chưa đến đó? Thì chúng ta cần tăng tốc thêm! (Ki giúp loại bỏ sai lệch kéo dài bằng cách cộng dồn sai số theo thời gian. Giá trị cao, hệ thống cố gắng sửa sai lâu dài, nếu không kiểm soát tốt, dễ gây quá điều chỉnh)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:196
+#: .\Plugins\AdaptiveCruiseControl\settings.py:177
 msgid "PID Kd"
 msgstr "Hệ số vi phân (Kd)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:197
+#: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr "Chúng ta đang đến đích nhanh như thế nào? Nếu quá nhanh, chúng ta cần giảm tốc! (Kd giúp giảm dao động vượt quá bằng cách phản ứng với tốc độ thay đổi của sai lệch. Giá trị cao, hệ thống sẽ cẩn trọng phản ứng, nhưng dễ bị nhiễu)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:205
+#: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr "Nếu bạn chưa quen với khái niệm PID, hãy xem video minh họa này. Nó giải thích cách hoạt động của bộ điều khiển PID."
 
-#: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
-msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr "Plugin này cung cấp HUD sử dụng plugin AR để render."
+#: .\Plugins\HUD\elements\acc.py:8 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "ACC Information"
+msgstr "Thông tin ACC"
 
-#: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
-msgid "General"
-msgstr "Chung"
+#: .\Plugins\HUD\elements\acc.py:9
+msgid "Draw ACC information like vehicle distance and speed."
+msgstr "Hiển thị thông tin ACC như khoảng cách phương tiện và tốc độ."
 
-#: .\Plugins\HUD\main.py:89
-msgid "Refresh Rate"
-msgstr "Tần số quét"
+#: .\Plugins\HUD\elements\acceleration.py:8
+msgid "Acceleration"
+msgstr "Tăng tốc"
 
-#: .\Plugins\HUD\main.py:90
-msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
-msgstr "Tỉ lệ cập nhật của HUD. Chúng tôi không khuyến khích tăng giá trị đó quá cao."
+#: .\Plugins\HUD\elements\acceleration.py:9
+msgid "Draw the current acceleration of the truck."
+msgstr "Hiển thị gia tốc hiện tại của xe tải."
 
-#: .\Plugins\HUD\main.py:99
-msgid "Scale"
-msgstr "Tỉ lệ"
+#: .\Plugins\HUD\elements\assists.py:14 .\Plugins\HUD\main.py:47
+msgid "Assist Information"
+msgstr "Thông tin hỗ trợ"
 
-#: .\Plugins\HUD\main.py:100
-msgid "The scale of the HUD elements."
-msgstr "Tỉ lệ hiển thị của các phần tử HUD."
+#: .\Plugins\HUD\elements\assists.py:15
+msgid "Draw ACC and Steering status information."
+msgstr "Hiển thị ACC và trạng thái đánh lái."
 
-#: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
-msgid "Offset X"
-msgstr "Offset X"
+#: .\Plugins\HUD\elements\fuel.py:8
+msgid "Fuel Status"
+msgstr "Trạng thái nhiên liệu"
 
-#: .\Plugins\HUD\main.py:111
-msgid "The X offset (side to side) of the HUD elements."
-msgstr "X offset (chiều ngang) của các phần tử HUD."
+#: .\Plugins\HUD\elements\fuel.py:9
+msgid "Draw the current fuel status of the truck."
+msgstr "Hiển thị trạng thái nhiên liệu hiện tại của xe tải."
 
-#: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
-msgid "Offset Y"
-msgstr "Offset Y"
+#: .\Plugins\HUD\elements\gear.py:8 .\Plugins\HUD\main.py:44
+msgid "RPM & Gear"
+msgstr "Vòng tua & Cấp số"
 
-#: .\Plugins\HUD\main.py:119
-msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr "Y offset (chiều dọc) của các phần tử HUD."
+#: .\Plugins\HUD\elements\gear.py:9
+msgid "Draw the current RPM and gear of the truck."
+msgstr "Hiển thị vòng tua và cấp số hiện tại của xe tải."
 
-#: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
-msgid "Offset Z"
-msgstr "Offset Z"
+#: .\Plugins\HUD\elements\media.py:19 .\Plugins\HUD\main.py:43
+#: .\Plugins\HUD\main.py:48
+msgid "Media"
+msgstr "Đa phương tiện"
 
-#: .\Plugins\HUD\main.py:127
-msgid "The Z offset (distance) of the HUD elements."
-msgstr "Z offset (khoảng cách) của các phần tử HUD."
+#: .\Plugins\HUD\elements\media.py:20
+msgid "Displays media information such as song title, artist and playback progress."
+msgstr "Hiển thị thông tin đa phương tiện như tiêu đề bài nhạc, nghệ sĩ và tiến trình phát lại."
 
-#: .\Plugins\HUD\main.py:133
-msgid "HUD Elements"
-msgstr "Các phần tử HUD"
+#: .\Plugins\HUD\elements\media.py:23
+msgid "No Media Playing"
+msgstr "Không thứ gì đang được phát"
 
-#: .\Plugins\HUD\main.py:135
-msgid "Show Navigation"
-msgstr "Hiển thị điều hướng"
+#: .\Plugins\HUD\elements\media.py:24 .\Plugins\HUD\elements\media.py:66
+msgid "No Artist"
+msgstr "Không có nghệ sĩ"
 
-#: .\Plugins\HUD\main.py:136
-msgid "When enabled, the HUD will display navigation information."
-msgstr "Khi được bật, HUD sẽ hiển thị thông tin điều hướng."
+#: .\Plugins\HUD\elements\media.py:65
+msgid "No Title"
+msgstr "Không có tiêu đề"
 
-#: .\Plugins\HUD\main.py:141
-msgid "Show ACC Info"
-msgstr "Hiển thị thông tin của ACC"
+#: .\Plugins\HUD\elements\navigation.py:8
+msgid "Navigation"
+msgstr "Điều hướng"
 
-#: .\Plugins\HUD\main.py:142
-msgid "When enabled, the HUD will display adaptive cruise control information."
-msgstr "Khi được bật, HUD sẽ hiển thị thông tin của kiểm soát hành trình tự động."
+#: .\Plugins\HUD\elements\navigation.py:9
+msgid "Draw navigation information."
+msgstr "Hiển thị thông tin điều hướng."
 
-#: .\Plugins\HUD\main.py:147
-msgid "Draw Steering"
-msgstr "Vẽ hướng đánh lái"
+#. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
+#: .\Plugins\HUD\elements\navigation.py:66
+msgid "arrival"
+msgstr "đến nơi"
 
-#: .\Plugins\HUD\main.py:148
-msgid "Whether to draw the steering line in the HUD."
-msgstr "Nếu bạn muốn hiển thị đường đánh lái trên HUD."
+#: .\Plugins\HUD\elements\power.py:11
+msgid "Throttle / Brake"
+msgstr "Ga / Phanh"
 
-#: .\Plugins\HUD\main.py:153
-msgid "Show Traffic Light Times"
-msgstr "Hiển thị thời gian của đèn giao thông"
+#: .\Plugins\HUD\elements\power.py:12
+msgid "Display current throttle and brake percentage."
+msgstr "Hiển thị phần trăm phanh và ga hiện tại."
 
-#: .\Plugins\HUD\main.py:154
-msgid "When enabled, the HUD will display traffic light times."
-msgstr "Khi được bật, HUD sẽ hiển thị thời gian của đèn giao thông."
+#: .\Plugins\HUD\elements\semaphores.py:7 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "Traffic Lights"
+msgstr "Đèn giao thông"
 
-#: .\Plugins\HUD\main.py:159
-msgid "Draw Wheel Paths"
-msgstr "Vẽ đường bánh xe"
+#: .\Plugins\HUD\elements\semaphores.py:8
+msgid "Draw traffic light information."
+msgstr "Hiển thị thông tin đèn giao thông."
 
-#: .\Plugins\HUD\main.py:160
-msgid "When enabled, the HUD will display where the wheels will go when turning."
-msgstr "Khi được bật, HUD sẽ hiển thị hướng của bánh xe khi đánh lái."
+#: .\Plugins\HUD\elements\speed.py:7 .\Plugins\HUD\main.py:42
+#: .\Plugins\TTS\main.py:122
+msgid "Speed"
+msgstr "Tốc độ"
 
-#: .\Plugins\HUD\main.py:169
+#: .\Plugins\HUD\elements\speed.py:8
+msgid "A normal speed display, will also show speed limit changes."
+msgstr "Một màn hình hiển thị tốc độ, cũng sẽ hiển thị các thay đổi về giới hạn tốc độ."
+
+#: .\Plugins\HUD\elements\steering.py:8 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "Steering Line"
+msgstr "Đường đánh lái"
+
+#: .\Plugins\HUD\elements\steering.py:9
+msgid "Draw steering line from Map."
+msgstr "Hiển thị đường đánh lái từ bản đồ."
+
+#: .\Plugins\HUD\main.py:21
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr "Tạo một lớp hiển thị HUD trên kính chắn gió. Cần plugin AR để hoạt động."
 
-#: .\Plugins\HUD\main.py:758
-msgid "Waiting for lane change approval"
-msgstr "Đang chờ thay đổi làn đường được chấp thuận"
+#: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
+msgid "Enable"
+msgstr "Bật"
 
-#: .\Plugins\HUD\main.py:769
-msgid "Lane change in progress {percentage}%"
-msgstr "Đang tiến hành thay đổi làn đường {percentage}%"
+#: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
+msgid "Disable"
+msgstr "Tắt"
 
-#: .\Plugins\HUD\main.py:844
-msgid "Distance: {distance:.0f} {units}"
-msgstr "Khoảng cách: {distance:.0f} {units}"
+#: .\Plugins\HUD\ui.py:111
+msgid "This plugin provides a HUD using the AR plugin as the renderer."
+msgstr "Plugin này cung cấp HUD sử dụng plugin AR để render."
 
-#: .\Plugins\HUD\main.py:892
-msgid "Target: {acc_gap:.0f} {units}"
-msgstr "Mục tiêu: {acc_gap:.0f} {units}"
+#: .\Plugins\HUD\ui.py:115
+msgid "Please enable the plugin to edit the settings."
+msgstr "Hãy bật plugin để chỉnh sửa các cài đặt."
+
+#. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
+#: .\Plugins\HUD\ui.py:120
+msgid "Transform"
+msgstr "Biến đổi vị trí và kích thước"
+
+#: .\Plugins\HUD\ui.py:122
+msgid "Offset X"
+msgstr "Offset X"
+
+#: .\Plugins\HUD\ui.py:123
+msgid "The horizontal offset of the HUD."
+msgstr "Offset chiều ngang của HUD."
+
+#: .\Plugins\HUD\ui.py:131
+msgid "Offset Y"
+msgstr "Offset Y"
+
+#: .\Plugins\HUD\ui.py:132
+msgid "The vertical offset of the HUD."
+msgstr "Offset chiều dọc của HUD."
+
+#: .\Plugins\HUD\ui.py:140
+msgid "Offset Z"
+msgstr "Offset Z"
+
+#: .\Plugins\HUD\ui.py:141
+msgid "The depth offset of the HUD."
+msgstr "Offset chiều sâu của HUD."
+
+#: .\Plugins\HUD\ui.py:150
+msgid "Widget Sizing"
+msgstr "Kích cỡ tiện ích"
+
+#: .\Plugins\HUD\ui.py:151
+msgid "These settings control the sizing of the widgets."
+msgstr "Các cài đặt này điều khiển kích cỡ của các tiện ích."
+
+#: .\Plugins\HUD\ui.py:158
+msgid "Widget Scaling"
+msgstr "Tỉ lệ của tiện ích"
+
+#: .\Plugins\HUD\ui.py:159
+msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
+msgstr ""
+"Hệ số tỉ lệ của các tiện ích. 1 là kích cỡ bình thường, 0.5 là một nửa, 2 là "
+"gấp đôi."
+
+#: .\Plugins\HUD\ui.py:164
+msgid "Scale Height"
+msgstr "Tỉ lệ chiều cao"
+
+#: .\Plugins\HUD\ui.py:165
+msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
+msgstr ""
+"Chỉnh tỉ lệ chiều cao của các tiện ích, nhớ rằng cái này sẽ gây ra một số "
+"vấn đề về layout với một số tiện ích, sử dụng cẩn trọng."
+
+#: .\Plugins\HUD\ui.py:171
+msgid "Widget Background"
+msgstr "Nền của các tiện ích"
+
+#: .\Plugins\HUD\ui.py:172
+msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
+msgstr "Bạn có thể điều khiển mức độ tối nền của các tiện ích, chỉ trong ngày hoặc mọi lúc."
+
+#: .\Plugins\HUD\ui.py:176
+msgid "Darkness"
+msgstr "Độ tối"
+
+#: .\Plugins\HUD\ui.py:177
+msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
+msgstr "Độ tối nền của các tiện ích. 0 là không tối, 1 là hoàn toàn tối."
+
+#: .\Plugins\HUD\ui.py:186
+msgid "Day Darkness"
+msgstr "Độ tối cho trời sáng"
+
+#: .\Plugins\HUD\ui.py:187
+msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
+msgstr "Độ tối nền cho trời sáng của các tiện ích. 0 là không tối, 1 là hoàn toàn tối."
+
+#: .\Plugins\HUD\ui.py:196
+msgid "Elements"
+msgstr "Các phần tử"
+
+#: .\Plugins\HUD\ui.py:205
+msgid "Enabled Widgets"
+msgstr "Bật các tiện ích"
+
+#: .\Plugins\HUD\ui.py:206
+msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
+msgstr "Hiển thị các tiện ích và kích thước tương ứng của chúng. Nhấn vào một cái bất kì để tắt, hiện tại bạn chưa thể di chuyển nó một cách tự do, bạn sẽ phải Tắt -> Bật theo thứ tự để chúng xuất hiện theo vị trí bạn muốn."
+
+#: .\Plugins\HUD\ui.py:234
+msgid "Available Widgets"
+msgstr "Các tiện ích hiện có"
+
+#: .\Plugins\HUD\ui.py:235
+msgid "These widgets are available to be enabled:"
+msgstr "Các tiện ích này đều có sẵn để được bật:"
+
+#: .\Plugins\HUD\ui.py:243
+msgid "Renderers"
+msgstr "Renderer"
+
+#: .\Plugins\HUD\ui.py:244
+msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
+msgstr "Các renderer được dùng để hiển thị những phần tử không cố định. Chúng thường là các phần tử có thể di chuyển trong thế giới của game."
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
@@ -1770,6 +1978,10 @@ msgstr "Cài đặt bản đồ"
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr "Cấu hình các cài đặt cho plugin bản đồ. Ở đây bạn có thể điều chỉnh nhiều tùy chọn liên quan đến điều hướng, đánh lái, và xử lí dữ liệu."
+
+#: .\Plugins\Map\ui.py:99
+msgid "General"
+msgstr "Chung"
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
@@ -1850,213 +2062,6 @@ msgstr "Kích cỡ tải xuống của dữ liệu này là"
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
 msgstr "tổng dung lượng sau khi giải nén là"
-
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "ACC Information"
-msgstr "Thông tin ACC"
-
-#: .\Plugins\NGHUD\elements\acc.py:9
-msgid "Draw ACC information like vehicle distance and speed."
-msgstr "Hiển thị thông tin ACC như khoảng cách phương tiện và tốc độ."
-
-#: .\Plugins\NGHUD\elements\acceleration.py:8
-msgid "Acceleration"
-msgstr "Tăng tốc"
-
-#: .\Plugins\NGHUD\elements\acceleration.py:9
-msgid "Draw the current acceleration of the truck."
-msgstr "Hiển thị gia tốc hiện tại của xe tải."
-
-#: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
-msgid "Assist Information"
-msgstr "Thông tin hỗ trợ"
-
-#: .\Plugins\NGHUD\elements\assists.py:15
-msgid "Draw ACC and Steering status information."
-msgstr "Hiển thị ACC và trạng thái đánh lái."
-
-#: .\Plugins\NGHUD\elements\fuel.py:8
-msgid "Fuel Status"
-msgstr "Trạng thái nhiên liệu"
-
-#: .\Plugins\NGHUD\elements\fuel.py:9
-msgid "Draw the current fuel status of the truck."
-msgstr "Hiển thị trạng thái nhiên liệu hiện tại của xe tải."
-
-#: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
-msgid "RPM & Gear"
-msgstr "Vòng tua & Cấp số"
-
-#: .\Plugins\NGHUD\elements\gear.py:9
-msgid "Draw the current RPM and gear of the truck."
-msgstr "Hiển thị vòng tua và cấp số hiện tại của xe tải."
-
-#: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43
-#: .\Plugins\NGHUD\main.py:48
-msgid "Media"
-msgstr "Đa phương tiện"
-
-#: .\Plugins\NGHUD\elements\media.py:20
-msgid "Displays media information such as song title, artist and playback progress."
-msgstr "Hiển thị thông tin đa phương tiện như tiêu đề bài nhạc, nghệ sĩ và tiến trình phát lại."
-
-#: .\Plugins\NGHUD\elements\media.py:23
-msgid "No Media Playing"
-msgstr "Không thứ gì đang được phát"
-
-#: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
-msgid "No Artist"
-msgstr "Không có nghệ sĩ"
-
-#: .\Plugins\NGHUD\elements\media.py:65
-msgid "No Title"
-msgstr "Không có tiêu đề"
-
-#: .\Plugins\NGHUD\elements\navigation.py:8
-msgid "Navigation"
-msgstr "Điều hướng"
-
-#: .\Plugins\NGHUD\elements\navigation.py:9
-msgid "Draw navigation information."
-msgstr "Hiển thị thông tin điều hướng."
-
-#. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
-#: .\Plugins\NGHUD\elements\navigation.py:66
-msgid "arrival"
-msgstr "đến nơi"
-
-#: .\Plugins\NGHUD\elements\power.py:11
-msgid "Throttle / Brake"
-msgstr "Ga / Phanh"
-
-#: .\Plugins\NGHUD\elements\power.py:12
-msgid "Display current throttle and brake percentage."
-msgstr "Hiển thị phần trăm phanh và ga hiện tại."
-
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "Traffic Lights"
-msgstr "Đèn giao thông"
-
-#: .\Plugins\NGHUD\elements\semaphores.py:8
-msgid "Draw traffic light information."
-msgstr "Hiển thị thông tin đèn giao thông."
-
-#: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
-#: .\Plugins\TTS\main.py:122
-msgid "Speed"
-msgstr "Tốc độ"
-
-#: .\Plugins\NGHUD\elements\speed.py:8
-msgid "A normal speed display, will also show speed limit changes."
-msgstr "Một màn hình hiển thị tốc độ, cũng sẽ hiển thị các thay đổi về giới hạn tốc độ."
-
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "Steering Line"
-msgstr "Đường đánh lái"
-
-#: .\Plugins\NGHUD\elements\steering.py:9
-msgid "Draw steering line from Map."
-msgstr "Hiển thị đường đánh lái từ bản đồ."
-
-#: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
-msgid "NGHUD"
-msgstr "NGHUD"
-
-#: .\Plugins\NGHUD\main.py:21
-msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
-msgstr "HUD thế hệ mới (đơn giản là tôi đang làm lại HUD và cần một cái tên cho nó)"
-
-#: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-msgid "Enable"
-msgstr "Bật"
-
-#: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-msgid "Disable"
-msgstr "Tắt"
-
-#: .\Plugins\NGHUD\ui.py:102
-msgid "Please enable the plugin to edit the settings."
-msgstr "Hãy bật plugin để chỉnh sửa các cài đặt."
-
-#. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
-#: .\Plugins\NGHUD\ui.py:107
-msgid "Transform"
-msgstr "Biến đổi vị trí và kích thước"
-
-#: .\Plugins\NGHUD\ui.py:110
-msgid "The horizontal offset of the HUD."
-msgstr "Offset chiều ngang của HUD."
-
-#: .\Plugins\NGHUD\ui.py:119
-msgid "The vertical offset of the HUD."
-msgstr "Offset chiều dọc của HUD."
-
-#: .\Plugins\NGHUD\ui.py:128
-msgid "The depth offset of the HUD."
-msgstr "Offset chiều sâu của HUD."
-
-#: .\Plugins\NGHUD\ui.py:137
-msgid "Widget Widths"
-msgstr "Chiều rộng các tiện ích"
-
-#: .\Plugins\NGHUD\ui.py:138
-msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
-msgstr "Các cài đặt này điều khiển chiều rộng của mỗi tiện ích từng pixel. Mặc định là 90,120,90. Các phần tử sẽ cố gắng điều chỉnh kích thước sao cho vừa, nhưng nhớ rằng chúng không được thiết kế để điều chỉnh quá nhiều."
-
-#: .\Plugins\NGHUD\ui.py:161
-msgid "Widget Background"
-msgstr "Nền của các tiện ích"
-
-#: .\Plugins\NGHUD\ui.py:162
-msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
-msgstr "Bạn có thể điều khiển mức độ tối nền của các tiện ích, chỉ trong ngày hoặc mọi lúc."
-
-#: .\Plugins\NGHUD\ui.py:166
-msgid "Darkness"
-msgstr "Độ tối"
-
-#: .\Plugins\NGHUD\ui.py:167
-msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr "Độ tối nền của các tiện ích. 0 là không tối, 1 là hoàn toàn tối."
-
-#: .\Plugins\NGHUD\ui.py:176
-msgid "Day Darkness"
-msgstr "Độ tối cho trời sáng"
-
-#: .\Plugins\NGHUD\ui.py:177
-msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
-msgstr "Độ tối nền cho trời sáng của các tiện ích. 0 là không tối, 1 là hoàn toàn tối."
-
-#: .\Plugins\NGHUD\ui.py:186
-msgid "Elements"
-msgstr "Các phần tử"
-
-#: .\Plugins\NGHUD\ui.py:195
-msgid "Enabled Widgets"
-msgstr "Bật các tiện ích"
-
-#: .\Plugins\NGHUD\ui.py:196
-msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
-msgstr "Hiển thị các tiện ích và kích thước tương ứng của chúng. Nhấn vào một cái bất kì để tắt, hiện tại bạn chưa thể di chuyển nó một cách tự do, bạn sẽ phải Tắt -> Bật theo thứ tự để chúng xuất hiện theo vị trí bạn muốn."
-
-#: .\Plugins\NGHUD\ui.py:224
-msgid "Available Widgets"
-msgstr "Các tiện ích hiện có"
-
-#: .\Plugins\NGHUD\ui.py:225
-msgid "These widgets are available to be enabled:"
-msgstr "Các tiện ích này đều có sẵn để được bật:"
-
-#: .\Plugins\NGHUD\ui.py:233
-msgid "Renderers"
-msgstr "Renderer"
-
-#: .\Plugins\NGHUD\ui.py:234
-msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
-msgstr "Các renderer được dùng để hiển thị những phần tử không cố định. Chúng thường là các phần tử có thể di chuyển trong thế giới của game."
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
@@ -2242,7 +2247,7 @@ msgstr "Chế độ thử nghiệm đã được bật. Đây là một tin nh�
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr "Sockets của trực quan hóa dữ liệu"
+msgstr "Visualization Sockets"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
@@ -2317,89 +2322,177 @@ msgstr "Hiện tại không có máy khách nào đã được kết nối."
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr "Plugin này cung cấp một máy chủ WebSocket cho ETS2LA trực quan hóa dữ liệu. Nó cho phép bạn kết nối với trực quan hóa dữ liệu bằng các thiết bị khác và xem dữ liệu của ETS2LA theo thời gian thực."
 
-#: .\main.py:105
+#: .\main.py:104
 msgid "Testing mirrors..."
 msgstr "Đang kiểm tra các mirror..."
 
-#: .\main.py:113
+#: .\main.py:112
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Đã đến {0} trong {1:.0f} mili giây"
 
-#: .\main.py:119
+#: .\main.py:118
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " -Đã đến {0} trong (Hết thời gian chờ)"
 
-#: .\main.py:134
+#: .\main.py:124
+msgid "Using mirror from settings: {0}"
+msgstr "Sử dụng mirror từ cài đặt: {0}"
+
+#: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " _Đang chạy các tác vụ sau tải về cho submodule:  Giao diện  -- "
 
-#: .\main.py:152
+#: .\main.py:155
 msgid "Running ETS2LA in development mode."
 msgstr "Đang chạy ETS2LA ở chế độ nhà phát triển."
 
-#: .\main.py:156
+#: .\main.py:159
 msgid "Running UI locally"
 msgstr "Đang chạy UI cục bộ"
 
-#: .\main.py:161
+#: .\main.py:164
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Không có kết nối để điều khiển các UI mirror. Đang chạy cục bộ."
 
-#: .\main.py:172
+#: .\main.py:175
 msgid "Running UI in China mode"
 msgstr "Đang chạy UI ở chế độ Trung Quốc"
 
-#: .\main.py:174
+#: .\main.py:177
 msgid "> Using mirror {0} for UI."
 msgstr "> Đang dùng mirror {0} cho UI."
 
-#: .\main.py:180
+#: .\main.py:183
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console không thể sử dụng cùng với --no-ui. Console sẽ không được đóng."
 
-#: .\main.py:182
+#: .\main.py:185
 msgid "Closing console after UI start."
 msgstr "Đang đóng console sau khi UI được khởi động."
 
-#: .\main.py:185
+#: .\main.py:188
 msgid "Running in the background without a window."
 msgstr "Đang chạy trong nền với không cửa sổ."
 
-#: .\main.py:203
+#: .\main.py:206
 msgid "ETS2LA Overseer started!"
 msgstr "Trình giám sát ETS2LA đã được khởi động!"
 
-#: .\main.py:219
+#: .\main.py:222
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA đang khởi động lại..."
 
-#: .\main.py:225
+#: .\main.py:228
 msgid "Skipping update due to development mode."
 msgstr "Đang bỏ qua cập nhật do chế độ nhà phát triển."
 
-#: .\main.py:228
+#: .\main.py:231
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA đang cập nhật..."
 
-#: .\main.py:231
+#: .\main.py:234
 msgid "Update done... restarting!"
 msgstr "Cập nhật hoàn tất... đang khởi động lại!"
 
-#: .\main.py:236
+#: .\main.py:239
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA đã bị crash!"
 
-#: .\main.py:245
+#: .\main.py:248
 msgid "Send the above traceback to the developers."
 msgstr "Gửi bản ghi lỗi ở trên đến nhà phát triển."
 
-#: .\main.py:247
+#: .\main.py:250
 msgid "ETS2LA has closed."
 msgstr "ETS2LA đã được đóng."
 
-#: .\main.py:248
+#: .\main.py:251
 msgid "Press enter to exit."
 msgstr "Nhấn phím enter để thoát."
+
+#~ msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
+#~ msgstr "Đamg kiểm tra sự tồn tại của cửa sổ ETS2LA... [dim](hết thời gian chờ trong 10 giây)[/dim]"
+
+#~ msgid "Plugin Catalogue"
+#~ msgstr "Danh mục plugin"
+
+#~ msgid "Refresh Rate"
+#~ msgstr "Tần số quét"
+
+#~ msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
+#~ msgstr "Tỉ lệ cập nhật của HUD. Chúng tôi không khuyến khích tăng giá trị đó quá cao."
+
+#~ msgid "Scale"
+#~ msgstr "Tỉ lệ"
+
+#~ msgid "The scale of the HUD elements."
+#~ msgstr "Tỉ lệ hiển thị của các phần tử HUD."
+
+#~ msgid "The X offset (side to side) of the HUD elements."
+#~ msgstr "X offset (chiều ngang) của các phần tử HUD."
+
+#~ msgid "The Y offset (top to bottom) of the HUD elements."
+#~ msgstr "Y offset (chiều dọc) của các phần tử HUD."
+
+#~ msgid "The Z offset (distance) of the HUD elements."
+#~ msgstr "Z offset (khoảng cách) của các phần tử HUD."
+
+#~ msgid "HUD Elements"
+#~ msgstr "Các phần tử HUD"
+
+#~ msgid "Show Navigation"
+#~ msgstr "Hiển thị điều hướng"
+
+#~ msgid "When enabled, the HUD will display navigation information."
+#~ msgstr "Khi được bật, HUD sẽ hiển thị thông tin điều hướng."
+
+#~ msgid "Show ACC Info"
+#~ msgstr "Hiển thị thông tin của ACC"
+
+#~ msgid "When enabled, the HUD will display adaptive cruise control information."
+#~ msgstr "Khi được bật, HUD sẽ hiển thị thông tin của kiểm soát hành trình tự động."
+
+#~ msgid "Draw Steering"
+#~ msgstr "Vẽ hướng đánh lái"
+
+#~ msgid "Whether to draw the steering line in the HUD."
+#~ msgstr "Nếu bạn muốn hiển thị đường đánh lái trên HUD."
+
+#~ msgid "Show Traffic Light Times"
+#~ msgstr "Hiển thị thời gian của đèn giao thông"
+
+#~ msgid "When enabled, the HUD will display traffic light times."
+#~ msgstr "Khi được bật, HUD sẽ hiển thị thời gian của đèn giao thông."
+
+#~ msgid "Draw Wheel Paths"
+#~ msgstr "Vẽ đường bánh xe"
+
+#~ msgid "When enabled, the HUD will display where the wheels will go when turning."
+#~ msgstr "Khi được bật, HUD sẽ hiển thị hướng của bánh xe khi đánh lái."
+
+#~ msgid "Waiting for lane change approval"
+#~ msgstr "Đang chờ thay đổi làn đường được chấp thuận"
+
+#~ msgid "Lane change in progress {percentage}%"
+#~ msgstr "Đang tiến hành thay đổi làn đường {percentage}%"
+
+#~ msgid "Distance: {distance:.0f} {units}"
+#~ msgstr "Khoảng cách: {distance:.0f} {units}"
+
+#~ msgid "Target: {acc_gap:.0f} {units}"
+#~ msgstr "Mục tiêu: {acc_gap:.0f} {units}"
+
+#~ msgid "NGHUD"
+#~ msgstr "NGHUD"
+
+#~ msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
+#~ msgstr "HUD thế hệ mới (đơn giản là tôi đang làm lại HUD và cần một cái tên cho nó)"
+
+#~ msgid "Widget Widths"
+#~ msgstr "Chiều rộng các tiện ích"
+
+#~ msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
+#~ msgstr "Các cài đặt này điều khiển chiều rộng của mỗi tiện ích từng pixel. Mặc định là 90,120,90. Các phần tử sẽ cố gắng điều chỉnh kích thước sao cho vừa, nhưng nhớ rằng chúng không được thiết kế để điều chỉnh quá nhiều."
 
 #~ msgid "Restart and apply {count} update(s)"
 #~ msgstr "Khởi động lại và áp dụng {count} bản cập nhật"

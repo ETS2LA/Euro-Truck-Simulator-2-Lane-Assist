@@ -3,7 +3,7 @@ import requests
 import logging
 import zipfile
 import shutil
-import ujson
+import orjson
 import json
 import yaml
 import os
@@ -61,16 +61,18 @@ def ReadData(path: str) -> dict:
     global fallback
     f = open(path, "r", encoding="utf-8")
     
-    if fallback: 
+    if fallback:
         data = json.load(f) 
         if not data:
             logging.error(f"Failed to load Map data JSON file: {path}")
-    else: 
-        data = ujson.load(f)
-        if not data:
+    else:
+        try:
+            data = orjson.loads(f.read())
+        except orjson.JSONDecodeError:
+            logging.warning("Failed to decode JSON with orjson, falling back to json module.")
             fallback = True
             data = ReadData(path)
-    
+
     f.close()
     return data
 

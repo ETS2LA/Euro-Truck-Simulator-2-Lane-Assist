@@ -11,7 +11,7 @@ root of the project to update the translation files. Please lock and update the
 translations from weblate before generating, as you might hit merge conflicts otherwise.
 """
 
-from ETS2LA.Utils.settings import Get, Listen
+from ETS2LA.Utils.settings import Get, Listen, Set
 from langcodes import Language
 import datetime
 import gettext
@@ -87,8 +87,15 @@ class Translate:
         
         if found_text:
             translated_strings += 1
+
+        if total_strings > 0:
+            translated_percentage = (translated_strings / total_strings) * 100
+            if translated_percentage > 100.0:
+                translated_percentage = 100.0
+        else:
+            translated_percentage = 0
         
-        return (translated_strings / total_strings) * 100 if total_strings > 0 else 0.0
+        return translated_percentage
 
     def cleanup(self, string: str) -> str:
         """
@@ -133,6 +140,10 @@ def parse_language(language: Language) -> str:
     return code
     
 default = Get("global", "language", "English")
+if not default:
+    Set("global", "language", "English")
+    default = "English"
+    
 default = parse_language(Language.find(default))
 _ = Translate("backend", "Translations/locales", default)  # Default to English
 T_ = _
@@ -144,6 +155,10 @@ def set_language(language: str | Language):
     
     :param language: The language code to set.
     """
+    if not language:
+        Set("global", "language", "English")
+        language = "English"
+    
     if isinstance(language, Language):
         language = language.language
         
@@ -151,8 +166,10 @@ def set_language(language: str | Language):
     
 def detect_change(dictionary: dict):
     language = dictionary.get("language", "English")
-    language = parse_language(Language.find(language))
+    if not language:
+        language = "English"
     
+    language = parse_language(Language.find(language))
     if language != _.get_language():
         set_language(language)
     
@@ -161,8 +178,11 @@ Listen("global", detect_change)
 # region Generation
 overrides = {
     "zh": "zh_Hans",
+    "zh_2": "zh_Hant",
     "nb": "nb_NO"
 }
+count = {}
+
 def generate_translations():
     """
     Generate translation files from the source code.
@@ -222,6 +242,9 @@ msgstr ""
     # Generate or update .po files for each language
     for lang in [language.language for language in languages]:
         if lang in overrides:
+            count[lang] = count.get(lang, 0) + 1
+            if count.get(lang, 0) >= 2:
+                lang = f"{lang}_{count[lang]}"
             lang = overrides[lang]
             
         lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"

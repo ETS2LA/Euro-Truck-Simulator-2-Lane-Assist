@@ -6,14 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
-"POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-07-17 13:06+0000\n"
+"POT-Creation-Date: 2025-08-08 13:02\n"
+"PO-Revision-Date: 2025-08-09 04:37+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
+"\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -55,7 +56,7 @@ msgstr "Pri pokuse o úpravu udalosti sa vyskytla výnimka."
 msgid "Controls listener started."
 msgstr "Poslucháč ovládacích prvkov spustený."
 
-#: .\ETS2LA\Handlers\plugins.py:127
+#: .\ETS2LA\Handlers\plugins.py:132
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
@@ -63,67 +64,67 @@ msgstr ""
 "Spustenie pluginu {0} zlyhalo: Časový limit.\n"
 "Skúste zatvoriť ostatné programy, aby ste pluginu poskytli viac pamäte a CPU."
 
-#: .\ETS2LA\Handlers\plugins.py:132
+#: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
 msgstr "Spustenie pluginu {0} zlyhalo: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:184
+#: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
 msgstr "Plugin [yellow]{0}[/yellow] bol úspešne načítaný."
 
-#: .\ETS2LA\Handlers\plugins.py:379
+#: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
 msgstr "Pluginu {0} sa nepodarilo získať popis: Časový limit vypršal."
 
-#: .\ETS2LA\Handlers\plugins.py:383
+#: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
 msgstr "Pluginu {0} sa nepodarilo získať popis: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:417
+#: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
 msgstr "Pluginu {0} sa nepodarilo získať ovládacie prvky: Časový limit uplynul."
 
-#: .\ETS2LA\Handlers\plugins.py:421
+#: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
 msgstr "Pluginu {0} sa nepodarilo získať ovládacie prvky: {1}"
 
-#: .\ETS2LA\Handlers\plugins.py:491
+#: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
 msgstr "Načítaných {0} pluginov."
 
-#: .\ETS2LA\Handlers\plugins.py:561 .\ETS2LA\Handlers\plugins.py:751
+#: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
 msgstr "Plugin sa nenašiel."
 
-#: .\ETS2LA\Handlers\plugins.py:572
+#: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
 msgstr "Plugin [yellow]{0}[/yellow] bol úspešne spustený."
 
-#: .\ETS2LA\Handlers\plugins.py:579
+#: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
 msgstr "Nepodarilo sa spustiť plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:579 .\ETS2LA\Handlers\plugins.py:618
+#: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
 msgstr "Časový limit"
 
-#: .\ETS2LA\Handlers\plugins.py:598
+#: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr "Plugin sa nenašiel, môže to byť dôsledok zlyhania pluginu alebo zlyhania jeho načítania."
 
-#: .\ETS2LA\Handlers\plugins.py:615
+#: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
 msgstr "Plugin [yellow]{0}[/yellow] bol úspešne zastavený."
 
-#: .\ETS2LA\Handlers\plugins.py:618
+#: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
 msgstr "Nepodarilo sa zastaviť plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:644
+#: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
 msgstr "Nepodarilo sa reštartovať plugin: {0}"
 
-#: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
+#: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
 msgstr "Plugin {0} sa nenašiel pre stránku {1}."
 
@@ -207,7 +208,7 @@ msgstr "Webový server bol spustený na adrese http://{ip}:37520"
 msgid "Frontend started at http://{ip}:{port}"
 msgstr "Frontend sa spustil na adrese http://{ip}:{port}"
 
-#: .\ETS2LA\Utils\Console\logging.py:82
+#: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
 msgstr "Protokolovanie inicializované."
 
@@ -231,11 +232,11 @@ msgstr "Neboli nájdené žiadne chyby ani upozornenia."
 msgid "Please wait while we initialize the user interface"
 msgstr "Počkajte, prosím, kým inicializujeme používateľské rozhranie"
 
-#: .\ETS2LA\Window\utils.py:190
-msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
-msgstr "Hľadám okno ETS2LA... [dim](10s časový limit)[/dim]"
+#: .\ETS2LA\Window\utils.py:191
+msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
+msgstr "Hľadám okno ETS2LA... [dim]({timeout}s timeout)[/dim]"
 
-#: .\ETS2LA\Window\utils.py:199
+#: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr "Nepodarilo sa nájsť/spustiť okno ETS2LA. Je váš počítač dostatočne výkonný? Ak si myslíte, že by ste ho mali vedieť spustiť, použite stránku https://app.ets2la.com."
 
@@ -243,387 +244,414 @@ msgstr "Nepodarilo sa nájsť/spustiť okno ETS2LA. Je váš počítač dostato�
 msgid "Backend started successfully"
 msgstr "Backend bol úspešne spustený"
 
-#: .\Pages\about.py:14
+#: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
 msgstr "Vedúci vývojár a tvorca ETS2LA, backendu a frontendu."
 
-#: .\Pages\about.py:15
+#: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr "Detekcia navigácie, detekcia semaforov, ETS2LA Lite, „spoluvlastník“"
 
-#: .\Pages\about.py:16
+#: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr "Rôzne doplnky a vylepšenia, modely a vývoj umelej inteligencie pre detekciu objektov"
 
-#: .\Pages\about.py:17
+#: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr "Vývojár herného SDK pre ETS2LA. Vozidlá, semafory, dáta z kamier a ďalšie priamo z hry."
 
-#: .\Pages\about.py:18
+#: .\Pages\about.py:23
 msgid "Game data extraction and processing"
 msgstr "Extrakcia a spracovanie herných dát"
 
-#: .\Pages\about.py:19
+#: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
 msgstr "Port pre Linux a Unix, rôzne vylepšenia a opravy chýb"
 
-#: .\Pages\about.py:20
+#: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr "Vývojár ETS2LA SDK v jazyku C++, port pre Linux a Unix, opravy chýb"
 
-#: .\Pages\about.py:21
+#: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
 msgstr "Pomoc s navigáciou na ETS2LA a mape"
 
-#: .\Pages\about.py:22
+#: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
 msgstr "vývojár ovládača scs-sdk"
 
-#: .\Pages\about.py:23
+#: .\Pages\about.py:28
 msgid "3D models for the visualization"
 msgstr "3D modely pre vizualizáciu"
 
-#: .\Pages\about.py:24
+#: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
 msgstr "Vývoj extraktora dát, podpora pre upravené mapy."
 
-#: .\Pages\about.py:25
+#: .\Pages\about.py:30
+msgid "Discord rich presence plugin developer, slight backend updates."
+msgstr ""
+"Vývojár pluginu pre Discord Rich Presence, drobné aktualizácie backendu."
+
+#: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
 msgstr "Čínsky preklad, opravy chýb"
 
-#: .\Pages\about.py:26
+#: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
 msgstr "Čínske preklady, opravy chýb"
 
-#: .\Pages\about.py:27
+#: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
 msgstr "Automatické výpočty odsadenia pre plugin Mapa."
 
-#: .\Pages\about.py:28
+#: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
 msgstr "Podpora Discord servera, vývojár čínsko-anglického prekladača."
 
-#: .\Pages\about.py:29
+#: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
 msgstr "Údržba zrkadiel CN pre služby ETS2LA."
 
-#: .\Pages\about.py:30
+#: .\Pages\about.py:36
 msgid "Game hooks"
 msgstr "Herné hooks"
 
-#: .\Pages\about.py:31 .\Pages\about.py:32 .\Pages\about.py:33
-#: .\Pages\about.py:34 .\Pages\about.py:35 .\Pages\about.py:36
+#: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
+#: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
 msgstr "Opravy chýb"
 
-#: .\Pages\about.py:43
+#: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
 msgstr "Oprava stieračov (5s časovač)"
 
-#: .\Pages\about.py:48
+#: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
 msgstr "Oprava stieračov o {0} sekúnd..."
 
-#: .\Pages\about.py:54 .\Pages\about.py:55
+#: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
 msgstr "Stierače by sa mali teraz opraviť."
 
-#: .\Pages\about.py:58
+#: .\Pages\about.py:105
 msgid "Triggering update"
 msgstr "Spúšťa sa aktualizácia"
 
-#: .\Pages\about.py:67 .\Pages\about.py:72 .\Pages\about.py:78
+#: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
 msgstr[0] "{0} minúta"
 msgstr[1] "{0} minúty"
 msgstr[2] "{0} minút"
 
-#: .\Pages\about.py:74 .\Pages\about.py:77
+#: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
 msgstr[0] "{0} hodina"
 msgstr[1] "{0} hodiny"
 msgstr[2] "{0} hodín"
 
-#: .\Pages\about.py:76
+#: .\Pages\about.py:131
 msgid "{0} and {1}"
 msgstr "{0} a {1}"
 
-#: .\Pages\about.py:83
+#: .\Pages\about.py:155
+msgid "Notice!"
+msgstr "Všimnite si!"
+
+#: .\Pages\about.py:156
+msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
+msgstr ""
+"Súprava SDK pre {0} je zastaraná. Preinštalujte ju, aby ste aktualizovali na "
+"najnovšiu verziu v nastaveniach SDK."
+
+#: .\Pages\about.py:158
 msgid "About"
 msgstr "O ETS2LA"
 
-#: .\Pages\about.py:85
+#: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr "ETS2LA je projekt, ktorého cieľom je poskytnúť ľahko použiteľné riešenie pre autonómne riadenie pre ETS2 a ATS. Ak sa chcete dozvedieť viac, môžete navštíviť stránku github alebo wiki cez bočný panel."
 
-#: .\Pages\about.py:89
+#: .\Pages\about.py:164
 msgid "Statistics"
 msgstr "Štatistiky"
 
-#: .\Pages\about.py:93
+#: .\Pages\about.py:168
 msgid "Users online:"
 msgstr "Používatelia online:"
 
-#: .\Pages\about.py:94
+#: .\Pages\about.py:169
 msgid "{0} users"
 msgstr "{0} používateľov"
 
-#: .\Pages\about.py:96
+#: .\Pages\about.py:171
 msgid "Past 24 hours:"
 msgstr "Posledných 24 hodín:"
 
-#: .\Pages\about.py:97
+#: .\Pages\about.py:172
 msgid "{0} unique users"
 msgstr "{0} jedinečných používateľov"
 
-#: .\Pages\about.py:99
+#: .\Pages\about.py:174
 msgid "Your usage time:"
 msgstr "Váš čas používania:"
 
-#: .\Pages\about.py:104
+#: .\Pages\about.py:179
 msgid "You are not logged in."
 msgstr "Nie ste prihlásený/á."
 
-#: .\Pages\about.py:105
+#: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
 msgstr "Vaše anonymné ID používateľa je: {0}"
 
-#: .\Pages\about.py:109
+#: .\Pages\about.py:184
 msgid "You are logged in."
 msgstr "Ste prihlásený/á."
 
-#: .\Pages\about.py:110
+#: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
 msgstr "Vitaj späť, {0}!"
 
-#: .\Pages\about.py:114
+#: .\Pages\about.py:189
 msgid "Contributors"
 msgstr "Prispievatelia"
 
-#: .\Pages\about.py:125
+#: .\Pages\about.py:200
 msgid "Translations"
 msgstr "Preklady"
 
-#: .\Pages\about.py:135 .\Pages\global_settings.py:198
+#: .\Pages\about.py:210 .\Pages\global_settings.py:248
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
 msgstr "Zoznam prispievateľov"
 
-#: .\Pages\about.py:137 .\Pages\global_settings.py:200
+#: .\Pages\about.py:212 .\Pages\global_settings.py:250
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
 msgstr "Pomoc s prekladom"
 
-#: .\Pages\about.py:141
+#: .\Pages\about.py:216
 msgid "Support Development"
 msgstr "Podpora rozvoja"
 
-#: .\Pages\about.py:144
+#: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr "Ak sa vám projekt páči a chcete podporiť jeho rozvoj, môžete tak urobiť darovaním prostredníctvom Ko-Fi."
 
-#: .\Pages\about.py:147
+#: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr "Ak chcete prispieť, odporúčam pripojiť sa k Discord serveru a pozrieť si stránku na GitHube."
 
-#: .\Pages\about.py:151
+#: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr "Ak chcete prispieť k prekladom, môžete tak urobiť pripojením sa k Discordu a kontaktovaním moderátora."
 
-#: .\Pages\about.py:156
+#: .\Pages\about.py:231
 msgid "Utils"
 msgstr "Nástroje"
 
-#: .\Pages\about.py:160
+#: .\Pages\about.py:235
 msgid "Fix Wipers"
 msgstr "Opravte stierače"
 
-#: .\Pages\about.py:161
+#: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr "Zasekli sa vám stierače? Kliknite na tlačidlo a potom stlačením klávesu Alt Tab prejdite do hry. Mali by sa vypnúť do 5 sekúnd."
 
-#: .\Pages\about.py:162
+#: .\Pages\about.py:237
 msgid "Activate"
 msgstr "Aktivovať"
 
-#: .\Pages\about.py:167
+#: .\Pages\about.py:242
 msgid "Force an update"
 msgstr "Vynútiť aktualizáciu"
 
-#: .\Pages\about.py:168
+#: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr "Myslíte si, že mala byť k dispozícii aktualizácia? Kliknite na toto tlačidlo a aplikácia sa reštartuje a skontroluje ich dostupnosť."
 
-#: .\Pages\about.py:169 .\Plugins\Map\ui.py:172
+#: .\Pages\about.py:244 .\Plugins\Map\ui.py:172
 msgid "Update"
 msgstr "Aktualizovať"
 
-#: .\Pages\catalogue.py:82 .\Pages\catalogue.py:87
+#: .\Pages\catalogue.py:83 .\Pages\catalogue.py:88
 msgid "Unknown"
-msgstr ""
-
-#: .\Pages\catalogue.py:83
-msgid "No overview provided."
-msgstr ""
+msgstr "Neznámy"
 
 #: .\Pages\catalogue.py:84
+msgid "No overview provided."
+msgstr "Nebol poskytnutý žiadny prehľad."
+
+#: .\Pages\catalogue.py:85
 msgid "No description provided."
-msgstr ""
+msgstr "Nebol poskytnutý žiadny popis."
 
-#: .\Pages\catalogue.py:132
+#: .\Pages\catalogue.py:133
 msgid "Installing"
-msgstr ""
+msgstr "Inštaluje sa"
 
-#: .\Pages\catalogue.py:143 .\Pages\catalogue.py:181
+#: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin sa v katalógu nenašiel."
 
-#: .\Pages\catalogue.py:147
+#: .\Pages\catalogue.py:148
 msgid "Cloning repository"
-msgstr ""
+msgstr "Klonovacie úložisko"
 
-#: .\Pages\catalogue.py:150
+#: .\Pages\catalogue.py:151
 msgid "Installing requirements"
-msgstr ""
+msgstr "Požiadavky na inštaláciu"
 
-#: .\Pages\catalogue.py:153
+#: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Spúšťa sa proces pluginu na pozadí"
 
-#: .\Pages\catalogue.py:157
+#: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr ""
+msgstr "Nepodarilo sa spustiť proces pluginu na pozadí, ale súbory pluginu boli nainštalované."
 
-#: .\Pages\catalogue.py:159 .\Pages\catalogue.py:225
+#: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
-msgstr ""
+msgstr "Úspech"
 
-#: .\Pages\catalogue.py:162
+#: .\Pages\catalogue.py:163
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Plugin „{name}“ bol úspešne nainštalovaný."
 
-#: .\Pages\catalogue.py:164 .\Pages\catalogue.py:230
+#: .\Pages\catalogue.py:165 .\Pages\catalogue.py:231
 msgid "Failed"
-msgstr ""
+msgstr "Nepodarilo sa"
 
-#: .\Pages\catalogue.py:166
+#: .\Pages\catalogue.py:167
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Nepodarilo sa nainštalovať plugin „{name}“: {error}"
 
-#: .\Pages\catalogue.py:170
+#: .\Pages\catalogue.py:171
 msgid "Uninstalling"
-msgstr ""
+msgstr "Prebieha odinštalovanie"
 
-#: .\Pages\catalogue.py:185
+#: .\Pages\catalogue.py:186
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Zatváranie procesov pluginov"
 
-#: .\Pages\catalogue.py:188
+#: .\Pages\catalogue.py:189
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Nepodarilo sa zastaviť procesy pluginov."
 
-#: .\Pages\catalogue.py:190
+#: .\Pages\catalogue.py:191
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Zrušenie registrácie git repozitára"
 
-#: .\Pages\catalogue.py:199
+#: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Odstraňujú sa súbory pluginov"
 
-#: .\Pages\catalogue.py:219
+#: .\Pages\catalogue.py:220
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Opakovaný pokus o odstránenie ({cur}/{max})"
 
-#: .\Pages\catalogue.py:223
+#: .\Pages\catalogue.py:224
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Nepodarilo sa odstrániť súbory pluginu po {max} pokusoch"
 
-#: .\Pages\catalogue.py:228
+#: .\Pages\catalogue.py:229
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin „{name}“ bol úspešne odinštalovaný."
 
-#: .\Pages\catalogue.py:232
+#: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Nepodarilo sa odinštalovať plugin „{name}“: {error}"
 
-#: .\Pages\catalogue.py:263
+#: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Nepodarilo sa nájsť zdrojový kód pre tento plugin."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
-#: .\Pages\catalogue.py:272
+#: .\Pages\catalogue.py:273
 msgid "Refreshing..."
-msgstr ""
+msgstr "Obnovuje sa..."
 
-#: .\Pages\catalogue.py:274
+#: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
-msgstr ""
-
-#: .\Pages\catalogue.py:314
-msgid "Back"
-msgstr ""
+msgstr "Nájdených {count} pluginov"
 
 #: .\Pages\catalogue.py:317
+msgid "Back"
+msgstr "Späť"
+
+#: .\Pages\catalogue.py:320
 msgid "Source Code"
-msgstr ""
+msgstr "Zdrojový kód"
 
-#: .\Pages\catalogue.py:322 .\Pages\catalogue.py:399
+#: .\Pages\catalogue.py:325 .\Pages\catalogue.py:402
 msgid "Uninstall"
-msgstr ""
+msgstr "Odinštalovať"
 
-#: .\Pages\catalogue.py:326 .\Pages\catalogue.py:363
+#: .\Pages\catalogue.py:329 .\Pages\catalogue.py:366
 msgid "Install"
-msgstr ""
+msgstr "Inštalovať"
 
-#: .\Pages\catalogue.py:355
+#: .\Pages\catalogue.py:358
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Naozaj chcete nainštalovať tento plugin?"
 
-#: .\Pages\catalogue.py:356
+#: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
-msgstr ""
+msgstr "ETS2LA nezodpovedá za žiadne problémy spôsobené pluginmi tretích strán."
 
-#: .\Pages\catalogue.py:360 .\Pages\catalogue.py:396
+#: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
-#: .\Pages\catalogue.py:369
+#: .\Pages\catalogue.py:372
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Inštalácia pluginu {plugin}"
 
-#: .\Pages\catalogue.py:375 .\Pages\catalogue.py:385
+#: .\Pages\catalogue.py:378 .\Pages\catalogue.py:388
 msgid "Close"
-msgstr ""
+msgstr "Zavrieť"
 
-#: .\Pages\catalogue.py:379
+#: .\Pages\catalogue.py:382
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Odinštalovanie {plugin}"
 
-#: .\Pages\catalogue.py:392
+#: .\Pages\catalogue.py:395
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Naozaj chcete odinštalovať tento plugin?"
 
-#: .\Pages\catalogue.py:409
-msgid "Plugin Catalogue"
-msgstr ""
-
-#: .\Pages\catalogue.py:413 .\Pages\plugins.py:312
+#: .\Pages\catalogue.py:413 .\Pages\plugins.py:327
 msgid "Search plugins..."
 msgstr "Hľadať pluginy..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Obnoviť"
 
-#: .\Pages\catalogue.py:426
+#: .\Pages\catalogue.py:428
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "V katalógu pluginov sa nenašli žiadne pluginy."
 
-#: .\Pages\catalogue.py:429
+#: .\Pages\catalogue.py:431
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Obnoviť katalóg"
+
+#: .\Pages\catalogue.py:471
+msgid "Installed Plugins"
+msgstr "Nainštalované pluginy"
+
+#: .\Pages\catalogue.py:474
+msgid "No plugins are installed."
+msgstr "Nie sú nainštalované žiadne pluginy."
+
+#: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
+msgid "Available Plugins"
+msgstr "Dostupné pluginy"
+
+#: .\Pages\catalogue.py:495
+msgid "You have installed all available plugins."
+msgstr "Nainštalovali ste všetky dostupné pluginy."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -706,179 +734,237 @@ msgstr "Táto udalosť ešte nebola prepojená so žiadnym zariadením."
 msgid "Keyboard: "
 msgstr "klávesnica: "
 
-#: .\Pages\global_settings.py:134
+#: .\Pages\global_settings.py:14 .\Pages\global_settings.py:288
+#: .\Pages\plugins.py:263
+msgid "None"
+msgstr "žiadne"
+
+#: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150
+#: .\Pages\global_settings.py:288
+msgid "Minimal (recommended)"
+msgstr "Minimálne (odporúčané)"
+
+#: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
+msgid "Medium"
+msgstr "Stredná"
+
+#: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
+msgid "Full"
+msgstr "Plný"
+
+#: .\Pages\global_settings.py:167
 msgid "Global Settings"
 msgstr "Globálne nastavenia"
 
-#: .\Pages\global_settings.py:135
+#: .\Pages\global_settings.py:168
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr "Tu nájdete nastavenia, ktoré ovplyvňujú celú aplikáciu. Napríklad veľkosť okna a jazyk."
 
-#: .\Pages\global_settings.py:139
+#: .\Pages\global_settings.py:174
 msgid "User Interface"
 msgstr "Používateľské rozhranie"
 
-#: .\Pages\global_settings.py:142 .\Pages\onboarding.py:310
+#: .\Pages\global_settings.py:189 .\Pages\onboarding.py:310
 msgid "Window Width"
 msgstr "Šírka okna"
 
-#: .\Pages\global_settings.py:143
+#: .\Pages\global_settings.py:190
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Zmeňte šírku okna. Upozorňujeme, že ETS2LA nie je testovaný na neštandardných rozlíšeniach, takže ho používate na vlastné riziko!"
 
-#: .\Pages\global_settings.py:153 .\Pages\onboarding.py:319
+#: .\Pages\global_settings.py:200 .\Pages\onboarding.py:319
 msgid "Window Height"
 msgstr "Výška okna"
 
-#: .\Pages\global_settings.py:154
+#: .\Pages\global_settings.py:201
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr "Zmeňte výšku okna. Upozorňujeme, že ETS2LA nie je testovaný na neštandardných rozlíšeniach, takže ho používate na vlastné riziko!"
 
-#: .\Pages\global_settings.py:164
+#: .\Pages\global_settings.py:211
 msgid "Transparency mode Alpha"
 msgstr "Režim priehľadnosti Alpha"
 
-#: .\Pages\global_settings.py:165
+#: .\Pages\global_settings.py:212
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr "Zmeňte priehľadnosť okna pri prechode do režimu priehľadnosti. To môžete urobiť kliknutím pravým tlačidlom myši na zelené tlačidlo v pravom hornom rohu."
 
-#: .\Pages\global_settings.py:177 .\Pages\onboarding.py:130
+#: .\Pages\global_settings.py:227 .\Pages\onboarding.py:130
 msgid "Language"
 msgstr "Jazyk"
 
-#: .\Pages\global_settings.py:178
+#: .\Pages\global_settings.py:228
 msgid "Select the language for the application."
 msgstr "Vyberte jazyk pre aplikáciu."
 
-#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Search Languages..."
 msgstr "Hľadať jazyky..."
 
-#: .\Pages\global_settings.py:183 .\Pages\onboarding.py:135
+#: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
 msgstr "Pomôžte nám s prekladom na Discorde!"
 
-#: .\Pages\global_settings.py:196
+#: .\Pages\global_settings.py:246
 msgid "This translation is {percentage:.2f}% complete."
 msgstr "Tento preklad je dokončený na {percentage:.2f}%."
 
-#: .\Pages\global_settings.py:203
+#: .\Pages\global_settings.py:253
 msgid "Audio"
 msgstr "Zvuk"
 
-#: .\Pages\global_settings.py:206
+#: .\Pages\global_settings.py:256
 msgid "Soundpack"
 msgstr "Zvukový balík"
 
-#: .\Pages\global_settings.py:207
+#: .\Pages\global_settings.py:257
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr "Vyberte zvukový balíček, ktorý chcete použiť, môžete ho pridať do priečinka app/ETS2LA/Assets/Sounds."
 
-#: .\Pages\global_settings.py:214 .\Plugins\TTS\main.py:132
+#: .\Pages\global_settings.py:264 .\Plugins\TTS\main.py:132
 msgid "Volume"
 msgstr "Hlasitosť"
 
-#: .\Pages\global_settings.py:215
+#: .\Pages\global_settings.py:265
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr "Upravte hlasitosť. Toto ovplyvní všetky zvuky prehrávané ETS2LA."
 
-#: .\Pages\global_settings.py:226
+#: .\Pages\global_settings.py:276
 msgid "Startup Sound"
 msgstr "Zvuk pri spustení"
 
-#: .\Pages\global_settings.py:227
+#: .\Pages\global_settings.py:277
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr "Zapnite alebo vypnite zvuk pri spustení. Prehrá sa pri každom otvorení okna ETS2LA."
 
-#: .\Pages\global_settings.py:232
+#: .\Pages\global_settings.py:282
 msgid "Variables"
 msgstr "Premenné"
 
-#: .\Pages\global_settings.py:234
+#: .\Pages\global_settings.py:303
+msgid "Support ETS2LA Development on Ko-Fi"
+msgstr "Podporte vývoj ETS2LA na Ko-Fi"
+
+#: .\Pages\global_settings.py:316
+msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
+msgstr ""
+"Na stránke „O nás“ sa zobrazí iba jedna reklama. Žiadne ďalšie reklamy sa "
+"nezobrazia. Táto možnosť sa odporúča na podporu ďalšieho vývoja ETS2LA."
+
+#: .\Pages\global_settings.py:318
+msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
+msgstr ""
+"Na nepodstatných stránkach uvidíte nerušivé reklamy. Vizualizačné stránky "
+"budú bez reklám. Táto možnosť sa odporúča, ak chcete ďalej podporiť vývoj."
+
+#: .\Pages\global_settings.py:320
+msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
+msgstr ""
+"Uvidíte toľko reklám, koľko som si myslel, že úplne nezničia používanie. "
+"Vizualizačné stránky sú stále bez reklám, aj keď sú povolené."
+
+#: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
 msgstr "Návrat k starej metóde zrýchlenia"
 
-#: .\Pages\global_settings.py:235
+#: .\Pages\global_settings.py:337
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr "Ak máte problémy s nesprávnym zrýchľovaním/brzdením nákladného auta, môžete túto možnosť povoliť a použiť inú metódu. Majte na pamäti, že ak sa nové vozidlo zaseklo, po prepnutí tejto možnosti možno budete musieť hru reštartovať."
 
-#: .\Pages\global_settings.py:242 .\Pages\onboarding.py:215
+#: .\Pages\global_settings.py:344 .\Pages\onboarding.py:215
 msgid "High Priority"
 msgstr "Vysoká priorita"
 
-#: .\Pages\global_settings.py:243 .\Pages\onboarding.py:216
+#: .\Pages\global_settings.py:345 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr "Spustite ETS2LA v režime s vysokou prioritou. Toto povie vášmu operačnému systému, aby pridelil ETS2LA viac času CPU, čo môže zlepšiť výkon na úkor iných aplikácií."
 
-#: .\Pages\global_settings.py:257
+#: .\Pages\global_settings.py:359
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr "Pre uplatnenie zmeny priority je potrebné reštartovať ETS2LA!"
 
-#: .\Pages\global_settings.py:260
+#: .\Pages\global_settings.py:362
 msgid "Slow Loading"
 msgstr "Pomalé načítanie"
 
-#: .\Pages\global_settings.py:261
+#: .\Pages\global_settings.py:363
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr "Ak má váš počítač problémy s paralelným načítaním všetkých pluginov, môžete túto možnosť povoliť a načítať ich jeden po druhom. Upozorňujeme, že po povolení tejto možnosti budete musieť chvíľu počkať, kým budú pluginy k dispozícii."
 
-#: .\Pages\global_settings.py:266
+#: .\Pages\global_settings.py:368
 msgid "Miscellaneous"
 msgstr "Rôzne"
 
-#: .\Pages\global_settings.py:270
+#: .\Pages\global_settings.py:372
 msgid "Frontend Port"
 msgstr "Frontend Port"
 
-#: .\Pages\global_settings.py:271
+#: .\Pages\global_settings.py:373
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr "Zmeňte port používaný frontendom. Toto sa používa iba v lokálnom režime."
 
-#: .\Pages\global_settings.py:278
+#: .\Pages\global_settings.py:380
 msgid "Frameless Window"
 msgstr "Bezrámové okno"
 
-#: .\Pages\global_settings.py:279
+#: .\Pages\global_settings.py:381
 msgid "Disable this option if you have any issues moving the window around."
 msgstr "Túto možnosť vypnite, ak máte problémy s presúvaním okna."
 
-#: .\Pages\global_settings.py:284
+#: .\Pages\global_settings.py:386
 msgid "Send Crash Reports"
 msgstr "Odoslať správy o zlyhaní"
 
-#: .\Pages\global_settings.py:285
+#: .\Pages\global_settings.py:387
 msgid "Automatically send crash reports to help improve the application."
 msgstr "Automaticky odosielať hlásenia o zlyhaní s cieľom pomôcť vylepšiť aplikáciu."
 
-#: .\Pages\global_settings.py:290
+#: .\Pages\global_settings.py:392
 msgid "Use Fancy Traceback"
 msgstr "Použite efektné spätné sledovanie"
 
-#: .\Pages\global_settings.py:291
+#: .\Pages\global_settings.py:393
 msgid "Enable this option to use a fancy traceback for errors."
 msgstr "Povoľte túto možnosť, ak chcete použiť efektné spätné sledovanie chýb."
 
-#: .\Pages\global_settings.py:297
+#: .\Pages\global_settings.py:399
 msgid "Debug Mode"
 msgstr "Režim ladenia"
 
-#: .\Pages\global_settings.py:298
+#: .\Pages\global_settings.py:400
 msgid "Enable this option to use the edge debugger for the frontend."
 msgstr "Povoľte túto možnosť, ak chcete pre frontend použiť ladenie Edge."
 
-#: .\Pages\global_settings.py:306
+#: .\Pages\global_settings.py:406
+msgid "Default UI Mirror"
+msgstr "Predvolené zrkadlo používateľského rozhrania"
+
+#: .\Pages\global_settings.py:407
+msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
+msgstr ""
+"Predvolené zrkadlo používateľského rozhrania ETS2LA, ktoré sa má použiť. "
+"Možnosť Auto vyberie najlepšie dostupné zrkadlo."
+
+#: .\Pages\global_settings.py:414
+msgid "ETS2LA Window Timeout"
+msgstr "Časový limit okna ETS2LA"
+
+#: .\Pages\global_settings.py:415
+msgid "The amount of time ETS2LA waits for the window to show up."
+msgstr "Čas, ktorý ETS2LA čaká na zobrazenie okna."
+
+#: .\Pages\global_settings.py:426
 msgid "Fireworks"
 msgstr "Ohňostroje"
 
-#: .\Pages\global_settings.py:307
+#: .\Pages\global_settings.py:427
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr "Povoľte túto možnosť, ak chcete počas nového roka použiť ohňostrojné efekty."
 
-#: .\Pages\global_settings.py:313
+#: .\Pages\global_settings.py:433
 msgid "Snow"
 msgstr "Sneh"
 
-#: .\Pages\global_settings.py:314
+#: .\Pages\global_settings.py:434
 msgid "Enable this option to use snow effects during the winter season."
 msgstr "Povoľte túto možnosť, ak chcete počas zimnej sezóny používať snehové efekty."
 
@@ -886,8 +972,8 @@ msgstr "Povoľte túto možnosť, ak chcete počas zimnej sezóny používať sn
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr "Ak ste už predtým vykonali onboarding, viete, ako ho ukončiť. ETS2LA nebude fungovať bez vykonania onboardingu."
 
-#: .\Pages\onboarding.py:88 .\Plugins\NGHUD\main.py:335
-#: .\Plugins\NGHUD\main.py:380
+#: .\Pages\onboarding.py:88 .\Plugins\HUD\main.py:355
+#: .\Plugins\HUD\main.py:400
 msgid "Loading..."
 msgstr "Načítava sa..."
 
@@ -931,7 +1017,7 @@ msgstr "Vyberte si preferovaný jazyk pre ETS2LA. Túto možnosť je možné nes
 msgid "Select your preferred language for ETS2LA."
 msgstr "Vyberte si preferovaný jazyk pre ETS2LA."
 
-#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:147
+#: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
 msgstr "Nastavenie SDK"
 
@@ -943,7 +1029,7 @@ msgstr "Na začiatok musíme nastaviť SDK. To umožní ETS2LA interagovať s va
 msgid "Waiting for SDK installation..."
 msgstr "Čaká sa na inštaláciu SDK..."
 
-#: .\Pages\onboarding.py:171 .\Pages\performance.py:131
+#: .\Pages\onboarding.py:171 .\Pages\performance.py:140
 msgid "Plugins"
 msgstr "Pluginy"
 
@@ -1123,51 +1209,51 @@ msgstr "Stránka sa nenašla"
 msgid "Go back"
 msgstr "Choď späť"
 
-#: .\Pages\performance.py:94
+#: .\Pages\performance.py:103
 msgid "System"
 msgstr "Systém"
 
-#: .\Pages\performance.py:97
+#: .\Pages\performance.py:106
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr "Dáta sa stále zhromažďujú, počkajte niekoľko sekúnd, kým sa grafy stabilizujú."
 
-#: .\Pages\performance.py:103
+#: .\Pages\performance.py:112
 msgid "CPU Usage"
 msgstr "Využitie CPU"
 
-#: .\Pages\performance.py:110
+#: .\Pages\performance.py:119
 msgid "CPU Usage "
 msgstr "Využitie CPU "
 
-#: .\Pages\performance.py:118
+#: .\Pages\performance.py:127
 msgid "RAM Usage"
 msgstr "Využitie RAM"
 
-#: .\Pages\performance.py:125
+#: .\Pages\performance.py:134
 msgid "RAM Usage "
 msgstr "Využitie RAM "
 
-#: .\Pages\performance.py:125
+#: .\Pages\performance.py:134
 msgid "ETS2LA RAM Usage  "
 msgstr "Využitie pamäte RAM ETS2LA  "
 
-#: .\Pages\performance.py:135 .\Pages\plugins.py:371
+#: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
 msgstr "Momentálne nie sú spustené žiadne pluginy."
 
-#: .\Pages\performance.py:172
+#: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr "Upozornenie: Graf stále zhromažďuje údaje, počkajte 60 sekúnd, kým sa stabilizuje."
 
-#: .\Pages\performance.py:190
+#: .\Pages\performance.py:199
 msgid "Failed to render plugin {plugin_name}."
 msgstr "Nepodarilo sa vyrendrovať plugin {plugin_name}."
 
-#: .\Pages\performance.py:194
+#: .\Pages\performance.py:203
 msgid "All displayed data is averaged over a second."
 msgstr "Všetky zobrazené údaje sú spriemerované za sekundu."
 
-#: .\Pages\performance.py:195
+#: .\Pages\performance.py:204
 msgid "This page took {time:.2f} ms to render."
 msgstr "Vyrendrovanie tejto stránky trvalo {time:.2f} ms."
 
@@ -1201,7 +1287,7 @@ msgstr ""
 "\n"
 "**Toto je potrebné na fungovanie karty vizualizácie.**"
 
-#: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
+#: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:19 .\Plugins\HUD\ui.py:110
 msgid "HUD"
 msgstr "HUD"
 
@@ -1221,187 +1307,183 @@ msgstr "Povoľte prevod textu na reč pre oznámenia a výstrahy. Ide prevažne 
 msgid "Feature '{0}' not found."
 msgstr "Funkcia „{0}“ sa nenašla."
 
-#: .\Pages\plugins.py:235
+#: .\Pages\plugins.py:238
 msgid "Loading plugins..."
 msgstr "Načítavajú sa pluginy..."
 
-#: .\Pages\plugins.py:248
+#: .\Pages\plugins.py:251
 msgid "Plugins (Basic)"
 msgstr "Pluginy (základné)"
 
-#: .\Pages\plugins.py:249
+#: .\Pages\plugins.py:252
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr "Na pravej strane môžete povoliť rôzne funkcie ETS2LA. Všetky pluginy popísané týmito funkciami sa automaticky povolia bez akejkoľvek ďalšej konfigurácie."
 
-#: .\Pages\plugins.py:257
+#: .\Pages\plugins.py:260
 msgid "Disable Plugins"
 msgstr "Vypnúť pluginy"
 
-#: .\Pages\plugins.py:257
+#: .\Pages\plugins.py:260
 msgid "Enable Plugins"
 msgstr "Zapnúť pluginy"
 
-#: .\Pages\plugins.py:260
+#: .\Pages\plugins.py:263
 msgid "Currently enabled plugins:"
 msgstr "Aktuálne zapnuté pluginy:"
 
-#: .\Pages\plugins.py:260
-msgid "None"
-msgstr "žiadne"
-
-#: .\Pages\plugins.py:282
+#: .\Pages\plugins.py:297
 msgid "Enabled"
 msgstr "Zapnuté"
 
-#: .\Pages\plugins.py:282
+#: .\Pages\plugins.py:297
 msgid "Disabled"
 msgstr "Vypnuté"
 
-#: .\Pages\plugins.py:287
+#: .\Pages\plugins.py:302
 msgid "Switch to Advanced Mode"
 msgstr "Prepnite do pokročilého režimu"
 
-#: .\Pages\plugins.py:321
+#: .\Pages\plugins.py:336
 msgid "Search tags..."
 msgstr "Hľadať značky..."
 
-#: .\Pages\plugins.py:322
+#: .\Pages\plugins.py:337
 msgid "No tags found"
 msgstr "Nenašli sa žiadne značky"
 
-#: .\Pages\plugins.py:331
+#: .\Pages\plugins.py:346
 msgid "Search authors..."
 msgstr "Hľadať autorov..."
 
-#: .\Pages\plugins.py:332
+#: .\Pages\plugins.py:347
 msgid "No authors found"
 msgstr "Nenašli sa žiadni autori"
 
-#: .\Pages\plugins.py:336
+#: .\Pages\plugins.py:351
 msgid "Back to Basic Mode"
 msgstr "Späť do základného režimu"
 
-#: .\Pages\plugins.py:367
+#: .\Pages\plugins.py:382
 msgid "Running Plugins"
 msgstr "Spustené pluginy"
 
-#: .\Pages\plugins.py:374
+#: .\Pages\plugins.py:389
 msgid "Want to enable the plugins you had running last time?"
 msgstr "Chcete povoliť pluginy, ktoré ste mali spustené naposledy?"
 
-#: .\Pages\plugins.py:376
+#: .\Pages\plugins.py:391
 msgid "Enable Last Plugins"
 msgstr "Zapnúť posledné pluginy"
 
-#: .\Pages\plugins.py:382
-msgid "Available Plugins"
-msgstr "Dostupné pluginy"
-
-#: .\Pages\sdk_installation.py:86
+#: .\Pages\sdk_installation.py:118
 msgid "Could not find version for {game}, skipping installation"
 msgstr "Nepodarilo sa nájsť verziu pre {game}, inštalácia sa preskakuje"
 
-#: .\Pages\sdk_installation.py:91
+#: .\Pages\sdk_installation.py:123
 msgid "Installing SDKs for {game}"
 msgstr "Inštalácia SDK pre hru {game}"
 
-#: .\Pages\sdk_installation.py:99
+#: .\Pages\sdk_installation.py:131
 msgid "SDKs for {game} installed successfully."
 msgstr "Súpravy SDK pre hru {game} boli úspešne nainštalované."
 
-#: .\Pages\sdk_installation.py:101
+#: .\Pages\sdk_installation.py:133
 msgid "SDKs for {game} already installed, skipping installation"
 msgstr "Súpravy SDK pre hru {game} sú už nainštalované, inštalácia sa preskakuje"
 
-#: .\Pages\sdk_installation.py:103 .\Pages\sdk_installation.py:123
+#: .\Pages\sdk_installation.py:135 .\Pages\sdk_installation.py:157
 msgid "Please make sure the game is closed and try again. {error}"
 msgstr "Uistite sa, že je hra zatvorená a skúste to znova. {error}"
 
-#: .\Pages\sdk_installation.py:104
+#: .\Pages\sdk_installation.py:136
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr "Chyba pri inštalácii SDK pre {game}, uistite sa, že je hra zatvorená."
 
-#: .\Pages\sdk_installation.py:109
+#: .\Pages\sdk_installation.py:143
 msgid "Could not find version for {game}, skipping uninstallation"
 msgstr "Nepodarilo sa nájsť verziu hry {game}, preskakuje sa odinštalovanie"
 
-#: .\Pages\sdk_installation.py:114
+#: .\Pages\sdk_installation.py:148
 msgid "Uninstalling SDKs for {game}"
 msgstr "Odinštalovanie SDK pre {game}"
 
-#: .\Pages\sdk_installation.py:119
+#: .\Pages\sdk_installation.py:153
 msgid "SDKs for {game} uninstalled successfully."
 msgstr "Súpravy SDK pre hru {game} boli úspešne odinštalované."
 
-#: .\Pages\sdk_installation.py:121
+#: .\Pages\sdk_installation.py:155
 msgid "SDKs for {game} not installed, skipping uninstallation"
 msgstr "Súpravy SDK pre hru {game} nie sú nainštalované, odinštalovanie sa preskakuje"
 
-#: .\Pages\sdk_installation.py:124
+#: .\Pages\sdk_installation.py:158
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr "Chyba pri odinštalovaní SDK pre {game}, uistite sa, že je hra zatvorená."
 
-#: .\Pages\sdk_installation.py:127
+#: .\Pages\sdk_installation.py:163
 msgid "Select the game directory"
 msgstr "Vyberte adresár hry"
 
-#: .\Pages\sdk_installation.py:130
+#: .\Pages\sdk_installation.py:166
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr "Nepodarilo sa nájsť verziu vybranej hry, vyberte platný adresár hry."
 
-#: .\Pages\sdk_installation.py:131
+#: .\Pages\sdk_installation.py:167
 msgid "Could not find version for {path}, skipping installation"
 msgstr "Nepodarilo sa nájsť verziu pre {path}, inštalácia sa preskakuje"
 
-#: .\Pages\sdk_installation.py:136
+#: .\Pages\sdk_installation.py:172
 msgid "Found game version {version}."
 msgstr "Nájdená verzia hry {version}."
 
-#: .\Pages\sdk_installation.py:142
+#: .\Pages\sdk_installation.py:178
 msgid "Path {path} does not exist."
 msgstr "Cesta {path} neexistuje."
 
-#: .\Pages\sdk_installation.py:148
+#: .\Pages\sdk_installation.py:192
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr "Skontrolujte, či máte nainštalované potrebné DLL súbory, aby sme mohli komunikovať s hrou."
 
-#: .\Pages\sdk_installation.py:156
+#: .\Pages\sdk_installation.py:200
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr "Vo vašom systéme sme nenašli žiadne hry SCS. Upozorňujeme, že ETS2LA bude fungovať iba s legitímnymi verziami stiahnutými zo služby Steam."
 
-#: .\Pages\sdk_installation.py:158
+#: .\Pages\sdk_installation.py:202
 msgid "Select directory manually"
 msgstr "Vyberte adresár manuálne"
 
-#: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
+#: .\Pages\sdk_installation.py:230
+msgid " - Needs Reinstall"
+msgstr " - Vyžaduje sa preinštalovanie"
+
+#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
 msgstr "- Nainštalované"
 
-#: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
+#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Not Installed"
 msgstr "- Nie je nainštalované"
 
-#: .\Pages\sdk_installation.py:194
+#: .\Pages\sdk_installation.py:241
 msgid "This game version is not supported"
 msgstr "Táto verzia hry nie je podporovaná"
 
-#: .\Pages\sdk_installation.py:210
+#: .\Pages\sdk_installation.py:257
 msgid "No files found."
 msgstr "Nenašli sa žiadne súbory."
 
-#: .\Pages\sdk_installation.py:221
+#: .\Pages\sdk_installation.py:268
 msgid "File Sources"
 msgstr "Zdroje súborov"
 
-#: .\Pages\sdk_installation.py:229 .\Pages\sdk_installation.py:242
+#: .\Pages\sdk_installation.py:276 .\Pages\sdk_installation.py:289
 msgid "Uninstall SDKs"
 msgstr "Odinštalujte súpravy SDK"
 
-#: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:245
+#: .\Pages\sdk_installation.py:279 .\Pages\sdk_installation.py:292
 msgid "Install SDKs"
 msgstr "Nainštalujte súpravy SDK"
 
-#: .\Pages\sdk_installation.py:237
+#: .\Pages\sdk_installation.py:284
 msgid "Please close the game before installing or uninstalling SDKs."
 msgstr "Pred inštaláciou alebo odinštalovaním SDK zatvorte hru."
 
@@ -1498,8 +1580,8 @@ msgstr "Týmto sa zníži odchýlka rýchlosti v nastaveniach."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
-#: .\Plugins\AdaptiveCruiseControl\settings.py:72
-#: .\Plugins\AdaptiveCruiseControl\settings.py:77
+#: .\Plugins\AdaptiveCruiseControl\settings.py:65
+#: .\Plugins\AdaptiveCruiseControl\settings.py:70
 msgid "Adaptive Cruise Control"
 msgstr "Adaptívny tempomat"
 
@@ -1507,231 +1589,356 @@ msgstr "Adaptívny tempomat"
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr "Adaptívny tempomat (ACC) zabezpečuje automatické zrýchľovanie a brzdenie v závislosti od stavu vozovky a vozidiel vpredu."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:73
+#: .\Plugins\AdaptiveCruiseControl\settings.py:66
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr "Adaptívny tempomat (ACC) riadi rýchlosť nákladného vozidla na základe informácií zhromaždených z hry."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:82
+#: .\Plugins\AdaptiveCruiseControl\settings.py:75
 msgid "Aggressiveness"
 msgstr "Agresivita"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:83
+#: .\Plugins\AdaptiveCruiseControl\settings.py:76
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr "Ako agresívne by mal systém ACC sledovať vozidlo pred vami a meniť rýchlostný limit?"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:90
+#: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "Following Distance"
 msgstr "Nasledujúca vzdialenosť"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:91
+#: .\Plugins\AdaptiveCruiseControl\settings.py:84
 msgid "How far should the ACC keep from the vehicle in front?"
 msgstr "Akú vzdialenosť by mal ACC udržiavať od vozidla pred vami?"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:96
+#: .\Plugins\AdaptiveCruiseControl\settings.py:89
 msgid "Ignore Traffic Lights"
 msgstr "Ignorujte semafory"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:97
+#: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr "Či má systém ACC ignorovať semafory. Upozorňujeme, že týmto sa, ako už bolo povedané, semafory budú ignorované."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:102
+#: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
 msgstr "Ovládanie rýchlosti"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:105
+#: .\Plugins\AdaptiveCruiseControl\settings.py:98
 msgid "Ignore Speed Limit"
 msgstr "Ignorovať rýchlostný limit"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:106
+#: .\Plugins\AdaptiveCruiseControl\settings.py:99
 msgid "Whether the ACC should ignore the speed limit."
 msgstr "Či má ACC ignorovať rýchlostný limit."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:112
+#: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Coefficient of Friction"
 msgstr "Koeficient trenia"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:113
+#: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr "Koeficient trenia použitý na výpočty ACC. Vyššie hodnoty umožňujú nákladnému vozidlu jazdiť v zákrutách rýchlejšie."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:123
+#: .\Plugins\AdaptiveCruiseControl\settings.py:116
 msgid "Speed when game speed limit is 0"
 msgstr "Rýchlosť, keď je limit rýchlosti hry 0"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:124
+#: .\Plugins\AdaptiveCruiseControl\settings.py:117
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr "Rýchlosť, ktorou sa máme jazdiť, keď nám hra povie, že rýchlostný limit je 0 km/h."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:139
+#: .\Plugins\AdaptiveCruiseControl\settings.py:132
 msgid "Speed Offset Type"
 msgstr "Typ odchýlky rýchlosti"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:141
+#: .\Plugins\AdaptiveCruiseControl\settings.py:134
 msgid "Select the type of speed offset to apply."
 msgstr "Vyberte typ rýchlostnej odchýlky, ktorú chcete použiť."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:146
-#: .\Plugins\AdaptiveCruiseControl\settings.py:157
+#: .\Plugins\AdaptiveCruiseControl\settings.py:138
 msgid "Speed Offset"
 msgstr "Odchýlka rýchlosti"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:147
-#: .\Plugins\AdaptiveCruiseControl\settings.py:158
+#: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr "Odchýlka rýchlosti, ktorá sa aplikuje na všetky rýchlostné limity. Upozorňujeme, že túto hodnotu môžete dynamicky meniť aj pomocou klávesových skratiek v ovládaní."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:167
+#: .\Plugins\AdaptiveCruiseControl\settings.py:148
 msgid "PID"
 msgstr "PID"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:170
+#: .\Plugins\AdaptiveCruiseControl\settings.py:151
 msgid "Unlock PID"
 msgstr "Odomknúť PID"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:171
+#: .\Plugins\AdaptiveCruiseControl\settings.py:152
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr "Nastavenia PID regulátora môžete odomknúť a upraviť ich manuálne. Toto sa neodporúča, pokiaľ neviete, čo je PID regulátor a ako ho správne naladiť."
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:178
+#: .\Plugins\AdaptiveCruiseControl\settings.py:159
 msgid "PID Kp"
 msgstr "PID proporcionálny zisk"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:179
+#: .\Plugins\AdaptiveCruiseControl\settings.py:160
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr "Sme tam už? Nie? Potom musíme ešte viac zrýchliť! (Proporcionálne zosilnenie pre PID regulátor.)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:187
+#: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "PID Ki"
 msgstr "PID integračný zisk"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:188
+#: .\Plugins\AdaptiveCruiseControl\settings.py:169
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr "Boli sme tam už nejaký čas? Potom musíme viac zrýchliť! (Integračné zosilnenie pre PID regulátor.)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:196
+#: .\Plugins\AdaptiveCruiseControl\settings.py:177
 msgid "PID Kd"
 msgstr "PID derivačný zisk"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:197
+#: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr "Ako rýchlo sa blížime k cieľu? Ak sa blížime príliš rýchlo, musíme viac spomaliť! (Derivačný zisk pre PID regulátor.)"
 
-#: .\Plugins\AdaptiveCruiseControl\settings.py:205
+#: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr "Toto video vizuálne vysvetľuje, ako funguje PID regulátor. Ak s ním nie ste oboznámení, pozrite si ho celé."
 
-#: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
-msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr "Tento plugin poskytuje HUD pomocou pluginu AR ako rendereru."
+#: .\Plugins\HUD\elements\acc.py:8 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "ACC Information"
+msgstr "Informácie ACC"
 
-#: .\Plugins\HUD\main.py:86 .\Plugins\Map\ui.py:99
-msgid "General"
-msgstr "generálne"
+#: .\Plugins\HUD\elements\acc.py:9
+msgid "Draw ACC information like vehicle distance and speed."
+msgstr "Zobrazuje informácie o ACC, ako je vzdialenosť a rýchlosť vozidla."
 
-#: .\Plugins\HUD\main.py:89
-msgid "Refresh Rate"
-msgstr "Obnovovacia frekvencia"
+#: .\Plugins\HUD\elements\acceleration.py:8
+msgid "Acceleration"
+msgstr "Zrýchlenie"
 
-#: .\Plugins\HUD\main.py:90
-msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
-msgstr "Frekvencia aktualizácie HUDu. Neodporúča sa túto hodnotu príliš zvyšovať."
+#: .\Plugins\HUD\elements\acceleration.py:9
+msgid "Draw the current acceleration of the truck."
+msgstr "Nakreslite aktuálne zrýchlenie nákladného auta."
 
-#: .\Plugins\HUD\main.py:99
-msgid "Scale"
-msgstr "Mierka"
+#: .\Plugins\HUD\elements\assists.py:14 .\Plugins\HUD\main.py:47
+msgid "Assist Information"
+msgstr "Pomocné informácie"
 
-#: .\Plugins\HUD\main.py:100
-msgid "The scale of the HUD elements."
-msgstr "Mierka prvkov HUD."
+#: .\Plugins\HUD\elements\assists.py:15
+msgid "Draw ACC and Steering status information."
+msgstr "Zobrazuje informácie o stave ACC a riadenia."
 
-#: .\Plugins\HUD\main.py:110 .\Plugins\NGHUD\ui.py:109
-msgid "Offset X"
-msgstr "Posun X"
+#: .\Plugins\HUD\elements\fuel.py:8
+msgid "Fuel Status"
+msgstr "Stav paliva"
 
-#: .\Plugins\HUD\main.py:111
-msgid "The X offset (side to side) of the HUD elements."
-msgstr "Posun X (zo strany na stranu) prvkov HUD."
+#: .\Plugins\HUD\elements\fuel.py:9
+msgid "Draw the current fuel status of the truck."
+msgstr "Nakreslite aktuálny stav paliva vo vozidle."
 
-#: .\Plugins\HUD\main.py:118 .\Plugins\NGHUD\ui.py:118
-msgid "Offset Y"
-msgstr "Posun Y"
+#: .\Plugins\HUD\elements\gear.py:8 .\Plugins\HUD\main.py:44
+msgid "RPM & Gear"
+msgstr "RPM a prevodový stupeň"
 
-#: .\Plugins\HUD\main.py:119
-msgid "The Y offset (top to bottom) of the HUD elements."
-msgstr "Posun Y (zhora nadol) prvkov HUD."
+#: .\Plugins\HUD\elements\gear.py:9
+msgid "Draw the current RPM and gear of the truck."
+msgstr "Nakreslite aktuálne otáčky a prevodový stupeň nákladného vozidla."
 
-#: .\Plugins\HUD\main.py:126 .\Plugins\NGHUD\ui.py:127
-msgid "Offset Z"
-msgstr "Posun Z"
+#: .\Plugins\HUD\elements\media.py:19 .\Plugins\HUD\main.py:43
+#: .\Plugins\HUD\main.py:48
+msgid "Media"
+msgstr "Médiá"
 
-#: .\Plugins\HUD\main.py:127
-msgid "The Z offset (distance) of the HUD elements."
-msgstr "Posun Z (vzdialenosť) prvkov HUD."
+#: .\Plugins\HUD\elements\media.py:20
+msgid "Displays media information such as song title, artist and playback progress."
+msgstr "Zobrazuje informácie o médiách, ako je názov skladby, interpret a priebeh prehrávania."
 
-#: .\Plugins\HUD\main.py:133
-msgid "HUD Elements"
-msgstr "Prvky HUD"
+#: .\Plugins\HUD\elements\media.py:23
+msgid "No Media Playing"
+msgstr "Žiadne prehrávanie médií"
 
-#: .\Plugins\HUD\main.py:135
-msgid "Show Navigation"
-msgstr "Zobraziť navigáciu"
+#: .\Plugins\HUD\elements\media.py:24 .\Plugins\HUD\elements\media.py:66
+msgid "No Artist"
+msgstr "Žiadny umelec"
 
-#: .\Plugins\HUD\main.py:136
-msgid "When enabled, the HUD will display navigation information."
-msgstr "Keď je táto funkcia povolená, HUD bude zobrazovať navigačné informácie."
+#: .\Plugins\HUD\elements\media.py:65
+msgid "No Title"
+msgstr "Bez názvu"
 
-#: .\Plugins\HUD\main.py:141
-msgid "Show ACC Info"
-msgstr "Zobraziť informácie ACC"
+#: .\Plugins\HUD\elements\navigation.py:8
+msgid "Navigation"
+msgstr "Navigácia"
 
-#: .\Plugins\HUD\main.py:142
-msgid "When enabled, the HUD will display adaptive cruise control information."
-msgstr "Keď je táto funkcia povolená, HUD bude zobrazovať informácie o adaptívnom tempomate."
+#: .\Plugins\HUD\elements\navigation.py:9
+msgid "Draw navigation information."
+msgstr "Nakreslite navigačné informácie."
 
-#: .\Plugins\HUD\main.py:147
-msgid "Draw Steering"
-msgstr "Kresliť riadenie"
+#. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
+#: .\Plugins\HUD\elements\navigation.py:66
+msgid "arrival"
+msgstr "príchod"
 
-#: .\Plugins\HUD\main.py:148
-msgid "Whether to draw the steering line in the HUD."
-msgstr "Či sa má v HUD vykresľovať čiara riadenia."
+#: .\Plugins\HUD\elements\power.py:11
+msgid "Throttle / Brake"
+msgstr "Plyn / Brzda"
 
-#: .\Plugins\HUD\main.py:153
-msgid "Show Traffic Light Times"
-msgstr "Zobraziť časy semaforov"
+#: .\Plugins\HUD\elements\power.py:12
+msgid "Display current throttle and brake percentage."
+msgstr "Zobrazenie aktuálneho percenta plynu a brzdy."
 
-#: .\Plugins\HUD\main.py:154
-msgid "When enabled, the HUD will display traffic light times."
-msgstr "Keď je povolené, HUD bude zobrazovať časy semaforov."
+#: .\Plugins\HUD\elements\semaphores.py:7 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "Traffic Lights"
+msgstr "Semafory"
 
-#: .\Plugins\HUD\main.py:159
-msgid "Draw Wheel Paths"
-msgstr "Kresliť dráhy kolies"
+#: .\Plugins\HUD\elements\semaphores.py:8
+msgid "Draw traffic light information."
+msgstr "Nakreslite informácie o semaforoch."
 
-#: .\Plugins\HUD\main.py:160
-msgid "When enabled, the HUD will display where the wheels will go when turning."
-msgstr "Keď je táto funkcia povolená, HUD zobrazí, kam sa kolesá pri zatáčaní vychýlia."
+#: .\Plugins\HUD\elements\speed.py:7 .\Plugins\HUD\main.py:42
+#: .\Plugins\TTS\main.py:122
+msgid "Speed"
+msgstr "Rýchlosť"
 
-#: .\Plugins\HUD\main.py:169
+#: .\Plugins\HUD\elements\speed.py:8
+msgid "A normal speed display, will also show speed limit changes."
+msgstr "Normálne zobrazenie rýchlosti zobrazí aj zmeny rýchlostných obmedzení."
+
+#: .\Plugins\HUD\elements\steering.py:8 .\Plugins\HUD\main.py:242
+#: .\Plugins\HUD\main.py:243
+msgid "Steering Line"
+msgstr "Riadiaca čiara"
+
+#: .\Plugins\HUD\elements\steering.py:9
+msgid "Draw steering line from Map."
+msgstr "Nakreslite riadiacu čiaru z mapy."
+
+#: .\Plugins\HUD\main.py:21
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr "Vytvára head-up displej na čelnom skle. Na fungovanie je potrebný AR plugin."
 
-#: .\Plugins\HUD\main.py:758
-msgid "Waiting for lane change approval"
-msgstr "Čaká sa na schválenie zmeny jazdného pruhu"
+#: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
+msgid "Enable"
+msgstr "Zapnúť"
 
-#: .\Plugins\HUD\main.py:769
-msgid "Lane change in progress {percentage}%"
-msgstr "Prebieha zmena jazdného pruhu {percentage}%"
+#: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
+msgid "Disable"
+msgstr "Vypnúť"
 
-#: .\Plugins\HUD\main.py:844
-msgid "Distance: {distance:.0f} {units}"
-msgstr "Vzdialenosť: {distance:.0f} {units}"
+#: .\Plugins\HUD\ui.py:111
+msgid "This plugin provides a HUD using the AR plugin as the renderer."
+msgstr "Tento plugin poskytuje HUD pomocou pluginu AR ako rendereru."
 
-#: .\Plugins\HUD\main.py:892
-msgid "Target: {acc_gap:.0f} {units}"
-msgstr "Cieľ: {acc_gap:.0f} {units}"
+#: .\Plugins\HUD\ui.py:115
+msgid "Please enable the plugin to edit the settings."
+msgstr "Pre úpravu nastavení povoľte plugin."
+
+#. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
+#: .\Plugins\HUD\ui.py:120
+msgid "Transform"
+msgstr "Transformovať"
+
+#: .\Plugins\HUD\ui.py:122
+msgid "Offset X"
+msgstr "Posun X"
+
+#: .\Plugins\HUD\ui.py:123
+msgid "The horizontal offset of the HUD."
+msgstr "Horizontálny posun HUD."
+
+#: .\Plugins\HUD\ui.py:131
+msgid "Offset Y"
+msgstr "Posun Y"
+
+#: .\Plugins\HUD\ui.py:132
+msgid "The vertical offset of the HUD."
+msgstr "Vertikálne posun HUD."
+
+#: .\Plugins\HUD\ui.py:140
+msgid "Offset Z"
+msgstr "Posun Z"
+
+#: .\Plugins\HUD\ui.py:141
+msgid "The depth offset of the HUD."
+msgstr "Hĺbkový posun HUD."
+
+#: .\Plugins\HUD\ui.py:150
+msgid "Widget Sizing"
+msgstr "Veľkosť miniaplikácií"
+
+#: .\Plugins\HUD\ui.py:151
+msgid "These settings control the sizing of the widgets."
+msgstr "Tieto nastavenia ovládajú veľkosť widgetov."
+
+#: .\Plugins\HUD\ui.py:158
+msgid "Widget Scaling"
+msgstr "Škálovanie miniaplikácií"
+
+#: .\Plugins\HUD\ui.py:159
+msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
+msgstr ""
+"Faktor mierky pre widgety. 1 je normálna veľkosť, 0,5 je polovičná veľkosť, "
+"2 je dvojnásobná veľkosť."
+
+#: .\Plugins\HUD\ui.py:164
+msgid "Scale Height"
+msgstr "Výška mierky"
+
+#: .\Plugins\HUD\ui.py:165
+msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
+msgstr ""
+"Zmeňte aj výšku widgetov. Upozorňujeme, že to spôsobí problémy s rozložením "
+"niektorých widgetov, používajte opatrne."
+
+#: .\Plugins\HUD\ui.py:171
+msgid "Widget Background"
+msgstr "Pozadie widgetu"
+
+#: .\Plugins\HUD\ui.py:172
+msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
+msgstr "Môžete ovládať, o koľko má byť pozadie widgetu stmavené, buď stále, alebo len počas dňa."
+
+#: .\Plugins\HUD\ui.py:176
+msgid "Darkness"
+msgstr "Tma"
+
+#: .\Plugins\HUD\ui.py:177
+msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
+msgstr "Tmavosť pozadia widgetu. 0 znamená, že tma nie je prítomná, 1 znamená, že je úplne tmavá."
+
+#: .\Plugins\HUD\ui.py:186
+msgid "Day Darkness"
+msgstr "Denná tma"
+
+#: .\Plugins\HUD\ui.py:187
+msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
+msgstr "Tmavosť pozadia widgetu počas dňa. 0 znamená žiadna tma, 1 znamená úplná tma."
+
+#: .\Plugins\HUD\ui.py:196
+msgid "Elements"
+msgstr "Prvky"
+
+#: .\Plugins\HUD\ui.py:205
+msgid "Enabled Widgets"
+msgstr "Povolené widgety"
+
+#: .\Plugins\HUD\ui.py:206
+msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
+msgstr "Zobrazia sa povolené widgety a ich príslušné veľkosti. Kliknutím na jeden z nich ho zakážete. Zatiaľ ich nemôžete presúvať, namiesto toho ich budete musieť zakázať -> Povoliť, aby ste ich dostali tam, kde ich chcete."
+
+#: .\Plugins\HUD\ui.py:234
+msgid "Available Widgets"
+msgstr "Dostupné widgety"
+
+#: .\Plugins\HUD\ui.py:235
+msgid "These widgets are available to be enabled:"
+msgstr "Tieto widgety je možné aktivovať:"
+
+#: .\Plugins\HUD\ui.py:243
+msgid "Renderers"
+msgstr "Renderery"
+
+#: .\Plugins\HUD\ui.py:244
+msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
+msgstr "Tieto renderery sa používajú na vykresľovanie neukotvených prvkov. Zvyčajne ide o prvky v hernom svete, ktoré sa pohybujú."
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
@@ -1784,6 +1991,10 @@ msgstr "Nastavenia mapy"
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr "Nakonfigurujte nastavenia pre plugin Mapa. Tu môžete upraviť rôzne možnosti týkajúce sa navigácie, riadenia a spracovania údajov."
+
+#: .\Plugins\Map\ui.py:99
+msgid "General"
+msgstr "generálne"
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
@@ -1864,213 +2075,6 @@ msgstr "Veľkosť sťahovania týchto údajov je"
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
 msgstr "ktorý sa rozbalí na celkovú veľkosť"
-
-#: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "ACC Information"
-msgstr "Informácie ACC"
-
-#: .\Plugins\NGHUD\elements\acc.py:9
-msgid "Draw ACC information like vehicle distance and speed."
-msgstr "Zobrazuje informácie o ACC, ako je vzdialenosť a rýchlosť vozidla."
-
-#: .\Plugins\NGHUD\elements\acceleration.py:8
-msgid "Acceleration"
-msgstr "Zrýchlenie"
-
-#: .\Plugins\NGHUD\elements\acceleration.py:9
-msgid "Draw the current acceleration of the truck."
-msgstr "Nakreslite aktuálne zrýchlenie nákladného auta."
-
-#: .\Plugins\NGHUD\elements\assists.py:14 .\Plugins\NGHUD\main.py:47
-msgid "Assist Information"
-msgstr "Pomocné informácie"
-
-#: .\Plugins\NGHUD\elements\assists.py:15
-msgid "Draw ACC and Steering status information."
-msgstr "Zobrazuje informácie o stave ACC a riadenia."
-
-#: .\Plugins\NGHUD\elements\fuel.py:8
-msgid "Fuel Status"
-msgstr "Stav paliva"
-
-#: .\Plugins\NGHUD\elements\fuel.py:9
-msgid "Draw the current fuel status of the truck."
-msgstr "Nakreslite aktuálny stav paliva vo vozidle."
-
-#: .\Plugins\NGHUD\elements\gear.py:8 .\Plugins\NGHUD\main.py:44
-msgid "RPM & Gear"
-msgstr "RPM a prevodový stupeň"
-
-#: .\Plugins\NGHUD\elements\gear.py:9
-msgid "Draw the current RPM and gear of the truck."
-msgstr "Nakreslite aktuálne otáčky a prevodový stupeň nákladného vozidla."
-
-#: .\Plugins\NGHUD\elements\media.py:19 .\Plugins\NGHUD\main.py:43
-#: .\Plugins\NGHUD\main.py:48
-msgid "Media"
-msgstr "Médiá"
-
-#: .\Plugins\NGHUD\elements\media.py:20
-msgid "Displays media information such as song title, artist and playback progress."
-msgstr "Zobrazuje informácie o médiách, ako je názov skladby, interpret a priebeh prehrávania."
-
-#: .\Plugins\NGHUD\elements\media.py:23
-msgid "No Media Playing"
-msgstr "Žiadne prehrávanie médií"
-
-#: .\Plugins\NGHUD\elements\media.py:24 .\Plugins\NGHUD\elements\media.py:66
-msgid "No Artist"
-msgstr "Žiadny umelec"
-
-#: .\Plugins\NGHUD\elements\media.py:65
-msgid "No Title"
-msgstr "Bez názvu"
-
-#: .\Plugins\NGHUD\elements\navigation.py:8
-msgid "Navigation"
-msgstr "Navigácia"
-
-#: .\Plugins\NGHUD\elements\navigation.py:9
-msgid "Draw navigation information."
-msgstr "Nakreslite navigačné informácie."
-
-#. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
-#: .\Plugins\NGHUD\elements\navigation.py:66
-msgid "arrival"
-msgstr "príchod"
-
-#: .\Plugins\NGHUD\elements\power.py:11
-msgid "Throttle / Brake"
-msgstr "Plyn / Brzda"
-
-#: .\Plugins\NGHUD\elements\power.py:12
-msgid "Display current throttle and brake percentage."
-msgstr "Zobrazenie aktuálneho percenta plynu a brzdy."
-
-#: .\Plugins\NGHUD\elements\semaphores.py:7 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "Traffic Lights"
-msgstr "Semafory"
-
-#: .\Plugins\NGHUD\elements\semaphores.py:8
-msgid "Draw traffic light information."
-msgstr "Nakreslite informácie o semaforoch."
-
-#: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42
-#: .\Plugins\TTS\main.py:122
-msgid "Speed"
-msgstr "Rýchlosť"
-
-#: .\Plugins\NGHUD\elements\speed.py:8
-msgid "A normal speed display, will also show speed limit changes."
-msgstr "Normálne zobrazenie rýchlosti zobrazí aj zmeny rýchlostných obmedzení."
-
-#: .\Plugins\NGHUD\elements\steering.py:8 .\Plugins\NGHUD\main.py:226
-#: .\Plugins\NGHUD\main.py:227
-msgid "Steering Line"
-msgstr "Riadiaca čiara"
-
-#: .\Plugins\NGHUD\elements\steering.py:9
-msgid "Draw steering line from Map."
-msgstr "Nakreslite riadiacu čiaru z mapy."
-
-#: .\Plugins\NGHUD\main.py:19 .\Plugins\NGHUD\ui.py:97
-msgid "NGHUD"
-msgstr "NGHUD"
-
-#: .\Plugins\NGHUD\main.py:21
-msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
-msgstr "HUD novej generácie (v podstate prerábam HUD a potreboval som preň názov)"
-
-#: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-msgid "Enable"
-msgstr "Zapnúť"
-
-#: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
-msgid "Disable"
-msgstr "Vypnúť"
-
-#: .\Plugins\NGHUD\ui.py:102
-msgid "Please enable the plugin to edit the settings."
-msgstr "Pre úpravu nastavení povoľte plugin."
-
-#. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
-#: .\Plugins\NGHUD\ui.py:107
-msgid "Transform"
-msgstr "Transformovať"
-
-#: .\Plugins\NGHUD\ui.py:110
-msgid "The horizontal offset of the HUD."
-msgstr "Horizontálny posun HUD."
-
-#: .\Plugins\NGHUD\ui.py:119
-msgid "The vertical offset of the HUD."
-msgstr "Vertikálne posun HUD."
-
-#: .\Plugins\NGHUD\ui.py:128
-msgid "The depth offset of the HUD."
-msgstr "Hĺbkový posun HUD."
-
-#: .\Plugins\NGHUD\ui.py:137
-msgid "Widget Widths"
-msgstr "Šírky widgetov"
-
-#: .\Plugins\NGHUD\ui.py:138
-msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
-msgstr "Tieto nastavenia ovládajú šírku každého widgetu v pixeloch. Predvolené hodnoty sú 90, 120, 90. Prvky sa pokúsia zmeniť veľkosť, aby sa zmestili, ale majte na pamäti, že nie sú určené na príliš veľkú zmenu veľkosti."
-
-#: .\Plugins\NGHUD\ui.py:161
-msgid "Widget Background"
-msgstr "Pozadie widgetu"
-
-#: .\Plugins\NGHUD\ui.py:162
-msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
-msgstr "Môžete ovládať, o koľko má byť pozadie widgetu stmavené, buď stále, alebo len počas dňa."
-
-#: .\Plugins\NGHUD\ui.py:166
-msgid "Darkness"
-msgstr "Tma"
-
-#: .\Plugins\NGHUD\ui.py:167
-msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
-msgstr "Tmavosť pozadia widgetu. 0 znamená, že tma nie je prítomná, 1 znamená, že je úplne tmavá."
-
-#: .\Plugins\NGHUD\ui.py:176
-msgid "Day Darkness"
-msgstr "Denná tma"
-
-#: .\Plugins\NGHUD\ui.py:177
-msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
-msgstr "Tmavosť pozadia widgetu počas dňa. 0 znamená žiadna tma, 1 znamená úplná tma."
-
-#: .\Plugins\NGHUD\ui.py:186
-msgid "Elements"
-msgstr "Prvky"
-
-#: .\Plugins\NGHUD\ui.py:195
-msgid "Enabled Widgets"
-msgstr "Povolené widgety"
-
-#: .\Plugins\NGHUD\ui.py:196
-msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
-msgstr "Zobrazia sa povolené widgety a ich príslušné veľkosti. Kliknutím na jeden z nich ho zakážete. Zatiaľ ich nemôžete presúvať, namiesto toho ich budete musieť zakázať -> Povoliť, aby ste ich dostali tam, kde ich chcete."
-
-#: .\Plugins\NGHUD\ui.py:224
-msgid "Available Widgets"
-msgstr "Dostupné widgety"
-
-#: .\Plugins\NGHUD\ui.py:225
-msgid "These widgets are available to be enabled:"
-msgstr "Tieto widgety je možné aktivovať:"
-
-#: .\Plugins\NGHUD\ui.py:233
-msgid "Renderers"
-msgstr "Renderery"
-
-#: .\Plugins\NGHUD\ui.py:234
-msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
-msgstr "Tieto renderery sa používajú na vykresľovanie neukotvených prvkov. Zvyčajne ide o prvky v hernom svete, ktoré sa pohybujú."
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
@@ -2339,89 +2343,177 @@ msgstr "Momentálne nie sú pripojení žiadni klienti."
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr "Tento plugin poskytuje websocket server pre vizualizáciu ETS2LA. Umožňuje vám pripojiť sa k vizualizácii z iných zariadení a zobraziť dáta ETS2LA v reálnom čase."
 
-#: .\main.py:105
+#: .\main.py:104
 msgid "Testing mirrors..."
 msgstr "Testovanie zrkadiel..."
 
-#: .\main.py:113
+#: .\main.py:112
 msgid "- Reached {0} in {1:.0f}ms"
 msgstr "- Dosiahnuté {0} za {1:.0f}ms"
 
-#: .\main.py:119
+#: .\main.py:118
 msgid " - Reached {0} in (TIMEOUT)"
 msgstr " - Dosiahnuté {0} za (ČASOVÝ LIMIT)"
 
-#: .\main.py:134
+#: .\main.py:124
+msgid "Using mirror from settings: {0}"
+msgstr "Používanie zrkadla z nastavení: {0}"
+
+#: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr " -- Spustenie akcie po stiahnutí pre podmodul:  Rozhranie  -- "
 
-#: .\main.py:152
+#: .\main.py:155
 msgid "Running ETS2LA in development mode."
 msgstr "Spustenie ETS2LA vo vývojovom režime."
 
-#: .\main.py:156
+#: .\main.py:159
 msgid "Running UI locally"
 msgstr "Lokálne spustené používateľské rozhranie"
 
-#: .\main.py:161
+#: .\main.py:164
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr "Žiadne pripojenie k zrkadlám vzdialeného používateľského rozhrania. Spustené lokálne."
 
-#: .\main.py:172
+#: .\main.py:175
 msgid "Running UI in China mode"
 msgstr "Spustenie používateľského rozhrania v režime Číny"
 
-#: .\main.py:174
+#: .\main.py:177
 msgid "> Using mirror {0} for UI."
 msgstr "> Používanie zrkadla {0} pre používateľské rozhranie."
 
-#: .\main.py:180
+#: .\main.py:183
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr "--no-console nemožno použiť v kombinácii s --no-ui. Konzola sa nezatvorí."
 
-#: .\main.py:182
+#: .\main.py:185
 msgid "Closing console after UI start."
 msgstr "Zatvorenie konzoly po spustení používateľského rozhrania."
 
-#: .\main.py:185
+#: .\main.py:188
 msgid "Running in the background without a window."
 msgstr "Beží na pozadí bez okna."
 
-#: .\main.py:203
+#: .\main.py:206
 msgid "ETS2LA Overseer started!"
 msgstr "Dozorca ETS2LA začal!"
 
-#: .\main.py:219
+#: .\main.py:222
 msgid "ETS2LA is restarting..."
 msgstr "ETS2LA sa reštartuje..."
 
-#: .\main.py:225
+#: .\main.py:228
 msgid "Skipping update due to development mode."
 msgstr "Preskakovanie aktualizácie z dôvodu vývojového režimu."
 
-#: .\main.py:228
+#: .\main.py:231
 msgid "ETS2LA is updating..."
 msgstr "ETS2LA sa aktualizuje..."
 
-#: .\main.py:231
+#: .\main.py:234
 msgid "Update done... restarting!"
 msgstr "Aktualizácia dokončená... reštartovanie!"
 
-#: .\main.py:236
+#: .\main.py:239
 msgid "ETS2LA has crashed!"
 msgstr "ETS2LA zlyhalo!"
 
-#: .\main.py:245
+#: .\main.py:248
 msgid "Send the above traceback to the developers."
 msgstr "Pošlite vyššie uvedený traceback vývojárom."
 
-#: .\main.py:247
+#: .\main.py:250
 msgid "ETS2LA has closed."
 msgstr "ETS2LA sa zatvorila."
 
-#: .\main.py:248
+#: .\main.py:251
 msgid "Press enter to exit."
 msgstr "Stlačením klávesu Enter ukončíte."
+
+#~ msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
+#~ msgstr "Hľadám okno ETS2LA... [dim](10s časový limit)[/dim]"
+
+#~ msgid "Plugin Catalogue"
+#~ msgstr "Katalóg Pluginov"
+
+#~ msgid "Refresh Rate"
+#~ msgstr "Obnovovacia frekvencia"
+
+#~ msgid "The rate at which the HUD updates. It's not recommended to increase this value too much."
+#~ msgstr "Frekvencia aktualizácie HUDu. Neodporúča sa túto hodnotu príliš zvyšovať."
+
+#~ msgid "Scale"
+#~ msgstr "Mierka"
+
+#~ msgid "The scale of the HUD elements."
+#~ msgstr "Mierka prvkov HUD."
+
+#~ msgid "The X offset (side to side) of the HUD elements."
+#~ msgstr "Posun X (zo strany na stranu) prvkov HUD."
+
+#~ msgid "The Y offset (top to bottom) of the HUD elements."
+#~ msgstr "Posun Y (zhora nadol) prvkov HUD."
+
+#~ msgid "The Z offset (distance) of the HUD elements."
+#~ msgstr "Posun Z (vzdialenosť) prvkov HUD."
+
+#~ msgid "HUD Elements"
+#~ msgstr "Prvky HUD"
+
+#~ msgid "Show Navigation"
+#~ msgstr "Zobraziť navigáciu"
+
+#~ msgid "When enabled, the HUD will display navigation information."
+#~ msgstr "Keď je táto funkcia povolená, HUD bude zobrazovať navigačné informácie."
+
+#~ msgid "Show ACC Info"
+#~ msgstr "Zobraziť informácie ACC"
+
+#~ msgid "When enabled, the HUD will display adaptive cruise control information."
+#~ msgstr "Keď je táto funkcia povolená, HUD bude zobrazovať informácie o adaptívnom tempomate."
+
+#~ msgid "Draw Steering"
+#~ msgstr "Kresliť riadenie"
+
+#~ msgid "Whether to draw the steering line in the HUD."
+#~ msgstr "Či sa má v HUD vykresľovať čiara riadenia."
+
+#~ msgid "Show Traffic Light Times"
+#~ msgstr "Zobraziť časy semaforov"
+
+#~ msgid "When enabled, the HUD will display traffic light times."
+#~ msgstr "Keď je povolené, HUD bude zobrazovať časy semaforov."
+
+#~ msgid "Draw Wheel Paths"
+#~ msgstr "Kresliť dráhy kolies"
+
+#~ msgid "When enabled, the HUD will display where the wheels will go when turning."
+#~ msgstr "Keď je táto funkcia povolená, HUD zobrazí, kam sa kolesá pri zatáčaní vychýlia."
+
+#~ msgid "Waiting for lane change approval"
+#~ msgstr "Čaká sa na schválenie zmeny jazdného pruhu"
+
+#~ msgid "Lane change in progress {percentage}%"
+#~ msgstr "Prebieha zmena jazdného pruhu {percentage}%"
+
+#~ msgid "Distance: {distance:.0f} {units}"
+#~ msgstr "Vzdialenosť: {distance:.0f} {units}"
+
+#~ msgid "Target: {acc_gap:.0f} {units}"
+#~ msgstr "Cieľ: {acc_gap:.0f} {units}"
+
+#~ msgid "NGHUD"
+#~ msgstr "NGHUD"
+
+#~ msgid "Next-Gen HUD (basically I'm remaking HUD and needed a name for it)"
+#~ msgstr "HUD novej generácie (v podstate prerábam HUD a potreboval som preň názov)"
+
+#~ msgid "Widget Widths"
+#~ msgstr "Šírky widgetov"
+
+#~ msgid "These settings control the width of each widget in pixels. Defaults are 90, 120, 90. Elements will attempt to resize to fit, but please keep in mind they are not made to be resized too much."
+#~ msgstr "Tieto nastavenia ovládajú šírku každého widgetu v pixeloch. Predvolené hodnoty sú 90, 120, 90. Prvky sa pokúsia zmeniť veľkosť, aby sa zmestili, ale majte na pamäti, že nie sú určené na príliš veľkú zmenu veľkosti."
 
 #~ msgid "Restart and apply {count} update(s)"
 #~ msgstr "Reštartujte a použite {count} aktualizáciu/í/e"

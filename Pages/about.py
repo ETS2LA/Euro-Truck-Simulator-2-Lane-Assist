@@ -1,14 +1,19 @@
 from ETS2LA.Networking.cloud import GetUserCount, GetUserTime, GetUniqueUsers, token, user_id, GetUsername
 from ETS2LA.UI.utils import SendPopup
 from ETS2LA.UI import *
+from ETS2LA import UI
 
+from ETS2LA.Utils.Game import path as game
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
 from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
+from ETS2LA.Utils import settings
 from langcodes import Language 
+import hashlib
 import time
+import os
 
 contributors = [
     {"name": "Tumppi066", "description": _("Lead developer and creator of ETS2LA, backend & frontend."), "links": [["Github", "https://github.com/Tumppi066"], ["Youtube", "https://www.youtube.com/@Tumppi066"], ["Ko-Fi", "https://ko-fi.com/tumppi066"]]},
@@ -22,6 +27,7 @@ contributors = [
     {"name": "mimi89999", "description": _("scs-sdk-controller developer"), "links": []},
     {"name": "zhaoyj", "description": _("3D models for the visualization"), "links": []},
     {"name": "JimJokes", "description": _("Data extractor development, support for modded maps."), "links": []},
+    {"name": "playzzero97", "description": _("Discord rich presence plugin developer, slight backend updates."), "links": []},
     {"name": "Lun", "description": _("Chinese translation, bug fixes"), "links": [["Discord", "https://discordapp.com/users/832636302402256898"]]},
     {"name": "MRUIAW", "description": _("Chinese translations, bug fixes"), "links": [["BiliBili", "https://space.bilibili.com/357816575"]]},
     {"name": "PiggyWu981", "description": _("Automatic offset calculations for the Map plugin."), "links": [["GitHub", "https://github.com/Piggywu981"], ["BiliBili", "https://space.bilibili.com/355054416"], ["Discord", "https://discordapp.com/users/763642553412223008"]]},
@@ -36,8 +42,50 @@ contributors = [
     {"name": "ViSzKe", "description": _("Bug fixes"), "links": []},
 ]
 
+games = game.FindSCSGames()
+game_versions = [game.GetVersionForGame(found_game) for found_game in games]
+target_path = "\\bin\\win_x64\\plugins"
+
+data_versions = os.listdir("ETS2LA/Assets/DLLs")
+files_for_version = {}
+hashes_for_version = {}
+for version in data_versions:
+    files_for_version[version] = os.listdir(f"ETS2LA/Assets/DLLs/{version}")
+    files_for_version[version].pop(files_for_version[version].index("sources.txt"))
+    hashes_for_version[version] = {}
+    for file in files_for_version[version]:
+        with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
+            hashes_for_version[version][file] = hashlib.sha256(f.read()).hexdigest()
+
+def needs_update(game: str) -> bool:
+    if not os.path.exists(game + target_path):
+        return False # not even installed
+    
+    missing_files = []
+    for file in files_for_version[game_versions[games.index(game)]]:
+        if not os.path.exists(game + target_path + "\\" + file):
+            missing_files.append(file)
+            
+    if len(missing_files) != 0 and len(missing_files) != len(files_for_version[game_versions[games.index(game)]]):
+        return True # some files are missing, but not all of them
+    if len(missing_files) == len(files_for_version[game_versions[games.index(game)]]):
+        return False # all files are missing, which means the user has never installed the plugin
+    
+    game_hashes = {}
+    for file in files_for_version[game_versions[games.index(game)]]:
+        with open(game + target_path + "\\" + file, "rb") as f:
+            game_hashes[file] = hashlib.sha256(f.read()).hexdigest()
+            
+    for file, hash in hashes_for_version[game_versions[games.index(game)]].items():
+        if file not in game_hashes or game_hashes[file] != hash:
+            return True # file is missing or has a different hash, which means it is outdated
+        
+    return False # everything is fine, no update needed
+
 class Page(ETS2LAPage):
     url = "/about"
+    game_needs_update = {}
+    refresh_rate = 60
     
     def fix_wipers(self):
         print(_("Fixing wipers (5s timer)"))
@@ -62,6 +110,14 @@ class Page(ETS2LAPage):
             pass
         mainThreadQueue.append([Update, [], {}])
     
+    def open_event(self):
+        self.game_needs_update = {}
+        for path in games:
+            try:
+                self.game_needs_update[path] = needs_update(path)
+            except:
+                pass
+    
     def seconds_to_time(self, seconds):
         if seconds == 0:
             return ngettext("{0} minute", "{0} minutes", 0).format(0)
@@ -79,7 +135,27 @@ class Page(ETS2LAPage):
             )
 
     def render(self):
-        with Container(style=styles.FlexVertical() + styles.Padding("80px 0px 0px 80px") + styles.MaxWidth("900px")):
+        ads = settings.Get("global", "ad_preference", default=1)
+        if ads >= 1:
+            with Container(style=styles.FlexHorizontal() + styles.Padding("40px 0px 0px 80px")):
+                AdSense(
+                    client="ca-pub-6002744323117854",
+                    slot="6129868382",
+                    style=styles.Style(
+                        display="inline-block",
+                        width="900px",
+                        height="90px"
+                    )
+                )
+        
+        with Container(style=styles.FlexVertical() + styles.Padding(("20px" if ads else "80px") + " 0px 0px 80px") + styles.MaxWidth("900px")):
+            if any(self.game_needs_update.values()):
+                for game, needs_update in self.game_needs_update.items():
+                    if needs_update:
+                        with Container(style=styles.FlexVertical() + styles.Gap("5px") + styles.Classname("p-4 rounded-lg border") + styles.Margin("0px 0px 15px 0px") + styles.Style(background_color="#584818")):
+                            Text(_("Notice!"), styles.Classname("font-semibold") + styles.Style(color="#e9e9e9"))
+                            Text(_("An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings.").format(os.path.basename(game)), styles.Style(color="#BCBCBC"))
+            
             Text(_("About"), styles.Title())
             Space()
             Text(_("ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."), styles.Description())

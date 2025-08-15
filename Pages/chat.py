@@ -241,6 +241,8 @@ class Page(ETS2LAPage):
                     Text(f"{message['user']} {'replied' if message_reply else ''}", styles.Classname(f"text-xs text-muted-foreground {'text-end' if is_right else ''}"))
         
     def render(self):
+        return # Disable rendering to save performance, remove this when developing.
+        
         with Container(styles.Classname("flex w-full h-max") + styles.Padding("12px")):
             if self.ws: # The websocket is connected
                 with Container(styles.Classname("flex flex-col") + styles.Width("275px") + styles.Gap("8px")):

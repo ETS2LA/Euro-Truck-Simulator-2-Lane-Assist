@@ -14,6 +14,7 @@ sdk_page.onboarding_mode = True
 
 class Page(ETS2LAPage):
     url = "/onboarding"
+    refresh_rate = 2
     page = 0
     
     # 2 = render loading page
@@ -366,6 +367,17 @@ class Page(ETS2LAPage):
                     Icon("info", style)
                     # TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
                     Markdown(_("**Transparency**\n\nYou can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."))
+
+                with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("border rounded-md p-4 bg-input/10 items-start")):
+                    style = styles.Style()
+                    style.margin_top = "2px"
+                    style.width = "1rem"
+                    style.height = "1rem"
+                    style.color = "var(--muted-foreground)"
+                    Icon("info", style)
+                    # TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
+                    Markdown(_("**Fullscreen**\n\nYou can *middle click* the green button to make the ETS2LA window fullscreen."))
+
 
             offset = styles.Style()
             offset.margin_top = "28px"

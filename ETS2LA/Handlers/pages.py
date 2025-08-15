@@ -12,6 +12,9 @@ last_modified_times = {}
 last_update_times = {}
 
 class PageManager:
+    def __init__(self):
+        self.get_urls()
+    
     @staticmethod
     def get_page_names() -> List[str]:
         """Get list of all page module names without extensions."""
@@ -36,6 +39,8 @@ class PageManager:
         
         page = page_objects[page_name]
         function = getattr(page, function_name)
+        
+        page.reset_timer()  # trigger a refresh of the page data
         variables.REFRESH_PAGES = True
         return function(*args, **kwargs)
 
@@ -51,6 +56,17 @@ class PageManager:
         """Release UI update lock."""
         variables.IS_UI_UPDATING = False
 
+    files = []
+    @classmethod
+    def get_files(cls) -> List[str]:
+        """Get list of files in the pages directory."""
+        if cls.files:
+            return cls.files
+        
+        files = [f for f in os.listdir(PAGES_PATH) if os.path.isfile(os.path.join(PAGES_PATH, f))]
+        cls.files = files
+        return files
+
     @classmethod
     def load_page_module(cls, filename: str) -> Tuple[Optional[Any], bool]:
         """Load or reload a page module and return (page_object, is_new)."""
@@ -63,13 +79,12 @@ class PageManager:
         last_modified_time = os.path.getmtime(file_path)
         
         # Check if module needs reloading
-        modified = (module_name in sys.modules and 
-                   last_modified_times.get(module_name) == last_modified_time)
+        modified = (module_name not in sys.modules or 
+                   last_modified_times.get(module_name) != last_modified_time)
         loaded = module_name in last_update_times
-        needs_update = not loaded
         
         # Reuse existing module if possible
-        if modified and loaded and not needs_update and page_name in page_objects:
+        if not modified and loaded and page_name in page_objects:
             return page_objects[page_name], False
             
         # Load/reload module
@@ -90,57 +105,57 @@ class PageManager:
     @classmethod
     def get_pages(cls) -> Dict[str, Any]:
         """Get all pages as a dictionary of {url: built_page}."""
-        files = [f for f in os.listdir(PAGES_PATH) if os.path.isfile(os.path.join(PAGES_PATH, f))]
+        files = cls.get_files()
         pages = {}
         
-        cls.acquire_ui_lock()
         try:
             for filename in files:
                 page, is_new = cls.load_page_module(filename)
                 if page and is_new:
                     pages[page.url] = page.build()
-                    variables.REFRESH_PAGES = True
         finally:
-            cls.release_ui_lock()
+            ...
             
         return pages
 
+    url_cache = []
     @classmethod
     def get_urls(cls) -> List[str]:
         """Get URLs for all available pages."""
-        files = [f for f in os.listdir(PAGES_PATH) if os.path.isfile(os.path.join(PAGES_PATH, f))]
+        if cls.url_cache:
+            return cls.url_cache
+        
+        files = cls.get_files()
         urls = []
         
-        cls.acquire_ui_lock()
         try:
             for filename in files:
                 page, _ = cls.load_page_module(filename)
                 if page:
                     urls.append(page.url)
         finally:
-            cls.release_ui_lock()
-            
+            ...
+        
+        cls.url_cache = urls
         return urls
 
     @classmethod
     def get_page(cls, target_url: str) -> List[Any]:
         """Get a specific page by URL."""
-        files = [f for f in os.listdir(PAGES_PATH) if os.path.isfile(os.path.join(PAGES_PATH, f))]
+        files = cls.get_files()
         
-        cls.acquire_ui_lock()
         try:
             for filename in files:
                 page, _ = cls.load_page_module(filename)
                 if page and page.url == target_url:
                     try:
                         data = page.build()
-                        variables.REFRESH_PAGES = True
                         return data
                     except Exception:
                         logging.exception(f"Failed to build page {target_url}")
                         return []
         finally:
-            cls.release_ui_lock()
+            ...
             
         return []
 

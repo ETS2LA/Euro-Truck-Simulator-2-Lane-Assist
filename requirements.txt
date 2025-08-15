@@ -5,6 +5,7 @@ opencv-contrib-python
 SimpleWindow>=1.0
 websockets==13.1
 umami-analytics
+py-sharedmemory
 textual==1.0.0
 beautifulsoup4
 pywebview==5.1
@@ -30,12 +31,12 @@ uvicorn
 pyproj
 psutil
 pygame
+orjson
 pynput
 pyyaml
 pydub
 scipy
 torch
-ujson
 tqdm
 ftfy
 rich

@@ -199,7 +199,7 @@ available_channels = [
 ]
 
 class SettingsMenu(ETS2LAPage):
-    refresh_rate = 0.5
+    refresh_rate = 2
     url = "/settings/VisualizationSockets"
     location = ETS2LAPageLocation.SETTINGS
     title = _("Visualization Sockets")

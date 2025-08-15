@@ -124,7 +124,83 @@ def ConvertCoordinateToScreen(coordinate, self):
 
         return ScreenX, ScreenY, Distance
 
-
+def get_object_from_dict(dictionary: dict):
+    if "type" not in dictionary:
+        raise ValueError("Dictionary does not contain 'type' key.")
+    
+    object_type = dictionary["type"]
+    if object_type == "Point":
+        return Point(dictionary["x"], dictionary["y"], anchor=get_object_from_dict(dictionary["anchor"]) if dictionary["anchor"] else None)
+    elif object_type == "Coordinate":
+        return Coordinate(dictionary["x"], dictionary["y"], dictionary["z"], relative=dictionary.get("relative", False), rotation_relative=dictionary.get("rotation_relative", False))
+    elif object_type == "Fade":
+        return Fade(
+            prox_fade_end=dictionary["prox_fade_end"],
+            prox_fade_start=dictionary["prox_fade_start"],
+            dist_fade_start=dictionary["dist_fade_start"],
+            dist_fade_end=dictionary["dist_fade_end"]
+        )
+    elif object_type == "Color":
+        return Color(dictionary["r"], dictionary["g"], dictionary["b"], dictionary.get("a", 255))
+    elif object_type == "Rectangle":
+        return Rectangle(
+            start=get_object_from_dict(dictionary["start"]),
+            end=get_object_from_dict(dictionary["end"]),
+            color=get_object_from_dict(dictionary["color"]),
+            fill=get_object_from_dict(dictionary["fill"]),
+            thickness=dictionary["thickness"],
+            fade=get_object_from_dict(dictionary["fade"]),
+            custom_distance=dictionary.get("custom_distance", None),
+            rounding=dictionary.get("rounding", 0.0)
+        )
+    elif object_type == "Line":
+        return Line(
+            start=get_object_from_dict(dictionary["start"]),
+            end=get_object_from_dict(dictionary["end"]),
+            color=get_object_from_dict(dictionary["color"]),
+            thickness=dictionary["thickness"],
+            fade=get_object_from_dict(dictionary["fade"]),
+            custom_distance=dictionary.get("custom_distance", None)
+        )
+    elif object_type == "Polygon":
+        points = [get_object_from_dict(point) for point in dictionary["points"]]
+        return Polygon(points=points, color=get_object_from_dict(dictionary["color"]), thickness=dictionary["thickness"], fill=get_object_from_dict(dictionary["fill"]),
+                       closed=dictionary.get("closed", True), fade=get_object_from_dict(dictionary["fade"]), custom_distance=dictionary.get("custom_distance", None))
+    elif object_type == "Circle":
+        return Circle(
+            center=get_object_from_dict(dictionary["center"]),
+            radius=dictionary["radius"],
+            color=get_object_from_dict(dictionary["color"]),
+            fill=get_object_from_dict(dictionary["fill"]),
+            thickness=dictionary["thickness"],
+            fade=get_object_from_dict(dictionary["fade"]),
+            custom_distance=dictionary.get("custom_distance", None)
+        )
+    elif object_type == "Text":
+        return Text(
+            point=get_object_from_dict(dictionary["point"]),
+            text=dictionary["text"],
+            color=get_object_from_dict(dictionary["color"]),
+            size=dictionary["size"],
+            fade=get_object_from_dict(dictionary["fade"]),
+            custom_distance=dictionary.get("custom_distance", None)
+        )
+    elif object_type == "Bezier":
+        return Bezier(
+            p1=get_object_from_dict(dictionary["p1"]),
+            p2=get_object_from_dict(dictionary["p2"]),
+            p3=get_object_from_dict(dictionary["p3"]),
+            p4=get_object_from_dict(dictionary["p4"]),
+            color=get_object_from_dict(dictionary["color"]),
+            thickness=dictionary["thickness"],
+            segments=dictionary["segments"],
+            custom_distance=dictionary.get("custom_distance", None),
+            fade=get_object_from_dict(dictionary["fade"])
+        )
+    else:
+        logging.error(f"Unknown object type: {object_type}")
+        return None
+        
 class Point:
     """Representation of a 2D point.
 
@@ -161,7 +237,12 @@ class Point:
         return (self.x, self.y)
     
     def json(self):
-        return {"x": self.x, "y": self.y}
+        return {
+            "type": "Point",
+            "x": self.x, 
+            "y": self.y,
+            "anchor": self.anchor.json() if self.anchor else None
+        }
 
 
 class Coordinate:
@@ -200,7 +281,14 @@ class Coordinate:
         return ((self.x - x) ** 2 + (self.y - y) ** 2 + (self.z - z) ** 2) ** 0.5
     
     def json(self): 
-        return {"x": self.x, "y": self.y, "z": self.z}
+        return {
+            "type": "Coordinate",
+            "x": self.x, 
+            "y": self.y, 
+            "z": self.z,
+            "relative": self.relative,
+            "rotation_relative": self.rotation_relative
+        }
     
     def __str__(self):
         return f"Coordinate({self.x}, {self.y}, {self.z})"
@@ -243,6 +331,7 @@ class Fade:
             
     def json(self):
         return {
+            "type": "Fade",
             "prox_fade_end": self.prox_fade_end,
             "prox_fade_start": self.prox_fade_start,
             "dist_fade_start": self.dist_fade_start,
@@ -282,7 +371,13 @@ class Color:
         return (self.r, self.g, self.b, self.a * self.am)
     
     def json(self):
-        return {"r": self.r, "g": self.g, "b": self.b, "a": self.a}
+        return {
+            "type": "Color",
+            "r": self.r, 
+            "g": self.g, 
+            "b": self.b, 
+            "a": self.a
+        }
 
 
 class Rectangle:
@@ -341,11 +436,15 @@ class Rectangle:
         
     def json(self):
         return {
+            "type": "Rectangle",
             "start": self.start.json(),
             "end": self.end.json(),
             "color": self.color.json(),
             "fill": self.fill.json(),
-            "thickness": self.thickness
+            "thickness": self.thickness,
+            "fade": self.fade.json(),
+            "custom_distance": self.custom_distance,
+            "rounding": self.rounding
         }
         
         
@@ -397,10 +496,13 @@ class Line:
         
     def json(self):
         return {
+            "type": "Line",
             "start": self.start.json(),
             "end": self.end.json(),
             "color": self.color.json(),
-            "thickness": self.thickness
+            "thickness": self.thickness,
+            "fade": self.fade.json(),
+            "custom_distance": self.custom_distance
         }
         
 
@@ -458,11 +560,14 @@ class Polygon:
         
     def json(self):
         return {
+            "type": "Polygon",
             "points": [point.json() for point in self.points],
             "color": self.color.json(),
             "fill": self.fill.json(),
             "thickness": self.thickness,
-            "closed": self.closed
+            "closed": self.closed,
+            "fade": self.fade.json(),
+            "custom_distance": self.custom_distance
         }
         
 
@@ -516,11 +621,14 @@ class Circle:
         
     def json(self):
         return {
+            "type": "Circle",
             "center": self.center.json(),
             "radius": self.radius,
             "color": self.color.json(),
             "fill": self.fill.json(),
-            "thickness": self.thickness
+            "thickness": self.thickness,
+            "fade": self.fade.json(),
+            "custom_distance": self.custom_distance
         }
         
 
@@ -570,10 +678,13 @@ class Text:
         
     def json(self):
         return {
+            "type": "Text",
             "point": self.point.json(),
             "text": self.text,
             "color": self.color.json(),
-            "size": self.size
+            "size": self.size,
+            "fade": self.fade.json(),
+            "custom_distance": self.custom_distance
         }
         
 class Bezier:
@@ -631,11 +742,14 @@ class Bezier:
         
     def json(self):
         return {
+            "type": "Bezier",
             "p1": self.p1.json(),
             "p2": self.p2.json(),
             "p3": self.p3.json(),
             "p4": self.p4.json(),
             "color": self.color.json(),
             "thickness": self.thickness,
-            "segments": self.segments
+            "segments": self.segments,
+            "custom_distance": self.custom_distance,
+            "fade": self.fade.json()
         }

@@ -10,6 +10,12 @@ YEAR = datetime.datetime.now().year
 APPTITLE = f"ETS2LA - Tumppi066 & Contributors © {YEAR}"
 """The title of the frontend window."""
 
+FRONTEND_MIRRORS = [
+    "https://app.ets2la.com", # Global
+    "https://app.ets2la.cn" # China
+]
+"""The frontend mirrors. The first one is the default mirror."""
+
 PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
 """The path to the ETS2LA folder."""
 

@@ -14,6 +14,7 @@ class Page(ETS2LAPage):
     dynamic = True
     url = "/updater"
     settings_target = "updater" 
+    refresh_rate = 30
     
     def update(self, *args, **kwargs):
         try:
@@ -21,6 +22,9 @@ class Page(ETS2LAPage):
         except:
             pass
         mainThreadQueue.append([Update, [], {}])
+        
+    def open_event(self):
+        self.reset_timer()
         
     def time_since(self, target_time):
         diff = time.time() - target_time

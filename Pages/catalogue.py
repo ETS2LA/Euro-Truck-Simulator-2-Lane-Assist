@@ -1,6 +1,7 @@
 from ETS2LA.UI import *
 from ETS2LA.Handlers import plugins
 from ETS2LA.Utils.translator import _
+from ETS2LA.Utils import settings
 import webbrowser
 import threading
 import requests
@@ -32,6 +33,7 @@ class CataloguePlugin():
 
 class Page(ETS2LAPage):
     url = "/catalogue"
+    refresh_rate = 10
     
     loading = False
     catalogue = {}
@@ -93,6 +95,7 @@ class Page(ETS2LAPage):
     def crawl_catalogue(self):
         self.plugins = []
         for item in self.catalogue.get("plugins", []):
+            self.reset_timer()
             time.sleep(random.uniform(0.1, 0.5))  # Simulate network delay
             data = self.get_plugin_data(item.get("repository", ""))
             if data:
@@ -145,23 +148,28 @@ class Page(ETS2LAPage):
         
         try:
             self.installing_state = _("Cloning repository")
+            self.reset_timer()
             repo = git.Repo.clone_from(target.repository, f"CataloguePlugins/{target.name}")
             if os.path.exists(f"CataloguePlugins/{target.name}/requirements.txt"):
                 self.installing_state = _("Installing requirements")
+                self.reset_timer()
                 os.system(f"pip install -r CataloguePlugins/{target.name}/requirements.txt")
 
             self.installing_state = _("Starting plugin background process")
+            self.reset_timer()
             if not plugins.create_process(
                 folder=f"CataloguePlugins\\{target.name}"
             ):
                 raise Exception(_("Failed to start plugin background process, but the plugin files were installed."))
 
             self.installing_state = _("Success")
+            self.reset_timer()
             self.installing = False
             self.unselect_plugin()
             SendPopup(_("Plugin '{name}' installed successfully.").format(name=target.name))
         except Exception as e:
             self.installing_state = _("Failed")
+            self.reset_timer()
             self.installing_error = str(e)
             SendPopup(_("Failed to install plugin '{name}': {error}").format(name=target.name, error=str(e)))
 
@@ -183,11 +191,13 @@ class Page(ETS2LAPage):
     
         try:
             self.uninstalling_state = _("Closing plugin processes")
+            self.reset_timer()
             if plugins.match_plugin_by_folder(f"CataloguePlugins/{target.name}"):
                 if not plugins.stop_plugin(folder=f"CataloguePlugins/{target.name}", stop_process=True):
                     raise Exception(_("Failed to stop plugin processes."))
 
             self.uninstalling_state = _("Unregistering git repository")
+            self.reset_timer()
             # Close any git handles
             if os.path.exists(f"CataloguePlugins/{target.name}/.git"):
                 repo = git.Repo(f"CataloguePlugins/{target.name}")
@@ -197,6 +207,7 @@ class Page(ETS2LAPage):
             # Wait a bit for user experience
             time.sleep(1)
             self.uninstalling_state = _("Removing plugin files")
+            self.reset_timer()
 
             max_retries = 3
             retry_count = 0
@@ -217,12 +228,14 @@ class Page(ETS2LAPage):
                 except Exception as e:
                     retry_count += 1
                     self.uninstalling_state = _("Retrying removal ({cur}/{max})").format(cur=retry_count, max=max_retries)
+                    self.reset_timer()
                     time.sleep(1)
             
             if not success:
                 raise Exception(_("Failed to remove plugin files after {max} attempts").format(max=max_retries))
 
             self.uninstalling_state = _("Success")
+            self.reset_timer()
             self.uninstalling = False
             self.unselect_plugin()
             SendPopup(_("Plugin '{name}' uninstalled successfully.").format(name=target.name))
@@ -277,6 +290,7 @@ class Page(ETS2LAPage):
         return False
     
     def render_plugin_card(self, plugin: CataloguePlugin):
+        installed = os.path.exists(f"CataloguePlugins/{plugin.name}")
         with Button(name=plugin.name, action=self.select_plugin, type="ghost",
                 style=styles.FlexHorizontal() 
                     + styles.Classname("w-full border rounded-md p-4 gap-4 bg-input/10 h-max")):
@@ -294,7 +308,8 @@ class Page(ETS2LAPage):
                     + styles.Width("100%")
             ):
                 with Container(styles.FlexVertical() + styles.Gap("5px")):
-                    Text(plugin.name, styles.Classname("font-semibold"))
+                    with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
+                        Text(plugin.name, styles.Classname("font-semibold"))
                     Text(plugin.overview, styles.Description())
                 
                 with Container(styles.FlexHorizontal() + styles.Gap("5px")):
@@ -404,10 +419,7 @@ class Page(ETS2LAPage):
         self.search_term = search_term.lower()
     
     def header(self):
-        with Container(styles.FlexHorizontal() + styles.Classname("w-full h-16 items-center justify-between px-2 pr-12")):
-            with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
-                Text(_("Plugin Catalogue"), styles.Title())
-                
+        with Container(styles.FlexHorizontal() + styles.Classname("w-full h-16 items-center justify-between") + styles.Padding("4px 4px 8px 4px")):
             with Container(styles.FlexHorizontal() + styles.Classname("gap-2 items-center")):
                 Input(
                     _("Search plugins..."),
@@ -418,6 +430,8 @@ class Page(ETS2LAPage):
                     Text(_("Refresh"), styles.Classname("text-xs"))
     
     def render(self):
+        ads = settings.Get("global", "ad_preference", default=1)
+        
         if self.loading_screen():
             return
 
@@ -451,10 +465,48 @@ class Page(ETS2LAPage):
         self.want_to_install = False
         with Container(styles.Classname("w-full h-full p-4 gap-4") + styles.FlexVertical()):
             self.header()
+
+            installed_plugins = []
+            not_installed_plugins = []
             for plugin in self.plugins:
                 if self.search_term \
                    and self.search_term not in plugin.name.lower() \
                    and self.search_term not in plugin.overview.lower() \
                    and self.search_term not in plugin.author.lower():
                     continue
-                self.render_plugin_card(plugin)
+                if os.path.exists(f"CataloguePlugins/{plugin.name}"):
+                    installed_plugins.append(plugin)
+                else:
+                    not_installed_plugins.append(plugin)
+            
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
+                Text(_("Installed Plugins"), styles.Classname("font-semibold"))
+                if not installed_plugins:
+                    with Alert():
+                        Text(_("No plugins are installed."), styles.Description())
+                else:
+                    for plugin in installed_plugins:
+                        self.render_plugin_card(plugin)
+            
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 4px")):
+                Text(_("Available Plugins"), styles.Classname("font-semibold"))
+                if ads >= 2:
+                    with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
+                        AdSense(
+                            client="ca-pub-6002744323117854",
+                            slot="3283698879",
+                            style=styles.Style(
+                                display="inline-block",
+                                width="100%",
+                                height="120px"
+                            )
+                        )
+                        
+                if not not_installed_plugins:
+                    with Alert():
+                        Text(_("You have installed all available plugins."), styles.Description())
+                else:
+                    for plugin in not_installed_plugins:
+                        self.render_plugin_card(plugin)
+                        
+            Space(styles.Height("80px"))
