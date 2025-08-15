@@ -153,6 +153,7 @@ class Settings(ETS2LAPage):
     url = "/settings/AR"
     location = ETS2LAPageLocation.SETTINGS
     title = _("AR")
+    refresh_rate = 1
 
     def vision_compat_changed(self, *args):
         if args:
@@ -207,10 +208,13 @@ class Settings(ETS2LAPage):
         
         try:
             if self.plugin:
+                self.refresh_rate = 0.1
                 with Container(styles.FlexVertical() + styles.Gap("4px")):
                     UIText(_("Items: {}").format(self.plugin.item_count), styles.Description())
                     UIText(_("Draw Calls: {}").format(self.plugin.draw_calls), styles.Description())
                     UIText(_("Render Time: {:.2f} ms").format(self.plugin.render_time * 1000), styles.Description())
+            else:
+                self.refresh_rate = 1
         except:
             pass
 

@@ -21,6 +21,7 @@ class Page(ETS2LAPage):
     url = "/settings/global"
     monitors = screeninfo.get_monitors()
     initial_high_priority = False
+    refresh_rate = 2
     
     def __init__(self):
         super().__init__()

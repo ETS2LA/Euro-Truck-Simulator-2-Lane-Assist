@@ -26,6 +26,7 @@ class Control:
 
 class Page(ETS2LAPage):
     url = "/settings/controls"    
+    refresh_rate = 2
     
     target_plugin = ""
     target_control = ""

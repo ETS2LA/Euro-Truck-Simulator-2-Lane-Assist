@@ -1,6 +1,7 @@
 from ETS2LA.UI import *
 from Modules.TruckSimAPI.main import Module
 from ETS2LA.Utils.Values.numbers import SmoothedValue
+from ETS2LA import variables
 import time
 
 tsapi = Module(None)
@@ -27,6 +28,9 @@ class Page(ETS2LAPage):
         self.search_term = search_term
             
     def render(self):
+        if not variables.DEVELOPMENT_MODE:
+            return Text("Telemetry is only available in development mode.", styles.Description())
+        
         telemetry = tsapi.run()
         
         with Container(styles.Padding("20px") + styles.FlexVertical() + styles.Gap("20px")):

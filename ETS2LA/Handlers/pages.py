@@ -39,6 +39,8 @@ class PageManager:
         
         page = page_objects[page_name]
         function = getattr(page, function_name)
+        
+        page.reset_timer()  # trigger a refresh of the page data
         variables.REFRESH_PAGES = True
         return function(*args, **kwargs)
 

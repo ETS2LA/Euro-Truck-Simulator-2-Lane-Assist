@@ -4,7 +4,7 @@ from ETS2LA.UI import *
 
 class UI(ETS2LAPage):
     url = "/settings/HUD"
-    refresh_rate = 0.5
+    refresh_rate = 2
     location = ETS2LAPageLocation.SETTINGS
     title = "HUD"
     

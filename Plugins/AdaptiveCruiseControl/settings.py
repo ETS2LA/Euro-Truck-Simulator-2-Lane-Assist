@@ -6,7 +6,7 @@ class SettingsMenu(ETS2LAPage):
     url = "/settings/adaptivecruisecontrol"
     location = ETS2LAPageLocation.SETTINGS
     title = _("Adaptive Cruise Control")
-    refresh_rate = 0.5
+    refresh_rate = -1
     
     def handle_aggressiveness(self, value):
         settings.Set("AdaptiveCruiseControl", "aggressiveness", value)

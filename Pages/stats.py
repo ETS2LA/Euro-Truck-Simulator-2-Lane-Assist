@@ -20,12 +20,13 @@ class PerformanceMetrics:
     
     def ram_thread(self):
         while True:
-            time.sleep(5)
+            time.sleep(10)
             total = 0
             python = 0
             node = 0
             for proc in psutil.process_iter():
                 try:
+                    time.sleep(0.01)  # Prevents high CPU usage
                     if "python" in proc.name().lower(): # backend
                         total += proc.memory_percent()
                         python += proc.memory_percent()
@@ -46,7 +47,7 @@ class PerformanceMetrics:
             
     def unsupported_thread(self) -> list[str]:
         while True:
-            time.sleep(5)
+            time.sleep(30)
             execs = self.descriptions.keys()
             found = []
             for p in psutil.process_iter():
@@ -79,12 +80,13 @@ class Page(ETS2LAPage):
         self.input = multiprocessing.Queue()
         self.metrics_process = multiprocessing.Process(
             target=PerformanceMetrics, 
-            args=(self.input,)
+            args=(self.input,),
+            daemon=True
         )
         self.metrics_process.start()
         while True:
             try:
-                data = self.input.get(timeout=2.5)
+                data = self.input.get(timeout=1)
                 if "unsupported" in data:
                     self.data["unsupported"] = data["unsupported"]
                 if "ram" in data:
@@ -94,7 +96,7 @@ class Page(ETS2LAPage):
                     
             except multiprocessing.queues.Empty:
                 continue
-            time.sleep(2.5)
+            time.sleep(1)
     
     def render(self):
         if "python_per_type" not in self.data:

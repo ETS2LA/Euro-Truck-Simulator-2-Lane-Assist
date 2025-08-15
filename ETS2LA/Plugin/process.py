@@ -228,7 +228,12 @@ class PluginProcess:
         while True:
             try:
                 message: PluginMessage = self.queue.get(timeout=1)
-            except: time.sleep(0.01); continue
+            except: 
+                if self.plugin:
+                    time.sleep(0.01) 
+                else:
+                    time.sleep(0.1)
+                continue
             
             # Handle the message based on the channel
             match message.channel:
@@ -255,7 +260,10 @@ class PluginProcess:
             try:
                 data = self.receiver.get(timeout=1)
             except:
-                time.sleep(0.01)
+                if self.plugin:
+                    time.sleep(0.01)
+                else:
+                    time.sleep(1)
                 continue
             
             if type(data) is not dict:
@@ -272,7 +280,7 @@ class PluginProcess:
     def wait_for_id(self, id: int) -> PluginMessage:
         """Wait for a message with the given ID."""
         while id not in self.stack:
-            time.sleep(0.01)
+            time.sleep(0.025)
             
         message = self.stack.pop(id)
         return message
@@ -301,8 +309,11 @@ class PluginProcess:
                     self.mem_output = {}
                 except:
                     pass
-
-            time.sleep(0.01)
+            
+            if self.plugin:
+                time.sleep(0.01)
+            else:
+                time.sleep(1)
     
     def tag_updater(self) -> None:
         while True:
@@ -329,7 +340,10 @@ class PluginProcess:
                 self.output_needs_update = False
                 self.output_tags = {}
 
-            time.sleep(0.01)
+            if self.plugin:
+                time.sleep(0.01)
+            else:
+                time.sleep(0.1)
     
     def process(self) -> None:
         """Keep the process alive."""
@@ -363,7 +377,6 @@ class PluginProcess:
         """Update the performance data."""
         while True:
             time.sleep(1)
-            
             if not self.performance:
                 continue
             
@@ -685,6 +698,7 @@ class Function(ChannelHandler):
                     return None
                 
                 function = getattr(page, function)
+                page.reset_timer() # trigger a refresh of the page data
             
             try:
                 if args and kwargs:

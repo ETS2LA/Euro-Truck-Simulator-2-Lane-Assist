@@ -213,8 +213,12 @@ class Plugin:
             if self.stop:
                 return
             
-            try: message: PluginMessage = self.return_queue.get(timeout=2)
-            except: time.sleep(0.01); continue
+            try: 
+                message: PluginMessage = self.return_queue.get(timeout=2)
+            except: 
+                if self.running: time.sleep(0.01)
+                else: time.sleep(0.1)
+                continue
             
             if message.channel == Channel.STOP_PLUGIN:
                 threading.Thread(
@@ -244,7 +248,10 @@ class Plugin:
                 )
                 self.queue.put(message)
             
-            time.sleep(0.025)
+            if self.running:
+                time.sleep(0.025)
+            else:
+                time.sleep(0.25)
     
     def tag_handler(self):
         while True:   
@@ -282,10 +289,12 @@ class Plugin:
                     message.data = "success" # clear data for faster transmit
                     self.queue.put(message, block=True)
             
-            time.sleep(0.01)
+            if self.running:
+                time.sleep(0.01)
+            else:
+                time.sleep(0.25)
     
     def memory_handler(self):
-        last_check = time.perf_counter()
         while True:
             if self.stop:
                 return
@@ -314,8 +323,11 @@ class Plugin:
                         self.tags[tag][self.description.id] = value
             except:
                 pass
-                    
-            time.sleep(0.01)
+                 
+            if self.running:   
+                time.sleep(0.01)
+            else:
+                time.sleep(0.25)
     
     def state_handler(self):
         while True:
@@ -329,7 +341,10 @@ class Plugin:
                         self.state["progress"] = message.data["progress"]
                         self.state["status"] = message.data["status"]
             
-            time.sleep(0.1)
+            if self.running:
+                time.sleep(0.1)
+            else:
+                time.sleep(1)
             
     def page_handler(self):
         while True:
@@ -371,6 +386,7 @@ class Plugin:
                         reason = message.data.get("reason", "")
                         plugin = self.description.id
                         notifications.navigate(url, plugin, reason)
+                        
             time.sleep(0.1)
 
     def performance_handler(self):

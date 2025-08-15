@@ -33,6 +33,7 @@ class CataloguePlugin():
 
 class Page(ETS2LAPage):
     url = "/catalogue"
+    refresh_rate = 10
     
     loading = False
     catalogue = {}
@@ -94,6 +95,7 @@ class Page(ETS2LAPage):
     def crawl_catalogue(self):
         self.plugins = []
         for item in self.catalogue.get("plugins", []):
+            self.reset_timer()
             time.sleep(random.uniform(0.1, 0.5))  # Simulate network delay
             data = self.get_plugin_data(item.get("repository", ""))
             if data:
@@ -146,23 +148,28 @@ class Page(ETS2LAPage):
         
         try:
             self.installing_state = _("Cloning repository")
+            self.reset_timer()
             repo = git.Repo.clone_from(target.repository, f"CataloguePlugins/{target.name}")
             if os.path.exists(f"CataloguePlugins/{target.name}/requirements.txt"):
                 self.installing_state = _("Installing requirements")
+                self.reset_timer()
                 os.system(f"pip install -r CataloguePlugins/{target.name}/requirements.txt")
 
             self.installing_state = _("Starting plugin background process")
+            self.reset_timer()
             if not plugins.create_process(
                 folder=f"CataloguePlugins\\{target.name}"
             ):
                 raise Exception(_("Failed to start plugin background process, but the plugin files were installed."))
 
             self.installing_state = _("Success")
+            self.reset_timer()
             self.installing = False
             self.unselect_plugin()
             SendPopup(_("Plugin '{name}' installed successfully.").format(name=target.name))
         except Exception as e:
             self.installing_state = _("Failed")
+            self.reset_timer()
             self.installing_error = str(e)
             SendPopup(_("Failed to install plugin '{name}': {error}").format(name=target.name, error=str(e)))
 
@@ -184,11 +191,13 @@ class Page(ETS2LAPage):
     
         try:
             self.uninstalling_state = _("Closing plugin processes")
+            self.reset_timer()
             if plugins.match_plugin_by_folder(f"CataloguePlugins/{target.name}"):
                 if not plugins.stop_plugin(folder=f"CataloguePlugins/{target.name}", stop_process=True):
                     raise Exception(_("Failed to stop plugin processes."))
 
             self.uninstalling_state = _("Unregistering git repository")
+            self.reset_timer()
             # Close any git handles
             if os.path.exists(f"CataloguePlugins/{target.name}/.git"):
                 repo = git.Repo(f"CataloguePlugins/{target.name}")
@@ -198,6 +207,7 @@ class Page(ETS2LAPage):
             # Wait a bit for user experience
             time.sleep(1)
             self.uninstalling_state = _("Removing plugin files")
+            self.reset_timer()
 
             max_retries = 3
             retry_count = 0
@@ -218,12 +228,14 @@ class Page(ETS2LAPage):
                 except Exception as e:
                     retry_count += 1
                     self.uninstalling_state = _("Retrying removal ({cur}/{max})").format(cur=retry_count, max=max_retries)
+                    self.reset_timer()
                     time.sleep(1)
             
             if not success:
                 raise Exception(_("Failed to remove plugin files after {max} attempts").format(max=max_retries))
 
             self.uninstalling_state = _("Success")
+            self.reset_timer()
             self.uninstalling = False
             self.unselect_plugin()
             SendPopup(_("Plugin '{name}' uninstalled successfully.").format(name=target.name))

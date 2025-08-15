@@ -53,6 +53,7 @@ class PerformanceMetrics:
         total = 0
         for proc in psutil.process_iter():
             try:
+                time.sleep(0.01)
                 if "python" in proc.name().lower(): # backend
                     total += proc.memory_percent()
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
@@ -61,11 +62,20 @@ class PerformanceMetrics:
         return total
     
     def ram_thread(self):
+        last_ram = psutil.virtual_memory().percent
+        last_ets2la_ram = self.get_python_mem()
+        last_update = time.time()
         while True:
             time.sleep(1)
+            
+            if time.time() - last_update > 10:
+                last_ram = psutil.virtual_memory().percent
+                last_ets2la_ram = self.get_python_mem()
+                last_update = time.time()
+            
             self.output.put_nowait({
-                "ram" : psutil.virtual_memory().percent,
-                "ets2la_ram" : round(self.get_python_mem(), 1)
+                "ram" : last_ram,
+                "ets2la_ram" : round(last_ets2la_ram, 1)
             })
 
 class Page(ETS2LAPage):
