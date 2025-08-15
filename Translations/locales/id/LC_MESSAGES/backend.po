@@ -7,1104 +7,1207 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:16\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-08-16 02:06+0000\n"
+"Last-Translator: ImNotplying <imnotplying@ets2la.com>\n"
+"Language-Team: Indonesian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Batas waktu, mohon coba lagi."
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Peristiwa terikat ke {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Memperbarui joysticks..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} terhubung."
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Menemukan joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} terputus."
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338 .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Peristiwa dengan alias '{0}' tidak ditemukan."
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Terjadi kesalahan saat mencoba mengedit peristiwa."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Pendengar kontrol dimulai."
 
 #: .\ETS2LA\Handlers\plugins.py:132
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Plugin {0} gagal dimulai: Waktu habis.\n"
+"Coba tutup aplikasi lain untuk memberi plugin lebih banyak memori dan CPU."
 
 #: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Plugin {0} gagal dimulai: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] berhasil dimuat."
 
 #: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Plugin {0} gagal mendapatkan deskripsi: Waktu habis."
 
 #: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Plugin {0} gagal mendapatkan deskripsi: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Plugin {0} gagal mendapatkan kontrol: Waktu habis."
 
 #: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Plugin {0} gagal mendapatkan kontrol: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Berhasil memuat {0} plugins."
 
 #: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin tidak ditemukan."
 
 #: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] berhasil dimulai."
 
 #: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Gagal memulai plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
-msgstr ""
+msgstr "Waktu habis"
 
 #: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Plugin tidak ditemukan, ini bisa terjadi karena kerusakan atau kegagalan "
+"memuat plugin."
 
 #: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] berhasil dihentikan."
 
 #: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Gagal menghentikan plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Gagal memulai ulang plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} tidak ditemukan untuk halaman {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Gagal mengunduh library ffmpeg, mohon unduh secara manual. (contoh: [code]"
+"winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Soundpack '{0}' tidak memiliki suara yang diperlukan '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Soundpack '{0}' memiliki tipe file tidak valid '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Mencoba memainkan suara '{0}', tetapi tidak ditemukan di soundpack '{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Berhasil mendaftarkan [bold]http://{address}[/bold] untuk mengarahkan ke "
+"[dim]{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Terjadi kesalahan saat memproses pesan."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Mencoba mengirim halaman kosong."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Websocket popup frontend dimulai."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Frontend ingin melakukan pembaruan."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Gagal mengatur transparansi"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Gagal mengambil tag data"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Gagal mengambil halaman"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "Gagal mengambil data halaman untuk halaman {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Gagal untuk memuat ulang plugin"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Gagal membuat frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Membuat frontend... mohon tunggu..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Gagal memulai frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Webserver dimulai di http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "frontend dimuali di http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
-msgstr ""
+msgstr "Inisialisasi Logging berhasil."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Kesalahan dan peringatan dalam file log:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Kesalahan: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Peringatan: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Tidak ditemukan kesalahan atau peringatan."
 
 #: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Mohon tunggu sementara kami inisialisasi antarmuka pengguna"
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "Mencari window ETS2LA... [dim]({timeout}s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Gagal menemukan / memulai window ETS2LA. Apakah spesifikasi PC Anda memadai? "
+"Gunakan https://app.ets2la.com jika menurut anda seharusnya bisa "
+"menjalankannya."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend berhasil dimulai"
 
 #: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Pengembang utama dan pencipta ETS2LA, backend & frontend."
 
 #: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Deteksi Navigasi, Deteksi Lampu Lalu Lintas, ETS2LA Lite, 'ko-pemilik'"
 
 #: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Berbagai penambahan dan penyempurnaan, model AI Deteksi Objek & "
+"pengembangannya"
 
 #: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Pengembang SDK sisi game ETS2LA. Data Kendaraan, Lampu Lalu Lintas, Kamera, "
+"dan lainnya langsung dari game."
 
 #: .\Pages\about.py:23
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Ekstraksi dan pengolahan data game"
 
 #: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Porting ke Linux & Unix, berbagai penyempurnaan dan perbaikan bug"
 
 #: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "Pengembang ETS2LA SDK C++, porting Linux & Unix, perbaikan bug"
 
 #: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Membantu navigasi pada ETS2LA & Peta"
 
 #: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "Pengembang scs-sdk-controller"
 
 #: .\Pages\about.py:28
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "Model 3D untuk visualisasi"
 
 #: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Pengembangan ekstraksi data, dukungan untuk peta modifikasi."
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr ""
+msgstr "Pengembang plugin Discord rich presence, pembaruan kecil backend."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Terjemahan bahasa China, perbaikan bug"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Terjemahan bahasa China, perbaikan bug"
 
 #: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Perhitungan offset otomatis untuk plugin Peta."
 
 #: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Dukungan server Discord, pengembang penerjemah Cina-Inggris."
 
 #: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Memelihara mirror CN untuk layanan ETS2LA."
 
 #: .\Pages\about.py:36
 msgid "Game hooks"
-msgstr ""
+msgstr "Hook sistem game"
 
 #: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39 .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
-msgstr ""
+msgstr "Perbaikan bug"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Memperbaiki wiper (timer 5s)"
 
 #: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Memperbaiki wiper dalam {0} detik..."
 
 #: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Wiper seharusnya berfungsi normal sekarang."
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
-msgstr ""
+msgstr "Memicu pembaruan"
 
 #: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} menit"
 
 #: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} jam"
 
 #: .\Pages\about.py:131
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} dan {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "Perhatian!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"SDK untuk {0} sudah kedaluwarsa. Harap instal ulang melalui pengaturan SDK "
+"untuk memperbarui ke versi terbaru."
 
 #: .\Pages\about.py:158
 msgid "About"
-msgstr ""
+msgstr "Tentang"
 
 #: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA adalah proyek yang bertujuan menyediakan solusi self-driving yang "
+"mudah digunakan untuk ETS2 dan ATS. Untuk mempelajari lebih lanjut, anda "
+"dapat mengunjungi halaman GitHub atau wiki melalui sidebar."
 
 #: .\Pages\about.py:164
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: .\Pages\about.py:168
 msgid "Users online:"
-msgstr ""
+msgstr "Pengguna online:"
 
 #: .\Pages\about.py:169
 msgid "{0} users"
-msgstr ""
+msgstr "{0} pengguna"
 
 #: .\Pages\about.py:171
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "24 jam terkahir:"
 
 #: .\Pages\about.py:172
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} Pengguna unik"
 
 #: .\Pages\about.py:174
 msgid "Your usage time:"
-msgstr ""
+msgstr "Waktu penggunaan anda:"
 
 #: .\Pages\about.py:179
 msgid "You are not logged in."
-msgstr ""
+msgstr "Anda belum login."
 
 #: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "ID pengguna anonim Anda adalah: {0}"
 
 #: .\Pages\about.py:184
 msgid "You are logged in."
-msgstr ""
+msgstr "Anda telah login."
 
 #: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Selamat datang lagi, {0}!"
 
 #: .\Pages\about.py:189
 msgid "Contributors"
-msgstr ""
+msgstr "Kontributor"
 
 #: .\Pages\about.py:200
 msgid "Translations"
-msgstr ""
+msgstr "Terjemahan"
 
 #: .\Pages\about.py:210 .\Pages\global_settings.py:248 .\Pages\onboarding.py:150
 msgid "List Contributors"
-msgstr ""
+msgstr "Daftar Kontributor"
 
 #: .\Pages\about.py:212 .\Pages\global_settings.py:250 .\Pages\onboarding.py:152
 msgid "Help Translate"
-msgstr ""
+msgstr "Bantu Terjemah"
 
 #: .\Pages\about.py:216
 msgid "Support Development"
-msgstr ""
+msgstr "Dukung Pengembangan"
 
 #: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Jika anda menyukai pyoyek dan ingin membantu pengembangan, anda dapat "
+"memberikan dukungan dengan melakukan donasi melalui Ko-Fi."
 
 #: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Jika anda ingin berkontribusi, maka saya sarankan untuk bergabung server "
+"discord dan mengecek halaman github."
 
 #: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Jika anda ingin berkontribusi dalam penerjemahan, Anda bisa bergabung ke "
+"discord dan menghubungi moderator."
 
 #: .\Pages\about.py:231
 msgid "Utils"
-msgstr ""
+msgstr "Utilitas"
 
 #: .\Pages\about.py:235
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Perbaiki Wiper"
 
 #: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Wiper macet? Klik tombol lalu alt+tab ke game. Harusnya mati dalam 5 detik."
 
 #: .\Pages\about.py:237
 msgid "Activate"
-msgstr ""
+msgstr "Akifkan"
 
 #: .\Pages\about.py:242
 msgid "Force an update"
-msgstr ""
+msgstr "Paksa pembaruan"
 
 #: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Menurut anda seharusnya ada pembaruan? Klik tombol ini, aplikasi akan "
+"restart dan memeriksa pembaruan."
 
 #: .\Pages\about.py:244 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Perbarui"
 
 #: .\Pages\catalogue.py:83 .\Pages\catalogue.py:88
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak dikenal"
 
 #: .\Pages\catalogue.py:84
 msgid "No overview provided."
-msgstr ""
+msgstr "Tidak ada ringkasan tersedia."
 
 #: .\Pages\catalogue.py:85
 msgid "No description provided."
-msgstr ""
+msgstr "Tidak ada deskripsi tersedia."
 
 #: .\Pages\catalogue.py:133
 msgid "Installing"
-msgstr ""
+msgstr "Menginstal"
 
 #: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin tidak ditemukan di katalog."
 
 #: .\Pages\catalogue.py:148
 msgid "Cloning repository"
-msgstr ""
+msgstr "Mengkloning repositori"
 
 #: .\Pages\catalogue.py:151
 msgid "Installing requirements"
-msgstr ""
+msgstr "Menginstal persyaratan"
 
 #: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Memulai proses latar belakang plugin"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Gagal memulai proses latar belakang plugin, tetapi file plugin berhasil "
+"diinstal."
 
 #: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
-msgstr ""
+msgstr "Berhasil"
 
 #: .\Pages\catalogue.py:163
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Plugin '{name}' berhasil diinstal."
 
 #: .\Pages\catalogue.py:165 .\Pages\catalogue.py:231
 msgid "Failed"
-msgstr ""
+msgstr "Gagal"
 
 #: .\Pages\catalogue.py:167
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Gagal menginstal plugin '{name}': {error}"
 
 #: .\Pages\catalogue.py:171
 msgid "Uninstalling"
-msgstr ""
+msgstr "Menghapus instalasi"
 
 #: .\Pages\catalogue.py:186
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Menutup proses plugin"
 
 #: .\Pages\catalogue.py:189
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Gagal menghentikan proses plugin."
 
 #: .\Pages\catalogue.py:191
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Menghapus pendaftaran repositori git"
 
 #: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Menghapus file plugin"
 
 #: .\Pages\catalogue.py:220
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Mencoba menghapus lagi ({cur}/{max})"
 
 #: .\Pages\catalogue.py:224
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Gagal menghapus file plugin setelah {max} percobaan"
 
 #: .\Pages\catalogue.py:229
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin '{name}' berhasil dihapus."
 
 #: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Gagal menghapus plugin '{name}': {error}"
 
 #: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Tidak dapat menemukan kode sumber untuk plugin ini."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:273
 msgid "Refreshing..."
-msgstr ""
+msgstr "Memperbarui..."
 
 #: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Menemukan {count} plugin"
 
 #: .\Pages\catalogue.py:317
 msgid "Back"
-msgstr ""
+msgstr "Kembali"
 
 #: .\Pages\catalogue.py:320
 msgid "Source Code"
-msgstr ""
+msgstr "Kode Sumber"
 
 #: .\Pages\catalogue.py:325 .\Pages\catalogue.py:402
 msgid "Uninstall"
-msgstr ""
+msgstr "Hapus Instalasi"
 
 #: .\Pages\catalogue.py:329 .\Pages\catalogue.py:366
 msgid "Install"
-msgstr ""
+msgstr "Instal"
 
 #: .\Pages\catalogue.py:358
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Apakah Anda yakin ingin menginstal plugin ini?"
 
 #: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA tidak bertanggung jawab atas masalah yang disebabkan oleh plugin "
+"pihak ketiga."
 
 #: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
-msgstr ""
+msgstr "Batal"
 
 #: .\Pages\catalogue.py:372
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Menginstal {plugin}"
 
 #: .\Pages\catalogue.py:378 .\Pages\catalogue.py:388
 msgid "Close"
-msgstr ""
+msgstr "Tutup"
 
 #: .\Pages\catalogue.py:382
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Menghapus instalasi {plugin}"
 
 #: .\Pages\catalogue.py:395
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Apakah Anda yakin ingin menghapus plugin ini?"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:327
 msgid "Search plugins..."
-msgstr ""
+msgstr "Cari plugin..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
-msgstr ""
+msgstr "Perbarui"
 
 #: .\Pages\catalogue.py:428
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "Tidak ada plugin yang ditemukan dalam katalog plugin."
 
 #: .\Pages\catalogue.py:431
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Perbarui Katalog"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Plugin Terinstal"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Tidak ada plugin yang terinstal."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
-msgstr ""
+msgstr "Plugin Tersedia"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Anda telah menginstal semua plugin yang tersedia."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{seconds} detik yang lalu"
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{minutes} menit yang lalu"
 
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{hours} jam yang lalu"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{days} hari yang lalu"
 
 #: .\Pages\changelog.py:34
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Mengambil changelog dan perubahan."
 
 #: .\Pages\changelog.py:36
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Changelog berhasil diambil."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:82
 msgid "View Changes"
-msgstr ""
+msgstr "Lihat Perubahan"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Hanya 20 pembaruan terakhir yang ditampilkan. Anda dapat memeriksa "
+"repositori untuk riwayat lebih lanjut."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
-msgstr ""
+msgstr "Tampilkan semua plugin"
 
 #: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Silakan tekan tombol yang ingin anda ikat ke peristiwa ini."
 
 #: .\Pages\controls.py:51
 msgid "Event unbound."
-msgstr ""
+msgstr "Peristiwa tidak terikat."
 
 #: .\Pages\controls.py:71
 msgid "Controls"
-msgstr ""
+msgstr "Kontrol"
 
 #: .\Pages\controls.py:72
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Anda dapat mengubah peristiwa kontrol plugin di sini."
 
 #: .\Pages\controls.py:83
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Cari Kontrol atau Plugin"
 
 #: .\Pages\controls.py:109
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "Tidak ada kontrol yang ditemukan, coba lagi dengan filter yang berbeda."
 
 #: .\Pages\controls.py:141
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Peristiwa ini belum terikat ke perangkat."
 
 #. TRANSLATORS: This text will be followed by the key name, e.g. "Keyboard: A"
 #: .\Pages\controls.py:144
 msgid "Keyboard: "
-msgstr ""
+msgstr "Keyboard: "
 
 #: .\Pages\global_settings.py:14 .\Pages\global_settings.py:288 .\Pages\plugins.py:263
 msgid "None"
-msgstr ""
+msgstr "Tidak Ada"
 
 #: .\Pages\global_settings.py:15 .\Pages\global_settings.py:150 .\Pages\global_settings.py:288
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Minimal (direkomendasikan)"
 
 #: .\Pages\global_settings.py:16 .\Pages\global_settings.py:288
 msgid "Medium"
-msgstr ""
+msgstr "Sedang"
 
 #: .\Pages\global_settings.py:17 .\Pages\global_settings.py:288
 msgid "Full"
-msgstr ""
+msgstr "Penuh"
 
 #: .\Pages\global_settings.py:167
 msgid "Global Settings"
-msgstr ""
+msgstr "Pengaturan Global"
 
 #: .\Pages\global_settings.py:168
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Di sini anda dapat menemukan pengaturan yang memengaruhi seluruh aplikasi. "
+"Seperti ukuran window dan bahasa."
 
 #: .\Pages\global_settings.py:174
 msgid "User Interface"
-msgstr ""
+msgstr "Antarmuka Pengguna"
 
 #: .\Pages\global_settings.py:189 .\Pages\onboarding.py:310
 msgid "Window Width"
-msgstr ""
+msgstr "Lebar Window"
 
 #: .\Pages\global_settings.py:190
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Ubah window jendela. Harap dicatat bahwa ETS2LA tidak diuji pada resolusi "
+"non-standar, gunakan dengan risiko sendiri!"
 
 #: .\Pages\global_settings.py:200 .\Pages\onboarding.py:319
 msgid "Window Height"
-msgstr ""
+msgstr "Tinggi Window"
 
 #: .\Pages\global_settings.py:201
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Ubah tinggi window. Harap dicatat bahwa ETS2LA tidak diuji pada resolusi non-"
+"standar, gunakan dengan risiko sendiri!"
 
 #: .\Pages\global_settings.py:211
 msgid "Transparency mode Alpha"
-msgstr ""
+msgstr "Alpha Mode Transparansi"
 
 #: .\Pages\global_settings.py:212
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Ubah transparansi window saat memasuki mode transparansi. Ini dapat "
+"dilakukan dengan mengklik kanan tombol hijau di sudut kanan atas."
 
 #: .\Pages\global_settings.py:227 .\Pages\onboarding.py:130
 msgid "Language"
-msgstr ""
+msgstr "Bahasa"
 
 #: .\Pages\global_settings.py:228
 msgid "Select the language for the application."
-msgstr ""
+msgstr "Pilih bahasa untuk aplikasi."
 
 #: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Search Languages..."
-msgstr ""
+msgstr "Cari Bahasa..."
 
 #: .\Pages\global_settings.py:233 .\Pages\onboarding.py:135
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "Bantu kami menerjemahkan di discord!"
 
 #: .\Pages\global_settings.py:246
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "Terjemahan ini {percentage:.2f}% selesai."
 
 #: .\Pages\global_settings.py:253
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: .\Pages\global_settings.py:256
 msgid "Soundpack"
-msgstr ""
+msgstr "Soundpack"
 
 #: .\Pages\global_settings.py:257
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
 msgstr ""
+"Pilih soundpack yang akan digunakan, ini dapat ditambahkan ke app/ETS2LA/"
+"Assets/Sounds."
 
 #: .\Pages\global_settings.py:264 .\Plugins\TTS\main.py:132
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #: .\Pages\global_settings.py:265
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
 msgstr ""
+"Mengubah volume. Ini akan memengaruhi semua suara yang diputar oleh ETS2LA."
 
 #: .\Pages\global_settings.py:276
 msgid "Startup Sound"
-msgstr ""
+msgstr "Suara Mulai"
 
 #: .\Pages\global_settings.py:277
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Nyalakan atau matikan suara mulai. Ini diputar setiap kali window ETS2LA "
+"dibuka."
 
 #: .\Pages\global_settings.py:282
 msgid "Variables"
-msgstr ""
+msgstr "Variabel"
 
 #: .\Pages\global_settings.py:303
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Dukung Pengembangan ETS2LA di Ko-Fi"
 
 #: .\Pages\global_settings.py:316
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
 msgstr ""
+"Anda akan melihat tepat satu iklan di halaman tentang. Tidak akan ada iklan "
+"lain. Opsi ini direkomendasikan untuk mendukung pengembangan ETS2LA lebih "
+"lanjut."
 
 #: .\Pages\global_settings.py:318
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
 msgstr ""
+"Anda akan melihat iklan non-intrusif di halaman non-esensial. Halaman "
+"visualisasi akan bebas iklan. Opsi ini direkomendasikan jika anda ingin "
+"mendukung pengembangan lebih lanjut."
 
 #: .\Pages\global_settings.py:320
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
 msgstr ""
+"Anda akan melihat iklan sebanyak yang saya pikir tidak akan sepenuhnya "
+"merusak penggunaan. Halaman visualisasi tetap bebas iklan saat diaktifkan."
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Kembali ke metode akselerasi lama"
 
 #: .\Pages\global_settings.py:337
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Jika anda mengalami masalah dengan truk yang tidak berakselerasi/mengerem "
+"dengan benar, anda dapat mengaktifkan opsi ini untuk menggunakan metode "
+"lain. Harap diingat bahwa jika metode baru macet, anda mungkin perlu memulai "
+"ulang game setelah mengubah ini."
 
 #: .\Pages\global_settings.py:344 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr ""
+msgstr "Prioritas Tinggi"
 
 #: .\Pages\global_settings.py:345 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Jalankan ETS2LA dalam mode prioritas tinggi. Ini akan memberi tahu OS Anda "
+"untuk memberikan lebih banyak waktu CPU ke ETS2LA, yang dapat meningkatkan "
+"performa dengan mengorbankan aplikasi lain."
 
 #: .\Pages\global_settings.py:359
 msgid "You need to restart ETS2LA to apply the priority change!"
-msgstr ""
+msgstr "Anda perlu memulai ulang ETS2LA untuk menerapkan perubahan prioritas!"
 
 #: .\Pages\global_settings.py:362
 msgid "Slow Loading"
-msgstr ""
+msgstr "Pemuatan Lambat"
 
 #: .\Pages\global_settings.py:363
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Jika PC anda kesulitan memuat semua plugin secara paralel, anda dapat "
+"mengaktifkan opsi ini untuk memuatnya satu per satu. Harap dicatat bahwa "
+"mengaktifkan opsi ini berarti anda harus menunggu sebentar hingga plugin "
+"tersedia."
 
 #: .\Pages\global_settings.py:368
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Lain-lain"
 
 #: .\Pages\global_settings.py:372
 msgid "Frontend Port"
-msgstr ""
+msgstr "Port Frontend"
 
 #: .\Pages\global_settings.py:373
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
+"Ubah port yang digunakan oleh frontend. Ini hanya digunakan dalam mode lokal."
 
 #: .\Pages\global_settings.py:380
 msgid "Frameless Window"
-msgstr ""
+msgstr "Frameless Window"
 
 #: .\Pages\global_settings.py:381
 msgid "Disable this option if you have any issues moving the window around."
 msgstr ""
+"Nonaktifkan opsi ini jika Anda mengalami masalah saat memindahkan window."
 
 #: .\Pages\global_settings.py:386
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Kirim Laporan Kerusakan"
 
 #: .\Pages\global_settings.py:387
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
+"Secara otomatis mengirim laporan kerusakan untuk membantu meningkatkan "
+"aplikasi."
 
 #: .\Pages\global_settings.py:392
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Gunakan Traceback Fancy"
 
 #: .\Pages\global_settings.py:393
 msgid "Enable this option to use a fancy traceback for errors."
-msgstr ""
+msgstr "Aktifkan opsi ini untuk menggunakan traceback fancy untuk kesalahan."
 
 #: .\Pages\global_settings.py:399
 msgid "Debug Mode"
-msgstr ""
+msgstr "Mode Debug"
 
 #: .\Pages\global_settings.py:400
 msgid "Enable this option to use the edge debugger for the frontend."
-msgstr ""
+msgstr "Aktifkan opsi ini untuk menggunakan debugger edge untuk frontend."
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "Mirror UI Default"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
+"Mirror UI default ETS2LA yang akan digunakan. Auto akan memilih mirror "
+"terbaik yang tersedia."
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
-msgstr ""
+msgstr "Waktu Tunggu Window ETS2LA"
 
 #: .\Pages\global_settings.py:415
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "Jumlah waktu ETS2LA menunggu window untuk muncul."
 
 #: .\Pages\global_settings.py:426
 msgid "Fireworks"
-msgstr ""
+msgstr "Kembang Api"
 
 #: .\Pages\global_settings.py:427
 msgid "Enable this option to use fireworks effects during the new year's."
-msgstr ""
+msgstr "Aktifkan opsi ini untuk menggunakan efek kembang api selama tahun baru."
 
 #: .\Pages\global_settings.py:433
 msgid "Snow"
-msgstr ""
+msgstr "Salju"
 
 #: .\Pages\global_settings.py:434
 msgid "Enable this option to use snow effects during the winter season."
-msgstr ""
+msgstr "Aktifkan opsi ini untuk menggunakan efek salju selama musim dingin."
 
 #: .\Pages\onboarding.py:54
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
+"Jika anda telah melakukan onboarding sebelumnya, anda tahu cara keluar. "
+"ETS2LA tidak akan bekerja tanpa melakukan onboarding sekali."
 
 #: .\Pages\onboarding.py:88 .\Plugins\HUD\main.py:355 .\Plugins\HUD\main.py:400
 msgid "Loading..."
-msgstr ""
+msgstr "Memuat..."
 
 #: .\Pages\onboarding.py:89
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
 msgstr ""
+"Kami sedang melakukan sesuatu yang membutuhkan waktu. Duduk dan bersantai!"
 
 #: .\Pages\onboarding.py:93
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Selamat datang di ETS2LA!"
 
 #: .\Pages\onboarding.py:94
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr ""
+"Mari siapkan dasar-dasarnya sekarang juga! Tekan tombol di bawah untuk "
+"melanjutkan."
 
 #: .\Pages\onboarding.py:97 .\Pages\onboarding.py:123 .\Pages\onboarding.py:164 .\Pages\onboarding.py:175 .\Pages\onboarding.py:210 .\Pages\onboarding.py:240 .\Pages\onboarding.py:306 .\Pages\onboarding.py:347
 msgid "Continue"
-msgstr ""
+msgstr "Lanjutkan"
 
 #: .\Pages\onboarding.py:101
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Lewati Onboarding"
 
 #. TRANSLATORS: Try to keep the length of this text the same, it affects the location of the arrow icon pointing to the theme selector.
 #: .\Pages\onboarding.py:108
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "Anda dapat mengubah tema di sini!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr ""
+msgstr "Pemilihan Bahasa"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Silakan pilih bahasa pilihan anda untuk ETS2LA. Opsi ini dapat diubah nanti "
+"di pengaturan. Semua terjemahan kami dibuat oleh komunitas!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Pilih bahasa pilihan anda untuk ETS2LA."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
-msgstr ""
+msgstr "Pengaturan SDK"
 
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"Untuk memulai, kita perlu menyiapkan SDK. Ini akan memungkinkan ETS2LA "
+"berinteraksi dengan game anda. Di sebelah kanan anda akan menemukan daftar "
+"game, klik instal pada salah satunya dan lanjutkan."
 
 #: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
-msgstr ""
+msgstr "Menunggu instalasi SDK..."
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:140
 msgid "Plugins"
-msgstr ""
+msgstr "Plugin"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"ETS2LA menggunakan plugin untuk menyediakan sebagian besar fungsinya. Anda "
+"dapat memilih antara mode sederhana dan mode lanjutan. Ini dapat diubah "
+"nanti di pengaturan."
 
 #: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Mode Plugin Lanjutan"
 
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Mengaktifkan fitur manajemen plugin lanjutan. Dapat diubah kapan saja di "
+"manajer plugin."
 
 #: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Menonaktifkan **Mode Plugin Lanjutan** direkomendasikan, namun pengguna "
+"lanjutan yang ingin memilih plugin sendiri mungkin ingin mengaktifkannya."
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**Mode Plugin Lanjutan** membuka kunci kontrol manual plugin yang "
+"diaktifkan. Ini juga memungkinkan anda mengunduh lebih banyak plugin dari "
+"repositori lain. Ingatlah bahwa plugin pihak ketiga ini tidak didukung "
+"secara *resmi* oleh ETS2LA."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Mode Prioritas Tinggi"
 
 #: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA dapat secara otomatis memberi tahu sistem operasi anda bahwa ia harus "
+"berjalan dalam mode prioritas tinggi. Ini direkomendasikan terutama pada "
+"perangkat kelas rendah."
 
 #: .\Pages\onboarding.py:229
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Anda perlu memulai ulang ETS2LA setelah melakukan onboarding untuk "
+"menerapkan perubahan ini."
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr ""
+msgstr "Data Peta"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA menggunakan data peta yang telah diekstrak dari game. Kami menangani "
+"data sebelumnya dan anda dapat mengunduhnya sesuai kebutuhan. Silakan pilih "
+"data yang anda butuhkan untuk versi game anda saat ini di bawah."
 
 #: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Menunggu pemilihan data..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Data Terpilih"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Pilih data yang cocok dengan game dan mod anda."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Cari data"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "Tidak ada data yang cocok ditemukan"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
-msgstr ""
+msgstr "Itu"
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
-msgstr ""
+msgstr "ukuran unduhan"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr ""
+msgstr "untuk data ini adalah"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr ""
+msgstr "yang akan membuka ke"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
-msgstr ""
+msgstr "ukuran total"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
-msgstr ""
+msgstr "Tidak ada data yang dipilih"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
 msgstr ""
+"Silakan pilih data yang ingin anda gunakan dari menu tarik-turun di atas."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
-msgstr ""
+msgstr "Ukuran Window"
 
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA melewati Windows untuk menyediakan fitur window khusus. Karena ini "
+"anda tidak dapat mengubah ukuran window secara normal. Ini adalah slider "
+"untuk mengubah ukuran jendela secara manual."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Sesuaikan lebar window ETS2LA."
 
 #: .\Pages\onboarding.py:320
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Sesuaikan tinggi window ETS2LA."
 
 #. TRANSLATORS: The newline in this text is fairly important for the layout, you should try to keep it if possible.
 #: .\Pages\onboarding.py:337
@@ -1112,14 +1215,20 @@ msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Mengubah ukuran jendela dapat menyebabkan halaman ditampilkan tidak "
+"benar**.\n"
+"Anda dapat menyesuaikan penskalaan window dengan menahan CTRL Kiri dan "
+"menggunakan scrollwheel."
 
 #: .\Pages\onboarding.py:343
 msgid "Window Controls"
-msgstr ""
+msgstr "Kontrol Window"
 
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA menyediakan kontrol window khusus yang mungkin berguna bagi anda. Ini "
+"dapat diakses melalui tombol hijau di sudut kanan atas."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -1128,6 +1237,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"**Tetap di atas**\n"
+"\n"
+"Anda dapat *mengklik kiri* tombol hijau untuk membuat jendela ETS2LA tetap "
+"di atas jendela lain."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:368
@@ -1136,22 +1249,29 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Transparansi**\n"
+"\n"
+"Anda dapat *mengklik kanan* tombol hijau untuk membuat jendela ETS2LA "
+"sedikit transparan. Jumlah transparansi dapat disesuaikan di pengaturan."
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
-msgstr ""
+msgstr "Ini tombol hijaunya!"
 
 #: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "Onboarding Selesai!"
 
 #: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Anda telah berhasil menyelesaikan proses onboarding. Anda sekarang dapat "
+"mulai menggunakan ETS2LA. Jika anda membutuhkan bantuan, jangan ragu untuk "
+"bergabung dengan server Discord kami."
 
 #: .\Pages\onboarding.py:388
 msgid "Finish"
-msgstr ""
+msgstr "Selesai"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:395
@@ -1159,82 +1279,92 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Tekan tepi ini untuk membuka dan menutup sidebar.\n"
+"      Buka Manajer untuk mengaktifkan plugin."
 
 #: .\Pages\onboarding.py:429
 msgid "Page not found"
-msgstr ""
+msgstr "Halaman tidak ditemukan"
 
 #: .\Pages\onboarding.py:431
 msgid "Go back"
-msgstr ""
+msgstr "Kembali"
 
 #: .\Pages\performance.py:103
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #: .\Pages\performance.py:106
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Data masih dikumpulkan, harap tunggu beberapa detik hingga grafik stabil."
 
 #: .\Pages\performance.py:112
 msgid "CPU Usage"
-msgstr ""
+msgstr "Penggunaan CPU"
 
 #: .\Pages\performance.py:119
 msgid "CPU Usage "
-msgstr ""
+msgstr "Penggunaan CPU "
 
 #: .\Pages\performance.py:127
 msgid "RAM Usage"
-msgstr ""
+msgstr "Penggunaan RAM"
 
 #: .\Pages\performance.py:134
 msgid "RAM Usage "
-msgstr ""
+msgstr "Penggunaan RAM "
 
 #: .\Pages\performance.py:134
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "Penggunaan RAM ETS2LA  "
 
 #: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "Tidak ada plugin yang sedang berjalan saat ini."
 
 #: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Peringatan: Grafik masih mengumpulkan data, harap tunggu 60 detik hingga "
+"stabil."
 
 #: .\Pages\performance.py:199
 msgid "Failed to render plugin {plugin_name}."
-msgstr ""
+msgstr "Gagal merender plugin {plugin_name}."
 
 #: .\Pages\performance.py:203
 msgid "All displayed data is averaged over a second."
-msgstr ""
+msgstr "Semua data yang ditampilkan dirata-rata selama satu detik."
 
 #: .\Pages\performance.py:204
 msgid "This page took {time:.2f} ms to render."
-msgstr ""
+msgstr "Halaman ini membutuhkan {time:.2f} ms untuk dirender."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
-msgstr ""
+msgstr "Kemudi"
 
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
 msgstr ""
+"Aktifkan kemudi otomatis menggunakan ETS2LA. Anda dapat menyalakan dan "
+"mematikannya menggunakan tombol 'Alihkan Kemudi' di pengaturan kontrol."
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr ""
+msgstr "Kontrol Lateral"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Aktifkan akselerasi dan deselerasi otomatis menggunakan ETS2LA. Anda dapat "
+"menyalakan dan mematikannya menggunakan tombol 'Alihkan Kontrol Kecepatan' "
+"di pengaturan kontrol."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Visualisasi"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -1242,1128 +1372,1243 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Aktifkan plugin yang diperlukan untuk tab visualisasi berfungsi.\n"
+"\n"
+"**Ini diperlukan agar tab visualisasi berfungsi.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:19 .\Plugins\HUD\ui.py:110
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
+"Aktifkan HUD untuk menampilkan informasi tentang truk dan rute. Ditampilkan "
+"di atas layar game menggunakan pemetaan 3D yang akurat."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
-msgstr ""
+msgstr "Teks ke Ucapan"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"Aktifkan teks-ke-suara untuk notifikasi dan peringatan. Ini terutama fitur "
+"aksesibilitas tetapi beberapa orang mungkin merasa berguna."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
-msgstr ""
+msgstr "Fitur '{0}' tidak ditemukan."
 
 #: .\Pages\plugins.py:238
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Memuat plugin..."
 
 #: .\Pages\plugins.py:251
 msgid "Plugins (Basic)"
-msgstr ""
+msgstr "Plugin (Dasar)"
 
 #: .\Pages\plugins.py:252
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"Anda dapat mengaktifkan berbagai fitur ETS2LA di sisi kanan. Semua plugin "
+"yang dijelaskan oleh fitur ini akan diaktifkan secara otomatis tanpa "
+"konfigurasi tambahan."
 
 #: .\Pages\plugins.py:260
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Nonaktifkan Plugin"
 
 #: .\Pages\plugins.py:260
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Aktifkan Plugin"
 
 #: .\Pages\plugins.py:263
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "Plugin yang saat ini diaktifkan:"
 
 #: .\Pages\plugins.py:297
 msgid "Enabled"
-msgstr ""
+msgstr "Diaktifkan"
 
 #: .\Pages\plugins.py:297
 msgid "Disabled"
-msgstr ""
+msgstr "Dinonaktifkan"
 
 #: .\Pages\plugins.py:302
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Beralih ke Mode Lanjutan"
 
 #: .\Pages\plugins.py:336
 msgid "Search tags..."
-msgstr ""
+msgstr "Cari tag..."
 
 #: .\Pages\plugins.py:337
 msgid "No tags found"
-msgstr ""
+msgstr "Tidak ada tag yang ditemukan"
 
 #: .\Pages\plugins.py:346
 msgid "Search authors..."
-msgstr ""
+msgstr "Cari pembuat..."
 
 #: .\Pages\plugins.py:347
 msgid "No authors found"
-msgstr ""
+msgstr "Tidak ada pembuat yang ditemukan"
 
 #: .\Pages\plugins.py:351
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Kembali ke Mode Dasar"
 
 #: .\Pages\plugins.py:382
 msgid "Running Plugins"
-msgstr ""
+msgstr "Plugin yang Berjalan"
 
 #: .\Pages\plugins.py:389
 msgid "Want to enable the plugins you had running last time?"
-msgstr ""
+msgstr "Ingin mengaktifkan plugin yang berjalan terakhir kali?"
 
 #: .\Pages\plugins.py:391
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Aktifkan Plugin Terakhir"
 
 #: .\Pages\sdk_installation.py:118
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "Tidak dapat menemukan versi untuk {game}, melewati instalasi"
 
 #: .\Pages\sdk_installation.py:123
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "Menginstal SDK untuk {game}"
 
 #: .\Pages\sdk_installation.py:131
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "SDK untuk {game} berhasil diinstal."
 
 #: .\Pages\sdk_installation.py:133
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "SDK untuk {game} sudah terinstal, melewati instalasi"
 
 #: .\Pages\sdk_installation.py:135 .\Pages\sdk_installation.py:157
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr ""
+msgstr "Pastikan game ditutup dan coba lagi. {error}"
 
 #: .\Pages\sdk_installation.py:136
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr ""
+msgstr "Kesalahan saat menginstal SDK untuk {game}, pastikan game ditutup."
 
 #: .\Pages\sdk_installation.py:143
 msgid "Could not find version for {game}, skipping uninstallation"
 msgstr ""
+"Tidak dapat menemukan versi untuk {game}, melewati penghapusan instalasi"
 
 #: .\Pages\sdk_installation.py:148
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "Menghapus instalasi SDK untuk {game}"
 
 #: .\Pages\sdk_installation.py:153
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "SDK untuk {game} berhasil dihapus."
 
 #: .\Pages\sdk_installation.py:155
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "SDK untuk {game} tidak terinstal, melewati penghapusan instalasi"
 
 #: .\Pages\sdk_installation.py:158
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Kesalahan saat menghapus instalasi SDK untuk {game}, pastikan game ditutup."
 
 #: .\Pages\sdk_installation.py:163
 msgid "Select the game directory"
-msgstr ""
+msgstr "Pilih direktori game"
 
 #: .\Pages\sdk_installation.py:166
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr ""
+"Tidak dapat menemukan versi untuk game yang dipilih, silakan pilih direktori "
+"game yang valid."
 
 #: .\Pages\sdk_installation.py:167
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "Tidak dapat menemukan versi untuk {path}, melewati instalasi"
 
 #: .\Pages\sdk_installation.py:172
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Menemukan versi game {version}."
 
 #: .\Pages\sdk_installation.py:178
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "Path {path} tidak ada."
 
 #: .\Pages\sdk_installation.py:192
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr ""
+"Periksa apakah Anda telah menginstal DLL yang diperlukan untuk kami "
+"berkomunikasi dengan game."
 
 #: .\Pages\sdk_installation.py:200
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"Kami tidak dapat menemukan game SCS di sistem anda. Harap dicatat bahwa "
+"ETS2LA hanya akan bekerja dengan versi resmi yang diunduh dari Steam."
 
 #: .\Pages\sdk_installation.py:202
 msgid "Select directory manually"
-msgstr ""
+msgstr "Pilih direktori secara manual"
 
 #: .\Pages\sdk_installation.py:230
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " - Perlu Instal Ulang"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
-msgstr ""
+msgstr "- Terinstal"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Tidak Terinstal"
 
 #: .\Pages\sdk_installation.py:241
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Versi game ini tidak didukung"
 
 #: .\Pages\sdk_installation.py:257
 msgid "No files found."
-msgstr ""
+msgstr "Tidak ada file yang ditemukan."
 
 #: .\Pages\sdk_installation.py:268
 msgid "File Sources"
-msgstr ""
+msgstr "Sumber File"
 
 #: .\Pages\sdk_installation.py:276 .\Pages\sdk_installation.py:289
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "Hapus Instalasi SDK"
 
 #: .\Pages\sdk_installation.py:279 .\Pages\sdk_installation.py:292
 msgid "Install SDKs"
-msgstr ""
+msgstr "Instal SDK"
 
 #: .\Pages\sdk_installation.py:284
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Harap tutup game sebelum menginstal atau menghapus instalasi SDK."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Anda memiliki komitmen lokal yang menunggu untuk didorong."
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Tidak ada pembaruan yang tersedia. (Mungkin membutuhkan waktu hingga satu "
+"menit untuk halaman memperbarui setelah komitmen baru)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Perbarui Saja"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mulai ulang dan terapkan {count} pembaruan"
 
 #: .\Plugins\AR\main.py:155 .\Plugins\AR\main.py:183 .\Plugins\AR\main.py:219
 msgid "AR"
-msgstr ""
+msgstr "AR"
 
 #: .\Plugins\AR\main.py:184
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Ubah pengaturan overlay AR di sini."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "Jangan sembunyikan AR dari software perekaman"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Secara default, overlay AR disembunyikan dari software perekaman untuk "
+"mencegahnya muncul saat ETS2LA menggunakan sistem visi. Jika anda ingin "
+"merekam video atau streaming dengan overlay, anda mungkin ingin mengaktifkan "
+"opsi ini."
 
 #: .\Plugins\AR\main.py:195
 msgid "Show test objects"
-msgstr ""
+msgstr "Tampilkan objek tes"
 
 #: .\Plugins\AR\main.py:196
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Tampilkan objek tes dalam overlay AR."
 
 #: .\Plugins\AR\main.py:202
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Tampilkan saat tidak dalam fokus"
 
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Tampilkan overlay AR bahkan saat game tidak dalam fokus. Ini bisa berguna "
+"untuk mengubah pengaturan. Harap dicatat bahwa ini juga akan membuat AR "
+"berjalan pada FPS maksimum yang mungkin, ini mungkin menyebabkan beberapa "
+"lag."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Barang: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
-msgstr ""
+msgstr "Panggilan Gambar: {}"
 
 #: .\Plugins\AR\main.py:213
 msgid "Render Time: {:.2f} ms"
-msgstr ""
+msgstr "Waktu Render: {:.2f} ms"
 
 #: .\Plugins\AR\main.py:221
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"Plugin AR menyediakan overlay augmented reality untuk ETS2LA. Ini digunakan "
+"oleh plugin seperti HUD untuk menampilkan informasi dalam dunia game."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr ""
+msgstr "Alihkan Kontrol Kecepatan"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
-msgstr ""
+msgstr "Saat ACC berjalan, ini akan menyalakan/mematikan kontrol kecepatan."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Tingkatkan Offset Kecepatan Berkendara"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
-msgstr ""
+msgstr "Ini akan meningkatkan offset kecepatan dalam pengaturan."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Kurangi Offset Kecepatan Berkendara"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr ""
+msgstr "Ini akan mengurangi offset kecepatan dalam pengaturan."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73 .\Plugins\AdaptiveCruiseControl\settings.py:8 .\Plugins\AdaptiveCruiseControl\settings.py:65 .\Plugins\AdaptiveCruiseControl\settings.py:70
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Kontrol Cruise Adaptif"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Kontrol Cruise Adaptif (ACC) menyediakan akselerasi dan pengereman otomatis "
+"tergantung pada kondisi jalan dan kendaraan di depan."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:66
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"Kontrol Cruise Adaptif (ACC) mengontrol kecepatan truk berdasarkan informasi "
+"yang dikumpulkan dari game."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:75
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Agresivitas"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:76
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
+"Seberapa agresif ACC harus mengikuti mobil di depan dan mengubah batas "
+"kecepatan?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "Following Distance"
-msgstr ""
+msgstr "Jarak Mengikuti"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:84
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "Seberapa jauh ACC harus menjaga jarak dari kendaraan di depan?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:89
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Abaikan Lampu Lalu Lintas"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Apakah ACC harus mengabaikan lampu lalu lintas. Harap dicatat bahwa ini "
+"akan, seperti yang dikatakan, mengabaikan lampu lalu lintas."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
-msgstr ""
+msgstr "Kontrol Kecepatan"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:98
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Abaikan Batas Kecepatan"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:99
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "Apakah ACC harus mengabaikan batas kecepatan."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Koefisien Gesekan"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"Koefisien gesekan yang digunakan untuk perhitungan ACC. Nilai yang lebih "
+"tinggi memungkinkan truk melaju lebih cepat di tikungan."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:116
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Kecepatan saat batas kecepatan game adalah 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:117
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr ""
+"Kecepatan untuk berkendara saat game memberi tahu kita bahwa batas kecepatan "
+"adalah 0 km/jam."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:132
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Jenis Offset Kecepatan"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:134
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Pilih jenis offset kecepatan yang akan diterapkan."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:138
 msgid "Speed Offset"
-msgstr ""
+msgstr "Offset Kecepatan"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"Offset kecepatan yang akan diterapkan ke semua batas kecepatan. Harap "
+"dicatat bahwa anda juga dapat mengubah ini secara dinamis dengan keybinds di "
+"kontrol."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:148
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:151
 msgid "Unlock PID"
-msgstr ""
+msgstr "Buka Kunci PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:152
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Anda dapat membuka kunci pengaturan PID untuk menyesuaikannya secara manual. "
+"Ini tidak direkomendasikan kecuali anda tahu apa itu PID dan bagaimana anda "
+"dapat menyetelnya dengan benar."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:159
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:160
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Apakah kita sudah sampai? Belum? Maka kita perlu berakselerasi lebih! (Gain "
+"proporsional untuk pengontrol PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "PID Ki"
-msgstr ""
+msgstr "PID Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:169
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"Sudah lama sejak kita sampai di sana? Maka kita perlu berakselerasi lebih! ("
+"Gain integral untuk pengontrol PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:177
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Seberapa cepat kita mendekati target? Jika kita mendekati terlalu cepat, "
+"kita perlu melambat lebih banyak! (Gain derivatif untuk pengontrol PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Video ini menjelaskan secara visual cara kerja pengontrol PID. Silakan "
+"tonton sepenuhnya jika anda tidak terbiasa dengannya."
 
 #: .\Plugins\HUD\elements\acc.py:8 .\Plugins\HUD\main.py:242 .\Plugins\HUD\main.py:243
 msgid "ACC Information"
-msgstr ""
+msgstr "Informasi ACC"
 
 #: .\Plugins\HUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
-msgstr ""
+msgstr "Gambar informasi ACC seperti jarak dan kecepatan kendaraan."
 
 #: .\Plugins\HUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "Akselerasi"
 
 #: .\Plugins\HUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Gambar akselerasi saat ini dari truk."
 
 #: .\Plugins\HUD\elements\assists.py:14 .\Plugins\HUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Informasi Bantuan"
 
 #: .\Plugins\HUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "Gambar informasi status ACC dan Kemudi."
 
 #: .\Plugins\HUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Status Bahan Bakar"
 
 #: .\Plugins\HUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Gambar status bahan bakar saat ini dari truk."
 
 #: .\Plugins\HUD\elements\gear.py:8 .\Plugins\HUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "RPM & Gigi"
 
 #: .\Plugins\HUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Gambar RPM dan gigi saat ini dari truk."
 
 #: .\Plugins\HUD\elements\media.py:19 .\Plugins\HUD\main.py:43 .\Plugins\HUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #: .\Plugins\HUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
 msgstr ""
+"Menampilkan informasi media seperti judul lagu, artis, dan progres pemutaran."
 
 #: .\Plugins\HUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Tidak Ada Media yang Diputar"
 
 #: .\Plugins\HUD\elements\media.py:24 .\Plugins\HUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Tidak Ada Artis"
 
 #: .\Plugins\HUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Tidak Ada Judul"
 
 #: .\Plugins\HUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigasi"
 
 #: .\Plugins\HUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Gambar informasi navigasi."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\HUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "tiba"
 
 #: .\Plugins\HUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Gas / Rem"
 
 #: .\Plugins\HUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Tampilkan persentase gas dan rem saat ini."
 
 #: .\Plugins\HUD\elements\semaphores.py:7 .\Plugins\HUD\main.py:242 .\Plugins\HUD\main.py:243
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Lampu Lalu Lintas"
 
 #: .\Plugins\HUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Gambar informasi lampu lalu lintas."
 
 #: .\Plugins\HUD\elements\speed.py:7 .\Plugins\HUD\main.py:42 .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Kecepatan"
 
 #: .\Plugins\HUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
 msgstr ""
+"Tampilan kecepatan normal, juga akan menunjukkan perubahan batas kecepatan."
 
 #: .\Plugins\HUD\elements\steering.py:8 .\Plugins\HUD\main.py:242 .\Plugins\HUD\main.py:243
 msgid "Steering Line"
-msgstr ""
+msgstr "Garis Kemudi"
 
 #: .\Plugins\HUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Gambar garis kemudi dari Peta."
 
 #: .\Plugins\HUD\main.py:21
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr ""
+"Membuat tampilan heads up di kaca depan. Membutuhkan plugin AR untuk bekerja."
 
 #: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
 msgid "Enable"
-msgstr ""
+msgstr "Aktifkan"
 
 #: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
 msgid "Disable"
-msgstr ""
+msgstr "Nonaktifkan"
 
 #: .\Plugins\HUD\ui.py:111
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
-msgstr ""
+msgstr "Plugin ini menyediakan HUD menggunakan plugin AR sebagai renderer."
 
 #: .\Plugins\HUD\ui.py:115
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Harap aktifkan plugin untuk mengedit pengaturan."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\HUD\ui.py:120
 msgid "Transform"
-msgstr ""
+msgstr "Transformasi"
 
 #: .\Plugins\HUD\ui.py:122
 msgid "Offset X"
-msgstr ""
+msgstr "Offset X"
 
 #: .\Plugins\HUD\ui.py:123
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "Offset horizontal HUD."
 
 #: .\Plugins\HUD\ui.py:131
 msgid "Offset Y"
-msgstr ""
+msgstr "Offset Y"
 
 #: .\Plugins\HUD\ui.py:132
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "Offset vertikal HUD."
 
 #: .\Plugins\HUD\ui.py:140
 msgid "Offset Z"
-msgstr ""
+msgstr "Offset Z"
 
 #: .\Plugins\HUD\ui.py:141
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "Offset kedalaman HUD."
 
 #: .\Plugins\HUD\ui.py:150
 msgid "Widget Sizing"
-msgstr ""
+msgstr "Ukuran Widget"
 
 #: .\Plugins\HUD\ui.py:151
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "Pengaturan ini mengontrol ukuran widget."
 
 #: .\Plugins\HUD\ui.py:158
 msgid "Widget Scaling"
-msgstr ""
+msgstr "Penskalaan Widget"
 
 #: .\Plugins\HUD\ui.py:159
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
 msgstr ""
+"Faktor penskalaan untuk widget. 1 adalah ukuran normal, 0.5 adalah setengah "
+"ukuran, 2 adalah ukuran ganda."
 
 #: .\Plugins\HUD\ui.py:164
 msgid "Scale Height"
-msgstr ""
+msgstr "Skala Tinggi"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
 msgstr ""
+"Skala tinggi widget juga, harap dicatat bahwa ini akan menyebabkan masalah "
+"tata letak dengan beberapa widget, gunakan dengan hati-hati."
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"
-msgstr ""
+msgstr "Latar Belakang Widget"
 
 #: .\Plugins\HUD\ui.py:172
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Anda dapat mengontrol seberapa banyak latar belakang widget harus "
+"digelapkan, baik sepanjang waktu atau hanya pada siang hari."
 
 #: .\Plugins\HUD\ui.py:176
 msgid "Darkness"
-msgstr ""
+msgstr "Kegelapan"
 
 #: .\Plugins\HUD\ui.py:177
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Kegelapan latar belakang widget. 0 tidak ada kegelapan, 1 sepenuhnya gelap."
 
 #: .\Plugins\HUD\ui.py:186
 msgid "Day Darkness"
-msgstr ""
+msgstr "Kegelapan Siang Hari"
 
 #: .\Plugins\HUD\ui.py:187
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Kegelapan latar belakang widget pada siang hari. 0 tidak ada kegelapan, 1 "
+"sepenuhnya gelap."
 
 #: .\Plugins\HUD\ui.py:196
 msgid "Elements"
-msgstr ""
+msgstr "Elemen"
 
 #: .\Plugins\HUD\ui.py:205
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Widget yang Diaktifkan"
 
 #: .\Plugins\HUD\ui.py:206
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Ini menampilkan widget yang anda aktifkan dan ukurannya masing-masing. Klik "
+"satu untuk menonaktifkannya, anda belum dapat memindahkannya, anda harus "
+"menonaktifkan -> mengaktifkan untuk menempatkannya di tempat yang anda "
+"inginkan."
 
 #: .\Plugins\HUD\ui.py:234
 msgid "Available Widgets"
-msgstr ""
+msgstr "Widget yang Tersedia"
 
 #: .\Plugins\HUD\ui.py:235
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Widget ini tersedia untuk diaktifkan:"
 
 #: .\Plugins\HUD\ui.py:243
 msgid "Renderers"
-msgstr ""
+msgstr "Renderer"
 
 #: .\Plugins\HUD\ui.py:244
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Renderer ini digunakan untuk menggambar elemen yang tidak terikat. Ini "
+"biasanya adalah elemen dalam dunia game yang bergerak."
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Alihkan Kemudi"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
-msgstr ""
+msgstr "Saat plugin Peta berjalan, ini akan menyalakan/mematikan kemudi."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Peta"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
 msgstr ""
+"Plugin ini menyediakan fitur kemudi dan navigasi. Ini adalah plugin "
+"terpenting di ETS2LA."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Kesalahan saat menginisialisasi plugin Peta: {0}"
 
 #: .\Plugins\Map\main.py:264
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Mempersiapkan untuk memuat data..."
 
 #: .\Plugins\Map\main.py:278
 msgid "Waiting for game data selection in the Settings -> Map..."
-msgstr ""
+msgstr "Menunggu pemilihan data game di Pengaturan -> Peta..."
 
 #: .\Plugins\Map\main.py:307
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Nilai kemudi tidak valid diterima"
 
 #: .\Plugins\Map\main.py:333
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Kesalahan dalam loop jalankan plugin Peta: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
-msgstr ""
+msgstr "Peringatan: Kemudi mungkin terganggu karena FPS rendah. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Tidak Ditemukan"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Pengaturan Peta"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Konfigurasikan pengaturan untuk plugin Peta. Di sini anda dapat menyesuaikan "
+"berbagai opsi terkait navigasi, kemudi, dan penanganan data."
 
 #: .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Umum"
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "Navigasi di ETS2LA"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
-msgstr ""
+msgstr "Aktifkan fitur navigasi otomatis ETS2LA."
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr ""
+msgstr "Kirim Elevasi"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
+"Saat diaktifkan, peta akan mengirim data elevasi ke frontend. Data ini "
+"digunakan untuk menggambar tanah dalam visualisasi. Eksperimental dan sangat "
+"rusak!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "Nonaktifkan Pemberitahuan FPS"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
-msgstr ""
+msgstr "Saat diaktifkan, peta tidak akan memberi tahu masalah terkait FPS."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Hitung Data Kemudi"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
-msgstr ""
+msgstr "Saat diaktifkan, peta akan menghitung dan mengirim data kemudi ke game."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Berkendara Berdasarkan Trailer"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Saat diaktifkan, peta akan memperhitungkan trailer saat menghitung titik "
+"kemudi saat ini."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Kemulusan Kemudi"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Atur waktu rata-rata data kemudi. Nilai 0.5 berarti kemudi dari setengah "
+"detik terakhir digunakan untuk menghitung nilai saat ini."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
-msgstr ""
+msgstr "Data"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "CATATAN!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Jika anda mengalami kesalahan setelah mengubah data, harap mulai ulang "
+"plugin! Jika ini tidak menyelesaikan masalah anda, silakan hubungi pembuat "
+"data atau pengembang di Discord!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Silakan pilih data yang ingin anda gunakan. Ini akan memulai proses "
+"pengunduhan dan Peta akan siap setelah data dimuat."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Perbarui Data"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Perbarui data yang saat ini dipilih, ini dapat membantu jika data rusak atau "
+"ada pembaruan."
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "Ukuran unduhan untuk data ini adalah"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "yang akan membuka ke ukuran total"
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Soket Navigasi"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Plugin ini menyediakan server WebSocket untuk data navigasi pada peta dunia."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"Plugin TTS menyediakan fungsionalitas teks-ke-ucapan untuk aksesibilitas dan "
+"pengumuman bersuara."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Suara"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Silakan pilih penyedia!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
-msgstr ""
+msgstr "Ini akan menampilkan informasi penyedia setelah plugin dimuat."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "Pilih penyedia TTS"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Pilih penyedia TTS yang akan digunakan."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Silakan pilih penyedia untuk menampilkan suara."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Suara {0} tidak ditemukan, menggunakan default: {1}"
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "Pilih suara TTS"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Pilih suara TTS yang akan digunakan."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Cari suara..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Tidak ada suara yang ditemukan."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Atur kecepatan target suara."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Atur volume target suara."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Mode Tes"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
-msgstr ""
+msgstr "Aktifkan mode tes untuk menguji penyedia TTS tanpa memuat game."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Pengaturan"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Aktifkan Bunyi Kedekatan Jalan"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Aktifkan bunyi kedekatan yang menunjukkan jarak dan sudut ke jalan terdekat."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Plugin Teks ke Suara untuk aksesibilitas. Beberapa orang mungkin juga "
+"menyukai pengumuman bersuara."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Suara {0} tidak ditemukan dalam penyedia {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Tidak ada penyedia yang dipilih. Tidak dapat memilih suara."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Memuat penyedia TTS: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Memuat suara TTS: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Kemudi peta diaktifkan."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Kemudi peta dinonaktifkan."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Kontrol Cruise Adaptif diaktifkan."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Kontrol Cruise Adaptif dinonaktifkan."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kota terdekat sekarang adalah {city} pada jarak {distance} kilometer."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Batas kecepatan berubah menjadi {0} kilometer per jam."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr[0] ""
-msgstr[1] ""
+"Jarak bahan bakar sekarang hanya {0} kilometer, harap isi bahan bakar segera."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
-msgstr[1] ""
+"Jarak bahan bakar sekarang kritis hanya {0} kilometer, harap isi bahan bakar "
+"sesegera mungkin."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Jarak ke waypoint berikutnya adalah {0} kilometer."
 
 #: .\Plugins\TTS\main.py:414
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Kerusakan mesin sekarang pada {0}%."
 
 #: .\Plugins\TTS\main.py:417
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Kerusakan kabin sekarang pada {0}%."
 
 #: .\Plugins\TTS\main.py:420
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Kerusakan sasis sekarang pada {0}%."
 
 #: .\Plugins\TTS\main.py:423
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Kerusakan transmisi sekarang pada {0}%."
 
 #: .\Plugins\TTS\main.py:426
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Kerusakan roda sekarang pada {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Kerusakan kargo sekarang pada {0}%."
 
 #: .\Plugins\TTS\main.py:446
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Kecepatan {0} kilometer per jam, batas {1}, bahan bakar {2}%, dan jarak ke "
+"waypoint berikutnya {3} kilometer."
 
 #: .\Plugins\TTS\main.py:487
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Mode tes diaktifkan. Ini adalah pesan tes."
 
 #: .\Plugins\VisualizationSockets\main.py:205 .\Plugins\VisualizationSockets\main.py:220 .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Soket Visualisasi"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr ""
+msgstr "Plugin ini menyediakan server websocket untuk Visualisasi ETS2LA."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Perangkat Host"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Jika anda ingin melihat Visualisasi ETS2LA di perangkat saat ini, cukup buka "
+"tab 'Visualisasi' di sidebar, anda kemudian dapat memilih antara mirror "
+"resmi dan Goodnightan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Anda juga dapat menggunakan situs web berikut:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Perangkat Lain"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Buka URL berikut di browser perangkat anda: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"CATATAN: Anda harus memuat situs sebagai http bukan https. Google Chrome "
+"tidak akan bekerja!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Setelah situs web dimuat, tekan tombol 'Koneksi Jarak Jauh' merah. Jika "
+"ini tidak terhubung, masukkan alamat IP berikut:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Jika anda mengalami masalah, harap verifikasi bahwa perangkat anda berada "
+"di jaringan yang sama dengan host. Anda juga harus memastikan bahwa firewall "
+"tidak memblokir koneksi antara perangkat."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Alamat IP anda tidak dapat ditemukan, ini mungkin karena masalah jaringan. "
+"Melihat visualisasi secara eksternal tidak mungkin."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Menunggu plugin dimulai..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Menunggu plugin dimuat..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Klien berikut saat ini terhubung:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Latensi: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:273
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Saluran: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Belum diakui."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Tidak ada klien yang saat ini terhubung."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Plugin ini menyediakan server websocket untuk Visualisasi ETS2LA. Ini "
+"memungkinkan anda terhubung ke visualisasi dari perangkat lain dan melihat "
+"data ETS2LA secara real-time."
 
 #: .\main.py:104
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Menguji mirror..."
 
 #: .\main.py:112
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Mencapai {0} dalam {1:.0f}ms"
 
 #: .\main.py:118
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Mencapai {0} dalam (TIMEOUT)"
 
 #: .\main.py:124
 msgid "Using mirror from settings: {0}"
-msgstr ""
+msgstr "Menggunakan mirror dari pengaturan: {0}"
 
 #: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
-msgstr ""
+msgstr " -- Menjalankan tindakan pasca unduh untuk submodul:  Antarmuka  -- "
 
 #: .\main.py:155
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "Menjalankan ETS2LA dalam mode pengembangan."
 
 #: .\main.py:159
 msgid "Running UI locally"
-msgstr ""
+msgstr "Menjalankan UI secara lokal"
 
 #: .\main.py:164
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr ""
+msgstr "Tidak ada koneksi ke mirror UI jarak jauh. Menjalankan secara lokal."
 
 #: .\main.py:175
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Menjalankan UI dalam mode China"
 
 #: .\main.py:177
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Menggunakan mirror {0} untuk UI."
 
 #: .\main.py:183
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console tidak dapat digunakan bersama dengan --no-ui. Konsol tidak akan "
+"menutup."
 
 #: .\main.py:185
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Menutup konsol setelah UI dimulai."
 
 #: .\main.py:188
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Berjalan di latar belakang tanpa window."
 
 #: .\main.py:206
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "ETS2LA Overseer dimulai!"
 
 #: .\main.py:222
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA sedang memulai ulang..."
 
 #: .\main.py:228
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Melewati pembaruan karena mode pengembangan."
 
 #: .\main.py:231
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA sedang memperbarui..."
 
 #: .\main.py:234
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Pembaruan selesai... memulai ulang!"
 
 #: .\main.py:239
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LA telah crash!"
 
 #: .\main.py:248
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Kirim traceback di atas ke pengembang."
 
 #: .\main.py:250
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA telah ditutup."
 
 #: .\main.py:251
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Tekan enter untuk keluar."
