@@ -8,7 +8,8 @@ class PerformanceMetrics:
     output: multiprocessing.Queue
     
     descriptions = {
-        "trucksbook": "Trucksbook will invalidate any jobs you do while having ETS2LA running / the SDK installed."
+        "trucksbook": "Trucksbook will invalidate any jobs you do while having ETS2LA running / the SDK installed.",
+        "Nightwish.Tracker": "Jobs that are done with ETS2LA will not get Xps, and it can cause issues with tracker."
     }
     
     def __init__(self, output: multiprocessing.Queue):
