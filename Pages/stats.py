@@ -4,13 +4,13 @@ import threading
 import psutil
 import time
 
+descriptions = {
+    "trucksbook": "Trucksbook will invalidate any jobs you do while having ETS2LA running / the SDK installed.",
+    "Nightwish.Tracker": "Jobs that are done with ETS2LA will not get Xps, and it can cause issues with tracker."
+}
+
 class PerformanceMetrics:
     output: multiprocessing.Queue
-    
-    descriptions = {
-        "trucksbook": "Trucksbook will invalidate any jobs you do while having ETS2LA running / the SDK installed.",
-        "Nightwish.Tracker": "Jobs that are done with ETS2LA will not get Xps, and it can cause issues with tracker."
-    }
     
     def __init__(self, output: multiprocessing.Queue):
         self.output = output
@@ -49,7 +49,7 @@ class PerformanceMetrics:
     def unsupported_thread(self) -> list[str]:
         while True:
             time.sleep(30)
-            execs = self.descriptions.keys()
+            execs = descriptions.keys()
             found = []
             for p in psutil.process_iter():
                 for app in execs:
@@ -120,7 +120,7 @@ class Page(ETS2LAPage):
                     with t.content:
                         for app in unsupported:
                             Text(f"{app}", style=styles.Classname("text-xs"))
-                            Text(f"{self.descriptions.get(app, 'No description available')}", style=styles.Classname("text-xs") + styles.Description())
+                            Text(f"{descriptions.get(app, 'No description available')}", style=styles.Classname("text-xs") + styles.Description())
         else:
             with Container(styles.FlexHorizontal() + 
                         styles.Classname("w-full border rounded-lg justify-center shadow-md") + 
