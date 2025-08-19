@@ -7,14 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-07-24 22:49+0000\n"
+"PO-Revision-Date: 2025-08-20 23:06+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
-"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>\n"
+"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
+"\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
@@ -95,7 +97,7 @@ msgstr "Nie znaleziono pluginu."
 
 #: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr "Plugin[yellow]{0}[/yellow] uruchomiony poprawnie."
+msgstr "Plugin [yellow]{0}[/yellow] uruchomiony poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
@@ -159,7 +161,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
@@ -279,7 +281,7 @@ msgstr "scs-sdk-controller deweloper"
 
 #: .\Pages\about.py:28
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D modele do wirtualizacji"
 
 #: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
@@ -354,7 +356,7 @@ msgstr "{0} i {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "Powiadomienie!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
@@ -367,6 +369,9 @@ msgstr "Informacje"
 #: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA to projekt, którego celem jest zapewnienie łatwego w użyciu "
+"rozwiązania do samodzielnej jazdy dla ETS2 i ATS, jeśli chcesz dowiedzieć "
+"się więcej, możesz odwiedzić stronę github lub wiki na pasku bocznym."
 
 #: .\Pages\about.py:164
 msgid "Statistics"
@@ -693,7 +698,7 @@ msgstr ""
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
-msgstr "Wyświetl wszystkie wtyczki"
+msgstr "Wyświetl wszystkie pluginy"
 
 #: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
@@ -1005,7 +1010,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
-msgstr "Instaluj SDK"
+msgstr "Zainstaluj SDK"
 
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
@@ -1428,51 +1433,53 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:230
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " - Wymagana ponowna instalacja"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
-msgstr ""
+msgstr "- Zainstalowany"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Nie zainstalowany"
 
 #: .\Pages\sdk_installation.py:241
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Ta wersja gry nie jest wspierana"
 
 #: .\Pages\sdk_installation.py:257
 msgid "No files found."
-msgstr ""
+msgstr "Nie znaleziono plików."
 
 #: .\Pages\sdk_installation.py:268
 msgid "File Sources"
-msgstr ""
+msgstr "Źródła pliku"
 
 #: .\Pages\sdk_installation.py:276 .\Pages\sdk_installation.py:289
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "Odinstaluj SDK"
 
 #: .\Pages\sdk_installation.py:279 .\Pages\sdk_installation.py:292
 msgid "Install SDKs"
-msgstr ""
+msgstr "Zainstaluj SDK"
 
 #: .\Pages\sdk_installation.py:284
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Zamknij grę przed zainstalowaniem lub odinstalowaniem SDK."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Posiadasz lokalne zatwierdzenie, które czeka na wypchnięcie."
 
 #: .\Pages\updater.py:50
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"Brak dostępnych aktualizacji. (Aktualizacja strony po nowym zatwierdzeniu "
+"może potrwać do minuty)"
 
 #: .\Pages\updater.py:52
 msgid "Update Anyway"
-msgstr ""
+msgstr "Mimo wszystko aktualizacja"
 
 #: .\Pages\updater.py:55
 msgid "Restart and apply {count} update"
@@ -1594,7 +1601,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
-msgstr ""
+msgstr "Kontrola prędkości"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:98
 msgid "Ignore Speed Limit"
