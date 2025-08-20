@@ -13,6 +13,7 @@ from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Utils.Values.graphing import PIDGraph
 from Modules.Traffic.classes import Vehicle
+import ETS2LA.Utils.settings as settings
 
 # Python imports
 from typing import cast
@@ -838,6 +839,35 @@ class Plugin(ETS2LAPlugin):
         
         if self.api_data["pause"]:
             self.reset(); return
+        
+        # Check for brake disable autopilot feature
+        brake_disable_autopilot = settings.Get("global", "brake_disable_autopilot", default=False)
+        user_brake_input = self.api_data.get("truckFloat", {}).get("userBrake", 0.0)
+        
+        if brake_disable_autopilot:
+            # Initialize tracking variables if not present
+            if not hasattr(self, '_acc_was_disabled_by_brake'):
+                self._acc_was_disabled_by_brake = False
+            if not hasattr(self, '_acc_original_enabled_state'):
+                self._acc_original_enabled_state = self.enabled
+            
+            # Disable ACC if user is braking and feature is enabled
+            if user_brake_input > 0.1 and self.enabled and not self._acc_was_disabled_by_brake:
+                # Store original state and disable ACC when user applies brake
+                self._acc_original_enabled_state = self.enabled
+                self._acc_was_disabled_by_brake = True
+                self.enabled = False
+                self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+                self.reset()  # Stop any current acceleration/braking
+                self.state.text = _("ACC disabled: Manual braking detected")
+                return
+            elif user_brake_input <= 0.05 and self._acc_was_disabled_by_brake:
+                # Re-enable ACC when user releases brake if it was originally enabled
+                if self._acc_original_enabled_state:
+                    self.enabled = True
+                    self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+                    self.state.text = ""
+                self._acc_was_disabled_by_brake = False
         
         if self.api_data['truckFloat']['speedLimit'] == 0:
             self.api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    

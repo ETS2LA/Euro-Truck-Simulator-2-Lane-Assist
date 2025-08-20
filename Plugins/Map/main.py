@@ -286,6 +286,33 @@ class Plugin(ETS2LAPlugin):
             data.UpdateData(api_data)
             data_update_time = time.perf_counter() - data_update_start_time
 
+            # Check for brake disable autopilot feature
+            brake_disable_autopilot = settings.Get("global", "brake_disable_autopilot", default=False)
+            user_brake_input = api_data.get("truckFloat", {}).get("userBrake", 0.0)
+            
+            if brake_disable_autopilot:
+                # Initialize tracking variables if not present
+                if not hasattr(self, '_was_disabled_by_brake'):
+                    self._was_disabled_by_brake = False
+                if not hasattr(self, '_original_enabled_state'):
+                    self._original_enabled_state = data.enabled
+                
+                # Disable steering if user is braking and feature is enabled
+                if user_brake_input > 0.1 and data.enabled and not self._was_disabled_by_brake:
+                    # Store original state and disable steering when user applies brake
+                    self._original_enabled_state = data.enabled
+                    self._was_disabled_by_brake = True
+                    data.enabled = False
+                    self.globals.tags.status = {"Map": data.enabled}
+                    self.state.text = _("Autopilot disabled: Manual braking detected")
+                elif user_brake_input <= 0.05 and self._was_disabled_by_brake:
+                    # Re-enable steering when user releases brake if it was originally enabled
+                    if self._original_enabled_state:
+                        data.enabled = True
+                        self.globals.tags.status = {"Map": data.enabled}
+                        self.state.text = ""
+                    self._was_disabled_by_brake = False
+
             if data.calculate_steering:
                 # Update route plan and steering
                 planning_start_time = time.perf_counter()
