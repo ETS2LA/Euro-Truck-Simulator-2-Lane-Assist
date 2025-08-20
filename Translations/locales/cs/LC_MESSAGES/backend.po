@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-09 04:37+0000\n"
-"Last-Translator: Lun <lun@ets2la.com>\n"
+"PO-Revision-Date: 2025-08-20 23:06+0000\n"
+"Last-Translator: bread <bread@ets2la.com>\n"
 "Language-Team: Czech <http://weblate.ets2la.com/projects/ets2la/backend/cs/>"
 "\n"
 "Language: cs\n"
@@ -24,7 +24,6 @@ msgid "Timeout, please try again."
 msgstr "Časový limit vypršel, prosím zkuste to znovu."
 
 #: .\ETS2LA\Controls\picker.py:71
-#, fuzzy
 msgid "Event bound to {device} {action}"
 msgstr "Událost vázaná na {device} {action}"
 
@@ -163,7 +162,7 @@ msgstr "Spuštěn frontendový popup websocket."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr "Frontend"
+msgstr "Uživatelské rozhraní"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
@@ -235,7 +234,7 @@ msgstr "Prosím, počkejte, zatímco inicializujeme uživatelské rozhraní"
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "Hledám ETS2LA okno [dim]({timeout}s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -291,7 +290,7 @@ msgstr "Vývoj extraktoru dat, podpora pro modifikované mapy."
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr ""
+msgstr "Vývojář pluginu Discord rich presence, drobné aktualizace backendu."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
@@ -324,15 +323,15 @@ msgstr "Opravy chyb"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Opravuji stěrače (5s timer)"
 
 #: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Opravuju stěrače za {0} sekund..."
 
 #: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Stěrače by měli být opravené."
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
