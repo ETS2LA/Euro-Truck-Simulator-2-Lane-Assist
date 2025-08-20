@@ -2368,3 +2368,19 @@ msgstr ""
 msgid "Press enter to exit."
 msgstr ""
 
+#: .\Plugins\Map\main.py:297
+msgid "Autopilot disabled: Manual braking detected"
+msgstr ""
+
+#: .\Plugins\AdaptiveCruiseControl\main.py:851
+msgid "ACC disabled: Manual braking detected"
+msgstr ""
+
+#: .\Pages\global_settings.py:381
+msgid "Disable Autopilot when Braking"
+msgstr ""
+
+#: .\Pages\global_settings.py:382
+msgid "Automatically disable autopilot (steering and acceleration) when the brake pedal is pressed. This prevents conflicts between autopilot acceleration and manual braking, improving safety especially in multiplayer."
+msgstr ""
+

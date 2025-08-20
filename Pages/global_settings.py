@@ -143,6 +143,14 @@ class Page(ETS2LAPage):
             slow_loading = not utils_settings.Get("global", "slow_loading", default=False)
 
         utils_settings.Set("global", "slow_loading", slow_loading)
+    
+    def handle_brake_disable_autopilot_change(self, *args):
+        if args:
+            brake_disable_autopilot = args[0]
+        else:
+            brake_disable_autopilot = not utils_settings.Get("global", "brake_disable_autopilot", default=False)
+        
+        utils_settings.Set("global", "brake_disable_autopilot", brake_disable_autopilot)
 
     def match_value_to_preference_name(self, value: int) -> str:
         for name, val in ad_preferences.items():
@@ -364,6 +372,13 @@ class Page(ETS2LAPage):
                     description=_("If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."),
                     default=utils_settings.Get("global", "slow_loading", default=False), # type: ignore
                     changed=self.handle_slow_loading_change
+                )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Disable Autopilot when Braking"),
+                    description=_("Automatically disable autopilot (steering and acceleration) when the brake pedal is pressed. This prevents conflicts between autopilot acceleration and manual braking, improving safety especially in multiplayer."),
+                    default=utils_settings.Get("global", "brake_disable_autopilot", default=False), # type: ignore
+                    changed=self.handle_brake_disable_autopilot_change
                 )
                 
             with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
