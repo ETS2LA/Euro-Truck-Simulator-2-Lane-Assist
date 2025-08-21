@@ -43,31 +43,77 @@ def CheckForUpdate():
         repo = git.Repo()
         current_hash = repo.head.object.hexsha
         
-        origin = repo.remotes.origin
+        # Use ls-remote instead of fetch to check for updates
         try:
-            origin_state = origin.fetch(kill_after_timeout=4)
+            # Get the remote URL
+            remote_url = repo.remotes.origin.url
+            
+            # Run git ls-remote to get remote HEAD reference
+            remote_refs = repo.git.ls_remote("--heads", "--tags", remote_url)
+            
+            # Parse the remote refs to find the HEAD branch
+            remote_head_hash = None
+            current_branch = repo.active_branch.name
+            
+            # Look for the current branch in remote refs
+            for line in remote_refs.split('\n'):
+                if f"refs/heads/{current_branch}" in line:
+                    remote_head_hash = line.split()[0]
+                    break
+            
+            # If we couldn't find the current branch, fallback to HEAD
+            if not remote_head_hash:
+                for line in remote_refs.split('\n'):
+                    if "HEAD" in line:
+                        remote_head_hash = line.split()[0]
+                        break
+                        
         except Exception as e:
-            logging.warning(f"Unable to fetch origin: {e}\nUpdate check will be skipped.")
+            logging.warning(f"Unable to ls-remote origin: {e}\nUpdate check will be skipped.")
             return False
         
-        if len(origin_state) > 0:
-            origin_hash = origin_state[0].commit.hexsha
-        else:
-            origin_hash = current_hash
+        # If we still don't have a remote hash, skip update check
+        if not remote_head_hash:
+            logging.warning("Unable to determine remote HEAD hash. Update check will be skipped.")
+            return False
             
-        if current_hash != origin_hash:
+        if current_hash != remote_head_hash:
+            # For commit history, we still need to fetch
+            origin = repo.remotes.origin
+            try:
+                origin_state = origin.fetch(kill_after_timeout=10)
+                if len(origin_state) > 0:
+                    origin_hash = origin_state[0].commit.hexsha
+                else:
+                    origin_hash = current_hash
+            except Exception as e:
+                logging.warning(f"Unable to fetch origin for commit history: {e}")
+                origin_hash = remote_head_hash  # Use the ls-remote hash as fallback
+            
             updates = []
-            for commit in repo.iter_commits(f"{current_hash}..{origin_hash}"):
-                summary = str(commit.summary)
-                if "Merge" not in summary: # Ignore merge commits
-                    updates.append({
-                        "author": commit.author.name,
-                        "message": summary,
-                        "description": commit.message.replace(summary, "").strip(), # type: ignore
-                        "time": commit.committed_date,
-                        "url": get_commit_url(repo, commit.hexsha),
-                        "hash": commit.hexsha
-                    })
+            try:
+                for commit in repo.iter_commits(f"{current_hash}..{origin_hash}"):
+                    summary = str(commit.summary)
+                    if "Merge" not in summary: # Ignore merge commits
+                        updates.append({
+                            "author": commit.author.name,
+                            "message": summary,
+                            "description": commit.message.replace(summary, "").strip(), # type: ignore
+                            "time": commit.committed_date,
+                            "url": get_commit_url(repo, commit.hexsha),
+                            "hash": commit.hexsha
+                        })
+            except Exception as e:
+                logging.warning(f"Unable to get commit history: {e}")
+                # Add a simple update notification if we can't get commit history
+                updates.append({
+                    "author": "System",
+                    "message": "Update available",
+                    "description": "A new update is available. Please update to the latest version.",
+                    "time": time.perf_counter(),
+                    "url": "",
+                    "hash": remote_head_hash[:8]
+                })
             
             if updates == []: # local commit(s) waiting to be pushed, send those instead
                 for commit in repo.iter_commits():
