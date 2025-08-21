@@ -179,7 +179,6 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
     
     global dont_check_window_open
     
-    returnCode = 1
     sinceStart = time.perf_counter()
     
     colors = {
@@ -189,17 +188,21 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
 
     timeout = settings.Get("global", "window_timeout", 10)
     logging.info(_("Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]").format(timeout=timeout))
-    while returnCode != 0:
+    
+    hwnd = 0
+    while hwnd == 0:
         time.sleep(0.01)
-        
         hwnd = win32gui.FindWindow(None, variables.APPTITLE)
-        returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
-        
-        set_window_icon(variables.ICONPATH)
         if time.perf_counter() - sinceStart > timeout:
             logging.error(_("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."))
             dont_check_window_open = True
-            break
+            return
+    
+    try:
+        windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
+        set_window_icon(variables.ICONPATH)
+    except Exception as e:
+        logging.error(f"Failed to set window attributes or icon: {e}")
 
 
 def check_if_window_still_open() -> bool:
