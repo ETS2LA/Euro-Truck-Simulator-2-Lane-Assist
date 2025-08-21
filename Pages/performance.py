@@ -2,16 +2,12 @@ from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import plugins
 from ETS2LA.UI import *
 import multiprocessing
-import pywintypes
 import threading
-import win32pdh
 import logging
 import psutil
 import time
 import os
 
-# Has to be a class to not lag the main
-# process when collecting data.
 # (multiprocessed)
 class PerformanceMetrics:
     output: multiprocessing.Queue
@@ -23,28 +19,8 @@ class PerformanceMetrics:
             time.sleep(1) # Keep the process alive
         
     def cpu_thread(self):
-        use_fallback = os.name != 'nt' # Linux automatically uses the fallback
         while True:
-            if not use_fallback:
-                try:
-                    path = r"\Processor(_Total)\% Processor Time"
-                    hq = win32pdh.OpenQuery()
-                    hc = win32pdh.AddCounter(hq, path)
-
-                    win32pdh.CollectQueryData(hq)
-                    time.sleep(1)
-                    win32pdh.CollectQueryData(hq)
-                    
-                    # Get formatted value
-                    _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
-                except pywintypes.error:
-                    time.sleep(1)
-                    logging.warning("Failed to get CPU usage from Windows Performance Counters. Falling back to psutil.")
-                    use_fallback = True # Use the fallback if Windows says that AddCounter doesn't exist
-                    continue
-            else:
-                val = psutil.cpu_percent(interval=1) # Can be a little less accurate
-
+            val = psutil.cpu_percent(interval=1)
             self.output.put_nowait({
                 "cpu" : round(val, 1)
             })
