@@ -11,7 +11,7 @@ beautifulsoup4
 pywebview==5.1
 opencv-python
 numpy==2.2.6
-pywin32==306
+pywin32==311
 torchvision
 sounddevice
 matplotlib
