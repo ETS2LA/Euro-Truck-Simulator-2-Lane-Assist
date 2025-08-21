@@ -202,7 +202,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
         set_window_icon(variables.ICONPATH)
     except Exception as e:
-        logging.error(f"Failed to set window attributes or icon: {e}")
+        logging.error(_("Failed to set window attributes or icon.") + " " + str(e))
 
 
 def check_if_window_still_open() -> bool:
