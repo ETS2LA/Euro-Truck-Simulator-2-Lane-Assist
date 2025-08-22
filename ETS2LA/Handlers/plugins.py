@@ -265,7 +265,12 @@ class Plugin:
                     tags = message.data["tags"]
                     response = {}
                     for tag in tags:
-                        response[tag] = self.tags.get(tag, None)
+                        if tag == "running":
+                            response[tag] = {plugin.description.id: plugin.running for plugin in plugins}
+                        elif tag == "state":
+                            response[tag] = {plugin.description.id: plugin.state for plugin in plugins}
+                        else:
+                            response[tag] = self.tags.get(tag, None)
                     
                     message.state = State.DONE
                     message.data = response

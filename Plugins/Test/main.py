@@ -22,7 +22,8 @@ class Plugin(ETS2LAPlugin):
     )
 
     def init(self):
-        self.navigate("/telemetry", "Hi, this is a secret page")
+        ...
 
     def run(self):
-        ...
+        running = self.globals.tags.get_tag("state")
+        print(running)
