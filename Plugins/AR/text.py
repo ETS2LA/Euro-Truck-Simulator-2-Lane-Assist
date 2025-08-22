@@ -1,6 +1,8 @@
 from PIL import Image, ImageDraw, ImageFont
 import dearpygui.dearpygui as dpg
 import numpy as np
+import threading
+import time
 import os
 
 def get_font_only():
@@ -36,11 +38,18 @@ class TextureText:
         self.fonts = renderer['fonts']
         self.cache = renderer['cache']
         self.registry_id = renderer['registry_id']
-    
+        
+        threading.Thread(
+            target=self.cache_clear_thread, 
+            args=(20,), 
+            daemon=True
+        ).start()
+
     def get_text_texture(self, text):
         cache_key = f"{text}"
         
         if cache_key in self.cache:
+            self.cache[cache_key]['time'] = time.time()
             return self.cache[cache_key]
         
         font = self.fonts['large']
@@ -71,10 +80,26 @@ class TextureText:
         self.cache[cache_key] = {
             'id': texture_id,
             'width': width,
-            'height': height
+            'height': height,
+            'time': time.time()
         }
         
         return self.cache[cache_key]
+    
+    def cache_clear_thread(self, max_age=10):
+        while True:
+            current_time = time.time()
+            keys_to_delete = []
+            
+            for key, texture_info in self.cache.items():
+                if current_time - texture_info['time'] > max_age:
+                    keys_to_delete.append(key)
+            
+            for key in keys_to_delete:
+                dpg.delete_item(self.cache[key]['id'])
+                del self.cache[key]
+    
+            time.sleep(10)
     
     def draw_text(self, position, text, size=32, color=(255, 255, 255, 255), scale=1.0):
         if not text:

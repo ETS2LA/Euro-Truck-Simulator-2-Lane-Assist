@@ -11,19 +11,26 @@ from Plugins.AR.classes import *
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
 DRAWLIST = []
-TELEMETRY_FPS = SmoothedValue("time", 1)
+GAME_FPS = SmoothedValue("time", 1)
 
 VISION_COMPAT = settings.Get("AR", "vision_compat", True)
 TEST_OBJECTS = settings.Get("AR", "test_objects", False)
 SHOW_WHEN_NOT_IN_FOCUS = settings.Get("AR", "show_when_not_in_focus", False)
+PERFORMANCE_OVERLAY = settings.Get("AR", "perf_overlay", False)
+GAME_STATS = settings.Get("AR", "game_stats", False)
+BACKGROUND = settings.Get("AR", "background", True)
 
 def LoadSettings(data: dict):
     global VISION_COMPAT
     global TEST_OBJECTS
     global SHOW_WHEN_NOT_IN_FOCUS
+    global PERFORMANCE_OVERLAY, GAME_STATS, BACKGROUND
     VISION_COMPAT = data.get("vision_compat", True)
     TEST_OBJECTS = data.get("test_objects", False)
     SHOW_WHEN_NOT_IN_FOCUS = data.get("show_when_not_in_focus", False)
+    PERFORMANCE_OVERLAY = data.get("perf_overlay", False)
+    GAME_STATS = data.get("game_stats", False)
+    BACKGROUND = data.get("background", True)
 
 
 def InitializeWindow():
@@ -52,7 +59,6 @@ def InitializeWindow():
     Margins = MARGINS(-1, -1, -1, -1)
     ctypes.windll.dwmapi.DwmExtendFrameIntoClientArea(HWND, Margins)
     win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED | win32con.WS_EX_TRANSPARENT)
-
     
 
 def Resize():
@@ -179,44 +185,80 @@ class Settings(ETS2LAPage):
 
         settings.Set("AR", "show_when_not_in_focus", value)
 
+    def toggle_perf_overlay(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "perf_overlay", False)
+        
+        settings.Set("AR", "perf_overlay", value)
+
+    def toggle_game_stats(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "game_stats", False)
+        
+        settings.Set("AR", "game_stats", value)
+
+    def toggle_background(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AR", "background", True)
+        
+        settings.Set("AR", "background", value)
+
     def render(self):
         TitleAndDescription(
             _("AR"),
             _("Change the AR overlay settings here."),
         )
             
-        CheckboxWithTitleDescription(
-            title=_("Don't hide AR from recording software"),
-            description=_("By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."),
-            default=settings.Get("AR", "vision_compat", True),
-            changed=self.vision_compat_changed,
-        )
-        
-        CheckboxWithTitleDescription(
-            title=_("Show test objects"),
-            description=_("Show test objects in the AR overlay."),
-            default=settings.Get("AR", "test_objects", False),
-            changed=self.test_objects_changed,
-        )
-        
-        CheckboxWithTitleDescription(
-            title=_("Show when not in focus"),
-            description=_("Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."),
-            default=settings.Get("AR", "show_when_not_in_focus", False),
-            changed=self.show_when_not_in_focus_changed,
-        )
-        
-        try:
-            if self.plugin:
-                self.refresh_rate = 0.1
-                with Container(styles.FlexVertical() + styles.Gap("4px")):
-                    UIText(_("Items: {}").format(self.plugin.item_count), styles.Description())
-                    UIText(_("Draw Calls: {}").format(self.plugin.draw_calls), styles.Description())
-                    UIText(_("Render Time: {:.2f} ms").format(self.plugin.render_time * 1000), styles.Description())
-            else:
-                self.refresh_rate = 1
-        except:
-            pass
+        with Tabs():
+            with Tab(_("General"), styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title=_("Don't hide AR from recording software"),
+                    description=_("By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."),
+                    default=settings.Get("AR", "vision_compat", True),
+                    changed=self.vision_compat_changed,
+                )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Show test objects"),
+                    description=_("Show test objects in the AR overlay."),
+                    default=settings.Get("AR", "test_objects", False),
+                    changed=self.test_objects_changed,
+                )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Show when not in focus"),
+                    description=_("Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."),
+                    default=settings.Get("AR", "show_when_not_in_focus", False),
+                    changed=self.show_when_not_in_focus_changed,
+                )
+                
+            with Tab(_("Performance Overlay"), styles.FlexVertical() + styles.Gap("24px")):
+                CheckboxWithTitleDescription(
+                    title=_("Show Performance Overlay"),
+                    description=_("Show the performance overlay. This will show a number of useful statistics."),
+                    default=settings.Get("AR", "perf_overlay", False),
+                    changed=self.toggle_perf_overlay,
+                )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Show Game Statistics"),
+                    description=_("Show game statistics in the performance overlay."),
+                    default=settings.Get("AR", "game_stats", False),
+                    changed=self.toggle_game_stats,
+                )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Show Background"),
+                    description=_("Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."),
+                    default=settings.Get("AR", "background", True),
+                    changed=self.toggle_background,
+                )
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -243,6 +285,8 @@ class Plugin(ETS2LAPlugin):
     camera = None
     last_camera_timestamp = 0
     LastTimeStamp = 0
+    
+    window_vision_compat_state = False
 
     def imports(self):
         global SCSTelemetry, ScreenCapture, settings, variables, dpg, win32con, win32gui, ctypes, math, time, ttext
@@ -275,12 +319,17 @@ class Plugin(ETS2LAPlugin):
         
         settings.Listen("AR", LoadSettings)
         InitializeWindow()
+        self.update_vision_compat()
         
         renderer = ttext.create_text_renderer()
         self.text_renderer = ttext.TextureText(renderer)
                 
         self.draw_calls = 0
         self.render_time = 0
+        self.render_time_smoothed = SmoothedValue("time", 1)
+        self.last_loop_time = 0
+        self.last_loop_frametime = 0
+        self.last_loop_frametime_smoothed = SmoothedValue("time", 1)
         self.item_count = 0
 
 
@@ -435,7 +484,89 @@ class Plugin(ETS2LAPlugin):
                  
         dpg.render_dearpygui_frame()
         self.render_time = time.perf_counter() - render_start
+        self.render_time_smoothed.smooth(self.render_time)
         self.draw_calls = draw_calls
+    
+    def update_vision_compat(self):
+        HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
+        if not VISION_COMPAT:
+            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000011)
+            if Success == 0:
+                print("Failed to hide AR window from screen capture.")
+            else:
+                print("AR window is hidden from screen capture.")
+                self.window_vision_compat_state = False    
+            
+        if VISION_COMPAT:
+            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000000)
+            if Success == 0:
+                print("Failed to show AR window to screen capture.")
+            else:
+                print("AR window is visible to screen capture.")
+                self.window_vision_compat_state = True
+
+    last_perf_list_time = 0
+    last_perf_list = []
+    def create_performance_overlay(self) -> list:
+        if time.time() - self.last_perf_list_time < 0.2:
+            return self.last_perf_list
+        
+        lines = []
+        lines.append(_("Items: {}").format(self.item_count))
+        lines.append(_("Draw Calls: {} ({:.0f}%)").format(
+            self.draw_calls, 
+            (self.draw_calls / self.item_count if self.item_count > 0 else 0) * 100
+        ))
+        lines.append(_("Text Cache Length: {}").format(
+            len(self.text_renderer.cache)
+        ))
+        lines.append(_("Last Render: {:.2f} ms ({:.0f} fps)").format(
+            self.render_time * 1000
+            , 1 / self.render_time_smoothed.get() if self.render_time_smoothed.get() > 0 else 0
+        ))
+        lines.append(_("Last Loop: {:.2f} ms ({:.0f} fps)").format(
+            self.last_loop_frametime * 1000, 
+            1 / self.last_loop_frametime_smoothed.get() if self.last_loop_frametime_smoothed.get() > 0 else 0
+        ))
+        lines.append(_("Sync to game: {}").format(
+            _("Yes") if not SHOW_WHEN_NOT_IN_FOCUS else _("No")
+        ))
+        
+        if GAME_STATS:
+            lines.append("")
+            lines.append(_("Game Statistics"))
+            lines.append(_("Framerate: {:.1f}").format(GAME_FPS.get()))
+            lines.append(_("Camera Position: ({:.1f}, {:.1f}, {:.1f})").format(
+                self.HeadX, self.HeadY, self.HeadZ
+            ))
+            lines.append(_("Camera Rotation: ({:.1f}, {:.1f}, {:.1f})").format(
+                self.HeadRotationDegreesX, self.HeadRotationDegreesY, self.HeadRotationDegreesZ
+            ))
+
+        items = []
+        offset = 20
+        size = 20
+        
+        if BACKGROUND:
+            items.append(Rectangle(
+                start=Point(5, 5),
+                end=Point(320 if GAME_STATS else 250, len(lines) * offset + 17),
+                color=Color(0, 0, 0, 0),
+                fill=Color(0, 0, 0, 150)
+            ))
+        
+        for line in lines:
+            count = len(items) if not BACKGROUND else len(items) - 1
+            items.append(Text(
+                point=Point(10, 10 + offset * count),
+                text=line,
+                size=size,
+                color=Color(255, 255, 255, 255)
+            ))
+            
+        self.last_perf_list = items
+        self.last_perf_list_time = time.time()
+        return items
 
     def run(self):
         global DRAWLIST
@@ -464,13 +595,8 @@ class Plugin(ETS2LAPlugin):
         camera = self.modules.Camera.run()
         APIDATA = TruckSimAPI.update()
 
-        HWND = win32gui.FindWindow(None, "ETS2LA AR Overlay")
-        if VISION_COMPAT:
-            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000011)
-            if Success == 0:
-                print("Failed to hide AR window from screen capture.")
-        if not VISION_COMPAT:
-            Success = ctypes.windll.user32.SetWindowDisplayAffinity(HWND, 0x00000000)
+        if self.window_vision_compat_state != VISION_COMPAT:
+            self.update_vision_compat()
 
         # Comment these lines if you want the AR to show up
         # even when the game is paused or not in focus.
@@ -485,8 +611,8 @@ class Plugin(ETS2LAPlugin):
         else:
             # 166660.0 -> 60 FPS -> Unit is in microseconds
             microseconds = (APIDATA["renderTime"] - self.LastTimeStamp)
-            TELEMETRY_FPS.smooth(1 / (microseconds / 1000000))
-            #print(f"Telemetry FPS: {TELEMETRY_FPS.get():.1f}         ", end="\r")
+            GAME_FPS.smooth(1 / (microseconds / 1000000))
+            #print(f"Telemetry FPS: {GAME_FPS.get():.1f}         ", end="\r")
             self.LastTimeStamp = APIDATA["renderTime"]
             
 
@@ -652,5 +778,12 @@ class Plugin(ETS2LAPlugin):
                         if object is not None:
                             DRAWLIST.append(object)
         
+        if PERFORMANCE_OVERLAY:
+            DRAWLIST.extend(self.create_performance_overlay())
+        
         self.Render(items=DRAWLIST)
         DRAWLIST = []
+
+        self.last_loop_frametime = time.perf_counter() - self.last_loop_time 
+        self.last_loop_frametime_smoothed.smooth(self.last_loop_frametime)
+        self.last_loop_time = time.perf_counter()
