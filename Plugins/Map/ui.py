@@ -70,6 +70,10 @@ class SettingsMenu(ETS2LAPage):
             settings.Set("Map", "selected_data", value)
         else:
             settings.Set("Map", "selected_data", "")
+
+    def handle_Traffic_Side(self, value):
+        if value:
+            settings.Set("Map", "traffic_side", value)
             
     def handle_data_update(self):
         if self.plugin:
@@ -171,6 +175,14 @@ class SettingsMenu(ETS2LAPage):
                     description=_("Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."),
                     text=_("Update"),
                     action=self.handle_data_update
+                )
+
+                ComboboxWithTitleDescription(
+                    title=_("Traffic Side"),
+                    description=_("This will make the indicators behave correctly when lane changing in left handed or right handed countries."),
+                    default=settings.Get("Map", "traffic_side", "Right Handed"),
+                    options=["Right Handed", "Left Handed"],
+                    changed=self.handle_Traffic_Side,
                 )
                 
                 for key, data in index.items():
