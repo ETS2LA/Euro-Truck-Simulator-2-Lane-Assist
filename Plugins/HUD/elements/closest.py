@@ -66,7 +66,7 @@ class Widget(HUDWidget):
                 Point(10 + offset_x, 6, anchor=self.plugin.anchor),
                 text=city_display,
                 color=Color(255, 255, 255, 200),
-                size=15
+                size=16
             ),
             Text(
                 Point(10 + offset_x, height-18, anchor=self.plugin.anchor),
