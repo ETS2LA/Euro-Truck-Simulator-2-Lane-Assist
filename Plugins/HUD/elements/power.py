@@ -27,28 +27,29 @@ class Widget(HUDWidget):
         
         total = gameThrottle - gameBrake
         total = throttle.smooth(total)
-        
+        total = max(min(total, 1.0), -1.0)
+
         data = []
         
         display_value = 0
         if total > 0.01:
-            display_value = total
+            display_value = max(min(total, 1.0), 0.0)
             data.append(
                 # Progress for Throttle (left to right)
                 Rectangle(
                     Point(offset_x, 0, anchor=self.plugin.anchor),
-                    Point(width * total + offset_x, height, anchor=self.plugin.anchor),
+                    Point(width * display_value + offset_x, height, anchor=self.plugin.anchor),
                     color=Color(150, 255, 150, 20),
                     fill=Color(150, 255, 150, 10),
                     rounding=6,
                 ),
             )
         elif total < -0.01:
-            display_value = total
+            display_value = min(max(total, -1.0), 0.0)
             data.append(
                 # Progress for Brake (right to left)
                 Rectangle(
-                    Point(width * (1 + total) + offset_x, 0, anchor=self.plugin.anchor),
+                    Point(width * (1 + display_value) + offset_x, 0, anchor=self.plugin.anchor),
                     Point(width + offset_x, height, anchor=self.plugin.anchor),
                     color=Color(255, 150, 150, 20),
                     fill=Color(255, 150, 150, 10),
