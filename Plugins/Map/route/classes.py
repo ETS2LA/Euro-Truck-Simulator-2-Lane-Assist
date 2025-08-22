@@ -106,8 +106,9 @@ class RouteSection:
         
         if self.lane_points:
             lanes_to_move_over = abs(value - self.lane_index)
-            self.skip_indicate_state = False
             lane_change_distance = self.get_planned_lane_change_distance(lane_count=lanes_to_move_over) * 2 # * 2 for the initial static area
+            if self.skip_indicate_state:
+                lane_change_distance /= 2
             
             dist_left = 0
             if not self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
@@ -145,6 +146,7 @@ class RouteSection:
         self.lane_points = new_lane_points
         self._last_lane_index = self._lane_index
         self._lane_index = value
+        self.skip_indicate_state = False
 
     def _calculate_lane_change_points(self, start_points, end_points):
         """Pre-calculate lane change points between start_points and end_points"""

@@ -9,7 +9,7 @@ import Plugins.Map.classes as c
 import importlib
 import logging
 import math
-import time
+import time 
 
 importlib.reload(rc)
 
@@ -543,7 +543,10 @@ def CheckForLaneChangeManual():
             target_index = 0
         if target_index >= len(lanes):
             target_index = len(lanes) - 1
+            
+        data.route_plan[0].skip_indicate_state = True
         data.route_plan[0].lane_index = target_index
+        data.route_plan[0].skip_indicate_state = False
         data.route_plan = [data.route_plan[0]]
 
     elif not data.truck_indicating_left and not data.truck_indicating_right:
