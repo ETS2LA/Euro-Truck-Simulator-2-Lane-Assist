@@ -10,7 +10,6 @@ import logging
 import socket
 import time
 
-
 service_name = "ETS2LA._http._tcp.local."
 address = "ets2la.local."
 port = 37520
@@ -42,6 +41,5 @@ def socket_thread():
     zeroconf.unregister_service(info)
     zeroconf.close()
     
-
 def run():
     threading.Thread(target=socket_thread, daemon=True).start()

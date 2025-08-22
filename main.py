@@ -117,12 +117,13 @@ def get_fastest_mirror() -> str:
                 response_times[mirror] = float('inf')
                 print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
             
-        fastest_mirror = min(response_times, key=response_times.get) # type: ignore
+        fastest_mirror = min(response_times, key=response_times.get)
+        settings.Set("global", "frontend_mirror", fastest_mirror)
         return fastest_mirror
     else:
         mirror = settings.Get("global", "frontend_mirror", "Auto")
-        print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END)) # type: ignore
-        return mirror # type: ignore
+        print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))
+        return mirror
 
 def update_frontend() -> bool:
     did_update = EnsureSubmoduleExists(

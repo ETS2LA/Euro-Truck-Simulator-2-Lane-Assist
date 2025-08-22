@@ -21,7 +21,6 @@ import ETS2LA.Networking.Servers.notifications as notifications
 import ETS2LA.Networking.Servers.webserver as webserver
 import ETS2LA.Networking.Servers.discovery as discovery
 import ETS2LA.Networking.Servers.pages as pages
-from ETS2LA.Window.utils import check_if_window_still_open
 from ETS2LA.Utils.translator import _
 import ETS2LA.Window.window as window
 
@@ -53,21 +52,15 @@ plugins.run()       # Run the plugin handler
 notifications.run() # Websockets server for notifications
 pages.run()         # Websocket for sending page data to the frontend
 webserver.run()     # Main webserver
-window.run()        # Webview window (if not --no-ui)
                     # This is blocking until the window opens (or a 10s timeout)
+window.run()        # Webview window (if not --no-ui)
 
 #base_events.run()   # Start listening for events
 
-
 logging.info("[green]" + _("Backend started successfully") + "[/green]")
 
-frame_counter = 0
 def run() -> None:
-    """
-    Run the main ETS2LA loop. As long as this function is running
-    ETS2LA will stay open.
-    """
-    global frame_counter
+    frame_counter = 0
     while True:
         time.sleep(0.01) # Relieve CPU time (100fps)
         
@@ -76,11 +69,6 @@ def run() -> None:
             func[0](*func[1], **func[2])
             webserver.mainThreadQueue.remove(func)
             logging.debug(f"Executed queue item: {func[0].__name__}")
-        
-        if not variables.NO_UI and not check_if_window_still_open():
-            RestoreConsole()
-            plugins.save_running_plugins()
-            raise Exception("exit")
         
         if variables.CLOSE:
             RestoreConsole()

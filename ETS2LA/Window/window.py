@@ -1,11 +1,11 @@
 from ETS2LA.Window.utils import color_title_bar, dont_check_window_open, get_screen_dimensions, correct_window_position, get_theme_color
 from multiprocessing import JoinableQueue
 import ETS2LA.Utils.settings as settings
-from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
 from ETS2LA.Window.html import html
-import multiprocessing  
+import multiprocessing
 import webbrowser
+import threading
 import requests
 import logging
 import webview
@@ -159,9 +159,7 @@ def set_transparency(value: bool):
     return IS_TRANSPARENT
 
 def start_webpage(queue: JoinableQueue, local_mode: bool):
-    global webview_window
-    
-    def load_website(window:webview.Window):
+    def window_callback(window:webview.Window):
         # Wait until the server is ready
         if local_mode:
             RETRY_INTERVAL = 0.5
@@ -255,6 +253,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
 
     window_x, window_y = correct_window_position(window_x, window_y, WIDTH, HEIGHT)
 
+    start = time.time()
     window = webview.create_window(
         variables.APPTITLE, 
         html=html, 
@@ -275,7 +274,7 @@ def start_webpage(queue: JoinableQueue, local_mode: bool):
     webview_window = window
     
     webview.start(
-        load_website, 
+        window_callback, 
         window, # type: ignore
         private_mode=False, # Save cookies, local storage and cache
         debug=DEBUG_MODE, # Show developer tools
@@ -294,13 +293,7 @@ def check_for_size_change(settings):
     
 settings.Listen("global", check_for_size_change)
 
-def run():
-    if variables.NO_UI:
-        logging.info("No UI flag detected. Skipping UI startup. You can close the application by closing the console window.")
-        return
-    
-    p = multiprocessing.Process(target=start_webpage, args=(queue, variables.LOCAL_MODE, ), daemon=True)
-    p.start()
+def wait_for_window():
     if os.name == 'nt':
         color_title_bar()
         if variables.NO_CONSOLE:
@@ -308,5 +301,16 @@ def run():
             visibility.HideConsole()
 
     if not dont_check_window_open:
+        from ETS2LA.Handlers.sounds import Play
         if settings.Get("global", "startup_sound", True):
             Play("boot")
+
+def run():
+    if variables.NO_UI:
+        logging.info("No UI flag detected. Skipping UI startup. You can close the application by closing the console window.")
+        return
+    
+    p = multiprocessing.Process(target=start_webpage, args=(queue, variables.LOCAL_MODE, ), daemon=True)
+    p.start()
+    
+    threading.Thread(target=wait_for_window, daemon=True).start()

@@ -5,7 +5,6 @@ import multiprocessing
 import pywintypes
 import threading
 import win32pdh
-import logging
 import psutil
 import time
 import os
@@ -39,7 +38,6 @@ class PerformanceMetrics:
                     _, val = win32pdh.GetFormattedCounterValue(hc, win32pdh.PDH_FMT_DOUBLE)
                 except pywintypes.error:
                     time.sleep(1)
-                    logging.warning("Failed to get CPU usage from Windows Performance Counters. Falling back to psutil.")
                     use_fallback = True # Use the fallback if Windows says that AddCounter doesn't exist
                     continue
             else:
