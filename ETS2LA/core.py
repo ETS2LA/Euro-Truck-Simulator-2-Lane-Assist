@@ -10,7 +10,6 @@ Welcome to the main entrypoint for ETS2LA.
 
 - The loop in this file is just to handle exits, updates and restarts
   from the frontend via the webserver.
-  
 """
 
 from ETS2LA.Utils.Console.logging import *
@@ -22,7 +21,7 @@ import ETS2LA.Networking.Servers.webserver as webserver
 import ETS2LA.Networking.Servers.discovery as discovery
 import ETS2LA.Networking.Servers.pages as pages
 from ETS2LA.Utils.translator import _
-import ETS2LA.Window.window as window
+from ETS2LA.Window.utils import minimize_window
 
 # Backend
 #import ETS2LA.Events.base_events as base_events
@@ -40,26 +39,23 @@ import ETS2LA.variables as variables
 import pygame
 import time
 
-pygame.init()
+def run():
+    pygame.init()
 
-if not check_python_version():
-    raise Exception("Python version not supported. Please install 3.11 or 3.12.")
+    if not check_python_version():
+        raise Exception("Python version not supported. Please install 3.11 or 3.12.")
 
-discovery.run()     # Rebind local IP to http://ets2la.local:37520
-controls.run()      # Control handlers
-plugins.run()       # Run the plugin handler
+    discovery.run()     # Rebind local IP to http://ets2la.local:37520
+    controls.run()      # Control handlers
+    plugins.run()       # Run the plugin handler
 
-notifications.run() # Websockets server for notifications
-pages.run()         # Websocket for sending page data to the frontend
-webserver.run()     # Main webserver
-                    # This is blocking until the window opens (or a 10s timeout)
-window.run()        # Webview window (if not --no-ui)
+    notifications.run() # Websockets server for notifications
+    pages.run()         # Websocket for sending page data to the frontend
+    webserver.run()     # Main webserver
+                        # This is blocking until the window opens (or a 10s timeout)
 
-#base_events.run()   # Start listening for events
+    logging.info("[green]" + _("Backend started successfully") + "[/green]")
 
-logging.info("[green]" + _("Backend started successfully") + "[/green]")
-
-def run() -> None:
     frame_counter = 0
     while True:
         time.sleep(0.01) # Relieve CPU time (100fps)
@@ -86,10 +82,9 @@ def run() -> None:
             raise Exception("Update")
         
         if variables.MINIMIZE:
-            window.minimize_window()
+            minimize_window()
             variables.MINIMIZE = False
             
-        
         if frame_counter % 100 == 0: # ~1 second 
             frame_counter = 0
             if variables.DEVELOPMENT_MODE:
@@ -97,6 +92,3 @@ def run() -> None:
         
         cloud.Ping()
         frame_counter += 1
-
-if __name__ == "__main__":
-    run() # Start the main loop

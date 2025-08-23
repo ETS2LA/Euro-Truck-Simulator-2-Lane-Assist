@@ -4,6 +4,7 @@ If you are looking for the actual entrypoint then you should
 look at the core.py file in the ETS2LA folder.
 """
 
+import multiprocessing.process
 import os
 import sys
 import subprocess
@@ -122,7 +123,7 @@ def get_fastest_mirror() -> str:
         return fastest_mirror
     else:
         mirror = settings.Get("global", "frontend_mirror", "Auto")
-        print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))
+        #print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))
         return mirror
 
 def update_frontend() -> bool:
@@ -140,7 +141,7 @@ def update_frontend() -> bool:
     
     return did_update
 
-def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
+def ets2la_process(exception_queue: multiprocessing.Queue, window_queue: multiprocessing.Queue) -> None:
     """
     The main ETS2LA process.
     - This function will run ETS2LA with the given arguments.
@@ -151,15 +152,12 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
     """
     try:
         import ETS2LA.variables
+        variables.WINDOW_QUEUE = window_queue
         
         if "--dev" in sys.argv:
             print(PURPLE + _("Running ETS2LA in development mode.") + END)
 
-        if "--local" in sys.argv:
-            update_frontend()
-            print(PURPLE + _("Running UI locally") + END)
-
-        elif "--frontend-url" not in sys.argv:
+        if "--frontend-url" not in sys.argv:
             url = get_fastest_mirror()
             if not url:
                 print(RED + _("No connection to remote UI mirrors. Running locally.") + END)
@@ -178,15 +176,13 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
             print("\n" + YELLOW + _("> Using mirror {0} for UI.").format(url) + END + "\n")
             sys.argv.append("--frontend-url")
             sys.argv.append(url)
+            variables.FRONTEND_URL = url
         
         if "--no-console" in sys.argv:
             if "--no-ui" in sys.argv:
                 print(RED + _("--no-console cannot be used in combination with --no-ui. The console will not close.") + END)
             else:
                 print(PURPLE + _("Closing console after UI start.") + END)
-
-        if "--no-ui" in sys.argv:
-            print(PURPLE + _("Running in the background without a window.") + END)
 
         close_node()
         ClearLogFiles()
@@ -201,17 +197,66 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
         else:
             exception_queue.put((e, None))
 
+def window_process(window_queue: multiprocessing.Queue) -> None:
+    """
+    This function is used to run the ETS2LA window.
+    It will create a new window and run the ETS2LA UI.
+    """
+    try:
+        import ETS2LA.variables
+        variables.WINDOW_QUEUE = window_queue
+        
+        if "--no-ui" in sys.argv:
+            print(PURPLE + _("Running in the background without a window.") + END)
+            
+        if "--local" in sys.argv:
+            update_frontend()
+            print(PURPLE + _("Running UI locally") + END)
+            ETS2LA.variables.LOCAL_MODE = True
+        
+        elif "--frontend-url" not in sys.argv:
+            url = get_fastest_mirror()
+            if not url:
+                sys.argv.append("--local")
+                ETS2LA.variables.LOCAL_MODE = True
+                
+            sys.argv.append("--frontend-url")
+            sys.argv.append(url)
+            variables.FRONTEND_URL = url
+            
+        import ETS2LA.Window.window as window
+        window.run()
+    except Exception as e:
+        trace = traceback.format_exc()
+        variables.OUTPUT_QUEUE.put((e, trace))
 
 if __name__ == "__main__":
+    window_queue = multiprocessing.JoinableQueue()
     exception_queue = multiprocessing.Queue()
     print(BLUE + _("ETS2LA Overseer started!") + END + "\n")
 
     while True:
-        process = multiprocessing.Process(target=ets2la_process, args=(exception_queue,))
+        get_fastest_mirror()
+        
+        page = multiprocessing.Process(
+            target=window_process,
+            args=(window_queue,),
+            daemon=True
+        )
+        page.start()
+        
+        process = multiprocessing.Process(
+            target=ets2la_process, 
+            args=(exception_queue, window_queue, )
+        )
         process.start()
-        process.join() # This will block until ETS2LA has closed.
+        process.join()
+        
+        if page.is_alive():
+            page.terminate()
         
         try:
+            # Exit by process end / crash
             e, trace = exception_queue.get_nowait()
 
             if e.args[0] == "exit":

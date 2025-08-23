@@ -3,7 +3,7 @@ from ETS2LA.Utils.translator import languages, parse_language
 from ETS2LA.Utils.translator import _
 from langcodes import Language
 from ETS2LA.Utils import settings
-from ETS2LA.Window.window import get_transparency, get_on_top 
+from ETS2LA.Window.utils import get_transparency, get_on_top 
 import time
 
 from Pages.sdk_installation import Page as SDKInstallPage

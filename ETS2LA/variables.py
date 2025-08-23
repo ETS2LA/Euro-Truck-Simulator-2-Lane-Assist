@@ -92,6 +92,12 @@ ATS_DLC = []
 ETS2_DLC = []
 """List of all ETS2 DLCs currently installed."""
 
+WINDOW_QUEUE = None
+"""
+Used by the window window to get commands from the main process.
+Use .put(), only the window process should .get().
+"""
+
 # Update paths
 if os.name == "nt":
     import ctypes.wintypes
