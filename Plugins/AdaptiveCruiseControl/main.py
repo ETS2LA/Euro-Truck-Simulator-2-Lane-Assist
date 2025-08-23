@@ -862,11 +862,15 @@ class Plugin(ETS2LAPlugin):
         if not in_front:
             self.globals.tags.vehicle_highlights = []
         
-        try:    traffic_light = self.get_traffic_light_in_front(self.api_data)
-        except: traffic_light = None
+        tl_mode = self.settings.get("traffic_light_mode", "Normal")
         
-        # try:    traffic_light = self.get_next_prefab_traffic_light(self.api_data)
-        # except: traffic_light = None
+        if tl_mode == "Legacy":
+            try:    traffic_light = self.get_traffic_light_in_front(self.api_data)
+            except: traffic_light = None
+        
+        else:
+            try:    traffic_light = self.get_next_prefab_traffic_light(self.api_data)
+            except: traffic_light = None
         
         try:    gate = self.get_gate_in_front(self.api_data)
         except:

@@ -25,5 +25,5 @@ class Plugin(ETS2LAPlugin):
         ...
 
     def run(self):
-        running = self.globals.tags.get_tag("state")
+        running = self.globals.tags.get_tag("running")
         print(running)

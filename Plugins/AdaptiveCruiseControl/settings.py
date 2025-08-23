@@ -60,6 +60,9 @@ class SettingsMenu(ETS2LAPage):
     def handle_pid_kd(self, value):
         settings.Set("AdaptiveCruiseControl", "pid_kd", value)
     
+    def handle_traffic_light_mode(self, value):
+        settings.Set("AdaptiveCruiseControl", "traffic_light_mode", value)
+    
     def render(self):
         TitleAndDescription(
             title=_("Adaptive Cruise Control"),
@@ -90,6 +93,14 @@ class SettingsMenu(ETS2LAPage):
                     description=_("Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."),
                     changed=self.handle_ignore_traffic_lights,
                     default=settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights"),
+                )
+                
+                ComboboxWithTitleDescription(
+                    options=["Legacy", "Normal"],
+                    title=_("Traffic Light Mode"),
+                    changed=self.handle_traffic_light_mode,
+                    default=settings.Get("AdaptiveCruiseControl", "traffic_light_mode", "Normal"),
+                    description=_("Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."),
                 )
 
             with Tab(_("Speed Control"), container_style=styles.FlexVertical() + styles.Gap("24px")):
