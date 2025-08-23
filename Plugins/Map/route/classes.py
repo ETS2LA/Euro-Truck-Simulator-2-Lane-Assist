@@ -387,7 +387,7 @@ class RouteSection:
             
     def get_points(self):
 
-        plugin_status = data.plugin.globals.tags.running.get('catalogueplugins.automatic blinkers')
+        plugin_status = (data.plugin.globals.tags.running or {}).get('catalogueplugins.automatic blinkers', False)
 
         if not plugin_status:
             if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
