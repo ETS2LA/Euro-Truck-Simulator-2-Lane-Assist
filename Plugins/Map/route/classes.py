@@ -1,4 +1,5 @@
 import Plugins.Map.utils.math_helpers as math_helpers
+from ETS2LA.Utils import settings
 import Plugins.Map.classes as c
 import Plugins.Map.data as data
 import numpy as np
@@ -387,8 +388,15 @@ class RouteSection:
                 time.sleep(1/20)
             
     def get_points(self):
-        if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
-            self.reset_indicators()
+
+        plugin_status = (data.plugin.globals.tags.running or {}).get('catalogueplugins.automatic blinkers', False)
+
+        if not plugin_status:
+            if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+                self.reset_indicators()
+
+        # Check the setting so the indicators work correctly in UK for example
+        self._left_hand_traffic = settings.Get("Map", "traffic_side", "")
             
         # If not lane changing, return the normal lane points
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
@@ -416,19 +424,16 @@ class RouteSection:
         
         # Check if lane change is in progress and not indicating
         if self.is_lane_changing and self._lane_change_progress > 0:
-            side = self.items[0].item.lanes[self.lane_index].side
-            if side == "left":
-                diff = self._last_lane_index - self.lane_index
-                if diff > 0 and not data.truck_indicating_right:
-                    self.indicate_right()
-                elif diff < 0 and not data.truck_indicating_left:
-                    self.indicate_left()
-            elif side == "right":
-                diff = self._last_lane_index - self.lane_index
-                if diff < 0 and not data.truck_indicating_right:
-                    self.indicate_right()
-                elif diff > 0 and not data.truck_indicating_left:
-                    self.indicate_left()
+            diff = self.lane_index - self._last_lane_index  # current - previous
+
+            # Flip direction for left-hand traffic (UK)
+            if self._left_hand_traffic == "Left Handed":
+                diff = -diff
+
+            if diff > 0 and not data.truck_indicating_right:
+                self.indicate_right()
+            elif diff < 0 and not data.truck_indicating_left:
+                self.indicate_left()
         
         # Check if lane change is complete
         if self._lane_change_progress > 0.98:
