@@ -114,6 +114,9 @@ def window_handler(window: webview.Window):
             if variables.DEVELOPMENT_MODE:
                 continue
             
+            if not window:
+                return
+            
             if "ets2la" not in window.get_current_url():
                 if not variables.LOCAL_MODE:
                     time.sleep(0.5) # 0.5s load time wait
