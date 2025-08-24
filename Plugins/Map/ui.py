@@ -203,9 +203,9 @@ class SettingsMenu(ETS2LAPage):
 
                 ComboboxWithTitleDescription(
                     title=_("Traffic Side"),
-                    description=_("This will make the indicators behave correctly when lane changing in left handed or right handed countries."),
+                    description=_("This will make the indicators behave correctly when lane changing in left handed or right handed countries. 'Auto' will automatically detect left handed countries."),
                     default=settings.Get("Map", "traffic_side", "Right Handed"),
-                    options=["Right Handed", "Left Handed"],
+                    options=["Right Handed", "Left Handed", "Auto"],
                     changed=self.handle_Traffic_Side,
                 )
                 
