@@ -299,6 +299,25 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
 
     return prefab_descriptions
 
+def ReadTriggers() -> list[c.Trigger]:
+    path = FindCategoryFilePath("triggers")
+    if path is None: return []
+    triggers: list[c.Trigger] = []
+    file = data_handler.ReadData(path)
+    for trigger in file:
+        triggers.append(c.Trigger(
+            trigger["uid"],
+            trigger["x"],
+            trigger["y"],
+            TryReadExcept(trigger, "z", 0),
+            0,
+            0,
+            trigger["actions"],
+            trigger["nodeUids"],
+        ))
+        
+    return triggers
+
 def ReadFerries() -> list[c.Ferry]:
     path = FindCategoryFilePath("ferries")
     if path is None: return []
@@ -643,9 +662,13 @@ def ReadData(state = None) -> c.MapData:
     map.model_descriptions = ReadModelDescriptions()
     UpdateState(start_time, f"Loaded {len(map.model_descriptions)} model descriptions")
     
-    PrintState(start_time, "Map Areas")
-    map.map_areas = ReadMapAreas()
-    UpdateState(start_time, f"Loaded {len(map.map_areas)} map areas")
+    # PrintState(start_time, "Map Areas")
+    # map.map_areas = ReadMapAreas()
+    # UpdateState(start_time, f"Loaded {len(map.map_areas)} map areas")
+    
+    PrintState(start_time, "Triggers")
+    map.triggers = ReadTriggers()
+    UpdateState(start_time, f"Loaded {len(map.triggers)} triggers")
     
     PrintState(start_time, "POIs")
     map.POIs = ReadPOIs()

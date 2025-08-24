@@ -313,6 +313,17 @@ def DrawCircles(image: np.ndarray) -> None:
             cv2.circle(image, (int(x), int(z)), 3, (255, 255, 255), -1)
             cv2.putText(image, f"{i}", (int(x), int(z)), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (255, 255, 255), 1, cv2.LINE_AA)
 
+def DrawTriggers(image: np.ndarray) -> None:
+    for trigger in data.current_sector_triggers:
+        trigger_position = ToLocalSectorCoordinates(trigger.x, trigger.y, SCALING_FACTOR)
+        cv2.circle(image, (int(trigger_position[0]), int(trigger_position[1])), 4, (200, 100, 200), 1)
+        cv2.putText(image, f"{trigger.action_tokens}", (int(trigger_position[0] + 10), int(trigger_position[1]) + 4), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (200, 100, 200), 1, cv2.LINE_AA)
+        for node in trigger.node_uids:
+            node_item = data.map.get_item_by_uid(node)
+            if node_item:
+                node_position = ToLocalSectorCoordinates(node_item.x, node_item.y, SCALING_FACTOR)
+                cv2.circle(image, (int(node_position[0]), int(node_position[1])), 4, (100, 200, 200), 1)
+
 def DrawPlayerDot(image: np.ndarray) -> None:
     x, z = ToLocalSectorCoordinates(data.truck_x, data.truck_z, SCALING_FACTOR)
     cv2.circle(image, (int(x), int(z)), 5, (0, 0, 255), 1)
@@ -358,6 +369,7 @@ def DrawMap() -> None:
     DrawRoutePlan(image)
     DrawPlayerDot(image)
     DrawCircles(image)
+    DrawTriggers(image)
     
     try:
         image = ZoomImage(image)

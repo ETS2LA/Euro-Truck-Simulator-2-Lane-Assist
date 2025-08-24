@@ -1,4 +1,4 @@
-from Plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Node, Elevation
+from Plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Trigger, Elevation
 from Modules.SDKController.main import SCSController
 from Plugins.Map.route.classes import RouteSection
 import ETS2LA.Utils.settings as settings
@@ -65,6 +65,8 @@ current_sector_models: list[Model] = []
 """The models in the current sector."""
 current_sector_elevations: list[Elevation] = []
 """"The elevations in the current sector."""
+current_sector_triggers: list[Trigger] = []
+"""The triggers in the current sector."""
 current_sectors: list[tuple[int, int]] = []
 """The sectors that are currently loaded."""
 route_plan: list[RouteSection] = []
@@ -152,7 +154,7 @@ update_navigation_plan = False
 def UpdateData(api_data):
     global heavy_calculations_this_frame
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation
-    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_roads, last_sector, current_sector_models, current_sectors, current_sector_elevations
+    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_triggers, current_sector_roads, last_sector, current_sector_models, current_sectors, current_sector_elevations
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
     global dest_city, dest_company, dest_city_token, dest_company_token
@@ -184,11 +186,13 @@ def UpdateData(api_data):
         current_sector_roads = []
         current_sector_models = []
         current_sector_elevations = []
+        current_sector_triggers = []
         for sector in sectors_to_load:
             current_sector_prefabs += map.get_sector_prefabs_by_sector(sector)
             current_sector_roads += map.get_sector_roads_by_sector(sector)
             current_sector_models += map.get_sector_models_by_sector(sector)
             current_sector_elevations += map.get_sector_elevations_by_sector(sector)
+            current_sector_triggers += map.get_sector_triggers_by_sector(sector)
         
         data_needs_update = True
 

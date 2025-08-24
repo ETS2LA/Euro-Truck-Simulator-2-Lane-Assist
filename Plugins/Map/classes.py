@@ -1423,22 +1423,22 @@ class Cutscene(BaseItem):
 
 
 class Trigger(BaseItem):
-    __slots__ = ['dlc_guard', 'action_tokens', 'node_uids', 'type']
+    __slots__ = ['action_tokens', 'node_uids', 'type', 'z']
     
-    dlc_guard: int
     action_tokens: list[str]
     node_uids: list[int | str]
     type: ItemType
+    z: float
 
     def parse_strings(self):
         super().parse_strings()
         self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
 
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int,
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int,
                  action_tokens: list[str], node_uids: list[int | str]):
-        super().__init__(uid, ItemType.Trigger, x, y, z, sector_x, sector_y)
+        super().__init__(uid, ItemType.Trigger, x, y, sector_x, sector_y)
+        self.z = z
         self.type = ItemType.Trigger
-        self.dlc_guard = dlc_guard
         self.action_tokens = action_tokens
         self.node_uids = node_uids
 
@@ -2217,7 +2217,8 @@ class MapData:
     prefabs: list[Prefab]
     companies: list[CompanyItem]
     models: list[Model]
-    map_areas: list[MapArea]
+    # map_areas: list[MapArea]
+    triggers: list[Trigger]
     POIs: list[POI]
     dividers: list[Building | Curve]
     countries: list[Country]
@@ -2233,6 +2234,7 @@ class MapData:
     _roads_by_sector: dict[dict[Road]]
     _prefabs_by_sector: dict[dict[Prefab]]
     _models_by_sector: dict[dict[Model]]
+    _triggers_by_sector: dict[dict[Trigger]]
 
     _min_sector_x: int = math.inf
     _max_sector_x: int = -math.inf
@@ -2277,8 +2279,11 @@ class MapData:
         for model in self.models:
             model.sector_x, model.sector_y = self.get_node_sector(model.node_uid, (model.x, model.y))
             
-        for area in self.map_areas:
-            area.sector_x, area.sector_y = self.get_sector_from_center_of_nodes(area.node_uids, (area.x, area.y))
+        for trigger in self.triggers:
+            trigger.sector_x, trigger.sector_y = self.get_sector_from_center_of_nodes(trigger.node_uids, (trigger.x, trigger.y))
+            
+        #for area in self.map_areas:
+        #    area.sector_x, area.sector_y = self.get_sector_from_center_of_nodes(area.node_uids, (area.x, area.y))
             
         for poi in self.POIs:
             poi.sector_x, poi.sector_y = self.get_sector_from_coordinates(poi.x, poi.y)
@@ -2327,6 +2332,7 @@ class MapData:
         self._roads_by_sector = {}
         self._prefabs_by_sector = {}
         self._models_by_sector = {}
+        self._triggers_by_sector = {}
 
         for node in self.nodes:
             sector = (node.sector_x, node.sector_y)
@@ -2378,6 +2384,14 @@ class MapData:
             if sector[1] not in self._elevations_by_sector[sector[0]]:
                 self._elevations_by_sector[sector[0]][sector[1]] = []
             self._elevations_by_sector[sector[0]][sector[1]].append(elevation)
+            
+        for trigger in self.triggers:
+            sector = (trigger.sector_x, trigger.sector_y)
+            if sector[0] not in self._triggers_by_sector:
+                self._triggers_by_sector[sector[0]] = {}
+            if sector[1] not in self._triggers_by_sector[sector[0]]:
+                self._triggers_by_sector[sector[0]][sector[1]] = []
+            self._triggers_by_sector[sector[0]][sector[1]].append(trigger)
 
     def get_node_by_uid(self, uid: str) -> Optional[Node]:
         """Get a node by its UID."""
@@ -2479,6 +2493,13 @@ class MapData:
 
     def get_sector_models_by_sector(self, sector: tuple[int, int]) -> list[Model]:
         return self._models_by_sector.get(sector[0], {}).get(sector[1], [])
+
+    def get_sector_triggers_by_coordinates(self, x: float, z: float) -> list[Trigger]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_triggers_by_sector(sector)
+    
+    def get_sector_triggers_by_sector(self, sector: tuple[int, int]) -> list[Trigger]:
+        return self._triggers_by_sector.get(sector[0], {}).get(sector[1], [])
 
     def get_sector_elevations_by_coordinates(self, x: float, z: float) -> list[Elevation]:
         sector = self.get_sector_from_coordinates(x, z)
