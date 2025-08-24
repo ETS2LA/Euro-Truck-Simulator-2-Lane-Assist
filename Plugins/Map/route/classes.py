@@ -440,8 +440,6 @@ class RouteSection:
 
         self._Traffic_side = "UK" if left_hand else "EU/US"
 
-        print(left_hand)
-
         # Lane-change logic
         if self.is_lane_changing and self._lane_change_progress > 0:
             side = self.items[0].item.lanes[self.lane_index].side
