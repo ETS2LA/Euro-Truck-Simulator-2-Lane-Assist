@@ -2015,9 +2015,10 @@ class Semaphore:
         }
 
 class PrefabDescription:
-    __slots__ = ['token', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', 'semaphores', '_nav_routes']
+    __slots__ = ['token', 'path', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', 'semaphores', '_nav_routes']
     
     token: str
+    path: str
     nodes: list[PrefabNode]
     map_points: RoadMapPoint # | PolygonMapPoint
     """Can also be PolygonMapPoint"""
@@ -2028,11 +2029,12 @@ class PrefabDescription:
     semaphores: list[Semaphore]
     _nav_routes: list[PrefabNavRoute]
 
-    def __init__(self, token: str, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint,
+    def __init__(self, token: str, path: str, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint,
                  spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint],
                  nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode], semaphores: list[Semaphore] | None = None):
         self._nav_routes = []
         self.token = token
+        self.path = path
         self.nodes = nodes
         self.map_points = map_points
         self.spawn_points = spawn_points
@@ -2064,6 +2066,7 @@ class PrefabDescription:
     def json(self) -> dict:
         return {
             "token": self.token,
+            "path": self.path,
             "nodes": [node.json() for node in self.nodes],
             "map_points": self.map_points.json(),
             "spawn_points": [spawn.json() for spawn in self.spawn_points],
@@ -2118,6 +2121,38 @@ class Prefab(BaseItem):
 
         for route in self._nav_routes:
             route.generate_points(self)
+            
+        if "toll" not in self.prefab_description.path:
+            return
+            
+        # Get triggers and sort them to ones
+        # that affect toll roads.
+        triggers: list[Trigger] = data.map.get_sector_triggers_by_sector([self.sector_x, self.sector_y])
+        valid_toll_markers = []
+        for trigger in triggers:
+            for action in trigger.action_tokens:
+                if type(action) == str and "toll" in action.lower() or \
+                   type(action) == list and "toll" in action[0].lower():
+                    uids = trigger.node_uids
+                    for uid in uids:
+                        node = data.map.get_node_by_uid(uid)
+                        valid_toll_markers.append(
+                            Position(node.x, node.z, node.y)
+                        )
+                
+        if not valid_toll_markers:
+            return
+        
+        # Loop through the routes and remove ones that don't
+        # have a valid toll marker within one lane.
+        valid_routes = []
+        for route in self._nav_routes:
+            if any(math_helpers.DistanceBetweenPoints((point.x, point.z), (marker.x, marker.z)) < 4.5 for marker in valid_toll_markers for point in route.points):
+                valid_routes.append(route)
+             
+        # Only override if we found valid routes in both directions.
+        if valid_routes and len(valid_routes) > 1:
+            self._nav_routes = valid_routes
 
     @property
     def nav_routes(self) -> list[PrefabNavRoute]:

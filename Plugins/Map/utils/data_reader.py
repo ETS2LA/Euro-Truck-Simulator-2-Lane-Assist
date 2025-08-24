@@ -171,6 +171,7 @@ def ReadPrefabDescriptions() -> list[c.PrefabDescription]:
         # TODO: Read signs!
         return c.PrefabDescription(
             prefab_description["token"],
+            prefab_description["path"],
             # nodes
             [
                 c.PrefabNode(
