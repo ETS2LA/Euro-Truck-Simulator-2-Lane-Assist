@@ -396,7 +396,23 @@ class RouteSection:
                 self.reset_indicators()
 
         # Check the setting so the indicators work correctly in UK for example
-        self._left_hand_traffic = settings.Get("Map", "traffic_side", "")
+        traffic_setting = settings.Get("Map", "traffic_side", "Right Handed")
+        
+        if traffic_setting == "Auto":
+            closest_country = getattr(data.plugin.globals.tags, 'closest_country', None)
+            if closest_country:
+                try:
+                    country_name = data.plugin.globals.tags.merge(closest_country)
+                    if country_name and any(uk_id.lower() in str(country_name).lower() for uk_id in ["UK", "GB", "United Kingdom"]):
+                        self._left_hand_traffic = "Left Handed"
+                    else:
+                        self._left_hand_traffic = "Right Handed"
+                except:
+                    self._left_hand_traffic = "Right Handed"
+            else:
+                self._left_hand_traffic = "Right Handed"
+        else:
+            self._left_hand_traffic = traffic_setting
             
         # If not lane changing, return the normal lane points
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
@@ -426,14 +442,20 @@ class RouteSection:
         if self.is_lane_changing and self._lane_change_progress > 0:
             diff = self.lane_index - self._last_lane_index  # current - previous
 
-            # Flip direction for left-hand traffic (UK)
             if self._left_hand_traffic == "Left Handed":
-                diff = -diff
-
-            if diff > 0 and not data.truck_indicating_right:
-                self.indicate_right()
-            elif diff < 0 and not data.truck_indicating_left:
-                self.indicate_left()
+                if diff > 0:
+                    if not data.truck_indicating_left:
+                        self.indicate_left()
+                elif diff < 0:
+                    if not data.truck_indicating_right:
+                        self.indicate_right()
+            else:
+                if diff > 0:
+                    if not data.truck_indicating_right:
+                        self.indicate_right()
+                elif diff < 0:
+                    if not data.truck_indicating_left:
+                        self.indicate_left()
         
         # Check if lane change is complete
         if self._lane_change_progress > 0.98:
