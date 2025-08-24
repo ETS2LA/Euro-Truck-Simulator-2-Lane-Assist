@@ -396,7 +396,7 @@ class RouteSection:
                 self.reset_indicators()
 
         # Check the setting so the indicators work correctly in UK for example
-        self._left_hand_traffic = settings.Get("Map", "traffic_side", "")
+        self._Traffic_side = settings.Get("Map", "traffic_side", "")
             
         # If not lane changing, return the normal lane points
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
@@ -422,17 +422,39 @@ class RouteSection:
             ) / self.lane_change_distance
             self.lane_change_factor = math_helpers.InOut(self._lane_change_progress)
         
-        # Check if lane change is in progress and not indicating
+        if self._Traffic_side == "Automatic":
+            try:
+                cities = data.map.cities
+                closest = None
+                closest_distance = math.inf
+                for city in cities:
+                    distance = math.sqrt((data.truck_x - city.x) ** 2 + (data.truck_z - city.y) ** 2)
+                    if distance < closest_distance:
+                        closest_distance = distance
+                        closest = city
+                left_hand = str(closest.country_token).lower() in {"uk", "gb", "united kingdom"} if closest.country_token else False
+            except:
+                left_hand = False
+        else:
+            left_hand = self._Traffic_side == "UK"
+
+        self._Traffic_side = "UK" if left_hand else "EU/US"
+
+        print(left_hand)
+
+        # Lane-change logic
         if self.is_lane_changing and self._lane_change_progress > 0:
-            diff = self.lane_index - self._last_lane_index  # current - previous
+            side = self.items[0].item.lanes[self.lane_index].side
+            if left_hand:  # reverse for left-hand traffic
+                side = "left" if side == "right" else "right"
 
-            # Flip direction for left-hand traffic (UK)
-            if self._left_hand_traffic == "Left Handed":
-                diff = -diff
+            diff = self._last_lane_index - self.lane_index
 
-            if diff > 0 and not data.truck_indicating_right:
+            if (side == "left" and diff > 0 and not data.truck_indicating_right) or \
+            (side == "right" and diff < 0 and not data.truck_indicating_right):
                 self.indicate_right()
-            elif diff < 0 and not data.truck_indicating_left:
+            elif (side == "left" and diff < 0 and not data.truck_indicating_left) or \
+                (side == "right" and diff > 0 and not data.truck_indicating_left):
                 self.indicate_left()
         
         # Check if lane change is complete
