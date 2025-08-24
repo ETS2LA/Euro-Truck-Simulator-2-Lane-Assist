@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-23 23:06+0000\n"
+"PO-Revision-Date: 2025-08-25 20:06+0000\n"
 "Last-Translator: scorpion7slayer <scorpionslayer@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>"
 "\n"
@@ -1072,7 +1072,7 @@ msgstr "Vous devrez redémarrer ETS2LA après avoir terminé l’onboarding pour
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr "Données de la carte"
+msgstr "Données de la map"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
@@ -1108,11 +1108,11 @@ msgstr "taille du téléchargement"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr "pour ces données, c'est"
+msgstr "pour ces données est de"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr "qui sera décompressé en un(e)"
+msgstr "qui sera décompressé en une"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
@@ -1232,11 +1232,11 @@ msgstr "Utilisation du processeur "
 
 #: .\Pages\performance.py:127
 msgid "RAM Usage"
-msgstr "Utilisation de la mémoire vive"
+msgstr "Utilisation de la RAM"
 
 #: .\Pages\performance.py:134
 msgid "RAM Usage "
-msgstr "Utilisation de la mémoire vive "
+msgstr "Utilisation de la RAM "
 
 #: .\Pages\performance.py:134
 msgid "ETS2LA RAM Usage  "
@@ -1534,7 +1534,7 @@ msgstr "Changez les paramètres d'overlay AR ici."
 
 #: .\Plugins\AR\main.py:188
 msgid "Don't hide AR from recording software"
-msgstr "Ne pas masquer la RA pour les logiciels d’enregistrement"
+msgstr "Ne pas masquer l'AR pour les logiciels d’enregistrement"
 
 #: .\Plugins\AR\main.py:189
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
@@ -1595,11 +1595,11 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr "Augmenter l’écart de vitesse de conduite"
+msgstr "Augmentation de la vitesse de conduite"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
-msgstr "Cela augmentera le décalage de vitesse dans les paramètres."
+msgstr "Cela augmentera la vitesse dans les paramètres."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
@@ -1607,7 +1607,7 @@ msgstr "Réduction de la vitesse de conduite"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr "Cela réduira le décalage de vitesse dans les paramètres."
+msgstr "Cela réduira la vitesse dans les paramètres."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
@@ -1872,7 +1872,7 @@ msgstr "Ligne de direction"
 
 #: .\Plugins\HUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr "Afficher la ligne de direction à partir de la carte."
+msgstr "Afficher la ligne de direction à partir de la Map."
 
 #: .\Plugins\HUD\main.py:21
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
