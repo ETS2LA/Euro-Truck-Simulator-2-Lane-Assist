@@ -8,6 +8,7 @@ import json
 
 # Import dictionary utilities with fallback to mocks for testing
 import ETS2LA.variables as variables
+from ETS2LA.Utils import settings
 
 from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
@@ -20,13 +21,18 @@ import psutil
 
 data = None
 """The data object that is used by classes here. Will be set once the MapData object is created and loaded."""
+auto_tolls = settings.Get("Map", "AutoTolls", False)
 
+def settings_changed(new: dict):
+    global auto_tolls
+    auto_tolls = new.get("AutoTolls", auto_tolls)
+    
+settings.Listen("Map", settings_changed)
 
 def parse_string_to_int(string: str) -> int:
     if string is None: return None
     if type(string) == int: return string
     return int(string, 16)
-
 
 class FacilityIcon(StrEnum):
     PARKING = "parking_ico"
@@ -2122,6 +2128,9 @@ class Prefab(BaseItem):
         for route in self._nav_routes:
             route.generate_points(self)
             
+        if not auto_tolls:
+            return
+            
         if "toll" not in self.prefab_description.path:
             return
             
@@ -2143,13 +2152,23 @@ class Prefab(BaseItem):
         if not valid_toll_markers:
             return
         
-        # Loop through the routes and remove ones that don't
-        # have a valid toll marker within one lane.
+        # Get the closest route for each marker.
         valid_routes = []
-        for route in self._nav_routes:
-            if any(math_helpers.DistanceBetweenPoints((point.x, point.z), (marker.x, marker.z)) < 4.5 for marker in valid_toll_markers for point in route.points):
-                valid_routes.append(route)
-             
+        for marker in valid_toll_markers:
+            closest_route = None
+            closest_distance = math.inf
+            
+            for route in self._nav_routes:
+                for point in route.points:
+                    distance = math_helpers.DistanceBetweenPoints((point.x, point.z), (marker.x, marker.z))
+                    if distance < closest_distance:
+                        closest_distance = distance
+                        closest_route = route
+                        
+            if closest_distance < 8:
+                if closest_route not in valid_routes:
+                    valid_routes.append(closest_route)
+
         # Only override if we found valid routes in both directions.
         if valid_routes and len(valid_routes) > 1:
             self._nav_routes = valid_routes
