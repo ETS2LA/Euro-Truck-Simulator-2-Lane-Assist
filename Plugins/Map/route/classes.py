@@ -396,7 +396,7 @@ class RouteSection:
                 self.reset_indicators()
 
         # Check the setting so the indicators work correctly in UK for example
-        self._Traffic_side = settings.Get("Map", "traffic_side", "")
+        self._traffic_side = settings.Get("Map", "traffic_side", "")
             
         # If not lane changing, return the normal lane points
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
@@ -422,23 +422,28 @@ class RouteSection:
             ) / self.lane_change_distance
             self.lane_change_factor = math_helpers.InOut(self._lane_change_progress)
         
-        if self._Traffic_side == "Automatic":
+        if self._traffic_side == "Automatic":
             try:
-                cities = data.map.cities
-                closest = None
-                closest_distance = math.inf
-                for city in cities:
-                    distance = math.sqrt((data.truck_x - city.x) ** 2 + (data.truck_z - city.y) ** 2)
-                    if distance < closest_distance:
-                        closest_distance = distance
-                        closest = city
-                left_hand = str(closest.country_token).lower() in {"uk", "gb", "united kingdom"} if closest.country_token else False
-            except:
+                x = data.truck_x
+                y = data.truck_z
+
+                calais = [-31100, -5500]
+                is_uk = x < calais[0] and y < calais[1]
+
+                if is_uk:
+                    uk_factor = 0.75
+                    x = (x + calais[0]/2) * uk_factor
+                    y = (y + calais[1]/2) * uk_factor
+
+                left_hand = is_uk
+
+            except Exception:
                 left_hand = False
         else:
-            left_hand = self._Traffic_side == "UK"
+            left_hand = self._traffic_side == "Left"
 
-        self._Traffic_side = "UK" if left_hand else "EU/US"
+        # Set traffic side
+        self._traffic_side = "Left" if left_hand else "Right"
 
         # Lane-change logic
         if self.is_lane_changing and self._lane_change_progress > 0:
