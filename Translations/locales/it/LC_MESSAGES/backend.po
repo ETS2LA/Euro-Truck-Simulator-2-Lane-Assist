@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
 "PO-Revision-Date: 2025-08-26 14:34+0000\n"
-"Last-Translator: YuriClone501 <yuriclone@ets2la.com>\n"
+"Last-Translator: Mirco141 <mirco@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
 "Language: it\n"
@@ -129,7 +129,7 @@ msgstr "Impossibile riavviare il plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} non trovato nella pagina {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
@@ -259,7 +259,7 @@ msgstr "Backend avviato con successo"
 
 #: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Responsabile dello sviluppo e creatore di ETS2LA, backend & frontend."
 
 #: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
@@ -270,6 +270,8 @@ msgstr ""
 #: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Varie aggiunte e miglioramenti, modelli IA per il riconoscimenti degli "
+"oggetti & sviluppo"
 
 #: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
@@ -292,7 +294,7 @@ msgstr ""
 
 #: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Aiuta con Navigate su ETS2LA & Map"
 
 #: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
@@ -334,7 +336,7 @@ msgstr "Mantenimento dei mirror CN per i servizi ETS2LA."
 
 #: .\Pages\about.py:36
 msgid "Game hooks"
-msgstr ""
+msgstr "Hook di gioco"
 
 #: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
 #: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
@@ -476,11 +478,11 @@ msgstr ""
 
 #: .\Pages\about.py:231
 msgid "Utils"
-msgstr ""
+msgstr "Strumenti"
 
 #: .\Pages\about.py:235
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Aggiusta i tergicristalli"
 
 #: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
@@ -512,7 +514,7 @@ msgstr "Sconosciuto"
 
 #: .\Pages\catalogue.py:84
 msgid "No overview provided."
-msgstr ""
+msgstr "Nessuna panoramica fornita."
 
 #: .\Pages\catalogue.py:85
 msgid "No description provided."
@@ -536,7 +538,7 @@ msgstr "Installazione delle dipendenze"
 
 #: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Inizializzando il processo in background del plugin"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
@@ -574,7 +576,7 @@ msgstr "Impossibile arrestare i processi del plugin."
 
 #: .\Pages\catalogue.py:191
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Deregistrazione del repository Git"
 
 #: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
@@ -748,7 +750,7 @@ msgstr "Controlli"
 
 #: .\Pages\controls.py:72
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Qui puoi modificare gli eventi di controllo dei plugin."
 
 #: .\Pages\controls.py:83
 msgid "Search Controls or Plugins"
@@ -792,6 +794,8 @@ msgstr "Impostazioni globali"
 #: .\Pages\global_settings.py:168
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Qui puoi trovare impostazioni che riguardano l'intera applicazione, come la "
+"dimensione della finestra o la lingua."
 
 #: .\Pages\global_settings.py:174
 msgid "User Interface"
@@ -912,7 +916,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:336
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Torna al vecchio metodo di accelerazione"
 
 #: .\Pages\global_settings.py:337
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
@@ -944,6 +948,9 @@ msgstr "Caricamento lento"
 #: .\Pages\global_settings.py:363
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Se il tuo PC riscontra problemi a caricare tutti i plugin in contemporaneo, "
+"puoi abilitare questa opzione per caricarli uno per uno. Nota che abilitando "
+"questa opzione ci potrebbe volere più tempo per abilitare tutti i plugin."
 
 #: .\Pages\global_settings.py:368
 msgid "Miscellaneous"
@@ -970,11 +977,13 @@ msgstr ""
 
 #: .\Pages\global_settings.py:386
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Invia il report dell'arresto anomalo"
 
 #: .\Pages\global_settings.py:387
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
+"Invia automaticamente i report degli arresti anomali per aiutarci a "
+"migliorare."
 
 #: .\Pages\global_settings.py:392
 msgid "Use Fancy Traceback"
@@ -997,11 +1006,13 @@ msgstr ""
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "Specchietto dell'interfaccia utente default"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
+"Lo specchio che ETS2LA userà di default. Auto sceglierà il miglior specchio "
+"disponibile."
 
 #: .\Pages\global_settings.py:414
 msgid "ETS2LA Window Timeout"
@@ -1091,7 +1102,7 @@ msgstr "Seleziona la tua lingua preferita per ETS2LA."
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
-msgstr ""
+msgstr "Impostazioni SDK"
 
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
@@ -1122,14 +1133,23 @@ msgstr "Modalità plugin avanzata"
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Abilita funzioni di gestione avanzate per i plugin. Può essere cambiato in "
+"ogni momento nella sezione di gestione dei plugin."
 
 #: .\Pages\onboarding.py:193
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"È consigliato tenere disabilitata la **Modalità Avanzata dei Plugin**. Solo "
+"utenti esperti che vogliono selezionare manualmente i plugin dovrebbe "
+"abilitarla."
 
 #: .\Pages\onboarding.py:201
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"La **Modalità Avanzata dei Plugin** sblocca il controllo manuale dei plugin "
+"abilitati. Permette anche di scaricare più plugin da altre repository. Tieni "
+"presente che questi plugin di terze parti non sono *ufficialmente* "
+"supportati da ETS2LA."
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
@@ -1150,31 +1170,34 @@ msgstr ""
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr ""
+msgstr "Dati della Mappa"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
 msgstr ""
+"ETS2LA usa dati della mappa pre-estratti dal gioco. Gestiamo questi dati in "
+"anticipo e puoi scaricarli quando necessario. Perfavore seleziona i dati di "
+"cui hai bisogno per la tua versione di gioco corrente."
 
 #: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Attendendo la tua scelta sui dati..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Dati Selezionati"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr ""
+msgstr "Selezioni i dati che corrispondono al tuo gioco e alle tue mod."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Cerca dati"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
-msgstr ""
+msgstr "Nessun dato corrispondente trovato"
 
 #: .\Pages\onboarding.py:286
 msgid "The"
@@ -1186,11 +1209,11 @@ msgstr "dimensione del download"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
-msgstr ""
+msgstr "per questi dati è"
 
 #: .\Pages\onboarding.py:290
 msgid "that will unpack to a"
-msgstr ""
+msgstr "che verrà estratto in un"
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
@@ -1198,19 +1221,23 @@ msgstr "dimensione totale"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
-msgstr ""
+msgstr "Nessun dato selezionato"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
-msgstr ""
+msgstr "Si prega di selezionare i dati richiesti dal menu sottostante."
 
 #: .\Pages\onboarding.py:302
 msgid "Window Size"
-msgstr "Dimensione finestra"
+msgstr "Dimensione Finestra"
 
 #: .\Pages\onboarding.py:303
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA aggira Windows per fornire funzionalità personalizzate della "
+"finestra. Per questo motivo non è possibile ridimensionare la finestra "
+"normalmente. Questi slider servono per modificare manualmente le dimensioni "
+"della finestra."
 
 #: .\Pages\onboarding.py:311
 msgid "Adjust the width of the ETS2LA window."
@@ -1233,11 +1260,13 @@ msgstr ""
 
 #: .\Pages\onboarding.py:343
 msgid "Window Controls"
-msgstr ""
+msgstr "Controlli Finestra"
 
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA fornisce controlli personalizzati della finestra che potrebbero "
+"esserti utili. Puoi utilizzarli tramite il pulsante verde in alto a destra."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:358
@@ -1248,8 +1277,8 @@ msgid ""
 msgstr ""
 "**Rimani in primo piano**\n"
 "\n"
-"Puoi cliccare con il tasto sinistro sul pulsante verde per fare in modo che "
-"la finestra di ETS2LA rimanga sopra le altre finestre."
+"Puoi cliccare con il *tasto sinistro* sul pulsante verde per fare in modo "
+"che la finestra di ETS2LA rimanga sopra le altre finestre."
 
 #. TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
 #: .\Pages\onboarding.py:368
@@ -1260,28 +1289,28 @@ msgid ""
 msgstr ""
 "**Trasparenza**\n"
 "\n"
-"Puoi cliccare con il **tasto destro** sul pulsante verde per rendere la "
+"Puoi cliccare con il *tasto destro* sul pulsante verde per rendere la "
 "finestra di ETS2LA leggermente trasparente. La quantità di trasparenza può "
 "essere regolata nelle impostazioni."
 
 #: .\Pages\onboarding.py:374
 msgid "It's this green button!"
-msgstr "È questo il pulsante verde!"
+msgstr "È questo pulsante verde!"
 
 #: .\Pages\onboarding.py:384
 msgid "Onboarding Complete!"
-msgstr "Configurazione completata!"
+msgstr "Configurazione Completata!"
 
 #: .\Pages\onboarding.py:385
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
 "Hai completato con successo il processo di configurazione iniziale. Ora puoi "
-"iniziare a utilizzare ETS2LA. Se hai bisogno di aiuto, unisciti al nostro "
+"iniziare a utilizzare ETS2LA. Se hai bisogno di aiuto, entra nel nostro "
 "server Discord."
 
 #: .\Pages\onboarding.py:388
 msgid "Finish"
-msgstr "Fine"
+msgstr "Finisci"
 
 #. TRANSLATORS: Please keep the newlines and the spaces in this text, they are important for the layout.
 #: .\Pages\onboarding.py:395
@@ -1289,6 +1318,8 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"<- Premi su questo lato per aprire e chiudere la barra laterale.\n"
+"      Apri il gestore per abilitare i plugin."
 
 #: .\Pages\onboarding.py:429
 msgid "Page not found"
@@ -1305,6 +1336,8 @@ msgstr "Sistema"
 #: .\Pages\performance.py:106
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"I dati sono ancora in fase di raccolta, attendi qualche secondo affinché i "
+"grafici si stabilizzino."
 
 #: .\Pages\performance.py:112
 msgid "CPU Usage"
@@ -1312,7 +1345,7 @@ msgstr "Uso della CPU"
 
 #: .\Pages\performance.py:119
 msgid "CPU Usage "
-msgstr "Utilizzo della CPU "
+msgstr "Utilizzo della CPU. "
 
 #: .\Pages\performance.py:127
 msgid "RAM Usage"
@@ -1320,11 +1353,11 @@ msgstr "Utilizzo della RAM"
 
 #: .\Pages\performance.py:134
 msgid "RAM Usage "
-msgstr "Utilizzo della RAM "
+msgstr "Utilizzo della RAM. "
 
 #: .\Pages\performance.py:134
 msgid "ETS2LA RAM Usage  "
-msgstr "Utilizzo della RAM di ETS2LA  "
+msgstr "Utilizzo della RAM da parte di ETS2LA  "
 
 #: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
@@ -1333,6 +1366,8 @@ msgstr "Attualmente nessun plugin è in esecuzione."
 #: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Attenzione: il grafico sta ancora raccogliendo dati, attendi 60 secondi "
+"affinché si stabilizzi."
 
 #: .\Pages\performance.py:199
 msgid "Failed to render plugin {plugin_name}."
@@ -1340,11 +1375,11 @@ msgstr "Impossibile renderizzare il plugin {plugin_name}."
 
 #: .\Pages\performance.py:203
 msgid "All displayed data is averaged over a second."
-msgstr ""
+msgstr "Tutti i dati visualizzati rappresentano una media su un secondo."
 
 #: .\Pages\performance.py:204
 msgid "This page took {time:.2f} ms to render."
-msgstr "Questa pagina ha impiegato {time:.2f} ms per essere visualizzata."
+msgstr "Questa pagina ha impiegato {time:.2f} ms per essere caricata."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
@@ -1359,11 +1394,14 @@ msgstr ""
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
-msgstr ""
+msgstr "Controllo Laterale"
 
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Abilita l'accelerazione e decelerazione automatica utilizzando ETS2LA. Puoi "
+"attivarla o disattivarla utilizzando il tasto di scelta rapida "
+"\"Abilita Controllo Velocità\" nelle impostazioni di controllo."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
@@ -1377,7 +1415,8 @@ msgid ""
 msgstr ""
 "Abilita i plugin necessari per il funzionamento della visualizzazione.\n"
 "\n"
-"**Questo è necessario per il corretto funzionamento della visualizzazione.**"
+"**Questo è necessario per il corretto funzionamento della sezione di "
+"visualizzazione.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:19 .\Plugins\HUD\ui.py:110
 msgid "HUD"
@@ -1391,11 +1430,14 @@ msgstr ""
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
-msgstr ""
+msgstr "Sintesi Vocale"
 
 #: .\Pages\plugins.py:46
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"Abilita la sintesi vocale per notifiche e avvisi. Questa funzione è "
+"principalmente pensata per l’accessibilità, ma potrebbe risultare utile "
+"anche ad altri utenti.."
 
 #: .\Pages\plugins.py:88
 msgid "Feature '{0}' not found."
@@ -1474,7 +1516,7 @@ msgstr "Abilita ultimi plugin"
 
 #: .\Pages\sdk_installation.py:118
 msgid "Could not find version for {game}, skipping installation"
-msgstr "Impossibile trovare la versione per {game}, installazione saltata"
+msgstr "Impossibile trovare la versione per {game}, salto l'installazione"
 
 #: .\Pages\sdk_installation.py:123
 msgid "Installing SDKs for {game}"
