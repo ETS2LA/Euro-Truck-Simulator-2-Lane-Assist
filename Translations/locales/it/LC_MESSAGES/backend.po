@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-26 14:45+0000\n"
+"PO-Revision-Date: 2025-08-27 16:06+0000\n"
 "Last-Translator: Mirco141 <mirco@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
@@ -2390,7 +2390,7 @@ msgstr "Modalità di prova"
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
 msgstr ""
-"Abilita la modalità di prova per testare il provider TTS senza caricare il "
+"Abilita la modalità di prova per provare il provider TTS senza caricare il "
 "gioco."
 
 #: .\Plugins\TTS\main.py:147
@@ -2587,7 +2587,7 @@ msgstr "In attesa del caricamento del plugin..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr "I seguenti clienti sono attualmente connessi:"
+msgstr "I seguenti client sono attualmente connessi:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
@@ -2603,7 +2603,7 @@ msgstr "Non ancora riconosciuto."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr "Non ci sono clienti attualmente connessi."
+msgstr "Non ci sono client attualmente connessi."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
