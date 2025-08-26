@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
 "PO-Revision-Date: 2025-08-26 13:43+0000\n"
-"Last-Translator: YuriClone501 <yuriclone@ets2la.com>\n"
+"Last-Translator: Mirco141 <mirco@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr "Evento legato a {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr "Aggiornamento joystick..."
+msgstr "Aggiornamento joysticks..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -54,13 +54,16 @@ msgstr "Errore durante la modifica dell'evento."
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
-msgstr ""
+msgstr "Listener dei controlli avviato."
 
 #: .\ETS2LA\Handlers\plugins.py:132
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Il plugin {0} non è riuscito ad avviarsi: Timeout.\n"
+"Prova a chiudere altri programmi aperti sul tuo PC per dare più memoria RAM "
+"e spazio CPU al plugin."
 
 #: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
