@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-26 14:34+0000\n"
+"PO-Revision-Date: 2025-08-26 14:37+0000\n"
 "Last-Translator: Mirco141 <mirco@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
@@ -1855,7 +1855,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:159
 msgid "PID Kp"
-msgstr "Guadagno Proporzionale Kp"
+msgstr "Kp del PID (guadagno proporzionale)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:160
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
@@ -1865,7 +1865,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "PID Ki"
-msgstr "Guadagno Proporzionale Ki"
+msgstr "Ki del PID (guadagno integrale)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:169
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
@@ -1875,7 +1875,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:177
 msgid "PID Kd"
-msgstr "Guadagno Proporzionale Kd"
+msgstr "Kd del PID (guadagno derivativo)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
