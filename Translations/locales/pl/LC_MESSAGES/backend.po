@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-23 23:06+0000\n"
-"Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
+"PO-Revision-Date: 2025-08-27 16:06+0000\n"
+"Last-Translator: KanapkaPL <kanapkapl@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
 "Language: pl\n"
@@ -299,7 +299,7 @@ msgstr "Deweloper pluginu Discord rich presence, drobne aktualizacje backendu."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Chińskie tłumaczenie, poprawki błędów"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
@@ -310,8 +310,9 @@ msgid "Automatic offset calculations for the Map plugin."
 msgstr "Automatyczne obliczanie przesunięcia dla pluginu Map."
 
 #: .\Pages\about.py:34
+#, fuzzy
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Serwer discord wsparcia, chińsko-angielski programista tłumaczeń"
 
 #: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
@@ -328,15 +329,15 @@ msgstr "Poprawa błędów"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Naprawianie wycieraczek (timer 5 sekundowy)"
 
 #: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Naprawianie wycieraczek za {0} sekund..."
 
 #: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Wycieraczki powinny być naprawione."
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
@@ -517,7 +518,7 @@ msgstr "Uruchamianie pluginu w tle"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr ""
+msgstr "Wtyczka"
 
 #: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
@@ -573,7 +574,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Nie można odnaleść kodu źródłowego dla tej wtyczki."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:273
@@ -582,7 +583,7 @@ msgstr "Odświerzanie..."
 
 #: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Znaleziono {count} wtyczkę/wtyczki"
 
 #: .\Pages\catalogue.py:317
 msgid "Back"
@@ -607,6 +608,8 @@ msgstr "Czy na pewno chcesz zainstalować tę wtyczkę?"
 #: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA nie jest odpowiedzialne za problemy spowodowane przez wtyczki stron "
+"trzecich."
 
 #: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
@@ -646,15 +649,15 @@ msgstr "Odśwież katalog"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Zainstalowane wtyczki"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Żadne wtyczki nie zostały zainstalowane."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
-msgstr ""
+msgstr "Dostępne wtyczki"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
