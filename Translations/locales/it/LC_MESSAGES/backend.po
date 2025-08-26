@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-26 13:43+0000\n"
-"Last-Translator: Mirco141 <mirco@ets2la.com>\n"
+"PO-Revision-Date: 2025-08-26 14:34+0000\n"
+"Last-Translator: YuriClone501 <yuriclone@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
 "Language: it\n"
@@ -106,9 +106,8 @@ msgid "Failed to start plugin: {0}"
 msgstr "Impossibile avviare plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
-#, fuzzy
 msgid "Timeout"
-msgstr "Timeout"
+msgstr "Tempo Scaduto (Timeout)"
 
 #: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
@@ -1649,6 +1648,10 @@ msgstr "Mostra anche quando non è in primo piano"
 #: .\Plugins\AR\main.py:203
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Mostra la sovrapposizione AR anche quando il gioco non è in primo piano. "
+"Questo può essere utile per modificare le impostazioni. Si prega di notare "
+"che questo farà funzionare l’AR al massimo degli FPS possibile, il che "
+"potrebbe causare qualche rallentamento."
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
@@ -1693,732 +1696,844 @@ msgstr "Diminuisci l'offset della velocità di guida"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr ""
+msgstr "Questo diminuirà l'offset della velocità nelle impostazioni."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73
 #: .\Plugins\AdaptiveCruiseControl\settings.py:8
 #: .\Plugins\AdaptiveCruiseControl\settings.py:65
 #: .\Plugins\AdaptiveCruiseControl\settings.py:70
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Controllo adattivo della velocità"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"Il Controllo Adattivo della Velocità (ACC) fornisce accelerazione e frenata "
+"automatiche in base alle condizioni della strada e ai veicoli davanti."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:66
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"Il Controllo Adattivo della Velocità (ACC) regola la velocità del camion "
+"basandosi sulle informazioni raccolte dal gioco."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:75
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Aggressività"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:76
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
+"Con quale aggressività l'ACC dovrebbe seguire l'auto davanti e cambiare il "
+"limite di velocità?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "Following Distance"
-msgstr ""
+msgstr "Distanza di sicurezza"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:84
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "A quale distanza dovrebbe mantenersi l'ACC dal veicolo davanti?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:89
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Ignora i semafori"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Se l'ACC dovrebbe ignorare i semafori. Nota che questa opzione farà "
+"effettivamente ignorare i semafori."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:95
 msgid "Speed Control"
-msgstr ""
+msgstr "Controllo della velocità"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:98
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Ignora il limite di velocità"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:99
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "Se l'ACC dovrebbe ignorare il limite di velocità."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:105
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Coefficiente di attrito"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:106
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"Il coefficiente di attrito utilizzato per i calcoli dell'ACC. Valori più "
+"alti permettono al camion di affrontare le curve a velocità maggiori."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:116
 msgid "Speed when game speed limit is 0"
-msgstr ""
+msgstr "Velocità quando il limite di velocità del gioco è 0"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:117
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr ""
+"La velocità da mantenere quando il gioco indica che il limite di velocità è "
+"0 km/h."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:132
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Tipo di offset della velocità"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:134
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Seleziona il tipo di offset di velocità da applicare."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:138
 msgid "Speed Offset"
-msgstr ""
+msgstr "Offset di velocità"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:139
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"L’offset di velocità da applicare a tutti i limiti di velocità. Nota che "
+"puoi anche modificarlo dinamicamente con i tasti di scelta rapida nei "
+"comandi."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:148
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:151
 msgid "Unlock PID"
-msgstr ""
+msgstr "Sblocca il PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:152
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Puoi sbloccare le impostazioni PID per modificarle manualmente. Non è "
+"consigliato farlo a meno che tu non sappia cosa sia un PID e come regolarlo "
+"correttamente."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:159
 msgid "PID Kp"
-msgstr ""
+msgstr "Guadagno Proporzionale Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:160
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"Siamo arrivati? No? Allora dobbiamo accelerare di più! (Guadagno "
+"proporzionale per il controller PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "PID Ki"
-msgstr ""
+msgstr "Guadagno Proporzionale Ki"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:169
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"È passato un po’ di tempo da quando siamo arrivati? Allora dobbiamo "
+"accelerare di più! (Guadagno integrale per il controller PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:177
 msgid "PID Kd"
-msgstr ""
+msgstr "Guadagno Proporzionale Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:178
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"Quanto velocemente ci stiamo avvicinando all’obiettivo? Se ci avviciniamo "
+"troppo velocemente, dobbiamo decelerare di più! (Guadagno derivativo per il "
+"controller PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Questo video spiega visivamente come funziona un controller PID. Ti "
+"consiglio di guardarlo tutto se non ne sei familiare."
 
 #: .\Plugins\HUD\elements\acc.py:8 .\Plugins\HUD\main.py:242
 #: .\Plugins\HUD\main.py:243
 msgid "ACC Information"
-msgstr ""
+msgstr "Informazioni sul cruise control adattivo"
 
 #: .\Plugins\HUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
 msgstr ""
+"Mostra le informazioni dell’ACC come la distanza dal veicolo e la velocità."
 
 #: .\Plugins\HUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "Accelerazione"
 
 #: .\Plugins\HUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Mostra l’accelerazione attuale del camion."
 
 #: .\Plugins\HUD\elements\assists.py:14 .\Plugins\HUD\main.py:47
 msgid "Assist Information"
-msgstr ""
+msgstr "Informazioni sull’assistenza"
 
 #: .\Plugins\HUD\elements\assists.py:15
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "Mostra le informazioni sullo stato dell’ACC e della sterzata."
 
 #: .\Plugins\HUD\elements\fuel.py:8
 msgid "Fuel Status"
-msgstr ""
+msgstr "Stato del carburante"
 
 #: .\Plugins\HUD\elements\fuel.py:9
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Mostra lo stato attuale del carburante del camion."
 
 #: .\Plugins\HUD\elements\gear.py:8 .\Plugins\HUD\main.py:44
 msgid "RPM & Gear"
-msgstr ""
+msgstr "Giri al minuto (RPM) e marcia"
 
 #: .\Plugins\HUD\elements\gear.py:9
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Mostra i giri al minuto (RPM) e la marcia attuali del camion."
 
 #: .\Plugins\HUD\elements\media.py:19 .\Plugins\HUD\main.py:43
 #: .\Plugins\HUD\main.py:48
 msgid "Media"
-msgstr ""
+msgstr "Multimedia"
 
 #: .\Plugins\HUD\elements\media.py:20
 msgid "Displays media information such as song title, artist and playback progress."
 msgstr ""
+"Visualizza le informazioni sui media come titolo della canzone, artista e "
+"progresso della riproduzione."
 
 #: .\Plugins\HUD\elements\media.py:23
 msgid "No Media Playing"
-msgstr ""
+msgstr "Nessun media in riproduzione"
 
 #: .\Plugins\HUD\elements\media.py:24 .\Plugins\HUD\elements\media.py:66
 msgid "No Artist"
-msgstr ""
+msgstr "Nessun artista"
 
 #: .\Plugins\HUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Nessun titolo"
 
 #: .\Plugins\HUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navigazione"
 
 #: .\Plugins\HUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Mostra le informazioni di navigazione."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\HUD\elements\navigation.py:66
 msgid "arrival"
-msgstr ""
+msgstr "arrivo"
 
 #: .\Plugins\HUD\elements\power.py:11
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Acceleratore / Freno"
 
 #: .\Plugins\HUD\elements\power.py:12
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Mostra la percentuale attuale di acceleratore e freno."
 
 #: .\Plugins\HUD\elements\semaphores.py:7 .\Plugins\HUD\main.py:242
 #: .\Plugins\HUD\main.py:243
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Semafori"
 
 #: .\Plugins\HUD\elements\semaphores.py:8
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Mostra le informazioni dei semafori."
 
 #: .\Plugins\HUD\elements\speed.py:7 .\Plugins\HUD\main.py:42
 #: .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Velocità"
 
 #: .\Plugins\HUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
 msgstr ""
+"Una normale visualizzazione della velocità, mostrerà anche le variazioni del "
+"limite di velocità."
 
 #: .\Plugins\HUD\elements\steering.py:8 .\Plugins\HUD\main.py:242
 #: .\Plugins\HUD\main.py:243
 msgid "Steering Line"
-msgstr ""
+msgstr "Linea di sterzata"
 
 #: .\Plugins\HUD\elements\steering.py:9
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Mostra la linea di sterzata dalla mappa."
 
 #: .\Plugins\HUD\main.py:21
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr ""
+"Crea un display heads-up sul parabrezza. Richiede il plugin AR per "
+"funzionare."
 
 #: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
 msgid "Enable"
-msgstr ""
+msgstr "Abilita"
 
 #: .\Plugins\HUD\ui.py:106 .\Plugins\HUD\ui.py:260
 msgid "Disable"
-msgstr ""
+msgstr "Disabilita"
 
 #: .\Plugins\HUD\ui.py:111
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
 msgstr ""
+"Questo plugin fornisce un HUD utilizzando il plugin AR come motore di "
+"rendering."
 
 #: .\Plugins\HUD\ui.py:115
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Per favore, abilita il plugin per modificare le impostazioni."
 
 #. TRANSLATORS: Transform in this context means positioning and resizing, they are often called transforms in UI design.
 #: .\Plugins\HUD\ui.py:120
 msgid "Transform"
-msgstr ""
+msgstr "Trasformazione"
 
 #: .\Plugins\HUD\ui.py:122
 msgid "Offset X"
-msgstr ""
+msgstr "Offset X"
 
 #: .\Plugins\HUD\ui.py:123
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "L’offset orizzontale dell’HUD."
 
 #: .\Plugins\HUD\ui.py:131
 msgid "Offset Y"
-msgstr ""
+msgstr "Offset Y"
 
 #: .\Plugins\HUD\ui.py:132
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "L’offset verticale dell’HUD."
 
 #: .\Plugins\HUD\ui.py:140
 msgid "Offset Z"
-msgstr ""
+msgstr "Offset Z"
 
 #: .\Plugins\HUD\ui.py:141
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "L’offset di profondità dell’HUD."
 
 #: .\Plugins\HUD\ui.py:150
 msgid "Widget Sizing"
-msgstr ""
+msgstr "Dimensionamento del widget"
 
 #: .\Plugins\HUD\ui.py:151
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "Queste impostazioni controllano la dimensione dei widget."
 
 #: .\Plugins\HUD\ui.py:158
 msgid "Widget Scaling"
-msgstr ""
+msgstr "Ridimensionamento del widget"
 
 #: .\Plugins\HUD\ui.py:159
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
 msgstr ""
+"Il fattore di ridimensionamento per i widget. 1 è la dimensione normale, 0,5 "
+"è metà dimensione, 2 è il doppio della dimensione."
 
 #: .\Plugins\HUD\ui.py:164
 msgid "Scale Height"
-msgstr ""
+msgstr "Modifica altezza"
 
 #: .\Plugins\HUD\ui.py:165
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
 msgstr ""
+"Modifica anche l’altezza dei widget, tieni presente che questo potrebbe "
+"causare problemi di layout con alcuni widget, usalo con cautela."
 
 #: .\Plugins\HUD\ui.py:171
 msgid "Widget Background"
-msgstr ""
+msgstr "Sfondo del widget"
 
 #: .\Plugins\HUD\ui.py:172
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Puoi controllare quanto lo sfondo del widget deve essere oscurato, sia "
+"sempre che solo durante il giorno."
 
 #: .\Plugins\HUD\ui.py:176
 msgid "Darkness"
-msgstr ""
+msgstr "Oscurità"
 
 #: .\Plugins\HUD\ui.py:177
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"Il livello di oscurità dello sfondo del widget. 0 significa nessuna "
+"oscurità, 1 significa completamente scuro."
 
 #: .\Plugins\HUD\ui.py:186
 msgid "Day Darkness"
-msgstr ""
+msgstr "Oscurità diurna"
 
 #: .\Plugins\HUD\ui.py:187
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"L'oscurità dello sfondo del widget durante il giorno. 0 significa nessuna "
+"oscurità, 1 significa completamente oscuro."
 
 #: .\Plugins\HUD\ui.py:196
 msgid "Elements"
-msgstr ""
+msgstr "Elementi"
 
 #: .\Plugins\HUD\ui.py:205
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Abilita Widget"
 
 #: .\Plugins\HUD\ui.py:206
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Questo mostra i widget abilitati e le rispettive dimensioni. Clicca su uno "
+"per disabilitarlo; al momento non è ancora possibile spostarli, dovrai "
+"invece Disabilitare -> Abilitare per posizionarli dove desideri."
 
 #: .\Plugins\HUD\ui.py:234
 msgid "Available Widgets"
-msgstr ""
+msgstr "Widget Disponibili"
 
 #: .\Plugins\HUD\ui.py:235
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Questi widget sono disponibili per essere abilitati:"
 
 #: .\Plugins\HUD\ui.py:243
 msgid "Renderers"
-msgstr ""
+msgstr "Motori di rendering"
 
 #: .\Plugins\HUD\ui.py:244
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Questi motori di rendering vengono utilizzati per disegnare elementi non "
+"ancorati. Si tratta solitamente di elementi nel mondo di gioco che si "
+"muovono."
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Attiva/Disattiva Sterzo"
 
 #: .\Plugins\Map\main.py:51
 msgid "When the Map plugin is running, this will toggle the steering on/off."
 msgstr ""
+"Quando il plugin della Mappa è attivo, questo comando attiva/disattiva il "
+"controllo dello sterzo."
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Mappa"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
 msgstr ""
+"Questo plugin offre funzionalità di sterzo e navigazione. È il plugin più "
+"importante in ETS2LA."
 
 #: .\Plugins\Map\main.py:235
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Errore durante l'inizializzazione del plugin Mappa: {0}"
 
 #: .\Plugins\Map\main.py:264
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Preparazione al caricamento dei dati..."
 
 #: .\Plugins\Map\main.py:278
 msgid "Waiting for game data selection in the Settings -> Map..."
-msgstr ""
+msgstr "In attesa della selezione dei dati di gioco in Impostazioni -> Mappa..."
 
 #: .\Plugins\Map\main.py:307
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Valore di sterzo non valido ricevuto"
 
 #: .\Plugins\Map\main.py:333
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Errore nel ciclo di esecuzione del plugin Mappa: {0}"
 
 #: .\Plugins\Map\main.py:370
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
 msgstr ""
+"Attenzione: il controllo dello sterzo potrebbe essere compromesso a causa di "
+"bassi FPS. ({0} fps)"
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Non Trovato"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
-msgstr ""
+msgstr "Impostazioni Mappa"
 
 #: .\Plugins\Map\ui.py:95
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Configura le impostazioni del plugin Mappa. Qui puoi modificare varie "
+"opzioni relative alla navigazione, al controllo dello sterzo e alla gestione "
+"dei dati."
 
 #: .\Plugins\Map\ui.py:99
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: .\Plugins\Map\ui.py:101
 msgid "Navigate on ETS2LA"
-msgstr ""
+msgstr "Naviga su ETS2LA"
 
 #: .\Plugins\Map\ui.py:102
 msgid "Enable the automatic navigation features of ETS2LA."
-msgstr ""
+msgstr "Abilita le funzionalità di navigazione automatica di ETS2LA."
 
 #: .\Plugins\Map\ui.py:107
 msgid "Send Elevation"
-msgstr ""
+msgstr "Invia Elevazione"
 
 #: .\Plugins\Map\ui.py:108
 msgid "When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"
 msgstr ""
+"Se abilitato, la mappa invierà i dati di elevazione all'interfaccia. Questi "
+"dati vengono utilizzati per ricreare il terreno nella visualizzazione. "
+"Sperimentale e molto instabile!"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "Disabilita notifiche FPS"
 
 #: .\Plugins\Map\ui.py:114
 msgid "When enabled map will not notify of any FPS related issues."
-msgstr ""
+msgstr "Se abilitato, la mappa non notificherà problemi relativi agli FPS."
 
 #: .\Plugins\Map\ui.py:121
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Calcola dati di sterzo"
 
 #: .\Plugins\Map\ui.py:122
 msgid "When enabled map will compute and send steering data to the game."
-msgstr ""
+msgstr "Se abilitato, la mappa calcolerà e invierà i dati di sterzo al gioco."
 
 #: .\Plugins\Map\ui.py:127
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Guida basata sul rimorchio"
 
 #: .\Plugins\Map\ui.py:128
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Se abilitato, la mappa terrà conto del rimorchio nel calcolo del punto di "
+"sterzata corrente."
 
 #: .\Plugins\Map\ui.py:133
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Fluidità dello sterzo"
 
 #: .\Plugins\Map\ui.py:134
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Imposta l’intervallo temporale su cui viene fatto il calcolo medio dei dati "
+"di sterzo. Un valore di 0,5 indica che per determinare il valore attuale si "
+"considera lo sterzo registrato negli ultimi mezzo secondo."
 
 #: .\Plugins\Map\ui.py:142
 msgid "Data"
-msgstr ""
+msgstr "Dati"
 
 #: .\Plugins\Map\ui.py:154
 msgid "NOTE!"
-msgstr ""
+msgstr "NOTA!"
 
 #: .\Plugins\Map\ui.py:155
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Se riscontri un errore dopo aver modificato i dati, riavvia il plugin! Se il "
+"problema persiste, contatta gli sviluppatori su Discord!"
 
 #: .\Plugins\Map\ui.py:159
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Seleziona i dati che desideri utilizzare. Questo avvierà il processo di "
+"download e la Mappa sarà pronta una volta completato il caricamento dei dati."
 
 #: .\Plugins\Map\ui.py:170
 msgid "Update Data"
-msgstr ""
+msgstr "Aggiorna i Dati"
 
 #: .\Plugins\Map\ui.py:171
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Aggiorna i dati attualmente selezionati, utile se i dati sono corrotti o se "
+"è disponibile un aggiornamento."
 
 #: .\Plugins\Map\ui.py:193
 msgid "The download size for this data is"
-msgstr ""
+msgstr "La dimensione del download per questi dati è"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "che si decomprimerà in una dimensione totale di"
 
 #: .\Plugins\NavigationSockets\main.py:62
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Socket di Navigazione"
 
 #: .\Plugins\NavigationSockets\main.py:64
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Questo plugin fornisce un server WebSocket per i dati di navigazione su una "
+"mappa mondiale."
 
 #: .\Plugins\TTS\main.py:70 .\Plugins\TTS\main.py:157
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:71
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"Il plugin TTS offre funzionalità di sintesi vocale per l’accessibilità e gli "
+"annunci vocali."
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Voci"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Seleziona un provider!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
 msgstr ""
+"Qui verranno visualizzate le informazioni sul provider una volta caricato il "
+"plugin."
 
 #: .\Plugins\TTS\main.py:91
 msgid "Select TTS provider"
-msgstr ""
+msgstr "Seleziona il provider TTS"
 
 #: .\Plugins\TTS\main.py:92
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Seleziona il provider TTS da utilizzare."
 
 #: .\Plugins\TTS\main.py:99
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Seleziona un provider per mostrare le voci."
 
 #: .\Plugins\TTS\main.py:106 .\Plugins\TTS\main.py:265
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Voce {0} non trovata, viene utilizzata quella predefinita: {1}"
 
 #: .\Plugins\TTS\main.py:109
 msgid "Select TTS voice"
-msgstr ""
+msgstr "Seleziona la voce TTS"
 
 #: .\Plugins\TTS\main.py:110
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Seleziona la voce TTS da utilizzare."
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Cerca una voce..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
-msgstr ""
+msgstr "Nessuna voce trovata."
 
 #: .\Plugins\TTS\main.py:123
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Imposta la velocità della voce."
 
 #: .\Plugins\TTS\main.py:133
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Imposta il volume della voce."
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Modalità di prova"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
 msgstr ""
+"Abilita la modalità di prova per testare il provider TTS senza caricare il "
+"gioco."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Impostazioni"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Abilita segnale acustico di prossimità alla strada"
 
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Abilita un segnale acustico di prossimità che indica la distanza e l’angolo "
+"rispetto alla strada più vicina."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Il plugin Text To Speech per l’accessibilità. Alcune persone potrebbero "
+"gradire anche gli annunci vocali."
 
 #: .\Plugins\TTS\main.py:233
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "Voce {0} non trovata nel provider {1}."
 
 #: .\Plugins\TTS\main.py:236
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "Nessun provider selezionato. Impossibile selezionare la voce."
 
 #: .\Plugins\TTS\main.py:260
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Caricamento del provider TTS: {0}"
 
 #: .\Plugins\TTS\main.py:268
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Caricamento della voce TTS: {0}"
 
 #: .\Plugins\TTS\main.py:302
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Sterzo mappa abilitato."
 
 #: .\Plugins\TTS\main.py:304
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Sterzo mappa disabilitato."
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Cruise control adattivo abilitato."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Cruise control adattivo disabilitato."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
 msgstr[0] ""
+"La città più vicina è ora {city} a una distanza di {distance} chilometro."
 msgstr[1] ""
+"Le città più vicine sono ora {city} a una distanza di {distance} chilometri."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il limite di velocità è cambiato a {0} chilometro all'ora."
+msgstr[1] "Il limite di velocità è cambiato a {0} chilometri all'ora."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr[0] ""
+"L'autonomia di carburante è ora di solo {0} chilometro, si prega di fare "
+"rifornimento presto."
 msgstr[1] ""
+"L'autonomia di carburante è ora di solo {0} chilometri, si prega di fare "
+"rifornimento presto."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"L'autonomia di carburante è ora critica a solo {0} chilometro, si prega di "
+"fare rifornimento il prima possibile."
 msgstr[1] ""
+"L'autonomia di carburante è ora critica a solo {0} chilometri, si prega di "
+"fare rifornimento il prima possibile."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Mancano {0} chilometri al prossimo punto di passaggio."
 
 #: .\Plugins\TTS\main.py:414
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "Il danno al motore è ora al {0}%."
 
 #: .\Plugins\TTS\main.py:417
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "Il danno alla cabina è ora al {0}%."
 
 #: .\Plugins\TTS\main.py:420
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "Il danno al telaio è ora al {0}%."
 
 #: .\Plugins\TTS\main.py:423
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "Il danno alla trasmissione è ora al {0}%."
 
 #: .\Plugins\TTS\main.py:426
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "Il danno ai pneumatici è ora al {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "Il danno al carico è ora al {0}%."
 
 #: .\Plugins\TTS\main.py:446
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Velocità {0} chilometri orari, limite {1}, carburante {2}%, e mancano {3} "
+"chilometri al prossimo punto di riferimento."
 
 #: .\Plugins\TTS\main.py:487
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Modalità di test attivata. Questo è un messaggio di prova."
 
 #: .\Plugins\VisualizationSockets\main.py:205
 #: .\Plugins\VisualizationSockets\main.py:220
 #: .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Socket di visualizzazione"
 
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
 msgstr ""
+"Questo plugin fornisce un server websocket per la visualizzazione di ETS2LA."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
 msgid "Host Device"
-msgstr ""
+msgstr "Dispositivo host"
 
 #: .\Plugins\VisualizationSockets\main.py:228
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Se vuoi visualizzare la Visualizzazione ETS2LA sul dispositivo attuale, apri "
+"semplicemente la scheda 'Visualizzazione' nella barra laterale; potrai "
+"quindi scegliere tra i mirror ufficiali e quelli di Goodnightan."
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Puoi anche utilizzare il seguente sito web:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Altro dispositivo"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Apri l'URL seguente nel browser del tuo dispositivo: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"NOTA: Devi caricare il sito in http anziché in https. Google Chrome non "
+"funzionerà!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Una volta che il sito si è caricato, premi il pulsante rosso 'Connessione "
+"remota'. Se non si connette, inserisci il seguente indirizzo IP:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Se riscontri problemi, verifica che il tuo dispositivo sia connesso alla "
+"stessa rete dell’host. Assicurati inoltre che il firewall non blocchi la "
+"connessione tra i dispositivi."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Il tuo indirizzo IP non è stato trovato, probabilmente a causa di un "
+"problema di rete. La visualizzazione da remoto non è possibile."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
@@ -2457,7 +2572,7 @@ msgstr ""
 
 #: .\main.py:104
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Sto testando i mirror..."
 
 #: .\main.py:112
 msgid "- Reached {0} in {1:.0f}ms"
@@ -2469,11 +2584,12 @@ msgstr " - Raggiunto {0} in (TIMEOUT)"
 
 #: .\main.py:124
 msgid "Using mirror from settings: {0}"
-msgstr ""
+msgstr "Utilizzo il mirror dalle impostazioni: {0}"
 
 #: .\main.py:137
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr ""
+" -- Esecuzione dell'azione post-download per il sottomodulo:  Interface  -- "
 
 #: .\main.py:155
 msgid "Running ETS2LA in development mode."
@@ -2486,6 +2602,7 @@ msgstr "Esecuzione dell’interfaccia utente in locale"
 #: .\main.py:164
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr ""
+"Nessuna connessione ai mirror dell'interfaccia remota. Esecuzione locale."
 
 #: .\main.py:175
 msgid "Running UI in China mode"
@@ -2493,11 +2610,13 @@ msgstr "Esecuzione dell'interfaccia utente in modalità Cina"
 
 #: .\main.py:177
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "Utilizzo del mirror {0} per l'interfaccia utente."
 
 #: .\main.py:183
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"--no-console non può essere usato insieme a --no-ui. La console non si "
+"chiuderà."
 
 #: .\main.py:185
 msgid "Closing console after UI start."
