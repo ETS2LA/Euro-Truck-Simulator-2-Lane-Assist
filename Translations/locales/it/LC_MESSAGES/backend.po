@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-26 14:37+0000\n"
+"PO-Revision-Date: 2025-08-26 14:40+0000\n"
 "Last-Translator: Mirco141 <mirco@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
@@ -1006,12 +1006,12 @@ msgstr ""
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
-msgstr "Specchietto dell'interfaccia utente default"
+msgstr "Mirror dell'interfaccia utente default"
 
 #: .\Pages\global_settings.py:407
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
-"Lo specchio che ETS2LA userà di default. Auto sceglierà il miglior specchio "
+"Il mirror che ETS2LA userà di default. Auto sceglierà il miglior specchio "
 "disponibile."
 
 #: .\Pages\global_settings.py:414
