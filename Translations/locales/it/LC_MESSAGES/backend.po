@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
 "PO-Revision-Date: 2025-08-27 16:06+0000\n"
-"Last-Translator: Mirco141 <mirco@ets2la.com>\n"
+"Last-Translator: YuriClone501 <yuriclone@ets2la.com>\n"
 "Language-Team: Italian <http://weblate.ets2la.com/projects/ets2la/backend/it/"
 ">\n"
 "Language: it\n"
@@ -2666,7 +2666,7 @@ msgstr "Chiusura della console dopo l'avvio dell'interfaccia utente."
 
 #: .\main.py:188
 msgid "Running in the background without a window."
-msgstr "Esecuzione in background senza una finestra."
+msgstr "Esecuzione in background senza finestra."
 
 #: .\main.py:206
 msgid "ETS2LA Overseer started!"
