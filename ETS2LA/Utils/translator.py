@@ -127,17 +127,25 @@ class Translate:
         )
 
 def parse_language(language: Language) -> str:
-    code = ""
-    if language.script:
+    if language.script and language.script.lower() != language.language.lower():
         code = language.language + "_" + language.script
+    elif language.territory and language.territory.lower() != language.language.lower():
+        code = language.language + "_" + language.territory
     elif language.language == "zh" and not language.script:
         code = "zh_Hans"
     elif language.language == "nb":
         code = "nb_NO"
+    elif language.language == "pt":
+        code = "pt_PT"
     else:
         code = language.language
         
     return code
+
+def correct_naming(language: str) -> str:
+    if language.lower() == "portuguese (brazil)":
+        language = "brazilian portuguese"
+    return language
     
 default = Get("global", "language", "English")
 if not default:
@@ -159,9 +167,12 @@ def set_language(language: str | Language):
         Set("global", "language", "English")
         language = "English"
     
+    language = Language.find(language) if not isinstance(language, Language) else language
+    
     if isinstance(language, Language):
-        language = language.language
+        language = parse_language(language)
         
+    print(f"Setting language to: {language}")
     _.set_language(language)
     
 def detect_change(dictionary: dict):
@@ -169,8 +180,11 @@ def detect_change(dictionary: dict):
     if not language:
         language = "English"
     
-    language = parse_language(Language.find(language))
-    if language != _.get_language():
+    print(f"Detected language change to: {language}")
+    language = correct_naming(language)
+    language = Language.find(language)
+    name = parse_language(language)
+    if name != _.get_language():
         set_language(language)
     
 Listen("global", detect_change)
@@ -179,6 +193,8 @@ Listen("global", detect_change)
 overrides = {
     "zh": "zh_Hans",
     "zh_2": "zh_Hant",
+    "pt": "pt_PT",
+    "pt_2": "pt_BR",
     "nb": "nb_NO"
 }
 count = {}
