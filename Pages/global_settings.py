@@ -37,7 +37,6 @@ class Page(ETS2LAPage):
         utils_settings.Set("global", "transparency_alpha", alpha)
         
     def change_language(self, language: str):
-        print(f"Changing language to: {language}")
         utils_settings.Set("global", "language", language)
     
     def change_soundpack(self, soundpack: str):

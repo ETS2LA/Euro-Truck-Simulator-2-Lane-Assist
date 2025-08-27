@@ -172,7 +172,6 @@ def set_language(language: str | Language):
     if isinstance(language, Language):
         language = parse_language(language)
         
-    print(f"Setting language to: {language}")
     _.set_language(language)
     
 def detect_change(dictionary: dict):
@@ -180,7 +179,6 @@ def detect_change(dictionary: dict):
     if not language:
         language = "English"
     
-    print(f"Detected language change to: {language}")
     language = correct_naming(language)
     language = Language.find(language)
     name = parse_language(language)
