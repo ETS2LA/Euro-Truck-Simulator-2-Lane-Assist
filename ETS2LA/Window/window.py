@@ -25,6 +25,8 @@ fp = settings.Get("global", "frontend_port", 3005)
 w = settings.Get("global", "width", 1280)
 h = settings.Get("global", "height", 720)
 
+updating_page = "ETS2LA/Assets/updating.html"
+
 if fl is None: FRAMELESS = True
 else: FRAMELESS = bool(fl)
 
@@ -52,8 +54,7 @@ webview.settings = {
     'OPEN_DEVTOOLS_IN_DEBUG': True
 }
 
-def window_handler(window: webview.Window):
-    # Wait until the server is ready
+def wait_for_server(window: webview.Window):
     if variables.LOCAL_MODE:
         while True:
             try:
@@ -73,6 +74,10 @@ def window_handler(window: webview.Window):
         window.load_url(variables.FRONTEND_URL)
         if "ets2la.com" not in variables.FRONTEND_URL:
             settings.Set("global", "ad_preference", 0) # disable ads if not on ets2la.com
+
+def window_handler(window: webview.Window):
+    # Wait until the server is ready
+    wait_for_server(window)
     
     last_check = 0
     while True:
@@ -105,6 +110,11 @@ def window_handler(window: webview.Window):
                 window.resize(data["width"], data["height"])
                 queue.task_done()
                 queue.put(True)
+                
+            if data["type"] == "update":
+                window.load_html(open(updating_page, "r", encoding="utf-8").read(), base_uri=f"file://{os.path.abspath(variables.PATH)}")
+                queue.task_done()
+                wait_for_server(window)
                 
         except:
             pass

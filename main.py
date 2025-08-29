@@ -68,8 +68,12 @@ def close_node() -> None:
     else:
         ExecuteCommand("pkill -f node > /dev/null 2>&1")
 
-def reset(clear_logs=True) -> None:
+def reset(clear_logs=True, page_process=None) -> None:
     close_node()
+    if page_process:
+        if page.is_alive():
+            page.terminate()
+            
     CountErrorsAndWarnings()
     if clear_logs:
         ClearLogFiles()
@@ -228,22 +232,25 @@ def window_process(window_queue: multiprocessing.Queue) -> None:
         window.run()
     except Exception as e:
         trace = traceback.format_exc()
-        variables.OUTPUT_QUEUE.put((e, trace))
+        print(RED + _("The window process has crashed!") + END)
+        print(trace)
 
 if __name__ == "__main__":
     window_queue = multiprocessing.JoinableQueue()
     exception_queue = multiprocessing.Queue()
+    page = None
     print(BLUE + _("ETS2LA Overseer started!") + END + "\n")
 
     while True:
         get_fastest_mirror()
         
-        page = multiprocessing.Process(
-            target=window_process,
-            args=(window_queue,),
-            daemon=True
-        )
-        page.start()
+        if not page or not page.is_alive():
+            page = multiprocessing.Process(
+                target=window_process,
+                args=(window_queue,),
+                daemon=True
+            )
+            page.start()
         
         process = multiprocessing.Process(
             target=ets2la_process, 
@@ -252,19 +259,16 @@ if __name__ == "__main__":
         process.start()
         process.join()
         
-        if page.is_alive():
-            page.terminate()
-        
         try:
             # Exit by process end / crash
             e, trace = exception_queue.get_nowait()
 
             if e.args[0] == "exit":
-                reset(clear_logs=False)
+                reset(clear_logs=False, page_process=page)
                 sys.exit(0)
 
             if e.args[0] == "restart":
-                reset()
+                reset(page_process=page)
                 print(YELLOW + _("ETS2LA is restarting...") + END)
                 continue
             
@@ -272,6 +276,9 @@ if __name__ == "__main__":
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
                 if "--dev" in sys.argv:
                     print(YELLOW + _("Skipping update due to development mode.") + END)
+                    window_queue.put({"type": "update"})
+                    time.sleep(10)
+                    reset()
                     continue
                 
                 print(YELLOW + _("ETS2LA is updating...") + END)
