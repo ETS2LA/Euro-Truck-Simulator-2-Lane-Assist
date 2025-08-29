@@ -14,7 +14,7 @@ steps = [
     {"name": "Save", "command": "git stash"},
     {"name": "Update", "command": "git pull"},
     {"name": "Requirements", "command": "pip install -r requirements.txt"},
-    {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'}
+    # {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'}
 ]
 
 class Updater(App):
