@@ -3,7 +3,6 @@ from ETS2LA.UI import *
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from ETS2LA.Utils.version import CheckForUpdate, Update
 from ETS2LA.Utils.translator import _, ngettext
-from ETS2LA.Utils.umami import TriggerEvent
 
 from datetime import datetime
 import time
@@ -17,10 +16,6 @@ class Page(ETS2LAPage):
     refresh_rate = 30
     
     def update(self, *args, **kwargs):
-        try:
-            TriggerEvent("Update App")
-        except:
-            pass
         mainThreadQueue.append([Update, [], {}])
         
     def open_event(self):

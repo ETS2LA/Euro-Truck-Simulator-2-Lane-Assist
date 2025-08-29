@@ -4,7 +4,6 @@ audioop-lts; python_version >= "3.13"
 opencv-contrib-python
 SimpleWindow>=1.0
 websockets==13.1
-umami-analytics
 py-sharedmemory
 textual==1.0.0
 beautifulsoup4

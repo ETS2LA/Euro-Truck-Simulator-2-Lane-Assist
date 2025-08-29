@@ -7,7 +7,6 @@ from ETS2LA.Utils.Game import path as game
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
-from ETS2LA.Utils.umami import TriggerEvent
 from ETS2LA.Utils.version import Update
 from ETS2LA.Utils import settings
 from langcodes import Language 
@@ -104,10 +103,6 @@ class Page(ETS2LAPage):
 
     def update(self, *args, **kwargs):
         print(_("Triggering update"))
-        try:
-            TriggerEvent("Update App")
-        except:
-            pass
         mainThreadQueue.append([Update, [], {}])
     
     def open_event(self):
