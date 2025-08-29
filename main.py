@@ -274,10 +274,10 @@ if __name__ == "__main__":
             
             if e.args[0] == "Update":
                 window_queue.put({"type": "update"})
+                time.sleep(2)
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
                 if "--dev" in sys.argv:
                     print(YELLOW + _("Skipping update due to development mode.") + END)
-                    time.sleep(10)
                     reset()
                     continue
                 
