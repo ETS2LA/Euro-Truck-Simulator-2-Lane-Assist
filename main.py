@@ -292,7 +292,6 @@ if __name__ == "__main__":
             print(RED + _("ETS2LA has crashed!") + END)
             print(trace)
             
-            # Crash reports currently do not work, disabled to save bandwidth
             try: 
                 cloud.SendCrashReport("Process Crash", "The ETS2LA process itself has crashed.", {
                     "Error": str(e),
