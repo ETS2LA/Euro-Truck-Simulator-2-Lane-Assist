@@ -7,19 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-08-30 12:31+0000\n"
+"Last-Translator: hmm-kanmimimu <kanmimimu@ets2la.com>\n"
+"Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
+"ja/>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:67
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "タイムアウトしました。もう一度試してください。"
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
@@ -31,7 +33,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
-msgstr ""
+msgstr "{} 接続済。"
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
@@ -39,7 +41,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
-msgstr ""
+msgstr "{} 切断済。"
 
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
@@ -48,7 +50,7 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "イベントの編集中に例外が発生しました。"
 
 #: .\ETS2LA\Handlers\controls.py:378
 msgid "Controls listener started."
@@ -59,10 +61,13 @@ msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Plugin {0} のスタートに失敗しました: タイムアウト。\n"
+"他のプログラムを閉じて、より多くのメモリとCPUをpluginに割り当ててみてください"
+"。"
 
 #: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Plugin {0} の開始に失敗しました {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
@@ -70,55 +75,55 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Plugin {0} の詳細の取得に失敗しました: タイムアウト。"
 
 #: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Plugin {0} の詳細の取得に失敗しました: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Plugin {0} の操作の取得に失敗しました: タイムアウト。"
 
 #: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Plugin {0} の操作の取得に失敗しました: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "{0} 個のプラグインをロードしました。"
 
 #: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
-msgstr ""
+msgstr "Plugin が見つかりません。"
 
 #: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] は正常に開始しました。"
 
 #: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "pluginの開始に失敗しました: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
-msgstr ""
+msgstr "タイムアウト"
 
 #: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
-msgstr ""
+msgstr "Plugin が見つかりません。これは Plugin のクラッシュやロード失敗が原因です。"
 
 #: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Plugin [yellow]{0}[/yellow] は正常に停止しました。"
 
 #: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "plugin の停止に失敗しました: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "plugin の再起動に失敗しました: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
@@ -127,6 +132,8 @@ msgstr ""
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"FFmpegライブラリのダウンロードができませんでした。手動でダウンロードしてくだ"
+"さい。 (ie. [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
@@ -146,7 +153,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "メッセージの処理中にエラーが発生しました。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
@@ -154,7 +161,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Frontend ポップアップ ウェブソケットが開始されました。"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
@@ -166,63 +173,63 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "透明度の設定に失敗しました"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "タグデータを取得できませんでした"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "ページを取得できませんでした"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "ページ {0} のページデータを取得できませんでした"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "プラグインの再読み込みに失敗しました"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "frontend のビルドに失敗しました"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "frontendのビルド中... 少し待ってください..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "frontend の開始に失敗しました"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "ウェブサーバーは http://{ip}:37520 で開始されました"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend は http://{ip}:{port} で開始されました"
 
 #: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
-msgstr ""
+msgstr "ログインを初期化中。"
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "エラーと警告のログファイル:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "エラー: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "警告: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "エラーや警告は見つかりませんでした。"
 
 #: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
@@ -235,38 +242,41 @@ msgstr ""
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"ETS2LAウィンドウの発見/起動ができませんでした。あなたのPCは十分に強力ですか？"
+" https://app.ets2la.comを使用してください。"
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend は正常に開始されました"
 
 #: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "ETS2LAの backend と frontend のリード開発者および作成者。"
 
 #: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "ナビゲーション検出、信号機の検出、ETS2LA Lite、'共同所有者'"
 
 #: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
-msgstr ""
+msgstr "さまざまな追加と改善、オブジェクト検出AIモデルと開発"
 
 #: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
-msgstr ""
+msgstr "ETS2LAゲームサイドSDK開発者。車両、信号機、カメラデータなどをゲームから直接取"
+"得。"
 
 #: .\Pages\about.py:23
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "ゲームデータの抽出と処理"
 
 #: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux＆Unixポート、さまざまな改善とバグ修正"
 
 #: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C ++開発者、Linux＆Unixポート、バグ修正"
 
 #: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
@@ -274,39 +284,39 @@ msgstr ""
 
 #: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-controller 開発者"
 
 #: .\Pages\about.py:28
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "視覚化のための3Dモデル"
 
 #: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "データ抽出器開発、改造されたマップのサポート。"
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr ""
+msgstr "Discord Rich Presence plugin 開発者、少しの backend の更新。"
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "中国語の翻訳、バグ修正"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "中国語の翻訳、バグ修正"
 
 #: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Map plugin の自動オフセット計算。"
 
 #: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord サーバーのサポート、中国語と英語の翻訳/開発者。"
 
 #: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "ETS2LAサービスのCNミラーの維持。"
 
 #: .\Pages\about.py:36
 msgid "Game hooks"
@@ -315,11 +325,11 @@ msgstr ""
 #: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
 #: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
-msgstr ""
+msgstr "バグ修正"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "ワイパーの修正（5秒タイマー）"
 
 #: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
@@ -336,26 +346,25 @@ msgstr ""
 #: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} 分"
 
 #: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} 時間"
 
 #: .\Pages\about.py:131
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} と {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "お知らせ!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
-msgstr ""
+msgstr "{0} のSDKは古いです。 "
+"SDK設定の最新バージョンに更新するには、再インストールしてください。"
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -364,10 +373,13 @@ msgstr ""
 #: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LAは、ETS2とATSに使いやすい自己運転ソリューションを提供することを目的とす"
+"るプロジェクトです。さらに学びたい場合は、GitHubページまたはwikiをサイドバー"
+"を介してアクセスできます。"
 
 #: .\Pages\about.py:164
 msgid "Statistics"
-msgstr ""
+msgstr "統計"
 
 #: .\Pages\about.py:168
 msgid "Users online:"
@@ -379,7 +391,7 @@ msgstr ""
 
 #: .\Pages\about.py:171
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "過去24時間:"
 
 #: .\Pages\about.py:172
 msgid "{0} unique users"
@@ -387,11 +399,11 @@ msgstr ""
 
 #: .\Pages\about.py:174
 msgid "Your usage time:"
-msgstr ""
+msgstr "あなたの使用時間:"
 
 #: .\Pages\about.py:179
 msgid "You are not logged in."
-msgstr ""
+msgstr "あなたはログインしていません。"
 
 #: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
@@ -399,45 +411,47 @@ msgstr ""
 
 #: .\Pages\about.py:184
 msgid "You are logged in."
-msgstr ""
+msgstr "ログインしています。"
 
 #: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "おかえりなさい、 {0}!"
 
 #: .\Pages\about.py:189
 msgid "Contributors"
-msgstr ""
+msgstr "貢献者"
 
 #: .\Pages\about.py:200
 msgid "Translations"
-msgstr ""
+msgstr "翻訳"
 
 #: .\Pages\about.py:210 .\Pages\global_settings.py:248
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
-msgstr ""
+msgstr "貢献者リスト"
 
 #: .\Pages\about.py:212 .\Pages\global_settings.py:250
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
-msgstr ""
+msgstr "翻訳を手伝う"
 
 #: .\Pages\about.py:216
 msgid "Support Development"
-msgstr ""
+msgstr "開発を手伝う"
 
 #: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
-msgstr ""
+msgstr "このプロジェクトを気に入っていて、開発をサポートしたい場合は、Ko-"
+"Fiを通じて寄付することができます。"
 
 #: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
-msgstr ""
+msgstr "貢献したい場合は、Discordサーバーに参加し、GitHubページを確認することをお勧め"
+"します。"
 
 #: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
-msgstr ""
+msgstr "翻訳に貢献したい場合は、Discordに参加し、モデレーターに連絡してください。"
 
 #: .\Pages\about.py:231
 msgid "Utils"
@@ -453,11 +467,11 @@ msgstr ""
 
 #: .\Pages\about.py:237
 msgid "Activate"
-msgstr ""
+msgstr "アクティベート"
 
 #: .\Pages\about.py:242
 msgid "Force an update"
-msgstr ""
+msgstr "更新を強制"
 
 #: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
