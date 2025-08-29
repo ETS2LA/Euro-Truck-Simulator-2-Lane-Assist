@@ -79,7 +79,7 @@ class Page(ETS2LAPage):
             with Container(styles.FlexHorizontal() + styles.Classname("align_center items-center") + styles.Height("50px")):
                 with Container(styles.FlexHorizontal()):
                     Switch(False, changed=self.change_share_location)
-                    Text("Share my location in game (e.g. for reporting map issues)", styles.Style(margin_left="10px", min_width="380px"))
+                    Text("Share my in-game location (e.g. for reporting map issues)", styles.Style(margin_left="10px", min_width="380px"))
 
                 data = api.update()
                 with Container(styles.Classname("border rounded-md p-2 w-full " + ("bg-input/10" if not self.share_location else "bg-input/30"))):
