@@ -76,7 +76,8 @@ def reset(clear_logs=True, page_process=None) -> None:
             
     CountErrorsAndWarnings()
     if clear_logs:
-        ClearLogFiles()
+        try: ClearLogFiles()
+        except: exit()
         
 def get_commit_url(repo: git.Repo, commit_hash: str) -> str:
     try:
@@ -189,7 +190,9 @@ def ets2la_process(exception_queue: multiprocessing.Queue, window_queue: multipr
                 print(PURPLE + _("Closing console after UI start.") + END)
 
         close_node()
-        ClearLogFiles()
+        
+        try: ClearLogFiles()
+        except: exit()
         ETS2LA = importlib.import_module("ETS2LA.core")
         ETS2LA.run()
         

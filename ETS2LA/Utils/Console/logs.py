@@ -7,8 +7,12 @@ def ClearLogFiles(folder="logs"):
         os.makedirs(folder)
     for file in os.listdir(folder):
         if file.endswith(".log"):
-            os.remove(os.path.join(folder, file))
-            
+            try:
+                os.remove(os.path.join(folder, file))
+            except Exception as e:
+                print(f"{RED}{_('Error removing log files. Probably another running ETS2LA instance. Please close it and try again.')}\n{END}{file} - {e}")
+                raise e
+
 def CountErrorsAndWarnings(folder="logs"):
     print("\n" + _("Errors and warnings in the log files:"))
     if not os.path.exists(folder):
