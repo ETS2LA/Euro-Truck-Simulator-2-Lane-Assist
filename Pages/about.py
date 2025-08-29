@@ -183,7 +183,7 @@ class Page(ETS2LAPage):
                         with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
                             Text(f"{_('You are logged in.')} ")
-                            Text(_("Welcome back, {0}!").format(str(GetUsername())), styles.Description())
+                            Text(_("Welcome back, {0}!").format(str(GetUsername(force_refresh=True))), styles.Description())
 
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):

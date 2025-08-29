@@ -13,77 +13,119 @@ user_id = None
 token = None
 username = "unknown"
 
-def SendCrashReport(type:str, message:str, additional=None):
+def SendFeedback(message: str, username: str, fields: dict[str, str] = {}):
+    """Will send a feedback message to the main application server. This will then be forwarded to the developers on discord.
+
+    Args:
+        message (str): The feedback message.
+        username (str): The username of the user sending the feedback (e.g. Discord username or email address).
+        fields (dict[str, str], optional): Additional fields to include in the feedback. Defaults to an empty dict. Key is field name, value is text.
+    Returns:
+        success (bool): False if not successful, True if successful
+    """
+    
+    if message.strip() == "":
+        return False
+    
+    if username.strip() == "":
+        username = "anonymous"
+        
+    try:
+        fields["ETS2LA Version"] = variables.METADATA["version"]
+        fields["ETS2LA Language"] = settings.Get("global", "language", "English")
+        
+        jsonData = {
+            "timestamp": int(time.time()),
+            "user": username,
+            "message": message,
+            "fields": fields
+        }
+        
+        url = 'https://api.ets2la.com/feedback'
+        headers = {'Content-Type': 'application/json'}
+        try:
+            response = requests.post(url, headers=headers, json=jsonData)
+        except:
+            print("Could not connect to server to send feedback.")
+            return False
+        
+        return response.status_code == 200
+    except:
+        import traceback
+        traceback.print_exc()
+        print("Feedback sending failed.")
+        return False
+
+
+def SendCrashReport(source: str, source_description: str, fields: dict[str, str] = {}):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
 
     Args:
-        type (str): Crash type
-        message (str): Crash message
-        additional (_type_, optional): Additional text / information. Defaults to None.
+        source (str): The source of the crash report (e.g. "Backend", "AR Plugin", etc.)
+        source_description (str): A description of the source (e.g. "This crash report occured in the main loop of the AR Plugin")
+        fields (dict[str, str], optional): Additional fields to include in the crash report. Defaults to an empty dict. Key is field name, value is text.
 
     Returns:
         success (bool): False if not successful, True if successful
     """
 
-    # Check if the message is empty
-    if message.strip() == "":
+    if source_description.strip() == "" or source.strip() == "":
         return False
 
-    # Check if running with the --dev flag to prevent spamming crash reports to the server
+    # Don't spam in dev mode.
     if variables.DEVELOPMENT_MODE:
         return False
 
-    try:
-        send_crash_reports = settings.Get("global", "send_crash_reports", True)
-    except:
-        send_crash_reports = True
+    try: send_crash_reports = settings.Get("global", "send_crash_reports", True)
+    except: send_crash_reports = True
+        
     if send_crash_reports:
-
         try:
-            additional = {
-                "version": "V2.0.0",
-                "os": variables.OS,
-                "language": settings.Get("global", "language", "English"),
-                "custom": additional
-            }
+            fields["ETS2LA Version"] = variables.METADATA["version"]
+            fields["ETS2LA Language"] = settings.Get("global", "language", "English")
+
+            username = GetUsername()
             
+            fields["User"] = username
+
             jsonData = {
-                "type": type,
-                "message": message,
-                "additional": additional
+                "timestamp": int(time.time()),
+                "source": source,
+                "source_description": source_description,
+                "fields": fields
             }
             
-            url = 'https://crash.tumppi066.fi/crash'
+            url = 'https://api.ets2la.com/crash/report'
             headers = {'Content-Type': 'application/json'}
-            data = json.dumps(jsonData)
             try:
-                response = requests.post(url, headers=headers, data=data)
+                response = requests.post(url, headers=headers, json=jsonData)
             except:
                 print("Could not connect to server to send crash report.")
                 return False
             return response.status_code == 200
         except:
-            #import traceback
-            #traceback.print_exc()
-            print("Crash report sending failed.")
+            import traceback
+            # traceback.print_exc()
+            # print("Crash report sending failed.")
             return False
     else:
         print("Crash detected, but crash reporting is disabled.")
         return False
     
-def GetUsername():
-    user_id, token, success = GetCredentials()
-    if success:
-        url = URL + f'/user/{user_id}'
-        headers = {
-            "Authorization": f"Bearer {token}"
-        }
-        try:
-            r = requests.get(url, headers=headers)
-            return r.json()["data"]["username"]
-        except Exception: pass
+def GetUsername(force_refresh = False):
+    if username == "unknown":
+        user_id, token, success = GetCredentials()
+        if success:
+            url = URL + f'/user/{user_id}'
+            headers = {
+                "Authorization": f"Bearer {token}"
+            }
+            try:
+                r = requests.get(url, headers=headers)
+                return r.json()["data"]["username"]
+            except Exception: pass
         
-    return "unknown"    
+    return "anonymous"    
 
 def GetCredentials():
     global user_id, token

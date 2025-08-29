@@ -1,5 +1,6 @@
 from ETS2LA.Plugin.process import PluginProcess, PluginDescription, PluginMessage, Author
 from ETS2LA.Networking.Servers import notifications
+from ETS2LA.Networking.cloud import SendCrashReport
 from ETS2LA.Plugin.message import Channel, State
 from ETS2LA.Utils.translator import _
 from ETS2LA.Controls import ControlEvent
@@ -218,6 +219,22 @@ class Plugin:
             except: 
                 if self.running: time.sleep(0.01)
                 else: time.sleep(0.1)
+                continue
+            
+            if message.channel == Channel.CRASHED:
+                name = self.description.name if "description" in self.__dict__ else self.folder
+                SendCrashReport(
+                    "Plugin Crash",
+                    f"{name} has indicated a crash.",
+                    {
+                        "Error": message.data["message"] if message.data else "No details provided",
+                    }
+                )
+                threading.Thread(
+                    target=stop_plugin,
+                    kwargs={"description": self.description} if "description" in self.__dict__ else {"folder": self.folder},
+                    daemon=True
+                ).start()
                 continue
             
             if message.channel == Channel.STOP_PLUGIN:
@@ -456,6 +473,13 @@ class Plugin:
             
         if response.state == State.ERROR:
             logging.error(_("Plugin {0} failed to get description: {1}").format(self.folder, response.data))
+            SendCrashReport(
+                "Error Fetching Description",
+                f"The runner for {self.folder} failed to get it's description.",
+                {
+                    "Error": response.data if response.data else "No details provided",
+                }
+            )
             self.remove()
             
         self.description, self.authors = response.data
@@ -493,6 +517,13 @@ class Plugin:
             self.remove()
             
         if response.state == State.ERROR:
+            SendCrashReport(
+                "Error Fetching Controls",
+                f"The runner for {self.folder} failed to get it's controls.",
+                {
+                    "Error": response.data if response.data else "No details provided",
+                }
+            )
             logging.error(_("Plugin {0} failed to get controls: {1}").format(self.folder, response.data))
             self.remove()
             

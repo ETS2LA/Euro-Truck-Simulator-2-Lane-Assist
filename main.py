@@ -293,10 +293,11 @@ if __name__ == "__main__":
             print(trace)
             
             # Crash reports currently do not work, disabled to save bandwidth
-            '''
-            try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace, additional=get_current_version_information)
+            try: 
+                cloud.SendCrashReport("Process Crash", "The ETS2LA process itself has crashed.", {
+                    "Error": str(e),
+                })
             except: pass
-            '''
 
             print(_("Send the above traceback to the developers."))
             reset()
