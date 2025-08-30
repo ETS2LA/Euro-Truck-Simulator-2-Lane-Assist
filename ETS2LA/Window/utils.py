@@ -7,6 +7,7 @@ import ETS2LA.variables as variables
 from ETS2LA.Utils.translator import _
 
 from typing import Literal
+import multiprocessing
 import colorsys  
 import logging
 import time
@@ -17,6 +18,8 @@ import os
 if os.name == 'nt':
     import win32gui
     import win32con
+    import winxpgui
+    import win32api
     from ctypes import windll, c_int, byref, sizeof
 
 
@@ -179,7 +182,6 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
     
     global dont_check_window_open
     
-    returnCode = 1
     sinceStart = time.perf_counter()
     
     colors = {
@@ -187,19 +189,22 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
         "light": 0xFFFFFF
     }
 
+    hwnd = 0
     timeout = settings.Get("global", "window_timeout", 10)
-    logging.info(_("Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]").format(timeout=timeout))
-    while returnCode != 0:
+    while hwnd == 0:
         time.sleep(0.01)
-        
         hwnd = win32gui.FindWindow(None, variables.APPTITLE)
-        returnCode = windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
-        
-        set_window_icon(variables.ICONPATH)
         if time.perf_counter() - sinceStart > timeout:
             logging.error(_("Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."))
-            dont_check_window_open = True
-            break
+            return
+    
+    dont_check_window_open = False
+    
+    try:
+        windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(colors[theme])), sizeof(c_int))
+        set_window_icon(variables.ICONPATH)
+    except Exception as e:
+        logging.error(_("Failed to set window attributes or icon.") + " " + str(e))
 
 
 def check_if_window_still_open() -> bool:
@@ -257,3 +262,104 @@ def check_if_specified_window_open(name: str) -> bool:
     else:
         # TODO: Implement for linux
         return True
+
+if os.name == 'nt':
+    def get_windows_scaling_factor() -> float:
+        try:
+            scale_factor = windll.shcore.GetScaleFactorForDevice(0)
+            return scale_factor / 100.0
+        except:
+            logging.exception("Failed to get Windows scaling factor")
+            return 1.0  # Fallback to no scaling
+
+queue: multiprocessing.JoinableQueue = variables.WINDOW_QUEUE
+def set_on_top(state: bool):
+    queue.put({"type": "stay_on_top", "state": state})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def toggle_fullscreen():
+    queue.put({"type": "fullscreen"})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def get_on_top():
+    queue.put({"type": "stay_on_top", "state": None})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def minimize_window():
+    queue.put({"type": "minimize"})
+    queue.join() # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+def resize_window(width: int, height: int):
+    # Get system scaling and adjust dimensions
+    if os.name == 'nt':
+        scaling = get_windows_scaling_factor()
+        scaled_width = int(width * scaling)
+        scaled_height = int(height * scaling)
+    else:
+        scaled_width = width
+        scaled_height = height
+
+    queue.put({"type": "resize", "width": scaled_width, "height": scaled_height})
+    queue.join()  # Wait for the queue to be processed
+    value = queue.get()
+    queue.task_done()
+    return value
+
+IS_TRANSPARENT = False
+def set_transparency(value: bool):
+    global IS_TRANSPARENT
+    if os.name == 'nt':
+        if value:
+            HWND = win32gui.FindWindow(None, variables.APPTITLE)
+            win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
+            
+            transparency = settings.Get("global", "transparency_alpha", 0.8)
+            if transparency is None:
+                transparency = 0.8
+                
+            transparency = int(transparency * 255)
+            winxpgui.SetLayeredWindowAttributes(HWND, win32api.RGB(0,0,0), transparency, win32con.LWA_ALPHA)
+        else:
+            HWND = win32gui.FindWindow(None, variables.APPTITLE)
+            win32gui.SetWindowLong(HWND, win32con.GWL_EXSTYLE, win32gui.GetWindowLong (HWND, win32con.GWL_EXSTYLE) & ~win32con.WS_EX_LAYERED)
+        
+        IS_TRANSPARENT = value
+        settings.Set("global", "transparency", value)
+    else:
+        logging.warning(f"Transparency is not supported on this platform. ({os.name})")
+    return IS_TRANSPARENT
+
+def get_transparency():
+    return IS_TRANSPARENT
+
+def set_resizable(value: bool):
+    if os.name == 'nt':
+        HWND = win32gui.FindWindow(None, variables.APPTITLE)
+        style = win32gui.GetWindowLong(HWND, win32con.GWL_STYLE)
+        
+        color_title_bar()
+        
+        if value:
+            new_style = style | win32con.WS_THICKFRAME
+        else:
+            # Reset the window style to the default
+            new_style = style & ~win32con.WS_THICKFRAME
+            
+        win32gui.SetWindowLong(HWND, win32con.GWL_STYLE, new_style)
+        # Force window to redraw
+        win32gui.SetWindowPos(HWND, None, 0, 0, 0, 0,
+            win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
+    else:
+        logging.warning(f"Window style modification not supported on this platform. ({os.name})")

@@ -41,7 +41,7 @@ html = """
     </style>
     <body class="pywebview-drag-region">
         <div style="flex; justify-content: center; align-items: center;">
-            <p>Please wait while we initialize the user interface</p>
+            <p>Initializing...</p>
             <div class="spinner"></div>
         </div>
     </body>

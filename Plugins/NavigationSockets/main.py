@@ -5,11 +5,20 @@ from ETS2LA.UI import *
 from Plugins.NavigationSockets.projections import get_ets2_coordinates, get_ats_coordinates
 from Plugins.NavigationSockets.socket import WebSocketConnection
 from Plugins.Map.utils.math_helpers import DistanceBetweenPoints
+from Plugins.NavigationSockets.directions import *
 import json
 import math
 
 last_angle = 0
 last_position = (0, 0)
+
+channels = {
+    "onRouteUpdate": -1,
+    "onDirectionUpdate": -1,
+    "onPositionUpdate": -1,
+    "onTrailerUpdate": -1,
+    "onThemeModeUpdate": -1,
+}
 
 def degrees_to_radians(degrees):
     return degrees * math.pi / 180
@@ -94,18 +103,28 @@ class Plugin(ETS2LAPlugin):
     async def server(self, websocket):
         connection = WebSocketConnection(websocket)
         self.connected_clients[websocket] = connection
-        response = [
-            #{"id": 1,"result": {"type": "started"}},
-            {"id": 2,"result": {"type": "started"}},
-            #{"id": 3,"result": {"type": "started"}},
-            {"id": 4,"result": {"type": "started"}},
-            {"id": 5,"result": {"type": "started"}},
-        ]
         try:
             async for message in websocket:
-                # Respond to any message with the response
-                await websocket.send(json.dumps(response))
+                if not message:
+                    continue
                 
+                response = []
+                data = json.loads(message)
+                for channel in data:
+                    id = channel.get("id", None)
+                    name = channel.get("params", {}).get("path", None)
+                    if name in channels and channels[name] == -1:
+                        channels[name] = id
+                        print("Starting channel for", name)
+                        response.append({
+                            "id": id,
+                            "result": {
+                                "type": "started"
+                            }
+                        })
+                        
+                # Start channels
+                await websocket.send(json.dumps(response))
                 
         except Exception as e:
             print("Client disconnected due to exception.", str(e))
@@ -148,7 +167,7 @@ class Plugin(ETS2LAPlugin):
         
         packets = [
         {
-            "id": 2,
+            "id": channels["onPositionUpdate"],
             "result": {
                 "type": "data",
                 "data": {
@@ -160,33 +179,28 @@ class Plugin(ETS2LAPlugin):
             }
         },
         {
-            "id": 4,
+            "id": channels["onThemeModeUpdate"],
             "result": {
                 "type": "data",
                 "data": "dark"
             }
-        },
-        {
-            "id": 5,
-            "result": {
-                "type": "data",
-                "data": {
-                    "position": coords_to_wgs84(*position, game=game),
-                    "bearing": rotation,
-                    "speedMph": speed_mph,
-                    "speedLimit": 0
-                },
-            }
         }]
         
-        navigation = self.globals.tags.navigation_plan
-        navigation = self.globals.tags.merge(navigation)
-        if time.time() - self.last_navigation_time > 10 and navigation is not None and len(navigation) > 0: # Send the navigation plan every 10 seconds
-            self.last_navigation_time = time.time()
             
-            nodes = navigation["nodes"]
-            node_points = navigation["points"]
+        if time.time() - self.last_navigation_time > 10: # Send the navigation plan every 10 seconds
+            navigation = self.globals.tags.navigation_plan
+            navigation = self.globals.tags.merge(navigation)
             
+            nodes = []
+            node_points = []
+            if navigation:
+                nodes = navigation["nodes"]
+                node_points = navigation["points"]
+                self.last_navigation_time = time.time()
+                
+            if not nodes or not node_points:
+                return
+
             total_points = []
             for i in range(len(nodes) - 1):
                 node = nodes[i]
@@ -210,7 +224,7 @@ class Plugin(ETS2LAPlugin):
                 total_points.extend(points)
                 
             packets.append({
-                "id": "1",
+                "id": channels["onRouteUpdate"],
                 "result": {
                     "type": "data",
                     "data": {
@@ -227,6 +241,29 @@ class Plugin(ETS2LAPlugin):
                     }
                 }       
             })
+            
+        # There isn't enough information to provide lane hints yet.
+        # These will either be done later, or when tmudge implements a proper navigation API.
+        # The code below is a draft for displaying information on the map.
+        # - Tumppi066
+        
+        # packets.append(
+        #     {
+        #         "id": channels["onDirectionUpdate"],
+        #         "result": {
+        #             "type": "data",
+        #             "data": RouteDirection(
+        #                 direction=THROUGH,
+        #                 distanceMeters=100,
+        #                 laneHint=LaneHint([
+        #                     Lane(branches=[LEFT], active=LEFT),
+        #                     Lane(branches=[LEFT, THROUGH], active=LEFT),
+        #                     Lane(branches=[THROUGH]),
+        #                 ]),
+        #             ).to_dict()
+        #         }
+        #     }
+        # )
         
         # Enqueue the message to all connected clients
         for connection in list(self.connected_clients.values()):

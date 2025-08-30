@@ -8,6 +8,7 @@ import json
 
 # Import dictionary utilities with fallback to mocks for testing
 import ETS2LA.variables as variables
+from ETS2LA.Utils import settings
 
 from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
@@ -20,13 +21,18 @@ import psutil
 
 data = None
 """The data object that is used by classes here. Will be set once the MapData object is created and loaded."""
+auto_tolls = settings.Get("Map", "AutoTolls", False)
 
+def settings_changed(new: dict):
+    global auto_tolls
+    auto_tolls = new.get("AutoTolls", auto_tolls)
+    
+settings.Listen("Map", settings_changed)
 
 def parse_string_to_int(string: str) -> int:
     if string is None: return None
     if type(string) == int: return string
     return int(string, 16)
-
 
 class FacilityIcon(StrEnum):
     PARKING = "parking_ico"
@@ -1423,22 +1429,22 @@ class Cutscene(BaseItem):
 
 
 class Trigger(BaseItem):
-    __slots__ = ['dlc_guard', 'action_tokens', 'node_uids', 'type']
+    __slots__ = ['action_tokens', 'node_uids', 'type', 'z']
     
-    dlc_guard: int
     action_tokens: list[str]
     node_uids: list[int | str]
     type: ItemType
+    z: float
 
     def parse_strings(self):
         super().parse_strings()
         self.node_uids = [parse_string_to_int(node) for node in self.node_uids]
 
-    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int, dlc_guard: int,
+    def __init__(self, uid: int | str, x: float, y: float, z: float, sector_x: int, sector_y: int,
                  action_tokens: list[str], node_uids: list[int | str]):
-        super().__init__(uid, ItemType.Trigger, x, y, z, sector_x, sector_y)
+        super().__init__(uid, ItemType.Trigger, x, y, sector_x, sector_y)
+        self.z = z
         self.type = ItemType.Trigger
-        self.dlc_guard = dlc_guard
         self.action_tokens = action_tokens
         self.node_uids = node_uids
 
@@ -2015,9 +2021,10 @@ class Semaphore:
         }
 
 class PrefabDescription:
-    __slots__ = ['token', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', 'semaphores', '_nav_routes']
+    __slots__ = ['token', 'path', 'nodes', 'map_points', 'spawn_points', 'trigger_points', 'nav_curves', 'nav_nodes', 'semaphores', '_nav_routes']
     
     token: str
+    path: str
     nodes: list[PrefabNode]
     map_points: RoadMapPoint # | PolygonMapPoint
     """Can also be PolygonMapPoint"""
@@ -2028,11 +2035,12 @@ class PrefabDescription:
     semaphores: list[Semaphore]
     _nav_routes: list[PrefabNavRoute]
 
-    def __init__(self, token: str, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint,
+    def __init__(self, token: str, path: str, nodes: list[PrefabNode], map_points: RoadMapPoint | PolygonMapPoint,
                  spawn_points: list[PrefabSpawnPoints], trigger_points: list[PrefabTriggerPoint],
                  nav_curves: list[PrefabNavCurve], nav_nodes: list[NavNode], semaphores: list[Semaphore] | None = None):
         self._nav_routes = []
         self.token = token
+        self.path = path
         self.nodes = nodes
         self.map_points = map_points
         self.spawn_points = spawn_points
@@ -2064,6 +2072,7 @@ class PrefabDescription:
     def json(self) -> dict:
         return {
             "token": self.token,
+            "path": self.path,
             "nodes": [node.json() for node in self.nodes],
             "map_points": self.map_points.json(),
             "spawn_points": [spawn.json() for spawn in self.spawn_points],
@@ -2118,6 +2127,51 @@ class Prefab(BaseItem):
 
         for route in self._nav_routes:
             route.generate_points(self)
+            
+        if not auto_tolls:
+            return
+            
+        if "toll" not in self.prefab_description.path:
+            return
+            
+        # Get triggers and sort them to ones
+        # that affect toll roads.
+        triggers: list[Trigger] = data.map.get_sector_triggers_by_sector([self.sector_x, self.sector_y])
+        valid_toll_markers = []
+        for trigger in triggers:
+            for action in trigger.action_tokens:
+                if type(action) == str and "toll" in action.lower() or \
+                   type(action) == list and "toll" in action[0].lower():
+                    uids = trigger.node_uids
+                    for uid in uids:
+                        node = data.map.get_node_by_uid(uid)
+                        valid_toll_markers.append(
+                            Position(node.x, node.z, node.y)
+                        )
+                
+        if not valid_toll_markers:
+            return
+        
+        # Get the closest route for each marker.
+        valid_routes = []
+        for marker in valid_toll_markers:
+            closest_route = None
+            closest_distance = math.inf
+            
+            for route in self._nav_routes:
+                for point in route.points:
+                    distance = math_helpers.DistanceBetweenPoints((point.x, point.z), (marker.x, marker.z))
+                    if distance < closest_distance:
+                        closest_distance = distance
+                        closest_route = route
+                        
+            if closest_distance < 8:
+                if closest_route not in valid_routes:
+                    valid_routes.append(closest_route)
+
+        # Only override if we found valid routes in both directions.
+        if valid_routes and len(valid_routes) > 1:
+            self._nav_routes = valid_routes
 
     @property
     def nav_routes(self) -> list[PrefabNavRoute]:
@@ -2217,7 +2271,8 @@ class MapData:
     prefabs: list[Prefab]
     companies: list[CompanyItem]
     models: list[Model]
-    map_areas: list[MapArea]
+    # map_areas: list[MapArea]
+    triggers: list[Trigger]
     POIs: list[POI]
     dividers: list[Building | Curve]
     countries: list[Country]
@@ -2233,6 +2288,7 @@ class MapData:
     _roads_by_sector: dict[dict[Road]]
     _prefabs_by_sector: dict[dict[Prefab]]
     _models_by_sector: dict[dict[Model]]
+    _triggers_by_sector: dict[dict[Trigger]]
 
     _min_sector_x: int = math.inf
     _max_sector_x: int = -math.inf
@@ -2277,8 +2333,11 @@ class MapData:
         for model in self.models:
             model.sector_x, model.sector_y = self.get_node_sector(model.node_uid, (model.x, model.y))
             
-        for area in self.map_areas:
-            area.sector_x, area.sector_y = self.get_sector_from_center_of_nodes(area.node_uids, (area.x, area.y))
+        for trigger in self.triggers:
+            trigger.sector_x, trigger.sector_y = self.get_sector_from_center_of_nodes(trigger.node_uids, (trigger.x, trigger.y))
+            
+        #for area in self.map_areas:
+        #    area.sector_x, area.sector_y = self.get_sector_from_center_of_nodes(area.node_uids, (area.x, area.y))
             
         for poi in self.POIs:
             poi.sector_x, poi.sector_y = self.get_sector_from_coordinates(poi.x, poi.y)
@@ -2327,6 +2386,7 @@ class MapData:
         self._roads_by_sector = {}
         self._prefabs_by_sector = {}
         self._models_by_sector = {}
+        self._triggers_by_sector = {}
 
         for node in self.nodes:
             sector = (node.sector_x, node.sector_y)
@@ -2378,6 +2438,14 @@ class MapData:
             if sector[1] not in self._elevations_by_sector[sector[0]]:
                 self._elevations_by_sector[sector[0]][sector[1]] = []
             self._elevations_by_sector[sector[0]][sector[1]].append(elevation)
+            
+        for trigger in self.triggers:
+            sector = (trigger.sector_x, trigger.sector_y)
+            if sector[0] not in self._triggers_by_sector:
+                self._triggers_by_sector[sector[0]] = {}
+            if sector[1] not in self._triggers_by_sector[sector[0]]:
+                self._triggers_by_sector[sector[0]][sector[1]] = []
+            self._triggers_by_sector[sector[0]][sector[1]].append(trigger)
 
     def get_node_by_uid(self, uid: str) -> Optional[Node]:
         """Get a node by its UID."""
@@ -2479,6 +2547,13 @@ class MapData:
 
     def get_sector_models_by_sector(self, sector: tuple[int, int]) -> list[Model]:
         return self._models_by_sector.get(sector[0], {}).get(sector[1], [])
+
+    def get_sector_triggers_by_coordinates(self, x: float, z: float) -> list[Trigger]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_triggers_by_sector(sector)
+    
+    def get_sector_triggers_by_sector(self, sector: tuple[int, int]) -> list[Trigger]:
+        return self._triggers_by_sector.get(sector[0], {}).get(sector[1], [])
 
     def get_sector_elevations_by_coordinates(self, x: float, z: float) -> list[Elevation]:
         sector = self.get_sector_from_coordinates(x, z)

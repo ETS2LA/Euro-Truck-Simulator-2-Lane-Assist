@@ -45,7 +45,8 @@ class Plugin(ETS2LAPlugin):
     ]
     widget_sizes = {
         _("Assist Information"): {"width": 120},
-        _("Media"): {"width": 160}
+        _("Media"): {"width": 160},
+        _("Closest City"): {"width": 120}
     }
     
     widget_scaling = 1.0

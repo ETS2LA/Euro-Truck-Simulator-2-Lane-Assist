@@ -70,6 +70,10 @@ class SettingsMenu(ETS2LAPage):
             settings.Set("Map", "selected_data", value)
         else:
             settings.Set("Map", "selected_data", "")
+
+    def handle_Traffic_Side(self, value):
+        if value:
+            settings.Set("Map", "traffic_side", value)
             
     def handle_data_update(self):
         if self.plugin:
@@ -89,6 +93,13 @@ class SettingsMenu(ETS2LAPage):
             value = not settings.Get("Map", "OverrideLaneOffsets", False)
         settings.Set("Map", "OverrideLaneOffsets", value)
 
+    def handle_auto_tolls(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("Map", "AutoTolls", False)
+        settings.Set("Map", "AutoTolls", value)
+
     def render(self):
         TitleAndDescription(
             title=_("Map Settings"),
@@ -97,18 +108,35 @@ class SettingsMenu(ETS2LAPage):
         
         with Tabs():
             with Tab(_("General"), container_style=styles.FlexVertical() + styles.Gap("20px")):
-                CheckboxWithTitleDescription(
-                    title=_("Navigate on ETS2LA"),
-                    description=_("Enable the automatic navigation features of ETS2LA."),
-                    default=settings.Get("Map", "UseNavigation", True),
-                    changed=self.handle_navigation,
-                )
-                CheckboxWithTitleDescription(
-                    title=_("Send Elevation"),
-                    description=_("When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"),
-                    default=settings.Get("Map", "SendElevationData", False),
-                    changed=self.handle_elevation,
-                )
+                # CheckboxWithTitleDescription(
+                #     title=_("Navigate on ETS2LA"),
+                #     description=_("Enable the automatic navigation features of ETS2LA."),
+                #     default=settings.Get("Map", "UseNavigation", True),
+                #     changed=self.handle_navigation,
+                # )
+                
+                # Same as CheckBoxWithTitleDescription, but with custom experimental styling.
+                with Container(
+                    styles.FlexHorizontal() + styles.Gap("16px") + styles.Padding("14px 16px 16px 16px") + styles.Classname("border rounded-md w-full " + ("bg-input/30" if settings.Get("Map", "AutoTolls", False) else "bg-input/10")),
+                    pressed=self.handle_auto_tolls, # This allows for the entire container to act as the toggle
+                ):
+                    Checkbox(
+                        default=settings.Get("Map", "AutoTolls", False), # type: ignore
+                        changed=self.handle_auto_tolls,
+                        style=styles.Margin("4px 0px 0px 0px")
+                    )
+                    with Container(styles.FlexVertical() + styles.Gap("6px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("6px")):
+                            Text(_("[Experimental]"), styles.Classname("font-semibold text-muted-foreground"))
+                            Text(_("Automatic Tolls"), styles.Classname("font-semibold"))
+                        Text(_("Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."), styles.Classname("text-xs text-muted-foreground"))
+
+                # CheckboxWithTitleDescription(
+                #     title=_("Send Elevation"),
+                #     description=_("When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"),
+                #     default=settings.Get("Map", "SendElevationData", False),
+                #     changed=self.handle_elevation,
+                # )
                 CheckboxWithTitleDescription(
                     title=_("Disable FPS Notices"),
                     description=_("When enabled map will not notify of any FPS related issues."),
@@ -171,6 +199,14 @@ class SettingsMenu(ETS2LAPage):
                     description=_("Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."),
                     text=_("Update"),
                     action=self.handle_data_update
+                )
+
+                ComboboxWithTitleDescription(
+                    title=_("Traffic Side"),
+                    description=_("This will make the indicators behave correctly when lane changing in left handed or right handed countries."),
+                    default=settings.Get("Map", "traffic_side", "Automatic"),
+                    options=["Right", "Left", "Automatic"],
+                    changed=self.handle_Traffic_Side,
                 )
                 
                 for key, data in index.items():

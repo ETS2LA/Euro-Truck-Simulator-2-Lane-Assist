@@ -1,0 +1,44 @@
+<html>
+    <style>
+        body {
+            background-color: hsl(240, 6%, 10%);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        p {
+            color: #333;
+            font-size: 16px;
+            font-family: sans-serif;
+            margin: 6px;
+        }
+
+        @keyframes spinner {
+            to {transform: rotate(360deg);}
+        }
+
+        .spinner:before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-top: 40px;
+            margin-left: -10px;
+            border-radius: 50%;
+            border-top: 2px solid #333;
+            border-right: 2px solid transparent;
+            animation: spinner .6s linear infinite;
+        }
+    </style>
+    <body class="pywebview-drag-region">
+        <div style="flex:auto; justify-content: center; align-items: center;">
+            <p>Updating ETS2LA</p>
+            <p>Please see the console for more information</p>
+            <div class="spinner"></div>
+        </div>
+    </body>
+</html>

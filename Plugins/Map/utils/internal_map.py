@@ -55,15 +55,31 @@ def on_mouse_move(event, x, y, flags, param):
     MOUSE_POSITION = (x, 0, y)
 
     closest_distance = math.inf
+    closest_item = None
     for road in data.current_sector_roads:
         if road.bounding_box.min_x <= x <= road.bounding_box.max_x and road.bounding_box.min_y <= y <= road.bounding_box.max_y:
             center = road.bounding_box.center()
             distance = math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2)
             if distance < closest_distance:
-                HIGHLIGHTED_ROAD = road.road_look.name
-                HIGHLIGHTED_UID = road.uid
+                closest_item = road
+                closest_distance = distance
+                
+    for prefab in data.current_sector_prefabs:
+        if prefab.bounding_box.min_x <= x <= prefab.bounding_box.max_x and prefab.bounding_box.min_y <= y <= prefab.bounding_box.max_y:
+            center = prefab.bounding_box.center()
+            distance = math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2)
+            if distance < closest_distance:
+                closest_item = prefab
                 closest_distance = distance
             
+    if type(closest_item) == type(data.current_sector_roads[0]):
+        HIGHLIGHTED_ROAD = closest_item.road_look.name
+        HIGHLIGHTED_UID = closest_item.uid
+    elif type(closest_item) == type(data.current_sector_prefabs[0]):
+        HIGHLIGHTED_UID = closest_item.uid
+    else:
+        HIGHLIGHTED_ROAD = None
+        HIGHLIGHTED_UID = None
     
     if event == cv2.EVENT_LBUTTONDOWN and HIGHLIGHTED_ROAD: # Copy to clipboard on left click
         subprocess.Popen(['clip'], stdin=subprocess.PIPE).communicate(HIGHLIGHTED_ROAD.encode('utf-8'))
@@ -272,9 +288,10 @@ def DrawRoads(sector_change: bool) -> None:
     return road_image
 
 prefab_image = np.zeros((RESOLUTION, RESOLUTION, 3), np.uint8)
+last_prefab_render_uid = None
 def DrawPrefabs(sector_change: bool) -> np.ndarray:
-    global prefab_image
-    if not sector_change and prefab_image is not None:
+    global prefab_image, last_prefab_render_uid
+    if not sector_change and prefab_image is not None and last_prefab_render_uid == HIGHLIGHTED_UID:
         return prefab_image
     
     prefab_image = np.zeros((RESOLUTION, RESOLUTION, 3), np.uint8)
@@ -289,9 +306,14 @@ def DrawPrefabs(sector_change: bool) -> np.ndarray:
                 poly_points = np.array(points, np.int32)
                 cv2.polylines(prefab_image, [poly_points], isClosed=False, color=(150, 150, 150), thickness=LINE_THICKNESS, lineType=cv2.LINE_AA)
         
+        if prefab.uid == HIGHLIGHTED_UID:
+            DrawBoundingBox(prefab, prefab_image)
+            prefab_position = ToLocalSectorCoordinates(prefab.x, prefab.y, SCALING_FACTOR)
+            cv2.putText(prefab_image, f"{prefab.prefab_description.token} ({prefab.uid})", (int(prefab_position[0])+5, int(prefab_position[1])), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (0,255,255), 1, cv2.LINE_AA)
         #prefab_position = ToLocalSectorCoordinates(prefab.x, prefab.y, SCALING_FACTOR)
         #cv2.putText(prefab_image, f"{prefab.prefab_description.token}", (int(prefab_position[0])+5, int(prefab_position[1])), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (50,50,50), 1, cv2.LINE_AA)
                 
+    last_prefab_render_uid = HIGHLIGHTED_UID
     return prefab_image
 
 def DrawRoutePlan(image: np.ndarray) -> None:
@@ -312,6 +334,17 @@ def DrawCircles(image: np.ndarray) -> None:
         if x < RESOLUTION and x > 0 and z < RESOLUTION and z > 0:
             cv2.circle(image, (int(x), int(z)), 3, (255, 255, 255), -1)
             cv2.putText(image, f"{i}", (int(x), int(z)), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (255, 255, 255), 1, cv2.LINE_AA)
+
+def DrawTriggers(image: np.ndarray) -> None:
+    for trigger in data.current_sector_triggers:
+        trigger_position = ToLocalSectorCoordinates(trigger.x, trigger.y, SCALING_FACTOR)
+        cv2.circle(image, (int(trigger_position[0]), int(trigger_position[1])), 4, (200, 100, 200), 1)
+        cv2.putText(image, f"{trigger.action_tokens}", (int(trigger_position[0] + 10), int(trigger_position[1]) + 4), cv2.FONT_HERSHEY_DUPLEX, FONT_SIZE, (200, 100, 200), 1, cv2.LINE_AA)
+        for node in trigger.node_uids:
+            node_item = data.map.get_item_by_uid(node)
+            if node_item:
+                node_position = ToLocalSectorCoordinates(node_item.x, node_item.y, SCALING_FACTOR)
+                cv2.circle(image, (int(node_position[0]), int(node_position[1])), 4, (100, 200, 200), 1)
 
 def DrawPlayerDot(image: np.ndarray) -> None:
     x, z = ToLocalSectorCoordinates(data.truck_x, data.truck_z, SCALING_FACTOR)
@@ -358,6 +391,7 @@ def DrawMap() -> None:
     DrawRoutePlan(image)
     DrawPlayerDot(image)
     DrawCircles(image)
+    DrawTriggers(image)
     
     try:
         image = ZoomImage(image)

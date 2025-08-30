@@ -30,8 +30,12 @@ substanceSize = 25
 # virtualZ = 25650
 
 # Sweden
-virtualX = 23780
-virtualZ = -46355
+# virtualX = 23780
+# virtualZ = -46355
+
+# Toll (between Sweden and Denmark)
+virtualX = 5270
+virtualZ = -26070
 
 # Baltics
 # virtualX = 44000

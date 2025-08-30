@@ -7,11 +7,10 @@ PLEASE NOTE:
 """
 from ETS2LA.UI import * 
 
-from ETS2LA.Window.window import set_on_top, get_on_top, set_transparency, get_transparency, toggle_fullscreen
 from ETS2LA.Networking.Servers.notifications import sonner, navigate
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
-from ETS2LA.Window.utils import check_if_specified_window_open
+from ETS2LA.Window.utils import check_if_specified_window_open, set_on_top, get_on_top, set_transparency, get_transparency, toggle_fullscreen
 from ETS2LA.Networking.Servers.models import *
 from ETS2LA.Utils.shell import ExecuteCommand
 from ETS2LA.Utils.translator import _

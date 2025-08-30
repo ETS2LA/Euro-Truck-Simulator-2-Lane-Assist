@@ -1,4 +1,5 @@
 from typing import Dict, List, Any, Optional, Tuple
+from ETS2LA.Networking.cloud import SendCrashReport
 import ETS2LA.variables as variables
 import importlib
 import logging
@@ -151,8 +152,12 @@ class PageManager:
                     try:
                         data = page.build()
                         return data
-                    except Exception:
+                    except Exception as e:
                         logging.exception(f"Failed to build page {target_url}")
+                        SendCrashReport(f"Page build failed", f"The backend failed to build the page for {target_url}.", {
+                            "Error": str(e),
+                            "Filename": filename
+                        })
                         return []
         finally:
             ...

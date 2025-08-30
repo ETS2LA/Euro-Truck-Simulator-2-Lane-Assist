@@ -188,7 +188,7 @@ class PluginProcess:
         
         try:
             self.file = importlib.import_module(import_path)
-        except ImportError as e:
+        except Exception as e:
             logging.error(f"Error importing plugin file: {e}")
             self.return_queue.put(PluginMessage(
                 Channel.CRASHED, {
@@ -528,10 +528,10 @@ class Description(ChannelHandler):
             message.data = [self.plugin.description, self.plugin.authors]
             message.state = State.DONE
             self.plugin.return_queue.put(message)
-        except:
+        except Exception as e:
             message.state = State.ERROR
-            message.data = "Error getting plugin description"
-            logging.exception("Error getting plugin description")
+            message.data = "Error getting plugin description: " + str(e)
+            logging.exception(f"Error getting plugin description: {e}")
             self.plugin.return_queue.put(message)
             
 class Controls(ChannelHandler):

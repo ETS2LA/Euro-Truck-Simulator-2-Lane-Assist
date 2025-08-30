@@ -4,6 +4,7 @@ If you are looking for the actual entrypoint then you should
 look at the core.py file in the ETS2LA folder.
 """
 
+import multiprocessing.process
 import os
 import sys
 import subprocess
@@ -67,11 +68,16 @@ def close_node() -> None:
     else:
         ExecuteCommand("pkill -f node > /dev/null 2>&1")
 
-def reset(clear_logs=True) -> None:
+def reset(clear_logs=True, page_process=None) -> None:
     close_node()
+    if page_process:
+        if page.is_alive():
+            page.terminate()
+            
     CountErrorsAndWarnings()
     if clear_logs:
-        ClearLogFiles()
+        try: ClearLogFiles()
+        except: exit()
         
 def get_commit_url(repo: git.Repo, commit_hash: str) -> str:
     try:
@@ -117,12 +123,13 @@ def get_fastest_mirror() -> str:
                 response_times[mirror] = float('inf')
                 print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
             
-        fastest_mirror = min(response_times, key=response_times.get) # type: ignore
+        fastest_mirror = min(response_times, key=response_times.get)
+        settings.Set("global", "frontend_mirror", fastest_mirror)
         return fastest_mirror
     else:
         mirror = settings.Get("global", "frontend_mirror", "Auto")
-        print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END)) # type: ignore
-        return mirror # type: ignore
+        #print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))
+        return mirror
 
 def update_frontend() -> bool:
     did_update = EnsureSubmoduleExists(
@@ -139,7 +146,7 @@ def update_frontend() -> bool:
     
     return did_update
 
-def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
+def ets2la_process(exception_queue: multiprocessing.Queue, window_queue: multiprocessing.Queue) -> None:
     """
     The main ETS2LA process.
     - This function will run ETS2LA with the given arguments.
@@ -150,15 +157,12 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
     """
     try:
         import ETS2LA.variables
+        variables.WINDOW_QUEUE = window_queue
         
         if "--dev" in sys.argv:
             print(PURPLE + _("Running ETS2LA in development mode.") + END)
 
-        if "--local" in sys.argv:
-            update_frontend()
-            print(PURPLE + _("Running UI locally") + END)
-
-        elif "--frontend-url" not in sys.argv:
+        if "--frontend-url" not in sys.argv:
             url = get_fastest_mirror()
             if not url:
                 print(RED + _("No connection to remote UI mirrors. Running locally.") + END)
@@ -177,6 +181,7 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
             print("\n" + YELLOW + _("> Using mirror {0} for UI.").format(url) + END + "\n")
             sys.argv.append("--frontend-url")
             sys.argv.append(url)
+            variables.FRONTEND_URL = url
         
         if "--no-console" in sys.argv:
             if "--no-ui" in sys.argv:
@@ -184,11 +189,10 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
             else:
                 print(PURPLE + _("Closing console after UI start.") + END)
 
-        if "--no-ui" in sys.argv:
-            print(PURPLE + _("Running in the background without a window.") + END)
-
         close_node()
-        ClearLogFiles()
+        
+        try: ClearLogFiles()
+        except: exit()
         ETS2LA = importlib.import_module("ETS2LA.core")
         ETS2LA.run()
         
@@ -200,32 +204,84 @@ def ets2la_process(exception_queue: multiprocessing.Queue) -> None:
         else:
             exception_queue.put((e, None))
 
+def window_process(window_queue: multiprocessing.Queue) -> None:
+    """
+    This function is used to run the ETS2LA window.
+    It will create a new window and run the ETS2LA UI.
+    """
+    try:
+        import ETS2LA.variables
+        variables.WINDOW_QUEUE = window_queue
+        
+        if "--no-ui" in sys.argv:
+            print(PURPLE + _("Running in the background without a window.") + END)
+            
+        if "--local" in sys.argv:
+            update_frontend()
+            print(PURPLE + _("Running UI locally") + END)
+            ETS2LA.variables.LOCAL_MODE = True
+        
+        elif "--frontend-url" not in sys.argv:
+            url = get_fastest_mirror()
+            if not url:
+                sys.argv.append("--local")
+                ETS2LA.variables.LOCAL_MODE = True
+                
+            sys.argv.append("--frontend-url")
+            sys.argv.append(url)
+            variables.FRONTEND_URL = url
+            
+        import ETS2LA.Window.window as window
+        window.run()
+    except Exception as e:
+        trace = traceback.format_exc()
+        print(RED + _("The window process has crashed!") + END)
+        print(trace)
 
 if __name__ == "__main__":
+    window_queue = multiprocessing.JoinableQueue()
     exception_queue = multiprocessing.Queue()
+    page = None
     print(BLUE + _("ETS2LA Overseer started!") + END + "\n")
 
     while True:
-        process = multiprocessing.Process(target=ets2la_process, args=(exception_queue,))
+        get_fastest_mirror()
+        
+        if not page or not page.is_alive():
+            page = multiprocessing.Process(
+                target=window_process,
+                args=(window_queue,),
+                daemon=True
+            )
+            page.start()
+        
+        process = multiprocessing.Process(
+            target=ets2la_process, 
+            args=(exception_queue, window_queue, )
+        )
         process.start()
-        process.join() # This will block until ETS2LA has closed.
+        process.join()
         
         try:
+            # Exit by process end / crash
             e, trace = exception_queue.get_nowait()
 
             if e.args[0] == "exit":
-                reset(clear_logs=False)
+                reset(clear_logs=False, page_process=page)
                 sys.exit(0)
 
             if e.args[0] == "restart":
-                reset()
+                reset(page_process=page)
                 print(YELLOW + _("ETS2LA is restarting...") + END)
                 continue
             
             if e.args[0] == "Update":
+                window_queue.put({"type": "update"})
+                time.sleep(2)
                 # Check if running with the --dev flag to prevent accidentally overwriting changes
                 if "--dev" in sys.argv:
                     print(YELLOW + _("Skipping update due to development mode.") + END)
+                    reset()
                     continue
                 
                 print(YELLOW + _("ETS2LA is updating...") + END)
@@ -239,11 +295,11 @@ if __name__ == "__main__":
             print(RED + _("ETS2LA has crashed!") + END)
             print(trace)
             
-            # Crash reports currently do not work, disabled to save bandwidth
-            '''
-            try: cloud.SendCrashReport("ETS2LA 2.0 - Main", trace, additional=get_current_version_information)
+            try: 
+                cloud.SendCrashReport("Process Crash", "The ETS2LA process itself has crashed.", {
+                    "Error": str(e),
+                })
             except: pass
-            '''
 
             print(_("Send the above traceback to the developers."))
             reset()
@@ -258,4 +314,4 @@ if __name__ == "__main__":
 #         the cache of the app for changes that don't necessarily 
 #         happen inside of this repository (like the frontend).
 # 
-# Counter: 24
+# Counter: 26

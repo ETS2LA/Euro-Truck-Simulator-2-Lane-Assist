@@ -1,4 +1,5 @@
 import Plugins.Map.utils.math_helpers as math_helpers
+from ETS2LA.Utils import settings
 import Plugins.Map.classes as c
 import Plugins.Map.data as data
 import numpy as np
@@ -106,8 +107,9 @@ class RouteSection:
         
         if self.lane_points:
             lanes_to_move_over = abs(value - self.lane_index)
-            self.skip_indicate_state = False
             lane_change_distance = self.get_planned_lane_change_distance(lane_count=lanes_to_move_over) * 2 # * 2 for the initial static area
+            if self.skip_indicate_state:
+                lane_change_distance /= 2
             
             dist_left = 0
             if not self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
@@ -145,6 +147,7 @@ class RouteSection:
         self.lane_points = new_lane_points
         self._last_lane_index = self._lane_index
         self._lane_index = value
+        self.skip_indicate_state = False
 
     def _calculate_lane_change_points(self, start_points, end_points):
         """Pre-calculate lane change points between start_points and end_points"""
@@ -385,8 +388,15 @@ class RouteSection:
                 time.sleep(1/20)
             
     def get_points(self):
-        if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
-            self.reset_indicators()
+
+        plugin_status = (data.plugin.globals.tags.running or {}).get('catalogueplugins.automatic blinkers', False)
+
+        if not plugin_status:
+            if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+                self.reset_indicators()
+
+        # Check the setting so the indicators work correctly in UK for example
+        self._traffic_side = settings.Get("Map", "traffic_side", "")
             
         # If not lane changing, return the normal lane points
         if not self.is_lane_changing or type(self.items[0].item) == c.Prefab:
@@ -412,21 +422,43 @@ class RouteSection:
             ) / self.lane_change_distance
             self.lane_change_factor = math_helpers.InOut(self._lane_change_progress)
         
-        # Check if lane change is in progress and not indicating
+        if self._traffic_side == "Automatic":
+            try:
+                x = data.truck_x
+                y = data.truck_z
+
+                calais = [-31100, -5500]
+                is_uk = x < calais[0] and y < calais[1]
+
+                if is_uk:
+                    uk_factor = 0.75
+                    x = (x + calais[0]/2) * uk_factor
+                    y = (y + calais[1]/2) * uk_factor
+
+                left_hand = is_uk
+
+            except Exception:
+                left_hand = False
+        else:
+            left_hand = self._traffic_side == "Left"
+
+        # Set traffic side
+        self._traffic_side = "Left" if left_hand else "Right"
+
+        # Lane-change logic
         if self.is_lane_changing and self._lane_change_progress > 0:
             side = self.items[0].item.lanes[self.lane_index].side
-            if side == "left":
-                diff = self._last_lane_index - self.lane_index
-                if diff > 0 and not data.truck_indicating_right:
-                    self.indicate_right()
-                elif diff < 0 and not data.truck_indicating_left:
-                    self.indicate_left()
-            elif side == "right":
-                diff = self._last_lane_index - self.lane_index
-                if diff < 0 and not data.truck_indicating_right:
-                    self.indicate_right()
-                elif diff > 0 and not data.truck_indicating_left:
-                    self.indicate_left()
+            if left_hand:  # reverse for left-hand traffic
+                side = "left" if side == "right" else "right"
+
+            diff = self._last_lane_index - self.lane_index
+
+            if (side == "left" and diff > 0 and not data.truck_indicating_right) or \
+            (side == "right" and diff < 0 and not data.truck_indicating_right):
+                self.indicate_right()
+            elif (side == "left" and diff < 0 and not data.truck_indicating_left) or \
+                (side == "right" and diff > 0 and not data.truck_indicating_left):
+                self.indicate_left()
         
         # Check if lane change is complete
         if self._lane_change_progress > 0.98:

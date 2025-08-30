@@ -3,7 +3,7 @@ from ETS2LA import variables
 from ETS2LA.UI import *
 
 import ETS2LA.Handlers.sounds as sounds 
-from ETS2LA.Utils.translator import languages, parse_language
+from ETS2LA.Utils.translator import languages, parse_language, correct_naming
 from ETS2LA.Utils.translator import _
 from langcodes import Language
 import webbrowser
@@ -236,8 +236,8 @@ class Page(ETS2LAPage):
                 current = utils_settings.Get("global", "language", default="English")
                 if not current:
                     current = "English"
-
-                current = Language.find(current)
+                
+                current = Language.find(correct_naming(current))
                 ComboboxWithTitleDescription(
                     title=_("Language"),
                     description=_("Select the language for the application."),

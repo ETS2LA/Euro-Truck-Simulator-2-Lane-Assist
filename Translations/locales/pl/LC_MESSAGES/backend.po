@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-20 23:06+0000\n"
+"PO-Revision-Date: 2025-08-30 12:31+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
@@ -30,7 +30,7 @@ msgstr "Zdarzenie związane z {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr "Odświeżanie kontrolerów..."
+msgstr "Odświeżanie listy kontrolerów..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -65,63 +65,65 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
-msgstr "Nie udało się uruchomić pluginu {0}: {1}"
+msgstr "Nie udało się uruchomić wtyczki {0}: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr "Plugin [yellow]{0}[/yellow] załadowany z powodzeniem."
+msgstr "Wtyczka [yellow]{0}[/yellow] załadowana poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Nie udało się pobrać opisu wtyczki {0}: Limit czasu."
 
 #: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Nie udało się pobrać opisu wtyczki {0}: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Nie udało się pobrać elementów sterujących wtyczką {0}: Limit czasu."
 
 #: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Wtyczka {0} nie może pobrać elementów sterujących: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
-msgstr "Załadowano {0} pluginy."
+msgstr "Załadowano {0} wtyczkę/wtyczki."
 
 #: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
-msgstr "Nie znaleziono pluginu."
+msgstr "Nie znaleziono wtyczki."
 
 #: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr "Plugin [yellow]{0}[/yellow] uruchomiony poprawnie."
+msgstr "Wtyczka [yellow]{0}[/yellow] uruchomiona poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
-msgstr "Nie udało się uruchomić pluginu: {0}"
+msgstr "Nie udało się uruchomić wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
-msgstr "Przekroczenie limitu czasu"
+msgstr "Limit czasu"
 
 #: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Nie znaleziono wtyczki, może to być spowodowane awarią wtyczki lub jej nie "
+"załadowaniem."
 
 #: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr "Plugin [yellow]{0}[/yellow] zatrzymana pomyślnie."
+msgstr "Wtyczka [yellow]{0}[/yellow] zatrzymana pomyślnie."
 
 #: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
-msgstr "Nie udało się zatrzymać pluginu: {0}"
+msgstr "Nie udało się zatrzymać wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
-msgstr "Nie udało się ponownie uruchomić pluginu: {0}"
+msgstr "Nie udało się ponownie uruchomić wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
@@ -133,27 +135,31 @@ msgstr "Nie udało się pobrać biblioteki ffmpeg, pobierz ją ręcznie. (tj. [c
 
 #: .\ETS2LA\Handlers\sounds.py:43
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "W pakiecie dźwiękowym \"{0}\" brakuje wymaganego dźwięku \"{1}\""
 
 #: .\ETS2LA\Handlers\sounds.py:48
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Soundpack '{0}' ma nieprawidłowy typ pliku '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Próbowano odtworzyć dźwięk \"{0}\", ale nie znaleziono go w pakiecie "
+"dźwiękowym \"{1}\""
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Pomyślnie zarejestrowano [bold]http://{address}[/bold] w celu wskazania [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Podczas przetwarzania wiadomości wystąpił błąd."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:205
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Próba wysłania pustej strony."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
@@ -165,15 +171,15 @@ msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Frontend chce przeprowadzić aktualizację."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Nie udało się ustawić przejrzystości"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Nie udało się uzyskać danych tagu"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
@@ -233,7 +239,7 @@ msgstr "Poczekaj, aż zainicjujemy interfejs użytkownika"
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "Szukam okna ETS2LA... [dim]({timeout}s timeout)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -285,15 +291,15 @@ msgstr "3D modele do wirtualizacji"
 
 #: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Rozwój ekstraktora danych, obsługa zmodyfikowanych map."
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr ""
+msgstr "Deweloper pluginu Discord rich presence, drobne aktualizacje backendu."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Chińskie tłumaczenie, poprawki błędów"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
@@ -301,11 +307,11 @@ msgstr ""
 
 #: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatyczne obliczanie przesunięcia dla pluginu Map."
 
 #: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Serwer discord wsparcia, chińsko-angielski programista tłumaczeń."
 
 #: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
@@ -322,19 +328,19 @@ msgstr "Poprawa błędów"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Naprawianie wycieraczek (timer 5 sekundowy)"
 
 #: .\Pages\about.py:95
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Naprawianie wycieraczek za {0} sekund..."
 
 #: .\Pages\about.py:101 .\Pages\about.py:102
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Wycieraczki powinny być naprawione."
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
-msgstr ""
+msgstr "Uruchamianie aktualizacji"
 
 #: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
@@ -361,6 +367,8 @@ msgstr "Powiadomienie!"
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"Zestaw SDK dla {0} jest nieaktualny. Zainstaluj go ponownie, aby "
+"zaktualizować do najnowszej wersji w ustawieniach SDK."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -493,7 +501,7 @@ msgstr "Instalacja"
 
 #: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr "Wtyczki nie znaleziono w katalogu."
+msgstr "Plugin nie znaleziono w katalogu."
 
 #: .\Pages\catalogue.py:148
 msgid "Cloning repository"
@@ -505,11 +513,12 @@ msgstr "Wymagania dotyczące instalacji"
 
 #: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Uruchamianie pluginu w tle"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Nie można uruchomić wtyczki w tle, ale pliki wtyczki zostały zainstalowane."
 
 #: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
@@ -525,7 +534,7 @@ msgstr "Niepowodzenie"
 
 #: .\Pages\catalogue.py:167
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Nie udało się zainstalować pluginu '{name}': {error}"
 
 #: .\Pages\catalogue.py:171
 msgid "Uninstalling"
@@ -541,11 +550,11 @@ msgstr ""
 
 #: .\Pages\catalogue.py:191
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Wyrejestrowanie repozytorium git"
 
 #: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Usuwanie plików pluginów"
 
 #: .\Pages\catalogue.py:220
 msgid "Retrying removal ({cur}/{max})"
@@ -557,7 +566,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:229
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin '{name}' został pomyślnie odinstalowany."
 
 #: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
@@ -565,7 +574,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Nie można odnaleść kodu źródłowego dla tej wtyczki."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:273
@@ -574,7 +583,7 @@ msgstr "Odświerzanie..."
 
 #: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Znaleziono {count} wtyczkę/wtyczki"
 
 #: .\Pages\catalogue.py:317
 msgid "Back"
@@ -599,6 +608,8 @@ msgstr "Czy na pewno chcesz zainstalować tę wtyczkę?"
 #: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA nie jest odpowiedzialne za problemy spowodowane przez wtyczki stron "
+"trzecich."
 
 #: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
@@ -638,15 +649,15 @@ msgstr "Odśwież katalog"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Zainstalowane wtyczki"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr ""
+msgstr "Brak zainstalowanych wtyczek."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
-msgstr ""
+msgstr "Dostępne wtyczki"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
@@ -1010,7 +1021,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:157 .\Pages\sdk_installation.py:191
 msgid "SDK Setup"
-msgstr "Zainstaluj SDK"
+msgstr "Instalacja SDK"
 
 #: .\Pages\onboarding.py:158
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
@@ -1022,7 +1033,7 @@ msgstr "Oczekiwanie na instalacje SDK..."
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:140
 msgid "Plugins"
-msgstr "Wtyczki"
+msgstr "Pluginy"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
@@ -1030,7 +1041,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
-msgstr "Wtyczki tryb zawansowany"
+msgstr "Zaawansowany tryb pluginów"
 
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
@@ -1222,7 +1233,7 @@ msgstr "ETS2LA Użycie RAM  "
 
 #: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
-msgstr "Obecnie nie są uruchomione żadne wtyczki."
+msgstr "Żadne pluginy nie są aktualnie uruchomione."
 
 #: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
@@ -1293,7 +1304,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:251
 msgid "Plugins (Basic)"
-msgstr "Wtyczki (Podstawowe)"
+msgstr "Pluginy (Podstawowe)"
 
 #: .\Pages\plugins.py:252
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
@@ -1301,15 +1312,15 @@ msgstr ""
 
 #: .\Pages\plugins.py:260
 msgid "Disable Plugins"
-msgstr "Wyłącz wtyczki"
+msgstr "Wyłącz pluginy"
 
 #: .\Pages\plugins.py:260
 msgid "Enable Plugins"
-msgstr "Włącz wtyczki"
+msgstr "Włącz pluginy"
 
 #: .\Pages\plugins.py:263
 msgid "Currently enabled plugins:"
-msgstr "Obecnie włączone wtyczki:"
+msgstr "Obecnie włączone pluginy:"
 
 #: .\Pages\plugins.py:297
 msgid "Enabled"
@@ -1345,7 +1356,7 @@ msgstr "Wróć do trybu podstawowego"
 
 #: .\Pages\plugins.py:382
 msgid "Running Plugins"
-msgstr "Uruchomione wtyczki"
+msgstr "Uruchomione pluginy"
 
 #: .\Pages\plugins.py:389
 msgid "Want to enable the plugins you had running last time?"
@@ -1385,15 +1396,16 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:148
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "Odinstalowywanie zestawów SDK dla {game}"
 
 #: .\Pages\sdk_installation.py:153
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "SDK dla {game} zostało pomyślnie odinstalowane."
 
 #: .\Pages\sdk_installation.py:155
 msgid "SDKs for {game} not installed, skipping uninstallation"
 msgstr ""
+"Zestawy SDK dla {game} nie zostały zainstalowane, pominięto dezinstalację"
 
 #: .\Pages\sdk_installation.py:158
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
@@ -1401,7 +1413,7 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:163
 msgid "Select the game directory"
-msgstr ""
+msgstr "Wybierz folder z grą"
 
 #: .\Pages\sdk_installation.py:166
 msgid "Could not find version for the selected game, please select a valid game directory."
@@ -1413,11 +1425,11 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:172
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Znaleziono grę w wersji {version}."
 
 #: .\Pages\sdk_installation.py:178
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "Ścieżka {path} nie istnieje."
 
 #: .\Pages\sdk_installation.py:192
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
