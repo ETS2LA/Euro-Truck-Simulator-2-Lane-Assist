@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-27 16:06+0000\n"
-"Last-Translator: KanapkaPL <kanapkapl@ets2la.com>\n"
+"PO-Revision-Date: 2025-08-30 12:31+0000\n"
+"Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
 "Language: pl\n"
@@ -30,7 +30,7 @@ msgstr "Zdarzenie związane z {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr "Odświeżanie kontrolerów..."
+msgstr "Odświeżanie listy kontrolerów..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -65,65 +65,65 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:137
 msgid "Plugin {0} failed to start: {1}"
-msgstr "Nie udało się uruchomić pluginu {0}: {1}"
+msgstr "Nie udało się uruchomić wtyczki {0}: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:189
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr "Plugin [yellow]{0}[/yellow] załadowany z powodzeniem."
+msgstr "Wtyczka [yellow]{0}[/yellow] załadowana poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:384
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr "Nie udało się pobrać opisu pluginu {0}: Limit czasu."
+msgstr "Nie udało się pobrać opisu wtyczki {0}: Limit czasu."
 
 #: .\ETS2LA\Handlers\plugins.py:388
 msgid "Plugin {0} failed to get description: {1}"
-msgstr "Nie udało się pobrać opisu pluginu {0}: {1}"
+msgstr "Nie udało się pobrać opisu wtyczki {0}: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:422
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr "Nie udało się pobrać elementów sterujących pluginem {0}: Limit czasu."
+msgstr "Nie udało się pobrać elementów sterujących wtyczką {0}: Limit czasu."
 
 #: .\ETS2LA\Handlers\plugins.py:426
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr "Plugin {0} nie może pobrać elementów sterujących: {1}"
+msgstr "Wtyczka {0} nie może pobrać elementów sterujących: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:496
 msgid "Loaded {0} plugins."
-msgstr "Załadowano {0} pluginy."
+msgstr "Załadowano {0} wtyczkę/wtyczki."
 
 #: .\ETS2LA\Handlers\plugins.py:566 .\ETS2LA\Handlers\plugins.py:756
 msgid "Plugin not found."
-msgstr "Nie znaleziono pluginu."
+msgstr "Nie znaleziono wtyczki."
 
 #: .\ETS2LA\Handlers\plugins.py:577
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr "Plugin [yellow]{0}[/yellow] uruchomiony poprawnie."
+msgstr "Wtyczka [yellow]{0}[/yellow] uruchomiona poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:584
 msgid "Failed to start plugin: {0}"
-msgstr "Nie udało się uruchomić pluginu: {0}"
+msgstr "Nie udało się uruchomić wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:584 .\ETS2LA\Handlers\plugins.py:623
 msgid "Timeout"
-msgstr "Przekroczenie limitu czasu"
+msgstr "Limit czasu"
 
 #: .\ETS2LA\Handlers\plugins.py:603
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
-"Nie znaleziono pluginu, może to być spowodowane awarią pluginu lub jego nie "
+"Nie znaleziono wtyczki, może to być spowodowane awarią wtyczki lub jej nie "
 "załadowaniem."
 
 #: .\ETS2LA\Handlers\plugins.py:620
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr "Plugin [yellow]{0}[/yellow] zatrzymana pomyślnie."
+msgstr "Wtyczka [yellow]{0}[/yellow] zatrzymana pomyślnie."
 
 #: .\ETS2LA\Handlers\plugins.py:623
 msgid "Failed to stop plugin: {0}"
-msgstr "Nie udało się zatrzymać pluginu: {0}"
+msgstr "Nie udało się zatrzymać wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:649
 msgid "Failed to restart plugin: {0}"
-msgstr "Nie udało się ponownie uruchomić pluginu: {0}"
+msgstr "Nie udało się ponownie uruchomić wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
@@ -310,9 +310,8 @@ msgid "Automatic offset calculations for the Map plugin."
 msgstr "Automatyczne obliczanie przesunięcia dla pluginu Map."
 
 #: .\Pages\about.py:34
-#, fuzzy
 msgid "Discord server support, Chinese-English translator developer."
-msgstr "Serwer discord wsparcia, chińsko-angielski programista tłumaczeń"
+msgstr "Serwer discord wsparcia, chińsko-angielski programista tłumaczeń."
 
 #: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
@@ -518,7 +517,8 @@ msgstr "Uruchamianie pluginu w tle"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr "Wtyczka"
+msgstr ""
+"Nie można uruchomić wtyczki w tle, ale pliki wtyczki zostały zainstalowane."
 
 #: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
@@ -653,7 +653,7 @@ msgstr "Zainstalowane wtyczki"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr "Żadne wtyczki nie zostały zainstalowane."
+msgstr "Brak zainstalowanych wtyczek."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
