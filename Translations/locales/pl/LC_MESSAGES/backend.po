@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-30 12:31+0000\n"
+"PO-Revision-Date: 2025-08-31 08:59+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
@@ -127,7 +127,7 @@ msgstr "Nie udało się ponownie uruchomić wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:685 .\ETS2LA\Handlers\plugins.py:708
 msgid "Plugin {0} not found for page {1}."
-msgstr "Plugin {0} nie została znaleziona dla strony {1}."
+msgstr "Wtyczka {0} nie została znaleziona dla strony {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
@@ -150,7 +150,7 @@ msgstr ""
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
-"Pomyślnie zarejestrowano [bold]http://{address}[/bold] w celu wskazania [dim]"
+"Pomyślnie zarejestrowany [bold]http://{address}[/bold] aby wskazać [dim]"
 "{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
@@ -171,15 +171,15 @@ msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr "Frontend chce przeprowadzić aktualizację."
+msgstr "Frontend chce dokonać aktualizacji."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr "Nie udało się ustawić przejrzystości"
+msgstr "Nie udało się ustalić przejrzystości"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr "Nie udało się uzyskać danych tagu"
+msgstr "Nie udało się uzyskać danych znacznika"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
@@ -191,7 +191,7 @@ msgstr "Nie udało się pobrać danych strony dla strony {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr "Nie udało się przeładować pluginów"
+msgstr "Nie można ponownie załadować wtyczek"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
@@ -203,7 +203,7 @@ msgstr "Budowanie frontendu... proszę czekać..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr "Nie udało się uruchomić frontendu"
+msgstr "Nie udało się uruchomić frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
@@ -215,7 +215,7 @@ msgstr "Frontend uruchomiony pod adresem http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
-msgstr "Logowanie zostało zainicjowane."
+msgstr "Logowanie zainicjowane."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
@@ -251,7 +251,7 @@ msgstr "Backend został pomyślnie uruchomiony"
 
 #: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr "Główny programista i twórca ETS2LA, backend i frontend."
+msgstr "Główny deweloper i twórca ETS2LA, backend & frontend."
 
 #: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
@@ -267,11 +267,11 @@ msgstr "Zestaw SDK dla deweloperów ETS2LA. Pojazdy, sygnalizacja świetlna, dan
 
 #: .\Pages\about.py:23
 msgid "Game data extraction and processing"
-msgstr "Pozyskiwanie i przetwarzanie danych z gier"
+msgstr "Wydobycie i przetwarzanie danych gry"
 
 #: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr "Port Linux i Unix, różne ulepszenia i poprawki błędów"
+msgstr "Linux & Unix Port, różne ulepszenia i poprawki błędów"
 
 #: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
@@ -287,11 +287,11 @@ msgstr "scs-sdk-controller deweloper"
 
 #: .\Pages\about.py:28
 msgid "3D models for the visualization"
-msgstr "3D modele do wirtualizacji"
+msgstr "modele 3D do wizualizacji"
 
 #: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
-msgstr "Rozwój ekstraktora danych, obsługa zmodyfikowanych map."
+msgstr "Rozwój ekstraktora danych, wsparcie dla modyfikowanych map."
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
@@ -299,7 +299,7 @@ msgstr "Deweloper pluginu Discord rich presence, drobne aktualizacje backendu."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
-msgstr "Chińskie tłumaczenie, poprawki błędów"
+msgstr "Tłumaczenie z chińskiego, poprawki błędów"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
@@ -324,7 +324,7 @@ msgstr ""
 #: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
 #: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
-msgstr "Poprawa błędów"
+msgstr "Poprawki błędów"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
@@ -340,7 +340,7 @@ msgstr "Wycieraczki powinny być naprawione."
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
-msgstr "Uruchamianie aktualizacji"
+msgstr "Uruchomienie aktualizacji"
 
 #: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
@@ -362,13 +362,13 @@ msgstr "{0} i {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr "Powiadomienie!"
+msgstr "Uwaga!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
-"Zestaw SDK dla {0} jest nieaktualny. Zainstaluj go ponownie, aby "
-"zaktualizować do najnowszej wersji w ustawieniach SDK."
+"SDK dla {0} jest przestarzały. Proszę go ponownie zainstalować w celu "
+"aktualizacji do najnowszej wersji w ustawieniach SDK."
 
 #: .\Pages\about.py:158
 msgid "About"
@@ -377,9 +377,10 @@ msgstr "Informacje"
 #: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
-"ETS2LA to projekt, którego celem jest zapewnienie łatwego w użyciu "
-"rozwiązania do samodzielnej jazdy dla ETS2 i ATS, jeśli chcesz dowiedzieć "
-"się więcej, możesz odwiedzić stronę github lub wiki na pasku bocznym."
+"ETS2LA jest projektem, który ma na celu zapewnienie łatwego w użyciu "
+"rozwiązania do samodzielnego prowadzenia pojazdów dla ETS2 i ATS, jeśli "
+"chcesz dowiedzieć się więcej, to możesz odwiedzić stronę github lub wiki za "
+"pośrednictwem paska bocznego."
 
 #: .\Pages\about.py:164
 msgid "Statistics"
@@ -419,7 +420,7 @@ msgstr "Jesteś zalogowany."
 
 #: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
-msgstr "Witamy ponownie, {0}!"
+msgstr "Witaj z powrotem!"
 
 #: .\Pages\about.py:189
 msgid "Contributors"
@@ -445,11 +446,15 @@ msgstr "Wsparcie rozwoju"
 
 #: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
-msgstr "Jeśli podoba ci się projekt i chcesz wesprzeć jego rozwój, możesz to zrobić, przekazując darowiznę za pośrednictwem Ko-Fi."
+msgstr ""
+"Jeśli podoba Ci się projekt i chcesz wspierać rozwój, możesz to zrobić "
+"poprzez darowiznę Ko- Fi."
 
 #: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
-msgstr "Jeśli chcesz wnieść swój wkład, polecam dołączenie do serwera Discord i sprawdzenie strony github."
+msgstr ""
+"Jeśli chcesz się przyłączyć, polecam dołączenie do serwera discord i "
+"sprawdzenie strony z github."
 
 #: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
@@ -473,7 +478,7 @@ msgstr "Aktywuj"
 
 #: .\Pages\about.py:242
 msgid "Force an update"
-msgstr "Wymuszenie aktualizacji"
+msgstr "Wymuś aktualizację"
 
 #: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
@@ -501,7 +506,7 @@ msgstr "Instalacja"
 
 #: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr "Plugin nie znaleziono w katalogu."
+msgstr "Wtyczka nie znaleziona w katalogu."
 
 #: .\Pages\catalogue.py:148
 msgid "Cloning repository"
@@ -513,7 +518,7 @@ msgstr "Wymagania dotyczące instalacji"
 
 #: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr "Uruchamianie pluginu w tle"
+msgstr "Uruchamianie wtyczki w tle"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
@@ -526,7 +531,7 @@ msgstr "Sukces"
 
 #: .\Pages\catalogue.py:163
 msgid "Plugin '{name}' installed successfully."
-msgstr "Plugin '{name}' zainstalowany pomyślnie."
+msgstr "Wtyczka '{name}' została zainstalowana pomyślnie."
 
 #: .\Pages\catalogue.py:165 .\Pages\catalogue.py:231
 msgid "Failed"
@@ -534,7 +539,7 @@ msgstr "Niepowodzenie"
 
 #: .\Pages\catalogue.py:167
 msgid "Failed to install plugin '{name}': {error}"
-msgstr "Nie udało się zainstalować pluginu '{name}': {error}"
+msgstr "Nie udało się zainstalować wtyczki '{name}': {error}"
 
 #: .\Pages\catalogue.py:171
 msgid "Uninstalling"
@@ -542,7 +547,7 @@ msgstr "Odinstalowywanie"
 
 #: .\Pages\catalogue.py:186
 msgid "Closing plugin processes"
-msgstr "Zamykanie procesów pluginów"
+msgstr "Zamykanie procesów wtyczki"
 
 #: .\Pages\catalogue.py:189
 msgid "Failed to stop plugin processes."
@@ -554,7 +559,7 @@ msgstr "Wyrejestrowanie repozytorium git"
 
 #: .\Pages\catalogue.py:200
 msgid "Removing plugin files"
-msgstr "Usuwanie plików pluginów"
+msgstr "Usuwanie plików wtyczki"
 
 #: .\Pages\catalogue.py:220
 msgid "Retrying removal ({cur}/{max})"
@@ -566,7 +571,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:229
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr "Plugin '{name}' został pomyślnie odinstalowany."
+msgstr "Wtyczka '{name}' została usunięta."
 
 #: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
@@ -574,7 +579,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
-msgstr "Nie można odnaleść kodu źródłowego dla tej wtyczki."
+msgstr "Nie mogłem znaleźć kodu źródłowego dla tej wtyczki."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:273
@@ -599,7 +604,7 @@ msgstr "Odinstaluj"
 
 #: .\Pages\catalogue.py:329 .\Pages\catalogue.py:366
 msgid "Install"
-msgstr "Zainstaluj"
+msgstr "Instaluj"
 
 #: .\Pages\catalogue.py:358
 msgid "Are you sure you want to install this plugin?"
@@ -608,8 +613,7 @@ msgstr "Czy na pewno chcesz zainstalować tę wtyczkę?"
 #: .\Pages\catalogue.py:359
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
-"ETS2LA nie jest odpowiedzialne za problemy spowodowane przez wtyczki stron "
-"trzecich."
+"ETS2LA nie odpowiada za żadne problemy spowodowane wtykami osób trzecich."
 
 #: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
@@ -625,15 +629,15 @@ msgstr "Zamknij"
 
 #: .\Pages\catalogue.py:382
 msgid "Uninstalling {plugin}"
-msgstr "Odinstalowanie {plugin}"
+msgstr "Usuń wtyczkę {plugin}"
 
 #: .\Pages\catalogue.py:395
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr "Czy na pewno chcesz odinstalować plugin?"
+msgstr "Czy na pewno chcesz odinstalować wtyczkę?"
 
 #: .\Pages\catalogue.py:413 .\Pages\plugins.py:327
 msgid "Search plugins..."
-msgstr "Szukaj pluginów..."
+msgstr "Szukaj wtyczek..."
 
 #: .\Pages\catalogue.py:418
 msgid "Refresh"
@@ -641,7 +645,7 @@ msgstr "Odśwież"
 
 #: .\Pages\catalogue.py:428
 msgid "No plugins found in the plugin catalogue."
-msgstr "Nie znaleziono żadnych pluginów w katalogu."
+msgstr "Nie znaleziono wtyczek w katalogu."
 
 #: .\Pages\catalogue.py:431
 msgid "Refresh Catalogue"
@@ -653,7 +657,7 @@ msgstr "Zainstalowane wtyczki"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr "Brak zainstalowanych wtyczek."
+msgstr "Nie zainstalowano wtyczek."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -680,14 +684,14 @@ msgstr[2] "{minutes} minut temu"
 #: .\Pages\changelog.py:26 .\Pages\updater.py:32
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] "{hours} godzina temu"
+msgstr[0] "godzina temu"
 msgstr[1] "{hours} godziny temu"
 msgstr[2] "{hours} godzin temu"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] "{days} dzień temu"
+msgstr[0] "dzień temu"
 msgstr[1] "{days} dni temu"
 msgstr[2] "{days} dni temu"
 
@@ -701,7 +705,7 @@ msgstr "Pobrano listę zmian."
 
 #: .\Pages\changelog.py:67 .\Pages\updater.py:82
 msgid "View Changes"
-msgstr "Zobacz zmiany"
+msgstr "Wyświetl zmiany"
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
@@ -709,11 +713,12 @@ msgstr ""
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
-msgstr "Wyświetl wszystkie pluginy"
+msgstr "Pokaż wszystkie wtyczki"
 
 #: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
-msgstr "Naciśnij klawisz / przycisk, który chcesz powiązać z tym zdarzeniem."
+msgstr ""
+"Proszę nacisnąć klawisz / przycisk, który chcesz powiązać z tym zdarzeniem."
 
 #: .\Pages\controls.py:51
 msgid "Event unbound."
@@ -816,11 +821,11 @@ msgstr "Pomóż nam w tłumaczeniu na Discordzie!"
 
 #: .\Pages\global_settings.py:246
 msgid "This translation is {percentage:.2f}% complete."
-msgstr "Tłumaczenie zostało ukończone w {percentage:.2f}%."
+msgstr "Tłumaczenie ukończone w {percentage:.2f}%."
 
 #: .\Pages\global_settings.py:253
 msgid "Audio"
-msgstr "Dzwięk"
+msgstr "Audio"
 
 #: .\Pages\global_settings.py:256
 msgid "Soundpack"
@@ -876,7 +881,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:344 .\Pages\onboarding.py:215
 msgid "High Priority"
-msgstr "Wysoki Priorytet"
+msgstr "Wysoki priorytet"
 
 #: .\Pages\global_settings.py:345 .\Pages\onboarding.py:216
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
@@ -916,11 +921,11 @@ msgstr ""
 
 #: .\Pages\global_settings.py:386
 msgid "Send Crash Reports"
-msgstr "Wyślij raport błędu"
+msgstr "Wyślij raporty awarii"
 
 #: .\Pages\global_settings.py:387
 msgid "Automatically send crash reports to help improve the application."
-msgstr "Automatyczne przesyłanie raportu błędu w celu poprawy działania aplikacji."
+msgstr "Automatycznie wysyłać raporty awarii, aby poprawić aplikację."
 
 #: .\Pages\global_settings.py:392
 msgid "Use Fancy Traceback"
@@ -960,7 +965,7 @@ msgstr "Fajerwerki"
 
 #: .\Pages\global_settings.py:427
 msgid "Enable this option to use fireworks effects during the new year's."
-msgstr "Włącz tę opcję, aby używać efektów fajerwerków w Nowy Rok."
+msgstr "Włącz tę opcję, aby wykorzystać efekty fajerwerków w nowym roku."
 
 #: .\Pages\global_settings.py:433
 msgid "Snow"
@@ -968,7 +973,7 @@ msgstr "Śnieg"
 
 #: .\Pages\global_settings.py:434
 msgid "Enable this option to use snow effects during the winter season."
-msgstr "Włącz tę opcję, aby korzystać z efektów śniegu w sezonie zimowym."
+msgstr "Włącz tę opcję do używania efektów śniegowych w sezonie zimowym."
 
 #: .\Pages\onboarding.py:54
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
@@ -1009,7 +1014,7 @@ msgstr "Tutaj można zmienić motyw!"
 
 #: .\Pages\onboarding.py:119
 msgid "Language Selection"
-msgstr "Wybór języków"
+msgstr "Wybór języka"
 
 #: .\Pages\onboarding.py:120
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
@@ -1029,11 +1034,11 @@ msgstr ""
 
 #: .\Pages\onboarding.py:161
 msgid "Waiting for SDK installation..."
-msgstr "Oczekiwanie na instalacje SDK..."
+msgstr "Czekam na instalację SDK..."
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:140
 msgid "Plugins"
-msgstr "Pluginy"
+msgstr "Wtyczki"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
@@ -1041,7 +1046,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:179
 msgid "Advanced Plugin Mode"
-msgstr "Zaawansowany tryb pluginów"
+msgstr "Zaawansowany tryb wtyczek"
 
 #: .\Pages\onboarding.py:180
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
@@ -1069,7 +1074,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr "Dane Mapy"
+msgstr "Dane mapy"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
@@ -1192,8 +1197,8 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
-"<- Naciśnij tą krawędź, aby otworzyć i zamknąć pasek boczny.\n"
-"      Otwórz Menadżer, aby włączyć wtyczki."
+"< - Naciśnij tę krawędź, aby otworzyć i zamknąć pasek boczny.\n"
+"Otwórz menedżera, aby włączyć wtyczki."
 
 #: .\Pages\onboarding.py:429
 msgid "Page not found"
@@ -1233,7 +1238,7 @@ msgstr "ETS2LA Użycie RAM  "
 
 #: .\Pages\performance.py:144 .\Pages\plugins.py:386
 msgid "No plugins are currently running."
-msgstr "Żadne pluginy nie są aktualnie uruchomione."
+msgstr "Żadne wtyczki nie są aktualnie uruchomione."
 
 #: .\Pages\performance.py:181
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
@@ -1304,7 +1309,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:251
 msgid "Plugins (Basic)"
-msgstr "Pluginy (Podstawowe)"
+msgstr "Wtyczki (podstawowe)"
 
 #: .\Pages\plugins.py:252
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
@@ -1312,39 +1317,39 @@ msgstr ""
 
 #: .\Pages\plugins.py:260
 msgid "Disable Plugins"
-msgstr "Wyłącz pluginy"
+msgstr "Wyłącz wtyczki"
 
 #: .\Pages\plugins.py:260
 msgid "Enable Plugins"
-msgstr "Włącz pluginy"
+msgstr "Włącz wtyczki"
 
 #: .\Pages\plugins.py:263
 msgid "Currently enabled plugins:"
-msgstr "Obecnie włączone pluginy:"
+msgstr "Aktualnie włączone wtyczki:"
 
 #: .\Pages\plugins.py:297
 msgid "Enabled"
-msgstr "Włączona"
+msgstr "Włączone"
 
 #: .\Pages\plugins.py:297
 msgid "Disabled"
-msgstr "Wyłączona"
+msgstr "Wyłączone"
 
 #: .\Pages\plugins.py:302
 msgid "Switch to Advanced Mode"
-msgstr "Przełączanie do trybu zaawansowanego"
+msgstr "Przełącz na tryb zaawansowany"
 
 #: .\Pages\plugins.py:336
 msgid "Search tags..."
-msgstr "Szukaj tagów..."
+msgstr "Wyszukaj znaczniki..."
 
 #: .\Pages\plugins.py:337
 msgid "No tags found"
-msgstr "Nie znaleziono tagów"
+msgstr "Brak znaczników"
 
 #: .\Pages\plugins.py:346
 msgid "Search authors..."
-msgstr "Szukaj autorów..."
+msgstr "Wyszukaj Autorów..."
 
 #: .\Pages\plugins.py:347
 msgid "No authors found"
@@ -1352,11 +1357,11 @@ msgstr "Nie znaleziono autorów"
 
 #: .\Pages\plugins.py:351
 msgid "Back to Basic Mode"
-msgstr "Wróć do trybu podstawowego"
+msgstr "Powrót do trybu podstawowego"
 
 #: .\Pages\plugins.py:382
 msgid "Running Plugins"
-msgstr "Uruchomione pluginy"
+msgstr "Uruchomienie wtyczek"
 
 #: .\Pages\plugins.py:389
 msgid "Want to enable the plugins you had running last time?"
@@ -1396,7 +1401,7 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:148
 msgid "Uninstalling SDKs for {game}"
-msgstr "Odinstalowywanie zestawów SDK dla {game}"
+msgstr "Odinstaluj SDK dla {game}"
 
 #: .\Pages\sdk_installation.py:153
 msgid "SDKs for {game} uninstalled successfully."
@@ -1425,7 +1430,7 @@ msgstr ""
 
 #: .\Pages\sdk_installation.py:172
 msgid "Found game version {version}."
-msgstr "Znaleziono grę w wersji {version}."
+msgstr "Znaleziono wersję gry {version}."
 
 #: .\Pages\sdk_installation.py:178
 msgid "Path {path} does not exist."
@@ -1449,15 +1454,15 @@ msgstr " - Wymagana ponowna instalacja"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Installed"
-msgstr "- Zainstalowany"
+msgstr "- Zainstalowane"
 
 #: .\Pages\sdk_installation.py:232 .\Pages\sdk_installation.py:264
 msgid "- Not Installed"
-msgstr "- Nie zainstalowany"
+msgstr "- Nie zainstalowano"
 
 #: .\Pages\sdk_installation.py:241
 msgid "This game version is not supported"
-msgstr "Ta wersja gry nie jest wspierana"
+msgstr "Ta wersja gry nie jest obsługiwana"
 
 #: .\Pages\sdk_installation.py:257
 msgid "No files found."
@@ -1465,7 +1470,7 @@ msgstr "Nie znaleziono plików."
 
 #: .\Pages\sdk_installation.py:268
 msgid "File Sources"
-msgstr "Źródła pliku"
+msgstr "Źródła plików"
 
 #: .\Pages\sdk_installation.py:276 .\Pages\sdk_installation.py:289
 msgid "Uninstall SDKs"
@@ -1473,11 +1478,11 @@ msgstr "Odinstaluj SDK"
 
 #: .\Pages\sdk_installation.py:279 .\Pages\sdk_installation.py:292
 msgid "Install SDKs"
-msgstr "Zainstaluj SDK"
+msgstr "Instaluj SDK"
 
 #: .\Pages\sdk_installation.py:284
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr "Zamknij grę przed zainstalowaniem lub odinstalowaniem SDK."
+msgstr "Proszę zamknąć grę przed instalacją lub odinstalowaniem SDK."
 
 #: .\Pages\updater.py:48
 msgid "You have a local commit that is waiting to be pushed."
