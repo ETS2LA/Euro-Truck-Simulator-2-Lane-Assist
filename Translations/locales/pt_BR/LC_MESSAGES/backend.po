@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-08-30 12:31+0000\n"
+"PO-Revision-Date: 2025-08-31 08:59+0000\n"
 "Last-Translator: LUCKYHEAD <luckyhead@ets2la.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.ets2la.com/projects/"
 "ets2la/backend/pt_BR/>\n"
@@ -127,7 +127,7 @@ msgstr "Ixi, houve uma falha ao tentar reiniciar o plugin: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:680 .\ETS2LA\Handlers\plugins.py:703
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "O plugin {0} não foi encontrado na página {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:12
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
@@ -146,8 +146,8 @@ msgstr "O pacote de sons '{0}' tem um tipo de arquivo inválido '{1}'"
 #: .\ETS2LA\Handlers\sounds.py:76
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
-"A tentativa de tocar '{0}' falhou pois o som não foi encontrado no pacote de "
-"sons '{1}'"
+"A tentativa de reproduzir '{0}' falhou pois o som não foi encontrado no "
+"pacote de sons '{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
@@ -171,15 +171,15 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr "O frontend quer realizar uma atualização."
+msgstr "O frontend está querendo realizar uma atualização."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr "Houve um erro ao tentar aplicar a transparência"
+msgstr "Houve um erro ao tentar aplicar a opacidade"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr "Houve um erro ao tentar obter a tag data"
+msgstr "Ocorreu uma falha ao tentar obter os dados"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
@@ -199,7 +199,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr "O frontend está sendo construído, aguarde..."
+msgstr "Building frontend... Aguarde..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
@@ -211,7 +211,7 @@ msgstr "O servidor foi iniciado em: http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend Iniciado em: http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:82
 msgid "Logging initialized."
@@ -235,7 +235,7 @@ msgstr "Não foram encontrados erros e avisos."
 
 #: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
-msgstr "Aguarde enquanto a interface está carregando..."
+msgstr "Aguarde enquanto a interface está carregando"
 
 #: .\ETS2LA\Window\utils.py:190
 msgid "Looking for ETS2LA window... [dim](10s timeout)[/dim]"
@@ -278,7 +278,9 @@ msgstr "Extração e processamento de dados do jogo"
 
 #: .\Pages\about.py:19
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr "Port para Linux & Unix, ajudou com várias melhorias e correções de bugs"
+msgstr ""
+"Realizou o porte para Linux & Unix, ajudou com várias melhorias e correções "
+"de bugs"
 
 #: .\Pages\about.py:20
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
@@ -286,7 +288,7 @@ msgstr ""
 
 #: .\Pages\about.py:21
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr "Ajuda com a Navegação do ETS2LA & Map"
+msgstr "Ajudou com a Navegação do ETS2LA & Map"
 
 #: .\Pages\about.py:22
 msgid "scs-sdk-controller developer"
@@ -299,7 +301,8 @@ msgstr "Criador dos modelos 3D, usados na visualização dos Sockets"
 #: .\Pages\about.py:24
 msgid "Data extractor development, support for modded maps."
 msgstr ""
-"Desenvolvimento de extratores de dados e suporte para mapas modificados."
+"Desenvolveu extratores de dados que ajudou com suporte para mapas "
+"modificados."
 
 #: .\Pages\about.py:25
 msgid "Chinese translation, bug fixes"
@@ -311,7 +314,7 @@ msgstr ""
 
 #: .\Pages\about.py:27
 msgid "Automatic offset calculations for the Map plugin."
-msgstr "Recurso de cálculo automático de deslocamento para o plugin de mapa."
+msgstr "Calculo automático das distancias do plugin Map"
 
 #: .\Pages\about.py:28
 msgid "Discord server support, Chinese-English translator developer."
@@ -391,7 +394,7 @@ msgstr "Ultimas 24 horas:"
 
 #: .\Pages\about.py:97
 msgid "{0} unique users"
-msgstr "{0} usuários unicos"
+msgstr "{0} usuários únicos"
 
 #: .\Pages\about.py:99
 msgid "Your usage time:"
@@ -415,7 +418,7 @@ msgstr "Bem-vindo(a) de volta, {0}!"
 
 #: .\Pages\about.py:114
 msgid "Contributors"
-msgstr "Contribuidores do projeto"
+msgstr "Contribuidores"
 
 #: .\Pages\about.py:125
 msgid "Translations"
@@ -559,7 +562,7 @@ msgstr "Removendo arquivos do plugin"
 
 #: .\Pages\catalogue.py:219
 msgid "Retrying removal ({cur}/{max})"
-msgstr "Retentando a remoção ({cur}/{max})"
+msgstr "Tentando Novamente a remoção ({cur}/{max})"
 
 #: .\Pages\catalogue.py:223
 msgid "Failed to remove plugin files after {max} attempts"
@@ -899,8 +902,8 @@ msgstr ""
 #: .\Pages\global_settings.py:285
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
-"Enviar relatórios de falhas automaticamente para ajudar a melhorar o "
-"aplicativo."
+"Enviar relatórios de falhas automaticamente para nos ajudar a melhorar e "
+"evitar erros no aplicativo<3."
 
 #: .\Pages\global_settings.py:290
 msgid "Use Fancy Traceback"
@@ -908,7 +911,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:291
 msgid "Enable this option to use a fancy traceback for errors."
-msgstr "Ative esta opção para usar um rastreamento de erros mais sofisticado."
+msgstr "Ative esta opção para usar um rastreamento de erros mais avançado."
 
 #: .\Pages\global_settings.py:297
 msgid "Debug Mode"
@@ -979,7 +982,7 @@ msgid "Please select your preferred language for ETS2LA. This option can be chan
 msgstr ""
 "Por favor, selecione seu idioma preferido para o ETS2LA. Esta opção pode ser "
 "alterada mais tarde nas configurações. Todas as nossas traduções são feitas "
-"pela comunidade!"
+"pela comunidade, inclusive está!"
 
 #: .\Pages\onboarding.py:131
 msgid "Select your preferred language for ETS2LA."
@@ -1055,7 +1058,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:234
 msgid "Map Data"
-msgstr ""
+msgstr "Dados do Mapa"
 
 #: .\Pages\onboarding.py:235
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
@@ -1070,15 +1073,15 @@ msgstr ""
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
-msgstr ""
+msgstr "Dados Selecionados"
 
 #: .\Pages\onboarding.py:257
 msgid "Select the data that matches your game and mods."
-msgstr "Selecione os dados que correspondem ao seu jogo e aos mods."
+msgstr "Selecione os dados que correspondem ao seu jogo e mods."
 
 #: .\Pages\onboarding.py:261 .\Plugins\Map\ui.py:163
 msgid "Search data"
-msgstr ""
+msgstr "Procurar Dados"
 
 #: .\Pages\onboarding.py:262 .\Plugins\Map\ui.py:164
 msgid "No matching data found"
@@ -1090,7 +1093,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
-msgstr ""
+msgstr "tamanho do download"
 
 #: .\Pages\onboarding.py:288
 msgid "for this data is"
@@ -1102,11 +1105,11 @@ msgstr ""
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
-msgstr ""
+msgstr "tamanho total"
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
-msgstr ""
+msgstr "Não há dados selecionados"
 
 #: .\Pages\onboarding.py:297
 msgid "Please select the data you want to use from the dropdown above."
@@ -1173,7 +1176,7 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
-"**Transparencia**\n"
+"**Opacidade**\n"
 "\n"
 "Você pode clicar com o botão direito no botão verde para deixar a janela do "
 "ETS2LA um pouco transparente. O nível de transparência pode ser ajustado nas "
@@ -1213,7 +1216,7 @@ msgstr "Página não encontrada"
 
 #: .\Pages\onboarding.py:431
 msgid "Go back"
-msgstr "Voltar"
+msgstr "Retornar"
 
 #: .\Pages\performance.py:94
 msgid "System"
@@ -1274,6 +1277,9 @@ msgstr ""
 #: .\Pages\plugins.py:25
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
 msgstr ""
+"Habilite a direção automatizada usando o ETS2LA. Você pode ativá-la e "
+"desativá-la usando a combinação de teclas \"Alternar Direção\" nas "
+"configurações de controle."
 
 #: .\Pages\plugins.py:29
 msgid "Lateral Control"
@@ -1282,6 +1288,9 @@ msgstr ""
 #: .\Pages\plugins.py:30
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Habilite a aceleração e desaceleração automatizadas usando o ETS2LA. Você "
+"pode ativar e desativar essa opção usando a combinação de teclas "
+"\"Alternar Controle de Velocidade\" nas configurações de controle."
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
@@ -1293,6 +1302,10 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Habilite os plugins necessários para o funcionamento da aba de visualização."
+"\n"
+"\n"
+"**Isso é necessário para o funcionamento da aba de visualização.**"
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
@@ -1925,7 +1938,7 @@ msgstr ""
 
 #: .\Plugins\Map\ui.py:21
 msgid "Not Found"
-msgstr ""
+msgstr "Não Encontrado"
 
 #: .\Plugins\Map\ui.py:94
 msgid "Map Settings"
@@ -2276,7 +2289,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
-msgstr ""
+msgstr "Selecione um Provedor!"
 
 #: .\Plugins\TTS\main.py:88
 msgid "This will show provider information once the plugin is loaded."
@@ -2328,7 +2341,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
-msgstr ""
+msgstr "Modo de teste para testar o provedor TTS sem carregar o jogo."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
@@ -2341,6 +2354,8 @@ msgstr ""
 #: .\Plugins\TTS\main.py:150
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Ative um bipe de proximidade que indica a distância e o ângulo até a estrada "
+"mais próxima."
 
 #: .\Plugins\TTS\main.py:159
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
@@ -2372,71 +2387,82 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:318
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Controle de cruzeiro adaptativo ativado."
 
 #: .\Plugins\TTS\main.py:320
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Controle de cruzeiro adaptativo desativado."
 
 #: .\Plugins\TTS\main.py:335
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
 msgstr[0] ""
+"A cidade mais próxima agora é {city}, a uma distância de {distance} "
+"quilômetro."
 msgstr[1] ""
+"A cidade mais próxima agora é {city}, a uma distância de {distance} "
+"quilômetros."
 
 #: .\Plugins\TTS\main.py:352
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Limite de velocidade alterado para {0} quilômetro por hora."
+msgstr[1] "Limite de velocidade alterado para {0} quilômetros por hora."
 
 #: .\Plugins\TTS\main.py:364
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O combustível irá durar apenas mais {0} quilômetro, reabasteça logo."
+msgstr[1] "O combustível irá durar apenas mais {0} quilômetros, reabasteça logo."
 
 #: .\Plugins\TTS\main.py:371
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"Você vai ficar na banguela, o combustível vai durar por mais apenas {0} "
+"quilômetro. Reabasteça o mais rápido possível."
 msgstr[1] ""
+"Você vai ficar na banguela, o combustível vai durar por mais apenas {0} "
+"quilômetros. Reabasteça o mais rápido possível."
 
 #: .\Plugins\TTS\main.py:393
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "São {0} quilômetros até o próximo ponto de referência."
 
 #: .\Plugins\TTS\main.py:414
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "O dano do motor está agora em {0}%."
 
 #: .\Plugins\TTS\main.py:417
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "O dano na cabine agora é de {0}%."
 
 #: .\Plugins\TTS\main.py:420
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "O dano do chassi agora é de {0}%."
 
 #: .\Plugins\TTS\main.py:423
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "O dano de transmissão agora é de {0}%."
 
 #: .\Plugins\TTS\main.py:426
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "O dano nas rodas agora é de {0}%."
 
 #: .\Plugins\TTS\main.py:429
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "O dano da carga agora é de {0}%."
 
 #: .\Plugins\TTS\main.py:446
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Velocidade atual {0} quilômetros por hora, limite da pista {1} quilômetros "
+"por hora, taxa de combustível {2}% e são {3} quilômetros até o próximo ponto "
+"de referência."
 
 #: .\Plugins\TTS\main.py:487
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Modo de teste habilitado. Isso é uma mensagem de teste."
 
 #: .\Plugins\VisualizationSockets\main.py:205 .\Plugins\VisualizationSockets\main.py:220 .\Plugins\VisualizationSockets\main.py:297
 msgid "Visualization Sockets"
@@ -2445,6 +2471,8 @@ msgstr ""
 #: .\Plugins\VisualizationSockets\main.py:221
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
 msgstr ""
+"Este plugin fornece um servidor websocket para a visualização do ETS2LA (o "
+"3D)."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:226
@@ -2457,43 +2485,52 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "Você também pode usar o seguinte site:"
 
 #: .\Plugins\VisualizationSockets\main.py:233
 msgid "Other Device"
-msgstr ""
+msgstr "Outro Dispositivo"
 
 #: .\Plugins\VisualizationSockets\main.py:238
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Abra o seguinte URL no navegador do seu dispositivo: "
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"OBSERVAÇÃO: Você deve carregar o site como http em vez de https. O Google "
+"Chrome não funcionará!"
 
 #: .\Plugins\VisualizationSockets\main.py:242
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Assim que o site carregar, pressione o botão vermelho \"Conexão Remota\". "
+"Se a conexão não funcionar, digite o seguinte endereço IP:"
 
 #: .\Plugins\VisualizationSockets\main.py:245
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Caso tenha algum problema, verifique se o seu dispositivo está na mesma "
+"rede que o host. Certifique-se também de que o seu firewall não esteja "
+"bloqueando a conexão entre os dispositivos."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"Seu endereço IP não foi encontrado. Provavelmente, há um problema de rede. "
+"Não é possível visualizar a visualização externamente."
 
 #: .\Plugins\VisualizationSockets\main.py:252
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Aguardando início do plugin..."
 
 #: .\Plugins\VisualizationSockets\main.py:258
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Aguardando o carregamento do plugin..."
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Os seguintes clientes estão conectados no momento:"
 
 #: .\Plugins\VisualizationSockets\main.py:271
 msgid "Latency: {latency:.2f}ms"
@@ -2505,15 +2542,18 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Ainda não reconhecido."
 
 #: .\Plugins\VisualizationSockets\main.py:277
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "Não há clientes conectados no momento."
 
 #: .\Plugins\VisualizationSockets\main.py:299
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Este plugin fornece um servidor websocket para a visualização do ETS2LA. Ele "
+"permite que você se conecte à visualização de outros dispositivos e "
+"visualize os dados do ETS2LA em tempo real."
 
 #: .\main.py:105
 msgid "Testing mirrors..."
@@ -2533,7 +2573,7 @@ msgstr ""
 
 #: .\main.py:152
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "Executando o ETS2LA em modo desenvolvedor."
 
 #: .\main.py:156
 msgid "Running UI locally"
@@ -2597,4 +2637,4 @@ msgstr ""
 
 #: .\main.py:248
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Pressione enter para sair."
