@@ -296,12 +296,8 @@ class Plugin(ETS2LAPlugin):
 
             # Check for brake disable autopilot feature
             brake_disable_autopilot = settings.Get("global", "brake_disable_autopilot", default=False)
-<<<<<<< HEAD
             # Use button press instead of analog brake value
             brake_pressed = brake_disable_button.pressed()
-=======
-            user_brake_input = api_data.get("truckFloat", {}).get("userBrake", 0.0)
->>>>>>> a9107ff5931a8ae9a130afb29bbd00e4da3dbe32
             
             if brake_disable_autopilot:
                 # Initialize tracking variables if not present
@@ -310,24 +306,15 @@ class Plugin(ETS2LAPlugin):
                 if not hasattr(self, '_original_enabled_state'):
                     self._original_enabled_state = data.enabled
                 
-<<<<<<< HEAD
                 # Disable steering if user is pressing brake button and feature is enabled
                 if brake_pressed and data.enabled and not self._was_disabled_by_brake:
-=======
-                # Disable steering if user is braking and feature is enabled
-                if user_brake_input > 0.1 and data.enabled and not self._was_disabled_by_brake:
->>>>>>> a9107ff5931a8ae9a130afb29bbd00e4da3dbe32
                     # Store original state and disable steering when user applies brake
                     self._original_enabled_state = data.enabled
                     self._was_disabled_by_brake = True
                     data.enabled = False
                     self.globals.tags.status = {"Map": data.enabled}
                     self.state.text = _("Autopilot disabled: Manual braking detected")
-<<<<<<< HEAD
                 elif not brake_pressed and self._was_disabled_by_brake:
-=======
-                elif user_brake_input <= 0.05 and self._was_disabled_by_brake:
->>>>>>> a9107ff5931a8ae9a130afb29bbd00e4da3dbe32
                     # Re-enable steering when user releases brake if it was originally enabled
                     if self._original_enabled_state:
                         data.enabled = True

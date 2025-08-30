@@ -403,13 +403,6 @@ class Page(ETS2LAPage):
                         action=self.handle_brake_button_change
                     )
                 
-                CheckboxWithTitleDescription(
-                    title=_("Disable Autopilot when Braking"),
-                    description=_("Automatically disable autopilot (steering and acceleration) when the brake pedal is pressed. This prevents conflicts between autopilot acceleration and manual braking, improving safety especially in multiplayer."),
-                    default=utils_settings.Get("global", "brake_disable_autopilot", default=False), # type: ignore
-                    changed=self.handle_brake_disable_autopilot_change
-                )
-                
             with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:
                     port = utils_settings.Get("global", "frontend_port", default=3005) # type: ignore
