@@ -62,7 +62,6 @@ def wait_for_server(window: webview.Window):
                 if response.ok: break
             except: time.sleep(0.5)
             
-        set_resizable(True)
         window.load_url('http://localhost:' + str(FRONTEND_PORT))
     else:
         while True:

@@ -227,9 +227,7 @@ class Page(ETS2LAPage):
         threading.Thread(target=self.basic_mode_updater, daemon=True).start()
     
     def render(self):
-        
         ads = settings.Get("global", "ad_preference", default=1)
-        
         if plugins.loading:
             with Container(styles.FlexVertical() + styles.Classname("w-full h-full items-center justify-center relative")):
                 with Spinner():
@@ -398,6 +396,6 @@ class Page(ETS2LAPage):
                 else:
                     self.render_plugin_list(running_plugins)
             
-            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0 20px")):
+            with Container(styles.FlexVertical() + styles.Gap("20px") + styles.Padding("0px 20px 20px 20px")):
                 Text(_("Available Plugins"), styles.Classname("font-semibold"))
                 self.render_plugin_list(filtered_plugins)
