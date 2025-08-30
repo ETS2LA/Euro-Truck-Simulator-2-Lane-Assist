@@ -392,7 +392,6 @@ class Page(ETS2LAPage):
                     ButtonWithTitleDescription(
                         title=_("Configure Brake Button"),
                         description=_("Configure which button/key should be used to detect braking for autopilot disable. This allows you to use a specific input device button instead of the game's analog brake value."),
-                        #button_text=_("Set Brake Button"),
                         action=self.handle_brake_button_change
                     )
                 
