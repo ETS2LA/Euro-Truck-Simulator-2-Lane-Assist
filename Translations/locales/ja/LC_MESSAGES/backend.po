@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
 "PO-Revision-Date: 2025-08-31 08:59+0000\n"
-"Last-Translator: hmm-kanmimimu <kanmimimu@ets2la.com>\n"
+"Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
 "Language: ja\n"
@@ -25,11 +25,11 @@ msgstr "タイムアウトしました。もう一度試してください。"
 
 #: .\ETS2LA\Controls\picker.py:71
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "操作が {device} {action} に割り当てられました"
 
 #: .\ETS2LA\Handlers\controls.py:98
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "ジョイスティックをリフレッシュしています..."
 
 #: .\ETS2LA\Handlers\controls.py:112
 msgid "{} connected."
@@ -37,7 +37,7 @@ msgstr "{} 接続済。"
 
 #: .\ETS2LA\Handlers\controls.py:113
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "ジョイスティックを発見しました: [bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:120 .\ETS2LA\Handlers\controls.py:121
 msgid "{} disconnected."
@@ -46,7 +46,7 @@ msgstr "{} 切断済。"
 #: .\ETS2LA\Handlers\controls.py:267 .\ETS2LA\Handlers\controls.py:338
 #: .\ETS2LA\Handlers\controls.py:364
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "エイリアス '{0}' のイベントが見つかりません。"
 
 #: .\ETS2LA\Handlers\controls.py:349
 msgid "Exception occurred while trying to edit the event."
@@ -150,7 +150,8 @@ msgstr "サウンド '{0}' を再生しようとしましたが、サウンド�
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr ""
+msgstr "[bold]http://{address}[/bold] が [dim]{local_ip}[/dim]"
+"を指すよう登録されました。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
@@ -579,7 +580,7 @@ msgstr ""
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:273
 msgid "Refreshing..."
-msgstr ""
+msgstr "更新中..."
 
 #: .\Pages\catalogue.py:275
 msgid "Found {count} plugins"
@@ -587,19 +588,19 @@ msgstr ""
 
 #: .\Pages\catalogue.py:317
 msgid "Back"
-msgstr ""
+msgstr "戻る"
 
 #: .\Pages\catalogue.py:320
 msgid "Source Code"
-msgstr ""
+msgstr "ソースコード"
 
 #: .\Pages\catalogue.py:325 .\Pages\catalogue.py:402
 msgid "Uninstall"
-msgstr ""
+msgstr "アンインストール"
 
 #: .\Pages\catalogue.py:329 .\Pages\catalogue.py:366
 msgid "Install"
-msgstr ""
+msgstr "インストール"
 
 #: .\Pages\catalogue.py:358
 msgid "Are you sure you want to install this plugin?"
@@ -611,7 +612,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:363 .\Pages\catalogue.py:399
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: .\Pages\catalogue.py:372
 msgid "Installing {plugin}"
@@ -643,7 +644,7 @@ msgstr ""
 
 #: .\Pages\catalogue.py:431
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "カタログを更新"
 
 #: .\Pages\catalogue.py:471
 msgid "Installed Plugins"
@@ -699,7 +700,8 @@ msgstr ""
 
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
-msgstr ""
+msgstr "直近20件の更新のみが表示されます。それ以前の履歴についてはリポジトリを確認し"
+"てください。"
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
@@ -707,7 +709,7 @@ msgstr ""
 
 #: .\Pages\controls.py:46
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "この操作に割り当てたいキー / ボタンを押してください。"
 
 #: .\Pages\controls.py:51
 msgid "Event unbound."
