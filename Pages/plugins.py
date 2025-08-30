@@ -359,6 +359,11 @@ class Page(ETS2LAPage):
                 plugin for plugin in plugins.plugins
                 if plugin not in running_plugins
             ]
+            # filter by description
+            filtered_plugins = [
+                plugin for plugin in filtered_plugins
+                if "description" in plugin.__dict__
+            ]
             # filter by search term
             filtered_plugins = [
                 plugin for plugin in filtered_plugins
