@@ -143,6 +143,14 @@ class Page(ETS2LAPage):
             slow_loading = not utils_settings.Get("global", "slow_loading", default=False)
 
         utils_settings.Set("global", "slow_loading", slow_loading)
+    
+    def handle_brake_disable_autopilot_change(self, *args):
+        if args:
+            brake_disable_autopilot = args[0]
+        else:
+            brake_disable_autopilot = not utils_settings.Get("global", "brake_disable_autopilot", default=False)
+        
+        utils_settings.Set("global", "brake_disable_autopilot", brake_disable_autopilot)
 
     def handle_brake_disable_autopilot_change(self, *args):
         if args:
@@ -394,6 +402,13 @@ class Page(ETS2LAPage):
                         description=_("Configure which button/key should be used to detect braking for autopilot disable. This allows you to use a specific input device button instead of the game's analog brake value."),
                         action=self.handle_brake_button_change
                     )
+                
+                CheckboxWithTitleDescription(
+                    title=_("Disable Autopilot when Braking"),
+                    description=_("Automatically disable autopilot (steering and acceleration) when the brake pedal is pressed. This prevents conflicts between autopilot acceleration and manual braking, improving safety especially in multiplayer."),
+                    default=utils_settings.Get("global", "brake_disable_autopilot", default=False), # type: ignore
+                    changed=self.handle_brake_disable_autopilot_change
+                )
                 
             with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:

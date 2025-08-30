@@ -840,6 +840,7 @@ class Plugin(ETS2LAPlugin):
 
         if self.api_data["pause"]:
             self.reset(); return
+<<<<<<< HEAD
 
         # Check for brake disable autopilot feature
         brake_disable_autopilot = settings.Get("global", "brake_disable_autopilot", default=False)
@@ -847,12 +848,20 @@ class Plugin(ETS2LAPlugin):
         # Use button press instead of analog brake value
         brake_pressed = brake_disable_button.pressed()
 
+=======
+        
+        # Check for brake disable autopilot feature
+        brake_disable_autopilot = settings.Get("global", "brake_disable_autopilot", default=False)
+        user_brake_input = self.api_data.get("truckFloat", {}).get("userBrake", 0.0)
+        
+>>>>>>> a9107ff5931a8ae9a130afb29bbd00e4da3dbe32
         if brake_disable_autopilot:
             # Initialize tracking variables if not present
             if not hasattr(self, '_acc_was_disabled_by_brake'):
                 self._acc_was_disabled_by_brake = False
             if not hasattr(self, '_acc_original_enabled_state'):
                 self._acc_original_enabled_state = self.enabled
+<<<<<<< HEAD
 
             # Disable ACC if user is braking and feature is enabled
             if user_brake_input > 0.1 and self.enabled and not self._acc_was_disabled_by_brake:
@@ -874,6 +883,27 @@ class Plugin(ETS2LAPlugin):
                     self.state.text = ""
                 self._acc_was_disabled_by_brake = False
 
+=======
+            
+            # Disable ACC if user is braking and feature is enabled
+            if user_brake_input > 0.1 and self.enabled and not self._acc_was_disabled_by_brake:
+                # Store original state and disable ACC when user applies brake
+                self._acc_original_enabled_state = self.enabled
+                self._acc_was_disabled_by_brake = True
+                self.enabled = False
+                self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+                self.reset()  # Stop any current acceleration/braking
+                self.state.text = _("ACC disabled: Manual braking detected")
+                return
+            elif user_brake_input <= 0.05 and self._acc_was_disabled_by_brake:
+                # Re-enable ACC when user releases brake if it was originally enabled
+                if self._acc_original_enabled_state:
+                    self.enabled = True
+                    self.globals.tags.status = {"AdaptiveCruiseControl": self.enabled}
+                    self.state.text = ""
+                self._acc_was_disabled_by_brake = False
+        
+>>>>>>> a9107ff5931a8ae9a130afb29bbd00e4da3dbe32
         if self.api_data['truckFloat']['speedLimit'] == 0:
             self.api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    
 
