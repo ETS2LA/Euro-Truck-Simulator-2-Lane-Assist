@@ -52,6 +52,14 @@ enable_disable = ControlEvent(
     default="n"
 )
 
+brake_disable_button = ControlEvent(
+    "brake_disable_button",
+    _("Brake Button for Autopilot Disable"),
+    "button",
+    description=_("Button/key to press for disabling autopilot instead of using analog brake value"),
+    default="space"
+)
+
 class Plugin(ETS2LAPlugin):
     author = [Author(
         name="Tumppi066",
@@ -70,7 +78,7 @@ class Plugin(ETS2LAPlugin):
     )
     last_dest_company = None 
     
-    controls = [enable_disable]
+    controls = [enable_disable, brake_disable_button]
     
     pages = [SettingsMenu]
     
@@ -285,6 +293,34 @@ class Plugin(ETS2LAPlugin):
             api_data = api.run()
             data.UpdateData(api_data)
             data_update_time = time.perf_counter() - data_update_start_time
+
+            # Check for brake disable autopilot feature
+            brake_disable_autopilot = settings.Get("global", "brake_disable_autopilot", default=False)
+            # Use button press instead of analog brake value
+            brake_pressed = brake_disable_button.pressed()
+            
+            if brake_disable_autopilot:
+                # Initialize tracking variables if not present
+                if not hasattr(self, '_was_disabled_by_brake'):
+                    self._was_disabled_by_brake = False
+                if not hasattr(self, '_original_enabled_state'):
+                    self._original_enabled_state = data.enabled
+                
+                # Disable steering if user is pressing brake button and feature is enabled
+                if brake_pressed and data.enabled and not self._was_disabled_by_brake:
+                    # Store original state and disable steering when user applies brake
+                    self._original_enabled_state = data.enabled
+                    self._was_disabled_by_brake = True
+                    data.enabled = False
+                    self.globals.tags.status = {"Map": data.enabled}
+                    self.state.text = _("Autopilot disabled: Manual braking detected")
+                elif not brake_pressed and self._was_disabled_by_brake:
+                    # Re-enable steering when user releases brake if it was originally enabled
+                    if self._original_enabled_state:
+                        data.enabled = True
+                        self.globals.tags.status = {"Map": data.enabled}
+                        self.state.text = ""
+                    self._was_disabled_by_brake = False
 
             if data.calculate_steering:
                 # Update route plan and steering

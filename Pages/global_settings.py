@@ -22,104 +22,104 @@ class Page(ETS2LAPage):
     monitors = screeninfo.get_monitors()
     initial_high_priority = False
     refresh_rate = 2
-    
+
     def __init__(self):
         super().__init__()
         self.initial_high_priority = utils_settings.Get("global", "high_priority", default=True)
-    
+
     def handle_width_change(self, width: int):
         utils_settings.Set("global", "width", width)
-        
+
     def handle_height_change(self, height: int):
         utils_settings.Set("global", "height", height)
-        
+
     def handle_alpha_change(self, alpha: float):
         utils_settings.Set("global", "transparency_alpha", alpha)
-        
+
     def change_language(self, language: str):
         utils_settings.Set("global", "language", language)
-    
+
     def change_soundpack(self, soundpack: str):
         utils_settings.Set("global", "soundpack", soundpack)
-        
+
     def change_volume(self, volume: int):
         utils_settings.Set("global", "volume", volume)
-        
+
     def change_startup_sound(self, *args):
         if args:
             startup_sound = args[0]
         else:
             startup_sound = not utils_settings.Get("global", "startup_sound", default=True)
-            
+
         utils_settings.Set("global", "startup_sound", startup_sound)
-    
+
     def change_monitor(self, monitor: str):
         if not monitor:
             return
-        
+
         monitor_index = int(monitor.split(" ")[1])
         utils_settings.Set("global", "monitor", monitor_index)
-        
+
     def change_port(self, port: int):
         if not port:
             return
-        
+
         utils_settings.Set("global", "frontend_port", port)
-        
+
     def handle_frameless_change(self, *args):
         if args:
             frameless = args[0]
         else:
             frameless = not utils_settings.Get("global", "frameless", default=False)
-            
+
         utils_settings.Set("global", "frameless", frameless)
-        
+
     def handle_crash_report_change(self, *args):
         if args:
             crash_report = args[0]
         else:
             crash_report = not utils_settings.Get("global", "send_crash_reports", default=True)
-            
+
         utils_settings.Set("global", "send_crash_reports", crash_report)
-        
+
     def handle_fancy_traceback_change(self, *args):
         if args:
             fancy_traceback = args[0]
         else:
             fancy_traceback = not utils_settings.Get("global", "use_fancy_traceback", default=True)
-            
+
         utils_settings.Set("global", "use_fancy_traceback", fancy_traceback)
-        
+
     def handle_debug_mode_change(self, *args):
         if args:
             debug_mode = args[0]
         else:
             debug_mode = not utils_settings.Get("global", "debug_mode", default=True)
-            
+
         utils_settings.Set("global", "debug_mode", debug_mode)
 
     def handle_frontend_mirror_change(self, mirror: str):
         utils_settings.Set("global", "frontend_mirror", mirror)
-    
+
     def handle_window_timeout_change(self, window_timeout: int):
         utils_settings.Set("global", "window_timeout", window_timeout)
-        
+
     def handle_fireworks_change(self, *args):
         if args:
             fireworks = args[0]
         else:
             fireworks = not utils_settings.Get("global", "fireworks", default=True)
-            
+
         utils_settings.Set("global", "fireworks", fireworks)
-        
+
     def handle_snow_change(self, *args):
         if args:
             snow = args[0]
         else:
             snow = not utils_settings.Get("global", "snow", default=True)
-            
+
         utils_settings.Set("global", "snow", snow)
-        
+
     def handle_acceleration_fallback_change(self, *args):
         if args:
             acceleration_fallback = args[0]
@@ -127,7 +127,7 @@ class Page(ETS2LAPage):
             acceleration_fallback = not utils_settings.Get("global", "acceleration_fallback", default=True)
 
         utils_settings.Set("global", "acceleration_fallback", acceleration_fallback)
-        
+
     def handle_high_priority_change(self, *args):
         if args:
             high_priority = args[0]
@@ -135,7 +135,7 @@ class Page(ETS2LAPage):
             high_priority = not utils_settings.Get("global", "high_priority", default=True)
 
         utils_settings.Set("global", "high_priority", high_priority)
-        
+
     def handle_slow_loading_change(self, *args):
         if args:
             slow_loading = args[0]
@@ -143,6 +143,20 @@ class Page(ETS2LAPage):
             slow_loading = not utils_settings.Get("global", "slow_loading", default=False)
 
         utils_settings.Set("global", "slow_loading", slow_loading)
+
+    def handle_brake_disable_autopilot_change(self, *args):
+        if args:
+            brake_disable_autopilot = args[0]
+        else:
+            brake_disable_autopilot = not utils_settings.Get("global", "brake_disable_autopilot", default=False)
+
+        utils_settings.Set("global", "brake_disable_autopilot", brake_disable_autopilot)
+    
+    def handle_brake_button_change(self):
+        from ETS2LA.Handlers.controls import edit_event
+        from ETS2LA.UI import SendPopup
+        SendPopup(_("Please press the key / button you want to bind for brake detection."), type="info")
+        edit_event("brake_disable_button")
 
     def match_value_to_preference_name(self, value: int) -> str:
         for name, val in ad_preferences.items():
@@ -168,9 +182,9 @@ class Page(ETS2LAPage):
             _("Global Settings"),
             _("Here you can find settings that affect the entire application. Things such as the window size and language."),
         )
-        
+
         ads = utils_settings.Get("global", "ad_preference", default=1) # type: ignore
-        
+
         with Tabs():
             with Tab(_("User Interface"), styles.FlexVertical() + styles.Gap("24px")):
                 if ads >= 2:
@@ -184,7 +198,7 @@ class Page(ETS2LAPage):
                                 height="90px"
                             )
                         )
-                        
+
                 with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
                     SliderWithTitleDescription(
                         title=_("Window Width"),
@@ -196,7 +210,7 @@ class Page(ETS2LAPage):
                         suffix="px",
                         changed=self.handle_width_change
                     )
-                    
+
                     SliderWithTitleDescription(
                         title=_("Window Height"),
                         description=_("Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"),
@@ -218,11 +232,11 @@ class Page(ETS2LAPage):
                     suffix="",
                     changed=self.handle_alpha_change
                 )
-                
+
                 current = utils_settings.Get("global", "language", default="English")
                 if not current:
                     current = "English"
-                
+
                 current = Language.find(current)
                 ComboboxWithTitleDescription(
                     title=_("Language"),
@@ -233,7 +247,7 @@ class Page(ETS2LAPage):
                     side=Side.TOP,
                     search=ComboboxSearch(_("Search Languages..."), _("Help us translate on discord!")),
                 )
-                
+
                 if current != "English":
                     with Alert(style=styles.Padding("14px")):
                         with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
@@ -249,7 +263,7 @@ class Page(ETS2LAPage):
                                     Link(_("List Contributors"), f"https://weblate.ets2la.com/user/?q=translates:{parse_language(current)}%20contributes:ets2la/backend", styles.Classname("text-sm text-muted-foreground hover:underline"))
                                     Text("-")
                                     Link(_("Help Translate"), f"https://weblate.ets2la.com/projects/ets2la/backend/{parse_language(current)}", styles.Classname("text-sm text-muted-foreground hover:underline"))
-                            
+
 
             with Tab(_("Audio"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
@@ -260,7 +274,7 @@ class Page(ETS2LAPage):
                         options=sounds.SOUNDPACKS,
                         changed=self.change_soundpack,
                     )
-                    
+
                     SliderWithTitleDescription(
                         title=_("Volume"),
                         description=_("Adjust the volume. This will affect all sounds played by ETS2LA."),
@@ -271,7 +285,7 @@ class Page(ETS2LAPage):
                         suffix="%",
                         changed=self.change_volume,
                     )
-                    
+
                 state = utils_settings.Get("global", "startup_sound", default=True)
                 CheckboxWithTitleDescription(
                     title=_("Startup Sound"),
@@ -279,7 +293,7 @@ class Page(ETS2LAPage):
                     default=state, # type: ignore
                     changed=self.change_startup_sound,
                 )
-                
+
             with Tab(_("Variables"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 Text("Ad Preferences", styles.Classname("text-lg font-semibold"))
                 default = self.match_value_to_preference_name(
@@ -292,7 +306,7 @@ class Page(ETS2LAPage):
                     title="How many ads do you want to see?",
                     description="This will control how many ads you see in ETS2LA. Minimal is recommended to support development without affecting usage."
                 )
-                
+
                 if ads == 0:
                     with Button(style=styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-center bg-kofi hover:bg-kofi-active!") + styles.Height("70px"), action=self.open_kofi):
                         style = styles.Style()
@@ -302,7 +316,7 @@ class Page(ETS2LAPage):
                         style.color = ""
                         Icon("heart", style)
                         Text(_("Support ETS2LA Development on Ko-Fi"), styles.Classname("font-semibold"))
-                    
+
                 else:
                     with Alert(style=styles.Padding("14px")):
                         with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
@@ -319,7 +333,7 @@ class Page(ETS2LAPage):
                                     Text(_("You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."), styles.Classname("text-muted-foreground"))
                                 elif ads == 3:
                                     Text(_("You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."), styles.Classname("text-muted-foreground"))
-                
+
                 if ads >= 2:
                     with Container(style=styles.FlexHorizontal() + styles.Classname("justify-center")):
                         AdSense(
@@ -331,7 +345,7 @@ class Page(ETS2LAPage):
                                 height="90px"
                             )
                         )
-                
+
                 Text("Backend Settings", styles.Classname("text-lg font-semibold"))
                 CheckboxWithTitleDescription(
                     title=_("Fallback to old acceleration method"),
@@ -339,7 +353,7 @@ class Page(ETS2LAPage):
                     default=utils_settings.Get("global", "acceleration_fallback", default=True), # type: ignore
                     changed=self.handle_acceleration_fallback_change
                 )
-                
+
                 high_priority = utils_settings.Get("global", "high_priority", default=True) # type: ignore
                 CheckboxWithTitleDescription(
                     title=_("High Priority"),
@@ -347,7 +361,7 @@ class Page(ETS2LAPage):
                     default=high_priority, # type: ignore
                     changed=self.handle_high_priority_change
                 )
-                
+
                 if high_priority != self.initial_high_priority:
                     with Alert(style=styles.Padding("14px")):
                         with Container(styles.FlexHorizontal() + styles.Gap("12px") + styles.Classname("items-start")):
@@ -358,13 +372,29 @@ class Page(ETS2LAPage):
                             style.color = "var(--muted-foreground)"
                             Icon("warning", style)
                             Text(_("You need to restart ETS2LA to apply the priority change!"), styles.Classname("text-muted-foreground"))
-                
+
                 CheckboxWithTitleDescription(
                     title=_("Slow Loading"),
                     description=_("If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."),
                     default=utils_settings.Get("global", "slow_loading", default=False), # type: ignore
                     changed=self.handle_slow_loading_change
                 )
+
+                CheckboxWithTitleDescription(
+                    title=_("Disable Autopilot when Braking"),
+                    description=_("Automatically disable autopilot (steering and acceleration) when a specific button/key is pressed instead of using analog brake value. Configure the button below when enabled."),
+                    default=utils_settings.Get("global", "brake_disable_autopilot", default=False), # type: ignore
+                    changed=self.handle_brake_disable_autopilot_change
+                )
+
+                # Show brake button setting only if brake disable autopilot is enabled
+                if utils_settings.Get("global", "brake_disable_autopilot", default=False):
+                    ButtonWithTitleDescription(
+                        title=_("Configure Brake Button"),
+                        description=_("Configure which button/key should be used to detect braking for autopilot disable. This allows you to use a specific input device button instead of the game's analog brake value."),
+                        #button_text=_("Set Brake Button"),
+                        action=self.handle_brake_button_change
+                    )
                 
             with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:
@@ -376,7 +406,7 @@ class Page(ETS2LAPage):
                         type=InputType.NUMBER,
                         changed=self.change_port,
                     )
-                
+
                 CheckboxWithTitleDescription(
                     title=_("Frameless Window"),
                     description=_("Disable this option if you have any issues moving the window around."),
@@ -395,7 +425,7 @@ class Page(ETS2LAPage):
                     default=utils_settings.Get("global", "use_fancy_traceback", default=True), # type: ignore
                     changed=self.handle_fancy_traceback_change
                 )
-                
+
                 CheckboxWithTitleDescription(
                     title=_("Debug Mode"),
                     description=_("Enable this option to use the edge debugger for the frontend."),
@@ -420,7 +450,7 @@ class Page(ETS2LAPage):
                     step=1,
                     changed=self.handle_window_timeout_change
                 )
-                
+
                 Separator()
                 with Container(styles.FlexHorizontal() + styles.Gap("24px") + styles.Classname("justify-between")):
                     CheckboxWithTitleDescription(
@@ -429,12 +459,10 @@ class Page(ETS2LAPage):
                         default=utils_settings.Get("global", "fireworks", default=True), # type: ignore
                         changed=self.handle_fireworks_change
                     )
-                    
+
                     CheckboxWithTitleDescription(
                         title=_("Snow"),
                         description=_("Enable this option to use snow effects during the winter season."),
                         default=utils_settings.Get("global", "snow", default=True), # type: ignore
                         changed=self.handle_snow_change
                     )
-                    
-                Space(styles.Height("24px"))

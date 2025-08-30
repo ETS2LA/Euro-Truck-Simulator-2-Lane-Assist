@@ -24,3 +24,11 @@ decrement = ControlEvent(
     description=_("This will decrease the speed offset in the settings."),
     default="↓"
 )
+
+brake_disable_button = ControlEvent(
+    "brake_disable_button",
+    _("Brake Button for Autopilot Disable"),
+    "button",
+    description=_("Button/key to press for disabling autopilot instead of using analog brake value"),
+    default="space"
+)
