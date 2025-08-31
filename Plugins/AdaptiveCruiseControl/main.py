@@ -13,7 +13,6 @@ from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Utils.Values.graphing import PIDGraph
 from Modules.Traffic.classes import Vehicle
-import Plugins.Map.classes as c
 
 # Python imports
 from typing import cast
