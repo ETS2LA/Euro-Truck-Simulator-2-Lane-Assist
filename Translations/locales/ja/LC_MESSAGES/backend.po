@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-31 08:59+0000\n"
+"PO-Revision-Date: 2025-09-01 09:06+0000\n"
 "Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
@@ -2383,15 +2383,15 @@ msgstr ""
 
 #: .\main.py:231
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LAを更新中です..."
 
 #: .\main.py:234
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "更新完了...再起動します!"
 
 #: .\main.py:239
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "ETS2LAがクラッシュしました!"
 
 #: .\main.py:248
 msgid "Send the above traceback to the developers."
@@ -2403,4 +2403,4 @@ msgstr ""
 
 #: .\main.py:251
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Enterを押して終了します。"
