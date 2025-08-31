@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-31 08:59+0000\n"
+"PO-Revision-Date: 2025-09-01 09:06+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
@@ -303,7 +303,7 @@ msgstr "Tłumaczenie z chińskiego, poprawki błędów"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Chińskie tłumaczenia, poprawki błędów"
 
 #: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
@@ -575,7 +575,7 @@ msgstr "Wtyczka '{name}' została usunięta."
 
 #: .\Pages\catalogue.py:233
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Nie udało się odinstalować wtyczki '{name}': {error}"
 
 #: .\Pages\catalogue.py:264
 msgid "Couldn't find source code for this plugin."
@@ -657,7 +657,7 @@ msgstr "Zainstalowane wtyczki"
 
 #: .\Pages\catalogue.py:474
 msgid "No plugins are installed."
-msgstr "Nie zainstalowano wtyczek."
+msgstr "Brak zainstalowanych wtyczek."
 
 #: .\Pages\catalogue.py:480 .\Pages\plugins.py:397
 msgid "Available Plugins"
@@ -665,7 +665,7 @@ msgstr "Dostępne wtyczki"
 
 #: .\Pages\catalogue.py:495
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Zainstalowałeś wszystkie dostępne wtyczki."
 
 #: .\Pages\changelog.py:22 .\Pages\updater.py:28
 msgid "{seconds} second ago"
@@ -710,6 +710,8 @@ msgstr "Wyświetl zmiany"
 #: .\Pages\changelog.py:75 .\Pages\updater.py:90
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Wyświetlono tylko 20 ostatnich aktualizacji. Pozostałe aktualizacje są "
+"widoczne w repozytorium."
 
 #: .\Pages\controls.py:34 .\Pages\controls.py:75 .\Pages\controls.py:76
 msgid "Show all plugins"
@@ -777,7 +779,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:174
 msgid "User Interface"
-msgstr "Interfejs użytkownika"
+msgstr "Interfejs"
 
 #: .\Pages\global_settings.py:189 .\Pages\onboarding.py:310
 msgid "Window Width"
@@ -825,7 +827,7 @@ msgstr "Tłumaczenie ukończone w {percentage:.2f}%."
 
 #: .\Pages\global_settings.py:253
 msgid "Audio"
-msgstr "Audio"
+msgstr "Dźwięk"
 
 #: .\Pages\global_settings.py:256
 msgid "Soundpack"
@@ -1290,6 +1292,8 @@ msgstr "HUD"
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
+"Włącz HUD do wyświetlania informacji o ciężarówce i trasie. Pokazane na "
+"górze ekranu gry przy użyciu dokładnego mapowania 3D."
 
 #: .\Pages\plugins.py:45
 msgid "Text To Speech"
