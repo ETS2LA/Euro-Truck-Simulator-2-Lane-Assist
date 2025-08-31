@@ -9,6 +9,8 @@ from Plugins.AdaptiveCruiseControl.settings import SettingsMenu
 from Plugins.AdaptiveCruiseControl.controls import *
 
 # ETS2LA imports
+from Plugins.AR.classes import *
+from Plugins.Map.classes import Position, Prefab, Road
 from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Utils.Values.graphing import PIDGraph
@@ -16,6 +18,7 @@ from Modules.Traffic.classes import Vehicle
 
 # Python imports
 from typing import cast
+import traceback
 import logging
 import math
 import time
@@ -488,7 +491,7 @@ class Plugin(ETS2LAPlugin):
             
         return ACCVehicle(closest_vehicle, closest_distance, time_to_vehicle)
     
-    def get_valid_lights(self, api_data: dict, lights: list) -> list:
+    def get_valid_lights(self, api_data: dict, lights: list, check_rotation: bool = True, check_lateral: bool = True) -> list:
         valid_lights = []
         rotationX = api_data["truckPlacement"]["rotationX"]
         angle = rotationX * 360
@@ -504,7 +507,7 @@ class Plugin(ETS2LAPlugin):
             # Check if within 45 degrees forward
             angle = math.acos(truck_vector[0] * light_vector[0] + truck_vector[1] * light_vector[1])
             limit = math.radians(45)
-            if angle < limit:
+            if angle < limit or not check_rotation:
                 light_pos = [light.position.x + 512 * light.cx, light.position.z + 512 * light.cy]
                 to_light_vector = [light_pos[0] - truck_pos[0], light_pos[1] - truck_pos[1]]
 
@@ -521,7 +524,7 @@ class Plugin(ETS2LAPlugin):
                 if forward_distance > 0:
                     # Lateral distance (for filtering out lights too far to the side)
                     lateral_distance = abs(total_distance**2 - forward_distance**2)**0.5
-                    if lateral_distance < 11:  # 2 * 4.5m lanes + 2m margin
+                    if lateral_distance < 11 or not check_lateral:  # 2 * 4.5m lanes + 2m margin
                         valid_lights.append((forward_distance, light))
                         
         return valid_lights
@@ -553,25 +556,30 @@ class Plugin(ETS2LAPlugin):
             
         return closest_light
     
-    def get_next_prefab_traffic_light(self, api_data: dict) -> ACCTrafficLight:
+    def get_next_prefab_traffic_light(self, api_data: dict) -> tuple[list[Position], ACCTrafficLight]:
         try:    live_semaphores = self.modules.Semaphores.run()
-        except: return None
+        except: return None, None
         
         prefab = self.globals.tags.next_intersection
-        prefab = self.globals.tags.merge(prefab)
+        prefab: Prefab = self.globals.tags.merge(prefab)
         if not prefab:
-            return None
+            return None, None
         
-        index = self.globals.tags.next_intersection_lane["plugins.map"]
+        index = self.globals.tags.next_intersection_lane
+        index: int = self.globals.tags.merge(index)
         if index is None:
-            return None
+            return None, None
+        
+        truck_x = api_data["truckPlacement"]["coordinateX"]
+        truck_y = api_data["truckPlacement"]["coordinateY"]
+        truck_z = api_data["truckPlacement"]["coordinateZ"]
         
         route = prefab.nav_routes[index]
         
         semaphores = []
         for curve in route.curves:
             if curve.semaphore_id != -1:
-                possibilities = [light for light in live_semaphores if light.id == curve.semaphore_id]
+                possibilities = [light for light in live_semaphores if light.id == curve.semaphore_id and light.type == "traffic_light"]
                 closest = min(possibilities, key=lambda light: self.get_distance([
                     curve.start.x,
                     curve.start.y,
@@ -581,29 +589,53 @@ class Plugin(ETS2LAPlugin):
                     light.position.y,
                     light.position.z + 512 * light.cy
                 ]), default=None)
-                if closest is not None:
-                    semaphores.append(closest)
-                  
-        truck_x = api_data["truckPlacement"]["coordinateX"]
-        truck_y = api_data["truckPlacement"]["coordinateZ"]
-        truck_z = api_data["truckPlacement"]["coordinateY"]
+                if closest is not None and closest not in semaphores:
+                    # We can pretty much assume that any lights should be 
+                    # within 10m of the prefab bounds.
+                    if prefab.bounding_box.is_in(Position(
+                        closest.position.x + 512 * closest.cx,
+                        closest.position.z + 512 * closest.cy,
+                        closest.position.y
+                    ), offset=10):
+                        semaphores.append(closest)
         
         if not semaphores:
-            return None
-        
-        semaphores = self.get_valid_lights(api_data, semaphores)
+            return None, None
         
         closest = None
         closest_distance = math.inf
-        for distance, semaphore in semaphores:
+        for semaphore in semaphores:
+            distance = self.get_distance(
+                [truck_x, truck_y, truck_z], 
+                [
+                    semaphore.position.x + 512 * semaphore.cx,
+                    semaphore.position.y,
+                    semaphore.position.z + 512 * semaphore.cy
+                ]
+            )
+
             if distance < closest_distance:
                 closest_distance = distance
                 closest = semaphore
-                
-        if closest is not None:
-            return ACCTrafficLight(closest, closest_distance)
-        
-        return None
+
+        first_distance = self.get_distance(
+            [truck_x, truck_y, truck_z], 
+            route.points[0].list()
+        )
+        last_distance = self.get_distance(
+            [truck_x, truck_y, truck_z], 
+            route.points[-1].list()
+        )
+        if first_distance < last_distance:
+            if closest is not None:
+                print(f"Closest traffic light: {closest.id}, Distance: {first_distance}")
+                return route.points, ACCTrafficLight(closest, first_distance)
+        else:
+            if closest is not None:
+                print(f"Closest traffic light: {closest.id}, Distance: {last_distance}")
+                return route.points, ACCTrafficLight(closest, last_distance)
+
+        return None, None
 
     def get_gate_in_front(self, api_data: dict) -> ACCGate:
         try:    gates = self.modules.Semaphores.run()
@@ -836,8 +868,8 @@ class Plugin(ETS2LAPlugin):
         
         self.api_data = self.api.run()
         
-        if self.api_data["pause"]:
-            self.reset(); return
+        # if self.api_data["pause"]:
+        #     self.reset(); return
         
         if self.api_data['truckFloat']['speedLimit'] == 0:
             self.api_data['truckFloat']['speedLimit'] = self.overwrite_speed / 3.6    
@@ -869,9 +901,41 @@ class Plugin(ETS2LAPlugin):
             except: traffic_light = None
         
         else:
-            try:    traffic_light = self.get_next_prefab_traffic_light(self.api_data)
-            except: traffic_light = None
-        
+            try:    
+                points, traffic_light = self.get_next_prefab_traffic_light(self.api_data)
+                
+                truck_x = self.api_data["truckPlacement"]["coordinateX"]
+                truck_y = self.api_data["truckPlacement"]["coordinateY"]
+                truck_z = self.api_data["truckPlacement"]["coordinateZ"]
+                point = points[0] if points else None
+                if point:
+                    color = traffic_light.color()
+                    vector = [point.x - truck_x, point.z - truck_z]
+                    distance = math.sqrt(vector[0]**2 + vector[1]**2)
+                    unit_vector = [vector[0]/distance, vector[1]/distance] if distance != 0 else [0, 0]
+                    
+                    width = 2.5
+                    height = 1
+                    
+                    left_point = [point.x + unit_vector[0] * width - unit_vector[1] * width / 2, point.y, point.z + unit_vector[1] * width + unit_vector[0] * width / 2]
+                    right_point = [point.x + unit_vector[0] * width + unit_vector[1] * width / 2, point.y, point.z + unit_vector[1] * width - unit_vector[0] * width / 2]
+                    top_left = [left_point[0], left_point[1] + height, left_point[2]]
+                    top_right = [right_point[0], right_point[1] + height, right_point[2]]
+                    self.globals.tags.AR = [Polygon(
+                        [Coordinate(left_point[0], left_point[1], left_point[2]),
+                         Coordinate(right_point[0], right_point[1], right_point[2]),
+                         Coordinate(top_right[0], top_right[1], top_right[2]),
+                         Coordinate(top_left[0], top_left[1], top_left[2])],
+                        closed=True,
+                        color=Color(*color, 70),
+                        fill=Color(*color, 30),
+                        fade=Fade(0, 0, 999, 999)
+                    )]
+                
+            except Exception as e: 
+                traffic_light = None; traceback.print_exc()
+                self.globals.tags.AR = []
+
         try:    gate = self.get_gate_in_front(self.api_data)
         except:
             logging.exception("Error in gate detection")

@@ -12,7 +12,7 @@ import sys
 nc = importlib.reload(nc)
 data.last_length = 0
 
-sys.setrecursionlimit(10**6) # Increase recursion limit
+sys.setrecursionlimit(10**6) # Increase recursion limit 
 
 def get_direction_for_route_start(route: list[nc.RouteNode]):
     last, next = nh.get_surrounding_nav_nodes(route, data.truck_x, data.truck_z, data.truck_rotation)

@@ -17,6 +17,7 @@ ats_projection = (
 ats_crs = CRS.from_proj4(ats_projection)
 ats_transformer = Transformer.from_crs(ats_crs, CRS("EPSG:4326"))
 ats_map_factor = [-0.00017706234, 0.000176689948]
+ats_map_offset = [-5, 0]
 
 # ETS2 Projection
 ets2_projection = (
@@ -31,16 +32,9 @@ ets2_map_factor = [-0.000171570875, 0.0001729241463]
 ets2_map_offset = [16660, 4150]
 
 def get_ats_coordinates(x, y):
-    # These offsets are originally from Piggywu981 in commit
-    # 6be826cc5dc61123a7faf5a2dffa1ff6382f9dbf
-    # I wont start to change them as they seem to work fine.
-    offset_x = round(36 * (1 / (1 + math.exp(0.0001 * (x + 60000)))))
-    pos_y_factor = 1 / (1 + math.exp(-0.00015 * (y - 20000)))
-    neg_y_factor = 1 / (1 + math.exp(0.00015 * (y + 40000)))
-    offset_y = round(45 * pos_y_factor - 108 * neg_y_factor)
+    x -= ats_map_offset[0]
+    y -= ats_map_offset[1]
     
-    x -= offset_x
-    y -= offset_y
     proj_x = x * ats_map_factor[1] * length_of_degree
     proj_y = y * ats_map_factor[0] * length_of_degree
     lon, lat = ats_transformer.transform(proj_x, proj_y)
