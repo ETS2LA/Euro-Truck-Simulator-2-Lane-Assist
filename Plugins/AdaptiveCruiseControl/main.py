@@ -552,7 +552,7 @@ class Plugin(ETS2LAPlugin):
             
         return ACCVehicle(closest_vehicle, closest_distance, time_to_vehicle)
 
-    def get_valid_lights(self, api_data: dict, lights: list) -> list:
+    def get_valid_lights(self, api_data: dict, lights: list, check_rotation: bool = True, check_lateral: bool = True) -> list:
         valid_lights = []
         rotationX = api_data["truckPlacement"]["rotationX"]
         angle = rotationX * 360
@@ -568,7 +568,7 @@ class Plugin(ETS2LAPlugin):
             # Check if within 45 degrees forward
             angle = math.acos(truck_vector[0] * light_vector[0] + truck_vector[1] * light_vector[1])
             limit = math.radians(45)
-            if angle < limit:
+            if angle < limit or not check_rotation:
                 light_pos = [light.position.x + 512 * light.cx, light.position.z + 512 * light.cy]
                 to_light_vector = [light_pos[0] - truck_pos[0], light_pos[1] - truck_pos[1]]
 
@@ -585,7 +585,7 @@ class Plugin(ETS2LAPlugin):
                 if forward_distance > 0:
                     # Lateral distance (for filtering out lights too far to the side)
                     lateral_distance = abs(total_distance**2 - forward_distance**2)**0.5
-                    if lateral_distance < 11:  # 2 * 4.5m lanes + 2m margin
+                    if lateral_distance < 11 or not check_lateral:  # 2 * 4.5m lanes + 2m margin
                         valid_lights.append((forward_distance, light))
                         
         return valid_lights
