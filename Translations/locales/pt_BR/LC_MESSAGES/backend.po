@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-07-17 16:40\n"
-"PO-Revision-Date: 2025-08-31 08:59+0000\n"
+"PO-Revision-Date: 2025-09-01 09:06+0000\n"
 "Last-Translator: LUCKYHEAD <luckyhead@ets2la.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.ets2la.com/projects/"
 "ets2la/backend/pt_BR/>\n"
@@ -167,7 +167,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
@@ -1005,7 +1005,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:171 .\Pages\performance.py:131
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: .\Pages\onboarding.py:172
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
@@ -1041,7 +1041,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:206
 msgid "High Priority Mode"
-msgstr ""
+msgstr "Modo de Alta Prioridade"
 
 #: .\Pages\onboarding.py:207
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
@@ -1069,7 +1069,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:242
 msgid "Waiting for data selection..."
-msgstr ""
+msgstr "Aguardando a seleção de dados..."
 
 #: .\Pages\onboarding.py:256 .\Plugins\Map\ui.py:158
 msgid "Selected Data"
@@ -1089,7 +1089,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:286
 msgid "The"
-msgstr ""
+msgstr "O"
 
 #: .\Pages\onboarding.py:287
 msgid "download size"
@@ -1105,7 +1105,7 @@ msgstr ""
 
 #: .\Pages\onboarding.py:291
 msgid "total size"
-msgstr "tamanho total"
+msgstr ""
 
 #: .\Pages\onboarding.py:296
 msgid "No data selected"
@@ -1234,7 +1234,7 @@ msgstr "Uso de CPU(processador)"
 
 #: .\Pages\performance.py:110
 msgid "CPU Usage "
-msgstr ""
+msgstr "Uso da CPU "
 
 #: .\Pages\performance.py:118
 msgid "RAM Usage"
@@ -1242,11 +1242,11 @@ msgstr "Uso de Memória RAM"
 
 #: .\Pages\performance.py:125
 msgid "RAM Usage "
-msgstr ""
+msgstr "Uso de RAM "
 
 #: .\Pages\performance.py:125
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "Uso de Ram pelo ETS2LA  "
 
 #: .\Pages\performance.py:135 .\Pages\plugins.py:371
 msgid "No plugins are currently running."
@@ -1294,7 +1294,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:34
 msgid "Visualization"
-msgstr ""
+msgstr "Visualização"
 
 #: .\Pages\plugins.py:35
 msgid ""
@@ -1309,7 +1309,7 @@ msgstr ""
 
 #: .\Pages\plugins.py:39 .\Plugins\HUD\main.py:81 .\Plugins\HUD\main.py:167
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:40
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
@@ -1491,11 +1491,11 @@ msgstr "Selecionar diretório manualmente"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Installed"
-msgstr ""
+msgstr "- Instalado"
 
 #: .\Pages\sdk_installation.py:185 .\Pages\sdk_installation.py:217
 msgid "- Not Installed"
-msgstr ""
+msgstr "- Não Instalado"
 
 #: .\Pages\sdk_installation.py:194
 msgid "This game version is not supported"
@@ -1583,7 +1583,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:211
 msgid "Items: {}"
-msgstr ""
+msgstr "Itens: {}"
 
 #: .\Plugins\AR\main.py:212
 msgid "Draw Calls: {}"
@@ -1612,7 +1612,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Aumentar o limite de Velocidade"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
@@ -1620,7 +1620,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Diminuir o limite de Velocidade"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
@@ -1628,7 +1628,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:73 .\Plugins\AdaptiveCruiseControl\settings.py:8 .\Plugins\AdaptiveCruiseControl\settings.py:72 .\Plugins\AdaptiveCruiseControl\settings.py:77
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Controle de Cruzeiro Adaptativo"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:75
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
@@ -1644,7 +1644,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:82
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Agressividade"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:83
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
@@ -1654,7 +1654,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:90
 msgid "Following Distance"
-msgstr ""
+msgstr "Distância de Seguimento"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:91
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1724,11 +1724,11 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:167
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:170
 msgid "Unlock PID"
-msgstr ""
+msgstr "Desbloquear PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
@@ -1771,6 +1771,8 @@ msgstr ""
 #: .\Plugins\AdaptiveCruiseControl\settings.py:205
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Este vídeo explica visualmente como funciona um controlador PID. Assista-o "
+"até o final se não estiver familiarizado com ele."
 
 #: .\Plugins\HUD\main.py:82 .\Plugins\NGHUD\ui.py:98
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
@@ -1826,7 +1828,7 @@ msgstr "O deslocamento Z (distância) dos elementos do HUD."
 
 #: .\Plugins\HUD\main.py:133
 msgid "HUD Elements"
-msgstr ""
+msgstr "Elementos do HUD"
 
 #: .\Plugins\HUD\main.py:135
 msgid "Show Navigation"
@@ -1878,19 +1880,19 @@ msgstr ""
 
 #: .\Plugins\HUD\main.py:758
 msgid "Waiting for lane change approval"
-msgstr ""
+msgstr "Aguardando aprovação de mudança de faixa"
 
 #: .\Plugins\HUD\main.py:769
 msgid "Lane change in progress {percentage}%"
-msgstr ""
+msgstr "Mudança de faixa em andamento {percentual}%"
 
 #: .\Plugins\HUD\main.py:844
 msgid "Distance: {distance:.0f} {units}"
-msgstr ""
+msgstr "Distancia: {distance:.0f} {units}"
 
 #: .\Plugins\HUD\main.py:892
 msgid "Target: {acc_gap:.0f} {units}"
-msgstr ""
+msgstr "Objetivo: {acc_gap:.0f} {units}"
 
 #: .\Plugins\Map\main.py:49
 msgid "Toggle Steering"
@@ -1904,7 +1906,7 @@ msgstr ""
 
 #: .\Plugins\Map\main.py:63 .\Plugins\Map\ui.py:12
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 #: .\Plugins\Map\main.py:64
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
@@ -2046,11 +2048,11 @@ msgstr "O tamanho do download para estes dados é"
 
 #: .\Plugins\Map\ui.py:195
 msgid "that will unpack to a total size of"
-msgstr "que descompactará para um tamanho total de"
+msgstr ""
 
 #: .\Plugins\NGHUD\elements\acc.py:8 .\Plugins\NGHUD\main.py:226 .\Plugins\NGHUD\main.py:227
 msgid "ACC Information"
-msgstr ""
+msgstr "Informação do CCA"
 
 #: .\Plugins\NGHUD\elements\acc.py:9
 msgid "Draw ACC information like vehicle distance and speed."
@@ -2059,7 +2061,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\acceleration.py:8
 msgid "Acceleration"
-msgstr ""
+msgstr "Aceleração"
 
 #: .\Plugins\NGHUD\elements\acceleration.py:9
 msgid "Draw the current acceleration of the truck."
@@ -2109,20 +2111,20 @@ msgstr ""
 
 #: .\Plugins\NGHUD\elements\media.py:65
 msgid "No Title"
-msgstr ""
+msgstr "Sem titulo"
 
 #: .\Plugins\NGHUD\elements\navigation.py:8
 msgid "Navigation"
-msgstr ""
+msgstr "Navegação"
 
 #: .\Plugins\NGHUD\elements\navigation.py:9
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Informação de navegação."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\NGHUD\elements\navigation.py:66
 msgid "arrival"
-msgstr "chegada em"
+msgstr "para chegar"
 
 #: .\Plugins\NGHUD\elements\power.py:11
 msgid "Throttle / Brake"
@@ -2142,7 +2144,7 @@ msgstr "Mostra o tempo de troca de luzes dos semáforos."
 
 #: .\Plugins\NGHUD\elements\speed.py:7 .\Plugins\NGHUD\main.py:42 .\Plugins\TTS\main.py:122
 msgid "Speed"
-msgstr ""
+msgstr "Velocidade"
 
 #: .\Plugins\NGHUD\elements\speed.py:8
 msgid "A normal speed display, will also show speed limit changes."
@@ -2168,11 +2170,11 @@ msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Enable"
-msgstr ""
+msgstr "Habilitar"
 
 #: .\Plugins\NGHUD\ui.py:93 .\Plugins\NGHUD\ui.py:250
 msgid "Disable"
-msgstr ""
+msgstr "Desabilitar"
 
 #: .\Plugins\NGHUD\ui.py:102
 msgid "Please enable the plugin to edit the settings."
@@ -2235,7 +2237,7 @@ msgstr ""
 
 #: .\Plugins\NGHUD\ui.py:186
 msgid "Elements"
-msgstr ""
+msgstr "Elementos"
 
 #: .\Plugins\NGHUD\ui.py:195
 msgid "Enabled Widgets"
@@ -2285,7 +2287,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:75
 msgid "Voices"
-msgstr ""
+msgstr "Vozes"
 
 #: .\Plugins\TTS\main.py:86
 msgid "Please select a provider!"
@@ -2321,7 +2323,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:115
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Procurar voz..."
 
 #: .\Plugins\TTS\main.py:116
 msgid "No voices found."
@@ -2337,7 +2339,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:141
 msgid "Test Mode"
-msgstr ""
+msgstr "Modo de Teste"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Enable test mode to test the TTS provider without loading the game."
@@ -2345,7 +2347,7 @@ msgstr "Modo de teste para testar o provedor TTS sem carregar o jogo."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: .\Plugins\TTS\main.py:149
 msgid "Enable Road Proximity Beep"
@@ -2605,7 +2607,7 @@ msgstr ""
 
 #: .\main.py:203
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "Monitor do ETS2LA iniciado!!"
 
 #: .\main.py:219
 msgid "ETS2LA is restarting..."
