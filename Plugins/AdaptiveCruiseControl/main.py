@@ -13,6 +13,7 @@ from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
 from ETS2LA.Utils.Values.graphing import PIDGraph
 from Modules.Traffic.classes import Vehicle
+import Plugins.Map.classes as c
 
 # Python imports
 from typing import cast
@@ -238,6 +239,7 @@ class Plugin(ETS2LAPlugin):
         speed_offset_type = self.settings.speed_offset_type
         speed_offset = self.settings.speed_offset
         ignore_traffic_lights = self.settings.ignore_traffic_lights
+        use_lane_change_safety_check = self.settings.lane_change_safety_check
         ignore_speed_limit = self.settings.ignore_speed_limit
         
         if ignore_speed_limit is None:
@@ -247,6 +249,10 @@ class Plugin(ETS2LAPlugin):
         if ignore_traffic_lights is None:
             ignore_traffic_lights = False
             self.settings.ignore_traffic_lights = ignore_traffic_lights
+
+        if use_lane_change_safety_check is None:
+            use_lane_change_safety_check = False
+            self.settings.lane_change_safety_check = use_lane_change_safety_check
             
         if aggressiveness is None:
             aggressiveness = 'Normal'
@@ -384,15 +390,74 @@ class Plugin(ETS2LAPlugin):
         elif len(point1) == 3 and len(point2) == 3:
             return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2 + (point1[2] - point2[2])**2)
          
-         
     def get_distance(self, p1: list, p2: list):
         if len(p1) == 2:
             return math.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
         elif len(p1) == 3:
             return math.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2 + (p1[2] - p2[2])**2)
         return math.inf
-     
-            
+    
+    def get_vehicles_in_lanes(self, api_data: dict, lanes=["current","left","right"], max_lateral=3.5, max_front=20.0, max_rear=20.0):
+        vehicles = self.modules.Traffic.run()
+        plugin_vehicles = self.globals.tags.vehicles
+        plugin_vehicles = self.globals.tags.merge(plugin_vehicles)
+        if plugin_vehicles is not None:
+            vehicles += [self.modules.Traffic.create_vehicle_from_dict(vehicle) for vehicle in plugin_vehicles]
+
+        # Truck position
+        truck_x = api_data["truckPlacement"]["coordinateX"]
+        truck_y = api_data["truckPlacement"]["coordinateY"]
+        truck_z = api_data["truckPlacement"]["coordinateZ"]
+        truck_speed = api_data["truckFloat"]["speed"]
+        rotation = api_data["truckPlacement"]["rotationX"] * 360
+        if rotation < 0:
+            rotation += 360
+        rotation_rad = math.radians(rotation)
+
+        # Truck forward vector (X/Z plane)
+        forward_x = math.sin(rotation_rad)
+        forward_z = math.cos(rotation_rad)
+
+        vehicles_by_lane = {
+            "current": {"front": [], "rear": []},
+            "left": {"front": [], "rear": []},
+            "right": {"front": [], "rear": []}
+        }
+
+        max_height_diff = 5.0  # meters, tolerance for overpasses/underpasses
+
+        for vehicle in vehicles:
+            pos = vehicle.trailers[-1].position if vehicle.trailers else vehicle.position
+            veh_x, veh_y, veh_z = pos.x, pos.y, pos.z
+
+            # Skip vehicles too high or low
+            if abs(veh_y - truck_y) > max_height_diff:
+                continue
+
+            # Compute lateral/longitudinal offsets (X/Z plane)
+            lateral_offset = - (veh_x - truck_x) * forward_z + (veh_z - truck_z) * forward_x
+            longitudinal_offset = (veh_x - truck_x) * forward_x + (veh_z - truck_z) * forward_z
+            relative_speed = vehicle.speed - truck_speed
+
+            # Determine lane
+            lane = None
+            if abs(lateral_offset) < max_lateral and "current" in lanes:
+                lane = "current"
+            elif lateral_offset >= max_lateral and "left" in lanes:
+                lane = "left"
+            elif lateral_offset <= -max_lateral and "right" in lanes:
+                lane = "right"
+
+            if lane:
+                if abs(lateral_offset) > max_lateral * 2:
+                    continue
+                if 0 <= longitudinal_offset <= max_front:
+                    vehicles_by_lane[lane]["front"].append(ACCVehicle(vehicle, longitudinal_offset, relative_speed))
+                elif -max_rear <= longitudinal_offset < 0:
+                    vehicles_by_lane[lane]["rear"].append(ACCVehicle(vehicle, -longitudinal_offset, relative_speed))
+
+        return vehicles_by_lane
+
     def get_vehicle_in_front(self, api_data: dict) -> ACCVehicle:
         # TODO: This function is ugly and unoptimized,
         #       rewrite it.
@@ -487,7 +552,7 @@ class Plugin(ETS2LAPlugin):
             self.globals.tags.vehicle_highlights = [closest_vehicle.id]
             
         return ACCVehicle(closest_vehicle, closest_distance, time_to_vehicle)
-    
+
     def get_valid_lights(self, api_data: dict, lights: list) -> list:
         valid_lights = []
         rotationX = api_data["truckPlacement"]["rotationX"]
@@ -698,6 +763,18 @@ class Plugin(ETS2LAPlugin):
         self.controller.aforward = float(0)
         self.controller.abackward = float(0)
 
+    def reset_indicators(self):
+        if self.api_data["truckBool"]["blinkerLeftActive"]:
+            self.controller.lblinker = True
+            time.sleep(1/20)
+            self.controller.lblinker = False
+            time.sleep(1/20)
+        elif self.api_data["truckBool"]["blinkerRightActive"]:
+            self.controller.rblinker = True
+            time.sleep(1/20)
+            self.controller.rblinker = False
+            time.sleep(1/20)
+
     set_zero = False
     def set_accel_brake(self, accel:float) -> None:
         is_reversing = False
@@ -880,6 +957,61 @@ class Plugin(ETS2LAPlugin):
         target_acceleration = self.calculate_target_acceleration(in_front, traffic_light, gate)
         target_throttle = self.apply_pid(target_acceleration)
         self.set_accel_brake(target_throttle)
+
+        if self.settings.lane_change_safety_check:
+            SAFE_DISTANCE_SIDE = 25   # safe distance for lane change
+
+            # Utility to pick the closest vehicle from a list
+            def closest_vehicle(vs):
+                if not vs:
+                    return None
+                if isinstance(vs, list):
+                    return min(vs, key=lambda v: v.distance)
+                return vs  # already a single ACCVehicle
+
+            # Get vehicles by lane
+            vehicles_by_lane = self.get_vehicles_in_lanes(self.api_data, lanes=["left", "current", "right"])
+
+            # Normalize lanes to always have dicts with front/rear lists
+            for lane in ["left", "current", "right"]:
+                lane_data = vehicles_by_lane.get(lane)
+                if lane_data is None or not isinstance(lane_data, dict):
+                    vehicles_by_lane[lane] = {"front": [], "rear": []}
+                else:
+                    # Ensure front/rear are lists
+                    for pos in ["front", "rear"]:
+                        if lane_data.get(pos) is None:
+                            lane_data[pos] = []
+                        elif not isinstance(lane_data[pos], list):
+                            lane_data[pos] = [lane_data[pos]]
+
+            # Highlight all detected vehicles
+            highlight_ids = []
+            for lane in ["left", "current", "right"]:
+                for pos in ["front", "rear"]:
+                    for veh in vehicles_by_lane[lane][pos]:
+                        highlight_ids.append(veh.id)
+            self.globals.tags.vehicle_highlights = highlight_ids
+
+            # Get closest vehicles in each lane
+            left_front  = closest_vehicle(vehicles_by_lane["left"]["front"])
+            left_rear   = closest_vehicle(vehicles_by_lane["left"]["rear"])
+            current_front = closest_vehicle(vehicles_by_lane["current"]["front"])
+            right_front = closest_vehicle(vehicles_by_lane["right"]["front"])
+            right_rear  = closest_vehicle(vehicles_by_lane["right"]["rear"])
+
+            # Check lane clearance
+            if (left_front is None or left_front.distance > SAFE_DISTANCE_SIDE) and \
+            (left_rear is None or left_rear.distance > SAFE_DISTANCE_SIDE):
+                self.globals.tags.block_lane_changes_left = False
+            else:
+                self.globals.tags.block_lane_changes_left = True
+
+            if (right_front is None or right_front.distance > SAFE_DISTANCE_SIDE) and \
+            (right_rear is None or right_rear.distance > SAFE_DISTANCE_SIDE):
+                self.globals.tags.block_lane_changes_right = False
+            else:
+                self.globals.tags.block_lane_changes_right = True
 
         self.globals.tags.acc = self.speedlimit
         self.globals.tags.acc_target = target_acceleration

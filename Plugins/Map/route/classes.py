@@ -96,7 +96,6 @@ class RouteSection:
             logging.warning("Something tried to change the lane index while the route section is still lane changing.")
             return
         
-        
         self.last_lane_points = self.lane_points.copy() if self.lane_points else []
         new_lane_points = []
         for item in self.items:
@@ -213,6 +212,7 @@ class RouteSection:
     
     @target_lanes.setter
     def target_lanes(self, value: list[int]):
+
         if self.is_lane_changing:
             return
         if type(self.items[0].item) == c.Prefab:
@@ -359,7 +359,7 @@ class RouteSection:
         return False
             
     def reset_indicators(self):
-        if data.enabled and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
+        if data.enabled:
             if data.truck_indicating_left:
                 data.controller.lblinker = True
                 time.sleep(1/20)
@@ -389,9 +389,12 @@ class RouteSection:
             
     def get_points(self):
 
+        block_lane_change_left = (data.plugin.globals.tags.block_lane_changes_left or {}).get('plugins.adaptivecruisecontrol', False)
+        block_lane_change_right = (data.plugin.globals.tags.block_lane_changes_right or {}).get('plugins.adaptivecruisecontrol', False)
+
         plugin_status = (data.plugin.globals.tags.running or {}).get('catalogueplugins.automatic blinkers', False)
 
-        if not plugin_status:
+        if not plugin_status or block_lane_change_right or block_lane_change_left:
             if not self.is_lane_changing and self.is_in_bounds(c.Position(data.truck_x, data.truck_y, data.truck_z)):
                 self.reset_indicators()
 

@@ -21,6 +21,14 @@ class SettingsMenu(ETS2LAPage):
             value = not settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights")
         
         settings.Set("AdaptiveCruiseControl", "ignore_traffic_lights", value)
+
+    def handle_lane_change_safety_check(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.Get("AdaptiveCruiseControl", "lane_change_safety_check")
+
+        settings.Set("AdaptiveCruiseControl", "lane_change_safety_check", value)
     
     def handle_speed_offset_type(self, value):
         settings.Set("AdaptiveCruiseControl", "speed_offset_type", value)
@@ -102,6 +110,21 @@ class SettingsMenu(ETS2LAPage):
                     default=settings.Get("AdaptiveCruiseControl", "traffic_light_mode", "Normal"),
                     description=_("Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."),
                 )
+
+                with Container(
+                    styles.FlexHorizontal() + styles.Gap("16px") + styles.Padding("14px 16px 16px 16px") + styles.Classname("border rounded-md w-full " + ("bg-input/30" if settings.Get("AdaptiveCruiseControl", "lane_change_safety_check", False) else "bg-input/10")),
+                    pressed=self.handle_lane_change_safety_check, # This allows for the entire container to act as the toggle
+                ):
+                    Checkbox(
+                        default=settings.Get("AdaptiveCruiseControl", "lane_change_safety_check", False), # type: ignore
+                        changed=self.handle_lane_change_safety_check,
+                        style=styles.Margin("4px 0px 0px 0px")
+                    )
+                    with Container(styles.FlexVertical() + styles.Gap("6px")):
+                        with Container(styles.FlexHorizontal() + styles.Gap("6px")):
+                            Text(_("[Experimental]"), styles.Classname("font-semibold text-muted-foreground"))
+                            Text(_("Lane Change Safety Check"), styles.Classname("font-semibold"))
+                        Text(_("Whether the ACC should check for vehicles in lanes next to you. This will help you not lane change into vehicles."), styles.Classname("text-xs text-muted-foreground"))
 
             with Tab(_("Speed Control"), container_style=styles.FlexVertical() + styles.Gap("24px")):
                 ignore_speed_limit = settings.Get("AdaptiveCruiseControl", "ignore_speed_limit")
