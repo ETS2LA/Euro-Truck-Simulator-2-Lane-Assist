@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
 "PO-Revision-Date: 2025-09-01 09:06+0000\n"
-"Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
+"Last-Translator: hmm-kanmimimu <kanmimimu@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
 "Language: ja\n"
@@ -150,8 +150,7 @@ msgstr "サウンド '{0}' を再生しようとしましたが、サウンド�
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr "[bold]http://{address}[/bold] が [dim]{local_ip}[/dim]"
-"を指すよう登録されました。"
+msgstr "[bold]http://{address}[/bold] を [dim]{local_ip}[/dim]に向けて登録しました。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:93
 msgid "An error occurred while processing a message."
