@@ -182,6 +182,8 @@ class Page(ETS2LAPage):
                     Text(_("Continue"))
 
             current = settings.Get("global", "language", default="English")
+            if not current:
+                current = "English"
             current = Language.find(current)
 
             with Container(style=styles.FlexVertical()):
