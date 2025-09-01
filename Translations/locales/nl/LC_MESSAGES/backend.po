@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-28 19:06+0000\n"
-"Last-Translator: BigLittleDog809 <biglittledog@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-02 09:32+0000\n"
+"Last-Translator: hpfrunner <hpfrunner@ets2la.com>\n"
 "Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>"
 "\n"
 "Language: nl\n"
@@ -671,7 +671,7 @@ msgstr[1] "{hours} uren geleden"
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] "{dagen} dag geleden"
+msgstr[0] "{days} dag geleden"
 msgstr[1] "dagen geleden"
 
 #: .\Pages\changelog.py:34
@@ -1250,7 +1250,7 @@ msgstr "Alle weergegeven gegevens worden gemiddeld over een seconde."
 
 #: .\Pages\performance.py:204
 msgid "This page took {time:.2f} ms to render."
-msgstr "Deze pagina nam {tijd:.2f} ms om te renderen."
+msgstr "Deze pagina nam {time:.2f} ms om te renderen."
 
 #: .\Pages\plugins.py:24 .\Plugins\Map\ui.py:119
 msgid "Steering"
