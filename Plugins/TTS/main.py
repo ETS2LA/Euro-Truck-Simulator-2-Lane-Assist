@@ -222,32 +222,11 @@ class Plugin(ETS2LAPlugin):
 
     speed_limit: float = 0
 
+    last_notify: float = 0
     has_notified_fuel: bool = False
     has_notified_critical_fuel: bool = False
 
     last_route_distance: float = 0
-    notified_distances = [
-        2,
-        5,
-        10,
-        20,
-        50,
-        100,
-        200,
-        300,
-        400,
-        500,
-        600,
-        700,
-        800,
-        900,
-        1000,
-        1500,
-        2000,
-        2500,
-        3000,
-    ]
-    notified_markers = set()
 
     last_wear_engine: float = 0
     last_wear_cabin: float = 0
@@ -255,6 +234,11 @@ class Plugin(ETS2LAPlugin):
     last_wear_transmission: float = 0
     last_wear_wheels: float = 0
     last_wear_cargo: float = 0
+
+    last_light_state = ""
+    last_light_distance = 0
+
+    last_headlight_state = False
 
     first = True
     last_update = 0
@@ -361,12 +345,12 @@ class Plugin(ETS2LAPlugin):
                 self.pages[0]
             )  # Reset the settings page to update the speed
 
-    def speak(self, text: str):
+    def speak(self, text: str, override_first=False):
         """
         Speak the given text.
         :param text: The text to speak.
         """
-        if self.first:
+        if self.first and not override_first:
             return
 
         if self.selected_provider:
@@ -381,7 +365,6 @@ class Plugin(ETS2LAPlugin):
         try:
             state = self.globals.tags.status["plugins.map"]["Map"]
             if state != self.map_enabled:
-                print(f"Map state changed: {state}")
                 if state:
                     self.speak(_("Map steering enabled."))
                 elif self.state is not None:
@@ -415,16 +398,19 @@ class Plugin(ETS2LAPlugin):
         """
         try:
             city = self.globals.tags.closest_city
+            city = city.get("plugins.map", None) if city else None
             distance = self.globals.tags.closest_city_distance
+            distance = distance.get("plugins.map", None) if distance else None
             if city != self.closest_city:
                 self.closest_city = city
                 text = ngettext(
                     "Closest city is now {city} at a distance of {distance} kilometer.",
                     "Closest city is now {city} at a distance of {distance} kilometers.",
-                    round(distance),
-                ).format(city=city, distance=round(distance))
+                    round(distance / 1000),
+                ).format(city=city, distance=round(distance / 1000))
                 self.speak(text)
-        except Exception:
+        except Exception as e:
+            logging.error(f"Error in closest_city_changed: {e}")
             self.closest_city = None
 
     def speedlimit_changed(self, api):
@@ -432,15 +418,16 @@ class Plugin(ETS2LAPlugin):
         Check if the speed limit changed last frame.
         """
         try:
-            speed_limit = api["truckFloat"]["speedlimit"]
+            speed_limit = api["truckFloat"]["speedLimit"]
             if speed_limit != self.speed_limit:
                 self.speed_limit = speed_limit
                 self.speak(
                     ngettext(
                         "Speed limit changed to {0} kilometer per hour.",
                         "Speed limit changed to {0} kilometers per hour.",
-                        round(speed_limit),
-                    ).format(round(speed_limit))
+                        round(speed_limit * 3.6),
+                    ).format(round(speed_limit * 3.6)),
+                    override_first=True,
                 )
         except Exception:
             self.speed_limit = 0
@@ -481,26 +468,55 @@ class Plugin(ETS2LAPlugin):
                 api["truckFloat"]["routeDistance"] / 1000
             )  # Meters to Kilometers
 
-            for distance in self.notified_distances:
-                if route_distance <= distance and distance not in self.notified_markers:
-                    if (
-                        self.last_route_distance > 0
-                        and route_distance < self.last_route_distance
-                    ):
-                        self.speak(
-                            _("It's {0} kilometers to the next waypoint.").format(
-                                round(distance)
-                            )
-                        )
-                        self.notified_markers.add(distance)
+            # Rerouted
+            if route_distance > self.last_route_distance + 5:
+                self.last_route_distance = route_distance
+                self.speak(
+                    _("It's {0} kilometers to the next waypoint.").format(
+                        round(route_distance)
+                    )
+                )
+                return
 
-            if route_distance > self.last_route_distance + 50:
-                self.notified_markers.clear()
+            # Finished a route / no route
+            if route_distance == 0:
+                self.last_route_distance = 0
+                return
 
-            self.last_route_distance = route_distance
+            # Started a new route
+            if self.last_route_distance == 0:
+                self.speak(
+                    _("It's {0} kilometers to the next waypoint.").format(
+                        round(route_distance)
+                    ),
+                    override_first=True,
+                )
+                self.last_route_distance = route_distance
+                return
+
+            interval = (
+                50
+                if route_distance > 200
+                else 20
+                if route_distance > 100
+                else 10
+                if route_distance > 50
+                else 5
+                if route_distance > 20
+                else 2
+                if route_distance > 10
+                else 1
+            )
+            # Ongoing route
+            if route_distance <= self.last_route_distance - interval:
+                self.speak(
+                    _("It's {0} kilometers to the next waypoint.").format(
+                        round(route_distance)
+                    )
+                )
+                self.last_route_distance = route_distance
         except Exception:
             self.last_route_distance = 0
-            self.notified_markers.clear()
 
     def damage_check(self, api):
         try:
@@ -555,7 +571,7 @@ class Plugin(ETS2LAPlugin):
             self.speak(f"Error while processing status {e}")
 
     def update_beeper(self, api):
-        if self.prox_beep:
+        if self.prox_beep and not api["pause"]:
             distance = self.globals.tags.closest_road_distance
             angle = self.globals.tags.closest_road_angle
             if distance is None or angle is None:
@@ -582,11 +598,74 @@ class Plugin(ETS2LAPlugin):
             if self.beeper.running:
                 self.beeper.stop()
 
+    def traffic_light(self, api):
+        info = self.globals.tags.light
+        info = info.get("plugins.adaptivecruisecontrol", None) if info else None
+        if not info:
+            self.last_light_state = ""
+            self.last_light_distance = 0
+            return
+
+        distance = info.get("distance", None)
+        state = info.get("state", None)
+        if not distance or not state:
+            self.last_light_state = ""
+            self.last_light_distance = 0
+            return
+
+        if not self.last_light_state:
+            self.last_light_state = state
+            self.last_light_distance = distance
+            self.speak(
+                _(
+                    "Traffic light ahead in {distance} meters. Currently {state}."
+                ).format(distance=round(distance), state=state),
+                override_first=True,
+            )
+
+        if state != self.last_light_state:
+            self.last_light_state = state
+            self.last_light_distance = distance
+            self.speak(
+                _("Traffic light changed to {state}. Now at {distance} meters.").format(
+                    state=state, distance=round(distance)
+                )
+            )
+
+        if distance > self.last_light_distance + 10:
+            self.last_light_distance = distance
+            self.last_light_state = state
+            self.speak(
+                _(
+                    "Traffic light ahead in {distance} meters. Currently {state}."
+                ).format(distance=round(distance), state=state),
+                override_first=True,
+            )
+
+        if abs(distance - self.last_light_distance) > 10:
+            self.last_light_distance = distance
+            self.speak(
+                ngettext(
+                    "{distance} meter",
+                    "{distance} meters",
+                    round(distance),
+                ).format(distance=round(distance))
+            )
+
+    def headlights_changed(self, api):
+        status = api["truckBool"]["lightsBeamLow"]
+        if status != self.last_headlight_state:
+            if status:
+                self.speak(_("Headlights turned on."), override_first=True)
+            else:
+                self.speak(_("Headlights turned off."), override_first=True)
+        self.last_headlight_state = status
+
     def run(self):
         api = self.modules.TruckSimAPI.run()
 
         self.update_beeper(api)
-        if self.last_update + 1 > time.time():
+        if self.last_update + 0.5 > time.time():
             return
 
         self.load_settings()
@@ -603,6 +682,8 @@ class Plugin(ETS2LAPlugin):
         self.fuel_check(api)
         self.route_distance(api)
         self.damage_check(api)
+        self.traffic_light(api)
+        self.headlights_changed(api)
 
         self.first = False
         self.last_update = time.time()

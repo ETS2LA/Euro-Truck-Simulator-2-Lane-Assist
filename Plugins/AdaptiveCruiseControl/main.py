@@ -723,13 +723,9 @@ class Plugin(ETS2LAPlugin):
         )
         if first_distance < last_distance:
             if closest is not None:
-                print(
-                    f"Closest traffic light: {closest.id}, Distance: {first_distance}"
-                )
                 return route.points, ACCTrafficLight(closest, first_distance)
         else:
             if closest is not None:
-                print(f"Closest traffic light: {closest.id}, Distance: {last_distance}")
                 return route.points, ACCTrafficLight(closest, last_distance)
 
         return None, None
@@ -1095,6 +1091,11 @@ class Plugin(ETS2LAPlugin):
                         right_point[1] + height,
                         right_point[2],
                     ]
+
+                    self.globals.tags.light = {
+                        "distance": round(distance, 1),
+                        "state": traffic_light.state_text(),
+                    }
                     self.globals.tags.AR = [
                         Polygon(
                             [
@@ -1115,6 +1116,7 @@ class Plugin(ETS2LAPlugin):
             except Exception:
                 traffic_light = None
                 traceback.print_exc()
+                self.globals.light = {"distance": 0, "state": ""}
                 self.globals.tags.AR = []
 
         try:
