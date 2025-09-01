@@ -406,8 +406,8 @@ class Plugin(ETS2LAPlugin):
                 text = ngettext(
                     "Closest city is now {city} at a distance of {distance} kilometer.",
                     "Closest city is now {city} at a distance of {distance} kilometers.",
-                    round(distance / 1000),
-                ).format(city=city, distance=round(distance / 1000))
+                    round(distance * 20 / 1000),
+                ).format(city=city, distance=round(distance * 20 / 1000))
                 self.speak(text)
         except Exception as e:
             logging.error(f"Error in closest_city_changed: {e}")
@@ -500,10 +500,8 @@ class Plugin(ETS2LAPlugin):
                 else 20
                 if route_distance > 100
                 else 10
-                if route_distance > 50
-                else 5
                 if route_distance > 20
-                else 2
+                else 5
                 if route_distance > 10
                 else 1
             )
