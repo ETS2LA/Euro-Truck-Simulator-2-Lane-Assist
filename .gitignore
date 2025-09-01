@@ -3,6 +3,8 @@ cache
 model-cache
 **/__pycache__
 logs
+uv.lock
+.venv
 
 # Ignore global.lock file
 global.lock
