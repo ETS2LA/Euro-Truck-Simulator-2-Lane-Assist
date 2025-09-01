@@ -1017,8 +1017,9 @@ class Plugin(ETS2LAPlugin):
 
         self.api_data = self.api.run()
 
-        # if self.api_data["pause"]:
-        #     self.reset(); return
+        if self.api_data["pause"]:
+            self.reset()
+            return
 
         if self.api_data["truckFloat"]["speedLimit"] == 0:
             self.api_data["truckFloat"]["speedLimit"] = self.overwrite_speed / 3.6
