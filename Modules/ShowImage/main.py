@@ -1,4 +1,5 @@
-from ETS2LA.Module import *
+from ETS2LA.Module import ETS2LAModule
+
 
 class Module(ETS2LAModule):
     def imports(self):
@@ -20,10 +21,9 @@ class Module(ETS2LAModule):
         data = settings.GetJSON(self.plugin.path)
         try:
             data = data["ShowImage"]
-        except:
-            pass # Load defaults...
-        pass # Load settings...
-        
+        except Exception:
+            pass  # Load defaults...
+        pass  # Load settings...
 
     def InitializeWindow(self, windowName, img):
         cv2.namedWindow(windowName, cv2.WINDOW_NORMAL)
@@ -33,28 +33,34 @@ class Module(ETS2LAModule):
         cv2.resizeWindow(windowName, width, height)
 
         if variables.OS == "nt":
-            import win32gui, win32con
+            import win32gui
+            import win32con
             from ctypes import windll, byref, sizeof, c_int
+
             hwnd = win32gui.FindWindow(None, windowName)
-            windll.dwmapi.DwmSetWindowAttribute(hwnd, 35, byref(c_int(0x000000)), sizeof(c_int))
+            windll.dwmapi.DwmSetWindowAttribute(
+                hwnd, 35, byref(c_int(0x000000)), sizeof(c_int)
+            )
             icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
-            hicon = win32gui.LoadImage(None, f"{variables.ICONPATH}", win32con.IMAGE_ICON, 0, 0, icon_flags) # type: ignore
-            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon) # type: ignore
-            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon) # type: ignore
+            hicon = win32gui.LoadImage(
+                None, f"{variables.ICONPATH}", win32con.IMAGE_ICON, 0, 0, icon_flags
+            )  # type: ignore
+            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_SMALL, hicon)  # type: ignore
+            win32gui.SendMessage(hwnd, win32con.WM_SETICON, win32con.ICON_BIG, hicon)  # type: ignore
 
     def DestroyWindow(self, windowName):
         try:
             cv2.destroyWindow(windowName)
-        except:
+        except Exception:
             pass
 
     def Initialize(self):
-        pass # Do nothing
+        pass  # Do nothing
 
-    def run(self, img = None, windowName:str = "Lane Assist"):
+    def run(self, img=None, windowName: str = "Lane Assist"):
         global LAST_WIDTH, LAST_HEIGHT
         try:
-            if type(img) != np.ndarray:
+            if not isinstance(img, np.ndarray):
                 return
 
             LAST_WIDTH, LAST_HEIGHT = img.shape[1], img.shape[0]
@@ -64,17 +70,18 @@ class Module(ETS2LAModule):
             for overlay in self.overlays:
                 try:
                     img = cv2.addWeighted(img, 1, self.overlays[overlay], 1, 0)
-                except:
+                except Exception:
                     logging.debug("Failed to add overlay: " + overlay)
-                
+
             try:
                 cv2.getWindowImageRect(windowName)
-            except:
+            except Exception:
                 self.InitializeWindow(windowName, img)
-                
+
             cv2.imshow(windowName, img)
             cv2.waitKey(1)
-        except:
+        except Exception:
             import traceback
+
             logging.exception(traceback.format_exc())
             pass

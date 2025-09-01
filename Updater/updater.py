@@ -1,8 +1,9 @@
 try:
     from textual.app import App, ComposeResult
     from textual.widgets import Header, Log, Label, Static, Button
-except:
+except Exception:
     from ETS2LA.Utils.shell import ExecuteCommand
+
     ExecuteCommand("pip install textual")
     from textual.app import App, ComposeResult
     from textual.widgets import Header, Log, Label, Static, Button
@@ -16,6 +17,7 @@ steps = [
     {"name": "Requirements", "command": "pip install -r requirements.txt"},
     # {"name": "Clear Cache", "command": 'RMDIR /S /Q "cache"'}
 ]
+
 
 class Updater(App):
     CSS_PATH = "updater.tcss"
@@ -32,7 +34,7 @@ class Updater(App):
         await self.run_steps()
 
     def compose(self) -> ComposeResult:
-        yield Header(show_clock=True, icon='')
+        yield Header(show_clock=True, icon="")
 
         sidebar = Static(classes="sidebar")
         with sidebar:
@@ -42,15 +44,14 @@ class Updater(App):
             yield Label("")
             yield Button("Retry", id="retry-button", disabled=True)
             yield Button("Exit", id="exit-button", disabled=True)
-        
+
         yield sidebar
 
         log = Static("Two", classes="box")
         with log:
             yield Log(auto_scroll=True, highlight=True, classes="log")
-    
-        yield log
 
+        yield log
 
     def update_icon(self):
         spinner = ["◐", "◓", "◑", "◒"]
@@ -67,10 +68,10 @@ class Updater(App):
 
             log_widget.write(f"-- RUNNING {step['name']} --\n")
             process = await asyncio.create_subprocess_shell(
-                step['command'],
+                step["command"],
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
-                shell=True
+                shell=True,
             )
 
             async def read_stream(stream, callback):
@@ -80,23 +81,25 @@ class Updater(App):
                         try:
                             dimmed_line = f"{line.decode()}"
                             callback(dimmed_line)
-                        except:
+                        except Exception:
                             pass
                     else:
                         break
 
             await asyncio.gather(
                 read_stream(process.stdout, log_widget.write),
-                read_stream(process.stderr, log_widget.write)
+                read_stream(process.stderr, log_widget.write),
             )
 
             await process.wait()
             return_code = process.returncode
-            if return_code != 0 and step['name'] != "Clear Cache":
-                log_widget.write(f"-- ERROR in {step['name']} (report this to the developers) --\n\n")
+            if return_code != 0 and step["name"] != "Clear Cache":
+                log_widget.write(
+                    f"-- ERROR in {step['name']} (report this to the developers) --\n\n"
+                )
                 label.classes = ["error"]
-                label.update(f"X {step['name']}") #type: ignore
-                
+                label.update(f"X {step['name']}")  # type: ignore
+
                 # Enable Retry and Exit buttons
                 retry_button = self.query_one("#retry-button", Button)
                 exit_button = self.query_one("#exit-button", Button)
@@ -109,9 +112,9 @@ class Updater(App):
             else:
                 log_widget.write(f"-- COMPLETED {step['name']} --\n\n")
                 label.classes = ["done"]
-                label.update(f"● {step['name']}") #type: ignore
+                label.update(f"● {step['name']}")  # type: ignore
 
-        if not getattr(self, '_paused', False):
+        if not getattr(self, "_paused", False):
             log_widget.write("-- Update complete! --\n")
             self.icon = "✔"
             self.refresh()
@@ -130,6 +133,7 @@ class Updater(App):
             await self.run_steps()
         elif button.id == "exit-button":
             self.exit()
+
 
 if __name__ == "__main__":
     app = Updater()

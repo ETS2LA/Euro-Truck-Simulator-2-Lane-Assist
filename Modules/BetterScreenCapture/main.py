@@ -16,10 +16,14 @@ else:
 def SendCrashReport(Title, Description):
     print("NOT IMPLEMENTED: SendCrashReport")
 
+
 Model = None
 sct = mss.mss()
 if len(sct.monitors) < 2:
-    SendCrashReport("ScreenCapture - Only one item in the monitor list, normally there should be at least two.", str(sct.monitors))
+    SendCrashReport(
+        "ScreenCapture - Only one item in the monitor list, normally there should be at least two.",
+        str(sct.monitors),
+    )
     Monitor = sct.monitors[0]
 else:
     Monitor = sct.monitors[1]
@@ -56,17 +60,18 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
     global MonitorX2
     global MonitorY2
     global Cam
+    global Control
     global CaptureLibrary
     global RouteAdvisorSide
     global RouteAdvisorZoomCorrect
     global RouteAdvisorTabCorrect
 
-    Display = Screen if Screen != None else 0
+    Display = Screen if Screen is not None else 0
     Monitor = sct.monitors[(Display + 1)]
-    MonitorX1 = Area[0] if Area[0] != None else Monitor["left"]
-    MonitorY1 = Area[1] if Area[1] != None else Monitor["top"]
-    MonitorX2 = Area[2] if Area[2] != None else Monitor["width"]
-    MonitorY2 = Area[3] if Area[3] != None else Monitor["height"]
+    MonitorX1 = Area[0] if Area[0] is not None else Monitor["left"]
+    MonitorY1 = Area[1] if Area[1] is not None else Monitor["top"]
+    MonitorX2 = Area[2] if Area[2] is not None else Monitor["width"]
+    MonitorY2 = Area[3] if Area[3] is not None else Monitor["height"]
     Cam = None
     CaptureLibrary = None
     RouteAdvisorSide = "Right"
@@ -74,81 +79,83 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
     RouteAdvisorTabCorrect = True
 
     try:
-
         if variables.OS == "nt":
-
             try:
+                from windows_capture import (
+                    WindowsCapture,
+                    Frame,
+                    InternalCaptureControl,
+                )
 
-                from windows_capture import WindowsCapture, Frame, InternalCaptureControl
                 Capture = WindowsCapture(
                     cursor_capture=False,
                     draw_border=False,
                     monitor_index=Display + 1,
                     window_name=None,
                 )
-                
+
                 global WindowsCaptureFrame
                 global StopWindowsCapture
                 StopWindowsCapture = False
-                
-                @Capture.event # type: ignore
-                def on_frame_arrived(frame: Frame, capture_control: InternalCaptureControl):
+
+                @Capture.event  # type: ignore
+                def on_frame_arrived(
+                    frame: Frame, capture_control: InternalCaptureControl
+                ):
                     global WindowsCaptureFrame
                     global StopWindowsCapture
                     WindowsCaptureFrame = frame.convert_to_bgr().frame_buffer.copy()
                     if StopWindowsCapture:
                         StopWindowsCapture = False
                         capture_control.stop()
-                
-                @Capture.event # type: ignore
+
+                @Capture.event  # type: ignore
                 def on_closed():
                     print("Capture Session Closed")
-                    
-                try:
-                    Control.stop() # type: ignore
-                except:
-                    pass
-                Control = Capture.start_free_threaded()
 
+                try:
+                    Control.stop()  # type: ignore
+                except Exception:
+                    pass
+
+                Control = Capture.start_free_threaded()
                 CaptureLibrary = "WindowsCapture"
 
-            except:
+            except Exception:
                 import bettercam
-                
+
                 if Cam is not None:
                     try:
                         Cam.stop()
-                    except:
+                    except Exception:
                         pass
                     try:
                         Cam.close()
-                    except:
+                    except Exception:
                         pass
                     try:
                         Cam.release()
-                    except:
+                    except Exception:
                         pass
                     try:
                         del Cam
-                    except:
+                    except Exception:
                         pass
-                    
+
                 Cam = bettercam.create(output_idx=Display, output_color="BGR")
                 Cam.start()
                 Cam.get_latest_frame()
                 CaptureLibrary = "BetterCam"
 
         else:
-
             CaptureLibrary = "MSS"
 
-    except:
-
+    except Exception:
         CaptureLibrary = "MSS"
 
 
 # MARK: Capture()
-def Capture(ImageType:str = "both"):
+def Capture(ImageType: str = "both"):
     """
     Get the latest frame from the screen. Automatically chooses the capture library. Can't be used in a thread!
 
@@ -164,12 +171,14 @@ def Capture(ImageType:str = "both"):
     """
 
     if CaptureLibrary is None:
-        return None if ImageType.lower() == "cropped" or ImageType.lower() == "full" else (None, None)
-    
+        return (
+            None
+            if ImageType.lower() == "cropped" or ImageType.lower() == "full"
+            else (None, None)
+        )
+
     if CaptureLibrary.lower() == "windowscapture":
-
         try:
-
             img = cv2.cvtColor(np.array(WindowsCaptureFrame), cv2.COLOR_BGRA2BGR)
             if ImageType.lower() == "both":
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
@@ -183,18 +192,19 @@ def Capture(ImageType:str = "both"):
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
                 return croppedImg, img
 
-        except:
-
-            return None if ImageType.lower() == "cropped" or ImageType.lower() == "full" else (None, None)
+        except Exception:
+            return (
+                None
+                if ImageType.lower() == "cropped" or ImageType.lower() == "full"
+                else (None, None)
+            )
 
     elif CaptureLibrary.lower() == "bettercam":
-
         try:
-
             if Cam is None:
                 Initialize()
-                
-            img = np.array(Cam.get_latest_frame()) # type: ignore
+
+            img = np.array(Cam.get_latest_frame())  # type: ignore
             if ImageType.lower() == "both":
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
                 return croppedImg, img
@@ -207,14 +217,15 @@ def Capture(ImageType:str = "both"):
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
                 return croppedImg, img
 
-        except:
-
-            return None if ImageType.lower() == "cropped" or ImageType.lower() == "full" else (None, None)
+        except Exception:
+            return (
+                None
+                if ImageType.lower() == "cropped" or ImageType.lower() == "full"
+                else (None, None)
+            )
 
     elif CaptureLibrary.lower() == "mss":
-
         try:
-
             fullMonitor = sct.monitors[(Display + 1)]
             img = np.array(sct.grab(fullMonitor))
             img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
@@ -230,9 +241,12 @@ def Capture(ImageType:str = "both"):
                 croppedImg = img[MonitorY1:MonitorY2, MonitorX1:MonitorX2]
                 return croppedImg, img
 
-        except:
-
-            return None if ImageType.lower() == "cropped" or ImageType.lower() == "full" else (None, None)
+        except Exception:
+            return (
+                None
+                if ImageType.lower() == "cropped" or ImageType.lower() == "full"
+                else (None, None)
+            )
 
 
 # MARK: GetScreenDimensions()
@@ -277,10 +291,10 @@ def GetScreenIndex(X: int, Y: int) -> int | None:
     """
     Monitors = sct.monitors
     ClosestScreenIndex = None
-    ClosestDistance = float('inf')
+    ClosestDistance = float("inf")
     for i, Monitor in enumerate(Monitors[1:]):
-        CenterX = (Monitor['left'] + Monitor['left'] + Monitor['width']) // 2
-        CenterY = (Monitor['top'] + Monitor['top'] + Monitor['height']) // 2
+        CenterX = (Monitor["left"] + Monitor["left"] + Monitor["width"]) // 2
+        CenterY = (Monitor["top"] + Monitor["top"] + Monitor["height"]) // 2
         Distance = ((CenterX - X) ** 2 + (CenterY - Y) ** 2) ** 0.5
         if Distance < ClosestDistance:
             ClosestScreenIndex = i + 1
@@ -350,15 +364,28 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
     if variables.OS == "nt" and win32gui:
         Key = f"{Name}{Blacklist}"
         if Key not in LastForegroundWindows:
-            LastForegroundWindows[Key] = [0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight]
+            LastForegroundWindows[Key] = [
+                0,
+                ScreenX,
+                ScreenY,
+                ScreenX + ScreenWidth,
+                ScreenY + ScreenHeight,
+            ]
         if LastForegroundWindows[Key][0] + 1 < time.time():
             HWND = None
             TopWindows = []
             IsForeground = LastForegroundWindows[Key][1]
-            win32gui.EnumWindows(lambda HWND, TopWindows: TopWindows.append((HWND, win32gui.GetWindowText(HWND))), TopWindows) # type: ignore
+            win32gui.EnumWindows(
+                lambda HWND, TopWindows: TopWindows.append(
+                    (HWND, win32gui.GetWindowText(HWND))
+                ),
+                TopWindows,
+            )  # type: ignore
             for HWND, WindowText in TopWindows:
-                if Name in WindowText and all(BlacklistItem not in WindowText for BlacklistItem in Blacklist):
-                    IsForeground = (HWND == win32gui.GetForegroundWindow())
+                if Name in WindowText and all(
+                    BlacklistItem not in WindowText for BlacklistItem in Blacklist
+                ):
+                    IsForeground = HWND == win32gui.GetForegroundWindow()
                     break
             LastForegroundWindows[Key] = time.time(), IsForeground
             return IsForeground
@@ -369,7 +396,9 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
 
 
 # MARK: GetWindowPosition()
-def GetWindowPosition(Name: str = "", Blacklist: list[str] = [""]) -> Tuple[int, int, int, int]:
+def GetWindowPosition(
+    Name: str = "", Blacklist: list[str] = [""]
+) -> Tuple[int, int, int, int]:
     """
     Get the position of the given window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
 
@@ -386,33 +415,67 @@ def GetWindowPosition(Name: str = "", Blacklist: list[str] = [""]) -> Tuple[int,
         The position of the window. Format: (X, Y, Width, Height)
     """
     global LastWindowPositions
-    
+
     if variables.OS == "nt" and win32gui:
         Key = f"{Name}{Blacklist}"
-        
+
         if Key not in LastWindowPositions:
-            LastWindowPositions[Key] = (0, ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight)
-        
+            LastWindowPositions[Key] = (
+                0,
+                ScreenX,
+                ScreenY,
+                ScreenX + ScreenWidth,
+                ScreenY + ScreenHeight,
+            )
+
         if LastWindowPositions[Key][0] + 1 < time.time():
             HWND = None
             TopWindows = []
-            
-            Window = LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]
-            win32gui.EnumWindows(lambda HWND, TopWindows: TopWindows.append((HWND, win32gui.GetWindowText(HWND))), TopWindows) # type: ignore
-            
+
+            Window = (
+                LastWindowPositions[Key][1],
+                LastWindowPositions[Key][2],
+                LastWindowPositions[Key][3],
+                LastWindowPositions[Key][4],
+            )
+            win32gui.EnumWindows(
+                lambda HWND, TopWindows: TopWindows.append(
+                    (HWND, win32gui.GetWindowText(HWND))
+                ),
+                TopWindows,
+            )  # type: ignore
+
             for HWND, WindowText in TopWindows:
-                if Name in WindowText and all(BlacklistItem not in WindowText for BlacklistItem in Blacklist):
+                if Name in WindowText and all(
+                    BlacklistItem not in WindowText for BlacklistItem in Blacklist
+                ):
                     RECT = win32gui.GetClientRect(HWND)
                     TopLeft = win32gui.ClientToScreen(HWND, (RECT[0], RECT[1]))
                     BottomRight = win32gui.ClientToScreen(HWND, (RECT[2], RECT[3]))
-                    Window = (TopLeft[0], TopLeft[1], BottomRight[0] - TopLeft[0], BottomRight[1] - TopLeft[1])
+                    Window = (
+                        TopLeft[0],
+                        TopLeft[1],
+                        BottomRight[0] - TopLeft[0],
+                        BottomRight[1] - TopLeft[1],
+                    )
                     break
-                
-            LastWindowPositions[Key] = time.time(), Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
+
+            LastWindowPositions[Key] = (
+                time.time(),
+                Window[0],
+                Window[1],
+                Window[0] + Window[2],
+                Window[1] + Window[3],
+            )
             return Window[0], Window[1], Window[0] + Window[2], Window[1] + Window[3]
         else:
             if LastWindowPositions[Key]:
-                return LastWindowPositions[Key][1], LastWindowPositions[Key][2], LastWindowPositions[Key][3], LastWindowPositions[Key][4]
+                return (
+                    LastWindowPositions[Key][1],
+                    LastWindowPositions[Key][2],
+                    LastWindowPositions[Key][3],
+                    LastWindowPositions[Key][4],
+                )
             else:
                 return ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight
     else:
@@ -450,7 +513,17 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
     X = X1 + (DistanceFromRight * Scale + Width * Scale) - 1
     Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
     LeftMapBottomRight = (round(X), round(Y))
-    LeftImage = np.array(sct.grab({"left": LeftMapTopLeft[0], "top": LeftMapTopLeft[1], "width": LeftMapBottomRight[0] - LeftMapTopLeft[0], "height": LeftMapBottomRight[1] - LeftMapTopLeft[1]}), dtype=np.float32)
+    LeftImage = np.array(
+        sct.grab(
+            {
+                "left": LeftMapTopLeft[0],
+                "top": LeftMapTopLeft[1],
+                "width": LeftMapBottomRight[0] - LeftMapTopLeft[0],
+                "height": LeftMapBottomRight[1] - LeftMapTopLeft[1],
+            }
+        ),
+        dtype=np.float32,
+    )
 
     X = X1 + (X2 - X1) - (DistanceFromRight * Scale + Width * Scale)
     Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale + Height * Scale)
@@ -458,59 +531,90 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
     X = X1 + (X2 - X1) - (DistanceFromRight * Scale)
     Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
     RightMapBottomRight = (round(X), round(Y))
-    RightImage = np.array(sct.grab({"left": RightMapTopLeft[0], "top": RightMapTopLeft[1], "width": RightMapBottomRight[0] - RightMapTopLeft[0], "height": RightMapBottomRight[1] - RightMapTopLeft[1]}), dtype=np.float32)
+    RightImage = np.array(
+        sct.grab(
+            {
+                "left": RightMapTopLeft[0],
+                "top": RightMapTopLeft[1],
+                "width": RightMapBottomRight[0] - RightMapTopLeft[0],
+                "height": RightMapBottomRight[1] - RightMapTopLeft[1],
+            }
+        ),
+        dtype=np.float32,
+    )
 
     global Model
-    if Model == None:
-        Model = pytorch.Model(HF_owner="OleFranz", HF_repository="RouteAdvisorClassification", HF_model_folder="model")
+    if Model is None:
+        Model = pytorch.Model(
+            HF_owner="OleFranz",
+            HF_repository="RouteAdvisorClassification",
+            HF_model_folder="model",
+        )
         Model.load_model()
-    if Model.loaded == False:
+    if Model.loaded is False:
         return (0, 0, 0), (0, 0, 0)
 
     Outputs = []
     for Image in [LeftImage, RightImage]:
-        if type(Image) == type(None):
+        if Image is None:
             return (0, 0, 0), (0, 0, 0)
         if Image.shape[1] <= 0 or Image.shape[0] <= 0:
             return (0, 0, 0), (0, 0, 0)
-        if Model.color_channels_str == 'Grayscale' or Model.color_channels_str == 'Binarize':
+        if (
+            Model.color_channels_str == "Grayscale"
+            or Model.color_channels_str == "Binarize"
+        ):
             Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-        if Model.color_channels_str == 'RG':
+        if Model.color_channels_str == "RG":
             Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-        elif Model.color_channels_str == 'GB':
+        elif Model.color_channels_str == "GB":
             Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-        elif Model.color_channels_str == 'RB':
+        elif Model.color_channels_str == "RB":
             Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-        elif Model.color_channels_str == 'R':
+        elif Model.color_channels_str == "R":
             Image = Image[:, :, 0]
             Image = np.expand_dims(Image, axis=2)
-        elif Model.color_channels_str == 'G':
+        elif Model.color_channels_str == "G":
             Image = Image[:, :, 1]
             Image = np.expand_dims(Image, axis=2)
-        elif Model.color_channels_str == 'B':
+        elif Model.color_channels_str == "B":
             Image = Image[:, :, 2]
             Image = np.expand_dims(Image, axis=2)
         Image = cv2.resize(Image, (Model.image_width, Model.image_height))
         Image = Image / 255.0
-        if Model.color_channels_str == 'Binarize':
+        if Model.color_channels_str == "Binarize":
             Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-        Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.device).to(pytorch.torch.bfloat16)
+        Image = (
+            pytorch.transforms.ToTensor()(Image)
+            .unsqueeze(0)
+            .to(Model.device)
+            .to(pytorch.torch.bfloat16)
+        )
         with pytorch.torch.no_grad():
             Output = np.array(Model.model(Image)[0].tolist())
         Outputs.append(Output)
 
     if max(Outputs[0][0], Outputs[1][0]) > 0.5:
         RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
-        RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
-        RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
-    return (Outputs[0][0], Outputs[0][1], Outputs[0][2]), (Outputs[1][0], Outputs[1][1], Outputs[1][2])
+        RouteAdvisorZoomCorrect = (
+            Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
+        )
+        RouteAdvisorTabCorrect = (
+            Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+        )
+    return (Outputs[0][0], Outputs[0][1], Outputs[0][2]), (
+        Outputs[1][0],
+        Outputs[1][1],
+        Outputs[1][2],
+    )
 
 
 # MARK: GetRouteAdvisorPosition()
 
+
 # TODO: Make this pass type checks. This function is a mess rn and can't
-#       pass the type checker. I didn't spend time fixing it instead I 
+#       pass the type checker. I didn't spend time fixing it instead I
 #       just told the checker to ignore it since to my knowledge it works.
 #       - Tumppi066
 def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
@@ -541,7 +645,7 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
     Height = 219
     Scale = (Y2 - Y1) / 1080
 
-    if Side == "Automatic" and pytorch.torch_available == False:
+    if Side == "Automatic" and pytorch.torch_available is False:
         Side = "Right"
 
     if Side == "Left" or Side == "Automatic":
@@ -551,14 +655,32 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
         X = X1 + (DistanceFromRight * Scale + Width * Scale) - 1
         Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
         LeftMapBottomRight = (round(X), round(Y))
-        X = LeftMapBottomRight[0] - (LeftMapBottomRight[0] - LeftMapTopLeft[0]) * 0.57 - 1
+        X = (
+            LeftMapBottomRight[0]
+            - (LeftMapBottomRight[0] - LeftMapTopLeft[0]) * 0.57
+            - 1
+        )
         Y = LeftMapBottomRight[1] - (LeftMapBottomRight[1] - LeftMapTopLeft[1]) * 0.575
         LeftArrowTopLeft = (round(X), round(Y))
-        X = LeftMapBottomRight[0] - (LeftMapBottomRight[0] - LeftMapTopLeft[0]) * 0.43 - 1
+        X = (
+            LeftMapBottomRight[0]
+            - (LeftMapBottomRight[0] - LeftMapTopLeft[0]) * 0.43
+            - 1
+        )
         Y = LeftMapBottomRight[1] - (LeftMapBottomRight[1] - LeftMapTopLeft[1]) * 0.39
         LeftArrowBottomRight = (round(X), round(Y))
         if Side == "Automatic":
-            LeftImage = np.array(sct.grab({"left": LeftMapTopLeft[0], "top": LeftMapTopLeft[1], "width": LeftMapBottomRight[0] - LeftMapTopLeft[0], "height": LeftMapBottomRight[1] - LeftMapTopLeft[1]}), dtype=np.float32)
+            LeftImage = np.array(
+                sct.grab(
+                    {
+                        "left": LeftMapTopLeft[0],
+                        "top": LeftMapTopLeft[1],
+                        "width": LeftMapBottomRight[0] - LeftMapTopLeft[0],
+                        "height": LeftMapBottomRight[1] - LeftMapTopLeft[1],
+                    }
+                ),
+                dtype=np.float32,
+            )
 
     if Side == "Right" or Side == "Automatic":
         X = X1 + (X2 - X1) - (DistanceFromRight * Scale + Width * Scale)
@@ -567,14 +689,36 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
         X = X1 + (X2 - X1) - (DistanceFromRight * Scale)
         Y = Y1 + (Y2 - Y1) - (DistanceFromBottom * Scale)
         RightMapBottomRight = (round(X), round(Y))
-        X = RightMapBottomRight[0] - (RightMapBottomRight[0] - RightMapTopLeft[0]) * 0.57
-        Y = RightMapBottomRight[1] - (RightMapBottomRight[1] - RightMapTopLeft[1]) * 0.575
+        X = (
+            RightMapBottomRight[0]
+            - (RightMapBottomRight[0] - RightMapTopLeft[0]) * 0.57
+        )
+        Y = (
+            RightMapBottomRight[1]
+            - (RightMapBottomRight[1] - RightMapTopLeft[1]) * 0.575
+        )
         RightArrowTopLeft = (round(X), round(Y))
-        X = RightMapBottomRight[0] - (RightMapBottomRight[0] - RightMapTopLeft[0]) * 0.43
-        Y = RightMapBottomRight[1] - (RightMapBottomRight[1] - RightMapTopLeft[1]) * 0.39
+        X = (
+            RightMapBottomRight[0]
+            - (RightMapBottomRight[0] - RightMapTopLeft[0]) * 0.43
+        )
+        Y = (
+            RightMapBottomRight[1]
+            - (RightMapBottomRight[1] - RightMapTopLeft[1]) * 0.39
+        )
         RightArrowBottomRight = (round(X), round(Y))
         if Side == "Automatic":
-            RightImage = np.array(sct.grab({"left": RightMapTopLeft[0], "top": RightMapTopLeft[1], "width": RightMapBottomRight[0] - RightMapTopLeft[0], "height": RightMapBottomRight[1] - RightMapTopLeft[1]}), dtype=np.float32)
+            RightImage = np.array(
+                sct.grab(
+                    {
+                        "left": RightMapTopLeft[0],
+                        "top": RightMapTopLeft[1],
+                        "width": RightMapBottomRight[0] - RightMapTopLeft[0],
+                        "height": RightMapBottomRight[1] - RightMapTopLeft[1],
+                    }
+                ),
+                dtype=np.float32,
+            )
 
     if Side == "Automatic":
         global RouteAdvisorSide
@@ -582,59 +726,110 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
         global RouteAdvisorTabCorrect
 
         global Model
-        if Model == None:
-            Model = pytorch.Model(HF_owner="OleFranz", HF_repository="RouteAdvisorClassification", HF_model_folder="model")
+        if Model is None:
+            Model = pytorch.Model(
+                HF_owner="OleFranz",
+                HF_repository="RouteAdvisorClassification",
+                HF_model_folder="model",
+            )
             Model.load_model()
-        if Model.loaded == False:
-            return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
+        if Model.loaded is False:
+            return (
+                RightMapTopLeft,
+                RightMapBottomRight,
+                RightArrowTopLeft,
+                RightArrowBottomRight,
+            )  # type: ignore
 
         Outputs = []
-        for Image in [LeftImage, RightImage]: # type: ignore
-            if type(Image) == type(None):
-                return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
+        for Image in [LeftImage, RightImage]:  # type: ignore
+            if Image is None:
+                return (
+                    RightMapTopLeft,
+                    RightMapBottomRight,
+                    RightArrowTopLeft,
+                    RightArrowBottomRight,
+                )  # type: ignore
             if Image.shape[1] <= 0 or Image.shape[0] <= 0:
-                return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
-            if Model.color_channels_str == 'Grayscale' or Model.color_channels_str == 'Binarize':
+                return (
+                    RightMapTopLeft,
+                    RightMapBottomRight,
+                    RightArrowTopLeft,
+                    RightArrowBottomRight,
+                )  # type: ignore
+            if (
+                Model.color_channels_str == "Grayscale"
+                or Model.color_channels_str == "Binarize"
+            ):
                 Image = cv2.cvtColor(Image, cv2.COLOR_RGB2GRAY)
-            if Model.color_channels_str == 'RG':
+            if Model.color_channels_str == "RG":
                 Image = np.stack((Image[:, :, 0], Image[:, :, 1]), axis=2)
-            elif Model.color_channels_str == 'GB':
+            elif Model.color_channels_str == "GB":
                 Image = np.stack((Image[:, :, 1], Image[:, :, 2]), axis=2)
-            elif Model.color_channels_str == 'RB':
+            elif Model.color_channels_str == "RB":
                 Image = np.stack((Image[:, :, 0], Image[:, :, 2]), axis=2)
-            elif Model.color_channels_str == 'R':
+            elif Model.color_channels_str == "R":
                 Image = Image[:, :, 0]
                 Image = np.expand_dims(Image, axis=2)
-            elif Model.color_channels_str == 'G':
+            elif Model.color_channels_str == "G":
                 Image = Image[:, :, 1]
                 Image = np.expand_dims(Image, axis=2)
-            elif Model.color_channels_str == 'B':
+            elif Model.color_channels_str == "B":
                 Image = Image[:, :, 2]
                 Image = np.expand_dims(Image, axis=2)
             Image = cv2.resize(Image, (Model.image_width, Model.image_height))
             Image = Image / 255.0
-            if Model.color_channels_str == 'Binarize':
+            if Model.color_channels_str == "Binarize":
                 Image = cv2.threshold(Image, 0.5, 1.0, cv2.THRESH_BINARY)[1]
 
-            Image = pytorch.transforms.ToTensor()(Image).unsqueeze(0).to(Model.device).to(pytorch.torch.bfloat16)
+            Image = (
+                pytorch.transforms.ToTensor()(Image)
+                .unsqueeze(0)
+                .to(Model.device)
+                .to(pytorch.torch.bfloat16)
+            )
             with pytorch.torch.no_grad():
                 Output = np.array(Model.model(Image)[0].tolist())
             Outputs.append(Output)
 
         if max(Outputs[0][0], Outputs[1][0]) > 0.5:
             RouteAdvisorSide = "Left" if Outputs[0][0] > Outputs[1][0] else "Right"
-            RouteAdvisorZoomCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
-            RouteAdvisorTabCorrect = Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+            RouteAdvisorZoomCorrect = (
+                Outputs[0 if RouteAdvisorSide == "Left" else 1][1] > 0.5
+            )
+            RouteAdvisorTabCorrect = (
+                Outputs[0 if RouteAdvisorSide == "Left" else 1][2] > 0.5
+            )
 
         if RouteAdvisorSide == "Right":
-            return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
+            return (
+                RightMapTopLeft,
+                RightMapBottomRight,
+                RightArrowTopLeft,
+                RightArrowBottomRight,
+            )  # type: ignore
         else:
-            return LeftMapTopLeft, LeftMapBottomRight, LeftArrowTopLeft, LeftArrowBottomRight # type: ignore
+            return (
+                LeftMapTopLeft,
+                LeftMapBottomRight,
+                LeftArrowTopLeft,
+                LeftArrowBottomRight,
+            )  # type: ignore
 
     elif Side == "Left":
-        return LeftMapTopLeft, LeftMapBottomRight, LeftArrowTopLeft, LeftArrowBottomRight # type: ignore
+        return (
+            LeftMapTopLeft,
+            LeftMapBottomRight,
+            LeftArrowTopLeft,
+            LeftArrowBottomRight,
+        )  # type: ignore
     elif Side == "Right":
-        return RightMapTopLeft, RightMapBottomRight, RightArrowTopLeft, RightArrowBottomRight # type: ignore
+        return (
+            RightMapTopLeft,
+            RightMapBottomRight,
+            RightArrowTopLeft,
+            RightArrowBottomRight,
+        )  # type: ignore
 
 
 # MARK: TrackWindow()
@@ -659,24 +854,31 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
     if Key not in LastTrackWindowUpdates:
         LastTrackWindowUpdates[Key] = 0
     if Rate > 0:
-        if LastTrackWindowUpdates[Key] + 1/Rate > time.time():
+        if LastTrackWindowUpdates[Key] + 1 / Rate > time.time():
             return
     global StopWindowsCapture, MonitorX1, MonitorY1, MonitorX2, MonitorY2
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     ScreenIndex = GetScreenIndex(round((X1 + X2) / 2), round((Y1 + Y2) / 2))
-    if ScreenIndex == None:
+    if ScreenIndex is None:
         return
-    
+
     ScreenX, ScreenY, _, _ = GetScreenDimensions(ScreenIndex)
-    if MonitorX1 != X1 - ScreenX or MonitorY1 != Y1 - ScreenY or MonitorX2 != X2 - ScreenX or MonitorY2 != Y2 - ScreenY:
+    if (
+        MonitorX1 != X1 - ScreenX
+        or MonitorY1 != Y1 - ScreenY
+        or MonitorX2 != X2 - ScreenX
+        or MonitorY2 != Y2 - ScreenY
+    ):
         ScreenIndex = ScreenIndex
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True
-                while StopWindowsCapture == True:
+                while StopWindowsCapture is True:
                     time.sleep(0.01)
             Initialize(Screen=ScreenIndex - 1)
-        MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY)
+        MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(
+            ScreenIndex, X1 - ScreenX, Y1 - ScreenY, X2 - ScreenX, Y2 - ScreenY
+        )
     LastTrackWindowUpdates[Key] = time.time()
 
 
@@ -702,23 +904,38 @@ def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
     if Key not in LastTrackWindowRouteAdvisorUpdates:
         LastTrackWindowRouteAdvisorUpdates[Key] = 0
     if Rate > 0:
-        if LastTrackWindowRouteAdvisorUpdates[Key] + 1/Rate > time.time():
+        if LastTrackWindowRouteAdvisorUpdates[Key] + 1 / Rate > time.time():
             return
     global StopWindowsCapture, MonitorX1, MonitorY1, MonitorX2, MonitorY2
-    
-    MapTopLeft, MapBottomRight, ArrowTopLeft, ArrowBottomRight = GetRouteAdvisorPosition(Name=Name, Blacklist=Blacklist, Side=Side)
-    ScreenIndex = GetScreenIndex((MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2)
-    if ScreenIndex == None:
+
+    MapTopLeft, MapBottomRight, ArrowTopLeft, ArrowBottomRight = (
+        GetRouteAdvisorPosition(Name=Name, Blacklist=Blacklist, Side=Side)
+    )
+    ScreenIndex = GetScreenIndex(
+        (MapTopLeft[0] + MapBottomRight[0]) / 2, (MapTopLeft[1] + MapBottomRight[1]) / 2
+    )
+    if ScreenIndex is None:
         return
-    
+
     ScreenX, ScreenY, _, _ = GetScreenDimensions(ScreenIndex)
-    
-    if MonitorX1 != MapTopLeft[0] - ScreenX or MonitorY1 != MapTopLeft[1] - ScreenY or MonitorX2 != MapBottomRight[0] - ScreenX or MonitorY2 != MapBottomRight[1] - ScreenY:    
+
+    if (
+        MonitorX1 != MapTopLeft[0] - ScreenX
+        or MonitorY1 != MapTopLeft[1] - ScreenY
+        or MonitorX2 != MapBottomRight[0] - ScreenX
+        or MonitorY2 != MapBottomRight[1] - ScreenY
+    ):
         if Display != ScreenIndex - 1:
             if CaptureLibrary == "WindowsCapture":
                 StopWindowsCapture = True
-                while StopWindowsCapture == True:
+                while StopWindowsCapture is True:
                     time.sleep(0.01)
             Initialize(Screen=ScreenIndex - 1)
-        MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(ScreenIndex, MapTopLeft[0] - ScreenX, MapTopLeft[1] - ScreenY, MapBottomRight[0] - ScreenX, MapBottomRight[1] - ScreenY)
+        MonitorX1, MonitorY1, MonitorX2, MonitorY2 = ValidateCaptureArea(
+            ScreenIndex,
+            MapTopLeft[0] - ScreenX,
+            MapTopLeft[1] - ScreenY,
+            MapBottomRight[0] - ScreenX,
+            MapBottomRight[1] - ScreenY,
+        )
     LastTrackWindowRouteAdvisorUpdates[Key] = time.time()

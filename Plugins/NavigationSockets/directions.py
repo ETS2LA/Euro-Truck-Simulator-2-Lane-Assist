@@ -5,12 +5,13 @@ LEFT = 2
 SHARP_LEFT = 3
 U_TURN_LEFT = 4
 
-SLIGHT_RIGHT = 11,
+SLIGHT_RIGHT = (11,)
 RIGHT = 12
-SHARP_RIGHT = 13,
-U_TURN_RIGHT = 14,
+SHARP_RIGHT = (13,)
+U_TURN_RIGHT = (14,)
 
-MERGE = -1,
+MERGE = (-1,)
+
 
 def map_angle_to_direction(angle: float) -> int:
     if angle > 0:
@@ -36,49 +37,50 @@ def map_angle_to_direction(angle: float) -> int:
         else:
             return SLIGHT_LEFT
 
+
 class ThenHint:
     direction: int
-    
+
     def __init__(self, direction: int):
         self.direction = direction
+
 
 class Lane:
     branches: list[int]
     active: int
-    
+
     def __init__(self, branches: list[int], active: int = None):
         self.branches = branches
         self.active = active
-        
+
     def to_dict(self):
         data = {
             "branches": self.branches,
         }
         if self.active is not None:
             data["activeBranch"] = self.active
-            
+
         return data
+
 
 class LaneHint:
     lanes: list[Lane]
-    
+
     def __init__(self, lanes: list[Lane]):
         self.lanes = lanes
-        
+
     def to_dict(self):
-        return {
-            "lanes": [
-                lane.to_dict() for lane in self.lanes
-            ]
-        }
+        return {"lanes": [lane.to_dict() for lane in self.lanes]}
+
 
 class Name:
     icon: str
     text: str
-    
+
     def __init__(self, icon: str, text: str):
         self.icon = icon
         self.text = text
+
 
 class RouteDirection:
     direction: int
@@ -86,34 +88,28 @@ class RouteDirection:
     name: Name = None
     laneHint: LaneHint = None
     thenHint: ThenHint = None
-    
-    def __init__(self, 
-                 direction: int, 
-                 distanceMeters: float,
-                 name: Name = None, 
-                 laneHint: LaneHint = None, 
-                 thenHint: ThenHint = None):
+
+    def __init__(
+        self,
+        direction: int,
+        distanceMeters: float,
+        name: Name = None,
+        laneHint: LaneHint = None,
+        thenHint: ThenHint = None,
+    ):
         self.direction = direction
         self.distanceMeters = distanceMeters
         self.name = name
         self.laneHint = laneHint
         self.thenHint = thenHint
-        
+
     def to_dict(self):
-        result = {
-            "direction": self.direction,
-            "distanceMeters": self.distanceMeters
-        }
+        result = {"direction": self.direction, "distanceMeters": self.distanceMeters}
         if self.name:
-            result["name"] = {
-                "icon": self.name.icon,
-                "text": self.name.text
-            }
+            result["name"] = {"icon": self.name.icon, "text": self.name.text}
         if self.laneHint:
             result["laneHint"] = self.laneHint.to_dict()
         if self.thenHint:
-            result["thenHint"] = {
-                "direction": self.thenHint.direction
-            }
-            
+            result["thenHint"] = {"direction": self.thenHint.direction}
+
         return result

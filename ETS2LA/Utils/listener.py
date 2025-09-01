@@ -10,6 +10,7 @@ import os
 
 ignore = ["webserver.py", "listener.py", "core.py"]
 
+
 def discover_files(path):
     """Recursively discover all .py files in the given path."""
     py_files = []
@@ -18,13 +19,15 @@ def discover_files(path):
             if file.endswith(".py") and file != "__init__.py":
                 if file not in ignore:
                     py_files.append(os.path.join(root, file))
-                    
+
     logging.info(f"Discovered {len(py_files)} files, listening for changes.")
     return py_files
 
-if variables.DEVELOPMENT_MODE:       
+
+if variables.DEVELOPMENT_MODE:
     files = discover_files("ETS2LA")
     state = {file: os.path.getmtime(file) for file in files}
+
 
 def check_for_changes():
     """Check for changes in the files and reload the modules if any changes are detected."""
@@ -33,9 +36,12 @@ def check_for_changes():
         current_mtime = os.path.getmtime(file)
         if file not in state or state[file] != current_mtime:
             logging.warning(f"Reloading [dim]{file}[/dim] due to changes.")
-            module_name = "ETS2LA." + os.path.relpath(file, "ETS2LA").replace(os.sep, ".")[:-3]
+            module_name = (
+                "ETS2LA." + os.path.relpath(file, "ETS2LA").replace(os.sep, ".")[:-3]
+            )
             module = importlib.reload(importlib.import_module(module_name))
             state[file] = current_mtime
             try:
                 module.on_reload()
-            except: pass
+            except Exception:
+                pass

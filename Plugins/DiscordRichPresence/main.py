@@ -1,9 +1,8 @@
-from ETS2LA.Plugin import *
-import json
-import os
-import time
-import logging
+from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
 from pypresence import Presence
+import logging
+import time
+
 
 class Plugin(ETS2LAPlugin):
     description = PluginDescription(
@@ -13,13 +12,13 @@ class Plugin(ETS2LAPlugin):
         modules=["TruckSimAPI"],
         tags=["Base"],
         listen=["*.py"],
-        fps_cap=0.067
+        fps_cap=0.067,
     )
 
     author = Author(
         name="Playzzero97",
         url="https://github.com/Playzzero97",
-        icon="https://avatars.githubusercontent.com/u/219891638?v=4"
+        icon="https://avatars.githubusercontent.com/u/219891638?v=4",
     )
 
     def init(self):
@@ -29,10 +28,8 @@ class Plugin(ETS2LAPlugin):
         self.rpc = Presence(self.client_id)
         self.rpc.connect()
         logging.warning("[DiscordRichPresence] Connected to Discord")
-        
 
     def run(self):
-
         data = self.modules.TruckSimAPI.run()
         status = self.globals.tags.status
         acc = False
@@ -66,14 +63,12 @@ class Plugin(ETS2LAPlugin):
 
         # print(f"[DiscordRichPresence] {text} | Speed: {truckspeed}")
 
-        
         try:
             self.rpc.update(
-                details = truckspeed,
-                state = text,
-                large_text = "ETS2LA",
-                start = int(self.current_time)
+                details=truckspeed,
+                state=text,
+                large_text="ETS2LA",
+                start=int(self.current_time),
             )
         except Exception as e:
             logging.exception(f"[DiscordRichPresence] Failed to update RPC: {e}")
-

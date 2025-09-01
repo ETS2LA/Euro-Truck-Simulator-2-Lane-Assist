@@ -1,10 +1,10 @@
 from Modules.TruckSimAPI.virtualAPI import scsTelemetry as virtualTelemetry
 from Modules.TruckSimAPI.api import scsTelemetry
-from ETS2LA.Module import *
+from ETS2LA.Module import ETS2LAModule
+
 
 class Module(ETS2LAModule):
-    def imports(self):
-        ...
+    def imports(self): ...
 
     lastX: float
     lastY: float
@@ -15,7 +15,7 @@ class Module(ETS2LAModule):
     CHECK_EVENTS: bool
     wasOnJob: bool
     wasRefueling: bool
-    
+
     def init(self):
         self.API = scsTelemetry()
         self.VIRTUAL_API = virtualTelemetry()
@@ -34,21 +34,20 @@ class Module(ETS2LAModule):
             "jobDelivered": [],
             "jobFinished": [],
             "refuelStarted": [],
-            "refuelPayed": []
+            "refuelPayed": [],
         }
-
 
     def listen(self, event, callback):
         if event in self.eventCallbacks:
             self.eventCallbacks[event].append(callback)
-            
+
     def setSpecialBool(self, bool, value):
         offset = self.API.specialBoolOffsets[bool]
         try:
             self.API.setBool(offset, value)
-        except:
+        except Exception:
             self.VIRTUAL_API.setBool(offset, value)
-            
+
     def _checkEvents(self, data):
         onJob = data["specialBool"]["onJob"]
         refueling = data["specialBool"]["refuel"]
@@ -56,52 +55,51 @@ class Module(ETS2LAModule):
         cancelled = data["specialBool"]["jobCancelled"]
         delivered = data["specialBool"]["jobDelivered"]
         refuelPayed = data["specialBool"]["refuelPayed"]
-        
-        if onJob == True and self.wasOnJob == False:
+
+        if onJob is True and self.wasOnJob is False:
             for callback in self.eventCallbacks["jobStarted"]:
                 callback(data)
             self.wasOnJob = True
-        elif onJob == False and self.wasOnJob == True:
+        elif onJob is False and self.wasOnJob is True:
             self.wasOnJob = False
-            
-        if refueling == True and self.wasRefueling == False:
+
+        if refueling is True and self.wasRefueling is False:
             for callback in self.eventCallbacks["refuelStarted"]:
                 callback(data)
             self.wasRefueling = True
-        elif refueling == False and self.wasRefueling == True:
+        elif refueling is False and self.wasRefueling is True:
             self.wasRefueling = False
-            
-        if refuelPayed == True:
+
+        if refuelPayed is True:
             for callback in self.eventCallbacks["refuelPayed"]:
                 callback(data)
             self.setSpecialBool("refuelPayed", False)
-            
-        if finished == True:
+
+        if finished is True:
             for callback in self.eventCallbacks["jobFinished"]:
                 callback(data)
             self.setSpecialBool("jobFinished", False)
-                
-        if cancelled == True:
+
+        if cancelled is True:
             for callback in self.eventCallbacks["jobCancelled"]:
                 callback(data)
             self.setSpecialBool("jobCancelled", False)
-                
-        if delivered == True:
+
+        if delivered is True:
             for callback in self.eventCallbacks["jobDelivered"]:
                 callback(data)
             self.setSpecialBool("jobDelivered", False)
-        
 
     def run(self, Fallback=True):
         try:
             data = self.API.update(trailerData=self.TRAILER)
-            if data["sdkActive"] == False:
-                if Fallback == False:
+            if data["sdkActive"] is False:
+                if Fallback is False:
                     return "not connected"
                 else:
                     data = self.VIRTUAL_API.update(trailerData=self.TRAILER)
-        except:
-            if Fallback == False:
+        except Exception:
+            if Fallback is False:
                 return "not connected"
             else:
                 data = self.VIRTUAL_API.update(trailerData=self.TRAILER)
@@ -109,4 +107,4 @@ class Module(ETS2LAModule):
         if self.CHECK_EVENTS:
             self._checkEvents(data)
 
-        return data 
+        return data

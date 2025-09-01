@@ -13,17 +13,22 @@ import logging
 import requests
 import tqdm
 
+
 class WINHTTP_PROXY_INFO(ctypes.Structure):
-    _fields_ = [("dwAccessType", ctypes.wintypes.DWORD),
-                ("lpszProxy", ctypes.wintypes.LPWSTR),
-                ("lpszProxyBypass", ctypes.wintypes.LPWSTR)]
+    _fields_ = [
+        ("dwAccessType", ctypes.wintypes.DWORD),
+        ("lpszProxy", ctypes.wintypes.LPWSTR),
+        ("lpszProxyBypass", ctypes.wintypes.LPWSTR),
+    ]
 
 
 class WINHTTP_CURRENT_USER_IE_PROXY_CONFIG(ctypes.Structure):
-    _fields_ = [("fAutoDetect", ctypes.wintypes.BOOL),
-                ("lpszAutoConfigUrl", ctypes.wintypes.LPWSTR),
-                ("lpszProxy", ctypes.wintypes.LPWSTR),
-                ("lpszProxyBypass", ctypes.wintypes.LPWSTR)]
+    _fields_ = [
+        ("fAutoDetect", ctypes.wintypes.BOOL),
+        ("lpszAutoConfigUrl", ctypes.wintypes.LPWSTR),
+        ("lpszProxy", ctypes.wintypes.LPWSTR),
+        ("lpszProxyBypass", ctypes.wintypes.LPWSTR),
+    ]
 
 
 def GetSystemProxy() -> str | None:
@@ -31,13 +36,20 @@ def GetSystemProxy() -> str | None:
     # WinHttpGetDefaultProxyConfiguration
     proxy_info = WINHTTP_PROXY_INFO()
     assert ctypes.windll.winhttp.WinHttpGetDefaultProxyConfiguration(
-        ctypes.byref(proxy_info))
+        ctypes.byref(proxy_info)
+    )
     res1 = proxy_info.dwAccessType, proxy_info.lpszProxy, proxy_info.lpszProxyBypass
 
     proxy_config = WINHTTP_CURRENT_USER_IE_PROXY_CONFIG()
     assert ctypes.windll.winhttp.WinHttpGetIEProxyConfigForCurrentUser(
-        ctypes.byref(proxy_config))
-    res2 = proxy_config.fAutoDetect, proxy_config.lpszAutoConfigUrl, proxy_config.lpszProxy, proxy_config.lpszProxyBypass
+        ctypes.byref(proxy_config)
+    )
+    res2 = (
+        proxy_config.fAutoDetect,
+        proxy_config.lpszAutoConfigUrl,
+        proxy_config.lpszProxy,
+        proxy_config.lpszProxyBypass,
+    )
 
     return res1[1] or res2[2] or None
 
@@ -70,18 +82,21 @@ def ChooseBestProvider(urls: list[str], timeout: int | float = 3):
 
     if not results:
         raise requests.exceptions.RequestException(
-            "Failed to download file from any source.")
+            "Failed to download file from any source."
+        )
 
     return sorted(results, key=lambda x: x[1])[0][0]
 
 
-def DownloadFile(url: str,
-                 save_path: str | Path,
-                 *,
-                 session: requests.Session | None = None,
-                 chunk_size: int = 8192,
-                 rich: bool = False,
-                 extra_kwargs: dict | None = None):
+def DownloadFile(
+    url: str,
+    save_path: str | Path,
+    *,
+    session: requests.Session | None = None,
+    chunk_size: int = 8192,
+    rich: bool = False,
+    extra_kwargs: dict | None = None,
+):
     """Downloads a file from a URL to a specified path.
 
     Args:
@@ -103,15 +118,16 @@ def DownloadFile(url: str,
 
     resp.raise_for_status()
 
-    with save_path.open('wb') as f:
+    with save_path.open("wb") as f:
         iterator = resp.iter_content(chunk_size=chunk_size)
         if rich:
-            iterator = tqdm.tqdm(iterator,
-                                 total=int(
-                                     resp.headers.get('content-length', 0)),
-                                 unit='B',
-                                 unit_scale=True,
-                                 desc=url.split('/')[-1])
+            iterator = tqdm.tqdm(
+                iterator,
+                total=int(resp.headers.get("content-length", 0)),
+                unit="B",
+                unit_scale=True,
+                desc=url.split("/")[-1],
+            )
         for chunk in iterator:
             f.write(chunk)
 
@@ -123,11 +139,13 @@ def DownloadFile(url: str,
     return save_path
 
 
-def DownloadFileMultiSource(urls: list[str],
-                            save_path: str | Path,
-                            *,
-                            session: requests.Session | None = None,
-                            chunk_size: int = 8192):
+def DownloadFileMultiSource(
+    urls: list[str],
+    save_path: str | Path,
+    *,
+    session: requests.Session | None = None,
+    chunk_size: int = 8192,
+):
     """Downloads a file from multiple URLs to a specified path.
 
     Args:
@@ -141,16 +159,14 @@ def DownloadFileMultiSource(urls: list[str],
     """
     for url in urls:
         try:
-            return DownloadFile(url,
-                                save_path,
-                                session=session,
-                                chunk_size=chunk_size)
+            return DownloadFile(url, save_path, session=session, chunk_size=chunk_size)
         except requests.exceptions.RequestException:
             pass
     raise requests.exceptions.RequestException(
-        "Failed to download file from any source.")
+        "Failed to download file from any source."
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Network Debug Page
     logging.debug("Current system proxy: {}", GetSystemProxy())

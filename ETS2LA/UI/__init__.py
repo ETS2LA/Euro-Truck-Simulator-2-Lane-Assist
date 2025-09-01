@@ -3,7 +3,7 @@ Import all ETS2LA UI components here.
 
 Classes:
     **ETS2LASettingsMenu** - Base class for all settings pages.
-    
+
 Components:
     **Title** - A title component.
     **Label** - A label component.
@@ -27,7 +27,7 @@ Components:
     **Geist** - Import the Geist font.
     **Markdown** - Render markdown text.
     **Tooltip** - Render a tooltip on hover.
-    
+
 Example:
 ```python
 from ETS2LA.UI import *
@@ -38,7 +38,7 @@ class Menu(ETS2LASettingsMenu):
     def render(self):
         Title("Title")
         Description("Description")
-        
+
         with TabView():
             with Tab(name="Tab 1"):
                 with Group():
@@ -46,16 +46,125 @@ class Menu(ETS2LASettingsMenu):
                     Button("Button", Plugin.function)
             with Tab(name="Tab 2"):
                 Description("This is tab 2")
-        
+
         return RenderUI()
-        
+
 class Plugin(ETS2LAPlugin):
     settings_menu = Menu()
     def function(self):
         print("Button clicked!")
 ```
 """
-from ETS2LA.UI.components import *
+
+from ETS2LA.UI.components import (
+    Side,
+    Text,
+    Link,
+    Markdown,
+    Icon,
+    SeparatorType,
+    Separator,
+    Space,
+    Container,
+    BadgeType,
+    Badge,
+    Alert,
+    ButtonType,
+    Button,
+    InputType,
+    Input,
+    TextArea,
+    Switch,
+    Checkbox,
+    Slider,
+    ComboboxSearch,
+    Combobox,
+    Tabs,
+    Tab,
+    RadioGroup,
+    RadioItem,
+    Tooltip,
+    Progress,
+    Table,
+    PopoverTrigger,
+    Popover,
+    DialogTrigger,
+    Dialog,
+    ContextMenuTrigger,
+    ContextMenuItem,
+    ContextMenuSubMenu,
+    Spinner,
+    Image,
+    GraphType,
+    GraphAxisOptions,
+    Graph,
+    AdSense,
+    Youtube,
+    RenderUI,
+    ButtonWithTitleDescription,
+    SliderWithTitleDescription,
+    ComboboxWithTitleDescription,
+    CheckboxWithTitleDescription,
+    InputWithTitleDescription,
+    TitleAndDescription,
+)
 from ETS2LA.UI.dialog import ETS2LADialog
 from ETS2LA.UI.page import ETS2LAPage, ETS2LAPageLocation
 from ETS2LA.UI.utils import SendPopup
+
+__all__ = [
+    "Side",
+    "Text",
+    "Link",
+    "Markdown",
+    "Icon",
+    "SeparatorType",
+    "Separator",
+    "Space",
+    "Container",
+    "BadgeType",
+    "Badge",
+    "Alert",
+    "ButtonType",
+    "Button",
+    "InputType",
+    "Input",
+    "TextArea",
+    "Switch",
+    "Checkbox",
+    "Slider",
+    "ComboboxSearch",
+    "Combobox",
+    "Tabs",
+    "Tab",
+    "RadioGroup",
+    "RadioItem",
+    "Tooltip",
+    "Progress",
+    "Table",
+    "PopoverTrigger",
+    "Popover",
+    "DialogTrigger",
+    "Dialog",
+    "ContextMenuTrigger",
+    "ContextMenuItem",
+    "ContextMenuSubMenu",
+    "Spinner",
+    "Image",
+    "GraphType",
+    "GraphAxisOptions",
+    "Graph",
+    "AdSense",
+    "Youtube",
+    "RenderUI",
+    "ButtonWithTitleDescription",
+    "SliderWithTitleDescription",
+    "ComboboxWithTitleDescription",
+    "CheckboxWithTitleDescription",
+    "InputWithTitleDescription",
+    "TitleAndDescription",
+    "ETS2LADialog",
+    "ETS2LAPage",
+    "ETS2LAPageLocation",
+    "SendPopup",
+]

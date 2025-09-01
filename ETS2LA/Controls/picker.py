@@ -9,6 +9,7 @@ import time
 new_guid = ""
 new_key = ""
 
+
 def keyboard_callback(key):
     global new_guid
     global new_key
@@ -18,13 +19,18 @@ def keyboard_callback(key):
         new_key = str(key)
     new_guid = "keyboard"
 
+
 listener = pynput_keyboard.Listener(on_press=keyboard_callback)
 listener.start()
+
 
 def distance(a: float, b: float):
     return abs(a - b)
 
-def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue) -> tuple[str, str]:
+
+def control_picker(
+    event: ControlEvent, controller_queue: multiprocessing.Queue
+) -> tuple[str, str]:
     """Pick a control for the given control event.
 
     :param ControlEvent event: The control event to pick a control for.
@@ -33,11 +39,11 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
     """
     global new_guid
     global new_key
-    
+
     while controller_queue.empty():
         time.sleep(0.01)
         pass
-    
+
     start_values = controller_queue.get()
     is_button = event.type == "button"
 
@@ -53,12 +59,20 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
                 if new_key != "":
                     break
                 for key, value in values.items():
-                    if "button" in key and value != start_values[guid][key] and is_button:
+                    if (
+                        "button" in key
+                        and value != start_values[guid][key]
+                        and is_button
+                    ):
                         new_key = key
                         new_guid = guid
                         break
-                    
-                    if "axis" in key and distance(start_values[guid][key], value) > 0.1 and not is_button:
+
+                    if (
+                        "axis" in key
+                        and distance(start_values[guid][key], value) > 0.1
+                        and not is_button
+                    ):
                         new_key = key
                         new_guid = guid
                         break
@@ -66,7 +80,12 @@ def control_picker(event: ControlEvent, controller_queue: multiprocessing.Queue)
     if new_key == "":
         SendPopup(_("Timeout, please try again."), "error")
         return "", ""
-    
+
     name = "Keyboard key" if new_guid == "keyboard" else start_values[new_guid]["name"]
-    SendPopup(_("Event bound to {device} {action}").format(device=name, action=new_key.capitalize().replace("_", " ")), "success")
+    SendPopup(
+        _("Event bound to {device} {action}").format(
+            device=name, action=new_key.capitalize().replace("_", " ")
+        ),
+        "success",
+    )
     return new_guid, new_key

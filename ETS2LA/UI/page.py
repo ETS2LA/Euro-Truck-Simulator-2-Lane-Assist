@@ -1,6 +1,7 @@
-from ETS2LA.UI import *
+from ETS2LA.UI import RenderUI
 from enum import Enum
 import time
+
 
 class ETS2LAPageLocation(Enum):
     """
@@ -8,9 +9,11 @@ class ETS2LAPageLocation(Enum):
     than hidden, then you can set the `title` variable to the title
     of the button that will open the page.
     """
+
     SETTINGS = "settings"
     SIDEBAR = "sidebar"
     HIDDEN = "hidden"
+
 
 class ETS2LAPage:
     """This is a base class for all ETS2LA pages.
@@ -22,12 +25,12 @@ class ETS2LAPage:
     :param plugin: A reference to the plugin that spawned this page.
     :param settings: A reference to the settings object of the plugin that spawned this page.
     """
-    
+
     url: str = ""
     last_update_: float = 0
     refresh_rate: int = 0
     need_update: bool = False
-    
+
     plugin: object = None
     """
     A reference to the plugin that spawned this page.
@@ -38,7 +41,7 @@ class ETS2LAPage:
     A reference to the settings object of the plugin that spawned this page.
     If the plugin is disabled, then this object will be None.
     """
-    
+
     location: ETS2LAPageLocation = ETS2LAPageLocation.HIDDEN
     """
     The location of the page. If you use anything other than hidden,
@@ -49,56 +52,63 @@ class ETS2LAPage:
     The title of the page. This is used for the button that opens the page.
     If the page is hidden, then this is ignored.
     """
-    
+
     def __init__(self):
         if "render" not in dir(type(self)):
             raise TypeError("Your page has to have a 'render' method.")
         if self.url == "":
-            raise TypeError("You must set the 'url' variable to the relative URL of the page.")
+            raise TypeError(
+                "You must set the 'url' variable to the relative URL of the page."
+            )
         self._json = {}
         try:
-            self.init() # type: ignore # Might or might not exist.
-        except:
+            self.init()  # type: ignore # Might or might not exist.
+        except Exception:
             pass
-    
+
     def render(self):
         """This method is called when the page is built. Override this method to render the page."""
-        raise NotImplementedError("You must implement the 'render' method in your page class.")
-    
+        raise NotImplementedError(
+            "You must implement the 'render' method in your page class."
+        )
+
     def open_event(self):
         """This method is called when the page is opened. Override this method to handle the open event."""
         pass
-    
+
     def close_event(self):
         """This method is called when the page is closed. Override this method to handle the close event."""
         pass
-    
+
     def reset_timer(self):
         # Trigger a timer reset to make sure the
         # page is rerendered.
         self.need_update = True
-    
+
     def build(self):
         # Some pages only need to be built once.
         if self.refresh_rate == -1 and not self.need_update:
             if self._json:
                 return self._json
-            
+
         # Some pages might not need to be built every time.
         elif self.refresh_rate != 0 and not self.need_update:
             if self.last_update_ + self.refresh_rate > time.perf_counter():
                 return self._json
-            
+
         RenderUI()  # Clear residuals in the UI system
-        self.render() # type: ignore # Might or might not exist.
+        self.render()  # type: ignore # Might or might not exist.
         self._json = RenderUI()
         self.last_update_ = time.perf_counter()
         self.need_update = False
-        
-        self._json.insert(0, {
-            "url": self.url,
-            "location": self.location.value,
-            "title": self.title,
-        })
-        
+
+        self._json.insert(
+            0,
+            {
+                "url": self.url,
+                "location": self.location.value,
+                "title": self.title,
+            },
+        )
+
         return self._json

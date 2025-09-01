@@ -2,7 +2,8 @@ from ETS2LA.Utils.translator import _
 
 # This it the HTML template for the loading screen
 # before we connect to the actual webview.
-html = """
+html = (
+    """
 <html>
     <style>
         body {
@@ -45,7 +46,8 @@ html = """
             <div class="spinner"></div>
         </div>
     </body>
-</html>""""""
+</html>"""
+    """
 <html>
     <style>
         body {
@@ -81,4 +83,8 @@ html = """
         animation: spinner .6s linear infinite;
     }
 </html>
-""".replace("Please wait while we initialize the user interface", _("Please wait while we initialize the user interface"))
+""".replace(
+        "Please wait while we initialize the user interface",
+        _("Please wait while we initialize the user interface"),
+    )
+)

@@ -16,6 +16,7 @@ sounddevice
 matplotlib
 pypresence
 setuptools
+pre-commit
 screeninfo
 gitpython
 dearpygui

@@ -12,7 +12,7 @@ numpad_mapping = {
     103: "Num 7",
     104: "Num 8",
     105: "Num 9",
-    110: "Num ."
+    110: "Num .",
 }
 
 special_key_mapping = {
@@ -62,12 +62,13 @@ special_key_mapping = {
     pynput_keyboard.Key.media_volume_mute: "Media Volume Mute",
 }
 
+
 def key_to_str(key):
-    if hasattr(key, 'vk') and key.vk in numpad_mapping:
+    if hasattr(key, "vk") and key.vk in numpad_mapping:
         return numpad_mapping[key.vk]
     elif key in special_key_mapping:
         return special_key_mapping[key]
-    elif hasattr(key, 'char') and key.char is not None:
+    elif hasattr(key, "char") and key.char is not None:
         return key.char
     else:
         return str(key)

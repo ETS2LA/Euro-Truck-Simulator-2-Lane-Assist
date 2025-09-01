@@ -1,6 +1,7 @@
 from ETS2LA.Utils.translator import _
-from ETS2LA.Utils.Console.colors import *
+from ETS2LA.Utils.Console.colors import DARK_GRAY, END, RED, YELLOW, GREEN
 import os
+
 
 def ClearLogFiles(folder="logs"):
     if not os.path.exists(folder):
@@ -10,14 +11,17 @@ def ClearLogFiles(folder="logs"):
             try:
                 os.remove(os.path.join(folder, file))
             except Exception as e:
-                print(f"{RED}{_('Error removing log files. Probably another running ETS2LA instance. Please close it and try again.')}\n{END}{file} - {e}")
+                print(
+                    f"{RED}{_('Error removing log files. Probably another running ETS2LA instance. Please close it and try again.')}\n{END}{file} - {e}"
+                )
                 raise e
+
 
 def CountErrorsAndWarnings(folder="logs"):
     print("\n" + _("Errors and warnings in the log files:"))
     if not os.path.exists(folder):
         os.makedirs(folder)
-    
+
     count = 0
     for file in os.listdir(folder):
         if file.endswith(".log"):
@@ -35,6 +39,6 @@ def CountErrorsAndWarnings(folder="logs"):
                     print(f"{DARK_GRAY}│{YELLOW} {_('Warnings: ')} {warnings} {END}")
                 if errors != 0 or warnings != 0:
                     print(f"{DARK_GRAY}└───{END}")
-                    
+
     if count == 0:
         print(f"{GREEN}{_('No errors or warnings found.')}{END}")

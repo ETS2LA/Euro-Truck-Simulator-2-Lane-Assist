@@ -1,5 +1,6 @@
 import asyncio
 
+
 class WebSocketConnection:
     def __init__(self, websocket):
         self.websocket = websocket

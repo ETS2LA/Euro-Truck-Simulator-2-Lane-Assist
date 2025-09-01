@@ -1,6 +1,7 @@
+from Plugins.AR.classes import Point, Rectangle, Color, Text
 from Plugins.HUD.classes import HUDWidget
 from ETS2LA.Utils.translator import _
-from Plugins.AR.classes import *
+
 
 class Widget(HUDWidget):
     name = _("Income")
@@ -39,12 +40,12 @@ class Widget(HUDWidget):
                 Point(10 + offset_x, 8, anchor=self.plugin.anchor),
                 text=income_text,
                 color=Color(255, 255, 255, 200),
-                size=23
+                size=23,
             ),
             Text(
-                Point(width-50 + offset_x, height-20, anchor=self.plugin.anchor),
+                Point(width - 50 + offset_x, height - 20, anchor=self.plugin.anchor),
                 text=_("Job Income"),
                 color=Color(255, 255, 255, 200),
-                size=14
-            )
+                size=14,
+            ),
         ]

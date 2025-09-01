@@ -1,5 +1,5 @@
 from ETS2LA.Utils import settings
-from ETS2LA.Module import *
+from ETS2LA.Module import ETS2LAModule
 import platform
 import struct
 import mmap
@@ -8,11 +8,18 @@ import time
 import os
 
 fallback_acceleration = settings.Get("global", "acceleration_fallback", default=True)
+
+
 def update_fallback_acceleration(dictionary: dict):
     global fallback_acceleration
-    fallback_acceleration = dictionary.get("acceleration_fallback", fallback_acceleration)
-    
+    fallback_acceleration = dictionary.get(
+        "acceleration_fallback", fallback_acceleration
+    )
+
+
 settings.Listen("global", update_fallback_acceleration)
+
+
 class SCSController:
     MEM_NAME = r"Local\SCSControls"
     INPUT_MEM_NAME = r"Local\ETS2LAPluginInput"
@@ -314,20 +321,29 @@ class SCSController:
         system = platform.system()
         if system == "Windows":
             self._shm_buff = mmap.mmap(0, shm_size, self.MEM_NAME)
-            try: self._input_buff = mmap.mmap(0, 19, self.INPUT_MEM_NAME)
-            except:
+            try:
+                self._input_buff = mmap.mmap(0, 19, self.INPUT_MEM_NAME)
+            except Exception:
                 self._input_buff = None
-                print("WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!")
-                    
+                print(
+                    "WARNING: Could not find ETS2LAPlugin. Please run the SDK setup again in the settings!"
+                )
+
         elif system == "Linux":
             try:
                 self._shm_fd = open(self.SHM_FILE, "rb+")
-            except:
-                raise RuntimeError(f"ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)") #Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
+            except Exception:
+                raise RuntimeError(
+                    "ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)"
+                )  # Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
             try:
-                if os.name != "nt": # silence typeright
-                    self._shm_buff = mmap.mmap(self._shm_fd.fileno(), length=shm_size,
-                                            flags=mmap.MAP_SHARED, access=mmap.ACCESS_WRITE)
+                if os.name != "nt":  # silence typeright
+                    self._shm_buff = mmap.mmap(
+                        self._shm_fd.fileno(),
+                        length=shm_size,
+                        flags=mmap.MAP_SHARED,
+                        access=mmap.ACCESS_WRITE,
+                    )
             except Exception as e:
                 self._shm_fd.close()
                 raise e
@@ -387,7 +403,7 @@ class SCSController:
                 self._input_buff.write(struct.pack("l", math.floor(time.time())))
                 self._input_buff.flush()
                 return
-            
+
         if self._input_buff and key == "abackward" and not fallback_acceleration:
             if self._input_buff is not None:
                 self._input_buff.seek(10)
@@ -398,7 +414,7 @@ class SCSController:
                 self._input_buff.write(struct.pack("l", math.floor(time.time())))
                 self._input_buff.flush()
                 return
-        
+
         if key == "steering":
             if self._input_buff:
                 self._input_buff.seek(0)
@@ -425,6 +441,7 @@ class SCSController:
 
         self._shm_buff.flush()
 
+
 class Module(ETS2LAModule):
     def imports(self):
         global np, sys, cv2, os, Dict
@@ -435,14 +452,13 @@ class Module(ETS2LAModule):
 
         from typing import Dict
 
-
         # https://docs.python.org/3/whatsnew/3.7.html
         # the insertion-order preservation nature of dict objects has
         # been declared to be an official part of the Python language spec.
         assert sys.version_info >= (3, 7)
-        
+
     def SCSController(self):
         return SCSController()
-    
+
     def run(self):
         pass

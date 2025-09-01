@@ -4,3 +4,14 @@ from ETS2LA.Plugin.classes.settings import Settings
 from ETS2LA.Plugin.classes.author import Author
 
 from ETS2LA.Plugin.message import PluginMessage, State, Channel
+
+__all__ = [
+    "Global",
+    "PluginDescription",
+    "ETS2LAPlugin",
+    "Settings",
+    "Author",
+    "PluginMessage",
+    "State",
+    "Channel",
+]

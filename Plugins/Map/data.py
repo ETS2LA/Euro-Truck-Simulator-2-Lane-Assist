@@ -1,4 +1,14 @@
-from Plugins.Map.classes import MapData, Road, Prefab, Position, Model, City, CompanyItem, Trigger, Elevation
+from Plugins.Map.classes import (
+    MapData,
+    Road,
+    Prefab,
+    Position,
+    Model,
+    City,
+    CompanyItem,
+    Trigger,
+    Elevation,
+)
 from Modules.SDKController.main import SCSController
 from Plugins.Map.route.classes import RouteSection
 import ETS2LA.Utils.settings as settings
@@ -83,7 +93,7 @@ last_navigation_update: float = 0
 """The last time the navigation plan was updated."""
 last_sound_played: float = 0
 """The last time a sound was played."""
-sound_play_interval: float = 10 # seconds
+sound_play_interval: float = 10  # seconds
 """The interval between each sound play."""
 frames_off_path: int = 0
 """How many frames the truck has been off the path."""
@@ -127,7 +137,7 @@ export_road_offsets = settings.Get("Map", "ExportRoadOffsets", False)
 """Whether to export the road offsets at startup. Only works in development mode."""
 disable_fps_notices = settings.Get("Map", "DisableFPSNotices", False)
 """Whether to disable the FPS notices or not."""
-override_lane_offsets= settings.Get("Map", "Override Lane Offsets", False)
+override_lane_offsets = settings.Get("Map", "Override Lane Offsets", False)
 """Whether to override the existing lane offsets or not."""
 use_auto_offset_data = settings.Get("Map", "UseAutoOffsetData", False)
 """Whether to use the auto offset data or not. This will use the offsets from the game instead of the ones calculated by the plugin."""
@@ -150,11 +160,21 @@ external_data_changed = False
 update_navigation_plan = False
 """Whether we should calculate a new plan to drive to the destination."""
 
+
 # MARK: Update functions
 def UpdateData(api_data):
     global heavy_calculations_this_frame
     global truck_speed, truck_x, truck_y, truck_z, truck_rotation
-    global current_sector_x, current_sector_y, current_sector_prefabs, current_sector_triggers, current_sector_roads, last_sector, current_sector_models, current_sectors, current_sector_elevations
+    global \
+        current_sector_x, \
+        current_sector_y, \
+        current_sector_prefabs, \
+        current_sector_triggers, \
+        current_sector_roads, \
+        last_sector, \
+        current_sector_models, \
+        current_sectors, \
+        current_sector_elevations
     global truck_indicating_left, truck_indicating_right
     global external_data, data_needs_update, external_data_changed, external_data_time
     global dest_city, dest_company, dest_city_token, dest_company_token
@@ -162,26 +182,32 @@ def UpdateData(api_data):
     global sector_center_x, sector_center_y
 
     heavy_calculations_this_frame = 0
-    
+
     truck_indicating_left = api_data["truckBool"]["blinkerLeftActive"]
     truck_indicating_right = api_data["truckBool"]["blinkerRightActive"]
-    
+
     truck_speed = api_data["truckFloat"]["speed"]
-    
+
     truck_x = api_data["truckPlacement"]["coordinateX"]
     truck_y = api_data["truckPlacement"]["coordinateY"]
     truck_z = api_data["truckPlacement"]["coordinateZ"]
-    
-    current_sector_x, current_sector_y = map.get_sector_from_coordinates(truck_x, truck_z)
-    sector_center_x, sector_center_y = map.get_world_center_for_sector((current_sector_x, current_sector_y))
-    
+
+    current_sector_x, current_sector_y = map.get_sector_from_coordinates(
+        truck_x, truck_z
+    )
+    sector_center_x, sector_center_y = map.get_world_center_for_sector(
+        (current_sector_x, current_sector_y)
+    )
+
     plugin.globals.tags.sector_center = (sector_center_x, sector_center_y)
-    
+
     if (current_sector_x, current_sector_y) != last_sector:
         last_sector = (current_sector_x, current_sector_y)
-        sectors_to_load = map.get_sectors_for_coordinate_and_distance(truck_x, truck_z, load_distance)
+        sectors_to_load = map.get_sectors_for_coordinate_and_distance(
+            truck_x, truck_z, load_distance
+        )
         current_sectors = sectors_to_load
-        
+
         current_sector_prefabs = []
         current_sector_roads = []
         current_sector_models = []
@@ -193,7 +219,7 @@ def UpdateData(api_data):
             current_sector_models += map.get_sector_models_by_sector(sector)
             current_sector_elevations += map.get_sector_elevations_by_sector(sector)
             current_sector_triggers += map.get_sector_triggers_by_sector(sector)
-        
+
         data_needs_update = True
 
     if data_needs_update:
@@ -201,18 +227,21 @@ def UpdateData(api_data):
             "prefabs": [prefab.json() for prefab in current_sector_prefabs],
             "roads": [road.json() for road in current_sector_roads],
             "models": [model.json() for model in current_sector_models],
-            "elevations": [elevation.json() for elevation in current_sector_elevations] if send_elevation_data else []
+            "elevations": [elevation.json() for elevation in current_sector_elevations]
+            if send_elevation_data
+            else [],
         }
-        
+
         external_data_changed = True
         external_data_time = time.perf_counter()
         data_needs_update = False
-    
+
     rotationX = api_data["truckPlacement"]["rotationX"]
     angle = rotationX * 360
-    if angle < 0: angle = 360 + angle
+    if angle < 0:
+        angle = 360 + angle
     truck_rotation = math.radians(angle)
-    
+
     dst_city_token = api_data["configString"]["cityDstId"]
     dst_company_token = api_data["configString"]["compDstId"]
     if dst_city_token != dest_city_token:
@@ -221,8 +250,10 @@ def UpdateData(api_data):
 
     if dst_company_token != dest_company_token:
         dest_company_token = dst_company_token
-        dest_company = map.get_company_item_by_token_and_city(dst_company_token, dst_city_token)
-        
+        dest_company = map.get_company_item_by_token_and_city(
+            dst_company_token, dst_city_token
+        )
+
     if not drive_based_on_trailer:
         trailer_attached = False
     else:
@@ -237,8 +268,8 @@ def UpdateData(api_data):
             trailer_y = trailer["comDouble"]["worldY"]
             trailer_z = trailer["comDouble"]["worldZ"]
             trailer_attached = True
-    
-    
+
+
 def UpdateSettings(settings: dict):
     global internal_map, calculate_steering, sector_size, use_navigation
     global auto_accept_threshold, auto_deny_threshold, load_distance
@@ -262,5 +293,6 @@ def UpdateSettings(settings: dict):
 
     global data_needs_update
     data_needs_update = True
-    
+
+
 settings.Listen("Map", UpdateSettings)

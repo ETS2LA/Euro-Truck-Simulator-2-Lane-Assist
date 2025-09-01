@@ -1,9 +1,8 @@
+from Plugins.AR.classes import Point, Rectangle, Color, Text
 from ETS2LA.Utils.Values.text import ScrollingText
 from Plugins.HUD.classes import HUDWidget
-from PIL import Image, ImageDraw, ImageFont
 from ETS2LA.Utils.translator import _
 import Plugins.AR.text as ARText
-from Plugins.AR.classes import *
 import threading
 import datetime
 import logging
@@ -13,11 +12,16 @@ import os
 font = ARText.get_font_only()
 
 if os.name == "nt":
-    from winsdk.windows.media.control import GlobalSystemMediaTransportControlsSessionManager as MediaManager
+    from winsdk.windows.media.control import (
+        GlobalSystemMediaTransportControlsSessionManager as MediaManager,
+    )
+
 
 class Widget(HUDWidget):
     name = _("Media")
-    description = _("Displays media information such as song title, artist and playback progress.")
+    description = _(
+        "Displays media information such as song title, artist and playback progress."
+    )
     fps = 2
 
     title = ScrollingText(_("No Media Playing"), max_width=20)
@@ -26,17 +30,19 @@ class Widget(HUDWidget):
     def __init__(self, plugin):
         super().__init__(plugin)
         threading.Thread(target=self.run_media_thread, daemon=True).start()
-    
+
     def settings(self):
         return super().settings()
-    
+
     async def media_info_thread(self):
         while True:
             try:
                 media_manager = await MediaManager.request_async()
                 current_session = media_manager.get_current_session()
                 if current_session:
-                    media_properties = await current_session.try_get_media_properties_async()
+                    media_properties = (
+                        await current_session.try_get_media_properties_async()
+                    )
                     playback_info = current_session.get_timeline_properties()
                     if media_properties and playback_info:
                         self.media_info = {
@@ -44,20 +50,20 @@ class Widget(HUDWidget):
                             "artist": media_properties.artist.split("—")[0],
                             "start": playback_info.start_time,
                             "end": playback_info.end_time,
-                            "position": playback_info.position
+                            "position": playback_info.position,
                         }
                 else:
                     self.media_info = {}
             except Exception as e:
                 logging.exception(f"Error fetching media info: {e}")
                 self.media_info = {}
-                
+
             await asyncio.sleep(5)
 
     def run_media_thread(self):
         """Run the media info thread in its own event loop"""
         asyncio.run(self.media_info_thread())
-        
+
     def draw(self, offset_x, width, height=50):
         if not self.plugin.data:
             return
@@ -73,17 +79,17 @@ class Widget(HUDWidget):
 
         total_width = font.getbbox(title)[2] - font.getbbox(title)[0]
         per_character_width = total_width / len(title) if title else 1
-        max_title_length = round((width - 10) / (per_character_width * (16/64)))
-        max_artist_length = round((width - 10) / (per_character_width * (14/64)))
-        
+        max_title_length = round((width - 10) / (per_character_width * (16 / 64)))
+        max_artist_length = round((width - 10) / (per_character_width * (14 / 64)))
+
         self.title.max_width = max_title_length
         self.artist.max_width = max_artist_length
-        
-        # Start and end are datetime.timedelta    
+
+        # Start and end are datetime.timedelta
         start = self.media_info.get("start", 0)
         end = self.media_info.get("end", 0)
         position = self.media_info.get("position", 0)
-        
+
         if isinstance(start, (int, float)):
             start = datetime.timedelta(seconds=start)
         if isinstance(end, (int, float)):
@@ -113,12 +119,12 @@ class Widget(HUDWidget):
                 Point(10 + offset_x, 8, anchor=self.plugin.anchor),
                 text=self.title.get(),
                 color=Color(255, 255, 255, 200),
-                size=16
+                size=16,
             ),
             Text(
-                Point(10 + offset_x, height-22, anchor=self.plugin.anchor),
+                Point(10 + offset_x, height - 22, anchor=self.plugin.anchor),
                 text=self.artist.get(),
                 color=Color(255, 255, 255, 200),
-                size=14
-            )
+                size=14,
+            ),
         ]

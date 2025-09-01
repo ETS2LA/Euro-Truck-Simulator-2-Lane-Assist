@@ -1,0 +1,25 @@
+[project]
+name = "ETS2LA"
+description = "Plugin based self driving program for ETS2 and ATS."
+readme = "README.md"
+version = "0.3.1"
+
+# Automatically handled by uv
+requires-python = "==3.12.*"
+dependencies = [
+
+]
+
+authors = [
+  {name = "Tumppi066", email = "contact@ets2la.com"},
+  {name = "ETS2LA Contributors"}
+]
+
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+keywords = ["ETS", "ATS", "Self Driving", "Plugin"]
+
+[project.urls]
+Homepage = "https://ets2la.com"
+Documentation = "https://ets2la.com/developers"
+Repository = "https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist"

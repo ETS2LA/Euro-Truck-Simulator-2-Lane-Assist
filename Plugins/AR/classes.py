@@ -7,14 +7,16 @@ import sys
 sys.path.append(f"{variables.PATH}ETS2LA/Assets/CppUtils/ets2la_AR")
 ets2la_AR_imported = False
 try:
-    import ets2la_AR
+    import ets2la_AR  # type: ignore - This one might or might not be found, so we want typing to ignore it.
+
     ets2la_AR_imported = True
-except:
+except Exception:
     # print(f"WARNING: Could not import ets2la_AR from the CppUtils! Doing calculations in Python instead.")
     ...
 
+
 def ConvertCoordinateToScreen(coordinate, self):
-    if type(coordinate) != Coordinate:
+    if not isinstance(coordinate, Coordinate):
         return None
 
     if ets2la_AR_imported:
@@ -40,16 +42,15 @@ def ConvertCoordinateToScreen(coordinate, self):
             self.WindowPosition[2],
             self.WindowPosition[3],
             coordinate.relative,
-            coordinate.rotation_relative
+            coordinate.rotation_relative,
         )
 
-        if screen_x is None: # cant return single None in c++
+        if screen_x is None:  # cant return single None in c++
             return None
 
         return screen_x, screen_y, distance
 
     else:
-
         X = coordinate.x
         Y = coordinate.y
         Z = coordinate.z
@@ -65,8 +66,12 @@ def ConvertCoordinateToScreen(coordinate, self):
             RelativeY = Y
             RelativeZ = Z
 
-            if abs(self.HeadX - self.InsideHeadX) > 3 or abs(self.HeadY - self.InsideHeadY) > 1 or abs(self.HeadZ - self.InsideHeadZ) > 3:
-                return None # TODO: Implement relative coordinates for other cameras
+            if (
+                abs(self.HeadX - self.InsideHeadX) > 3
+                or abs(self.HeadY - self.InsideHeadY) > 1
+                or abs(self.HeadZ - self.InsideHeadZ) > 3
+            ):
+                return None  # TODO: Implement relative coordinates for other cameras
 
             if coordinate.rotation_relative:
                 # Rotate the points around the head (0, 0, 0)
@@ -80,8 +85,8 @@ def ConvertCoordinateToScreen(coordinate, self):
                 NewX = RelativeX * CosYaw + NewZ * SinYaw
                 NewZ = NewZ * CosYaw - RelativeX * SinYaw
 
-                CosRoll = math.cos(math.radians(0))#-CabinOffsetRotationDegreesZ))
-                SinRoll = math.sin(math.radians(0))#-CabinOffsetRotationDegreesZ))
+                CosRoll = math.cos(math.radians(0))  # -CabinOffsetRotationDegreesZ))
+                SinRoll = math.sin(math.radians(0))  # -CabinOffsetRotationDegreesZ))
                 FinalX = NewX * CosRoll - NewY * SinRoll
                 FinalY = NewY * CosRoll + NewX * SinRoll
 
@@ -113,35 +118,56 @@ def ConvertCoordinateToScreen(coordinate, self):
 
         FovRad = math.radians(self.FOV)
 
-        WindowDistance = ((self.WindowPosition[3] - self.WindowPosition[1]) * (4 / 3) / 2) / math.tan(FovRad / 2)
+        WindowDistance = (
+            (self.WindowPosition[3] - self.WindowPosition[1]) * (4 / 3) / 2
+        ) / math.tan(FovRad / 2)
 
-        ScreenX = (FinalX / FinalZ) * WindowDistance + (self.WindowPosition[2] - self.WindowPosition[0]) / 2
-        ScreenY = (FinalY / FinalZ) * WindowDistance + (self.WindowPosition[3] - self.WindowPosition[1]) / 2
+        ScreenX = (FinalX / FinalZ) * WindowDistance + (
+            self.WindowPosition[2] - self.WindowPosition[0]
+        ) / 2
+        ScreenY = (FinalY / FinalZ) * WindowDistance + (
+            self.WindowPosition[3] - self.WindowPosition[1]
+        ) / 2
 
         ScreenX = (self.WindowPosition[2] - self.WindowPosition[0]) - ScreenX
 
-        Distance = math.sqrt((RelativeX ** 2) + (RelativeY ** 2) + (RelativeZ ** 2))
+        Distance = math.sqrt((RelativeX**2) + (RelativeY**2) + (RelativeZ**2))
 
         return ScreenX, ScreenY, Distance
+
 
 def get_object_from_dict(dictionary: dict):
     if "type" not in dictionary:
         raise ValueError("Dictionary does not contain 'type' key.")
-    
+
     object_type = dictionary["type"]
     if object_type == "Point":
-        return Point(dictionary["x"], dictionary["y"], anchor=get_object_from_dict(dictionary["anchor"]) if dictionary["anchor"] else None)
+        return Point(
+            dictionary["x"],
+            dictionary["y"],
+            anchor=get_object_from_dict(dictionary["anchor"])
+            if dictionary["anchor"]
+            else None,
+        )
     elif object_type == "Coordinate":
-        return Coordinate(dictionary["x"], dictionary["y"], dictionary["z"], relative=dictionary.get("relative", False), rotation_relative=dictionary.get("rotation_relative", False))
+        return Coordinate(
+            dictionary["x"],
+            dictionary["y"],
+            dictionary["z"],
+            relative=dictionary.get("relative", False),
+            rotation_relative=dictionary.get("rotation_relative", False),
+        )
     elif object_type == "Fade":
         return Fade(
             prox_fade_end=dictionary["prox_fade_end"],
             prox_fade_start=dictionary["prox_fade_start"],
             dist_fade_start=dictionary["dist_fade_start"],
-            dist_fade_end=dictionary["dist_fade_end"]
+            dist_fade_end=dictionary["dist_fade_end"],
         )
     elif object_type == "Color":
-        return Color(dictionary["r"], dictionary["g"], dictionary["b"], dictionary.get("a", 255))
+        return Color(
+            dictionary["r"], dictionary["g"], dictionary["b"], dictionary.get("a", 255)
+        )
     elif object_type == "Rectangle":
         return Rectangle(
             start=get_object_from_dict(dictionary["start"]),
@@ -151,7 +177,7 @@ def get_object_from_dict(dictionary: dict):
             thickness=dictionary["thickness"],
             fade=get_object_from_dict(dictionary["fade"]),
             custom_distance=dictionary.get("custom_distance", None),
-            rounding=dictionary.get("rounding", 0.0)
+            rounding=dictionary.get("rounding", 0.0),
         )
     elif object_type == "Line":
         return Line(
@@ -160,12 +186,19 @@ def get_object_from_dict(dictionary: dict):
             color=get_object_from_dict(dictionary["color"]),
             thickness=dictionary["thickness"],
             fade=get_object_from_dict(dictionary["fade"]),
-            custom_distance=dictionary.get("custom_distance", None)
+            custom_distance=dictionary.get("custom_distance", None),
         )
     elif object_type == "Polygon":
         points = [get_object_from_dict(point) for point in dictionary["points"]]
-        return Polygon(points=points, color=get_object_from_dict(dictionary["color"]), thickness=dictionary["thickness"], fill=get_object_from_dict(dictionary["fill"]),
-                       closed=dictionary.get("closed", True), fade=get_object_from_dict(dictionary["fade"]), custom_distance=dictionary.get("custom_distance", None))
+        return Polygon(
+            points=points,
+            color=get_object_from_dict(dictionary["color"]),
+            thickness=dictionary["thickness"],
+            fill=get_object_from_dict(dictionary["fill"]),
+            closed=dictionary.get("closed", True),
+            fade=get_object_from_dict(dictionary["fade"]),
+            custom_distance=dictionary.get("custom_distance", None),
+        )
     elif object_type == "Circle":
         return Circle(
             center=get_object_from_dict(dictionary["center"]),
@@ -174,7 +207,7 @@ def get_object_from_dict(dictionary: dict):
             fill=get_object_from_dict(dictionary["fill"]),
             thickness=dictionary["thickness"],
             fade=get_object_from_dict(dictionary["fade"]),
-            custom_distance=dictionary.get("custom_distance", None)
+            custom_distance=dictionary.get("custom_distance", None),
         )
     elif object_type == "Text":
         return Text(
@@ -183,7 +216,7 @@ def get_object_from_dict(dictionary: dict):
             color=get_object_from_dict(dictionary["color"]),
             size=dictionary["size"],
             fade=get_object_from_dict(dictionary["fade"]),
-            custom_distance=dictionary.get("custom_distance", None)
+            custom_distance=dictionary.get("custom_distance", None),
         )
     elif object_type == "Bezier":
         return Bezier(
@@ -195,67 +228,70 @@ def get_object_from_dict(dictionary: dict):
             thickness=dictionary["thickness"],
             segments=dictionary["segments"],
             custom_distance=dictionary.get("custom_distance", None),
-            fade=get_object_from_dict(dictionary["fade"])
+            fade=get_object_from_dict(dictionary["fade"]),
         )
     else:
         logging.error(f"Unknown object type: {object_type}")
         return None
-        
+
+
 class Point:
     """Representation of a 2D point.
 
     :param float x: The x-coordinate of the point.
     :param float y: The y-coordinate of the point.
     :param Coordinate anchor: The anchor coordinate of the point. The point will be an offset to the 3D coordinate.
-    
+
     Usage:
     >>> point = Point(1, 2)
     >>> point = Point(*list)
     >>> point = Point(1, 2, anchor=Coordinate(3, 4, 5))
     """
+
     x: float
     y: float
     anchor = None
-    
-    def __init__(self, x: float, y: float, anchor = None):
+
+    def __init__(self, x: float, y: float, anchor=None):
         self.x = x
         self.y = y
         self.anchor = anchor
-        
+
     def tuple(self):
         return (self.x, self.y)
 
     def screen(self, plugin):
-        if type(self.anchor) == Coordinate:
+        if isinstance(self.anchor, Coordinate):
             anchor = self.anchor.screen(plugin)
             if anchor is None:
                 return None
-            
+
             point = anchor[:2]
             return point[0] + self.x, point[1] + self.y
-            
+
         return (self.x, self.y)
-    
+
     def json(self):
         return {
             "type": "Point",
-            "x": self.x, 
+            "x": self.x,
             "y": self.y,
-            "anchor": self.anchor.json() if self.anchor else None
+            "anchor": self.anchor.json() if self.anchor else None,
         }
 
 
 class Coordinate:
     """Representation of a 3D coordinate.
-    
+
     :param float x: The x-coordinate of the point.
     :param float y: The y-coordinate of the point.
     :param float z: The z-coordinate of the point.
-    
+
     Usage:
     >>> Coordinate = Coordinate(1, 2, 3)
     >>> Coordinate = Coordinate(*list)
     """
+
     x: float
     y: float
     z: float
@@ -263,48 +299,55 @@ class Coordinate:
     """Tells AR to render the point relative to the current head position."""
     rotation_relative: bool = False
     """Tells AR to rotate the object relative to the head. This way X is right left, Y is up down and Z is forward backward."""
-    
-    def __init__(self, x: float, y: float, z: float, relative: bool = False, rotation_relative: bool = False):
+
+    def __init__(
+        self,
+        x: float,
+        y: float,
+        z: float,
+        relative: bool = False,
+        rotation_relative: bool = False,
+    ):
         self.x = x
         self.y = y
         self.z = z
         self.relative = relative
         self.rotation_relative = rotation_relative
-        
+
     def tuple(self):
         return (self.x, self.y, self.z)
-    
+
     def screen(self, plugin):
         return ConvertCoordinateToScreen(self, plugin)
-    
+
     def get_distance_to(self, x, y, z):
         return ((self.x - x) ** 2 + (self.y - y) ** 2 + (self.z - z) ** 2) ** 0.5
-    
-    def json(self): 
+
+    def json(self):
         return {
             "type": "Coordinate",
-            "x": self.x, 
-            "y": self.y, 
+            "x": self.x,
+            "y": self.y,
             "z": self.z,
             "relative": self.relative,
-            "rotation_relative": self.rotation_relative
+            "rotation_relative": self.rotation_relative,
         }
-    
+
     def __str__(self):
         return f"Coordinate({self.x}, {self.y}, {self.z})"
-    
+
     def __add__(self, other):
         return Coordinate(self.x + other.x, self.y + other.y, self.z + other.z)
-    
+
     def __sub__(self, other):
         return Coordinate(self.x - other.x, self.y - other.y, self.z - other.z)
-    
+
     def __mul__(self, other):
         return Coordinate(self.x * other, self.y * other, self.z * other)
-    
+
     def __truediv__(self, other):
         return Coordinate(self.x / other, self.y / other, self.z / other)
-    
+
 
 class Fade:
     """A fade effect applied to a renderable 3D object. 2D objects are not affected.
@@ -314,52 +357,62 @@ class Fade:
     :param float dist_fade_start: The distance at which the distance fade starts (opacity starts to decrease).
     :param float dist_fade_end: The distance at which the distance fade ends (opacity is 0).
     """
+
     prox_fade_end: float = 10
     prox_fade_start: float = 30
     dist_fade_start: float = 150
     dist_fade_end: float = 170
-    
-    def __init__(self,
-                 prox_fade_end: float = 10,
-                 prox_fade_start: float = 30,
-                 dist_fade_start: float = 150,
-                 dist_fade_end: float = 170):
-            self.prox_fade_end = prox_fade_end
-            self.prox_fade_start = prox_fade_start
-            self.dist_fade_start = dist_fade_start
-            self.dist_fade_end = dist_fade_end
-            
+
+    def __init__(
+        self,
+        prox_fade_end: float = 10,
+        prox_fade_start: float = 30,
+        dist_fade_start: float = 150,
+        dist_fade_end: float = 170,
+    ):
+        self.prox_fade_end = prox_fade_end
+        self.prox_fade_start = prox_fade_start
+        self.dist_fade_start = dist_fade_start
+        self.dist_fade_end = dist_fade_end
+
     def json(self):
         return {
             "type": "Fade",
             "prox_fade_end": self.prox_fade_end,
             "prox_fade_start": self.prox_fade_start,
             "dist_fade_start": self.dist_fade_start,
-            "dist_fade_end": self.dist_fade_end
+            "dist_fade_end": self.dist_fade_end,
         }
-        
+
     def tuple(self):
-        return (self.prox_fade_end, self.prox_fade_start, self.dist_fade_start, self.dist_fade_end)
+        return (
+            self.prox_fade_end,
+            self.prox_fade_start,
+            self.dist_fade_start,
+            self.dist_fade_end,
+        )
+
 
 class Color:
     """A color with r,g,b and a values.
 
     :param int r: The red value of the color.
-    :param int g: The green value of the color. 
+    :param int g: The green value of the color.
     :param int b: The blue value of the color.
     :param int a: The alpha value of the color.
-    
+
     Usage:
     >>> color = Color(255, 255, 255) # a = 255
     >>> color = Color(255, 255, 255, 150)
     >>> color = Color(*list)
     """
+
     r: int
     g: int
     b: int
     a: int
     am: float
-    
+
     def __init__(self, r: int, g: int, b: int, a: int = 255):
         self.r = r
         self.g = g
@@ -369,15 +422,9 @@ class Color:
 
     def tuple(self):
         return (self.r, self.g, self.b, self.a * self.am)
-    
+
     def json(self):
-        return {
-            "type": "Color",
-            "r": self.r, 
-            "g": self.g, 
-            "b": self.b, 
-            "a": self.a
-        }
+        return {"type": "Color", "r": self.r, "g": self.g, "b": self.b, "a": self.a}
 
 
 class Rectangle:
@@ -390,11 +437,12 @@ class Rectangle:
     :param int thickness: The thickness of the rectangle.
     :param Fade fade: The fade effect applied to the rectangle. (Only affects 3D objects)
     :param float custom_distance: A custom distance to be used for fade calculations
-    
+
     Usage:
     >>> rect = Rectangle(Point(1, 2), Point(3, 4))
     >>> rect = Rectangle(Coordinate(1, 2, 3), Coordinate(4, 5, 6))
     """
+
     start: Point | Coordinate
     end: Point | Coordinate
     rounding: float = 0.0
@@ -403,16 +451,18 @@ class Rectangle:
     thickness: int = 1
     fade: Fade = Fade()
     custom_distance: float | None = None
-    
-    def __init__(self, 
-                 start: Point | Coordinate, 
-                 end: Point | Coordinate, 
-                 color: Color = Color(255, 255, 255, 255), 
-                 fill: Color = Color(0, 0, 0, 0), 
-                 thickness: int = 1,
-                 fade: Fade = Fade(),
-                 custom_distance: float = None,
-                 rounding: float = 0.0):
+
+    def __init__(
+        self,
+        start: Point | Coordinate,
+        end: Point | Coordinate,
+        color: Color = Color(255, 255, 255, 255),
+        fill: Color = Color(0, 0, 0, 0),
+        thickness: int = 1,
+        fade: Fade = Fade(),
+        custom_distance: float = None,
+        rounding: float = 0.0,
+    ):
         self.start = start
         self.end = end
         self.rounding = rounding
@@ -421,19 +471,27 @@ class Rectangle:
         self.thickness = thickness
         self.fade = fade
         self.custom_distance = custom_distance
-        
+
     def is_3D(self):
         return isinstance(self.start, Coordinate)
-    
+
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            start_distance = self.start.get_distance_to(x, y, z) if not self.start.relative else self.start.get_distance_to(0, 0, 0)
-            end_distance = self.end.get_distance_to(x, y, z) if not self.end.relative else self.end.get_distance_to(0, 0, 0)
+            start_distance = (
+                self.start.get_distance_to(x, y, z)
+                if not self.start.relative
+                else self.start.get_distance_to(0, 0, 0)
+            )
+            end_distance = (
+                self.end.get_distance_to(x, y, z)
+                if not self.end.relative
+                else self.end.get_distance_to(0, 0, 0)
+            )
             return (start_distance + end_distance) / 2
         return 0
-        
+
     def json(self):
         return {
             "type": "Rectangle",
@@ -444,10 +502,10 @@ class Rectangle:
             "thickness": self.thickness,
             "fade": self.fade.json(),
             "custom_distance": self.custom_distance,
-            "rounding": self.rounding
+            "rounding": self.rounding,
         }
-        
-        
+
+
 class Line:
     """A 2D line. Can also be rendered between 3D coordinates.
 
@@ -457,43 +515,54 @@ class Line:
     :param int thickness: The thickness of the line.
     :param Fade fade: The fade effect applied to the line. (Only affects 3D objects)
     :param float custom_distance: A custom distance to be used for fade calculations
-    
+
     Usage:
     >>> line = Line(Point(1, 2), Point(3, 4))
     """
+
     start: Point | Coordinate
     end: Point | Coordinate
     color: Color = Color(255, 255, 255, 255)
     thickness: int = 1
     fade: Fade = Fade()
     custom_distance: float | None = None
-    
-    def __init__(self, 
-                 start: Point | Coordinate, 
-                 end: Point | Coordinate, 
-                 color: Color = Color(255, 255, 255, 255), 
-                 thickness: int = 1,
-                 fade: Fade = Fade(),
-                 custom_distance: float = None):
+
+    def __init__(
+        self,
+        start: Point | Coordinate,
+        end: Point | Coordinate,
+        color: Color = Color(255, 255, 255, 255),
+        thickness: int = 1,
+        fade: Fade = Fade(),
+        custom_distance: float = None,
+    ):
         self.start = start
         self.end = end
         self.color = color
         self.thickness = thickness
         self.fade = fade
         self.custom_distance = custom_distance
-        
+
     def is_3D(self):
         return isinstance(self.start, Coordinate)
-    
+
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            start_distance = self.start.get_distance_to(x, y, z) if not self.start.relative else self.start.get_distance_to(0, 0, 0)
-            end_distance = self.end.get_distance_to(x, y, z) if not self.end.relative else self.end.get_distance_to(0, 0, 0)
+            start_distance = (
+                self.start.get_distance_to(x, y, z)
+                if not self.start.relative
+                else self.start.get_distance_to(0, 0, 0)
+            )
+            end_distance = (
+                self.end.get_distance_to(x, y, z)
+                if not self.end.relative
+                else self.end.get_distance_to(0, 0, 0)
+            )
             return (start_distance + end_distance) / 2
         return 0
-        
+
     def json(self):
         return {
             "type": "Line",
@@ -502,9 +571,9 @@ class Line:
             "color": self.color.json(),
             "thickness": self.thickness,
             "fade": self.fade.json(),
-            "custom_distance": self.custom_distance
+            "custom_distance": self.custom_distance,
         }
-        
+
 
 class Polygon:
     """A 2D polygon rendered over a list of points. Can also be rendered from 3D coordinates.
@@ -516,10 +585,11 @@ class Polygon:
     :param bool closed: Whether the polygon is closed or not. (ie. the last point is connected to the first point)
     :param Fade fade: The fade effect applied to the polygon. (Only affects 3D objects)
     :param float custom_distance: A custom distance to be used for fade calculations
-    
+
     Usage:
     >>> polygon = Polygon([Point(1, 2), Point(3, 4), Point(5, 6)])
     """
+
     points: list[Point | Coordinate]
     color: Color = Color(255, 255, 255, 255)
     fill: Color = Color(0, 0, 0, 0)
@@ -527,15 +597,17 @@ class Polygon:
     closed: bool = True
     fade: Fade = Fade()
     custom_distance: float | None = None
-    
-    def __init__(self, 
-                 points: list[Point | Coordinate], 
-                 color: Color = Color(255, 255, 255, 255), 
-                 fill: Color = Color(0, 0, 0, 0), 
-                 thickness: int = 1, 
-                 closed: bool = True,
-                 fade: Fade = Fade(),
-                 custom_distance: float = None):
+
+    def __init__(
+        self,
+        points: list[Point | Coordinate],
+        color: Color = Color(255, 255, 255, 255),
+        fill: Color = Color(0, 0, 0, 0),
+        thickness: int = 1,
+        closed: bool = True,
+        fade: Fade = Fade(),
+        custom_distance: float = None,
+    ):
         self.points = points
         self.color = color
         self.fill = fill
@@ -543,21 +615,23 @@ class Polygon:
         self.closed = closed
         self.fade = fade
         self.custom_distance = custom_distance
-        
+
     def is_3D(self):
         return isinstance(self.points[0], Coordinate)
-    
+
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
             distances = [
-                point.get_distance_to(x, y, z) if not point.relative else point.get_distance_to(0, 0, 0)
+                point.get_distance_to(x, y, z)
+                if not point.relative
+                else point.get_distance_to(0, 0, 0)
                 for point in self.points
             ]
             return sum(distances) / len(distances)
         return 0
-        
+
     def json(self):
         return {
             "type": "Polygon",
@@ -567,9 +641,9 @@ class Polygon:
             "thickness": self.thickness,
             "closed": self.closed,
             "fade": self.fade.json(),
-            "custom_distance": self.custom_distance
+            "custom_distance": self.custom_distance,
         }
-        
+
 
 class Circle:
     """A 2D circle rendered from a center point and a radius. Can also be rendered from 3D coordinates.
@@ -581,10 +655,11 @@ class Circle:
     :param int thickness: The thickness of the circle.
     :param Fade fade: The fade effect applied to the circle. (Only affects 3D objects)
     :param float custom_distance: A custom distance to be used for fade calculations
-    
+
     Usage:
     >>> circle = Circle(Point(1, 2), radius=150)
     """
+
     center: Point | Coordinate
     radius: float = 100
     color: Color = Color(255, 255, 255, 255)
@@ -592,15 +667,17 @@ class Circle:
     thickness: int = 1
     fade: Fade = Fade()
     custom_distance: float | None = None
-    
-    def __init__(self, 
-                 center: Point | Coordinate, 
-                 radius: float = 100,
-                 color: Color = Color(255, 255, 255, 255), 
-                 fill: Color = Color(0, 0, 0, 0), 
-                 thickness: int = 1,
-                 fade: Fade = Fade(),
-                 custom_distance: float = None):
+
+    def __init__(
+        self,
+        center: Point | Coordinate,
+        radius: float = 100,
+        color: Color = Color(255, 255, 255, 255),
+        fill: Color = Color(0, 0, 0, 0),
+        thickness: int = 1,
+        fade: Fade = Fade(),
+        custom_distance: float = None,
+    ):
         self.center = center
         self.radius = radius
         self.color = color
@@ -608,17 +685,21 @@ class Circle:
         self.thickness = thickness
         self.fade = fade
         self.custom_distance = custom_distance
-        
+
     def is_3D(self):
         return isinstance(self.center, Coordinate)
-    
+
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return self.center.get_distance_to(x, y, z) if not self.center.relative else self.center.get_distance_to(0, 0, 0)
+            return (
+                self.center.get_distance_to(x, y, z)
+                if not self.center.relative
+                else self.center.get_distance_to(0, 0, 0)
+            )
         return 0
-        
+
     def json(self):
         return {
             "type": "Circle",
@@ -628,9 +709,9 @@ class Circle:
             "fill": self.fill.json(),
             "thickness": self.thickness,
             "fade": self.fade.json(),
-            "custom_distance": self.custom_distance
+            "custom_distance": self.custom_distance,
         }
-        
+
 
 class Text:
     """A 2D text rendered at a point. Can also be rendered from 3D coordinates.
@@ -641,41 +722,48 @@ class Text:
     :param int size: The size of the text.
     :param Fade fade: The fade effect applied to the text. (Only affects 3D objects)
     :param float custom_distance: A custom distance to be used for fade calculations
-    
+
     Usage:
     >>> text = Text(Point(1, 2), "Hello World!")
     """
+
     point: Point | Coordinate
     text: str
     color: Color = Color(255, 255, 255, 255)
     size: int = 12
     fade: Fade = Fade()
     custom_distance: float | None = None
-    
-    def __init__(self, 
-                 point: Point | Coordinate, 
-                 text: str,
-                 color: Color = Color(255, 255, 255, 255), 
-                 size: int = 12,
-                 fade: Fade = Fade(),
-                 custom_distance: float = None):
+
+    def __init__(
+        self,
+        point: Point | Coordinate,
+        text: str,
+        color: Color = Color(255, 255, 255, 255),
+        size: int = 12,
+        fade: Fade = Fade(),
+        custom_distance: float = None,
+    ):
         self.point = point
         self.text = text
         self.color = color
         self.size = size
         self.fade = fade
         self.custom_distance = custom_distance
-        
+
     def is_3D(self):
         return isinstance(self.point, Coordinate)
-    
+
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:
             return self.custom_distance
         if self.is_3D():
-            return self.point.get_distance_to(x, y, z) if not self.point.relative else self.point.get_distance_to(0, 0, 0)
+            return (
+                self.point.get_distance_to(x, y, z)
+                if not self.point.relative
+                else self.point.get_distance_to(0, 0, 0)
+            )
         return 0
-        
+
     def json(self):
         return {
             "type": "Text",
@@ -684,12 +772,13 @@ class Text:
             "color": self.color.json(),
             "size": self.size,
             "fade": self.fade.json(),
-            "custom_distance": self.custom_distance
+            "custom_distance": self.custom_distance,
         }
-        
+
+
 class Bezier:
     """A 2D Bezier curve rendered from four points, can only be rendered in 2D.
-    
+
     :param Point p1: The first control point of the Bezier curve.
     :param Point p2: The second control point of the Bezier curve.
     :param Point p3: The third control point of the Bezier curve.
@@ -699,9 +788,9 @@ class Bezier:
     :param int segments: The number of segments to use for the Bezier curve. More segments means smoother curve but more performance cost.
     :param float custom_distance: A custom distance to be used for fade calculations
     :param Fade fade: The fade effect applied to the Bezier curve. (Only works with custom_distance)
-    
+
     """
-    
+
     p1: Point
     p2: Point
     p3: Point
@@ -711,17 +800,19 @@ class Bezier:
     segments: int = 10
     custom_distance: float | None = None
     fade: Fade = Fade()
-    
-    def __init__(self, 
-                 p1: Point, 
-                 p2: Point, 
-                 p3: Point, 
-                 p4: Point, 
-                 color: Color = Color(255, 255, 255, 255), 
-                 thickness: float = 1.0,
-                 segments: int = 100,
-                 custom_distance: float | None = None,
-                 fade: Fade = Fade()):
+
+    def __init__(
+        self,
+        p1: Point,
+        p2: Point,
+        p3: Point,
+        p4: Point,
+        color: Color = Color(255, 255, 255, 255),
+        thickness: float = 1.0,
+        segments: int = 100,
+        custom_distance: float | None = None,
+        fade: Fade = Fade(),
+    ):
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
@@ -731,15 +822,15 @@ class Bezier:
         self.segments = segments
         self.custom_distance = custom_distance
         self.fade = fade
-        
+
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:
             return self.custom_distance
         return 0
-        
+
     def is_3D(self):
         return False  # Bezier curves are always rendered in 2D
-        
+
     def json(self):
         return {
             "type": "Bezier",
@@ -751,5 +842,5 @@ class Bezier:
             "thickness": self.thickness,
             "segments": self.segments,
             "custom_distance": self.custom_distance,
-            "fade": self.fade.json()
+            "fade": self.fade.json(),
         }

@@ -13,6 +13,7 @@ from ETS2LA.Networking.cloud import SendCrashReport
 RED = "\033[91m"
 NORMAL = "\033[0m"
 
+
 def get_paths():
     global STEAM_PATH
     global ETS2_STEAM_PATH
@@ -28,18 +29,24 @@ def get_paths():
     global ATS_LAST_LOG_CHANGE
 
     try:
-        STEAM_PATH = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Valve\\Steam"), "SteamPath")[0]
-    except:
+        STEAM_PATH = winreg.QueryValueEx(
+            winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\\Valve\\Steam"),
+            "SteamPath",
+        )[0]
+    except Exception:
         STEAM_PATH = r"C:/program files (x86)/steam"
-    ETS2_STEAM_PATH = STEAM_PATH+r"/steamapps/common/Euro Truck Simulator 2"
-    ATS_STEAM_PATH = STEAM_PATH+r"/steamapps/common/American Truck Simulator"
 
-    CSIDL_PERSONAL = 5       # My Documents
-    SHGFP_TYPE_CURRENT = 0   # Get current, not default value
+    ETS2_STEAM_PATH = STEAM_PATH + r"/steamapps/common/Euro Truck Simulator 2"
+    ATS_STEAM_PATH = STEAM_PATH + r"/steamapps/common/American Truck Simulator"
+
+    CSIDL_PERSONAL = 5  # My Documents
+    SHGFP_TYPE_CURRENT = 0  # Get current, not default value
     buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
-    ctypes.windll.shell32.SHGetFolderPathW(None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf)
+    ctypes.windll.shell32.SHGetFolderPathW(
+        None, CSIDL_PERSONAL, None, SHGFP_TYPE_CURRENT, buf
+    )
     DOCUMENTS_PATH = f"{buf.value}"
-    DOCUMENTS_PATH = DOCUMENTS_PATH.replace('\\', '/')
+    DOCUMENTS_PATH = DOCUMENTS_PATH.replace("\\", "/")
 
     ETS2_STEAM_FOUND = os.path.exists(ETS2_STEAM_PATH)
     ATS_STEAM_FOUND = os.path.exists(ATS_STEAM_PATH)
@@ -50,77 +57,136 @@ def get_paths():
     ETS2_DOCUMENTS_FOUND = os.path.exists(ETS2_DOCUMENTS_PATH)
     ATS_DOCUMENTS_FOUND = os.path.exists(ATS_DOCUMENTS_PATH)
 
-    if ETS2_DOCUMENTS_FOUND == True:
+    if ETS2_DOCUMENTS_FOUND:
         ETS2_LAST_LOG_CHANGE = os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/game.log.txt")
     else:
         ETS2_LAST_LOG_CHANGE = 0
-    if ATS_DOCUMENTS_FOUND == True:
+    if ATS_DOCUMENTS_FOUND:
         ATS_LAST_LOG_CHANGE = os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/game.log.txt")
     else:
         ATS_LAST_LOG_CHANGE = 0
 
 
 def ReadProfileControlsFile(game="automatic"):
-    '''
+    """
     Reads the controls file of the selected game with the most recent usedprofile.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
                 profiles = []
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/profiles"):
-                        if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles/" + folder + "/controls.sii"):
-                            profiles.append((f"profiles/{folder}", os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}")))
+                        if os.path.exists(
+                            ETS2_DOCUMENTS_PATH
+                            + "/profiles/"
+                            + folder
+                            + "/controls.sii"
+                        ):
+                            profiles.append(
+                                (
+                                    f"profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
-                        if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles/" + folder + "/controls.sii"):
-                            profiles.append((f"steam_profiles/{folder}", os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        if os.path.exists(
+                            ETS2_DOCUMENTS_PATH
+                            + "/steam_profiles/"
+                            + folder
+                            + "/controls.sii"
+                        ):
+                            profiles.append(
+                                (
+                                    f"steam_profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
-                    with open(f"{ETS2_DOCUMENTS_PATH}/{most_recent_profile[0]}/controls.sii", "r") as file:
+                if most_recent_profile is not None:
+                    with open(
+                        f"{ETS2_DOCUMENTS_PATH}/{most_recent_profile[0]}/controls.sii",
+                        "r",
+                    ) as file:
                         return file.read()
                 else:
-                    print(RED + "No profile with controls in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No profile with controls in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
                 profiles = []
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/profiles"):
-                        if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles/" + folder + "/controls.sii"):
-                            profiles.append((f"profiles/{folder}", os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/profiles/{folder}")))
+                        if os.path.exists(
+                            ATS_DOCUMENTS_PATH + "/profiles/" + folder + "/controls.sii"
+                        ):
+                            profiles.append(
+                                (
+                                    f"profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ATS_DOCUMENTS_PATH}/profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/steam_profiles"):
-                        if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles/" + folder + "/controls.sii"):
-                            profiles.append((f"steam_profiles/{folder}", os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        if os.path.exists(
+                            ATS_DOCUMENTS_PATH
+                            + "/steam_profiles/"
+                            + folder
+                            + "/controls.sii"
+                        ):
+                            profiles.append(
+                                (
+                                    f"steam_profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
-                    with open(f"{ATS_DOCUMENTS_PATH}/{most_recent_profile[0]}/controls.sii", "r") as file:
+                if most_recent_profile is not None:
+                    with open(
+                        f"{ATS_DOCUMENTS_PATH}/{most_recent_profile[0]}/controls.sii",
+                        "r",
+                    ) as file:
                         return file.read()
                 else:
-                    print(RED + "No profile with controls in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No profile with controls in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -133,67 +199,128 @@ def ReadProfileControlsFile(game="automatic"):
 
 
 def ReadProfileConfigFile(game="automatic"):
-    '''
+    """
     Reads the config_local file of the selected game with the most recent usedprofile.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
                 profiles = []
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/profiles"):
-                        if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles/" + folder + "/config_local.cfg"):
-                            profiles.append((f"profiles/{folder}", os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}")))
+                        if os.path.exists(
+                            ETS2_DOCUMENTS_PATH
+                            + "/profiles/"
+                            + folder
+                            + "/config_local.cfg"
+                        ):
+                            profiles.append(
+                                (
+                                    f"profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
-                        if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles/" + folder + "/config_local.cfg"):
-                            profiles.append((f"steam_profiles/{folder}", os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        if os.path.exists(
+                            ETS2_DOCUMENTS_PATH
+                            + "/steam_profiles/"
+                            + folder
+                            + "/config_local.cfg"
+                        ):
+                            profiles.append(
+                                (
+                                    f"steam_profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
-                    with open(f"{ETS2_DOCUMENTS_PATH}/{most_recent_profile[0]}/config_local.cfg", "r") as file:
+                if most_recent_profile is not None:
+                    with open(
+                        f"{ETS2_DOCUMENTS_PATH}/{most_recent_profile[0]}/config_local.cfg",
+                        "r",
+                    ) as file:
                         return file.read()
                 else:
-                    print(RED + "No profile with controls in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No profile with controls in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
                 profiles = []
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/profiles"):
-                        if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles/" + folder + "/config_local.cfg"):
-                            profiles.append((f"profiles/{folder}", os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/profiles/{folder}")))
+                        if os.path.exists(
+                            ATS_DOCUMENTS_PATH
+                            + "/profiles/"
+                            + folder
+                            + "/config_local.cfg"
+                        ):
+                            profiles.append(
+                                (
+                                    f"profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ATS_DOCUMENTS_PATH}/profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/steam_profiles"):
-                        if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles/" + folder + "/config_local.cfg"):
-                            profiles.append((f"steam_profiles/{folder}", os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        if os.path.exists(
+                            ATS_DOCUMENTS_PATH
+                            + "/steam_profiles/"
+                            + folder
+                            + "/config_local.cfg"
+                        ):
+                            profiles.append(
+                                (
+                                    f"steam_profiles/{folder}",
+                                    os.path.getmtime(
+                                        f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                    ),
+                                )
+                            )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
-                    with open(f"{ATS_DOCUMENTS_PATH}/{most_recent_profile[0]}/config_local.cfg", "r") as file:
+                if most_recent_profile is not None:
+                    with open(
+                        f"{ATS_DOCUMENTS_PATH}/{most_recent_profile[0]}/config_local.cfg",
+                        "r",
+                    ) as file:
                         return file.read()
                 else:
-                    print(RED + "No profile with controls in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No profile with controls in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -206,31 +333,36 @@ def ReadProfileConfigFile(game="automatic"):
 
 
 def ReadGlobalControlsFile(game="automatic"):
-    '''
+    """
     Reads the global controls file of the selected game.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/global_controls.sii"):
-                    with open(f"{ETS2_DOCUMENTS_PATH}/global_controls.sii", "r") as file:
+                    with open(
+                        f"{ETS2_DOCUMENTS_PATH}/global_controls.sii", "r"
+                    ) as file:
                         return file.read()
                 else:
-                    print(RED + "No global controls file in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No global controls file in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
@@ -238,7 +370,11 @@ def ReadGlobalControlsFile(game="automatic"):
                     with open(f"{ATS_DOCUMENTS_PATH}/global_controls.sii", "r") as file:
                         return file.read()
                 else:
-                    print(RED + "No global controls file in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No global controls file in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -251,23 +387,22 @@ def ReadGlobalControlsFile(game="automatic"):
 
 
 def ReadGlobalConfigFile(game="automatic"):
-    '''
+    """
     Reads the global config file of the selected game.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
@@ -275,7 +410,11 @@ def ReadGlobalConfigFile(game="automatic"):
                     with open(f"{ETS2_DOCUMENTS_PATH}/config.cfg", "r") as file:
                         return file.read()
                 else:
-                    print(RED + "No global config file in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No global config file in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
@@ -283,7 +422,11 @@ def ReadGlobalConfigFile(game="automatic"):
                     with open(f"{ATS_DOCUMENTS_PATH}/config.cfg", "r") as file:
                         return file.read()
                 else:
-                    print(RED + "No global config file in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No global config file in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -294,25 +437,24 @@ def ReadGlobalConfigFile(game="automatic"):
         SendCrashReport("Error in gamefiles.py: ReadGlobalConfigFile", str(exc))
         print("Error in gamefiles.py: ReadGlobalConfigFile" + str(e))
 
-    
+
 def ReadGameLogFile(game="automatic"):
-    '''
+    """
     Reads the game log of the selected game.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
@@ -320,7 +462,11 @@ def ReadGameLogFile(game="automatic"):
                     with open(f"{ETS2_DOCUMENTS_PATH}/game.log.txt", "r") as file:
                         return file.read()
                 else:
-                    print(RED + "No game log file in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No game log file in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
@@ -328,7 +474,11 @@ def ReadGameLogFile(game="automatic"):
                     with open(f"{ATS_DOCUMENTS_PATH}/game.log.txt", "r") as file:
                         return file.read()
                 else:
-                    print(RED + "No game log file in documents found, unable to read file." + NORMAL)
+                    print(
+                        RED
+                        + "No game log file in documents found, unable to read file."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -341,61 +491,96 @@ def ReadGameLogFile(game="automatic"):
 
 
 def GetCurrentProfile(game="automatic"):
-    '''
+    """
     Returns the ID of the current profile of the selected game.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
                 profiles = []
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}"
+                                ),
+                            )
+                        )
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                ),
+                            )
+                        )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
+                if most_recent_profile is not None:
                     return most_recent_profile[0]
                 else:
-                    print(RED + "No profiles in documents found, unable to return ID." + NORMAL)
+                    print(
+                        RED
+                        + "No profiles in documents found, unable to return ID."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
                 profiles = []
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ATS_DOCUMENTS_PATH}/profiles/{folder}"
+                                ),
+                            )
+                        )
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/steam_profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                ),
+                            )
+                        )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
+                if most_recent_profile is not None:
                     return most_recent_profile[0]
                 else:
-                    print(RED + "No profiles in documents found, unable to return ID." + NORMAL)
+                    print(
+                        RED
+                        + "No profiles in documents found, unable to return ID."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -405,73 +590,131 @@ def GetCurrentProfile(game="automatic"):
         exc = traceback.format_exc()
         SendCrashReport("Error in gamefiles.py: GetCurrentProfile", str(exc))
         print("Error in gamefiles.py: GetCurrentProfile" + str(e))
+
 
 def GetCurrentProfilePath(game="automatic"):
-    '''
+    """
     Returns the ID of the current profile of the selected game.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
                 profiles = []
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ETS2_DOCUMENTS_PATH}/profiles/{folder}"
+                                ),
+                            )
+                        )
                 if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ETS2_DOCUMENTS_PATH + "/steam_profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ETS2_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                ),
+                            )
+                        )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
-                    if os.path.exists(ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]):
-                        path = ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                if most_recent_profile is not None:
+                    if os.path.exists(
+                        ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                    ):
+                        path = (
+                            ETS2_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                        )
                         return path
-                    if os.path.exists(ETS2_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]):
-                        path = ETS2_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]
+                    if os.path.exists(
+                        ETS2_DOCUMENTS_PATH
+                        + "/steam_profiles/"
+                        + most_recent_profile[0]
+                    ):
+                        path = (
+                            ETS2_DOCUMENTS_PATH
+                            + "/steam_profiles/"
+                            + most_recent_profile[0]
+                        )
                         return path
                 else:
-                    print(RED + "No profiles in documents found, unable to return path." + NORMAL)
+                    print(
+                        RED
+                        + "No profiles in documents found, unable to return path."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
                 profiles = []
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ATS_DOCUMENTS_PATH}/profiles/{folder}"
+                                ),
+                            )
+                        )
                 if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles"):
                     for folder in os.listdir(ATS_DOCUMENTS_PATH + "/steam_profiles"):
-                        profiles.append((folder, os.path.getmtime(f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}")))
+                        profiles.append(
+                            (
+                                folder,
+                                os.path.getmtime(
+                                    f"{ATS_DOCUMENTS_PATH}/steam_profiles/{folder}"
+                                ),
+                            )
+                        )
                 if profiles != []:
                     profiles.sort(key=lambda x: x[1], reverse=True)
                     most_recent_profile = profiles[0]
                 else:
                     most_recent_profile = None
-                if most_recent_profile != None:
-                    if os.path.exists(ATS_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]):
-                        path = ATS_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                if most_recent_profile is not None:
+                    if os.path.exists(
+                        ATS_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                    ):
+                        path = (
+                            ATS_DOCUMENTS_PATH + "/profiles/" + most_recent_profile[0]
+                        )
                         return path
-                    if os.path.exists(ATS_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]):
-                        path = ATS_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]
+                    if os.path.exists(
+                        ATS_DOCUMENTS_PATH + "/steam_profiles/" + most_recent_profile[0]
+                    ):
+                        path = (
+                            ATS_DOCUMENTS_PATH
+                            + "/steam_profiles/"
+                            + most_recent_profile[0]
+                        )
                         return path
                 else:
-                    print(RED + "No profiles in documents found, unable to return ID." + NORMAL)
+                    print(
+                        RED
+                        + "No profiles in documents found, unable to return ID."
+                        + NORMAL
+                    )
                     return None
 
         else:
@@ -481,27 +724,25 @@ def GetCurrentProfilePath(game="automatic"):
         exc = traceback.format_exc()
         SendCrashReport("Error in gamefiles.py: GetCurrentProfile", str(exc))
         print("Error in gamefiles.py: GetCurrentProfile" + str(e))
-
 
 
 def GetAllProfiles(game="automatic"):
-    '''
+    """
     Returns a list of all profiles of the selected game.
     game: "automatic" or "ats" or "ets2"
-    '''
+    """
     get_paths()
     try:
-        if ETS2_DOCUMENTS_FOUND == True or ATS_DOCUMENTS_FOUND == True:
-
+        if ETS2_DOCUMENTS_FOUND or ATS_DOCUMENTS_FOUND:
             if game == "automatic":
-                if ETS2_DOCUMENTS_FOUND == True and ATS_DOCUMENTS_FOUND == True:
+                if ETS2_DOCUMENTS_FOUND and ATS_DOCUMENTS_FOUND:
                     if ETS2_LAST_LOG_CHANGE > ATS_LAST_LOG_CHANGE:
                         game = "ets2"
                     else:
                         game = "ats"
-                elif ETS2_DOCUMENTS_FOUND == True:
+                elif ETS2_DOCUMENTS_FOUND:
                     game = "ets2"
-                elif ATS_DOCUMENTS_FOUND == True:
+                elif ATS_DOCUMENTS_FOUND:
                     game = "ats"
 
             if game == "ets2":
@@ -515,7 +756,11 @@ def GetAllProfiles(game="automatic"):
                 if profiles != []:
                     return profiles
                 else:
-                    print(RED + "No profiles in documents found, unable to return IDs." + NORMAL)
+                    print(
+                        RED
+                        + "No profiles in documents found, unable to return IDs."
+                        + NORMAL
+                    )
                     return None
 
             if game == "ats":
@@ -529,7 +774,11 @@ def GetAllProfiles(game="automatic"):
                 if profiles != []:
                     return profiles
                 else:
-                    print(RED + "No profiles in documents found, unable to return IDs." + NORMAL)
+                    print(
+                        RED
+                        + "No profiles in documents found, unable to return IDs."
+                        + NORMAL
+                    )
                     return None
 
         else:

@@ -23,4 +23,7 @@ Please note that all events are global. So listening or triggering events will a
 
 WARNING: This system will be rewritten completely in the future, it doesn't even work with the new plugin system yet!
 """
+
 from .event_system import events, EventSystem
+
+__all__ = ["events", "EventSystem"]

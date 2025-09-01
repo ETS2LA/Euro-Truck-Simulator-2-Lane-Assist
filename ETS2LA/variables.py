@@ -11,12 +11,12 @@ APPTITLE = f"ETS2LA - Tumppi066 & Contributors © {YEAR}"
 """The title of the frontend window."""
 
 FRONTEND_MIRRORS = [
-    "https://app.ets2la.com", # Global
-    "https://app.ets2la.cn" # China
+    "https://app.ets2la.com",  # Global
+    "https://app.ets2la.cn",  # China
 ]
 """The frontend mirrors. The first one is the default mirror."""
 
-PATH = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/')
+PATH = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 """The path to the ETS2LA folder."""
 
 if PATH.endswith("/ETS2LA"):
@@ -62,7 +62,11 @@ LOCAL_MODE = "--local" in sys.argv
 HIGH_PRIORITY = "--high" in sys.argv
 """Whether the application should run in high priority mode."""
 
-FRONTEND_URL = sys.argv[sys.argv.index("--frontend-url") + 1] if "--frontend-url" in sys.argv else "https://app.ets2la.com"
+FRONTEND_URL = (
+    sys.argv[sys.argv.index("--frontend-url") + 1]
+    if "--frontend-url" in sys.argv
+    else "https://app.ets2la.com"
+)
 """Frontend URL from the --frontend-url argument."""
 
 NO_UI = "--no-ui" in sys.argv
@@ -101,20 +105,27 @@ Use .put(), only the window process should .get().
 # Update paths
 if os.name == "nt":
     import ctypes.wintypes
-    _CSIDL_PERSONAL = 5     # My Documents
-    _SHGFP_TYPE_CURRENT = 0 # Get current, not default value
+
+    _CSIDL_PERSONAL = 5  # My Documents
+    _SHGFP_TYPE_CURRENT = 0  # Get current, not default value
     _buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
-    ctypes.windll.shell32.SHGetFolderPathW(None, _CSIDL_PERSONAL, None, _SHGFP_TYPE_CURRENT, _buf)
+    ctypes.windll.shell32.SHGetFolderPathW(
+        None, _CSIDL_PERSONAL, None, _SHGFP_TYPE_CURRENT, _buf
+    )
     DOCUMENTS_PATH = f"{_buf.value}"
-    
-    DOCUMENTS_PATH = DOCUMENTS_PATH.replace('\\', '/')
+
+    DOCUMENTS_PATH = DOCUMENTS_PATH.replace("\\", "/")
     ETS2_LOG_PATH = f"{DOCUMENTS_PATH}/Euro Truck Simulator 2/game.log.txt"
     ATS_LOG_PATH = f"{DOCUMENTS_PATH}/American Truck Simulator/game.log.txt"
 else:
     # TODO: No clue if this works.
     DOCUMENTS_PATH = f"{os.path.expanduser('~')}/Documents"
-    ETS2_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/Euro Truck Simulator 2/game.log.txt"
-    ATS_LOG_PATH = f"{os.path.expanduser('~')}/.local/share/American Truck Simulator/game.log.txt"    
+    ETS2_LOG_PATH = (
+        f"{os.path.expanduser('~')}/.local/share/Euro Truck Simulator 2/game.log.txt"
+    )
+    ATS_LOG_PATH = (
+        f"{os.path.expanduser('~')}/.local/share/American Truck Simulator/game.log.txt"
+    )
 
 # Update DLCs
 try:
@@ -125,7 +136,8 @@ try:
                 dlc = line.split(".scs")[0].split("dlc_")[1]
                 dlc = "dlc_" + dlc
                 ATS_DLC.append(dlc)
-except: pass
+except Exception:
+    pass
 
 try:
     with open(ETS2_LOG_PATH, "r") as f:
@@ -135,11 +147,13 @@ try:
                 dlc = line.split(".scs")[0].split("dlc_")[1]
                 dlc = "dlc_" + dlc
                 ETS2_DLC.append(dlc)
-except: pass
+except Exception:
+    pass
 
 # Update metadata
 try:
     repo = git.Repo(search_parent_directories=True)
     hash = repo.head.object.hexsha[:9]
     METADATA["version"] = f"{METADATA['version']} - {hash}"
-except: pass
+except Exception:
+    pass

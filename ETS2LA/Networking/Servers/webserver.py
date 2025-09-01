@@ -5,13 +5,19 @@ PLEASE NOTE:
   structure, thus the formatting and endpoints are nonsensical.
 - Proper documentation will be written once this file is refactored.
 """
-from ETS2LA.UI import * 
 
 from ETS2LA.Networking.Servers.notifications import sonner, navigate
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Utils.Values.dictionaries import merge
-from ETS2LA.Window.utils import check_if_specified_window_open, set_on_top, get_on_top, set_transparency, get_transparency, toggle_fullscreen
-from ETS2LA.Networking.Servers.models import *
+from ETS2LA.Window.utils import (
+    check_if_specified_window_open,
+    set_on_top,
+    get_on_top,
+    set_transparency,
+    get_transparency,
+    toggle_fullscreen,
+)
+from ETS2LA.Networking.Servers.models import PopupData, TagFetchData
 from ETS2LA.Utils.shell import ExecuteCommand
 from ETS2LA.Utils.translator import _
 from ETS2LA.Window.utils import color_title_bar
@@ -25,6 +31,7 @@ import ETS2LA.Utils.version as git
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Body
+from typing import Literal
 from typing import Any
 import multiprocessing
 import traceback
@@ -37,7 +44,7 @@ import json
 import zlib
 import time
 
-asked_plugins = False # Will trigger the "Do you want to re-enable plugins?" popup
+asked_plugins = False  # Will trigger the "Do you want to re-enable plugins?" popup
 mainThreadQueue = []
 sessionToken = ""
 thread = None
@@ -47,128 +54,156 @@ IP = None
 FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
 
 app = FastAPI(
-    title="ETS2LA",
-    description="Backend API for the ETS2LA app.",
-    version="1.0.0"
+    title="ETS2LA", description="Backend API for the ETS2LA app.", version="1.0.0"
 )
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 # region Backend
+
 
 @app.get("/")
 def read_root():
     return {"ETS2LA": variables.METADATA["version"]}
 
+
 @app.get("/auth/discord/login", response_class=HTMLResponse)
 def login(code):
     try:
-        response = requests.get("https://api.ets2la.com/auth/discord/login", params={"code": code})
+        response = requests.get(
+            "https://api.ets2la.com/auth/discord/login", params={"code": code}
+        )
         settings.Set("global", "user_id", response.json()["user_id"])
         settings.Set("global", "token", response.json()["token"])
-        return HTMLResponse(content=open("ETS2LA/Assets/auth_complete.html").read().replace("response_code", response.json()["success"]), status_code=200)
-    except:
+        return HTMLResponse(
+            content=open("ETS2LA/Assets/auth_complete.html")
+            .read()
+            .replace("response_code", response.json()["success"]),
+            status_code=200,
+        )
+    except Exception:
         exception = traceback.format_exc()
         logging.error(exception)
         return exception
+
 
 @app.get("/backend/quit")
 def quitApp():
     variables.CLOSE = True
     return {"status": "ok"}
 
+
 @app.get("/backend/restart")
 def restartApp():
     variables.RESTART = True
     return {"status": "ok"}
+
 
 @app.get("/window/minimize")
 def minimizeApp():
     variables.MINIMIZE = True
     return {"status": "ok"}
 
+
 @app.get("/backend/updates")
 def check_updates():
     return git.CheckForUpdate()
+
 
 @app.get("/backend/update")
 def update():
     navigate("updater", _("Frontend"), _("The frontend wants to perform an update."))
     return True
 
+
 @app.get("/api/sounds/play/{sound}")
 def play_sound(sound: str):
     sounds.Play(sound)
     return True
 
+
 @app.get("/api/git/history")
 def get_git_history():
     return git.GetHistory()
 
+
 @app.get("/api/ui/theme/{theme}")
-def set_theme(theme: Literal["dark", "light"]):
+def set_theme(theme: Literal["light", "dark"]):
     try:
         color_title_bar(theme)
         return True
-    except:
+    except Exception:
         return False
+
 
 @app.get("/backend/ip")
 def get_IP():
     return IP
 
+
 @app.get("/backend/devmode")
 def get_devmode():
     return variables.DEVELOPMENT_MODE
+
 
 @app.get("/api/metadata")
 def get_metadata():
     return variables.METADATA
 
+
 @app.get("/backend/statistics")
 def get_statistics():
     return plugins.get_statistics()
 
-#endregion
+
+# endregion
 # region Window
+
 
 @app.get("/window/exists/{name}")
 def check_window(name: str):
     return check_if_specified_window_open(name)
 
+
 @app.get("/window/stay_on_top")
 def get_stay_on_top():
     return get_on_top()
+
 
 @app.get("/window/stay_on_top/{state}")
 def stay_on_top(state: bool):
     newState = set_on_top(state)
     return newState
 
+
 @app.get("/window/transparency/{state}")
 def set_transparency_to(state: bool):
     try:
         newState = set_transparency(state)
         return newState
-    except:
+    except Exception:
         logging.exception(_("Failed to set transparency"))
         return False
+
 
 @app.get("/window/transparency")
 def get_transparency_state():
     return get_transparency()
 
+
 @app.get("/window/fullscreen")
 def toggle_fullscreen_from_ui():
     return toggle_fullscreen()
 
+
 # endregion
 # region Plugins
+
 
 @app.get("/backend/plugins")
 def get_plugins():
@@ -176,85 +211,116 @@ def get_plugins():
     if not asked_plugins:
         to_enable = settings.Get("global", "running_plugins", [])
         to_enable = [] if to_enable is None else to_enable
-        
-        if len(to_enable) > 0:          
-            answer = notifications.ask("Re-enable plugins?", ["Yes", "No"], description="Do you want to re-enable the plugins that were running before the app was closed?\n\n - " + "\n - ".join(to_enable))
+
+        if len(to_enable) > 0:
+            answer = notifications.ask(
+                "Re-enable plugins?",
+                ["Yes", "No"],
+                description="Do you want to re-enable the plugins that were running before the app was closed?\n\n - "
+                + "\n - ".join(to_enable),
+            )
             if answer["response"] == "Yes":
                 notifications.sonner("Re-enabling plugins...")
                 for plugin in to_enable:
                     plugins.start_plugin(name=plugin)
-                    
+
             notifications.sonner("Plugins enabled!", "success")
-                
+
         asked_plugins = True
-    
+
     try:
         # Get data
         available_plugins = plugins.plugins
         enabled_plugins = [plugin for plugin in available_plugins if plugin.running]
         # plugin_settings = plugins.get_plugin_settings() # TODO: Reimplement urls
-            
+
         # Create the json
         return_data = {}
         for plugin in available_plugins:
-            id, description, authors = plugin.description.id, plugin.description, plugin.authors
-            if type(authors) != list:
+            id, description, authors = (
+                plugin.description.id,
+                plugin.description,
+                plugin.authors,
+            )
+            if not isinstance(authors, list):
                 authors = [authors]
-                
+
             return_data[id] = {
                 "authors": [author.__dict__ for author in authors],
                 "description": description.__dict__,
                 "settings": None,
             }
-            if id in [enabled_plugin.description.id for enabled_plugin in enabled_plugins]:
+            if id in [
+                enabled_plugin.description.id for enabled_plugin in enabled_plugins
+            ]:
                 return_data[id]["enabled"] = True
-                return_data[id]["frametimes"] = []#plugins.get_latest_frametime(id)
+                return_data[id]["frametimes"] = []  # plugins.get_latest_frametime(id)
             else:
                 return_data[id]["enabled"] = False
                 return_data[id]["frametimes"] = 0
-        
+
         return return_data
-    except:
+    except Exception:
         logging.exception("Failed to get plugins")
         return False
+
 
 @app.get("/backend/plugins/{plugin}/enable")
 def enable_plugin(plugin: str):
     return plugins.start_plugin(name=plugin)
 
+
 @app.get("/backend/plugins/{plugin}/disable")
 def disable_plugin(plugin: str):
     return plugins.stop_plugin(name=plugin)
 
+
 @app.get("/backend/plugins/performance")
 def get_performance():
-    return {} # TODO: Reimplement this
+    return {}  # TODO: Reimplement this
+
 
 @app.get("/backend/plugins/states")
 def get_states():
     return plugins.get_states()
 
+
 # endregion
 # region Language
+
 
 @app.get("/api/language")
 def get_language():
     return _.get_language()
 
+
 # endregion
 # region Popups
 @app.post("/api/popup")
 def popup(data: PopupData):
-    mainThreadQueue.append([sonner, [data.text, data.type, None, ], {}])
+    mainThreadQueue.append(
+        [
+            sonner,
+            [
+                data.text,
+                data.type,
+                None,
+            ],
+            {},
+        ]
+    )
     return {"status": "ok"}
+
 
 # endregion
 # region Settings
+
 
 @app.post("/backend/plugins/{plugin}/settings/{key}/set")
 def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
     success = settings.Set(plugin, key, value["value"])
     return success
+
 
 @app.post("/backend/plugins/{plugin}/settings/set")
 def set_plugin_settings(plugin: str, data: dict = Body(...)):
@@ -262,41 +328,49 @@ def set_plugin_settings(plugin: str, data: dict = Body(...)):
     setting = data["setting"]
     success = settings.Set(plugin, keys, setting)
     return success
-    
+
+
 @app.get("/backend/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
     return settings.Get(plugin, key)
+
 
 @app.get("/backend/plugins/{plugin}/settings")
 def get_plugin_settings(plugin: str):
     return settings.GetJSON(plugin)
 
+
 # endregion
 # region Controls
+
 
 @app.post("/api/controls/{control}/change")
 def change_control(control: str):
     mainThreadQueue.append([controls.edit_event, [control], {}])
     while [controls.edit_event, [control], {}] in mainThreadQueue:
         time.sleep(0.01)
-        
+
     return {"status": "ok"}
+
 
 @app.post("/api/controls/{control}/unbind")
 def unbind_control(control: str):
     mainThreadQueue.append([controls.unbind_event, [control], {}])
     while [controls.unbind_event, [control], {}] in mainThreadQueue:
         time.sleep(0.01)
-        
+
     return {"status": "ok"}
+
 
 # endregion
 # region Tags
+
 
 @app.get("/api/tags/data")
 def get_tags_data():
     data = plugins.get_all_tag_data()
     return data
+
 
 @app.post("/api/tags/data")
 def get_tag_data(data: TagFetchData):
@@ -309,7 +383,7 @@ def get_tag_data(data: TagFetchData):
 
         return_data = {}
         for plugin in backend_data:
-            if type(backend_data[plugin]) == dict:
+            if isinstance(backend_data[plugin], dict):
                 if count > 1:
                     return_data = merge(return_data, backend_data[plugin])
                 else:
@@ -319,16 +393,19 @@ def get_tag_data(data: TagFetchData):
 
         headers = {}
         if data.zlib:
-            return_data = zlib.compress(json.dumps(return_data).encode("utf-8"), wbits=28)
+            return_data = zlib.compress(
+                json.dumps(return_data).encode("utf-8"), wbits=28
+            )
             headers["Content-Encoding"] = "gzip"
 
-        if type(return_data) != bytes:
+        if not isinstance(return_data, bytes):
             return return_data
 
         return HTMLResponse(content=return_data, status_code=200, headers=headers)
-    except:
+    except Exception:
         logging.exception(_("Failed to get tag data"))
         return False
+
 
 @app.get("/api/tags/{tag}")
 def get_tag(tag: str):
@@ -337,59 +414,68 @@ def get_tag(tag: str):
     for plugin in backend_data:
         if tag in backend_data[plugin]:
             count += 1
-            
+
     returnData = {}
     for plugin in backend_data:
-        if type(backend_data[plugin]) == dict:
+        if isinstance(backend_data[plugin], dict):
             if count > 1:
                 returnData = merge(returnData, backend_data[plugin])
             else:
                 returnData = backend_data[plugin]
-        else: 
+        else:
             returnData = backend_data[plugin]
-             
+
     return returnData
+
 
 @app.get("/api/tags/list")
 def get_tags_list():
     return plugins.get_tag_list()
 
+
 # endregion
 # region Pages
+
 
 @app.get("/api/pages")
 def get_list_of_pages():
     try:
         return plugins.get_page_list()
-    except:
+    except Exception:
         logging.exception(_("Failed to get pages"))
         return {}
 
+
 # endregion
 # region Developers
+
 
 @app.get("/api/plugins/reload")
 def reload_plugins():
     try:
         plugins.reload_plugins()
-    except:
+    except Exception:
         logging.exception(_("Failed to reload plugins"))
         return False
     return True
 
+
 # endregion
 # region Session
 
+
 def BuildFrontend():
-    result = ExecuteCommand(f"cd Interface && npm run build")
+    result = ExecuteCommand("cd Interface && npm run build")
     if result != 0:
-        ExecuteCommand(f"cd Interface && npm install")
-        result = ExecuteCommand(f"cd Interface && npm run build")
+        ExecuteCommand("cd Interface && npm install")
+        result = ExecuteCommand("cd Interface && npm run build")
         if result != 0:
             logging.error(_("Failed to build frontend"))
 
+
 def RunFrontendDev():
     ExecuteCommand(f"cd Interface && npm run dev -- -p {FRONTEND_PORT}")
+
 
 def RunFrontend():
     result = ExecuteCommand(f"cd Interface && npm start -- -p {FRONTEND_PORT}")
@@ -400,27 +486,42 @@ def RunFrontend():
         if result != 0:
             logging.error(_("Failed to start frontend"))
 
+
 def ExtractIP():
     global IP
     try:
         IP = socket.gethostbyname(socket.gethostname())
-    except:
+    except Exception:
         IP = "127.0.0.1"
-    
+
+
 def run():
     global thread
-    
+
     ExtractIP()
     hostname = "0.0.0.0"
 
-    thread = threading.Thread(target=uvicorn.run, args=(app,), kwargs={"port": 37520, "host": hostname, "log_level": "critical"}, daemon=True)
+    thread = threading.Thread(
+        target=uvicorn.run,
+        args=(app,),
+        kwargs={"port": 37520, "host": hostname, "log_level": "critical"},
+        daemon=True,
+    )
     thread.start()
-    
+
     logging.info(_("Webserver started at http://{ip}:37520").format(ip=IP))
 
     if variables.LOCAL_MODE:
-        p = multiprocessing.Process(target=RunFrontend if not variables.DEVELOPMENT_MODE else RunFrontendDev, daemon=True)
+        p = multiprocessing.Process(
+            target=RunFrontend if not variables.DEVELOPMENT_MODE else RunFrontendDev,
+            daemon=True,
+        )
         p.start()
-        logging.info(_("Frontend started at http://{ip}:{port}").format(ip=IP, port=FRONTEND_PORT))
+        logging.info(
+            _("Frontend started at http://{ip}:{port}").format(
+                ip=IP, port=FRONTEND_PORT
+            )
+        )
+
 
 # endregion

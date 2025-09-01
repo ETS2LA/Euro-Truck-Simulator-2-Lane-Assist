@@ -1,63 +1,99 @@
 from Modules.Traffic.classes import Position, Quaternion, Size, Trailer, Vehicle
-from ETS2LA.Module import *
+from ETS2LA.Module import ETS2LAModule
 import logging
 import struct
 import mmap
 import time
+
 
 class Module(ETS2LAModule):
     vehicle_format = "ffffffffffffhhbb"
     trailer_format = "ffffffffff"
     vehicle_object_format = vehicle_format + trailer_format + trailer_format
     total_format = "=" + vehicle_object_format * 40
-    
+
     last_vehicles: dict[int, Vehicle] = {}
-    
+
     start_time = 0
     message_shown = False
-    
+
     def imports(self):
         self.start_time = time.time()
         self.wait_for_buffer()
-        
+
     def wait_for_buffer(self):
         self.buf = None
         while self.buf is None:
             try:
                 size = 5360
                 self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
-            except: 
+            except Exception:
                 if time.time() - self.start_time > 5 and not self.message_shown:
-                    logging.warning("ETS2LATraffic buffer not found. Make sure the SDK is installed and the game is running. This plugin will wait until the buffer is available.")
+                    logging.warning(
+                        "ETS2LATraffic buffer not found. Make sure the SDK is installed and the game is running. This plugin will wait until the buffer is available."
+                    )
                     self.message_shown = True
-                    
+
             time.sleep(1)
-            
+
     def create_vehicle_from_dict(self, data):
-        position = Position(data["position"]["x"], data["position"]["y"], data["position"]["z"])
-        rotation = Quaternion(data["rotation"]["x"], data["rotation"]["y"], data["rotation"]["z"], data["rotation"]["w"])
-        size = Size(data["size"]["width"], data["size"]["height"], data["size"]["length"])
+        position = Position(
+            data["position"]["x"], data["position"]["y"], data["position"]["z"]
+        )
+        rotation = Quaternion(
+            data["rotation"]["x"],
+            data["rotation"]["y"],
+            data["rotation"]["z"],
+            data["rotation"]["w"],
+        )
+        size = Size(
+            data["size"]["width"], data["size"]["height"], data["size"]["length"]
+        )
         speed = data["speed"]
         acceleration = data["acceleration"]
         trailer_count = data["trailer_count"]
         id = data["id"]
         is_tmp = data["is_tmp"]
         is_trailer = data["is_trailer"]
-        
+
         trailers = []
         for trailer in data["trailers"]:
-            trailer_position = Position(trailer["position"]["x"], trailer["position"]["y"], trailer["position"]["z"])
-            trailer_rotation = Quaternion(trailer["rotation"]["x"], trailer["rotation"]["y"], trailer["rotation"]["z"], trailer["rotation"]["w"])
-            trailer_size = Size(trailer["size"]["width"], trailer["size"]["height"], trailer["size"]["length"])
-            
+            trailer_position = Position(
+                trailer["position"]["x"],
+                trailer["position"]["y"],
+                trailer["position"]["z"],
+            )
+            trailer_rotation = Quaternion(
+                trailer["rotation"]["x"],
+                trailer["rotation"]["y"],
+                trailer["rotation"]["z"],
+                trailer["rotation"]["w"],
+            )
+            trailer_size = Size(
+                trailer["size"]["width"],
+                trailer["size"]["height"],
+                trailer["size"]["length"],
+            )
+
             trailers.append(Trailer(trailer_position, trailer_rotation, trailer_size))
 
-        return Vehicle(position, rotation, size, speed, acceleration, trailer_count, trailers, id, is_tmp, is_trailer)
+        return Vehicle(
+            position,
+            rotation,
+            size,
+            speed,
+            acceleration,
+            trailer_count,
+            trailers,
+            id,
+            is_tmp,
+            is_trailer,
+        )
 
     def get_traffic(self):
         if self.buf is None:
             return None
-        
+
         try:
             data = struct.unpack(self.total_format, self.buf[:5360])
             vehicles: list[Vehicle] = []
@@ -71,21 +107,45 @@ class Module(ETS2LAModule):
                 id = data[13]
                 is_tmp = data[14]
                 is_trailer = data[15]
-                
+
                 trailers = []
                 for j in range(0, trailer_count):
                     offset = 16 + (j * 10)
-                    trailer_position = Position(data[offset], data[offset + 1], data[offset + 2])
-                    trailer_rotation = Quaternion(data[offset + 3], data[offset + 4], data[offset + 5], data[offset + 6])
-                    trailer_size = Size(data[offset + 7], data[offset + 8], data[offset + 9])
-                    
-                    trailers.append(Trailer(trailer_position, trailer_rotation, trailer_size))
-                
+                    trailer_position = Position(
+                        data[offset], data[offset + 1], data[offset + 2]
+                    )
+                    trailer_rotation = Quaternion(
+                        data[offset + 3],
+                        data[offset + 4],
+                        data[offset + 5],
+                        data[offset + 6],
+                    )
+                    trailer_size = Size(
+                        data[offset + 7], data[offset + 8], data[offset + 9]
+                    )
+
+                    trailers.append(
+                        Trailer(trailer_position, trailer_rotation, trailer_size)
+                    )
+
                 if not position.is_zero() and not rotation.is_zero():
-                    vehicles.append(Vehicle(position, rotation, size, speed, acceleration, trailer_count, trailers, id, is_tmp, is_trailer))
-                
-                data = data[16 + (2 * 10):]
-            
+                    vehicles.append(
+                        Vehicle(
+                            position,
+                            rotation,
+                            size,
+                            speed,
+                            acceleration,
+                            trailer_count,
+                            trailers,
+                            id,
+                            is_tmp,
+                            is_trailer,
+                        )
+                    )
+
+                data = data[16 + (2 * 10) :]
+
             if len(vehicles) > 0:
                 if vehicles[0].is_tmp:
                     for vehicle in vehicles:
@@ -94,9 +154,9 @@ class Module(ETS2LAModule):
 
             self.last_vehicles = {vehicle.id: vehicle for vehicle in vehicles}
             return vehicles
-        except:
+        except Exception:
             logging.exception("Failed to read camera properties")
             return None
-    
+
     def run(self):
         return self.get_traffic()
