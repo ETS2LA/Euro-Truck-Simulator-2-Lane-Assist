@@ -231,6 +231,8 @@ class Page(ETS2LAPage):
                 pass
 
     def seconds_to_time(self, seconds):
+        if not seconds:
+            return ngettext("{0} minute", "{0} minutes", 0).format(0)
         if seconds == 0:
             return ngettext("{0} minute", "{0} minutes", 0).format(0)
 
