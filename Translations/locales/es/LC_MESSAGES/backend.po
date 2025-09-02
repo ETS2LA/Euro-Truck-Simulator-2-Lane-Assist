@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-09 04:37+0000\n"
-"Last-Translator: erjulixn <erjulixn@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-03 13:06+0000\n"
+"Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
 "Language: es\n"
@@ -158,159 +158,171 @@ msgstr "Se intentó enviar una página vacía."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:281
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Se inició el websocket emergente de frontend."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:102
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "El frontend quiere realizar una actualización."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:160
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "No se pudo establecer la transparencia"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:325
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "No se pudieron obtener los datos de la etiqueta"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:360
 msgid "Failed to get pages"
-msgstr ""
+msgstr "No se pudieron obtener las páginas"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:374
 msgid "Failed to get page data for page {0}"
-msgstr ""
+msgstr "No se pudieron obtener los datos de la página {0}"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:385
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "No se pudieron recargar los plugins"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:398
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "No se pudo construir la interfaz"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:406
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Construyendo frontend... por favor espere..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:410
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "No se pudo iniciar el frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:428
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "El servidor web se inició en http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:433
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "El frontend se inició en http://{ip}:{puerto}"
 
 #: .\ETS2LA\Utils\Console\logging.py:85
 msgid "Logging initialized."
-msgstr ""
+msgstr "Registro inicializado."
 
 #: .\ETS2LA\Utils\Console\logs.py:13
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Errores y advertencias en los archivos de registro:"
 
 #: .\ETS2LA\Utils\Console\logs.py:29
 msgid "Errors: "
-msgstr ""
+msgstr "Errores: "
 
 #: .\ETS2LA\Utils\Console\logs.py:31
 msgid "Warnings: "
-msgstr ""
+msgstr "Advertencias: "
 
 #: .\ETS2LA\Utils\Console\logs.py:36
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "No se encontraron errores ni advertencias."
 
 #: .\ETS2LA\Window\html.py:84
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Por favor espere mientras inicializamos la interfaz de usuario"
 
 #: .\ETS2LA\Window\utils.py:191
 msgid "Looking for ETS2LA window... [dim]({timeout}s timeout)[/dim]"
-msgstr ""
+msgstr "Buscando la ventana ETS2LA... [dim]({timeout}s tiempo de espera)[/dim]"
 
 #: .\ETS2LA\Window\utils.py:200
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"No se pudo encontrar/iniciar la ventana de ETS2LA. ¿Tu PC es lo "
+"suficientemente potente? Usa https://app.ets2la.com si crees que podrás "
+"ejecutarlo."
 
 #: .\ETS2LA\core.py:62
 msgid "Backend started successfully"
-msgstr ""
+msgstr "El backend se inició correctamente"
 
 #: .\Pages\about.py:19
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Desarrollador principal y creador de ETS2LA, backend y frontend."
 
 #: .\Pages\about.py:20
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr ""
+"Detección de navegación, detección de semáforos, ETS2LA Lite, 'copropietario'"
 
 #: .\Pages\about.py:21
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Varias adiciones y mejoras, modelos y desarrollo de IA de detección de "
+"objetos"
 
 #: .\Pages\about.py:22
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Desarrollador del SDK de ETS2LA para el juego. Vehículos, semáforos, datos "
+"de cámara y más, directamente desde el juego."
 
 #: .\Pages\about.py:23
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Extracción y procesamiento de datos de juegos"
 
 #: .\Pages\about.py:24
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Puerto para Linux y Unix, diversas mejoras y correcciones de errores"
 
 #: .\Pages\about.py:25
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
 msgstr ""
+"Desarrollador de C++ del SDK de ETS2LA, puerto para Linux y Unix, corrección "
+"de errores"
 
 #: .\Pages\about.py:26
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Ayuda con la navegación en ETS2LA y el mapa"
 
 #: .\Pages\about.py:27
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "Desarrollador del controlador scs-sdk"
 
 #: .\Pages\about.py:28
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "Modelos 3D para la visualización"
 
 #: .\Pages\about.py:29
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Desarrollo de extractor de datos, soporte para mapas modificados."
 
 #: .\Pages\about.py:30
 msgid "Discord rich presence plugin developer, slight backend updates."
 msgstr ""
+"Desarrollador del complemento de presencia enriquecida de Discord, ligeras "
+"actualizaciones de backend."
 
 #: .\Pages\about.py:31
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Traducción al chino, corrección de errores"
 
 #: .\Pages\about.py:32
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Traducciones al chino, corrección de errores"
 
 #: .\Pages\about.py:33
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Cálculos de desplazamiento automático para el complemento Mapa."
 
 #: .\Pages\about.py:34
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Soporte para servidor Discord, desarrollador de traductor chino-inglés."
 
 #: .\Pages\about.py:35
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Mantenimiento de espejos CN para servicios ETS2LA."
 
 #: .\Pages\about.py:36
 msgid "Game hooks"
@@ -319,7 +331,7 @@ msgstr ""
 #: .\Pages\about.py:37 .\Pages\about.py:38 .\Pages\about.py:39
 #: .\Pages\about.py:40 .\Pages\about.py:41 .\Pages\about.py:42
 msgid "Bug fixes"
-msgstr ""
+msgstr "Corrección de errores"
 
 #: .\Pages\about.py:90
 msgid "Fixing wipers (5s timer)"
@@ -335,97 +347,103 @@ msgstr ""
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
-msgstr ""
+msgstr "Activando actualización"
 
 #: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minuto"
+msgstr[1] "{0} minutos"
 
 #: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} hora"
+msgstr[1] "{0} horas"
 
 #: .\Pages\about.py:131
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} y {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "¡Aviso!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"Un SDK para {0} está desactualizado. Reinstálelo para actualizarlo a la "
+"última versión en la configuración del SDK."
 
 #: .\Pages\about.py:158
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 #: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA es un proyecto que tiene como objetivo proporcionar una solución de "
+"conducción autónoma fácil de usar para ETS2 y ATS. Si desea obtener más "
+"información, puede visitar la página de github o la wiki a través de la "
+"barra lateral."
 
 #: .\Pages\about.py:164
 msgid "Statistics"
-msgstr ""
+msgstr "Estadísticas"
 
 #: .\Pages\about.py:168
 msgid "Users online:"
-msgstr ""
+msgstr "Usuarios en línea:"
 
 #: .\Pages\about.py:169
 msgid "{0} users"
-msgstr ""
+msgstr "{0} usuarios"
 
 #: .\Pages\about.py:171
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Últimas 24 horas:"
 
 #: .\Pages\about.py:172
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} usuarios únicos"
 
 #: .\Pages\about.py:174
 msgid "Your usage time:"
-msgstr ""
+msgstr "Su tiempo de uso:"
 
 #: .\Pages\about.py:179
 msgid "You are not logged in."
-msgstr ""
+msgstr "No has iniciado sesión."
 
 #: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Su ID de usuario anónimo es: {0}"
 
 #: .\Pages\about.py:184
 msgid "You are logged in."
-msgstr ""
+msgstr "Has iniciado sesión."
 
 #: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "¡Bienvenido de nuevo, {0}!"
 
 #: .\Pages\about.py:189
 msgid "Contributors"
-msgstr ""
+msgstr "Colaboradores"
 
 #: .\Pages\about.py:200
 msgid "Translations"
-msgstr ""
+msgstr "Traducciones"
 
 #: .\Pages\about.py:210 .\Pages\global_settings.py:248
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
-msgstr ""
+msgstr "Lista de contribuyentes"
 
 #: .\Pages\about.py:212 .\Pages\global_settings.py:250
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
-msgstr ""
+msgstr "Ayuda a traducir"
 
 #: .\Pages\about.py:216
 msgid "Support Development"
@@ -434,18 +452,24 @@ msgstr ""
 #: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Si te gusta el proyecto y quieres apoyar el desarrollo, puedes hacerlo "
+"donando a través de Ko-Fi."
 
 #: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Si quieres contribuir, te recomiendo unirte al servidor de discord y visitar "
+"la página de github."
 
 #: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Si quieres contribuir a las traducciones, entonces puedes hacerlo uniéndote "
+"al discord y contactando con un moderador."
 
 #: .\Pages\about.py:231
 msgid "Utils"
-msgstr ""
+msgstr "Utilidades"
 
 #: .\Pages\about.py:235
 msgid "Fix Wipers"
@@ -454,58 +478,65 @@ msgstr ""
 #: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"¿Se te atascaron los limpiaparabrisas? Haz clic en el botón y presiona Alt "
+"Tab para entrar al juego. Deberían apagarse en 5 segundos."
 
 #: .\Pages\about.py:237
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #: .\Pages\about.py:242
 msgid "Force an update"
-msgstr ""
+msgstr "Forzar actualización"
 
 #: .\Pages\about.py:243
+#, fuzzy
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"¿Crees que debería haber habido una actualización? Haga clic en este botón y "
+"la aplicación reiniciará y comprobará por ellos."
 
 #: .\Pages\about.py:244 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Actualización"
 
 #: .\Pages\catalogue.py:83 .\Pages\catalogue.py:88
 msgid "Unknown"
-msgstr ""
+msgstr "Desconocido"
 
 #: .\Pages\catalogue.py:84
 msgid "No overview provided."
-msgstr ""
+msgstr "No se ofrece una visión general."
 
 #: .\Pages\catalogue.py:85
 msgid "No description provided."
-msgstr ""
+msgstr "No hay descripción proporcionada."
 
 #: .\Pages\catalogue.py:133
 msgid "Installing"
-msgstr ""
+msgstr "Instalación"
 
 #: .\Pages\catalogue.py:144 .\Pages\catalogue.py:182
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin no se encuentra en el catálogo."
 
 #: .\Pages\catalogue.py:148
 msgid "Cloning repository"
-msgstr ""
+msgstr "Repositorio de clonación"
 
 #: .\Pages\catalogue.py:151
 msgid "Installing requirements"
-msgstr ""
+msgstr "Requisitos de instalación"
 
 #: .\Pages\catalogue.py:154
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Iniciar el proceso en segundo plano del complemento"
 
 #: .\Pages\catalogue.py:158
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"No se pudo iniciar el proceso en segundo plano del complemento, pero se "
+"instalaron los archivos del complemento."
 
 #: .\Pages\catalogue.py:160 .\Pages\catalogue.py:226
 msgid "Success"
@@ -917,7 +948,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:400
 msgid "Enable this option to use the edge debugger for the frontend."
-msgstr ""
+msgstr "Permite esta opción para usar el depurador de bordes para el frontend."
 
 #: .\Pages\global_settings.py:406
 msgid "Default UI Mirror"
