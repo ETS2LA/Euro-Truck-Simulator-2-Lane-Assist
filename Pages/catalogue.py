@@ -183,6 +183,7 @@ class Page(ETS2LAPage):
         try:
             self.installing_state = _("Cloning repository")
             self.reset_timer()
+            git.Repo.clone_from(target.repository, f"CataloguePlugins/{target.name}")
             if os.path.exists(f"CataloguePlugins/{target.name}/requirements.txt"):
                 self.installing_state = _("Installing requirements")
                 self.reset_timer()

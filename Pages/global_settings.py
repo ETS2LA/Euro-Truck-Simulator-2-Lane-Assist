@@ -196,6 +196,9 @@ class Page(ETS2LAPage):
             utils_settings.Set("global", "ad_preference", ad_preference)
             return
 
+        if ad_preference not in ad_preferences:
+            ad_preference = _("Minimal (recommended)")
+
         utils_settings.Set(
             "global", "ad_preference", ad_preferences.get(ad_preference, 1)
         )
