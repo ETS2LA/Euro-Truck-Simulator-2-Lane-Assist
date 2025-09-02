@@ -259,7 +259,10 @@ class Page(ETS2LAPage):
         ads = settings.Get("global", "ad_preference", default=1)
         if ads >= 1:
             with Container(
-                style=styles.FlexHorizontal() + styles.Padding("40px 0px 0px 80px")
+                style=styles.FlexVertical()
+                + styles.Gap("4px")
+                + styles.Padding("40px 0px 0px 80px")
+                + styles.Classname("relative")
             ):
                 AdSense(
                     client="ca-pub-6002744323117854",
@@ -267,6 +270,11 @@ class Page(ETS2LAPage):
                     style=styles.Style(
                         display="inline-block", width="900px", height="90px"
                     ),
+                )
+                Text(
+                    "Ads can be disabled in the settings, they support development.",
+                    styles.Classname("text-muted-foreground")
+                    + styles.Style(font_size="9px"),
                 )
         elif self.show_kofi:
             with Container(
