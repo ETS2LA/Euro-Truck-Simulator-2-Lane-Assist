@@ -270,7 +270,7 @@ class SettingsMenu(ETS2LAPage):
                     changed=self.handle_Traffic_Side,
                 )
 
-                for key, data in index.items():
+                for key, _data in index.items():
                     if key not in configs:
                         continue
 

@@ -53,8 +53,7 @@ class Model:
         torch_dtype: torch.dtype = torch.bfloat16,
         threaded: bool = True,
     ):
-        """
-        Initialize a model.
+        """Initialize a model.
 
         Parameters
         ----------
@@ -74,6 +73,7 @@ class Model:
         Returns
         -------
         None
+
         """
         self.torch_dtype = torch_dtype
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -131,8 +131,7 @@ class Model:
             pass
 
     def detect(self, image: numpy.ndarray):
-        """
-        Run the model on an image.
+        """Run the model on an image.
         Automatically converts and resizes the image.
 
         Parameters
@@ -144,6 +143,7 @@ class Model:
         -------
         list
             The output of the model.
+
         """
         try:
             if len(image.shape) == 3:
@@ -176,8 +176,7 @@ class Model:
             )
 
     def load_model(self):
-        """
-        Load the model from the cache, automatically handles updates.
+        """Load the model from the cache, automatically handles updates.
 
         Parameters
         ----------
@@ -186,6 +185,7 @@ class Model:
         Returns
         -------
         None
+
         """
         try:
 
@@ -332,8 +332,7 @@ class Model:
             )
 
     def check_for_updates(self):
-        """
-        Checks for model updates.
+        """Checks for model updates.
 
         Parameters
         ----------
@@ -342,6 +341,7 @@ class Model:
         Returns
         -------
         None
+
         """
         try:
 
@@ -648,8 +648,7 @@ class Model:
             )
 
     def folder_exists(self):
-        """
-        Creates the model folder if it doesn't exist.
+        """Creates the model folder if it doesn't exist.
 
         Parameters
         ----------
@@ -658,6 +657,7 @@ class Model:
         Returns
         -------
         None
+
         """
         try:
             if not os.path.exists(self.path):
@@ -668,8 +668,7 @@ class Model:
             )
 
     def get_name(self):
-        """
-        Returns the file name of the model.
+        """Returns the file name of the model.
 
         Parameters
         ----------
@@ -678,6 +677,7 @@ class Model:
         Returns
         -------
         None
+
         """
         try:
             self.folder_exists()
@@ -692,8 +692,7 @@ class Model:
             return None
 
     def delete(self):
-        """
-        Deletes the model.
+        """Deletes the model.
 
         Parameters
         ----------
@@ -702,6 +701,7 @@ class Model:
         Returns
         -------
         None
+
         """
         try:
             if "--dev" in sys.argv and os.listdir(self.path) != []:
@@ -735,8 +735,7 @@ class Model:
             )
 
     def handle_broken(self):
-        """
-        Deletes and redownloads the model if it's broken.
+        """Deletes and redownloads the model if it's broken.
 
         Parameters
         ----------
@@ -745,6 +744,7 @@ class Model:
         Returns
         -------
         None
+
         """
         try:
             if "--dev" in sys.argv:

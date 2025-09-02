@@ -1,5 +1,4 @@
-"""
-This file provides a websocket server that can send notifications
+"""This file provides a websocket server that can send notifications
 to the frontend. Below is the format that the frontend can
 expect to receive data in:
 
@@ -63,15 +62,13 @@ condition = threading.Condition()
 
 
 async def server(websocket, path) -> None:
-    """
-    The main websocket server that listens for client's
+    """The main websocket server that listens for client's
     messages. Please note that this server is called
     for every new connection!
 
     :param websocket: The websocket object (filled by websockets)
     :param path: The path that the client (filled by websockets)
     """
-
     global connected
     connected[websocket] = None
     try:
@@ -107,15 +104,13 @@ async def send_sonner(
     type: Literal["info", "warning", "error", "success", "promise"] = "info",
     sonner_promise: str | None = None,
 ) -> None:
-    """
-    Will send a notification to all connected clients.
+    """Will send a notification to all connected clients.
     This function is blocking until all messages are sent.
 
     :param str text: The text of the notification
     :param str type: The type of the notification
     :param str sonner_promise: The promise ID (deprecated)
     """
-
     global connected
     message_dict = {"text": text, "type": type, "promise": sonner_promise}
 
@@ -130,15 +125,12 @@ def sonner(
     type: Literal["info", "warning", "error", "success", "promise"] = "info",
     sonner_promise: str | None = None,
 ) -> None:
-    """
-    Blocking non-async function that will send a notification to all connected clients.
-    """
+    """Blocking non-async function that will send a notification to all connected clients."""
     asyncio.run(send_sonner(text, type, sonner_promise))
 
 
 async def send_ask(text: str, options: list[str], description: str) -> dict:
-    """
-    Will send a dialog with a question with the given options.
+    """Will send a dialog with a question with the given options.
     This function is blocking until a response is received.
 
     :param str text: The text of the question
@@ -174,17 +166,14 @@ async def send_ask(text: str, options: list[str], description: str) -> dict:
 
 
 def ask(text: str, options: list, description: str = "") -> dict:
-    """
-    Non-async function that will send a dialog with a question with the given options.
-    """
+    """Non-async function that will send a dialog with a question with the given options."""
     sounds.Play("info")
     response = asyncio.run(send_ask(text, options, description))
     return response
 
 
 async def send_navigate(url: str, sender: str, reason: str = "") -> None:
-    """
-    Send a command to the frontend to navigate to a new page.
+    """Send a command to the frontend to navigate to a new page.
 
     :param str url: The page to navigate to.
     """
@@ -198,9 +187,7 @@ async def send_navigate(url: str, sender: str, reason: str = "") -> None:
 
 
 def navigate(url: str, sender: str, reason: str = "") -> None:
-    """
-    Non-async function that will send a command to the frontend to navigate to a new page.
-    """
+    """Non-async function that will send a command to the frontend to navigate to a new page."""
     if url == "":
         logging.error(_("Tried to send an empty page."))
         return
@@ -208,8 +195,7 @@ def navigate(url: str, sender: str, reason: str = "") -> None:
 
 
 async def send_dialog(json_data: dict, no_response: bool = False) -> dict | None:
-    """
-    Send a dialog with the given json data to all connected clients.
+    """Send a dialog with the given json data to all connected clients.
     Will wait for a response if no_response is False.
 
     :param dict json_data: The JSON data to send to the dialog
@@ -241,8 +227,7 @@ async def send_dialog(json_data: dict, no_response: bool = False) -> dict | None
 
 
 def dialog(ui: dict, no_response: bool = False) -> dict | None:
-    """
-    Non-async function that will send a dialog with the given json data to all connected clients.
+    """Non-async function that will send a dialog with the given json data to all connected clients.
 
     :param dict ui: The JSON data to send to the dialog
     :param bool no_response: If True, this function will not wait for a response.
@@ -255,17 +240,13 @@ def dialog(ui: dict, no_response: bool = False) -> dict | None:
 
 
 async def start() -> None:
-    """
-    Serve the websocket server on 0.0.0.0 and port 37521.
-    """
+    """Serve the websocket server on 0.0.0.0 and port 37521."""
     wsServer = websockets.serve(server, "0.0.0.0", 37521, logger=logging.Logger("null"))
     await wsServer
 
 
 def run_thread():
-    """
-    Run the websocket server in a new thread.
-    """
+    """Run the websocket server in a new thread."""
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.run_until_complete(start())
@@ -273,8 +254,7 @@ def run_thread():
 
 
 def run():
-    """
-    Non-async function that will start the websocket server
+    """Non-async function that will start the websocket server
     on a dedicated thread. This thread is a daemon so it will
     close when the parent thread closes.
     """

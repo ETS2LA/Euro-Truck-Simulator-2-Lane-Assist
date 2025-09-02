@@ -7,11 +7,11 @@ from Plugins.Map.utils import internal_map as im
 
 
 def update_road_data():
-    """
-    Update road data by clearing existing road data and marking for update.
+    """Update road data by clearing existing road data and marking for update.
 
     Returns:
         bool: True if successful, False otherwise
+
     """
     data.map.clear_road_data()
     im.road_image = None
@@ -20,11 +20,11 @@ def update_road_data():
 
 
 def execute_offset_update():
-    """
-    Execute offset configuration update.
+    """Execute offset configuration update.
 
     Returns:
         bool: True if update was successful, False if no update was needed or error occurred
+
     """
     try:
         if offset_handler.update_offset_config():
@@ -41,11 +41,11 @@ def execute_offset_update():
 
 
 def generate_rules():
-    """
-    Generate rules configuration based on current settings.
+    """Generate rules configuration based on current settings.
 
     Returns:
         bool: True if rules were generated successfully, False otherwise
+
     """
     try:
         with open(offset_handler.CONFIG_PATH, "r") as f:
@@ -65,11 +65,11 @@ def generate_rules():
 
 
 def clear_lane_offsets():
-    """
-    Clear all lane offset configurations.
+    """Clear all lane offset configurations.
 
     Returns:
         bool: True if offsets were cleared, False if no offsets existed or error occurred
+
     """
     try:
         if offset_handler.clear_lane_offsets(clear=""):
@@ -84,11 +84,11 @@ def clear_lane_offsets():
 
 
 def clear_rules():
-    """
-    Clear all rules configurations.
+    """Clear all rules configurations.
 
     Returns:
         bool: True if rules were cleared, False if no rules existed or error occurred
+
     """
     try:
         if offset_handler.clear_lane_offsets(clear="rules"):
@@ -103,21 +103,21 @@ def clear_rules():
 
 
 def trigger_data_update(plugin_instance):
-    """
-    Trigger a data update by resetting the downloaded data flag.
+    """Trigger a data update by resetting the downloaded data flag.
 
     Args:
         plugin_instance: The plugin instance to update settings for
+
     """
     plugin_instance.settings.downloaded_data = ""
 
 
 def use_auto_offset():
-    """
-    Toggle the use of auto offset.
+    """Toggle the use of auto offset.
 
     Args:
         plugin_instance: The plugin instance to update settings for
+
     """
     try:
         data.plugin.state.text = "Updating per_name data..."

@@ -1,5 +1,4 @@
-"""
-Reads information like configs or controls from the game files.
+"""Reads information like configs or controls from the game files.
 This file is quite old but still works, it just means the code is not
 that pretty... well that might be an understatement, it's quite ugly :)
 """
@@ -68,8 +67,7 @@ def get_paths():
 
 
 def ReadProfileControlsFile(game="automatic"):
-    """
-    Reads the controls file of the selected game with the most recent usedprofile.
+    """Reads the controls file of the selected game with the most recent usedprofile.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -199,8 +197,7 @@ def ReadProfileControlsFile(game="automatic"):
 
 
 def ReadProfileConfigFile(game="automatic"):
-    """
-    Reads the config_local file of the selected game with the most recent usedprofile.
+    """Reads the config_local file of the selected game with the most recent usedprofile.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -333,8 +330,7 @@ def ReadProfileConfigFile(game="automatic"):
 
 
 def ReadGlobalControlsFile(game="automatic"):
-    """
-    Reads the global controls file of the selected game.
+    """Reads the global controls file of the selected game.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -387,8 +383,7 @@ def ReadGlobalControlsFile(game="automatic"):
 
 
 def ReadGlobalConfigFile(game="automatic"):
-    """
-    Reads the global config file of the selected game.
+    """Reads the global config file of the selected game.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -439,8 +434,7 @@ def ReadGlobalConfigFile(game="automatic"):
 
 
 def ReadGameLogFile(game="automatic"):
-    """
-    Reads the game log of the selected game.
+    """Reads the game log of the selected game.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -491,8 +485,7 @@ def ReadGameLogFile(game="automatic"):
 
 
 def GetCurrentProfile(game="automatic"):
-    """
-    Returns the ID of the current profile of the selected game.
+    """Returns the ID of the current profile of the selected game.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -593,8 +586,7 @@ def GetCurrentProfile(game="automatic"):
 
 
 def GetCurrentProfilePath(game="automatic"):
-    """
-    Returns the ID of the current profile of the selected game.
+    """Returns the ID of the current profile of the selected game.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()
@@ -727,8 +719,7 @@ def GetCurrentProfilePath(game="automatic"):
 
 
 def GetAllProfiles(game="automatic"):
-    """
-    Returns a list of all profiles of the selected game.
+    """Returns a list of all profiles of the selected game.
     game: "automatic" or "ats" or "ets2"
     """
     get_paths()

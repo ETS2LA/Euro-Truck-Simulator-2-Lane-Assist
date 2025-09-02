@@ -103,8 +103,8 @@ def needs_update(game: str) -> bool:
         with open(game + target_path + "\\" + file, "rb") as f:
             game_hashes[file] = hashlib.sha256(f.read()).hexdigest()
 
-    for file, hash in hashes_for_version[game_versions[games.index(game)]].items():
-        if file not in game_hashes or game_hashes[file] != hash:
+    for file, filehash in hashes_for_version[game_versions[games.index(game)]].items():
+        if file not in game_hashes or game_hashes[file] != filehash:
             return True  # file is missing or has a different hash, which means it is outdated
 
     return False  # everything is fine, no update needed
@@ -281,7 +281,7 @@ class Page(ETS2LAPage):
             else:
                 running = IsGameRunning()
 
-                for found_game, version in zip(games, game_versions):
+                for found_game, version in zip(games, game_versions, strict=False):
                     not_supported = False
 
                     file_install_status = []

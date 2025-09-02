@@ -1,5 +1,4 @@
-"""
-This is an almost complete CSS implementation for use in Python. You can
+"""This is an almost complete CSS implementation for use in Python. You can
 either add styles together `styles.Style() + styles.Style()`, or you can
 customize a single style class like `styles.Style(classname="my-class")`.
 """
@@ -10,8 +9,7 @@ from typing import Optional, Literal
 
 @dataclass
 class Style:
-    """
-    This class contains most of the CSS properties that are available
+    """This class contains most of the CSS properties that are available
     in the style attribute of HTML elements. You can use it to add custom
     styling to any of the ETS2LA widgets.
 

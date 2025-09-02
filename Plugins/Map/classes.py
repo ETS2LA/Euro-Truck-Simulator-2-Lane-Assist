@@ -59,18 +59,19 @@ class NonFacilityPOI(StrEnum):
     TRAIN = "train"
 
 
-class DarkColors(Enum):
-    0 == (233, 235, 236)
-    1 == (230, 203, 158)
-    2 == (216, 166, 79)
-    3 == (177, 202, 155)
+DarkColors: list[tuple[int, int, int]] = [
+    (233, 235, 236),
+    (230, 203, 158),
+    (216, 166, 79),
+    (177, 202, 155),
+]
 
-
-class LightColors(Enum):
-    0 == (90, 92, 94)
-    1 == (112, 95, 67)
-    2 == (80, 68, 48)
-    3 == (51, 77, 61)
+LightColors: list[tuple[int, int, int]] = [
+    (90, 92, 94),
+    (112, 95, 67),
+    (80, 68, 48),
+    (51, 77, 61),
+]
 
 
 class MapColor(IntEnum):
@@ -1398,7 +1399,9 @@ class Road(BaseItem):
                 else (0, 0, 0, 0)
             )
 
-            length = math.sqrt(sum((e - s) ** 2 for s, e in zip(start_pos, end_pos)))
+            length = math.sqrt(
+                sum((e - s) ** 2 for s, e in zip(start_pos, end_pos, strict=False))
+            )
             needed_points = max(int(length * road_quality), min_quality)
 
             for i in range(needed_points):
@@ -2214,7 +2217,7 @@ class PrefabNavCurve:
         next_lines: list[int],
         prev_lines: list[int],
         semaphore_id: int,
-        points: list[Position] = [],
+        points: list[Position] = None,
     ):
         self.nav_node_index = nav_node_index
         self.start = start
@@ -2222,7 +2225,7 @@ class PrefabNavCurve:
         self.next_lines = next_lines
         self.prev_lines = prev_lines
         self.semaphore_id = semaphore_id
-        self._points = points
+        self._points = points if points is not None else []
 
     @property
     def points(self) -> list[Position]:
@@ -3293,7 +3296,7 @@ class MapData:
         closest_point_distance = math.inf
         for item in in_bounding_box:
             if isinstance(item, Prefab):
-                for lane_id, lane in enumerate(item.nav_routes):
+                for _lane_id, lane in enumerate(item.nav_routes):
                     for point in lane.points:
                         point_tuple = point.tuple()
                         point_tuple = (point_tuple[0], point_tuple[2])
@@ -3310,7 +3313,7 @@ class MapData:
                     item._lanes = []
                 if not item.lanes:  # If lanes list is empty, generate points
                     item.generate_points()
-                for lane_id, lane in enumerate(item.lanes):
+                for _lane_id, lane in enumerate(item.lanes):
                     for point in lane.points:
                         point_tuple = point.tuple()
                         point_tuple = (point_tuple[0], point_tuple[2])

@@ -63,10 +63,10 @@ class scsTelemetry:
     # MARK: VARIABLE READING
 
     def readGame(self, offset):
-        int = struct.unpack("i", self.mm[offset : offset + 4])[0]
-        if int == 1:
+        game = struct.unpack("i", self.mm[offset : offset + 4])[0]
+        if game == 1:
             return "ETS2", offset + 4
-        elif int == 2:
+        elif game == 2:
             return "ATS", offset + 4
         else:
             return "unknown", offset + 4
@@ -75,7 +75,7 @@ class scsTelemetry:
 
     def readTrailer(self, offset, count=1):
         trailers = []
-        for i in range(count):
+        for _i in range(count):
             data = {}
 
             # START OF FIRST ZONE AT OFFSET 0
@@ -220,8 +220,8 @@ class scsTelemetry:
 
     def readBool(self, offset, count=1):
         if count == 1:
-            bool = struct.unpack("?", self.mm[offset : offset + 1])[0]
-            return bool, offset + 1
+            boolean = struct.unpack("?", self.mm[offset : offset + 1])[0]
+            return boolean, offset + 1
         else:
             bools = []
             for i in range(count):
@@ -232,8 +232,8 @@ class scsTelemetry:
 
     def readInt(self, offset, count=1):
         if count == 1:
-            int = struct.unpack("i", self.mm[offset : offset + 4])[0]
-            return int, offset + 4
+            value = struct.unpack("i", self.mm[offset : offset + 4])[0]
+            return value, offset + 4
         else:
             ints = []
             for i in range(count):
@@ -244,8 +244,8 @@ class scsTelemetry:
 
     def readFloat(self, offset, count=1):
         if count == 1:
-            float = struct.unpack("f", self.mm[offset : offset + 4])[0]
-            return float, offset + 4
+            value = struct.unpack("f", self.mm[offset : offset + 4])[0]
+            return value, offset + 4
         else:
             floats = []
             for i in range(count):

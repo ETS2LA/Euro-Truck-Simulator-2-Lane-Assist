@@ -35,7 +35,7 @@ def discover_plugins() -> None:
     plugin_folders = []
 
     for folder in search_folders:
-        for root, dirs, files in os.walk(folder):
+        for root, _dirs, files in os.walk(folder):
             if "main.py" in files:
                 plugin_folders.append(root)
 
@@ -849,7 +849,6 @@ def page_close_event(url: str):
 # MARK: General Utils
 def get_tag_data(tag: str) -> dict:
     """Get the tag data from all plugins."""
-
     # We only need the tags dict from the first plugin as they
     # all share the same pointer.
     if not plugins:

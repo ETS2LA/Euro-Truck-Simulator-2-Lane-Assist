@@ -8,18 +8,20 @@ tmp_speed_update_frequency = 0.5  # seconds
 
 
 def rotate_around_point(point, center, pitch, yaw, roll):
-    """
-    Rotate a point around a center point by the given pitch, yaw, and roll angles (in degrees).
+    """Rotate a point around a center point by the given pitch, yaw, and roll angles (in degrees).
 
-    Parameters:
+    Parameters
+    ----------
     - point: [x, y, z] coordinates of the point to rotate
     - center: [x, y, z] coordinates of the center of rotation
     - pitch: rotation around X-axis (in degrees)
     - yaw: rotation around Y-axis (in degrees)
     - roll: rotation around Z-axis (in degrees)
 
-    Returns:
+    Returns
+    -------
     - Rotated point [x, y, z]
+
     """
     # Convert angles from degrees to radians
     pitch_rad = math.radians(pitch)
@@ -80,8 +82,7 @@ class Quaternion:
         self.z = z
 
     def euler(self):  # Convert to pitch, yaw, roll
-        """
-        var yaw = atan2(2.0*(q.y*q.z + q.w*q.x), q.w*q.w - q.x*q.x - q.y*q.y + q.z*q.z);
+        """Var yaw = atan2(2.0*(q.y*q.z + q.w*q.x), q.w*q.w - q.x*q.x - q.y*q.y + q.z*q.z);
         var pitch = asin(-2.0*(q.x*q.z - q.w*q.y));
         var roll = atan2(2.0*(q.x*q.y + q.w*q.z), q.w*q.w + q.x*q.x - q.y*q.y - q.z*q.z);
         """
@@ -234,8 +235,7 @@ class Vehicle:
         return f"Vehicle({self.position}, {self.rotation}, {self.size}, {self.speed:.2f}, {self.acceleration:.2f}, {self.trailer_count}, {self.trailers})"
 
     def get_corners(self):
-        """
-        This function will output the corners of the vehicle in the following order:
+        """This function will output the corners of the vehicle in the following order:
         1. Front left
         2. Front right
         3. Back right

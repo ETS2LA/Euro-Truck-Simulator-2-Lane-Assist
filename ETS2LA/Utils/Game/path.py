@@ -1,5 +1,4 @@
-"""
-This file is used to discover ETS2 and ATS game files.
+"""This file is used to discover ETS2 and ATS game files.
 The functions here work fine, but the code is very old so it's not
 all that pretty.
 """

@@ -1,5 +1,4 @@
-"""
-This file handles both the main logger as well as the
+"""This file handles both the main logger as well as the
 plugin specific logger.
 
 Plugins by default only log warning and up to the console,
@@ -46,13 +45,11 @@ console = Console(
 
 
 def setup_global_logging(write_file: bool = True) -> logging.Logger:
-    """
-    Setup the main logger.
+    """Setup the main logger.
 
     :param bool write_file: Whether to write the logs to a file.
     :return: main logger.
     """
-
     # logging.DEBUG is missing since we don't want the log files
     # to have this format.
     logging.addLevelName(logging.DEBUG, f"{DARK_GRAY}[DBG]{END}")
@@ -123,8 +120,7 @@ class CustomHighligher(Highlighter):
 def setup_process_logging(
     name: str, console_level=logging.INFO, filepath: str = ""
 ) -> logging.Logger:
-    """
-    Setup plugin logging.
+    """Setup plugin logging.
 
     :param str name: The name of the plugin
     :param int console_level: The console log level (default: INFO)
@@ -132,7 +128,6 @@ def setup_process_logging(
 
     :return: plugin logger.
     """
-
     # Remove the default handler
     logging.getLogger().handlers = []
     logging.getLogger().addHandler(logging.NullHandler())

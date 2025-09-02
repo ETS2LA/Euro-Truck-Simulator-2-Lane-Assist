@@ -29,12 +29,12 @@ class Module(ETS2LAModule):
         self.last_update = time.perf_counter()
 
         try:
-            format = "qff"
-            total_format = "=" + format * 6000
+            route_piece_format = "qff"
+            total_format = "=" + route_piece_format * 6000
             data = struct.unpack(total_format, self.buf[:96_000])
 
             items = []
-            for i in range(0, 6000):
+            for _i in range(0, 6000):
                 if data[0] == 0:
                     break
 

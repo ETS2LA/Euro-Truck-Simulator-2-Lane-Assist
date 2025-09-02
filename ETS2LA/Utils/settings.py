@@ -1,5 +1,4 @@
-"""
-This file is used by the backend and pages.
+"""This file is used by the backend and pages.
 Plugins should use self.settings for a more reliable way with less of a chance
 for a race condition to occur.
 
@@ -35,8 +34,8 @@ def CreateIfNotExists(plugin):
 
     Returns:
         bool: True if the file exists, False otherwise.
-    """
 
+    """
     # Check if the file exists
     filename = GetFilename(plugin)
     os.makedirs(os.path.dirname(filename), exist_ok=True)
@@ -54,8 +53,8 @@ def WaitUntilLock(plugin):
 
     Args:
         plugin (str): Plugin name to wait for.
-    """
 
+    """
     # Wait until the lock file is removed
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
     if not os.path.exists(filename):
@@ -82,8 +81,8 @@ def CreateLock(plugin):
 
     Args:
         plugin (str): Plugin name to create the lock file for.
-    """
 
+    """
     # Create the lock file
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
     with open(filename, "w") as f:
@@ -96,8 +95,8 @@ def RemoveLock(plugin):
 
     Args:
         plugin (str): Plugin name to remove the lock file from.
-    """
 
+    """
     # Remove the lock file
     filename = GetFilename(plugin).split(".json")[0] + ".lock"
 
@@ -113,8 +112,8 @@ def GetJSON(plugin, filename=None):
 
     Returns:
         dict: JSON object of the settings.
-    """
 
+    """
     # Check that the file exists
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
@@ -137,8 +136,8 @@ def Get(plugin, key, default=None):
 
     Returns:
         any: Value of the key.
-    """
 
+    """
     # Check that the file exists
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
@@ -195,8 +194,8 @@ def Set(plugin, key, value):
 
     Returns:
         any: The value of the key after setting it, None if failed.
-    """
 
+    """
     WaitUntilLock(plugin)
     filename = GetFilename(plugin)
     CreateIfNotExists(plugin)
@@ -234,6 +233,7 @@ def Listen(plugin, callback):
     Args:
         plugin (str): Plugin name to listen for changes.
         callback (function): The function to call with the changed file.
+
     """
 
     # Run a new thread to listen for changes

@@ -308,7 +308,7 @@ class RouteSection:
         ]
         distances = []
         new_points = []
-        for i, point in enumerate(points):
+        for _i, point in enumerate(points):
             distance = math_helpers.DistanceBetweenPoints(
                 point.tuple(), (data.truck_x, data.truck_y, data.truck_z)
             )
@@ -338,9 +338,9 @@ class RouteSection:
         if new_points == [] or distances == []:
             return []
 
-        paired = list(zip(new_points, distances))
+        paired = list(zip(new_points, distances, strict=False))
         paired.sort(key=lambda x: x[1])
-        new_points, distances = zip(*paired)
+        new_points, distances = zip(*paired, strict=False)
 
         new_points = list(new_points)
         distances = list(distances)

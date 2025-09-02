@@ -104,8 +104,7 @@ def GetFilenameForSound(sound: str):
 
 
 def play_audio(filename, volume=0.5):
-    """
-    Plays an audio file with volume control using sounddevice.
+    """Plays an audio file with volume control using sounddevice.
 
     :param filename: Path to the audio file
     :param volume: Volume level (0.0 to 1.0)

@@ -1,5 +1,4 @@
-"""
-Provides several useful functions for interacting
+"""Provides several useful functions for interacting
 with the window, mainly via the win32 APIs.
 """
 
@@ -25,8 +24,7 @@ if os.name == "nt":
 
 
 def get_screen_dimensions(monitor: int = 1) -> tuple[int, int, int, int]:
-    """
-    Get the specified monitor's dimensions.
+    """Get the specified monitor's dimensions.
 
     :param int monitor: The monitor index.
 
@@ -72,8 +70,7 @@ Used mainly by other files to do vision checks.
 def correct_window_position(
     window_x: int, window_y: int, width: int = 1280, height: int = 720
 ) -> tuple[int, int]:
-    """
-    Correct the window position to be inside the screen area of the closest monitor.
+    """Correct the window position to be inside the screen area of the closest monitor.
 
     :param int window_x: The window's X position.
     :param int window_y: The window's Y position.
@@ -82,7 +79,6 @@ def correct_window_position(
 
     :return tuple[int, int]: The corrected window position.
     """
-
     with mss.mss() as sct:
         monitors = sct.monitors
 
@@ -124,8 +120,7 @@ def correct_window_position(
 
 
 def get_theme_color() -> str:
-    """
-    Get the current theme color in hexadecimal.
+    """Get the current theme color in hexadecimal.
 
     :return str: The theme color in hexadecimal.
     """
@@ -180,8 +175,7 @@ def get_theme_color() -> str:
 
 
 def set_window_icon(image_path: str) -> None:
-    """
-    Set the ETS2LA window icon to a specified (.ico) image.
+    """Set the ETS2LA window icon to a specified (.ico) image.
 
     :param str image_path: The path to the image.
     """
@@ -199,12 +193,10 @@ def set_window_icon(image_path: str) -> None:
 
 
 def color_title_bar(theme: Literal["dark", "light"] = "dark"):
-    """
-    Color the title bar based on the theme
+    """Color the title bar based on the theme
 
     :param str theme: The theme to color the title bar with.
     """
-
     global dont_check_window_open
 
     sinceStart = time.perf_counter()
@@ -236,13 +228,11 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
 
 
 def check_if_window_still_open() -> bool:
-    """
-    Check if the window is still open or if it
+    """Check if the window is still open or if it
     has been closed.
 
     :return bool: The window is open.
     """
-
     global last_window_position_time
     global window_position
     if dont_check_window_open:
@@ -267,8 +257,7 @@ def check_if_window_still_open() -> bool:
 
 
 def check_if_specified_window_open(name: str) -> bool:
-    """
-    Check if a window with the specified name is open.
+    """Check if a window with the specified name is open.
 
     :param str name: The name of the window.
 
@@ -282,7 +271,7 @@ def check_if_specified_window_open(name: str) -> bool:
             ),
             top_windows,
         )
-        for hwnd, window_text in top_windows:
+        for _hwnd, window_text in top_windows:
             if name in window_text:
                 return True
 

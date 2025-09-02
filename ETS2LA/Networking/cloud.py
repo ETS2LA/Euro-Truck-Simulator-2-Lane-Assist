@@ -13,16 +13,20 @@ token = None
 username = "unknown"
 
 
-def SendFeedback(message: str, username: str, fields: dict[str, str] = {}):
+def SendFeedback(message: str, username: str, fields: dict[str, str] = None):
     """Will send a feedback message to the main application server. This will then be forwarded to the developers on discord.
 
     Args:
         message (str): The feedback message.
         username (str): The username of the user sending the feedback (e.g. Discord username or email address).
         fields (dict[str, str], optional): Additional fields to include in the feedback. Defaults to an empty dict. Key is field name, value is text.
+
     Returns:
         success (bool): False if not successful, True if successful
+
     """
+    if fields is None:
+        fields = {}
 
     if message.strip() == "":
         return False
@@ -58,7 +62,9 @@ def SendFeedback(message: str, username: str, fields: dict[str, str] = {}):
         return False
 
 
-def SendCrashReport(source: str, source_description: str, fields: dict[str, str] = {}):
+def SendCrashReport(
+    source: str, source_description: str, fields: dict[str, str] = None
+):
     """Will send a crash report to the main application server. This will then be forwarded to the developers on discord.
 
     Args:
@@ -68,7 +74,10 @@ def SendCrashReport(source: str, source_description: str, fields: dict[str, str]
 
     Returns:
         success (bool): False if not successful, True if successful
+
     """
+    if fields is None:
+        fields = {}
 
     if source_description.strip() == "" or source.strip() == "":
         return False
@@ -209,7 +218,7 @@ def CancelledJob(job: classes.CancelledJob):
     return False
 
 
-def Ping(data=[0]):
+def Ping(data=[0]):  # noqa: B006 - This mutable default is intentional
     if time.time() - data[0] > 120:  # once every 2 minutes
         user_id, _, _ = GetCredentials()
 

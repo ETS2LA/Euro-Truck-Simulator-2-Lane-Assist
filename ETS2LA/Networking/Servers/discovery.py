@@ -1,5 +1,4 @@
-"""
-This file will expose ETS2LA via the zeroconf.
+"""This file will expose ETS2LA via the zeroconf.
 Clients can access ETS2LA via http://ets2la.local:port
 """
 

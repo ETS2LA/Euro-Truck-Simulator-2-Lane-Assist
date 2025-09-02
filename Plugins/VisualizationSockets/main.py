@@ -770,7 +770,7 @@ class Plugin(ETS2LAPlugin):
         self.last_timestamp = api_data["time"]
 
         try:
-            for websocket, connection in list(self.connected_clients.items()):
+            for _websocket, connection in list(self.connected_clients.items()):
                 if not connection.acknowledged:
                     continue
 

@@ -41,8 +41,8 @@ class Module(ETS2LAModule):
         if event in self.eventCallbacks:
             self.eventCallbacks[event].append(callback)
 
-    def setSpecialBool(self, bool, value):
-        offset = self.API.specialBoolOffsets[bool]
+    def setSpecialBool(self, boolean, value):
+        offset = self.API.specialBoolOffsets[boolean]
         try:
             self.API.setBool(offset, value)
         except Exception:

@@ -148,8 +148,7 @@ class PluginProcess:
     """
 
     def get_tag(self, name: str) -> dict:
-        """
-        Get the tags from the plugin. This is used to get the
+        """Get the tags from the plugin. This is used to get the
         tags from the plugin and send them to the backend.
         """
         if name not in self.input_tags_that_need_update:
@@ -161,8 +160,7 @@ class PluginProcess:
         return self.input_tags[name]
 
     def get_mem_tag(self, name: str) -> dict:
-        """
-        Get the tags from the plugin without updating them.
+        """Get the tags from the plugin without updating them.
         This is used to get the tags from the plugin without
         sending them to the backend.
         """
@@ -175,8 +173,7 @@ class PluginProcess:
         return self.input_tags[name]
 
     def set_tag(self, name: str, value) -> None:
-        """
-        Set a tag in the plugin. This is used to set a tag
+        """Set a tag in the plugin. This is used to set a tag
         in the plugin and send it to the backend.
         """
         self.output_tags[name] = value
@@ -184,9 +181,7 @@ class PluginProcess:
         return None
 
     def set_mem_tag(self, name: str, value) -> None:
-        """
-        Set a memory tag.
-        """
+        """Set a memory tag."""
         self.mem_output[name] = value
         self.mem_needs_update = True
         return None
@@ -204,7 +199,7 @@ class PluginProcess:
                     Channel.CRASHED, {"message": f"Error importing plugin file: {e}"}
                 )
             )
-            raise ImportError(f"Error importing plugin file: {e}")
+            raise ImportError(f"Error importing plugin file: {e}") from e
 
         logging.info(f"Plugin file imported successfully: {self.file}")
 
@@ -505,8 +500,7 @@ class PluginProcess:
 
 # MARK: Handlers
 class ChannelHandler:
-    """
-    A handler for a specific channel. These are
+    """A handler for a specific channel. These are
     used by the plugin process to respond to backend
     messages.
     """
@@ -517,8 +511,7 @@ class ChannelHandler:
         self.plugin = plugin
 
     def __call__(self, message: PluginMessage):
-        """
-        Handle a message from the plugin process.
+        """Handle a message from the plugin process.
         This function is called by the plugin process
         when a message is received.
         """

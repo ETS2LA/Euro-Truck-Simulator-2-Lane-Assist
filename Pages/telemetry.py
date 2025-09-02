@@ -88,7 +88,7 @@ class Page(ETS2LAPage):
 
                 found = False
                 if not in_master and self.search_term:
-                    for key, value in data.items():
+                    for key, _value in data.items():
                         if self.search_term.lower() in key.lower():
                             found = True
                             break
@@ -122,7 +122,7 @@ class Page(ETS2LAPage):
                             Text(key, styles.Classname("text-sm"))
                             if isinstance(value, list):
                                 is_bool = False
-                                for i, val in enumerate(value):
+                                for _i, val in enumerate(value):
                                     if not isinstance(val, bool):
                                         break
                                     Text(

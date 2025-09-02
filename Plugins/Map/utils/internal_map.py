@@ -427,7 +427,7 @@ def DrawRoads(sector_change: bool) -> None:
                 for item in items:
                     if item is not None:
                         try:
-                            if getattr(item, "nav_routes"):
+                            if item.nav_routes:
                                 for lane in road.lanes:
                                     start_point = lane.points[0]
                                     end_point = lane.points[-1]

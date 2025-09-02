@@ -1,5 +1,4 @@
-"""
-The main translation interface for ETS2LA. Usual usage is to import the `_`
+"""The main translation interface for ETS2LA. Usual usage is to import the `_`
 function and use it to translate strings, e.g. `_("Hello, World!")`.
 
 Also provides a `ngettext` function for plural translations, e.g.
@@ -20,8 +19,7 @@ import os
 
 # region Usage
 def get_available_languages(localedir: str) -> list:
-    """
-    Get a list of available languages from the specified locale directory.
+    """Get a list of available languages from the specified locale directory.
 
     :param localedir: The directory where the locale files are stored.
     :return: A list of available language codes.
@@ -37,9 +35,7 @@ languages = get_available_languages("Translations/locales")
 
 
 class Translate:
-    """
-    A class to handle translations using gettext.
-    """
+    """A class to handle translations using gettext."""
 
     def __init__(self, domain: str, localedir: str, language: str):
         self.domain = domain
@@ -55,17 +51,14 @@ class Translate:
         self.language = language
 
     def get_language(self) -> str:
-        """
-        Get the currently set language.
+        """Get the currently set language.
 
         :return: The current language code.
         """
         return self.language
 
     def get_percentage(self) -> float:
-        """
-        Get the percentage of strings translated in the current language.
-        """
+        """Get the percentage of strings translated in the current language."""
         if self.language == "en":
             return 100.0
 
@@ -101,8 +94,7 @@ class Translate:
         return translated_percentage
 
     def cleanup(self, string: str) -> str:
-        """
-        Clean up a string to remove unnecessary whitespace and
+        """Clean up a string to remove unnecessary whitespace and
         fix common issues with foreign curly braces.
 
         :param string: The string to clean up.
@@ -117,8 +109,7 @@ class Translate:
         return text.format(*args) if args else text
 
     def ngettext(self, singular: str, plural: str, n: int) -> str:
-        """
-        Get the pluralized translation based on the count.
+        """Get the pluralized translation based on the count.
 
         :param singular: The singular form of the string.
         :param plural: The plural form of the string.
@@ -163,8 +154,7 @@ ngettext = _.ngettext  # Alias for ngettext
 
 
 def set_language(language: str | Language):
-    """
-    Set the language for translations.
+    """Set the language for translations.
 
     :param language: The language code to set.
     """
@@ -208,9 +198,7 @@ count = {}
 
 
 def generate_translations():
-    """
-    Generate translation files from the source code.
-    """
+    """Generate translation files from the source code."""
     target_dir = "Translations/locales"
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)

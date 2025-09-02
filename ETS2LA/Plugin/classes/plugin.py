@@ -19,9 +19,7 @@ import os
 
 
 class ETS2LAPlugin(object):
-    """
-    This is the main plugin object, you will see a list of attributes below.
-
+    """This is the main plugin object, you will see a list of attributes below.
 
     :param Description description: The description of the plugin.
     :param Author author: The author of the plugin.

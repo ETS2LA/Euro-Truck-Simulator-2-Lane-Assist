@@ -417,7 +417,10 @@ class Plugin(ETS2LAPlugin):
         self.last_loop_frametime_smoothed = SmoothedValue("time", 1)
         self.item_count = 0
 
-    def Render(self, items=[]):
+    def Render(self, items=None):
+        if not items:
+            items = []
+
         render_start = time.perf_counter()
         self.item_count = len(items)
 
@@ -439,7 +442,9 @@ class Plugin(ETS2LAPlugin):
         sorted_items = [
             item
             for _, item in sorted(
-                zip(distances, items), key=lambda pair: pair[0], reverse=True
+                zip(distances, items, strict=False),
+                key=lambda pair: pair[0],
+                reverse=True,
             )
         ]
         draw_calls = 0

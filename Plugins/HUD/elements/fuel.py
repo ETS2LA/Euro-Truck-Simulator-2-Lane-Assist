@@ -21,12 +21,12 @@ class Widget(HUDWidget):
         fuel_capacity = self.plugin.data["configFloat"]["fuelCapacity"]
 
         fuel = self.plugin.data["truckFloat"]["fuel"] / fuel_capacity
-        range = self.plugin.data["truckFloat"]["fuelRange"]  # km
+        fuel_range = self.plugin.data["truckFloat"]["fuelRange"]  # km
         unit = "km"
 
         game = self.plugin.data["scsValues"]["game"]
         if game == "ATS":
-            range *= 0.621371  # Convert km to miles for ATS
+            fuel_range *= 0.621371  # Convert km to miles for ATS
             unit = "mi"
 
         self.data = [

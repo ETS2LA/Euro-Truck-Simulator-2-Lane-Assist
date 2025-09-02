@@ -1,5 +1,4 @@
-"""
-PLEASE NOTE:
+"""PLEASE NOTE:
 - This file is in the process of being refactored.
 - The current code has been made with no regard to the final
   structure, thus the formatting and endpoints are nonsensical.
@@ -317,13 +316,13 @@ def popup(data: PopupData):
 
 
 @app.post("/backend/plugins/{plugin}/settings/{key}/set")
-def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):
+def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):  # noqa
     success = settings.Set(plugin, key, value["value"])
     return success
 
 
 @app.post("/backend/plugins/{plugin}/settings/set")
-def set_plugin_settings(plugin: str, data: dict = Body(...)):
+def set_plugin_settings(plugin: str, data: dict = Body(...)):  # noqa
     keys = data["keys"]
     setting = data["setting"]
     success = settings.Set(plugin, keys, setting)
@@ -378,7 +377,7 @@ def get_tag_data(data: TagFetchData):
         backend_data = plugins.get_tag_data(data.tag)
         count = 0
         for plugin in backend_data:
-            if data.tag in backend_data:
+            if data.tag in backend_data[plugin]:
                 count += 1
 
         return_data = {}

@@ -456,20 +456,20 @@ class Rectangle:
         self,
         start: Point | Coordinate,
         end: Point | Coordinate,
-        color: Color = Color(255, 255, 255, 255),
-        fill: Color = Color(0, 0, 0, 0),
+        color: Color = None,
+        fill: Color = None,
         thickness: int = 1,
-        fade: Fade = Fade(),
+        fade: Fade = None,
         custom_distance: float = None,
         rounding: float = 0.0,
     ):
         self.start = start
         self.end = end
         self.rounding = rounding
-        self.color = color
-        self.fill = fill
+        self.color = color if color else Color(255, 255, 255, 255)
+        self.fill = fill if fill else Color(0, 0, 0, 0)
         self.thickness = thickness
-        self.fade = fade
+        self.fade = fade if fade else Fade()
         self.custom_distance = custom_distance
 
     def is_3D(self):
@@ -531,16 +531,16 @@ class Line:
         self,
         start: Point | Coordinate,
         end: Point | Coordinate,
-        color: Color = Color(255, 255, 255, 255),
+        color: Color = None,
         thickness: int = 1,
-        fade: Fade = Fade(),
+        fade: Fade = None,
         custom_distance: float = None,
     ):
         self.start = start
         self.end = end
-        self.color = color
+        self.color = color if color else Color(255, 255, 255, 255)
         self.thickness = thickness
-        self.fade = fade
+        self.fade = fade if fade else Fade()
         self.custom_distance = custom_distance
 
     def is_3D(self):
@@ -601,19 +601,19 @@ class Polygon:
     def __init__(
         self,
         points: list[Point | Coordinate],
-        color: Color = Color(255, 255, 255, 255),
-        fill: Color = Color(0, 0, 0, 0),
+        color: Color = None,
+        fill: Color = None,
         thickness: int = 1,
         closed: bool = True,
-        fade: Fade = Fade(),
+        fade: Fade = None,
         custom_distance: float = None,
     ):
         self.points = points
-        self.color = color
-        self.fill = fill
+        self.color = color if color else Color(255, 255, 255, 255)
+        self.fill = fill if fill else Color(0, 0, 0, 0)
         self.thickness = thickness
         self.closed = closed
-        self.fade = fade
+        self.fade = fade if fade else Fade()
         self.custom_distance = custom_distance
 
     def is_3D(self):
@@ -672,18 +672,18 @@ class Circle:
         self,
         center: Point | Coordinate,
         radius: float = 100,
-        color: Color = Color(255, 255, 255, 255),
-        fill: Color = Color(0, 0, 0, 0),
+        color: Color = None,
+        fill: Color = None,
         thickness: int = 1,
-        fade: Fade = Fade(),
+        fade: Fade = None,
         custom_distance: float = None,
     ):
         self.center = center
         self.radius = radius
-        self.color = color
-        self.fill = fill
+        self.color = color if color else Color(255, 255, 255, 255)
+        self.fill = fill if fill else Color(0, 0, 0, 0)
         self.thickness = thickness
-        self.fade = fade
+        self.fade = fade if fade else Fade()
         self.custom_distance = custom_distance
 
     def is_3D(self):
@@ -738,16 +738,16 @@ class Text:
         self,
         point: Point | Coordinate,
         text: str,
-        color: Color = Color(255, 255, 255, 255),
+        color: Color = None,
         size: int = 12,
-        fade: Fade = Fade(),
+        fade: Fade = None,
         custom_distance: float = None,
     ):
         self.point = point
         self.text = text
-        self.color = color
+        self.color = color if color else Color(255, 255, 255, 255)
         self.size = size
-        self.fade = fade
+        self.fade = fade if fade else Fade()
         self.custom_distance = custom_distance
 
     def is_3D(self):
@@ -807,21 +807,21 @@ class Bezier:
         p2: Point,
         p3: Point,
         p4: Point,
-        color: Color = Color(255, 255, 255, 255),
+        color: Color = None,
         thickness: float = 1.0,
         segments: int = 100,
         custom_distance: float | None = None,
-        fade: Fade = Fade(),
+        fade: Fade = None,
     ):
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
         self.p4 = p4
-        self.color = color
+        self.color = color if color else Color(255, 255, 255, 255)
         self.thickness = thickness
         self.segments = segments
         self.custom_distance = custom_distance
-        self.fade = fade
+        self.fade = fade if fade else Fade()
 
     def get_distance(self, x: float, y: float, z: float):
         if self.custom_distance is not None:

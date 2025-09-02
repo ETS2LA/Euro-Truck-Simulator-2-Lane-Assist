@@ -911,8 +911,7 @@ class Plugin(ETS2LAPlugin):
             self.controller.aforward = float(0)
 
     def apply_pid(self, target_acceleration: float) -> float:
-        """
-        Apply PID control to get smooth accelerator/brake inputs based on target acceleration.
+        """Apply PID control to get smooth accelerator/brake inputs based on target acceleration.
 
         :param float target_acceleration: Target acceleration in m/s^2
         :return float: Control output between -1.0 (full brake) and 1.0 (full throttle)

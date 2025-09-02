@@ -17,7 +17,10 @@ def get_nested_item(dataDict: dict, mapList: list[str]):
 
 
 # https://stackoverflow.com/a/7205107
-def merge(a: dict, b: dict, path=[]):
+def merge(a: dict, b: dict, path=None):
+    if not path:
+        path = []
+
     for key in b:
         if key in a:
             if isinstance(a[key], dict) and isinstance(b[key], dict):

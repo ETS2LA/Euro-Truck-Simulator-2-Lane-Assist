@@ -19,8 +19,7 @@ def increment() -> int:
 
 
 def get_fully_qualified_name(func: Callable) -> str:
-    """
-    Get the fully qualified name of a function.
+    """Get the fully qualified name of a function.
     For example: `Plugins.Map.Reload`.
     """
     mod = inspect.getmodule(func)
@@ -38,8 +37,7 @@ class Side:
 
 
 class Text:
-    """
-    This class is used to create a basic text element. You can get
+    """This class is used to create a basic text element. You can get
     different preset styles from `ETS2LA.UI.styles` or create your own.
     ```python
     Text("Hello Title", styles.Title())
@@ -48,13 +46,11 @@ class Text:
     ```
     """
 
-    def __init__(
-        self, text: str, style: Style = Style(), pressed: Callable | None = None
-    ):
+    def __init__(self, text: str, style: Style = None, pressed: Callable | None = None):
         self.id = increment()
 
         self.text = text
-        self.style = style
+        self.style = style if style else Style()
         self.pressed = pressed
 
         dictionary.append(
@@ -72,18 +68,17 @@ class Text:
 
 
 class Link:
-    """
-    Identical to the Text class, but with an additional `url` parameter.
+    """Identical to the Text class, but with an additional `url` parameter.
     Includes default styling for links, this can be overridden with
     Style.classname or just by editing the CSS with Style.
     """
 
-    def __init__(self, text: str, url: str, style: Style = Style()):
+    def __init__(self, text: str, url: str, style: Style = None):
         self.id = increment()
 
         self.text = text
         self.url = url
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {
@@ -98,17 +93,16 @@ class Link:
 
 
 class Markdown:
-    """
-    Render markdown text. Supports almost all markdown features from
+    """Render markdown text. Supports almost all markdown features from
     codeblocks all the way to iframes. The `style` parameter here controls
     the container of the markdown element, not the markdown itself.
     """
 
-    def __init__(self, text: str, style: Style = Style()):
+    def __init__(self, text: str, style: Style = None):
         self.id = increment()
 
         self.text = text
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {"markdown": {"id": self.id, "text": text, "style": style.to_dict()}}
@@ -116,16 +110,15 @@ class Markdown:
 
 
 class Icon:
-    """
-    This class will render any Lucide-React icon. You can
+    """This class will render any Lucide-React icon. You can
     see a list of them at https://lucide.dev/icons.
     """
 
-    def __init__(self, icon: str, style: Style = Style()):
+    def __init__(self, icon: str, style: Style = None):
         self.id = increment()
 
         self.icon = icon
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {"icon": {"id": self.id, "icon": icon, "style": style.to_dict()}}
@@ -138,18 +131,17 @@ class SeparatorType:
 
 
 class Separator:
-    """
-    This class is used to create a separator. It is a simple line
+    """This class is used to create a separator. It is a simple line
     that can be styled with the `style` parameter.
     """
 
     def __init__(
         self,
-        style: Style = Style(),
+        style: Style = None,
         direction: Literal["vertical", "horizontal"] = SeparatorType.HORIZONTAL,
     ):
         self.id = increment()
-        self.style = style
+        self.style = style if style else Style()
         self.direction = direction
 
         dictionary.append(
@@ -164,22 +156,20 @@ class Separator:
 
 
 class Space:
-    """
-    This class is used to create a space. It is a simple div that can be
+    """This class is used to create a space. It is a simple div that can be
     resized with the `style` parameter. You can use this to create padding
     or margin between elements without styling them directly.
     """
 
-    def __init__(self, style: Style = Style()):
+    def __init__(self, style: Style = None):
         self.id = increment()
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append({"space": {"id": self.id, "style": style.to_dict()}})
 
 
 class Container:
-    """
-    This class is used to create a container element. It basically just holds
+    """This class is used to create a container element. It basically just holds
     other elements inside it. You use this element with the python `with`
     statement to easily add elements to it.
     ```python
@@ -189,9 +179,9 @@ class Container:
     ```
     """
 
-    def __init__(self, style: Style = Style(), pressed: Callable | None = None):
+    def __init__(self, style: Style = None, pressed: Callable | None = None):
         self.id = increment()
-        self.style = style
+        self.style = style if style else Style()
         self.pressed = pressed
 
     def __enter__(self):
@@ -225,9 +215,9 @@ class _SubElement:
 
     _name: str = ""
 
-    def __init__(self, style: Style = Style()):
+    def __init__(self, style: Style = None):
         self.id = increment()
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -250,8 +240,7 @@ class BadgeType:
 
 
 class Badge:
-    """
-    This class is used to create a badge element. It basically gives you a
+    """This class is used to create a badge element. It basically gives you a
     container with a background color. You can use the `type` parameter to specify
     the type of badge you want to create. The default type is `default`.
     ```python
@@ -260,10 +249,10 @@ class Badge:
     ```
     """
 
-    def __init__(self, type: str = BadgeType.DEFAULT, style: Style = Style()):
+    def __init__(self, type: str = BadgeType.DEFAULT, style: Style = None):
         self.id = increment()
         self.type = type
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -287,8 +276,7 @@ class Badge:
 
 
 class Alert:
-    """
-    Creates an alert element. This is basically just elements with a large
+    """Creates an alert element. This is basically just elements with a large
     background around it. You can customize the background color
     with the Style class.
     ```python
@@ -297,9 +285,9 @@ class Alert:
     ```
     """
 
-    def __init__(self, style: Style = Style()):
+    def __init__(self, style: Style = None):
         self.id = increment()
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -331,8 +319,7 @@ class ButtonType:
 
 
 class Button:
-    """
-    Creates a button element. You can use this to create any types of button.
+    """Creates a button element. You can use this to create any types of button.
     Please keep in mind that the callback can only be a function. If `name` is
     specified then the first parameter of the callback will be the name given
     to the button. Otherwise the function will be called with no parameters.
@@ -357,14 +344,14 @@ class Button:
         type: Literal[
             "default", "secondary", "destructive", "outline", "ghost", "link"
         ] = ButtonType.DEFAULT,
-        style: Style = Style(),
+        style: Style = None,
         enabled: bool = True,
     ):
         self.id = increment()
         self.action = action
         self.type = type
         self.name = name
-        self.style = style
+        self.style = style if style else Style()
         self.enabled = enabled
 
     def __enter__(self):
@@ -413,8 +400,7 @@ INPUT_PLACEHOLDERS = {
 
 
 class Input:
-    """
-    Will create an input element. You can explicitly specify the type of
+    """Will create an input element. You can explicitly specify the type of
     the input for type checking on the UI side. You can use the `changed`
     parameter to specify a callback function that will be called when
     the input changes. The first parameter of the callback function
@@ -439,7 +425,7 @@ class Input:
         default,
         changed: Callable | None = None,
         type: Literal["string", "number", "password"] = InputType.STRING,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
@@ -450,7 +436,7 @@ class Input:
         self.default = default
         self.changed = changed
         self.type = type
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         dictionary.append(
@@ -468,8 +454,7 @@ class Input:
 
 
 class TextArea:
-    """
-    A large text input. You can use the `changed` parameter to specify
+    """A large text input. You can use the `changed` parameter to specify
     a callback function that will be called when the input changes. The
     first parameter of the callback function will be the changed value
     of the input.
@@ -488,14 +473,14 @@ class TextArea:
         self,
         placeholder: str = "",
         changed: Callable | None = None,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
 
         self.placeholder = placeholder
         self.changed = changed
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         dictionary.append(
@@ -512,8 +497,7 @@ class TextArea:
 
 
 class Switch:
-    """
-    Creat a switch element. You can use the `changed` parameter to specify
+    """Creat a switch element. You can use the `changed` parameter to specify
     a callback function that will be called when the switch changes. The
     first parameter of the callback function will be the changed value
     of the switch.
@@ -537,14 +521,14 @@ class Switch:
         self,
         default: bool = False,
         changed: Callable | None = None,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
 
         self.default = default
         self.changed = changed
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         dictionary.append(
@@ -561,8 +545,7 @@ class Switch:
 
 
 class Checkbox:
-    """
-    Create a checkbox element. You can use the `changed` parameter to specify
+    """Create a checkbox element. You can use the `changed` parameter to specify
     a callback function that will be called when the checkbox changes. The
     first parameter of the callback function will be the changed value
     of the checkbox.
@@ -586,14 +569,14 @@ class Checkbox:
         self,
         default: bool = False,
         changed: Callable | None = None,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
 
         self.default = default
         self.changed = changed
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         dictionary.append(
@@ -610,8 +593,7 @@ class Checkbox:
 
 
 class Slider:
-    """
-    Create a slider element. You can use the `changed` parameter to specify
+    """Create a slider element. You can use the `changed` parameter to specify
     a callback function that will be called when the slider changes. The
     first parameter of the callback function will be the changed value
     of the slider.
@@ -641,7 +623,7 @@ class Slider:
         min: float = 0,
         max: float = 100,
         step: float = 1,
-        style: Style = Style(),
+        style: Style = None,
         suffix: str = "",
         disabled: bool = False,
     ):
@@ -652,7 +634,7 @@ class Slider:
         self.min = min
         self.max = max
         self.step = step
-        self.style = style
+        self.style = style if style else Style()
         self.suffix = suffix
         self.disabled = disabled
 
@@ -674,8 +656,7 @@ class Slider:
 
 
 class ComboboxSearch:
-    """
-    This class defines how the search box of the combobox should look like.
+    """This class defines how the search box of the combobox should look like.
     ```python
     Combobox(
         search=ComboboxSearch(
@@ -690,13 +671,13 @@ class ComboboxSearch:
         self,
         placeholder: str = "Search...",
         empty: str = "Nothing found.",
-        style: Style = Style(),
+        style: Style = None,
     ):
         self.id = increment()
 
         self.placeholder = placeholder
         self.empty = empty
-        self.style = style
+        self.style = style if style else Style()
 
     def to_dict(self) -> dict:
         return {
@@ -708,8 +689,7 @@ class ComboboxSearch:
 
 
 class Combobox:
-    """
-    A combobox that allows you to select from a list of options. You can
+    """A combobox that allows you to select from a list of options. You can
     use the `changed` parameter to specify a callback function that will
     be called when the combobox changes. The first parameter of the callback
     function will be the changed value of the combobox. If you want to select
@@ -739,7 +719,7 @@ class Combobox:
         search: ComboboxSearch | None = None,
         side: str = Side.BOTTOM,
         multiple: bool = False,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
@@ -750,7 +730,7 @@ class Combobox:
         self.search = search.to_dict() if search else None
         self.side = side
         self.multiple = multiple
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         dictionary.append(
@@ -771,8 +751,7 @@ class Combobox:
 
 
 class Tabs:
-    """
-    Create a tab container, this container will hold all the `Tab` trigger
+    """Create a tab container, this container will hold all the `Tab` trigger
     elements. By styling this container you style the top bar with the list of
     tabs. You can use the `changed` parameter to specify a callback function
     when the current tab is changed.
@@ -785,9 +764,9 @@ class Tabs:
     ```
     """
 
-    def __init__(self, style: Style = Style(), changed: Callable | None = None):
+    def __init__(self, style: Style = None, changed: Callable | None = None):
         self.id = increment()
-        self.style = style
+        self.style = style if style else Style()
         self.changed = changed
 
     def __enter__(self):
@@ -814,8 +793,7 @@ class Tabs:
 
 
 class Tab:
-    """
-    This class will create a tab element. These elements can only be placed
+    """This class will create a tab element. These elements can only be placed
     inside the `Tabs` container. There are two styles for these tabs. The
     `container_style` and `trigger_style`. Container style will style the container
     that the tab's children are in. And the trigger will style the button on the
@@ -833,14 +811,14 @@ class Tab:
     def __init__(
         self,
         name: str,
-        container_style: Style = Style(),
-        trigger_style: Style = Style(),
+        container_style: Style = None,
+        trigger_style: Style = None,
     ):
         self.id = increment()
 
         self.name = name
-        self.container_style = container_style
-        self.trigger_style = trigger_style
+        self.container_style = container_style if container_style else Style()
+        self.trigger_style = trigger_style if trigger_style else Style()
 
     def __enter__(self):
         global dictionary
@@ -865,8 +843,7 @@ class Tab:
 
 
 class RadioGroup:
-    """
-    A radio group is a group of radio buttons. Basically it's like a
+    """A radio group is a group of radio buttons. Basically it's like a
     combobox but with all the options visible. You can use the `changed`
     parameter to specify a callback function that will be called when
     the radio group changes. The first parameter of the callback function
@@ -890,14 +867,14 @@ class RadioGroup:
         self,
         changed: Callable | None = None,
         default: str = "",
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
 
         self.changed = changed
         self.default = default
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
     def __enter__(self):
@@ -926,8 +903,7 @@ class RadioGroup:
 
 
 class RadioItem:
-    """
-    A radio item is a single radio button. This button can only be placed
+    """A radio item is a single radio button. This button can only be placed
     inside the `RadioGroup` container. You can use the `id` parameter to
     specify the id of the radio button. This id will be passed to the
     callback function of the `RadioGroup` when the radio button is selected.
@@ -937,11 +913,11 @@ class RadioItem:
     ```
     """
 
-    def __init__(self, id: str, style: Style = Style()):
+    def __init__(self, id: str, style: Style = None):
         self.id = increment()
 
         self.name = id
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -965,8 +941,7 @@ class RadioItem:
 
 
 class Tooltip:
-    """
-    Create a tooltip element. This element will show a tooltip when hovered
+    """Create a tooltip element. This element will show a tooltip when hovered
     over. Styles will be inputted to the relevant elements.
     ```python
     with Tooltip() as t:
@@ -1011,20 +986,19 @@ class Tooltip:
 
 
 class Progress:
-    """
-    A simple progress bar. Nothing much to it. Just be careful to not
+    """A simple progress bar. Nothing much to it. Just be careful to not
     update at like thousands of times a second, the UI will be sent to
     the frontend for each of those updates.
     ```python
     Progress(min=0, value=50, max=100)
     """
 
-    def __init__(self, value: int = 0, max: int = 100, style: Style = Style()):
+    def __init__(self, value: int = 0, max: int = 100, style: Style = None):
         self.id = increment()
 
         self.value = value
         self.max = max
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {
@@ -1039,8 +1013,7 @@ class Progress:
 
 
 class Table:
-    """
-    An automatically generated table. You can input a list of dictionaries
+    """An automatically generated table. You can input a list of dictionaries
     and the table will be generated based on that. The keys of the dictionary
     will be the column names and the values will be the data.
     ```python
@@ -1073,13 +1046,13 @@ class Table:
         self,
         data: list[dict],
         columns: dict[str, str] | None = None,
-        style: Style = Style(),
+        style: Style = None,
     ):
         self.id = increment()
 
         self.data = data
         self.columns = columns
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {
@@ -1094,8 +1067,7 @@ class Table:
 
 
 class PopoverTrigger:
-    """
-    A trigger element for a popover. This element will show the popover
+    """A trigger element for a popover. This element will show the popover
     when clicked.
     ```python
     with PopoverTrigger(id="popover_1"):
@@ -1103,9 +1075,9 @@ class PopoverTrigger:
     ```
     """
 
-    def __init__(self, id: str, style: Style = Style()):
+    def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -1128,8 +1100,7 @@ class PopoverTrigger:
 
 
 class Popover:
-    """
-    A popover element. This will show a card with the content when
+    """A popover element. This will show a card with the content when
     the trigger is clicked.
     ```python
     with PopoverTrigger(id="popover_1"):
@@ -1141,9 +1112,9 @@ class Popover:
     ```
     """
 
-    def __init__(self, id: str, style: Style = Style()):
+    def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -1166,8 +1137,7 @@ class Popover:
 
 
 class DialogTrigger:
-    """
-    A trigger element for a dialog. This element will show the dialog
+    """A trigger element for a dialog. This element will show the dialog
     when clicked.
     ```python
     with DialogTrigger(id="dialog_1"):
@@ -1175,9 +1145,9 @@ class DialogTrigger:
     ```
     """
 
-    def __init__(self, id: str, style: Style = Style()):
+    def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -1200,8 +1170,7 @@ class DialogTrigger:
 
 
 class Dialog:
-    """
-    A dialog element. This will show a card with the content when
+    """A dialog element. This will show a card with the content when
     the trigger is clicked.
     ```python
     with DialogTrigger(id="dialog_1"):
@@ -1213,9 +1182,9 @@ class Dialog:
     ```
     """
 
-    def __init__(self, id: str, style: Style = Style()):
+    def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -1238,8 +1207,7 @@ class Dialog:
 
 
 class ContextMenuTrigger:
-    """
-    A trigger element for a context menu. This element will show the
+    """A trigger element for a context menu. This element will show the
     context menu when right clicked. This element acts as a Container,
     so if you want your entire UI to trigger a context menu, then this
     should be the root element. (note that you have to define the context
@@ -1250,9 +1218,9 @@ class ContextMenuTrigger:
     ```
     """
 
-    def __init__(self, id: str, style: Style = Style()):
+    def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -1275,8 +1243,7 @@ class ContextMenuTrigger:
 
 
 class ContextMenuItem:
-    """
-    This is a singular item in the context menu. It is essentially a button
+    """This is a singular item in the context menu. It is essentially a button
     and acts like one. You can use the `action` parameter to specify a callback
     function that will be called when the item is clicked. If `name` is specified
     then the first parameter of `action` will be the name of the item.
@@ -1296,14 +1263,14 @@ class ContextMenuItem:
         self,
         name: str,
         action: Callable | None = None,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         self.id = increment()
 
         self.name = name
         self.action = action
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
     def __enter__(self):
@@ -1332,8 +1299,7 @@ class ContextMenuItem:
 
 
 class ContextMenuSubMenu:
-    """
-    This will create a sub menu inside the context menu when hovered over.
+    """This will create a sub menu inside the context menu when hovered over.
     ```python
     with ContextMenuSubMenu("More Options"):
         with ContextMenuItem(name="item_1", action=callback):
@@ -1343,11 +1309,11 @@ class ContextMenuSubMenu:
     ```
     """
 
-    def __init__(self, title: str, style: Style = Style()):
+    def __init__(self, title: str, style: Style = None):
         self.id = increment()
 
         self.title = title
-        self.style = style
+        self.style = style if style else Style()
 
     def __enter__(self):
         global dictionary
@@ -1371,8 +1337,7 @@ class ContextMenuSubMenu:
 
 
 class Spinner:
-    """
-    A spinner element that will cause anything inside it to
+    """A spinner element that will cause anything inside it to
     spin. This is useful for loading state.
     ```python
     with Spinner():
@@ -1396,8 +1361,7 @@ class Spinner:
 
 
 class Image:
-    """
-    An image element. You can use the style to specify the size and
+    """An image element. You can use the style to specify the size and
     other properties. By default the image will fill the container it is in.
 
     Please note that using URLs is the preferred way, as sending file information
@@ -1417,7 +1381,7 @@ class Image:
         file: str | None = None,
         base64: str | None = None,
         url: str | None = None,
-        style: Style = Style(),
+        style: Style = None,
         alt: str = "",
     ):
         self.id = increment()
@@ -1433,7 +1397,7 @@ class Image:
 
         self.file = file
         self.url = url
-        self.style = style
+        self.style = style if style else Style()
         self.alt = alt
         self.base64 = base64
 
@@ -1497,8 +1461,7 @@ class GraphAxisOptions:
 
 
 class Graph:
-    """
-    A graph element that can be used to display data in a visual
+    """A graph element that can be used to display data in a visual
     way. The input data is a list of dictionaries, where each key
     is the data label and the value is the data point.
 
@@ -1549,13 +1512,13 @@ class Graph:
         x: GraphAxisOptions,
         y: GraphAxisOptions | list[GraphAxisOptions],
         type: GraphType = GraphType.AREA,
-        style: Style = Style(),
+        style: Style = None,
     ):
         self.id = increment()
 
         self.data = data
         self.config = config
-        self.style = style
+        self.style = style if style else Style()
         self.x = x
         self.y = y
 
@@ -1577,8 +1540,7 @@ class Graph:
 
 
 class AdSense:
-    """
-    Embed an adsense ad. Please provide at least the `client` and `slot`
+    """Embed an adsense ad. Please provide at least the `client` and `slot`
     parameters, you can customize the ad further with the `style` parameter.
 
     ```python
@@ -1594,7 +1556,7 @@ class AdSense:
         self,
         client: str,
         slot: str,
-        style: Style = Style(),
+        style: Style = None,
     ):
         self.id = increment()
 
@@ -1603,7 +1565,7 @@ class AdSense:
 
         self.client = client
         self.slot = slot
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {
@@ -1618,8 +1580,7 @@ class AdSense:
 
 
 class Youtube:
-    """
-    A Youtube video embed. Provide the youtube video ID and it will embed the video.
+    """A Youtube video embed. Provide the youtube video ID and it will embed the video.
     You can use the `style` parameter to specify the size and other properties.
 
     ```python
@@ -1630,7 +1591,7 @@ class Youtube:
     def __init__(
         self,
         video_id: str,
-        style: Style = Style(),
+        style: Style = None,
     ):
         self.id = increment()
 
@@ -1638,7 +1599,7 @@ class Youtube:
             raise ValueError("You must specify a video ID.")
 
         self.video_id = video_id
-        self.style = style
+        self.style = style if style else Style()
 
         dictionary.append(
             {
@@ -1661,8 +1622,7 @@ def RenderUI():
 
 # MARK: Helper functions
 class ButtonWithTitleDescription:
-    """
-    This helper function will let you create a button with a title and
+    """This helper function will let you create a button with a title and
     a description.
     ```python
     def action():
@@ -1683,7 +1643,7 @@ class ButtonWithTitleDescription:
         title: str,
         description: str,
         text: str = "Click me",
-        style: Style = Style(),
+        style: Style = None,
     ):
         global dictionary
 
@@ -1693,7 +1653,7 @@ class ButtonWithTitleDescription:
         self.title = title
         self.description = description
         self.text = text
-        self.style = style
+        self.style = style if style else Style()
 
         self.previous = dictionary
         dictionary = []
@@ -1718,8 +1678,7 @@ class ButtonWithTitleDescription:
 
 
 class SliderWithTitleDescription:
-    """
-    This helper function will let you create a slider with a title and
+    """This helper function will let you create a slider with a title and
     a description.
     ```python
     def action(value: float):
@@ -1746,7 +1705,7 @@ class SliderWithTitleDescription:
         changed: Callable | None = None,
         title: str = "",
         description: str = "",
-        style: Style = Style(),
+        style: Style = None,
     ):
         global dictionary
 
@@ -1760,7 +1719,7 @@ class SliderWithTitleDescription:
         self.changed = changed
         self.title = title
         self.description = description
-        self.style = style
+        self.style = style if style else Style()
 
         self.previous = dictionary
         dictionary = []
@@ -1791,8 +1750,7 @@ class SliderWithTitleDescription:
 
 
 class ComboboxWithTitleDescription:
-    """
-    This helper function will let you create a combobox with a title and
+    """This helper function will let you create a combobox with a title and
     a description.
     ```python
     def action(value: str):
@@ -1815,7 +1773,7 @@ class ComboboxWithTitleDescription:
         changed: Callable | None = None,
         title: str = "",
         description: str = "",
-        style: Style = Style(),
+        style: Style = None,
         search: ComboboxSearch | None = None,
         side: str = Side.BOTTOM,
         multiple: bool = False,
@@ -1829,7 +1787,7 @@ class ComboboxWithTitleDescription:
         self.changed = changed
         self.title = title
         self.description = description
-        self.style = style
+        self.style = style if style else Style()
         self.search = search
         self.multiple = multiple
 
@@ -1861,8 +1819,7 @@ class ComboboxWithTitleDescription:
 
 
 class CheckboxWithTitleDescription:
-    """
-    A toggle with a title and description. This is basically a checkbox
+    """A toggle with a title and description. This is basically a checkbox
     with a title and description. You can use the `changed` parameter to
     specify a callback function that will be called when the toggle changes.
     The first parameter of the callback function will be the changed value
@@ -1889,7 +1846,7 @@ class CheckboxWithTitleDescription:
         changed: Callable | None = None,
         title: str = "",
         description: str = "",
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         global dictionary
@@ -1900,7 +1857,7 @@ class CheckboxWithTitleDescription:
         self.changed = changed
         self.title = title
         self.description = description
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         self.previous = dictionary
@@ -1930,8 +1887,7 @@ class CheckboxWithTitleDescription:
 
 
 class InputWithTitleDescription:
-    """
-    An input with a title and description. This is basically a text input
+    """An input with a title and description. This is basically a text input
     with a title and description. You can use the `changed` parameter to
     specify a callback function that will be called when the input changes.
     The first parameter of the callback function will be the changed value
@@ -1959,7 +1915,7 @@ class InputWithTitleDescription:
         title: str = "",
         description: str = "",
         type: Literal["string", "number", "password"] = InputType.STRING,
-        style: Style = Style(),
+        style: Style = None,
         disabled: bool = False,
     ):
         global dictionary
@@ -1971,7 +1927,7 @@ class InputWithTitleDescription:
         self.title = title
         self.description = description
         self.type = type
-        self.style = style
+        self.style = style if style else Style()
         self.disabled = disabled
 
         self.previous = dictionary
@@ -2001,8 +1957,7 @@ class InputWithTitleDescription:
 
 
 class TitleAndDescription:
-    """
-    A simple standardized title and description
+    """A simple standardized title and description
     for settings pages.
     ```python
     TitleAndDescription(
@@ -2012,14 +1967,14 @@ class TitleAndDescription:
     ```
     """
 
-    def __init__(self, title: str, description: str, style: Style = Style()):
+    def __init__(self, title: str, description: str, style: Style = None):
         global dictionary
 
         self.id = increment()
 
         self.title = title
         self.description = description
-        self.style = style
+        self.style = style if style else Style()
 
         self.previous = dictionary
         dictionary = []

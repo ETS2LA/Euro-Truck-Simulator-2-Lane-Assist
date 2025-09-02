@@ -248,8 +248,7 @@ class Plugin(ETS2LAPlugin):
     beeper = ProximityBeep()
 
     def select_provider(self, provider_name: str):
-        """
-        Select a provider.
+        """Select a provider.
         :param provider_name: The name of the provider to select.
         """
         for provider in providers:
@@ -265,8 +264,7 @@ class Plugin(ETS2LAPlugin):
         )  # Reset the settings page to update the provider selection
 
     def select_voice(self, voice_name: str):
-        """
-        Select a voice.
+        """Select a voice.
         :param voice_name: The name of the voice to select.
         """
         if self.selected_provider:
@@ -346,8 +344,7 @@ class Plugin(ETS2LAPlugin):
             )  # Reset the settings page to update the speed
 
     def speak(self, text: str, override_first=False):
-        """
-        Speak the given text.
+        """Speak the given text.
         :param text: The text to speak.
         """
         if self.first and not override_first:
@@ -359,9 +356,7 @@ class Plugin(ETS2LAPlugin):
             raise ValueError("No provider selected.")
 
     def map_enabled_disabled(self):
-        """
-        Check if map was enabled or disabled last frame.
-        """
+        """Check if map was enabled or disabled last frame."""
         try:
             state = self.globals.tags.status
             state = state.get("plugins.map", None) if state else None
@@ -377,9 +372,7 @@ class Plugin(ETS2LAPlugin):
             self.map_enabled = False
 
     def acc_enabled_disabled(self):
-        """
-        Check if acc was enabled or disabled last frame.
-        """
+        """Check if acc was enabled or disabled last frame."""
         try:
             state = self.globals.tags.status
             state = state.get("plugins.adaptivecruisecontrol", None) if state else None
@@ -395,9 +388,7 @@ class Plugin(ETS2LAPlugin):
             self.acc_enabled = False
 
     def closest_city_changed(self):
-        """
-        Check if the closest city changed last frame.
-        """
+        """Check if the closest city changed last frame."""
         try:
             city = self.globals.tags.closest_city
             city = city.get("plugins.map", None) if city else None
@@ -421,9 +412,7 @@ class Plugin(ETS2LAPlugin):
             self.closest_city = None
 
     def speedlimit_changed(self, api):
-        """
-        Check if the speed limit changed last frame.
-        """
+        """Check if the speed limit changed last frame."""
         try:
             speed_limit = api["truckFloat"]["speedLimit"]
             if speed_limit != self.speed_limit:

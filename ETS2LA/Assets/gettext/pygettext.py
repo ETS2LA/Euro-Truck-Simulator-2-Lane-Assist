@@ -235,9 +235,9 @@ def normalize(s, encoding):
     return s
 
 
-def containsAny(str, set):
-    """Check whether 'str' contains ANY of the chars in 'set'"""
-    return 1 in [c in str for c in set]
+def containsAny(string, target):
+    """Check whether 'str' contains ANY of the chars in 'target'"""
+    return 1 in [c in string for c in target]
 
 
 def getFilesForName(name):
@@ -248,10 +248,10 @@ def getFilesForName(name):
         # check for glob chars
         if containsAny(name, "*?[]"):
             files = glob.glob(name)
-            list = []
+            files_list = []
             for file in files:
-                list.extend(getFilesForName(file))
-            return list
+                files_list.extend(getFilesForName(file))
+            return files_list
 
         # try to find module or package
         try:
@@ -264,7 +264,7 @@ def getFilesForName(name):
 
     if os.path.isdir(name):
         # find all python files in directory
-        list = []
+        files = []
         # get extension for python source files
         _py_ext = importlib.machinery.SOURCE_SUFFIXES[0]
         for root, dirs, files in os.walk(name):
@@ -272,14 +272,14 @@ def getFilesForName(name):
             if "CVS" in dirs:
                 dirs.remove("CVS")
             # add all *.py files to list
-            list.extend(
+            files.extend(
                 [
                     os.path.join(root, file)
                     for file in files
                     if os.path.splitext(file)[1] == _py_ext
                 ]
             )
-        return list
+        return files
     elif os.path.exists(name):
         # a single file
         return [name]
@@ -450,8 +450,7 @@ class Message:
 
 
 def get_source_comments(source):
-    """
-    Return a dictionary mapping line numbers to
+    """Return a dictionary mapping line numbers to
     comments in the source code.
     """
     comments = {}

@@ -1,5 +1,4 @@
-"""
-This module manages road offset configurations for a truck simulation map.
+"""This module manages road offset configurations for a truck simulation map.
 It provides functionality to calculate, validate, and update road offsets based on spatial relationships,
 with caching mechanisms and configurable thresholds.
 """
@@ -66,6 +65,7 @@ def _is_valid_offset(offset):
 
     Returns:
         bool: True if valid numerical value within [-100, 100] range
+
     """
     return (
         isinstance(offset, (int, float))
@@ -83,6 +83,7 @@ def _clean_invalid_offsets(config):
 
     Returns:
         dict: Sanitized configuration with only valid offsets
+
     """
     per_name = config["offsets"]["per_name"]
     # Filter invalid offset values
@@ -107,6 +108,7 @@ def update_offset_config_generic(operation="add", allow_override=False):
 
     Returns:
         bool: True if any updates were made
+
     """
     prefix = "Sub: " if operation == "sub" else "Add: "
 
@@ -311,7 +313,7 @@ def _get_connected_items(road, map_data):
     ]
     # total_uids = len(uid_list) # Always 4 UIDs
 
-    for index, uid in enumerate(uid_list, 1):
+    for _index, uid in enumerate(uid_list, 1):
         # Log progress
         # progress = (index / total_uids) * 100
         # logger.warning(f"Checking connected UID {index}/{total_uids} ({progress:.1f}%): uid={uid}")
@@ -412,7 +414,7 @@ def _calculate_item_distances(road, item):
     item_distances = []
     lanes = road.lanes
     # total_lanes = len(lanes)
-    for index, lane in enumerate(lanes, 1):
+    for _index, lane in enumerate(lanes, 1):
         # progress = (index / total_lanes) * 100
         # logger.warning(f"Calculating lane distance {index}/{total_lanes} ({progress:.1f}%): lane_uid={getattr(lane, 'uid', 'N/A')}")
         try:
@@ -494,8 +496,8 @@ def generate_rules(config):
 
     Returns:
         dict: Modified configuration with generated rules
-    """
 
+    """
     per_name = config["offsets"]["per_name"]
     rules = config["offsets"].setdefault("rules", {})
 
@@ -548,6 +550,7 @@ def generate_rules(config):
 
         Returns:
             dict: A mapping of patterns to their offset frequencies
+
         """
         pattern_map = {}
         for name, offset in names_dict.items():
@@ -571,6 +574,7 @@ def generate_rules(config):
 
         Returns:
             bool: True if pattern contains only numbers after removing '**' prefix
+
         """
         suffix = pattern[3:]  # Remove ** prefix
         # Remove spaces and check if remaining chars are digits
@@ -587,7 +591,7 @@ def generate_rules(config):
     # Collect all matching patterns
     matched_patterns = set()
 
-    for name, offset in combined_roads.items():
+    for name, _offset in combined_roads.items():
         words = name.split()
         if "offset" in words:
             offset_idx = words.index("offset")

@@ -32,15 +32,15 @@ class Control:
     device: str = ""
     plugin: str = ""
 
-    def from_dict(self, dict):
-        self.alias = dict["alias"]
-        self.guid = dict["guid"]
-        self.key = dict["key"]
-        self.type = dict["type"]
-        self.name = dict["name"]
-        self.description = dict["description"]
-        self.device = dict["device"]
-        self.plugin = dict.get("plugin", "")
+    def from_dict(self, data):
+        self.alias = data["alias"]
+        self.guid = data["guid"]
+        self.key = data["key"]
+        self.type = data["type"]
+        self.name = data["name"]
+        self.description = data["description"]
+        self.device = data["device"]
+        self.plugin = data.get("plugin", "")
 
 
 class Page(ETS2LAPage):
@@ -80,9 +80,9 @@ class Page(ETS2LAPage):
         plugin_names = []
         for alias, event in event_information.items():
             event = Control()
-            dict = event_information[alias]
-            dict["alias"] = alias
-            event.from_dict(dict)
+            data = event_information[alias]
+            data["alias"] = alias
+            event.from_dict(data)
             controls.append(event)
 
             plugin = event.plugin

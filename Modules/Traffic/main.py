@@ -97,7 +97,7 @@ class Module(ETS2LAModule):
         try:
             data = struct.unpack(self.total_format, self.buf[:5360])
             vehicles: list[Vehicle] = []
-            for i in range(0, 40):
+            for _i in range(0, 40):
                 position = Position(data[0], data[1], data[2])
                 rotation = Quaternion(data[3], data[4], data[5], data[6])
                 size = Size(data[7], data[8], data[9])

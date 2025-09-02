@@ -1,5 +1,4 @@
-"""
-Network utilities for ETS2LA's other modules.
+"""Network utilities for ETS2LA's other modules.
 It supports downloading files from one or more CDNs, returning the downloaded file path.
 """
 
@@ -62,8 +61,8 @@ def ChooseBestProvider(urls: list[str], timeout: int | float = 3):
 
     Returns:
         str: The best provider URL.
-    """
 
+    """
     results: list[tuple[str, int]] = []
 
     with tempfile.TemporaryFile("wb", suffix=".tmpdat") as tempf:
@@ -109,6 +108,7 @@ def DownloadFile(
 
     Returns:
         Path: The path to the downloaded file.
+
     """
     if not isinstance(save_path, Path):
         save_path = Path(save_path)
@@ -156,6 +156,7 @@ def DownloadFileMultiSource(
 
     Returns:
         Path: The path to the downloaded file.
+
     """
     for url in urls:
         try:

@@ -89,10 +89,10 @@ class scsTelemetry:
     # VARIABLE READING
 
     def readGame(self, offset):
-        int = 3
-        if int == 1:
+        integer = 3
+        if integer == 1:
             return "ETS2", offset + 4
-        elif int == 2:
+        elif integer == 2:
             return "ATS", offset + 4
         else:
             return "unknown", offset + 4
@@ -101,7 +101,7 @@ class scsTelemetry:
 
     def readTrailer(self, offset, count=1):
         trailers = []
-        for i in range(count):
+        for _i in range(count):
             data = {}
 
             # START OF FIRST ZONE AT OFFSET 0
@@ -246,31 +246,31 @@ class scsTelemetry:
 
     def readBool(self, offset, count=1):
         if count == 1:
-            bool = False
-            return bool, offset + 1
+            boolean = False
+            return boolean, offset + 1
         else:
             bools = []
-            for i in range(count):
+            for _i in range(count):
                 bools.append(False)
             return bools, offset + count
 
     def readInt(self, offset, count=1):
         if count == 1:
-            int = 0
-            return int, offset + 4
+            integer = 0
+            return integer, offset + 4
         else:
             ints = []
-            for i in range(count):
+            for _i in range(count):
                 ints.append(0)
             return ints, offset + count * 4
 
     def readFloat(self, offset, count=1):
         if count == 1:
-            float = 1.111
-            return float, offset + 4
+            floating_point = 1.111
+            return floating_point, offset + 4
         else:
             floats = []
-            for i in range(count):
+            for _i in range(count):
                 floats.append(1.111)
             return floats, offset + count * 4
 
@@ -279,7 +279,7 @@ class scsTelemetry:
             long = 1
         else:
             longs = []
-            for i in range(count):
+            for _i in range(count):
                 longs.append(1)
             return longs, offset + count * 8
 
@@ -290,7 +290,7 @@ class scsTelemetry:
             longlong = 1
         else:
             longlongs = []
-            for i in range(count):
+            for _i in range(count):
                 longlongs.append(1)
             return longlongs, offset + count * 8
 
@@ -298,7 +298,7 @@ class scsTelemetry:
 
     def readChar(self, offset, count):
         char = " "
-        for i in range(count):
+        for _i in range(count):
             char += " "
 
         return char, offset + count
@@ -309,7 +309,7 @@ class scsTelemetry:
             return double, offset + 8
         else:
             doubles = []
-            for i in range(count):
+            for _i in range(count):
                 doubles.append(1)
             return doubles, offset + count * 8
 

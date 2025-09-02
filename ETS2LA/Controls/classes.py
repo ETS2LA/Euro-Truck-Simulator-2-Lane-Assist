@@ -59,8 +59,7 @@ class ControlEvent:
         default: str = "",
         plugin: str = "",
     ):
-        """
-        Create a new ControlEvent.
+        """Create a new ControlEvent.
 
         :param str alias: The internal alias for this control event.
         :param str name: The name of this control event.
@@ -76,8 +75,7 @@ class ControlEvent:
         self.plugin = plugin
 
     def update(self, state: Any) -> None:
-        """
-        Refresh the controls and send out events if
+        """Refresh the controls and send out events if
         any of the control events have been triggered.
         """
         self.__last_state = self.__state
@@ -90,8 +88,7 @@ class ControlEvent:
                 Events.events.emit(self.alias, self.value(), queue=False)
 
     def pressed(self) -> Any:
-        """
-        Get the current boolean value of this ControlEvent.
+        """Get the current boolean value of this ControlEvent.
         Only works for button type control events.
         """
         if not self.type == "button":
@@ -103,8 +100,7 @@ class ControlEvent:
         return bool(self.__state)
 
     def value(self) -> Any:
-        """
-        Get the current float value of this ControlEvent.
+        """Get the current float value of this ControlEvent.
         Only works for axis type control events.
         """
         if not self.type == "axis":

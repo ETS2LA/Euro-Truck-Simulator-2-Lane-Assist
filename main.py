@@ -1,6 +1,9 @@
-"""
-This file contains the runner for ETS2LA.
-If you are looking for the actual entrypoint then you should
+"""Here's the runner for ETS2LA.
+
+ETS2LA is designed to be run from this file. This is a kind of
+"overseer" that will handle updates and any ETS2LA crashes.
+
+If you are looking for the actual **entrypoint** then you should
 look at the core.py file in the ETS2LA folder.
 """
 
@@ -75,6 +78,7 @@ LOG_FILE_FOLDER = "logs"
 
 
 def close_node() -> None:
+    """Will kill all node instances."""
     if os.name == "nt":
         ExecuteCommand("taskkill /F /IM node.exe > nul 2>&1")
     else:
@@ -82,6 +86,13 @@ def close_node() -> None:
 
 
 def reset(clear_logs=True, page_process=None) -> None:
+    """Reset ETS2LA.
+
+    - Close any node instances,
+    - Clear log files if needed,
+    - Count errors and warnings,
+    - Terminate the page process if given.
+    """
     close_node()
     if page_process:
         if page.is_alive():
@@ -96,6 +107,7 @@ def reset(clear_logs=True, page_process=None) -> None:
 
 
 def get_commit_url(repo: git.Repo, commit_hash: str) -> str:
+    """Return the URL to the given commit hash."""
     try:
         remote_url = repo.remotes.origin.url
         remote_url = remote_url.replace(".git", "")
@@ -106,6 +118,7 @@ def get_commit_url(repo: git.Repo, commit_hash: str) -> str:
 
 
 def get_current_version_information() -> dict:
+    """Return the current git branch and commit hash."""
     try:
         repo = git.Repo()
         current_hash = repo.head.object.hexsha
@@ -120,6 +133,11 @@ def get_current_version_information() -> dict:
 
 
 def get_fastest_mirror() -> str:
+    """Find the fastest frontend mirror.
+
+    - If setting is "Auto", ETS2LA will poll all servers.
+    - If a specific mirror is set, that will be used directly.
+    """
     if settings.Get("global", "frontend_mirror", "Auto") == "Auto":
         print(_("Testing mirrors..."))
         response_times = {}
@@ -148,6 +166,7 @@ def get_fastest_mirror() -> str:
 
 
 def update_frontend() -> bool:
+    """Update the frontend module if needed."""
     did_update = EnsureSubmoduleExists(
         "Interface",
         "https://github.com/ETS2LA/frontend.git",
@@ -170,8 +189,8 @@ def update_frontend() -> bool:
 def ets2la_process(
     exception_queue: multiprocessing.Queue, window_queue: multiprocessing.Queue
 ) -> None:
-    """
-    The main ETS2LA process.
+    """ETS2LA process.
+
     - This function will run ETS2LA with the given arguments.
     - It will also handle exceptions and updates to the submodules.
 
@@ -243,10 +262,7 @@ def ets2la_process(
 
 
 def window_process(window_queue: multiprocessing.Queue) -> None:
-    """
-    This function is used to run the ETS2LA window.
-    It will create a new window and run the ETS2LA UI.
-    """
+    """Run the ETS2LA window process."""
     try:
         import ETS2LA.variables
 

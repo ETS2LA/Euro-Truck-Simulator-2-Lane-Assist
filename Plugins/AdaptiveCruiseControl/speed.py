@@ -22,9 +22,7 @@ def distance_to_point(x1, y1, x2, y2):
 
 
 def calculate_curvature(points, x, z):
-    """
-    Calculate the curvature for each point in the road segment.
-    """
+    """Calculate the curvature for each point in the road segment."""
     curvatures = []
     for i in range(1, len(points) - 1):
         # Direction vectors
@@ -62,10 +60,7 @@ def calculate_curvature(points, x, z):
 
 
 def get_maximum_speed_for_points(points, x, z) -> float:
-    """
-    Calculate the maximum safe speed based on road curvature.
-    """
-
+    """Calculate the maximum safe speed based on road curvature."""
     if len(points) < 3:  # Need at least 3 points to calculate curvature
         return 999
 

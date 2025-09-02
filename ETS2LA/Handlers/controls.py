@@ -1,5 +1,4 @@
-"""
-This file handles control inputs from users. It contains the
+"""This file handles control inputs from users. It contains the
 updating of joystick information as well as the editing
 of control events.
 
@@ -333,7 +332,6 @@ def get_states(events: list[ControlEvent]) -> dict:
     :parma list[ControlEvent] events: input event.
     :return dict: The return dictionary.
     """
-
     states = {}
     for event in events:
         info = get_event_information(event)
@@ -369,8 +367,7 @@ def get_states(events: list[ControlEvent]) -> dict:
 
 
 def edit_event(event: ControlEvent | str) -> None:
-    """
-    Edit an event by asking the user for a new keybind
+    """Edit an event by asking the user for a new keybind
     to use for the event.
 
     :param ControlEvent | str event: The event to edit.
@@ -421,8 +418,7 @@ def edit_event(event: ControlEvent | str) -> None:
 
 
 def unbind_event(event: ControlEvent | str) -> None:
-    """
-    Unbind an event by setting the guid to an empty string.
+    """Unbind an event by setting the guid to an empty string.
 
     :param ControlEvent | str event: The event to unbind.
     """

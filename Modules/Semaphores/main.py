@@ -39,7 +39,7 @@ class Module(ETS2LAModule):
             data = struct.unpack(total_format, self.buf[:2080])
 
             semaphores = []
-            for i in range(0, 40):
+            for _i in range(0, 40):
                 if data[9] == 1:
                     semaphore = TrafficLight(
                         Position(data[0], data[1], data[2]),

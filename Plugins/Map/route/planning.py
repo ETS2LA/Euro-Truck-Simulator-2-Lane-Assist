@@ -80,8 +80,11 @@ def PrefabToRouteSection(
 
 
 def RoadToRouteSection(
-    road: c.Road, lane_index: int, target_lanes: list[int] = [], invert: bool = False
+    road: c.Road, lane_index: int, target_lanes: list[int] = None, invert: bool = False
 ) -> rc.RouteSection:
+    if target_lanes is None:
+        target_lanes = []
+
     route_section = rc.RouteSection()
     route_section.items = []
 
@@ -209,8 +212,8 @@ def IsRoadValid(road: c.Road) -> bool:
     return True
 
 
-def GetNextRouteSection(route: list[rc.RouteSection] = []) -> rc.RouteSection:
-    if len(route) == 0:
+def GetNextRouteSection(route: list[rc.RouteSection] = None) -> rc.RouteSection:
+    if not route:
         route = data.route_plan
 
     if len(route) == 0:

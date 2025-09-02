@@ -53,29 +53,25 @@ class TTSProvider:
     _selected_language: str | None
 
     def initialize(self, plugin):
-        """
-        Initialize the TTSProvider.
+        """Initialize the TTSProvider.
         This is called when the provider is selected.
         """
         pass
 
     def select_voice(self, voice: TTSVoice):
-        """
-        Select a voice.
+        """Select a voice.
         :param voice: The voice to select.
         """
         self._selected_voice = voice
 
     def select_language(self, language: str):
-        """
-        Select a language.
+        """Select a language.
         :param language: The language to select.
         """
         self._selected_language = language
 
     def get_voices(self) -> list[TTSVoice]:
-        """
-        Get the list of voices.
+        """Get the list of voices.
         :return: The list of voices.
         """
         if self._selected_language:
@@ -86,22 +82,19 @@ class TTSProvider:
             ]
 
     def speak(self, text: str):
-        """
-        Speak the given text.
+        """Speak the given text.
         :param text: The text to speak.
         """
         pass
 
     def set_volume(self, volume: float):
-        """
-        Set the volume.
+        """Set the volume.
         :param volume: The volume to set.
         """
         pass
 
     def set_speed(self, speed: float):
-        """
-        Set the speed.
+        """Set the speed.
         :param speed: The speed to set.
         """
         pass

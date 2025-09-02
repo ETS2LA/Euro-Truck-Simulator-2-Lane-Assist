@@ -1,5 +1,4 @@
-"""
-This file handles command execution to try and automatically support
+"""This file handles command execution to try and automatically support
 mainland China. It provides a way to execute commands with an overriden
 proxy configuration.
 """

@@ -63,10 +63,10 @@ class ElementRunner:
         except Exception:
             try:
                 self.element = module.Widget(plugin)
-            except AttributeError:
+            except AttributeError as e:
                 raise ImportError(
                     f"Element {name} does not have a Renderer or Widget class."
-                )
+                ) from e
 
         self.plugin = plugin
         threading.Thread(target=self.run_element, daemon=True).start()

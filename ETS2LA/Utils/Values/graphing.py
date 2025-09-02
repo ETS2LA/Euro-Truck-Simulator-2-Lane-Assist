@@ -5,13 +5,14 @@ import time
 
 class PIDGraph:
     def __init__(self, history=10):
-        """
-        Initialize a real-time PID graph display
+        """Initialize a real-time PID graph display
 
-        Parameters:
+        Parameters
+        ----------
         history (float): Time window to display in seconds
 
         Please remember to call setup_plot() before using the graph.
+
         """
         self.history = history
 
@@ -61,15 +62,16 @@ class PIDGraph:
         plt.show(block=False)
 
     def update(self, setpoint, output, p_term, i_term, d_term):
-        """
-        Update the graph with new PID values
+        """Update the graph with new PID values
 
-        Parameters:
+        Parameters
+        ----------
         setpoint (float): Target value
         output (float): Controller output value
         p_term (float): Proportional term
         i_term (float): Integral term
         d_term (float): Derivative term
+
         """
         # Get current time
         current_time = time.time() - self.start_time

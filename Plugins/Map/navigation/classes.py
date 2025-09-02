@@ -8,8 +8,7 @@ import logging
 
 
 class RouteNode:
-    """
-    Contains computed data based on the
+    """Contains computed data based on the
     RouteItem objects we get from the game.
     """
 
@@ -44,9 +43,7 @@ class RouteNode:
         self.lanes = []
 
     def get_item_lanes(self, item):
-        """
-        This function will return the lanes that are valid for the given item.
-        """
+        """This function will return the lanes that are valid for the given item."""
         if isinstance(item, Road):
             return item.lanes
         elif isinstance(item, Prefab):
@@ -54,8 +51,7 @@ class RouteNode:
         return []
 
     def calculate_lanes_from(self, last, direction: Literal["forward", "backward"]):
-        """
-        This function will be called from the end of the route to the start.
+        """This function will be called from the end of the route to the start.
         It will calculate the items and lanes that are needed to get to the destination.
         """
         if self.node is None:
@@ -134,7 +130,7 @@ class RouteNode:
         # Check if the distance between the current and last lane is less than 2 meters.
         # The lanes are 4.5m wide, so this should be good enough.
         valid = []
-        for last_index, last_lane in last_lanes:
+        for _last_index, last_lane in last_lanes:
             last_start_point = last_lane.points[0].tuple()
             last_end_point = last_lane.points[-1].tuple()
             for cur_index, cur_lane in cur_lanes:
@@ -172,7 +168,5 @@ class RouteNode:
         # logging.warning(f"Success: Calculated {len(valid)} valid lanes for node {self.node.uid} and item {item.uid} ({type(item).__name__}) ({self.direction})")
 
     def item_type(self):
-        """
-        Returns the type of the item.
-        """
+        """Returns the type of the item."""
         return type(self.item)

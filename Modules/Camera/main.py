@@ -34,8 +34,8 @@ class Module(ETS2LAModule):
             return None
 
         try:
-            format = "=ffffhhffff"  # fov, x, y, z, cx, cz, qw, qx, qy, qz
-            data = struct.unpack(format, self.buf[:36])
+            camera_format = "=ffffhhffff"  # fov, x, y, z, cx, cz, qw, qx, qy, qz
+            data = struct.unpack(camera_format, self.buf[:36])
 
             camera_data = Camera(
                 data[0],

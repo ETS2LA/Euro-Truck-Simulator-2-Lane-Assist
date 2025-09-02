@@ -1,5 +1,4 @@
-"""
-ETS2LA's change listener. This file will listen for file changes accross all
+"""ETS2LA's change listener. This file will listen for file changes accross all
 main ETS2LA backend files when in development mode.
 """
 

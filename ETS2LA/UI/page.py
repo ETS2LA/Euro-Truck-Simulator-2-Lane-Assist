@@ -4,8 +4,7 @@ import time
 
 
 class ETS2LAPageLocation(Enum):
-    """
-    A location marker for the page. If you use anything other
+    """A location marker for the page. If you use anything other
     than hidden, then you can set the `title` variable to the title
     of the button that will open the page.
     """

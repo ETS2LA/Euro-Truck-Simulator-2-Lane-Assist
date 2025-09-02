@@ -332,10 +332,10 @@ class SCSController:
         elif system == "Linux":
             try:
                 self._shm_fd = open(self.SHM_FILE, "rb+")
-            except Exception:
+            except Exception as e:
                 raise RuntimeError(
                     "ETS2/ATS is not running (Currently game needs to be running for app to start THIS IS TEMPORARY)"
-                )  # Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
+                ) from e  # Temporary "fix" to remind me that the game needs to be open, waiting for tummy to respond back on how to tell the app to stop using the sdk.
             try:
                 if os.name != "nt":  # silence typeright
                     self._shm_buff = mmap.mmap(

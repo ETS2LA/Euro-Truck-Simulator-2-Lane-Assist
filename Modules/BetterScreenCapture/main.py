@@ -39,8 +39,7 @@ LastTrackWindowRouteAdvisorUpdates = {}
 
 # MARK: Initialize()
 def Initialize(Screen=None, Area=(None, None, None, None)):
-    """
-    Initialize the ScreenCapture module. Needs to be called before the use of Capture().
+    """Initialize the ScreenCapture module. Needs to be called before the use of Capture().
 
     Parameters
     ----------
@@ -52,6 +51,7 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
     Returns
     -------
     None
+
     """
     global Display
     global Monitor
@@ -156,8 +156,7 @@ def Initialize(Screen=None, Area=(None, None, None, None)):
 
 # MARK: Capture()
 def Capture(ImageType: str = "both"):
-    """
-    Get the latest frame from the screen. Automatically chooses the capture library. Can't be used in a thread!
+    """Get the latest frame from the screen. Automatically chooses the capture library. Can't be used in a thread!
 
     Parameters
     ----------
@@ -168,8 +167,8 @@ def Capture(ImageType: str = "both"):
     -------
     numpy.ndarray or numpy.ndarray, numpy.ndarray
         The return is based on the ImageType.
-    """
 
+    """
     if CaptureLibrary is None:
         return (
             None
@@ -251,8 +250,7 @@ def Capture(ImageType: str = "both"):
 
 # MARK: GetScreenDimensions()
 def GetScreenDimensions(Display=1):
-    """
-    Get the dimensions of the screen.
+    """Get the dimensions of the screen.
 
     Parameters
     ----------
@@ -263,6 +261,7 @@ def GetScreenDimensions(Display=1):
     -------
     int, int, int, int
         The dimensions of the screen. Format: (X, Y, Width, Height)
+
     """
     global ScreenX, ScreenY, ScreenWidth, ScreenHeight
     Monitor = sct.monitors[Display]
@@ -274,8 +273,7 @@ def GetScreenDimensions(Display=1):
 
 
 def GetScreenIndex(X: int, Y: int) -> int | None:
-    """
-    Get the index of the screen that is closest to the given coordinates.
+    """Get the index of the screen that is closest to the given coordinates.
 
     Parameters
     ----------
@@ -288,6 +286,7 @@ def GetScreenIndex(X: int, Y: int) -> int | None:
     -------
     int
         The index of the screen that is closest to the given coordinates. Format: 1 = primary screen
+
     """
     Monitors = sct.monitors
     ClosestScreenIndex = None
@@ -304,8 +303,7 @@ def GetScreenIndex(X: int, Y: int) -> int | None:
 
 # MARK: ValidateCaptureArea()
 def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
-    """
-    Validate the capture area, ensuring that it is within the bounds of the screen.
+    """Validate the capture area, ensuring that it is within the bounds of the screen.
 
     Parameters
     ----------
@@ -324,6 +322,7 @@ def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
     -------
     int, int, int, int
         The validated capture area. Format: (X1, Y1, X2, Y2)
+
     """
     Monitor = sct.monitors[Display]
     Width, Height = Monitor["width"], Monitor["height"]
@@ -345,9 +344,8 @@ def ValidateCaptureArea(Display, X1, Y1, X2, Y2):
 
 
 # MARK: IsForegroundWindow()
-def IsForegroundWindow(Name="", Blacklist=[""]):
-    """
-    Check if the given window is in the foreground/is focused. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+def IsForegroundWindow(Name="", Blacklist=None):
+    """Check if the given window is in the foreground/is focused. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
 
     Parameters
     ----------
@@ -360,7 +358,11 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
     -------
     bool
         True if the window is in the foreground/is focused, False otherwise.
+
     """
+    if Blacklist is None:
+        Blacklist = [""]
+
     if variables.OS == "nt" and win32gui:
         Key = f"{Name}{Blacklist}"
         if Key not in LastForegroundWindows:
@@ -397,10 +399,9 @@ def IsForegroundWindow(Name="", Blacklist=[""]):
 
 # MARK: GetWindowPosition()
 def GetWindowPosition(
-    Name: str = "", Blacklist: list[str] = [""]
+    Name: str = "", Blacklist: list[str] = None
 ) -> Tuple[int, int, int, int]:
-    """
-    Get the position of the given window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+    """Get the position of the given window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
 
     Parameters
     ----------
@@ -413,8 +414,12 @@ def GetWindowPosition(
     -------
     int, int, int, int
         The position of the window. Format: (X, Y, Width, Height)
+
     """
     global LastWindowPositions
+
+    if Blacklist is None:
+        Blacklist = [""]
 
     if variables.OS == "nt" and win32gui:
         Key = f"{Name}{Blacklist}"
@@ -482,9 +487,8 @@ def GetWindowPosition(
         return ScreenX, ScreenY, ScreenX + ScreenWidth, ScreenY + ScreenHeight
 
 
-def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
-    """
-    Classify the Route Advisor to check on which side, in which zoom level and if the navigation tab is open.
+def ClassifyRouteAdvisor(Name="", Blacklist=None):
+    """Classify the Route Advisor to check on which side, in which zoom level and if the navigation tab is open.
 
     Returns
     -------
@@ -495,10 +499,14 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
         `[1][0]`: The probability that the Route Advisor is on the right side.\n
         `[1][1]`: The probability that the Route Advisor on the right side is on the closest zoom level.\n
         `[1][2]`: The probability that the Route Advisor on the right side is on the navigation tab.\n
+
     """
     global RouteAdvisorSide
     global RouteAdvisorZoomCorrect
     global RouteAdvisorTabCorrect
+
+    if Blacklist is None:
+        Blacklist = [""]
 
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     DistanceFromRight = 21
@@ -617,9 +625,8 @@ def ClassifyRouteAdvisor(Name="", Blacklist=[""]):
 #       pass the type checker. I didn't spend time fixing it instead I
 #       just told the checker to ignore it since to my knowledge it works.
 #       - Tumppi066
-def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
-    """
-    Get the position of the Route Advisor window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name. The automatic side detection uses a fast ML model.
+def GetRouteAdvisorPosition(Name="", Blacklist=None, Side="Automatic"):
+    """Get the position of the Route Advisor window. The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name. The automatic side detection uses a fast ML model.
 
     Parameters
     ----------
@@ -637,7 +644,11 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
         `[1]`: (X, Y) Map Bottom Right\n
         `[2]`: (X, Y) Arrow Top Left\n
         `[3]`: (X, Y) Arrow Bottom Right\n
+
     """
+    if Blacklist is None:
+        Blacklist = [""]
+
     X1, Y1, X2, Y2 = GetWindowPosition(Name=Name, Blacklist=Blacklist)
     DistanceFromRight = 21
     DistanceFromBottom = 100
@@ -833,9 +844,8 @@ def GetRouteAdvisorPosition(Name="", Blacklist=[""], Side="Automatic"):
 
 
 # MARK: TrackWindow()
-def TrackWindow(Name="", Blacklist=[""], Rate=2):
-    """
-    Automatically update the Screen and Area which were set with Initialize(). The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+def TrackWindow(Name="", Blacklist=None, Rate=2):
+    """Automatically update the Screen and Area which were set with Initialize(). The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
 
     Parameters
     ----------
@@ -849,7 +859,11 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
     Returns
     -------
     None
+
     """
+    if not Blacklist:
+        Blacklist = [""]
+
     Key = f"{Name}{Blacklist}"
     if Key not in LastTrackWindowUpdates:
         LastTrackWindowUpdates[Key] = 0
@@ -883,9 +897,8 @@ def TrackWindow(Name="", Blacklist=[""], Rate=2):
 
 
 # MARK: TrackWindowRouteAdvisor()
-def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
-    """
-    Automatically update the Screen and Area which were set with Initialize(). The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
+def TrackWindowRouteAdvisor(Name="", Blacklist=None, Side="Automatic", Rate=2):
+    """Automatically update the Screen and Area which were set with Initialize(). The window name must contain 'Name' and all items in 'Blacklist' must not be in the window name.
 
     Parameters
     ----------
@@ -899,7 +912,11 @@ def TrackWindowRouteAdvisor(Name="", Blacklist=[""], Side="Automatic", Rate=2):
     Returns
     -------
     None
+
     """
+    if not Blacklist:
+        Blacklist = [""]
+
     Key = f"{Name}{Blacklist}{Side}"
     if Key not in LastTrackWindowRouteAdvisorUpdates:
         LastTrackWindowRouteAdvisorUpdates[Key] = 0

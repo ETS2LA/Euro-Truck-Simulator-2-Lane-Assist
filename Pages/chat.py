@@ -203,9 +203,9 @@ class Page(ETS2LAPage):
                     print(f"Received support chat message: {msg}")
                     self.handle_message_receive(msg)
         except (
-            websockets.ConnectionClosed
-            or websockets.ConnectionClosedOK
-            or websockets.ConnectionClosedError
+            websockets.ConnectionClosed,
+            websockets.ConnectionClosedOK,
+            websockets.ConnectionClosedError,
         ):
             logging.warning("The ETS2LA chat support servers closed the connection.")
             self.ws = False

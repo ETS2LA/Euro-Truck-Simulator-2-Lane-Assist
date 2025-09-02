@@ -1,5 +1,4 @@
-"""
-Import all ETS2LA UI components here.
+"""Import all ETS2LA UI components here.
 
 Classes:
     **ETS2LASettingsMenu** - Base class for all settings pages.
@@ -54,6 +53,7 @@ class Plugin(ETS2LAPlugin):
     def function(self):
         print("Button clicked!")
 ```
+
 """
 
 from ETS2LA.UI.components import (

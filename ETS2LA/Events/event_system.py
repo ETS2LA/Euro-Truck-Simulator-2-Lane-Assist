@@ -22,14 +22,12 @@ class EventSystem:
         return decorator
 
     def emit(self, event_name, *args, **kwargs):
-        """
-        Call with `queue=False` to NOT emit the event into the queue
+        """Call with `queue=False` to NOT emit the event into the queue
         for the main thread to distribute.
 
         Essentially only the Plugin class itself should do it, as it's
         normal for the plugin to emit events globally.
         """
-
         if args is None:
             args = []
 

@@ -77,12 +77,11 @@ class Provider(TTSProvider):
         self.volume = volume
 
     def speak(self, text: str):
-        """
-        Speak the given text.
+        """Speak the given text.
         :param text: The text to speak.
         """
         generator = self.pipeline(text, voice=self.voice)
-        for i, (gs, ps, audio) in enumerate(generator):
+        for _i, (_gs, _ps, audio) in enumerate(generator):
             # samples /= np.iinfo(np.int16).max # normalize -1 - 1
             audio *= self.volume
             sd.play(audio, samplerate=24000 * self.speed)

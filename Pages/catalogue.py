@@ -260,7 +260,7 @@ class Page(ETS2LAPage):
             while not success and retry_count < max_retries:
                 try:
                     # Make read only files writable
-                    for root, dirs, files in os.walk(
+                    for root, _dirs, files in os.walk(
                         f"CataloguePlugins/{target.name}", topdown=False
                     ):
                         for file in files:

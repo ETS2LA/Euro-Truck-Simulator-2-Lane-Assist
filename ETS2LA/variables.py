@@ -153,7 +153,7 @@ except Exception:
 # Update metadata
 try:
     repo = git.Repo(search_parent_directories=True)
-    hash = repo.head.object.hexsha[:9]
-    METADATA["version"] = f"{METADATA['version']} - {hash}"
+    commit_hash = repo.head.object.hexsha[:9]
+    METADATA["version"] = f"{METADATA['version']} - {commit_hash}"
 except Exception:
     pass

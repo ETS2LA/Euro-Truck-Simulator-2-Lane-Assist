@@ -79,7 +79,6 @@ def DownloadLibrary(library: str, force: bool = False):
     :param str library: The name of the library to download.
     :param bool force: Whether to force redownload the library, defaults to False
     """
-
     if not os.path.exists(library_path):
         os.makedirs(library_path)
 

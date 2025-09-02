@@ -1,6 +1,5 @@
 # ruff: noqa: E402
-"""
-Welcome to the main entrypoint for ETS2LA.
+"""Welcome to the main entrypoint for ETS2LA.
 
 - This file is responsible for starting the backend and frontend
   via all the necessary handlers and servers.

@@ -1,5 +1,4 @@
-"""
-Please use rich tags for colors instead of ANSI codes like in this file.
+"""Please use rich tags for colors instead of ANSI codes like in this file.
 Example: logging.info("[yellow]This is a yellow message[/yellow]")
 """
 

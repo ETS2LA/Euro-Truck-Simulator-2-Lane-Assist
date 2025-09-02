@@ -20,13 +20,21 @@ steps = [
 
 
 class Updater(App):
+    """ETS2LA updater, I decided to make it using textual.
+
+    Check above for the steps array. That's what's actually being run
+    when the steps are executed.
+    """
+
     CSS_PATH = "updater.tcss"
 
     def on_mount(self) -> None:
+        """On mount event handler."""
         self.title = "Updating"
         self.sub_title = "Please wait until the process is complete."
 
     async def on_ready(self) -> None:
+        """On ready event handler."""
         self.icon = "◐"
         self.frame = 0
         self.set_interval(0.25, self.update_icon)
@@ -34,6 +42,7 @@ class Updater(App):
         await self.run_steps()
 
     def compose(self) -> ComposeResult:
+        """Compose the UI layout."""
         yield Header(show_clock=True, icon="")
 
         sidebar = Static(classes="sidebar")
@@ -54,12 +63,19 @@ class Updater(App):
         yield log
 
     def update_icon(self):
+        """Spinning icon animation."""
         spinner = ["◐", "◓", "◑", "◒"]
         self.icon = spinner[self.frame % 4]
         self.frame += 1
         self.query_one(Header).icon = self.icon
 
     async def run_steps(self):
+        """Run the update steps.
+
+        - Each step is defined in the `steps` list.
+        - If a step fails, the process will pause and allow retry or exit.
+        - The "Clear Cache" step is allowed to fail without stopping the process.
+        """
         log_widget = self.query_one(Log)
         for idx, step in enumerate(steps):
             sidebar = self.query_one(Static)
@@ -122,6 +138,7 @@ class Updater(App):
             self.exit()
 
     async def on_button_pressed(self, event) -> None:
+        """Handle button presses."""
         button = event.button
         if button.id == "retry-button":
             # Disable buttons

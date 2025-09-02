@@ -104,14 +104,14 @@ class Page(ETS2LAPage):
         threading.Thread(target=self.performance_thread, daemon=True).start()
 
     def performance_thread(self):
-        input = multiprocessing.Queue()
+        input_queue = multiprocessing.Queue()
         self.metrics_process = multiprocessing.Process(
-            target=PerformanceMetrics, args=(input,), daemon=True
+            target=PerformanceMetrics, args=(input_queue,), daemon=True
         )
         self.metrics_process.start()
         while True:
             try:
-                data = input.get(timeout=0.5)
+                data = input_queue.get(timeout=0.5)
                 if "cpu" in data:
                     self.cpu_usage.append(data["cpu"])
                     if len(self.cpu_usage) > 60:

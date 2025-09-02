@@ -69,8 +69,8 @@ def traverse_curve_till_end(curve, prefab_description) -> List[List]:
 
     # Only accept the shortest route from each start curve to each end curve
     accepted_routes = []
-    for start_curve, start_routes in routes_by_start_curve.items():
-        for end_curve, end_routes in routes_by_end_curve.items():
+    for _start_curve, start_routes in routes_by_start_curve.items():
+        for _end_curve, end_routes in routes_by_end_curve.items():
             common_routes = set(start_routes) & set(end_routes)
             accepted_routes.extend(common_routes)
             # if common_routes:

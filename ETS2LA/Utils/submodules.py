@@ -1,5 +1,4 @@
-"""
-This file contains handlers for ETS2LA's submodules.
+"""This file contains handlers for ETS2LA's submodules.
 Note that they are not actual git submodules, instead we
 git clone them and handle the updates in this file.
 

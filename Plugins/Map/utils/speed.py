@@ -11,9 +11,7 @@ curvature = SmoothedValue("time", 3)
 
 
 def CalculateCurvature(points):
-    """
-    Calculate the curvature for each point in the road segment.
-    """
+    """Calculate the curvature for each point in the road segment."""
     curvatures = []
     for i in range(1, len(points) - 1):
         # Direction vectors
@@ -42,9 +40,7 @@ def CalculateCurvature(points):
 
 
 def GetMaximumSpeed():
-    """
-    Calculate the maximum safe speed based on road curvature.
-    """
+    """Calculate the maximum safe speed based on road curvature."""
     points = data.route_points
 
     if len(points) < 3:  # Need at least 3 points to calculate curvature

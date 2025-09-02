@@ -32,8 +32,7 @@ class Provider(TTSProvider):
         engine.setProperty("volume", volume)
 
     def speak(self, text: str):
-        """
-        Speak the given text.
+        """Speak the given text.
         :param text: The text to speak.
         """
         engine.say(text)

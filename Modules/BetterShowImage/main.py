@@ -22,8 +22,7 @@ def Initialize(
     Position=(None, None),
     Size=(None, None),
 ):
-    """
-    Initializes a window. Can handle multiple windows. The window will appear once Show() is called.
+    """Initializes a window. Can handle multiple windows. The window will appear once Show() is called.
 
     Parameters
     ----------
@@ -43,6 +42,7 @@ def Initialize(
     Returns
     -------
     None
+
     """
     WINDOWS[Name] = {
         "TitleBarColor": TitleBarColor,
@@ -57,8 +57,7 @@ def Initialize(
 # TODO: Fix type safety. Right now it's not an issue
 #       but using type: ignore is not ideal.
 def CreateWindow(Name=""):
-    """
-    Creates the window. Not meant to be called manually!
+    """Creates the window. Not meant to be called manually!
 
     Parameters
     ----------
@@ -68,6 +67,7 @@ def CreateWindow(Name=""):
     Returns
     -------
     None
+
     """
     if Name == "":
         return
@@ -115,8 +115,7 @@ def CreateWindow(Name=""):
 
 # MARK: Show()
 def Show(Name="", Frame=None):
-    """
-    Shows the frame in the window. The window must have been initialized using Initialize() first.
+    """Shows the frame in the window. The window must have been initialized using Initialize() first.
 
     Parameters
     ----------
@@ -128,6 +127,7 @@ def Show(Name="", Frame=None):
     Returns
     -------
     None
+
     """
     try:
         cv2.getWindowImageRect(Name)
