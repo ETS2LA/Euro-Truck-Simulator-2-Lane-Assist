@@ -11,6 +11,13 @@ dictionary: list[dict] = []
 current_id: int = 0
 
 
+def ensure_style(input_style) -> Style:
+    if isinstance(input_style, Style):
+        return input_style
+    else:
+        return Style()
+
+
 def increment() -> int:
     """Increment the current id and return it."""
     global current_id
@@ -50,7 +57,7 @@ class Text:
         self.id = increment()
 
         self.text = text
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.pressed = pressed
 
         dictionary.append(
@@ -58,7 +65,7 @@ class Text:
                 "text": {
                     "id": self.id,
                     "text": text,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "pressed": get_fully_qualified_name(self.pressed)
                     if self.pressed
                     else None,
@@ -78,7 +85,7 @@ class Link:
 
         self.text = text
         self.url = url
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
             {
@@ -86,7 +93,7 @@ class Link:
                     "id": self.id,
                     "text": text,
                     "url": url,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                 }
             }
         )
@@ -102,10 +109,10 @@ class Markdown:
         self.id = increment()
 
         self.text = text
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
-            {"markdown": {"id": self.id, "text": text, "style": style.to_dict()}}
+            {"markdown": {"id": self.id, "text": text, "style": self.style.to_dict()}}
         )
 
 
@@ -118,10 +125,10 @@ class Icon:
         self.id = increment()
 
         self.icon = icon
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
-            {"icon": {"id": self.id, "icon": icon, "style": style.to_dict()}}
+            {"icon": {"id": self.id, "icon": icon, "style": self.style.to_dict()}}
         )
 
 
@@ -141,7 +148,7 @@ class Separator:
         direction: Literal["vertical", "horizontal"] = SeparatorType.HORIZONTAL,
     ):
         self.id = increment()
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.direction = direction
 
         dictionary.append(
@@ -149,7 +156,7 @@ class Separator:
                 "separator": {
                     "id": self.id,
                     "direction": direction,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                 }
             }
         )
@@ -163,9 +170,9 @@ class Space:
 
     def __init__(self, style: Style = None):
         self.id = increment()
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
-        dictionary.append({"space": {"id": self.id, "style": style.to_dict()}})
+        dictionary.append({"space": {"id": self.id, "style": self.style.to_dict()}})
 
 
 class Container:
@@ -181,7 +188,7 @@ class Container:
 
     def __init__(self, style: Style = None, pressed: Callable | None = None):
         self.id = increment()
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.pressed = pressed
 
     def __enter__(self):
@@ -217,7 +224,7 @@ class _SubElement:
 
     def __init__(self, style: Style = None):
         self.id = increment()
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -252,7 +259,7 @@ class Badge:
     def __init__(self, type: str = BadgeType.DEFAULT, style: Style = None):
         self.id = increment()
         self.type = type
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -287,7 +294,7 @@ class Alert:
 
     def __init__(self, style: Style = None):
         self.id = increment()
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -351,7 +358,7 @@ class Button:
         self.action = action
         self.type = type
         self.name = name
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.enabled = enabled
 
     def __enter__(self):
@@ -436,7 +443,7 @@ class Input:
         self.default = default
         self.changed = changed
         self.type = type
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         dictionary.append(
@@ -446,7 +453,7 @@ class Input:
                     "default": default,
                     "changed": get_fully_qualified_name(changed) if changed else None,
                     "type": type,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "disabled": disabled,
                 }
             }
@@ -480,7 +487,7 @@ class TextArea:
 
         self.placeholder = placeholder
         self.changed = changed
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         dictionary.append(
@@ -489,7 +496,7 @@ class TextArea:
                     "id": self.id,
                     "placeholder": placeholder,
                     "changed": get_fully_qualified_name(changed) if changed else None,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "disabled": disabled,
                 }
             }
@@ -528,7 +535,7 @@ class Switch:
 
         self.default = default
         self.changed = changed
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         dictionary.append(
@@ -537,7 +544,7 @@ class Switch:
                     "id": self.id,
                     "default": default,
                     "changed": get_fully_qualified_name(changed) if changed else None,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "disabled": disabled,
                 }
             }
@@ -576,7 +583,7 @@ class Checkbox:
 
         self.default = default
         self.changed = changed
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         dictionary.append(
@@ -585,7 +592,7 @@ class Checkbox:
                     "id": self.id,
                     "default": default,
                     "changed": get_fully_qualified_name(changed) if changed else None,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "disabled": disabled,
                 }
             }
@@ -634,7 +641,7 @@ class Slider:
         self.min = min
         self.max = max
         self.step = step
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.suffix = suffix
         self.disabled = disabled
 
@@ -647,7 +654,7 @@ class Slider:
                     "min": min,
                     "max": max,
                     "step": step,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "suffix": suffix,
                     "disabled": disabled,
                 }
@@ -677,7 +684,7 @@ class ComboboxSearch:
 
         self.placeholder = placeholder
         self.empty = empty
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def to_dict(self) -> dict:
         return {
@@ -730,7 +737,7 @@ class Combobox:
         self.search = search.to_dict() if search else None
         self.side = side
         self.multiple = multiple
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         dictionary.append(
@@ -743,7 +750,7 @@ class Combobox:
                     "search": self.search,
                     "side": side,
                     "multiple": multiple,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "disabled": disabled,
                 }
             }
@@ -766,7 +773,7 @@ class Tabs:
 
     def __init__(self, style: Style = None, changed: Callable | None = None):
         self.id = increment()
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.changed = changed
 
     def __enter__(self):
@@ -874,7 +881,7 @@ class RadioGroup:
 
         self.changed = changed
         self.default = default
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
     def __enter__(self):
@@ -917,7 +924,7 @@ class RadioItem:
         self.id = increment()
 
         self.name = id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -998,7 +1005,7 @@ class Progress:
 
         self.value = value
         self.max = max
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
             {
@@ -1052,7 +1059,7 @@ class Table:
 
         self.data = data
         self.columns = columns
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
             {
@@ -1060,7 +1067,7 @@ class Table:
                     "id": self.id,
                     "data": data,
                     "columns": columns,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                 }
             }
         )
@@ -1077,7 +1084,7 @@ class PopoverTrigger:
 
     def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -1114,7 +1121,7 @@ class Popover:
 
     def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -1147,7 +1154,7 @@ class DialogTrigger:
 
     def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -1184,7 +1191,7 @@ class Dialog:
 
     def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -1220,7 +1227,7 @@ class ContextMenuTrigger:
 
     def __init__(self, id: str, style: Style = None):
         self.id = id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -1270,7 +1277,7 @@ class ContextMenuItem:
 
         self.name = name
         self.action = action
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
     def __enter__(self):
@@ -1313,7 +1320,7 @@ class ContextMenuSubMenu:
         self.id = increment()
 
         self.title = title
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
     def __enter__(self):
         global dictionary
@@ -1397,7 +1404,7 @@ class Image:
 
         self.file = file
         self.url = url
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.alt = alt
         self.base64 = base64
 
@@ -1411,7 +1418,7 @@ class Image:
                     "id": self.id,
                     "base64": base64,
                     "url": url,
-                    "style": style.to_dict(),
+                    "style": self.style.to_dict(),
                     "alt": alt,
                 }
             }
@@ -1518,7 +1525,7 @@ class Graph:
 
         self.data = data
         self.config = config
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.x = x
         self.y = y
 
@@ -1565,7 +1572,7 @@ class AdSense:
 
         self.client = client
         self.slot = slot
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
             {
@@ -1599,7 +1606,7 @@ class Youtube:
             raise ValueError("You must specify a video ID.")
 
         self.video_id = video_id
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         dictionary.append(
             {
@@ -1653,7 +1660,7 @@ class ButtonWithTitleDescription:
         self.title = title
         self.description = description
         self.text = text
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         self.previous = dictionary
         dictionary = []
@@ -1719,7 +1726,7 @@ class SliderWithTitleDescription:
         self.changed = changed
         self.title = title
         self.description = description
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         self.previous = dictionary
         dictionary = []
@@ -1787,7 +1794,7 @@ class ComboboxWithTitleDescription:
         self.changed = changed
         self.title = title
         self.description = description
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.search = search
         self.multiple = multiple
 
@@ -1857,7 +1864,7 @@ class CheckboxWithTitleDescription:
         self.changed = changed
         self.title = title
         self.description = description
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         self.previous = dictionary
@@ -1927,7 +1934,7 @@ class InputWithTitleDescription:
         self.title = title
         self.description = description
         self.type = type
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
         self.disabled = disabled
 
         self.previous = dictionary
@@ -1974,7 +1981,7 @@ class TitleAndDescription:
 
         self.title = title
         self.description = description
-        self.style = style if style else Style()
+        self.style = ensure_style(style)
 
         self.previous = dictionary
         dictionary = []

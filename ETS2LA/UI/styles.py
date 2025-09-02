@@ -179,6 +179,8 @@ class Style:
         Literal["none", "capitalize", "uppercase", "lowercase"]
     ] = None
 
+    text_shadow: Optional[str] = None
+
     white_space: Optional[
         Literal["normal", "nowrap", "pre", "pre-line", "pre-wrap"]
     ] = "pre-wrap"
@@ -231,17 +233,39 @@ class Style:
     either prioritize the default classes or append them to the custom ones.
     """
 
-    def to_dict(self) -> dict:
+    additional_css: Optional[list[str]] = None
+    """You can use this to add any additional CSS that is not covered by the
+    other properties. Please format as: "property: value;". For example:
+    ```python
+    Style(additional_css=["backdrop-filter: blur(10px);", "mix-blend-mode: multiply;"])
+    ```
+    """
+
+    def to_dict(self, additional: bool = True) -> dict:
         base = {
-            k.replace("_", "-"): v for k, v in self.__dict__.items() if v is not None
+            k.replace("_", "-"): v
+            for k, v in self.__dict__.items()
+            if v is not None and k != "additional_css"
         }
+
+        if self.additional_css and additional:
+            for css in self.additional_css:
+                if ":" in css:
+                    prop, value = css.split(":", 1)
+                    prop = prop.strip()
+                    value = value.strip().rstrip(";")
+                    base[prop] = value
+
         return base
 
     def __add__(self, other: "Style") -> "Style":
-        self_dict = self.to_dict()
+        self_dict = self.to_dict(additional=False)
         self_classname = self_dict.pop("classname", None)
-        other_dict = other.to_dict()
+        self_additional_css = self.additional_css
+
+        other_dict = other.to_dict(additional=False)
         other_classname = other_dict.pop("classname", None)
+        other_additional_css = other.additional_css
 
         if self.classname and "default" in self_classname:
             if other_classname and "default" in other_classname:
@@ -252,9 +276,22 @@ class Style:
         combined["classname"] = combined_classname
 
         # Replace - in keys to _ for compatibility with the Style class
-        combined = {k.replace("-", "_"): v for k, v in combined.items()}
+        combined = {
+            k.replace("-", "_"): v
+            for k, v in combined.items()
+            if v is not None and k != "additional_css"
+        }
 
-        return Style(**combined)
+        # Handle additional_css separately
+        additional_css = []
+        if self_additional_css:
+            additional_css.extend(self_additional_css)
+        if other_additional_css:
+            additional_css.extend(other_additional_css)
+
+        return Style(
+            **combined, additional_css=additional_css if additional_css else None
+        )
 
 
 @dataclass
