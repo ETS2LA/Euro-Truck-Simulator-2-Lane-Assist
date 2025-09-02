@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-08-08 13:02\n"
-"PO-Revision-Date: 2025-08-20 23:06+0000\n"
-"Last-Translator: bread <bread@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-03 13:06+0000\n"
+"Last-Translator: Alex cz <alexcz@ets2la.com>\n"
 "Language-Team: Czech <http://weblate.ets2la.com/projects/ets2la/backend/cs/>"
 "\n"
 "Language: cs\n"
@@ -335,149 +335,166 @@ msgstr "Stěrače by měli být opravené."
 
 #: .\Pages\about.py:105
 msgid "Triggering update"
-msgstr ""
+msgstr "Zpouštení aktulizace"
 
 #: .\Pages\about.py:122 .\Pages\about.py:127 .\Pages\about.py:133
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} Jedna"
+msgstr[1] "{0} Pár"
+msgstr[2] "{0} Mnoho"
 
 #: .\Pages\about.py:129 .\Pages\about.py:132
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Jedna"
+msgstr[1] "Pár"
+msgstr[2] "Mnoho"
 
 #: .\Pages\about.py:131
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} a {1}"
 
 #: .\Pages\about.py:155
 msgid "Notice!"
-msgstr ""
+msgstr "Oznámení!"
 
 #: .\Pages\about.py:156
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"SDK pro {0} je zastaralý. Prosím přeinstalujte ho na aktulizaci na "
+"nejnovejší verzi SDK nastavení."
 
 #: .\Pages\about.py:158
 msgid "About"
-msgstr ""
+msgstr "O"
 
 #: .\Pages\about.py:160
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA je projekt, jehož cílem je poskytnout snadno použitelné řešení pro "
+"autonomní řízení pro ETS2 a ATS. Pokud se chcete dozvědět více, můžete "
+"navštívit stránku na GitHubu nebo wiki v bočním panelu."
 
 #: .\Pages\about.py:164
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: .\Pages\about.py:168
 msgid "Users online:"
-msgstr ""
+msgstr "uživatelů online:"
 
 #: .\Pages\about.py:169
 msgid "{0} users"
-msgstr ""
+msgstr "{0} uživatelů"
 
 #: .\Pages\about.py:171
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Posledních 24 hodin:"
 
 #: .\Pages\about.py:172
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} unikátní uživatelé"
 
 #: .\Pages\about.py:174
 msgid "Your usage time:"
-msgstr ""
+msgstr "Vaše doba používání:"
 
 #: .\Pages\about.py:179
 msgid "You are not logged in."
-msgstr ""
+msgstr "nejste přihlášeni."
 
 #: .\Pages\about.py:180
 msgid "Your anonymous user ID is: {0}"
-msgstr ""
+msgstr "Vaše anonymní uživatelské ID je: {0}"
 
 #: .\Pages\about.py:184
 msgid "You are logged in."
-msgstr ""
+msgstr "Jste přihlášeni."
 
 #: .\Pages\about.py:185
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Vítej zpět, {0}!"
 
 #: .\Pages\about.py:189
 msgid "Contributors"
-msgstr ""
+msgstr "Přispěvatelé"
 
 #: .\Pages\about.py:200
 msgid "Translations"
-msgstr ""
+msgstr "Překlady"
 
 #: .\Pages\about.py:210 .\Pages\global_settings.py:248
 #: .\Pages\onboarding.py:150
 msgid "List Contributors"
-msgstr ""
+msgstr "Seznam přispěvatelů"
 
 #: .\Pages\about.py:212 .\Pages\global_settings.py:250
 #: .\Pages\onboarding.py:152
 msgid "Help Translate"
-msgstr ""
+msgstr "Pomozte Přeložit"
 
 #: .\Pages\about.py:216
 msgid "Support Development"
-msgstr ""
+msgstr "Podporujte rozvoje"
 
 #: .\Pages\about.py:219
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
 msgstr ""
+"Pokud se vám projekt líbí a chcete podpořit jeho rozvoj, můžete tak učinit "
+"darem prostřednictvím Ko-Fi."
 
 #: .\Pages\about.py:222
 msgid "If you want to contribute, then I recommend joining the discord server and checking out the github page."
 msgstr ""
+"Pokud chcete přispět, doporučuji se připojit k Discordu a podívat se na "
+"stránku na GitHubu."
 
 #: .\Pages\about.py:226
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
 msgstr ""
+"Pokud chcete přispět k překladům, můžete tak učinit připojením se k Discordu "
+"a kontaktováním moderátora."
 
 #: .\Pages\about.py:231
 msgid "Utils"
-msgstr ""
+msgstr "Utility"
 
 #: .\Pages\about.py:235
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Opravit stěrače"
 
 #: .\Pages\about.py:236
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
 msgstr ""
+"Zasekly se vám stěrače? Klikněte na tlačítko a poté stiskněte klávesu Alt+"
+"Tab a přejděte do hry. Měly by se vypnout do 5 sekund."
 
 #: .\Pages\about.py:237
 msgid "Activate"
-msgstr ""
+msgstr "Aktivovat"
 
 #: .\Pages\about.py:242
 msgid "Force an update"
-msgstr ""
+msgstr "vynutit aktualizaci"
 
 #: .\Pages\about.py:243
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
 msgstr ""
+"Myslíte si, že měla být k dispozici aktualizace? Klikněte na toto tlačítko a "
+"aplikace se restartuje a zkontroluje ji."
 
 #: .\Pages\about.py:244 .\Plugins\Map\ui.py:172
 msgid "Update"
-msgstr ""
+msgstr "Aktualizace"
 
 #: .\Pages\catalogue.py:83 .\Pages\catalogue.py:88
 msgid "Unknown"
-msgstr ""
+msgstr "neznámý"
 
 #: .\Pages\catalogue.py:84
 msgid "No overview provided."
-msgstr ""
+msgstr "Nebyl poskytnut žádný přehled."
 
 #: .\Pages\catalogue.py:85
 msgid "No description provided."
