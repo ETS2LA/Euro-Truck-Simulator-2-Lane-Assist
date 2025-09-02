@@ -375,10 +375,7 @@ def get_tags_data():
 def get_tag_data(data: TagFetchData):
     try:
         backend_data = plugins.get_tag_data(data.tag)
-        count = 0
-        for plugin in backend_data:
-            if data.tag in backend_data[plugin]:
-                count += 1
+        count = len(backend_data)
 
         return_data = {}
         for plugin in backend_data:
