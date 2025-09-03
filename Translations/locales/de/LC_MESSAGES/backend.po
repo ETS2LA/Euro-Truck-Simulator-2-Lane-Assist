@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-10 07:06+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: Veqro <veqro@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
+"\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -210,6 +211,8 @@ msgstr "Protokollierung initialisiert."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Fehler beim entfernen der Logdateien. Wahrscheinlich läuft noch eine andere "
+"ETS2LA Instanz. Bitte schließe sie und versuche es erneut."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +240,7 @@ msgstr "Das ETS2LA Fenster konnte nicht gefunden/ gestartet werden. Hat dein PC 
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Fehler beim Festlegen vom Fensterattribut oder Icon."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -355,19 +358,23 @@ msgstr "{0} und {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Hallo!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Ich sehe du hast Werbung deaktiviert. Das ist komplett ok, aber du kannst "
+"die ETS2LA Entwicklung unterstützen, indem du etwas über Ko-Fi spendest. *"
+"Jede Spende ist so viel wie Wochen(!) an Werbeeinahmen*, wir sind für jede "
+"Unterstützung die wir bekommen unendlich dankbar."
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Spende über Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Verstecken"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -1177,6 +1184,10 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"**Vollbild**\n"
+"\n"
+"Du kannst mit der *mittleren Maustaste*auf den grünen Knopf klicken, damit "
+"das ETS2LA Fenster im Vollbildmodus ist."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1544,31 +1555,35 @@ msgstr "Zeige das AR-Overlay an, auch wenn das Spiel nicht im Fokus ist. Dies ka
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Performance Overlay"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Zeige Performance Overlay"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
 msgstr ""
+"Zeige das Performance Overlay. Dies zeigt zahlreiche nützliche Statistiken "
+"an."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Zeige Spielstatistiken"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Zeige Spielstatistiken im Performance Overlay an."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Zeige Hintergrund"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Zeige den Hintergrund im Performance Overlay an. Dass macht das Performance "
+"Overlay lesbarer, aber es ist dadurch weniger transparent."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
@@ -1600,15 +1615,15 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Spielstatistiken"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
@@ -1616,11 +1631,11 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kameraposition: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kameradrehung: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1663,7 +1678,7 @@ msgstr "Die adaptive Geschwindigkeitsregelung (ACC) steuert die Geschwindigkeit 
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "ACC Einstellungen"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1675,7 +1690,7 @@ msgstr "Wie aggressiv sollte der ACC dem vorausfahrenden Fahrzeug folgen und die
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Folgeabstand"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1684,10 +1699,12 @@ msgstr "Wie weit sollte der ACC vom vorausfahrenden Fahrzeug entfernt sein?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"Bei 80km/h ETS2LA hält ungefähr den Abstand von {distance}m zum "
+"vorausfahrenden Fahrzeug."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Ampeleinstellungen"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1699,7 +1716,7 @@ msgstr "Ob der ACC (Adaptive Cruise Control) Ampeln ignorieren soll. Bitte beach
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Ampelmodus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
