@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-03 13:06+0000\n"
+"PO-Revision-Date: 2025-09-03 17:15+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
-"Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/>\n"
+"Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
+">\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -917,20 +918,23 @@ msgid "Send Crash Reports"
 msgstr ""
 
 #: .\Pages\global_settings.py:544
+#, fuzzy
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
+"Enviar automáticamente informes de fallos para ayudar a mejorar la "
+"aplicación."
 
 #: .\Pages\global_settings.py:553
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Usar Fancy Traceback"
 
 #: .\Pages\global_settings.py:554
 msgid "Enable this option to use a fancy traceback for errors."
-msgstr ""
+msgstr "Permitir esta opción para usar un trazador para errores."
 
 #: .\Pages\global_settings.py:564
 msgid "Debug Mode"
-msgstr ""
+msgstr "Modo de depuración"
 
 #: .\Pages\global_settings.py:565
 msgid "Enable this option to use the edge debugger for the frontend."
@@ -938,48 +942,60 @@ msgstr "Permite esta opción para usar el depurador de bordes para el frontend."
 
 #: .\Pages\global_settings.py:573
 msgid "Default UI Mirror"
-msgstr ""
+msgstr "Espejo UI por defecto"
 
 #: .\Pages\global_settings.py:574
+#, fuzzy
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
+"El espejo UI ETS2LA predeterminado para usar. Auto elegirá el mejor espejo "
+"disponible."
 
 #: .\Pages\global_settings.py:585
 msgid "ETS2LA Window Timeout"
-msgstr ""
+msgstr "ETS2LA ventana tiempo de espera"
 
 #: .\Pages\global_settings.py:586
+#, fuzzy
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "La cantidad de tiempo ETS2LA espera que la ventana aparezca."
 
 #: .\Pages\global_settings.py:603
 msgid "Fireworks"
-msgstr ""
+msgstr "Fuegos artificiales"
 
 #: .\Pages\global_settings.py:604
 msgid "Enable this option to use fireworks effects during the new year's."
 msgstr ""
+"Permitir esta opción para usar efectos de fuegos artificiales durante el año "
+"nuevo."
 
 #: .\Pages\global_settings.py:612
 msgid "Snow"
-msgstr ""
+msgstr "Nieve"
 
 #: .\Pages\global_settings.py:613
 msgid "Enable this option to use snow effects during the winter season."
 msgstr ""
+"Permitir esta opción para usar efectos de nieve durante la temporada de "
+"invierno."
 
 #: .\Pages\onboarding.py:70
 msgid "If you've done the onboarding before, you know how to exit. ETS2LA will not work without doing the onboarding once."
 msgstr ""
+"Si has hecho el a bordo antes, sabes cómo salir. ETS2LA no funcionará sin "
+"hacer el a bordo una vez."
 
 #: .\Pages\onboarding.py:111 .\Plugins\HUD\main.py:435
 #: .\Plugins\HUD\main.py:482
 msgid "Loading..."
-msgstr ""
+msgstr "Cargando..."
 
 #: .\Pages\onboarding.py:113
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
 msgstr ""
+"Estamos haciendo algo que está tomando un tiempo. ¡Siéntate fuerte y "
+"relájate!"
 
 #: .\Pages\onboarding.py:121
 msgid "Welcome to ETS2LA!"
@@ -988,33 +1004,38 @@ msgstr "¡Bienvenido a ETS2LA!"
 #: .\Pages\onboarding.py:123
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
 msgstr ""
+"¡Te ayudamos a configurar lo básico desde el principio! Pulsa el botón de "
+"abajo para continuar."
 
 #: .\Pages\onboarding.py:130 .\Pages\onboarding.py:182
 #: .\Pages\onboarding.py:262 .\Pages\onboarding.py:282
 #: .\Pages\onboarding.py:354 .\Pages\onboarding.py:412
 #: .\Pages\onboarding.py:553 .\Pages\onboarding.py:617
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 #: .\Pages\onboarding.py:137
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Saltar a bordo"
 
 #: .\Pages\onboarding.py:152
 msgid "You can change the theme here!"
-msgstr ""
+msgstr "¡Puedes cambiar el tema aquí!"
 
 #: .\Pages\onboarding.py:171
 msgid "Language Selection"
-msgstr ""
+msgstr "Selección de idioma"
 
 #: .\Pages\onboarding.py:173
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Por favor, seleccione su idioma preferido para ETS2LA. Esta opción puede "
+"cambiarse más adelante en las opciones. ¡Todas nuestras traducciones son "
+"hechas comunitariamente!"
 
 #: .\Pages\onboarding.py:192
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Seleccione su idioma preferido para ETS2LA."
 
 #: .\Pages\onboarding.py:247 .\Pages\sdk_installation.py:263
 msgid "SDK Setup"
@@ -1035,22 +1056,34 @@ msgstr "Plugins"
 #: .\Pages\onboarding.py:273
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"ETS2LA utiliza plugins para proporcionar la mayor parte de su funcionalidad. "
+"Puede seleccionar entre un modo simple y un modo avanzado. Esto se puede "
+"cambiar más adelante en la configuración."
 
 #: .\Pages\onboarding.py:291
 msgid "Advanced Plugin Mode"
-msgstr ""
+msgstr "Modo de plugin avanzado"
 
 #: .\Pages\onboarding.py:292
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Permite funciones avanzadas de gestión de plugins. Puede cambiarse en "
+"cualquier momento en el gestor del plugin."
 
 #: .\Pages\onboarding.py:318
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Mantener **Modo de plugin avanzado** deshabilitado es recomendable, sin "
+"embargo usuarios avanzados que quieren seleccionar plugins ellos mismos "
+"podrían querer que esté habilitado."
 
 #: .\Pages\onboarding.py:331
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**Modo de plugin avanzado** desbloquea el control manual de plugins "
+"habilitados. También le permite descargar más plugins de otros repositorios. "
+"Tenga en cuenta que estos plugins de terceros no son *oficialmente* "
+"compatibles con ETS2LA."
 
 #: .\Pages\onboarding.py:342
 msgid "High Priority Mode"
@@ -1094,7 +1127,7 @@ msgstr "No se encontraron datos coincidentes"
 
 #: .\Pages\onboarding.py:496
 msgid "The"
-msgstr ""
+msgstr "El"
 
 #: .\Pages\onboarding.py:500
 msgid "download size"
@@ -1102,53 +1135,66 @@ msgstr "tamaño de descarga"
 
 #: .\Pages\onboarding.py:504
 msgid "for this data is"
-msgstr ""
+msgstr "para estos datos"
 
 #: .\Pages\onboarding.py:512
 msgid "that will unpack to a"
-msgstr ""
+msgstr "que se desharán de una"
 
 #: .\Pages\onboarding.py:516
 msgid "total size"
-msgstr ""
+msgstr "tamaño total"
 
 #: .\Pages\onboarding.py:531
 msgid "No data selected"
-msgstr ""
+msgstr "No se han seleccionado datos"
 
 #: .\Pages\onboarding.py:533
 msgid "Please select the data you want to use from the dropdown above."
 msgstr ""
+"Por favor, seleccione los datos que desea utilizar desde el desplegable "
+"anterior."
 
 #: .\Pages\onboarding.py:544
 msgid "Window Size"
-msgstr ""
+msgstr "Ventana tamaño"
 
 #: .\Pages\onboarding.py:546
 msgid "ETS2LA bypasses Windows to provide custom window features. Due to this you cannot resize the window normally. These are sliders to manually change the window size."
 msgstr ""
+"ETS2LA bypasses Windows para proporcionar características de ventana "
+"personalizadas. Debido a esto no puede cambiar el tamaño de la ventana "
+"normalmente. Estos son deslizadores para cambiar manualmente el tamaño de la "
+"ventana."
 
 #: .\Pages\onboarding.py:558
 msgid "Adjust the width of the ETS2LA window."
-msgstr ""
+msgstr "Ajuste el ancho de la ventana ETS2LA."
 
 #: .\Pages\onboarding.py:567
 msgid "Adjust the height of the ETS2LA window."
-msgstr ""
+msgstr "Ajuste la altura de la ventana ETS2LA."
 
 #: .\Pages\onboarding.py:595
 msgid ""
 "**Changing the window size may cause pages to display incorrectly**.\n"
 "You can adjust the window scaling by holding Left CTRL and using the scrollwheel."
 msgstr ""
+"**Cambiar el tamaño de la ventana puede causar que las páginas se muestren "
+"incorrectamente**.\n"
+"Usted puede ajustar el escalado de la ventana manteniendo la CTRL izquierda "
+"y utilizando la rueda de desplazamiento."
 
 #: .\Pages\onboarding.py:608
 msgid "Window Controls"
-msgstr ""
+msgstr "Controles de ventana"
 
 #: .\Pages\onboarding.py:610
 msgid "ETS2LA provides custom window controls that might be useful to you. These can be accessed through the green button in the top right corner."
 msgstr ""
+"ETS2LA proporciona controles de ventana personalizados que podrían ser "
+"útiles para usted. Estos se pueden acceder a través del botón verde en la "
+"esquina superior derecha."
 
 #: .\Pages\onboarding.py:633
 msgid ""
@@ -1156,6 +1202,10 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
+"# Quédate arriba #\n"
+"\n"
+"Puede *izquierda haga clic* en el botón verde para hacer que la ventana "
+"ETS2LA permanezca en la parte superior de otras ventanas."
 
 #: .\Pages\onboarding.py:651
 msgid ""
@@ -1163,6 +1213,11 @@ msgid ""
 "\n"
 "You can *right click* the green button to make the ETS2LA window slightly transparent. The amount of transparency can be adjusted in the settings."
 msgstr ""
+"**Transparencia* *\n"
+"\n"
+"Usted puede * haga clic derecho* en el botón verde para hacer la ventana "
+"ETS2LA ligeramente transparente. La cantidad de transparencia se puede "
+"ajustar en los ajustes."
 
 #: .\Pages\onboarding.py:669
 msgid ""
@@ -1170,56 +1225,67 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"*Pantalla completa*\n"
+"\n"
+"Usted puede *middle haga clic* en el botón verde para hacer la pantalla "
+"completa de la ventana ETS2LA."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
-msgstr ""
+msgstr "¡Es este botón verde!"
 
 #: .\Pages\onboarding.py:697
 msgid "Onboarding Complete!"
-msgstr ""
+msgstr "¡A bordo!"
 
 #: .\Pages\onboarding.py:699
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
 msgstr ""
+"Has completado con éxito el proceso de a bordo. Ahora puedes empezar a usar "
+"ETS2LA. Si necesita ayuda, siéntete libre de unirte a nuestro servidor "
+"Discord."
 
 #: .\Pages\onboarding.py:706
 msgid "Finish"
-msgstr ""
+msgstr "Acabado"
 
 #: .\Pages\onboarding.py:718
 msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
+"Presione este borde para abrir y cerrar la barra lateral.\n"
+"Abra el Administrador para habilitar plugins."
 
 #: .\Pages\onboarding.py:774
 msgid "Page not found"
-msgstr ""
+msgstr "Página no encontrada"
 
 #: .\Pages\onboarding.py:776
 msgid "Go back"
-msgstr ""
+msgstr "Vuelve"
 
 #: .\Pages\performance.py:157
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: .\Pages\performance.py:164
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
 msgstr ""
+"Los datos siguen siendo recogidos, por favor espere unos segundos para que "
+"los gráficos se estabilicen."
 
 #: .\Pages\performance.py:182
 msgid "CPU Usage"
-msgstr ""
+msgstr "Uso de CPU"
 
 #: .\Pages\performance.py:197
 msgid "CPU Usage "
-msgstr ""
+msgstr "Uso de CPU "
 
 #: .\Pages\performance.py:213
 msgid "RAM Usage"
-msgstr ""
+msgstr "Uso de RAM"
 
 #: .\Pages\performance.py:235
 msgid "RAM Usage "
