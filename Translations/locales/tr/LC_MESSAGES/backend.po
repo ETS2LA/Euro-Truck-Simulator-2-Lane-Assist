@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-03 17:15+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
@@ -1185,6 +1185,10 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"**Tam ekran**\n"
+"\n"
+"ETS2LA penceresini tam ekran yapmak için yeşil butona orta tıklama(mouse "
+"tekerleği) ile tıklayınız."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1556,27 +1560,31 @@ msgstr "Performans Katmanı"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Performans Katmanını Göster"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
 msgstr ""
+"Performans katmanını gösterir. Bu katman, birçok faydalı istatistiği "
+"görüntüler."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Oyun İstatistiklerini Göster"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Performans göstergesinde oyun istatistiklerini göster."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Arka Planı Göster"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Performans katmanında arka planı göster. Bu, performans katmanını daha "
+"okunaklı hale getirecek, ancak aynı zamanda daha az şeffaf hale getirecektir."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
@@ -1588,47 +1596,47 @@ msgstr "Ögeler: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Çizim Çağrıları: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Metin Önbellek Uzunluğu: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Son İşleme: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Son Döngü: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Oyunla senkronize et: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Evet"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Hayır"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Oyun İstatistikleri"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Kare hızı: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kamera Pozisyonu: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kamera Açısı: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1671,7 +1679,7 @@ msgstr "ACC (Uyumlu Hız Kontrol Sistemi), oyun içinden elde edilen verileri an
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "ACC Ayarları"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1683,7 +1691,7 @@ msgstr "ACC (Uyumlu Hız Kontrol Sistemi), öndeki aracı ne kadar hızlı takip
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Takip Mesafesi"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1692,10 +1700,12 @@ msgstr "ACC (Uyumlu Hız Kontrol Sistemi), öndeki araçla olan takip mesafesini
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"80 km/s hızda ETS2LA, önündeki araçla yaklaşık {distance} metre mesafe "
+"koruyacaktır."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Trafik Işığı Ayarları"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1707,11 +1717,13 @@ msgstr "ACC'nin trafik ışıklarını görmezden gelip gelmemesi gerektiği. L�
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Trafik Işığı Modu"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"ACC'nin trafik ışıklarını nasıl ele alacağını seçin. Normal mod, kavşağın "
+"diğer tarafındaki ışıkları daha iyi ele alır."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1719,7 +1731,7 @@ msgstr "Hız Kontrolü"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Viraj Ayarları"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1731,19 +1743,21 @@ msgstr "ACC (Uyumlu Hız Kontrol Sistemi) hesaplamalarında kullanılan sürtün
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Hız Sınırı Ayarları"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maksimum Hız"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"ACC'nin ulaşabileceği maksimum hız. Devre dışı bırakmak için bu değeri 0 "
+"olarak ayarlayın."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Geri çekilme hızı"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1840,11 +1854,11 @@ msgstr "ACC ve Direksiyon durum bilgilerini çizin."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "En yakın şehir"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "En yakın şehri ve mesafesini (metne göre) gösterir."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1856,11 +1870,11 @@ msgstr "Kamyonun mevcut yakıt durumunu görselleştirin."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "ACC Mesafesi"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Öndeki araç ile aradaki mesafeyi gösterir."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1872,19 +1886,19 @@ msgstr "Kamyonun mevcut deviri ve vitesini çizin."
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Gelir"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Mevcut işten elde edilen geliri gösterir."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "İş yok"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "İş Geliri"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2133,15 +2147,18 @@ msgstr "Harita eklentisi için yapılandırma ayarlarını yapılandırın. Navi
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Deneysel]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Otomatik Geçiş Ücretleri"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Otomatik geçiş ücretlerini otomatik olarak çözmeyi dener. Bu işlem başarılı "
+"olabilir veya başarısız olabilir. Ücret verilerinin tam olarak yenilenmesi "
+"için uygulamanın yeniden başlatılması gerekmektedir."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2201,11 +2218,13 @@ msgstr "Şu anda seçili olan veriyi güncelleyin, bu işlem veri bozulduysa vey
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Trafik Yönü"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Bu ayar, şerit değiştirirken göstergelerin, sinyal lambalarının sol şeritli "
+"veya sağ şeritli ülkelerde doğru şekilde çalışmasını sağlar."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2398,25 +2417,26 @@ msgstr "Hız {0} kilometre/saat, limit {1}, yakıt {2}%, ve bir sonraki varış 
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "{distance} metre ileride trafik ışığı var. Şu anda {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
 msgstr ""
+"Trafik ışığı {state} olarak değiştirildi. Şu anda {distance} metre mesafede."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} metre"
+msgstr[1] "{distance} metre"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Farlar açıldı."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Farlar kapatıldı."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2551,7 +2571,7 @@ msgstr "Kullanıcı Arayüzü yerel olarak çalıştırılıyor"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Pencereyle ilgili işlem beklenmedik şekilde durdu!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
