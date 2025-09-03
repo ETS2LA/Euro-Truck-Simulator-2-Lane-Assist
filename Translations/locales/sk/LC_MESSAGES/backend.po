@@ -7,20 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-09 04:37+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
+"\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
 msgid "Timeout, please try again."
-msgstr "Čas vypršal, prosím skúste to neskôr."
+msgstr "Čas vypršal, prosím skúste to znova."
 
 #: .\ETS2LA\Controls\picker.py:86
 msgid "Event bound to {device} {action}"
@@ -210,6 +211,8 @@ msgstr "Protokolovanie inicializované."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Chyba pri odstraňovaní súborov denníka. Pravdepodobne beží iná inštancia "
+"ETS2LA. Zatvorte ju a skúste to znova."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +240,7 @@ msgstr "Nepodarilo sa nájsť/spustiť okno ETS2LA. Je váš počítač dostato�
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Nepodarilo sa nastaviť atribúty okna alebo ikonu."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -357,19 +360,22 @@ msgstr "{0} a {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Ahoj!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Vidím, že ste zakázali reklamy. To je úplne v poriadku, ale stále môžete "
+"podporiť vývoj ETS2LA darovaním cez Ko-Fi. *Každý dar sa rovná týždňom(!) "
+"príjmov z reklamy*, sme večne vďační za každú podporu, ktorú dostaneme!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Prispejte cez Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Skryť"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -1183,6 +1189,10 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"**Celá obrazovka**\n"
+"\n"
+"*Kliknutím stredným tlačidlom myši* na zelené tlačidlo sa okno ETS2LA "
+"zobrazí na celej obrazovke."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1551,31 +1561,34 @@ msgstr "Zobraziť AR prekrytie, aj keď hra nie je zaostrená. Toto môže byť 
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Prekrytie výkonu"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Zobraziť prekrytie výkonnosti"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
 msgstr ""
+"Zobraziť prekrytie výkonnosti. Zobrazí sa množstvo užitočných štatistík."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Zobraziť štatistiku hry"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Zobraziť herné štatistiky v prekrytí výkonu."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Zobraziť pozadie"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Zobraziť pozadie v prekrytí výkonu. Vďaka tomu bude prekrytie výkonu "
+"čitateľnejšie, ale zároveň menej priehľadné."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
@@ -1587,47 +1600,47 @@ msgstr "Položky: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Volania remíz: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Dĺžka textovej vyrovnávacej pamäte: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Posledné vykreslenie: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Posledná slučka: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Synchronizácia s hrou: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Áno"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Štatistiky hry"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Snímková frekvencia: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Pozícia kamery: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Rotácia kamery: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1670,7 +1683,7 @@ msgstr "Adaptívny tempomat (ACC) riadi rýchlosť nákladného vozidla na zákl
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "Nastavenia ACC"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1682,7 +1695,7 @@ msgstr "Ako agresívne by mal systém ACC sledovať vozidlo pred vami a meniť r
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Vzdialenosť sledovania"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1691,10 +1704,12 @@ msgstr "Akú vzdialenosť by mal ACC udržiavať od vozidla pred vami?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"Pri rýchlosti 80 km/h si ETS2LA udrží približne {vzdialenosť} m od vozidla "
+"pred ním."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Nastavenia semaforov"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1706,11 +1721,13 @@ msgstr "Či má systém ACC ignorovať semafory. Upozorňujeme, že týmto sa, a
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Režim semaforu"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Vyberte, ako má ACC reagovať na semafory. Normálny režim lepšie reaguje na "
+"svetlá na druhej strane križovatky."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1718,7 +1735,7 @@ msgstr "Ovládanie rýchlosti"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Nastavenia krivky"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1730,19 +1747,21 @@ msgstr "Koeficient trenia použitý na výpočty ACC. Vyššie hodnoty umožňuj
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Nastavenia rýchlostného limitu"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maximálna rýchlosť"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"Maximálna rýchlosť, ktorou bude systém ACC jazdiť. Pre deaktiváciu nastavte "
+"túto hodnotu na 0."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Záložná rýchlosť"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1839,11 +1858,11 @@ msgstr "Zobrazuje informácie o stave ACC a riadenia."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Najbližšie mesto"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "Zobrazuje najbližšie mesto a jeho vzdialenosť ( vzhľadom na text )."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1855,11 +1874,11 @@ msgstr "Nakreslite aktuálny stav paliva vo vozidle."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "ACC medzera"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Zobrazuje medzeru od vozidla vpredu."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1871,19 +1890,19 @@ msgstr "Nakreslite aktuálne otáčky a prevodový stupeň nákladného vozidla.
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Príjem"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Zobrazuje príjem zo súčasnej zákazky."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Žiadna zákazka"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Príjem z zákazky"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2132,15 +2151,17 @@ msgstr "Nakonfigurujte nastavenia pre plugin Mapa. Tu môžete upraviť rôzne m
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Experimentálne]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Automatické mýta"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Pokúsi sa automaticky vyriešiť problémy s mýtom. Toto môže, ale nemusí "
+"fungovať. Na úplné opätovné načítanie údajov o mýte je potrebný reštart."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2200,11 +2221,13 @@ msgstr "Aktualizujte aktuálne vybraté údaje, čo môže byť užitočné, ak 
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Dopravná strana"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Vďaka tomu sa smerovky budú správať správne pri zmene jazdného pruhu v "
+"krajinách pre ľavákov alebo pravákov."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2401,26 +2424,26 @@ msgstr "Rýchlosť {0} kilometrov za hodinu, limit {1}, palivo {2} % a do ďalš
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Semafor pred nami o {distance} metrov. Aktuálne {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Semafor sa zmenil na {state}. Teraz je vzdialenosť {distance} metrov."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{distance} meter"
+msgstr[1] "{distance} metre"
+msgstr[2] "{distance} metrov"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Svetlomety zapnuté."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Svetlomety vypnuté."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2555,7 +2578,7 @@ msgstr "Lokálne spustené používateľské rozhranie"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Proces okna zlyhal!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
