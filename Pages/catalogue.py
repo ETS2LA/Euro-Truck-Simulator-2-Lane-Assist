@@ -142,6 +142,7 @@ class Page(ETS2LAPage):
         threading.Thread(target=self.update_data, daemon=True).start()
 
     def open_event(self):
+        super().open_event()
         if self.plugins:
             return
 

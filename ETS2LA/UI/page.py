@@ -52,6 +52,11 @@ class ETS2LAPage:
     If the page is hidden, then this is ignored.
     """
 
+    open_calls: int = 0
+    """
+    Incremented by open_event(), decremented by close_event().
+    """
+
     def __init__(self):
         if "render" not in dir(type(self)):
             raise TypeError("Your page has to have a 'render' method.")
@@ -71,13 +76,17 @@ class ETS2LAPage:
             "You must implement the 'render' method in your page class."
         )
 
+    def is_open(self) -> bool:
+        """Returns True if the page is currently open."""
+        return self.open_calls > 0
+
     def open_event(self):
         """This method is called when the page is opened. Override this method to handle the open event."""
-        pass
+        self.open_calls += 1
 
     def close_event(self):
         """This method is called when the page is closed. Override this method to handle the close event."""
-        pass
+        self.open_calls -= 1
 
     def reset_timer(self):
         # Trigger a timer reset to make sure the

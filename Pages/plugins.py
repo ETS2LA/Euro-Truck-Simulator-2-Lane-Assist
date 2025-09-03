@@ -136,6 +136,7 @@ class Page(ETS2LAPage):
     disabling: list[object] = []  # List of plugins currently being disabled
 
     def open_event(self):
+        super().open_event()
         self.search_term = ""
         self.tags = ["Base"]
         self.authors = []

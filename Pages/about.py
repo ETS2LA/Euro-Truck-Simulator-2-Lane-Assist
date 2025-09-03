@@ -225,6 +225,7 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
 
     def open_event(self):
+        super().open_event()
         self.game_needs_update = {}
         for path in games:
             try:

@@ -170,9 +170,11 @@ class Page(ETS2LAPage):
     ws: Optional[websockets.WebSocketClientProtocol] = None
 
     def open_event(self):
+        super().open_event()
         asyncio.create_task(self.ws_loop())
 
     def close_event(self):
+        super().close_event()
         if self.ws:
             asyncio.create_task(self.ws.close())
 

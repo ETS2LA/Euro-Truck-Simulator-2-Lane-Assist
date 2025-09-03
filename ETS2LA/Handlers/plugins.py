@@ -383,6 +383,7 @@ class Plugin:
                         data = message.data["data"]
                         data[0]["plugin"] = self.description.id
                         self.pages[url] = data
+                        variables.REFRESH_PAGES = True
 
             time.sleep(0.01)
 

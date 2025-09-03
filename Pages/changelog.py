@@ -38,6 +38,7 @@ class Page(ETS2LAPage):
             ).format(days=int(diff / 86400))
 
     def open_event(self):
+        super().open_event()
         self.reset_timer()
 
     def render(self):

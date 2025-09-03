@@ -249,6 +249,7 @@ class Page(ETS2LAPage):
             SendPopup(_("Path {path} does not exist.").format(path=path), "error")
 
     def open_event(self):
+        super().open_event()
         self.game_needs_update = {}
         for path in games:
             try:

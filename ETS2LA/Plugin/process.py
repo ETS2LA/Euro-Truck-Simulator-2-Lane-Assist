@@ -241,7 +241,6 @@ class PluginProcess:
                     time.sleep(0.1)
                 continue
 
-            # Handle the message based on the channel
             match message.channel:
                 case Channel.GET_DESCRIPTION:
                     Description(self)(message)

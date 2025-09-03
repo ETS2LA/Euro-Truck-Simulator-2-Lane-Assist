@@ -21,6 +21,7 @@ class Page(ETS2LAPage):
         mainThreadQueue.append([Update, [], {}])
 
     def open_event(self):
+        super().open_event()
         self.reset_timer()
 
     def time_since(self, target_time):
