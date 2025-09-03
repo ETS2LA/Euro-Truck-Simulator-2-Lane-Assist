@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-03 17:15+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: takedown <takedown@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
@@ -1705,10 +1705,12 @@ msgstr "Какую дистанцию должен держать АКК от м
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"При движении со скоростью 80 км/ч ETS2LA будет держать расстоянние примерно "
+"в {distance}м от автомобиля спереди."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Настройки светофоров"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1720,11 +1722,13 @@ msgstr "Должен ли АКК игнорировать светофоры. П
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Режим светофоров"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Выбрать, как АКК будет реагировать на светофоры. В стандартном режиме "
+"светофоры на другой стороне перекрёстка обрабатываются лучше."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1732,7 +1736,7 @@ msgstr "Контроль скорости"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Настройки поворотов"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1744,19 +1748,21 @@ msgstr "Коэффициент трения используется для вы
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Настройки ограничения скорости"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Максимальная скорость"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"Максимальная скорость, с которой будет ехать АКК. Установите 0, чтобы "
+"выключить."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Запасная скорость"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1853,11 +1859,12 @@ msgstr "Отображать информацию о состоянии АКК �
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Ближайший город"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
 msgstr ""
+"Отображает ближайший город и расстояние до него ( относительно текста )."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1869,11 +1876,11 @@ msgstr "Отображать текущее состояние топлива г
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "Расстояние АКК"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Показывает расстояние до автомобиля спереди."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1885,19 +1892,19 @@ msgstr "Отображать текущие обороты и передачу �
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Доход"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Показывает доход текущего заказа."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Нет заказа"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Доход от заказа"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2146,15 +2153,18 @@ msgstr "Изменение настроек плагина \"Карта\". Зд�
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Экспериментально]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Автоматические пункты оплаты"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Попытка автоматического проезда через пункты оплаты. Может работать, а может "
+"и нет. Требуется перезапуск, чтобы полностью перезагрузить данные пунктов "
+"оплаты."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2214,11 +2224,13 @@ msgstr "Обновить выбранные данные, это может по
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Сторона движения"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Это обеспечит правильную работу поворотников при смене полосы в странах с "
+"левосторонним или правосторонним движением."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2415,26 +2427,26 @@ msgstr "Скорость {0} км/ч, ограничение {1}, топливо
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Впереди светофор через {distance} метров. Сейчас горит {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Светофор переключился на {state}. Расстояние {distance} метров."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{distance} метр"
+msgstr[1] "{distance} метра"
+msgstr[2] "{distance} метров"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Фары включены."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Фары выключены."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2569,7 +2581,7 @@ msgstr "Интерфейс запущен локально"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Процесс окна завершился с ошибкой!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
