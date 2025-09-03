@@ -18,6 +18,7 @@ class Renderer(HUDRenderer):
 
     def draw(self):
         if not self.plugin.data:
+            self.data = []
             return
 
         targets = self.plugin.globals.tags.vehicle_highlights
@@ -72,6 +73,7 @@ class Renderer(HUDRenderer):
         ]
 
         if distance > 120:
+            self.data = []
             return
 
         relative_front_left = self.plugin.get_relative_to_head(Coordinate(*front_left))

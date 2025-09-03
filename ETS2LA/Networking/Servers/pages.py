@@ -138,6 +138,7 @@ async def handler(ws: websockets.WebSocketServerProtocol, path):
 
                 elif data.get("type") == "function":
                     handle_functions(data["data"])
+
     except Exception:
         logging.exception("An error occurred while processing a message.")
     finally:

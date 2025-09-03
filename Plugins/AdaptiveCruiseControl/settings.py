@@ -9,6 +9,7 @@ from ETS2LA.UI import (
     ComboboxWithTitleDescription,
     CheckboxWithTitleDescription,
     SliderWithTitleDescription,
+    InputWithTitleDescription,
     Text,
     Youtube,
 )
@@ -45,6 +46,9 @@ class SettingsMenu(ETS2LAPage):
 
     def handle_coefficient_of_friction(self, value):
         settings.Set("AdaptiveCruiseControl", "MU", value)
+
+    def handle_max_speed(self, value):
+        settings.Set("AdaptiveCruiseControl", "max_speed", value)
 
     def handle_overwrite_speed(self, value):
         settings.Set("AdaptiveCruiseControl", "overwrite_speed", value)
@@ -90,66 +94,81 @@ class SettingsMenu(ETS2LAPage):
                 _("Adaptive Cruise Control"),
                 container_style=styles.FlexVertical() + styles.Gap("24px"),
             ):
-                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
-                    ComboboxWithTitleDescription(
-                        options=["Eco", "Normal", "Aggressive"],
-                        default=settings.Get("AdaptiveCruiseControl", "aggressiveness"),
-                        title=_("Aggressiveness"),
-                        description=_(
-                            "How aggressively should the ACC follow the car in front and change the speedlimit?"
-                        ),
-                        changed=self.handle_aggressiveness,
-                    )
+                Text(_("ACC Settings"), styles.Classname("font-semibold"))
+                ComboboxWithTitleDescription(
+                    options=["Eco", "Normal", "Aggressive"],
+                    default=settings.Get("AdaptiveCruiseControl", "aggressiveness"),
+                    title=_("Aggressiveness"),
+                    description=_(
+                        "How aggressively should the ACC follow the car in front and change the speedlimit?"
+                    ),
+                    changed=self.handle_aggressiveness,
+                )
 
-                    ComboboxWithTitleDescription(
-                        options=["Near", "Normal", "Far"],
-                        default=settings.Get(
-                            "AdaptiveCruiseControl", "following_distance"
-                        ),
-                        title=_("Following Distance"),
+                with Container(styles.FlexVertical() + styles.Gap("10px")):
+                    follow_distance = settings.Get(
+                        "AdaptiveCruiseControl", "following_distance", 2
+                    )
+                    if isinstance(follow_distance, str):
+                        follow_distance = 2
+                        settings.Set(
+                            "AdaptiveCruiseControl",
+                            "following_distance",
+                            follow_distance,
+                        )
+
+                    SliderWithTitleDescription(
+                        title=_("Follow Distance"),
                         description=_(
                             "How far should the ACC keep from the vehicle in front?"
                         ),
+                        default=follow_distance,
+                        min=0.5,
+                        max=4,
+                        step=0.1,
+                        suffix=" seconds",
                         changed=self.handle_following_distance,
                     )
 
+                    target_dist = follow_distance * (80 / 3.6)
+                    Text(
+                        "-> "
+                        + _(
+                            "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
+                        ).format(distance=round(target_dist)),
+                        styles.Classname("text-xs text-muted-foreground"),
+                    )
+
+                Text(_("Traffic Light Settings"), styles.Classname("font-semibold"))
+
+                ignore = settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights")
                 CheckboxWithTitleDescription(
                     title=_("Ignore Traffic Lights"),
                     description=_(
                         "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
                     ),
                     changed=self.handle_ignore_traffic_lights,
-                    default=settings.Get(
-                        "AdaptiveCruiseControl", "ignore_traffic_lights"
-                    ),
+                    default=ignore,
                 )
 
-                ComboboxWithTitleDescription(
-                    options=["Legacy", "Normal"],
-                    title=_("Traffic Light Mode"),
-                    changed=self.handle_traffic_light_mode,
-                    default=settings.Get(
-                        "AdaptiveCruiseControl", "traffic_light_mode", "Normal"
-                    ),
-                    description=_(
-                        "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
-                    ),
-                )
+                if not ignore:
+                    ComboboxWithTitleDescription(
+                        options=["Legacy", "Normal"],
+                        title=_("Traffic Light Mode"),
+                        changed=self.handle_traffic_light_mode,
+                        default=settings.Get(
+                            "AdaptiveCruiseControl", "traffic_light_mode", "Normal"
+                        ),
+                        description=_(
+                            "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
+                        ),
+                    )
 
             with Tab(
                 _("Speed Control"),
                 container_style=styles.FlexVertical() + styles.Gap("24px"),
             ):
-                ignore_speed_limit = settings.Get(
-                    "AdaptiveCruiseControl", "ignore_speed_limit"
-                )
-                CheckboxWithTitleDescription(
-                    title=_("Ignore Speed Limit"),
-                    description=_("Whether the ACC should ignore the speed limit."),
-                    changed=self.handle_ignore_speed_limit,
-                    default=ignore_speed_limit,
-                )
-
+                Text(_("Curve Settings"), styles.Classname("font-semibold"))
                 SliderWithTitleDescription(
                     title=_("Coefficient of Friction"),
                     description=_(
@@ -163,17 +182,38 @@ class SettingsMenu(ETS2LAPage):
                     suffix=" μ",
                 )
 
-                SliderWithTitleDescription(
-                    title=_("Speed when game speed limit is 0"),
-                    description=_(
-                        "The speed to drive when the game tells us that the speed limit is 0 km/h."
-                    ),
-                    min=0,
-                    max=130,
-                    step=5,
-                    default=settings.Get("AdaptiveCruiseControl", "overwrite_speed", 0),
-                    changed=self.handle_overwrite_speed,
-                    suffix=" km/h",
+                Text(_("Speed Limit Settings"), styles.Classname("font-semibold"))
+
+                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    InputWithTitleDescription(
+                        title=_("Maximum Speed"),
+                        description=_(
+                            "The maximum speed ACC will drive at. Set this to 0 to disable."
+                        ),
+                        default=settings.Get("AdaptiveCruiseControl", "max_speed", 0),
+                        changed=self.handle_max_speed,
+                        type="number",
+                    )
+                    InputWithTitleDescription(
+                        title=_("Fallback speed"),
+                        description=_(
+                            "The speed to drive when the game tells us that the speed limit is 0 km/h."
+                        ),
+                        default=settings.Get(
+                            "AdaptiveCruiseControl", "overwrite_speed", 0
+                        ),
+                        changed=self.handle_overwrite_speed,
+                        type="number",
+                    )
+
+                ignore_speed_limit = settings.Get(
+                    "AdaptiveCruiseControl", "ignore_speed_limit"
+                )
+                CheckboxWithTitleDescription(
+                    title=_("Ignore Speed Limit"),
+                    description=_("Whether the ACC should ignore the speed limit."),
+                    changed=self.handle_ignore_speed_limit,
+                    default=ignore_speed_limit,
                 )
 
                 if ignore_speed_limit is not True:

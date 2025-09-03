@@ -90,9 +90,16 @@ class Plugin:
     pages: dict = {}
     """All plugins share the same pages dictionary. This way they can easily share page data."""
 
-    edit_time: int
+    files: str
+    """List of files that the plugin wants the backend to check for changes for."""
+
+    file_times: dict[str, float]
+    """The last modification times of the files the plugin wants to check."""
 
     frametimes: list[float]
+    """
+    A list of all frametimes recorded by the plugin.
+    """
 
     def start_plugin(self) -> None:
         # First initialize / reset the variables
@@ -115,7 +122,8 @@ class Plugin:
             self.process.close()
             self.process = None  # type: ignore
 
-        self.edit_time = os.path.getmtime(self.folder + "/main.py")
+        self.files = []
+        self.file_times = {}
         self.process = multiprocessing.Process(
             target=PluginProcess,
             args=(
@@ -129,7 +137,9 @@ class Plugin:
             name=f"Plugin {self.folder.split('/')[-1]} Process",
         )
 
+        # The plugin was stopped / restarted, we clear the tags so they don't linger.
         if "description" in self.__dict__:
+            self.discover_files()
             for tag in self.tags:
                 if self.description.id in self.tags[tag]:
                     self.tags[tag][self.description.id] = {}
@@ -171,19 +181,12 @@ class Plugin:
         self.get_controls()
 
         threading.Thread(target=self.tag_handler, daemon=True).start()
-
         threading.Thread(target=self.memory_handler, daemon=True).start()
-
         threading.Thread(target=self.state_handler, daemon=True).start()
-
         threading.Thread(target=self.page_handler, daemon=True).start()
-
         threading.Thread(target=self.controls_updater, daemon=True).start()
-
         threading.Thread(target=self.notification_handler, daemon=True).start()
-
         threading.Thread(target=self.performance_handler, daemon=True).start()
-
         threading.Thread(target=self.check_edit_thread, daemon=True).start()
 
         self.keep_alive()
@@ -464,6 +467,45 @@ class Plugin:
         quit(1)
         return
 
+    def was_edited(self) -> bool:
+        for file in self.files:
+            if not os.path.exists(file):
+                continue
+
+            current = os.path.getmtime(file)
+            if file not in self.file_times:
+                self.file_times[file] = current
+                continue
+
+            if current != self.file_times[file]:
+                self.file_times[file] = current
+                return True
+
+    def discover_files(self):
+        rules = self.description.listen  # default = ["*.py"]
+        files = []
+        for root, _dirs, filenames in os.walk(self.folder):
+            for rule in rules:
+                if rule == "*":  # All
+                    for filename in filenames:
+                        files.append(os.path.join(root, filename))
+                elif rule.startswith("*"):  # Ending
+                    ext = rule[1:]
+                    for filename in filenames:
+                        if filename.endswith(ext):
+                            files.append(os.path.join(root, filename))
+                elif rule.endswith("*"):  # Beginning
+                    start = rule[:-1]
+                    for filename in filenames:
+                        if filename.startswith(start):
+                            files.append(os.path.join(root, filename))
+                else:
+                    for filename in filenames:  # Exact
+                        if filename == rule:
+                            files.append(os.path.join(root, filename))
+
+        self.files = files
+
     def get_description(self) -> PluginDescription:
         """Get the plugin description from the plugin process."""
         message = PluginMessage(Channel.GET_DESCRIPTION, {})
@@ -493,6 +535,8 @@ class Plugin:
             self.remove()
 
         self.description, self.authors = response.data
+        self.discover_files()
+
         return response.data
 
     def check_edit_thread(self) -> None:
@@ -503,16 +547,20 @@ class Plugin:
             if self.stop:
                 return
 
-            time.sleep(1)
-            current = os.path.getmtime(self.folder + "/main.py")
-            if current != self.edit_time:
+            time.sleep(2)
+            if self.was_edited():
                 logging.info(
                     f"Plugin {self.description.name} has been edited. Reloading..."
                 )
-                self.edit_time = current
                 if self.running:
                     threading.Thread(
                         target=restart_plugin,
+                        args=(self.description, self.description.name, self.folder),
+                        daemon=True,
+                    ).start()
+                else:
+                    threading.Thread(
+                        target=stop_plugin,  # will actually just reset
                         args=(self.description, self.description.name, self.folder),
                         daemon=True,
                     ).start()
@@ -740,9 +788,6 @@ def stop_plugin(
                 "Plugin not found, this can be a result of a plugin crash or failure to load."
             )
         )
-        return False
-
-    if not plugin.running and not stop_process:
         return False
 
     plugin.start_plugin()
