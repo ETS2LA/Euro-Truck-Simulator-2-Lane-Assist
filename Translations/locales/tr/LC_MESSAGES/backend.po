@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-09 04:37+0000\n"
+"PO-Revision-Date: 2025-09-03 17:15+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/>\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
+">\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -210,6 +211,9 @@ msgstr "Günlük kaydı başlatıldı."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Günlük dosyaları kaldırılırken bir hata meydana geldi. Muhtemelen ETS2LA "
+"uygulamasının başka bir örneği hâlihazırda çalışıyor. Lütfen diğer "
+"çalışmakta olan ETS2LA oturumlarını kapatıp tekrar deneyin."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +241,7 @@ msgstr "ETS2LA penceresi bulunamadı/başlatılamadı. Bilgisayarınız yeterinc
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Pencere özellikleri veya simgesi ayarlanırken bir hata oluştu."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -355,19 +359,23 @@ msgstr "{0} ve {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Selam!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Reklamları devre dışı bıraktığınızı görüyoruz – bu sorun değil! Ancak "
+"dilerseniz ETS2LA’nın gelişimine Ko-Fi üzerinden bağış yaparak yine de "
+"destek olabilirsiniz. Yapılan her bağış, haftalarca reklam geliriyle eş "
+"değerde olup, aldığımız her türlü destek için minnettarız!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Ko-Fi aracılığıyla destek olun"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Gizle"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -1544,7 +1552,7 @@ msgstr "Oyun odakta olmasa bile AR katmanını göster. Bu, ayarları değiştir
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Performans Katmanı"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
