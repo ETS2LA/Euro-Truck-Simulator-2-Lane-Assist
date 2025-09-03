@@ -1,3 +1,4 @@
+# ruff: noqa
 #! /usr/bin/env python3
 
 """pygettext -- Python equivalent of xgettext(1)
@@ -152,12 +153,12 @@ from dataclasses import dataclass, field
 from io import BytesIO
 from operator import itemgetter
 
-__version__ = "1.5"
+__version__ = '1.5'
 
 
 # The normal pot-file header. msgmerge and Emacs's po-mode work better if it's
 # there.
-pot_header = """\
+pot_header = '''\
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR ORGANIZATION
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
@@ -174,10 +175,10 @@ msgstr ""
 "Content-Transfer-Encoding: %(encoding)s\\n"
 "Generated-By: pygettext.py %(version)s\\n"
 
-"""
+'''
 
 
-def usage(code, msg=""):
+def usage(code, msg=''):
     print(__doc__, file=sys.stderr)
     if msg:
         print(msg, file=sys.stderr)
@@ -193,41 +194,36 @@ def make_escapes(pass_nonascii):
         escape = escape_ascii
     else:
         escape = escape_nonascii
-    escapes = [r"\%03o" % i for i in range(256)]
+    escapes = [fr"\{i:03o}" for i in range(256)]
     for i in range(32, 127):
         escapes[i] = chr(i)
-    escapes[ord("\\")] = r"\\"
-    escapes[ord("\t")] = r"\t"
-    escapes[ord("\r")] = r"\r"
-    escapes[ord("\n")] = r"\n"
-    escapes[ord('"')] = r"\""
+    escapes[ord('\\')] = r'\\'
+    escapes[ord('\t')] = r'\t'
+    escapes[ord('\r')] = r'\r'
+    escapes[ord('\n')] = r'\n'
+    escapes[ord('\"')] = r'\"'
 
 
 def escape_ascii(s, encoding):
-    return "".join(
-        escapes[ord(c)]
-        if ord(c) < 128
-        else c
-        if c.isprintable()
-        else escape_nonascii(c, encoding)
-        for c in s
-    )
+    return ''.join(escapes[ord(c)] if ord(c) < 128 else c
+                   if c.isprintable() else escape_nonascii(c, encoding)
+                   for c in s)
 
 
 def escape_nonascii(s, encoding):
-    return "".join(escapes[b] for b in s.encode(encoding))
+    return ''.join(escapes[b] for b in s.encode(encoding))
 
 
 def normalize(s, encoding):
     # This converts the various Python string types into a format that is
     # appropriate for .po files, namely much closer to C style.
-    lines = s.split("\n")
+    lines = s.split('\n')
     if len(lines) == 1:
         s = '"' + escape(s, encoding) + '"'
     else:
         if not lines[-1]:
             del lines[-1]
-            lines[-1] = lines[-1] + "\n"
+            lines[-1] = lines[-1] + '\n'
         for i in range(len(lines)):
             lines[i] = escape(lines[i], encoding)
         lineterm = '\\n"\n"'
@@ -235,9 +231,9 @@ def normalize(s, encoding):
     return s
 
 
-def containsAny(string, target):
-    """Check whether 'str' contains ANY of the chars in 'target'"""
-    return 1 in [c in string for c in target]
+def containsAny(str, set):
+    """Check whether 'str' contains ANY of the chars in 'set'"""
+    return 1 in [c in str for c in set]
 
 
 def getFilesForName(name):
@@ -248,10 +244,10 @@ def getFilesForName(name):
         # check for glob chars
         if containsAny(name, "*?[]"):
             files = glob.glob(name)
-            files_list = []
+            list = []
             for file in files:
-                files_list.extend(getFilesForName(file))
-            return files_list
+                list.extend(getFilesForName(file))
+            return list
 
         # try to find module or package
         try:
@@ -264,22 +260,19 @@ def getFilesForName(name):
 
     if os.path.isdir(name):
         # find all python files in directory
-        files = []
+        list = []
         # get extension for python source files
         _py_ext = importlib.machinery.SOURCE_SUFFIXES[0]
         for root, dirs, files in os.walk(name):
             # don't recurse into CVS directories
-            if "CVS" in dirs:
-                dirs.remove("CVS")
+            if 'CVS' in dirs:
+                dirs.remove('CVS')
             # add all *.py files to list
-            files.extend(
-                [
-                    os.path.join(root, file)
-                    for file in files
-                    if os.path.splitext(file)[1] == _py_ext
-                ]
-            )
-        return files
+            list.extend(
+                [os.path.join(root, file) for file in files
+                 if os.path.splitext(file)[1] == _py_ext]
+                )
+        return list
     elif os.path.exists(name):
         # a single file
         return [name]
@@ -290,15 +283,15 @@ def getFilesForName(name):
 # Key is the function name, value is a dictionary mapping argument positions to the
 # type of the argument. The type is one of 'msgid', 'msgid_plural', or 'msgctxt'.
 DEFAULTKEYWORDS = {
-    "_": {"msgid": 0},
-    "gettext": {"msgid": 0},
-    "ngettext": {"msgid": 0, "msgid_plural": 1},
-    "pgettext": {"msgctxt": 0, "msgid": 1},
-    "npgettext": {"msgctxt": 0, "msgid": 1, "msgid_plural": 2},
-    "dgettext": {"msgid": 1},
-    "dngettext": {"msgid": 1, "msgid_plural": 2},
-    "dpgettext": {"msgctxt": 1, "msgid": 2},
-    "dnpgettext": {"msgctxt": 1, "msgid": 2, "msgid_plural": 3},
+    '_': {'msgid': 0},
+    'gettext': {'msgid': 0},
+    'ngettext': {'msgid': 0, 'msgid_plural': 1},
+    'pgettext': {'msgctxt': 0, 'msgid': 1},
+    'npgettext': {'msgctxt': 0, 'msgid': 1, 'msgid_plural': 2},
+    'dgettext': {'msgid': 1},
+    'dngettext': {'msgid': 1, 'msgid_plural': 2},
+    'dpgettext': {'msgctxt': 1, 'msgid': 2},
+    'dnpgettext': {'msgctxt': 1, 'msgid': 2, 'msgid_plural': 3},
 }
 
 
@@ -332,72 +325,70 @@ def parse_spec(spec):
     See https://www.gnu.org/software/gettext/manual/gettext.html
     for more information.
     """
-    parts = spec.strip().split(":", 1)
+    parts = spec.strip().split(':', 1)
     if len(parts) == 1:
         name = parts[0]
-        return name, {"msgid": 0}
+        return name, {'msgid': 0}
 
     name, args = parts
     if not args:
-        raise ValueError(f"Invalid keyword spec {spec!r}: missing argument positions")
+        raise ValueError(f'Invalid keyword spec {spec!r}: '
+                         'missing argument positions')
 
     result = {}
-    for arg in args.split(","):
+    for arg in args.split(','):
         arg = arg.strip()
         is_context = False
-        if arg.endswith("c"):
+        if arg.endswith('c'):
             is_context = True
             arg = arg[:-1]
 
         try:
             pos = int(arg) - 1
         except ValueError as e:
-            raise ValueError(
-                f"Invalid keyword spec {spec!r}: position is not an integer"
-            ) from e
+            raise ValueError(f'Invalid keyword spec {spec!r}: '
+                             'position is not an integer') from e
 
         if pos < 0:
-            raise ValueError(
-                f"Invalid keyword spec {spec!r}: "
-                "argument positions must be strictly positive"
-            )
+            raise ValueError(f'Invalid keyword spec {spec!r}: '
+                             'argument positions must be strictly positive')
 
         if pos in result.values():
-            raise ValueError(f"Invalid keyword spec {spec!r}: duplicate positions")
+            raise ValueError(f'Invalid keyword spec {spec!r}: '
+                             'duplicate positions')
 
         if is_context:
-            if "msgctxt" in result:
-                raise ValueError(
-                    f"Invalid keyword spec {spec!r}: msgctxt can only appear once"
-                )
-            result["msgctxt"] = pos
-        elif "msgid" not in result:
-            result["msgid"] = pos
-        elif "msgid_plural" not in result:
-            result["msgid_plural"] = pos
+            if 'msgctxt' in result:
+                raise ValueError(f'Invalid keyword spec {spec!r}: '
+                                 'msgctxt can only appear once')
+            result['msgctxt'] = pos
+        elif 'msgid' not in result:
+            result['msgid'] = pos
+        elif 'msgid_plural' not in result:
+            result['msgid_plural'] = pos
         else:
-            raise ValueError(f"Invalid keyword spec {spec!r}: too many positions")
+            raise ValueError(f'Invalid keyword spec {spec!r}: '
+                             'too many positions')
 
-    if "msgid" not in result and "msgctxt" in result:
-        raise ValueError(
-            f"Invalid keyword spec {spec!r}: msgctxt cannot appear without msgid"
-        )
+    if 'msgid' not in result and 'msgctxt' in result:
+        raise ValueError(f'Invalid keyword spec {spec!r}: '
+                         'msgctxt cannot appear without msgid')
 
     return name, result
 
 
 def unparse_spec(name, spec):
     """Unparse a keyword spec dictionary into a string."""
-    if spec == {"msgid": 0}:
+    if spec == {'msgid': 0}:
         return name
 
     parts = []
     for arg, pos in sorted(spec.items(), key=lambda x: x[1]):
-        if arg == "msgctxt":
-            parts.append(f"{pos + 1}c")
+        if arg == 'msgctxt':
+            parts.append(f'{pos + 1}c')
         else:
             parts.append(str(pos + 1))
-    return f"{name}:{','.join(parts)}"
+    return f'{name}:{','.join(parts)}'
 
 
 def process_keywords(keywords, *, no_default_keywords):
@@ -438,9 +429,8 @@ class Message:
     is_docstring: bool = False
     comments: list[str] = field(default_factory=list)
 
-    def add_location(
-        self, filename, lineno, msgid_plural=None, *, is_docstring=False, comments=None
-    ):
+    def add_location(self, filename, lineno, msgid_plural=None, *,
+                     is_docstring=False, comments=None):
         if self.msgid_plural is None:
             self.msgid_plural = msgid_plural
         self.locations.add(Location(filename, lineno))
@@ -450,14 +440,15 @@ class Message:
 
 
 def get_source_comments(source):
-    """Return a dictionary mapping line numbers to
+    """
+    Return a dictionary mapping line numbers to
     comments in the source code.
     """
     comments = {}
     for token in tokenize.tokenize(BytesIO(source).readline):
         if token.type == tokenize.COMMENT:
             # Remove any leading combination of '#' and whitespace
-            comment = token.string.lstrip("# \t")
+            comment = token.string.lstrip('# \t')
             comments[token.start[0]] = comment
     return comments
 
@@ -492,7 +483,8 @@ class GettextVisitor(ast.NodeVisitor):
         self.generic_visit(node)
 
     def _extract_docstring(self, node):
-        if not self.options.docstrings or self.options.nodocstrings.get(self.filename):
+        if (not self.options.docstrings or
+            self.options.nodocstrings.get(self.filename)):
             return
 
         docstring = ast.get_docstring(node)
@@ -513,16 +505,15 @@ class GettextVisitor(ast.NodeVisitor):
         if not errors:
             return
         if len(errors) == 1:
-            print(f"*** {self.filename}:{node.lineno}: {errors[0]}", file=sys.stderr)
+            print(f'*** {self.filename}:{node.lineno}: {errors[0]}',
+                  file=sys.stderr)
         else:
             # There are multiple keyword specs for the function name and
             # none of them could be extracted. Print a general error
             # message and list the errors for each keyword spec.
-            print(
-                f"*** {self.filename}:{node.lineno}: "
-                f'No keywords matched gettext call "{func_name}":',
-                file=sys.stderr,
-            )
+            print(f'*** {self.filename}:{node.lineno}: '
+                  f'No keywords matched gettext call "{func_name}":',
+                  file=sys.stderr)
             for spec, err in zip(specs, errors, strict=True):
                 unparsed = unparse_spec(func_name, spec)
                 print(f'\tkeyword="{unparsed}": {err}', file=sys.stderr)
@@ -534,26 +525,22 @@ class GettextVisitor(ast.NodeVisitor):
         otherwise return an error message.
         """
         max_index = max(spec.values())
-        has_var_positional = any(
-            isinstance(arg, ast.Starred) for arg in node.args[: max_index + 1]
-        )
+        has_var_positional = any(isinstance(arg, ast.Starred) for
+                                 arg in node.args[:max_index+1])
         if has_var_positional:
-            return "Variable positional arguments are not allowed in gettext calls"
+            return ('Variable positional arguments are not '
+                    'allowed in gettext calls')
 
         if max_index >= len(node.args):
-            return (
-                f"Expected at least {max_index + 1} positional "
-                f"argument(s) in gettext call, got {len(node.args)}"
-            )
+            return (f'Expected at least {max_index + 1} positional '
+                    f'argument(s) in gettext call, got {len(node.args)}')
 
         msg_data = {}
         for arg_type, position in spec.items():
             arg = node.args[position]
             if not self._is_string_const(arg):
-                return (
-                    f"Expected a string constant for argument "
-                    f"{position + 1}, got {ast.unparse(arg)}"
-                )
+                return (f'Expected a string constant for argument '
+                        f'{position + 1}, got {ast.unparse(arg)}')
             msg_data[arg_type] = arg.value
 
         lineno = node.lineno
@@ -584,14 +571,8 @@ class GettextVisitor(ast.NodeVisitor):
         # Find the first translator comment in the sequence and
         # return all comments starting from that comment.
         comments = comments[::-1]
-        first_index = next(
-            (
-                i
-                for i, comment in enumerate(comments)
-                if self._is_translator_comment(comment)
-            ),
-            None,
-        )
+        first_index = next((i for i, comment in enumerate(comments)
+                            if self._is_translator_comment(comment)), None)
         if first_index is None:
             return []
         return comments[first_index:]
@@ -600,15 +581,8 @@ class GettextVisitor(ast.NodeVisitor):
         return comment.startswith(self.options.comment_tags)
 
     def _add_message(
-        self,
-        lineno,
-        msgid,
-        msgid_plural=None,
-        msgctxt=None,
-        *,
-        is_docstring=False,
-        comments=None,
-    ):
+            self, lineno, msgid, msgid_plural=None, msgctxt=None, *,
+            is_docstring=False, comments=None):
         if msgid in self.options.toexclude:
             return
 
@@ -653,23 +627,18 @@ class GettextVisitor(ast.NodeVisitor):
     def _is_string_const(self, node):
         return isinstance(node, ast.Constant) and isinstance(node.value, str)
 
-
 def write_pot_file(messages, options, fp):
-    timestamp = time.strftime("%Y-%m-%d %H:%M%z")
-    encoding = fp.encoding if fp.encoding else "UTF-8"
-    print(
-        pot_header
-        % {
-            "time": timestamp,
-            "version": __version__,
-            "charset": encoding,
-            "encoding": "8bit",
-        },
-        file=fp,
-    )
+    timestamp = time.strftime('%Y-%m-%d %H:%M%z')
+    encoding = fp.encoding if fp.encoding else 'UTF-8'
+    print(pot_header % {'time': timestamp, 'version': __version__,
+                        'charset': encoding,
+                        'encoding': '8bit'}, file=fp)
 
     # Sort locations within each message by filename and lineno
-    sorted_keys = [(key, sorted(msg.locations)) for key, msg in messages.items()]
+    sorted_keys = [
+        (key, sorted(msg.locations))
+        for key, msg in messages.items()
+    ]
     # Sort messages by locations
     # For example, a message with locations [('test.py', 1), ('test.py', 2)] will
     # appear before a message with locations [('test.py', 1), ('test.py', 3)]
@@ -679,38 +648,36 @@ def write_pot_file(messages, options, fp):
         msg = messages[key]
 
         for comment in msg.comments:
-            print(f"#. {comment}", file=fp)
+            print(f'#. {comment}', file=fp)
 
         if options.writelocations:
             # location comments are different b/w Solaris and GNU:
             if options.locationstyle == options.SOLARIS:
                 for location in locations:
-                    print(
-                        f"# File: {location.filename}, line: {location.lineno}", file=fp
-                    )
+                    print(f'# File: {location.filename}, line: {location.lineno}', file=fp)
             elif options.locationstyle == options.GNU:
                 # fit as many locations on one line, as long as the
                 # resulting line length doesn't exceed 'options.width'
-                locline = "#:"
+                locline = '#:'
                 for location in locations:
-                    s = f" {location.filename}:{location.lineno}"
+                    s = f' {location.filename}:{location.lineno}'
                     if len(locline) + len(s) <= options.width:
                         locline = locline + s
                     else:
                         print(locline, file=fp)
-                        locline = f"#:{s}"
+                        locline = f'#:{s}'
                 if len(locline) > 2:
                     print(locline, file=fp)
         if msg.is_docstring:
             # If the entry was gleaned out of a docstring, then add a
             # comment stating so.  This is to aid translators who may wish
             # to skip translating some unimportant docstrings.
-            print("#, docstring", file=fp)
+            print('#, docstring', file=fp)
         if msg.msgctxt is not None:
-            print("msgctxt", normalize(msg.msgctxt, encoding), file=fp)
-        print("msgid", normalize(msg.msgid, encoding), file=fp)
+            print('msgctxt', normalize(msg.msgctxt, encoding), file=fp)
+        print('msgid', normalize(msg.msgid, encoding), file=fp)
         if msg.msgid_plural is not None:
-            print("msgid_plural", normalize(msg.msgid_plural, encoding), file=fp)
+            print('msgid_plural', normalize(msg.msgid_plural, encoding), file=fp)
             print('msgstr[0] ""', file=fp)
             print('msgstr[1] ""\n', file=fp)
         else:
@@ -721,28 +688,13 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "ac::d:DEhk:Kno:p:S:Vvw:x:X:",
-            [
-                "extract-all",
-                "add-comments=?",
-                "default-domain=",
-                "escape",
-                "help",
-                "keyword=",
-                "no-default-keywords",
-                "add-location",
-                "no-location",
-                "output=",
-                "output-dir=",
-                "style=",
-                "verbose",
-                "version",
-                "width=",
-                "exclude-file=",
-                "docstrings",
-                "no-docstrings",
-            ],
-        )
+            'ac::d:DEhk:Kno:p:S:Vvw:x:X:',
+            ['extract-all', 'add-comments=?', 'default-domain=', 'escape',
+             'help', 'keyword=', 'no-default-keywords',
+             'add-location', 'no-location', 'output=', 'output-dir=',
+             'style=', 'verbose', 'version', 'width=', 'exclude-file=',
+             'docstrings', 'no-docstrings',
+             ])
     except getopt.error as msg:
         usage(1, msg)
 
@@ -752,73 +704,70 @@ def main():
         GNU = 1
         SOLARIS = 2
         # defaults
-        extractall = 0  # FIXME: currently this option has no effect at all.
+        extractall = 0 # FIXME: currently this option has no effect at all.
         escape = 0
         keywords = []
-        outpath = ""
-        outfile = "messages.pot"
+        outpath = ''
+        outfile = 'messages.pot'
         writelocations = 1
         locationstyle = GNU
         verbose = 0
         width = 78
-        excludefilename = ""
+        excludefilename = ''
         docstrings = 0
         nodocstrings = {}
         comment_tags = set()
 
     options = Options()
-    locations = {
-        "gnu": options.GNU,
-        "solaris": options.SOLARIS,
-    }
+    locations = {'gnu' : options.GNU,
+                 'solaris' : options.SOLARIS,
+                 }
     no_default_keywords = False
     # parse options
     for opt, arg in opts:
-        if opt in ("-h", "--help"):
+        if opt in ('-h', '--help'):
             usage(0)
-        elif opt in ("-a", "--extract-all"):
-            print(
-                "DeprecationWarning: -a/--extract-all is not implemented and will be removed in a future version",
-                file=sys.stderr,
-            )
+        elif opt in ('-a', '--extract-all'):
+            print("DeprecationWarning: -a/--extract-all is not implemented and will be removed in a future version",
+                  file=sys.stderr)
             options.extractall = 1
-        elif opt in ("-c", "--add-comments"):
+        elif opt in ('-c', '--add-comments'):
             options.comment_tags.add(arg)
-        elif opt in ("-d", "--default-domain"):
-            options.outfile = arg + ".pot"
-        elif opt in ("-E", "--escape"):
+        elif opt in ('-d', '--default-domain'):
+            options.outfile = arg + '.pot'
+        elif opt in ('-E', '--escape'):
             options.escape = 1
-        elif opt in ("-D", "--docstrings"):
+        elif opt in ('-D', '--docstrings'):
             options.docstrings = 1
-        elif opt in ("-k", "--keyword"):
+        elif opt in ('-k', '--keyword'):
             options.keywords.append(arg)
-        elif opt in ("-K", "--no-default-keywords"):
+        elif opt in ('-K', '--no-default-keywords'):
             no_default_keywords = True
-        elif opt in ("-n", "--add-location"):
+        elif opt in ('-n', '--add-location'):
             options.writelocations = 1
-        elif opt in ("--no-location",):
+        elif opt in ('--no-location',):
             options.writelocations = 0
-        elif opt in ("-S", "--style"):
+        elif opt in ('-S', '--style'):
             options.locationstyle = locations.get(arg.lower())
             if options.locationstyle is None:
-                usage(1, f"Invalid value for --style: {arg}")
-        elif opt in ("-o", "--output"):
+                usage(1, f'Invalid value for --style: {arg}')
+        elif opt in ('-o', '--output'):
             options.outfile = arg
-        elif opt in ("-p", "--output-dir"):
+        elif opt in ('-p', '--output-dir'):
             options.outpath = arg
-        elif opt in ("-v", "--verbose"):
+        elif opt in ('-v', '--verbose'):
             options.verbose = 1
-        elif opt in ("-V", "--version"):
-            print(f"pygettext.py (xgettext for Python) {__version__}")
+        elif opt in ('-V', '--version'):
+            print(f'pygettext.py (xgettext for Python) {__version__}')
             sys.exit(0)
-        elif opt in ("-w", "--width"):
+        elif opt in ('-w', '--width'):
             try:
                 options.width = int(arg)
             except ValueError:
-                usage(1, f"--width argument must be an integer: {arg}")
-        elif opt in ("-x", "--exclude-file"):
+                usage(1, f'--width argument must be an integer: {arg}')
+        elif opt in ('-x', '--exclude-file'):
             options.excludefilename = arg
-        elif opt in ("-X", "--no-docstrings"):
+        elif opt in ('-X', '--no-docstrings'):
             fp = open(arg)
             try:
                 while 1:
@@ -837,8 +786,8 @@ def main():
     # calculate all keywords
     try:
         options.keywords = process_keywords(
-            options.keywords, no_default_keywords=no_default_keywords
-        )
+            options.keywords,
+            no_default_keywords=no_default_keywords)
     except ValueError as e:
         print(e, file=sys.stderr)
         sys.exit(1)
@@ -848,10 +797,9 @@ def main():
         try:
             with open(options.excludefilename) as fp:
                 options.toexclude = fp.readlines()
-        except IOError:
-            print(
-                f"Can't read --exclude-file: {options.excludefilename}", file=sys.stderr
-            )
+        except OSError:
+            print(f"Can't read --exclude-file: {options.excludefilename}",
+                  file=sys.stderr)
             sys.exit(1)
     else:
         options.toexclude = []
@@ -859,7 +807,7 @@ def main():
     # resolve args to module lists
     expanded = []
     for arg in args:
-        if arg == "-":
+        if arg == '-':
             expanded.append(arg)
         else:
             expanded.extend(getFilesForName(arg))
@@ -868,26 +816,26 @@ def main():
     # slurp through all the files
     visitor = GettextVisitor(options)
     for filename in args:
-        if filename == "-":
+        if filename == '-':
             if options.verbose:
-                print("Reading standard input")
+                print('Reading standard input')
             source = sys.stdin.buffer.read()
         else:
             if options.verbose:
-                print(f"Working on {filename}")
-            with open(filename, "rb") as fp:
+                print(f'Working on {filename}')
+            with open(filename, 'rb') as fp:
                 source = fp.read()
 
         visitor.visit_file(source, filename)
 
     # write the output
-    if options.outfile == "-":
+    if options.outfile == '-':
         fp = sys.stdout
         closep = 0
     else:
         if options.outpath:
             options.outfile = os.path.join(options.outpath, options.outfile)
-        fp = open(options.outfile, "w")
+        fp = open(options.outfile, 'w')
         closep = 1
     try:
         write_pot_file(visitor.messages, options, fp)
@@ -896,5 +844,5 @@ def main():
             fp.close()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

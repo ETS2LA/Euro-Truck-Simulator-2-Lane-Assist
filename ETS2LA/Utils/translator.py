@@ -190,7 +190,7 @@ Listen("global", detect_change)
 overrides = {
     "zh": "zh_Hans",
     "zh_2": "zh_Hant",
-    "pt": "pt_PT",
+    "pt": "pt",
     "pt_2": "pt_BR",
     "nb": "nb_NO",
 }
@@ -258,28 +258,32 @@ msgstr ""
 
     # Generate or update .po files for each language
     for lang in [language.language for language in languages]:
-        if lang in overrides:
-            count[lang] = count.get(lang, 0) + 1
-            if count.get(lang, 0) >= 2:
-                lang = f"{lang}_{count[lang]}"
-            lang = overrides[lang]
+        try:
+            if lang in overrides:
+                count[lang] = count.get(lang, 0) + 1
+                if count.get(lang, 0) >= 2:
+                    lang = f"{lang}_{count[lang]}"
+                lang = overrides[lang]
 
-        lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"
-        if not os.path.exists(lang_dir):
-            os.makedirs(lang_dir)
+            lang_dir = f"{target_dir}/{lang}/LC_MESSAGES"
+            if not os.path.exists(lang_dir):
+                os.makedirs(lang_dir)
 
-        po_file = f"{lang_dir}/backend.po"
+            po_file = f"{lang_dir}/backend.po"
 
-        # Check if the PO file already exists
-        if os.path.exists(po_file):
-            # If it exists, merge with the new template to preserve translations
-            print(f"Updating existing translations for language: {lang}")
-            os.system(
-                f'msgmerge --update --no-wrap --backup=none --no-fuzzy-matching "{po_file}" "{target_dir}/base.pot"'
-            )
+            # Check if the PO file already exists
+            if os.path.exists(po_file):
+                # If it exists, merge with the new template to preserve translations
+                print(f"Updating existing translations for language: {lang}")
+                os.system(
+                    f'msgmerge --update --no-wrap --backup=none --no-fuzzy-matching "{po_file}" "{target_dir}/base.pot"'
+                )
+                continue
+            else:
+                print(f"ERROR: PO file for language {lang} does not exist.")
+                print("Please add the real language code to the overrides.")
+        except Exception as e:
+            print(f"An error occurred while processing language {lang}: {e}")
             continue
-        else:
-            print(f"ERROR: PO file for language {lang} does not exist.")
-            print("Please add the real language code to the overrides.")
 
     print("Translation files have been successfully updated")
