@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-10 07:06+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
-"Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/et/>\n"
+"Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"et/>\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: et\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -210,6 +211,8 @@ msgstr "Logimine initsialiseeritud."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Viga logifailide eemaldamisel. Tõenäoliselt veel üks ETS2LA juhtum. Palun "
+"sulge see ja proovi uuesti."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +240,7 @@ msgstr "ETS2LA akna leidmine / käivitamine nurjus. Kas su arvuti on piisavalt v
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Akna atribuutide või ikoonide määramine nurjus."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -355,19 +358,23 @@ msgstr "{0} ja {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Terekest!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Näen, et oled reklaamid välja lülitanud. See on täiesti okei, kuid saate "
+"siiski toetada ETS2LA arengut, annetades Ko-Fi kaudu. * Iga annetus on "
+"võrdne nädalait reklaamitulu *, oleme igavesti tänulikud iga toetuse eest, "
+"mida saame!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Anneta Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Peida"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -1177,6 +1184,9 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"Täisekraan**\n"
+"\n"
+"ETS2LA akna täisekraaniks tegemiseks võite klõpsata rohelise nupuga * keskel."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1544,31 +1554,33 @@ msgstr "Näita AR-i ülekatmist isegi siis, kui mäng pole fookuses. See võib o
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Jõudluskate"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Jõudluse ülekatte näitamine"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
-msgstr ""
+msgstr "Näitab esituse ülekatvust. See näitab palju kasulikku statistikat."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Mängu statistika näitamine"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Mängu statistika näitamine esituse ülekattel."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Tausta näitamine"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Etenduse ülekattes näidatakse tausta. See muudab esituse ülekatte "
+"loetavamaks, kuid muudab selle ka vähem läbipaistvaks."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
@@ -1580,47 +1592,47 @@ msgstr "Esemed: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Kõnede näitamine: {} ({:. 0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Tekstipuhvri pikkus: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Viimane Render: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Viimane lüli: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Sünkroonimine mänguga: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Jah"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Mängu statistika"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Kaader: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kaamera asukoht: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kaamera pööramine: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1663,7 +1675,7 @@ msgstr "Adaptiivne püsikiiruse hoidja (ACC) kontrollib mängust kogutud teabe p
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "ACC Seadistused"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1675,7 +1687,7 @@ msgstr "Kui agressiivselt peaks ACC järgima eesolevat autot ja muutma kiiruspii
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Jälgi kaugust"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1683,11 +1695,11 @@ msgstr "Kui kaugele peaks ACC jääma eesolevast sõidukist?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
-msgstr ""
+msgstr "80 km/h juures hoiab ETS2LA ligikaudu {distance}m eesolevast sõidukist."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Valgusfoori seadistused"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1699,11 +1711,13 @@ msgstr "Kas ACC peaks valgusfoori ignoreerima. Pange tähele, et see on nii, nag
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Valgusfoori režiim"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Valige, kuidas ACC peaks valgusfoori käsitsema. Normaalne režiim käitleb "
+"ristmiku teisel küljel asuvaid tulesid paremini."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1711,7 +1725,7 @@ msgstr "Kiirusekontroll"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Kõvera seadistused"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1723,19 +1737,19 @@ msgstr "Hõõrdetegur, mida kasutatakse ACC arvutustes. Kõrgemad väärtused v�
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Kiirusepiirangu seadistused"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maksimaalne kiirus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
-msgstr ""
+msgstr "Maksimaalne kiirus ACC sõidab. Väljalülitamiseks määra 0."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Tagasilöögikiirus"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1832,11 +1846,11 @@ msgstr "ACC ja juhtimise oleku info näitamine."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Lähim linn"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "Näitab lähimat linna ja selle kaugust ( relative to the text )."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1848,11 +1862,11 @@ msgstr "Joonista veoki praegune kütuseolek."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "ACC vahe"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Näitab tühikut eesoleva sõiduki suhtes."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1864,19 +1878,19 @@ msgstr "Joonista veoki praegune RPM ja käigukast."
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Tulu"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Näitab praeguse töökoha sissetulekut."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Töötu"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Töötulu"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2125,15 +2139,17 @@ msgstr "Kaardilisaosa seadistuste seadistamine. Siin saate kohandada erinevaid n
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Eksperimentaalne]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Automaatsed teemaksud"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Teemaksude automaatne lahendamine. See võib, aga ei pruugi toimida. "
+"Teemaksuandmete täielikuks laadimiseks on vaja taaskäivitada."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2193,11 +2209,13 @@ msgstr "Uuenda parajasti valitud andmeid, see võib olla kasulik, kui andmed on 
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Liikluse pool"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"See muudab suunatuled õigeks, kui sõidurada vahetatakse vasaku või "
+"paremakäelistes riikides."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2390,25 +2408,25 @@ msgstr "Kiirus {0} kilomeetrit tunnis, piir {1}, kütus {2}% ja see on {3} kilom
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Valgusfoor {distanse} meetri pärast. Praegu {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Valgusfooriks on muudetus {state}. Nüüd {distance} meetri kaugusel."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} meeter"
+msgstr[1] "{distance} meetrit"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Esituled on sisse lülitatud."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Esituled on välja lülitatud."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2543,7 +2561,7 @@ msgstr "Kasutajaliidese lokaalne käivitamine"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Aknaprotsess kukkus kokku!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
