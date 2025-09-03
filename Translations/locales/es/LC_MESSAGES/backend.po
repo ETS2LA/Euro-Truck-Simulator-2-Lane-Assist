@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-03 17:15+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -912,13 +912,13 @@ msgstr ""
 #: .\Pages\global_settings.py:536
 msgid "Disable this option if you have any issues moving the window around."
 msgstr ""
+"Desactiva esta opción si tienes algún problema moviendo la ventana alrededor."
 
 #: .\Pages\global_settings.py:543
 msgid "Send Crash Reports"
-msgstr ""
+msgstr "Enviar informes Crash"
 
 #: .\Pages\global_settings.py:544
-#, fuzzy
 msgid "Automatically send crash reports to help improve the application."
 msgstr ""
 "Enviar automáticamente informes de fallos para ayudar a mejorar la "
@@ -945,7 +945,6 @@ msgid "Default UI Mirror"
 msgstr "Espejo UI por defecto"
 
 #: .\Pages\global_settings.py:574
-#, fuzzy
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
 msgstr ""
 "El espejo UI ETS2LA predeterminado para usar. Auto elegirá el mejor espejo "
@@ -956,7 +955,6 @@ msgid "ETS2LA Window Timeout"
 msgstr "ETS2LA ventana tiempo de espera"
 
 #: .\Pages\global_settings.py:586
-#, fuzzy
 msgid "The amount of time ETS2LA waits for the window to show up."
 msgstr "La cantidad de tiempo ETS2LA espera que la ventana aparezca."
 
@@ -1289,51 +1287,58 @@ msgstr "Uso de RAM"
 
 #: .\Pages\performance.py:235
 msgid "RAM Usage "
-msgstr ""
+msgstr "Uso de RAM "
 
 #: .\Pages\performance.py:237
 msgid "ETS2LA RAM Usage  "
-msgstr ""
+msgstr "Uso de RAM ETS2LA  "
 
 #: .\Pages\performance.py:260 .\Pages\plugins.py:549
 msgid "No plugins are currently running."
-msgstr ""
+msgstr "No hay plugins actualmente en funcionamiento."
 
 #: .\Pages\performance.py:353
 msgid "Warning: Graph is still gathering data, please wait 60 seconds for it to stabilize."
 msgstr ""
+"Advertencia: El Gráfico todavía está recopilando datos, por favor espere 60 "
+"segundos para que se estabilice."
 
 #: .\Pages\performance.py:387
 msgid "Failed to render plugin {plugin_name}."
-msgstr ""
+msgstr "No se pudo renderizar el plugin {plugin_name}."
 
 #: .\Pages\performance.py:400
 msgid "All displayed data is averaged over a second."
-msgstr ""
+msgstr "Todos los datos mostrados se promedian en un segundo."
 
 #: .\Pages\performance.py:404
 msgid "This page took {time:.2f} ms to render."
-msgstr ""
+msgstr "Esta página tomó {tiempo:.2f} ms para renderizar."
 
 #: .\Pages\plugins.py:42 .\Plugins\Map\ui.py:182
 msgid "Steering"
-msgstr ""
+msgstr "Dirección"
 
 #: .\Pages\plugins.py:43
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
 msgstr ""
+"Activar la dirección automatizada utilizando ETS2LA. Puede cambiarlo y "
+"apagarlo usando el keybind 'Toggle Steering' en la configuración de control."
 
 #: .\Pages\plugins.py:49
 msgid "Lateral Control"
-msgstr ""
+msgstr "Control lateral"
 
 #: .\Pages\plugins.py:50
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
 msgstr ""
+"Permitir aceleración y desaceleración automatizada utilizando ETS2LA. Puede "
+"activar y apagar el teclado \"Toggle Speed Control\" en la configuración de "
+"control."
 
 #: .\Pages\plugins.py:56
 msgid "Visualization"
-msgstr ""
+msgstr "Visualización"
 
 #: .\Pages\plugins.py:57
 msgid ""
@@ -1341,130 +1346,149 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
+"Permitir plugins que sean necesarios para que la pestaña de visualización "
+"funcione.\n"
+"\n"
+"**Esto es necesario para que la pestaña de visualización funcione. #"
 
 #: .\Pages\plugins.py:63 .\Plugins\HUD\main.py:22 .\Plugins\HUD\ui.py:137
 msgid "HUD"
-msgstr ""
+msgstr "HUD"
 
 #: .\Pages\plugins.py:64
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
 msgstr ""
+"HUD puede mostrar información sobre el camión y la ruta. Se muestra en la "
+"parte superior de la pantalla del juego usando la asignación 3D precisa."
 
 #: .\Pages\plugins.py:71
 msgid "Text To Speech"
-msgstr ""
+msgstr "Texto a voz"
 
 #: .\Pages\plugins.py:72
 msgid "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
 msgstr ""
+"Activa texto a voz para notificaciones y alertas. Esta función es "
+"principalmente de accesibilidad, pero puede resultar útil para algunas "
+"personas."
 
 #: .\Pages\plugins.py:114
 msgid "Feature '{0}' not found."
-msgstr ""
+msgstr "Característica '{0}' no encontrada."
 
 #: .\Pages\plugins.py:280
 msgid "Loading plugins..."
-msgstr ""
+msgstr "Cargando complementos..."
 
 #: .\Pages\plugins.py:305
 msgid "Plugins (Basic)"
-msgstr ""
+msgstr "Plugins (Básico)"
 
 #: .\Pages\plugins.py:307
 msgid "You can enable different ETS2LA features on the right side. All of the plugins described by these features will be enabled automatically without any additional configuration."
 msgstr ""
+"Puede habilitar diferentes características de ETS2LA en el lado derecho. "
+"Todos los plugins descritos por estas características se habilitarán "
+"automáticamente sin ninguna configuración adicional."
 
 #: .\Pages\plugins.py:317
 msgid "Disable Plugins"
-msgstr ""
+msgstr "Deshabilitar plugins"
 
 #: .\Pages\plugins.py:319
 msgid "Enable Plugins"
-msgstr ""
+msgstr "Habilitar plugins"
 
 #: .\Pages\plugins.py:328
 msgid "Currently enabled plugins:"
-msgstr ""
+msgstr "Plugins actualmente habilitados:"
 
 #: .\Pages\plugins.py:399
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: .\Pages\plugins.py:401
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivado"
 
 #: .\Pages\plugins.py:421
 msgid "Switch to Advanced Mode"
-msgstr ""
+msgstr "Cambiar a modo avanzado"
 
 #: .\Pages\plugins.py:461
+#, fuzzy
 msgid "Search tags..."
-msgstr ""
+msgstr "Buscar etiquetas..."
 
 #: .\Pages\plugins.py:461
 msgid "No tags found"
-msgstr ""
+msgstr "No hay etiquetas encontradas"
 
 #: .\Pages\plugins.py:470
 msgid "Search authors..."
-msgstr ""
+msgstr "Buscar Autores..."
 
 #: .\Pages\plugins.py:471
 msgid "No authors found"
-msgstr ""
+msgstr "No hay autores encontrados"
 
 #: .\Pages\plugins.py:475
 msgid "Back to Basic Mode"
-msgstr ""
+msgstr "Volver al modo básico"
 
 #: .\Pages\plugins.py:544
+#, fuzzy
 msgid "Running Plugins"
-msgstr ""
+msgstr "Plugins corriendo"
 
 #: .\Pages\plugins.py:555
 msgid "Want to enable the plugins you had running last time?"
-msgstr ""
+msgstr "¿Quieres habilitar los plugins que tenías funcionando la última vez?"
 
 #: .\Pages\plugins.py:559
 msgid "Enable Last Plugins"
-msgstr ""
+msgstr "Activar los últimos plugins"
 
 #: .\Pages\sdk_installation.py:137
+#, fuzzy
 msgid "Could not find version for {game}, skipping installation"
-msgstr ""
+msgstr "No podía encontrar la versión para {game}, esquiando la instalación"
 
 #: .\Pages\sdk_installation.py:145
 msgid "Installing SDKs for {game}"
-msgstr ""
+msgstr "Instalar SDKs para {juego}"
 
 #: .\Pages\sdk_installation.py:154
 msgid "SDKs for {game} installed successfully."
-msgstr ""
+msgstr "SDKs para {game} instalado con éxito."
 
 #: .\Pages\sdk_installation.py:161
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr ""
+msgstr "SDKs para {game} ya instalado, saltando instalación"
 
 #: .\Pages\sdk_installation.py:167 .\Pages\sdk_installation.py:211
 msgid "Please make sure the game is closed and try again. {error}"
 msgstr ""
+"Por favor, asegúrese de que el juego está cerrado e inténtelo de nuevo. "
+"{error}"
 
 #: .\Pages\sdk_installation.py:173
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Error de instalación de SDKs para {game}, por favor asegúrese de que el "
+"juego está cerrado."
 
 #: .\Pages\sdk_installation.py:184
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr ""
+msgstr "No pude encontrar la versión para {game}, saltando desinstalación"
 
 #: .\Pages\sdk_installation.py:192
 msgid "Uninstalling SDKs for {game}"
-msgstr ""
+msgstr "Desinstalar SDKs para {game}"
 
 #: .\Pages\sdk_installation.py:198
 msgid "SDKs for {game} uninstalled successfully."
-msgstr ""
+msgstr "SDKs para {game} desinstalado con éxito."
 
 #: .\Pages\sdk_installation.py:205
 msgid "SDKs for {game} not installed, skipping uninstallation"
@@ -1654,27 +1678,27 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Estadísticas del juego"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Framerate: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Posición de la cámara: ({:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Cámara Rotación: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1683,6 +1707,8 @@ msgstr ""
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
 msgstr ""
+"Cuando el ACC está ejecutando esto cambiará el control de velocidad "
+"encendido / apagado."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
