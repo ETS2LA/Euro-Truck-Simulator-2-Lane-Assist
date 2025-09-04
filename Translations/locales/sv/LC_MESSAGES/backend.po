@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-20 23:06+0000\n"
+"PO-Revision-Date: 2025-09-05 20:07+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
-"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/>\n"
+"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
+">\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -210,6 +211,8 @@ msgstr "Loggning initierad."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Fel vid borttagning av loggfiler. Förmodligen en annan ETS2LA-instans som "
+"körs. Stäng den och försök igen."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +240,7 @@ msgstr "Kunde inte hitta / starta ETS2LA fönstret. Är din dator tillräckligt 
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Misslyckades med att ange fönster attribut eller ikon."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -355,19 +358,23 @@ msgstr "{0} och {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Tjenare!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Jag ser att du har inaktiverat annonser. Det är helt okej, men du kan "
+"fortfarande stödja ETS2LA-utvecklingen genom att donera via Ko-Fi. *Varje "
+"donation motsvarar veckor(!) av reklam inkomster*, vi är evigt tacksamma för "
+"allt stöd vi får!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Donera via Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Göm"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -1177,6 +1184,10 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"**Helskärm**\n"
+"\n"
+"Du kan *mittenklicka* på den gröna knappen för att visa ETS2LA-fönstret i "
+"helskärmsläge."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1544,31 +1555,35 @@ msgstr "Visa AR overlayen även när spelet inte är i fokus. Detta kan vara anv
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Performance Overlay"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Visa Performance Overlay"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
 msgstr ""
+"Visa performance overlay. Detta visar ett antal användbara "
+"statistikuppgifter."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Visa Spel Statistiker"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Visa spel statistiker i performance overlayen."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Visa Bakgrund"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Visa bakgrunden i performance overlayen. Detta kommer göra overlayen mer "
+"läsbar, men också ge lägre genomskinlighet."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
@@ -1580,47 +1595,47 @@ msgstr "Föremål: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Dra samtal: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Textcachelängd: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Senaste rendering: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Senaste Varv: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Synkronisera till spel: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Spel Statistiker"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Bildfrekvens: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kamera Position: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Kamera Rotering: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1663,7 +1678,7 @@ msgstr "Adaptiv farthållare (ACC) styr lastbilens hastighet baserat på informa
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "ACC inställningar"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1675,7 +1690,7 @@ msgstr "Hur aggressivt ska ACC följa bilen framför och ändra hastighetsgräns
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Följnings Distans"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1684,10 +1699,12 @@ msgstr "Hur långt ska ACC:n hålla sig från framförvarande fordon?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"Vid 80 km/h kommer ETS2LA hålla ungefär {distance} meter från fordonet "
+"framför."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Trafikljus inställningar"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1699,11 +1716,13 @@ msgstr "Huruvida ACC ska ignorera trafikljus. Observera att detta, som det står
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Trafikljus läge"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Välj hur ACC:n ska hantera trafikljus. Normala läget hanterar trafikljus på "
+"andra sidan vägen bättre."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1711,7 +1730,7 @@ msgstr "Hastighetskontroll"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Kurvinställningar"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1723,19 +1742,20 @@ msgstr "Friktionskoefficienten som används för ACC-beräkningarna. Högre vär
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Hastighets begränsnings inställningar"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maximal hastighet"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"Den högsta farten ACC:n kommer köra vid. Sätt denna på 0 för att stänga av."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Reservhastighet"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1832,11 +1852,11 @@ msgstr "Visa information om ACC och styrningsstatus."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Närmaste stad"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "Visar den närmsta staden och dess distans (i förhållande till texten)."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1848,11 +1868,11 @@ msgstr "Visa lastbilens aktuella bränslestatus."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "ACC mellanrum"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Visar mellanrummet till fordonet framför."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1864,19 +1884,19 @@ msgstr "Visa lastbilens aktuella varvtal och växel."
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Inkomst"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Visar inkomsten från nuvarande jobbet."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Inget jobb"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Jobb inkomst"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2125,15 +2145,17 @@ msgstr "Konfigurera inställningarna för kartpluginet. Här kan du justera olik
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Experimentell]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Automatiska tullar"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Försök att lösa tullar automatiskt. Detta kanske inte fungerar. Kräver en "
+"omstart för att ladda om tull data helt."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2193,11 +2215,13 @@ msgstr "Uppdatera den aktuella valda informationen. Detta kan vara användbart o
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Trafik sida"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Detta gör att blinkersen beter sig korrekt vid filbyte i vänster eller "
+"högerkörningsländer."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2390,25 +2414,25 @@ msgstr "Hastighet {0} kilometer i timmen, gräns {1}, bränsle {2}%, och det är
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Trafikljus framför om {distance} meter. Just nu {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Trafikljus byttes till {state}. Nu vid {distance} meter."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} meter"
+msgstr[1] "{distance} meter"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Lamporna sattes på."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Lamporna stängdes av."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2543,7 +2567,7 @@ msgstr "Kör UI:n lokalt"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Fönster processen har krashat!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
