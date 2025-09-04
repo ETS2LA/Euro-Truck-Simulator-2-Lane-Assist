@@ -20,9 +20,10 @@ from ETS2LA.Utils.Console.colors import (
     DARK_YELLOW,
     DARK_RED,
 )
-import ETS2LA.Utils.settings as settings
-
+from ETS2LA.Settings import GlobalSettings
 import os
+
+settings = GlobalSettings()
 
 # Disable logging from 'comtypes', a dependency of 'pyttsx3'
 logging.getLogger("comtypes").setLevel(logging.CRITICAL)
@@ -31,7 +32,7 @@ logging.getLogger("comtypes").setLevel(logging.CRITICAL)
 logging.getLogger("websockets").setLevel(logging.CRITICAL)
 
 # Enables / Disables the fancy rich traceback
-ft = settings.Get("global", "use_fancy_traceback", True)
+ft = settings.use_fancy_traceback
 USE_FANCY_TRACEBACK = True if ft is None else bool(ft)
 
 console = Console(

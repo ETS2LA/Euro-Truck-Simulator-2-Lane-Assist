@@ -24,12 +24,14 @@ from ETS2LA.Utils.Game import path as game
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
 from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Utils.version import Update
-from ETS2LA.Utils import settings
 from langcodes import Language
 import hashlib
 import time
 import os
+
+settings = GlobalSettings()
 
 contributors = [
     {
@@ -257,7 +259,7 @@ class Page(ETS2LAPage):
         self.show_kofi = False
 
     def render(self):
-        ads = settings.Get("global", "ad_preference", default=1)
+        ads = settings.ad_preference
         if ads >= 1:
             with Container(
                 style=styles.FlexVertical()

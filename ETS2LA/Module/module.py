@@ -9,7 +9,6 @@ class ETS2LAModule:
     
     Example:
     ```python
-    value = self.plugin.settings.key
     module = self.plugin.modules.module_name
     ```
     """

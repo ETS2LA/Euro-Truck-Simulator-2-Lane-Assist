@@ -13,8 +13,29 @@ from ETS2LA.UI import (
     Text,
     Youtube,
 )
-from ETS2LA.Utils import settings
+from ETS2LA.Settings import ETS2LASettings
 from ETS2LA.Utils.translator import _
+from typing import Literal
+
+
+class Settings(ETS2LASettings):
+    MU: float = 0.5
+    ignore_traffic_lights: bool = False
+    aggressiveness: Literal["Eco", "Normal", "Aggressive"] = "Normal"
+    following_distance: float = 2
+    overwrite_speed: float = 30
+    speed_offset_type: Literal["Percentage", "Absolute"] = "Absolute"
+    speed_offset: float = 0
+    ignore_speed_limit: bool = False
+    unlock_pid: bool = False
+    pid_kp: float = 0.30
+    pid_ki: float = 0.08
+    pid_kd: float = 0.05
+    traffic_light_mode: Literal["Legacy", "Normal"] = "Normal"
+    max_speed: float = 0
+
+
+settings = Settings("AdaptiveCruiseControl")
 
 
 class SettingsMenu(ETS2LAPage):
@@ -24,62 +45,62 @@ class SettingsMenu(ETS2LAPage):
     refresh_rate = -1
 
     def handle_aggressiveness(self, value):
-        settings.Set("AdaptiveCruiseControl", "aggressiveness", value)
+        settings.aggressiveness = value
 
     def handle_following_distance(self, value):
-        settings.Set("AdaptiveCruiseControl", "following_distance", value)
+        settings.following_distance = value
 
     def handle_ignore_traffic_lights(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights")
+            value = not settings.ignore_traffic_lights
 
-        settings.Set("AdaptiveCruiseControl", "ignore_traffic_lights", value)
+        settings.ignore_traffic_lights = value
 
     def handle_speed_offset_type(self, value):
-        settings.Set("AdaptiveCruiseControl", "speed_offset_type", value)
-        settings.Set("AdaptiveCruiseControl", "speed_offset", 0)
+        settings.speed_offset_type = value
+        settings.speed_offset = 0
 
     def handle_speed_offset(self, value):
-        settings.Set("AdaptiveCruiseControl", "speed_offset", value)
+        settings.speed_offset = value
 
     def handle_coefficient_of_friction(self, value):
-        settings.Set("AdaptiveCruiseControl", "MU", value)
+        settings.MU = value
 
     def handle_max_speed(self, value):
-        settings.Set("AdaptiveCruiseControl", "max_speed", value)
+        settings.max_speed = value
 
     def handle_overwrite_speed(self, value):
-        settings.Set("AdaptiveCruiseControl", "overwrite_speed", value)
+        settings.overwrite_speed = value
 
     def handle_ignore_speed_limit(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AdaptiveCruiseControl", "ignore_speed_limit")
+            value = not settings.ignore_speed_limit
 
-        settings.Set("AdaptiveCruiseControl", "ignore_speed_limit", value)
+        settings.ignore_speed_limit = value
 
     def handle_pid_unlock(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AdaptiveCruiseControl", "unlock_pid")
+            value = not settings.unlock_pid
 
-        settings.Set("AdaptiveCruiseControl", "unlock_pid", value)
+        settings.unlock_pid = value
 
     def handle_pid_kp(self, value):
-        settings.Set("AdaptiveCruiseControl", "pid_kp", value)
+        settings.pid_kp = value
 
     def handle_pid_ki(self, value):
-        settings.Set("AdaptiveCruiseControl", "pid_ki", value)
+        settings.pid_ki = value
 
     def handle_pid_kd(self, value):
-        settings.Set("AdaptiveCruiseControl", "pid_kd", value)
+        settings.pid_kd = value
 
     def handle_traffic_light_mode(self, value):
-        settings.Set("AdaptiveCruiseControl", "traffic_light_mode", value)
+        settings.traffic_light_mode = value
 
     def render(self):
         TitleAndDescription(
@@ -97,7 +118,7 @@ class SettingsMenu(ETS2LAPage):
                 Text(_("ACC Settings"), styles.Classname("font-semibold"))
                 ComboboxWithTitleDescription(
                     options=["Eco", "Normal", "Aggressive"],
-                    default=settings.Get("AdaptiveCruiseControl", "aggressiveness"),
+                    default=settings.aggressiveness,
                     title=_("Aggressiveness"),
                     description=_(
                         "How aggressively should the ACC follow the car in front and change the speedlimit?"
@@ -106,16 +127,10 @@ class SettingsMenu(ETS2LAPage):
                 )
 
                 with Container(styles.FlexVertical() + styles.Gap("10px")):
-                    follow_distance = settings.Get(
-                        "AdaptiveCruiseControl", "following_distance", 2
-                    )
+                    follow_distance = settings.following_distance
                     if isinstance(follow_distance, str):
                         follow_distance = 2
-                        settings.Set(
-                            "AdaptiveCruiseControl",
-                            "following_distance",
-                            follow_distance,
-                        )
+                        settings.following_distance = follow_distance
 
                     SliderWithTitleDescription(
                         title=_("Follow Distance"),
@@ -141,7 +156,7 @@ class SettingsMenu(ETS2LAPage):
 
                 Text(_("Traffic Light Settings"), styles.Classname("font-semibold"))
 
-                ignore = settings.Get("AdaptiveCruiseControl", "ignore_traffic_lights")
+                ignore = settings.ignore_traffic_lights
                 CheckboxWithTitleDescription(
                     title=_("Ignore Traffic Lights"),
                     description=_(
@@ -156,9 +171,7 @@ class SettingsMenu(ETS2LAPage):
                         options=["Legacy", "Normal"],
                         title=_("Traffic Light Mode"),
                         changed=self.handle_traffic_light_mode,
-                        default=settings.Get(
-                            "AdaptiveCruiseControl", "traffic_light_mode", "Normal"
-                        ),
+                        default=settings.traffic_light_mode,
                         description=_(
                             "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
                         ),
@@ -177,7 +190,7 @@ class SettingsMenu(ETS2LAPage):
                     min=0.1,
                     max=1,
                     step=0.1,
-                    default=settings.Get("AdaptiveCruiseControl", "MU"),
+                    default=settings.MU,
                     changed=self.handle_coefficient_of_friction,
                     suffix=" μ",
                 )
@@ -190,7 +203,7 @@ class SettingsMenu(ETS2LAPage):
                         description=_(
                             "The maximum speed ACC will drive at. Set this to 0 to disable."
                         ),
-                        default=settings.Get("AdaptiveCruiseControl", "max_speed", 0),
+                        default=settings.max_speed,
                         changed=self.handle_max_speed,
                         type="number",
                     )
@@ -199,16 +212,12 @@ class SettingsMenu(ETS2LAPage):
                         description=_(
                             "The speed to drive when the game tells us that the speed limit is 0 km/h."
                         ),
-                        default=settings.Get(
-                            "AdaptiveCruiseControl", "overwrite_speed", 0
-                        ),
+                        default=settings.overwrite_speed,
                         changed=self.handle_overwrite_speed,
                         type="number",
                     )
 
-                ignore_speed_limit = settings.Get(
-                    "AdaptiveCruiseControl", "ignore_speed_limit"
-                )
+                ignore_speed_limit = settings.ignore_speed_limit
                 CheckboxWithTitleDescription(
                     title=_("Ignore Speed Limit"),
                     description=_("Whether the ACC should ignore the speed limit."),
@@ -218,9 +227,7 @@ class SettingsMenu(ETS2LAPage):
 
                 if ignore_speed_limit is not True:
                     with Container(styles.FlexHorizontal() + styles.Gap("24px")):
-                        speed_offset_type = settings.Get(
-                            "AdaptiveCruiseControl", "speed_offset_type", "Absolute"
-                        )
+                        speed_offset_type = settings.speed_offset_type
                         ComboboxWithTitleDescription(
                             options=["Percentage", "Absolute"],
                             default=speed_offset_type,
@@ -237,9 +244,7 @@ class SettingsMenu(ETS2LAPage):
                             min=-30,
                             max=30,
                             step=1,
-                            default=settings.Get(
-                                "AdaptiveCruiseControl", "speed_offset"
-                            ),
+                            default=settings.speed_offset,
                             changed=self.handle_speed_offset,
                             suffix="%" if speed_offset_type == "Percentage" else "km/h",
                         )
@@ -247,7 +252,7 @@ class SettingsMenu(ETS2LAPage):
             with Tab(
                 _("PID"), container_style=styles.FlexVertical() + styles.Gap("24px")
             ):
-                unlocked = settings.Get("AdaptiveCruiseControl", "unlock_pid", False)
+                unlocked = settings.unlock_pid
                 CheckboxWithTitleDescription(
                     title=_("Unlock PID"),
                     description=_(
@@ -266,7 +271,7 @@ class SettingsMenu(ETS2LAPage):
                         min=0.01,
                         max=1.0,
                         step=0.01,
-                        default=settings.Get("AdaptiveCruiseControl", "pid_kp", 0.30),
+                        default=settings.pid_kp,
                         changed=self.handle_pid_kp,
                     )
                     SliderWithTitleDescription(
@@ -277,7 +282,7 @@ class SettingsMenu(ETS2LAPage):
                         min=0.01,
                         max=1.0,
                         step=0.01,
-                        default=settings.Get("AdaptiveCruiseControl", "pid_ki", 0.08),
+                        default=settings.pid_ki,
                         changed=self.handle_pid_ki,
                     )
                     SliderWithTitleDescription(
@@ -288,7 +293,7 @@ class SettingsMenu(ETS2LAPage):
                         min=0.01,
                         max=1.0,
                         step=0.01,
-                        default=settings.Get("AdaptiveCruiseControl", "pid_kd", 0.05),
+                        default=settings.pid_kd,
                         changed=self.handle_pid_kd,
                     )
 

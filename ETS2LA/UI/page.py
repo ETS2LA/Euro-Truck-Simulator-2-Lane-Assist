@@ -18,11 +18,9 @@ class ETS2LAPage:
     """This is a base class for all ETS2LA pages.
 
     :param dynamic: If the page is dynamic, it will be rebuilt every time the frontend updates it.
-    :param settings_target: The path to the settings file that the page will use.
     :param url: The relative URL of the page. (eg. /settings/global)
     :param refresh_rate: The refresh rate of the page in seconds. (0 = no limit)
     :param plugin: A reference to the plugin that spawned this page.
-    :param settings: A reference to the settings object of the plugin that spawned this page.
     """
 
     url: str = ""
@@ -33,11 +31,6 @@ class ETS2LAPage:
     plugin: object = None
     """
     A reference to the plugin that spawned this page.
-    If the plugin is disabled, then this object will be None.
-    """
-    settings: object = None
-    """
-    A reference to the settings object of the plugin that spawned this page.
     If the plugin is disabled, then this object will be None.
     """
 

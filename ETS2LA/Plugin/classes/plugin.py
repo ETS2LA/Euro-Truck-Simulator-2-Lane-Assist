@@ -1,5 +1,4 @@
-from ETS2LA.Plugin.classes.attributes import Global, PluginDescription, State
-from ETS2LA.Plugin.classes.settings import Settings
+from ETS2LA.Plugin.classes.attributes import Tags, PluginDescription, State
 from ETS2LA.Plugin.classes.author import Author
 
 from ETS2LA.Plugin.message import Channel, PluginMessage
@@ -13,7 +12,6 @@ import importlib
 from types import SimpleNamespace
 from typing import Literal, List, Callable
 import logging
-import json
 import time
 import os
 
@@ -24,9 +22,8 @@ class ETS2LAPlugin(object):
     :param Description description: The description of the plugin.
     :param Author author: The author of the plugin.
     :param list[ControlEvent] controls: The list of control events to listen to.
-    :param Global globals: The global settings and tags.
+    :param Tags tags: Get/Set tags to the backend.
     :param State state: Send a persistent state to the backend.
-    :param Settings settings: The settings of the plugin.
     :param Plugins plugins: Interactions with other plugins.
 
     Functions:
@@ -61,25 +58,17 @@ class ETS2LAPlugin(object):
     ```
     """
 
-    globals: Global
+    tags: Tags
     """
-    Global class for the plugin to access global settings and
-    
-    :param GlobalSettings settings: Access to the global settings.
-    :param Tags tags: Access to the global tags.
-    """
-    settings: Settings
-    """
-    Access the local plugins settings file.
+    Get/Set tags to the backend. 
     
     Example:
     ```python
-    # Get a setting (doesn't read / write)
-    value = self.settings.setting_name
-    # Set a setting (does write, don't use each frame)
-    self.settings.setting_name = value
+    self.tags.some_tag = "Hello, World!"
+    print(self.tags.some_tag) # "Hello, World!"
     ```
     """
+
     modules: SimpleNamespace
     """
     Access to all running modules that were defined in the description object.
@@ -89,13 +78,6 @@ class ETS2LAPlugin(object):
     
     ```
     """
-
-    def ensure_settings_file(self) -> None:
-        path = self.path
-        if not os.path.exists(f"{path}/settings.json"):
-            os.makedirs(path, exist_ok=True)
-            with open(f"{path}/settings.json", "w") as file:
-                json.dump({}, file)
 
     def ensure_functions(self) -> None:
         if type(self).before != ETS2LAPlugin.before:
@@ -129,11 +111,8 @@ class ETS2LAPlugin(object):
         instance.get_mem_tag = get_mem_tag
         instance.set_mem_tag = set_mem_tag
 
-        instance.globals = Global(get_tag, set_tag)
+        instance.tags = Tags(get_tag, set_tag)
         instance.state = State(return_queue)
-
-        instance.ensure_settings_file()
-        instance.settings = Settings(path)
 
         if type(instance.author) is not list:
             instance.author = [instance.author]  # type: ignore
@@ -163,7 +142,6 @@ class ETS2LAPlugin(object):
         if "pages" in dir(type(self)) and self.pages is not None:
             for page in self.pages:
                 page.plugin = self
-                page.settings = self.settings
 
         try:
             self.imports()  # type: ignore # Might or might not exist.
@@ -205,8 +183,7 @@ class ETS2LAPlugin(object):
 
         if hasattr(self, function_name):
             return getattr(self, function_name)(*args, **kwargs)
-        if hasattr(self.settings_menu, function_name):
-            return getattr(self.settings_menu, function_name)(*args, **kwargs)
+
         return None
 
     def terminate(self):

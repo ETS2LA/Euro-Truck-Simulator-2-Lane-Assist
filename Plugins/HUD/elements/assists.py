@@ -30,11 +30,11 @@ class Widget(HUDWidget):
             self.data = []
             return
 
-        status = self.plugin.globals.tags.status
+        status = self.plugin.tags.status
         acc = False
         map = False
         if status:
-            status = self.plugin.globals.tags.merge(status)
+            status = self.plugin.tags.merge(status)
             acc = status.get("AdaptiveCruiseControl", False)
             map = status.get("Map", False)
 
@@ -47,10 +47,10 @@ class Widget(HUDWidget):
             self.data = []
             return
 
-        target_speed = self.plugin.globals.tags.acc
+        target_speed = self.plugin.tags.acc
         game = self.plugin.data["scsValues"]["game"]
         if target_speed:
-            target_speed = self.plugin.globals.tags.merge(target_speed)
+            target_speed = self.plugin.tags.merge(target_speed)
             if game == "ATS":
                 target_speed = target_speed * 3.6 * 0.621371
             else:

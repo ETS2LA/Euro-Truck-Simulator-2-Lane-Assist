@@ -1,9 +1,9 @@
-"""This file is used by the backend and pages.
-Plugins should use self.settings for a more reliable way with less of a chance
-for a race condition to occur.
+"""Legacy settings file for ETS2LA.
 
-Basically if you would be sending anything other than "global" as the plugin
-name, then you should probably use self.settings instead.
+DEPRECATED: DO NOT USE!
+Check ETS2LA/Settings for the new setting system. This file is only kept for
+backwards compatibility until old code is transitioned to the new system!
+
 """
 
 import logging

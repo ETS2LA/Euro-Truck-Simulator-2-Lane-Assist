@@ -113,7 +113,6 @@ def needs_update(game: str) -> bool:
 class Page(ETS2LAPage):
     dynamic = True
     url = "/settings/sdk"
-    settings_target = "sdk_installation"
     onboarding_mode = False
     game_needs_update = {}
 

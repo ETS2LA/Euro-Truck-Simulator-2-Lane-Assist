@@ -77,12 +77,12 @@ class Renderer(HUDRenderer):
             return
 
         try:
-            points = self.plugin.globals.tags.steering_points
-            points = self.plugin.globals.tags.merge(points)
+            points = self.plugin.tags.steering_points
+            points = self.plugin.tags.merge(points)
 
-            status = self.plugin.globals.tags.status
+            status = self.plugin.tags.status
             if status:
-                map_status = self.plugin.globals.tags.merge(status)["Map"]
+                map_status = self.plugin.tags.merge(status)["Map"]
             else:
                 map_status = None
 

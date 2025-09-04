@@ -1,13 +1,12 @@
 from ETS2LA.Window.utils import (
     color_title_bar,
     dont_check_window_open,
-    get_screen_dimensions,
     correct_window_position,
     get_theme_color,
     resize_window,
 )
+from ETS2LA.Settings import GlobalSettings
 from multiprocessing import JoinableQueue
-import ETS2LA.Utils.settings as settings
 import ETS2LA.variables as variables
 from ETS2LA.Window.html import html
 import webbrowser
@@ -30,11 +29,12 @@ if os.name == "nt":
     except Exception:
         pass
 
-fl = settings.Get("global", "frameless", True)
-dm = settings.Get("global", "debug_mode", False)
-fp = settings.Get("global", "frontend_port", 3005)
-w = settings.Get("global", "width", 1280)
-h = settings.Get("global", "height", 720)
+settings = GlobalSettings()
+fl = settings.frameless
+dm = settings.debug_mode
+fp = settings.frontend_port
+w = settings.width
+h = settings.height
 
 updating_page = "ETS2LA/Assets/updating.html"
 
@@ -53,8 +53,8 @@ if fp is None:
 else:
     FRONTEND_PORT = int(fp)
 
-w = settings.Get("global", "width", 1280)
-h = settings.Get("global", "height", 720)
+w = settings.width
+h = settings.height
 
 if w is None:
     WIDTH = 1280
@@ -98,9 +98,7 @@ def wait_for_server(window: webview.Window):
 
         window.load_url(variables.FRONTEND_URL)
         if "ets2la.com" not in variables.FRONTEND_URL:
-            settings.Set(
-                "global", "ad_preference", 0
-            )  # disable ads if not on ets2la.com
+            settings.ad_preference = 0  # disable ads if not on ets2la.com
 
 
 def window_handler(window: webview.Window):
@@ -120,7 +118,7 @@ def window_handler(window: webview.Window):
                     continue
 
                 window.on_top = data["state"]
-                settings.Set("global", "stay_on_top", data["state"] is True)
+                settings.stay_on_top = data["state"] is True
                 queue.task_done()
                 queue.put(data["state"])
 
@@ -170,32 +168,14 @@ def window_callback(window: webview.Window):
 
 
 def start_window():
-    window_x = settings.Get(
-        "global",
-        "window_position",
-        (
-            get_screen_dimensions()[2] // 2 - WIDTH // 2,
-            get_screen_dimensions()[3] // 2 - HEIGHT // 2,
-        ),
-    )
-
-    if window_x is not None:
-        window_x = int(window_x[0])
-
-    window_y = settings.Get(
-        "global",
-        "window_position",
-        (
-            get_screen_dimensions()[2] // 2 - WIDTH // 2,
-            get_screen_dimensions()[3] // 2 - HEIGHT // 2,
-        ),
-    )
-
-    if window_y is not None:
-        window_y = int(window_y[1])
+    window_x = settings.window_position[0]
+    window_y = settings.window_position[1]
 
     if window_x is None or window_y is None:
         return
+
+    window_x = int(window_x)
+    window_y = int(window_y)
 
     window_x, window_y = correct_window_position(window_x, window_y, WIDTH, HEIGHT)
     window = webview.create_window(
@@ -212,7 +192,7 @@ def start_window():
         text_select=True,
         frameless=FRAMELESS,
         easy_drag=False,
-        on_top=settings.Get("global", "stay_on_top", False),
+        on_top=settings.stay_on_top,
     )
     webview.start(
         window_callback,
@@ -223,10 +203,10 @@ def start_window():
     )
 
 
-def check_for_size_change(settings):
+def check_for_size_change():
     global WIDTH, HEIGHT
-    width = settings["width"]
-    height = settings["height"]
+    width = settings.width
+    height = settings.height
     if width != WIDTH or height != HEIGHT:
         while not resize_window(width, height):
             pass
@@ -234,7 +214,7 @@ def check_for_size_change(settings):
         HEIGHT = height
 
 
-settings.Listen("global", check_for_size_change)
+settings.listen(check_for_size_change)
 
 
 def wait_for_window():
@@ -248,7 +228,7 @@ def wait_for_window():
     if not dont_check_window_open:
         from ETS2LA.Handlers.sounds import Play
 
-        if settings.Get("global", "startup_sound", True):
+        if settings.startup_sound:
             Play("boot")
 
 

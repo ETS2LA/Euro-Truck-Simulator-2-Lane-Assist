@@ -1,20 +1,20 @@
-from ETS2LA.Utils.settings import Get, Listen
+from Plugins.AdaptiveCruiseControl.settings import settings
 import numpy as np
 import logging
 
 # Constants
-MU = Get("AdaptiveCruiseControl", "MU", 0.5)  # Coefficient of friction
+MU = settings.MU
 G = 9.81  # Gravitational acceleration (m/s^2)
 MAX_DISTANCE = 150  # Distance at which curvature affects 0%
 MIN_DISTANCE = 30  # Distance at which curvature affects 100%
 
 
-def ListenSettings(settings: dict):
+def ListenSettings():
     global MU
-    MU = settings.get("MU", 0.5)
+    MU = settings.MU
 
 
-Listen("AdaptiveCruiseControl", ListenSettings)
+settings.listen(ListenSettings)
 
 
 def distance_to_point(x1, y1, x2, y2):

@@ -36,20 +36,18 @@ class Widget(HUDWidget):
 
         self.acceleration.smooth(total * self.sign)
 
-        status = self.plugin.globals.tags.status
+        status = self.plugin.tags.status
         acc = False
         if status:
-            status = self.plugin.globals.tags.merge(status)
+            status = self.plugin.tags.merge(status)
             acc = status.get("AdaptiveCruiseControl", False)
 
         if acc:
-            target_acceleration = self.plugin.globals.tags.acc_target
+            target_acceleration = self.plugin.tags.acc_target
             if not target_acceleration:
                 target_acceleration = 0
             else:
-                target_acceleration = self.plugin.globals.tags.merge(
-                    target_acceleration
-                )
+                target_acceleration = self.plugin.tags.merge(target_acceleration)
 
         if not acc:
             self.data = [

@@ -3,11 +3,10 @@ cache
 model-cache
 **/__pycache__
 logs
+
+# uv files
 uv.lock
 .venv
-
-# Ignore global.lock file
-global.lock
 
 # Ignore Catalogue plugins
 CataloguePlugins
@@ -22,7 +21,7 @@ CataloguePlugins
 **/settings.json
 /ETS2LA/global.json
 /ETS2LA/controls.json
-/ETS2LA/backend/settings/controls.json
+/ETS2LA/settings.db*
 
 # Ignore Godot exports and export config
 /Visualization/ETS2LA-Visualisation/export_presets.cfg

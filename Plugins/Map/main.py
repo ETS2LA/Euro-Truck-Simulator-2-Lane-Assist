@@ -15,7 +15,7 @@ from Plugins.Map.ui import SettingsMenu
 
 from Plugins.Map.utils import ui_operations as ui
 from ETS2LA.Utils.translator import _
-import ETS2LA.Utils.settings as settings
+from Plugins.Map.settings import settings
 from ETS2LA.Handlers.sounds import Play
 import ETS2LA.variables as variables
 import Plugins.Map.classes as c
@@ -191,7 +191,7 @@ class Plugin(ETS2LAPlugin):
 
         data.enabled = not data.enabled
         Play("start" if data.enabled else "end")
-        self.globals.tags.status = {"Map": data.enabled}
+        self.tags.status = {"Map": data.enabled}
 
     @events.on("JobFinished")
     def JobFinished(self, *args, **kwargs):
@@ -204,7 +204,7 @@ class Plugin(ETS2LAPlugin):
     def init(self):
         """Initialize the plugin"""
         try:
-            self.steering_smoothness = settings.Get("Map", "SteeringSmoothTime", 0.2)
+            self.steering_smoothness = settings.SteeringSmoothTime
 
             data.controller = self.modules.SDKController.SCSController()
             data.plugin = self
@@ -218,22 +218,22 @@ class Plugin(ETS2LAPlugin):
             steering.IGNORE_SMOOTH = False
             steering.SENSITIVITY = 1.2
 
-            settings.Listen("Map", self.UpdateSteeringSettings)
+            settings.listen(self.UpdateSteeringSettings)
 
-            data.plugin.globals.tags.lane_change_status = "idle"
+            data.plugin.tags.lane_change_status = "idle"
             c.data = data  # set the classes data variable
             data_handler.plugin = self
             self.state.reset()
 
-            self.globals.tags.status = {"Map": data.enabled}
+            self.tags.status = {"Map": data.enabled}
             self.settings_menu = SettingsMenu()
             self.settings_menu.plugin = self
 
-            if self.settings.downloaded_data is None:
-                self.settings.downloaded_data = ""
+            if settings.downloaded_data is None:
+                settings.downloaded_data = ""
 
-            if self.settings.selected_data is None:
-                self.settings.selected_data = ""
+            if settings.selected_data is None:
+                settings.selected_data = ""
 
             # Start navigation file monitor
             threading.Thread(target=self.CheckHashes, daemon=True).start()
@@ -263,15 +263,15 @@ class Plugin(ETS2LAPlugin):
             navigation.get_path_to_destination()
             data.last_navigation_update = time.perf_counter()
 
-    def UpdateSteeringSettings(self, settings: dict):
-        self.steering_smoothness = self.settings.SteeringSmoothTime
+    def UpdateSteeringSettings(self):
+        self.steering_smoothness = settings.SteeringSmoothTime
         steering.SMOOTH_TIME = self.steering_smoothness
 
     def run(self):
         data_start_time = time.perf_counter()
         is_different_data = (
-            self.settings.selected_data != ""
-            and self.settings.selected_data != self.settings.downloaded_data
+            settings.selected_data != ""
+            and settings.selected_data != settings.downloaded_data
         )
         if not data.data_downloaded or is_different_data:
             data.data_downloaded = False
@@ -287,8 +287,8 @@ class Plugin(ETS2LAPlugin):
                 self.state.reset()
                 return
 
-            if self.settings.selected_data and self.settings.selected_data != "":
-                data_handler.UpdateData(self.settings.selected_data)
+            if settings.selected_data and settings.selected_data != "":
+                data_handler.UpdateData(settings.selected_data)
                 return
 
             self.state.text = _(
@@ -343,8 +343,8 @@ class Plugin(ETS2LAPlugin):
             external_map_start_time = time.perf_counter()
             if data.external_data_changed:
                 external_data = json.dumps(data.external_data)
-                self.globals.tags.map = json.loads(external_data)
-                self.globals.tags.map_update_time = data.external_data_time
+                self.tags.map = json.loads(external_data)
+                self.tags.map_update_time = data.external_data_time
                 data.external_data_changed = False
 
             external_map_time = time.perf_counter() - external_map_start_time
@@ -363,53 +363,45 @@ class Plugin(ETS2LAPlugin):
                 and len(data.route_plan) > 0
             ):
                 if isinstance(data.route_plan[0].items[0].item, c.Road):
-                    self.globals.tags.next_intersection_distance = data.route_plan[
+                    self.tags.next_intersection_distance = data.route_plan[
                         0
                     ].distance_left()
                 elif len(data.route_plan) > 1 and isinstance(
                     data.route_plan[1].items[0].item, c.Road
                 ):
-                    self.globals.tags.next_intersection_distance = (
+                    self.tags.next_intersection_distance = (
                         data.route_plan[0].distance_left()
                         + data.route_plan[1].distance_left()
                     )
                 else:
-                    self.globals.tags.next_intersection_distance = 0
+                    self.tags.next_intersection_distance = 0
 
                 if len(data.route_plan) > 1 and isinstance(
                     data.route_plan[1].items[0].item, c.Prefab
                 ):
-                    self.globals.tags.next_intersection_lane = data.route_plan[
-                        1
-                    ].lane_index
-                    self.globals.tags.next_intersection = (
-                        data.route_plan[1].items[0].item
-                    )
+                    self.tags.next_intersection_lane = data.route_plan[1].lane_index
+                    self.tags.next_intersection = data.route_plan[1].items[0].item
                 elif len(data.route_plan) > 2 and isinstance(
                     data.route_plan[2].items[0].item, c.Prefab
                 ):
-                    self.globals.tags.next_intersection_lane = data.route_plan[
-                        2
-                    ].lane_index
-                    self.globals.tags.next_intersection = (
-                        data.route_plan[2].items[0].item
-                    )
+                    self.tags.next_intersection_lane = data.route_plan[2].lane_index
+                    self.tags.next_intersection = data.route_plan[2].items[0].item
 
                 if isinstance(data.route_plan[0].items[0].item, c.Road):
-                    self.globals.tags.road_type = (
+                    self.tags.road_type = (
                         "highway"
                         if "hw" in data.route_plan[0].items[0].item.road_look.name
                         else "normal"
                     )
                 else:
-                    self.globals.tags.road_type = "normal"
+                    self.tags.road_type = "normal"
 
-                self.globals.tags.route_information = [
+                self.tags.route_information = [
                     item.information_json() for item in data.route_plan
                 ]
             else:
-                self.globals.tags.next_intersection_distance = 1
-                self.globals.tags.road_type = "none"
+                self.tags.next_intersection_distance = 1
+                self.tags.road_type = "none"
         except Exception:
             pass
         external_data_time = time.perf_counter() - external_data_start_time
@@ -450,9 +442,7 @@ class Plugin(ETS2LAPlugin):
                 except Exception:
                     pass
 
-        self.globals.tags.steering_points = [
-            point.tuple() for point in data.route_points
-        ]
+        self.tags.steering_points = [point.tuple() for point in data.route_points]
 
         try:
             if self.last_city_update + 5 < time.time():
@@ -471,11 +461,9 @@ class Plugin(ETS2LAPlugin):
                         closest = city
 
                 if closest:
-                    self.globals.tags.closest_city = closest.name
-                    self.globals.tags.closest_city_distance = closest_distance
-                    self.globals.tags.closest_country = (
-                        closest.country_token.capitalize()
-                    )
+                    self.tags.closest_city = closest.name
+                    self.tags.closest_city_distance = closest_distance
+                    self.tags.closest_country = closest.country_token.capitalize()
         except Exception:
             pass
 
@@ -497,8 +485,8 @@ class Plugin(ETS2LAPlugin):
                         break
 
                 if found:
-                    self.globals.tags.closest_road_distance = 0
-                    self.globals.tags.closest_road_angle = 0
+                    self.tags.closest_road_distance = 0
+                    self.tags.closest_road_angle = 0
                 else:
                     # Distance
                     truck_position = c.Position(
@@ -507,7 +495,7 @@ class Plugin(ETS2LAPlugin):
                     closest_road = min(
                         roads, key=lambda r: r.distance_to(truck_position)
                     )
-                    self.globals.tags.closest_road_distance = closest_road.distance_to(
+                    self.tags.closest_road_distance = closest_road.distance_to(
                         xy_position
                     )
 
@@ -530,12 +518,12 @@ class Plugin(ETS2LAPlugin):
                     dot = np.dot(forward_vector, to_road)
                     angle = np.arccos(dot) * (180 / np.pi)
 
-                    self.globals.tags.closest_road_angle = angle
+                    self.tags.closest_road_angle = angle
 
             else:
-                self.globals.tags.closest_road_distance = 0
-                self.globals.tags.closest_road_angle = 0
+                self.tags.closest_road_distance = 0
+                self.tags.closest_road_angle = 0
         except Exception:
-            self.globals.tags.closest_road_distance = 0
-            self.globals.tags.closest_road_angle = 0
+            self.tags.closest_road_distance = 0
+            self.tags.closest_road_angle = 0
             pass

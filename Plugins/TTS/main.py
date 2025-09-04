@@ -18,7 +18,7 @@ from ETS2LA.UI import (
 )
 
 from ETS2LA.Utils.translator import _, ngettext
-from ETS2LA.Utils import settings
+from Plugins.TTS.settings import settings
 import importlib
 import logging
 import time
@@ -52,32 +52,32 @@ class Settings(ETS2LAPage):
     refresh_rate = 10
 
     def handle_provider_change(self, value: str):
-        settings.Set("TTS", "provider", value)
+        settings.provider = value
 
     def handle_voice_change(self, value: str):
-        settings.Set("TTS", "voice", value)
+        settings.voice = value
 
     def handle_speed_change(self, value: float):
-        settings.Set("TTS", "speed", value)
+        settings.speed = value
 
     def handle_volume_change(self, value: float):
-        settings.Set("TTS", "volume", value)
+        settings.volume = value
 
     def handle_test_mode_change(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("TTS", "test_mode", False)
+            value = not settings.test_mode
 
-        settings.Set("TTS", "test_mode", value)
+        settings.test_mode = value
 
     def handle_prox_beep_change(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("TTS", "road_proximity_beep", False)
+            value = not settings.road_proximity_beep
 
-        settings.Set("TTS", "road_proximity_beep", value)
+        settings.road_proximity_beep = value
 
     def render(self):
         TitleAndDescription(
@@ -91,7 +91,7 @@ class Settings(ETS2LAPage):
             with Tab(
                 _("Voices"), container_style=styles.Gap("20px") + styles.FlexVertical()
             ):
-                selected = settings.Get("TTS", "provider", "SAPI")
+                selected = settings.provider
                 if self.plugin and self.plugin.selected_provider is not None:
                     provider = self.plugin.selected_provider
                 else:
@@ -127,10 +127,10 @@ class Settings(ETS2LAPage):
                     )
                     return
 
-                voice = settings.Get("TTS", "voice", provider.voices[0].name)
+                voice = settings.voice
                 if voice not in [v.name for v in provider.voices]:
                     voice = provider.voices[0].name
-                    settings.Set("TTS", "voice", voice)
+                    settings.voice = voice
                     logging.warning(
                         _("Voice {0} not found, using default: {1}").format(
                             voice, provider.voices[0].name
@@ -153,7 +153,7 @@ class Settings(ETS2LAPage):
                     SliderWithTitleDescription(
                         title=_("Speed"),
                         description=_("Set the target speed of the voice."),
-                        default=settings.Get("TTS", "speed", 1.0),
+                        default=settings.speed,
                         min=0.5,
                         max=2.0,
                         step=0.1,
@@ -163,7 +163,7 @@ class Settings(ETS2LAPage):
                     SliderWithTitleDescription(
                         title=_("Volume"),
                         description=_("Set the target volume of the voice."),
-                        default=settings.Get("TTS", "volume", 0.5),
+                        default=settings.volume,
                         min=0.0,
                         max=1.0,
                         step=0.05,
@@ -174,7 +174,7 @@ class Settings(ETS2LAPage):
                     description=_(
                         "Enable test mode to test the TTS provider without loading the game."
                     ),
-                    default=settings.Get("TTS", "test_mode", False),
+                    default=settings.test_mode,
                     changed=self.handle_test_mode_change,
                 )
 
@@ -184,7 +184,7 @@ class Settings(ETS2LAPage):
                     description=_(
                         "Enable a proximity beep that indicates the distance and angle to the closest road."
                     ),
-                    default=settings.Get("TTS", "road_proximity_beep", False),
+                    default=settings.road_proximity_beep,
                     changed=self.handle_prox_beep_change,
                 )
 
@@ -291,16 +291,16 @@ class Plugin(ETS2LAPlugin):
         self.load_settings()
 
     def load_settings(self):
-        self.test_mode = self.settings.test_mode
+        self.test_mode = settings.test_mode
         if self.test_mode is None:
-            self.settings.test_mode = False
+            settings.test_mode = False
 
-        self.prox_beep = self.settings.road_proximity_beep
+        self.prox_beep = settings.road_proximity_beep
         if self.prox_beep is None:
-            self.settings.road_proximity_beep = False
+            settings.road_proximity_beep = False
 
-        provider = self.settings.provider
-        voice = self.settings.voice
+        provider = settings.provider
+        voice = settings.voice
 
         if not provider:
             provider = "SAPI"
@@ -313,7 +313,7 @@ class Plugin(ETS2LAPlugin):
             self.select_provider(provider)
             if voice not in [v.name for v in self.selected_provider.voices]:
                 voice = self.selected_provider.voices[0].name
-                self.settings.voice = voice
+                settings.voice = voice
                 logging.warning(
                     _("Voice {0} not found, using default: {1}").format(
                         voice, self.selected_provider.voices[0].name
@@ -325,19 +325,19 @@ class Plugin(ETS2LAPlugin):
             self.select_voice(voice)
 
         if self.selected_provider:
-            volume = self.settings.volume
+            volume = settings.volume
             if not volume:
                 volume = 0.5
-                self.settings.volume = 0.5
+                settings.volume = 0.5
             self.selected_provider.set_volume(volume)
             self.pages[0].reset_timer(
                 self.pages[0]
             )  # Reset the settings page to update the volume
 
-            speed = self.settings.speed
+            speed = settings.speed
             if not speed:
                 speed = 1.0
-                self.settings.speed = 1.0
+                settings.speed = 1.0
             self.selected_provider.set_speed(speed)
             self.pages[0].reset_timer(
                 self.pages[0]
@@ -358,7 +358,7 @@ class Plugin(ETS2LAPlugin):
     def map_enabled_disabled(self):
         """Check if map was enabled or disabled last frame."""
         try:
-            state = self.globals.tags.status
+            state = self.tags.status
             state = state.get("plugins.map", None) if state else None
             if state and state != self.map_enabled:
                 if state:
@@ -374,7 +374,7 @@ class Plugin(ETS2LAPlugin):
     def acc_enabled_disabled(self):
         """Check if acc was enabled or disabled last frame."""
         try:
-            state = self.globals.tags.status
+            state = self.tags.status
             state = state.get("plugins.adaptivecruisecontrol", None) if state else None
             if state and state != self.acc_enabled:
                 if state:
@@ -390,9 +390,9 @@ class Plugin(ETS2LAPlugin):
     def closest_city_changed(self):
         """Check if the closest city changed last frame."""
         try:
-            city = self.globals.tags.closest_city
+            city = self.tags.closest_city
             city = city.get("plugins.map", None) if city else None
-            distance = self.globals.tags.closest_city_distance
+            distance = self.tags.closest_city_distance
             distance = distance.get("plugins.map", None) if distance else None
 
             if not city or not distance:
@@ -571,8 +571,8 @@ class Plugin(ETS2LAPlugin):
 
     def update_beeper(self, api):
         if self.prox_beep and not api["pause"]:
-            distance = self.globals.tags.closest_road_distance
-            angle = self.globals.tags.closest_road_angle
+            distance = self.tags.closest_road_distance
+            angle = self.tags.closest_road_angle
             if distance is None or angle is None:
                 if self.beeper.running:
                     self.beeper.stop()
@@ -599,7 +599,7 @@ class Plugin(ETS2LAPlugin):
 
     def traffic_light(self, api):
         try:
-            info = self.globals.tags.light
+            info = self.tags.light
             info = info.get("plugins.adaptivecruisecontrol", None) if info else None
             if not info:
                 self.last_light_state = ""

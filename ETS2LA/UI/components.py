@@ -1965,7 +1965,7 @@ class InputWithTitleDescription:
 
 class TitleAndDescription:
     """A simple standardized title and description
-    for settings pages.
+    for pages.
     ```python
     TitleAndDescription(
         title="Hello World",

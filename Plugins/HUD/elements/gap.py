@@ -18,13 +18,13 @@ class Widget(HUDWidget):
         if not self.plugin.data:
             return
 
-        target = self.plugin.globals.tags.acc_gap
-        target = self.plugin.globals.tags.merge(target) if target else 0
+        target = self.plugin.tags.acc_gap
+        target = self.plugin.tags.merge(target) if target else 0
         if not target:
             target = 0
 
-        distance = self.plugin.globals.tags.vehicle_in_front_distance
-        distance = self.plugin.globals.tags.merge(distance) if distance else 0
+        distance = self.plugin.tags.vehicle_in_front_distance
+        distance = self.plugin.tags.merge(distance) if distance else 0
         if not distance:
             distance = 0
 

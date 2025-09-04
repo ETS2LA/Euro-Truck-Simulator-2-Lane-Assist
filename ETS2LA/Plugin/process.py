@@ -3,7 +3,7 @@ from types import ModuleType
 
 from ETS2LA.Utils.Console.logging import setup_process_logging
 from ETS2LA.Controls import ControlEvent
-from ETS2LA.Utils.settings import Get
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.UI import ETS2LAPage
 from ETS2LA.Plugin import (
     PluginMessage,
@@ -21,6 +21,8 @@ import logging
 import psutil
 import time
 import os
+
+settings = GlobalSettings()
 
 
 class PerformanceEntry:
@@ -459,7 +461,7 @@ class PluginProcess:
         )
         logging.info("Started logging")
 
-        if Get("global", "high_priority", default=True):
+        if settings.high_priority:
             self.set_high_priority()
             logging.info("Set high priority for plugin process")
 
@@ -579,7 +581,6 @@ class PluginManagement(ChannelHandler):
 
                     for page in self.plugin.pages:
                         page.plugin = self.plugin.plugin
-                        page.settings = self.plugin.plugin.settings
 
                     message.state = State.DONE
                 except Exception as e:
@@ -595,7 +596,6 @@ class PluginManagement(ChannelHandler):
 
                     for page in self.plugin.pages:
                         page.plugin = None
-                        page.settings = None
 
                 except Exception as e:
                     message.state = State.ERROR
@@ -619,7 +619,6 @@ class PluginManagement(ChannelHandler):
 
                     for page in self.plugin.pages:
                         page.plugin = self.plugin
-                        page.settings = self.plugin.settings
 
                     message.state = State.DONE
                 except Exception as e:
@@ -686,7 +685,6 @@ class Function(ChannelHandler):
                 # Find the page
                 page = None
                 for p in self.plugin.pages:
-                    # Get the page object name (ie. Settings, Page, etc.)
                     page_object = p.__class__.__name__
                     if page_object == object:
                         page = p

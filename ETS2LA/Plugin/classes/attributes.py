@@ -4,8 +4,6 @@ from ETS2LA.Utils.Values.dictionaries import merge
 from multiprocessing import Queue
 from typing import Literal, Callable
 import threading
-import logging
-import json
 import time
 
 
@@ -45,33 +43,6 @@ class Tags:
             else:
                 data = tag_dict[plugin]
         return data
-
-
-class GlobalSettings:  # read only instead of the plugin settings
-    def __init__(self) -> None:
-        self._path = "ETS2LA/global.json"
-        self._settings = {}
-        self._load()
-
-    def _load(self):
-        with open(self._path, "r") as file:
-            self._settings = json.load(file)
-
-    def __getattr__(self, name):
-        if name in self.__dict__:
-            return self.__dict__[name]
-
-        if name in self._settings:
-            return self._settings[name]
-
-        logging.warning(f"Setting '{name}' not found in settings file")
-        return None
-
-    def __setattr__(self, name: str, value) -> None:
-        if name in ["_path", "_settings"]:
-            self.__dict__[name] = value
-        else:
-            raise TypeError("Global settings are read-only")
 
 
 class State:
@@ -133,39 +104,6 @@ class State:
     def reset(self):
         self.text = ""
         self.progress = -1
-
-
-class Global:
-    settings: GlobalSettings
-    """
-    You can use this to access the global settings with dot notation.
-    
-    Example:
-    ```python
-    # Get Data
-    setting_data = self.globals.settings.setting_name
-    # Set Data
-    self.globals.settings.setting_name = 5
-    -> TypeError: Global settings are read only
-    ```
-    """
-    tags: Tags
-    """
-    You can access the tags by using dot notation.
-    
-    Example:
-    ```python
-    # Get Data
-    tag_data = self.globals.tags.tag_name
-    
-    # Set Data
-    self.globals.tags.tag_name = 5
-    ```
-    """
-
-    def __init__(self, get_tag: Callable, set_tag: Callable) -> None:
-        self.settings = GlobalSettings()
-        self.tags = Tags(get_tag, set_tag)
 
 
 class PluginDescription:

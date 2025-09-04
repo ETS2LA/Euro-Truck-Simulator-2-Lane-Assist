@@ -257,7 +257,7 @@ def GetSteering():
             lateral_offset = np.cross(
                 truck_position_vector, centerline
             ) / np.linalg.norm(centerline)
-            # data.plugin.globals.tags.lateral_offset = lateral_offset
+            # data.plugin.tags.lateral_offset = lateral_offset
 
             # Calculate the dot product and the norms
             dot_product = np.dot(forward_vector, centerline)

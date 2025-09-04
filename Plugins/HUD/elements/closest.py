@@ -23,24 +23,22 @@ class Widget(HUDWidget):
         if not self.plugin.data:
             return
 
-        closest_city = self.plugin.globals.tags.closest_city
-        closest_city_distance = self.plugin.globals.tags.closest_city_distance
-        closest_country = self.plugin.globals.tags.closest_country
+        closest_city = self.plugin.tags.closest_city
+        closest_city_distance = self.plugin.tags.closest_city_distance
+        closest_country = self.plugin.tags.closest_country
 
         if closest_city:
-            closest_city = self.plugin.globals.tags.merge(closest_city)
+            closest_city = self.plugin.tags.merge(closest_city)
         else:
             closest_city = _("Unknown")
 
         if closest_city_distance:
-            closest_city_distance = self.plugin.globals.tags.merge(
-                closest_city_distance
-            )
+            closest_city_distance = self.plugin.tags.merge(closest_city_distance)
         else:
             closest_city_distance = 0
 
         if closest_country:
-            closest_country = self.plugin.globals.tags.merge(closest_country)
+            closest_country = self.plugin.tags.merge(closest_country)
         else:
             closest_country = ""
 

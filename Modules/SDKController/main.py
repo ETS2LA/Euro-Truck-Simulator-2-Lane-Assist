@@ -1,4 +1,4 @@
-from ETS2LA.Utils import settings
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Module import ETS2LAModule
 import platform
 import struct
@@ -7,17 +7,16 @@ import math
 import time
 import os
 
-fallback_acceleration = settings.Get("global", "acceleration_fallback", default=True)
+settings = GlobalSettings()
+fallback_acceleration = settings.acceleration_fallback
 
 
-def update_fallback_acceleration(dictionary: dict):
+def update_fallback_acceleration():
     global fallback_acceleration
-    fallback_acceleration = dictionary.get(
-        "acceleration_fallback", fallback_acceleration
-    )
+    fallback_acceleration = settings.acceleration_fallback
 
 
-settings.Listen("global", update_fallback_acceleration)
+settings.listen(update_fallback_acceleration)
 
 
 class SCSController:

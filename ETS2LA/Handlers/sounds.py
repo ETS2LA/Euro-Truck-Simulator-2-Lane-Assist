@@ -20,12 +20,14 @@ if path is not None:
     sys.path.append(path)
     os.environ["PATH"] += path
 
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.variables import PATH
 from pydub import AudioSegment
 import sounddevice as sd
 import numpy as np
 import json
+
+settings = GlobalSettings()
 
 # Detect available sound packs
 SOUNDPACKS_PATH = "ETS2LA/Assets/Sounds/"
@@ -65,26 +67,26 @@ for i in range(len(SOUNDPACKS)):
             break
 
 SOUNDPACKS = temp
-SELECTED_SOUNDPACK = settings.Get("global", "soundpack", "default")
+SELECTED_SOUNDPACK = settings.soundpack
 SELECTED_SOUNDPACK = (
     "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(SELECTED_SOUNDPACK)
 )
 
-VOLUME = settings.Get("global", "volume", 50)
+VOLUME = settings.volume
 VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
 
 
-def UpdateSettings(settings: dict):
+def UpdateSettings():
     global SELECTED_SOUNDPACK, VOLUME
-    SELECTED_SOUNDPACK = settings["soundpack"]
+    SELECTED_SOUNDPACK = settings.soundpack
     SELECTED_SOUNDPACK = (
         "default" if SELECTED_SOUNDPACK not in SOUNDPACKS else str(SELECTED_SOUNDPACK)
     )
-    VOLUME = settings["volume"]
+    VOLUME = settings.volume
     VOLUME = 0.5 if VOLUME is None else float(VOLUME) / 100
 
 
-settings.Listen("global", UpdateSettings)
+settings.listen(UpdateSettings)
 
 
 def GetFilenameForSound(sound: str):

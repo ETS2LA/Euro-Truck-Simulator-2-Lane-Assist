@@ -2,6 +2,7 @@
 from Plugins.AR.classes import Rectangle, Point, Color, Text, Coordinate
 from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
 from Plugins.HUD.classes import ElementRunner
+from Plugins.HUD.settings import settings
 from ETS2LA.Utils.translator import _
 from Plugins.HUD.ui import UI
 import logging
@@ -109,9 +110,9 @@ class Plugin(ETS2LAPlugin):
         self.update_anchor()
         self.get_load_time()
 
-        scaling = self.settings.get("widget_scaling", 1.0)
+        scaling = settings.widget_scaling
         if scaling is None:
-            self.settings.widget_scaling = 1.0
+            settings.widget_scaling = 1.0
             scaling = 1.0
 
         self.widget_scaling = scaling
@@ -216,19 +217,19 @@ class Plugin(ETS2LAPlugin):
         )
 
     def update_anchor(self):
-        offset_x = self.settings.offset_x
+        offset_x = settings.offset_x
         if offset_x is None:
-            self.settings.offset_x = 0
+            settings.offset_x = 0
             offset_x = 0
 
-        offset_y = self.settings.offset_y
+        offset_y = settings.offset_y
         if offset_y is None:
-            self.settings.offset_y = 0
+            settings.offset_y = 0
             offset_y = 0
 
-        offset_z = self.settings.offset_z
+        offset_z = settings.offset_z
         if offset_z is None:
-            self.settings.offset_z = 0
+            settings.offset_z = 0
             offset_z = 0
 
         self.anchor = Coordinate(
@@ -269,7 +270,7 @@ class Plugin(ETS2LAPlugin):
             widget.offset_x = offset_x
             widget.width = widget_width
 
-            if self.settings.get("scale_height", False):
+            if settings.scale_height:
                 widget.height = 50 * self.widget_scaling
             else:
                 widget.height = 50
@@ -280,7 +281,7 @@ class Plugin(ETS2LAPlugin):
                 )  # add padding between widgets
 
     def ensure_widgets_selected(self):
-        enabled = self.settings.get("widgets", self.default_widgets)
+        enabled = settings.widgets
         for widget in enabled:
             if widget not in [runner.element.name for runner in self.widgets]:
                 try:
@@ -298,9 +299,9 @@ class Plugin(ETS2LAPlugin):
                     )
 
     def ensure_renderers_selected(self):
-        renderers = self.settings.renderers
+        renderers = settings.renderers
         if renderers is None:
-            self.settings.renderers = [
+            settings.renderers = [
                 _("ACC Information"),
                 _("Traffic Lights"),
                 _("Steering Line"),
@@ -336,18 +337,18 @@ class Plugin(ETS2LAPlugin):
         return False
 
     def background(self):
-        darkness = self.settings.darkness
+        darkness = settings.darkness
         if not darkness:
-            self.settings.darkness = 0
+            settings.darkness = 0
             darkness = 0
 
-        day_darkness = self.settings.day_darkness
+        day_darkness = settings.day_darkness
         if day_darkness is None:
-            self.settings.day_darkness = 0.2
+            settings.day_darkness = 0.2
             day_darkness = 0.2
 
         height = 60
-        if self.settings.get("scale_height", False):
+        if settings.scale_height:
             height = 60 * self.widget_scaling
 
         return Rectangle(
@@ -391,14 +392,14 @@ class Plugin(ETS2LAPlugin):
         height = 50
         offset_x = -width // 2
 
-        darkness = self.settings.darkness
+        darkness = settings.darkness
         if not darkness:
-            self.settings.darkness = 0
+            settings.darkness = 0
             darkness = 0
 
-        day_darkness = self.settings.day_darkness
+        day_darkness = settings.day_darkness
         if day_darkness is None:
-            self.settings.day_darkness = 0.2
+            settings.day_darkness = 0.2
             day_darkness = 0.2
 
         if t > 1:
@@ -437,7 +438,7 @@ class Plugin(ETS2LAPlugin):
                     size=14,
                 ),
             ]
-            self.globals.tags.AR = data
+            self.tags.AR = data
             return True
 
         data = [
@@ -485,7 +486,7 @@ class Plugin(ETS2LAPlugin):
             ),
         ]
 
-        self.globals.tags.AR = data
+        self.tags.AR = data
         return True
 
     def run(self):
@@ -494,7 +495,7 @@ class Plugin(ETS2LAPlugin):
 
         if not engine:
             self.get_load_time()
-            self.globals.tags.AR = []
+            self.tags.AR = []
             return
 
         self.ensure_widgets_selected()
@@ -511,4 +512,4 @@ class Plugin(ETS2LAPlugin):
         for renderer in self.renderers:
             data += renderer.data
 
-        self.globals.tags.AR = data
+        self.tags.AR = data

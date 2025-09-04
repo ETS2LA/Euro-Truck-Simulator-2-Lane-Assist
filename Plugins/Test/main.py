@@ -21,5 +21,5 @@ class Plugin(ETS2LAPlugin):
     def init(self): ...
 
     def run(self):
-        running = self.globals.tags.get_tag("running")
+        running = self.tags.get_tag("running")
         print(running)

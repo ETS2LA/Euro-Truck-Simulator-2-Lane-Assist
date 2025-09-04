@@ -11,7 +11,7 @@ from Plugins.Map.classes import (
 )
 from Modules.SDKController.main import SCSController
 from Plugins.Map.route.classes import RouteSection
-import ETS2LA.Utils.settings as settings
+from Plugins.Map.settings import settings
 import math
 import time
 import os
@@ -113,35 +113,31 @@ minimum_lane_change_distance: float = 30
 """The minimum distance the truck will change lanes over."""
 route_plan_length: int = 3
 """How many route sections the planner will plan ahead for."""
-internal_map = settings.Get("Map", "InternalVisualisation", False)
+internal_map = settings.InternalVisualisation
 """Whether the internal map is enabled or not."""
 map_initialized = False
 """Whether the map window has been initialized or not."""
-calculate_steering = settings.Get("Map", "ComputeSteeringData", True)
+calculate_steering = settings.ComputeSteeringData
 """Whether the map should calculate steering data or not."""
-sector_size = settings.Get("Map", "SectorSize", 300)
+sector_size = settings.SectorSize
 """The size of each sector in meters."""
-load_distance = settings.Get("Map", "LoadDistance", 600)
+load_distance = settings.LoadDistance
 """The radius around the truck in meters that should be loaded."""
-use_navigation = settings.Get("Map", "UseNavigation", True)
-"""Whether we should drive along the navigation path or just use the basic route planner."""
-auto_accept_threshold = settings.Get("Map", "AutoAcceptThreshold", 100)
-"""The distance in meters from the destination where the truck will automatically accept the current navigation plan."""
-auto_deny_threshold = settings.Get("Map", "AutoDenyThreshold", 100)
+use_navigation = settings.UseNavigation
 """The distance in meters from the destination where the truck will automatically deny the current navigation plan."""
-drive_based_on_trailer = settings.Get("Map", "DriveBasedOnTrailer", True)
+drive_based_on_trailer = settings.DriveBasedOnTrailer
 """Move the steering point towards the trailer at low speeds."""
-send_elevation_data = settings.Get("Map", "SendElevationData", False)
+send_elevation_data = settings.SendElevationData
 """Whether to send elevation data or not."""
-export_road_offsets = settings.Get("Map", "ExportRoadOffsets", False)
+export_road_offsets = settings.ExportRoadOffsets
 """Whether to export the road offsets at startup. Only works in development mode."""
-disable_fps_notices = settings.Get("Map", "DisableFPSNotices", False)
+disable_fps_notices = settings.DisableFPSNotices
 """Whether to disable the FPS notices or not."""
-override_lane_offsets = settings.Get("Map", "Override Lane Offsets", False)
+override_lane_offsets = settings.OverrideLaneOffsets
 """Whether to override the existing lane offsets or not."""
-use_auto_offset_data = settings.Get("Map", "UseAutoOffsetData", False)
+use_auto_offset_data = settings.UseAutoOffsetData
 """Whether to use the auto offset data or not. This will use the offsets from the game instead of the ones calculated by the plugin."""
-right_hand_drive = settings.Get("Map", "RightHandDrive", False)
+right_hand_drive = True if settings.traffic_side == "Right Handed" else False
 """Whether the game is in right-hand drive mode or not. This will change the direction of the steering wheel."""
 
 # MARK: Return values
@@ -199,7 +195,7 @@ def UpdateData(api_data):
         (current_sector_x, current_sector_y)
     )
 
-    plugin.globals.tags.sector_center = (sector_center_x, sector_center_y)
+    plugin.tags.sector_center = (sector_center_x, sector_center_y)
 
     if (current_sector_x, current_sector_y) != last_sector:
         last_sector = (current_sector_x, current_sector_y)
@@ -270,29 +266,26 @@ def UpdateData(api_data):
             trailer_attached = True
 
 
-def UpdateSettings(settings: dict):
+def UpdateSettings():
     global internal_map, calculate_steering, sector_size, use_navigation
-    global auto_accept_threshold, auto_deny_threshold, load_distance
     global drive_based_on_trailer, send_elevation_data, export_road_offsets
     global disable_fps_notices, override_lane_offsets, use_auto_offset_data
-    global right_hand_drive
-    internal_map = settings["InternalVisualisation"]
-    calculate_steering = settings["ComputeSteeringData"]
-    sector_size = settings["SectorSize"]
-    load_distance = settings["LoadDistance"]
-    use_navigation = settings["UseNavigation"]
-    auto_accept_threshold = settings["AutoAcceptThreshold"]
-    auto_deny_threshold = settings["AutoDenyThreshold"]
-    drive_based_on_trailer = settings["DriveBasedOnTrailer"]
-    send_elevation_data = settings["SendElevationData"]
-    export_road_offsets = settings["ExportRoadOffsets"]
-    disable_fps_notices = settings["DisableFPSNotices"]
-    override_lane_offsets = settings["Override Lane Offsets"]
-    use_auto_offset_data = settings["UseAutoOffsetData"]
-    right_hand_drive = settings["RightHandDrive"]
+    global right_hand_drive, load_distance
+    internal_map = settings.InternalVisualisation
+    calculate_steering = settings.ComputeSteeringData
+    sector_size = settings.SectorSize
+    load_distance = settings.LoadDistance
+    use_navigation = settings.UseNavigation
+    drive_based_on_trailer = settings.DriveBasedOnTrailer
+    send_elevation_data = settings.SendElevationData
+    export_road_offsets = settings.ExportRoadOffsets
+    disable_fps_notices = settings.DisableFPSNotices
+    override_lane_offsets = settings.OverrideLaneOffsets
+    use_auto_offset_data = settings.UseAutoOffsetData
+    right_hand_drive = True if settings.traffic_side == "Right Handed" else False
 
     global data_needs_update
     data_needs_update = True
 
 
-settings.Listen("Map", UpdateSettings)
+settings.listen(UpdateSettings)

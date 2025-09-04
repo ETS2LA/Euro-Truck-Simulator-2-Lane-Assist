@@ -1,5 +1,5 @@
 from ETS2LA.Networking.cloud import SendFeedback
-from ETS2LA.Utils import settings
+from ETS2LA.Settings import ETS2LASettings
 from ETS2LA.UI import (
     ETS2LAPage,
     styles,
@@ -16,6 +16,7 @@ from ETS2LA.UI import (
 from Modules.TruckSimAPI.api import scsTelemetry
 
 api = scsTelemetry()
+map_settings = ETS2LASettings("Map")
 
 
 class Page(ETS2LAPage):
@@ -63,7 +64,7 @@ class Page(ETS2LAPage):
         if self.share_location:
             data = api.update()
             text = str(data.get("scsValues", {}).get("game"))
-            text += f" ({settings.Get('Map', 'selected_data')})"
+            text += f" ({map_settings.selected_data})"
             text += " @ " + f"{data.get('truckPlacement', {}).get('coordinateX'):.0f}"
             text += ", " + f"{data.get('truckPlacement', {}).get('coordinateY'):.0f}"
             text += ", " + f"{data.get('truckPlacement', {}).get('coordinateZ'):.0f}"
@@ -124,7 +125,7 @@ class Page(ETS2LAPage):
                     )
                 ):
                     text = str(data.get("scsValues", {}).get("game"))
-                    text += f" ({settings.Get('Map', 'selected_data')})"
+                    text += f" ({map_settings.selected_data})"
                     text += (
                         " @ "
                         + f"{data.get('truckPlacement', {}).get('coordinateX'):.0f}"

@@ -27,9 +27,8 @@ class Module(ETS2LAModule):
     gameDifference: float = 0
 
     def imports(self):
-        global np, settings, cv2, time, logging
+        global np, cv2, time, logging
         import numpy as np
-        import ETS2LA.Utils.settings as settings
         import cv2
         import time
         import logging

@@ -9,12 +9,14 @@ used by quite a lot of other projects.
 from ETS2LA.Utils.Console.colors import RED, GREEN, YELLOW, END
 from ETS2LA.Utils.network import DownloadFile
 from ETS2LA.Utils.shell import ExecuteCommand
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Settings import GlobalSettings
 import zipfile
 import shutil
 import time
 import git
 import os
+
+settings = GlobalSettings()
 
 
 def DownloadSubmoduleViaCDN(folder: str, cdn_url: str, cdn_path: str):
@@ -37,7 +39,7 @@ def DownloadSubmoduleViaCDN(folder: str, cdn_url: str, cdn_path: str):
         # Clean up
         os.remove("download.zip")
         shutil.rmtree("temp/extraction", ignore_errors=True)
-        settings.Set("global", f"{folder}_downloaded", time.time())
+        settings.__setattr__(f"{folder}_downloaded", time.time())
     except Exception:
         print(
             f"{RED} -- Failed to download the submodule: {YELLOW} {folder} {RED} -- {END}"
@@ -94,7 +96,7 @@ def CheckForSubmoduleUpdate(folder: str, cdn_url: str = "", cdn_path: str = ""):
     try:
         repo = git.Repo(folder)
     except Exception:
-        download_time = settings.Get("global", f"{folder}_downloaded", 0)
+        download_time = settings.__getattribute__(f"{folder}_downloaded")
         download_time = 0 if download_time is None else float(download_time)
         try:
             if time.time() - download_time > 86400:  # = 1 day

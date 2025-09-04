@@ -10,7 +10,7 @@ from ETS2LA.UI import (
 )
 
 from ETS2LA.Utils.Values.numbers import SmoothedValue
-import ETS2LA.Utils.settings as settings
+from Plugins.AR.settings import settings
 from ETS2LA.Utils.translator import _
 from Plugins.AR.classes import (
     Point,
@@ -32,25 +32,28 @@ NORMAL = "\033[0m"
 DRAWLIST = []
 GAME_FPS = SmoothedValue("time", 1)
 
-VISION_COMPAT = settings.Get("AR", "vision_compat", True)
-TEST_OBJECTS = settings.Get("AR", "test_objects", False)
-SHOW_WHEN_NOT_IN_FOCUS = settings.Get("AR", "show_when_not_in_focus", False)
-PERFORMANCE_OVERLAY = settings.Get("AR", "perf_overlay", False)
-GAME_STATS = settings.Get("AR", "game_stats", False)
-BACKGROUND = settings.Get("AR", "background", True)
+VISION_COMPAT = settings.vision_compat
+TEST_OBJECTS = settings.test_objects
+SHOW_WHEN_NOT_IN_FOCUS = settings.show_when_not_in_focus
+PERFORMANCE_OVERLAY = settings.perf_overlay
+GAME_STATS = settings.game_stats
+BACKGROUND = settings.background
 
 
-def LoadSettings(data: dict):
+def LoadSettings():
     global VISION_COMPAT
     global TEST_OBJECTS
     global SHOW_WHEN_NOT_IN_FOCUS
     global PERFORMANCE_OVERLAY, GAME_STATS, BACKGROUND
-    VISION_COMPAT = data.get("vision_compat", True)
-    TEST_OBJECTS = data.get("test_objects", False)
-    SHOW_WHEN_NOT_IN_FOCUS = data.get("show_when_not_in_focus", False)
-    PERFORMANCE_OVERLAY = data.get("perf_overlay", False)
-    GAME_STATS = data.get("game_stats", False)
-    BACKGROUND = data.get("background", True)
+    VISION_COMPAT = settings.vision_compat
+    TEST_OBJECTS = settings.test_objects
+    SHOW_WHEN_NOT_IN_FOCUS = settings.show_when_not_in_focus
+    PERFORMANCE_OVERLAY = settings.perf_overlay
+    GAME_STATS = settings.game_stats
+    BACKGROUND = settings.background
+
+
+settings.listen(LoadSettings)
 
 
 def InitializeWindow():
@@ -223,49 +226,49 @@ class Settings(ETS2LAPage):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AR", "vision_compat", True)
+            value = not settings.vision_compat
 
-        settings.Set("AR", "vision_compat", value)
+        settings.vision_compat = value
 
     def test_objects_changed(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AR", "test_objects", False)
+            value = not settings.test_objects
 
-        settings.Set("AR", "test_objects", value)
+        settings.test_objects = value
 
     def show_when_not_in_focus_changed(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AR", "show_when_not_in_focus", False)
+            value = not settings.show_when_not_in_focus
 
-        settings.Set("AR", "show_when_not_in_focus", value)
+        settings.show_when_not_in_focus = value
 
     def toggle_perf_overlay(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AR", "perf_overlay", False)
+            value = not settings.perf_overlay
 
-        settings.Set("AR", "perf_overlay", value)
+        settings.perf_overlay = value
 
     def toggle_game_stats(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AR", "game_stats", False)
+            value = not settings.game_stats
 
-        settings.Set("AR", "game_stats", value)
+        settings.game_stats = value
 
     def toggle_background(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("AR", "background", True)
+            value = not settings.background
 
-        settings.Set("AR", "background", value)
+        settings.background = value
 
     def render(self):
         TitleAndDescription(
@@ -280,14 +283,14 @@ class Settings(ETS2LAPage):
                     description=_(
                         "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
                     ),
-                    default=settings.Get("AR", "vision_compat", True),
+                    default=settings.vision_compat,
                     changed=self.vision_compat_changed,
                 )
 
                 CheckboxWithTitleDescription(
                     title=_("Show test objects"),
                     description=_("Show test objects in the AR overlay."),
-                    default=settings.Get("AR", "test_objects", False),
+                    default=settings.test_objects,
                     changed=self.test_objects_changed,
                 )
 
@@ -296,7 +299,7 @@ class Settings(ETS2LAPage):
                     description=_(
                         "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
                     ),
-                    default=settings.Get("AR", "show_when_not_in_focus", False),
+                    default=settings.show_when_not_in_focus,
                     changed=self.show_when_not_in_focus_changed,
                 )
 
@@ -308,14 +311,14 @@ class Settings(ETS2LAPage):
                     description=_(
                         "Show the performance overlay. This will show a number of useful statistics."
                     ),
-                    default=settings.Get("AR", "perf_overlay", False),
+                    default=settings.perf_overlay,
                     changed=self.toggle_perf_overlay,
                 )
 
                 CheckboxWithTitleDescription(
                     title=_("Show Game Statistics"),
                     description=_("Show game statistics in the performance overlay."),
-                    default=settings.Get("AR", "game_stats", False),
+                    default=settings.game_stats,
                     changed=self.toggle_game_stats,
                 )
 
@@ -324,7 +327,7 @@ class Settings(ETS2LAPage):
                     description=_(
                         "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
                     ),
-                    default=settings.Get("AR", "background", True),
+                    default=settings.background,
                     changed=self.toggle_background,
                 )
 
@@ -366,7 +369,6 @@ class Plugin(ETS2LAPlugin):
         global \
             SCSTelemetry, \
             ScreenCapture, \
-            settings, \
             variables, \
             dpg, \
             win32con, \
@@ -378,7 +380,6 @@ class Plugin(ETS2LAPlugin):
 
         from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
         import Modules.BetterScreenCapture.main as ScreenCapture
-        import ETS2LA.Utils.settings as settings
         import ETS2LA.variables as variables
 
         import dearpygui.dearpygui as dpg
@@ -402,7 +403,6 @@ class Plugin(ETS2LAPlugin):
         FRAME = None
         FOV = 75
 
-        settings.Listen("AR", LoadSettings)
         InitializeWindow()
         self.update_vision_compat()
 
@@ -1027,7 +1027,7 @@ class Plugin(ETS2LAPlugin):
             position = Point(100 + cur * 10, 100 + cur * 10)
             DRAWLIST.append(Text(position, "Testing text smoothness", size=64))
 
-        other_plugins = self.globals.tags.AR
+        other_plugins = self.tags.AR
         if other_plugins is not None:
             for plugin in other_plugins:
                 if isinstance(other_plugins[plugin], list):

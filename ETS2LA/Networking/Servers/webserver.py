@@ -22,7 +22,7 @@ from ETS2LA.Utils.translator import _
 from ETS2LA.Window.utils import color_title_bar
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Settings import GlobalSettings
 import ETS2LA.Handlers.sounds as sounds
 import ETS2LA.variables as variables
 import ETS2LA.Utils.version as git
@@ -47,10 +47,11 @@ asked_plugins = False  # Will trigger the "Do you want to re-enable plugins?" po
 mainThreadQueue = []
 sessionToken = ""
 thread = None
+settings = GlobalSettings()
 
 IP = None
 
-FRONTEND_PORT = settings.Get("global", "frontend_port", 3005)
+FRONTEND_PORT = settings.frontend_port
 
 app = FastAPI(
     title="ETS2LA", description="Backend API for the ETS2LA app.", version="1.0.0"
@@ -77,8 +78,8 @@ def login(code):
         response = requests.get(
             "https://api.ets2la.com/auth/discord/login", params={"code": code}
         )
-        settings.Set("global", "user_id", response.json()["user_id"])
-        settings.Set("global", "token", response.json()["token"])
+        settings.user_id = response.json()["user_id"]
+        settings.token = response.json()["token"]
         return HTMLResponse(
             content=open("ETS2LA/Assets/auth_complete.html")
             .read()
@@ -208,7 +209,7 @@ def toggle_fullscreen_from_ui():
 def get_plugins():
     global asked_plugins
     if not asked_plugins:
-        to_enable = settings.Get("global", "running_plugins", [])
+        to_enable = settings.running_plugins
         to_enable = [] if to_enable is None else to_enable
 
         if len(to_enable) > 0:
@@ -317,26 +318,38 @@ def popup(data: PopupData):
 
 @app.post("/backend/plugins/{plugin}/settings/{key}/set")
 def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):  # noqa
-    success = settings.Set(plugin, key, value["value"])
-    return success
-
-
-@app.post("/backend/plugins/{plugin}/settings/set")
-def set_plugin_settings(plugin: str, data: dict = Body(...)):  # noqa
-    keys = data["keys"]
-    setting = data["setting"]
-    success = settings.Set(plugin, keys, setting)
-    return success
+    if plugin == "global":
+        settings.__setattr__(key, value["value"])
+        return True
+    else:
+        logging.error(
+            "/backend/plugins/{plugin}/settings/{key}/ is deprecated. Plugin settings can only be set via websocket messages."
+        )
+        return False
+    # success = settings.Set(plugin, key, value["value"])
+    # return success
 
 
 @app.get("/backend/plugins/{plugin}/settings/{key}")
 def get_plugin_setting(plugin: str, key: str):
-    return settings.Get(plugin, key)
+    if plugin == "global":
+        return settings.__getattribute__(key)
+    else:
+        logging.error(
+            "/backend/plugins/{plugin}/settings/{key}/ is deprecated. Plugin settings can only be fetched via websocket messages."
+        )
+        return None
 
 
 @app.get("/backend/plugins/{plugin}/settings")
 def get_plugin_settings(plugin: str):
-    return settings.GetJSON(plugin)
+    if plugin == "global":
+        return settings._cache
+    else:
+        logging.error(
+            "/backend/plugins/{plugin}/settings is deprecated. Plugin settings can only be fetched via websocket messages."
+        )
+        return {}
 
 
 # endregion

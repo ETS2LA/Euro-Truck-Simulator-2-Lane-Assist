@@ -9,7 +9,7 @@ import json
 
 # Import dictionary utilities with fallback to mocks for testing
 import ETS2LA.variables as variables
-from ETS2LA.Utils import settings
+from Plugins.Map.settings import settings
 
 from Plugins.Map.utils import prefab_helpers
 from Plugins.Map.utils import math_helpers
@@ -22,15 +22,15 @@ import psutil
 
 data = None
 """The data object that is used by classes here. Will be set once the MapData object is created and loaded."""
-auto_tolls = settings.Get("Map", "AutoTolls", False)
+auto_tolls = settings.AutoTolls
 
 
-def settings_changed(new: dict):
+def settings_changed():
     global auto_tolls
-    auto_tolls = new.get("AutoTolls", auto_tolls)
+    auto_tolls = settings.AutoTolls
 
 
-settings.Listen("Map", settings_changed)
+settings.listen(settings_changed)
 
 
 def parse_string_to_int(string: str) -> int:

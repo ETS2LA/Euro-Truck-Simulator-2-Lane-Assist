@@ -1,7 +1,9 @@
 """Import all ETS2LA UI components here.
 
-Classes:
-    **ETS2LASettingsMenu** - Base class for all settings pages.
+NOTE: This information is out of date, please check the file itself
+for the most up to date information on components.
+
+Better documentation is being actively worked on!
 
 Components:
     **Title** - A title component.
@@ -26,34 +28,6 @@ Components:
     **Geist** - Import the Geist font.
     **Markdown** - Render markdown text.
     **Tooltip** - Render a tooltip on hover.
-
-Example:
-```python
-from ETS2LA.UI import *
-from ETS2LA.Plugin import *
-
-class Menu(ETS2LASettingsMenu):
-    dynamic = False
-    def render(self):
-        Title("Title")
-        Description("Description")
-
-        with TabView():
-            with Tab(name="Tab 1"):
-                with Group():
-                    Input("Input", "input", "string", default="default", description="This is an input")
-                    Button("Button", Plugin.function)
-            with Tab(name="Tab 2"):
-                Description("This is tab 2")
-
-        return RenderUI()
-
-class Plugin(ETS2LAPlugin):
-    settings_menu = Menu()
-    def function(self):
-        print("Button clicked!")
-```
-
 """
 
 from ETS2LA.UI.components import (

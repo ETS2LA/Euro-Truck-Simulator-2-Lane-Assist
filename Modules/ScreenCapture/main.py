@@ -1,9 +1,9 @@
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Module import ETS2LAModule
 import os
 
-import ETS2LA.Utils.settings as settings
-
-display = settings.Get("Global", "display", 0)
+settings = GlobalSettings()
+display = settings.display
 if not isinstance(display, int):
     display = 0
 

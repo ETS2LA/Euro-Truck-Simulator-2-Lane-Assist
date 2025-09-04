@@ -31,11 +31,11 @@ class Plugin(ETS2LAPlugin):
 
     def run(self):
         data = self.modules.TruckSimAPI.run()
-        status = self.globals.tags.status
+        status = self.tags.status
         acc = False
         map = False
         if status:
-            status = self.globals.tags.merge(status)
+            status = self.tags.merge(status)
             acc = status.get("AdaptiveCruiseControl", False)
             map = status.get("Map", False)
 

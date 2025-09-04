@@ -200,8 +200,8 @@ class Plugin(ETS2LAPlugin):
         if (
             time.time() - self.last_navigation_time > 10
         ):  # Send the navigation plan every 10 seconds
-            navigation = self.globals.tags.navigation_plan
-            navigation = self.globals.tags.merge(navigation)
+            navigation = self.tags.navigation_plan
+            navigation = self.tags.merge(navigation)
 
             nodes = []
             node_points = []

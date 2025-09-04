@@ -7,10 +7,10 @@ from ETS2LA.Plugin.process import (
 from ETS2LA.Networking.Servers import notifications
 from ETS2LA.Networking.cloud import SendCrashReport
 from ETS2LA.Plugin.message import Channel, State
-from ETS2LA.Utils.translator import _
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Controls import ControlEvent
+from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import controls
-from ETS2LA.Utils import settings
 from ETS2LA import variables
 
 from memory import create_shared_memory_pair, SharedMemorySender, SharedMemoryReceiver
@@ -20,6 +20,8 @@ import threading
 import logging
 import time
 import os
+
+settings = GlobalSettings()
 
 search_folders: list[str] = ["Plugins", "CataloguePlugins"]
 
@@ -643,7 +645,7 @@ def create_processes() -> None:
     loading = True
 
     timeout = 12
-    low_performance = settings.Get("global", "slow_loading", False)
+    low_performance = settings.slow_loading
 
     for folder in plugin_folders:
         initial_state = len(plugins)
@@ -948,4 +950,4 @@ def save_running_plugins() -> None:
         if plugin.running:
             running.append(plugin.description.id)
 
-    settings.Set("global", "running_plugins", running)
+    settings.running_plugins = running

@@ -14,7 +14,6 @@ last_updates = []
 class Page(ETS2LAPage):
     dynamic = True
     url = "/updater"
-    settings_target = "updater"
     refresh_rate = 30
 
     def update(self, *args, **kwargs):

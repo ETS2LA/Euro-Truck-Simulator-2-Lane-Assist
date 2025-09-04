@@ -3,11 +3,10 @@ from ETS2LA.Module import ETS2LAModule
 
 class Module(ETS2LAModule):
     def imports(self):
-        global np, cv2, variables, settings, logging
+        global np, cv2, variables, logging
         import numpy as np
         import cv2
         import ETS2LA.variables as variables
-        import ETS2LA.Utils.settings as settings
         import logging
 
     def init(self):
@@ -16,14 +15,6 @@ class Module(ETS2LAModule):
         global LAST_WIDTH, LAST_HEIGHT
         LAST_WIDTH = 1280
         LAST_HEIGHT = 720
-
-    def LoadSettings(self):
-        data = settings.GetJSON(self.plugin.path)
-        try:
-            data = data["ShowImage"]
-        except Exception:
-            pass  # Load defaults...
-        pass  # Load settings...
 
     def InitializeWindow(self, windowName, img):
         cv2.namedWindow(windowName, cv2.WINDOW_NORMAL)

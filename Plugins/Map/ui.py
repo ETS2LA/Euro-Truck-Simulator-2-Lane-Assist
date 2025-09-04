@@ -17,8 +17,8 @@ from ETS2LA.UI import (
 )
 from ETS2LA import variables
 
+from Plugins.Map.settings import settings
 from ETS2LA.Utils.translator import _
-import ETS2LA.Utils.settings as settings
 import Plugins.Map.data as data
 
 
@@ -39,49 +39,49 @@ class SettingsMenu(ETS2LAPage):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "UseNavigation", True)
-        settings.Set("Map", "UseNavigation", value)
+            value = not settings.UseNavigation
+        settings.UseNavigation = value
 
     def handle_elevation(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "SendElevationData", False)
-        settings.Set("Map", "SendElevationData", value)
+            value = not settings.SendElevationData
+        settings.SendElevationData = value
 
     def handle_fps_notices(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "DisableFPSNotices", False)
-        settings.Set("Map", "DisableFPSNotices", value)
+            value = not settings.DisableFPSNotices
+        settings.DisableFPSNotices = value
 
     def handle_steering_data(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "ComputeSteeringData", True)
-        settings.Set("Map", "ComputeSteeringData", value)
+            value = not settings.ComputeSteeringData
+        settings.ComputeSteeringData = value
 
     def handle_drive_based_on_trailer(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "DriveBasedOnTrailer", True)
-        settings.Set("Map", "DriveBasedOnTrailer", value)
+            value = not settings.DriveBasedOnTrailer
+        settings.DriveBasedOnTrailer = value
 
     def handle_steering_smooth_time(self, value):
-        settings.Set("Map", "SteeringSmoothTime", value)
+        settings.SteeringSmoothTime = value
 
     def handle_data_selection(self, value):
         if value:
-            settings.Set("Map", "selected_data", value)
+            settings.selected_data = value
         else:
-            settings.Set("Map", "selected_data", "")
+            settings.selected_data = value
 
-    def handle_Traffic_Side(self, value):
+    def handle_traffic_side(self, value):
         if value:
-            settings.Set("Map", "traffic_side", value)
+            settings.traffic_side = value
 
     def handle_data_update(self):
         if self.plugin:
@@ -91,22 +91,23 @@ class SettingsMenu(ETS2LAPage):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "InternalVisualisation", False)
-        settings.Set("Map", "InternalVisualisation", value)
+            value = not settings.InternalVisualisation
+        settings.InternalVisualisation = value
 
     def handle_override_lane_offsets(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "OverrideLaneOffsets", False)
-        settings.Set("Map", "OverrideLaneOffsets", value)
+            value = not settings.OverrideLaneOffsets
+        settings.OverrideLaneOffsets = value
 
     def handle_auto_tolls(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("Map", "AutoTolls", False)
-        settings.Set("Map", "AutoTolls", value)
+            value = not settings.AutoTolls
+
+        settings.AutoTolls = value
 
     def render(self):
         TitleAndDescription(
@@ -123,7 +124,7 @@ class SettingsMenu(ETS2LAPage):
                 # CheckboxWithTitleDescription(
                 #     title=_("Navigate on ETS2LA"),
                 #     description=_("Enable the automatic navigation features of ETS2LA."),
-                #     default=settings.Get("Map", "UseNavigation", True),
+                #     default=settings.UseNavigation,
                 #     changed=self.handle_navigation,
                 # )
 
@@ -134,16 +135,12 @@ class SettingsMenu(ETS2LAPage):
                     + styles.Padding("14px 16px 16px 16px")
                     + styles.Classname(
                         "border rounded-md w-full "
-                        + (
-                            "bg-input/30"
-                            if settings.Get("Map", "AutoTolls", False)
-                            else "bg-input/10"
-                        )
+                        + ("bg-input/30" if settings.AutoTolls else "bg-input/10")
                     ),
                     pressed=self.handle_auto_tolls,  # This allows for the entire container to act as the toggle
                 ):
                     Checkbox(
-                        default=settings.Get("Map", "AutoTolls", False),  # type: ignore
+                        default=settings.AutoTolls,  # type: ignore
                         changed=self.handle_auto_tolls,
                         style=styles.Margin("4px 0px 0px 0px"),
                     )
@@ -166,7 +163,7 @@ class SettingsMenu(ETS2LAPage):
                 # CheckboxWithTitleDescription(
                 #     title=_("Send Elevation"),
                 #     description=_("When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"),
-                #     default=settings.Get("Map", "SendElevationData", False),
+                #     default=settings.SendElevationData,
                 #     changed=self.handle_elevation,
                 # )
                 CheckboxWithTitleDescription(
@@ -174,7 +171,7 @@ class SettingsMenu(ETS2LAPage):
                     description=_(
                         "When enabled map will not notify of any FPS related issues."
                     ),
-                    default=settings.Get("Map", "DisableFPSNotices", False),
+                    default=settings.DisableFPSNotices,
                     changed=self.handle_fps_notices,
                 )
 
@@ -187,7 +184,7 @@ class SettingsMenu(ETS2LAPage):
                     description=_(
                         "When enabled map will compute and send steering data to the game."
                     ),
-                    default=settings.Get("Map", "ComputeSteeringData", True),
+                    default=settings.ComputeSteeringData,
                     changed=self.handle_steering_data,
                 )
                 CheckboxWithTitleDescription(
@@ -195,7 +192,7 @@ class SettingsMenu(ETS2LAPage):
                     description=_(
                         "When enabled map will take into account the trailer when calculating the current steering point."
                     ),
-                    default=settings.Get("Map", "DriveBasedOnTrailer", True),
+                    default=settings.DriveBasedOnTrailer,
                     changed=self.handle_drive_based_on_trailer,
                 )
                 SliderWithTitleDescription(
@@ -203,7 +200,7 @@ class SettingsMenu(ETS2LAPage):
                     description=_(
                         "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
                     ),
-                    default=settings.Get("Map", "SteeringSmoothTime", 0.2),
+                    default=settings.SteeringSmoothTime,
                     min=0,
                     max=2,
                     step=0.1,
@@ -243,7 +240,7 @@ class SettingsMenu(ETS2LAPage):
                     description=_(
                         "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
                     ),
-                    default=settings.Get("Map", "selected_data", ""),
+                    default=settings.selected_data,
                     options=[config["name"] for config in configs.values()],
                     search=ComboboxSearch(
                         placeholder=_("Search data"), empty=_("No matching data found")
@@ -265,9 +262,9 @@ class SettingsMenu(ETS2LAPage):
                     description=_(
                         "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
                     ),
-                    default=settings.Get("Map", "traffic_side", "Automatic"),
+                    default=settings.traffic_side,
                     options=["Right", "Left", "Automatic"],
-                    changed=self.handle_Traffic_Side,
+                    changed=self.handle_traffic_side,
                 )
 
                 for key, _data in index.items():
@@ -451,7 +448,7 @@ class SettingsMenu(ETS2LAPage):
                             title="Internal Visualisation",
                             description="Enable internal visualisation for debugging.",
                             changed=self.handle_internal_visualisation,
-                            default=settings.Get("Map", "InternalVisualisation", False),
+                            default=settings.InternalVisualisation,
                         )
                         ButtonWithTitleDescription(
                             title="Reload Lane Offsets",
@@ -468,7 +465,7 @@ class SettingsMenu(ETS2LAPage):
                             title="Override Lane Offsets",
                             description="When enabled, existing offsets will be overwritten in the file.",
                             changed=self.handle_override_lane_offsets,
-                            default=settings.Get("Map", "OverrideLaneOffsets", False),
+                            default=settings.OverrideLaneOffsets,
                         )
                         ButtonWithTitleDescription(
                             title="Generate Rules",

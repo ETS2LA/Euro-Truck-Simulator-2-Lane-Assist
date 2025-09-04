@@ -10,7 +10,7 @@ root of the project to update the translation files. Please lock and update the
 translations from weblate before generating, as you might hit merge conflicts otherwise.
 """
 
-from ETS2LA.Utils.settings import Get, Listen, Set
+from ETS2LA.Settings import GlobalSettings
 from langcodes import Language
 import datetime
 import gettext
@@ -32,6 +32,7 @@ def get_available_languages(localedir: str) -> list:
 
 
 languages = get_available_languages("Translations/locales")
+settings = GlobalSettings()
 
 
 class Translate:
@@ -142,9 +143,9 @@ def correct_naming(language: str) -> str:
     return language
 
 
-default = Get("global", "language", "English")
+default = settings.language
 if not default:
-    Set("global", "language", "English")
+    settings.language = "English"
     default = "English"
 
 default = parse_language(Language.find(default))
@@ -159,7 +160,7 @@ def set_language(language: str | Language):
     :param language: The language code to set.
     """
     if not language:
-        Set("global", "language", "English")
+        settings.language = "English"
         language = "English"
 
     language = (
@@ -172,8 +173,8 @@ def set_language(language: str | Language):
     _.set_language(language)
 
 
-def detect_change(dictionary: dict):
-    language = dictionary.get("language", "English")
+def detect_change():
+    language = settings.language
     if not language:
         language = "English"
 
@@ -184,7 +185,7 @@ def detect_change(dictionary: dict):
         set_language(language)
 
 
-Listen("global", detect_change)
+settings.listen(detect_change)
 
 # region Generation
 overrides = {

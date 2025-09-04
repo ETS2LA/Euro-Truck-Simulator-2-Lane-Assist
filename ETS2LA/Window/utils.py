@@ -2,7 +2,7 @@
 with the window, mainly via the win32 APIs.
 """
 
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Settings import GlobalSettings
 import ETS2LA.variables as variables
 from ETS2LA.Utils.translator import _
 
@@ -13,6 +13,8 @@ import logging
 import time
 import mss
 import os
+
+settings = GlobalSettings()
 
 # TODO: Add Linux support.
 if os.name == "nt":
@@ -52,18 +54,16 @@ Don't check if the window is open.
 This is to prevent the app from being closed when --no-ui is used
 or the window has not started for another reason.
 """
-window_position = settings.Get(
-    "global",
-    "window_position",
-    (
-        get_screen_dimensions()[2] // 2 - 1280 // 2,
-        get_screen_dimensions()[3] // 2 - 720 // 2,
-    ),
-)
+window_position = settings.window_position
 """
 The current position of the window. 
 Used mainly by other files to do vision checks.
 """
+if window_position == (0, 0):
+    settings.window_position = (
+        get_screen_dimensions()[2] // 2 - 1280 // 2,
+        get_screen_dimensions()[3] // 2 - 720 // 2,
+    )
 
 
 # TODO: Clean this function, it's old code so the if statements are 500 chars long.
@@ -125,7 +125,7 @@ def get_theme_color() -> str:
     :return str: The theme color in hexadecimal.
     """
     try:
-        theme = settings.Get("global", "theme", "dark")
+        theme = settings.theme
 
         with open(f"{variables.PATH}frontend\\src\\pages\\globals.css", "r") as file:
             content = file.read().split("\n")
@@ -163,11 +163,7 @@ def get_theme_color() -> str:
                         return hex_color
     except Exception:
         try:
-            return (
-                "#ffffff"
-                if settings.Get("global", "theme", "dark") == "light"
-                else "#18181b"
-            )
+            return "#ffffff" if settings.theme == "light" else "#18181b"
         except Exception:
             return "#18181b"
 
@@ -204,7 +200,7 @@ def color_title_bar(theme: Literal["dark", "light"] = "dark"):
     colors = {"dark": 0x1B1818, "light": 0xFFFFFF}
 
     hwnd = 0
-    timeout = settings.Get("global", "window_timeout", 10)
+    timeout = settings.window_timeout
     while hwnd == 0:
         time.sleep(0.01)
         hwnd = win32gui.FindWindow(None, variables.APPTITLE)
@@ -248,7 +244,7 @@ def check_if_window_still_open() -> bool:
                 tl = win32gui.ClientToScreen(hwnd, (rect[0], rect[1]))
                 if (tl[0], tl[1]) != window_position:
                     window_position = (tl[0], tl[1])
-                    settings.Set("global", "window_position", window_position)
+                    settings.window_position = window_position
                 last_window_position_time = time.perf_counter()
             return True
     else:
@@ -359,7 +355,7 @@ def set_transparency(value: bool):
                 | win32con.WS_EX_LAYERED,
             )
 
-            transparency = settings.Get("global", "transparency_alpha", 0.8)
+            transparency = settings.transparency_alpha
             if transparency is None:
                 transparency = 0.8
 
@@ -377,7 +373,7 @@ def set_transparency(value: bool):
             )
 
         IS_TRANSPARENT = value
-        settings.Set("global", "transparency", value)
+        settings.transparency = value
     else:
         logging.warning(f"Transparency is not supported on this platform. ({os.name})")
     return IS_TRANSPARENT

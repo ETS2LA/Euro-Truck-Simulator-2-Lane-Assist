@@ -16,10 +16,12 @@ from ETS2LA.UI import (
     SendPopup,
 )
 
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Utils.translator import _
-from ETS2LA.Utils import settings
 import threading
 import time
+
+settings = GlobalSettings()
 
 
 class BasicModeFeature:
@@ -78,7 +80,7 @@ basic_mode_features = [
 ]
 
 
-last_plugins = settings.Get("global", "running_plugins", [])
+last_plugins = settings.running_plugins
 
 
 class Page(ETS2LAPage):
@@ -98,7 +100,7 @@ class Page(ETS2LAPage):
             time.sleep(1)
 
     def update_basic_mode_plugins(self):
-        if not settings.Get("global", "advanced_plugin_mode", False):
+        if not settings.advanced_plugin_mode:
             for feature in basic_mode_features:
                 if self.feature_toggles[feature.name] and self.running:
                     for id in feature.plugin_ids:
@@ -124,8 +126,8 @@ class Page(ETS2LAPage):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("global", "advanced_plugin_mode", False)
-        settings.Set("global", "advanced_plugin_mode", value)
+            value = not settings.advanced_plugin_mode
+        settings.advanced_plugin_mode = value
 
     # MARK: Advanced mode
     search_term: str = ""
@@ -268,7 +270,7 @@ class Page(ETS2LAPage):
         threading.Thread(target=self.basic_mode_updater, daemon=True).start()
 
     def render(self):
-        ads = settings.Get("global", "ad_preference", default=1)
+        ads = settings.ad_preference
         if plugins.loading:
             with Container(
                 styles.FlexVertical()
@@ -291,7 +293,7 @@ class Page(ETS2LAPage):
                     )
             return
 
-        isBasic = not settings.Get("global", "advanced_plugin_mode", False)
+        isBasic = not settings.advanced_plugin_mode
         if isBasic:
             with Container(
                 styles.FlexHorizontal() + styles.Padding("40px") + styles.Gap("40px")

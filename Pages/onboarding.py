@@ -16,14 +16,17 @@ from ETS2LA.UI import (
     Markdown,
 )
 from ETS2LA.Utils.translator import languages, parse_language
+from ETS2LA.Settings import GlobalSettings, ETS2LASettings
 from ETS2LA.Utils.translator import _
 from langcodes import Language
-from ETS2LA.Utils import settings
 
 from Pages.sdk_installation import Page as SDKInstallPage
 
 sdk_page = SDKInstallPage()
 sdk_page.onboarding_mode = True
+
+settings = GlobalSettings()
+map_settings = ETS2LASettings("Map")
 
 
 class Page(ETS2LAPage):
@@ -76,31 +79,31 @@ class Page(ETS2LAPage):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("global", "advanced_plugin_mode", False)
-        settings.Set("global", "advanced_plugin_mode", value)
+            value = not settings.advanced_plugin_mode
+        settings.advanced_plugin_mode = value
 
     def change_language(self, language: str):
-        settings.Set("global", "language", language)
+        settings.language = language
 
     def handle_data_selection(self, value):
         if value:
-            settings.Set("Map", "selected_data", value)
+            map_settings.selected_data = value
         else:
-            settings.Set("Map", "selected_data", "")
+            map_settings.selected_data = ""
 
     def handle_width_change(self, value):
-        settings.Set("global", "width", value)
+        settings.width = value
 
     def handle_height_change(self, value):
-        settings.Set("global", "height", value)
+        settings.height = value
 
     def handle_high_priority_change(self, *args):
         if args:
             value = args[0]
         else:
-            value = not settings.Get("global", "high_priority", True)
+            value = not settings.high_priority
 
-        settings.Set("global", "high_priority", value)
+        settings.high_priority = value
 
     def loading(self):
         with Container(
@@ -181,7 +184,7 @@ class Page(ETS2LAPage):
                 ):
                     Text(_("Continue"))
 
-            current = settings.Get("global", "language", default="English")
+            current = settings.language
             if not current:
                 current = "English"
             current = Language.find(current)
@@ -292,7 +295,7 @@ class Page(ETS2LAPage):
                     description=_(
                         "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
                     ),
-                    default=settings.Get("global", "advanced_plugin_mode", False),
+                    default=settings.advanced_plugin_mode,
                     changed=self.handle_plugin_mode_change,
                 )
                 with Alert(
@@ -307,7 +310,7 @@ class Page(ETS2LAPage):
                         + styles.Gap("12px")
                         + styles.Classname("items-start")
                     ):
-                        if not settings.Get("global", "advanced_plugin_mode", False):
+                        if not settings.advanced_plugin_mode:
                             style = styles.Style()
                             style.margin_top = "-4px"
                             style.width = "2rem"
@@ -359,7 +362,7 @@ class Page(ETS2LAPage):
                 + styles.FlexVertical()
                 + styles.Gap("12px")
             ):
-                state = settings.Get("global", "high_priority", True)
+                state = settings.high_priority
                 CheckboxWithTitleDescription(
                     title=_("High Priority"),
                     description=_(
@@ -406,7 +409,7 @@ class Page(ETS2LAPage):
                     styles.Description(),
                 )
                 Space()
-                data = settings.Get("Map", "selected_data")
+                data = map_settings.selected_data
                 if data:
                     with Button(action=self.increment_page):
                         Text(_("Continue"))
@@ -429,7 +432,7 @@ class Page(ETS2LAPage):
                     configs[key] = config
 
             with Container(style=styles.FlexVertical() + styles.Width("600px")):
-                current = settings.Get("Map", "selected_data", "")
+                current = map_settings.selected_data
                 ComboboxWithTitleDescription(
                     title=_("Selected Data"),
                     description=_("Select the data that matches your game and mods."),
@@ -556,7 +559,7 @@ class Page(ETS2LAPage):
                 SliderWithTitleDescription(
                     title=_("Window Width"),
                     description=_("Adjust the width of the ETS2LA window."),
-                    default=settings.Get("global", "width", 1280),
+                    default=settings.width,
                     min=400,
                     max=1920,
                     step=10,
@@ -565,7 +568,7 @@ class Page(ETS2LAPage):
                 SliderWithTitleDescription(
                     title=_("Window Height"),
                     description=_("Adjust the height of the ETS2LA window."),
-                    default=settings.Get("global", "height", 720),
+                    default=settings.height,
                     min=300,
                     max=1080,
                     step=10,

@@ -7,7 +7,6 @@ If you are looking for the actual **entrypoint** then you should
 look at the core.py file in the ETS2LA folder.
 """
 
-import multiprocessing.process
 import os
 import sys
 import subprocess
@@ -64,7 +63,7 @@ from ETS2LA.Utils.submodules import EnsureSubmoduleExists
 from ETS2LA.Utils.shell import ExecuteCommand
 import ETS2LA.Networking.cloud as cloud
 import ETS2LA.variables as variables
-from ETS2LA.Utils import settings
+from ETS2LA.Settings import GlobalSettings
 
 import multiprocessing
 import traceback
@@ -75,6 +74,7 @@ import time
 import git
 
 LOG_FILE_FOLDER = "logs"
+settings = GlobalSettings()
 
 
 def close_node() -> None:
@@ -138,7 +138,7 @@ def get_fastest_mirror() -> str:
     - If setting is "Auto", ETS2LA will poll all servers.
     - If a specific mirror is set, that will be used directly.
     """
-    if settings.Get("global", "frontend_mirror", "Auto") == "Auto":
+    if settings.frontend_mirror == "Auto":
         print(_("Testing mirrors..."))
         response_times = {}
         for mirror in variables.FRONTEND_MIRRORS:
@@ -157,10 +157,10 @@ def get_fastest_mirror() -> str:
                 print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
 
         fastest_mirror = min(response_times, key=response_times.get)
-        settings.Set("global", "frontend_mirror", fastest_mirror)
+        settings.frontend_mirror = fastest_mirror
         return fastest_mirror
     else:
-        mirror = settings.Get("global", "frontend_mirror", "Auto")
+        mirror = settings.frontend_mirror
         # print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))
         return mirror
 

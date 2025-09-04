@@ -1,4 +1,4 @@
-from ETS2LA.Utils import settings as utils_settings
+from ETS2LA.Settings import GlobalSettings
 from ETS2LA import variables
 from ETS2LA.UI import (
     ETS2LAPage,
@@ -32,6 +32,7 @@ import webbrowser
 
 import screeninfo
 
+settings = GlobalSettings()
 ad_preferences = {
     _("None"): 0,
     _("Minimal (recommended)"): 1,
@@ -48,139 +49,125 @@ class Page(ETS2LAPage):
 
     def __init__(self):
         super().__init__()
-        self.initial_high_priority = utils_settings.Get(
-            "global", "high_priority", default=True
-        )
+        self.initial_high_priority = settings.high_priority
 
     def handle_width_change(self, width: int):
-        utils_settings.Set("global", "width", width)
+        settings.width = width
 
     def handle_height_change(self, height: int):
-        utils_settings.Set("global", "height", height)
+        settings.height = height
 
     def handle_alpha_change(self, alpha: float):
-        utils_settings.Set("global", "transparency_alpha", alpha)
+        settings.transparency_alpha = alpha
 
     def change_language(self, language: str):
         if language:
-            utils_settings.Set("global", "language", language)
+            settings.language = language
 
     def change_soundpack(self, soundpack: str):
-        utils_settings.Set("global", "soundpack", soundpack)
+        settings.soundpack = soundpack
 
     def change_volume(self, volume: int):
-        utils_settings.Set("global", "volume", volume)
+        settings.volume = volume
 
     def change_startup_sound(self, *args):
         if args:
             startup_sound = args[0]
         else:
-            startup_sound = not utils_settings.Get(
-                "global", "startup_sound", default=True
-            )
+            startup_sound = not settings.startup_sound
 
-        utils_settings.Set("global", "startup_sound", startup_sound)
+        settings.startup_sound = startup_sound
 
     def change_monitor(self, monitor: str):
         if not monitor:
             return
 
         monitor_index = int(monitor.split(" ")[1])
-        utils_settings.Set("global", "monitor", monitor_index)
+        settings.display = monitor_index
 
     def change_port(self, port: int):
         if not port:
             return
 
-        utils_settings.Set("global", "frontend_port", port)
+        settings.frontend_port = port
 
     def handle_frameless_change(self, *args):
         if args:
             frameless = args[0]
         else:
-            frameless = not utils_settings.Get("global", "frameless", default=False)
+            frameless = not settings.frameless
 
-        utils_settings.Set("global", "frameless", frameless)
+        settings.frameless = frameless
 
     def handle_crash_report_change(self, *args):
         if args:
             crash_report = args[0]
         else:
-            crash_report = not utils_settings.Get(
-                "global", "send_crash_reports", default=True
-            )
+            crash_report = not settings.send_crash_reports
 
-        utils_settings.Set("global", "send_crash_reports", crash_report)
+        settings.send_crash_reports = crash_report
 
     def handle_fancy_traceback_change(self, *args):
         if args:
             fancy_traceback = args[0]
         else:
-            fancy_traceback = not utils_settings.Get(
-                "global", "use_fancy_traceback", default=True
-            )
+            fancy_traceback = not settings.use_fancy_traceback
 
-        utils_settings.Set("global", "use_fancy_traceback", fancy_traceback)
+        settings.use_fancy_traceback = fancy_traceback
 
     def handle_debug_mode_change(self, *args):
         if args:
             debug_mode = args[0]
         else:
-            debug_mode = not utils_settings.Get("global", "debug_mode", default=True)
+            debug_mode = not settings.debug_mode
 
-        utils_settings.Set("global", "debug_mode", debug_mode)
+        settings.debug_mode = debug_mode
 
     def handle_frontend_mirror_change(self, mirror: str):
-        utils_settings.Set("global", "frontend_mirror", mirror)
+        settings.frontend_mirror = mirror
 
     def handle_window_timeout_change(self, window_timeout: int):
-        utils_settings.Set("global", "window_timeout", window_timeout)
+        settings.window_timeout = window_timeout
 
     def handle_fireworks_change(self, *args):
         if args:
             fireworks = args[0]
         else:
-            fireworks = not utils_settings.Get("global", "fireworks", default=True)
+            fireworks = not settings.fireworks
 
-        utils_settings.Set("global", "fireworks", fireworks)
+        settings.fireworks = fireworks
 
     def handle_snow_change(self, *args):
         if args:
             snow = args[0]
         else:
-            snow = not utils_settings.Get("global", "snow", default=True)
+            snow = not settings.snow
 
-        utils_settings.Set("global", "snow", snow)
+        settings.snow = snow
 
     def handle_acceleration_fallback_change(self, *args):
         if args:
             acceleration_fallback = args[0]
         else:
-            acceleration_fallback = not utils_settings.Get(
-                "global", "acceleration_fallback", default=True
-            )
+            acceleration_fallback = not settings.acceleration_fallback
 
-        utils_settings.Set("global", "acceleration_fallback", acceleration_fallback)
+        settings.acceleration_fallback = acceleration_fallback
 
     def handle_high_priority_change(self, *args):
         if args:
             high_priority = args[0]
         else:
-            high_priority = not utils_settings.Get(
-                "global", "high_priority", default=True
-            )
+            high_priority = not settings.high_priority
 
-        utils_settings.Set("global", "high_priority", high_priority)
+        settings.high_priority = high_priority
 
     def handle_slow_loading_change(self, *args):
         if args:
             slow_loading = args[0]
         else:
-            slow_loading = not utils_settings.Get(
-                "global", "slow_loading", default=False
-            )
+            slow_loading = not settings.slow_loading
 
-        utils_settings.Set("global", "slow_loading", slow_loading)
+        settings.slow_loading = slow_loading
 
     def match_value_to_preference_name(self, value: int) -> str:
         for name, val in ad_preferences.items():
@@ -192,16 +179,14 @@ class Page(ETS2LAPage):
         if args:
             ad_preference = args[0]
         else:
-            ad_preference = utils_settings.Get("global", "ad_preference", default=1)
-            utils_settings.Set("global", "ad_preference", ad_preference)
+            ad_preference = settings.ad_preference
+            settings.ad_preference = ad_preference
             return
 
         if ad_preference not in ad_preferences:
             ad_preference = _("Minimal (recommended)")
 
-        utils_settings.Set(
-            "global", "ad_preference", ad_preferences.get(ad_preference, 1)
-        )
+        settings.ad_preference = ad_preferences.get(ad_preference, 1)
 
     def open_kofi(self):
         webbrowser.open("https://ko-fi.com/tumppi066")
@@ -214,7 +199,7 @@ class Page(ETS2LAPage):
             ),
         )
 
-        ads = utils_settings.Get("global", "ad_preference", default=1)  # type: ignore
+        ads = settings.ad_preference
 
         with Tabs():
             with Tab(_("User Interface"), styles.FlexVertical() + styles.Gap("24px")):
@@ -244,7 +229,7 @@ class Page(ETS2LAPage):
                         min=500,
                         max=2560,
                         step=10,
-                        default=utils_settings.Get("global", "width", default=720),  # type: ignore
+                        default=settings.width,
                         suffix="px",
                         changed=self.handle_width_change,
                     )
@@ -257,7 +242,7 @@ class Page(ETS2LAPage):
                         min=250,
                         max=1440,
                         step=10,
-                        default=utils_settings.Get("global", "height", default=720),  # type: ignore
+                        default=settings.height,
                         suffix="px",
                         changed=self.handle_height_change,
                     )
@@ -270,14 +255,12 @@ class Page(ETS2LAPage):
                     min=0.4,
                     max=1,
                     step=0.05,
-                    default=utils_settings.Get(
-                        "global", "transparency_alpha", default=0.8
-                    ),  # type: ignore
+                    default=settings.transparency_alpha,
                     suffix="",
                     changed=self.handle_alpha_change,
                 )
 
-                current = utils_settings.Get("global", "language", default="English")
+                current = settings.language
                 if not current:
                     current = "English"
 
@@ -366,13 +349,13 @@ class Page(ETS2LAPage):
                         changed=self.change_volume,
                     )
 
-                state = utils_settings.Get("global", "startup_sound", default=True)
+                state = settings.startup_sound
                 CheckboxWithTitleDescription(
                     title=_("Startup Sound"),
                     description=_(
                         "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
                     ),
-                    default=state,  # type: ignore
+                    default=state,
                     changed=self.change_startup_sound,
                 )
 
@@ -381,9 +364,7 @@ class Page(ETS2LAPage):
                 container_style=styles.FlexVertical() + styles.Gap("24px"),
             ):
                 Text("Ad Preferences", styles.Classname("text-lg font-semibold"))
-                default = self.match_value_to_preference_name(
-                    utils_settings.Get("global", "ad_preference", default=1)  # type: ignore
-                )
+                default = self.match_value_to_preference_name(settings.ad_preference)
                 ComboboxWithTitleDescription(
                     options=[
                         _("None"),
@@ -391,7 +372,7 @@ class Page(ETS2LAPage):
                         _("Medium"),
                         _("Full"),
                     ],
-                    default=default,  # type: ignore
+                    default=default,
                     changed=self.handle_ad_preference,
                     title="How many ads do you want to see?",
                     description="This will control how many ads you see in ETS2LA. Minimal is recommended to support development without affecting usage.",
@@ -471,21 +452,17 @@ class Page(ETS2LAPage):
                     description=_(
                         "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
                     ),
-                    default=utils_settings.Get(
-                        "global", "acceleration_fallback", default=True
-                    ),  # type: ignore
+                    default=settings.acceleration_fallback,
                     changed=self.handle_acceleration_fallback_change,
                 )
 
-                high_priority = utils_settings.Get(
-                    "global", "high_priority", default=True
-                )  # type: ignore
+                high_priority = settings.high_priority
                 CheckboxWithTitleDescription(
                     title=_("High Priority"),
                     description=_(
                         "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
                     ),
-                    default=high_priority,  # type: ignore
+                    default=high_priority,
                     changed=self.handle_high_priority_change,
                 )
 
@@ -514,13 +491,13 @@ class Page(ETS2LAPage):
                     description=_(
                         "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
                     ),
-                    default=utils_settings.Get("global", "slow_loading", default=False),  # type: ignore
+                    default=settings.slow_loading,
                     changed=self.handle_slow_loading_change,
                 )
 
             with Tab(_("Miscellaneous"), styles.FlexVertical() + styles.Gap("24px")):
                 if variables.LOCAL_MODE:
-                    port = utils_settings.Get("global", "frontend_port", default=3005)  # type: ignore
+                    port = settings.frontend_port
                     InputWithTitleDescription(
                         title=_("Frontend Port"),
                         description=_(
@@ -536,7 +513,7 @@ class Page(ETS2LAPage):
                     description=_(
                         "Disable this option if you have any issues moving the window around."
                     ),
-                    default=utils_settings.Get("global", "frameless", default=False),  # type: ignore
+                    default=settings.frameless,
                     changed=self.handle_frameless_change,
                 )
                 CheckboxWithTitleDescription(
@@ -544,9 +521,7 @@ class Page(ETS2LAPage):
                     description=_(
                         "Automatically send crash reports to help improve the application."
                     ),
-                    default=utils_settings.Get(
-                        "global", "send_crash_reports", default=True
-                    ),  # type: ignore
+                    default=settings.send_crash_reports,
                     changed=self.handle_crash_report_change,
                 )
                 CheckboxWithTitleDescription(
@@ -554,9 +529,7 @@ class Page(ETS2LAPage):
                     description=_(
                         "Enable this option to use a fancy traceback for errors."
                     ),
-                    default=utils_settings.Get(
-                        "global", "use_fancy_traceback", default=True
-                    ),  # type: ignore
+                    default=settings.use_fancy_traceback,
                     changed=self.handle_fancy_traceback_change,
                 )
 
@@ -565,7 +538,7 @@ class Page(ETS2LAPage):
                     description=_(
                         "Enable this option to use the edge debugger for the frontend."
                     ),
-                    default=utils_settings.Get("global", "debug_mode", default=False),  # type: ignore
+                    default=settings.debug_mode,
                     changed=self.handle_debug_mode_change,
                 )
 
@@ -575,9 +548,7 @@ class Page(ETS2LAPage):
                         "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
                     ),
                     options=["Auto", *variables.FRONTEND_MIRRORS],
-                    default=utils_settings.Get(
-                        "global", "frontend_mirror", default="Auto"
-                    ),  # type: ignore
+                    default=settings.frontend_mirror,
                     changed=self.handle_frontend_mirror_change,
                 )
 
@@ -586,7 +557,7 @@ class Page(ETS2LAPage):
                     description=_(
                         "The amount of time ETS2LA waits for the window to show up."
                     ),
-                    default=utils_settings.Get("global", "window_timeout", default=10),  # type: ignore
+                    default=settings.window_timeout,
                     min=1,
                     max=30,
                     step=1,
@@ -604,7 +575,7 @@ class Page(ETS2LAPage):
                         description=_(
                             "Enable this option to use fireworks effects during the new year's."
                         ),
-                        default=utils_settings.Get("global", "fireworks", default=True),  # type: ignore
+                        default=settings.fireworks,
                         changed=self.handle_fireworks_change,
                     )
 
@@ -613,7 +584,7 @@ class Page(ETS2LAPage):
                         description=_(
                             "Enable this option to use snow effects during the winter season."
                         ),
-                        default=utils_settings.Get("global", "snow", default=True),  # type: ignore
+                        default=settings.snow,
                         changed=self.handle_snow_change,
                     )
 

@@ -491,8 +491,8 @@ class Plugin(ETS2LAPlugin):
             )
 
     def position(self, data):
-        sector_coordinates = self.globals.tags.sector_center
-        sector_coordinates = self.globals.tags.merge(sector_coordinates)
+        sector_coordinates = self.tags.sector_center
+        sector_coordinates = self.tags.merge(sector_coordinates)
         if not sector_coordinates:
             sector_coordinates = (0, 0)
 
@@ -520,11 +520,11 @@ class Plugin(ETS2LAPlugin):
         return send
 
     def steering(self, data):
-        points = self.globals.tags.steering_points
-        points = self.globals.tags.merge(points)
+        points = self.tags.steering_points
+        points = self.tags.merge(points)
 
-        information = self.globals.tags.route_information
-        information = self.globals.tags.merge(information)
+        information = self.tags.route_information
+        information = self.tags.merge(information)
 
         if not information:
             information = {}
@@ -542,8 +542,8 @@ class Plugin(ETS2LAPlugin):
         return send
 
     def state_data(self, data):
-        target_speed = self.globals.tags.acc
-        target_speed = self.globals.tags.merge(target_speed)
+        target_speed = self.tags.acc
+        target_speed = self.tags.merge(target_speed)
 
         send = {
             "speed": data["truckFloat"]["speed"],
@@ -693,11 +693,11 @@ class Plugin(ETS2LAPlugin):
         return {"trailers": trailer_data}
 
     def highlights(self, data):
-        vehicle_highlights = self.globals.tags.vehicle_highlights
-        vehicle_highlights = self.globals.tags.merge(vehicle_highlights)
+        vehicle_highlights = self.tags.vehicle_highlights
+        vehicle_highlights = self.tags.merge(vehicle_highlights)
 
-        aeb = self.globals.tags.AEB
-        aeb = self.globals.tags.merge(aeb)
+        aeb = self.tags.AEB
+        aeb = self.tags.merge(aeb)
 
         send = {
             "aeb": aeb,
@@ -707,8 +707,8 @@ class Plugin(ETS2LAPlugin):
         return send
 
     def status(self, data):
-        status = self.globals.tags.status
-        status = self.globals.tags.merge(status)
+        status = self.tags.status
+        status = self.tags.merge(status)
 
         if status is None:
             status = {}

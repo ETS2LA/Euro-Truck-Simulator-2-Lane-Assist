@@ -1,4 +1,4 @@
-import ETS2LA.Utils.settings as settings
+from ETS2LA.Settings import GlobalSettings
 import ETS2LA.Events.classes as classes
 import ETS2LA.variables as variables
 from typing import Literal
@@ -11,6 +11,7 @@ URL = "https://api.ets2la.com"
 user_id = None
 token = None
 username = "unknown"
+settings = GlobalSettings()
 
 
 def SendFeedback(message: str, username: str, fields: dict[str, str] = None):
@@ -36,7 +37,7 @@ def SendFeedback(message: str, username: str, fields: dict[str, str] = None):
 
     try:
         fields["ETS2LA Version"] = variables.METADATA["version"]
-        fields["ETS2LA Language"] = settings.Get("global", "language", "English")
+        fields["ETS2LA Language"] = settings.language
 
         jsonData = {
             "timestamp": int(time.time()),
@@ -87,14 +88,14 @@ def SendCrashReport(
         return False
 
     try:
-        send_crash_reports = settings.Get("global", "send_crash_reports", True)
+        send_crash_reports = settings.send_crash_reports
     except Exception:
         send_crash_reports = True
 
     if send_crash_reports:
         try:
             fields["ETS2LA Version"] = variables.METADATA["version"]
-            fields["ETS2LA Language"] = settings.Get("global", "language", "English")
+            fields["ETS2LA Language"] = settings.language
 
             username = GetUsername()
 
@@ -125,7 +126,7 @@ def SendCrashReport(
 
 
 def GetUsername(force_refresh=False):
-    if username == "unknown":
+    if username == "unknown" or force_refresh:
         user_id, token, success = GetCredentials()
         if success:
             url = URL + f"/user/{user_id}"
@@ -142,12 +143,12 @@ def GetUsername(force_refresh=False):
 def GetCredentials():
     global user_id, token
     if user_id is None:
-        user_id = settings.Get("global", "user_id", str(uuid.uuid4()))
+        user_id = settings.user_id
         if user_id is None:
             user_id = str(uuid.uuid4())
-            settings.Set("global", "user_id", user_id)
+            settings.user_id = user_id
 
-        token = settings.Get("global", "token", None)
+        token = settings.token
 
     return user_id, token, user_id is not None and token is not None
 

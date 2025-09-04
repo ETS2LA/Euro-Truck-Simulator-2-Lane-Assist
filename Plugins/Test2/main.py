@@ -24,7 +24,7 @@ class Plugin(ETS2LAPlugin):
 
     def run(self):
         print("Test 2 gettings tags")
-        receive = self.globals.tags.test
+        receive = self.tags.test
         if receive is None:
             print("Test 2 tag not set")
             return

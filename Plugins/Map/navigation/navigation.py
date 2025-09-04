@@ -165,7 +165,7 @@ def get_path_to_destination():
                 node_points.append(None)
 
         data.navigation_plan = route
-        data.plugin.globals.tags.navigation_plan = {
+        data.plugin.tags.navigation_plan = {
             "nodes": nodes,
             "points": node_points,
         }
