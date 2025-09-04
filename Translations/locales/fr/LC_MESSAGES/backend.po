@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-25 20:06+0000\n"
+"PO-Revision-Date: 2025-09-04 18:07+0000\n"
 "Last-Translator: scorpion7slayer <scorpionslayer@ets2la.com>\n"
-"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>\n"
+"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>"
+"\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -210,6 +211,8 @@ msgstr "Journalisation initialisée."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Erreur lors de la suppression des fichiers journaux. Probablement une autre "
+"instance ETS2LA en cours d'exécution. Veuillez la fermer et réessayer."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +240,7 @@ msgstr "Impossible de trouver ou de lancer la fenêtre ETS2LA. Ton PC est-il ass
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Échec de la définition des attributs de la fenêtre ou de l'icône."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -355,19 +358,24 @@ msgstr "{0} et {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Salut !"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Je vois que vous avez désactivé les publicités. Ce n'est pas grave, mais "
+"vous pouvez toujours soutenir le développement d'ETS2LA en faisant un don "
+"via Ko-Fi. *Chaque don équivaut à plusieurs semaines ( !) de revenus "
+"publicitaires*, nous sommes éternellement reconnaissants pour chaque soutien "
+"que nous recevons!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Faire un don via Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Masquer"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -1177,6 +1185,10 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"**Plein écran**\n"
+"\n"
+"Vous pouvez *cliquer avec la roulette de la souris* sur le bouton vert pour "
+"afficher la fenêtre ETS2LA en plein écran."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1544,35 +1556,42 @@ msgstr "Afficher la superposition AR même lorsque le jeu n'est pas au premier p
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Overlay des Performances"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Afficher l'overlay des performances"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
 msgstr ""
+"Afficher l'overlay des performances. Cela affichera un certains nombres de "
+"statistiques utiles."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Afficher les statistiques du jeu"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Afficher les statistiques du jeu dans l'overlay des performances."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Afficher l'arrière-plan"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Afficher l'arrière-plan dans l'overlay des performances. Cela rendra "
+"l'overlay des performances plus lisible, mais aussi moins transparent."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
-msgstr "Le plugin AR fournit une superposition de réalité augmentée pour ETS2LA. Il est utilisé par des plugins comme le HUD pour afficher des informations dans le monde du jeu."
+msgstr ""
+"Le plugin AR fournit un overlay de réalité augmentée pour ETS2LA. Il est "
+"utilisé par des plugins comme le HUD pour afficher des informations dans le "
+"monde du jeu."
 
 #: .\Plugins\AR\main.py:688
 msgid "Items: {}"
@@ -1580,47 +1599,47 @@ msgstr "Éléments : {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Appels de dessin : {} ({:.0f} %)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Longueur du cache de texte : {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Dernier rendu : {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Dernière boucle : {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Synchronisation avec le jeu : {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Statistiques du jeu"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Fréquence d'images : {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Position de la caméra : ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Rotation de la caméra : ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1663,7 +1682,7 @@ msgstr "Le régulateur de vitesse adaptatif (ACC) contrôle la vitesse du camion
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "Paramètres ACC"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1675,7 +1694,7 @@ msgstr "Dans quelle mesure l'ACC doit-il suivre de près le véhicule qui préc�
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Distance de sécurité"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1684,10 +1703,12 @@ msgstr "À quelle distance l'ACC doit-il se maintenir du véhicule qui le préc�
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"À 80 km/h, ETS2LA maintiendra une distance d'environ {distance} m par "
+"rapport au véhicule qui le précède."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Paramètres des feux de signalisation"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1699,11 +1720,13 @@ msgstr "L'ACC doit-il ignorer les feux de circulation. Veuillez noter que cela s
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Mode feu de signalisation"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Sélectionnez la manière dont l'ACC doit gérer les feux de signalisation. Le "
+"mode normal gère mieux les feux situés de l'autre côté de l'intersection."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1711,7 +1734,7 @@ msgstr "Contrôle de vitesse"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Paramètres de courbe"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1723,19 +1746,21 @@ msgstr "Coefficient de friction utilisé pour les calculs de l’ACC. Des valeur
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Paramètres de limitation de vitesse"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Vitesse maximale"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"Vitesse maximale à laquelle l'ACC roulera. Réglez ce paramètre sur 0 pour le "
+"désactiver."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Vitesse de secours"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1832,11 +1857,12 @@ msgstr "Afficher les informations d’état de l’ACC et de la direction."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Ville la plus proche"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
 msgstr ""
+"Affiche la ville la plus proche et sa distance ( par rapport au texte )."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1848,11 +1874,11 @@ msgstr "Afficher l’état actuel du carburant du camion."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "Écart ACC"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Indique la distance par rapport au véhicule qui précède."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1864,19 +1890,19 @@ msgstr "Afficher le régime moteur et le rapport actuel du camion."
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Revenu"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Affiche les revenus provenant du job actuel."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Pas de job"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Revenu du job"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2125,15 +2151,18 @@ msgstr "Configurez les paramètres du plugin Map. Ici, vous pouvez ajuster diff�
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Expérimental]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Péages automatiques"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Tentez de passer automatiquement les péages. Cela peut fonctionner ou non. "
+"Nécessite un redémarrage pour recharger complètement les données relatives "
+"aux péages."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2193,11 +2222,13 @@ msgstr "Mettre à jour les données sélectionnées : cela peut être utile si l
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Côté de la circulation"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Cela permettra aux clignotants de fonctionner correctement lors des "
+"changements de voie dans les pays où l'on roule à gauche ou à droite."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2390,25 +2421,25 @@ msgstr "Vitesse {0} kilomètres par heure, limite {1}, carburant {2}%, et il res
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Feu de circulation dans {distance} mètres. Actuellement {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Le feu est passé au {state}. Il est maintenant à {distance} mètres."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} mètre"
+msgstr[1] "{distance} mètres"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Phares allumés."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Phares éteints."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2543,7 +2574,7 @@ msgstr "Exécution de l’interface utilisateur en local"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Le processus de la fenêtre a cessé de fonctionner !"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
