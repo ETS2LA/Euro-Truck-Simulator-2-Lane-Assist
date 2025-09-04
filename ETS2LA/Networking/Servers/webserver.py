@@ -181,8 +181,16 @@ def stay_on_top(state: bool):
     return newState
 
 
+first_transparency_call = True
+
+
 @app.get("/window/transparency/{state}")
 def set_transparency_to(state: bool):
+    global first_transparency_call
+    if first_transparency_call:
+        first_transparency_call = False
+        return
+
     try:
         newState = set_transparency(state)
         return newState
