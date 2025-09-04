@@ -88,7 +88,10 @@ class ETS2LASettings:
                         # keep type conversion consistent with default
                         typ = type(self._cache[key])
                         try:
-                            self._cache[key] = typ(value)
+                            if typ is bool:
+                                self._cache[key] = value.lower() in ("true", "1", "yes")
+                            else:
+                                self._cache[key] = typ(value)
                         except Exception:
                             self._cache[key] = value
 
