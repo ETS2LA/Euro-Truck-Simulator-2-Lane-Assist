@@ -1,5 +1,6 @@
 """Data extraction utilities for map plugin."""
 
+from Plugins.Map.settings import settings
 import requests
 import logging
 import zipfile
@@ -142,11 +143,11 @@ def UpdateData(name: str) -> bool:
 
         plugin.state.reset()
     except Exception:
-        plugin.settings.downloaded_data = ""
+        settings.downloaded_data = ""
         plugin.state.reset()
         logging.exception(f"Failed to download and unpack {name}.")
         return False
 
-    plugin.settings.downloaded_data = name
+    settings.downloaded_data = name
     logging.info(f"Downloaded and unpacked {name}.")
     return True
