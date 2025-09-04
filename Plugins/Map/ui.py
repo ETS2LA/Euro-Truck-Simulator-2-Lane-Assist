@@ -389,10 +389,6 @@ class SettingsMenu(ETS2LAPage):
                                     styles.Description() + styles.Classname("text-xs"),
                                 )
                                 Text(
-                                    f"Routing mode: {settings.Get('Map', 'RoutingMode')}",
-                                    styles.Description() + styles.Classname("text-xs"),
-                                )
-                                Text(
                                     f"Navigation points: {len(self.get_value_from_data('navigation_points'))}",
                                     styles.Description() + styles.Classname("text-xs"),
                                 )
