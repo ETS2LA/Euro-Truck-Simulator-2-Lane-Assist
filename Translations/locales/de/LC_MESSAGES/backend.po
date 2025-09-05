@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
+"PO-Revision-Date: 2025-09-05 20:06+0000\n"
 "Last-Translator: Veqro <veqro@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
@@ -1595,23 +1595,23 @@ msgstr "Gegenstände: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Draw Calls: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Text-Cache-Länge: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Letztes Rendern: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Letzte Schleife: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Mit Spiel synchronisieren: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
@@ -1721,6 +1721,8 @@ msgstr "Ampelmodus"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Wähle aus, wie das ACC auf Ampeln reagieren soll. Im normalen Modus werden "
+"Ampeln auf der anderen Seite der Kreuzung besser erkannt."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1740,7 +1742,7 @@ msgstr "Der Reibungskoeffizient, der für die ACC-Berechnungen verwendet wird. H
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Geschwindigkeitsbegrenzungseinstellungen"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
@@ -1749,10 +1751,12 @@ msgstr ""
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"Die maximale Geschwindigkeit die das ACC fährt. Setze es auf 0 um es zu "
+"deaktivieren."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Fallback Geschwindigkeit"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1849,11 +1853,11 @@ msgstr "Zeichne die ACC- und Lenkungsstatusinformationen."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Nächste Stadt"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "Zeigt die nächste Stadt und die Distanz zu ihr an ( relativ zum Text )."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1865,11 +1869,11 @@ msgstr "Zeichne den aktuellen Kraftstoffstand des Fahrzeugs."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "ACC Lücke"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Zeigt die Lücke zum vorausfahrendem Fahrzeug."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1881,19 +1885,19 @@ msgstr "Zeichne die aktuelle Drehzahl und den Gang des LKWs ein."
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Einkommen"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Zeigt das Einkommen vom aktuellen Job an."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Kein Job"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Job Einkommen"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2142,15 +2146,18 @@ msgstr "Konfiguriere die Einstellungen für das Karten-Plugin. Hier kannst du ve
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Experiementell]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Automatische Maut"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Versuch einer automatischen Lösung der Maut. Das kann funktionieren, muss "
+"aber nicht. Benötigt einen Neustart um die Mautdaten vollständig neu zu "
+"laden."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2210,11 +2217,13 @@ msgstr "Aktualisiere die aktuell ausgewählten Daten. Dies kann hilfreich sein, 
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Verkehrsseite"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Dadurch wird sichergestellt, dass die Blinker beim Spurwechsel in Ländern "
+"mit Links- oder Rechtsverkehr korrekt funktionieren."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2407,25 +2416,25 @@ msgstr "Geschwindigkeit {0} Kilometer pro Stunde, Limit {1}, Treibstoff {2}%, un
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Ampeln voraus in {distance} meters. Derzeit {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Ampeln geändert zu {state}. Jetzt in {distance} metern."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} meter"
+msgstr[1] "{distance} meter"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Scheinwerfer eingeschaltet."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Scheinwerfer ausgeschaltet."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2564,7 +2573,7 @@ msgstr "UI lokal ausführen"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Der Fensterprozess ist abgestürzt!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
