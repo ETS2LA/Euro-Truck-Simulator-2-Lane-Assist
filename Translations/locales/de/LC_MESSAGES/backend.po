@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-05 20:06+0000\n"
-"Last-Translator: Veqro <veqro@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-05 20:07+0000\n"
+"Last-Translator: Leo <leo@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -1627,7 +1627,7 @@ msgstr "Spielstatistiken"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Framerate: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
@@ -1730,7 +1730,7 @@ msgstr "Geschwindigkeitskontrolle"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Kurveneinstellungen"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1746,7 +1746,7 @@ msgstr "Geschwindigkeitsbegrenzungseinstellungen"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Höchstgeschwindigkeit"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
@@ -1760,7 +1760,9 @@ msgstr "Fallback Geschwindigkeit"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
-msgstr "Die Geschwindigkeit, mit der gefahren werden soll, wenn das Spiel angibt, dass die Geschwindigkeitsbegrenzung 0 km/h beträgt."
+msgstr ""
+"Die Geschwindigkeit, mit der gefahren werden soll, wenn das Spiel angibt, "
+"dass die Geschwindigkeitsbegrenzung 0 km/h beträgt."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Speed Limit"
