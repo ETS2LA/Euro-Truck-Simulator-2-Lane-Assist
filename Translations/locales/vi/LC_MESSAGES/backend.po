@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-12 05:28+0000\n"
+"PO-Revision-Date: 2025-09-05 20:07+0000\n"
 "Last-Translator: Giangg <giangg@ets2la.com>\n"
-"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/vi/>\n"
+"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/backend/"
+"vi/>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -210,6 +211,8 @@ msgstr "Trình ghi log đã được khởi tạo."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Lỗi khi đang xóa các tệp log. Có thể ETS2LA chưa được tắt hoàn toàn. Đóng nó "
+"và thử lại."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -229,7 +232,7 @@ msgstr "Không có lỗi, cảnh báo nào được tìm thấy."
 
 #: .\ETS2LA\Window\html.py:88
 msgid "Please wait while we initialize the user interface"
-msgstr "Bạn hãy chờ trong lúc chúng tôi đang khởi tạo giao diện người dùng"
+msgstr "Bạn hãy chờ trong lúc chúng mình đang khởi tạo giao diện người dùng"
 
 #: .\ETS2LA\Window\utils.py:213
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
@@ -237,7 +240,7 @@ msgstr "Không tìm thấy / khởi động cửa sổ ETS2LA. PC của bạn c�
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Thất bại khi đặt thuộc tính cho cửa sổ hoặc icon."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -353,19 +356,23 @@ msgstr "{0} và {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Hey, này!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Mình thấy bạn đã tắt quảng cáo. Điều đó hoàn toàn ổn, nhưng bạn có thể hỗ "
+"trợ việc phát triển ETS2LA bằng cách quyên góp qua Ko-Fi. *Mọi quyên góp đều "
+"được tính bằng cả tuần (hoặc cả tháng) danh thu quảng cáo*, chúng mình thực "
+"sự rất biết ơn cho mọi hỗ trợ chúng mình nhận được!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Ủng hộ qua Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Ẩn"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -377,7 +384,7 @@ msgstr "SDK cho {0} đã lỗi thời. Để cập nhật lên phiên bản mớ
 
 #: .\Pages\about.py:370
 msgid "About"
-msgstr "Về chúng tôi"
+msgstr "Về chúng mình"
 
 #: .\Pages\about.py:373
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
@@ -803,7 +810,7 @@ msgstr "Tìm kiếm ngôn ngữ..."
 
 #: .\Pages\global_settings.py:295 .\Pages\onboarding.py:199
 msgid "Help us translate on discord!"
-msgstr "Giúp chúng tôi biên dịch trên discord!"
+msgstr "Giúp chúng mình biên dịch trên discord!"
 
 #: .\Pages\global_settings.py:314
 msgid "This translation is {percentage:.2f}% complete."
@@ -847,15 +854,24 @@ msgstr "Hỗ trợ việc phát triển ETS2LA trên Ko-Fi"
 
 #: .\Pages\global_settings.py:435
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
-msgstr "Bạn sẽ thấy đúng 1 quảng cáo xuất hiện trong trang \"Về chúng tôi\". Sẽ không có thêm bất kì quảng cáo nào. Tùy chọn này được khuyến nghị, giúp việc phát triển ETS2LA tiến xa hơn nữa."
+msgstr ""
+"Bạn sẽ thấy đúng 1 quảng cáo xuất hiện trong trang \"Về chúng mình\". Sẽ "
+"không có thêm bất kì quảng cáo nào. Tùy chọn này được khuyến nghị, giúp việc "
+"phát triển ETS2LA tiến xa hơn nữa."
 
 #: .\Pages\global_settings.py:442
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
-msgstr "Bạn sẽ thấy quảng cáo trong các trang không quan trọng và chúng cũng sẽ không làm phiền bạn. Riêng trang \"Hiển thị\" sẽ được miễn quảng cáo. Nếu bạn muốn hỗ trợ việc phát tiến xa hơn nữa, chúng tôi khuyến khích tùy chọn này."
+msgstr ""
+"Bạn sẽ thấy quảng cáo trong các trang không quan trọng và chúng cũng sẽ "
+"không làm phiền bạn. Riêng trang \"Hiển thị\" sẽ được miễn quảng cáo. Nếu "
+"bạn muốn hỗ trợ việc phát tiến xa hơn nữa, chúng mình khuyến khích tùy chọn "
+"này."
 
 #: .\Pages\global_settings.py:449
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
-msgstr "Bạn sẽ thấy rất nhiều quảng cáo, nhưng chúng tôi sẽ không để chúng phá hủy trải nghiệm của bạn. Trang \"Hiển thị\" vẫn được miễn quảng cáo."
+msgstr ""
+"Bạn sẽ thấy rất nhiều quảng cáo, nhưng chúng mình sẽ không để chúng phá hủy "
+"trải nghiệm của bạn. Trang \"Hiển thị\" vẫn được miễn quảng cáo."
 
 #: .\Pages\global_settings.py:470
 msgid "Fallback to old acceleration method"
@@ -972,7 +988,9 @@ msgstr "Đang nạp..."
 
 #: .\Pages\onboarding.py:113
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
-msgstr "Chúng tôi đang làm một số thứ, sẽ mất một chút thời gian. Ngồi xuống và thư giãn!"
+msgstr ""
+"Chúng mình đang làm một số thứ, sẽ mất một chút thời gian. Ngồi xuống và thư "
+"giãn!"
 
 #: .\Pages\onboarding.py:121
 msgid "Welcome to ETS2LA!"
@@ -1003,7 +1021,10 @@ msgstr "Chọn ngôn ngữ"
 
 #: .\Pages\onboarding.py:173
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
-msgstr "Hãy chọn ngôn ngữ mà bạn muốn cho ETS2LA. Tùy chọn này có thể được thay đổi sau trong cài đặt. Các bản dịch của chúng tôi đều được cộng đồng đóng góp!"
+msgstr ""
+"Hãy chọn ngôn ngữ mà bạn muốn cho ETS2LA. Tùy chọn này có thể được thay đổi "
+"sau trong cài đặt. Các bản dịch của chúng mình đều được cộng đồng đóng góp "
+"đó!"
 
 #: .\Pages\onboarding.py:192
 msgid "Select your preferred language for ETS2LA."
@@ -1063,7 +1084,10 @@ msgstr "Dữ liệu bản đồ"
 
 #: .\Pages\onboarding.py:403
 msgid "ETS2LA uses pre-extracted map data from the game. We handle the data beforehand and you can then just download it as necessary. Please select the data you need for your current game version below."
-msgstr "ETS2LA sử dụng dữ liệu bản đồ khai thác từ game. Chúng tôi đã xử lý các dữ liệu đó từ trước và bạn chỉ cần tải xuống phiên bản phù hợp. Hãy chọn dữ liệu cho phiên bản game hiện tại mà bạn cần ở dưới đây."
+msgstr ""
+"ETS2LA sử dụng dữ liệu bản đồ khai thác từ game. Chúng mình đã xử lý các dữ "
+"liệu đó từ trước và bạn chỉ cần tải xuống phiên bản phù hợp. Hãy chọn dữ "
+"liệu cho phiên bản game hiện tại mà bạn cần ở dưới đây."
 
 #: .\Pages\onboarding.py:415
 msgid "Waiting for data selection..."
@@ -1171,6 +1195,9 @@ msgid ""
 "\n"
 "You can *middle click* the green button to make the ETS2LA window fullscreen."
 msgstr ""
+"**Toàn màn hình**\n"
+"\n"
+"Nhấn *chuột giữa* vào nút màu xanh lá để hiển thị ETS2LA toàn màn hình."
 
 #: .\Pages\onboarding.py:684
 msgid "It's this green button!"
@@ -1182,7 +1209,10 @@ msgstr "Thiết lập ban đầu đã hoàn thành!"
 
 #: .\Pages\onboarding.py:699
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
-msgstr "Bạn đã hoàn thành quá trình thiết lập ban đầu thành công. Bây giờ, bạn có thể bắt đầu sử dụng ETS2LA. Nếu bạn cần trợ giúp, hãy cảm thấy thoải mái, tham gia máy chủ Discord của chúng tôi."
+msgstr ""
+"Bạn đã hoàn thành quá trình thiết lập ban đầu thành công. Bây giờ, bạn có "
+"thể bắt đầu sử dụng ETS2LA. Nếu bạn cần trợ giúp, hãy thấy thoải mái, tham "
+"gia máy chủ Discord của chúng mình."
 
 #: .\Pages\onboarding.py:706
 msgid "Finish"
@@ -1436,11 +1466,14 @@ msgstr "Đường dẫn {path} không tồn tại."
 
 #: .\Pages\sdk_installation.py:264
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
-msgstr "Kiểm tra xem bạn đã có đủ các DLL cần thiết để chúng tôi tương tác với game."
+msgstr ""
+"Kiểm tra xem bạn đã có đủ các DLL cần thiết để chúng mình tương tác với game."
 
 #: .\Pages\sdk_installation.py:275
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
-msgstr "Chúng tôi không tìm thấy bất kì game nào của SCS Software trên thiết bị của bạn. Nhớ rằng ETS2LA sẽ chỉ hoạt động với các phiên bản hợp pháp được tải từ Steam."
+msgstr ""
+"Không tìm thấy bất kì game nào của SCS Software trên thiết bị của bạn. Nhớ "
+"rằng ETS2LA sẽ chỉ hoạt động với các phiên bản hợp pháp được tải từ Steam."
 
 #: .\Pages\sdk_installation.py:281
 msgid "Select directory manually"
@@ -1537,31 +1570,33 @@ msgstr "Hiển thị lớp phủ AR ngay cả khi cửa sổ của game không p
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Lớp phủ hiệu năng"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Hiển thị lớp phủ hiệu năng"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
-msgstr ""
+msgstr "Cái này sẽ hiển thị một số thống kê hữu ích về hiệu năng."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Hiển thị thống kê của game"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Hiển thị thống kê của game chung với phần lớp phủ hiệu năng."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Hiển thị nền"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Hiển thị nền trong lớp phủ hiệu năng. Nó sẽ giúp lớp phủ hiệu năng dễ đọc "
+"hơn, nhưng độ trong suốt cũng sẽ giảm đi."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
@@ -1573,47 +1608,47 @@ msgstr "Các mục: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Hiển thị các cuộc gọi: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Chiều dài cache của văn bản: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Render lần cuối: {:.2f} ms (:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Loop cuối: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Đồng bộ với game: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Có"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Không"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Các thống kê game"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr ""
+msgstr "Khung hình: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Vị trí camera: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr ""
+msgstr "Xoay camera: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
@@ -1656,7 +1691,7 @@ msgstr "Kiểm soát hành trình tự động (ACC) sẽ điều khiển tốc 
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "Cài đặt ACC"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
@@ -1668,7 +1703,7 @@ msgstr "Mức độ phản ứng nào mà ACC nên dùng để theo sau phương
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Khoảng cách theo dõi"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
@@ -1676,11 +1711,11 @@ msgstr "ACC nên giữ khoảng cách như thế nào với các phương tiện
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
-msgstr ""
+msgstr "Ở 80km/h ETS2LA sẽ giữ khoảng {distance}m với phương tiện phía trước."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Cài đặt đèn giao thông"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1692,11 +1727,13 @@ msgstr "ACC có nên mặc kệ đèn giao thông không? Nhớ rằng, nó sẽ
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Chế độ đèn giao thông"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Chọn cách ACC xử lý với đèn giao thông. Chế độ \"thường\" sẽ xử lý đèn giao "
+"thông ở bên kia ngã tư tốt hơn."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1704,7 +1741,7 @@ msgstr "Điều khiển tốc độ tự động"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Cài đặt khúc cua"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1716,19 +1753,19 @@ msgstr "Hệ số ma sát được dùng cho các tính toán của ACC. Giá tr
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Cài đặt giới hạn tốc độ"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Tốc độ tối đa"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
-msgstr ""
+msgstr "Tốc độ tối đa ACC sẽ chạy. Đặt về 0 để tắt."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Tốc độ dự phòng"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
@@ -1768,7 +1805,10 @@ msgstr "Mở khóa PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:253
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
-msgstr "Bạn có thể mở khóa các cài đặt PID để điều chỉnh chúng thủ công. Nhưng chúng tôi không khuyến khích trừ khi bạn hiểu rõ PID là gì và có thể tinh chỉnh một cách chính xác."
+msgstr ""
+"Bạn có thể mở khóa các cài đặt PID để điều chỉnh chúng thủ công. Nhưng chúng "
+"mình không khuyến khích trừ khi bạn hiểu rõ PID là gì và có thể tinh chỉnh "
+"một cách chính xác."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:262
 msgid "PID Kp"
@@ -1825,11 +1865,11 @@ msgstr "Hiển thị ACC và trạng thái đánh lái."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Thành phố gần nhất"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "Hiển thị thành phố gần nhất và khoảng cách của nó (dựa vào văn bản)."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
@@ -1841,11 +1881,11 @@ msgstr "Hiển thị trạng thái nhiên liệu hiện tại của xe tải."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "Khoảng cách ACC"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Hiển thị khoảng cách so với phương tiện phía trước."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
@@ -1857,19 +1897,19 @@ msgstr "Hiển thị vòng tua và cấp số hiện tại của xe tải."
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
-msgstr ""
+msgstr "Thu nhập"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Hiển thị thu nhập cho công việc hiện tại."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Không có công việc"
 
 #: .\Plugins\HUD\elements\income.py:47
 msgid "Job Income"
-msgstr ""
+msgstr "Thu nhập từ công việc"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2118,15 +2158,17 @@ msgstr "Cấu hình các cài đặt cho plugin bản đồ. Ở đây bạn có
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Thử nghiệm]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Tự động tương tác với trạm thu phí"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Cố gắng tự động tương tác với trạm thu phí. Có thể hoạt động hoặc không. Yêu "
+"cầu khởi động lại để hoàn chỉnh tải dữ liệu trạm thu phí."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2158,7 +2200,10 @@ msgstr "Độ mượt đánh lái"
 
 #: .\Plugins\Map\ui.py:203
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
-msgstr "Thiết lập khoảng thời gian mà chúng tôi dùng để lấy trung bình dữ liệu đánh lái. Ví dụ, một giá trị 0,5 có nghĩa là dữ liệu đánh lái từ một nửa giây trước được dùng để tính toán cho hiện tại."
+msgstr ""
+"Thiết lập khoảng thời gian mà chúng mình dùng để lấy trung bình dữ liệu đánh "
+"lái. Ví dụ, một giá trị 0,5 có nghĩa là dữ liệu đánh lái từ một nửa giây "
+"trước được dùng để tính toán cho hiện tại."
 
 #: .\Plugins\Map\ui.py:214
 msgid "Data"
@@ -2170,7 +2215,10 @@ msgstr "Ghi chú!"
 
 #: .\Plugins\Map\ui.py:235
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
-msgstr "Nếu bạn gặp lỗi sau khi thay đổi dữ liệu, hãy khởi động lại plugin! Nếu vấn đề của bạn vẫn không được giải quyết, thì hãy liên hệ với những người tạo ra dữ liệu hoặc các lập trình viên trên máy chủ Discord của chúng tôi!"
+msgstr ""
+"Nếu bạn gặp lỗi sau khi thay đổi dữ liệu, hãy khởi động lại plugin! Nếu vấn "
+"đề của bạn vẫn không được giải quyết, thì hãy liên hệ với những người tạo ra "
+"dữ liệu hoặc các lập trình viên trên máy chủ Discord của chúng mình!"
 
 #: .\Plugins\Map\ui.py:243
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
@@ -2186,11 +2234,13 @@ msgstr "Cập nhật cho dữ liệu đang được chọn, nó có thể hữu 
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Hướng giao thông"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Cái này sẽ làm đèn xi nhan hoạt động đúng cách khi chuyển làn trong quốc gia "
+"tay lái thuận hoặc nghịch."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
@@ -2327,27 +2377,29 @@ msgstr "Kiểm soát hành trình tự động đã được tắt."
 #: .\Plugins\TTS\main.py:404
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] "Thành phố gần nhất hiện tại là {city}, cách khoảng {distance} ki-lô-mét."
+msgstr[0] "Thành phố gần nhất hiện tại là {city}, cách khoảng {distance} km."
 
 #: .\Plugins\TTS\main.py:421
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] "Giới hạn tốc độ đã được thay đổi thành {0} ki-lô-mét trên giờ."
+msgstr[0] "Giới hạn tốc độ đã được thay đổi thành {0} km/h."
 
 #: .\Plugins\TTS\main.py:437
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
-msgstr[0] "Lượng nhiên liệu hiện tại chỉ đủ cho khoảng {0} ki-lô-mét, hãy bơm thêm sớm."
+msgstr[0] "Lượng nhiên liệu hiện tại chỉ đủ cho khoảng {0} km, hãy bơm thêm sớm."
 
 #: .\Plugins\TTS\main.py:446
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr[0] "Lượng nhiên liệu còn lại cực kì thấp, chỉ đủ cho khoảng {0} ki-lô-mét, hãy bơm thêm càng sớm càng tốt."
+msgstr[0] ""
+"Lượng nhiên liệu còn lại cực kì thấp, chỉ đủ cho khoảng {0} km, hãy bơm thêm "
+"càng sớm càng tốt."
 
 #: .\Plugins\TTS\main.py:473 .\Plugins\TTS\main.py:487
 #: .\Plugins\TTS\main.py:509
 msgid "It's {0} kilometers to the next waypoint."
-msgstr "Khoảng {0} ki-lô-mét đến mốc tiếp theo."
+msgstr "Khoảng {0} km đến mốc tiếp theo."
 
 #: .\Plugins\TTS\main.py:528
 msgid "Engine damage is now at {0}%."
@@ -2375,28 +2427,30 @@ msgstr "Mức hư hại của hàng hóa hiện tại đang là {0}%."
 
 #: .\Plugins\TTS\main.py:564
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
-msgstr "Tốc độ {0} ki-lô-mét trên giờ, giới hạn {1}, nhiên liệu {2}, và còn khoảng {3} ki-lô-mét đến mốc tiếp theo."
+msgstr ""
+"Tốc độ {0} km/h, giới hạn {1}, nhiên liệu {2}, và còn khoảng {3} km đến mốc "
+"tiếp theo."
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Đèn giao thông phía trước trong {distance} m. Hiện tại {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "Đèn giao thông chuyển sang {state}. Now at {distance} m."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
+msgstr[0] "m"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Đã bật đèn pha."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Đã tắt đèn pha."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2531,7 +2585,7 @@ msgstr "Đang chạy UI cục bộ"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "Tiến trình cửa số đã crash!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
