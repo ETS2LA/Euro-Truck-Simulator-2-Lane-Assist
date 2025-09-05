@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
-"Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-05 20:07+0000\n"
+"Last-Translator: playzzero97 <playzzero@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
 "Language: es\n"
@@ -1313,7 +1313,7 @@ msgstr "Todos los datos mostrados se promedian en un segundo."
 
 #: .\Pages\performance.py:404
 msgid "This page took {time:.2f} ms to render."
-msgstr "Esta página tomó {tiempo:.2f} ms para renderizar."
+msgstr "Esta página tomó {time:.2f} ms para renderizar."
 
 #: .\Pages\plugins.py:42 .\Plugins\Map\ui.py:182
 msgid "Steering"
