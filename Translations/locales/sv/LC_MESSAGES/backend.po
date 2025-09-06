@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-05 20:07+0000\n"
+"PO-Revision-Date: 2025-09-07 11:06+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
 ">\n"
@@ -1555,7 +1555,7 @@ msgstr "Visa AR overlayen även när spelet inte är i fokus. Detta kan vara anv
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr "Performance Overlay"
+msgstr "Prestanda Overlay"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
