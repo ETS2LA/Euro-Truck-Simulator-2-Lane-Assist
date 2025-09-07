@@ -4,6 +4,7 @@ import time
 from Plugins.Map.utils import offset_handler
 from Plugins.Map import data
 from Plugins.Map.utils import internal_map as im
+from Plugins.Map.settings import settings
 
 
 def update_road_data():
@@ -109,15 +110,11 @@ def trigger_data_update(plugin_instance):
         plugin_instance: The plugin instance to update settings for
 
     """
-    plugin_instance.settings.downloaded_data = ""
+    settings.downloaded_data = ""
 
 
 def use_auto_offset():
     """Toggle the use of auto offset.
-
-    Args:
-        plugin_instance: The plugin instance to update settings for
-
     """
     try:
         data.plugin.state.text = "Updating per_name data..."
