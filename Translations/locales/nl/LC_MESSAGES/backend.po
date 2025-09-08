@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
+"PO-Revision-Date: 2025-09-09 16:07+0000\n"
 "Last-Translator: hpfrunner <hpfrunner@ets2la.com>\n"
 "Language-Team: Dutch <http://weblate.ets2la.com/projects/ets2la/backend/nl/>"
 "\n"
@@ -349,8 +349,8 @@ msgstr[1] "{0} minuten"
 #: .\Pages\about.py:247 .\Pages\about.py:250
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] "uur"
-msgstr[1] "uren"
+msgstr[0] "{0} uur"
+msgstr[1] "{0} uren"
 
 #: .\Pages\about.py:249
 msgid "{0} and {1}"
@@ -694,7 +694,7 @@ msgstr[1] "{hours} uren geleden"
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
 msgstr[0] "{days} dag geleden"
-msgstr[1] "dagen geleden"
+msgstr[1] "{days} dagen geleden"
 
 #: .\Pages\changelog.py:48
 msgid "Fetching changelog and possible changes."
@@ -1445,7 +1445,7 @@ msgstr "Kon versie voor {path} niet vinden, installatie overslaan"
 
 #: .\Pages\sdk_installation.py:243
 msgid "Found game version {version}."
-msgstr "Spelversie gevonden {versie}."
+msgstr "Spelversie gevonden {version}."
 
 #: .\Pages\sdk_installation.py:249
 msgid "Path {path} does not exist."
@@ -2356,8 +2356,12 @@ msgstr "Adaptive Cruise Control uitgeschakeld."
 #: .\Plugins\TTS\main.py:404
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] "De dichtstbijzijnde stad is nu {stad} op een afstand van {afstand} kilometer."
-msgstr[1] "De dichtstbijzijnde stad is nu {stad} op een afstand van {afstand} kilometers."
+msgstr[0] ""
+"De dichtstbijzijnde stad is nu {city} op een afstand van {distance} "
+"kilometer."
+msgstr[1] ""
+"De dichtstbijzijnde steden is nu {city} op een afstand van {distance} "
+"kilometers."
 
 #: .\Plugins\TTS\main.py:421
 msgid "Speed limit changed to {0} kilometer per hour."
