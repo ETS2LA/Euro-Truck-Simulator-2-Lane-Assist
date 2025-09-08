@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
-"Last-Translator: Kivanc <kivanc@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-08 15:24+0000\n"
+"Last-Translator: Weblate Admin <tumppi066@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/backend/tr/"
 ">\n"
 "Language: tr\n"
@@ -627,7 +627,7 @@ msgstr "İptal"
 
 #: .\Pages\catalogue.py:538
 msgid "Installing {plugin}"
-msgstr "Kuruluyor {eklenti}"
+msgstr "Kuruluyor {plugin}"
 
 #: .\Pages\catalogue.py:548 .\Pages\catalogue.py:567
 msgid "Close"
@@ -635,7 +635,7 @@ msgstr "Kapat"
 
 #: .\Pages\catalogue.py:556
 msgid "Uninstalling {plugin}"
-msgstr "{eklenti} kaldırılıyor"
+msgstr "{plugin} kaldırılıyor"
 
 #: .\Pages\catalogue.py:578
 msgid "Are you sure you want to uninstall this plugin?"
