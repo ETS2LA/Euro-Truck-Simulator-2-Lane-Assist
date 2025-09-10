@@ -23,17 +23,12 @@ CataloguePlugins
 /ETS2LA/controls.json
 /ETS2LA/settings.db*
 
-# Ignore Godot exports and export config
-/Visualization/ETS2LA-Visualisation/export_presets.cfg
-/Visualization/GoDot Export/*
-
-# Ignore Object Detection models
-/ETS2LA/plugins/ObjectDetection/models
-/plugins/ObjectDetection/models
-
 # Ignore Map data
 /ETS2LA/plugins/Map/data
 /ETS2LA/plugins/Map/GameData
+
+# Ignore WIP other branch files
+/Plugins/DataProvider
 
 # Pycharm
 .idea

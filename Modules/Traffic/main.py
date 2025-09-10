@@ -147,10 +147,9 @@ class Module(ETS2LAModule):
                 data = data[16 + (2 * 10) :]
 
             if len(vehicles) > 0:
-                if vehicles[0].is_tmp:
-                    for vehicle in vehicles:
-                        if vehicle.id in self.last_vehicles:
-                            vehicle.update_from_last(self.last_vehicles[vehicle.id])
+                for vehicle in vehicles:
+                    if vehicle.id in self.last_vehicles:
+                        vehicle.update_from_last(self.last_vehicles[vehicle.id])
 
             self.last_vehicles = {vehicle.id: vehicle for vehicle in vehicles}
             return vehicles

@@ -1,7 +1,7 @@
 import math
 import time
 
-tmp_speed_update_frequency = 0.5  # seconds
+location_update_frequency = 0.2  # 5fps
 
 # TODO: Switch __dict__ to __iter__ and dict() for typing support.
 # TODO: f = Class() -> dict(f) instead of f.__dict__()
@@ -61,6 +61,15 @@ class Position:
         self.x = x
         self.y = y
         self.z = z
+
+    def __add__(self, other):
+        return Position(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other):
+        return Position(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def tuple(self):
+        return (self.x, self.y, self.z)
 
     def is_zero(self):
         return self.x == 0 and self.y == 0 and self.z == 0
@@ -173,7 +182,10 @@ class Vehicle:
     is_tmp: bool
     is_trailer: bool
     time: float = 0.0
-    speed_position: Position = Position(0, 0, 0)
+
+    last_location: Position = Position(0, 0, 0)
+    last_rotation: Quaternion = Quaternion(0, 0, 0, 0)
+    angular_velocity: float = 0.0  # degrees per second around yaw
 
     def __init__(
         self,
@@ -202,31 +214,44 @@ class Vehicle:
         self.time = time.time()
 
     def update_from_last(self, vehicle):
-        if not self.is_tmp:
-            return
-
         time_diff = time.time() - vehicle.time
-        if time_diff < tmp_speed_update_frequency:
+        if time_diff < location_update_frequency:
             self.time = vehicle.time
-            self.speed = vehicle.speed
-            self.speed_position = vehicle.speed_position
+            self.last_location = vehicle.last_location
+            self.last_rotation = vehicle.last_rotation
+            self.angular_velocity = vehicle.angular_velocity
+            if abs(self.angular_velocity) > 90:
+                self.angular_velocity = 0
+
+            if self.is_tmp:
+                self.speed = vehicle.speed
             return
 
-        last_position = vehicle.speed_position
-        distance = math.sqrt(
-            (self.position.x - last_position.x) ** 2
-            + (self.position.y - last_position.y) ** 2
-            + (self.position.z - last_position.z) ** 2
-        )
+        self.time = time.time()
+        self.last_location = self.position
+        self.last_rotation = self.rotation
 
-        if distance > 0.1:
-            self.speed = distance / time_diff
-        else:
-            self.speed = 0
+        last_yaw = vehicle.last_rotation.euler()[1]
+        current_yaw = self.rotation.euler()[1]
+        yaw_diff = current_yaw - last_yaw
+        self.angular_velocity = yaw_diff / time_diff / 2
+        # divide by 2 seems to give more accurate results
+        # TODO: Figure out why
 
-        self.speed_position = Position(
-            self.position.x, self.position.y, self.position.z
-        )
+        if abs(self.angular_velocity) > 90:
+            self.angular_velocity = 0
+
+        if self.is_tmp:
+            last_position = vehicle.last_location
+            distance = math.sqrt(
+                (self.position.x - last_position.x) ** 2
+                + (self.position.y - last_position.y) ** 2
+                + (self.position.z - last_position.z) ** 2
+            )
+            if distance > 0.1:
+                self.speed = distance / time_diff
+            else:
+                self.speed = 0
 
     def is_zero(self):
         return self.position.is_zero() and self.rotation.is_zero()
@@ -234,7 +259,9 @@ class Vehicle:
     def __str__(self):
         return f"Vehicle({self.position}, {self.rotation}, {self.size}, {self.speed:.2f}, {self.acceleration:.2f}, {self.trailer_count}, {self.trailers})"
 
-    def get_corners(self):
+    def get_corners(
+        self, offset: Position = None
+    ) -> tuple[Position, Position, Position, Position]:
         """This function will output the corners of the vehicle in the following order:
         1. Front left
         2. Front right
@@ -242,6 +269,10 @@ class Vehicle:
         4. Back left
         """
         ground_middle = [self.position.x, self.position.y, self.position.z]
+        if offset:
+            ground_middle[0] += offset.x
+            ground_middle[1] += offset.y
+            ground_middle[2] += offset.z
 
         # Back left
         back_left = [
@@ -278,7 +309,49 @@ class Vehicle:
         back_right = rotate_around_point(back_right, ground_middle, pitch, -yaw, 0)
         back_left = rotate_around_point(back_left, ground_middle, pitch, -yaw, 0)
 
+        front_left = Position(*front_left)
+        front_right = Position(*front_right)
+        back_right = Position(*back_right)
+        back_left = Position(*back_left)
+
         return front_left, front_right, back_right, back_left
+
+    def get_position_in(self, seconds: float) -> Position | None:
+        distance = self.speed * seconds
+        if distance == 0:
+            return Position(self.position.x, self.position.y, self.position.z)
+
+        # x and z are the ground plane, don't care about y
+        pitch, yaw, roll = self.rotation.euler()
+        yaw = math.radians(yaw)
+
+        # adjust based on angular velocity, we assume
+        # that the vehicle is slowly tapering out so we apply
+        # an exponential decay.
+        angular_velocity = math.radians(self.angular_velocity)
+        if angular_velocity != 0:
+            decay_rate = 0.25
+            total_decay = (1 - math.exp(-decay_rate * seconds)) / decay_rate
+            yaw += angular_velocity * total_decay
+        else:
+            yaw += angular_velocity * seconds
+
+        # eventual new position
+        x = self.position.x - distance * math.sin(yaw)
+        y = self.position.y
+        z = self.position.z - distance * math.cos(yaw)
+
+        return Position(x, y, z)
+
+    def get_path_for(self, seconds: float) -> Position | None:
+        points_per_second = 10
+        points = []
+        for i in range(0, int(seconds * points_per_second)):
+            point = self.get_position_in(i / points_per_second)
+            if point:
+                points.append(point)
+
+        return points
 
     def __dict__(self):  # type: ignore
         return {
