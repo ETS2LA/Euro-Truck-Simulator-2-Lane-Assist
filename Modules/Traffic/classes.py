@@ -278,28 +278,28 @@ class Vehicle:
         back_left = [
             ground_middle[0] - self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] + self.size.length / 2,
+            ground_middle[2] + self.size.length * 0.82,
         ]
 
         # Back right
         back_right = [
             ground_middle[0] + self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] + self.size.length / 2,
+            ground_middle[2] + self.size.length * 0.82,
         ]
 
         # Front right
         front_right = [
             ground_middle[0] + self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] - self.size.length / 2,
+            ground_middle[2] - self.size.length * 0.18,
         ]
 
         # Front left
         front_left = [
             ground_middle[0] - self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] - self.size.length / 2,
+            ground_middle[2] - self.size.length * 0.18,
         ]
 
         # Rotate the corners

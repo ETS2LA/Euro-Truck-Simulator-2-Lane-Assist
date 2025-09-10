@@ -65,23 +65,31 @@ class Renderer(HUDRenderer):
         front_left, front_right, back_right, back_left = (
             highlighted_vehicle.get_corners()
         )
-        distance = Coordinate(*front_left).get_distance_to(truck_x, truck_y, truck_z)
+        distance = Coordinate(*front_left.tuple()).get_distance_to(
+            truck_x, truck_y, truck_z
+        )
         center_back = [
-            (back_left[0] + back_right[0]) / 2,
-            (back_left[1] + back_right[1]) / 2,
-            (back_left[2] + back_right[2]) / 2,
+            (back_left.x + back_right.x) / 2,
+            (back_left.y + back_right.y) / 2,
+            (back_left.z + back_right.z) / 2,
         ]
 
         if distance > 120:
             self.data = []
             return
 
-        relative_front_left = self.plugin.get_relative_to_head(Coordinate(*front_left))
-        relative_front_right = self.plugin.get_relative_to_head(
-            Coordinate(*front_right)
+        relative_front_left = self.plugin.get_relative_to_head(
+            Coordinate(*front_left.tuple())
         )
-        relative_back_right = self.plugin.get_relative_to_head(Coordinate(*back_right))
-        relative_back_left = self.plugin.get_relative_to_head(Coordinate(*back_left))
+        relative_front_right = self.plugin.get_relative_to_head(
+            Coordinate(*front_right.tuple())
+        )
+        relative_back_right = self.plugin.get_relative_to_head(
+            Coordinate(*back_right.tuple())
+        )
+        relative_back_left = self.plugin.get_relative_to_head(
+            Coordinate(*back_left.tuple())
+        )
         relative_center_back = self.plugin.get_relative_to_head(
             Coordinate(*center_back)
         )

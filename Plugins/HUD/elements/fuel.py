@@ -20,7 +20,8 @@ class Widget(HUDWidget):
 
         fuel_capacity = self.plugin.data["configFloat"]["fuelCapacity"]
 
-        fuel = self.plugin.data["truckFloat"]["fuel"] / fuel_capacity
+        fuel_current = self.plugin.data["truckFloat"]["fuel"]
+        fuel = fuel_current / fuel_capacity if fuel_capacity > 0 else 0
         fuel_range = self.plugin.data["truckFloat"]["fuelRange"]  # km
         unit = "km"
 
@@ -52,7 +53,7 @@ class Widget(HUDWidget):
             ),
             Text(
                 Point(7 + offset_x, 30, anchor=self.plugin.anchor),
-                text=f"{range:.0f} {unit}",
+                text=f"{fuel_range:.0f} {unit}",
                 color=Color(255, 255, 255, 200),
                 size=14,
             ),
