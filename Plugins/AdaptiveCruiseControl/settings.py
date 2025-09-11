@@ -69,9 +69,13 @@ class SettingsMenu(ETS2LAPage):
         settings.MU = value
 
     def handle_max_speed(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.max_speed = value
 
     def handle_overwrite_speed(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.overwrite_speed = value
 
     def handle_ignore_speed_limit(self, *args):
