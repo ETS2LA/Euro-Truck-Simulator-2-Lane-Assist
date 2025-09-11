@@ -70,6 +70,16 @@ basic_mode_features = [
         default=False,
     ),
     BasicModeFeature(
+        name=_("Collision Avoidance"),
+        description=_("[Experimental]")
+        + " "
+        + _(
+            "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
+        ),
+        plugin_ids=["plugins.collisionavoidance"],
+        default=False,
+    ),
+    BasicModeFeature(
         name=_("Text To Speech"),
         description=_(
             "Enable text-to-speech for notifications and alerts. This is mostly an accessibility feature but some people might find it useful."
@@ -351,7 +361,11 @@ class Page(ETS2LAPage):
                             )
 
                 with Container(
-                    styles.FlexVertical() + styles.Gap("20px") + styles.Width("525px")
+                    styles.FlexVertical()
+                    + styles.Gap("20px")
+                    + styles.Width("525px")
+                    + styles.Height("620px")
+                    + styles.Classname("overflow-y-auto")
                 ):
                     for feature in basic_mode_features:
                         with Button(

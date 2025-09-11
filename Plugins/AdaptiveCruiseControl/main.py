@@ -223,8 +223,10 @@ class Plugin(ETS2LAPlugin):
 
         return following_accel
 
-    def calculate_traffic_light_constraint(self, distance: float):
-        if distance > self.speed * 6 and distance > 40:
+    def calculate_traffic_light_constraint(
+        self, distance: float, allow_acceleration: bool = False
+    ):
+        if distance > self.speed * 6 and (distance > 40 or allow_acceleration):
             return 999  # No need to brake yet
 
         if distance > 0:
@@ -338,6 +340,7 @@ class Plugin(ETS2LAPlugin):
         in_front: ACCVehicle | None = None,
         traffic_light: ACCTrafficLight | None = None,
         gate: ACCGate | None = None,
+        stop_in: float | None = None,
     ) -> float:
         target_accelerations = []
 
@@ -349,6 +352,13 @@ class Plugin(ETS2LAPlugin):
         if in_front is not None:
             following_accel = self.calculate_leading_vehicle_constraint(in_front)
             target_accelerations.append(following_accel)
+
+        # Stop in - Works the same as traffic lights, just stops at that distance.
+        if stop_in is not None and stop_in > 0:
+            stop_in_accel = self.calculate_traffic_light_constraint(
+                stop_in, allow_acceleration=True
+            )
+            target_accelerations.append(stop_in_accel)
 
         # Red Light - Only check if traffic lights are not ignored
         if traffic_light and not settings.ignore_traffic_lights:
@@ -547,7 +557,8 @@ class Plugin(ETS2LAPlugin):
         closest_vehicle = None
         for distance, vehicle in vehicles_in_front:
             if distance < closest_distance:
-                closest_distance = distance + vehicle.size.length / 2
+                closest_distance = distance - (vehicle.size.length * 0.8)
+                # ETS2 reports the middle of the vehicle closer to the front
                 closest_vehicle = vehicle
 
         if closest_vehicle is None:
@@ -1165,8 +1176,15 @@ class Plugin(ETS2LAPlugin):
             logging.exception("Error in gate detection")
             gate = None
 
+        stop_in_dict = self.tags.stop_in
+        stop_in = 999
+        if stop_in_dict:
+            for value in stop_in_dict.values():
+                if isinstance(value, (int, float)) and value > 0:
+                    stop_in = min(stop_in, value)
+
         target_acceleration = self.calculate_target_acceleration(
-            in_front, traffic_light, gate
+            in_front, traffic_light, gate, stop_in
         )
         target_throttle = self.apply_pid(target_acceleration)
         self.set_accel_brake(target_throttle)

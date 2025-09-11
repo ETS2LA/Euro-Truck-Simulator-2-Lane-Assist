@@ -2,7 +2,6 @@ from Plugins.AR.classes import Point, Rectangle, Color, Text, Polygon, Fade, Coo
 from Modules.Traffic.classes import Vehicle
 from Plugins.HUD.classes import HUDRenderer
 from ETS2LA.Utils.translator import _
-import time
 
 
 class Renderer(HUDRenderer):
@@ -16,67 +15,46 @@ class Renderer(HUDRenderer):
     def settings(self):
         return super().settings()
 
-    def draw(self):
-        if not self.plugin.data:
-            self.data = []
-            return
-
-        targets = self.plugin.tags.vehicle_highlights
-        targets = self.plugin.tags.merge(targets)
-
-        if targets is None:
-            targets = []
-
-        vehicles = self.plugin.modules.Traffic.run()
-
-        if vehicles is None:
-            vehicles = []
-
-        highlighted_vehicle = None
-        if len(targets) > 0:
-            for vehicle in vehicles:
-                if vehicle.id in targets:
-                    highlighted_vehicle = vehicle
-                    break
-
-        if not highlighted_vehicle:
-            self.data = []
-            time.sleep(1 / 30)
-            return
-
-        if not isinstance(highlighted_vehicle, Vehicle):
-            self.data = []
-            time.sleep(1 / 30)
-            return
-
+    def render_vehicle(self, vehicle: Vehicle):
         truck_x = self.plugin.data["truckPlacement"]["coordinateX"]
         truck_y = self.plugin.data["truckPlacement"]["coordinateY"]
         truck_z = self.plugin.data["truckPlacement"]["coordinateZ"]
 
+        return_data = []
+
         game = self.plugin.data["scsValues"]["game"]
-        speed = (
-            highlighted_vehicle.speed * 3.6
-            if game == "ETS2"
-            else highlighted_vehicle.speed * 2.23694
-        )
+        speed = vehicle.speed * 3.6 if game == "ETS2" else vehicle.speed * 2.23694
         speed_unit = "km/h" if game == "ETS2" else "mph"
 
         # Line under the vehicle
-        front_left, front_right, back_right, back_left = (
-            highlighted_vehicle.get_corners()
-        )
+        front_left, front_right, back_right, back_left = vehicle.get_corners()
         distance = Coordinate(*front_left.tuple()).get_distance_to(
             truck_x, truck_y, truck_z
         )
+
+        if distance > 120:
+            return []
+
         center_back = [
             (back_left.x + back_right.x) / 2,
             (back_left.y + back_right.y) / 2,
             (back_left.z + back_right.z) / 2,
         ]
-
-        if distance > 120:
-            self.data = []
-            return
+        center_right = [
+            (front_right.x + back_right.x) / 2,
+            (front_right.y + back_right.y) / 2,
+            (front_right.z + back_right.z) / 2,
+        ]
+        center_left = [
+            (front_left.x + back_left.x) / 2,
+            (front_left.y + back_left.y) / 2,
+            (front_left.z + back_left.z) / 2,
+        ]
+        center_front = [
+            (front_left.x + front_right.x) / 2,
+            (front_left.y + front_right.y) / 2,
+            (front_left.z + front_right.z) / 2,
+        ]
 
         relative_front_left = self.plugin.get_relative_to_head(
             Coordinate(*front_left.tuple())
@@ -93,6 +71,15 @@ class Renderer(HUDRenderer):
         relative_center_back = self.plugin.get_relative_to_head(
             Coordinate(*center_back)
         )
+        relative_center_right = self.plugin.get_relative_to_head(
+            Coordinate(*center_right)
+        )
+        relative_center_left = self.plugin.get_relative_to_head(
+            Coordinate(*center_left)
+        )
+        relative_center_front = self.plugin.get_relative_to_head(
+            Coordinate(*center_front)
+        )
 
         distance_unit = "m" if game == "ETS2" else "ft"
         distance = (
@@ -107,7 +94,7 @@ class Renderer(HUDRenderer):
             alpha = 1
 
         # 3D box
-        self.data = [
+        return_data = [
             Polygon(
                 [
                     relative_front_left,
@@ -126,11 +113,26 @@ class Renderer(HUDRenderer):
             )
         ]
 
+        angle = vehicle.rotation.euler()[1]
+        rotationX = self.plugin.data["truckPlacement"]["rotationX"]
+        truck_angle = rotationX * 360 - 360
+        diff = truck_angle - angle
+
+        closest_face = None
+        if diff < 45 and diff > -45:
+            closest_face = relative_center_back
+        elif diff >= 45 and diff < 135:
+            closest_face = relative_center_right
+        elif diff <= -45 and diff > -135:
+            closest_face = relative_center_left
+        else:
+            closest_face = relative_center_front
+
         # Rectangle and text under the vehicle
-        self.data += [
+        return_data += [
             Rectangle(
-                Point(-50, 20, anchor=relative_center_back),
-                Point(50, 40, anchor=relative_center_back),
+                Point(-50, 20, anchor=closest_face),
+                Point(50, 40, anchor=closest_face),
                 rounding=6,
                 custom_distance=distance,
                 color=Color(*color, 40 * alpha),
@@ -143,7 +145,7 @@ class Renderer(HUDRenderer):
                 ),
             ),
             Text(
-                Point(-45, 22, anchor=relative_center_back),
+                Point(-45, 22, anchor=closest_face),
                 text=f"{speed:.0f} {speed_unit}",
                 size=16,
                 custom_distance=distance,
@@ -156,7 +158,7 @@ class Renderer(HUDRenderer):
                 ),
             ),
             Text(
-                Point(15, 22, anchor=relative_center_back),
+                Point(15, 22, anchor=closest_face),
                 text=f"{distance:.0f} {distance_unit}",
                 size=16,
                 custom_distance=distance,
@@ -169,3 +171,44 @@ class Renderer(HUDRenderer):
                 ),
             ),
         ]
+
+        return return_data
+
+    def draw(self):
+        if not self.plugin.data:
+            self.data = []
+            return
+
+        targets = self.plugin.tags.vehicle_highlights
+        target_ids = []
+        if targets:
+            for value in targets.values():
+                if value:
+                    target_ids.extend(value)
+
+        if not target_ids:
+            self.data = []
+            return
+
+        vehicles = self.plugin.modules.Traffic.run()
+        if vehicles is None:
+            vehicles = []
+
+        highlighted_vehicles = []
+        if len(targets) > 0:
+            for vehicle in vehicles:
+                if vehicle.id in target_ids:
+                    highlighted_vehicles.append(vehicle)
+
+        if not highlighted_vehicles:
+            self.data = []
+            return
+
+        data = []
+        for vehicle in highlighted_vehicles:
+            if not isinstance(vehicle, Vehicle):
+                continue
+
+            data.extend(self.render_vehicle(vehicle))
+
+        self.data = data

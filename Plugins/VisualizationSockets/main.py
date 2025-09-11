@@ -694,14 +694,18 @@ class Plugin(ETS2LAPlugin):
 
     def highlights(self, data):
         vehicle_highlights = self.tags.vehicle_highlights
-        vehicle_highlights = self.tags.merge(vehicle_highlights)
+        highlights = []
+        if vehicle_highlights:
+            for value in vehicle_highlights.values():
+                if value:
+                    highlights.extend(value)
 
         aeb = self.tags.AEB
         aeb = self.tags.merge(aeb)
 
         send = {
             "aeb": aeb,
-            "vehicles": vehicle_highlights,  # list of UIDs
+            "vehicles": highlights,  # list of UIDs
         }
 
         return send
