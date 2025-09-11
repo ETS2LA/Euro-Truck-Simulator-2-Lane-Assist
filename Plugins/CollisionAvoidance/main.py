@@ -38,7 +38,7 @@ class Plugin(ETS2LAPlugin):
     ) -> tuple[list[Vehicle], list[tuple[float, float, float]]]:
         vehicles: list[Vehicle] = self.modules.Traffic.run()
         if not vehicles:
-            return []
+            return [], []
 
         rotationX = api["truckPlacement"]["rotationX"]
         angle = rotationX * 360
