@@ -18,6 +18,7 @@ class Plugin(ETS2LAPlugin):
         version="1.0",
         description=_("Provide collision avoidance when inside intersections."),
         modules=["Traffic", "TruckSimAPI"],
+        tags=["Base", "Speed Control"],
         listen=["*.py"],
         fps_cap=2,
     )
