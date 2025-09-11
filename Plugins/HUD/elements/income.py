@@ -46,6 +46,6 @@ class Widget(HUDWidget):
                 Point(width - 50 + offset_x, height - 20, anchor=self.plugin.anchor),
                 text=_("Job Income"),
                 color=Color(255, 255, 255, 200),
-                size=14,
+                size=13,
             ),
         ]
