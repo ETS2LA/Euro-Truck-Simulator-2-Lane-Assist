@@ -168,6 +168,10 @@ def window_callback(window: webview.Window):
 
 
 def start_window():
+    if os.name != "nt":
+        webbrowser.open(variables.FRONTEND_URL)
+        return
+    
     window_x = settings.window_position[0]
     window_y = settings.window_position[1]
 
@@ -198,11 +202,11 @@ def start_window():
     try:
         webview.start(
             window_callback,
-            window,  # type: ignore
+            window,
             private_mode=False,  # Save cookies, local storage and cache
-            debug=DEBUG_MODE,  # Show developer tools
+            debug=True,  # Show developer tools
             storage_path=f"{variables.PATH}cache",
-            gui="gtk" if os.name != "nt" else "edgechromium",  # Use GTK on Linux for better compatibility
+            gui="qt" if os.name != "nt" else "edgechromium",  # Use GTK on Linux for better compatibility
         )
     except Exception as e:
         logging.error(f"Failed to start the webview window: {e}")

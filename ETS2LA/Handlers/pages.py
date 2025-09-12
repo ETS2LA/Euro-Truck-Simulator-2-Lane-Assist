@@ -84,7 +84,11 @@ class PageManager:
         if not filename.endswith(".py") or filename == "__init__.py":
             return None, False
 
-        if filename.startswith("_") and not variables.DEVELOPMENT_MODE:
+        if (
+            filename.startswith("_")
+            and not variables.DEVELOPMENT_MODE
+            and os.name == "nt"
+        ):
             return None, False
 
         file_path = os.path.join(PAGES_PATH, filename)
