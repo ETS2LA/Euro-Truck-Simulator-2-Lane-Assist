@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-08-03 07:43+0000\n"
+"PO-Revision-Date: 2025-09-12 09:07+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
-"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/hu/>\n"
+"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"hu/>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -367,7 +368,7 @@ msgstr ""
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Elrejtve"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -651,7 +652,7 @@ msgstr "Katalógus frissítése"
 
 #: .\Pages\catalogue.py:682
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Telepített pluginok"
 
 #: .\Pages\catalogue.py:685
 msgid "No plugins are installed."
@@ -749,15 +750,15 @@ msgstr "Semmi"
 #: .\Pages\global_settings.py:37 .\Pages\global_settings.py:189
 #: .\Pages\global_settings.py:200 .\Pages\global_settings.py:390
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Minimális (ajánlott)"
 
 #: .\Pages\global_settings.py:38 .\Pages\global_settings.py:391
 msgid "Medium"
-msgstr ""
+msgstr "Közepes"
 
 #: .\Pages\global_settings.py:39 .\Pages\global_settings.py:392
 msgid "Full"
-msgstr ""
+msgstr "Teljes"
 
 #: .\Pages\global_settings.py:211
 msgid "Global Settings"
@@ -849,7 +850,7 @@ msgstr "Változók"
 
 #: .\Pages\global_settings.py:415
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Támogasd az ETS2LA fejlesztését Ko-Fi-n"
 
 #: .\Pages\global_settings.py:435
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
