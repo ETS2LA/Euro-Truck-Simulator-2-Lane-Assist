@@ -98,7 +98,7 @@ class ETS2LAPage:
                 return self._json
 
         RenderUI()  # Clear residuals in the UI system
-        self.render()  # type: ignore # Might or might not exist.
+        self.render()
         self._json = RenderUI()
         self.last_update_ = time.perf_counter()
         self.need_update = False

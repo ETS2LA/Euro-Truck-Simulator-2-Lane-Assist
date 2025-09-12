@@ -243,7 +243,7 @@ def GetUniqueUsers(interval: Literal["1h", "6h", "12h", "24h", "1w", "1m"] = "24
 
     url = URL + "/tracking/users"
     try:
-        r = requests.get(url, timeout=1)
+        r = requests.get(url, timeout=10)
         last_unique_data = r.json()["data"]["unique"][interval]
         last_unique_check = time.perf_counter()
         return last_unique_data
@@ -262,7 +262,7 @@ def GetUserCount():
 
     url = URL + "/tracking/users"
     try:
-        r = requests.get(url, timeout=1)
+        r = requests.get(url, timeout=10)
         last_count_data = r.json()["data"]["online"]
         last_count_check = time.perf_counter()
         return last_count_data
@@ -282,7 +282,7 @@ def GetUserTime():
     user_id, _, _ = GetCredentials()
     url = URL + f"/tracking/time/{user_id}"
     try:
-        r = requests.get(url, timeout=1)
+        r = requests.get(url, timeout=10)
         last_time_data = r.json()["data"]["time_used"]
         last_time_check = time.perf_counter()
         return last_time_data

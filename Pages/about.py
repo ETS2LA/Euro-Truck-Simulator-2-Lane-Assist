@@ -27,6 +27,7 @@ from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
 from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Utils.version import Update
 from langcodes import Language
+from threading import Thread
 import hashlib
 import time
 import os
@@ -201,6 +202,11 @@ class Page(ETS2LAPage):
     url = "/about"
     game_needs_update = {}
     refresh_rate = 60
+    show_kofi = True
+
+    user_count = "..."
+    unique_users = "..."
+    user_time = "..."
 
     def fix_wipers(self):
         print(_("Fixing wipers (5s timer)"))
@@ -253,11 +259,24 @@ class Page(ETS2LAPage):
                 ngettext("{0} minute", "{0} minutes", minutes).format(minutes),
             )
 
-    show_kofi = True
-
     def handle_hide_kofi(self):
         self.show_kofi = False
         self.need_update = True
+
+    def init(self):
+        thread = Thread(target=self.data_update_thread, daemon=True)
+        thread.start()
+
+    def data_update_thread(self):
+        while True:
+            if self.is_open():
+                self.user_count = _("{0} users").format(GetUserCount())
+                self.need_update = True
+                self.unique_users = _("{0} unique users").format(GetUniqueUsers())
+                self.need_update = True
+                self.user_time = self.seconds_to_time(GetUserTime())
+                self.need_update = True
+                time.sleep(60)
 
     def render(self):
         ads = settings.ad_preference
@@ -386,18 +405,16 @@ class Page(ETS2LAPage):
                 with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                     with Container(style=styles.FlexHorizontal()):
                         Text(f"{_('Users online:')} ")
-                        Text(
-                            _("{0} users").format(GetUserCount()), styles.Description()
-                        )
+                        Text(self.user_count, styles.Description())
                     with Container(style=styles.FlexHorizontal()):
                         Text(f"{_('Past 24 hours:')} ")
                         Text(
-                            _("{0} unique users").format(GetUniqueUsers()),
+                            self.unique_users,
                             styles.Description(),
                         )
                     with Container(style=styles.FlexHorizontal()):
                         Text(f"{_('Your usage time:')} ")
-                        Text(self.seconds_to_time(GetUserTime()), styles.Description())
+                        Text(self.user_time, styles.Description())
                     if token is None:
                         with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
