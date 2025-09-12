@@ -17,6 +17,7 @@ from ETS2LA.UI import (
 from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Handlers import plugins
 from ETS2LA.Utils.translator import _
+from typing import Literal
 import webbrowser
 import threading
 import requests
@@ -40,6 +41,11 @@ class CataloguePlugin:
     version: str
     author: str
 
+    type: Literal["plugin", "soundpack"] = "plugin"
+
+    installed: bool = False
+    installed_version: str = ""
+
     def __init__(
         self,
         name: str,
@@ -49,6 +55,7 @@ class CataloguePlugin:
         version: str,
         author: str,
         repository: str = "",
+        type: Literal["plugin", "soundpack"] = "plugin",
     ):
         self.name = name
         self.overview = overview
@@ -57,6 +64,7 @@ class CataloguePlugin:
         self.version = version
         self.author = author
         self.repository = repository
+        self.type = type
 
 
 class Page(ETS2LAPage):
@@ -137,6 +145,7 @@ class Page(ETS2LAPage):
         self.catalogue = self.get_catalogue_data(self.catalogues[0])
         self.crawl_catalogue()
         self.loading = False
+        self.reset_timer()
 
     def refresh_data(self):
         self.loading = True
@@ -184,6 +193,54 @@ class Page(ETS2LAPage):
             return
 
         try:
+            # updating logic
+            if target.installed_version != target.version:
+                self.installing_state = _("Closing existing plugin processes")
+                self.reset_timer()
+                if plugins.match_plugin_by_folder(f"CataloguePlugins/{target.name}"):
+                    if not plugins.stop_plugin(
+                        folder=f"CataloguePlugins/{target.name}", stop_process=True
+                    ):
+                        raise Exception(_("Failed to stop existing plugin processes."))
+
+                self.installing_state = _("Updating existing installation")
+                self.reset_timer()
+                repo = git.cmd.Git(f"CataloguePlugins/{target.name}")
+                repo.stash()
+                success = repo.pull()
+                time.sleep(1)  # Wait a bit for user experience
+                if success:
+                    self.installing_state = _("Restarting plugin process")
+                    self.reset_timer()
+                    if not plugins.create_process(
+                        folder=f"CataloguePlugins\\{target.name}"
+                    ):
+                        raise Exception(
+                            _(
+                                "Failed to start plugin background process, but the plugin files were updated."
+                            )
+                        )
+
+                    self.installing_state = _("Success")
+                    self.reset_timer()
+                    self.installing = False
+                    self.unselect_plugin()
+                    SendPopup(
+                        _("Plugin '{name}' updated successfully.").format(
+                            name=target.name
+                        )
+                    )
+                    return
+                else:
+                    self.installing_state = _("Failed")
+                    self.reset_timer()
+                    self.installing_error = _(
+                        "Failed to update plugin '{name}'"
+                    ).format(name=target.name)
+                    SendPopup(self.installing_error)
+                    return
+
+            # install logic
             self.installing_state = _("Cloning repository")
             self.reset_timer()
             git.Repo.clone_from(target.repository, f"CataloguePlugins/{target.name}")
@@ -395,6 +452,36 @@ class Page(ETS2LAPage):
                     Text(plugin.overview, styles.Description())
 
                 with Container(styles.FlexHorizontal() + styles.Gap("5px")):
+                    if plugin.installed:
+                        if plugin.version != plugin.installed_version:
+                            with Container(
+                                styles.Classname(
+                                    "bg-input/30 rounded-md border px-2 py-1 h-min"
+                                )
+                            ):
+                                Text(
+                                    _("Update Available {new}").format(
+                                        new=plugin.version,
+                                    ),
+                                    styles.Classname("text-xs"),
+                                )
+                        with Container(
+                            styles.Classname(
+                                "bg-input/30 rounded-md border px-2 py-1 h-min"
+                            )
+                        ):
+                            Text(
+                                _(f"{plugin.installed_version}"),
+                                styles.Classname("text-xs"),
+                            )
+
+                    with Container(
+                        styles.Classname(
+                            "bg-input/30 rounded-md border px-2 py-1 h-min"
+                        )
+                    ):
+                        Text(plugin.type.capitalize(), styles.Classname("text-xs"))
+
                     with Container(
                         styles.Classname(
                             "bg-input/30 rounded-md border px-2 py-1 h-min"
@@ -406,8 +493,7 @@ class Page(ETS2LAPage):
         if not self.selected_plugin:
             return False
 
-        installed = os.path.exists(f"CataloguePlugins/{self.selected_plugin.name}")
-
+        installed = self.selected_plugin.installed
         with Container(
             styles.Classname("w-full h-full p-4 gap-4") + styles.FlexVertical()
         ):
@@ -429,6 +515,13 @@ class Page(ETS2LAPage):
                     with Button(action=self.trigger_uninstall_page):
                         Icon("trash-2")
                         Text(_("Uninstall"), styles.Classname("font-semibold"))
+                    if (
+                        self.selected_plugin.version
+                        != self.selected_plugin.installed_version
+                    ):
+                        with Button(action=self.trigger_install_page, type="primary"):
+                            Icon("download")
+                            Text(_("Update"), styles.Classname("font-semibold"))
                 else:
                     with Button(action=self.trigger_install_page, type="primary"):
                         Icon("download")
@@ -506,7 +599,10 @@ class Page(ETS2LAPage):
             Text(
                 _("Are you sure you want to install this plugin?")
                 + "\n"
-                + self.selected_plugin.name,
+                + self.selected_plugin.name
+                + " ("
+                + self.selected_plugin.version
+                + ")",
                 styles.Classname("text-center"),
             )
             Text(
@@ -674,8 +770,14 @@ class Page(ETS2LAPage):
                 ):
                     continue
                 if os.path.exists(f"CataloguePlugins/{plugin.name}"):
+                    plugin.installed = True
+                    data = yaml.safe_load(
+                        open(f"CataloguePlugins/{plugin.name}/plugin.yaml", "r").read()
+                    )
+                    plugin.installed_version = data.get("version", "")
                     installed_plugins.append(plugin)
                 else:
+                    plugin.installed = False
                     not_installed_plugins.append(plugin)
 
             with Container(
