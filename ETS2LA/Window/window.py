@@ -194,13 +194,19 @@ def start_window():
         easy_drag=False,
         on_top=settings.stay_on_top,
     )
-    webview.start(
-        window_callback,
-        window,  # type: ignore
-        private_mode=False,  # Save cookies, local storage and cache
-        debug=DEBUG_MODE,  # Show developer tools
-        storage_path=f"{variables.PATH}cache",
-    )
+    
+    try:
+        webview.start(
+            window_callback,
+            window,  # type: ignore
+            private_mode=False,  # Save cookies, local storage and cache
+            debug=DEBUG_MODE,  # Show developer tools
+            storage_path=f"{variables.PATH}cache",
+            gui="gtk" if os.name != "nt" else "edgechromium",  # Use GTK on Linux for better compatibility
+        )
+    except Exception as e:
+        logging.error(f"Failed to start the webview window: {e}")
+        logging.error("If you're on linux, try to install WebKit2GTK.")
 
 
 def check_for_size_change():

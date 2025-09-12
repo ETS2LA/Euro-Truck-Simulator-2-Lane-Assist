@@ -362,9 +362,12 @@ class PluginProcess:
                     ):
                         PluginManagement(self)(message)
 
-            if not self.plugin:
-                time.sleep(1)
-                continue
+            try:
+                if not self.plugin:
+                    time.sleep(1)
+                    continue
+            except KeyboardInterrupt:
+                break
 
             start = time.time()
             try:

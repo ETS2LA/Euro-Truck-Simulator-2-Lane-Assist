@@ -1,7 +1,10 @@
 from Plugins.TTS.providers.provider import TTSProvider, TTSVoice
-import pyttsx3
-
-engine = pyttsx3.init()
+try:
+    import pyttsx3
+    engine = pyttsx3.init()
+except Exception as e:
+    raise ImportError("pyttsx3 failed to load, please make sure you have eSpeak installed on Linux or SAPI5 on Windows.") from e
+    
 engine_voices = engine.getProperty("voices")
 
 voices = []

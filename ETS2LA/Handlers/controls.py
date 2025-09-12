@@ -133,31 +133,33 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
     load_joysticks(last_count)
 
     while True:
-        pygame.event.pump()
-        if pygame.joystick.get_count() != last_count:
-            load_joysticks(pygame.joystick.get_count())
-            last_count = pygame.joystick.get_count()
+        try:
+            pygame.event.pump()
+            if pygame.joystick.get_count() != last_count:
+                load_joysticks(pygame.joystick.get_count())
+                last_count = pygame.joystick.get_count()
 
-        for joystick in joystick_objects:
-            name = joystick.get_name()
-            if name.startswith("("):
-                name = name[1:]
-            if name.endswith(")"):
-                name = name[:-1]
+            for joystick in joystick_objects:
+                name = joystick.get_name()
+                if name.startswith("("):
+                    name = name[1:]
+                if name.endswith(")"):
+                    name = name[:-1]
 
-            state[joystick.get_guid()]["name"] = name
+                state[joystick.get_guid()]["name"] = name
 
-            for j in range(joystick.get_numbuttons()):
-                value = joystick.get_button(j)
-                state[joystick.get_guid()][f"button_{j}"] = value
+                for j in range(joystick.get_numbuttons()):
+                    value = joystick.get_button(j)
+                    state[joystick.get_guid()][f"button_{j}"] = value
 
-            for j in range(joystick.get_numaxes()):
-                value = joystick.get_axis(j)
-                state[joystick.get_guid()][f"axis_{j}"] = value
+                for j in range(joystick.get_numaxes()):
+                    value = joystick.get_axis(j)
+                    state[joystick.get_guid()][f"axis_{j}"] = value
 
-        joystick_queue.put(state)
-        pygame.time.wait(50)  # 20 fps
-
+            joystick_queue.put(state)
+            pygame.time.wait(50)  # 20 fps
+        except KeyboardInterrupt:
+            break
 
 def queue_listener_thread(joystick_queue: multiprocessing.Queue) -> None:
     """This thread will listen to the joystick state updates and

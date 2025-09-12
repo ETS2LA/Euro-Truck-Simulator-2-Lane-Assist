@@ -60,37 +60,42 @@ def run():
 
     frame_counter = 0
     while True:
-        time.sleep(0.01)  # Relieve CPU time (100fps)
+        try:
+            time.sleep(0.01)  # Relieve CPU time (100fps)
 
-        # Execute all main thread commands from the webserver
-        for func in webserver.mainThreadQueue:
-            func[0](*func[1], **func[2])
-            webserver.mainThreadQueue.remove(func)
-            logging.debug(f"Executed queue item: {func[0].__name__}")
+            # Execute all main thread commands from the webserver
+            for func in webserver.mainThreadQueue:
+                func[0](*func[1], **func[2])
+                webserver.mainThreadQueue.remove(func)
+                logging.debug(f"Executed queue item: {func[0].__name__}")
 
-        if variables.CLOSE:
+            if variables.CLOSE:
+                RestoreConsole()
+                plugins.save_running_plugins()
+                raise Exception("exit")
+
+            if variables.RESTART:
+                RestoreConsole()
+                plugins.save_running_plugins()
+                raise Exception("restart")
+
+            if variables.UPDATE:
+                RestoreConsole()
+                plugins.save_running_plugins()
+                raise Exception("Update")
+
+            if variables.MINIMIZE:
+                minimize_window()
+                variables.MINIMIZE = False
+
+            if frame_counter % 100 == 0:  # ~1 second
+                frame_counter = 0
+                if variables.DEVELOPMENT_MODE:
+                    listener.check_for_changes()
+
+            cloud.Ping()
+            frame_counter += 1
+        except KeyboardInterrupt:
             RestoreConsole()
             plugins.save_running_plugins()
-            raise Exception("exit")
-
-        if variables.RESTART:
-            RestoreConsole()
-            plugins.save_running_plugins()
-            raise Exception("restart")
-
-        if variables.UPDATE:
-            RestoreConsole()
-            plugins.save_running_plugins()
-            raise Exception("Update")
-
-        if variables.MINIMIZE:
-            minimize_window()
-            variables.MINIMIZE = False
-
-        if frame_counter % 100 == 0:  # ~1 second
-            frame_counter = 0
-            if variables.DEVELOPMENT_MODE:
-                listener.check_for_changes()
-
-        cloud.Ping()
-        frame_counter += 1
+            raise Exception("exit") from KeyboardInterrupt

@@ -31,10 +31,14 @@ files.remove("provider.py")
 for file in files:
     if file.endswith(".py"):
         module_name = file[:-3]
-        module = importlib.import_module(f"Plugins.TTS.providers.{module_name}")
-        provider_class = getattr(module, "Provider", None)
-        if provider_class:
-            providers.append(provider_class())
+        try:
+            module = importlib.import_module(f"Plugins.TTS.providers.{module_name}")
+            provider_class = getattr(module, "Provider", None)
+            if provider_class:
+                providers.append(provider_class())
+        except:
+            logging.error("Failed to load provider:", file)
+            pass
 
 # status_key = ControlEvent(
 #    alias="tts.status",

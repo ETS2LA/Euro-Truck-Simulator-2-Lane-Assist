@@ -2,8 +2,7 @@
 It supports downloading files from one or more CDNs, returning the downloaded file path.
 """
 
-import ctypes
-import ctypes.wintypes
+import os
 import tempfile
 import time
 from pathlib import Path
@@ -12,46 +11,57 @@ import logging
 import requests
 import tqdm
 
+if os.name == "nt":
+    import ctypes
+    import ctypes.wintypes
 
-class WINHTTP_PROXY_INFO(ctypes.Structure):
-    _fields_ = [
-        ("dwAccessType", ctypes.wintypes.DWORD),
-        ("lpszProxy", ctypes.wintypes.LPWSTR),
-        ("lpszProxyBypass", ctypes.wintypes.LPWSTR),
-    ]
-
-
-class WINHTTP_CURRENT_USER_IE_PROXY_CONFIG(ctypes.Structure):
-    _fields_ = [
-        ("fAutoDetect", ctypes.wintypes.BOOL),
-        ("lpszAutoConfigUrl", ctypes.wintypes.LPWSTR),
-        ("lpszProxy", ctypes.wintypes.LPWSTR),
-        ("lpszProxyBypass", ctypes.wintypes.LPWSTR),
-    ]
+    class WINHTTP_PROXY_INFO(ctypes.Structure):
+        _fields_ = [
+            ("dwAccessType", ctypes.wintypes.DWORD),
+            ("lpszProxy", ctypes.wintypes.LPWSTR),
+            ("lpszProxyBypass", ctypes.wintypes.LPWSTR),
+        ]
 
 
-def GetSystemProxy() -> str | None:
-    # winhttp.h
-    # WinHttpGetDefaultProxyConfiguration
-    proxy_info = WINHTTP_PROXY_INFO()
-    assert ctypes.windll.winhttp.WinHttpGetDefaultProxyConfiguration(
-        ctypes.byref(proxy_info)
-    )
-    res1 = proxy_info.dwAccessType, proxy_info.lpszProxy, proxy_info.lpszProxyBypass
+    class WINHTTP_CURRENT_USER_IE_PROXY_CONFIG(ctypes.Structure):
+        _fields_ = [
+            ("fAutoDetect", ctypes.wintypes.BOOL),
+            ("lpszAutoConfigUrl", ctypes.wintypes.LPWSTR),
+            ("lpszProxy", ctypes.wintypes.LPWSTR),
+            ("lpszProxyBypass", ctypes.wintypes.LPWSTR),
+        ]
 
-    proxy_config = WINHTTP_CURRENT_USER_IE_PROXY_CONFIG()
-    assert ctypes.windll.winhttp.WinHttpGetIEProxyConfigForCurrentUser(
-        ctypes.byref(proxy_config)
-    )
-    res2 = (
-        proxy_config.fAutoDetect,
-        proxy_config.lpszAutoConfigUrl,
-        proxy_config.lpszProxy,
-        proxy_config.lpszProxyBypass,
-    )
 
-    return res1[1] or res2[2] or None
+    def GetSystemProxy() -> str | None:
+        # winhttp.h
+        # WinHttpGetDefaultProxyConfiguration
+        proxy_info = WINHTTP_PROXY_INFO()
+        assert ctypes.windll.winhttp.WinHttpGetDefaultProxyConfiguration(
+            ctypes.byref(proxy_info)
+        )
+        res1 = proxy_info.dwAccessType, proxy_info.lpszProxy, proxy_info.lpszProxyBypass
 
+        proxy_config = WINHTTP_CURRENT_USER_IE_PROXY_CONFIG()
+        assert ctypes.windll.winhttp.WinHttpGetIEProxyConfigForCurrentUser(
+            ctypes.byref(proxy_config)
+        )
+        res2 = (
+            proxy_config.fAutoDetect,
+            proxy_config.lpszAutoConfigUrl,
+            proxy_config.lpszProxy,
+            proxy_config.lpszProxyBypass,
+        )
+
+        return res1[1] or res2[2] or None
+
+else:
+    def GetSystemProxy() -> str | None:
+        # Check environment variables for proxy settings
+        for var in ["http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY"]:
+            proxy = os.environ.get(var)
+            if proxy:
+                return proxy
+        return None
 
 def ChooseBestProvider(urls: list[str], timeout: int | float = 3):
     """Chooses the best provider for downloading a file from a list of URLs.
@@ -166,8 +176,3 @@ def DownloadFileMultiSource(
     raise requests.exceptions.RequestException(
         "Failed to download file from any source."
     )
-
-
-if __name__ == "__main__":
-    # Network Debug Page
-    logging.debug("Current system proxy: {}", GetSystemProxy())

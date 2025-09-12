@@ -13,12 +13,14 @@ from ETS2LA.UI import (
 from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import plugins
 import multiprocessing
-import pywintypes
 import threading
-import win32pdh
 import psutil
 import time
 import os
+
+if os.name == "nt":
+    import pywintypes
+    import win32pdh
 
 
 # Has to be a class to not lag the main
@@ -35,9 +37,9 @@ class PerformanceMetrics:
             time.sleep(1)  # Keep the process alive
 
     def cpu_thread(self):
-        use_fallback = os.name != "nt"  # Linux automatically uses the fallback
+        use_fallback = False
         while True:
-            if not use_fallback:
+            if os.name == "nt" and not use_fallback:
                 try:
                     path = r"\Processor(_Total)\% Processor Time"
                     hq = win32pdh.OpenQuery()
