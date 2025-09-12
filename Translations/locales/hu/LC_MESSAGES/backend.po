@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-12 09:07+0000\n"
+"PO-Revision-Date: 2025-09-13 13:07+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -1046,7 +1046,10 @@ msgstr "Lehetővé teszi a pluginok fejlett kezelési funkcióinak használatát
 
 #: .\Pages\onboarding.py:318
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
-msgstr "A **Speciális plugin mód** kikapcsolt állapotának fenntartása ajánlott, azonban a speciális felhasználók, akik maguk szeretnék kiválasztani a pluginokat, érdemes lehet engedélyezni."
+msgstr ""
+"A **Haladó plugin mód** kikapcsolt állapotának fenntartása ajánlott, azonban "
+"a haladó felhasználók, akik maguk szeretnék kiválasztani a pluginokat, "
+"érdemes lehet engedélyezni."
 
 #: .\Pages\onboarding.py:331
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
@@ -1379,19 +1382,19 @@ msgstr "Utolsó pluginok engedélyezése"
 
 #: .\Pages\sdk_installation.py:137
 msgid "Could not find version for {game}, skipping installation"
-msgstr "Nem található verzió a {game} számára, a telepítés kihagyásra kerül"
+msgstr "Nem található verzió az {game} számára, a telepítés kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:145
 msgid "Installing SDKs for {game}"
-msgstr "SDK-k telepítése a {game} számára"
+msgstr "SDK-k telepítése az {game} számára"
 
 #: .\Pages\sdk_installation.py:154
 msgid "SDKs for {game} installed successfully."
-msgstr "A {game} SDK-k sikeresen telepítve."
+msgstr "Az {game} SDK-k sikeresen telepítve."
 
 #: .\Pages\sdk_installation.py:161
 msgid "SDKs for {game} already installed, skipping installation"
-msgstr "A {game} SDK-k már telepítve vannak, a telepítés kihagyásra kerül"
+msgstr "Az {game} SDK-k már telepítve vannak, a telepítés kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:167 .\Pages\sdk_installation.py:211
 msgid "Please make sure the game is closed and try again. {error}"
@@ -1399,11 +1402,13 @@ msgstr "Győződj meg arról, hogy a játék be van zárva, majd próbáld meg �
 
 #: .\Pages\sdk_installation.py:173
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr "Hiba történt a {game} SDK-k telepítésekor, győződj meg arról, hogy a játék be van zárva."
+msgstr ""
+"Hiba történt az {game} SDK-k telepítésekor, győződj meg arról, hogy a játék "
+"be van zárva."
 
 #: .\Pages\sdk_installation.py:184
 msgid "Could not find version for {game}, skipping uninstallation"
-msgstr "Nem található verzió a {game} számára, az eltávolítás kihagyásra kerül"
+msgstr "Nem található verzió az {game} számára, az eltávolítás kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:192
 msgid "Uninstalling SDKs for {game}"
@@ -1411,15 +1416,17 @@ msgstr "{game} SDK-k eltávolítása"
 
 #: .\Pages\sdk_installation.py:198
 msgid "SDKs for {game} uninstalled successfully."
-msgstr "A {game} SDK-k sikeresen eltávolítva."
+msgstr "Az {game} SDK-k sikeresen eltávolítva."
 
 #: .\Pages\sdk_installation.py:205
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr "A {game} SDK-k nincsenek telepítve, az eltávolítás kihagyásara kerül"
+msgstr "Az {game} SDK-k nincsenek telepítve, az eltávolítás kihagyásara kerül"
 
 #: .\Pages\sdk_installation.py:217
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
-msgstr "Hiba történt a {game} SDK-k eltávolításakor. Győződj meg arról, hogy a játék be van zárva."
+msgstr ""
+"Hiba történt az {game} SDK-k eltávolításakor. Győződj meg arról, hogy a "
+"játék be van zárva."
 
 #: .\Pages\sdk_installation.py:225
 msgid "Select the game directory"
@@ -1431,15 +1438,16 @@ msgstr "Nem található a kiválasztott játék verziója, válassz egy érvény
 
 #: .\Pages\sdk_installation.py:235
 msgid "Could not find version for {path}, skipping installation"
-msgstr "Nem található verzió a {path} útvonalon, a telepítés kihagyásra kerül"
+msgstr ""
+"Nem található verzió a(z) {path} útvonalon, a telepítés kihagyásra kerül"
 
 #: .\Pages\sdk_installation.py:243
 msgid "Found game version {version}."
-msgstr "Megtalált játékverzió {verzió}."
+msgstr "Megtalált játékverzió {version}."
 
 #: .\Pages\sdk_installation.py:249
 msgid "Path {path} does not exist."
-msgstr "A {path} elérési út nem létezik."
+msgstr "A(z) {path} elérési út nem létezik."
 
 #: .\Pages\sdk_installation.py:264
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
@@ -1455,7 +1463,7 @@ msgstr "Válaszd ki a könyvtárat manuálisan"
 
 #: .\Pages\sdk_installation.py:321
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " - Újratelepítés szükséges"
 
 #: .\Pages\sdk_installation.py:327 .\Pages\sdk_installation.py:386
 msgid "- Installed"
@@ -1601,15 +1609,15 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: .\Plugins\AR\main.py:714
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 #: .\Plugins\AR\main.py:720
 msgid "Game Statistics"
-msgstr ""
+msgstr "Játék Statisztikák"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
