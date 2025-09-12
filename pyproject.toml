@@ -32,7 +32,7 @@ dependencies = [
     "pyproj>=3.7.2",
     "pyttsx3>=2.99",
     "pywebview==5.1",
-    "pywin32==306",
+    "pywin32==306 ; sys_platform == 'win32'",
     "pyyaml>=6.0.2",
     "requests>=2.32.5",
     "rich>=14.1.0",
@@ -90,4 +90,12 @@ ignorelist = [
   "object", # 'object' is also used in a lot of places,
   "min",    # UI elements use these names often
   "max",    # ^
+]
+
+[tool.uv]
+# Make pywin32 only install on Windows.
+# Some dependencies will have pywin32 incorrectly marked as
+# required even on non-Windows platforms.
+override-dependencies = [
+    "pywin32; sys_platform == 'win32'",
 ]
