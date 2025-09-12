@@ -269,6 +269,7 @@ class Page(ETS2LAPage):
 
     def data_update_thread(self):
         while True:
+            time.sleep(1)
             if self.is_open():
                 self.user_count = _("{0} users").format(GetUserCount())
                 self.need_update = True
