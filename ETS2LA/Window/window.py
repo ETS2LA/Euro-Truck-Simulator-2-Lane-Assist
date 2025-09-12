@@ -204,7 +204,7 @@ def start_window():
             window_callback,
             window,
             private_mode=False,  # Save cookies, local storage and cache
-            debug=True,  # Show developer tools
+            debug=DEBUG_MODE,  # Show developer tools
             storage_path=f"{variables.PATH}cache",
             gui="qt" if os.name != "nt" else "edgechromium",  # Use GTK on Linux for better compatibility
         )
