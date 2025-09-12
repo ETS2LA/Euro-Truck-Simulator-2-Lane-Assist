@@ -257,6 +257,7 @@ class Page(ETS2LAPage):
 
     def handle_hide_kofi(self):
         self.show_kofi = False
+        self.need_update = True
 
     def render(self):
         ads = settings.ad_preference
