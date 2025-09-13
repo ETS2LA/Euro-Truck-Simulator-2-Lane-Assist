@@ -136,13 +136,17 @@ def GetUsername(force_refresh=False):
                 return r.json()["data"]["username"]
             except Exception:
                 pass
+        else:
+            logging.warning("Your token has expired, please log in again.")
+            settings.token = None
+            settings.user_id = None
 
     return "anonymous"
 
 
 def GetCredentials():
     global user_id, token
-    if user_id is None:
+    if not user_id:
         user_id = settings.user_id
         if user_id is None:
             user_id = str(uuid.uuid4())
