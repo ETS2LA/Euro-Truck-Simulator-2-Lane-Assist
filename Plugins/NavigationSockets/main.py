@@ -253,7 +253,7 @@ class Plugin(ETS2LAPlugin):
                                         (nodes[-1].x - nodes[0].x) ** 2
                                         + (nodes[-1].y - nodes[0].y) ** 2
                                     ),
-                                    "time": 0,
+                                    "time": data["truckFloat"]["routeTime"],
                                     "strategy": "shortest",
                                 }
                             ],
