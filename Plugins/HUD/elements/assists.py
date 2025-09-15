@@ -50,7 +50,11 @@ class Widget(HUDWidget):
         target_speed = self.plugin.tags.acc
         game = self.plugin.data["scsValues"]["game"]
         if target_speed:
-            target_speed = self.plugin.tags.merge(target_speed)
+            target_speed = (
+                target_speed.get("plugins.adaptivecruisecontrol", 0)
+                if isinstance(target_speed, dict)
+                else 0
+            )
             if game == "ATS":
                 target_speed = target_speed * 3.6 * 0.621371
             else:
