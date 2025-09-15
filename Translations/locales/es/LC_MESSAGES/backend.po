@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-05 20:07+0000\n"
-"Last-Translator: playzzero97 <playzzero@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-16 11:07+0000\n"
+"Last-Translator: erjulixn <erjulixn@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
 "Language: es\n"
@@ -202,7 +202,7 @@ msgstr "El servidor web se inició en http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:517
 msgid "Frontend started at http://{ip}:{port}"
-msgstr "El frontend se inició en http://{ip}:{puerto}"
+msgstr "El frontend se inició en http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:99
 msgid "Logging initialized."
@@ -211,6 +211,8 @@ msgstr "Registro inicializado."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Error al eliminar los archivos de registro. Probablemente otro proceso en "
+"ejecución de ETS2LA. Ciérrelo e inténtelo de nuevo."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -238,7 +240,7 @@ msgstr "No se pudo encontrar/iniciar la ventana de ETS2LA. ¿Tu PC es lo suficie
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Error al establecer los atributos de ventana o icono."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -314,7 +316,7 @@ msgstr "Mantenimiento de espejos CN para servicios ETS2LA."
 
 #: .\Pages\about.py:141
 msgid "Game hooks"
-msgstr ""
+msgstr "Enlaces de juego"
 
 #: .\Pages\about.py:142 .\Pages\about.py:145 .\Pages\about.py:148
 #: .\Pages\about.py:149 .\Pages\about.py:150 .\Pages\about.py:151
@@ -323,15 +325,15 @@ msgstr "Corrección de errores"
 
 #: .\Pages\about.py:204
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Arreglando limpiaparabrisas (temporizador de 5s)"
 
 #: .\Pages\about.py:210
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Arreglando limpiaparabrisas en {0} segundos..."
 
 #: .\Pages\about.py:220 .\Pages\about.py:221
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Los limpiaparabrisas deberían estar arreglados ahora."
 
 #: .\Pages\about.py:224
 msgid "Triggering update"
@@ -356,19 +358,23 @@ msgstr "{0} y {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "¡Hola!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Hemos visto que tienes los anuncios desactivados. Eso está totalmente bien, "
+"pero puedes seguir apoyando el desarrollo de ETS2LA donando vía Ko-Fi. *Cada "
+"donación equivale a semanas(!) de ingresos por publicidad*, ¡Estamos "
+"eternamente agradecidos por mínima ayuda que consigamos!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Dona vía Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -446,7 +452,7 @@ msgstr "Ayuda a traducir"
 
 #: .\Pages\about.py:490
 msgid "Support Development"
-msgstr ""
+msgstr "Ayuda al Desarrollo"
 
 #: .\Pages\about.py:499
 msgid "If you like the project and want to support the development, you can do so by donating via Ko-Fi."
@@ -466,7 +472,7 @@ msgstr "Utilidades"
 
 #: .\Pages\about.py:559
 msgid "Fix Wipers"
-msgstr ""
+msgstr "Arregla los limpiaparabrisas"
 
 #: .\Pages\about.py:560
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
@@ -481,9 +487,10 @@ msgid "Force an update"
 msgstr "Forzar actualización"
 
 #: .\Pages\about.py:569
-#, fuzzy
 msgid "Do you think there should've been an update? Click this button and the app will restart and check for them."
-msgstr "¿Crees que debería haber habido una actualización? Haga clic en este botón y la aplicación reiniciará y comprobará por ellos."
+msgstr ""
+"¿Crees que debería haber habido una actualización? Haz clic en este botón y "
+"la aplicación reiniciará y comprobará por ellas."
 
 #: .\Pages\about.py:572 .\Plugins\Map\ui.py:259
 msgid "Update"
@@ -528,55 +535,55 @@ msgstr "No se pudo iniciar el proceso en segundo plano del complemento, pero se 
 
 #: .\Pages\catalogue.py:204 .\Pages\catalogue.py:294
 msgid "Success"
-msgstr ""
+msgstr "Exitoso"
 
 #: .\Pages\catalogue.py:209
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "El plugin \"{name}\" se ha instalado correctamente."
 
 #: .\Pages\catalogue.py:212 .\Pages\catalogue.py:302
 msgid "Failed"
-msgstr ""
+msgstr "Fallo"
 
 #: .\Pages\catalogue.py:216
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Fallo al instalar el plugin \"{name}\": {error}"
 
 #: .\Pages\catalogue.py:223
 msgid "Uninstalling"
-msgstr ""
+msgstr "Desinstalando"
 
 #: .\Pages\catalogue.py:238
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Cerrando los procesos de plugins"
 
 #: .\Pages\catalogue.py:244
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "No se pudieron detener los procesos de los plugins."
 
 #: .\Pages\catalogue.py:246
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Cancelando el registro del repositorio Git"
 
 #: .\Pages\catalogue.py:256
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Eliminando archivos de plugins"
 
 #: .\Pages\catalogue.py:281
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Reintentando la eliminación ({cur}/{max})"
 
 #: .\Pages\catalogue.py:289
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Fallo al quitar los archivos del plugin después de los {max} intentos"
 
 #: .\Pages\catalogue.py:299
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "El plugin {name} se ha desinstalado correctamente."
 
 #: .\Pages\catalogue.py:305
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Error al desinstalar el plugin \"{name}\": {error}"
 
 #: .\Pages\catalogue.py:339
 msgid "Couldn't find source code for this plugin."
@@ -1416,7 +1423,6 @@ msgid "Switch to Advanced Mode"
 msgstr "Cambiar a modo avanzado"
 
 #: .\Pages\plugins.py:461
-#, fuzzy
 msgid "Search tags..."
 msgstr "Buscar etiquetas..."
 
@@ -1437,9 +1443,8 @@ msgid "Back to Basic Mode"
 msgstr "Volver al modo básico"
 
 #: .\Pages\plugins.py:544
-#, fuzzy
 msgid "Running Plugins"
-msgstr "Plugins corriendo"
+msgstr "Plugins ejecutándose"
 
 #: .\Pages\plugins.py:555
 msgid "Want to enable the plugins you had running last time?"
@@ -1450,13 +1455,12 @@ msgid "Enable Last Plugins"
 msgstr "Activar los últimos plugins"
 
 #: .\Pages\sdk_installation.py:137
-#, fuzzy
 msgid "Could not find version for {game}, skipping installation"
-msgstr "No podía encontrar la versión para {game}, esquiando la instalación"
+msgstr "No pudo encontrar la versión para {game}, saltando la instalación"
 
 #: .\Pages\sdk_installation.py:145
 msgid "Installing SDKs for {game}"
-msgstr "Instalar SDKs para {juego}"
+msgstr "Instalar SDKs para {game}"
 
 #: .\Pages\sdk_installation.py:154
 msgid "SDKs for {game} installed successfully."
@@ -1690,15 +1694,15 @@ msgstr "Estadísticas del juego"
 
 #: .\Plugins\AR\main.py:721
 msgid "Framerate: {:.1f}"
-msgstr "Framerate: {:.1f}"
+msgstr "Frecuencia de frames: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr "Posición de la cámara: ({:.1f}, {:.1f})"
+msgstr "Posición de la cámara: ({:.1f}, {:.1f}), {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr "Cámara Rotación: ({:.1f}, {:.1f}, {:.1f})"
+msgstr "Rotación de la cámara: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
