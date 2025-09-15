@@ -23,26 +23,34 @@ class UI(ETS2LAPage):
     location = ETS2LAPageLocation.SETTINGS
     title = "HUD"
 
-    def handle_x_offset(self, value: int):
+    def handle_x_offset(self, value: float):
         """Handle the offset X setting change."""
+        if isinstance(value, str):
+            value = float(value)
         settings.offset_x = value
         if self.plugin:
             self.plugin.update_anchor()
 
-    def handle_y_offset(self, value: int):
+    def handle_y_offset(self, value: float):
         """Handle the offset Y setting change."""
+        if isinstance(value, str):
+            value = float(value)
         settings.offset_y = value
         if self.plugin:
             self.plugin.update_anchor()
 
-    def handle_z_offset(self, value: int):
+    def handle_z_offset(self, value: float):
         """Handle the offset Z setting change."""
+        if isinstance(value, str):
+            value = float(value)
         settings.offset_z = value
         if self.plugin:
             self.plugin.update_anchor()
 
     def handle_widget_scaling(self, value: float):
         """Handle the widget scaling setting change."""
+        if isinstance(value, str):
+            value = float(value)
         settings.widget_scaling = value
         if self.plugin:
             self.plugin.widget_scaling = value
