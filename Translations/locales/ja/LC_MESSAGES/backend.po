@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-08 15:24+0000\n"
+"PO-Revision-Date: 2025-09-17 12:17+0000\n"
 "Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
@@ -2495,7 +2495,7 @@ msgstr ""
 
 #: .\main.py:213
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr ""
+msgstr "リモートUIサーバーと接続されていません。ローカルで実行しています。"
 
 #: .\main.py:226
 msgid "Running UI in China mode"
@@ -2511,7 +2511,7 @@ msgstr ""
 
 #: .\main.py:245
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "UIの起動後、コンソールは閉じられます。"
 
 #: .\main.py:272
 msgid "Running in the background without a window."
