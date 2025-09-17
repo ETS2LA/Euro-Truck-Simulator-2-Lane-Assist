@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-16 11:07+0000\n"
-"Last-Translator: erjulixn <erjulixn@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-17 12:17+0000\n"
+"Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
 "Language: es\n"
@@ -1868,14 +1868,18 @@ msgstr ""
 #: .\Plugins\AdaptiveCruiseControl\settings.py:263
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
 msgstr ""
+"¿Ya llegamos? ¿No? ¡Entonces necesitamos acelerar más! (Ganancia "
+"proporcional para el controlador PID)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:273
 msgid "PID Ki"
-msgstr ""
+msgstr "Ki PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:274
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
 msgstr ""
+"¿Hace tiempo que no vamos? ¡Entonces necesitamos acelerar más! (Ganancia "
+"integral del controlador PID)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:284
 msgid "PID Kd"
@@ -1884,51 +1888,56 @@ msgstr ""
 #: .\Plugins\AdaptiveCruiseControl\settings.py:285
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
 msgstr ""
+"¿A qué velocidad nos acercamos al objetivo? Si nos acercamos demasiado "
+"rápido, ¡debemos desacelerar más! (Ganancia derivada del controlador PID.)"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:296
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
 msgstr ""
+"Este video explica visualmente el funcionamiento de un controlador PID. Si "
+"no está familiarizado con él, véalo completo."
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:304
 #: .\Plugins\HUD\main.py:308
 msgid "ACC Information"
-msgstr ""
+msgstr "Información ACC"
 
 #: .\Plugins\HUD\elements\acc.py:10
 msgid "Draw ACC information like vehicle distance and speed."
 msgstr ""
+"Dibuja información del ACC como la distancia y la velocidad del vehículo."
 
 #: .\Plugins\HUD\elements\acceleration.py:9
 msgid "Acceleration"
-msgstr ""
+msgstr "Aceleración"
 
 #: .\Plugins\HUD\elements\acceleration.py:10
 msgid "Draw the current acceleration of the truck."
-msgstr ""
+msgstr "Dibuja la aceleración actual del camión."
 
 #: .\Plugins\HUD\elements\assists.py:16 .\Plugins\HUD\main.py:48
 msgid "Assist Information"
-msgstr ""
+msgstr "Información de asistencia"
 
 #: .\Plugins\HUD\elements\assists.py:17
 msgid "Draw ACC and Steering status information."
-msgstr ""
+msgstr "Dibujar información sobre el estado del ACC y la dirección."
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
-msgstr ""
+msgstr "Ciudad más cercana"
 
 #: .\Plugins\HUD\elements\closest.py:11
 msgid "Displays the closest city and its distance ( relative to the text )."
-msgstr ""
+msgstr "Muestra la ciudad más cercana y su distancia (relativa al texto)."
 
 #: .\Plugins\HUD\elements\fuel.py:7
 msgid "Fuel Status"
-msgstr ""
+msgstr "Nivel de combustible"
 
 #: .\Plugins\HUD\elements\fuel.py:8
 msgid "Draw the current fuel status of the truck."
-msgstr ""
+msgstr "Dibuje el estado actual del combustible del camión."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
