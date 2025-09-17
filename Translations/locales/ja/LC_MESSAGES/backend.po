@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-17 12:17+0000\n"
-"Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
+"PO-Revision-Date: 2025-09-18 13:07+0000\n"
+"Last-Translator: hmm-kanmimimu <kanmimimu@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
 "Language: ja\n"
@@ -796,31 +796,31 @@ msgstr ""
 
 #: .\Pages\global_settings.py:286 .\Pages\onboarding.py:191
 msgid "Language"
-msgstr ""
+msgstr "言語"
 
 #: .\Pages\global_settings.py:287
 msgid "Select the language for the application."
-msgstr ""
+msgstr "このアプリで使用する言語を選択してください。"
 
 #: .\Pages\global_settings.py:295 .\Pages\onboarding.py:199
 msgid "Search Languages..."
-msgstr ""
+msgstr "言語を検索中..."
 
 #: .\Pages\global_settings.py:295 .\Pages\onboarding.py:199
 msgid "Help us translate on discord!"
-msgstr ""
+msgstr "Discordで翻訳を手伝ってください!"
 
 #: .\Pages\global_settings.py:314
 msgid "This translation is {percentage:.2f}% complete."
-msgstr ""
+msgstr "この翻訳は{percentage:.2f}%完了しています。"
 
 #: .\Pages\global_settings.py:339
 msgid "Audio"
-msgstr ""
+msgstr "音声"
 
 #: .\Pages\global_settings.py:347
 msgid "Soundpack"
-msgstr ""
+msgstr "サウンドパック"
 
 #: .\Pages\global_settings.py:348
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
@@ -828,7 +828,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:357 .\Plugins\TTS\main.py:164
 msgid "Volume"
-msgstr ""
+msgstr "音量"
 
 #: .\Pages\global_settings.py:358
 msgid "Adjust the volume. This will affect all sounds played by ETS2LA."
