@@ -23,11 +23,13 @@ import psutil
 data = None
 """The data object that is used by classes here. Will be set once the MapData object is created and loaded."""
 auto_tolls = settings.AutoTolls
+point_multiplier = settings.RoadQualityMultiplier
 
 
 def settings_changed():
-    global auto_tolls
+    global auto_tolls, point_multiplier
     auto_tolls = settings.AutoTolls
+    point_multiplier = settings.RoadQualityMultiplier
 
 
 settings.listen(settings_changed)
@@ -1419,7 +1421,7 @@ class Road(BaseItem):
     @property
     def points(self) -> list[Position]:
         if self._points is None:
-            self._points = self.generate_points()
+            self._points = self.generate_points(road_quality=0.5 * point_multiplier)
             data.heavy_calculations_this_frame += 1
 
         return self._points
@@ -2230,7 +2232,7 @@ class PrefabNavCurve:
     @property
     def points(self) -> list[Position]:
         if self._points == []:
-            self._points = self.generate_points()
+            self._points = self.generate_points(road_quality=1 * point_multiplier)
         return self._points
 
     @points.setter
@@ -2259,6 +2261,9 @@ class PrefabNavCurve:
         tan_ex = math.cos((self.end.rotation)) * radius
         tan_sz = math.sin((self.start.rotation)) * radius
         tan_ez = math.sin((self.end.rotation)) * radius
+
+        if length > 100:  # very large lanes should have less points
+            road_quality *= 0.5
 
         needed_points = int(length * road_quality)
         if needed_points < min_quality:
@@ -2418,7 +2423,7 @@ class PrefabNavRoute:
         for curve in self.curves:
             new_points += curve.points
 
-        min_distance = 0.25
+        min_distance = 0.25 / point_multiplier
         last_point = new_points[0]
         accepted_points = [new_points[0]]
         for point in new_points:
@@ -3314,7 +3319,7 @@ class MapData:
                 if not hasattr(item, "_lanes"):
                     item._lanes = []
                 if not item.lanes:  # If lanes list is empty, generate points
-                    item.generate_points()
+                    item.generate_points(road_quality=0.5 * point_multiplier)
                 for _lane_id, lane in enumerate(item.lanes):
                     for point in lane.points:
                         point_tuple = point.tuple()

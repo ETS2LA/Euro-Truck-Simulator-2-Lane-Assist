@@ -7,6 +7,7 @@ class Settings(ETS2LASettings):
     ComputeSteeringData: bool = True
     SectorSize: int = 300
     LoadDistance: int = 600
+    RoadQualityMultiplier: float = 1.0
     UseNavigation: bool = True
     DriveBasedOnTrailer: bool = True
     SendElevationData: bool = False

@@ -314,18 +314,17 @@ class RouteSection:
             )
             point_forward_vector = [point.x - data.truck_x, point.z - data.truck_z]
 
-            # Clip the value to ensure it's within [-1, 1] before passing to np.arccos
+            # Clip value to ensure it's within [-1, 1] before passing to np.arccos
             dot_product = np.dot(forward_vector, point_forward_vector)
             norms_product = np.linalg.norm(forward_vector) * np.linalg.norm(
                 point_forward_vector
             )
 
-            # Avoid division by zero if norms_product is zero
             if norms_product == 0:
-                angle = 0.0  # Or handle as appropriate for your application
+                angle = 0.0
             else:
                 value = dot_product / norms_product
-                value = np.clip(value, -1.0, 1.0)  # Clip the value
+                value = np.clip(value, -1.0, 1.0)
                 angle = np.arccos(value)
 
             angle = math.degrees(angle)

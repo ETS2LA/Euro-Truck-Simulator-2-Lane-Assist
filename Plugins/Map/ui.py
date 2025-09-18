@@ -14,6 +14,7 @@ from ETS2LA.UI import (
     ComboboxWithTitleDescription,
     ComboboxSearch,
     ButtonWithTitleDescription,
+    Slider,
 )
 from ETS2LA import variables
 
@@ -87,6 +88,13 @@ class SettingsMenu(ETS2LAPage):
         if self.plugin:
             self.plugin.trigger_data_update()
 
+    def handle_road_quality_multiplier(self, value):
+        if isinstance(value, str):
+            value = float(value)
+
+        settings.RoadQualityMultiplier = value
+        data.road_quality_multiplier = value
+
     def handle_internal_visualisation(self, *args):
         if args:
             value = args[0]
@@ -121,12 +129,16 @@ class SettingsMenu(ETS2LAPage):
             with Tab(
                 _("General"), container_style=styles.FlexVertical() + styles.Gap("20px")
             ):
-                # CheckboxWithTitleDescription(
-                #     title=_("Navigate on ETS2LA"),
-                #     description=_("Enable the automatic navigation features of ETS2LA."),
-                #     default=settings.UseNavigation,
-                #     changed=self.handle_navigation,
-                # )
+                CheckboxWithTitleDescription(
+                    title=_("Disable FPS Notices"),
+                    description=_(
+                        "When enabled map will not notify of any FPS related issues."
+                    ),
+                    default=settings.DisableFPSNotices,
+                    changed=self.handle_fps_notices,
+                )
+
+                Text("Experimental Features", styles.Classname("font-semibold"))
 
                 # Same as CheckBoxWithTitleDescription, but with custom experimental styling.
                 with Container(
@@ -160,20 +172,48 @@ class SettingsMenu(ETS2LAPage):
                             styles.Classname("text-xs text-muted-foreground"),
                         )
 
+                # Same as SliderWithTitleDescription, but with custom experimental styling.
+                with Container(
+                    style=styles.FlexVertical()
+                    + styles.Classname("border rounded-md p-4 w-full bg-input/10")
+                    + styles.Gap("10px")
+                ):
+                    with Container(
+                        style=styles.FlexHorizontal()
+                        + styles.Classname("justify-between")
+                    ):
+                        with Container(styles.FlexHorizontal() + styles.Gap("6px")):
+                            Text(
+                                _("[Experimental]"),
+                                styles.Classname("font-semibold text-muted-foreground"),
+                            )
+                            Text(
+                                "Point Density Multiplier",
+                                styles.Classname("font-semibold"),
+                            )
+                        Text(
+                            f"{settings.RoadQualityMultiplier}x",
+                            styles.Classname("text-muted-foreground"),
+                        )
+                    Slider(
+                        min=0.5,
+                        default=settings.RoadQualityMultiplier,
+                        max=2,
+                        step=0.1,
+                        suffix="x",
+                        changed=self.handle_road_quality_multiplier,
+                    )
+                    Text(
+                        "Will either improve or degrade steering quality in tight turns. Will increase CPU and RAM usage, might decrease steering stability at high values.",
+                        styles.Description() + styles.Classname("text-xs"),
+                    )
+
                 # CheckboxWithTitleDescription(
                 #     title=_("Send Elevation"),
                 #     description=_("When enabled map will send elevation data to the frontend. This data is used to draw the ground in the visualization. Experimental and very broken!"),
                 #     default=settings.SendElevationData,
                 #     changed=self.handle_elevation,
                 # )
-                CheckboxWithTitleDescription(
-                    title=_("Disable FPS Notices"),
-                    description=_(
-                        "When enabled map will not notify of any FPS related issues."
-                    ),
-                    default=settings.DisableFPSNotices,
-                    changed=self.handle_fps_notices,
-                )
 
             with Tab(
                 _("Steering"),

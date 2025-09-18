@@ -107,6 +107,8 @@ heavy_calculations_this_frame: int = -1
 """How many heavy calculations map has done this frame."""
 allowed_heavy_calculations: int = 500
 """How many heavy calculations map is allowed to do per frame."""
+road_quality_multiplier: float = settings.RoadQualityMultiplier
+"""Multiplier for road and prefab qualities. Higher = more points per meter."""
 lane_change_distance_per_kph: float = 1
 """Over how many meters distance will the truck change lanes per kph of speed. Basically at 50kph, the truck will change lanes over 25m, assuming a value of 0.5."""
 minimum_lane_change_distance: float = 30
@@ -271,6 +273,8 @@ def UpdateSettings():
     global drive_based_on_trailer, send_elevation_data, export_road_offsets
     global disable_fps_notices, override_lane_offsets, use_auto_offset_data
     global right_hand_drive, load_distance
+    global road_quality_multiplier, amount_of_points
+
     internal_map = settings.InternalVisualisation
     calculate_steering = settings.ComputeSteeringData
     sector_size = settings.SectorSize
@@ -283,6 +287,7 @@ def UpdateSettings():
     override_lane_offsets = settings.OverrideLaneOffsets
     use_auto_offset_data = settings.UseAutoOffsetData
     right_hand_drive = True if settings.traffic_side == "Right Handed" else False
+    road_quality_multiplier = settings.RoadQualityMultiplier
 
     global data_needs_update
     data_needs_update = True
