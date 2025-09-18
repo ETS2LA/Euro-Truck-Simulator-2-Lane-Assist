@@ -1421,7 +1421,9 @@ class Road(BaseItem):
     @property
     def points(self) -> list[Position]:
         if self._points is None:
-            self._points = self.generate_points(road_quality=0.5 * point_multiplier)
+            self._points = self.generate_points(
+                road_quality=0.5 * max(1, point_multiplier)
+            )
             data.heavy_calculations_this_frame += 1
 
         return self._points

@@ -210,6 +210,14 @@ def GetSteering():
         #         return 0
         return 0
 
+    first_distance = math_helpers.DistanceBetweenPoints(
+        points[0].tuple(), (data.truck_x, data.truck_y, data.truck_z)
+    )
+    if first_distance > 4.5:  # 1 lane width
+        logging.warning("First point in route is too far away, ignoring this frame.")
+        data.route_points = []
+        return 0
+
     points = points
     speed = max(data.truck_speed * 3.6, 10)  # Convert to kph
     speed = min(speed, 80)
