@@ -209,7 +209,11 @@ class SettingsMenu(ETS2LAPage):
                     if settings.max_speed is None:
                         settings.max_speed = 0
 
-                    max_speed_mph = settings.max_speed * 0.6213712
+                    try:
+                        max_speed_mph = settings.max_speed * 0.6213712
+                    except Exception:
+                        max_speed_mph = 0
+
                     InputWithTitleDescription(
                         title=_("Maximum Speed"),
                         description=f"({max_speed_mph:.0f} mph) "
@@ -224,7 +228,11 @@ class SettingsMenu(ETS2LAPage):
                     if settings.overwrite_speed is None:
                         settings.overwrite_speed = 30
 
-                    fallback_speed_mph = settings.overwrite_speed * 0.6213712
+                    try:
+                        fallback_speed_mph = settings.overwrite_speed * 0.6213712
+                    except Exception:
+                        fallback_speed_mph = 0
+
                     InputWithTitleDescription(
                         title=_("Fallback speed"),
                         description=f"({fallback_speed_mph:.0f} mph) "
