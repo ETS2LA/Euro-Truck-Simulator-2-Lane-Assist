@@ -206,6 +206,9 @@ class SettingsMenu(ETS2LAPage):
                 Text(_("Speed Limit Settings"), styles.Classname("font-semibold"))
 
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    if settings.max_speed is None:
+                        settings.max_speed = 0
+
                     max_speed_mph = settings.max_speed * 0.6213712
                     InputWithTitleDescription(
                         title=_("Maximum Speed"),
@@ -217,6 +220,10 @@ class SettingsMenu(ETS2LAPage):
                         changed=self.handle_max_speed,
                         type="number",
                     )
+
+                    if settings.overwrite_speed is None:
+                        settings.overwrite_speed = 30
+
                     fallback_speed_mph = settings.overwrite_speed * 0.6213712
                     InputWithTitleDescription(
                         title=_("Fallback speed"),
