@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-19 21:07+0000\n"
+"PO-Revision-Date: 2025-09-20 06:20+0000\n"
 "Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
@@ -210,6 +210,8 @@ msgstr "Logowanie zainicjowane."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Błąd podczas usuwania plików dziennika. Prawdopodobnie uruchomiona jest inna "
+"instancja ETS2LA. Zamknij ją i spróbuj ponownie."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +239,7 @@ msgstr "Nie można znaleźć / uruchomić okna ETS2LA. Czy twój komputer jest w
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Nie udało się ustawić atrybutów okna lub ikony."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -309,11 +311,11 @@ msgstr "Serwer discord wsparcia, chińsko-angielski programista tłumaczeń."
 
 #: .\Pages\about.py:138
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Utrzymanie serwerów lustrzanych CN dla usług ETS2LA."
 
 #: .\Pages\about.py:141
 msgid "Game hooks"
-msgstr ""
+msgstr "Game hooks"
 
 #: .\Pages\about.py:142 .\Pages\about.py:145 .\Pages\about.py:148
 #: .\Pages\about.py:149 .\Pages\about.py:150 .\Pages\about.py:151
@@ -357,19 +359,23 @@ msgstr "{0} i {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Cześć!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Widzę, że wyłączyłeś reklamy. Nie ma w tym nic złego, ale nadal możesz "
+"wesprzeć rozwój ETS2LA, przekazując darowiznę za pośrednictwem serwisu Ko-"
+"Fi. *Każda darowizna jest równa tygodniowym (!) przechodom z reklam*. "
+"Jesteśmy niezmiernie wdzięczni za każde wsparcie, jakie otrzymujemy!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Przekaż darowiznę za pośrednictwem Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Ukryj"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -496,7 +502,7 @@ msgstr "Nieznany"
 
 #: .\Pages\catalogue.py:115
 msgid "No overview provided."
-msgstr ""
+msgstr "Nie podano przeglądu."
 
 #: .\Pages\catalogue.py:116
 msgid "No description provided."
@@ -552,7 +558,7 @@ msgstr "Zamykanie procesów wtyczki"
 
 #: .\Pages\catalogue.py:244
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Nie udało się zatrzymać procesów wtyczki."
 
 #: .\Pages\catalogue.py:246
 msgid "Unregistering git repository"
@@ -564,7 +570,7 @@ msgstr "Usuwanie plików wtyczki"
 
 #: .\Pages\catalogue.py:281
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Ponowna próba usunięcia ({cur}/{max})"
 
 #: .\Pages\catalogue.py:289
 msgid "Failed to remove plugin files after {max} attempts"
