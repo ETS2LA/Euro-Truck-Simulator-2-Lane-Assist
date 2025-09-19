@@ -1696,7 +1696,9 @@ class SliderWithTitleDescription:
         default=720
         max=2560,
         step=10,
-        suffix="px",
+        suffix="px", # Shown after the default value
+        custom_value="720 pixels", # Override the current shown value,
+                                  # Dragging still uses the default+suffix
         changed=action,
     )
     ```
@@ -1712,6 +1714,7 @@ class SliderWithTitleDescription:
         changed: Callable | None = None,
         title: str = "",
         description: str = "",
+        custom_value: str = "",
         style: Style = None,
     ):
         global dictionary
@@ -1741,7 +1744,12 @@ class SliderWithTitleDescription:
                 style=styles.FlexHorizontal() + styles.Classname("justify-between")
             ):
                 Text(title, styles.Classname("font-semibold"))
-                Text(f"{default}{suffix}", styles.Classname("text-muted-foreground"))
+                if custom_value:
+                    Text(custom_value, styles.Classname("text-muted-foreground"))
+                else:
+                    Text(
+                        f"{default}{suffix}", styles.Classname("text-muted-foreground")
+                    )
             Slider(
                 min=min,
                 default=default,

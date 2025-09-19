@@ -20,11 +20,12 @@ from ETS2LA.Networking.cloud import (
 )
 from ETS2LA.UI.utils import SendPopup
 
-from ETS2LA.Utils.Game import path as game
+from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
 from ETS2LA.Networking.Servers.webserver import mainThreadQueue
 from Modules.SDKController.main import SCSController
-from ETS2LA.Utils.translator import _, ngettext, languages, parse_language
+from ETS2LA.Networking.Servers import notifications, webserver
 from ETS2LA.Settings import GlobalSettings
+from ETS2LA.Utils.Game import path as game
 from ETS2LA.Utils.version import Update
 from langcodes import Language
 from threading import Thread
@@ -263,6 +264,18 @@ class Page(ETS2LAPage):
         self.show_kofi = False
         self.need_update = True
 
+    def open_sdk_page(self):
+        webserver.mainThreadQueue.append(
+            [
+                notifications.navigate,
+                [
+                    "/settings/sdk",
+                    "ETS2LA",
+                ],
+                {},
+            ]
+        )
+
     def init(self):
         thread = Thread(target=self.data_update_thread, daemon=True)
         thread.start()
@@ -389,6 +402,16 @@ class Page(ETS2LAPage):
                                 ).format(os.path.basename(game)),
                                 styles.Style(color="#BCBCBC"),
                             )
+                            with Button(
+                                action=self.open_sdk_page,
+                                type="link",
+                                style=styles.Width("max-content"),
+                            ):
+                                Text(
+                                    _("Open SDK Settings"),
+                                    styles.Classname("text-xs hover:underline")
+                                    + styles.Style(color="#e9e9e9"),
+                                )
 
             Text(_("About"), styles.Title())
             Space()

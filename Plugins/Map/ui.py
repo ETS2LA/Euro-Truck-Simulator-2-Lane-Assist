@@ -242,7 +242,7 @@ class SettingsMenu(ETS2LAPage):
                     ),
                     default=settings.SteeringSmoothTime,
                     min=0,
-                    max=2,
+                    max=0.5,
                     step=0.1,
                     changed=self.handle_steering_smooth_time,
                 )

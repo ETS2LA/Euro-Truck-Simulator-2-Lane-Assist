@@ -45,6 +45,8 @@ class SettingsPage(ETS2LAPage):
             styles.Classname("font-bold text-muted-foreground"),
         )
 
+        sensitivity = settings.sensitivity
+        sensitivity_ft = sensitivity * 3.28084
         SliderWithTitleDescription(
             title=_("Sensitivity"),
             description=_(
@@ -52,12 +54,15 @@ class SettingsPage(ETS2LAPage):
             ),
             suffix="m",
             min=0.05,
-            default=settings.sensitivity,
+            default=sensitivity,
             max=0.5,
             step=0.01,
+            custom_value=f"{sensitivity}m ({sensitivity_ft:.2f}ft)",
             changed=self.handle_sensitivity,
         )
 
+        max_speed = settings.max_speed
+        max_speed_mph = max_speed * 0.621371
         SliderWithTitleDescription(
             title=_("Max Speed"),
             description=_(
@@ -65,9 +70,10 @@ class SettingsPage(ETS2LAPage):
             ),
             suffix="km/h",
             min=10,
-            default=settings.max_speed,
+            default=max_speed,
             max=50,
             step=1,
+            custom_value=f"{max_speed}km/h ({max_speed_mph:.0f}mph)",
             changed=self.handle_max_speed,
         )
 

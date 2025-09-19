@@ -150,11 +150,15 @@ class SettingsMenu(ETS2LAPage):
                     )
 
                     target_dist = follow_distance * (80 / 3.6)
+                    target_dist_ft = target_dist * 3.28084
                     Text(
                         "-> "
                         + _(
-                            "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
-                        ).format(distance=round(target_dist)),
+                            "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
+                        ).format(
+                            distance=round(target_dist),
+                            distance_ft=round(target_dist_ft),
+                        ),
                         styles.Classname("text-xs text-muted-foreground"),
                     )
 
@@ -202,18 +206,22 @@ class SettingsMenu(ETS2LAPage):
                 Text(_("Speed Limit Settings"), styles.Classname("font-semibold"))
 
                 with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    max_speed_mph = settings.max_speed * 0.6213712
                     InputWithTitleDescription(
                         title=_("Maximum Speed"),
-                        description=_(
+                        description=f"({max_speed_mph:.0f} mph) "
+                        + _(
                             "The maximum speed ACC will drive at. Set this to 0 to disable."
                         ),
                         default=settings.max_speed,
                         changed=self.handle_max_speed,
                         type="number",
                     )
+                    fallback_speed_mph = settings.overwrite_speed * 0.6213712
                     InputWithTitleDescription(
                         title=_("Fallback speed"),
-                        description=_(
+                        description=f"({fallback_speed_mph:.0f} mph) "
+                        + _(
                             "The speed to drive when the game tells us that the speed limit is 0 km/h."
                         ),
                         default=settings.overwrite_speed,

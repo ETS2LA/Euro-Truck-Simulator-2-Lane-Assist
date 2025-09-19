@@ -288,19 +288,19 @@ class Settings(ETS2LAPage):
                 )
 
                 CheckboxWithTitleDescription(
-                    title=_("Show test objects"),
-                    description=_("Show test objects in the AR overlay."),
-                    default=settings.test_objects,
-                    changed=self.test_objects_changed,
-                )
-
-                CheckboxWithTitleDescription(
                     title=_("Show when not in focus"),
                     description=_(
                         "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
                     ),
                     default=settings.show_when_not_in_focus,
                     changed=self.show_when_not_in_focus_changed,
+                )
+
+                CheckboxWithTitleDescription(
+                    title=_("Show test objects"),
+                    description=_("Show test objects in the AR overlay."),
+                    default=settings.test_objects,
+                    changed=self.test_objects_changed,
                 )
 
             with Tab(

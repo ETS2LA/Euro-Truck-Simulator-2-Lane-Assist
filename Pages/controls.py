@@ -124,7 +124,11 @@ class Page(ETS2LAPage):
                     self.target_control
                     and self.target_control.lower() in control.plugin.lower()
                 )
-                if not has_in_name and not has_in_plugin:
+                has_in_description = (
+                    self.target_control
+                    and self.target_control.lower() in control.description.lower()
+                )
+                if not has_in_name and not has_in_plugin and not has_in_description:
                     continue
 
             valid_controls.append(control)
