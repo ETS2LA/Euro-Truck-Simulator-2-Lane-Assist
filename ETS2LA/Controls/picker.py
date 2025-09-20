@@ -1,6 +1,6 @@
 from ETS2LA.Handlers.utils.key_mappings import key_to_str
 from pynput import keyboard as pynput_keyboard
-from ETS2LA.Controls import ControlEvent
+from ETS2LA.Controls.classes import ControlEvent
 from ETS2LA.Utils.translator import _
 from ETS2LA.UI import SendPopup
 import multiprocessing

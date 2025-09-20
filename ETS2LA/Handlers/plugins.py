@@ -11,6 +11,7 @@ from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Controls import ControlEvent
 from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import controls
+from ETS2LA.Events import Event
 from ETS2LA import variables
 
 from memory import create_shared_memory_pair, SharedMemorySender, SharedMemoryReceiver
@@ -22,9 +23,7 @@ import time
 import os
 
 settings = GlobalSettings()
-
 search_folders: list[str] = ["Plugins", "CataloguePlugins"]
-
 loading: bool = False
 """Indicator for other files that the plugin handler is still loading plugins."""
 
@@ -40,6 +39,34 @@ def discover_plugins() -> None:
         for root, _dirs, files in os.walk(folder):
             if "main.py" in files:
                 plugin_folders.append(root)
+
+
+class _ReceivedEvent:
+    alias: str
+    event: Event
+    args: list
+    kwargs: dict
+
+    confirmed: list
+    """List of plugin IDs that have confirmed sending this event."""
+
+    def __init__(self, alias: str, event: Event, args: list, kwargs: dict):
+        self.confirmed = []
+        self.alias = alias
+        self.event = event
+        self.args = args
+        self.kwargs = kwargs
+
+    def confirm(self, plugin_id: str):
+        if plugin_id not in self.confirmed:
+            self.confirmed.append(plugin_id)
+
+        if len(self.confirmed) >= len(plugins):
+            try:
+                plugins[0].events.remove(self)
+            except Exception as e:
+                logging.error(f"Error removing event {self.alias}: {e}")
+                pass
 
 
 # MARK: Class
@@ -91,6 +118,9 @@ class Plugin:
 
     pages: dict = {}
     """All plugins share the same pages dictionary. This way they can easily share page data."""
+
+    events: list[_ReceivedEvent] = []
+    """All plugins share the same events list. Once an event is confirmed by all plugins it's removed from the list."""
 
     files: str
     """List of files that the plugin wants the backend to check for changes for."""
@@ -190,6 +220,7 @@ class Plugin:
         threading.Thread(target=self.notification_handler, daemon=True).start()
         threading.Thread(target=self.performance_handler, daemon=True).start()
         threading.Thread(target=self.check_edit_thread, daemon=True).start()
+        threading.Thread(target=self.event_handler, daemon=True).start()
 
         self.keep_alive()
 
@@ -268,6 +299,42 @@ class Plugin:
 
             if self.running:
                 time.sleep(0.025)
+            else:
+                time.sleep(0.25)
+
+    def event_handler(self):
+        while True:
+            if self.stop:
+                return
+
+            if Channel.EMIT_EVENT in self.stack:
+                while self.stack[Channel.EMIT_EVENT]:
+                    message = self.stack[Channel.EMIT_EVENT].popitem()[1]
+                    event = _ReceivedEvent(
+                        message.data["alias"],
+                        message.data["event"],
+                        message.data["args"],
+                        message.data["kwargs"],
+                    )
+                    event.confirm(self.description.id)
+                    self.events.append(event)
+
+            for event in self.events:
+                if self.description.id not in event.confirmed:
+                    message = PluginMessage(
+                        Channel.RECEIVE_EVENT,
+                        {
+                            "alias": event.alias,
+                            "event": event.event,
+                            "args": event.args,
+                            "kwargs": event.kwargs,
+                        },
+                    )
+                    self.queue.put(message, block=True)
+                    event.confirm(self.description.id)
+
+            if self.running:
+                time.sleep(0.01)
             else:
                 time.sleep(0.25)
 

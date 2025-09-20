@@ -1,5 +1,4 @@
 from ETS2LA.Settings import GlobalSettings
-import ETS2LA.Events.classes as classes
 import ETS2LA.variables as variables
 from typing import Literal
 import requests
@@ -155,72 +154,6 @@ def GetCredentials():
         token = settings.token
 
     return user_id, token, user_id is not None and token is not None
-
-
-def StartedJob(job: classes.Job):
-    user_id, token, success = GetCredentials()
-    if success:
-        url = URL + f"/user/{user_id}/job/started"
-        headers = {"Authorization": f"Bearer {token}"}
-        data = job.json()
-
-        try:
-            r = requests.post(url, headers=headers, json=data)
-        except Exception:
-            print("Could not connect to server to send job data.")
-            return False
-
-        if r.json()["status"] == 200:
-            logging.info("Successfully sent job data to the cloud.")
-        else:
-            logging.warning("Job data not saved, error: " + r.text)
-        return r.json()["status"] == 200
-
-    return False
-
-
-def FinishedJob(job: classes.FinishedJob):
-    user_id, token, success = GetCredentials()
-    if success:
-        url = URL + f"/user/{user_id}/job/finished"
-        headers = {"Authorization": f"Bearer {token}"}
-        data = job.json()
-
-        try:
-            r = requests.post(url, headers=headers, json=data)
-        except Exception:
-            print("Could not connect to server to send job data.")
-            return False
-
-        if r.json()["status"] == 200:
-            logging.info("Successfully sent job data to the cloud.")
-        else:
-            logging.warning("Job data not saved, error: " + r.text)
-        return r.json()["status"] == 200
-
-    return False
-
-
-def CancelledJob(job: classes.CancelledJob):
-    user_id, token, success = GetCredentials()
-    if success:
-        url = URL + f"/user/{user_id}/job/cancelled"
-        headers = {"Authorization": f"Bearer {token}"}
-        data = job.json()
-
-        try:
-            r = requests.post(url, headers=headers, json=data)
-        except Exception:
-            print("Could not connect to server to send job data.")
-            return False
-
-        if r.json()["status"] == 200:
-            logging.info("Successfully sent job data to the cloud.")
-        else:
-            logging.warning("Job data not saved, error: " + r.text)
-        return r.json()["status"] == 200
-
-    return False
 
 
 def Ping(data=[0]):  # noqa: B006 - This mutable default is intentional

@@ -43,8 +43,8 @@ class Channel(Enum):
     STATE_UPDATE = 17
 
     # Events
-    CALL_EVENT = 18
-    EMMIT_EVENT = 19
+    RECEIVE_EVENT = 18
+    EMIT_EVENT = 19
 
     # Controls
     GET_CONTROLS = 20

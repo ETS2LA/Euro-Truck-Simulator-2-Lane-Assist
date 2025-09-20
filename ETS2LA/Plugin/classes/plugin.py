@@ -3,7 +3,6 @@ from ETS2LA.Plugin.classes.author import Author
 
 from ETS2LA.Plugin.message import Channel, PluginMessage
 from ETS2LA.Controls import ControlEvent
-import ETS2LA.Events as Events
 from ETS2LA.UI import ETS2LAPage
 
 from multiprocessing import Queue
@@ -120,8 +119,6 @@ class ETS2LAPlugin(object):
         return instance
 
     def load_modules(self) -> None:
-        Events.events.plugin_object = self
-
         self.modules = SimpleNamespace()
         module_names = self.description.modules
         for module_name in module_names:

@@ -25,7 +25,6 @@ from ETS2LA.Utils.translator import _
 from ETS2LA.Window.utils import minimize_window
 
 # Backend
-# import ETS2LA.Events.base_events as base_events
 import ETS2LA.Handlers.controls as controls
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.Utils.listener as listener

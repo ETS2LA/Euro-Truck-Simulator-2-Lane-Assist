@@ -1,6 +1,7 @@
 # Framework
 from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
-
+from Plugins.Test.events import MyEvent
+from ETS2LA.Events import events
 import time
 
 
@@ -23,13 +24,5 @@ class Plugin(ETS2LAPlugin):
     def init(self): ...
 
     def run(self):
-        print("Test 2 gettings tags")
-        receive = self.tags.test
-        if receive is None:
-            print("Test 2 tag not set")
-            return
-
-        receive = receive["Test"]
-        diff = time.time() - receive
-        print(f"Test 2 received the tag {diff * 1000:.1f}ms late")
-        print(f"@{1 / self.performance[-1][1]:.1f}fps")
+        args, kwargs = events.wait_for(MyEvent, timeout=20)
+        print("My event was triggered at", time.time())

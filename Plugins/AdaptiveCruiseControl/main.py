@@ -394,7 +394,7 @@ class Plugin(ETS2LAPlugin):
         #     self.graph.setup_plot()
 
     @events.on("toggle_acc")
-    def on_toggle_acc(self, state: bool):
+    def on_toggle_acc(self, event_object, state: bool):
         if not state:
             return  # Callback for the lift up event
 
@@ -402,7 +402,7 @@ class Plugin(ETS2LAPlugin):
         self.tags.status = {"AdaptiveCruiseControl": self.enabled}
 
     @events.on("increment_speed")
-    def on_increment_speed(self, state: bool):
+    def on_increment_speed(self, event_object, state: bool):
         if not state:
             self.holding_up = False
             self.last_change = 0
@@ -410,7 +410,7 @@ class Plugin(ETS2LAPlugin):
         self.holding_up = True
 
     @events.on("decrement_speed")
-    def on_decrement_speed(self, state: bool):
+    def on_decrement_speed(self, event_object, state: bool):
         if not state:
             self.holding_down = False
             self.last_change = 0

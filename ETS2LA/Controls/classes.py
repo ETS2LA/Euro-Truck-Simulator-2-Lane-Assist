@@ -1,8 +1,8 @@
 from typing import Literal, Any
-import ETS2LA.Events as Events
+from ETS2LA.Events.classes import Event
 
 
-class ControlEvent:
+class ControlEvent(Event):
     alias: str = "control_event"
     """
     This is the internal alias for this control event.
@@ -50,11 +50,15 @@ class ControlEvent:
     control event has been triggered over the past frame.
     """
 
+    # controls are still "legacy" events, so we don't validate args
+    # TODO: Update controls to use the new event system properly
+    validate_args = False
+
     def __init__(
         self,
-        alias: str,
-        name: str,
-        type: Literal["button", "axis"],
+        alias: str = "",
+        name: str = "",
+        type: Literal["button", "axis"] = "button",
         description: str = "",
         default: str = "",
         plugin: str = "",
@@ -74,18 +78,15 @@ class ControlEvent:
         self.default = default
         self.plugin = plugin
 
-    def update(self, state: Any) -> None:
+    def update(self, state: Any) -> bool:
         """Refresh the controls and send out events if
         any of the control events have been triggered.
         """
+        ...
         self.__last_state = self.__state
         self.__state = state
 
-        if self.__last_state != self.__state:
-            if self.type == "button":
-                Events.events.emit(self.alias, self.pressed(), queue=False)
-            elif self.type == "axis":
-                Events.events.emit(self.alias, self.value(), queue=False)
+        return self.__last_state != self.__state
 
     def pressed(self) -> Any:
         """Get the current boolean value of this ControlEvent.

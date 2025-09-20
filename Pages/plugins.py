@@ -172,6 +172,7 @@ class Page(ETS2LAPage):
         for plugin_name in last_plugins:
             if plugin_name not in self.enabling and plugin_name not in self.disabling:
                 self.enabling.append(plugin_name)
+                self.reset_timer()
                 threading.Thread(
                     target=plugins.start_plugin, kwargs={"id": plugin_name}, daemon=True
                 ).start()

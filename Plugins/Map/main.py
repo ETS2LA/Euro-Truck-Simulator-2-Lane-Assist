@@ -185,7 +185,7 @@ class Plugin(ETS2LAPlugin):
             time.sleep(1)
 
     @events.on("toggle_map")
-    def on_toggle_map(self, state: bool):
+    def on_toggle_map(self, event_object, state: bool):
         if not state:
             return  # release event
 
@@ -194,7 +194,7 @@ class Plugin(ETS2LAPlugin):
         self.tags.status = {"Map": data.enabled}
 
     @events.on("JobFinished")
-    def JobFinished(self, *args, **kwargs):
+    def JobFinished(self, event_object, *args, **kwargs):
         data.dest_company = None
         data.route_plan = []
         data.navigation_plan = []

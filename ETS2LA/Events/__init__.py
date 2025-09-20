@@ -8,7 +8,7 @@ class MyPlugin(ETS2LAPlugin):
     ...
     # Listen for events
     @events.on('my_event')
-    def on_my_event(self, *args, **kwargs):
+    def on_my_event(self, event_object, *args, **kwargs):
         print('My event was triggered with args:', args, 'and kwargs:', kwargs)
 
     # Trigger events
@@ -25,5 +25,6 @@ WARNING: This system will be rewritten completely in the future, it doesn't even
 """
 
 from .event_system import events, EventSystem
+from .classes import Event
 
-__all__ = ["events", "EventSystem"]
+__all__ = ["events", "EventSystem", "Event"]
