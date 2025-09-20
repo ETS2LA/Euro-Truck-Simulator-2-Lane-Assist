@@ -4,19 +4,19 @@
 
 from ETS2LA.Events import events
 from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
-from ETS2LA.Controls import ControlEvent
 
 # Imports to fix circular imports
 
 # ETS2LA imports
 import Plugins.Map.utils.data_handler as data_handler
 import Plugins.Map.utils.data_reader as data_reader
+from Plugins.Map.controls import enable_disable
 from Plugins.Map.ui import SettingsMenu
 
 from Plugins.Map.utils import ui_operations as ui
-from ETS2LA.Utils.translator import _
 from Plugins.Map.settings import settings
 from ETS2LA.Handlers.sounds import Play
+from ETS2LA.Utils.translator import _
 import ETS2LA.variables as variables
 import Plugins.Map.classes as c
 
@@ -39,16 +39,6 @@ last_oh_hash = hash(open(oh.__file__, encoding="utf-8").read())
 
 UPDATING_OFFSET_CONFIG = False
 DEVELOPER_PRINTING = True
-
-enable_disable = ControlEvent(
-    "toggle_map",
-    _("Toggle Steering"),
-    "button",
-    description=_(
-        "When the Map plugin is running, this will toggle the steering on/off."
-    ),
-    default="n",
-)
 
 
 class Plugin(ETS2LAPlugin):
@@ -193,6 +183,12 @@ class Plugin(ETS2LAPlugin):
         Play("start" if data.enabled else "end")
         self.tags.status = {"Map": data.enabled}
 
+    @events.on("takeover")
+    def on_takeover(self, event_object, *args, **kwargs):
+        data.enabled = False
+        Play("warning")
+        self.tags.status = {"Map": data.enabled}
+
     @events.on("JobFinished")
     def JobFinished(self, event_object, *args, **kwargs):
         data.dest_company = None
@@ -320,6 +316,7 @@ class Plugin(ETS2LAPlugin):
                     elif steering_value < -0.95:
                         steering_value = -0.95
 
+                    self.tags.steering = steering_value
                     steering.run(
                         value=steering_value, sendToGame=data.enabled, drawLine=False
                     )

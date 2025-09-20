@@ -401,6 +401,11 @@ class Plugin(ETS2LAPlugin):
         self.enabled = not self.enabled
         self.tags.status = {"AdaptiveCruiseControl": self.enabled}
 
+    @events.on("takeover")
+    def on_takeover(self, event_object, *args, **kwargs):
+        self.enabled = False
+        self.tags.status = {"AdaptiveCruiseControl": self.enabled}
+
     @events.on("increment_speed")
     def on_increment_speed(self, event_object, state: bool):
         if not state:
@@ -926,6 +931,7 @@ class Plugin(ETS2LAPlugin):
             is_reversing = gear < 0
 
         self.accel = min(1, max(-1, accel))
+        self.tags.acceleration = self.accel
 
         if is_reversing:
             self.controller.drive = True
