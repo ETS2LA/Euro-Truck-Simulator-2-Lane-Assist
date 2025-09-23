@@ -1,31 +1,31 @@
-from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
+import logging
+
+from ETS2LA.Plugin import Author, ETS2LAPlugin, PluginDescription
 from ETS2LA.UI import (
+    CheckboxWithTitleDescription,
     ETS2LAPage,
     ETS2LAPageLocation,
-    styles,
-    TitleAndDescription,
-    Tabs,
     Tab,
-    CheckboxWithTitleDescription,
+    Tabs,
+    TitleAndDescription,
+    styles,
 )
-
-from ETS2LA.Utils.Values.numbers import SmoothedValue
-from Plugins.AR.settings import settings
 from ETS2LA.Utils.translator import _
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 from Plugins.AR.classes import (
-    Point,
-    Rectangle,
-    Line,
-    Polygon,
+    Bezier,
     Circle,
     Color,
-    Text,
     Coordinate,
-    Bezier,
     Fade,
+    Line,
+    Point,
+    Polygon,
+    Rectangle,
+    Text,
     get_object_from_dict,
 )
-import logging
+from Plugins.AR.settings import settings
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
@@ -115,10 +115,10 @@ def Resize():
 
 def CalculateAlpha(
     distances,
-    fade_end=10,
-    fade_start=30,
-    max_fade_start=150,
-    max_fade_end=170,
+    fade_end=10.0,
+    fade_start=30.0,
+    max_fade_start=150.0,
+    max_fade_end=170.0,
     verbose=False,
 ):
     if not distances:
@@ -127,17 +127,19 @@ def CalculateAlpha(
     # Calculate the average distance
     avg_distance = sum(distances) / len(distances)
 
-    # Determine the alpha value based on the average distance
+    # Alpha calculation with linear interpolation
     if avg_distance < fade_end:
         return 0
-    elif fade_end <= avg_distance < fade_start:
-        return 255 * (avg_distance - fade_end) / (fade_start - fade_end)
-    elif fade_start <= avg_distance < max_fade_start:
-        return 255
-    elif max_fade_start <= avg_distance < max_fade_end:
-        return 255 * (max_fade_end - avg_distance) / (max_fade_end - max_fade_start)
-    else:
+    elif avg_distance >= max_fade_end:
         return 0
+    elif avg_distance <= fade_start:
+        return int(255 * (avg_distance - fade_end) / (fade_start - fade_end))
+    elif avg_distance <= max_fade_start:
+        return 255
+    else:
+        return int(
+            255 * (max_fade_end - avg_distance) / (max_fade_end - max_fade_start)
+        )
 
 
 def ConvertToScreenCoordinate(
@@ -147,27 +149,59 @@ def ConvertToScreenCoordinate(
     HeadPitch = HeadRotationDegreesY
     HeadRoll = HeadRotationDegreesZ
 
+    # Trigonometric value caching
+    if not hasattr(
+        ConvertToScreenCoordinate, "_cached_angles"
+    ) or ConvertToScreenCoordinate._cached_angles != (HeadYaw, HeadPitch, HeadRoll):
+        ConvertToScreenCoordinate._cached_angles = (HeadYaw, HeadPitch, HeadRoll)
+
+        # Pre-calculate all trigonometric values
+        HeadYawRad = math.radians(-HeadYaw)
+        HeadPitchRad = math.radians(-HeadPitch)
+        HeadRollRad = math.radians(-HeadRoll)
+
+        ConvertToScreenCoordinate._cos_yaw = math.cos(HeadYawRad)
+        ConvertToScreenCoordinate._sin_yaw = math.sin(HeadYawRad)
+        ConvertToScreenCoordinate._cos_pitch = math.cos(HeadPitchRad)
+        ConvertToScreenCoordinate._sin_pitch = math.sin(HeadPitchRad)
+        ConvertToScreenCoordinate._cos_roll = math.cos(HeadRollRad)
+        ConvertToScreenCoordinate._sin_roll = math.sin(HeadRollRad)
+
+        if relative and head_relative:
+            CabinPitchRad = math.radians(CabinOffsetRotationDegreesY)
+            CabinYawRad = math.radians(CabinOffsetRotationDegreesX)
+
+            ConvertToScreenCoordinate._cabin_cos_pitch = math.cos(CabinPitchRad)
+            ConvertToScreenCoordinate._cabin_sin_pitch = math.sin(CabinPitchRad)
+            ConvertToScreenCoordinate._cabin_cos_yaw = math.cos(CabinYawRad)
+            ConvertToScreenCoordinate._cabin_sin_yaw = math.sin(CabinYawRad)
+
     if relative:
         RelativeX = X - InsideHeadX - HeadX
         RelativeY = Y - InsideHeadY - HeadY
         RelativeZ = Z - InsideHeadZ - HeadZ
 
         if head_relative:
-            # Rotate the points around the head (0, 0, 0)
-            CosPitch = math.cos(math.radians(CabinOffsetRotationDegreesY))
-            SinPitch = math.sin(math.radians(CabinOffsetRotationDegreesY))
-            NewY = RelativeY * CosPitch - RelativeZ * SinPitch
-            NewZ = RelativeZ * CosPitch + RelativeY * SinPitch
+            NewY = (
+                RelativeY * ConvertToScreenCoordinate._cabin_cos_pitch
+                - RelativeZ * ConvertToScreenCoordinate._cabin_sin_pitch
+            )
+            NewZ = (
+                RelativeZ * ConvertToScreenCoordinate._cabin_cos_pitch
+                + RelativeY * ConvertToScreenCoordinate._cabin_sin_pitch
+            )
 
-            CosYaw = math.cos(math.radians(CabinOffsetRotationDegreesX))
-            SinYaw = math.sin(math.radians(CabinOffsetRotationDegreesX))
-            NewX = RelativeX * CosYaw + NewZ * SinYaw
-            NewZ = NewZ * CosYaw - RelativeX * SinYaw
+            NewX = (
+                RelativeX * ConvertToScreenCoordinate._cabin_cos_yaw
+                + NewZ * ConvertToScreenCoordinate._cabin_sin_yaw
+            )
+            NewZ = (
+                NewZ * ConvertToScreenCoordinate._cabin_cos_yaw
+                - RelativeX * ConvertToScreenCoordinate._cabin_sin_yaw
+            )
 
-            CosRoll = math.cos(math.radians(0))  # -CabinOffsetRotationDegreesZ))
-            SinRoll = math.sin(math.radians(0))  # -CabinOffsetRotationDegreesZ))
-            FinalX = NewX * CosRoll - NewY * SinRoll
-            FinalY = NewY * CosRoll + NewX * SinRoll
+            FinalX = NewX
+            FinalY = NewY
 
             RelativeX = FinalX
             RelativeY = FinalY
@@ -178,20 +212,32 @@ def ConvertToScreenCoordinate(
         RelativeY = Y - HeadY
         RelativeZ = Z - HeadZ
 
-    CosYaw = math.cos(math.radians(-HeadYaw))
-    SinYaw = math.sin(math.radians(-HeadYaw))
-    NewX = RelativeX * CosYaw + RelativeZ * SinYaw
-    NewZ = RelativeZ * CosYaw - RelativeX * SinYaw
+    NewX = (
+        RelativeX * ConvertToScreenCoordinate._cos_yaw
+        + RelativeZ * ConvertToScreenCoordinate._sin_yaw
+    )
+    NewZ = (
+        RelativeZ * ConvertToScreenCoordinate._cos_yaw
+        - RelativeX * ConvertToScreenCoordinate._sin_yaw
+    )
 
-    CosPitch = math.cos(math.radians(-HeadPitch))
-    SinPitch = math.sin(math.radians(-HeadPitch))
-    NewY = RelativeY * CosPitch - NewZ * SinPitch
-    FinalZ = NewZ * CosPitch + RelativeY * SinPitch
+    NewY = (
+        RelativeY * ConvertToScreenCoordinate._cos_pitch
+        - NewZ * ConvertToScreenCoordinate._sin_pitch
+    )
+    FinalZ = (
+        NewZ * ConvertToScreenCoordinate._cos_pitch
+        + RelativeY * ConvertToScreenCoordinate._sin_pitch
+    )
 
-    CosRoll = math.cos(math.radians(-HeadRoll))
-    SinRoll = math.sin(math.radians(-HeadRoll))
-    FinalX = NewX * CosRoll - NewY * SinRoll
-    FinalY = NewY * CosRoll + NewX * SinRoll
+    FinalX = (
+        NewX * ConvertToScreenCoordinate._cos_roll
+        - NewY * ConvertToScreenCoordinate._sin_roll
+    )
+    FinalY = (
+        NewY * ConvertToScreenCoordinate._cos_roll
+        + NewX * ConvertToScreenCoordinate._sin_roll
+    )
 
     if FinalZ >= 0:
         return None
@@ -378,18 +424,18 @@ class Plugin(ETS2LAPlugin):
             time, \
             ttext
 
-        from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
-        import Modules.BetterScreenCapture.main as ScreenCapture
-        import ETS2LA.variables as variables
-
-        import dearpygui.dearpygui as dpg
-        import Plugins.AR.text as ttext
-
-        import win32con
-        import win32gui
         import ctypes
         import math
         import time
+
+        import dearpygui.dearpygui as dpg
+        import win32con
+        import win32gui
+
+        import ETS2LA.variables as variables
+        import Modules.BetterScreenCapture.main as ScreenCapture
+        import Plugins.AR.text as ttext
+        from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
 
         global LastWindowPosition
         global TruckSimAPI
@@ -427,26 +473,14 @@ class Plugin(ETS2LAPlugin):
         global FRAME
         dpg.delete_item(FRAME)
 
-        distances = []
-        discard = []
+        valid_items_with_distances = []
         for item in items:
             distance = item.get_distance(HeadX, HeadY, HeadZ)
             if distance < 1000:
-                distances.append(item.get_distance(HeadX, HeadY, HeadZ))
-            else:
-                discard.append(item)
+                valid_items_with_distances.append((distance, item))
 
-        for item in discard:
-            items.remove(item)
-
-        sorted_items = [
-            item
-            for _, item in sorted(
-                zip(distances, items, strict=False),
-                key=lambda pair: pair[0],
-                reverse=True,
-            )
-        ]
+        valid_items_with_distances.sort(key=lambda x: x[0], reverse=True)
+        sorted_items = [item for _, item in valid_items_with_distances]
         draw_calls = 0
 
         with dpg.viewport_drawlist(label="draw") as FRAME:
@@ -459,6 +493,23 @@ class Plugin(ETS2LAPlugin):
                         screen_end = points[1].screen(self)
 
                         if screen_start is None or screen_end is None:
+                            continue
+
+                        # Frustum culling: check if rectangle is completely outside viewport
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        min_x = min(screen_start[0], screen_end[0])
+                        max_x = max(screen_start[0], screen_end[0])
+                        min_y = min(screen_start[1], screen_end[1])
+                        max_y = max(screen_start[1], screen_end[1])
+
+                        if (
+                            max_x < 0
+                            or min_x > viewport_width
+                            or max_y < 0
+                            or min_y > viewport_height
+                        ):
                             continue
 
                         if isinstance(points[0], Coordinate):
