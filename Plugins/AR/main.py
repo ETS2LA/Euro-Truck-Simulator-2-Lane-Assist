@@ -25,6 +25,12 @@ from Plugins.AR.classes import (
     Text,
     get_object_from_dict,
 )
+from Plugins.AR.utils import (
+    is_circle_in_viewport,
+    is_point_in_viewport,
+    is_polygon_in_viewport,
+    is_rectangle_in_viewport,
+)
 from Plugins.AR.settings import settings
 
 PURPLE = "\033[95m"
@@ -149,59 +155,27 @@ def ConvertToScreenCoordinate(
     HeadPitch = HeadRotationDegreesY
     HeadRoll = HeadRotationDegreesZ
 
-    # Trigonometric value caching
-    if not hasattr(
-        ConvertToScreenCoordinate, "_cached_angles"
-    ) or ConvertToScreenCoordinate._cached_angles != (HeadYaw, HeadPitch, HeadRoll):
-        ConvertToScreenCoordinate._cached_angles = (HeadYaw, HeadPitch, HeadRoll)
-
-        # Pre-calculate all trigonometric values
-        HeadYawRad = math.radians(-HeadYaw)
-        HeadPitchRad = math.radians(-HeadPitch)
-        HeadRollRad = math.radians(-HeadRoll)
-
-        ConvertToScreenCoordinate._cos_yaw = math.cos(HeadYawRad)
-        ConvertToScreenCoordinate._sin_yaw = math.sin(HeadYawRad)
-        ConvertToScreenCoordinate._cos_pitch = math.cos(HeadPitchRad)
-        ConvertToScreenCoordinate._sin_pitch = math.sin(HeadPitchRad)
-        ConvertToScreenCoordinate._cos_roll = math.cos(HeadRollRad)
-        ConvertToScreenCoordinate._sin_roll = math.sin(HeadRollRad)
-
-        if relative and head_relative:
-            CabinPitchRad = math.radians(CabinOffsetRotationDegreesY)
-            CabinYawRad = math.radians(CabinOffsetRotationDegreesX)
-
-            ConvertToScreenCoordinate._cabin_cos_pitch = math.cos(CabinPitchRad)
-            ConvertToScreenCoordinate._cabin_sin_pitch = math.sin(CabinPitchRad)
-            ConvertToScreenCoordinate._cabin_cos_yaw = math.cos(CabinYawRad)
-            ConvertToScreenCoordinate._cabin_sin_yaw = math.sin(CabinYawRad)
-
     if relative:
         RelativeX = X - InsideHeadX - HeadX
         RelativeY = Y - InsideHeadY - HeadY
         RelativeZ = Z - InsideHeadZ - HeadZ
 
         if head_relative:
-            NewY = (
-                RelativeY * ConvertToScreenCoordinate._cabin_cos_pitch
-                - RelativeZ * ConvertToScreenCoordinate._cabin_sin_pitch
-            )
-            NewZ = (
-                RelativeZ * ConvertToScreenCoordinate._cabin_cos_pitch
-                + RelativeY * ConvertToScreenCoordinate._cabin_sin_pitch
-            )
+            # Rotate the points around the head (0, 0, 0)
+            CosPitch = math.cos(math.radians(CabinOffsetRotationDegreesY))
+            SinPitch = math.sin(math.radians(CabinOffsetRotationDegreesY))
+            NewY = RelativeY * CosPitch - RelativeZ * SinPitch
+            NewZ = RelativeZ * CosPitch + RelativeY * SinPitch
 
-            NewX = (
-                RelativeX * ConvertToScreenCoordinate._cabin_cos_yaw
-                + NewZ * ConvertToScreenCoordinate._cabin_sin_yaw
-            )
-            NewZ = (
-                NewZ * ConvertToScreenCoordinate._cabin_cos_yaw
-                - RelativeX * ConvertToScreenCoordinate._cabin_sin_yaw
-            )
+            CosYaw = math.cos(math.radians(CabinOffsetRotationDegreesX))
+            SinYaw = math.sin(math.radians(CabinOffsetRotationDegreesX))
+            NewX = RelativeX * CosYaw + NewZ * SinYaw
+            NewZ = NewZ * CosYaw - RelativeX * SinYaw
 
-            FinalX = NewX
-            FinalY = NewY
+            CosRoll = math.cos(math.radians(0))  # -CabinOffsetRotationDegreesZ))
+            SinRoll = math.sin(math.radians(0))  # -CabinOffsetRotationDegreesZ))
+            FinalX = NewX * CosRoll - NewY * SinRoll
+            FinalY = NewY * CosRoll + NewX * SinRoll
 
             RelativeX = FinalX
             RelativeY = FinalY
@@ -212,32 +186,20 @@ def ConvertToScreenCoordinate(
         RelativeY = Y - HeadY
         RelativeZ = Z - HeadZ
 
-    NewX = (
-        RelativeX * ConvertToScreenCoordinate._cos_yaw
-        + RelativeZ * ConvertToScreenCoordinate._sin_yaw
-    )
-    NewZ = (
-        RelativeZ * ConvertToScreenCoordinate._cos_yaw
-        - RelativeX * ConvertToScreenCoordinate._sin_yaw
-    )
+    CosYaw = math.cos(math.radians(-HeadYaw))
+    SinYaw = math.sin(math.radians(-HeadYaw))
+    NewX = RelativeX * CosYaw + RelativeZ * SinYaw
+    NewZ = RelativeZ * CosYaw - RelativeX * SinYaw
 
-    NewY = (
-        RelativeY * ConvertToScreenCoordinate._cos_pitch
-        - NewZ * ConvertToScreenCoordinate._sin_pitch
-    )
-    FinalZ = (
-        NewZ * ConvertToScreenCoordinate._cos_pitch
-        + RelativeY * ConvertToScreenCoordinate._sin_pitch
-    )
+    CosPitch = math.cos(math.radians(-HeadPitch))
+    SinPitch = math.sin(math.radians(-HeadPitch))
+    NewY = RelativeY * CosPitch - NewZ * SinPitch
+    FinalZ = NewZ * CosPitch + RelativeY * SinPitch
 
-    FinalX = (
-        NewX * ConvertToScreenCoordinate._cos_roll
-        - NewY * ConvertToScreenCoordinate._sin_roll
-    )
-    FinalY = (
-        NewY * ConvertToScreenCoordinate._cos_roll
-        + NewX * ConvertToScreenCoordinate._sin_roll
-    )
+    CosRoll = math.cos(math.radians(-HeadRoll))
+    SinRoll = math.sin(math.radians(-HeadRoll))
+    FinalX = NewX * CosRoll - NewY * SinRoll
+    FinalY = NewY * CosRoll + NewX * SinRoll
 
     if FinalZ >= 0:
         return None
@@ -462,6 +424,8 @@ class Plugin(ETS2LAPlugin):
         self.last_loop_frametime = 0
         self.last_loop_frametime_smoothed = SmoothedValue("time", 1)
         self.item_count = 0
+        self.culled_items = 0
+        self.total_processed_items = 0
 
     def Render(self, items=None):
         if not items:
@@ -482,6 +446,8 @@ class Plugin(ETS2LAPlugin):
         valid_items_with_distances.sort(key=lambda x: x[0], reverse=True)
         sorted_items = [item for _, item in valid_items_with_distances]
         draw_calls = 0
+        self.culled_items = 0
+        self.total_processed_items = len(sorted_items)
 
         with dpg.viewport_drawlist(label="draw") as FRAME:
             dpg.bind_font(regular_font)
@@ -495,21 +461,13 @@ class Plugin(ETS2LAPlugin):
                         if screen_start is None or screen_end is None:
                             continue
 
-                        # Frustum culling: check if rectangle is completely outside viewport
                         viewport_width = WindowPosition[2] - WindowPosition[0]
                         viewport_height = WindowPosition[3] - WindowPosition[1]
 
-                        min_x = min(screen_start[0], screen_end[0])
-                        max_x = max(screen_start[0], screen_end[0])
-                        min_y = min(screen_start[1], screen_end[1])
-                        max_y = max(screen_start[1], screen_end[1])
-
-                        if (
-                            max_x < 0
-                            or min_x > viewport_width
-                            or max_y < 0
-                            or min_y > viewport_height
+                        if not is_rectangle_in_viewport(
+                            screen_start, screen_end, viewport_width, viewport_height
                         ):
+                            self.culled_items += 1
                             continue
 
                         if isinstance(points[0], Coordinate):
@@ -556,6 +514,15 @@ class Plugin(ETS2LAPlugin):
                         if screen_start is None or screen_end is None:
                             continue
 
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not is_rectangle_in_viewport(
+                            screen_start, screen_end, viewport_width, viewport_height
+                        ):
+                            self.culled_items += 1
+                            continue
+
                         if isinstance(points[0], Coordinate):
                             alpha = CalculateAlpha(
                                 [screen_start[2], screen_end[2]],
@@ -581,6 +548,15 @@ class Plugin(ETS2LAPlugin):
                         screen_points = [point.screen(self) for point in item.points]
 
                         if None in screen_points:
+                            continue
+
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not is_polygon_in_viewport(
+                            screen_points, viewport_width, viewport_height
+                        ):
+                            self.culled_items += 1
                             continue
 
                         if isinstance(points[0], Coordinate):
@@ -611,6 +587,15 @@ class Plugin(ETS2LAPlugin):
                         if screen_center is None:
                             continue
 
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not is_circle_in_viewport(
+                            screen_center, item.radius, viewport_width, viewport_height
+                        ):
+                            self.culled_items += 1
+                            continue
+
                         if isinstance(center, Coordinate):
                             alpha = CalculateAlpha(
                                 [screen_center[2]],
@@ -637,6 +622,15 @@ class Plugin(ETS2LAPlugin):
                         position = item.point
                         screen_position = position.screen(self)
                         if screen_position is None:
+                            continue
+
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not is_point_in_viewport(
+                            screen_position, viewport_width, viewport_height
+                        ):
+                            self.culled_items += 1
                             continue
 
                         if isinstance(position, Coordinate):
@@ -741,6 +735,17 @@ class Plugin(ETS2LAPlugin):
             _("Draw Calls: {} ({:.0f}%)").format(
                 self.draw_calls,
                 (self.draw_calls / self.item_count if self.item_count > 0 else 0) * 100,
+            )
+        )
+        lines.append(
+            _("Frustum Culled: {} ({:.0f}%)").format(
+                self.culled_items,
+                (
+                    self.culled_items / self.total_processed_items
+                    if self.total_processed_items > 0
+                    else 0
+                )
+                * 100,
             )
         )
         lines.append(_("Text Cache Length: {}").format(len(self.text_renderer.cache)))
