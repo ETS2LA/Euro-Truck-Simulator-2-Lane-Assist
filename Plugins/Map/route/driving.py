@@ -3,6 +3,7 @@ import Plugins.Map.utils.math_helpers as math_helpers
 import Plugins.Map.route.classes as rc
 import Plugins.Map.classes as c
 import Plugins.Map.data as data
+from ETS2LA.Events import Event, events
 import numpy as np
 import logging
 import math
@@ -163,6 +164,9 @@ def LerpTrailerAndTruck(start_speed=30, end_speed=70) -> list[float]:
 
 def GetSteering():
     if len(data.route_plan) == 0:
+        if data.enabled:
+            events.trigger("takeover", Event())
+            data.plugin.notify("Takeover: Lost route tracking, please drive manually")
         return 0
 
     if not data.use_navigation or len(data.navigation_plan) == 0:
@@ -200,22 +204,17 @@ def GetSteering():
 
     if len(points) == 0:
         data.route_points = []
-        # if data.use_navigation and len(data.navigation_plan) != 0:
-        #     data.frames_off_path += 1
-        #     if data.frames_off_path > 5:
-        #         #logging.warning("Recalculating navigation plan as we have no points to drive on.")
-        #         data.route_plan = []
-        #         data.update_navigation_plan = True
-        #         data.frames_off_path = 0
-        #         return 0
         return 0
 
     first_distance = math_helpers.DistanceBetweenPoints(
-        points[0].tuple(), (data.truck_x, data.truck_y, data.truck_z)
+        (points[0].x, points[0].z), (data.truck_x, data.truck_z)
     )
     if first_distance > 4.5:  # 1 lane width
         logging.warning("First point in route is too far away, ignoring this frame.")
-        data.route_points = []
+        if data.enabled:
+            events.trigger("takeover", Event())
+            data.plugin.notify("Takeover: Steering unreliable")
+        data.route_points = points
         return 0
 
     points = points

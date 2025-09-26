@@ -74,7 +74,10 @@ def traverse_route_for_direction(
 
     if cur_entry is None:
         logging.warning(f"Missing navigation entry for node {current.node.uid}")
-        return []
+        so_far = traverse_route_for_direction(remaining[1:], direction)
+        if so_far == []:
+            return []
+        return [direction] + so_far
 
     in_direction = cur_entry.forward if direction == "forward" else cur_entry.backward
 
@@ -163,6 +166,8 @@ def get_path_to_destination():
                 node_points.append(new_points)
             else:
                 node_points.append(None)
+
+        data.circles = [(node.x, node.z, node.y) for node in nodes]
 
         data.navigation_plan = route
         data.plugin.tags.navigation_plan = {

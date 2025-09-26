@@ -35,42 +35,84 @@ class RouteItem:
 
 class RouteSection:
     items: list[RouteItem]
-    _lane_index: int = 0
-    _last_lane_index: int = 0
-    lane_points: list[c.Position] = []
-    lane_change_points: list[c.Position] = []
-    last_lane_points: list[c.Position] = []
+
     lane_change_start: c.Position
     lane_change_factor: float = 0
     is_lane_changing: bool = False
     lane_change_distance: float = 0
+    lane_change_points: list[c.Position] = []
+
     is_ended: bool = False
     invert: bool = False
+    path_index: int = 0
+
     last_actual_points: list[c.Position] = []
+    last_lane_points: list[c.Position] = []
+    lane_points: list[c.Position] = []
+
     force_lane_change: bool = False
     skip_indicate_state: bool = False
-    _start_node: c.Node = None
-    _end_node: c.Node = None
-    _first_set_done: bool = False
+
+    _lane_index: int = 0
+    _last_lane_index: int = 0
     _target_lanes: list[int] = []
-    """Used to override some checks in the lane_index setter until the function is run once."""
     _lane_change_progress: float = 0.0
     _start_at_truck: bool = True
+
+    _start_node: c.Node = None
+    _end_node: c.Node = None
+
+    _first_set_done: bool = False
+    """Used to override some checks in the lane_index setter until the function is run once."""
 
     @property
     def start_node(self) -> c.Node:
         if self._start_node is not None:
             return self._start_node
         if isinstance(self.items[0].item, c.Prefab):
-            return data.map.get_node_by_uid(self.items[0].item.node_uids[0])
-        return data.map.get_node_by_uid(self.items[0].item.start_node_uid)
+            # Find the index of the node that matches the first curve
+            nav_route = self.items[0].item.prefab_description.nav_routes[
+                self.lane_index
+            ]
+            first_curve = nav_route.curves[0]
+            index = self.items[0].item.prefab_description.nav_curves.index(first_curve)
+            node_index = 0
+            for i, node in enumerate(self.items[0].item.prefab_description.nodes):
+                if index in node.output_lanes:
+                    node_index = i
+                    break
+
+            self._start_node = data.map.get_node_by_uid(
+                self.items[0].item.node_uids[node_index]
+            )
+            return self._start_node
+
+        self._start_node = data.map.get_node_by_uid(self.items[0].item.start_node_uid)
+        return self._start_node
 
     @property
     def end_node(self) -> c.Node:
         if self._end_node is not None:
             return self._end_node
         if isinstance(self.items[0].item, c.Prefab):
-            return data.map.get_node_by_uid(self.items[0].item.node_uids[-1])
+            # Find the index of the node that matches the last curve
+            nav_route = self.items[0].item.prefab_description.nav_routes[
+                self.lane_index
+            ]
+            last_curve = nav_route.curves[-1]
+            index = self.items[0].item.prefab_description.nav_curves.index(last_curve)
+            node_index = len(self.items[0].item.prefab_description.nodes) - 1
+            for i, node in enumerate(self.items[0].item.prefab_description.nodes):
+                if index in node.input_lanes:
+                    node_index = i
+                    break
+
+            self._end_node = data.map.get_node_by_uid(
+                self.items[0].item.node_uids[node_index]
+            )
+            return self._end_node
+
+        self._end_node = data.map.get_node_by_uid(self.items[-1].item.end_node_uid)
         return data.map.get_node_by_uid(self.items[-1].item.end_node_uid)
 
     @property
@@ -230,8 +272,6 @@ class RouteSection:
             else:
                 lane_change_points.append(end_points[i])
 
-        data.circles = lane_change_points
-
         return lane_change_points
 
     @property
@@ -307,7 +347,7 @@ class RouteSection:
             -math.cos(data.truck_rotation),
         ]
         distances = []
-        new_points = []
+        points_in_front = []
         for _i, point in enumerate(points):
             distance = math_helpers.DistanceBetweenPoints(
                 point.tuple(), (data.truck_x, data.truck_y, data.truck_z)
@@ -332,65 +372,22 @@ class RouteSection:
                 continue
 
             distances.append(distance)
-            new_points.append(point)
+            points_in_front.append(point)
 
-        if new_points == [] or distances == []:
+        if points_in_front == [] or distances == []:
             return []
 
-        paired = list(zip(new_points, distances, strict=False))
-        paired.sort(key=lambda x: x[1])
-        new_points, distances = zip(*paired, strict=False)
+        closest_point_index = distances.index(min(distances))
+        points_in_front = points_in_front[closest_point_index:]
 
-        new_points = list(new_points)
-        distances = list(distances)
+        points_de_duped = []
+        for point in points_in_front:
+            for pt in points_de_duped:
+                if point == pt:
+                    break
+            points_de_duped.append(point)
 
-        temp_points = []
-        distances_to_truck = []
-        distances_to_each_other = []
-        for i, point in enumerate(new_points):
-            index = i
-            if index == 0:
-                temp_points.append(point)
-                distances_to_truck.append(distances[0])
-                distances_to_each_other.append(0)
-                continue
-
-            distance = math_helpers.DistanceBetweenPoints(
-                point.tuple(), temp_points[-1].tuple()
-            )
-            if distance < 4:
-                temp_points.append(point)
-                distances_to_truck.append(distances[i])
-                distances_to_each_other.append(distance)
-
-        if temp_points == []:
-            return []
-
-        if distances_to_each_other == []:
-            return []
-
-        try:
-            average_distance = sum(distances_to_each_other) / len(
-                distances_to_each_other
-            )
-        except Exception:
-            average_distance = 1
-
-        closest_distance = 0
-        for i in range(len(temp_points) - 1):
-            distance = distances_to_truck[i]
-            if distance < closest_distance:
-                closest_distance = distance
-
-        if closest_distance > 20:
-            return []
-
-        new_points = []
-        for i, point in enumerate(temp_points):
-            if distances_to_each_other[i] < max(average_distance * 2, 1):
-                new_points.append(point)
-
-        return new_points
+        return points_de_duped
 
     def is_in_bounds(self, point: c.Position, offset: int = -5) -> bool:
         temp_y = point.y
