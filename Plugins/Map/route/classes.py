@@ -382,10 +382,8 @@ class RouteSection:
 
         points_de_duped = []
         for point in points_in_front:
-            for pt in points_de_duped:
-                if point == pt:
-                    break
-            points_de_duped.append(point)
+            if point not in points_de_duped:
+                points_de_duped.append(point)
 
         return points_de_duped
 

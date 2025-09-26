@@ -167,8 +167,6 @@ def get_path_to_destination():
             else:
                 node_points.append(None)
 
-        data.circles = [(node.x, node.z, node.y) for node in nodes]
-
         data.navigation_plan = route
         data.plugin.tags.navigation_plan = {
             "nodes": nodes,

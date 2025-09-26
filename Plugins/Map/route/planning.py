@@ -458,8 +458,6 @@ def GetCurrentNavigationPlan():
         for nav in closest_nodes
     ]
 
-    # data.circles = [(nav.node.x, nav.node.z, nav.node.y) for nav in closest_nodes]
-
     try:
         last = closest_nodes[in_front.index(False)]
         next = closest_nodes[in_front.index(True)]
@@ -889,12 +887,15 @@ def UpdateRoutePlan():
                 data.route_plan = []
             return
 
-        i = 0
-        while i < len(data.route_plan):
-            if not data.route_plan[i] or data.route_plan[i].is_ended:
-                data.route_plan.pop(i)
-            else:
-                i += 1
+        # i = 0
+        # while i < len(data.route_plan):
+        #     if not data.route_plan[i] or data.route_plan[i].is_ended:
+        #         data.route_plan.pop(i)
+        #     else:
+        #         i += 1
+
+        if data.route_plan[0].is_ended:
+            data.route_plan.pop(0)
 
         if len(data.route_plan) == 0:
             return
