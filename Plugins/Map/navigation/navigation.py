@@ -140,8 +140,9 @@ def get_path_to_destination():
                 pass
 
         success = [node.is_possible for node in route]
+        percentage = sum(success) / len(success) * 100
         logging.warning(
-            f"Successfully calculated lanes for {sum(success)} out of {len(success)} nodes ({sum(success) / len(success) * 100:.0f}%)"
+            f"Successfully calculated lanes for {sum(success)} out of {len(success)} nodes ({percentage:.0f}%)"
         )
         nodes = [node.node for node in route]
         node_points = []
@@ -173,5 +174,8 @@ def get_path_to_destination():
             "points": node_points,
         }
         data.last_length = len(game_route)
+        data.plugin.notify(
+            f"Navigation path updated, new lanes calculated for {sum(success)} out of {len(success)} nodes ({percentage:.0f}%)"
+        )
 
     return data.navigation_plan

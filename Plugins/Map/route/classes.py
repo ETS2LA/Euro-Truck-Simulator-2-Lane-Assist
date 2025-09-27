@@ -380,12 +380,7 @@ class RouteSection:
         closest_point_index = distances.index(min(distances))
         points_in_front = points_in_front[closest_point_index:]
 
-        points_de_duped = []
-        for point in points_in_front:
-            if point not in points_de_duped:
-                points_de_duped.append(point)
-
-        return points_de_duped
+        return points_in_front
 
     def is_in_bounds(self, point: c.Position, offset: int = -5) -> bool:
         temp_y = point.y

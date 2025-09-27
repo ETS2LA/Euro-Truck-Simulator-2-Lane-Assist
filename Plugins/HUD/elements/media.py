@@ -114,7 +114,9 @@ class Widget(HUDWidget):
                 color=Color(255, 255, 255, 20),
                 fill=Color(255, 255, 255, 10),
                 rounding=6,
-            ),
+            )
+            if progress > 0
+            else None,
             Text(
                 Point(10 + offset_x, 8, anchor=self.plugin.anchor),
                 text=self.title.get(),

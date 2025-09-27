@@ -418,18 +418,24 @@ class Plugin(ETS2LAPlugin):
         self.item_count = 0
 
     def Render(self, items=None):
+        global FRAME
         if not items:
             items = []
 
         render_start = time.perf_counter()
         self.item_count = len(items)
 
-        global FRAME
-        dpg.delete_item(FRAME)
+        try:
+            dpg.delete_item(FRAME)
+        except Exception:
+            pass
 
         distances = []
         discard = []
         for item in items:
+            if item is None:
+                continue
+
             distance = item.get_distance(HeadX, HeadY, HeadZ)
             if distance < 1000:
                 distances.append(item.get_distance(HeadX, HeadY, HeadZ))
