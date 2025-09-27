@@ -63,7 +63,8 @@ def run():
             time.sleep(0.01)  # Relieve CPU time (100fps)
 
             # Execute all main thread commands from the webserver
-            for func in webserver.mainThreadQueue:
+            if webserver.mainThreadQueue:
+                func = webserver.mainThreadQueue[0]
                 func[0](*func[1], **func[2])
                 webserver.mainThreadQueue.remove(func)
                 logging.debug(f"Executed queue item: {func[0].__name__}")
