@@ -185,7 +185,10 @@ class Plugin(ETS2LAPlugin):
         return speed_limit_accel
 
     def calculate_leading_vehicle_constraint(self, in_front: ACCVehicle):
-        minimum_gap = 10.0 + in_front.size.length / 2  # meters at 0 speed
+        if in_front.is_tmp:
+            minimum_gap = 5 + in_front.size.length / 2  # meters at 0 speed
+        else:
+            minimum_gap = 5 + in_front.size.length * 0.8  # meters at 0 speed
 
         desired_gap = max(self.time_gap_seconds * self.speed, minimum_gap)
         self.tags.acc_gap = desired_gap
@@ -195,24 +198,24 @@ class Plugin(ETS2LAPlugin):
 
         # Relative speed is more important at higher speeds due
         # to vehicles merging in front.
-        # if self.speed > 10 / 3.6:
-        #     following_accel = 0.4 * gap_error - 2.0 * relative_speed
-        # else:
-        #     following_accel = 1.0 * gap_error - 0.7 * relative_speed
+        if self.speed > 10 / 3.6:
+            following_accel = 0.4 * gap_error - 2.0 * relative_speed
+        else:
+            following_accel = 1.0 * gap_error - 0.7 * relative_speed
 
-        # following_accel += 0.3 * in_front.acceleration
+        following_accel += 0.3 * in_front.acceleration
 
-        following_accel = gap_error / 20 if gap_error < 0 else gap_error
-        if relative_speed < 0:  # vehicle in front is faster
-            following_accel -= relative_speed * 0.5
-            following_accel -= in_front.acceleration * 2 * (self.speed / 80 / 3.6)
-        else:  # vehicle in front is slower
-            if following_accel > 0:
-                following_accel *= max(
-                    1 - (relative_speed / 50 / 3.6), 0.1
-                )  # if the vehicle in front is stopped, then we want to be more careful
-            following_accel -= relative_speed * 4
-            following_accel -= in_front.acceleration * 1.5 * (self.speed / 80 / 3.6)
+        # following_accel = gap_error / 20 if gap_error < 0 else gap_error
+        # if relative_speed < 0:  # vehicle in front is faster
+        #     following_accel -= relative_speed * 0.5
+        #     following_accel -= in_front.acceleration * 2 * (self.speed / 80 / 3.6)
+        # else:  # vehicle in front is slower
+        #     if following_accel > 0:
+        #         following_accel *= max(
+        #             1 - (relative_speed / 50 / 3.6), 0.1
+        #         )  # if the vehicle in front is stopped, then we want to be more careful
+        #     following_accel -= relative_speed * 4
+        #     following_accel -= in_front.acceleration * 1.5 * (self.speed / 80 / 3.6)
 
         following_accel = min(self.max_accel, following_accel)
 
@@ -248,6 +251,9 @@ class Plugin(ETS2LAPlugin):
                 red_light_accel = max(self.comfort_decel, red_light_accel)
             else:
                 red_light_accel = max(self.emergency_decel, red_light_accel)
+
+            if red_light_accel < 0.02:
+                red_light_accel = min(-1, red_light_accel)
 
             return red_light_accel
         else:
@@ -334,6 +340,13 @@ class Plugin(ETS2LAPlugin):
             if self.kd_accel is None:
                 self.kd_accel = 0.05
                 settings.pid_kd = self.kd_accel
+
+            # Increase the derivative term if no cargo is loaded.
+            # This will reduce oscillations due to the higher acceleration
+            # and deceleration of an empty truck.
+            if self.api_data and not self.api_data["configString"]["cargo"]:
+                self.kd_accel *= 2
+                print(self.kd_accel)
 
     def calculate_target_acceleration(
         self,
@@ -562,8 +575,12 @@ class Plugin(ETS2LAPlugin):
         closest_vehicle = None
         for distance, vehicle in vehicles_in_front:
             if distance < closest_distance:
-                closest_distance = distance - (vehicle.size.length * 0.8)
-                # ETS2 reports the middle of the vehicle closer to the front
+                if vehicle.is_tmp:
+                    closest_distance = distance - (vehicle.size.length * 0.5)
+                else:
+                    # ETS2 reports the middle of the vehicle closer to the front
+                    closest_distance = distance - (vehicle.size.length * 0.8)
+
                 closest_vehicle = vehicle
 
         if closest_vehicle is None:
@@ -1173,7 +1190,7 @@ class Plugin(ETS2LAPlugin):
             except Exception:
                 traffic_light = None
                 traceback.print_exc()
-                self.globals.light = {"distance": 0, "state": ""}
+                self.tags.light = {"distance": 0, "state": ""}
                 self.tags.AR = []
 
         try:

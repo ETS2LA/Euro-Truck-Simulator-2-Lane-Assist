@@ -27,7 +27,9 @@ class Renderer(HUDRenderer):
         speed_unit = "km/h" if game == "ETS2" else "mph"
 
         # Line under the vehicle
-        front_left, front_right, back_right, back_left = vehicle.get_corners()
+        front_left, front_right, back_right, back_left = vehicle.get_corners(
+            correction_multiplier=-1
+        )
         distance = Coordinate(*front_left.tuple()).get_distance_to(
             truck_x, truck_y, truck_z
         )
@@ -209,6 +211,22 @@ class Renderer(HUDRenderer):
             if not isinstance(vehicle, Vehicle):
                 continue
 
-            data.extend(self.render_vehicle(vehicle))
+            if vehicle.trailers:
+                trailer = vehicle.trailers[-1]
+                fake_vehicle = Vehicle(
+                    trailer.position,
+                    trailer.rotation,
+                    trailer.size,
+                    vehicle.speed,
+                    vehicle.acceleration,
+                    0,
+                    [],
+                    vehicle.id,
+                    vehicle.is_tmp,
+                    True,
+                )
+                data.extend(self.render_vehicle(fake_vehicle))
+            else:
+                data.extend(self.render_vehicle(vehicle))
 
         self.data = data

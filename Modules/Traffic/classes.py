@@ -260,7 +260,7 @@ class Vehicle:
         return f"Vehicle({self.position}, {self.rotation}, {self.size}, {self.speed:.2f}, {self.acceleration:.2f}, {self.trailer_count}, {self.trailers})"
 
     def get_corners(
-        self, offset: Position = None
+        self, offset: Position = None, correction_multiplier: float = 1.0
     ) -> tuple[Position, Position, Position, Position]:
         """This function will output the corners of the vehicle in the following order:
         1. Front left
@@ -278,36 +278,36 @@ class Vehicle:
         back_left = [
             ground_middle[0] - self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] + self.size.length / 2
+            ground_middle[2] + (self.size.length / 2 * correction_multiplier)
             if self.is_tmp
-            else ground_middle[2] + self.size.length * 0.82,
+            else ground_middle[2] + (self.size.length * 0.82 * correction_multiplier),
         ]
 
         # Back right
         back_right = [
             ground_middle[0] + self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] + self.size.length / 2
+            ground_middle[2] + (self.size.length / 2 * correction_multiplier)
             if self.is_tmp
-            else ground_middle[2] + self.size.length * 0.82,
+            else ground_middle[2] + (self.size.length * 0.82 * correction_multiplier),
         ]
 
         # Front right
         front_right = [
             ground_middle[0] + self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] - self.size.length / 2
+            ground_middle[2] - (self.size.length / 2 * correction_multiplier)
             if self.is_tmp
-            else ground_middle[2] - self.size.length * 0.18,
+            else ground_middle[2] - (self.size.length * 0.18 * correction_multiplier),
         ]
 
         # Front left
         front_left = [
             ground_middle[0] - self.size.width / 2,
             ground_middle[1],
-            ground_middle[2] - self.size.length / 2
+            ground_middle[2] - (self.size.length / 2 * correction_multiplier)
             if self.is_tmp
-            else ground_middle[2] - self.size.length * 0.18,
+            else ground_middle[2] - (self.size.length * 0.18 * correction_multiplier),
         ]
 
         # Rotate the corners

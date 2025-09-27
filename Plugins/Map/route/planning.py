@@ -49,7 +49,7 @@ def GetRoadsInFrontOfRoad(road: c.Road, include_self: bool = True) -> list[c.Roa
 
 
 def PrefabToRouteSection(
-    prefab: c.Prefab, lane_index: int, invert: bool = False
+    prefab: c.Prefab, lane_index: int, invert: bool = False, path_index: int = 0
 ) -> rc.RouteSection:
     route_section = rc.RouteSection()
     route_item = rc.RouteItem()
@@ -58,29 +58,20 @@ def PrefabToRouteSection(
     route_section.items = [route_item]
     route_section.invert = invert
     route_section.lane_index = lane_index
+    route_section.path_index = path_index
     points = route_section.lane_points
     if len(points) == 0:
         return None
-    nodes = [data.map.get_node_by_uid(node_uid) for node_uid in prefab.node_uids]
-    closest_to_start = min(
-        nodes,
-        key=lambda n: math_helpers.DistanceBetweenPoints(
-            (n.x, n.y), (points[0].x, points[0].z)
-        ),
-    )
-    closest_to_end = min(
-        nodes,
-        key=lambda n: math_helpers.DistanceBetweenPoints(
-            (n.x, n.y), (points[-1].x, points[-1].z)
-        ),
-    )
-    route_section._start_node = closest_to_start
-    route_section._end_node = closest_to_end
+
     return route_section
 
 
 def RoadToRouteSection(
-    road: c.Road, lane_index: int, target_lanes: list[int] = None, invert: bool = False
+    road: c.Road,
+    lane_index: int,
+    target_lanes: list[int] = None,
+    invert: bool = False,
+    path_index: int = 0,
 ) -> rc.RouteSection:
     if target_lanes is None:
         target_lanes = []
@@ -88,20 +79,8 @@ def RoadToRouteSection(
     route_section = rc.RouteSection()
     route_section.items = []
 
-    n = data.map.get_node_by_uid
-    behind_roads = sorted(
-        GetRoadsBehindRoad(road, include_self=False),
-        key=lambda r: math_helpers.DistanceBetweenPoints(
-            (n(r.start_node_uid).x, n(r.start_node_uid).y), (data.truck_x, data.truck_z)
-        ),
-    )
-
-    forward_roads = sorted(
-        GetRoadsInFrontOfRoad(road, include_self=False),
-        key=lambda r: math_helpers.DistanceBetweenPoints(
-            (n(r.start_node_uid).x, n(r.start_node_uid).y), (data.truck_x, data.truck_z)
-        ),
-    )
+    behind_roads = GetRoadsBehindRoad(road, include_self=False)
+    forward_roads = GetRoadsInFrontOfRoad(road, include_self=False)
 
     roads = behind_roads[::-1] + [road] + forward_roads
     accepted_roads = []
@@ -119,6 +98,7 @@ def RoadToRouteSection(
     if lane_index > len(route_section.items[0].item.lanes) - 1:
         return None
 
+    route_section.path_index = path_index
     route_section.lane_index = lane_index
 
     # Prioritize lanes (valid) on the right side of the road
@@ -454,13 +434,23 @@ def GetCurrentNavigationPlan():
     )
     index = path.index(closest)
     if not in_front:
-        lower_bound = index
-        upper_bound = min(len(path), index + 2)
+        lower_index = index
+        upper_index = min(len(path), index + 2)
     else:
-        lower_bound = max(0, index - 1)
-        upper_bound = index + 1
+        lower_index = max(0, index - 1)
+        upper_index = index
 
-    closest_nodes: list[RouteNode] = path[lower_bound:upper_bound]
+        # Check if the distance to the last node is under 12m.
+        # This usually only happens in ProMods, where highways have
+        # tiny prefabs.
+        distance = math_helpers.DistanceBetweenPoints(
+            (closest.node.x, closest.node.y),
+            (path[lower_index].node.x, path[lower_index].node.y),
+        )
+        if distance < 12:
+            lower_index = max(0, lower_index - 1)
+
+    closest_nodes: list[RouteNode] = [path[lower_index], path[upper_index]]
     in_front = [
         math_helpers.IsInFront(
             (nav.node.x, nav.node.y), data.truck_rotation, (data.truck_x, data.truck_z)
@@ -492,21 +482,40 @@ def GetCurrentNavigationPlan():
             target_lanes = last.lanes
 
         # Find the last road piece before a prefab
-        index = path.index(next)
-        while path[index].item_type() == c.Road:
-            index += 1
-            if index >= len(path):
+        next_prefab_index = path.index(next)
+        while path[next_prefab_index].item_type() == c.Road:
+            next_prefab_index += 1
+            if next_prefab_index >= len(path):
                 break
 
-        if index == len(path):  # Last one doesn't matter
+        if next_prefab_index == len(path):  # Last one doesn't matter
             return RoadToRouteSection(
-                next_item, closest_lane, target_lanes=target_lanes
+                next_item, closest_lane, target_lanes=target_lanes, path_index=index
             )
 
-        last_road = path[index - 1]
+        start = next_item.lanes[closest_lane].points[0]
+        end = next_item.lanes[closest_lane].points[-1]
+        in_front_start = math_helpers.IsInFront(
+            (start.x, start.z), data.truck_rotation, (data.truck_x, data.truck_z)
+        )
+        in_front_end = math_helpers.IsInFront(
+            (end.x, end.z), data.truck_rotation, (data.truck_x, data.truck_z)
+        )
+
+        invert = False
+        if in_front_start and not in_front_end:
+            invert = True
+
+        last_road = path[next_prefab_index - 1]
         target_lanes = last_road.lanes
 
-        return RoadToRouteSection(next_item, closest_lane, target_lanes=target_lanes)
+        return RoadToRouteSection(
+            next_item,
+            closest_lane,
+            target_lanes=target_lanes,
+            path_index=index,
+            invert=invert,
+        )
 
     if isinstance(next_item, c.Prefab):
         closest_lanes = GetClosestLanesForPrefab(
@@ -517,57 +526,36 @@ def GetCurrentNavigationPlan():
             return None
 
         closest_lane = closest_lanes[0]
-        return PrefabToRouteSection(next_item, closest_lane)
+        return PrefabToRouteSection(
+            next_item, closest_lane, path_index=path.index(next)
+        )
 
 
 def GetNextNavigationItem():
     last_item = data.route_plan[-1]
     last_points = last_item.lane_points
-    end_node = last_item.end_node
-    start_node = last_item.start_node
 
-    start_distance = math_helpers.DistanceBetweenPoints(
-        (start_node.x, start_node.y), (data.truck_x, data.truck_z)
-    )
-    end_distance = math_helpers.DistanceBetweenPoints(
-        (end_node.x, end_node.y), (data.truck_x, data.truck_z)
-    )
-    if start_distance > 200 and end_distance > 200:
-        return None
-
-    start_in_front = math_helpers.IsInFront(
-        (start_node.x, start_node.y), data.truck_rotation, (data.truck_x, data.truck_z)
-    )
-    end_in_front = math_helpers.IsInFront(
-        (end_node.x, end_node.y), data.truck_rotation, (data.truck_x, data.truck_z)
-    )
-
-    selected_node = None
-
-    if start_in_front and not end_in_front:
-        selected_node = start_node
-    elif end_in_front and not start_in_front:
-        selected_node = end_node
-
-    elif start_in_front and end_in_front:
-        if start_distance > 50 and end_distance > 50:
-            return None
-
-        if start_distance < end_distance:
-            selected_node = end_node
-        else:
-            selected_node = start_node
-    else:
-        logging.warning("Both nodes are behind.")
-        return None
-
+    index = last_item.path_index + 1
     path: list[RouteNode] = data.navigation_plan
-    nodes = [nav.node for nav in path]
+
+    if isinstance(last_item.items[0].item, c.Prefab):
+        index -= 1
+
     try:
-        index = nodes.index(selected_node)
+        if path[index].item == last_item.items[0].item:
+            index += 1
     except Exception:
-        # logging.warning("Failed to find selected node in path")
+        data.route_plan = []
         return None
+
+    if isinstance(last_item.items[0].item, c.Road):
+        next_prefab_index = index - 1
+        while path[next_prefab_index].item_type() == c.Road:
+            next_prefab_index += 1
+            if next_prefab_index >= len(path):
+                break
+
+        index = next_prefab_index
 
     try:
         last = None
@@ -599,19 +587,32 @@ def GetNextNavigationItem():
         target_lanes = current.lanes  # accepted when pathfinding lanes
 
         # Find the last road piece before a prefab
-        index = path.index(next)
-        while path[index].item_type() == c.Road:
-            index += 1
-            if index >= len(path):
+        next_prefab_index = path.index(next)
+        while path[next_prefab_index].item_type() == c.Road:
+            next_prefab_index += 1
+            if next_prefab_index >= len(path):
                 break
 
-        if index == len(path):  # Last one doesn't matter
-            return RoadToRouteSection(
-                next_item, closest_lane, target_lanes=target_lanes
-            )
+        start = next_item.lanes[closest_lane].points[0]
+        end = next_item.lanes[closest_lane].points[-1]
+        start_distance = math_helpers.DistanceBetweenPoints(
+            (start.x, start.z), (last_points[-1].x, last_points[-1].z)
+        )
+        end_distance = math_helpers.DistanceBetweenPoints(
+            (end.x, end.z), (last_points[-1].x, last_points[-1].z)
+        )
 
-        target_lanes = current.lanes
-        return RoadToRouteSection(next_item, closest_lane, target_lanes=target_lanes)
+        invert = False
+        if end_distance < start_distance:
+            invert = True
+
+        return RoadToRouteSection(
+            next_item,
+            closest_lane,
+            target_lanes=target_lanes,
+            path_index=next_prefab_index,
+            invert=invert,
+        )
 
     if isinstance(next_item, c.Prefab):
         accepted_lanes = current.lanes
@@ -646,7 +647,7 @@ def GetNextNavigationItem():
         if best_lane == math.inf:
             return None
 
-        return PrefabToRouteSection(next_item, best_lane)
+        return PrefabToRouteSection(next_item, best_lane, path_index=index)
 
 
 def ResetState():
@@ -876,7 +877,8 @@ def UpdateRoutePlan():
 
     else:  # We have a navigation plan that we can drive on.
         if len(data.route_plan) == 0:
-            data.route_plan.append(GetCurrentNavigationPlan())
+            first_item = GetCurrentNavigationPlan()
+            data.route_plan.append(first_item)
 
         if data.route_plan[0] is None:
             if len(data.route_plan) > 1:

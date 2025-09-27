@@ -58,6 +58,7 @@ class Plugin(ETS2LAPlugin):
         version="2.0.0",
         modules=["SDKController", "TruckSimAPI", "Steering", "Route"],
         tags=["Base", "Steering"],
+        listen=["main.py"],
         ui_filename="ui.py",
         fps_cap=20,
     )

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-17 12:17+0000\n"
+"PO-Revision-Date: 2025-09-24 09:33+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -2007,78 +2007,84 @@ msgstr ""
 
 #: .\Plugins\HUD\elements\power.py:10
 msgid "Throttle / Brake"
-msgstr ""
+msgstr "Acelerador / Freno"
 
 #: .\Plugins\HUD\elements\power.py:11
 msgid "Display current throttle and brake percentage."
-msgstr ""
+msgstr "Muestra el porcentaje actual del acelerador y del freno."
 
 #: .\Plugins\HUD\elements\semaphores.py:8 .\Plugins\HUD\main.py:305
 #: .\Plugins\HUD\main.py:308
 msgid "Traffic Lights"
-msgstr ""
+msgstr "Luces de tráfico"
 
 #: .\Plugins\HUD\elements\semaphores.py:9
 msgid "Draw traffic light information."
-msgstr ""
+msgstr "Dibujar información del semáforo."
 
 #: .\Plugins\HUD\elements\speed.py:8 .\Plugins\HUD\main.py:46
 #: .\Plugins\TTS\main.py:154
 msgid "Speed"
-msgstr ""
+msgstr "Velocidad"
 
 #: .\Plugins\HUD\elements\speed.py:9
 msgid "A normal speed display, will also show speed limit changes."
 msgstr ""
+"Una pantalla de velocidad normal también mostrará los cambios en el límite "
+"de velocidad."
 
 #: .\Plugins\HUD\elements\steering.py:9 .\Plugins\HUD\main.py:306
 #: .\Plugins\HUD\main.py:308
 msgid "Steering Line"
-msgstr ""
+msgstr "Línea de dirección"
 
 #: .\Plugins\HUD\elements\steering.py:10
 msgid "Draw steering line from Map."
-msgstr ""
+msgstr "Dibuje una línea de dirección desde el mapa."
 
 #: .\Plugins\HUD\main.py:24
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
 msgstr ""
+"Crea una pantalla de visualización frontal en el parabrisas. Necesita el "
+"complemento de realidad aumentada para funcionar."
 
 #: .\Plugins\HUD\ui.py:131 .\Plugins\HUD\ui.py:356
 msgid "Enable"
-msgstr ""
+msgstr "Permitir"
 
 #: .\Plugins\HUD\ui.py:131 .\Plugins\HUD\ui.py:356
 msgid "Disable"
-msgstr ""
+msgstr "Desactivar"
 
 #: .\Plugins\HUD\ui.py:138
 msgid "This plugin provides a HUD using the AR plugin as the renderer."
 msgstr ""
+"Este complemento proporciona un HUD que utiliza el complemento AR como "
+"renderizador."
 
 #: .\Plugins\HUD\ui.py:142
 msgid "Please enable the plugin to edit the settings."
-msgstr ""
+msgstr "Habilite el plugin para editar la configuración."
 
 #: .\Plugins\HUD\ui.py:148
 msgid "Transform"
-msgstr ""
+msgstr "Transformar"
 
 #: .\Plugins\HUD\ui.py:152
 msgid "Offset X"
-msgstr ""
+msgstr "Desplazamiento X"
 
 #: .\Plugins\HUD\ui.py:153
 msgid "The horizontal offset of the HUD."
-msgstr ""
+msgstr "El desplazamiento horizontal del HUD."
 
 #: .\Plugins\HUD\ui.py:161
 msgid "Offset Y"
-msgstr ""
+msgstr "Desplazamiento Y"
 
 #: .\Plugins\HUD\ui.py:162
 msgid "The vertical offset of the HUD."
-msgstr ""
+msgstr "El desplazamiento vertical del HUD."
 
 #: .\Plugins\HUD\ui.py:170
 msgid "Offset Z"

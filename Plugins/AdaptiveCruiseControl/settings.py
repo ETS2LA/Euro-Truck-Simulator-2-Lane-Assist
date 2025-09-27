@@ -48,6 +48,8 @@ class SettingsMenu(ETS2LAPage):
         settings.aggressiveness = value
 
     def handle_following_distance(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.following_distance = value
 
     def handle_ignore_traffic_lights(self, *args):
@@ -63,9 +65,13 @@ class SettingsMenu(ETS2LAPage):
         settings.speed_offset = 0
 
     def handle_speed_offset(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.speed_offset = value
 
     def handle_coefficient_of_friction(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.MU = value
 
     def handle_max_speed(self, value):
@@ -95,12 +101,18 @@ class SettingsMenu(ETS2LAPage):
         settings.unlock_pid = value
 
     def handle_pid_kp(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.pid_kp = value
 
     def handle_pid_ki(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.pid_ki = value
 
     def handle_pid_kd(self, value):
+        if isinstance(value, str):
+            value = float(value)
         settings.pid_kd = value
 
     def handle_traffic_light_mode(self, value):
@@ -133,7 +145,7 @@ class SettingsMenu(ETS2LAPage):
                 with Container(styles.FlexVertical() + styles.Gap("10px")):
                     follow_distance = settings.following_distance
                     if isinstance(follow_distance, str):
-                        follow_distance = 2
+                        follow_distance = float(follow_distance)
                         settings.following_distance = follow_distance
 
                     SliderWithTitleDescription(
@@ -159,6 +171,11 @@ class SettingsMenu(ETS2LAPage):
                             distance=round(target_dist),
                             distance_ft=round(target_dist_ft),
                         ),
+                        styles.Classname("text-xs text-muted-foreground"),
+                    )
+                    Text(
+                        "-> "
+                        + "ETS2LA enforces a minimum distance of 5m + half of the vehicle length. This cannot be changed.",
                         styles.Classname("text-xs text-muted-foreground"),
                     )
 

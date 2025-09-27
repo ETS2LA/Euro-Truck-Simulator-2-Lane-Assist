@@ -505,12 +505,16 @@ def DrawPrefabs(sector_change: bool) -> np.ndarray:
                     x, z = ToLocalSectorCoordinates(point.x, point.z, SCALING_FACTOR)
                     points.append((int(x), int(z)))
 
+                color = (150, 150, 150)
+                if prefab.uid == HIGHLIGHTED_UID:
+                    color = (0, 255, 255)
+
                 poly_points = np.array(points, np.int32)
                 cv2.polylines(
                     prefab_image,
                     [poly_points],
                     isClosed=False,
-                    color=(150, 150, 150),
+                    color=color,
                     thickness=LINE_THICKNESS,
                     lineType=cv2.LINE_AA,
                 )
