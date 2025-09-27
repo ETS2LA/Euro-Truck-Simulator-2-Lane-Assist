@@ -253,7 +253,7 @@ class Plugin(ETS2LAPlugin):
                 red_light_accel = max(self.emergency_decel, red_light_accel)
 
             if red_light_accel < 0.02:
-                red_light_accel = -1
+                red_light_accel = min(-1, red_light_accel)
 
             return red_light_accel
         else:
