@@ -25,12 +25,6 @@ from Plugins.AR.classes import (
     Text,
     get_object_from_dict,
 )
-from Plugins.AR.utils import (
-    is_circle_in_viewport,
-    is_point_in_viewport,
-    is_polygon_in_viewport,
-    is_rectangle_in_viewport,
-)
 from Plugins.AR.settings import settings
 
 PURPLE = "\033[95m"
@@ -470,9 +464,7 @@ class Plugin(ETS2LAPlugin):
                         viewport_width = WindowPosition[2] - WindowPosition[0]
                         viewport_height = WindowPosition[3] - WindowPosition[1]
 
-                        if not is_rectangle_in_viewport(
-                            screen_start, screen_end, viewport_width, viewport_height
-                        ):
+                        if not item.in_viewport(viewport_width, viewport_height, self):
                             self.culled_items += 1
                             continue
 
@@ -523,9 +515,7 @@ class Plugin(ETS2LAPlugin):
                         viewport_width = WindowPosition[2] - WindowPosition[0]
                         viewport_height = WindowPosition[3] - WindowPosition[1]
 
-                        if not is_rectangle_in_viewport(
-                            screen_start, screen_end, viewport_width, viewport_height
-                        ):
+                        if not item.in_viewport(viewport_width, viewport_height, self):
                             self.culled_items += 1
                             continue
 
@@ -559,9 +549,7 @@ class Plugin(ETS2LAPlugin):
                         viewport_width = WindowPosition[2] - WindowPosition[0]
                         viewport_height = WindowPosition[3] - WindowPosition[1]
 
-                        if not is_polygon_in_viewport(
-                            screen_points, viewport_width, viewport_height
-                        ):
+                        if not item.in_viewport(viewport_width, viewport_height, self):
                             self.culled_items += 1
                             continue
 
@@ -596,9 +584,7 @@ class Plugin(ETS2LAPlugin):
                         viewport_width = WindowPosition[2] - WindowPosition[0]
                         viewport_height = WindowPosition[3] - WindowPosition[1]
 
-                        if not is_circle_in_viewport(
-                            screen_center, item.radius, viewport_width, viewport_height
-                        ):
+                        if not item.in_viewport(viewport_width, viewport_height, self):
                             self.culled_items += 1
                             continue
 
@@ -633,9 +619,7 @@ class Plugin(ETS2LAPlugin):
                         viewport_width = WindowPosition[2] - WindowPosition[0]
                         viewport_height = WindowPosition[3] - WindowPosition[1]
 
-                        if not is_point_in_viewport(
-                            screen_position, viewport_width, viewport_height
-                        ):
+                        if not item.in_viewport(viewport_width, viewport_height, self):
                             self.culled_items += 1
                             continue
 
@@ -675,6 +659,13 @@ class Plugin(ETS2LAPlugin):
                         draw_calls += 1
 
                     elif isinstance(item, Bezier):
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
+                            continue
+
                         p1 = item.p1.tuple()
                         p2 = item.p2.tuple()
                         p3 = item.p3.tuple()
