@@ -881,7 +881,7 @@ class Text:
             return False
 
         x, y = screen_point[0], screen_point[1]
-        return 0 <= x <= viewport_width and 0 <= y <= viewport_height
+        return not (x < 0 or x > viewport_width or y < 0 or y > viewport_height)
 
     def json(self):
         return {
