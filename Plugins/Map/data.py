@@ -231,6 +231,7 @@ def UpdateData(api_data):
             "prefabs": [prefab.json() for prefab in current_sector_prefabs],
             "roads": [road.json() for road in current_sector_roads],
             "models": [model.json() for model in current_sector_models],
+            "signs": [sign.json() for sign in current_sector_signs],
             "elevations": [elevation.json() for elevation in current_sector_elevations]
             if send_elevation_data
             else [],

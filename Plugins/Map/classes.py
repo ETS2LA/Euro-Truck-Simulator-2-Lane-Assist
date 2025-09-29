@@ -590,12 +590,10 @@ class BaseItem:
 
     def json(self) -> dict:
         return {
-            "uid": str(self.uid),  # String to avoid overflow
+            "uid": str(self.uid),
             "type": self.type,
             "x": self.x,
             "y": self.y,
-            "sector_x": self.sector_x,
-            "sector_y": self.sector_y,
         }
 
 
@@ -657,6 +655,7 @@ class Sign(BaseItem):
         "description",
         "action",
         "action_data",
+        "_node",
     ]
 
     token: str
@@ -665,6 +664,25 @@ class Sign(BaseItem):
     description: SignDescription | None
     action: SignAction | None
     action_data: Any | None
+    _node: Node | None
+
+    @property
+    def node(self) -> Node | None:
+        if self._node is None:
+            self._node = data.map.get_node_by_uid(self.node_uid)
+        return self._node
+
+    @property
+    def z(self) -> float:
+        return self.node.z if self.node else 0
+
+    @property
+    def euler(self) -> list[float]:
+        return self.node.euler if self.node else [0, 0, 0]
+
+    @property
+    def rotation(self) -> float:
+        return self.node.rotation if self.node else 0
 
     def parse_strings(self):
         super().parse_strings()
@@ -787,6 +805,27 @@ class Sign(BaseItem):
         self.text_items = text_items
         self.action = None
         self.action_data = None
+        self._node = None
+
+    def json(self) -> dict:
+        return_dict = {
+            **super().json(),
+        }
+        # BaseItem has the Y coordinate when it should be Z
+        # so we flip them here
+        return_dict["z"] = return_dict.get("y", 0)
+        return_dict["y"] = self.z
+        return_dict = {
+            **return_dict,
+            "rotation": self.rotation,
+            "token": self.token,
+            "node_uid": self.node_uid,
+            "text_items": self.text_items,
+            "description": self.description.json() if self.description else None,
+            "action": self.action,
+            "action_data": self.action_data,
+        }
+        return return_dict
 
 
 class CityArea(BaseItem):
