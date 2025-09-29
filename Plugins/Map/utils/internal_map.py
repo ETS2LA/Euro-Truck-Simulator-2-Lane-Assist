@@ -611,6 +611,43 @@ def DrawTriggers(image: np.ndarray) -> None:
                 )
 
 
+def DrawSigns(image: np.ndarray) -> None:
+    for sign in data.current_sector_signs:
+        sign_position = ToLocalSectorCoordinates(sign.x, sign.y, SCALING_FACTOR)
+        cv2.circle(
+            image,
+            (int(sign_position[0]), int(sign_position[1])),
+            4,
+            (200, 200, 100),
+            1,
+        )
+        text = sign.action
+        if sign.action in ["general", "prop"]:
+            text += f" ({sign.description.name})"
+        cv2.putText(
+            image,
+            f"{text} {sign.action_data if sign.action_data else ''}",
+            (int(sign_position[0] + 10), int(sign_position[1]) + 4),
+            cv2.FONT_HERSHEY_DUPLEX,
+            FONT_SIZE,
+            (200, 200, 150),
+            1,
+            cv2.LINE_AA,
+        )
+        for i, text in enumerate(sign.text_items):
+            y_offset = 20 + i * 12
+            cv2.putText(
+                image,
+                text,
+                (int(sign_position[0] + 10), int(sign_position[1]) + y_offset),
+                cv2.FONT_HERSHEY_DUPLEX,
+                FONT_SIZE - 0.1,
+                (200 / 1.2, 200 / 1.2, 150 / 1.2),
+                1,
+                cv2.LINE_AA,
+            )
+
+
 def DrawPlayerDot(image: np.ndarray) -> None:
     x, z = ToLocalSectorCoordinates(data.truck_x, data.truck_z, SCALING_FACTOR)
     cv2.circle(image, (int(x), int(z)), 5, (0, 0, 255), 1)
@@ -666,6 +703,7 @@ def DrawMap() -> None:
     DrawPlayerDot(image)
     DrawCircles(image)
     DrawTriggers(image)
+    DrawSigns(image)
 
     try:
         image = ZoomImage(image)

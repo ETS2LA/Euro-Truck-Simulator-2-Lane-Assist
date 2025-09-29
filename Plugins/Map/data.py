@@ -8,6 +8,7 @@ from Plugins.Map.classes import (
     CompanyItem,
     Trigger,
     Elevation,
+    Sign,
 )
 from Modules.SDKController.main import SCSController
 from Plugins.Map.route.classes import RouteSection
@@ -77,6 +78,8 @@ current_sector_elevations: list[Elevation] = []
 """"The elevations in the current sector."""
 current_sector_triggers: list[Trigger] = []
 """The triggers in the current sector."""
+current_sector_signs: list[Sign] = []
+"""The signs in the current sector."""
 current_sectors: list[tuple[int, int]] = []
 """The sectors that are currently loaded."""
 route_plan: list[RouteSection] = []
@@ -168,6 +171,7 @@ def UpdateData(api_data):
         current_sector_y, \
         current_sector_prefabs, \
         current_sector_triggers, \
+        current_sector_signs, \
         current_sector_roads, \
         last_sector, \
         current_sector_models, \
@@ -211,12 +215,14 @@ def UpdateData(api_data):
         current_sector_models = []
         current_sector_elevations = []
         current_sector_triggers = []
+        current_sector_signs = []
         for sector in sectors_to_load:
             current_sector_prefabs += map.get_sector_prefabs_by_sector(sector)
             current_sector_roads += map.get_sector_roads_by_sector(sector)
             current_sector_models += map.get_sector_models_by_sector(sector)
             current_sector_elevations += map.get_sector_elevations_by_sector(sector)
             current_sector_triggers += map.get_sector_triggers_by_sector(sector)
+            current_sector_signs += map.get_sector_signs_by_sector(sector)
 
         data_needs_update = True
 

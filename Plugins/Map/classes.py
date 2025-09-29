@@ -93,14 +93,30 @@ class ItemType(IntEnum):
     Service = 7
     CutPlane = 8
     Mover = 9
+    ShadowMap = 10
     NoWeather = 11
     City = 12
     Hinge = 13
+    Parking = 14
+    AnimatedModel = 15
+    Hq = 16
+    Lock = 17
     MapOverlay = 18
     Ferry = 19
+    MissionPoint = 20
     Sound = 21
     Garage = 22
     CameraPoint = 23
+    ParkingPoint = 24
+    FixedCar = 25
+    TrailerStart = 26
+    TruckStart = 27
+    Walker = 28
+    YetdFinish = 29
+    YetdTriplet = 30
+    YetdFixable = 31
+    YetdBall = 32
+    YetdRod = 33
     Trigger = 34
     FuelPump = 35  # services
     Sign = 36  # sign
@@ -581,6 +597,196 @@ class BaseItem:
             "sector_x": self.sector_x,
             "sector_y": self.sector_y,
         }
+
+
+class SignDescription:
+    __slots__ = ["token", "name", "model_path", "category"]
+
+    token: str
+    name: str
+    model_path: str
+    category: str
+
+    def __init__(
+        self,
+        token: str,
+        name: str,
+        model_path: str,
+        category: str,
+    ):
+        self.token = token
+        self.name = name
+        self.model_path = model_path
+        self.category = category
+
+    def json(self) -> dict:
+        return {
+            "token": self.token,
+            "name": self.name,
+            "model_path": self.model_path,
+            "category": self.category,
+        }
+
+
+class SignAction(StrEnum):
+    # Give way triangle
+    GIVE_WAY = "give_way"
+    # Stop sign
+    STOP = "stop"
+    # Speed limit changes
+    SPEED_LIMIT = "speed_limit"
+    # Pedestrian crossing sign
+    PEDESTRIAN_CROSSING = "pedestrian_crossing"
+    # Street lamp
+    LAMP = "lamp"
+    # Other props that are not lamps
+    PROP = "prop"
+    # General sign (with text)
+    GENERAL = "general"
+    # Speedcamera
+    SPEEDCAMERA = "speedcamera"
+    # Post
+    POST = "post"
+
+
+class Sign(BaseItem):
+    __slots__ = [
+        "token",
+        "node_uid",
+        "text_items",
+        "description",
+        "action",
+        "action_data",
+    ]
+
+    token: str
+    node_uid: str
+    text_items: list[str]
+    description: SignDescription | None
+    action: SignAction | None
+    action_data: Any | None
+
+    def parse_strings(self):
+        super().parse_strings()
+        self.node_uid = parse_string_to_int(self.node_uid)
+
+    def parse_action(self):
+        if not self.description:
+            self.action = None
+            self.action_data = None
+            return
+
+        for text in self.text_items:
+            # matches explicit traffic rule for speedlimit
+            if text.startswith("traffic_rule.limit_"):
+                possible_data = text.split("traffic_rule.limit_")[1]
+                if possible_data.isdigit():
+                    self.action = SignAction.SPEED_LIMIT
+                    self.action_data = int(possible_data)
+                    return
+
+        # matches /models/lamp <- to check for lamps
+        if self.description.model_path.split("/")[2] == "lamp":
+            self.action = SignAction.LAMP
+            self.action_data = None
+            return
+
+        # matches /model/speedcamera
+        if self.description.model_path.split("/")[2] == "speedcamera":
+            self.action = SignAction.SPEEDCAMERA
+            self.action_data = None
+            return
+
+        # matches "reflective post uk" etc... in the description name
+        if "reflective post" in self.description.name:
+            self.action = SignAction.POST
+            self.action_data = None
+
+        # matches "speed limit 110 dk" etc... in the description name
+        if "speed limit" in self.description.name:
+            possible_data = self.description.name.replace("speed limit", "").strip()
+            possible_data = possible_data.split(" ")[0]
+            if possible_data.isdigit():
+                self.action = SignAction.SPEED_LIMIT
+                self.action_data = int(possible_data)
+                return
+
+        # matches "speedlimit 110 cr" etc... in the description name
+        if "speedlimit" in self.description.name:
+            possible_data = self.description.name.replace("speedlimit", "").strip()
+            possible_data = possible_data.split(" ")[0]
+            if possible_data.isdigit():
+                self.action = SignAction.SPEED_LIMIT
+                self.action_data = int(possible_data)
+                return
+
+        # matches "al stop"
+        # doesn't match "rest stop", "bus stop" etc...
+        if "stop" in self.description.name:
+            words = self.description.name.split(" ")
+            if "stop" in words:
+                filters = [
+                    "bus",
+                    "stopping",
+                    "tram",
+                    "rest",
+                    "border",
+                    "kontrole",
+                    "kontroll",
+                ]
+                has_filters = any(f in words for f in filters)
+                if not has_filters:
+                    self.action = SignAction.STOP
+                    self.action_data = None
+                    return
+
+        # matches anything with "give" or "yield"
+        if (
+            " give " in self.description.name
+            or "give " in self.description.name
+            or "yield" in self.description.name
+        ):
+            self.action = SignAction.GIVE_WAY
+            self.action_data = None
+            return
+
+        # matches "pedestrians dk" etc...
+        if (
+            "pedestrians" in self.description.name
+            or "crossing" in self.description.name
+        ):
+            self.action = SignAction.PEDESTRIAN_CROSSING
+            self.action_data = None
+            return
+
+        # matches "/model2/props/..."
+        if "prop" in self.description.model_path:
+            self.action = SignAction.PROP
+            self.action_data = None
+
+        if "sign" in self.description.model_path:
+            self.action = SignAction.GENERAL
+            self.action_data = None
+
+    def __init__(
+        self,
+        uid: int | str,
+        x: float,
+        y: float,
+        sector_x: int,
+        sector_y: int,
+        token: str,
+        node_uid: int | str,
+        text_items: list[str],
+    ):
+        super().__init__(uid, ItemType.Sign, x, y, sector_x, sector_y)
+        super().parse_strings()
+        self.description = None
+        self.token = token
+        self.node_uid = node_uid
+        self.text_items = text_items
+        self.action = None
+        self.action_data = None
 
 
 class CityArea(BaseItem):
@@ -2880,7 +3086,9 @@ class MapData:
     road_looks: list[RoadLook]
     prefab_descriptions: list[PrefabDescription]
     model_descriptions: list[ModelDescription]
+    sign_descriptions: list[SignDescription]
     navigation: list[NavigationEntry]
+    signs: list[Sign]
 
     _elevations_by_sector: dict[dict[Elevation]]
     _nodes_by_sector: dict[dict[Node]]
@@ -2888,6 +3096,7 @@ class MapData:
     _prefabs_by_sector: dict[dict[Prefab]]
     _models_by_sector: dict[dict[Model]]
     _triggers_by_sector: dict[dict[Trigger]]
+    _signs_by_sector: dict[dict[Sign]]
 
     _min_sector_x: int = math.inf
     _max_sector_x: int = -math.inf
@@ -2897,10 +3106,11 @@ class MapData:
     _sector_height: int = 200
 
     _by_uid = {}
-    _model_descriptions_by_token = {}
-    _prefab_descriptions_by_token = {}
-    _companies_by_token = {}
-    _navigation_by_node_uid = {}
+    _model_descriptions_by_token: dict[str, ModelDescription] = {}
+    _prefab_descriptions_by_token: dict[str, PrefabDescription] = {}
+    _sign_descriptions_by_token: dict[str, SignDescription] = {}
+    _companies_by_token: dict[str, Company] = {}
+    _navigation_by_node_uid: dict[int, NavigationEntry] = {}
     """
     Nested nodes dictionary for quick access to nodes by their UID. UID is split into 4 character strings to index into the nested dictionaries.
     Please use the get_node_by_uid method to access nodes by UID.
@@ -2945,6 +3155,11 @@ class MapData:
         for trigger in self.triggers:
             trigger.sector_x, trigger.sector_y = self.get_sector_from_center_of_nodes(
                 trigger.node_uids, (trigger.x, trigger.y)
+            )
+
+        for sign in self.signs:
+            sign.sector_x, sign.sector_y = self.get_sector_from_coordinates(
+                sign.x, sign.y
             )
 
         # for area in self.map_areas:
@@ -3004,6 +3219,7 @@ class MapData:
         self._prefabs_by_sector = {}
         self._models_by_sector = {}
         self._triggers_by_sector = {}
+        self._signs_by_sector = {}
 
         for node in self.nodes:
             sector = (node.sector_x, node.sector_y)
@@ -3064,6 +3280,14 @@ class MapData:
                 self._triggers_by_sector[sector[0]][sector[1]] = []
             self._triggers_by_sector[sector[0]][sector[1]].append(trigger)
 
+        for sign in self.signs:
+            sector = (sign.sector_x, sign.sector_y)
+            if sector[0] not in self._signs_by_sector:
+                self._signs_by_sector[sector[0]] = {}
+            if sector[1] not in self._signs_by_sector[sector[0]]:
+                self._signs_by_sector[sector[0]][sector[1]] = []
+            self._signs_by_sector[sector[0]][sector[1]].append(sign)
+
     def calculate_sector_dimensions(self) -> None:
         min_sector_x = self._min_sector_x
         min_sector_x_y = min(
@@ -3122,6 +3346,10 @@ class MapData:
             self._prefab_descriptions_by_token[prefab_description.token] = (
                 prefab_description
             )
+
+        self._sign_descriptions_by_token = {}
+        for sign_description in self.sign_descriptions:
+            self._sign_descriptions_by_token[sign_description.token] = sign_description
 
         self._companies_by_token = {}
         for company in self.companies:
@@ -3183,6 +3411,13 @@ class MapData:
 
     def get_sector_triggers_by_sector(self, sector: tuple[int, int]) -> list[Trigger]:
         return self._triggers_by_sector.get(sector[0], {}).get(sector[1], [])
+
+    def get_sector_signs_by_coordinates(self, x: float, z: float) -> list[Sign]:
+        sector = self.get_sector_from_coordinates(x, z)
+        return self.get_sector_signs_by_sector(sector)
+
+    def get_sector_signs_by_sector(self, sector: tuple[int, int]) -> list[Sign]:
+        return self._signs_by_sector.get(sector[0], {}).get(sector[1], [])
 
     def get_sector_elevations_by_coordinates(
         self, x: float, z: float
@@ -3256,6 +3491,35 @@ class MapData:
             prefab.prefab_description = self._prefab_descriptions_by_token.get(
                 prefab.token, None
             )
+
+    def match_signs_to_descriptions(self) -> None:
+        no_action = []
+        missing_tokens = []
+        failed_for_text_and_token = []
+        for sign in self.signs:
+            # Skip signs that we already know have no action
+            if sign.token in missing_tokens:
+                no_action.append(sign)
+                continue
+            if (sign.text_items, sign.token) in failed_for_text_and_token:
+                no_action.append(sign)
+                continue
+
+            sign.description = self._sign_descriptions_by_token.get(sign.token, None)
+            if not sign.description:
+                print(f"Missing sign description for token: {sign.token}")
+                missing_tokens.append(sign.token)
+                no_action.append(sign)
+                continue
+
+            sign.parse_action()
+            if sign.action is None:
+                # print(f"Sign {sign.uid} ({sign.description.name}) has no action")
+                no_action.append(sign)
+                failed_for_text_and_token.append((sign.text_items, sign.token))
+
+        for sign in no_action:
+            self.signs.remove(sign)
 
     def get_world_center_for_sector(
         self, sector: tuple[int, int]
