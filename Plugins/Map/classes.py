@@ -645,6 +645,8 @@ class SignAction(StrEnum):
     SPEEDCAMERA = "speedcamera"
     # Post
     POST = "post"
+    # None
+    NONE = "none"
 
 
 class Sign(BaseItem):
@@ -653,8 +655,8 @@ class Sign(BaseItem):
         "node_uid",
         "text_items",
         "description",
-        "action",
-        "action_data",
+        "_action",
+        "_action_data",
         "_node",
     ]
 
@@ -662,8 +664,8 @@ class Sign(BaseItem):
     node_uid: str
     text_items: list[str]
     description: SignDescription | None
-    action: SignAction | None
-    action_data: Any | None
+    _action: SignAction | None
+    _action_data: Any | None
     _node: Node | None
 
     @property
@@ -716,9 +718,13 @@ class Sign(BaseItem):
             return
 
         # matches "reflective post uk" etc... in the description name
-        if "reflective post" in self.description.name:
+        if (
+            "reflective post" in self.description.name
+            or "column" in self.description.name
+        ):
             self.action = SignAction.POST
             self.action_data = None
+            return
 
         # matches "speed limit 110 dk" etc... in the description name
         if "speed limit" in self.description.name:
@@ -785,6 +791,30 @@ class Sign(BaseItem):
         if "sign" in self.description.model_path:
             self.action = SignAction.GENERAL
             self.action_data = None
+
+        if not self._action:
+            self.action = SignAction.NONE
+            self.action_data = None
+
+    @property
+    def action(self) -> SignAction | None:
+        if self._action is None:
+            self.parse_action()
+        return self._action
+
+    @action.setter
+    def action(self, value: SignAction | None):
+        self._action = value
+
+    @property
+    def action_data(self) -> Any | None:
+        if self._action is None:
+            self.parse_action()
+        return self._action_data
+
+    @action_data.setter
+    def action_data(self, value: Any | None):
+        self._action_data = value
 
     def __init__(
         self,
@@ -3532,32 +3562,21 @@ class MapData:
             )
 
     def match_signs_to_descriptions(self) -> None:
-        no_action = []
+        remove = []
         missing_tokens = []
-        failed_for_text_and_token = []
         for sign in self.signs:
-            # Skip signs that we already know have no action
             if sign.token in missing_tokens:
-                no_action.append(sign)
-                continue
-            if (sign.text_items, sign.token) in failed_for_text_and_token:
-                no_action.append(sign)
+                remove.append(sign)
                 continue
 
             sign.description = self._sign_descriptions_by_token.get(sign.token, None)
             if not sign.description:
                 print(f"Missing sign description for token: {sign.token}")
                 missing_tokens.append(sign.token)
-                no_action.append(sign)
+                remove.append(sign)
                 continue
 
-            sign.parse_action()
-            if sign.action is None:
-                # print(f"Sign {sign.uid} ({sign.description.name}) has no action")
-                no_action.append(sign)
-                failed_for_text_and_token.append((sign.text_items, sign.token))
-
-        for sign in no_action:
+        for sign in remove:
             self.signs.remove(sign)
 
     def get_world_center_for_sector(

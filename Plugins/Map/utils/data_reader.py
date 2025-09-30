@@ -844,9 +844,9 @@ def ReadData(state=None) -> c.MapData:
     map.match_roads_to_looks()
     UpdateState(start_time, "Linked roads to looks")
 
-    PrintState(start_time, "Parsing sign actions")
+    PrintState(start_time, "Linking objects (signs)")
     map.match_signs_to_descriptions()
-    UpdateState(start_time, f"Parsed actions for {len(map.signs)} signs")
+    UpdateState(start_time, "Linked signs to descriptions")
 
     PrintState(start_time, "Computing Navigation Graph")
     map.compute_navigation_data()

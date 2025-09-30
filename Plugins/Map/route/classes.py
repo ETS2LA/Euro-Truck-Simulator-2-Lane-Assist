@@ -212,8 +212,8 @@ class RouteSection:
 
     def _calculate_lane_change_points(self, start_points, end_points):
         """Pre-calculate lane change points between start_points and end_points"""
-        start_points = self.discard_points_behind(start_points)
-        end_points = self.discard_points_behind(end_points)
+        start_points = self.discard_points_behind(start_points, prune_far=False)
+        end_points = self.discard_points_behind(end_points, prune_far=False)
 
         if not start_points or not end_points:
             return []
@@ -341,17 +341,22 @@ class RouteSection:
             lane_change_distance = data.minimum_lane_change_distance
         return lane_change_distance * lane_count
 
-    def discard_points_behind(self, points: list[c.Position]) -> list[c.Position]:
+    def discard_points_behind(
+        self, points: list[c.Position], prune_far=True
+    ) -> list[c.Position]:
         forward_vector = [
             -math.sin(data.truck_rotation),
             -math.cos(data.truck_rotation),
         ]
         distances = []
         points_in_front = []
-        for _i, point in enumerate(points):
+        for i, point in enumerate(points):
             distance = math_helpers.DistanceBetweenPoints(
                 point.tuple(), (data.truck_x, data.truck_y, data.truck_z)
             )
+            if distance > 150 and i < len(points) - 4 and prune_far:
+                continue
+
             point_forward_vector = [point.x - data.truck_x, point.z - data.truck_z]
 
             # Clip value to ensure it's within [-1, 1] before passing to np.arccos
@@ -502,9 +507,9 @@ class RouteSection:
 
             self.lane_change_factor = 0
             self._lane_change_progress = 0
-            self.lane_points = self.discard_points_behind(self.lane_points)
-            self.last_actual_points = self.lane_points
-            return self.lane_points
+            tmp = self.discard_points_behind(self.lane_points)
+            self.last_actual_points = tmp
+            return tmp
 
         # Get relevant lane change points based on current position
         current_lane_points = self.discard_points_behind(self.lane_change_points)

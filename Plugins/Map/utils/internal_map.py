@@ -613,6 +613,9 @@ def DrawTriggers(image: np.ndarray) -> None:
 
 def DrawSigns(image: np.ndarray) -> None:
     for sign in data.current_sector_signs:
+        if sign.action in ["lamp"]:
+            continue
+
         sign_position = ToLocalSectorCoordinates(sign.x, sign.y, SCALING_FACTOR)
         cv2.circle(
             image,
@@ -622,7 +625,7 @@ def DrawSigns(image: np.ndarray) -> None:
             1,
         )
         text = sign.action
-        if sign.action in ["general", "prop"]:
+        if sign.action in ["general", "prop", "none"]:
             text += f" ({sign.description.name})"
         cv2.putText(
             image,

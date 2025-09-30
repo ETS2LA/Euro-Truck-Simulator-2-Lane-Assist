@@ -2,14 +2,12 @@ import Plugins.Map.utils.math_helpers as math_helpers
 from Plugins.Map.navigation.classes import RouteNode
 import Plugins.Map.utils.road_helpers as rh
 import Plugins.Map.utils.node_helpers as nh
-import ETS2LA.Handlers.sounds as sounds
 import Plugins.Map.route.classes as rc
 import Plugins.Map.data as data
 import Plugins.Map.classes as c
 import importlib
 import logging
 import math
-import time
 
 importlib.reload(rc)
 
@@ -435,10 +433,10 @@ def GetCurrentNavigationPlan():
     index = path.index(closest)
     if not in_front:
         lower_index = index
-        upper_index = min(len(path), index + 2)
+        upper_index = min(len(path) - 1, index + 2)
     else:
         lower_index = max(0, index - 1)
-        upper_index = index
+        upper_index = min(len(path) - 1, index)
 
         # Check if the distance to the last node is under 12m.
         # This usually only happens in ProMods, where highways have
@@ -738,94 +736,8 @@ def CheckForLaneChange():
         data.plugin.state.text = "Executing lane change..."
         return
 
-    if len(data.route_plan) < 2:
-        return  # Too short of a plan
-
-    next = data.route_plan[1]
-    next_points = next.get_points()
-    if not next_points:
-        ResetState()
-        return  # No points on the next section
-    next_point = next_points[0]
-
-    distance_to_truck = math_helpers.DistanceBetweenPoints(
-        (next_point.x, next_point.z), (data.truck_x, data.truck_z)
-    )
-    if distance_to_truck > 300:
-        ResetState()
-        CheckForLaneChangeManual()
-        return  # Too far
-
-    points = current.get_points()
-    if len(points) == 0:
-        ResetState()
-        CheckForLaneChangeManual()
-        return  # No points on the current section
-
-    current_point = points[-1]
-    distance = math_helpers.DistanceBetweenPoints(
-        (current_point.x, current_point.z), (next_point.x, next_point.z)
-    )
-    if distance > 3:
-        current_index = current.lane_index
-        lanes = current.items[0].item.lanes
-        side = lanes[current_index].side
-        left_lanes = len([lane for lane in lanes if lane.side == "left"])
-
-        # Check the closest lane
-        if len(current.items) > 1:
-            closest = rh.get_closest_lane(
-                current.items[-1].item, next_point.x, next_point.z
-            )
-        else:
-            closest = rh.get_closest_lane(
-                current.items[0].item, next_point.x, next_point.z
-            )
-        # print(f"Closest lane: {closest} ({distance})")
-        if closest == -1 or closest == current_index:
-            ResetState()
-            return
-
-        # Go to the lane closest to the closest lane on our side of the road
-        if side == "left":
-            if closest < left_lanes:
-                target = closest
-            else:
-                target = left_lanes - 1
-        else:
-            if closest >= left_lanes:
-                target = closest
-            else:
-                target = left_lanes
-
-        if target > len(lanes) - 1:
-            target = len(lanes) - 1
-
-        if target != current_index:
-            planned = current.get_planned_lane_change_distance()
-            left = current.distance_left()
-            if left > planned and not (
-                data.truck_indicating_right or data.truck_indicating_left
-            ):
-                data.plugin.tags.lane_change_status = "waiting"
-                data.plugin.state.text = "Please indicate to confirm lane change."
-                if time.time() - data.last_sound_played > data.sound_play_interval:
-                    sounds.Play("info")
-                    data.last_sound_played = time.time()
-                return
-            else:
-                data.plugin.state.text = ""
-                logging.info(f"Changing lane from {current_index} to {target}")
-                current.force_lane_change = True
-                current.lane_index = target
-                current.force_lane_change = False
-                data.route_plan = [current]
-        else:
-            CheckForLaneChangeManual()
-            ResetState()
-    else:
-        CheckForLaneChangeManual()
-        ResetState()
+    ResetState()
+    CheckForLaneChangeManual()
 
 
 was_indicating = False
