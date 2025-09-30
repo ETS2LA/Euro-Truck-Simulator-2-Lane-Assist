@@ -346,7 +346,6 @@ class Plugin(ETS2LAPlugin):
             # and deceleration of an empty truck.
             if self.api_data and not self.api_data["configString"]["cargo"]:
                 self.kd_accel *= 2
-                print(self.kd_accel)
 
     def calculate_target_acceleration(
         self,
