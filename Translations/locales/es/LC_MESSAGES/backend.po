@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-24 09:33+0000\n"
+"PO-Revision-Date: 2025-10-02 12:07+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -2160,7 +2160,7 @@ msgstr ""
 
 #: .\Plugins\HUD\ui.py:310
 msgid "These widgets are available to be enabled:"
-msgstr ""
+msgstr "Estos widgets están disponibles para ser habilitados:"
 
 #: .\Plugins\HUD\ui.py:320
 msgid "Renderers"
@@ -2169,516 +2169,593 @@ msgstr ""
 #: .\Plugins\HUD\ui.py:322
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
 msgstr ""
+"Estos renderizadores se utilizan para dibujar elementos no anclados. Suelen "
+"ser elementos móviles del mundo del juego."
 
 #: .\Plugins\Map\main.py:45
 msgid "Toggle Steering"
-msgstr ""
+msgstr "Alternar dirección"
 
 #: .\Plugins\Map\main.py:47
 msgid "When the Map plugin is running, this will toggle the steering on/off."
 msgstr ""
+"Cuando el complemento Mapa se esté ejecutando, esto activará o desactivará "
+"la dirección."
 
 #: .\Plugins\Map\main.py:64 .\Plugins\Map\ui.py:27
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 #: .\Plugins\Map\main.py:65
 msgid "This plugin provides steering and navigation features. It is the most important plugin in ETS2LA."
 msgstr ""
+"Este complemento proporciona funciones de dirección y navegación. Es el "
+"complemento más importante de ETS2LA."
 
 #: .\Plugins\Map\main.py:244
 msgid "Error initializing Map plugin: {0}"
-msgstr ""
+msgstr "Error al inicializar el complemento de Mapa: {0}"
 
 #: .\Plugins\Map\main.py:280
 msgid "Preparing to load data..."
-msgstr ""
+msgstr "Preparándose para cargar datos..."
 
 #: .\Plugins\Map\main.py:294
 msgid "Waiting for game data selection in the Settings -> Map..."
-msgstr ""
+msgstr "Esperando la selección de datos del juego en Configuración -> Mapa..."
 
 #: .\Plugins\Map\main.py:327
 msgid "Invalid steering value received"
-msgstr ""
+msgstr "Se recibió un valor de dirección no válido"
 
 #: .\Plugins\Map\main.py:354
 msgid "Error in Map plugin run loop: {0}"
-msgstr ""
+msgstr "Error en el bucle de ejecución del complemento de mapa: {0}"
 
 #: .\Plugins\Map\main.py:423
 msgid "Warning: Steering might be compromised due to low FPS. ({0} fps)"
 msgstr ""
+"Advertencia: La dirección puede verse comprometida debido a bajos FPS. ({0} "
+"fps)"
 
 #: .\Plugins\Map\ui.py:36
 msgid "Not Found"
-msgstr ""
+msgstr "No encontrado"
 
 #: .\Plugins\Map\ui.py:113
 msgid "Map Settings"
-msgstr ""
+msgstr "Configuración del mapa"
 
 #: .\Plugins\Map\ui.py:114
 msgid "Configure the settings for the Map plugin. Here you can adjust various options related to navigation, steering, and data handling."
 msgstr ""
+"Configura los ajustes del plugin Mapa. Aquí puedes ajustar diversas opciones "
+"relacionadas con la navegación, la dirección y el manejo de datos."
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Experimental]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
-msgstr ""
+msgstr "Peajes Automáticos"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
 msgstr ""
+"Intentar resolver automáticamente los peajes. Esto podría no funcionar. "
+"Requiere reiniciar para recargar completamente los datos de peajes."
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
-msgstr ""
+msgstr "Desactivar avisos de FPS"
 
 #: .\Plugins\Map\ui.py:174
 msgid "When enabled map will not notify of any FPS related issues."
 msgstr ""
+"Cuando está habilitado, el mapa no notificará ningún problema relacionado "
+"con FPS."
 
 #: .\Plugins\Map\ui.py:186
 msgid "Compute Steering Data"
-msgstr ""
+msgstr "Calcular datos de dirección"
 
 #: .\Plugins\Map\ui.py:187
 msgid "When enabled map will compute and send steering data to the game."
 msgstr ""
+"Cuando está habilitado, el mapa calculará y enviará datos de dirección al "
+"juego."
 
 #: .\Plugins\Map\ui.py:194
 msgid "Drive Based On Trailer"
-msgstr ""
+msgstr "Conducir basado en remolque"
 
 #: .\Plugins\Map\ui.py:195
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
 msgstr ""
+"Cuando está habilitado, el mapa tendrá en cuenta el remolque al calcular el "
+"punto de dirección actual."
 
 #: .\Plugins\Map\ui.py:202
 msgid "Steering Smoothness"
-msgstr ""
+msgstr "Suavidad de dirección"
 
 #: .\Plugins\Map\ui.py:203
 msgid "Set the time we average the steering data over. A value of 0.5 means that the steering from the last half a second is used to calculate the current value."
 msgstr ""
+"Establece el tiempo durante el cual promediamos los datos de dirección. Un "
+"valor de 0,5 significa que se utiliza la dirección del último medio segundo "
+"para calcular el valor actual."
 
 #: .\Plugins\Map\ui.py:214
 msgid "Data"
-msgstr ""
+msgstr "Datos"
 
 #: .\Plugins\Map\ui.py:233
 msgid "NOTE!"
-msgstr ""
+msgstr "¡NOTA!"
 
 #: .\Plugins\Map\ui.py:235
 msgid "If you encounter an error after changing the changing the data please restart the plugin! If this doesn't resolve your issue then please contact the data creators or the developers on Discord!"
 msgstr ""
+"Si encuentras un error después de cambiar los datos, reinicia el plugin. Si "
+"esto no soluciona el problema, contacta con los creadores o desarrolladores "
+"de los datos en Discord!"
 
 #: .\Plugins\Map\ui.py:243
 msgid "Please select the data you want to use. This will begin the download process and Map will be ready once the data is loaded."
 msgstr ""
+"Seleccione los datos que desea utilizar. Esto iniciará el proceso de "
+"descarga y el mapa estará listo una vez cargados los datos."
 
 #: .\Plugins\Map\ui.py:255
 msgid "Update Data"
-msgstr ""
+msgstr "Actualizar datos"
 
 #: .\Plugins\Map\ui.py:256
 msgid "Update the currently selected data, this can be helpful if the data is corrupted or there has been an update."
 msgstr ""
+"Actualizar los datos seleccionados actualmente, esto puede ser útil si los "
+"datos están dañados o ha habido una actualización."
 
 #: .\Plugins\Map\ui.py:264
 msgid "Traffic Side"
-msgstr ""
+msgstr "Lado del tráfico"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
 msgstr ""
+"Esto hará que los indicadores se comporten correctamente al cambiar de "
+"carril en países donde se conduce a la izquierda o a la derecha."
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
-msgstr ""
+msgstr "El tamaño de descarga para estos datos es"
 
 #: .\Plugins\Map\ui.py:327
 msgid "that will unpack to a total size of"
-msgstr ""
+msgstr "que se descomprimirá hasta alcanzar un tamaño total de"
 
 #: .\Plugins\NavigationSockets\main.py:81
 msgid "Navigation Sockets"
-msgstr ""
+msgstr "Tomas de navegación"
 
 #: .\Plugins\NavigationSockets\main.py:83
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
 msgstr ""
+"Este plugin proporciona un servidor WebSocket para datos de navegación en un "
+"mapa mundial."
 
 #: .\Plugins\TTS\main.py:84 .\Plugins\TTS\main.py:194
 msgid "TTS"
-msgstr ""
+msgstr "TTS"
 
 #: .\Plugins\TTS\main.py:85
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
 msgstr ""
+"El plugin TTS proporciona funcionalidad de texto a voz para accesibilidad y "
+"anuncios de voz."
 
 #: .\Plugins\TTS\main.py:92
 msgid "Voices"
-msgstr ""
+msgstr "Voces"
 
 #: .\Plugins\TTS\main.py:105
 msgid "Please select a provider!"
-msgstr ""
+msgstr "¡Por favor seleccione un proveedor!"
 
 #: .\Plugins\TTS\main.py:110
 msgid "This will show provider information once the plugin is loaded."
 msgstr ""
+"Esto mostrará la información del proveedor una vez que se cargue el plugin ."
 
 #: .\Plugins\TTS\main.py:116
 msgid "Select TTS provider"
-msgstr ""
+msgstr "Seleccione proveedor TTS"
 
 #: .\Plugins\TTS\main.py:117
 msgid "Select the TTS provider to use."
-msgstr ""
+msgstr "Seleccione el proveedor TTS que desea utilizar."
 
 #: .\Plugins\TTS\main.py:125
 msgid "Please select a provider to show voices."
-msgstr ""
+msgstr "Seleccione un proveedor para mostrar voces."
 
 #: .\Plugins\TTS\main.py:135 .\Plugins\TTS\main.py:318
 msgid "Voice {0} not found, using default: {1}"
-msgstr ""
+msgstr "Voz {0} no encontrada, usando el valor predeterminado: {1}"
 
 #: .\Plugins\TTS\main.py:141
 msgid "Select TTS voice"
-msgstr ""
+msgstr "Seleccione voz TTS"
 
 #: .\Plugins\TTS\main.py:142
 msgid "Select the TTS voice to use."
-msgstr ""
+msgstr "Seleccione la voz TTS que desea utilizar."
 
 #: .\Plugins\TTS\main.py:147
 msgid "Search for a voice..."
-msgstr ""
+msgstr "Busca una voz..."
 
 #: .\Plugins\TTS\main.py:148
 msgid "No voices found."
-msgstr ""
+msgstr "No se encontraron voces."
 
 #: .\Plugins\TTS\main.py:155
 msgid "Set the target speed of the voice."
-msgstr ""
+msgstr "Establezca la velocidad objetivo de la voz."
 
 #: .\Plugins\TTS\main.py:165
 msgid "Set the target volume of the voice."
-msgstr ""
+msgstr "Establezca el volumen objetivo de la voz."
 
 #: .\Plugins\TTS\main.py:173
 msgid "Test Mode"
-msgstr ""
+msgstr "Modo de prueba"
 
 #: .\Plugins\TTS\main.py:174
 msgid "Enable test mode to test the TTS provider without loading the game."
 msgstr ""
+"Habilite el modo de prueba para probar el proveedor TTS sin cargar el juego."
 
 #: .\Plugins\TTS\main.py:181
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: .\Plugins\TTS\main.py:183
 msgid "Enable Road Proximity Beep"
-msgstr ""
+msgstr "Habilitar pitido de proximidad a la carretera"
 
 #: .\Plugins\TTS\main.py:184
 msgid "Enable a proximity beep that indicates the distance and angle to the closest road."
 msgstr ""
+"Habilite un pitido de proximidad que indique la distancia y el ángulo a la "
+"carretera más cercana."
 
 #: .\Plugins\TTS\main.py:196
 msgid "Text To Speech plugin for accessibility. Some people might also like voiced announcements."
 msgstr ""
+"Plugin de texto a voz para accesibilidad. A algunas personas también les "
+"pueden gustar los anuncios de voz."
 
 #: .\Plugins\TTS\main.py:278
 msgid "Voice {0} not found in provider {1}."
-msgstr ""
+msgstr "La voz {0} no se encontró en el proveedor {1}."
 
 #: .\Plugins\TTS\main.py:284
 msgid "No provider selected. Cannot select voice."
-msgstr ""
+msgstr "No se ha seleccionado ningún proveedor. No se puede seleccionar la voz."
 
 #: .\Plugins\TTS\main.py:312
 msgid "Loading TTS provider: {0}"
-msgstr ""
+msgstr "Cargando proveedor TTS: {0}"
 
 #: .\Plugins\TTS\main.py:324
 msgid "Loading TTS voice: {0}"
-msgstr ""
+msgstr "Cargando voz TTS: {0}"
 
 #: .\Plugins\TTS\main.py:365
 msgid "Map steering enabled."
-msgstr ""
+msgstr "Dirección del mapa habilitada."
 
 #: .\Plugins\TTS\main.py:367
 msgid "Map steering disabled."
-msgstr ""
+msgstr "Dirección del mapa deshabilitada."
 
 #: .\Plugins\TTS\main.py:381
 msgid "Adaptive Cruise Control enabled."
-msgstr ""
+msgstr "Control de crucero adaptativo habilitado."
 
 #: .\Plugins\TTS\main.py:383
 msgid "Adaptive Cruise Control disabled."
-msgstr ""
+msgstr "Control de crucero adaptativo desactivado."
 
 #: .\Plugins\TTS\main.py:404
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
 msgstr[0] ""
+"La ciudad más cercana ahora es {city} a una distancia de {distance} "
+"kilómetro."
 msgstr[1] ""
+"La ciudad más cercana ahora es {city} a una distancia de {distance} "
+"kilómetros."
 
 #: .\Plugins\TTS\main.py:421
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "El límite de velocidad cambió a {0} kilómetro por hora."
+msgstr[1] "El límite de velocidad cambió a {0} kilómetros por hora."
 
 #: .\Plugins\TTS\main.py:437
 msgid "Fuel range is now only {0} kilometer, please refuel soon."
 msgid_plural "Fuel range is now only {0} kilometers, please refuel soon."
 msgstr[0] ""
+"La autonomía de combustible ahora es de solo {0} kilómetro, por favor "
+"reposte pronto."
 msgstr[1] ""
+"La autonomía de combustible ahora es de solo {0} kilómetros, por favor "
+"reposte pronto."
 
 #: .\Plugins\TTS\main.py:446
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
 msgstr[0] ""
+"El alcance de combustible ahora es crítico a solo {0} kilómetro, reposte lo "
+"antes posible."
 msgstr[1] ""
+"El alcance de combustible ahora es crítico a solo {0} kilómetros, reposte lo "
+"antes posible."
 
 #: .\Plugins\TTS\main.py:473 .\Plugins\TTS\main.py:487
 #: .\Plugins\TTS\main.py:509
 msgid "It's {0} kilometers to the next waypoint."
-msgstr ""
+msgstr "Faltan {0} kilómetros para el siguiente punto de referencia."
 
 #: .\Plugins\TTS\main.py:528
 msgid "Engine damage is now at {0}%."
-msgstr ""
+msgstr "El daño del motor ahora es del {0}%."
 
 #: .\Plugins\TTS\main.py:531
 msgid "Cabin damage is now at {0}%."
-msgstr ""
+msgstr "El daño de la cabina ahora es del {0}%."
 
 #: .\Plugins\TTS\main.py:534
 msgid "Chassis damage is now at {0}%."
-msgstr ""
+msgstr "El daño del chasis ahora es del {0}%."
 
 #: .\Plugins\TTS\main.py:538
 msgid "Transmission damage is now at {0}%."
-msgstr ""
+msgstr "El daño de transmisión ahora es del {0}%."
 
 #: .\Plugins\TTS\main.py:542
 msgid "Wheel damage is now at {0}%."
-msgstr ""
+msgstr "El daño de las ruedas ahora es del {0}%."
 
 #: .\Plugins\TTS\main.py:545
 msgid "Cargo damage is now at {0}%."
-msgstr ""
+msgstr "El daño a la carga ahora es del {0}%."
 
 #: .\Plugins\TTS\main.py:564
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
 msgstr ""
+"Velocidad {0} kilómetros por hora, límite {1}, combustible {2}% y faltan {3} "
+"kilómetros para el siguiente punto de referencia."
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr ""
+msgstr "Semáforo más adelante en {distance} metros. Actualmente {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
-msgstr ""
+msgstr "El semáforo cambió a {state}. Ahora está a {distance} metros."
 
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} metro"
+msgstr[1] "{distance} metros"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Faros encendidos."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Faros apagados."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "Modo de prueba habilitado. Este es un mensaje de prueba."
 
 #: .\Plugins\VisualizationSockets\main.py:214
 #: .\Plugins\VisualizationSockets\main.py:229
 #: .\Plugins\VisualizationSockets\main.py:387
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "Zócalos de visualización"
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
 msgstr ""
+"Este complemento proporciona un servidor websocket para la visualización "
+"ETS2LA."
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:237
 msgid "Host Device"
-msgstr ""
+msgstr "Dispositivo anfitrión"
 
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"Si desea ver la visualización de ETS2LA en el dispositivo actual, "
+"simplemente abra la pestaña 'Visualización' en la barra lateral, luego puede "
+"seleccionar entre los espejos oficiales y Goodnightan."
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "You can also use the following website:"
-msgstr ""
+msgstr "También puedes utilizar el siguiente sitio web:"
 
 #: .\Plugins\VisualizationSockets\main.py:256
 msgid "Other Device"
-msgstr ""
+msgstr "Otro dispositivo"
 
 #: .\Plugins\VisualizationSockets\main.py:262
 msgid "1. Open the following URL in your device's browser: "
-msgstr ""
+msgstr "1. Abra la siguiente URL en el navegador de su dispositivo: "
 
 #: .\Plugins\VisualizationSockets\main.py:275
 msgid "NOTE: You must load the site as http instead of https. Google Chrome will not work!"
 msgstr ""
+"NOTA: Debes cargar el sitio como http en lugar de https. ¡Google Chrome no "
+"funcionará!"
 
 #: .\Plugins\VisualizationSockets\main.py:282
 msgid "2. Once the website loads press the red 'Remote Connection' button. If this doesn't connect then enter the following IP address:"
 msgstr ""
+"2. Una vez que se cargue el sitio web, presione el botón rojo "
+"\"Conexión remota\". Si no se conecta, ingrese la siguiente dirección IP:"
 
 #: .\Plugins\VisualizationSockets\main.py:293
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. Si tiene algún problema, verifique que su dispositivo esté en la misma "
+"red que el host. También debe asegurarse de que su firewall no bloquee la "
+"conexión entre los dispositivos."
 
 #: .\Plugins\VisualizationSockets\main.py:300
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
 msgstr ""
+"No se pudo encontrar su dirección IP; probablemente se deba a un problema de "
+"red. No es posible ver la visualización externamente."
 
 #: .\Plugins\VisualizationSockets\main.py:309
 msgid "Waiting for plugin start..."
-msgstr ""
+msgstr "Esperando que se inicie el complemento..."
 
 #: .\Plugins\VisualizationSockets\main.py:315
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Esperando que se cargue el complemento..."
 
 #: .\Plugins\VisualizationSockets\main.py:319
 msgid "The following clients are currently connected:"
-msgstr ""
+msgstr "Los siguientes clientes están conectados actualmente:"
 
 #: .\Plugins\VisualizationSockets\main.py:340
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "Latencia: {latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:348
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Canales:{channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:358
 msgid "Not acknowledged yet."
-msgstr ""
+msgstr "Aún no reconocido."
 
 #: .\Plugins\VisualizationSockets\main.py:363
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "No hay clientes conectados actualmente."
 
 #: .\Plugins\VisualizationSockets\main.py:389
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"Este complemento proporciona un servidor websocket para la visualización "
+"ETS2LA. Permite conectarse a la visualización desde otros dispositivos y ver "
+"los datos de ETS2LA en tiempo real."
 
 #: .\main.py:142
 msgid "Testing mirrors..."
-msgstr ""
+msgstr "Probando mirrors..."
 
 #: .\main.py:151
 msgid "- Reached {0} in {1:.0f}ms"
-msgstr ""
+msgstr "- Se alcanzó {0} en {1:.0f}ms"
 
 #: .\main.py:157
 msgid " - Reached {0} in (TIMEOUT)"
-msgstr ""
+msgstr " - Se llegó a {0} en (TIEMPO DE ESPERA)"
 
 #: .\main.py:181
 msgid " -- Running post download action for submodule:  Interface  -- "
 msgstr ""
+" -- Ejecutando la acción posterior a la descarga para el submódulo: Interfaz "
+"-- "
 
 #: .\main.py:206
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "Ejecutando ETS2LA en modo de desarrollo."
 
 #: .\main.py:213
 msgid "No connection to remote UI mirrors. Running locally."
 msgstr ""
+"Sin conexión a espejos de interfaz de usuario remotos. Ejecutándose "
+"localmente."
 
 #: .\main.py:226
 msgid "Running UI in China mode"
-msgstr ""
+msgstr "Ejecución de la interfaz de usuario en modo China"
 
 #: .\main.py:229
 msgid "> Using mirror {0} for UI."
-msgstr ""
+msgstr "> Usando el espejo {0} para la interfaz de usuario."
 
 #: .\main.py:239
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
 msgstr ""
+"No se puede usar --no-console junto con --no-ui. La consola no se cerrará."
 
 #: .\main.py:245
 msgid "Closing console after UI start."
-msgstr ""
+msgstr "Cerrar la consola después de iniciar la interfaz de usuario."
 
 #: .\main.py:272
 msgid "Running in the background without a window."
-msgstr ""
+msgstr "Ejecutándose en segundo plano sin ventana."
 
 #: .\main.py:276
 msgid "Running UI locally"
-msgstr ""
+msgstr "Ejecutar la interfaz de usuario localmente"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
-msgstr ""
+msgstr "¡El proceso de ventana se ha bloqueado!"
 
 #: .\main.py:302
 msgid "ETS2LA Overseer started!"
-msgstr ""
+msgstr "¡ETS2LA Supervisor comenzó!"
 
 #: .\main.py:333
 msgid "ETS2LA is restarting..."
-msgstr ""
+msgstr "ETS2LA se está reiniciando..."
 
 #: .\main.py:341
 msgid "Skipping update due to development mode."
-msgstr ""
+msgstr "Omitir actualización debido al modo de desarrollo."
 
 #: .\main.py:345
 msgid "ETS2LA is updating..."
-msgstr ""
+msgstr "ETS2LA se está actualizando..."
 
 #: .\main.py:348
 msgid "Update done... restarting!"
-msgstr ""
+msgstr "Actualización realizada... ¡reiniciando!"
 
 #: .\main.py:353
 msgid "ETS2LA has crashed!"
-msgstr ""
+msgstr "¡ETS2LA se ha bloqueado!"
 
 #: .\main.py:367
 msgid "Send the above traceback to the developers."
-msgstr ""
+msgstr "Enviar el seguimiento anterior a los desarrolladores."
 
 #: .\main.py:369
 msgid "ETS2LA has closed."
-msgstr ""
+msgstr "ETS2LA ha cerrado."
 
 #: .\main.py:370
 msgid "Press enter to exit."
-msgstr ""
+msgstr "Presione enter para salir."
 
 #~ msgid "Failed to get page data for page {0}"
 #~ msgstr "No se pudieron obtener los datos de la página {0}"
