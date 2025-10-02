@@ -7,9 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:32\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-10-03 13:07+0000\n"
+"Last-Translator: Dano <dano@ets2la.com>\n"
+"Language-Team: Lithuanian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"lt/>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,273 +18,294 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
 "19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
 "1 : 2);\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
 msgid "Timeout, please try again."
-msgstr ""
+msgstr "Laiko limitas baigėsi, bandykite dar kartą."
 
 #: .\ETS2LA\Controls\picker.py:86
 msgid "Event bound to {device} {action}"
-msgstr ""
+msgstr "Įvykis susietas su {device}{action}"
 
 #: .\ETS2LA\Handlers\controls.py:100
 msgid "Refreshing joysticks..."
-msgstr ""
+msgstr "Atnaujinamos valdymo svirtys..."
 
 #: .\ETS2LA\Handlers\controls.py:114
 msgid "{} connected."
-msgstr ""
+msgstr "{}prijungta."
 
 #: .\ETS2LA\Handlers\controls.py:116
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr ""
+msgstr "Rastos valdymo svirtys: [bold]{name}[/bold] [dim]{uid}[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:130 .\ETS2LA\Handlers\controls.py:131
 msgid "{} disconnected."
-msgstr ""
+msgstr "{}atjungta."
 
 #: .\ETS2LA\Handlers\controls.py:305 .\ETS2LA\Handlers\controls.py:382 .\ETS2LA\Handlers\controls.py:429
 msgid "Event with alias '{0}' not found."
-msgstr ""
+msgstr "Įvykiai su sinonimu '{0}' nerastas."
 
 #: .\ETS2LA\Handlers\controls.py:415
 msgid "Exception occurred while trying to edit the event."
-msgstr ""
+msgstr "Išimtis įvyko bandant redaguoti įvykį."
 
 #: .\ETS2LA\Handlers\controls.py:447
 msgid "Controls listener started."
-msgstr ""
+msgstr "Valdiklių klausytuvas paleistas."
 
 #: .\ETS2LA\Handlers\plugins.py:158
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Papildiniui {0} nepavyko pasileisti: Laiko limitas baigėsi.\n"
+"Pabandyk uždaryti kitas programas kad papildiniui duotum daugiau atminties "
+"ir procesoriaus jėgos."
 
 #: .\ETS2LA\Handlers\plugins.py:167
 msgid "Plugin {0} failed to start: {1}"
-msgstr ""
+msgstr "Papildiniui {0} nepavyko pasileisti: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:197
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr ""
+msgstr "Papildinys [yellow]{0}[/yellow] pasikrovė sėkmingai."
 
 #: .\ETS2LA\Handlers\plugins.py:518
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr ""
+msgstr "Papildiniui {0} nepavyko gauti aprašymo: Laiko limitas baigėsi."
 
 #: .\ETS2LA\Handlers\plugins.py:524
 msgid "Plugin {0} failed to get description: {1}"
-msgstr ""
+msgstr "Papildiniui {0} nepavyko gauti aprašymo: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:575
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Papildiniui {0} nepavyko gauti valdiklių: Laiko limitas baigėsi."
 
 #: .\ETS2LA\Handlers\plugins.py:588
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Papildiniui {0} nepavyko gauti valdiklių: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:670
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "Pakrauti {0} papildiniai."
 
 #: .\ETS2LA\Handlers\plugins.py:742 .\ETS2LA\Handlers\plugins.py:932
 msgid "Plugin not found."
-msgstr ""
+msgstr "Papildinys nerastas."
 
 #: .\ETS2LA\Handlers\plugins.py:754
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Papildinys [yellow]{0}[/yellow] pasileido sėkmingai."
 
 #: .\ETS2LA\Handlers\plugins.py:765
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Nepavyko pasileisti papildiniams: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:766 .\ETS2LA\Handlers\plugins.py:813
 msgid "Timeout"
-msgstr ""
+msgstr "Laiko limitas baigėsi"
 
 #: .\ETS2LA\Handlers\plugins.py:787
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
 msgstr ""
+"Papildinys nerastas, tai gali būti papildinio gedimo arba nepavykusio "
+"pasileidimo rezultatas."
 
 #: .\ETS2LA\Handlers\plugins.py:805
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Papildinys [yellow]{0}[/yellow] sėkmingai sustabdytas ."
 
 #: .\ETS2LA\Handlers\plugins.py:812
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Nepavyko sustabdyti papildinio: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:833
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Nepavyko Iš naujo paleisti papildinio: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:870 .\ETS2LA\Handlers\plugins.py:889
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Papildinys {0} nerastas puslapiui {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:13
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Nepavyko įsirašyti ffmpeg bibliotekos, prašome atsisiųsti rankiniu būdu. ("
+"ie. [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:51
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Garso paketui '{0}' trūksta reikalingo garso '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:60
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Garso paketas '{0}' turi netinkama failo tipą '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:99
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr ""
+msgstr "Bandyta paleisti garsą '{0}', bet jo nerasta garso pakete '{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Sėkmingai registruotas [bold]http://{address}[bold] taškui [dim]{local_ip}"
+"[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:94
 msgid "An error occurred while processing a message."
-msgstr ""
+msgstr "Apdorojant pranešimą įvyko klaida."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:192
 msgid "Tried to send an empty page."
-msgstr ""
+msgstr "Bandyta išsiusti tuščią puslapį."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:262
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Paleistas iššokantis Priekinės dalies žiniatinklio lizdas."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:119
 msgid "Frontend"
-msgstr ""
+msgstr "Priekinė dalis"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:119
 msgid "The frontend wants to perform an update."
-msgstr ""
+msgstr "Priekinė dalis nori padaryti atnaujinimą."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:189
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Nepavyko nustatyti permatomumo"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:402
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Nepavyko gauti žymos duomenų"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:441
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Nepavyko gauti puslapių"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:454
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Nepavyko perkrauti papildų"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:469
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Nepavyko sukurti Priekinės dalies"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:479
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Kuriama Prekinė dalis... prašome palaukti..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:483
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Nepavyko paleisti Priekinės dalies"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:508
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Žiniatinklio serveris paleistas adresu http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:517
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Priekinė dalis paleista adresu http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:99
 msgid "Logging initialized."
-msgstr ""
+msgstr "Žurnalo vedimas pradėtas."
 
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Klaida bandant ištrinti žurnalo failus. Galimai įjungta dar viena ETS2LA "
+"programa. Prašome uždaryti ir bandyti dar kartą."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Klaidos ir įspėjimai žurnalo failuose:"
 
 #: .\ETS2LA\Utils\Console\logs.py:37
 msgid "Errors: "
-msgstr ""
+msgstr "Klaidos: "
 
 #: .\ETS2LA\Utils\Console\logs.py:39
 msgid "Warnings: "
-msgstr ""
+msgstr "Įspėjimai: "
 
 #: .\ETS2LA\Utils\Console\logs.py:44
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Nerasta jokių klaidų ar įspėjimų."
 
 #: .\ETS2LA\Window\html.py:88
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Prašome palaukti, kol inicijuosime naudotojo sąsają"
 
 #: .\ETS2LA\Window\utils.py:213
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Nebuvo galima rasti / paleisti ETS2LA lango. Ar jūsų kompiuteris pakankamai "
+"galingas? Naudokis https://app.ets2la.com jeigu to galvoji, kad tavo "
+"kompiuteris palaiko ETS2LA."
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Nepavyko nustatyti lango atributams ir piktogramoms."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Galinė dalis paleista sėkmingai"
 
 #: .\Pages\about.py:37
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
 msgstr ""
+"Pagrindinis kūrėjas ETS2LA programos, Galinės dalies ir Priekinės dalies."
 
 #: .\Pages\about.py:46
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
 msgstr ""
+"Navigacijos Aptikimas, Šviesoforo Aptikimas, ETS2LA Lite, 'Bendrasavininkas'"
 
 #: .\Pages\about.py:53
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Įvairūs papildymai ir patobulinimai, objektų aptikimo dirbtinio intelekto "
+"modeliai ir plėtra"
 
 #: .\Pages\about.py:63
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"ETS2LA žaidimo pusės SDK kūrėjas. Automobilių, Šviesoforų, Kamerų duomenų ir "
+"daugiau tiesiai iš žaidimo."
 
 #: .\Pages\about.py:70
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Žaidimo duomenų ištraukimas ir apdorojimas"
 
 #: .\Pages\about.py:75
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux ir Unix Port, įvairūs patobulinimai ir klaidų ištaisymai"
 
 #: .\Pages\about.py:80
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C++ Kūrėjas, Linux ir Unix Port, klaidų taisymai"
 
 #: .\Pages\about.py:85
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Pagalba su Navigate ETS2LA ir Žemėlapyje"
 
 #: .\Pages\about.py:90
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-valdiklis kūrėjas"
 
 #: .\Pages\about.py:95
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D modeliai vizualizacija"
 
 #: .\Pages\about.py:100
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Duomenų ištraukimo kūrėjas, palaikymas modifikuotų žemėlapių."
 
 #: .\Pages\about.py:105
 msgid "Discord rich presence plugin developer, slight backend updates."
