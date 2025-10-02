@@ -737,6 +737,7 @@ def create_processes() -> None:
 
     loading = False
     logging.info(_("Loaded {0} plugins.").format(len(plugins)))
+    start_plugin(id="plugins.eventlistener")
 
 
 def run() -> None:

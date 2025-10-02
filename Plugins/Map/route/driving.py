@@ -209,7 +209,11 @@ def GetSteering():
     first_distance = math_helpers.DistanceBetweenPoints(
         (points[0].x, points[0].z), (data.truck_x, data.truck_z)
     )
-    if first_distance > 4.5:  # 1 lane width
+    last_distance = math_helpers.DistanceBetweenPoints(
+        (points[-1].x, points[-1].z), (data.truck_x, data.truck_z)
+    )
+
+    if first_distance > 4.5 and last_distance > 4.5:  # 1 lane width
         logging.warning("First point in route is too far away, ignoring this frame.")
         if data.enabled:
             events.trigger("takeover", Event())

@@ -44,6 +44,11 @@ class ETS2LAPage:
     The title of the page. This is used for the button that opens the page.
     If the page is hidden, then this is ignored.
     """
+    icon: str = ""
+    """
+    Lucide icon name for the page button. Does not affect pages in settings.
+    https://lucide.dev/icons/
+    """
 
     open_calls: int = 0
     """
@@ -79,7 +84,8 @@ class ETS2LAPage:
 
     def close_event(self):
         """This method is called when the page is closed. Override this method to handle the close event."""
-        self.open_calls -= 1
+        if self.open_calls > 0:
+            self.open_calls -= 1
 
     def reset_timer(self):
         # Trigger a timer reset to make sure the
@@ -108,6 +114,7 @@ class ETS2LAPage:
             {
                 "url": self.url,
                 "location": self.location.value,
+                "icon": self.icon,
                 "title": self.title,
             },
         )

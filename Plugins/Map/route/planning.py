@@ -449,6 +449,7 @@ def GetCurrentNavigationPlan():
             lower_index = max(0, lower_index - 1)
 
     closest_nodes: list[RouteNode] = [path[lower_index], path[upper_index]]
+    data.circles = [(nav.node.x, nav.node.z, nav.node.y) for nav in closest_nodes]
     in_front = [
         math_helpers.IsInFront(
             (nav.node.x, nav.node.y), data.truck_rotation, (data.truck_x, data.truck_z)
@@ -538,6 +539,14 @@ def GetNextNavigationItem():
 
     if isinstance(last_item.items[0].item, c.Prefab):
         index -= 1
+        # Check if we need to go back one more to get the root road.
+        # TODO: Why is this needed?
+        if (
+            index > 0
+            and isinstance(path[index - 1].item, c.Road)
+            and path[index].item_type() == c.Road
+        ):
+            index -= 1
 
     try:
         if path[index].item == last_item.items[0].item:
@@ -579,9 +588,14 @@ def GetNextNavigationItem():
 
     next_item = current.item
     if isinstance(next_item, c.Road):
-        closest_lane, closest_lane_distance = rh.get_closest_lane(
-            next_item, last_points[-1].x, last_points[-1].z, return_distance=True
-        )
+        if last_points:
+            closest_lane, distance = rh.get_closest_lane(
+                next_item, last_points[-1].x, last_points[-1].z, return_distance=True
+            )
+            # print("Closest lane distance:", distance)
+        else:
+            closest_lane = rh.get_closest_lane(next_item, data.truck_x, data.truck_z)
+
         target_lanes = current.lanes  # accepted when pathfinding lanes
 
         # Find the last road piece before a prefab
@@ -621,19 +635,24 @@ def GetNextNavigationItem():
             length = next_item.nav_routes[lane].distance
             points = next_item.nav_routes[lane].points
 
-            ee_distance = math_helpers.DistanceBetweenPoints(
-                (points[-1].x, points[-1].z), (last_points[-1].x, last_points[-1].z)
-            )
-            es_distance = math_helpers.DistanceBetweenPoints(
-                (points[-1].x, points[-1].z), (last_points[0].x, last_points[0].z)
-            )
-            ss_distance = math_helpers.DistanceBetweenPoints(
-                (points[0].x, points[0].z), (last_points[0].x, last_points[0].z)
-            )
-            se_distance = math_helpers.DistanceBetweenPoints(
-                (points[0].x, points[0].z), (last_points[-1].x, last_points[-1].z)
-            )
-            distance = min(ee_distance, es_distance, ss_distance, se_distance)
+            if last_points:
+                ee_distance = math_helpers.DistanceBetweenPoints(
+                    (points[-1].x, points[-1].z), (last_points[-1].x, last_points[-1].z)
+                )
+                es_distance = math_helpers.DistanceBetweenPoints(
+                    (points[-1].x, points[-1].z), (last_points[0].x, last_points[0].z)
+                )
+                ss_distance = math_helpers.DistanceBetweenPoints(
+                    (points[0].x, points[0].z), (last_points[0].x, last_points[0].z)
+                )
+                se_distance = math_helpers.DistanceBetweenPoints(
+                    (points[0].x, points[0].z), (last_points[-1].x, last_points[-1].z)
+                )
+                distance = min(ee_distance, es_distance, ss_distance, se_distance)
+            else:
+                distance = math_helpers.DistanceBetweenPoints(
+                    (points[0].x, points[0].z), (data.truck_x, data.truck_z)
+                )
 
             if distance < best_distance or (
                 distance < best_distance + 0.1 and length < best_length

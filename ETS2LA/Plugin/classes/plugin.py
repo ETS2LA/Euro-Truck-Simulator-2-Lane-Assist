@@ -114,7 +114,7 @@ class ETS2LAPlugin(object):
         instance.state = State(return_queue)
 
         if type(instance.author) is not list:
-            instance.author = [instance.author]  # type: ignore
+            instance.author = [instance.author]
 
         return instance
 
@@ -136,30 +136,33 @@ class ETS2LAPlugin(object):
         self.ensure_functions()
         self.load_modules()
 
+        self.controls = filter(lambda c: isinstance(c, ControlEvent), self.controls)
+        self.pages = filter(lambda p: p is not None, self.pages)
+
         if "pages" in dir(type(self)) and self.pages is not None:
             for page in self.pages:
                 page.plugin = self
 
         try:
-            self.imports()  # type: ignore # Might or might not exist.
+            self.imports()
         except Exception as ex:
             if not isinstance(ex, AttributeError):
                 logging.exception("Error in 'imports' function")
 
         try:
-            self.init()  # type: ignore # Might or might not exist.
+            self.init()
         except Exception as ex:
             if not isinstance(ex, AttributeError):
                 logging.exception("Error in 'init' function")
 
         try:
-            self.initialize()  # type: ignore # Might or might not exist.
+            self.initialize()
         except Exception as ex:
             if not isinstance(ex, AttributeError):
                 logging.exception("Error in 'initialize' function")
 
         try:
-            self.Initialize()  # type: ignore # Might or might not exist.
+            self.Initialize()
         except Exception as ex:
             if not isinstance(ex, AttributeError):
                 logging.exception("Error in 'Initialize' function")

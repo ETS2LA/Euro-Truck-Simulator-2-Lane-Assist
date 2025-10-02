@@ -231,6 +231,7 @@ class PluginProcess:
 
         # Pages need to be instantiated before use.
         self.pages = self.file.Plugin.pages
+        self.pages = filter(lambda p: p is not None, self.pages)
         self.pages = [page() for page in self.pages]  # type: ignore
         logging.info(f"Loaded {len(self.pages)} pages")
 
