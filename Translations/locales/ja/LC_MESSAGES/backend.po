@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-18 13:07+0000\n"
-"Last-Translator: hmm-kanmimimu <kanmimimu@ets2la.com>\n"
+"PO-Revision-Date: 2025-10-02 12:07+0000\n"
+"Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
 "Language: ja\n"
@@ -2455,11 +2455,11 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:340
 msgid "Latency: {latency:.2f}ms"
-msgstr ""
+msgstr "レイテンシ:{latency:.2f}ms"
 
 #: .\Plugins\VisualizationSockets\main.py:348
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "チャンネル: {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:358
 msgid "Not acknowledged yet."
@@ -2467,7 +2467,7 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:363
 msgid "There are no currently connected clients."
-msgstr ""
+msgstr "現在接続中のクライアントはありません。"
 
 #: .\Plugins\VisualizationSockets\main.py:389
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
@@ -2491,7 +2491,7 @@ msgstr ""
 
 #: .\main.py:206
 msgid "Running ETS2LA in development mode."
-msgstr ""
+msgstr "開発モードでETS2LAが実行されています。"
 
 #: .\main.py:213
 msgid "No connection to remote UI mirrors. Running locally."
