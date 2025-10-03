@@ -62,21 +62,18 @@ basic_mode_features = [
         plugin_ids=["plugins.visualizationsockets", "plugins.navigationsockets"],
     ),
     BasicModeFeature(
+        name=_("Collision Avoidance"),
+        description=_(
+            "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
+        ),
+        plugin_ids=["plugins.collisionavoidance"],
+    ),
+    BasicModeFeature(
         name=_("HUD"),
         description=_(
             "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
         ),
         plugin_ids=["plugins.ar", "plugins.hud"],
-        default=False,
-    ),
-    BasicModeFeature(
-        name=_("Collision Avoidance"),
-        description=_("[Experimental]")
-        + " "
-        + _(
-            "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
-        ),
-        plugin_ids=["plugins.collisionavoidance"],
         default=False,
     ),
     BasicModeFeature(
