@@ -144,6 +144,8 @@ use_auto_offset_data = settings.UseAutoOffsetData
 """Whether to use the auto offset data or not. This will use the offsets from the game instead of the ones calculated by the plugin."""
 right_hand_drive = True if settings.traffic_side == "Right Handed" else False
 """Whether the game is in right-hand drive mode or not. This will change the direction of the steering wheel."""
+takeover_when_unreliable = settings.TakeoverWhenUnreliable
+"""Whether the plugin should trigger a takeover if the truck is not following the route correctly."""
 
 # MARK: Return values
 external_data = {}
@@ -281,6 +283,7 @@ def UpdateSettings():
     global disable_fps_notices, override_lane_offsets, use_auto_offset_data
     global right_hand_drive, load_distance
     global road_quality_multiplier, amount_of_points
+    global takeover_when_unreliable
 
     internal_map = settings.InternalVisualisation
     calculate_steering = settings.ComputeSteeringData
@@ -295,6 +298,7 @@ def UpdateSettings():
     use_auto_offset_data = settings.UseAutoOffsetData
     right_hand_drive = True if settings.traffic_side == "Right Handed" else False
     road_quality_multiplier = settings.RoadQualityMultiplier
+    takeover_when_unreliable = settings.TakeoverWhenUnreliable
 
     global data_needs_update
     data_needs_update = True

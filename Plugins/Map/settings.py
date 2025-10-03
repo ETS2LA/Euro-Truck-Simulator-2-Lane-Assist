@@ -18,6 +18,7 @@ class Settings(ETS2LASettings):
     downloaded_data: str | None = None
     selected_data: str | None = None
     UseAutoOffsetData: bool = False
+    TakeoverWhenUnreliable: bool = True
     traffic_side: Literal["Right Handed", "Left Handed"] = "Right Handed"
     AutoTolls: bool = True
 

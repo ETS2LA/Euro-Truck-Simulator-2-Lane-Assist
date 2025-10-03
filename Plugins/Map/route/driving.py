@@ -164,7 +164,7 @@ def LerpTrailerAndTruck(start_speed=30, end_speed=70) -> list[float]:
 
 def GetSteering():
     if len(data.route_plan) == 0:
-        if data.enabled:
+        if data.enabled and data.takeover_when_unreliable:
             events.trigger("takeover", Event())
             data.plugin.notify("Takeover: Lost route tracking, please drive manually")
         return 0
@@ -215,7 +215,7 @@ def GetSteering():
 
     if first_distance > 4.5 and last_distance > 4.5:  # 1 lane width
         logging.warning("First point in route is too far away, ignoring this frame.")
-        if data.enabled:
+        if data.enabled and data.takeover_when_unreliable:
             events.trigger("takeover", Event())
             data.plugin.notify("Takeover: Steering unreliable")
         data.route_points = points
