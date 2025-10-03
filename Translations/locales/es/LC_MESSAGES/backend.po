@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-02 12:07+0000\n"
+"PO-Revision-Date: 2025-10-03 13:07+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -587,88 +587,89 @@ msgstr "Error al desinstalar el plugin \"{name}\": {error}"
 
 #: .\Pages\catalogue.py:339
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "No se pudo encontrar el código fuente para este plugin."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:351
 msgid "Refreshing..."
-msgstr ""
+msgstr "Refrescando..."
 
 #: .\Pages\catalogue.py:354
 msgid "Found {count} plugins"
-msgstr ""
+msgstr "Se encontraron {count} plugins"
 
 #: .\Pages\catalogue.py:419
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: .\Pages\catalogue.py:424
 msgid "Source Code"
-msgstr ""
+msgstr "Código Fuente"
 
 #: .\Pages\catalogue.py:429 .\Pages\catalogue.py:595
 msgid "Uninstall"
-msgstr ""
+msgstr "Desinstalar"
 
 #: .\Pages\catalogue.py:433 .\Pages\catalogue.py:528
 msgid "Install"
-msgstr ""
+msgstr "Instalar"
 
 #: .\Pages\catalogue.py:505
 msgid "Are you sure you want to install this plugin?"
-msgstr ""
+msgstr "Estás seguro de que quieres instalar este plugin?"
 
 #: .\Pages\catalogue.py:511
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
 msgstr ""
+"ETS2LA no es responsable de ningún problema causado por plugins de terceros."
 
 #: .\Pages\catalogue.py:521 .\Pages\catalogue.py:588
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: .\Pages\catalogue.py:538
 msgid "Installing {plugin}"
-msgstr ""
+msgstr "Instalando {plugin}"
 
 #: .\Pages\catalogue.py:548 .\Pages\catalogue.py:567
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: .\Pages\catalogue.py:556
 msgid "Uninstalling {plugin}"
-msgstr ""
+msgstr "Desinstalando {plugin}"
 
 #: .\Pages\catalogue.py:578
 msgid "Are you sure you want to uninstall this plugin?"
-msgstr ""
+msgstr "Estas seguro que quieres desinstalar este plugin?"
 
 #: .\Pages\catalogue.py:611 .\Pages\plugins.py:454
 msgid "Search plugins..."
-msgstr ""
+msgstr "Buscando plugins..."
 
 #: .\Pages\catalogue.py:614
 msgid "Refresh"
-msgstr ""
+msgstr "Refrescando"
 
 #: .\Pages\catalogue.py:628
 msgid "No plugins found in the plugin catalogue."
-msgstr ""
+msgstr "No se encontraron plugins en el catálogo de plugins ."
 
 #: .\Pages\catalogue.py:636
 msgid "Refresh Catalogue"
-msgstr ""
+msgstr "Refrescando Catálogo"
 
 #: .\Pages\catalogue.py:682
 msgid "Installed Plugins"
-msgstr ""
+msgstr "Plugins instalados"
 
 #: .\Pages\catalogue.py:685
 msgid "No plugins are installed."
-msgstr ""
+msgstr "No hay plugins instalados."
 
 #: .\Pages\catalogue.py:693 .\Pages\plugins.py:569
 msgid "Available Plugins"
-msgstr ""
+msgstr "Plugins disponibles"
 
 #: .\Pages\catalogue.py:710
 msgid "You have installed all available plugins."
