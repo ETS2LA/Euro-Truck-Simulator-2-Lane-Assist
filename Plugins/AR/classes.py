@@ -1,8 +1,8 @@
-import ETS2LA.variables as variables
 import logging
 import math
 import sys
 
+import ETS2LA.variables as variables
 
 sys.path.append(f"{variables.PATH}ETS2LA/Assets/CppUtils/ets2la_AR")
 ets2la_AR_imported = False
@@ -492,6 +492,31 @@ class Rectangle:
             return (start_distance + end_distance) / 2
         return 0
 
+    def in_viewport(
+        self, viewport_width: float, viewport_height: float, ar_plugin
+    ) -> bool:
+        """Check if the rectangle is in the viewport.
+
+        :param float viewport_width: Width of the viewport
+        :param float viewport_height: Height of the viewport
+        :param ar_plugin: AR plugin instance for screen coordinate conversion
+        :return bool: True if the rectangle is in the viewport
+        """
+        screen_start = self.start.screen(ar_plugin)
+        screen_end = self.end.screen(ar_plugin)
+
+        if screen_start is None or screen_end is None:
+            return False
+
+        min_x = min(screen_start[0], screen_end[0])
+        max_x = max(screen_start[0], screen_end[0])
+        min_y = min(screen_start[1], screen_end[1])
+        max_y = max(screen_start[1], screen_end[1])
+
+        return not (
+            max_x < 0 or min_x > viewport_width or max_y < 0 or min_y > viewport_height
+        )
+
     def json(self):
         return {
             "type": "Rectangle",
@@ -563,6 +588,31 @@ class Line:
             return (start_distance + end_distance) / 2
         return 0
 
+    def in_viewport(
+        self, viewport_width: float, viewport_height: float, ar_plugin
+    ) -> bool:
+        """Check if the line is in the viewport.
+
+        :param float viewport_width: Width of the viewport
+        :param float viewport_height: Height of the viewport
+        :param ar_plugin: AR plugin instance for screen coordinate conversion
+        :return bool: True if the line is in the viewport
+        """
+        screen_start = self.start.screen(ar_plugin)
+        screen_end = self.end.screen(ar_plugin)
+
+        if screen_start is None or screen_end is None:
+            return False
+
+        min_x = min(screen_start[0], screen_end[0])
+        max_x = max(screen_start[0], screen_end[0])
+        min_y = min(screen_start[1], screen_end[1])
+        max_y = max(screen_start[1], screen_end[1])
+
+        return not (
+            max_x < 0 or min_x > viewport_width or max_y < 0 or min_y > viewport_height
+        )
+
     def json(self):
         return {
             "type": "Line",
@@ -632,6 +682,33 @@ class Polygon:
             return sum(distances) / len(distances)
         return 0
 
+    def in_viewport(
+        self, viewport_width: float, viewport_height: float, ar_plugin
+    ) -> bool:
+        """Check if the polygon is in the viewport.
+
+        :param float viewport_width: Width of the viewport
+        :param float viewport_height: Height of the viewport
+        :param ar_plugin: AR plugin instance for screen coordinate conversion
+        :return bool: True if the polygon is in the viewport
+        """
+        screen_points = [point.screen(ar_plugin) for point in self.points]
+
+        if not screen_points or None in screen_points:
+            return False
+
+        x_coords = [point[0] for point in screen_points]
+        y_coords = [point[1] for point in screen_points]
+
+        min_x = min(x_coords)
+        max_x = max(x_coords)
+        min_y = min(y_coords)
+        max_y = max(y_coords)
+
+        return not (
+            max_x < 0 or min_x > viewport_width or max_y < 0 or min_y > viewport_height
+        )
+
     def json(self):
         return {
             "type": "Polygon",
@@ -700,6 +777,30 @@ class Circle:
             )
         return 0
 
+    def in_viewport(
+        self, viewport_width: float, viewport_height: float, ar_plugin
+    ) -> bool:
+        """Check if the circle is in the viewport.
+
+        :param float viewport_width: Width of the viewport
+        :param float viewport_height: Height of the viewport
+        :param ar_plugin: AR plugin instance for screen coordinate conversion
+        :return bool: True if the circle is in the viewport
+        """
+        screen_center = self.center.screen(ar_plugin)
+
+        if screen_center is None:
+            return False
+
+        x, y = screen_center[0], screen_center[1]
+
+        return not (
+            x + self.radius < 0
+            or x - self.radius > viewport_width
+            or y + self.radius < 0
+            or y - self.radius > viewport_height
+        )
+
     def json(self):
         return {
             "type": "Circle",
@@ -764,6 +865,24 @@ class Text:
             )
         return 0
 
+    def in_viewport(
+        self, viewport_width: float, viewport_height: float, ar_plugin
+    ) -> bool:
+        """Check if the text is in the viewport.
+
+        :param float viewport_width: Width of the viewport
+        :param float viewport_height: Height of the viewport
+        :param ar_plugin: AR plugin instance for screen coordinate conversion
+        :return bool: True if the text is in the viewport
+        """
+        screen_point = self.point.screen(ar_plugin)
+
+        if screen_point is None:
+            return False
+
+        x, y = screen_point[0], screen_point[1]
+        return not (x < 0 or x > viewport_width or y < 0 or y > viewport_height)
+
     def json(self):
         return {
             "type": "Text",
@@ -827,6 +946,40 @@ class Bezier:
         if self.custom_distance is not None:
             return self.custom_distance
         return 0
+
+    def in_viewport(
+        self, viewport_width: float, viewport_height: float, ar_plugin
+    ) -> bool:
+        """Check if the Bezier curve is in the viewport.
+
+        :param float viewport_width: Width of the viewport
+        :param float viewport_height: Height of the viewport
+        :param ar_plugin: AR plugin instance for screen coordinate conversion
+        :return bool: True if the Bezier curve is in the viewport
+        """
+        # Check all control points to see if any part might be in viewport
+        screen_points = [
+            self.p1.screen(ar_plugin),
+            self.p2.screen(ar_plugin),
+            self.p3.screen(ar_plugin),
+            self.p4.screen(ar_plugin),
+        ]
+
+        valid_points = [p for p in screen_points if p is not None]
+        if not valid_points:
+            return False
+
+        x_coords = [point[0] for point in valid_points]
+        y_coords = [point[1] for point in valid_points]
+
+        min_x = min(x_coords)
+        max_x = max(x_coords)
+        min_y = min(y_coords)
+        max_y = max(y_coords)
+
+        return not (
+            max_x < 0 or min_x > viewport_width or max_y < 0 or min_y > viewport_height
+        )
 
     def is_3D(self):
         return False  # Bezier curves are always rendered in 2D
