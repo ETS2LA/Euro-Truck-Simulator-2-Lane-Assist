@@ -36,7 +36,7 @@ for file in files:
             provider_class = getattr(module, "Provider", None)
             if provider_class:
                 providers.append(provider_class())
-        except:
+        except Exception:
             logging.error("Failed to load provider:", file)
             pass
 
@@ -334,18 +334,24 @@ class Plugin(ETS2LAPlugin):
                 volume = 0.5
                 settings.volume = 0.5
             self.selected_provider.set_volume(volume)
-            self.pages[0].reset_timer(
-                self.pages[0]
-            )  # Reset the settings page to update the volume
+            try:
+                self.pages[0].reset_timer(
+                    self.pages[0]
+                )  # Reset the settings page to update the volume
+            except Exception:
+                pass
 
             speed = settings.speed
             if not speed:
                 speed = 1.0
                 settings.speed = 1.0
             self.selected_provider.set_speed(speed)
-            self.pages[0].reset_timer(
-                self.pages[0]
-            )  # Reset the settings page to update the speed
+            try:
+                self.pages[0].reset_timer(
+                    self.pages[0]
+                )  # Reset the settings page to update the speed
+            except Exception:
+                pass
 
     def speak(self, text: str, override_first=False):
         """Speak the given text.
