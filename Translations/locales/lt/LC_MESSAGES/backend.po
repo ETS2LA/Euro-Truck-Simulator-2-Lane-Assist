@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:32\n"
-"PO-Revision-Date: 2025-10-03 13:07+0000\n"
+"PO-Revision-Date: 2025-10-07 13:07+0000\n"
 "Last-Translator: Dano <dano@ets2la.com>\n"
 "Language-Team: Lithuanian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "lt/>\n"
@@ -310,66 +310,70 @@ msgstr "Duomenų ištraukimo kūrėjas, palaikymas modifikuotų žemėlapių."
 #: .\Pages\about.py:105
 msgid "Discord rich presence plugin developer, slight backend updates."
 msgstr ""
+"Discord raiškiojo buvimo papildinio kūrėjas, maži galinės dalies "
+"atnaujinimai."
 
 #: .\Pages\about.py:112
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Kinų kalbos vertimas, klaidų taisymas"
 
 #: .\Pages\about.py:117
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Kinų kalbos vertimai, klaidų taisymai"
 
 #: .\Pages\about.py:122
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Autentiški poslinkio skaičiavimai Žemėlapio papildiniui."
 
 #: .\Pages\about.py:131
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord serverio pagalbininkas, Kinų-Anglų vertėjų kūrėjas."
 
 #: .\Pages\about.py:138
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "CN veidrodžių, skirtų ETS2LA paslaugoms, priežiūra."
 
 #: .\Pages\about.py:141
 msgid "Game hooks"
-msgstr ""
+msgstr "Žaidimo kabliukai"
 
 #: .\Pages\about.py:142 .\Pages\about.py:145 .\Pages\about.py:148 .\Pages\about.py:149 .\Pages\about.py:150 .\Pages\about.py:151
 msgid "Bug fixes"
-msgstr ""
+msgstr "Klaidų taisymas"
 
 #: .\Pages\about.py:204
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Taisomi langų valikliai (5s laikmatis)"
 
 #: .\Pages\about.py:210
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Taisomi langų valikliai už {0} sekundžių..."
 
 #: .\Pages\about.py:220 .\Pages\about.py:221
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Langų valikliai turėtų būti sutaisyti."
 
 #: .\Pages\about.py:224
 msgid "Triggering update"
-msgstr ""
+msgstr "Suaktyvinami atnaujinimai"
 
 #: .\Pages\about.py:238 .\Pages\about.py:240 .\Pages\about.py:245 .\Pages\about.py:251
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0}minutė"
+msgstr[1] "{0}minutės"
+msgstr[2] "{0}minučių"
 
 #: .\Pages\about.py:247 .\Pages\about.py:250
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0}valanda"
+msgstr[1] "{0}valandos"
+msgstr[2] "{0}valandų"
 
 #: .\Pages\about.py:249
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} ir {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
