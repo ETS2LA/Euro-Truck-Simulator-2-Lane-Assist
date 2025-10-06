@@ -147,7 +147,7 @@ def GetCredentials():
     global user_id, token
     if not user_id:
         user_id = settings.user_id
-        if user_id is None:
+        if not user_id:
             user_id = str(uuid.uuid4())
             settings.user_id = user_id
 
