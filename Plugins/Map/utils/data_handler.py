@@ -31,10 +31,13 @@ def GetIndex() -> dict:
     if index != {}:
         return index
 
-    response = requests.get(index_url)
-    if response.status_code == 200:
-        index = yaml.safe_load(response.text)
-        return index
+    try:
+        response = requests.get(index_url)
+        if response.status_code == 200:
+            index = yaml.safe_load(response.text)
+            return index
+    except Exception:
+        logging.info("Failed to get data index")
 
     return {}
 

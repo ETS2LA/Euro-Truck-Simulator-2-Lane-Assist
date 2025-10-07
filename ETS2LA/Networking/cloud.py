@@ -131,10 +131,12 @@ def GetUsername(force_refresh=False):
             url = URL + f"/user/{user_id}"
             headers = {"Authorization": f"Bearer {token}"}
             try:
-                r = requests.get(url, headers=headers)
+                r = requests.get(url, headers=headers, timeout=5)
                 return r.json()["data"]["username"]
             except Exception:
-                pass
+                logging.warning(
+                    "Failed to get username, check your internet connection or login again to refresh your token."
+                )
         else:
             logging.warning("Your token has expired, please log in again.")
             settings.token = None

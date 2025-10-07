@@ -50,9 +50,9 @@ def CheckForUpdate():
         origin = repo.remotes.origin
         try:
             origin_state = origin.fetch(kill_after_timeout=4)
-        except Exception as e:
+        except Exception:
             logging.warning(
-                f"Unable to fetch origin: {e}\nUpdate check will be skipped."
+                "Unable to fetch ETS2LA repository, update check will be skipped."
             )
             return False
 
