@@ -213,7 +213,7 @@ last_time_check = 0
 last_time_data = None
 
 
-def GetUserTime():
+def GetUserTimeInfo():
     global last_time_check, last_time_data
     if time.perf_counter() - last_time_check < 60:
         return last_time_data
@@ -222,7 +222,7 @@ def GetUserTime():
     url = URL + f"/tracking/time/{user_id}"
     try:
         r = requests.get(url, timeout=10)
-        last_time_data = r.json()["data"]["time_used"]
+        last_time_data = r.json()["data"]
         last_time_check = time.perf_counter()
         return last_time_data
     except Exception:

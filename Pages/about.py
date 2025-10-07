@@ -12,7 +12,7 @@ from ETS2LA.UI import (
 )
 from ETS2LA.Networking.cloud import (
     GetUserCount,
-    GetUserTime,
+    GetUserTimeInfo,
     GetUniqueUsers,
     token,
     user_id,
@@ -243,6 +243,9 @@ class Page(ETS2LAPage):
                 pass
 
     def seconds_to_time(self, seconds):
+        if not isinstance(seconds, (int, float)):
+            return seconds
+
         if not seconds:
             return ngettext("{0} minute", "{0} minutes", 0).format(0)
         if seconds == 0:
@@ -288,7 +291,7 @@ class Page(ETS2LAPage):
                 self.need_update = True
                 self.unique_users = _("{0} unique users").format(GetUniqueUsers())
                 self.need_update = True
-                self.user_time = self.seconds_to_time(GetUserTime())
+                self.user_time = GetUserTimeInfo()
                 self.need_update = True
                 time.sleep(60)
 
@@ -436,9 +439,30 @@ class Page(ETS2LAPage):
                             self.unique_users,
                             styles.Description(),
                         )
-                    with Container(style=styles.FlexHorizontal()):
-                        Text(f"{_('Your usage time:')} ")
-                        Text(self.user_time, styles.Description())
+                    with Container(style=styles.FlexHorizontal() + styles.Gap("4px")):
+                        Text(f"{_('Your usage time:')}  ")
+                        Text(
+                            self.seconds_to_time(
+                                self.user_time.get("time_used", 0)
+                                if isinstance(self.user_time, dict)
+                                else self.user_time
+                            ),
+                            styles.Description(),
+                        )
+                        Text(
+                            ngettext(
+                                "over {count} session",
+                                "over {count} sessions",
+                                self.user_time.get("sessions", 0)
+                                if isinstance(self.user_time, dict)
+                                else 0,
+                            ).format(
+                                count=self.user_time.get("sessions", 0)
+                                if isinstance(self.user_time, dict)
+                                else "..."
+                            ),
+                            styles.Description(),
+                        )
                     if token is None:
                         with Container(style=styles.FlexVertical() + styles.Gap("6px")):
                             Space(style=styles.Height("10px"))
