@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-02 12:07+0000\n"
+"PO-Revision-Date: 2025-10-07 13:07+0000\n"
 "Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
@@ -2270,7 +2270,7 @@ msgstr ""
 
 #: .\Plugins\TTS\main.py:181
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: .\Plugins\TTS\main.py:183
 msgid "Enable Road Proximity Beep"
@@ -2384,15 +2384,15 @@ msgstr[0] ""
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "ヘッドライトがオンです。"
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "ヘッドライトはオフです。"
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
-msgstr ""
+msgstr "テストモードが有効です。これはテストメッセージです。"
 
 #: .\Plugins\VisualizationSockets\main.py:214
 #: .\Plugins\VisualizationSockets\main.py:229
