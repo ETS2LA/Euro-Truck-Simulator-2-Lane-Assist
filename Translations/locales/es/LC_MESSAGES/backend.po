@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-03 13:07+0000\n"
+"PO-Revision-Date: 2025-10-07 13:07+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -767,43 +767,52 @@ msgstr ""
 
 #: .\Pages\global_settings.py:39 .\Pages\global_settings.py:392
 msgid "Full"
-msgstr ""
+msgstr "Completo"
 
 #: .\Pages\global_settings.py:211
 msgid "Global Settings"
-msgstr ""
+msgstr "Ajustes Globales"
 
 #: .\Pages\global_settings.py:212
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Aquí puedes encontrar configuraciones que afectan a toda la aplicación, como "
+"el tamaño de la ventana y el idioma."
 
 #: .\Pages\global_settings.py:220
 msgid "User Interface"
-msgstr ""
+msgstr "Interfaz de usuario"
 
 #: .\Pages\global_settings.py:240 .\Pages\onboarding.py:557
 msgid "Window Width"
-msgstr ""
+msgstr "Ancho de la ventana"
 
 #: .\Pages\global_settings.py:241
 msgid "Change the width of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Cambie el ancho de la ventana. Tenga en cuenta que ETS2LA no se ha probado "
+"en resoluciones no estándar, así que úselo bajo su propia responsabilidad!"
 
 #: .\Pages\global_settings.py:253 .\Pages\onboarding.py:566
 msgid "Window Height"
-msgstr ""
+msgstr "Altura de la ventana"
 
 #: .\Pages\global_settings.py:254
 msgid "Change the height of the window. Please note that ETS2LA is not tested on non-standard resolutions, so use at your own risk!"
 msgstr ""
+"Cambie la altura de la ventana. Tenga en cuenta que ETS2LA no se ha probado "
+"en resoluciones no estándar, así que úselo bajo su propia responsabilidad."
 
 #: .\Pages\global_settings.py:266
 msgid "Transparency mode Alpha"
-msgstr ""
+msgstr "Modo de transparencia versión Alfa"
 
 #: .\Pages\global_settings.py:267
 msgid "Change the transparency of the window when entering transparency mode. This can be done by right-clicking the green button in the top right corner."
 msgstr ""
+"Cambie la transparencia de la ventana al entrar en el modo de transparencia. "
+"Puede hacerlo haciendo clic derecho en el botón verde de la esquina superior "
+"derecha."
 
 #: .\Pages\global_settings.py:286 .\Pages\onboarding.py:191
 msgid "Language"
@@ -859,19 +868,26 @@ msgstr "Variables"
 
 #: .\Pages\global_settings.py:415
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Apoya el desarrollo de ETS2LA en Ko-Fi"
 
 #: .\Pages\global_settings.py:435
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
 msgstr ""
+"Verá solo un anuncio en la página \"Acerca de\". No habrá otros anuncios. Se "
+"recomienda esta opción para apoyar el desarrollo de ETS2LA."
 
 #: .\Pages\global_settings.py:442
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
 msgstr ""
+"Verá anuncios discretos en páginas no esenciales. Las páginas de "
+"visualización estarán libres de anuncios. Esta opción es recomendable si "
+"desea apoyar el desarrollo."
 
 #: .\Pages\global_settings.py:449
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
 msgstr ""
+"Verás tantos anuncios como pensé que no afectarían por completo su uso. Las "
+"páginas de visualización siguen sin anuncios cuando están habilitadas."
 
 #: .\Pages\global_settings.py:470
 msgid "Fallback to old acceleration method"
@@ -903,19 +919,19 @@ msgstr "Si tu PC tiene problemas para cargar todos los plugins en paralelo, pued
 
 #: .\Pages\global_settings.py:521
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Misceláneos"
 
 #: .\Pages\global_settings.py:525
 msgid "Frontend Port"
-msgstr ""
+msgstr "Puerto frontend"
 
 #: .\Pages\global_settings.py:526
 msgid "Change the port used by the frontend. This is only used in local mode."
-msgstr ""
+msgstr "Cambia el puerto que usa el frontend. Esto solo se usa en modo local."
 
 #: .\Pages\global_settings.py:535
 msgid "Frameless Window"
-msgstr ""
+msgstr "Ventana sin marco"
 
 #: .\Pages\global_settings.py:536
 msgid "Disable this option if you have any issues moving the window around."
@@ -1497,97 +1513,107 @@ msgstr "SDKs para {game} desinstalado con éxito."
 
 #: .\Pages\sdk_installation.py:205
 msgid "SDKs for {game} not installed, skipping uninstallation"
-msgstr ""
+msgstr "Los SDK para {game} no están instalados, se omite la desinstalación"
 
 #: .\Pages\sdk_installation.py:217
 msgid "Error uninstalling SDKs for {game}, please make sure the game is closed."
 msgstr ""
+"Error al desinstalar los SDK para {game}, asegúrese de que el juego esté "
+"cerrado."
 
 #: .\Pages\sdk_installation.py:225
 msgid "Select the game directory"
-msgstr ""
+msgstr "Seleccionar el directorio del juego"
 
 #: .\Pages\sdk_installation.py:229
 msgid "Could not find version for the selected game, please select a valid game directory."
 msgstr ""
+"No se pudo encontrar la versión del juego seleccionado, seleccione un "
+"directorio de juego válido."
 
 #: .\Pages\sdk_installation.py:235
 msgid "Could not find version for {path}, skipping installation"
-msgstr ""
+msgstr "No se pudo encontrar la versión para {path}, omitiendo la instalación"
 
 #: .\Pages\sdk_installation.py:243
 msgid "Found game version {version}."
-msgstr ""
+msgstr "Se encontró la versión del juego {version}."
 
 #: .\Pages\sdk_installation.py:249
 msgid "Path {path} does not exist."
-msgstr ""
+msgstr "La ruta {path} no existe."
 
 #: .\Pages\sdk_installation.py:264
 msgid "Check that you have the necessary DLLs installed for us to communicate with the game."
 msgstr ""
+"Comprueba que tienes instaladas las DLL necesarias para que podamos "
+"comunicarnos con el juego."
 
 #: .\Pages\sdk_installation.py:275
 msgid "We could not find any SCS games on your system. Please note that ETS2LA will only work with legitimate versions downloaded from Steam."
 msgstr ""
+"No pudimos encontrar ningún juego de SCS en tu sistema. Ten en cuenta que "
+"ETS2LA solo funciona con versiones legítimas descargadas de Steam."
 
 #: .\Pages\sdk_installation.py:281
 msgid "Select directory manually"
-msgstr ""
+msgstr "Selecciona directorio manualmente"
 
 #: .\Pages\sdk_installation.py:321
 msgid " - Needs Reinstall"
-msgstr ""
+msgstr " - Necesita reinstalación"
 
 #: .\Pages\sdk_installation.py:327 .\Pages\sdk_installation.py:386
 msgid "- Installed"
-msgstr ""
+msgstr "- Instalado"
 
 #: .\Pages\sdk_installation.py:329 .\Pages\sdk_installation.py:388
 msgid "- Not Installed"
-msgstr ""
+msgstr "- No instalado"
 
 #: .\Pages\sdk_installation.py:345
 msgid "This game version is not supported"
-msgstr ""
+msgstr "Esta versión del juego no es compatible"
 
 #: .\Pages\sdk_installation.py:373
 msgid "No files found."
-msgstr ""
+msgstr "No se encontraron archivos."
 
 #: .\Pages\sdk_installation.py:404
 msgid "File Sources"
-msgstr ""
+msgstr "Fuentes de archivos"
 
 #: .\Pages\sdk_installation.py:421 .\Pages\sdk_installation.py:454
 msgid "Uninstall SDKs"
-msgstr ""
+msgstr "Desinstalar SDKs"
 
 #: .\Pages\sdk_installation.py:431 .\Pages\sdk_installation.py:465
 msgid "Install SDKs"
-msgstr ""
+msgstr "Instalar SDKs"
 
 #: .\Pages\sdk_installation.py:437
 msgid "Please close the game before installing or uninstalling SDKs."
-msgstr ""
+msgstr "Cierre el juego antes de instalar o desinstalar los SDK."
 
 #: .\Pages\updater.py:64
 msgid "You have a local commit that is waiting to be pushed."
-msgstr ""
+msgstr "Tienes un commit local que está esperando a ser enviado."
 
 #: .\Pages\updater.py:69
 msgid "No updates available. (It might take up to a minute for the page to update after a new commit)"
 msgstr ""
+"No hay actualizaciones disponibles. (La página puede tardar hasta un minuto "
+"en actualizarse después de un nuevo commit)"
 
 #: .\Pages\updater.py:75
 msgid "Update Anyway"
-msgstr ""
+msgstr "Actualizar de todos modos"
 
 #: .\Pages\updater.py:79
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Reiniciar y aplicar la actualización {count}"
+msgstr[1] "Reiniciar y aplicar la actualizaciones {count}"
 
 #: .\Plugins\AR\main.py:219 .\Plugins\AR\main.py:272 .\Plugins\AR\main.py:334
 msgid "AR"
@@ -1599,7 +1625,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:277 .\Plugins\Map\ui.py:121
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: .\Plugins\AR\main.py:279
 msgid "Don't hide AR from recording software"
@@ -1611,7 +1637,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:288
 msgid "Show test objects"
-msgstr ""
+msgstr "Mostrar objetos de prueba"
 
 #: .\Plugins\AR\main.py:289
 msgid "Show test objects in the AR overlay."
@@ -1619,7 +1645,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:295
 msgid "Show when not in focus"
-msgstr ""
+msgstr "Mostrar cuando no está enfocado"
 
 #: .\Plugins\AR\main.py:296
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
@@ -1639,7 +1665,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
-msgstr ""
+msgstr "Mostrar estadísticas del juego"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
