@@ -175,7 +175,7 @@ last_unique_check = 0
 last_unique_data = None
 
 
-def GetUniqueUsers(interval: Literal["1h", "6h", "12h", "24h", "1w", "1m"] = "24h"):
+def GetUniqueUsers(interval: Literal["1h", "1d", "7d", "30d"] = "1d"):
     global last_unique_check, last_unique_data
     if time.perf_counter() - last_unique_check < 60:
         return last_unique_data
