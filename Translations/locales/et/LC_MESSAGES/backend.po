@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
+"PO-Revision-Date: 2025-10-07 13:07+0000\n"
 "Last-Translator: Roke <roke@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "et/>\n"
@@ -25,7 +25,7 @@ msgstr "Aegumine, palun proovige uuesti."
 
 #: .\ETS2LA\Controls\picker.py:86
 msgid "Event bound to {device} {action}"
-msgstr "Sündmus on seotud {seadmega} {action}"
+msgstr "Sündmus on seotud {device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:100
 msgid "Refreshing joysticks..."
@@ -1258,7 +1258,7 @@ msgstr "Hoiatus: Graph kogub endiselt andmeid, palun oodake 60 sekundit, et see 
 
 #: .\Pages\performance.py:387
 msgid "Failed to render plugin {plugin_name}."
-msgstr "Lisaosa {plugin_ name} renderdamine nurjus."
+msgstr "Lisaosa {plugin_name} renderdamine nurjus."
 
 #: .\Pages\performance.py:400
 msgid "All displayed data is averaged over a second."
@@ -2358,7 +2358,7 @@ msgstr[1] "Lähim linn {city} on nüüd {distance} kilomeetri kaugusel."
 #: .\Plugins\TTS\main.py:421
 msgid "Speed limit changed to {0} kilometer per hour."
 msgid_plural "Speed limit changed to {0} kilometers per hour."
-msgstr[0] "Kiirusepiirang on nüüd {0} kilomeetrit tunnis."
+msgstr[0] "Kiirusepiirang on nüüd {0} kilomeeter tunnis."
 msgstr[1] "Kiirusepiirang on nüüd {0} kilomeetrit tunnis."
 
 #: .\Plugins\TTS\main.py:437
@@ -2376,7 +2376,7 @@ msgstr[1] "Kütusevalik on nüüd kriitiline ainult {0} kilomeetritel, palun tan
 #: .\Plugins\TTS\main.py:473 .\Plugins\TTS\main.py:487
 #: .\Plugins\TTS\main.py:509
 msgid "It's {0} kilometers to the next waypoint."
-msgstr "See on [0} kilomeetri kaugusel järgmisest teepunktist."
+msgstr "See on {0} kilomeetri kaugusel järgmisest teepunktist."
 
 #: .\Plugins\TTS\main.py:528
 msgid "Engine damage is now at {0}%."
@@ -2408,7 +2408,7 @@ msgstr "Kiirus {0} kilomeetrit tunnis, piir {1}, kütus {2}% ja see on {3} kilom
 
 #: .\Plugins\TTS\main.py:620 .\Plugins\TTS\main.py:639
 msgid "Traffic light ahead in {distance} meters. Currently {state}."
-msgstr "Valgusfoor {distanse} meetri pärast. Praegu {state}."
+msgstr "Valgusfoor {distance} meetri pärast. Praegu {state}."
 
 #: .\Plugins\TTS\main.py:630
 msgid "Traffic light changed to {state}. Now at {distance} meters."
