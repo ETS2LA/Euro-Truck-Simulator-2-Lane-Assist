@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-07 13:07+0000\n"
+"PO-Revision-Date: 2025-10-09 10:07+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -1887,6 +1887,9 @@ msgstr ""
 #: .\Plugins\AdaptiveCruiseControl\settings.py:253
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
 msgstr ""
+"Puedes desbloquear la configuración del PID para ajustarla manualmente. Esto "
+"no se recomienda a menos que sepas qué es un PID y cómo ajustarlo "
+"correctamente."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:262
 msgid "PID Kp"
@@ -1972,31 +1975,33 @@ msgstr ""
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
-msgstr ""
+msgstr "Muestra la distancia con el vehículo que va delante."
 
 #: .\Plugins\HUD\elements\gear.py:7 .\Plugins\HUD\main.py:46
 msgid "RPM & Gear"
-msgstr ""
+msgstr "Revoluciones & Marcha"
 
 #: .\Plugins\HUD\elements\gear.py:8
 msgid "Draw the current RPM and gear of the truck."
-msgstr ""
+msgstr "Dibuje las RPM actuales y la marcha del camión."
 
 #: .\Plugins\HUD\elements\income.py:7
+#, fuzzy
 msgid "Income"
-msgstr ""
+msgstr "Ingreso"
 
 #: .\Plugins\HUD\elements\income.py:8
 msgid "Shows the income from the current job."
-msgstr ""
+msgstr "Muestra los ingresos del trabajo actual."
 
 #: .\Plugins\HUD\elements\income.py:27
 msgid "No job"
-msgstr ""
+msgstr "Sin trabajo"
 
 #: .\Plugins\HUD\elements\income.py:47
+#, fuzzy
 msgid "Job Income"
-msgstr ""
+msgstr "Ingresos por trabajo"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
@@ -2006,31 +2011,33 @@ msgstr ""
 #: .\Plugins\HUD\elements\media.py:22
 msgid "Displays media information such as song title, artist and playback progress."
 msgstr ""
+"Muestra información multimedia, como el título de la canción, el artista y "
+"el progreso de la reproducción."
 
 #: .\Plugins\HUD\elements\media.py:27
 msgid "No Media Playing"
-msgstr ""
+msgstr "No hay reproducción de medios"
 
 #: .\Plugins\HUD\elements\media.py:28 .\Plugins\HUD\elements\media.py:72
 msgid "No Artist"
-msgstr ""
+msgstr "Sin artista"
 
 #: .\Plugins\HUD\elements\media.py:71
 msgid "No Title"
-msgstr ""
+msgstr "Sin título"
 
 #: .\Plugins\HUD\elements\navigation.py:9
 msgid "Navigation"
-msgstr ""
+msgstr "Navegación"
 
 #: .\Plugins\HUD\elements\navigation.py:10
 msgid "Draw navigation information."
-msgstr ""
+msgstr "Dibujar información de navegación."
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\HUD\elements\navigation.py:71
 msgid "arrival"
-msgstr ""
+msgstr "llegada"
 
 #: .\Plugins\HUD\elements\power.py:10
 msgid "Throttle / Brake"
@@ -2115,11 +2122,11 @@ msgstr "El desplazamiento vertical del HUD."
 
 #: .\Plugins\HUD\ui.py:170
 msgid "Offset Z"
-msgstr ""
+msgstr "Desplazamiento Z"
 
 #: .\Plugins\HUD\ui.py:171
 msgid "The depth offset of the HUD."
-msgstr ""
+msgstr "El desplazamiento de profundidad del HUD."
 
 #: .\Plugins\HUD\ui.py:180
 msgid "Widget Sizing"
