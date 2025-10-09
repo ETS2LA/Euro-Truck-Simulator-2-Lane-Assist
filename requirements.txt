@@ -18,7 +18,7 @@ websockets==13.1
 py-sharedmemory
 textual==1.0.0
 beautifulsoup4
-pywebview==5.1
+pywebview==6.0
 opencv-python
 numpy==2.2.6
 torchvision
