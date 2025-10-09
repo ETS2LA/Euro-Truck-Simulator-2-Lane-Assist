@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:32\n"
-"PO-Revision-Date: 2025-10-07 13:07+0000\n"
+"PO-Revision-Date: 2025-10-09 14:20+0000\n"
 "Last-Translator: Dano <dano@ets2la.com>\n"
 "Language-Team: Lithuanian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "lt/>\n"
@@ -377,7 +377,7 @@ msgstr "{0} ir {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Sveikas!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
