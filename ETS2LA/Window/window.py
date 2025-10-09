@@ -158,14 +158,11 @@ def window_handler(window: webview.Window):
             if not window:
                 return
 
-            try:
-                if "ets2la" not in window.get_current_url():
-                    if not variables.LOCAL_MODE:
-                        time.sleep(0.5)  # 0.5s load time wait
-                        webbrowser.open(window.get_current_url())
-                        window.load_url(variables.FRONTEND_URL)
-            except Exception:
-                pass
+            if "ets2la" not in window.get_current_url():
+                if not variables.LOCAL_MODE:
+                    time.sleep(0.5)  # 0.5s load time wait
+                    webbrowser.open(window.get_current_url())
+                    window.load_url(variables.FRONTEND_URL)
 
 
 def window_callback(window: webview.Window):
