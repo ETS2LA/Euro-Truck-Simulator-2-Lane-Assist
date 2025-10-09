@@ -156,11 +156,14 @@ def window_handler(window: webview.Window):
             if not window:
                 return
 
-            if "ets2la" not in window.get_current_url():
-                if not variables.LOCAL_MODE:
-                    time.sleep(0.5)  # 0.5s load time wait
-                    webbrowser.open(window.get_current_url())
-                    window.load_url(variables.FRONTEND_URL)
+            try:
+                if "ets2la" not in window.get_current_url():
+                    if not variables.LOCAL_MODE:
+                        time.sleep(0.5)  # 0.5s load time wait
+                        webbrowser.open(window.get_current_url())
+                        window.load_url(variables.FRONTEND_URL)
+            except Exception:
+                pass
 
 
 def window_callback(window: webview.Window):
@@ -171,7 +174,7 @@ def start_window():
     if os.name != "nt":
         webbrowser.open(variables.FRONTEND_URL)
         return
-    
+
     window_x = settings.window_position[0]
     window_y = settings.window_position[1]
 
@@ -198,7 +201,7 @@ def start_window():
         easy_drag=False,
         on_top=settings.stay_on_top,
     )
-    
+
     try:
         webview.start(
             window_callback,
@@ -206,7 +209,9 @@ def start_window():
             private_mode=False,  # Save cookies, local storage and cache
             debug=DEBUG_MODE,  # Show developer tools
             storage_path=f"{variables.PATH}cache",
-            gui="qt" if os.name != "nt" else "edgechromium",  # Use GTK on Linux for better compatibility
+            gui="qt"
+            if os.name != "nt"
+            else "edgechromium",  # Use GTK on Linux for better compatibility
         )
     except Exception as e:
         logging.error(f"Failed to start the webview window: {e}")
