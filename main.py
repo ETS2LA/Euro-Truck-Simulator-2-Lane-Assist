@@ -138,6 +138,10 @@ def get_fastest_mirror() -> str:
     - If setting is "Auto", ETS2LA will poll all servers.
     - If a specific mirror is set, that will be used directly.
     """
+
+    if not settings.frontend_mirror or settings.frontend_mirror.strip() == "":
+        settings.frontend_mirror = "Auto"
+
     if settings.frontend_mirror == "Auto":
         print(_("Testing mirrors..."))
         response_times = {}
