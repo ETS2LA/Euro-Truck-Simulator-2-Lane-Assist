@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-09 10:07+0000\n"
+"PO-Revision-Date: 2025-10-17 12:07+0000\n"
 "Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
@@ -673,55 +673,57 @@ msgstr "Plugins disponibles"
 
 #: .\Pages\catalogue.py:710
 msgid "You have installed all available plugins."
-msgstr ""
+msgstr "Has instalado todos los complementos disponibles."
 
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hace {seconds} segundo"
+msgstr[1] "hace {seconds} segundos"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace {minutes} minuto"
+msgstr[1] "Hace {minutes} minutos"
 
 #: .\Pages\changelog.py:32 .\Pages\updater.py:38
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hace {hours} hora"
+msgstr[1] "hace {hours} horas"
 
 #: .\Pages\changelog.py:36 .\Pages\updater.py:42
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "hace {days} día"
+msgstr[1] "hace {days} días"
 
 #: .\Pages\changelog.py:48
 msgid "Fetching changelog and possible changes."
-msgstr ""
+msgstr "Obteniendo registro de cambios y posibles modificaciones."
 
 #: .\Pages\changelog.py:50
 msgid "Changelog fetched."
-msgstr ""
+msgstr "Registro de cambios obtenido."
 
 #: .\Pages\changelog.py:121 .\Pages\updater.py:146
 msgid "View Changes"
-msgstr ""
+msgstr "Ver Cambios"
 
 #: .\Pages\changelog.py:137 .\Pages\updater.py:162
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
 msgstr ""
+"Solo se muestran las últimas 20 actualizaciones. Puedes consultar el "
+"historial en el repositorio."
 
 #: .\Pages\controls.py:54 .\Pages\controls.py:101 .\Pages\controls.py:102
 msgid "Show all plugins"
-msgstr ""
+msgstr "Mostrar todos los complementos"
 
 #: .\Pages\controls.py:67
 msgid "Please press the key / button you want to bind to this event."
-msgstr ""
+msgstr "Presione la tecla/botón que desea vincular a este evento."
 
 #: .\Pages\controls.py:74
 msgid "Event unbound."
@@ -729,41 +731,41 @@ msgstr ""
 
 #: .\Pages\controls.py:94
 msgid "Controls"
-msgstr ""
+msgstr "Controles"
 
 #: .\Pages\controls.py:96
 msgid "You can change plugins' control events here."
-msgstr ""
+msgstr "Aquí puedes cambiar los eventos de control de los complementos."
 
 #: .\Pages\controls.py:109
 msgid "Search Controls or Plugins"
-msgstr ""
+msgstr "Controles o complementos de búsqueda"
 
 #: .\Pages\controls.py:146
 msgid "No controls found, try again with different filters."
-msgstr ""
+msgstr "No se encontraron controles, inténtalo de nuevo con diferentes filtros."
 
 #: .\Pages\controls.py:207
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "Este evento aún no ha sido vinculado a ningún dispositivo."
 
 #: .\Pages\controls.py:212
 msgid "Keyboard: "
-msgstr ""
+msgstr "Teclado: "
 
 #: .\Pages\global_settings.py:36 .\Pages\global_settings.py:389
 #: .\Pages\plugins.py:333
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 #: .\Pages\global_settings.py:37 .\Pages\global_settings.py:189
 #: .\Pages\global_settings.py:200 .\Pages\global_settings.py:390
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Mínimo (recomendado)"
 
 #: .\Pages\global_settings.py:38 .\Pages\global_settings.py:391
 msgid "Medium"
-msgstr ""
+msgstr "Medio"
 
 #: .\Pages\global_settings.py:39 .\Pages\global_settings.py:392
 msgid "Full"
@@ -1621,7 +1623,7 @@ msgstr ""
 
 #: .\Plugins\AR\main.py:273
 msgid "Change the AR overlay settings here."
-msgstr ""
+msgstr "Cambie la configuración de superposición de AR aquí."
 
 #: .\Plugins\AR\main.py:277 .\Plugins\Map\ui.py:121
 msgid "General"
@@ -2190,7 +2192,7 @@ msgstr ""
 
 #: .\Plugins\HUD\ui.py:308
 msgid "Available Widgets"
-msgstr ""
+msgstr "Widgets disponibles"
 
 #: .\Plugins\HUD\ui.py:310
 msgid "These widgets are available to be enabled:"
@@ -2198,7 +2200,7 @@ msgstr "Estos widgets están disponibles para ser habilitados:"
 
 #: .\Plugins\HUD\ui.py:320
 msgid "Renderers"
-msgstr ""
+msgstr "Renderizadores"
 
 #: .\Plugins\HUD\ui.py:322
 msgid "These renderers are used to draw non anchored elements. These are usually elements in the game world that move around."
