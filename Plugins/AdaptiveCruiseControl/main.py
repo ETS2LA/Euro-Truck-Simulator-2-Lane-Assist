@@ -947,7 +947,23 @@ class Plugin(ETS2LAPlugin):
             is_reversing = gear < 0
 
         self.accel = min(1, max(-1, accel))
+        target_accel = self.accel
         self.tags.acceleration = self.accel
+        
+        override = 0.0
+        try:
+            override_tag = self.tags.override_acceleration
+            override_tag = self.tags.merge(override_tag)
+            override_tag = float(override_tag)
+            if override_tag != 0.0:
+                override = override_tag
+        except Exception:
+            pass
+        
+        if override != 0.0:
+            target_accel = override
+            target_accel = min(1, max(-1, target_accel))
+            self.tags.acceleration = target_accel
 
         if is_reversing:
             self.controller.drive = True
@@ -963,11 +979,11 @@ class Plugin(ETS2LAPlugin):
         elif self.state.text == "Detected reverse gear. Please shift to drive.":
             self.state.text = ""
 
-        if self.accel > 0:
+        if target_accel > 0:
             if (
                 clutch < 0.1 or speed < 10 / 3.6
             ):  # ignore clutch when low speed (at traffic lights)
-                self.controller.aforward = float(self.accel)
+                self.controller.aforward = float(target_accel)
             else:  # disable acceleration if clutch is pressed
                 self.controller.aforward = float(0)
 
@@ -978,7 +994,7 @@ class Plugin(ETS2LAPlugin):
                 self.controller.abackward = float(0.0001)
         else:
             self.set_zero = False
-            self.controller.abackward = float(-self.accel)
+            self.controller.abackward = float(-target_accel)
             self.controller.aforward = float(0)
 
     def apply_pid(self, target_acceleration: float) -> float:
