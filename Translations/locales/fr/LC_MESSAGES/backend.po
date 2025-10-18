@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
-"Last-Translator: scorpion7slayer <scorpionslayer@ets2la.com>\n"
+"PO-Revision-Date: 2025-10-19 09:07+0000\n"
+"Last-Translator: Nesquik <nesquik@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/backend/fr/>"
 "\n"
 "Language: fr\n"
@@ -365,9 +365,9 @@ msgid "I see you've disabled ads. That's totally fine, but you can still support
 msgstr ""
 "Je vois que vous avez désactivé les publicités. Ce n'est pas grave, mais "
 "vous pouvez toujours soutenir le développement d'ETS2LA en faisant un don "
-"via Ko-Fi. *Chaque don équivaut à plusieurs semaines ( !) de revenus "
+"via Ko-Fi. *Chaque don équivaut à plusieurs semaines(!) de revenus "
 "publicitaires*, nous sommes éternellement reconnaissants pour chaque soutien "
-"que nous recevons!"
+"que nous recevons !"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
@@ -574,7 +574,7 @@ msgstr "Nouvelle tentative de suppression ({cur}/{max})"
 
 #: .\Pages\catalogue.py:289
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr "Échec de la suppression des fichiers du plugin après {max] essais"
+msgstr "Échec de la suppression des fichiers du plugin après {max} essais"
 
 #: .\Pages\catalogue.py:299
 msgid "Plugin '{name}' uninstalled successfully."
@@ -1260,7 +1260,7 @@ msgstr "Attention : le graphique collecte encore des données, veuillez patiente
 
 #: .\Pages\performance.py:387
 msgid "Failed to render plugin {plugin_name}."
-msgstr "Échec du rendu du plugin {plugin\\_name}."
+msgstr "Échec du rendu du plugin {plugin_name}."
 
 #: .\Pages\performance.py:400
 msgid "All displayed data is averaged over a second."
