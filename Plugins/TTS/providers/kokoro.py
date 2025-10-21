@@ -1,4 +1,5 @@
 from Plugins.TTS.providers.provider import TTSProvider, TTSVoice
+from ETS2LA.variables import PATH
 import sounddevice as sd
 import os
 
@@ -33,6 +34,16 @@ class Provider(TTSProvider):
     def initialize(self, plugin):
         global KPipeline
         plugin.state.text = "Loading Kokoro..."
+
+        # kokoro uses the huggingface transformers library
+        # disable telemetry of transformers
+        os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
+        os.environ["HF_HUB_DISABLE_IMPLICIT_TOKEN"] = "1"
+        os.environ["DO_NOT_TRACK"] = "1"
+        os.environ["DISABLE_TELEMETRY"] = "YES"
+        # set hf home to an app folder not the %USERPROFILE%/.cache/hub which is used by default
+        os.environ["HF_HOME"] = os.path.join(PATH, "cache")
+
         try:
             from kokoro import KPipeline
         except ImportError:
