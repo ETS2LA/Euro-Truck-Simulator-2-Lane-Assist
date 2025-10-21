@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-07-13 20:42+0000\n"
-"Last-Translator: TheWildPlant <thewildplant@ets2la.com>\n"
-"Language-Team: Norwegian Bokmål <http://weblate.ets2la.com/projects/ets2la/backend/nb_NO/>\n"
+"PO-Revision-Date: 2025-10-22 16:07+0000\n"
+"Last-Translator: \"Mr.dogo\" <mrdogo@ets2la.com>\n"
+"Language-Team: Norwegian Bokmål <http://weblate.ets2la.com/projects/ets2la/"
+"backend/nb_NO/>\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -81,11 +82,11 @@ msgstr "Plugin {0} klarte ikke å få beskrivelse: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:575
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr ""
+msgstr "Programtillegget {0} klarte ikke å hente kontroller: Tidsavbrudd."
 
 #: .\ETS2LA\Handlers\plugins.py:588
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr ""
+msgstr "Programtillegget {0} klarte ikke å hente kontroller: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:670
 msgid "Loaded {0} plugins."
@@ -125,7 +126,7 @@ msgstr "Klarte ikke å starte programtillegg på nytt: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:870 .\ETS2LA\Handlers\plugins.py:889
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Plugin {0} ble ikke funnet for side {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:13
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
@@ -133,11 +134,11 @@ msgstr "Klarte ikke å laste ned ffmpeg-biblioteket, vennligst last det ned manu
 
 #: .\ETS2LA\Handlers\sounds.py:51
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr "Soundpack «{0}» mangler den nødvendige lyden {0} \\\""
+msgstr "Lydpakken '{0}' mangler den nødvendige lyden '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:60
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr "Soundpack «{0}» har en ugyldig filtype {0} \\\""
+msgstr "Lydpakken '{0}' har en ugyldig filtype '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:99
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
@@ -146,6 +147,8 @@ msgstr "Prøvde å spille lyd «{0}», men den ble ikke funnet i lydpakke '{1} \
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
 msgstr ""
+"Registrering av [bold]http://{address}[/bold] for å peke til [dim]{local_ip}"
+"[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:94
 msgid "An error occurred while processing a message."
@@ -161,7 +164,7 @@ msgstr "Frontend popup websocket startet."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:119
 msgid "Frontend"
-msgstr ""
+msgstr "Frontende"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:119
 msgid "The frontend wants to perform an update."
@@ -169,221 +172,239 @@ msgstr "Frontend ønsker å utføre en oppdatering."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:189
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Kunne ikke angi gjennomsiktighet"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:402
 msgid "Failed to get tag data"
-msgstr ""
+msgstr "Kunne ikke hente tagdata"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:441
 msgid "Failed to get pages"
-msgstr ""
+msgstr "Kunne ikke hente sider"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:454
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Kunne ikke laste inn programtilleggene på nytt"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:469
 msgid "Failed to build frontend"
-msgstr ""
+msgstr "Kunne ikke bygge frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:479
 msgid "Building frontend... please wait..."
-msgstr ""
+msgstr "Bygger frontend ... vennligst vent ..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:483
 msgid "Failed to start frontend"
-msgstr ""
+msgstr "Kunne ikke starte frontend"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:508
 msgid "Webserver started at http://{ip}:37520"
-msgstr ""
+msgstr "Nettserver startet på http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:517
 msgid "Frontend started at http://{ip}:{port}"
-msgstr ""
+msgstr "Frontend startet på http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:99
 msgid "Logging initialized."
-msgstr ""
+msgstr "Logging initialisert."
 
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Feil ved fjerning av loggfiler. Sannsynligvis en annen kjørende ETS2LA-"
+"instans. Lukk den og prøv på nytt."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
-msgstr ""
+msgstr "Feil og advarsler i loggfilene:"
 
 #: .\ETS2LA\Utils\Console\logs.py:37
 msgid "Errors: "
-msgstr ""
+msgstr "Feil: "
 
 #: .\ETS2LA\Utils\Console\logs.py:39
 msgid "Warnings: "
-msgstr ""
+msgstr "Advarsler: "
 
 #: .\ETS2LA\Utils\Console\logs.py:44
 msgid "No errors or warnings found."
-msgstr ""
+msgstr "Ingen feil eller advarsler funnet."
 
 #: .\ETS2LA\Window\html.py:88
 msgid "Please wait while we initialize the user interface"
-msgstr ""
+msgstr "Vent mens vi initialiserer brukergrensesnittet"
 
 #: .\ETS2LA\Window\utils.py:213
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
 msgstr ""
+"Kunne ikke finne/starte ETS2LA-vinduet. Er PC-en din kraftig nok? Bruk "
+"https://app.ets2la.com hvis du tror du skal kunne kjøre det."
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Kunne ikke angi vindusattributter eller ikon."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
-msgstr ""
+msgstr "Backend startet"
 
 #: .\Pages\about.py:37
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr ""
+msgstr "Hovedutvikler og skaper av ETS2LA, Bakendenog frontend."
 
 #: .\Pages\about.py:46
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr ""
+msgstr "Navigasjonsdeteksjon, trafikklysdeteksjon, ETS2LA Lite, 'medeier'"
 
 #: .\Pages\about.py:53
 msgid "Various additions and improvements, Object Detection AI models & development"
 msgstr ""
+"Diverse tillegg og forbedringer, objektdeteksjonsmodeller og -utvikling av AI"
 
 #: .\Pages\about.py:63
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
 msgstr ""
+"Utvikler av ETS2LA SDK for spill. Kjøretøy, trafikklys, kameradata og mer "
+"direkte fra spillet."
 
 #: .\Pages\about.py:70
 msgid "Game data extraction and processing"
-msgstr ""
+msgstr "Utvinning og behandling av spilldata"
 
 #: .\Pages\about.py:75
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr ""
+msgstr "Linux- og Unix-portering, diverse forbedringer og feilrettinger"
 
 #: .\Pages\about.py:80
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr ""
+msgstr "ETS2LA SDK C++-utvikler, Linux- og Unix-portering, feilrettinger"
 
 #: .\Pages\about.py:85
 msgid "Help with Navigate on ETS2LA & Map"
-msgstr ""
+msgstr "Hjelp med navigering på ETS2LA og kart"
 
 #: .\Pages\about.py:90
 msgid "scs-sdk-controller developer"
-msgstr ""
+msgstr "scs-sdk-kontrollerutvikler"
 
 #: .\Pages\about.py:95
 msgid "3D models for the visualization"
-msgstr ""
+msgstr "3D-modeller for visualisering"
 
 #: .\Pages\about.py:100
 msgid "Data extractor development, support for modded maps."
-msgstr ""
+msgstr "Utvikling av datauttrekker, støtte for moddede kart."
 
 #: .\Pages\about.py:105
 msgid "Discord rich presence plugin developer, slight backend updates."
 msgstr ""
+"Utvikler av Discord-plugin med rik tilstedeværelse, små backend-"
+"oppdateringer."
 
 #: .\Pages\about.py:112
 msgid "Chinese translation, bug fixes"
-msgstr ""
+msgstr "Kinesisk oversettelse, feilrettinger"
 
 #: .\Pages\about.py:117
 msgid "Chinese translations, bug fixes"
-msgstr ""
+msgstr "Kinesiske oversettelser, feilrettinger"
 
 #: .\Pages\about.py:122
 msgid "Automatic offset calculations for the Map plugin."
-msgstr ""
+msgstr "Automatiske offsetberegninger for Map-pluginen."
 
 #: .\Pages\about.py:131
 msgid "Discord server support, Chinese-English translator developer."
-msgstr ""
+msgstr "Discord-serverstøtte, utvikler av kinesisk-engelsk oversetter."
 
 #: .\Pages\about.py:138
 msgid "Maintaining CN mirrors for ETS2LA services."
-msgstr ""
+msgstr "Vedlikehold av CN-speil for ETS2LA-tjenester."
 
 #: .\Pages\about.py:141
 msgid "Game hooks"
-msgstr ""
+msgstr "Spillkroker"
 
 #: .\Pages\about.py:142 .\Pages\about.py:145 .\Pages\about.py:148
 #: .\Pages\about.py:149 .\Pages\about.py:150 .\Pages\about.py:151
 msgid "Bug fixes"
-msgstr ""
+msgstr "Feilrettinger"
 
 #: .\Pages\about.py:204
 msgid "Fixing wipers (5s timer)"
-msgstr ""
+msgstr "Reparasjon av vindusviskere (5s timer)"
 
 #: .\Pages\about.py:210
 msgid "Fixing wipers in {0} seconds..."
-msgstr ""
+msgstr "Reparerer vindusviskerne på {0} sekunder..."
 
 #: .\Pages\about.py:220 .\Pages\about.py:221
 msgid "Wipers should be fixed now."
-msgstr ""
+msgstr "Vindusviskerne bør fikses nå."
 
 #: .\Pages\about.py:224
 msgid "Triggering update"
-msgstr ""
+msgstr "Utløser oppdatering"
 
 #: .\Pages\about.py:238 .\Pages\about.py:240 .\Pages\about.py:245
 #: .\Pages\about.py:251
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} minutt"
+msgstr[1] "{0} minutter"
 
 #: .\Pages\about.py:247 .\Pages\about.py:250
 msgid "{0} hour"
 msgid_plural "{0} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} time"
+msgstr[1] "{0} timer"
 
 #: .\Pages\about.py:249
 msgid "{0} and {1}"
-msgstr ""
+msgstr "{0} og {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Hei der!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Jeg ser at du har deaktivert annonser. Det er helt greit, men du kan "
+"fortsatt støtte ETS2LA-utviklingen ved å donere via Ko-Fi. *Hver donasjon "
+"tilsvarer uker(!) med annonseinntekter*, vi er evig takknemlige for all "
+"støtte vi får!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Doner via Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Gjemme"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
-msgstr ""
+msgstr "Legg merke til!"
 
 #: .\Pages\about.py:364
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
 msgstr ""
+"Et SDK for {0} er utdatert. Installer det på nytt for å oppdatere til den "
+"nyeste versjonen i SDK-innstillingene."
 
 #: .\Pages\about.py:370
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: .\Pages\about.py:373
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
 msgstr ""
+"ETS2LA er et prosjekt som har som mål å tilby en brukervennlig selvkjørende "
+"løsning for ETS2 og ATS. Hvis du vil lære mer, kan du besøke github-siden "
+"eller wikien via sidefeltet."
 
 #: .\Pages\about.py:381
 msgid "Statistics"
