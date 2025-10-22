@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-13 13:07+0000\n"
+"PO-Revision-Date: 2025-10-22 16:07+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -1697,7 +1697,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Közlekedési lámpa beállítása"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
@@ -1709,7 +1709,7 @@ msgstr "Vezetés közben hagyja figyelmen kívül a közlekedési lámpákat. Ha
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Közlekedési lámpa módja"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
@@ -2109,6 +2109,8 @@ msgstr ""
 #: .\Plugins\Map\main.py:294
 msgid "Waiting for game data selection in the Settings -> Map..."
 msgstr ""
+"Várakozás a játék adatok kiválasztására navigálj a beállítások menüpontra "
+"azon belül a térkép menüpontra..."
 
 #: .\Plugins\Map\main.py:327
 msgid "Invalid steering value received"
@@ -2136,7 +2138,7 @@ msgstr ""
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr ""
+msgstr "[Kísérleti]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
