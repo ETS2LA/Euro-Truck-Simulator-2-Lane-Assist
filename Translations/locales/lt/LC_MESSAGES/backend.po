@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:32\n"
-"PO-Revision-Date: 2025-10-09 14:20+0000\n"
+"PO-Revision-Date: 2025-10-28 17:07+0000\n"
 "Last-Translator: Dano <dano@ets2la.com>\n"
 "Language-Team: Lithuanian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "lt/>\n"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: .\Pages\about.py:112
 msgid "Chinese translation, bug fixes"
-msgstr "Kinų kalbos vertimas, klaidų taisymas"
+msgstr "Kinų kalbos vertimas, klaidų taisymai"
 
 #: .\Pages\about.py:117
 msgid "Chinese translations, bug fixes"
