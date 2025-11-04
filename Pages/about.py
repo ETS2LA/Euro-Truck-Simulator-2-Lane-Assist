@@ -484,6 +484,30 @@ class Page(ETS2LAPage):
                                 styles.Description(),
                             )
 
+                    if (
+                        not self.unique_users
+                        or str(self.unique_users).split(" ")[0] == "0"
+                    ) or (
+                        not self.user_count or str(self.user_count).split(" ")[0] == "0"
+                    ):
+                        with Container(
+                            style=styles.FlexVertical()
+                            + styles.Margin("6px 0")
+                            + styles.Classname("border rounded-md bg-input/10 p-4")
+                        ):
+                            Text(
+                                _(
+                                    "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
+                                ),
+                                style=styles.Classname("font-semibold"),
+                            )
+                            Text(
+                                _(
+                                    "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
+                                ),
+                                style=styles.Description(),
+                            )
+
                 Space(style=styles.Height("10px"))
                 with Container(style=styles.FlexVertical() + styles.Gap("16px")):
                     Text(_("Contributors"), styles.Title())
