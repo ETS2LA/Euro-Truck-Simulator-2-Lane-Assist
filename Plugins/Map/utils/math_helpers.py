@@ -1,5 +1,4 @@
 from typing import Literal
-from scipy.spatial.transform import Rotation as R
 import numpy as np
 import math
 
@@ -269,13 +268,28 @@ def quaternion_rotate(q, v):
     :param (np.array) v: vector (x,y,z) to be rotated.
     :return (np.array) v_rotated: rotated vector (x,y,z).
     """
-    # Scipy use quaternion in (x, y, z, w) format
     qw, qx, qy, qz = q
-    q = np.array([qx, qy, qz, qw])
 
-    q_norm = q / np.linalg.norm(q)  # Normalize
-    r = R.from_quat(q_norm)
-    v_rotated = r.apply(v)
+    # Normalize quaternion
+    q_mag = math.sqrt(qw * qw + qx * qx + qy * qy + qz * qz)
+    if q_mag == 0:
+        return v
+
+    qw, qx, qy, qz = qw / q_mag, qx / q_mag, qy / q_mag, qz / q_mag
+
+    v = np.array(v)
+    # Quaternion rotation formula: v' = v + 2*r × (r × v + w*v)
+    # where r = (qx, qy, qz) is the vector part of quaternion
+    r = np.array([qx, qy, qz])
+    # Cross product: r × v
+    cross1 = np.cross(r, v)
+    # r × v + w*v
+    temp = cross1 + qw * v
+    # r × (r × v + w*v)
+    cross2 = np.cross(r, temp)
+    # v + 2 * cross2
+    v_rotated = v + 2 * cross2
+
     return v_rotated
 
 
