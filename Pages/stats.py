@@ -13,8 +13,9 @@ descriptions = {
 class PerformanceMetrics:
     output: multiprocessing.Queue
 
-    def __init__(self, output: multiprocessing.Queue):
+    def __init__(self, output: multiprocessing.Queue, pids: list[int]):
         self.output = output
+        self.pids = pids
         threading.Thread(target=self.ram_thread, daemon=True).start()
         threading.Thread(target=self.unsupported_thread, daemon=True).start()
         while True:
@@ -22,19 +23,17 @@ class PerformanceMetrics:
 
     def ram_thread(self):
         while True:
-            time.sleep(10)
-            total = 0
-            python = 0
-            node = 0
+            python_memory = 0
+            plugin_memory = {}
             for proc in psutil.process_iter():
                 try:
                     time.sleep(0.01)  # Prevents high CPU usage
-                    if "python" in proc.name().lower():  # backend
-                        total += proc.memory_percent()
-                        python += proc.memory_percent()
-                    if "node" in proc.name().lower():  # frontend
-                        total += proc.memory_percent()
-                        node += proc.memory_percent()
+                    if "python" in proc.name().lower():  # ETS2LA proper
+                        python_memory += proc.memory_percent()
+
+                    if proc.pid in self.pids:  # Plugins
+                        mem = proc.memory_percent()
+                        plugin_memory[proc.pid] = mem
 
                 except (
                     psutil.NoSuchProcess,
@@ -47,15 +46,15 @@ class PerformanceMetrics:
                 {
                     "ram": {
                         "total": psutil.virtual_memory(),
-                        "python": python,
-                        "node": node,
+                        "python": python_memory,
+                        "plugins": plugin_memory,
                     }
                 }
             )
+            time.sleep(10)
 
     def unsupported_thread(self) -> list[str]:
         while True:
-            time.sleep(30)
             execs = descriptions.keys()
             found = []
             for p in psutil.process_iter():
@@ -67,11 +66,14 @@ class PerformanceMetrics:
                         pass  # Usually indicates that a process has exited
 
             self.output.put({"unsupported": found})
+            time.sleep(30)
 
 
 class Page(ETS2LAPage):
     url = "/stats"
     refresh_rate = 5
+    loading = True
+    plugins_handler = None
 
     def init(self):
         threading.Thread(target=self.data_thread, daemon=True).start()
@@ -79,15 +81,23 @@ class Page(ETS2LAPage):
     data = {
         "ram": psutil.virtual_memory(),
         "python_mem_usage": 0.0,
-        "python_per_type": [0.0, 0.0],
         "plugin_mem_usage": {},
         "unsupported": [],
     }
 
     def data_thread(self):
+        import ETS2LA.Handlers.plugins as p
+
+        self.plugins_handler = p
+        while self.plugins_handler.loading:
+            time.sleep(0.1)
+
+        self.loading = False
         self.input = multiprocessing.Queue()
         self.metrics_process = multiprocessing.Process(
-            target=PerformanceMetrics, args=(self.input,), daemon=True
+            target=PerformanceMetrics,
+            args=(self.input, [plugin.pid for plugin in self.plugins_handler.plugins]),
+            daemon=True,
         )
         self.metrics_process.start()
         while True:
@@ -98,18 +108,50 @@ class Page(ETS2LAPage):
                 if "ram" in data:
                     self.data["ram"] = data["ram"]["total"]
                     self.data["python_mem_usage"] = data["ram"]["python"]
-                    self.data["python_per_type"] = [
-                        data["ram"]["python"],
-                        data["ram"]["node"],
-                    ]
+                    self.data["plugin_mem_usage"] = data["ram"]["plugins"]
 
             except multiprocessing.queues.Empty:
                 continue
             time.sleep(1)
 
+    def format_bytes(self, size):
+        # 2**10 = 1024
+        power = 2**10
+        n = 0
+        power_labels = {0: "", 1: "K", 2: "M", 3: "G", 4: "T"}
+        while size > power:
+            size /= power
+            n += 1
+
+        if size >= 1000:
+            return f"{size:6.0f} {power_labels[n]}B"  # No decimal
+        elif size >= 100:
+            return f"{size:6.1f} {power_labels[n]}B"  # 1 decimal
+        else:
+            return f"{size:6.2f} {power_labels[n]}B"  # 2 decimals
+
     def render(self):
-        if "python_per_type" not in self.data:
-            return
+        if "plugin_mem_usage" not in self.data or self.loading:
+            with Container(
+                styles.FlexHorizontal()
+                + styles.Style(
+                    classname="w-full border rounded-lg justify-center shadow-md",
+                    height="2.2rem",
+                    padding="0 4px 0 0",
+                    gap="4px",
+                )
+            ):
+                with Tooltip() as t:
+                    with t.trigger:
+                        Text(
+                            "Loading...",
+                            style=styles.Description(),
+                        )
+                    with t.content as c:
+                        Text(
+                            "ETS2LA is still loading plugins, please wait for it to finish before viewing stats.",
+                            style=styles.Classname("text-xs"),
+                        )
 
         unsupported = self.data["unsupported"]
         if unsupported:
@@ -163,24 +205,27 @@ class Page(ETS2LAPage):
                             f"```\n{round(self.data['ram'].used / 1024**3, 1)} GB / {round(self.data['ram'].total / 1024**3, 1)} GB\n```"
                         )
 
-                process_mem, per_type = (
+                process_mem, per_plugin = (
                     self.data["python_mem_usage"],
-                    self.data["python_per_type"],
+                    self.data["plugin_mem_usage"],
                 )
-                tooltip_text = f"```\n┏ Python: {round(per_type[0] * self.data['ram'].total / 100 / 1024**3, 1)} GB\n"
+                tooltip_text = "```\n┏ Plugins\n"
 
                 try:
-                    for key, value in self.data["plugin_mem_usage"].items():
-                        tooltip_text += f"┃  {key}: {round(value * self.data['ram'].total / 100 / 1024**3, 1)} GB\n"
+                    for pid, usage in sorted(
+                        per_plugin.items(), key=lambda item: item[1], reverse=True
+                    ):
+                        name = [
+                            p.description.name
+                            for p in self.plugins_handler.plugins
+                            if p.pid == pid
+                        ][0]
+                        tooltip_text += f"┃  {self.format_bytes(usage * self.data['ram'].total / 100)} - {name}\n"
                 except Exception:
                     pass
 
-                if per_type[1] > 0:
-                    tooltip_text += "┃\n"
-                    tooltip_text += f"┣ Node: {round(per_type[1] * self.data['ram'].total / 100 / 1024**3, 1)} GB\n"
-
                 tooltip_text += "┃\n"
-                tooltip_text += f"┗ Total: {round(process_mem * self.data['ram'].total / 100 / 1024**3, 1)} GB\n```"
+                tooltip_text += f"┗ Total: {self.format_bytes(process_mem * self.data['ram'].total / 100)}\n```"
 
                 with Tooltip() as t:
                     with t.trigger:

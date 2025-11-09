@@ -9,7 +9,7 @@ from Plugins.AdaptiveCruiseControl.speed import get_maximum_speed_for_points
 from Plugins.AdaptiveCruiseControl.settings import SettingsMenu, settings
 
 # ETS2LA imports
-from Plugins.AR.classes import Coordinate, Polygon, Fade, Color
+from Plugins.AR.classes import Coordinate, Polygon, Fade, Color, Text, Point, Rectangle
 from Plugins.Map.classes import Position, Prefab
 from Modules.Semaphores.classes import TrafficLight, Gate
 from ETS2LA.Utils.Values.numbers import SmoothedValue
@@ -153,6 +153,8 @@ class Plugin(ETS2LAPlugin):
     controller = None
 
     map_points = None
+    ar_data = []
+    ar_y_offset = 150
 
     def imports(self):
         global Controller, np, screeninfo, json, cv2, os
@@ -163,9 +165,22 @@ class Plugin(ETS2LAPlugin):
         import cv2
         import os
 
+    def add_ar_text(self, text):
+        self.ar_data.append(
+            Text(
+                Point(440, self.ar_y_offset),
+                text=text,
+                size=18,
+            )
+        )
+        self.ar_y_offset += 22
+
     def calculate_speedlimit_constraint(self):
+        self.add_ar_text("Speedlimit Constraint:")
         speed_error = self.speedlimit - self.speed
         speed_limit_accel = speed_error * 0.5
+        self.add_ar_text(f" - Error: {speed_error * 3.6:.1f} kph")
+        self.add_ar_text(f" - Raw Accel: {speed_limit_accel:.2f} m/s²")
 
         if speed_error * 3.6 > 10:
             speed_limit_accel = min(
@@ -182,9 +197,13 @@ class Plugin(ETS2LAPlugin):
         if self.speed > self.speedlimit + 10 / 3.6:
             speed_limit_accel *= 1.5
 
+        self.add_ar_text(f" - Filtered Accel: {speed_limit_accel:.2f} m/s²")
         return speed_limit_accel
 
     def calculate_leading_vehicle_constraint(self, in_front: ACCVehicle):
+        self.add_ar_text("")
+        self.add_ar_text("Leading Vehicle Constraint:")
+
         if in_front.is_tmp:
             minimum_gap = 5 + in_front.size.length / 2  # meters at 0 speed
         else:
@@ -193,34 +212,32 @@ class Plugin(ETS2LAPlugin):
         desired_gap = max(self.time_gap_seconds * self.speed, minimum_gap)
         self.tags.acc_gap = desired_gap
 
-        relative_speed = self.speed - in_front.speed
+        self.add_ar_text(f" - Minimum Gap: {minimum_gap:.2f} m")
+        self.add_ar_text(f" - Desired Gap: {desired_gap:.2f} m")
+
+        relative_speed = (
+            self.speed - in_front.speed
+        )  # positive = vehicle in front is slower
         gap_error = (in_front.distance - desired_gap) / max((desired_gap / 30), 1)
+
+        self.add_ar_text(f" - Gap Error: {gap_error:.2f} m")
+        self.add_ar_text(f" - Relative Speed: {-relative_speed * 3.6:.2f} kph")
 
         # Relative speed is more important at higher speeds due
         # to vehicles merging in front.
         if self.speed > 10 / 3.6:
-            following_accel = 0.4 * gap_error - 2.0 * relative_speed
+            following_accel = 0.5 * gap_error - 1.0 * relative_speed
         else:
             following_accel = 1.0 * gap_error - 0.7 * relative_speed
 
         following_accel += 0.3 * in_front.acceleration
-
-        # following_accel = gap_error / 20 if gap_error < 0 else gap_error
-        # if relative_speed < 0:  # vehicle in front is faster
-        #     following_accel -= relative_speed * 0.5
-        #     following_accel -= in_front.acceleration * 2 * (self.speed / 80 / 3.6)
-        # else:  # vehicle in front is slower
-        #     if following_accel > 0:
-        #         following_accel *= max(
-        #             1 - (relative_speed / 50 / 3.6), 0.1
-        #         )  # if the vehicle in front is stopped, then we want to be more careful
-        #     following_accel -= relative_speed * 4
-        #     following_accel -= in_front.acceleration * 1.5 * (self.speed / 80 / 3.6)
-
         following_accel = min(self.max_accel, following_accel)
+
+        self.add_ar_text(f" - Following Accel: {following_accel:.2f} m/s²")
 
         if following_accel < -5.0:
             self.tags.AEB = True
+            self.add_ar_text(" - AEB!")
         else:
             self.tags.AEB = False
 
@@ -229,7 +246,10 @@ class Plugin(ETS2LAPlugin):
     def calculate_traffic_light_constraint(
         self, distance: float, allow_acceleration: bool = False
     ):
+        self.add_ar_text("")
+        self.add_ar_text("Traffic Light / Stop / Gate Constraint:")
         if distance > self.speed * 6 and (distance > 40 or allow_acceleration):
+            self.add_ar_text(" - No need to brake yet.")
             return 999  # No need to brake yet
 
         if distance > 0:
@@ -240,8 +260,10 @@ class Plugin(ETS2LAPlugin):
 
             # v²/(2*s) formula for constant deceleration to stop
             required_decel = (self.speed**2) / (2 * distance)
-
             red_light_accel = -required_decel * 1.2
+
+            self.add_ar_text(f" - Distance to stop: {distance:.2f} m")
+            self.add_ar_text(f" - Raw Decel: {red_light_accel:.2f} m/s²")
 
             if distance < 50:
                 red_light_accel *= 1.2
@@ -255,6 +277,7 @@ class Plugin(ETS2LAPlugin):
             if red_light_accel < 0.02 and self.speed < 1:  # 1m/s = 4kph
                 red_light_accel = min(-1, red_light_accel)
 
+            self.add_ar_text(f" - Filtered Decel: {red_light_accel:.2f} m/s²")
             return red_light_accel
         else:
             return self.emergency_decel
@@ -391,6 +414,9 @@ class Plugin(ETS2LAPlugin):
 
         # Take most restrictive (minimum)
         if target_accelerations:
+            self.add_ar_text("")
+            self.add_ar_text(f"Target Accel: {min(target_accelerations):.2f} m/s²")
+            self.add_ar_text("")
             return min(target_accelerations)
         else:
             # Maintain speed
@@ -949,7 +975,7 @@ class Plugin(ETS2LAPlugin):
         self.accel = min(1, max(-1, accel))
         target_accel = self.accel
         self.tags.acceleration = self.accel
-        
+
         override = 0.0
         try:
             override_tag = self.tags.override_acceleration
@@ -959,7 +985,7 @@ class Plugin(ETS2LAPlugin):
                 override = override_tag
         except Exception:
             pass
-        
+
         if override != 0.0:
             target_accel = override
             target_accel = min(1, max(-1, target_accel))
@@ -1003,6 +1029,7 @@ class Plugin(ETS2LAPlugin):
         :param float target_acceleration: Target acceleration in m/s^2
         :return float: Control output between -1.0 (full brake) and 1.0 (full throttle)
         """
+        self.add_ar_text("PID Control Debug:")
         current_time = time.time()
         dt = current_time - self.last_time
 
@@ -1048,8 +1075,17 @@ class Plugin(ETS2LAPlugin):
         else:
             d_term = 0
 
+        self.add_ar_text(f" - Target Accel: {target_acceleration:.2f} m/s²")
+        self.add_ar_text(f" - Current Accel: {current_acceleration:.2f} m/s²")
+        self.add_ar_text(f"  > Accel Error: {accel_error:.2f} m/s²")
+        self.add_ar_text(f" - P-Term: {p_term:.2f}")
+        self.add_ar_text(f" - I-Term: {i_term:.2f}")
+        self.add_ar_text(f" - D-Term: {d_term:.2f}")
+
         # Raw control output calculation
         raw_control = p_term + i_term + d_term
+
+        self.add_ar_text(f" - Raw Control Output: {raw_control:.2f}")
 
         # Smoothing
         control_output = (
@@ -1064,6 +1100,7 @@ class Plugin(ETS2LAPlugin):
         # if variables.DEVELOPMENT_MODE:
         #     self.graph.update(target_acceleration, control_output, p_term, i_term, d_term)
 
+        self.add_ar_text(f" - Smoothed Control Output: {control_output:.2f}")
         return control_output
 
     def update_manual_offset(self) -> None:
@@ -1231,5 +1268,18 @@ class Plugin(ETS2LAPlugin):
         self.tags.acc_target = target_acceleration
 
         # self.state.text = "Integral length: " + str(len(self.accel_errors)) + "\nValue: " + str(round(sum(self.accel_errors), 2))
+
+        if settings.debug:
+            self.tags.AR = self.ar_data
+            self.ar_data = []
+            self.ar_data.append(
+                Rectangle(
+                    Point(420, 130),
+                    Point(700, self.ar_y_offset + 20),
+                    Color(0, 0, 0, 0),
+                    Color(0, 0, 0, 150),
+                )
+            )
+            self.ar_y_offset = 150
 
         return None

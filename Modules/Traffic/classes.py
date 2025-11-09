@@ -1,7 +1,7 @@
 import math
 import time
 
-location_update_frequency = 0.2  # 5fps
+location_update_frequency = 0.33  # 3fps
 
 # TODO: Switch __dict__ to __iter__ and dict() for typing support.
 # TODO: f = Class() -> dict(f) instead of f.__dict__()
@@ -225,6 +225,7 @@ class Vehicle:
 
             if self.is_tmp:
                 self.speed = vehicle.speed
+                self.acceleration = vehicle.acceleration
             return
 
         self.time = time.time()
@@ -248,7 +249,7 @@ class Vehicle:
                 + (self.position.y - last_position.y) ** 2
                 + (self.position.z - last_position.z) ** 2
             )
-            if distance > 0.1:
+            if distance > 0.025:
                 self.speed = distance / time_diff
             else:
                 self.speed = 0

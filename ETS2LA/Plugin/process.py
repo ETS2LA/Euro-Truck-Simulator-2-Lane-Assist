@@ -495,7 +495,7 @@ class PluginProcess:
         self.path = path
         self.update_plugin()
 
-        message = PluginMessage(Channel.SUCCESS, {})
+        message = PluginMessage(Channel.SUCCESS, {"pid": os.getpid()})
         message.state = State.DONE
         self.return_queue.put(message)
         logging.info(f"Indicated success in {time.time() - start_time:.2f} seconds")

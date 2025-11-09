@@ -33,6 +33,7 @@ class Settings(ETS2LASettings):
     pid_kd: float = 0.05
     traffic_light_mode: Literal["Legacy", "Normal"] = "Normal"
     max_speed: float = 0
+    debug: bool = False
 
 
 settings = Settings("AdaptiveCruiseControl")
@@ -117,6 +118,14 @@ class SettingsMenu(ETS2LAPage):
 
     def handle_traffic_light_mode(self, value):
         settings.traffic_light_mode = value
+
+    def handle_debug(self, *args):
+        if args:
+            value = args[0]
+        else:
+            value = not settings.debug
+
+        settings.debug = value
 
     def render(self):
         TitleAndDescription(
@@ -296,6 +305,15 @@ class SettingsMenu(ETS2LAPage):
             with Tab(
                 _("PID"), container_style=styles.FlexVertical() + styles.Gap("24px")
             ):
+                CheckboxWithTitleDescription(
+                    title=_("Show Debug Data"),
+                    description=_(
+                        "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
+                    ),
+                    changed=self.handle_debug,
+                    default=settings.debug,
+                )
+
                 unlocked = settings.unlock_pid
                 CheckboxWithTitleDescription(
                     title=_("Unlock PID"),

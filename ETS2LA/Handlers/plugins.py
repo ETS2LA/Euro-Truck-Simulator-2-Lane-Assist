@@ -133,6 +133,11 @@ class Plugin:
     A list of all frametimes recorded by the plugin.
     """
 
+    pid: int
+    """
+    The process ID of this plugin. Make sure the plugin is running before accessing this.
+    """
+
     def start_plugin(self) -> None:
         # First initialize / reset the variables
         self.stack = {}
@@ -141,6 +146,7 @@ class Plugin:
         self.last_controls_state = {}
         self.stop = False
         self.running = False
+        self.pid = 0
 
         self.queue = multiprocessing.Queue()
         self.return_queue = multiprocessing.Queue()
@@ -177,6 +183,7 @@ class Plugin:
                     self.tags[tag][self.description.id] = {}
 
         self.process.start()
+        self.pid = self.process.pid if self.process.pid else 0
 
     def __init__(self, folder: str) -> None:
         self.folder = folder
@@ -190,13 +197,6 @@ class Plugin:
                 _(
                     "Plugin {0} failed to start: Timeout.\nTry to close other programs to give more memory and CPU to the plugin."
                 ).format(folder)
-            )
-            self.remove()
-            return
-
-        if message.data != {}:
-            logging.error(
-                _("Plugin {0} failed to start: {1}").format(folder, message.data)
             )
             self.remove()
             return
