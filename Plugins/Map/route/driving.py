@@ -167,6 +167,8 @@ def GetSteering():
         if data.enabled and data.takeover_when_unreliable:
             events.trigger("takeover", Event())
             data.plugin.notify("Takeover: Lost route tracking, please drive manually")
+
+        data.route_points = []
         return 0
 
     if not data.use_navigation or len(data.navigation_plan) == 0:

@@ -103,6 +103,8 @@ class RouteNode:
         # r r r
         # p p p
         # r r r
+        # This also occurs if a prefab only has two nodes, in this case the next
+        # and last road pieces *must* be connected directly.
         last_lanes = self.get_item_lanes(last.item)
         current_lanes = self.get_item_lanes(self.item)
         if (
@@ -110,6 +112,10 @@ class RouteNode:
             and isinstance(self.item, Prefab)
             and len(last_lanes) == len(current_lanes)
             and last_lanes[0].length > 80
+        ) or (
+            isinstance(self.item, Prefab)
+            and len(self.item.node_uids) == 2
+            and isinstance(last.item, Road)
         ):
             self.lanes = lanes
             self.is_possible = len(lanes) > 0

@@ -3077,6 +3077,25 @@ class Prefab(BaseItem):
     def bounding_box(self, value: BoundingBox):
         self._bounding_box = value
 
+    @property
+    def starts(self) -> list[Position]:
+        starts = []
+        for route in self.nav_routes:
+            start = route.curves[0].start
+            if start not in starts:
+                starts.append(start)
+        return starts
+
+    @property
+    def ends(self) -> list[Position]:
+        ends = []
+        for route in self.nav_routes:
+            end = route.curves[-1].end
+            if end not in ends:
+                ends.append(end)
+
+        return ends
+
     def json(self) -> dict:
         return {
             **super().json(),

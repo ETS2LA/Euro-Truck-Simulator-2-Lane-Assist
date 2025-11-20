@@ -82,7 +82,10 @@ class Renderer(HUDRenderer):
 
             status = self.plugin.tags.status
             if status:
-                map_status = self.plugin.tags.merge(status)["Map"]
+                try:
+                    map_status = self.plugin.tags.merge(status)["Map"]
+                except Exception:
+                    map_status = None
             else:
                 map_status = None
 

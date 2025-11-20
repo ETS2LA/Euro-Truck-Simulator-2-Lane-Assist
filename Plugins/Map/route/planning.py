@@ -836,7 +836,6 @@ def UpdateRoutePlan():
                         data.route_plan.append(item)
             except Exception:
                 pass
-
         try:
             CheckForLaneChange()
         except Exception:
