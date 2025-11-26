@@ -240,6 +240,37 @@ def QuatToEuler(quat: list[float]) -> list[float]:
         return [0, 0, 0]
 
 
+def EulerToQuat(euler: list[float]) -> list[float]:
+    """Convert Euler angles to quaternion with game-specific adjustments.
+
+    :param list[float] euler: Euler angles [pitch, yaw, roll] in radians
+    :return list[float]: Quaternion in [w,x,y,z] format
+    """
+    try:
+        pitch, yaw, roll = euler
+
+        # Adjust angles based on game-specific requirements
+        pitch += math.pi / 2
+        yaw += math.pi / 2
+        roll += math.pi / 2
+
+        cy = math.cos(yaw * 0.5)
+        sy = math.sin(yaw * 0.5)
+        cp = math.cos(pitch * 0.5)
+        sp = math.sin(pitch * 0.5)
+        cr = math.cos(roll * 0.5)
+        sr = math.sin(roll * 0.5)
+
+        qw = cr * cp * cy + sr * sp * sy
+        qx = sr * cp * cy - cr * sp * sy
+        qy = cr * sp * cy + sr * cp * sy
+        qz = cr * cp * sy - sr * sp * cy
+
+        return [qw, qx, qy, qz]
+    except Exception:
+        return [1, 0, 0, 0]
+
+
 def hermite_curve(P0, P1, T0, T1, t):
     """Hermite interpolation function.
 

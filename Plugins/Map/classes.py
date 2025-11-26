@@ -416,19 +416,24 @@ class Node:
 
 
 class Transform:
-    __slots__ = ["x", "y", "z", "rotation", "euler"]
+    __slots__ = ["x", "y", "z", "rotation", "euler", "quat"]
 
     x: float
     y: float
     z: float
     rotation: float
     euler: list[float]
+    quat: list[float]
 
-    def __init__(self, x: float, y: float, z: float, rotation: float):
+    def __init__(
+        self, x: float, y: float, z: float, rotation: float, euler=None, quaternion=None
+    ):
         self.x = x
         self.y = y
         self.z = z
         self.rotation = rotation
+        self.euler = euler if euler is not None else [0, 0, 0]
+        self.quat = quaternion if quaternion is not None else [0, 0, 0, 1]
 
     def __str__(self) -> str:
         return f"Transform({self.x}, {self.y}, {self.z}, {self.rotation})"
@@ -474,6 +479,9 @@ class Position:
 
     def __sub__(self, other):
         return Position(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __hash__(self):
+        return hash((self.x, self.y, self.z))
 
     def distance_to(self, other: "Position") -> float:
         return math.sqrt(
@@ -2471,6 +2479,7 @@ class PrefabTriggerPoint:
 
 class PrefabNavCurve:
     __slots__ = [
+        "id",
         "nav_node_index",
         "start",
         "end",
@@ -2480,6 +2489,7 @@ class PrefabNavCurve:
         "_points",
     ]
 
+    id: int
     nav_node_index: int
     start: Transform
     end: Transform
@@ -2498,6 +2508,7 @@ class PrefabNavCurve:
         semaphore_id: int,
         points: list[Position] = None,
     ):
+        self.id = 0
         self.nav_node_index = nav_node_index
         self.start = start
         self.end = end
@@ -2505,6 +2516,27 @@ class PrefabNavCurve:
         self.prev_lines = prev_lines
         self.semaphore_id = semaphore_id
         self._points = points if points is not None else []
+
+    def hash_curve(self, with_position: bool = False) -> int:
+        if with_position:
+            return hash(
+                (
+                    *self.next_lines,
+                    *self.prev_lines,
+                    self.semaphore_id,
+                    self.nav_node_index,
+                    *(round(self.start.x), round(self.start.y), round(self.start.z)),
+                    *(round(self.end.x), round(self.end.y), round(self.end.z)),
+                )
+            )
+        return hash(
+            (
+                *self.next_lines,
+                *self.prev_lines,
+                self.semaphore_id,
+                self.nav_node_index,
+            )
+        )
 
     @property
     def points(self) -> list[Position]:
@@ -2519,40 +2551,50 @@ class PrefabNavCurve:
     def generate_points(
         self, road_quality: float = 1, min_quality: int = 4
     ) -> list[Position]:
-        new_points = []
+        try:
+            new_points = []
 
-        # Data has Z as the height value, but we need Y
-        sx = self.start.x
-        sy = self.start.z
-        sz = self.start.y
-        ex = self.end.x
-        ey = self.end.z
-        ez = self.end.y
+            # Convert Transform objects to position tuples (x, z, y)
+            start_pos = (self.start.x, self.start.z, self.start.y)
+            end_pos = (self.end.x, self.end.z, self.end.y)
 
-        length = math.sqrt(
-            math.pow(sx - ex, 2) + math.pow(sy - ey, 2) + math.pow(sz - ez, 2)
-        )
-        radius = math.sqrt(math.pow(sx - ex, 2) + math.pow(sz - ez, 2))
+            # For prefab curves, we'll derive quaternions from the rotation angles
+            # Convert rotation to quaternion (w, x, y, z) format
+            start_quaternion = self.start.quat
+            end_quaternion = self.end.quat
 
-        tan_sx = math.cos((self.start.rotation)) * radius
-        tan_ex = math.cos((self.end.rotation)) * radius
-        tan_sz = math.sin((self.start.rotation)) * radius
-        tan_ez = math.sin((self.end.rotation)) * radius
+            length = math.sqrt(
+                sum((e - s) ** 2 for s, e in zip(start_pos, end_pos, strict=False))
+            )
 
-        if length > 100:  # very large lanes should have less points
-            road_quality *= 0.5
+            if length > 100:  # very large lanes should have less points
+                road_quality *= 0.5
 
-        needed_points = int(length * road_quality)
-        if needed_points < min_quality:
-            needed_points = min_quality
-        for i in range(needed_points):
-            s = i / (needed_points - 1)
-            x = math_helpers.Hermite(s, sx, ex, tan_sx, tan_ex)
-            y = sy + (ey - sy) * s
-            z = math_helpers.Hermite(s, sz, ez, tan_sz, tan_ez)
-            new_points.append(Position(x, y, z))
+            needed_points = max(int(length * road_quality), min_quality)
 
-        return new_points
+            for i in range(needed_points):
+                s = i / (needed_points - 1)
+                x, y, z = math_helpers.Hermite3D(
+                    s, start_pos, end_pos, start_quaternion, end_quaternion, length
+                )
+                new_points.append(Position(x, y, z))
+
+            return new_points
+        except Exception as e:
+            logging.exception(f"Error generating points for prefab curve: {e}")
+            return []
+
+    def _rotation_to_quaternion(
+        self, rotation: float
+    ) -> tuple[float, float, float, float]:
+        """Convert a rotation angle to quaternion (w, x, y, z) format."""
+        # Simple conversion from Y-axis rotation to quaternion
+        half_angle = rotation / 2
+        w = math.cos(half_angle)
+        x = 0.0
+        y = math.sin(half_angle)
+        z = 0.0
+        return (w, x, y, z)
 
     def convert_to_relative(self, origin_node: Node, map_point_origin: PrefabNode):
         prefab_start_x = origin_node.x - map_point_origin.x
@@ -2916,6 +2958,7 @@ class Prefab(BaseItem):
         "type",
         "prefab_description",
         "z",
+        "_curves",
         "_nav_routes",
         "_bounding_box",
     ]
@@ -2928,6 +2971,7 @@ class Prefab(BaseItem):
     type: ItemType
     prefab_description: PrefabDescription
     z: float
+    _curves: list[PrefabNavCurve]
     _nav_routes: list[PrefabNavRoute]
     _bounding_box: BoundingBox
 
@@ -2952,6 +2996,7 @@ class Prefab(BaseItem):
         super().__init__(uid, ItemType.Prefab, x, y, sector_x, sector_y)
         self.type = ItemType.Prefab
         self.prefab_description = None
+        self._curves = []
         self._nav_routes = []
         self._bounding_box = None
         self.z = z
@@ -3033,7 +3078,7 @@ class Prefab(BaseItem):
     @property
     def nav_routes(self) -> list[PrefabNavRoute]:
         """The prefab description also has nav routes, but this nav route list has the correct world space positions."""
-        if self._nav_routes == []:
+        if not self._nav_routes:
             self.build_nav_routes()
 
         return self._nav_routes
@@ -3041,6 +3086,40 @@ class Prefab(BaseItem):
     @nav_routes.setter
     def nav_routes(self, value: list[PrefabNavRoute]):
         self._nav_routes = value
+
+    @property
+    def curves(self) -> list[PrefabNavCurve]:
+        if self._curves:
+            return self._curves
+
+        curve_hashes = set()
+        curves: list[PrefabNavCurve] = []
+        for route in self.nav_routes:
+            for curve in route.curves:
+                h = curve.hash_curve(with_position=True)
+                if h not in curve_hashes:
+                    curve_hashes.add(h)
+                    curves.append(curve)
+
+        # Make the order match the same as in the prefab description.
+        # This ensures that any references to curve indices remain
+        sorted_curves = []
+        for prefab_curve in self.prefab_description.nav_curves:
+            h = prefab_curve.hash_curve()
+            for curve in curves:
+                if h == curve.hash_curve():
+                    # This also means that we support roads
+                    # that might otherwise have a similar hash.
+                    if curve not in sorted_curves:
+                        sorted_curves.append(curve)
+                        break
+
+        self._curves = sorted_curves
+        return self._curves
+
+    @curves.setter
+    def curves(self, value: list[PrefabNavCurve]):
+        self._curves = value
 
     @property
     def bounding_box(self) -> BoundingBox:
@@ -3107,6 +3186,7 @@ class Prefab(BaseItem):
             "origin_node": data.map.get_node_by_uid(
                 self.node_uids[self.origin_node_index]
             ).json(),
+            "curves": [curve.json() for curve in self.curves],
             "nav_routes": [route.json() for route in self.nav_routes],
             "bounding_box": self.bounding_box.json(),
         }

@@ -5,16 +5,18 @@ LEFT = 2
 SHARP_LEFT = 3
 U_TURN_LEFT = 4
 
-SLIGHT_RIGHT = (11,)
+SLIGHT_RIGHT = 11
 RIGHT = 12
-SHARP_RIGHT = (13,)
-U_TURN_RIGHT = (14,)
+SHARP_RIGHT = 13
+U_TURN_RIGHT = 14
 
-MERGE = (-1,)
+MERGE = -1
 
 
 def map_angle_to_direction(angle: float) -> int:
     if angle > 0:
+        if angle < 10:
+            return THROUGH
         if angle < 45:
             return SLIGHT_RIGHT
         elif angle < 135:
@@ -24,8 +26,10 @@ def map_angle_to_direction(angle: float) -> int:
         elif angle < 315:
             return U_TURN_RIGHT
         else:
-            return SLIGHT_RIGHT
+            return THROUGH
     else:
+        if angle > -10:
+            return THROUGH
         if angle > -45:
             return SLIGHT_LEFT
         elif angle > -135:
@@ -35,7 +39,7 @@ def map_angle_to_direction(angle: float) -> int:
         elif angle > -315:
             return U_TURN_LEFT
         else:
-            return SLIGHT_LEFT
+            return THROUGH
 
 
 class ThenHint:
@@ -46,10 +50,12 @@ class ThenHint:
 
 
 class Lane:
+    id: int
     branches: list[int]
     active: int
 
-    def __init__(self, branches: list[int], active: int = None):
+    def __init__(self, branches: list[int], active: int = None, id: int = 0):
+        self.id = id
         self.branches = branches
         self.active = active
 

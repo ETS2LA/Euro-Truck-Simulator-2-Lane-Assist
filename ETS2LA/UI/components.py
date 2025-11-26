@@ -36,6 +36,32 @@ def get_fully_qualified_name(func: Callable) -> str:
     return f"{mod.__name__}.{func.__qualname__}"
 
 
+class Actions:
+    """These are actions the frontend can execute instead of
+    calling a function in the backend. These can be used in any callback
+    parameter.
+    """
+
+    # Navigation
+    REFRESH = "refresh"
+    BACK = "back"
+    FORWARD = "forward"
+
+    # Themes
+    TOGGLE_THEME = "toggle_theme"
+    DARK_THEME = "dark_theme"
+    LIGHT_THEME = "light_theme"
+
+    # Seasonals (snow and fireworks for example)
+    TOGGLE_SEASONALS = "toggle_seasonals"
+    ENABLE_SEASONALS = "enable_seasonals"
+    DISABLE_SEASONALS = "disable_seasonals"
+
+    # Page navigation
+    LOGIN_PAGE = "login_page"
+    SETTINGS_PAGE = "settings"
+
+
 class Side:
     TOP = "top"
     BOTTOM = "bottom"

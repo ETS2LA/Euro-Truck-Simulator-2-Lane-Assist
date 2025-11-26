@@ -109,6 +109,7 @@ def get_path_to_destination():
         return []
 
     if len(game_route) != data.last_length:
+        data.plugin.state.text = "Calculating route..."
         route = []
         for item in game_route:
             route.append(nc.RouteNode(item))
@@ -174,6 +175,7 @@ def get_path_to_destination():
             "points": node_points,
         }
         data.last_length = len(game_route)
+        data.plugin.state.reset()
         data.plugin.notify(
             f"Navigation path updated, new lanes calculated for {sum(success)} out of {len(success)} nodes ({percentage:.0f}%)"
         )

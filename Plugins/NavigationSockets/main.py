@@ -6,6 +6,13 @@ from Plugins.NavigationSockets.projections import (
     get_ats_coordinates,
 )
 from Plugins.NavigationSockets.socket import WebSocketConnection
+from Plugins.NavigationSockets.directions import (
+    RouteDirection,
+    LaneHint,
+    Lane,
+    map_angle_to_direction,
+)
+from Plugins.Map.classes import Position, Prefab
 from Plugins.Map.utils.math_helpers import DistanceBetweenPoints
 
 import json
@@ -52,6 +59,41 @@ def bearing(start, end):
     )
 
     return radians_to_degrees(math.atan2(a, b))
+
+
+def direction_x_z_plane(start: Position, end: Position) -> float:
+    delta_x = end.x - start.x
+    delta_z = end.z - start.z
+    angle = math.degrees(math.atan2(delta_z, delta_x))
+    return angle
+
+
+def direction_from_vector(
+    start_vector: list[Position], end_vector: list[Position]
+) -> float:
+    if len(start_vector) < 2 or len(end_vector) < 2:
+        return 0.0
+
+    a = start_vector[0]
+    b = start_vector[1]
+    c = end_vector[0]
+    d = end_vector[1]
+
+    # V1 = b - a
+    v1x = b.x - a.x
+    v1z = b.z - a.z
+
+    # V2 = d - c
+    v2x = d.x - c.x
+    v2z = d.z - c.z
+
+    ang_v1 = math.atan2(v1z, v1x)
+    ang_v2 = math.atan2(v2z, v2x)
+
+    deg = math.degrees(ang_v2 - ang_v1)
+    deg = (deg + 180) % 360 - 180
+
+    return deg
 
 
 def convert_angle_to_wgs84_heading(position, speed, game="ETS2"):
@@ -161,6 +203,93 @@ class Plugin(ETS2LAPlugin):
         socket = threading.Thread(target=self.run_server_thread, daemon=True)
         socket.start()
 
+    def get_navigation_packet(self, position, game="ETS2"):
+        prefab = self.tags.next_intersection
+        prefab: Prefab = self.tags.merge(prefab)
+        if not prefab:
+            return
+
+        index = self.tags.next_intersection_lane
+        index: int = self.tags.merge(index)
+        if index is None:
+            return
+
+        target_route = prefab.nav_routes[index]
+        if not target_route._points or len(target_route._points) < 2:
+            return
+
+        first_two = target_route.points[:2]
+        last_two = target_route.points[-2:]
+        target_entry_bearing = direction_x_z_plane(first_two[0], first_two[1])
+
+        angle_difference = direction_from_vector(first_two, last_two)
+        target_direction = map_angle_to_direction(angle_difference)
+        distance_to_first = DistanceBetweenPoints(
+            position, (target_route.points[0].x, target_route.points[0].z)
+        )
+
+        lanes_by_start = {}
+        for i, route in enumerate(prefab.nav_routes):
+            if not route._points or len(route._points) < 2:
+                continue
+
+            first_two = route.points[:2]
+            entry_bearing = direction_x_z_plane(first_two[0], first_two[1])
+
+            # Check if the bearing is within 15 degrees of the main entry bearing
+            # (same direction)
+            bearing_difference = entry_bearing - target_entry_bearing
+            if bearing_difference > 10 or bearing_difference < -10:
+                continue
+
+            # And now determine the direction for this lane
+            last_two = route.points[-2:]
+            angle_difference = direction_from_vector(first_two, last_two)
+            lane_direction = map_angle_to_direction(angle_difference)
+
+            starts = lanes_by_start.keys()
+            found = False
+            for start in starts:
+                distance = DistanceBetweenPoints(
+                    (first_two[0].x, first_two[0].z), (start.x, start.z)
+                )
+                if distance < 1:
+                    lanes_by_start[start].branches.append(lane_direction)
+                    found = True
+                    break
+
+            if not found:
+                lanes_by_start.setdefault(
+                    first_two[0],
+                    Lane(branches=[lane_direction], active=target_direction, id=i),
+                )
+
+        all_same = [
+            lane
+            for lane in lanes_by_start.values()
+            if lane.branches == [target_direction]
+        ]
+        if not lanes_by_start or len(all_same) == len(lanes_by_start):
+            return {"id": channels["onDirectionUpdate"], "result": {}}
+
+        return {
+            "id": channels["onDirectionUpdate"],
+            "result": {
+                "type": "data",
+                "data": RouteDirection(
+                    direction=target_direction,
+                    distanceMeters=distance_to_first,
+                    laneHint=LaneHint(
+                        lanes=sorted(
+                            list(lanes_by_start.values()),
+                            key=lambda lane: lane.id,
+                            reverse=True,
+                        )
+                    ),
+                ).to_dict(),
+            },
+        }
+
     def run(self):
         data = TruckSimAPI.run()
 
@@ -177,7 +306,6 @@ class Plugin(ETS2LAPlugin):
             rotation = last_angle
 
         speed_mph = speed * 2.23694
-
         packets = [
             {
                 "id": channels["onPositionUpdate"],
@@ -211,7 +339,12 @@ class Plugin(ETS2LAPlugin):
                 self.last_navigation_time = time.time()
 
             if not nodes or not node_points:
-                return
+                packets.append(
+                    {
+                        "id": channels["onRouteUpdate"],
+                        "result": {},
+                    }
+                )
 
             total_points = []
             for i in range(len(nodes) - 1):
@@ -266,25 +399,9 @@ class Plugin(ETS2LAPlugin):
         # These will either be done later, or when tmudge implements a proper navigation API.
         # The code below is a draft for displaying information on the map.
         # - Tumppi066
-
-        # from Plugins.NavigationSockets.directions import *
-        # packets.append(
-        #     {
-        #         "id": channels["onDirectionUpdate"],
-        #         "result": {
-        #             "type": "data",
-        #             "data": RouteDirection(
-        #                 direction=THROUGH,
-        #                 distanceMeters=100,
-        #                 laneHint=LaneHint([
-        #                     Lane(branches=[LEFT], active=LEFT),
-        #                     Lane(branches=[LEFT, THROUGH], active=LEFT),
-        #                     Lane(branches=[THROUGH]),
-        #                 ]),
-        #             ).to_dict()
-        #         }
-        #     }
-        # )
+        navigation_packet = self.get_navigation_packet(position, game=game)
+        if navigation_packet:
+            packets.append(navigation_packet)
 
         # Enqueue the message to all connected clients
         for connection in list(self.connected_clients.values()):
