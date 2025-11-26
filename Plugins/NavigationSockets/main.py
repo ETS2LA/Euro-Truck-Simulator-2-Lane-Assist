@@ -338,7 +338,7 @@ class Plugin(ETS2LAPlugin):
                 node_points = navigation["points"]
                 self.last_navigation_time = time.time()
 
-            if not nodes or not node_points:
+            if not nodes or not node_points or len(nodes) < 2:
                 packets.append(
                     {
                         "id": channels["onRouteUpdate"],
@@ -382,10 +382,8 @@ class Plugin(ETS2LAPlugin):
                                         coords_to_wgs84(point[0], point[1], game=game)
                                         for point in total_points
                                     ],
-                                    "distance": math.sqrt(
-                                        (nodes[-1].x - nodes[0].x) ** 2
-                                        + (nodes[-1].y - nodes[0].y) ** 2
-                                    ),
+                                    "distance": data["truckFloat"]["routeDistance"]
+                                    / 20,
                                     "time": data["truckFloat"]["routeTime"],
                                     "strategy": "shortest",
                                 }
