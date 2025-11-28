@@ -218,16 +218,31 @@ class Plugin(ETS2LAPlugin):
 
     def update_anchor(self):
         offset_x = settings.offset_x
+        if isinstance(offset_x, str):
+            try:
+                offset_x = float(offset_x)
+            except ValueError:
+                offset_x = 0
         if offset_x is None:
             settings.offset_x = 0
             offset_x = 0
 
         offset_y = settings.offset_y
+        if isinstance(offset_y, str):
+            try:
+                offset_y = float(offset_y)
+            except ValueError:
+                offset_y = 0
         if offset_y is None:
             settings.offset_y = 0
             offset_y = 0
 
         offset_z = settings.offset_z
+        if isinstance(offset_z, str):
+            try:
+                offset_z = float(offset_z)
+            except ValueError:
+                offset_z = 0
         if offset_z is None:
             settings.offset_z = 0
             offset_z = 0
