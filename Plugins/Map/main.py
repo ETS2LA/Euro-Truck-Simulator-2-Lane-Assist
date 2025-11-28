@@ -181,7 +181,7 @@ class Plugin(ETS2LAPlugin):
             return  # release event
 
         data.enabled = not data.enabled
-        Play("start" if data.enabled else "end")
+        Play("engage" if data.enabled else "disengage")
         self.tags.status = {"Map": data.enabled}
 
     @events.on("takeover")

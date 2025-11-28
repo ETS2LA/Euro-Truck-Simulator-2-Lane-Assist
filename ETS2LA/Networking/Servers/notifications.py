@@ -167,7 +167,7 @@ async def send_ask(text: str, options: list[str], description: str) -> dict:
 
 def ask(text: str, options: list, description: str = "") -> dict:
     """Non-async function that will send a dialog with a question with the given options."""
-    sounds.Play("info")
+    sounds.Play("prompt")
     response = asyncio.run(send_ask(text, options, description))
     return response
 
@@ -234,7 +234,7 @@ def dialog(ui: dict, no_response: bool = False) -> dict | None:
 
     :return dict | None: The response from the client
     """
-    sounds.Play("info")
+    sounds.Play("prompt")
     response = asyncio.run(send_dialog(ui, no_response))
     return response
 
