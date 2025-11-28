@@ -368,30 +368,33 @@ class Plugin(ETS2LAPlugin):
 
                 total_points.extend(points)
 
-            packets.append(
-                {
-                    "id": channels["onRouteUpdate"],
-                    "result": {
-                        "type": "data",
-                        "data": {
-                            "id": "1",
-                            "segments": [
-                                {
-                                    "key": "route",
-                                    "lonLats": [
-                                        coords_to_wgs84(point[0], point[1], game=game)
-                                        for point in total_points
-                                    ],
-                                    "distance": data["truckFloat"]["routeDistance"]
-                                    / 20,
-                                    "time": data["truckFloat"]["routeTime"],
-                                    "strategy": "shortest",
-                                }
-                            ],
+            if len(total_points) > 2:
+                packets.append(
+                    {
+                        "id": channels["onRouteUpdate"],
+                        "result": {
+                            "type": "data",
+                            "data": {
+                                "id": "1",
+                                "segments": [
+                                    {
+                                        "key": "route",
+                                        "lonLats": [
+                                            coords_to_wgs84(
+                                                point[0], point[1], game=game
+                                            )
+                                            for point in total_points
+                                        ],
+                                        "distance": data["truckFloat"]["routeDistance"]
+                                        / 20,
+                                        "time": data["truckFloat"]["routeTime"],
+                                        "strategy": "shortest",
+                                    }
+                                ],
+                            },
                         },
-                    },
-                }
-            )
+                    }
+                )
 
         # There isn't enough information to provide lane hints yet.
         # These will either be done later, or when tmudge implements a proper navigation API.
