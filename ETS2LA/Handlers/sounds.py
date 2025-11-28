@@ -95,7 +95,7 @@ def GetFilenameForSound(sound: str):
 
     sounds = os.listdir(SOUNDPACKS_PATH + SELECTED_SOUNDPACK)
     for pack_sound in sounds:
-        if sound in pack_sound:
+        if pack_sound.startswith(sound + "."):
             return PATH + SOUNDPACKS_PATH + SELECTED_SOUNDPACK + "/" + pack_sound
     logging.error(
         _("Tried to play sound '{0}', but it was not found in soundpack '{1}'").format(

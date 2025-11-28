@@ -191,6 +191,18 @@ class Page(ETS2LAPage):
     def open_kofi(self):
         webbrowser.open("https://ko-fi.com/tumppi066")
 
+    def play_engage(self):
+        sounds.Play("engage")
+
+    def play_disengage(self):
+        sounds.Play("disengage")
+
+    def play_warning(self):
+        sounds.Play("warning")
+
+    def play_prompt(self):
+        sounds.Play("prompt")
+
     def render(self):
         TitleAndDescription(
             _("Global Settings"),
@@ -368,6 +380,31 @@ class Page(ETS2LAPage):
                         suffix="%",
                         changed=self.change_volume,
                     )
+
+                with Container(styles.FlexHorizontal() + styles.Gap("24px")):
+                    with Button(
+                        action=self.play_engage,
+                    ):
+                        Icon("play")
+                        Text(_("Engage"), styles.Classname("font-semibold"))
+
+                    with Button(
+                        action=self.play_disengage,
+                    ):
+                        Icon("pause")
+                        Text(_("Disengage"), styles.Classname("font-semibold"))
+
+                    with Button(
+                        action=self.play_warning,
+                    ):
+                        Icon("triangle-alert")
+                        Text(_("Warning"), styles.Classname("font-semibold"))
+
+                    with Button(
+                        action=self.play_prompt,
+                    ):
+                        Icon("bell-ring")
+                        Text(_("Prompt"), styles.Classname("font-semibold"))
 
                 Text(_("Toggle Sounds"), styles.Classname("text-lg font-semibold"))
 
