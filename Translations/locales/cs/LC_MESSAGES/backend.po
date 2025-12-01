@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-03 13:06+0000\n"
-"Last-Translator: Alex cz <alexcz@ets2la.com>\n"
-"Language-Team: Czech <http://weblate.ets2la.com/projects/ets2la/backend/cs/>\n"
+"PO-Revision-Date: 2025-12-02 13:06+0000\n"
+"Last-Translator: bread <bread@ets2la.com>\n"
+"Language-Team: Czech <http://weblate.ets2la.com/projects/ets2la/backend/cs/>"
+"\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -210,6 +211,8 @@ msgstr "Záznamy byly inicializovány."
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
 msgstr ""
+"Chyba mazání logů, Možná běží ETS2LA aplikace. Prosím zavři jí a zkus to "
+"znova."
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -237,7 +240,7 @@ msgstr "Nepodařilo se najít/spustit okno ETS2LA. Je váš počítač dostateč
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
-msgstr ""
+msgstr "Nepodařilo se nastavit atributy okna(Rozměry) nebo ikonu."
 
 #: .\ETS2LA\core.py:59
 msgid "Backend started successfully"
@@ -357,19 +360,23 @@ msgstr "{0} a {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
-msgstr ""
+msgstr "Ahoj!"
 
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
+"Vidím, že jsi zakázal reklamy. To vůbec nevadí, stále můžeš podpořit vývoj "
+"ETS2LA prostřednictvím daru přes Ko-Fi. *Každý dar se rovná týdenním (!) "
+"příjmům z reklam*, my jsme nesmírně vděční za každou podporu, kterou "
+"dostáváme!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
-msgstr ""
+msgstr "Darovat pomocí Ko-Fi"
 
 #: .\Pages\about.py:333
 msgid "Hide"
-msgstr ""
+msgstr "Skrýt"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
@@ -500,87 +507,89 @@ msgstr "Nebyl poskytnut žádný přehled."
 
 #: .\Pages\catalogue.py:116
 msgid "No description provided."
-msgstr ""
+msgstr "Žádný popisek přidán"
 
 #: .\Pages\catalogue.py:170
 msgid "Installing"
-msgstr ""
+msgstr "Instaluji"
 
 #: .\Pages\catalogue.py:181 .\Pages\catalogue.py:234
 msgid "Plugin not found in the catalogue."
-msgstr ""
+msgstr "Plugin nebyl nalezen v katalogu."
 
 #: .\Pages\catalogue.py:185
 msgid "Cloning repository"
-msgstr ""
+msgstr "Klonuji repozitář"
 
 #: .\Pages\catalogue.py:189
 msgid "Installing requirements"
-msgstr ""
+msgstr "Požadavky na instalaci"
 
 #: .\Pages\catalogue.py:195
 msgid "Starting plugin background process"
-msgstr ""
+msgstr "Spuštění procesu pluginu na pozadí"
 
 #: .\Pages\catalogue.py:199
 msgid "Failed to start plugin background process, but the plugin files were installed."
 msgstr ""
+"Nepodařilo se spustit proces na pozadí pluginu, ale soubory pluginu byly "
+"nainstalovány."
 
 #: .\Pages\catalogue.py:204 .\Pages\catalogue.py:294
 msgid "Success"
-msgstr ""
+msgstr "Úspěch"
 
 #: .\Pages\catalogue.py:209
 msgid "Plugin '{name}' installed successfully."
-msgstr ""
+msgstr "Plugin'{name}' instalován úspěšně."
 
 #: .\Pages\catalogue.py:212 .\Pages\catalogue.py:302
 msgid "Failed"
-msgstr ""
+msgstr "Selhalo"
 
 #: .\Pages\catalogue.py:216
 msgid "Failed to install plugin '{name}': {error}"
-msgstr ""
+msgstr "Selhání instalace pluginu '{name}': {error}"
 
 #: .\Pages\catalogue.py:223
 msgid "Uninstalling"
-msgstr ""
+msgstr "Odinstalovávání"
 
 #: .\Pages\catalogue.py:238
 msgid "Closing plugin processes"
-msgstr ""
+msgstr "Zavírám plugin procesy"
 
 #: .\Pages\catalogue.py:244
 msgid "Failed to stop plugin processes."
-msgstr ""
+msgstr "Chypa při zastavování pluginu."
 
 #: .\Pages\catalogue.py:246
 msgid "Unregistering git repository"
-msgstr ""
+msgstr "Odregistrování repozitáře git"
 
 #: .\Pages\catalogue.py:256
 msgid "Removing plugin files"
-msgstr ""
+msgstr "Odstranění souborů pluginů"
 
 #: .\Pages\catalogue.py:281
 msgid "Retrying removal ({cur}/{max})"
-msgstr ""
+msgstr "Opakování odstranění ({cur}/{max})"
 
 #: .\Pages\catalogue.py:289
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Nepodařilo se odstranit soubory pluginu po {max} pokusech"
 
 #: .\Pages\catalogue.py:299
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr ""
+msgstr "Plugin '{name}' byl úspěšně odinstalován."
 
 #: .\Pages\catalogue.py:305
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr ""
+msgstr "Odinstalování pluginu '{name}' se nezdařilo: {error}"
 
 #: .\Pages\catalogue.py:339
 msgid "Couldn't find source code for this plugin."
-msgstr ""
+msgstr "Nenašel jsem zdrojový kód pro tento plugin."
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:351
