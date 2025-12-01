@@ -117,17 +117,20 @@ def get_path_to_destination():
                 route.pop()
 
         if len(route) == 0:
+            data.plugin.state.reset()
             logging.warning("Failed to find route")
             return []
 
         start_direction, index = get_direction_for_route_start(route)
         if start_direction == "":
+            data.plugin.state.reset()
             logging.warning("Failed to find direction for route start.")
             return []
 
         route = route[index:]
         directions = get_directions_until_route_end(route, start_direction)
         if len(directions) != len(route):
+            data.plugin.state.reset()
             logging.warning(
                 "Failed to find direction for route, do you have ferries on your route?"
             )

@@ -2487,6 +2487,7 @@ class PrefabNavCurve:
         "prev_lines",
         "semaphore_id",
         "_points",
+        "prefab",
     ]
 
     id: int
@@ -2497,6 +2498,7 @@ class PrefabNavCurve:
     prev_lines: list[int]
     semaphore_id: int
     _points: list[Position]
+    prefab: "Prefab"
 
     def __init__(
         self,
@@ -2516,6 +2518,7 @@ class PrefabNavCurve:
         self.prev_lines = prev_lines
         self.semaphore_id = semaphore_id
         self._points = points if points is not None else []
+        self.prefab = None
 
     def hash_curve(self, with_position: bool = False) -> int:
         if with_position:
@@ -2597,6 +2600,7 @@ class PrefabNavCurve:
         return (w, x, y, z)
 
     def convert_to_relative(self, origin_node: Node, map_point_origin: PrefabNode):
+        # TODO: Make this work for 3D including pitch!
         prefab_start_x = origin_node.x - map_point_origin.x
         prefab_start_y = origin_node.z - map_point_origin.z
         prefab_start_z = origin_node.y - map_point_origin.y

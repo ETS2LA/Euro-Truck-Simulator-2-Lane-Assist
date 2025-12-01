@@ -201,6 +201,55 @@ def RotateAroundPoint(
     return new_x + origin_x, new_y + origin_y
 
 
+def RotateAroundPoint3D(
+    x: float,
+    y: float,
+    z: float,
+    yaw: float,
+    pitch: float,
+    origin_x: float,
+    origin_y: float,
+    origin_z: float,
+) -> tuple[float, float, float]:
+    """Rotate a point around another point in 3D space.
+
+    :param float x: X coordinate of the point to rotate.
+    :param float y: Y coordinate of the point to rotate.
+    :param float z: Z coordinate of the point to rotate.
+    :param float yaw: Yaw angle (rotation around Y-axis) in radians.
+    :param float pitch: Pitch angle (rotation around X-axis) in radians.
+    :param float origin_x: X coordinate of the origin point.
+    :param float origin_y: Y coordinate of the origin point.
+    :param float origin_z: Z coordinate of the origin point.
+    :return tuple[float, float, float]: The rotated point (x, y, z).
+    """
+    # Translate point to origin
+    x -= origin_x
+    y -= origin_y
+    z -= origin_z
+
+    # Apply pitch rotation (around X-axis)
+    sin_pitch = math.sin(pitch)
+    cos_pitch = math.cos(pitch)
+    y_pitch = y * cos_pitch - z * sin_pitch
+    z_pitch = y * sin_pitch + z * cos_pitch
+    y, z = y_pitch, z_pitch
+
+    # Apply yaw rotation (around Y-axis)
+    sin_yaw = math.sin(yaw)
+    cos_yaw = math.cos(yaw)
+    x_yaw = x * cos_yaw + z * sin_yaw
+    z_yaw = -x * sin_yaw + z * cos_yaw
+    x, z = x_yaw, z_yaw
+
+    # Translate point back
+    x += origin_x
+    y += origin_y
+    z += origin_z
+
+    return x, y, z
+
+
 def VectorBetweenPoints(
     p1: tuple[float, float] | tuple[float, float, float],
     p2: tuple[float, float] | tuple[float, float, float],

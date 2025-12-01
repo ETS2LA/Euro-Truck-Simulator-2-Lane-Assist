@@ -133,7 +133,7 @@ def UpdateData(name: str) -> bool:
             for data in response.iter_content(block_size):
                 progress = f.tell() / total_size
                 plugin.state.progress = progress
-                plugin.state.text = f"Downloading {f.tell() / 1024 / 1024:.1f} MB / {total_size / 1024 / 1024:.1f} MB"
+                plugin.state.text = f"Downloading {round(progress * 100)}% ({f.tell() / 1024 / 1024:.1f} MB / {total_size / 1024 / 1024:.1f} MB)"
                 f.write(data)
 
         plugin.state.progress = 0

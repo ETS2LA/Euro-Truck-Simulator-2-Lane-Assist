@@ -20,7 +20,7 @@ class Settings(ETS2LASettings):
     UseAutoOffsetData: bool = False
     TakeoverWhenUnreliable: bool = True
     traffic_side: Literal["Right Handed", "Left Handed"] = "Right Handed"
-    AutoTolls: bool = True
+    AutoTolls: bool = False
 
 
 settings = Settings("Map")

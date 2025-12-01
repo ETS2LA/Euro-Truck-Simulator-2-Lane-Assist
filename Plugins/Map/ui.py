@@ -146,6 +146,15 @@ class SettingsMenu(ETS2LAPage):
                     changed=self.handle_fps_notices,
                 )
 
+                CheckboxWithTitleDescription(
+                    title=_("Takeover When Unreliable"),
+                    description=_(
+                        "When enabled, the map will automatically take over control when the truck is not following the route correctly."
+                    ),
+                    default=settings.TakeoverWhenUnreliable,
+                    changed=self.handle_takeover_when_unreliable,
+                )
+
                 Text("Experimental Features", styles.Classname("font-semibold"))
 
                 # Same as CheckBoxWithTitleDescription, but with custom experimental styling.
@@ -176,43 +185,6 @@ class SettingsMenu(ETS2LAPage):
                         Text(
                             _(
                                 "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
-                            ),
-                            styles.Classname("text-xs text-muted-foreground"),
-                        )
-
-                # Same as CheckBoxWithTitleDescription, but with custom experimental styling.
-                with Container(
-                    styles.FlexHorizontal()
-                    + styles.Gap("16px")
-                    + styles.Padding("14px 16px 16px 16px")
-                    + styles.Classname(
-                        "border rounded-md w-full "
-                        + (
-                            "bg-input/30"
-                            if settings.TakeoverWhenUnreliable
-                            else "bg-input/10"
-                        )
-                    ),
-                    pressed=self.handle_takeover_when_unreliable,
-                ):
-                    Checkbox(
-                        default=settings.TakeoverWhenUnreliable,
-                        changed=self.handle_takeover_when_unreliable,
-                        style=styles.Margin("4px 0px 0px 0px"),
-                    )
-                    with Container(styles.FlexVertical() + styles.Gap("6px")):
-                        with Container(styles.FlexHorizontal() + styles.Gap("6px")):
-                            Text(
-                                _("[Experimental]"),
-                                styles.Classname("font-semibold text-muted-foreground"),
-                            )
-                            Text(
-                                _("Takeover when Unreliable"),
-                                styles.Classname("font-semibold"),
-                            )
-                        Text(
-                            _(
-                                "The Map plugin will trigger a takeover event when the truck is not following the route correctly."
                             ),
                             styles.Classname("text-xs text-muted-foreground"),
                         )

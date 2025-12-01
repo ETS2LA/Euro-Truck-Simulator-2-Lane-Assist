@@ -712,7 +712,7 @@ def ReadCities() -> list[c.City]:
 
 
 progress = 0
-total_steps = 25
+total_steps = 24
 start_ram_usage = 0
 state_object = None
 
@@ -723,7 +723,7 @@ def PrintState(start_time: float, message: str):
     print(f" → {message}", end="\r")
     if state_object is not None:
         progress += 1
-        state_object.text = " > " + message
+        state_object.text = f"{round(progress / total_steps * 100)}% - {message}"
         state_object.progress = progress / total_steps
 
 
@@ -753,56 +753,57 @@ def ReadData(state=None) -> c.MapData:
 
     map = c.MapData()
 
-    PrintState(start_time, "Nodes")
+    PrintState(start_time, "Loading Nodes")
     map.nodes = ReadNodes()
     UpdateState(start_time, f"Loaded {len(map.nodes)} nodes")
 
-    PrintState(start_time, "Navigation")
+    PrintState(start_time, "Loading Navigation")
     map.navigation = ReadNodeGraph()
     if map.navigation == []:
         print("[red]No navigation map found (graph.json). Map cannot proceed.[/red]")
         return
     UpdateState(start_time, f"Loaded {len(map.navigation)} navigation entries")
 
-    PrintState(start_time, "Elevations")
-    map.elevations = ReadElevations()
-    UpdateState(start_time, f"Loaded {len(map.elevations)} elevations")
+    # PrintState(start_time, "Loading Elevations")
+    # map.elevations = ReadElevations()
+    map.elevations = []
+    # UpdateState(start_time, f"Loaded {len(map.elevations)} elevations")
 
-    PrintState(start_time, "Roads")
+    PrintState(start_time, "Loading Roads")
     map.roads = ReadRoads()
     UpdateState(start_time, f"Loaded {len(map.roads)} roads")
 
-    PrintState(start_time, "RoadLooks")
+    PrintState(start_time, "Loading Road Looks")
     map.road_looks = ReadRoadLooks()
     UpdateState(start_time, f"Loaded {len(map.road_looks)} road looks")
 
-    PrintState(start_time, "Ferries")
+    PrintState(start_time, "Loading Ferries")
     map.ferries = ReadFerries()
     UpdateState(start_time, f"Loaded {len(map.ferries)} ferries")
 
-    PrintState(start_time, "Prefabs")
+    PrintState(start_time, "Loading Prefabs")
     map.prefabs = ReadPrefabs()
     UpdateState(start_time, f"Loaded {len(map.prefabs)} prefabs")
 
-    PrintState(start_time, "Prefab Descriptions")
+    PrintState(start_time, "Loading Prefab Descriptions")
     map.prefab_descriptions = ReadPrefabDescriptions()
     UpdateState(
         start_time, f"Loaded {len(map.prefab_descriptions)} prefab descriptions"
     )
 
-    PrintState(start_time, "Companies")
+    PrintState(start_time, "Loading Companies")
     map.company_defs = ReadCompanies()
     UpdateState(start_time, f"Loaded {len(map.company_defs)} company definitions")
 
-    PrintState(start_time, "Company Definitions")
+    PrintState(start_time, "Loading Company Defs")
     map.companies = ReadCompanyItems()
     UpdateState(start_time, f"Loaded {len(map.companies)} company items")
 
-    PrintState(start_time, "Models")
+    PrintState(start_time, "Loading Models")
     map.models = ReadModels()
     UpdateState(start_time, f"Loaded {len(map.models)} models")
 
-    PrintState(start_time, "Model Descriptions")
+    PrintState(start_time, "Loading Model Defs")
     map.model_descriptions = ReadModelDescriptions()
     UpdateState(start_time, f"Loaded {len(map.model_descriptions)} model descriptions")
 
@@ -810,27 +811,27 @@ def ReadData(state=None) -> c.MapData:
     # map.map_areas = ReadMapAreas()
     # UpdateState(start_time, f"Loaded {len(map.map_areas)} map areas")
 
-    PrintState(start_time, "Triggers")
+    PrintState(start_time, "Loading Triggers")
     map.triggers = ReadTriggers()
     UpdateState(start_time, f"Loaded {len(map.triggers)} triggers")
 
-    PrintState(start_time, "Signs")
+    PrintState(start_time, "Loading Signs")
     map.signs = ReadSigns()
     UpdateState(start_time, f"Loaded {len(map.signs)} signs")
 
-    PrintState(start_time, "Sign Descriptions")
+    PrintState(start_time, "Loading Sign Defs")
     map.sign_descriptions = ReadSignDescriptions()
     UpdateState(start_time, f"Loaded {len(map.sign_descriptions)} sign descriptions")
 
-    PrintState(start_time, "POIs")
+    PrintState(start_time, "Loading POIs")
     map.POIs = ReadPOIs()
     UpdateState(start_time, f"Loaded {len(map.POIs)} POIs")
 
-    PrintState(start_time, "Countries")
+    PrintState(start_time, "Loading Countries")
     map.countries = ReadCountries()
     UpdateState(start_time, f"Loaded {len(map.countries)} countries")
 
-    PrintState(start_time, "Cities")
+    PrintState(start_time, "Loading Cities")
     map.cities = ReadCities()
     UpdateState(start_time, f"Loaded {len(map.cities)} cities")
 
