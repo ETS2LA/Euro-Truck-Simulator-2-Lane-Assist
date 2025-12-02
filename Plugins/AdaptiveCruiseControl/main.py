@@ -406,7 +406,7 @@ class Plugin(ETS2LAPlugin):
                 target_accelerations.append(red_light_accel)
 
         # Gate
-        if gate:
+        if gate and not settings.ignore_gates:
             if gate.state < 3:  # Closing, closed or opening
                 # Logic is the same as the traffic lights
                 gate_accel = self.calculate_traffic_light_constraint(gate.distance)
