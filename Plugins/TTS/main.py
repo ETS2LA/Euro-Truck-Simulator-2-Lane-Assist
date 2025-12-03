@@ -27,6 +27,7 @@ import os
 providers: list[TTSProvider] = []
 files = os.listdir("Plugins/TTS/providers")
 files.remove("provider.py")
+files = [file for file in files if "helper" not in file.lower()]
 
 for file in files:
     if file.endswith(".py"):
