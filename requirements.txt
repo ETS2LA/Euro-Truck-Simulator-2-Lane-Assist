@@ -19,6 +19,7 @@ py-sharedmemory
 textual==1.0.0
 beautifulsoup4
 pywebview==5.1
+language-data # supplements langcodes
 opencv-python
 numpy==2.2.6
 torchvision
