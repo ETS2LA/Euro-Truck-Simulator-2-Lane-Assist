@@ -58,6 +58,63 @@ public abstract class Plugin : IPlugin
 }
 ```
 
+### Settings Handler
+ETS2LA comes with a built in settings handler that you can use to save and load settings for your plugin. The settings are stored in JSON files in the user's AppData folder. Below is an example:
+```csharp
+using System;
+using ETS2LA.Settings;
+
+[Serializable] // don't forget Serializable!
+class MySettings
+{
+    public int ExampleValue = 42;
+}
+
+...
+
+public override void OnEnable()
+{
+    base.OnEnable();
+
+    // Setup the settings handler
+    _settingsHandler = new SettingsHandler();
+
+    // Then load initial settings. This will automatically
+    // generate the file if it doesn't exist yet, so no need to
+    // worry about null checks.
+    _settings = _settingsHandler.Load<MySettings>(_settingsFilename);
+    
+    // We can also register a listener to get notified when the settings change
+    // on disk. This is much cheaper than continuously polling for changes with .Load.
+    _settingsHandler.RegisterListener<MySettings>(_settingsFilename, OnSettingsChanged);
+
+    // Reading and writing works as you'd expect.
+    Console.WriteLine($"ExampleProvider loaded setting ExampleValue = {_settings.ExampleValue}");
+    _settings.ExampleValue += 1; // This doesn't automatically save to disk!
+
+    // To save you can call .Save on the settings handler. That will
+    // flush the current state of the _settings object to disk.
+    _settingsHandler.Save<MySettings>(_settingsFilename, _settings);
+}
+
+...
+
+private void OnSettingsChanged(MySettings data)
+{
+    Console.WriteLine($"ExampleProvider detected settings change: ExampleValue = {data.ExampleValue}");
+    _settings = data;
+}
+```
+
+On disk this will create a file at `%AppData%/ETS2LA/Plugins/ExampleProvider.MyProvider.settings.json` with the following content:
+```json
+{
+    "ExampleValue": 42
+}
+```
+Users can manually edit the file if they want to change settings outside of ETS2LA. For example if with some settings your plugin is broken, they can manually change it.
+
+
 ### Inter Plugin communication
 All communication in ETS2LA is handled via the event bus. You can subscribe to events that other plugins fire, and you can also fire your own events. Below is an example of how to use the event bus.
 

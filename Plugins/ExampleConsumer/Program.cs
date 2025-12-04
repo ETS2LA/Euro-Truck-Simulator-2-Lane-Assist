@@ -13,6 +13,9 @@ namespace ExampleConsumer
 
         private void OnTimeReceived(float data)
         {
+            if (!_IsRunning)
+                return;
+                
             Console.WriteLine($"MyConsumer received time: {data}");
             Console.WriteLine($"Delay to receive data: {DateTime.Now.Microsecond - data} microseconds");
         }

@@ -7,9 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
-    <ProjectReference Include="..\..\ETS2LA.Settings\ETS2LA.Settings.csproj" />
-  </ItemGroup>
-
 </Project>

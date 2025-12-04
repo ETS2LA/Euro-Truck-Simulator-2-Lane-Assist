@@ -79,7 +79,7 @@
         // Required
         public string Name { get; }
         public string Description { get; }
-        
+
         // Optional
         public string AuthorName { get; set; } = "";
         public string AuthorWebsite { get; set; } = "";
