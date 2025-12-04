@@ -58,6 +58,19 @@ public abstract class Plugin : IPlugin
 }
 ```
 
+### Logging
+ETS2LA uses `Serilog` for logging, but we still package our own logging wrapper for ease of use and consistency in imports. You can use the `Logger` class from `ETS2LA.Logging`, below is an example of how to use it:
+```csharp
+using ETS2LA.Logging;
+
+Logger.Debug("This is a debug message.");
+Logger.Info("This is an info message.");
+Logger.Warning("This is a warning message.");
+Logger.Error("This is an error message.");
+Logger.Fatal(new Exception("Example exception"), "This is a fatal message with an exception.");
+```
+This will log messages to both the console and to log files in the AppData folder (**TODO**).
+
 ### Settings Handler
 ETS2LA comes with a built in settings handler that you can use to save and load settings for your plugin. The settings are stored in JSON files in the user's AppData folder. Below is an example:
 ```csharp
