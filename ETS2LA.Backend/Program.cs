@@ -1,4 +1,5 @@
 ﻿using ETS2LA.Logging;
+using Velopack;
 
 namespace ETS2LA.Backend
 {
@@ -9,6 +10,9 @@ namespace ETS2LA.Backend
 
         static void Main(string[] args)
         {
+            // Run Velopack for update checking
+            VelopackApp.Build().Run();
+
             Logger.Info("Starting ETS2LA...");
             _pluginHandler.LoadPlugins();
             _pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");

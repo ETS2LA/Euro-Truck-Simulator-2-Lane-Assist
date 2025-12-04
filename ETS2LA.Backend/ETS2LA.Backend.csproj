@@ -22,4 +22,8 @@
     <ProjectReference Include="..\ETS2LA.Settings\ETS2LA.Settings.csproj" />
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Velopack" Version="0.0.1298" />
+  </ItemGroup>
 </Project>
