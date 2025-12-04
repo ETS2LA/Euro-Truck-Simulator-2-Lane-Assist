@@ -1,2 +1,0 @@
-https://github.com/python/cpython/tree/main/Tools/i18n
-Copied here for ease of use.
