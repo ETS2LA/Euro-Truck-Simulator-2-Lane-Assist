@@ -5,13 +5,16 @@ namespace ETS2LA.Backend
 {
     public static class Program
     {
-        static EventBus _bus = new EventBus();
-        static PluginHandler _pluginHandler = new PluginHandler(_bus);
+        static EventBus? _bus;
+        static PluginHandler? _pluginHandler;
 
         static void Main(string[] args)
         {
             // Run Velopack for update checking
             VelopackApp.Build().Run();
+
+            _bus = new EventBus();
+            _pluginHandler = new PluginHandler(_bus);
 
             Logger.Info("Starting ETS2LA...");
             _pluginHandler.LoadPlugins();
