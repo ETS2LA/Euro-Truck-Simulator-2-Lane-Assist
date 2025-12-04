@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -9,6 +9,13 @@
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\Debug\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Plugins\%(Filename)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup Label="ProjectReferences">
     <ProjectReference Include="..\ETS2LA.Shared\ETS2LA.Shared.csproj" />

@@ -1,9 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
     <OutputType>library</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <CopyToPlugins>true</CopyToPlugins>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
