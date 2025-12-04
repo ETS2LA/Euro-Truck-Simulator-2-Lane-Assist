@@ -137,7 +137,7 @@ class ETS2LAPlugin(object):
         self.load_modules()
 
         self.controls = filter(lambda c: isinstance(c, ControlEvent), self.controls)
-        self.pages = filter(lambda p: p is not None, self.pages)
+        self.pages = list(filter(lambda p: p is not None, self.pages))
 
         if "pages" in dir(type(self)) and self.pages is not None:
             for page in self.pages:
