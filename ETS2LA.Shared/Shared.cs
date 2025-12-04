@@ -92,4 +92,32 @@
             Description = description;
         }
     }
+
+    // Utility classes
+    public class Vector3
+    {
+        public float X;
+        public float Y;
+        public float Z;
+
+        public Vector3(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y}, {Z})";
+        }
+
+        public static Vector3 Zero => new Vector3(0, 0, 0);
+        public static Vector3 One => new Vector3(1, 1, 1);
+        
+        public float[] ToArray()
+        {
+            return new float[] { X, Y, Z };
+        }
+    }
 }

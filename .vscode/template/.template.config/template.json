@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "ETS2LA",
-  "classifications": [ "C#", "Console", "F1 Menu" ],
+  "classifications": [ "C#", "Console" ],
   "identity": "ETS2LAPLugin.DotNet",
   "name": "ETS2LA Plugin",
   "shortName": "ets2la-plugin",
