@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "ETS2LA",
+  "classifications": [ "C#", "Console", "F1 Menu" ],
+  "identity": "ETS2LAPLugin.DotNet",
+  "name": "ETS2LA Plugin",
+  "shortName": "ets2la-plugin",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "ETS2LAPlugin",
+  "preferNameDirectory": true,
+  "description": "A base template to initialize a new ETS2LA plugin project."
+}
