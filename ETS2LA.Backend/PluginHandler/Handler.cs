@@ -1,4 +1,5 @@
 using ETS2LA.Shared;
+using ETS2LA.Logging;
 
 namespace ETS2LA.Backend
 {
@@ -36,12 +37,12 @@ namespace ETS2LA.Backend
                         var plugin = (IPlugin)Activator.CreateInstance(type)!;
                         plugin.Init(_bus);
                         LoadedPlugins.Add(plugin);
-                        Console.WriteLine($"Loaded plugin: {type.FullName} from {filename}");
+                        Logger.Info($"Loaded plugin: {type.FullName} from {filename}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Failed to load plugin from {filename}: {ex.Message}");
+                    Logger.Error($"Failed to load plugin from {filename}: {ex.Message}");
                 }
             }
         }
@@ -56,7 +57,7 @@ namespace ETS2LA.Backend
             plugin ??= GetPluginByName(pluginName!);
             if (plugin == null)
             {
-                Console.WriteLine($"Tried to enable {pluginName}, but it was not found among loaded plugins.");
+                Logger.Warn($"Tried to enable {pluginName}, but it was not found among loaded plugins.");
                 return false;
             }
 
@@ -67,7 +68,7 @@ namespace ETS2LA.Backend
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to enable {plugin.GetType().FullName}: {ex.Message}");
+                Logger.Error($"Failed to enable {plugin.GetType().FullName}: {ex.Message}");
                 return false;
             }
         }
@@ -77,7 +78,7 @@ namespace ETS2LA.Backend
             plugin ??= GetPluginByName(pluginName!);
             if (plugin == null)
             {
-                Console.WriteLine($"Tried to disable {pluginName}, but it was not found among loaded plugins.");
+                Logger.Warn($"Tried to disable {pluginName}, but it was not found among loaded plugins.");
                 return false;
             }
 
@@ -88,7 +89,7 @@ namespace ETS2LA.Backend
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to disable {plugin.GetType().FullName}: {ex.Message}");
+                Logger.Error($"Failed to disable {plugin.GetType().FullName}: {ex.Message}");
                 return false;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using ETS2LA.Shared;
+using ETS2LA.Logging;
 
 [assembly: PluginInformation("ExampleConsumer", "An example data provider plugin.")]
 namespace ExampleConsumer
@@ -16,8 +17,8 @@ namespace ExampleConsumer
             if (!_IsRunning)
                 return;
                 
-            Console.WriteLine($"MyConsumer received time: {data}");
-            Console.WriteLine($"Delay to receive data: {DateTime.Now.Microsecond - data} microseconds");
+            // Logger.Info($"MyConsumer received time: {data}");
+            // Logger.Info($"Delay to receive data: {DateTime.Now.Microsecond - data} microseconds");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using ETS2LA.Shared;
 using ETS2LA.Settings;
+using ETS2LA.Logging;
 
 [assembly: PluginInformation("ExampleProvider", "An example data provider plugin.")]
 namespace ExampleProvider
@@ -26,12 +27,11 @@ namespace ExampleProvider
             _settingsHandler = new SettingsHandler();
             _settings = _settingsHandler.Load<MySettings>(_settingsFilename);
             _settingsHandler.RegisterListener<MySettings>(_settingsFilename, OnSettingsChanged);
-            Console.WriteLine($"ExampleProvider loaded setting ExampleValue = {_settings.ExampleValue}");
         }
 
         private void OnSettingsChanged(MySettings data)
         {
-            Console.WriteLine($"ExampleProvider detected settings change: ExampleValue = {data.ExampleValue}");
+            Logger.Info($"ExampleProvider detected settings change: ExampleValue = {data.ExampleValue}");
             _settings = data;
         }
 

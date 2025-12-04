@@ -8,9 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
-    <ProjectReference Include="..\..\ETS2LA.Settings\ETS2LA.Settings.csproj" />
-    <ProjectReference Include="..\..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
   </ItemGroup>
 
 </Project>
