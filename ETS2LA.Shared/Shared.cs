@@ -114,10 +114,37 @@
 
         public static Vector3 Zero => new Vector3(0, 0, 0);
         public static Vector3 One => new Vector3(1, 1, 1);
-        
+
         public float[] ToArray()
         {
             return new float[] { X, Y, Z };
+        }
+    }
+
+    public class Vector3Double
+    {
+        public double X;
+        public double Y;
+        public double Z;
+
+        public Vector3Double(double x, double y, double z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y}, {Z})";
+        }
+
+        public static Vector3Double Zero => new Vector3Double(0, 0, 0);
+        public static Vector3Double One => new Vector3Double(1, 1, 1);
+
+        public double[] ToArray()
+        {
+            return new double[] { X, Y, Z };
         }
     }
 }

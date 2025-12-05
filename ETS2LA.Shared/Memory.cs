@@ -11,93 +11,92 @@ namespace ETS2LA.Shared
             this.memory = memory;
         }
     
-        public int SetBool(int offset, bool value)
+        public void SetBool(int offset, bool value)
         {
             memory[offset] = (byte)(value ? 1 : 0);
-            return offset + 1;
         }
     
-        public (bool, int) ReadBool(int offset)
+        public bool ReadBool(int offset)
         {
             bool value = memory[offset] != 0;
-            return (value, offset + 1);
+            return value;
         }
-    
-        public (bool[], int) ReadBool(int offset, int count)
+
+        public bool[] ReadBool(int offset, int count)
         {
             bool[] bools = new bool[count];
             for (int i = 0; i < count; i++)
             {
                 bools[i] = memory[offset + i] != 0;
             }
-            return (bools, offset + count);
+            return bools;
         }
-    
-        public (int, int) ReadInt(int offset)
+
+        public int ReadInt(int offset)
         {
             int value = BitConverter.ToInt32(memory, offset);
-            return (value, offset + 4);
+            return value;
         }
-    
-        public (int[], int) ReadInt(int offset, int count)
+
+        public int[] ReadInt(int offset, int count)
         {
             int[] ints = new int[count];
             for (int i = 0; i < count; i++)
             {
                 ints[i] = BitConverter.ToInt32(memory, offset + i * 4);
             }
-            return (ints, offset + count * 4);
+            return ints;
         }
-    
-        public (float, int) ReadFloat(int offset)
+
+        public float ReadFloat(int offset)
         {
             float value = BitConverter.ToSingle(memory, offset);
-            return (value, offset + 4);
+            return value;
         }
-    
-        public (float[], int) ReadFloat(int offset, int count)
+
+        public float[] ReadFloat(int offset, int count)
         {
             float[] floats = new float[count];
             for (int i = 0; i < count; i++)
             {
                 floats[i] = BitConverter.ToSingle(memory, offset + i * 4);
             }
-            return (floats, offset + count * 4);
+            return floats;
         }
-    
-        public (long, int) ReadLong(int offset)
+
+        public long ReadLong(int offset)
         {
             long value = BitConverter.ToInt64(memory, offset);
-            return (value, offset + 8);
+            return value;
         }
-    
-        public (long[], int) ReadLong(int offset, int count)
+
+        public long[] ReadLong(int offset, int count)
         {
             long[] longs = new long[count];
             for (int i = 0; i < count; i++)
             {
                 longs[i] = BitConverter.ToInt64(memory, offset + i * 8);
             }
-            return (longs, offset + count * 8);
+            return longs;
         }
-    
-        public (ulong, int) ReadLongLong(int offset)
+
+        public ulong ReadLongLong(int offset)
         {
             ulong value = BitConverter.ToUInt64(memory, offset);
-            return (value, offset + 8);
+            return value;
         }
-    
-        public (ulong[], int) ReadLongLong(int offset, int count)
+
+        public ulong[] ReadLongLong(int offset, int count)
         {
             ulong[] longlongs = new ulong[count];
             for (int i = 0; i < count; i++)
             {
                 longlongs[i] = BitConverter.ToUInt64(memory, offset + i * 8);
             }
-            return (longlongs, offset + count * 8);
+            return longlongs;
         }
-    
-        public (string, int) ReadChar(int offset, int count)
+
+        public string ReadChar(int offset, int count)
         {
             StringBuilder charBuilder = new StringBuilder();
             for (int i = 0; i < count; i++)
@@ -108,33 +107,33 @@ namespace ETS2LA.Shared
                     charBuilder.Append(c);
                 }
             }
-            return (charBuilder.ToString(), offset + count);
+            return charBuilder.ToString();
         }
-    
-        public (double, int) ReadDouble(int offset)
+
+        public double ReadDouble(int offset)
         {
             double value = BitConverter.ToDouble(memory, offset);
-            return (value, offset + 8);
+            return value;
         }
-    
-        public (double[], int) ReadDouble(int offset, int count)
+
+        public double[] ReadDouble(int offset, int count)
         {
             double[] doubles = new double[count];
             for (int i = 0; i < count; i++)
             {
                 doubles[i] = BitConverter.ToDouble(memory, offset + i * 8);
             }
-            return (doubles, offset + count * 8);
+            return doubles;
         }
-    
-        public (string[], int) ReadStringArray(int offset, int count, int stringSize)
+
+        public string[] ReadStringArray(int offset, int count, int stringSize)
         {
             string[] strings = new string[count];
             for (int i = 0; i < count; i++)
             {
-                strings[i] = ReadChar(offset + i * stringSize, stringSize).Item1;
+                strings[i] = ReadChar(offset + i * stringSize, stringSize);
             }
-            return (strings, offset + count * stringSize);
+            return strings;
         }
     }
 }

@@ -145,6 +145,11 @@ namespace ETS2LA.Shared
         public int[] hshifterResultingGear = new int[32];
     }
 
+    public class CommonFloat
+    {
+        public float scale;
+    }
+
     public class ConfigFloat
     {
         public float fuelCapacity;
@@ -154,7 +159,7 @@ namespace ETS2LA.Shared
         public float airPressureWarning;
         public float airPressureEmergency;
         public float oilPressureWarning;
-        public float waterPressureWarning;
+        public float waterTemperatureWarning;
         public float batteryVoltageWarning;
         public float engineRpmMax;
         public float gearDifferential;
@@ -298,12 +303,8 @@ namespace ETS2LA.Shared
 
     public class TruckPlacement
     {
-        public double coordinateX;
-        public double coordinateY;
-        public double coordinateZ;
-        public double rotationX;
-        public double rotationY;
-        public double rotationZ;
+        public Vector3Double coordinate = Vector3Double.Zero;
+        public Vector3Double rotation = Vector3Double.Zero;
     }
 
     public class ConfigString
@@ -344,17 +345,17 @@ namespace ETS2LA.Shared
 
     public class ConfigLongLong
     {
-        public long jobIncome;
+        public ulong jobIncome;
     }
 
     public class GameplayLongLong
     {
-        public long jobCancelledPenalty;
-        public long jobDeliveredRevenue;
-        public long fineAmount;
-        public long tollgatePayAmount;
-        public long ferryPayAmount;
-        public long trainPayAmount;
+        public ulong jobCancelledPenalty;
+        public ulong jobDeliveredRevenue;
+        public ulong fineAmount;
+        public ulong tollgatePayAmount;
+        public ulong ferryPayAmount;
+        public ulong trainPayAmount;
     }
     
     public class SpecialBool
@@ -390,6 +391,7 @@ namespace ETS2LA.Shared
         public GameplayUI gameplayUI;
         public CommonInt commonInt;
         public TruckInt truckInt;
+        public CommonFloat commonFloat;
         public ConfigFloat configFloat;
         public TruckFloat truckFloat;
         public GameplayFloat gameplayFloat;
@@ -417,6 +419,7 @@ namespace ETS2LA.Shared
             gameplayUI = new GameplayUI();
             commonInt = new CommonInt();
             truckInt = new TruckInt();
+            commonFloat = new CommonFloat();
             configFloat = new ConfigFloat();
             truckFloat = new TruckFloat();
             gameplayFloat = new GameplayFloat();
