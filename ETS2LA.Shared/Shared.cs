@@ -1,4 +1,7 @@
-﻿namespace ETS2LA.Shared
+﻿using System.Reflection;
+using System.Security.Cryptography;
+
+namespace ETS2LA.Shared
 {
     public interface IEventBus
     {
@@ -146,5 +149,55 @@
         {
             return new double[] { X, Y, Z };
         }
+    }
+
+    public class Quaternion
+    {
+        public float X;
+        public float Y;
+        public float Z;
+        public float W;
+
+        public Quaternion(float x, float y, float z, float w)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+            W = w;
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y}, {Z}, {W})";
+        }
+
+        public static Quaternion Identity => new Quaternion(0, 0, 0, 1);
+
+        public float[] ToArray()
+        {
+            return new float[] { X, Y, Z, W };
+        }
+
+        public Vector3 ToEuler()
+        {
+            float yaw = (float)Math.Atan2(2.0 * (Y * Z + W * X), W * W - X * X - Y * Y + Z * Z);
+            float pitch = (float)Math.Asin(-2.0 * (X * Z - W * Y));
+            float roll = (float)Math.Atan2(2.0 * (X * Y + W * Z), W * W + X * X - Y * Y - Z * Z);
+
+            yaw = yaw * (180.0f / (float)Math.PI);
+            pitch = pitch * (180.0f / (float)Math.PI);
+            roll = roll * (180.0f / (float)Math.PI);
+
+            return new Vector3(pitch, roll, yaw);
+        }
+    }
+
+    public class Camera
+    {
+        public float fov;
+        public Vector3 position = Vector3.Zero;
+        public Int16 cx;
+        public Int16 cy;
+        public Quaternion rotation = Quaternion.Identity;
     }
 }

@@ -20,7 +20,8 @@ namespace ETS2LA.Backend
             _pluginHandler.LoadPlugins();
             //_pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
             _pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
-            _pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
+            //_pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
+            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
 
             // Sleep the main thread until the application is closed
             Logger.Info("ETS2LA is running. Press Enter to exit.");

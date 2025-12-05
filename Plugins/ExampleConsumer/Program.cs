@@ -11,6 +11,7 @@ namespace ExampleConsumer
             base.Init(bus);
             _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
             _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
+            _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
         }
 
         private void OnTimeReceived(float data)
@@ -36,6 +37,15 @@ namespace ExampleConsumer
                 lastSecond = DateTime.Now.Second;
                 dataCount = 0;
             }
+        }
+
+        private void OnCameraReceived(Camera camera)
+        {
+            if (!_IsRunning)
+                return;
+
+            Vector3 euler = camera.rotation.ToEuler();
+            Logger.Info($"MyConsumer received camera FOV: {camera.fov}, Position: ({camera.position.X}, {camera.position.Y}, {camera.position.Z}), Rotation: ({euler.X}, {euler.Y}, {euler.Z})");
         }
     }
 }
