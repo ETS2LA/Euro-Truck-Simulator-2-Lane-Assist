@@ -149,4 +149,27 @@ void OnCurMicroseconds(float microseconds)
 These events run almost instantly accross all plugins. You can send as large of a data as you want, as these events only pass memory addresses around. Just be careful about editing data!
 
 ### Accessing Game Data
-> TODO: Write telemetry and ETS2LA SDK reader plugins.
+> TODO: ETS2LA SDK reader plugins.
+
+You can listen to the game telemetry using the `GameTelemetry` plugin's event bus event. The event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
+
+> Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function.
+```csharp
+GameTelemetryData _latestTelemetry;
+_bus.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryData);
+
+...
+
+private void OnGameTelemetryData(GameTelemetryData data)
+{
+    _latestTelemetry = data;
+}
+
+public override void Tick()
+{
+    if (!_IsRunning) return;
+
+    // Use _latestTelemetry here
+    Console.WriteLine($"Truck speed: {_latestTelemetry.truckFloat.speed} m/s");
+}
+```
