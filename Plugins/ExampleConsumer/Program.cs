@@ -17,6 +17,16 @@ namespace ExampleConsumer
             _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
         }
 
+        float output = 0;
+        public override void Tick()
+        {
+            output += 0.01f;
+            if (output > 1.0f)
+                output = -1.0f;
+
+            _bus?.Publish<float>("ETS2LA.Output.Steering", output);
+        }
+
         private void OnTimeReceived(float data)
         {
             if (!_IsRunning)

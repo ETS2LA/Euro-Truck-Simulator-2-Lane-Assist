@@ -301,7 +301,7 @@ namespace ETS2LASDK
         {
             if (_bus == null)
                 return;
-                
+
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -353,6 +353,146 @@ namespace ETS2LASDK
             }
 
             _bus?.Publish<NavigationData>("ETS2LASDK.Navigation", data);
+        }
+    }
+    
+
+    public class OutputConsumer : Plugin
+    {
+        // Tickrate just affects how often the plugin checks
+        // for stale data.
+        public override float TickRate => 1.0f;
+        string mmapName = "Local\\ETS2LAPluginInput";
+        int mmapSize = 22;
+
+        // TODO: Convert to weight based system.
+        //       Plugins can send data with their name and a weight
+        //       and then the output is weighted based on those values.
+
+        long lastSteeringWrite = -1;
+        long lastThrottleWrite = -1;
+        long lastBrakeWrite = -1;
+
+        public override void Init(IEventBus bus)
+        {
+            base.Init(bus);
+            // Listen to events from other plugins.
+            _bus?.Subscribe<float>("ETS2LA.Output.Steering", WriteSteering);
+            _bus?.Subscribe<float>("ETS2LA.Output.Throttle", WriteThrottle);
+            _bus?.Subscribe<float>("ETS2LA.Output.Brake", WriteBrake);
+        }
+
+        public override void Tick()
+        {
+            if (_bus == null)
+                return;
+
+            long now = DateTimeOffset.Now.ToUnixTimeSeconds();
+            if (now > lastSteeringWrite + 1)
+            {
+                WriteSteering(0.0f);
+            }
+            if (now > lastBrakeWrite + 1)
+            {
+                WriteBrake(0.0f);
+            }
+            if (now > lastThrottleWrite + 1)
+            {
+                WriteThrottle(0.0f);
+            }
+        }
+
+        private void WriteSteering(float steering)
+        {
+            MemoryMappedFile? mmf = null;
+            MemoryMappedViewAccessor? accessor = null;
+
+            try
+            {
+                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+                accessor.Write(0, -steering);
+                accessor.Write(4, steering != 0.0f);
+                accessor.Write(15, (int)DateTimeOffset.Now.ToUnixTimeSeconds());
+                lastSteeringWrite = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+            catch (FileNotFoundException)
+            {
+                Logger.Warn("Memory mapped file for output not found. Is ets2la_plugin running?");
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error writing to memory mapped file: {ex.Message}");
+                return;
+            }
+            finally
+            {
+                accessor?.Dispose();
+                mmf?.Dispose();
+            }
+        }
+
+        private void WriteThrottle(float throttle)
+        {
+            MemoryMappedFile? mmf = null;
+            MemoryMappedViewAccessor? accessor = null;
+
+            try
+            {
+                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+                accessor.Write(5, throttle);
+                accessor.Write(9, throttle != 0.0f);
+                accessor.Write(15, (int)DateTimeOffset.Now.ToUnixTimeSeconds());
+                lastThrottleWrite = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+            catch (FileNotFoundException)
+            {
+                Logger.Warn("Memory mapped file for output not found. Is ets2la_plugin running?");
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error writing to memory mapped file: {ex.Message}");
+                return;
+            }
+            finally
+            {
+                accessor?.Dispose();
+                mmf?.Dispose();
+            }
+        }
+
+        private void WriteBrake(float brake)
+        {
+            MemoryMappedFile? mmf = null;
+            MemoryMappedViewAccessor? accessor = null;
+
+            try
+            {
+                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+                accessor.Write(10, brake);
+                accessor.Write(14, brake != 0.0f);
+                accessor.Write(15, (int)DateTimeOffset.Now.ToUnixTimeSeconds());
+                lastBrakeWrite = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+            catch (FileNotFoundException)
+            {
+                Logger.Warn("Memory mapped file for output not found. Is ets2la_plugin running?");
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error writing to memory mapped file: {ex.Message}");
+                return;
+            }
+            finally
+            {
+                accessor?.Dispose();
+                mmf?.Dispose();
+            }
         }
     }
 }
