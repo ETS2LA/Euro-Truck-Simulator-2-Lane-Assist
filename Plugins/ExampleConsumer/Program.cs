@@ -13,6 +13,7 @@ namespace ExampleConsumer
             _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
             _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
             _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
+            _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
         }
 
         private void OnTimeReceived(float data)
@@ -56,6 +57,19 @@ namespace ExampleConsumer
 
             // Logger.Info($"MyConsumer received {traffic.vehicles.Length} traffic vehicles.");
             // Logger.Info($"First vehicle position: ({traffic.vehicles[0].position.X}, {traffic.vehicles[0].position.Y}, {traffic.vehicles[0].position.Z}), has {traffic.vehicles[0].trailer_count} trailers.");
+        }
+
+        private void OnSemaphoreReceived(SemaphoreData data)
+        {
+            if (!_IsRunning)
+                return;
+
+            foreach (var semaphore in data.semaphores)
+            {
+                if (semaphore.type != SemaphoreType.TRAFFICLIGHT)
+                    continue;
+                //Logger.Info($"Semaphore ID: {semaphore.id}, Type: {semaphore.type}, State: {semaphore.state}, Time Remaining: {semaphore.time_remaining}");
+            }
         }
     }
 }

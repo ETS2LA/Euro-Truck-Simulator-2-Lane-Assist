@@ -229,4 +229,45 @@ namespace ETS2LA.Shared
     {
         public TrafficVehicle[] vehicles = Array.Empty<TrafficVehicle>();
     }
+
+    public enum TrafficLightState
+    {
+        OFF,
+        ORANGETORED,
+        RED,
+        ORANGETOGREEN = 4,
+        GREEN = 8,
+        SLEEP = 32,
+    }
+
+    public enum GateStates
+    {
+        CLOSING,
+        CLOSED,
+        OPENING,
+        OPEN
+    }
+
+    public enum SemaphoreType
+    {
+        TRAFFICLIGHT = 1,
+        GATE = 2
+    }
+
+    public class Semaphore
+    {
+        public Vector3 position = Vector3.Zero;
+        public float cx;
+        public float cy;
+        public Quaternion rotation = Quaternion.Identity;
+        public SemaphoreType type;
+        public float time_remaining;
+        public int state;
+        public int id;
+    }
+
+    public class SemaphoreData
+    {
+        public Semaphore[] semaphores = Array.Empty<Semaphore>();
+    }
 }

@@ -77,7 +77,7 @@ namespace ETS2LASDK
             _bus.Publish<Camera>("ETS2LASDK.Camera", camera);
         }
     }
-    
+
     public class TrafficProvider : Plugin
     {
 
@@ -90,7 +90,7 @@ namespace ETS2LASDK
         {
             if (_bus == null)
                 return;
-                
+
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -198,6 +198,93 @@ namespace ETS2LASDK
             }
             data.vehicles = vehicles;
             _bus.Publish<TrafficData>("ETS2LASDK.Traffic", data);
+        }
+    }
+    
+    public class SemaphoreProvider : Plugin
+    {
+
+        // Semaphores are static, no point in running them at high 
+        // tick rates. Just enough where it won't feel slow to respond.
+        public override float TickRate => 5.0f;
+        string mmapName = "Local\\ETS2LASemaphore";
+        MemoryReader? _reader;
+        int mmapSize = 2080;
+
+        public override void Tick()
+        {
+            if (_bus == null)
+                return;
+                
+            MemoryMappedFile? mmf = null;
+            MemoryMappedViewAccessor? accessor = null;
+
+            // Check for other OSs
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+            {
+                Logger.Warn("Game telemetry is only supported on Windows.");
+                return;
+            }
+
+            byte[] buffer = new byte[mmapSize];
+            try
+            {
+                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
+                accessor.ReadArray(0, buffer, 0, mmapSize);
+                _reader = new MemoryReader(buffer);
+            }
+            catch (FileNotFoundException)
+            {
+                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
+                Thread.Sleep(10000);
+                _reader = null;
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error initializing memory mapped file: {ex.Message}");
+                Thread.Sleep(10000);
+                _reader = null;
+                return;
+            }
+            finally
+            {
+                accessor?.Dispose();
+                mmf?.Dispose();
+            }
+
+            SemaphoreData data = new SemaphoreData();
+            data.semaphores = new ETS2LA.Shared.Semaphore[40];
+            int offset = 0;
+            for (int i = 0; i < 40; i++)
+            {
+                ETS2LA.Shared.Semaphore semaphore = new ETS2LA.Shared.Semaphore();
+                semaphore.position = new Vector3(
+                    _reader.ReadFloat(offset),
+                    _reader.ReadFloat(offset + 4),
+                    _reader.ReadFloat(offset + 8)
+                ); offset += 12;
+
+                semaphore.cx = _reader.ReadFloat(offset); offset += 4;
+                semaphore.cy = _reader.ReadFloat(offset); offset += 4;
+
+                semaphore.rotation = new Quaternion(
+                    _reader.ReadFloat(offset),
+                    _reader.ReadFloat(offset + 4),
+                    _reader.ReadFloat(offset + 8),
+                    _reader.ReadFloat(offset + 12)
+                ); offset += 16;
+
+                semaphore.type = (ETS2LA.Shared.SemaphoreType)_reader.ReadInt(offset); offset += 4;
+                semaphore.time_remaining = _reader.ReadFloat(offset); offset += 4;
+                semaphore.state = _reader.ReadInt(offset); offset += 4;
+                semaphore.id = _reader.ReadInt(offset); offset += 4;
+
+                data.semaphores[i] = semaphore;
+            }
+
+            _bus?.Publish<SemaphoreData>("ETS2LASDK.Semaphores", data);
         }
     }
 }

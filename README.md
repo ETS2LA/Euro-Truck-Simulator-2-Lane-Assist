@@ -193,3 +193,8 @@ public override void Tick()
 } 
 ```
 The camera rotation is a quaternion by default, so we provide the `.ToEuler()` method to convert it back to human readable euler angles.
+
+Current the available ETS2LASDK data structures are:
+- `ETS2LASDK.Camera` (`Camera`)
+- `ETS2LASDK.Traffic` (`TrafficData`)
+- `ETS2LASDK.Semaphores` (`SemaphoreData`)
