@@ -200,4 +200,33 @@ namespace ETS2LA.Shared
         public Int16 cy;
         public Quaternion rotation = Quaternion.Identity;
     }
+
+    public class TrafficTrailer
+    {
+        public Vector3 position = Vector3.Zero;
+        public Quaternion rotation = Quaternion.Identity;
+        public Vector3 size = Vector3.Zero;
+    }
+
+    public class TrafficVehicle
+    {
+        public Vector3 position = Vector3.Zero;
+        public Quaternion rotation = Quaternion.Identity;
+        public Vector3 size = Vector3.Zero;
+        public float speed;
+        public float acceleration;
+        public Int16 trailer_count;
+        public Int16 id;
+
+        // These only affect vehicles in TMP
+        public bool isTMP;
+        public bool isTrailer;
+
+        public TrafficTrailer[] trailers = Array.Empty<TrafficTrailer>();
+    }
+
+    public class TrafficData
+    {
+        public TrafficVehicle[] vehicles = Array.Empty<TrafficVehicle>();
+    }
 }

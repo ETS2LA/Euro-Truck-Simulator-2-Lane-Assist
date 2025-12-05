@@ -12,6 +12,7 @@ namespace ExampleConsumer
             _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
             _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
             _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
+            _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
         }
 
         private void OnTimeReceived(float data)
@@ -44,8 +45,17 @@ namespace ExampleConsumer
             if (!_IsRunning)
                 return;
 
-            Vector3 euler = camera.rotation.ToEuler();
-            Logger.Info($"MyConsumer received camera FOV: {camera.fov}, Position: ({camera.position.X}, {camera.position.Y}, {camera.position.Z}), Rotation: ({euler.X}, {euler.Y}, {euler.Z})");
+            // Vector3 euler = camera.rotation.ToEuler();
+            // Logger.Info($"MyConsumer received camera FOV: {camera.fov}, Position: ({camera.position.X}, {camera.position.Y}, {camera.position.Z}), Rotation: ({euler.X}, {euler.Y}, {euler.Z})");
+        }
+
+        private void OnTrafficReceived(TrafficData traffic)
+        {
+            if (!_IsRunning)
+                return;
+
+            // Logger.Info($"MyConsumer received {traffic.vehicles.Length} traffic vehicles.");
+            // Logger.Info($"First vehicle position: ({traffic.vehicles[0].position.X}, {traffic.vehicles[0].position.Y}, {traffic.vehicles[0].position.Z}), has {traffic.vehicles[0].trailer_count} trailers.");
         }
     }
 }
