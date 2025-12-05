@@ -18,9 +18,18 @@ namespace ETS2LA.Backend
 
             Logger.Info("Starting ETS2LA...");
             _pluginHandler.LoadPlugins();
+            
             //_pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
             _pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
+            
+            // RenCloud's Game Telemetry plugin provider
             _pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
+            // ets2la_plugin providers and consumers
+            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
+            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
+            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
+            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
+            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
 
             // Sleep the main thread until the application is closed
             Logger.Info("ETS2LA is running. Press Enter to exit.");

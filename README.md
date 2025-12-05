@@ -149,8 +149,6 @@ void OnCurMicroseconds(float microseconds)
 These events run almost instantly accross all plugins. You can send as large of a data as you want, as these events only pass memory addresses around. Just be careful about editing data!
 
 ### Accessing Game Data
-> TODO: ETS2LA SDK reader plugins.
-
 You can listen to the game telemetry using the `GameTelemetry` plugin's event bus event. The event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
 
 > Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function.
@@ -173,3 +171,31 @@ public override void Tick()
     Console.WriteLine($"Truck speed: {_latestTelemetry.truckFloat.speed} m/s");
 }
 ```
+
+Reading ets2la_plugin information can be done like so. Just replace `Camera` with whatever available data structure you want to read.
+```csharp
+Camera _latestCamera;
+_bus.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraData);
+
+private void OnCameraData(Camera data)
+{
+    _latestCamera = data;
+}
+
+public override void Tick()
+{
+    if (!_IsRunning) return;
+
+    // Use _latestCamera here
+    Console.WriteLine($"Camera FOV: {_latestCamera.fov}");
+    Vector3 eulerAngles = _latestCamera.rotation.ToEuler();
+    Console.WriteLine($"Camera Rotation: ({eulerAngles.X}, {eulerAngles.Y}, {eulerAngles.Z})");
+} 
+```
+The camera rotation is a quaternion by default, so we provide the `.ToEuler()` method to convert it back to human readable euler angles.
+
+Current the available ETS2LASDK data structures are:
+- `ETS2LASDK.Camera` (`Camera`)
+- `ETS2LASDK.Traffic` (`TrafficData`)
+- `ETS2LASDK.Semaphores` (`SemaphoreData`)
+- `ETS2LASDK.Navigation` (`NavigationData`)

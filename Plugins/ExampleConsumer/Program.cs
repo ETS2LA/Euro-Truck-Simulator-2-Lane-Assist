@@ -11,6 +11,20 @@ namespace ExampleConsumer
             base.Init(bus);
             _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
             _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
+            _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
+            _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
+            _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
+            _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
+        }
+
+        float output = 0;
+        public override void Tick()
+        {
+            output += 0.01f;
+            if (output > 1.0f)
+                output = -1.0f;
+
+            _bus?.Publish<float>("ETS2LA.Output.Steering", output);
         }
 
         private void OnTimeReceived(float data)
@@ -22,20 +36,55 @@ namespace ExampleConsumer
             // Logger.Info($"Delay to receive data: {DateTime.Now.Microsecond - data} microseconds");
         }
 
-        int dataCount = 0;
-        int lastSecond = DateTime.Now.Second;
         private void OnGameTelemetryReceived(GameTelemetryData data)
         {
             if (!_IsRunning)
                 return;
+        }
 
-            dataCount++;
-            if (DateTime.Now.Second != lastSecond)
+        private void OnCameraReceived(Camera camera)
+        {
+            if (!_IsRunning)
+                return;
+
+            // Vector3 euler = camera.rotation.ToEuler();
+            // Logger.Info($"MyConsumer received camera FOV: {camera.fov}, Position: ({camera.position.X}, {camera.position.Y}, {camera.position.Z}), Rotation: ({euler.X}, {euler.Y}, {euler.Z})");
+        }
+
+        private void OnTrafficReceived(TrafficData traffic)
+        {
+            if (!_IsRunning)
+                return;
+
+            // Logger.Info($"MyConsumer received {traffic.vehicles.Length} traffic vehicles.");
+            // Logger.Info($"First vehicle position: ({traffic.vehicles[0].position.X}, {traffic.vehicles[0].position.Y}, {traffic.vehicles[0].position.Z}), has {traffic.vehicles[0].trailer_count} trailers.");
+        }
+
+        private void OnSemaphoreReceived(SemaphoreData data)
+        {
+            if (!_IsRunning)
+                return;
+
+            foreach (var semaphore in data.semaphores)
             {
-                Logger.Info($"MyConsumer received {dataCount} GameTelemetry data packets in the last second.");
-                lastSecond = DateTime.Now.Second;
-                dataCount = 0;
+                if (semaphore.type != SemaphoreType.TRAFFICLIGHT)
+                    continue;
+                //Logger.Info($"Semaphore ID: {semaphore.id}, Type: {semaphore.type}, State: {semaphore.state}, Time Remaining: {semaphore.time_remaining}");
             }
+        }
+
+        private void OnNavigationReceived(NavigationData data)
+        {
+            if (!_IsRunning)
+                return;
+
+            // int valid = 0;
+            // foreach (var entry in data.entries)
+            // {
+            //     if (entry.nodeUid != 0)
+            //         valid++;
+            // }
+            // Logger.Info($"MyConsumer received {valid} valid navigation waypoints.");
         }
     }
 }
