@@ -270,4 +270,16 @@ namespace ETS2LA.Shared
     {
         public Semaphore[] semaphores = Array.Empty<Semaphore>();
     }
+
+    public class NavigationEntry
+    {
+        public ulong nodeUid;
+        public float distanceToEnd;
+        public float timeToEnd;
+    }
+
+    public class NavigationData
+    {
+        public NavigationEntry[] entries = Array.Empty<NavigationEntry>();
+    }
 }

@@ -200,7 +200,7 @@ namespace ETS2LASDK
             _bus.Publish<TrafficData>("ETS2LASDK.Traffic", data);
         }
     }
-    
+
     public class SemaphoreProvider : Plugin
     {
 
@@ -215,7 +215,7 @@ namespace ETS2LASDK
         {
             if (_bus == null)
                 return;
-                
+
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -285,6 +285,74 @@ namespace ETS2LASDK
             }
 
             _bus?.Publish<SemaphoreData>("ETS2LASDK.Semaphores", data);
+        }
+    }
+
+    public class NavigationProvider : Plugin
+    {
+
+        // Navigation won't be updating often, so a low tick rate is fine.
+        public override float TickRate => 0.1f;
+        string mmapName = "Local\\ETS2LARoute";
+        MemoryReader? _reader;
+        int mmapSize = 96000;
+
+        public override void Tick()
+        {
+            if (_bus == null)
+                return;
+                
+            MemoryMappedFile? mmf = null;
+            MemoryMappedViewAccessor? accessor = null;
+
+            // Check for other OSs
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+            {
+                Logger.Warn("Game telemetry is only supported on Windows.");
+                return;
+            }
+
+            byte[] buffer = new byte[mmapSize];
+            try
+            {
+                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
+                accessor.ReadArray(0, buffer, 0, mmapSize);
+                _reader = new MemoryReader(buffer);
+            }
+            catch (FileNotFoundException)
+            {
+                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
+                Thread.Sleep(10000);
+                _reader = null;
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error initializing memory mapped file: {ex.Message}");
+                Thread.Sleep(10000);
+                _reader = null;
+                return;
+            }
+            finally
+            {
+                accessor?.Dispose();
+                mmf?.Dispose();
+            }
+
+            NavigationData data = new NavigationData();
+            data.entries = new NavigationEntry[6000];
+            int offset = 0;
+            for (int i = 0; i < 6000; i++)
+            {
+                NavigationEntry entry = new NavigationEntry();
+                entry.nodeUid = _reader.ReadLongLong(offset); offset += 8;
+                entry.distanceToEnd = _reader.ReadFloat(offset); offset += 4;
+                entry.timeToEnd = _reader.ReadFloat(offset); offset += 4;
+                data.entries[i] = entry;
+            }
+
+            _bus?.Publish<NavigationData>("ETS2LASDK.Navigation", data);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ExampleConsumer
             _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
             _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
             _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
+            _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
         }
 
         private void OnTimeReceived(float data)
@@ -25,20 +26,10 @@ namespace ExampleConsumer
             // Logger.Info($"Delay to receive data: {DateTime.Now.Microsecond - data} microseconds");
         }
 
-        int dataCount = 0;
-        int lastSecond = DateTime.Now.Second;
         private void OnGameTelemetryReceived(GameTelemetryData data)
         {
             if (!_IsRunning)
                 return;
-
-            dataCount++;
-            if (DateTime.Now.Second != lastSecond)
-            {
-                Logger.Info($"MyConsumer received {dataCount} GameTelemetry data packets in the last second.");
-                lastSecond = DateTime.Now.Second;
-                dataCount = 0;
-            }
         }
 
         private void OnCameraReceived(Camera camera)
@@ -70,6 +61,20 @@ namespace ExampleConsumer
                     continue;
                 //Logger.Info($"Semaphore ID: {semaphore.id}, Type: {semaphore.type}, State: {semaphore.state}, Time Remaining: {semaphore.time_remaining}");
             }
+        }
+
+        private void OnNavigationReceived(NavigationData data)
+        {
+            if (!_IsRunning)
+                return;
+
+            // int valid = 0;
+            // foreach (var entry in data.entries)
+            // {
+            //     if (entry.nodeUid != 0)
+            //         valid++;
+            // }
+            // Logger.Info($"MyConsumer received {valid} valid navigation waypoints.");
         }
     }
 }

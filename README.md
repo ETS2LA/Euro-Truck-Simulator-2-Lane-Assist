@@ -198,3 +198,4 @@ Current the available ETS2LASDK data structures are:
 - `ETS2LASDK.Camera` (`Camera`)
 - `ETS2LASDK.Traffic` (`TrafficData`)
 - `ETS2LASDK.Semaphores` (`SemaphoreData`)
+- `ETS2LASDK.Navigation` (`NavigationData`)
