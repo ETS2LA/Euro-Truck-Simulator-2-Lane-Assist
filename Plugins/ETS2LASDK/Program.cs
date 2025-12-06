@@ -419,7 +419,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file for output not found. Is ets2la_plugin running?");
                 return;
             }
             catch (Exception ex)
@@ -450,7 +449,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file for output not found. Is ets2la_plugin running?");
                 return;
             }
             catch (Exception ex)
@@ -481,7 +479,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file for output not found. Is ets2la_plugin running?");
                 return;
             }
             catch (Exception ex)

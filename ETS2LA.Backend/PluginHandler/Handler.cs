@@ -24,6 +24,8 @@ namespace ETS2LA.Backend
             string[] pluginFiles = DiscoverPlugins();
             foreach (string filename in pluginFiles)
             {
+                Thread.Sleep(100); // Slight delay to avoid overwhelming the system
+                                   // and to allow other processes / logging to run smoothly.
                 try
                 {
                     // Load plugin assembly
@@ -37,12 +39,12 @@ namespace ETS2LA.Backend
                         var plugin = (IPlugin)Activator.CreateInstance(type)!;
                         plugin.Init(_bus);
                         LoadedPlugins.Add(plugin);
-                        Logger.Info($"Loaded plugin: {type.FullName} from {filename}");
+                        Logger.Info($"Loaded plugin: [gray]{type.FullName}[/] from [gray]{filename}[/].");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error($"Failed to load plugin from {filename}: {ex.Message}");
+                    Logger.Error($"Failed to load plugin from [gray]{filename}[/]: {ex.Message}");
                 }
             }
         }
@@ -64,6 +66,8 @@ namespace ETS2LA.Backend
             try
             {
                 plugin.OnEnable();
+                Thread.Sleep(100); // Slight delay to avoid overwhelming the system
+                                   // and to allow other processes / logging to run smoothly.
                 return true;
             }
             catch (Exception ex)
