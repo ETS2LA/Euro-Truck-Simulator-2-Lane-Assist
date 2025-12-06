@@ -1,4 +1,5 @@
 ﻿using ETS2LA.Logging;
+using Spectre.Console;
 using Velopack;
 
 namespace ETS2LA.Backend
@@ -16,23 +17,27 @@ namespace ETS2LA.Backend
             _bus = new EventBus();
             _pluginHandler = new PluginHandler(_bus);
 
-            Logger.Info("Starting ETS2LA...");
-            _pluginHandler.LoadPlugins();
-            
-            //_pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
-            _pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
-            
-            // RenCloud's Game Telemetry plugin provider
-            _pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
-            // ets2la_plugin providers and consumers
-            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
-            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
-            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
-            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
-            _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
+            Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
+            {
+                _pluginHandler.LoadPlugins();
+
+                //_pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
+                _pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
+
+                // RenCloud's Game Telemetry plugin provider
+                _pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
+                // ets2la_plugin providers and consumers
+                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
+                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
+                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
+                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
+                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
+
+                Thread.Sleep(1000);
+                Logger.Success("ETS2LA is running. Press Enter to exit.");
+            });
 
             // Sleep the main thread until the application is closed
-            Logger.Info("ETS2LA is running. Press Enter to exit.");
             Console.ReadLine();
         }
     }
