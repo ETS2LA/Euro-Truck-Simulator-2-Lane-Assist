@@ -33,8 +33,7 @@ public partial class ManagerView : UserControl
         _pluginService = service ?? new PluginManagerService();
         InitializeComponent();
         DataContext = this;
-
-        LoadPlugins();
+        UpdatePluginList();
     }
 
     private void TogglePluginClick(object? sender, RoutedEventArgs e)
@@ -47,7 +46,7 @@ public partial class ManagerView : UserControl
 
     private void OnRefreshClick(object? sender, RoutedEventArgs e)
     {
-        LoadPlugins();
+        UpdatePluginList();
     }
 
     private void OnCardPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -73,8 +72,11 @@ public partial class ManagerView : UserControl
     private void LoadPlugins()
     {
         Plugins.Clear();
-        _pluginService.Reload();
+        UpdatePluginList();
+    }
 
+    private void UpdatePluginList()
+    {
         var uiEntries = _pluginService.GetPluginUis().ToDictionary(x => x.Metadata.Instance);
         foreach (var plugin in _pluginService.GetPlugins())
         {

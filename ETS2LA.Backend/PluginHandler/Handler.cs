@@ -49,6 +49,22 @@ namespace ETS2LA.Backend
             }
         }
 
+        public void UnloadPlugins()
+        {
+            foreach (var plugin in LoadedPlugins)
+            {
+                try
+                {
+                    plugin.Shutdown();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to shutdown plugin {plugin.GetType().FullName}: {ex.Message}");
+                }
+            }
+            LoadedPlugins.Clear();
+        }
+
         private IPlugin? GetPluginByName(string pluginName)
         {
             return LoadedPlugins.FirstOrDefault(p => p.GetType().FullName == pluginName);
