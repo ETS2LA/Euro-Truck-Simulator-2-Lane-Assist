@@ -2,51 +2,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="ETS2LA.UI.MainWindow"
         Width="1280" Height="720"
-        Background="{DynamicResource BaseBackgroundBrush}"
-        Padding="12"
-        SystemDecorations="None">
-    <Border Background="{DynamicResource BaseBackgroundBrush}" CornerRadius="16">
+        Background="Transparent"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent">
+    <Border Background="{DynamicResource PanelBackgroundBrush}" CornerRadius="{DynamicResource BorderRadius}">
         <DockPanel>
             <!-- Title bar -->
-            <Border Background="#1C1E24"
-                    BorderBrush="#2A2D34"
-                    BorderThickness="1"
-                    CornerRadius="12"
-                    Padding="10 8"
-                    Margin="4 4 4 10"
+            <Border Background="{DynamicResource PanelBackgroundBrush}"
+                    BorderBrush="{DynamicResource AccentBrush}"
+                    BorderThickness="1 1 1 0"
+                    CornerRadius="8 8 0 0"
+                    Padding="4"
+                    Margin="0 0 0 0"
                     DockPanel.Dock="Top"
                     PointerPressed="TitleBar_PointerPressed">
                 <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center" Margin="2 0 0 0">
-                        <Button Classes="traffic red" Click="OnCloseClick"/>
-                        <Button Classes="traffic yellow"/>
-                        <Button Classes="traffic green" Click="OnMaxRestoreClick"/>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="4 0 0 0" HorizontalAlignment="Left">
+                        <TextBlock Text="ETS2LA" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                        <TextBlock Text="v0.4.1 - 67bfe5ee9" Foreground="{DynamicResource TextMutedBrush}" FontSize="11" VerticalAlignment="Center" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="ETS2LA" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" Opacity="0.95"/>
-                        <TextBlock Text="v0.4.1" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" Opacity="0.85"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0 0 4 0" HorizontalAlignment="Right">
+                        <Button Classes="traffic green" Click="OnMaxRestoreClick"/>
+                        <Button Classes="traffic yellow"/>
+                        <Button Classes="traffic red" Click="OnCloseClick"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <Grid ColumnDefinitions="205,*" Margin="8">
+            <Grid ColumnDefinitions="205,*" Margin="0 0 8 8">
                 <!-- Sidebar -->
                 <Border Grid.Column="0"
                         Background="{DynamicResource PanelBackgroundBrush}"
-                        CornerRadius="14"
-                        Padding="12"
-                        Margin="0 0 12 0">
+                        Padding="0 16 0 16"
+                        Margin="0 0 0 0">
                     <Grid RowDefinitions="Auto,*,Auto">
-                        <Border Background="#1F2229" CornerRadius="10" Padding="10" Margin="2 0 2 14">
-                            <StackPanel Spacing="2">
-                                <TextBlock Text="ETS2LA" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                <TextBlock Text="v0.4.1 - 67bfe5ee9" Foreground="{DynamicResource TextMutedBrush}" FontSize="11"/>
-                            </StackPanel>
-                        </Border>
-
                         <StackPanel Grid.Row="1" Spacing="14" Margin="2 0 0 0">
-                            <StackPanel Spacing="8" Margin="10 0 0 0">
-                                <TextBlock Text="Main" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold"/>
+                            <StackPanel Spacing="0" Margin="12 0 12 0">
+                                <TextBlock Text="Main" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold" Margin="4 0 0 8"/>
                                 <Button x:Name="DashboardButton" Classes="nav selected" Click="OnDashboardClick">
                                     <StackPanel Orientation="Horizontal" Spacing="9">
                                         <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE80F;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -61,8 +54,8 @@
                                 </Button>
                             </StackPanel>
 
-                            <StackPanel Spacing="8" Margin="10 0 0 0">
-                                <TextBlock Text="Plugins" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold"/>
+                            <StackPanel Spacing="8" Margin="12 0 12 0">
+                                <TextBlock Text="Plugins" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold" Margin="4 0 0 8"/>
                                 <Button x:Name="ManagerButton" Classes="nav" Click="OnManagerClick">
                                     <StackPanel Orientation="Horizontal" Spacing="9">
                                         <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE14C;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -83,8 +76,8 @@
                                 </Button>
                             </StackPanel>
 
-                            <StackPanel Spacing="8" Margin="10 0 0 0">
-                                <TextBlock Text="Help" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold"/>
+                            <StackPanel Spacing="8" Margin="12 0 12 0">
+                                <TextBlock Text="Help" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold" Margin="4 0 0 8"/>
                                 <Button x:Name="WikiButton" Classes="nav" Click="OnWikiClick">
                                     <StackPanel Orientation="Horizontal" Spacing="9">
                                         <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xEC17;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -108,7 +101,7 @@
 
                         <StackPanel Grid.Row="2" Spacing="12">
                             <Button x:Name="SettingsButton" Classes="nav" Click="OnSettingsClick">
-                                <StackPanel Orientation="Horizontal" Spacing="9" Margin="10 0 0 0">
+                                <StackPanel Orientation="Horizontal" Spacing="9" Margin="12 0 12 0">
                                     <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE713;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                     <TextBlock Text="Settings" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                 </StackPanel>
@@ -120,7 +113,7 @@
                 <!-- Content -->
                 <Border Grid.Column="1"
                         Background="{DynamicResource CardBackgroundBrush}"
-                        CornerRadius="14"
+                        CornerRadius="12 0 4 12"
                         Padding="20"
                         BorderBrush="#1F252C"
                         BorderThickness="1">

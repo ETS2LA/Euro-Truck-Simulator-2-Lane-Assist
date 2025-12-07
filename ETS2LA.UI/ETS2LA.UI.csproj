@@ -15,6 +15,7 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="11.1.0" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.1.0" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup Label="ProjectReferences">

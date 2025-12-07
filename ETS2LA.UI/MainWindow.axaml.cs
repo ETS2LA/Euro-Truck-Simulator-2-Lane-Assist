@@ -30,6 +30,8 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        CanResize = true;
+        ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
         _managerView = new ManagerView(_pluginService);
         _settingsView = new SettingsView(_pluginService);

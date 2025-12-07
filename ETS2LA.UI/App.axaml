@@ -4,14 +4,18 @@
              x:Class="ETS2LA.UI.App"
              RequestedThemeVariant="Dark">
     <Application.Resources>
-        <Color x:Key="BaseBackground">#111214</Color>
-        <Color x:Key="PanelBackground">#191B20</Color>
-        <Color x:Key="CardBackground">#14161A</Color>
+        <Color x:Key="BaseBackground">#131316</Color>
+        <Color x:Key="PanelBackground">#18181b</Color>
+        <Color x:Key="CardBackground">#151518</Color>
         <Color x:Key="Accent">#3D4046</Color>
         <Color x:Key="AccentStrong">#2D7DFF</Color>
         <Color x:Key="TextPrimary">#ECEDEE</Color>
         <Color x:Key="TextSecondary">#C4C7CC</Color>
         <Color x:Key="TextMuted">#8A8F99</Color>
+
+        <CornerRadius x:Key="BorderRadiusOuter">12</CornerRadius>
+        <CornerRadius x:Key="BorderRadius">8</CornerRadius>
+        <CornerRadius x:Key="BorderRadiusInner">6</CornerRadius>
 
         <SolidColorBrush x:Key="BaseBackgroundBrush" Color="{DynamicResource BaseBackground}"/>
         <SolidColorBrush x:Key="PanelBackgroundBrush" Color="{DynamicResource PanelBackground}"/>
@@ -61,16 +65,16 @@
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-            <Setter Property="Padding" Value="12 9"/>
+            <Setter Property="Padding" Value="4"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="MinHeight" Value="30"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
-                            CornerRadius="9"
+                            CornerRadius="{DynamicResource BorderRadiusInner}"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -121,9 +125,9 @@
 
         <!-- Traffic-light buttons -->
         <Style Selector="Button.traffic">
-            <Setter Property="Width" Value="14"/>
-            <Setter Property="Height" Value="14"/>
-            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="Width" Value="11"/>
+            <Setter Property="Height" Value="11"/>
+            <Setter Property="CornerRadius" Value="5.5"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Background" Value="#3A3D44"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -131,13 +135,13 @@
             <Setter Property="Margin" Value="0"/>
         </Style>
         <Style Selector="Button.traffic.red">
-            <Setter Property="Background" Value="#FF5F57"/>
+            <Setter Property="Background" Value="#FB2C36"/>
         </Style>
         <Style Selector="Button.traffic.yellow">
-            <Setter Property="Background" Value="#FFBD2E"/>
+            <Setter Property="Background" Value="#F0B100"/>
         </Style>
         <Style Selector="Button.traffic.green">
-            <Setter Property="Background" Value="#28C840"/>
+            <Setter Property="Background" Value="#00C950"/>
         </Style>
 
         <!-- ListBox nav style for settings -->
