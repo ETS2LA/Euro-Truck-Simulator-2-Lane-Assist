@@ -1,9 +1,9 @@
 using ETS2LA.Shared;
 
-[assembly: PluginInformation("MyPlugin", "Describe your plugin here.")]
-namespace MyPlugin
+[assembly: PluginInformation("ETS2LAPlugin", "Describe your plugin here.")]
+namespace ETS2LAPlugin
 {
-    public class MyPlugin : Plugin
+    public class ETS2LAPlugin : Plugin
     {
         public override void Init(IEventBus bus)
         {

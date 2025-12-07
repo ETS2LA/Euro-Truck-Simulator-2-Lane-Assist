@@ -149,8 +149,6 @@ void OnCurMicroseconds(float microseconds)
 These events run almost instantly accross all plugins. You can send as large of a data as you want, as these events only pass memory addresses around. Just be careful about editing data!
 
 ### Accessing Game Data
-> TODO: ETS2LA SDK reader plugins.
-
 You can listen to the game telemetry using the `GameTelemetry` plugin's event bus event. The event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
 
 > Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function.
@@ -172,4 +170,61 @@ public override void Tick()
     // Use _latestTelemetry here
     Console.WriteLine($"Truck speed: {_latestTelemetry.truckFloat.speed} m/s");
 }
+```
+
+Reading ets2la_plugin information can be done like so. Just replace `Camera` with whatever available data structure you want to read.
+```csharp
+Camera _latestCamera;
+_bus.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraData);
+
+private void OnCameraData(Camera data)
+{
+    _latestCamera = data;
+}
+
+public override void Tick()
+{
+    if (!_IsRunning) return;
+
+    // Use _latestCamera here
+    Console.WriteLine($"Camera FOV: {_latestCamera.fov}");
+    Vector3 eulerAngles = _latestCamera.rotation.ToEuler();
+    Console.WriteLine($"Camera Rotation: ({eulerAngles.X}, {eulerAngles.Y}, {eulerAngles.Z})");
+} 
+```
+The camera rotation is a quaternion by default, so we provide the `.ToEuler()` method to convert it back to human readable euler angles.
+
+Current the available ETS2LASDK data structures are:
+- `ETS2LASDK.Camera` (`Camera`)
+- `ETS2LASDK.Traffic` (`TrafficData`)
+- `ETS2LASDK.Semaphores` (`SemaphoreData`)
+- `ETS2LASDK.Navigation` (`NavigationData`)
+
+### Sending Controls to the Game
+ETS2LA has two main ways to send data to the game. These are both tied to SDKs, but the SDKs work differently from each other.
+
+1. The ETS2LASDK plugin, which uses direct memory editing. Once it receives control data, it writes it directly to the game's memory. This has the lowest latency and bypasses any input smoothing the game does.
+2. The ControlsSDK plugin, which uses the official SCS SDK wrapped in our own dll (check ETS2LA/scs-sdk-controller). This one supports many more control inputs, but it's subject to the games input handling.
+
+In general it's recommended to keep steering and throttle/brake on ETS2LASDK, and then use ControlsSDK for buttons and other discrete inputs. You should however include a fallback to ControlsSDK as the memory editing might not always work.
+
+```csharp
+float output = 0.2f; // Turn 20% to the right
+
+// Memory editing via ETS2LASDK, the other outputs are `Throttle` and `Brake`
+_bus?.Publish<float>("ETS2LA.Output.Steering", output);
+
+// Controls via ControlsSDK, you should check the docs or the `SDKControlEvent` class
+// for all available options. You might need to do some testing on how the game handles
+// certain inputs. Often booleans are treated directly as pressing a button, so you should
+// set them to true for around 100ms, and then set them back to false.
+SDKControlEvent controlEvent = new SDKControlEvent
+{
+    steering = output,
+    light = true,
+    hblight = false
+};
+// Will flush the event to the game, supports any amount of fields being set
+// but the game will only listen to controls in between frames.
+_bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
 ```

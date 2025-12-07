@@ -1,9 +1,7 @@
+#pragma warning disable CA1416 // We check OS compatibility.
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
-using Serilog.Debugging;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 
 [assembly: PluginInformation("Game Telemetry", "This plugin will read game telemetry and transmit it via events.")]
 namespace GameTelemetry
