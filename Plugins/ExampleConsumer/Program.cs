@@ -24,7 +24,15 @@ namespace ExampleConsumer
             if (output > 1.0f)
                 output = -1.0f;
 
-            _bus?.Publish<float>("ETS2LA.Output.Steering", output);
+            // _bus?.Publish<float>("ETS2LA.Output.Steering", output);
+
+            // SDKControlEvent controlEvent = new SDKControlEvent
+            // {
+            //     steering = output,
+            //     light = true,
+            //     hblight = false
+            // };
+            // _bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
         }
 
         private void OnTimeReceived(float data)

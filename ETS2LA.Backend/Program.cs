@@ -32,6 +32,8 @@ namespace ETS2LA.Backend
                 _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
                 _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
                 _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
+                // scs-sdk-controller consumer
+                _pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
 
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running. Press Enter to exit.");
