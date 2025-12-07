@@ -12,14 +12,13 @@ public sealed class PluginManagerService
     {
         // Start the backend.
         backend = new Backend.Program();
-        backend.Main(Array.Empty<string>());
-        NotifyChanged();
+        Task.Run(() => backend.Main(Array.Empty<string>()));
     }
 
     public event Action? PluginsChanged;
 
     public IEnumerable<PluginMetadata> GetPlugins()
-    {
+    { 
         foreach (var plugin in backend.pluginHandler!.LoadedPlugins)
         {
             var assembly = plugin.GetType().Assembly;
