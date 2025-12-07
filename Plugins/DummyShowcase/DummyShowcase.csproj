@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DummyShowcase</RootNamespace>
+    <AssemblyName>DummyShowcase</AssemblyName>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
+    <ProjectReference Include="..\..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyPluginToDevFolder" AfterTargets="Build">
+    <PropertyGroup>
+      <!-- Resolve repo root two levels up from this project directory -->
+      <RootDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..'))</RootDir>
+      <PluginsDevDir>$([System.IO.Path]::Combine('$(RootDir)', 'Plugins', '_dev', 'DummyShowcase'))\</PluginsDevDir>
+      <PluginsDir>$([System.IO.Path]::Combine('$(RootDir)', 'Plugins', 'DummyShowcase'))\</PluginsDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(PluginsDevDir)" />
+    <MakeDir Directories="$(PluginsDir)" />
+    <!-- Copy to dev folder for live reload and to Plugins root for production runs -->
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDevDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDir)" />
+  </Target>
+</Project>

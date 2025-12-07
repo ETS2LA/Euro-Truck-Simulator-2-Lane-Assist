@@ -1,0 +1,12 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ETS2LA.UI.Views.PluginUiWindow"
+        Width="640" Height="480"
+        CanResize="True"
+        Background="{DynamicResource BaseBackgroundBrush}">
+    <Border Padding="12" Background="{DynamicResource BaseBackgroundBrush}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="Root" Spacing="10"/>
+        </ScrollViewer>
+    </Border>
+</Window>
