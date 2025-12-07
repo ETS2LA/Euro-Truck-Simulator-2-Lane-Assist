@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using System.Security.Cryptography;
-
-namespace ETS2LA.Shared
+﻿namespace ETS2LA.Shared
 {
     public interface IEventBus
     {

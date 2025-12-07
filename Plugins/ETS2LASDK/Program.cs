@@ -371,8 +371,11 @@ namespace ETS2LASDK
         //       and then the output is weighted based on those values.
 
         long lastSteeringWrite = -1;
+        float lastSteering;
         long lastThrottleWrite = -1;
+        float lastThrottle;
         long lastBrakeWrite = -1;
+        float lastBrake;
 
         public override void Init(IEventBus bus)
         {
@@ -389,15 +392,15 @@ namespace ETS2LASDK
                 return;
 
             long now = DateTimeOffset.Now.ToUnixTimeSeconds();
-            if (now > lastSteeringWrite + 1)
+            if (now > lastSteeringWrite + 1 && lastSteering != 0.0f)
             {
                 WriteSteering(0.0f);
             }
-            if (now > lastBrakeWrite + 1)
+            if (now > lastBrakeWrite + 1 && lastBrake != 0.0f)
             {
                 WriteBrake(0.0f);
             }
-            if (now > lastThrottleWrite + 1)
+            if (now > lastThrottleWrite + 1 && lastThrottle != 0.0f)
             {
                 WriteThrottle(0.0f);
             }
@@ -416,6 +419,7 @@ namespace ETS2LASDK
                 accessor.Write(4, steering != 0.0f);
                 accessor.Write(15, (int)DateTimeOffset.Now.ToUnixTimeSeconds());
                 lastSteeringWrite = DateTimeOffset.Now.ToUnixTimeSeconds();
+                lastSteering = steering;
             }
             catch (FileNotFoundException)
             {
@@ -446,6 +450,7 @@ namespace ETS2LASDK
                 accessor.Write(9, throttle != 0.0f);
                 accessor.Write(15, (int)DateTimeOffset.Now.ToUnixTimeSeconds());
                 lastThrottleWrite = DateTimeOffset.Now.ToUnixTimeSeconds();
+                lastThrottle = throttle;
             }
             catch (FileNotFoundException)
             {
@@ -476,6 +481,7 @@ namespace ETS2LASDK
                 accessor.Write(14, brake != 0.0f);
                 accessor.Write(15, (int)DateTimeOffset.Now.ToUnixTimeSeconds());
                 lastBrakeWrite = DateTimeOffset.Now.ToUnixTimeSeconds();
+                lastBrake = brake;
             }
             catch (FileNotFoundException)
             {

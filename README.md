@@ -199,3 +199,32 @@ Current the available ETS2LASDK data structures are:
 - `ETS2LASDK.Traffic` (`TrafficData`)
 - `ETS2LASDK.Semaphores` (`SemaphoreData`)
 - `ETS2LASDK.Navigation` (`NavigationData`)
+
+### Sending Controls to the Game
+ETS2LA has two main ways to send data to the game. These are both tied to SDKs, but the SDKs work differently from each other.
+
+1. The ETS2LASDK plugin, which uses direct memory editing. Once it receives control data, it writes it directly to the game's memory. This has the lowest latency and bypasses any input smoothing the game does.
+2. The ControlsSDK plugin, which uses the official SCS SDK wrapped in our own dll (check ETS2LA/scs-sdk-controller). This one supports many more control inputs, but it's subject to the games input handling.
+
+In general it's recommended to keep steering and throttle/brake on ETS2LASDK, and then use ControlsSDK for buttons and other discrete inputs. You should however include a fallback to ControlsSDK as the memory editing might not always work.
+
+```csharp
+float output = 0.2f; // Turn 20% to the right
+
+// Memory editing via ETS2LASDK, the other outputs are `Throttle` and `Brake`
+_bus?.Publish<float>("ETS2LA.Output.Steering", output);
+
+// Controls via ControlsSDK, you should check the docs or the `SDKControlEvent` class
+// for all available options. You might need to do some testing on how the game handles
+// certain inputs. Often booleans are treated directly as pressing a button, so you should
+// set them to true for around 100ms, and then set them back to false.
+SDKControlEvent controlEvent = new SDKControlEvent
+{
+    steering = output,
+    light = true,
+    hblight = false
+};
+// Will flush the event to the game, supports any amount of fields being set
+// but the game will only listen to controls in between frames.
+_bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
+```
