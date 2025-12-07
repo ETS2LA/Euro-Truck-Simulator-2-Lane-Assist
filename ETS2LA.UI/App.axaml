@@ -1,0 +1,161 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:fluent="clr-namespace:Avalonia.Themes.Fluent;assembly=Avalonia.Themes.Fluent"
+             x:Class="ETS2LA.UI.App"
+             RequestedThemeVariant="Dark">
+    <Application.Resources>
+        <Color x:Key="BaseBackground">#111214</Color>
+        <Color x:Key="PanelBackground">#191B20</Color>
+        <Color x:Key="CardBackground">#14161A</Color>
+        <Color x:Key="Accent">#3D4046</Color>
+        <Color x:Key="AccentStrong">#2D7DFF</Color>
+        <Color x:Key="TextPrimary">#ECEDEE</Color>
+        <Color x:Key="TextSecondary">#C4C7CC</Color>
+        <Color x:Key="TextMuted">#8A8F99</Color>
+
+        <SolidColorBrush x:Key="BaseBackgroundBrush" Color="{DynamicResource BaseBackground}"/>
+        <SolidColorBrush x:Key="PanelBackgroundBrush" Color="{DynamicResource PanelBackground}"/>
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="{DynamicResource CardBackground}"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource Accent}"/>
+        <SolidColorBrush x:Key="AccentStrongBrush" Color="{DynamicResource AccentStrong}"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource TextPrimary}"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource TextSecondary}"/>
+        <SolidColorBrush x:Key="TextMutedBrush" Color="{DynamicResource TextMuted}"/>
+    </Application.Resources>
+
+    <Application.Styles>
+        <fluent:FluentTheme/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <!-- Shared theme + control tokens -->
+        <StyleInclude Source="avares://ETS2LA.UI/UI/Styles/Theme.axaml"/>
+        <StyleInclude Source="avares://ETS2LA.UI/UI/Styles/Controls.axaml"/>
+
+        <!-- Typography helpers -->
+        <Style Selector="TextBlock.title">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        </Style>
+
+        <Style Selector="TextBlock.heading">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        </Style>
+
+        <Style Selector="TextBlock.body">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="TextBlock.muted">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <!-- Navigation buttons -->
+        <Style Selector="Button.nav">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="Padding" Value="12 9"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="9"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.nav:pointerover">
+            <Setter Property="Background" Value="#242831"/>
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        </Style>
+
+        <Style Selector="Button.nav:selected">
+            <Setter Property="Background" Value="#2D323C"/>
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        </Style>
+
+        <Style Selector="Button.nav:pressed">
+            <Setter Property="Background" Value="#262B33"/>
+        </Style>
+
+        <!-- Title bar buttons -->
+        <Style Selector="Button.titlebar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="TextElement.FontSize" Value="14"/>
+        </Style>
+
+        <Style Selector="Button.titlebar:pointerover">
+            <Setter Property="Background" Value="#242831"/>
+        </Style>
+
+        <Style Selector="Button.titlebar:pressed">
+            <Setter Property="Background" Value="#20232A"/>
+        </Style>
+
+        <!-- Traffic-light buttons -->
+        <Style Selector="Button.traffic">
+            <Setter Property="Width" Value="14"/>
+            <Setter Property="Height" Value="14"/>
+            <Setter Property="CornerRadius" Value="7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="#3A3D44"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style Selector="Button.traffic.red">
+            <Setter Property="Background" Value="#FF5F57"/>
+        </Style>
+        <Style Selector="Button.traffic.yellow">
+            <Setter Property="Background" Value="#FFBD2E"/>
+        </Style>
+        <Style Selector="Button.traffic.green">
+            <Setter Property="Background" Value="#28C840"/>
+        </Style>
+
+        <!-- ListBox nav style for settings -->
+        <Style Selector="ListBox#PluginList > ListBoxItem">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0 4 0 4"/>
+            <Setter Property="Background" Value="#1A1C21"/>
+            <Setter Property="BorderBrush" Value="#252A31"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        </Style>
+        <Style Selector="ListBox#PluginList > ListBoxItem:pointerover">
+            <Setter Property="Background" Value="#22262E"/>
+        </Style>
+        <Style Selector="ListBox#PluginList > ListBoxItem:selected">
+            <Setter Property="Background" Value="#2D323C"/>
+            <Setter Property="BorderBrush" Value="#2D7DFF"/>
+        </Style>
+    </Application.Styles>
+</Application>
