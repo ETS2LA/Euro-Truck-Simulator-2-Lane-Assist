@@ -15,8 +15,8 @@
 
     <!-- Radii & spacing -->
     <CornerRadius x:Key="Radius.Sm">6</CornerRadius>
-    <CornerRadius x:Key="Radius.Md">10</CornerRadius>
-    <CornerRadius x:Key="Radius.Lg">14</CornerRadius>
+    <CornerRadius x:Key="Radius.Md">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Lg">12</CornerRadius>
     <Thickness x:Key="Space.Xs">4</Thickness>
     <Thickness x:Key="Space.Sm">8</Thickness>
     <Thickness x:Key="Space.Md">12</Thickness>

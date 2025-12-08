@@ -1,13 +1,13 @@
-using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
+using Huskui.Avalonia.Controls;
 
 namespace ETS2LA.UI;
 
-public partial class MainWindow : Window
+public partial class MainWindow : AppWindow
 {
     private enum PageKind
     {

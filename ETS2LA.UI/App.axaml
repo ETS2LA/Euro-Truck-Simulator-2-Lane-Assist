@@ -1,6 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:fluent="clr-namespace:Avalonia.Themes.Fluent;assembly=Avalonia.Themes.Fluent"
+             xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
              x:Class="ETS2LA.UI.App"
              RequestedThemeVariant="Dark">
     <Application.Resources>
@@ -13,10 +13,6 @@
         <Color x:Key="TextSecondary">#C4C7CC</Color>
         <Color x:Key="TextMuted">#8A8F99</Color>
 
-        <CornerRadius x:Key="BorderRadiusOuter">12</CornerRadius>
-        <CornerRadius x:Key="BorderRadius">8</CornerRadius>
-        <CornerRadius x:Key="BorderRadiusInner">6</CornerRadius>
-
         <SolidColorBrush x:Key="BaseBackgroundBrush" Color="{DynamicResource BaseBackground}"/>
         <SolidColorBrush x:Key="PanelBackgroundBrush" Color="{DynamicResource PanelBackground}"/>
         <SolidColorBrush x:Key="CardBackgroundBrush" Color="{DynamicResource CardBackground}"/>
@@ -28,7 +24,8 @@
     </Application.Resources>
 
     <Application.Styles>
-        <fluent:FluentTheme/>
+        <FluentTheme/>
+        <husk:HuskuiTheme Accent="Lime" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
         <!-- Shared theme + control tokens -->
         <StyleInclude Source="avares://ETS2LA.UI/UI/Styles/Theme.axaml"/>
@@ -74,7 +71,7 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
-                            CornerRadius="{DynamicResource BorderRadiusInner}"
+                            CornerRadius="{DynamicResource Radius.Sm}"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
