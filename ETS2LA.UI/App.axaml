@@ -4,9 +4,16 @@
              x:Class="ETS2LA.UI.App"
              RequestedThemeVariant="Dark">
     <Application.Resources>
+        <FontFamily x:Key="GeistLight">avares://ETS2LA.UI/Assets/Fonts/Geist-Light.ttf#Geist Light</FontFamily>
+        <FontFamily x:Key="Geist">avares://ETS2LA.UI/Assets/Fonts/Geist-Regular.ttf#Geist</FontFamily>
+        <FontFamily x:Key="GeistMedium">avares://ETS2LA.UI/Assets/Fonts/Geist-Medium.ttf#Geist Medium</FontFamily>
+        <FontFamily x:Key="GeistSemiBold">avares://ETS2LA.UI/Assets/Fonts/Geist-SemiBold.ttf#Geist SemiBold</FontFamily>
+        <FontFamily x:Key="GeistBold">avares://ETS2LA.UI/Assets/Fonts/Geist-Bold.ttf#Geist Bold</FontFamily>
+        <!--
         <Color x:Key="BaseBackground">#131316</Color>
         <Color x:Key="PanelBackground">#18181b</Color>
         <Color x:Key="CardBackground">#151518</Color>
+        <Color x:Key="BorderColor">#2e2e2e</Color>
         <Color x:Key="Accent">#3D4046</Color>
         <Color x:Key="AccentStrong">#2D7DFF</Color>
         <Color x:Key="TextPrimary">#ECEDEE</Color>
@@ -16,104 +23,72 @@
         <SolidColorBrush x:Key="BaseBackgroundBrush" Color="{DynamicResource BaseBackground}"/>
         <SolidColorBrush x:Key="PanelBackgroundBrush" Color="{DynamicResource PanelBackground}"/>
         <SolidColorBrush x:Key="CardBackgroundBrush" Color="{DynamicResource CardBackground}"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource BorderColor}"/>
         <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource Accent}"/>
         <SolidColorBrush x:Key="AccentStrongBrush" Color="{DynamicResource AccentStrong}"/>
         <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource TextPrimary}"/>
         <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource TextSecondary}"/>
         <SolidColorBrush x:Key="TextMutedBrush" Color="{DynamicResource TextMuted}"/>
+        -->
     </Application.Resources>
 
     <Application.Styles>
         <FluentTheme/>
-        <husk:HuskuiTheme Accent="Lime" />
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
-        <!-- Shared theme + control tokens -->
-        <StyleInclude Source="avares://ETS2LA.UI/UI/Styles/Theme.axaml"/>
-        <StyleInclude Source="avares://ETS2LA.UI/UI/Styles/Controls.axaml"/>
+        <husk:HuskuiTheme Corner="Normal" />
 
-        <!-- Typography helpers -->
-        <Style Selector="TextBlock.title">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <!-- Global Font -->
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="GeistMedium"/>
         </Style>
 
-        <Style Selector="TextBlock.heading">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <!-- TextBlocks -->
+        <Style Selector="TextBlock.Description">
+            <Setter Property="Foreground" Value="{StaticResource ControlSecondaryForegroundBrush}"/>
         </Style>
 
-        <Style Selector="TextBlock.body">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-
-        <Style Selector="TextBlock.muted">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-
-        <!-- Navigation buttons -->
-        <Style Selector="Button.nav">
+        <!-- Sidebar Buttons -->
+        <Style Selector="Button.sidebar">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#eeeeee"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-            <Setter Property="Padding" Value="4"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="10 5 10 5"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="MinHeight" Value="30"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="{DynamicResource Radius.Sm}"
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter Content="{TemplateBinding Content}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="4 0 0 0"/>
+        </Style>
+        <Style Selector="Button.sidebar:hover">
+            <Setter Property="Background" Value="#20232A"/>
+            <Setter Property="BorderBrush" Value="#20232A"/>
+        </Style>
+        <Style Selector="Button.sidebar:pressed">
+            <Setter Property="Background" Value="#2A2D34"/>
+            <Setter Property="BorderBrush" Value="#2A2D34"/>
+        </Style>
+        <Style Selector="Button.sidebar.Selected">
+            <Setter Property="Background" Value="#303030"/>
+            <Setter Property="BorderBrush" Value="#303030"/>
+        </Style>
+        <Style Selector="Button.sidebar.Selected:hover">
+            <Setter Property="Background" Value="#20232A"/>
+            <Setter Property="BorderBrush" Value="#20232A"/>
+        </Style>
+        <Style Selector="Button.sidebar.Selected:pressed">
+            <Setter Property="Background" Value="#2A2D34"/>
+            <Setter Property="BorderBrush" Value="#2A2D34"/>
         </Style>
 
-        <Style Selector="Button.nav:pointerover">
-            <Setter Property="Background" Value="#242831"/>
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-        </Style>
-
-        <Style Selector="Button.nav:selected">
-            <Setter Property="Background" Value="#2D323C"/>
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-        </Style>
-
-        <Style Selector="Button.nav:pressed">
-            <Setter Property="Background" Value="#262B33"/>
-        </Style>
-
-        <!-- Title bar buttons -->
+        <!-- Titlebar Buttons -->
         <Style Selector="Button.titlebar">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Height" Value="28"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-            <Setter Property="TextElement.FontSize" Value="14"/>
-        </Style>
-
-        <Style Selector="Button.titlebar:pointerover">
-            <Setter Property="Background" Value="#242831"/>
+            <Setter Property="TextElement.Foreground" Value="#eeeeee"/>
         </Style>
 
         <Style Selector="Button.titlebar:pressed">
@@ -122,9 +97,9 @@
 
         <!-- Traffic-light buttons -->
         <Style Selector="Button.traffic">
-            <Setter Property="Width" Value="11"/>
-            <Setter Property="Height" Value="11"/>
-            <Setter Property="CornerRadius" Value="5.5"/>
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="CornerRadius" Value="6"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Background" Value="#3A3D44"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -139,24 +114,6 @@
         </Style>
         <Style Selector="Button.traffic.green">
             <Setter Property="Background" Value="#00C950"/>
-        </Style>
-
-        <!-- ListBox nav style for settings -->
-        <Style Selector="ListBox#PluginList > ListBoxItem">
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="0 4 0 4"/>
-            <Setter Property="Background" Value="#1A1C21"/>
-            <Setter Property="BorderBrush" Value="#252A31"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-        </Style>
-        <Style Selector="ListBox#PluginList > ListBoxItem:pointerover">
-            <Setter Property="Background" Value="#22262E"/>
-        </Style>
-        <Style Selector="ListBox#PluginList > ListBoxItem:selected">
-            <Setter Property="Background" Value="#2D323C"/>
-            <Setter Property="BorderBrush" Value="#2D7DFF"/>
         </Style>
     </Application.Styles>
 </Application>

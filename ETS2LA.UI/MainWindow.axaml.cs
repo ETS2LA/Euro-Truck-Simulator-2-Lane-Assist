@@ -66,6 +66,12 @@ public partial class MainWindow : AppWindow
         Close();
     }
 
+    private void TogglePane(object? sender, RoutedEventArgs e)
+    {
+        MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+        ContentBorder.CornerRadius = MainSplitView.IsPaneOpen ? new Avalonia.CornerRadius(12, 0, 0, 0) : new Avalonia.CornerRadius(0);
+    }
+
     private void ShowPage(PageKind page)
     {
         ContentHost.Content = page switch
@@ -109,9 +115,9 @@ public partial class MainWindow : AppWindow
     {
         foreach (var button in _navButtons)
         {
-            button.Classes.Remove("selected");
+            button.Classes.Remove("Selected");
         }
-        active.Classes.Add("selected");
+        active.Classes.Add("Selected");
     }
 
     private void OnDashboardClick(object? sender, RoutedEventArgs e)
