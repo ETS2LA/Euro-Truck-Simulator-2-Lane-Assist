@@ -1,135 +1,121 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
              x:Class="ETS2LA.UI.Views.DashboardView">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="14">
-            <!-- Hero -->
-            <Border Background="{DynamicResource CardBackgroundBrush}"
-                    BorderBrush="#1F252C"
-                    BorderThickness="1"
-                    CornerRadius="12"
-                    Padding="16 14">
-                <Grid ColumnDefinitions="3*,*,Auto" RowDefinitions="Auto,Auto,Auto">
-                    <StackPanel Orientation="Horizontal" Spacing="12" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">
-                        <Border Width="56" Height="56" CornerRadius="14" Background="#20242B" BorderBrush="#2F353F" BorderThickness="1">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Text="LA" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                <TextBlock Text="UI" FontSize="12" HorizontalAlignment="Center" Foreground="{DynamicResource TextMutedBrush}"/>
+            <UniformGrid Columns="2" ColumnSpacing="14">
+                <husk:Card>
+                    <StackPanel Spacing="14">
+                        <!-- Header -->
+                        <Grid ColumnDefinitions="*,Auto" Margin="8,8,8,0">
+                            <TextBlock Text="Welcome back, Tumppi066!" FontSize="18" FontWeight="SemiBold" />
+                        </Grid>
+                        <husk:Divider/>
+                        <!-- Content -->
+                        <WrapPanel ItemSpacing="16" Margin="8 0 0 8">
+                            <StackPanel Spacing="4">
+                                <husk:Tag>
+                                    <TextBlock Text="Current Release" FontSize="12" FontWeight="SemiBold"/>
+                                </husk:Tag>
+                                <TextBlock Text="v0.4.1" FontSize="13" FontWeight="SemiBold" Margin="6 0 0 0"/>
                             </StackPanel>
-                        </Border>
-                        <StackPanel Spacing="4" VerticalAlignment="Center">
-                            <TextBlock Text="Welcome back, atac_helicopter!" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Here is a quick snapshot of your system and community." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13.5"/>
-                        </StackPanel>
+                            <StackPanel Spacing="4">
+                                <husk:Tag>
+                                    <TextBlock Text="Users Online" FontSize="12" FontWeight="SemiBold"/>
+                                </husk:Tag>
+                                <TextBlock Text="112" FontSize="13" FontWeight="SemiBold" Margin="6 0 0 0"/>
+                            </StackPanel>
+                            <StackPanel Spacing="4">
+                                <husk:Tag>
+                                    <TextBlock Text="Users Over 24h" FontSize="12" FontWeight="SemiBold"/>
+                                </husk:Tag>
+                                <TextBlock Text="646" FontSize="13" FontWeight="SemiBold" Margin="6 0 0 0"/>
+                            </StackPanel>
+                        </WrapPanel>    
                     </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Spacing="18" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 12 0 0">
-                        <StackPanel Spacing="2">
-                            <TextBlock Text="Current release" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                            <TextBlock Text="v0.4.1 - 67bfe5ee9" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13.5"/>
-                        </StackPanel>
-                        <StackPanel Spacing="2">
-                            <TextBlock Text="Online" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                            <TextBlock Text="112 users" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13.5"/>
-                        </StackPanel>
-                        <StackPanel Spacing="2">
-                            <TextBlock Text="Past 24h" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                            <TextBlock Text="646 unique users" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13.5"/>
-                        </StackPanel>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-                        <Button Content="Open Wiki" Padding="16 10" Background="#2D7DFF" Foreground="White" BorderBrush="#2D7DFF" CornerRadius="10"/>
-                        <Button Content="View Roadmap" Padding="16 10" Background="#262B33" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="#2F353F" CornerRadius="10"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
-
-            <!-- Stats -->
-            <UniformGrid Columns="3">
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="#1F252C" BorderThickness="1" CornerRadius="12" Padding="14" Margin="0 0 10 0">
-                    <StackPanel Spacing="6">
-                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE9D2;" FontSize="16" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Sessions" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                        </StackPanel>
-                        <TextBlock Text="308 total - avg 1h13m" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13.5"/>
-                    </StackPanel>
-                </Border>
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="#1F252C" BorderThickness="1" CornerRadius="12" Padding="14" Margin="0 0 10 0">
-                    <StackPanel Spacing="6">
-                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE14F;" FontSize="16" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Uptime" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                        </StackPanel>
-                        <TextBlock Text="377h 55m total" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13.5"/>
-                    </StackPanel>
-                </Border>
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="#1F252C" BorderThickness="1" CornerRadius="12" Padding="14">
-                    <StackPanel Spacing="6">
-                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xEB52;" FontSize="16" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Stability" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                        </StackPanel>
-                        <TextBlock Text="0 crashes last 24h" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13.5"/>
-                    </StackPanel>
-                </Border>
+                </husk:Card>
+                <husk:Card>
+                    <Carousel Name="slides" >
+                        <Carousel.PageTransition >
+                            <CompositePageTransition>
+                                <PageSlide Duration="0:00:00.500" Orientation="Horizontal" />
+                            </CompositePageTransition>
+                        </Carousel.PageTransition>
+                        <Carousel.Items>
+                            <TextBlock Text="" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Carousel.Items>
+                    </Carousel>
+                </husk:Card>
             </UniformGrid>
 
-            <Grid ColumnDefinitions="2*,*,2*">
-                <!-- Support -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="#1F252C" BorderThickness="1" CornerRadius="12" Padding="16" Grid.Column="0" Margin="0 0 10 0">
-                    <StackPanel Spacing="12">
-                        <TextBlock Text="Support &amp; Updates" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <Button Content="Join Discord" Padding="14 10" Background="#262B33" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="#2F353F" CornerRadius="9"/>
-                            <Button Content="Open GitHub" Padding="14 10" Background="#262B33" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="#2F353F" CornerRadius="9"/>
-                            <Button Content="Ko-Fi" Padding="14 10" Background="#2D7DFF" Foreground="White" BorderBrush="#2D7DFF" CornerRadius="9"/>
+            <!-- Stats -->
+            <UniformGrid Columns="3" ColumnSpacing="14">
+                <husk:Card>
+                    <StackPanel Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE9D2;" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Sessions" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
-                        <TextBlock Text="Stay in sync with fixes and contribute translations or issues." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13.5"/>
+                        <TextBlock Text="308 total - avg 1h13m" Classes="Description" FontWeight="Medium" FontSize="13"/>
                     </StackPanel>
-                </Border>
+                </husk:Card>
+                <husk:Card>
+                    <StackPanel Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE14F;" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Uptime" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                        <TextBlock Text="377h 55m total" Classes="Description" FontWeight="Medium" FontSize="13"/>
+                    </StackPanel>
+                </husk:Card>
+                <husk:Card>
+                    <StackPanel Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xEB52;" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Stability" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                        <TextBlock Text="0 crashes last 24h" Classes="Description" FontWeight="Medium" FontSize="13"/>
+                    </StackPanel>
+                </husk:Card>
+            </UniformGrid>
+
+            <UniformGrid Columns="2" ColumnSpacing="14">
+                <!-- Support -->
+                <husk:Card>
+                    <UniformGrid Rows="2" RowSpacing="12">
+                        <StackPanel Spacing="4" VerticalAlignment="Top">
+                            <TextBlock Text="Support &amp; Updates" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="Follow development and get support. You can also donate to development via Ko-Fi." Classes="Description" FontWeight="Medium" FontSize="13"/>
+                        </StackPanel>
+                        <WrapPanel ItemSpacing="8" VerticalAlignment="Bottom">
+                            <Button Content="Join Discord" />
+                            <Button Content="Open GitHub" />
+                            <Button Content="Ko-Fi" Classes="Success" />
+                        </WrapPanel>
+                    </UniformGrid>
+                </husk:Card>
 
                 <!-- Quick utils -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="#1F252C" BorderThickness="1" CornerRadius="12" Padding="16" Grid.Column="2" Margin="10 0 0 0">
-                    <StackPanel Spacing="12">
-                        <TextBlock Text="Quick Utils" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
-                            <StackPanel Grid.Row="0" Grid.Column="0" Spacing="3" Margin="0 0 10 10">
-                                <TextBlock Text="Fix Wipers" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14.5"/>
-                                <TextBlock Text="If wipers are stuck, click and alt+tab to ETS2. They turn off in ~5s." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13"/>
+                <husk:Card>
+                    <UniformGrid Rows="2" RowSpacing="12">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="3">
+                                <TextBlock Text="Fix Wipers" FontWeight="SemiBold" FontSize="14"/>
+                                <TextBlock Text="If wipers are stuck, click and alt+tab to ETS2. They turn off in ~5s." Classes="Description" FontWeight="Medium" FontSize="13"/>
                             </StackPanel>
-                            <Button Grid.Row="0" Grid.Column="1" Content="Activate" Padding="14 8" Background="#262B33" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="#2F353F" CornerRadius="9" Margin="0 0 0 10"/>
-
-                            <StackPanel Grid.Row="1" Grid.Column="0" Spacing="3" Margin="0 0 10 0">
-                                <TextBlock Text="Force Update" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14.5"/>
-                                <TextBlock Text="Restart and check for updates if you think you missed one." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13"/>
-                            </StackPanel>
-                            <Button Grid.Row="1" Grid.Column="1" Content="Update" Padding="14 8" Background="#262B33" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="#2F353F" CornerRadius="9"/>
+                            <Button Grid.Column="1" Content="Activate" Width="84"/>
                         </Grid>
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-            <!-- Contributors -->
-            <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="#1F252C" BorderThickness="1" CornerRadius="12" Padding="16">
-                <StackPanel Spacing="12">
-                    <TextBlock Text="Contributors" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                    <Grid ColumnDefinitions="1*,1*">
-                        <StackPanel Spacing="4" Margin="0 0 14 0">
-                            <TextBlock Text="Account Name" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14.5"/>
-                            <TextBlock Text="Lead developer / backend and frontend" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13"/>
-                            <TextBlock Text="Github / Youtube / Ko-Fi" Foreground="{DynamicResource TextMutedBrush}" FontSize="12.5"/>
-                        </StackPanel>
-                        <StackPanel Spacing="4" Grid.Column="1">
-                            <TextBlock Text="Contributor Name" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14.5"/>
-                            <TextBlock Text="Navigation and traffic lights, ETS2LA Lite" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13"/>
-                            <TextBlock Text="Github / Community" Foreground="{DynamicResource TextMutedBrush}" FontSize="12.5"/>
-                        </StackPanel>
-                    </Grid>
-                    <TextBlock Text="More contributors will appear here when linked to real data." Foreground="{DynamicResource TextMutedBrush}" FontSize="12.5"/>
-                </StackPanel>
-            </Border>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Grid.Column="0" Spacing="3">
+                                <TextBlock Text="Force Update" FontWeight="SemiBold" FontSize="14"/>
+                                <TextBlock Text="Restart and check for updates if you think you missed one." Classes="Description" FontWeight="Medium" FontSize="13"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="Update" Width="84"/>
+                        </Grid>
+                    </UniformGrid>
+                </husk:Card>
+            </UniformGrid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

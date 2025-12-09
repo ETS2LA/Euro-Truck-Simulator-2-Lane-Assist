@@ -9,27 +9,9 @@
         <FontFamily x:Key="GeistMedium">avares://ETS2LA.UI/Assets/Fonts/Geist-Medium.ttf#Geist Medium</FontFamily>
         <FontFamily x:Key="GeistSemiBold">avares://ETS2LA.UI/Assets/Fonts/Geist-SemiBold.ttf#Geist SemiBold</FontFamily>
         <FontFamily x:Key="GeistBold">avares://ETS2LA.UI/Assets/Fonts/Geist-Bold.ttf#Geist Bold</FontFamily>
-        <!--
-        <Color x:Key="BaseBackground">#131316</Color>
-        <Color x:Key="PanelBackground">#18181b</Color>
-        <Color x:Key="CardBackground">#151518</Color>
-        <Color x:Key="BorderColor">#2e2e2e</Color>
-        <Color x:Key="Accent">#3D4046</Color>
-        <Color x:Key="AccentStrong">#2D7DFF</Color>
-        <Color x:Key="TextPrimary">#ECEDEE</Color>
-        <Color x:Key="TextSecondary">#C4C7CC</Color>
-        <Color x:Key="TextMuted">#8A8F99</Color>
-
-        <SolidColorBrush x:Key="BaseBackgroundBrush" Color="{DynamicResource BaseBackground}"/>
-        <SolidColorBrush x:Key="PanelBackgroundBrush" Color="{DynamicResource PanelBackground}"/>
-        <SolidColorBrush x:Key="CardBackgroundBrush" Color="{DynamicResource CardBackground}"/>
-        <SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource BorderColor}"/>
-        <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource Accent}"/>
-        <SolidColorBrush x:Key="AccentStrongBrush" Color="{DynamicResource AccentStrong}"/>
-        <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource TextPrimary}"/>
-        <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource TextSecondary}"/>
-        <SolidColorBrush x:Key="TextMutedBrush" Color="{DynamicResource TextMuted}"/>
-        -->
+        
+        <!-- Adding to the brushes given by husk -->
+        <SolidColorBrush x:Key="ControlSecondaryLightForegroundBrush" Color="{DynamicResource Gray11Color}" />
     </Application.Resources>
 
     <Application.Styles>
@@ -42,8 +24,11 @@
         </Style>
 
         <!-- TextBlocks -->
+        <Style Selector="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
         <Style Selector="TextBlock.Description">
-            <Setter Property="Foreground" Value="{StaticResource ControlSecondaryForegroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource ControlSecondaryLightForegroundBrush}"/>
         </Style>
 
         <!-- Sidebar Buttons -->
