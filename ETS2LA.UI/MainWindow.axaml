@@ -118,8 +118,8 @@
 
                 <!-- Content -->
                 <husk:Card CornerRadius="12 0 0 0"
-                           Padding="20"
                            BorderThickness="1"
+                           Padding="0"
                            Name="ContentBorder">
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                         <ContentControl x:Name="ContentHost"/>

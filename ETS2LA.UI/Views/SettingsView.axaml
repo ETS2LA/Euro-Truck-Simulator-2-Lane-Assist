@@ -12,74 +12,76 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid ColumnDefinitions="240,*">
-        <Border Background="{DynamicResource PanelBackgroundBrush}"
-                BorderBrush="#1F252C"
-                BorderThickness="1"
-                CornerRadius="12"
-                Padding="12"
-                Margin="0 0 12 0">
-            <StackPanel Spacing="14">
-                <TextBlock Text="Settings"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+    <Border Padding="20">
+        <Grid ColumnDefinitions="240,*">
+            <Border Background="{DynamicResource PanelBackgroundBrush}"
+                    BorderBrush="#1F252C"
+                    BorderThickness="1"
+                    CornerRadius="12"
+                    Padding="12"
+                    Margin="0 0 12 0">
+                <StackPanel Spacing="14">
+                    <TextBlock Text="Settings"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource TextPrimaryBrush}"/>
 
-                <StackPanel Spacing="10">
-                    <TextBlock Text="General" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
-                    <Border Background="#1A1C21" CornerRadius="10" Padding="10" BorderBrush="#252A31" BorderThickness="1">
-                        <TextBlock Text="App settings coming soon" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                    </Border>
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="General" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
+                        <Border Background="#1A1C21" CornerRadius="10" Padding="10" BorderBrush="#252A31" BorderThickness="1">
+                            <TextBlock Text="App settings coming soon" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="SDK" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
+                        <Border Background="#1A1C21" CornerRadius="10" Padding="10" BorderBrush="#252A31" BorderThickness="1">
+                            <TextBlock Text="SDK settings coming soon" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Plugins" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
+                        <ListBox x:Name="PluginList"
+                                ItemTemplate="{StaticResource PluginPageTemplate}"
+                                ItemsSource="{Binding Pages}"
+                                SelectionChanged="OnSelectionChanged">
+                            <ListBox.Styles>
+                                <Style Selector="ListBoxItem">
+                                    <Setter Property="Padding" Value="10"/>
+                                    <Setter Property="Margin" Value="0 4 0 4"/>
+                                    <Setter Property="Background" Value="#1A1C21"/>
+                                    <Setter Property="BorderBrush" Value="#252A31"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                    <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+                                </Style>
+                                <Style Selector="ListBoxItem:pointerover">
+                                    <Setter Property="Background" Value="#22262E"/>
+                                </Style>
+                                <Style Selector="ListBoxItem:selected">
+                                    <Setter Property="Background" Value="#2D323C"/>
+                                    <Setter Property="BorderBrush" Value="#2D7DFF"/>
+                                </Style>
+                            </ListBox.Styles>
+                        </ListBox>
+                        <Border x:Name="PluginPlaceholder" IsVisible="False">
+                            <TextBlock Text="Enable a plugin with settings to see it here."
+                                    Foreground="{DynamicResource TextMutedBrush}"
+                                    FontSize="12"/>
+                        </Border>
+                    </StackPanel>
                 </StackPanel>
+            </Border>
 
-                <StackPanel Spacing="10">
-                    <TextBlock Text="SDK" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
-                    <Border Background="#1A1C21" CornerRadius="10" Padding="10" BorderBrush="#252A31" BorderThickness="1">
-                        <TextBlock Text="SDK settings coming soon" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                    </Border>
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Plugins" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
-                    <ListBox x:Name="PluginList"
-                             ItemTemplate="{StaticResource PluginPageTemplate}"
-                             ItemsSource="{Binding Pages}"
-                             SelectionChanged="OnSelectionChanged">
-                        <ListBox.Styles>
-                            <Style Selector="ListBoxItem">
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="Margin" Value="0 4 0 4"/>
-                                <Setter Property="Background" Value="#1A1C21"/>
-                                <Setter Property="BorderBrush" Value="#252A31"/>
-                                <Setter Property="BorderThickness" Value="1"/>
-                                <Setter Property="CornerRadius" Value="10"/>
-                                <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-                            </Style>
-                            <Style Selector="ListBoxItem:pointerover">
-                                <Setter Property="Background" Value="#22262E"/>
-                            </Style>
-                            <Style Selector="ListBoxItem:selected">
-                                <Setter Property="Background" Value="#2D323C"/>
-                                <Setter Property="BorderBrush" Value="#2D7DFF"/>
-                            </Style>
-                        </ListBox.Styles>
-                    </ListBox>
-                    <Border x:Name="PluginPlaceholder" IsVisible="False">
-                        <TextBlock Text="Enable a plugin with settings to see it here."
-                                   Foreground="{DynamicResource TextMutedBrush}"
-                                   FontSize="12"/>
-                    </Border>
-                </StackPanel>
-            </StackPanel>
-        </Border>
-
-        <Border Grid.Column="1"
-                Background="{DynamicResource CardBackgroundBrush}"
-                BorderBrush="#1F252C"
-                BorderThickness="1"
-                CornerRadius="10"
-                Padding="10">
-            <ContentControl x:Name="ContentHost"/>
-        </Border>
-    </Grid>
+            <Border Grid.Column="1"
+                    Background="{DynamicResource CardBackgroundBrush}"
+                    BorderBrush="#1F252C"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="10">
+                <ContentControl x:Name="ContentHost"/>
+            </Border>
+        </Grid>
+    </Border>
 </UserControl>

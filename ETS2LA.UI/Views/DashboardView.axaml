@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
              x:Class="ETS2LA.UI.Views.DashboardView">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
         <StackPanel Spacing="14">
             <UniformGrid Columns="2" ColumnSpacing="14">
                 <husk:Card Padding="16">

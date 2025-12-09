@@ -25,6 +25,7 @@ public partial class MainWindow : AppWindow
     private readonly List<Button> _navButtons = new();
     private readonly PluginManagerService _pluginService = new();
     private readonly DashboardView _dashboardView = new();
+    private readonly VisualizationView _visualizationView = new();
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
 
@@ -35,6 +36,7 @@ public partial class MainWindow : AppWindow
         InitializeComponent();
         _managerView = new ManagerView(_pluginService);
         _settingsView = new SettingsView(_pluginService);
+        _visualizationView = new VisualizationView(_pluginService);
         _navButtons.AddRange(new[]
         {
             DashboardButton, VisualizationButton, ManagerButton, CatalogueButton,
@@ -78,7 +80,7 @@ public partial class MainWindow : AppWindow
         {
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
-            PageKind.Visualization => CreatePlaceholder("Visualization", "Charts, map overlays, and telemetry visuals will live here."),
+            PageKind.Visualization => _visualizationView,
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
             PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),
             PageKind.Wiki => CreatePlaceholder("Wiki", "Link or embed documentation content."),
@@ -97,15 +99,18 @@ public partial class MainWindow : AppWindow
 
     private Control CreatePlaceholder(string title, string body)
     {
-        return new ScrollViewer
-        {
-            Content = new StackPanel
+        return new Border {
+            Padding = new Avalonia.Thickness(20),
+            Child = new ScrollViewer
             {
-                Spacing = 8,
-                Children =
+                Content = new StackPanel
                 {
-                    new TextBlock { Text = title, FontSize = 18, FontWeight = Avalonia.Media.FontWeight.SemiBold, Foreground = this.FindResource("TextPrimaryBrush") as Avalonia.Media.IBrush },
-                    new TextBlock { Text = body, Foreground = this.FindResource("TextSecondaryBrush") as Avalonia.Media.IBrush, TextWrapping = Avalonia.Media.TextWrapping.Wrap }
+                    Spacing = 8,
+                    Children =
+                    {
+                        new TextBlock { Text = title, FontSize = 18, FontWeight = Avalonia.Media.FontWeight.SemiBold },
+                        new TextBlock { Text = body, TextWrapping = Avalonia.Media.TextWrapping.Wrap }
+                    }
                 }
             }
         };

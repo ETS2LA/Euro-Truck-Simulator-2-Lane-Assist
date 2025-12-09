@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+             xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
+             x:Class="ETS2LA.UI.Views.VisualizationView">
+    <Grid ColumnDefinitions="*,2,*">
+        <Border Grid.Column="0" BorderBrush="{StaticResource ControlBorderBrush}">
+            <webview:WebView Name="VisualizationWebView" Focusable="True" Address="https://visualization.ets2la.com" />
+        </Border>
+        <GridSplitter Grid.Column="1" Background="Transparent" ResizeDirection="Columns" />
+        <Border Grid.Column="2" BorderBrush="{StaticResource ControlBorderBrush}">
+            <webview:WebView Name="MapWebView" Focusable="True" Address="https://map.ets2la.com" />
+        </Border>
+    </Grid>
+</UserControl>

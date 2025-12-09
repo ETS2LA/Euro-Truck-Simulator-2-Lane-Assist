@@ -18,7 +18,7 @@
         </Style>
         </UserControl.Styles>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
         <StackPanel Spacing="14">
             <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                 <StackPanel Spacing="6">
