@@ -5,15 +5,15 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Spacing="14">
             <UniformGrid Columns="2" ColumnSpacing="14">
-                <husk:Card>
+                <husk:Card Padding="16">
                     <StackPanel Spacing="14">
-                        <!-- Header -->
-                        <Grid ColumnDefinitions="*,Auto" Margin="8,8,8,0">
+                        <Grid ColumnDefinitions="*,Auto">
                             <TextBlock Text="Welcome back, Tumppi066!" FontSize="18" FontWeight="SemiBold" />
                         </Grid>
+
                         <husk:Divider/>
-                        <!-- Content -->
-                        <WrapPanel ItemSpacing="16" Margin="8 0 0 8">
+
+                        <WrapPanel ItemSpacing="16">
                             <StackPanel Spacing="4">
                                 <husk:Tag>
                                     <TextBlock Text="Current Release" FontSize="12" FontWeight="SemiBold"/>
@@ -83,37 +83,37 @@
             <UniformGrid Columns="2" ColumnSpacing="14">
                 <!-- Support -->
                 <husk:Card>
-                    <UniformGrid Rows="2" RowSpacing="12">
-                        <StackPanel Spacing="4" VerticalAlignment="Top">
+                    <Grid RowDefinitions="Auto,*" RowSpacing="16">
+                        <StackPanel Grid.Row="0" Spacing="4" VerticalAlignment="Top">
                             <TextBlock Text="Support &amp; Updates" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Follow development and get support. You can also donate to development via Ko-Fi." Classes="Description" FontWeight="Medium" FontSize="13"/>
+                            <TextBlock Text="Follow development and get support. You can also donate to development via Ko-Fi, any kind of support is much appreciated!" Classes="Description" FontWeight="Medium" FontSize="13"/>
                         </StackPanel>
-                        <WrapPanel ItemSpacing="8" VerticalAlignment="Bottom">
+                        <WrapPanel Grid.Row="1" ItemSpacing="8" VerticalAlignment="Bottom">
                             <Button Content="Join Discord" />
                             <Button Content="Open GitHub" />
                             <Button Content="Ko-Fi" Classes="Success" />
                         </WrapPanel>
-                    </UniformGrid>
+                    </Grid>
                 </husk:Card>
 
                 <!-- Quick utils -->
                 <husk:Card>
-                    <UniformGrid Rows="2" RowSpacing="12">
-                        <Grid ColumnDefinitions="*,Auto">
+                    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="12">
+                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
                             <StackPanel Grid.Column="0" Spacing="3">
                                 <TextBlock Text="Fix Wipers" FontWeight="SemiBold" FontSize="14"/>
                                 <TextBlock Text="If wipers are stuck, click and alt+tab to ETS2. They turn off in ~5s." Classes="Description" FontWeight="Medium" FontSize="13"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Content="Activate" Width="84"/>
+                            <Button Grid.Column="1" Content="Activate" VerticalAlignment="Center" Height="36" Width="84"/>
                         </Grid>
-                        <Grid ColumnDefinitions="*,Auto">
+                        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
                             <StackPanel Grid.Column="0" Spacing="3">
                                 <TextBlock Text="Force Update" FontWeight="SemiBold" FontSize="14"/>
                                 <TextBlock Text="Restart and check for updates if you think you missed one." Classes="Description" FontWeight="Medium" FontSize="13"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Content="Update" Width="84"/>
+                            <Button Grid.Column="1" Content="Update" VerticalAlignment="Center" Height="36" Width="84"/>
                         </Grid>
-                    </UniformGrid>
+                    </Grid>
                 </husk:Card>
             </UniformGrid>
         </StackPanel>

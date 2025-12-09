@@ -36,82 +36,84 @@
                        PaneBackground="Transparent">
                 <!-- Sidebar -->
                 <SplitView.Pane>
-                    <Border Grid.Column="0"
-                            Padding="0 16 4 12"
-                            Margin="0 0 0 0">
-                        <Grid RowDefinitions="Auto,*,Auto">
-                            <StackPanel Grid.Row="1" Spacing="14" Margin="6 0 6 0">
-                                <StackPanel Spacing="0">
-                                    <TextBlock Text="Main" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description"/>
-                                    <Button x:Name="DashboardButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnDashboardClick">
+                    <ScrollViewer>
+                        <Border Grid.Column="0"
+                                Padding="0 16 4 12"
+                                Margin="0 0 0 0">
+                            <Grid RowDefinitions="Auto,*">
+                                <StackPanel Grid.Row="0" Spacing="14" Margin="6 0 6 0">
+                                    <StackPanel Spacing="0">
+                                        <TextBlock Text="Main" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <Button x:Name="DashboardButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnDashboardClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE80F;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Dashboard" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="VisualizationButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnVisualizationClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE21C;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Visualization" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <StackPanel Spacing="0">
+                                        <TextBlock Text="Plugins" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <Button x:Name="ManagerButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnManagerClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE14C;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Manager" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="CatalogueButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnCatalogueClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE179;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Catalogue" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="PerformanceButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnPerformanceClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE9D9;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Performance" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <StackPanel Spacing="0">
+                                        <TextBlock Text="Help" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <Button x:Name="WikiButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnWikiClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xEC17;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Wiki" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="RoadmapButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnRoadmapClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE1C4;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Roadmap" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="FeedbackButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnFeedbackClick">
+                                            <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
+                                                <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE939;" FontSize="14" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="Feedback" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1" Spacing="12" Margin="6 0 6 0" VerticalAlignment="Bottom">
+                                    <Button x:Name="SettingsButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnSettingsClick">
                                         <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE80F;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Dashboard" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                    <Button x:Name="VisualizationButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnVisualizationClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE21C;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Visualization" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
+                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE713;" FontSize="14" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="Settings" FontSize="14" Margin="0 0 0 2" FontWeight="600" TextWrapping="NoWrap" />
                                         </Grid>
                                     </Button>
                                 </StackPanel>
-
-                                <StackPanel Spacing="0">
-                                    <TextBlock Text="Plugins" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description"/>
-                                    <Button x:Name="ManagerButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnManagerClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE14C;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Manager" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                    <Button x:Name="CatalogueButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnCatalogueClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE179;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Catalogue" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                    <Button x:Name="PerformanceButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnPerformanceClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE9D9;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Performance" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                </StackPanel>
-
-                                <StackPanel Spacing="0">
-                                    <TextBlock Text="Help" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description"/>
-                                    <Button x:Name="WikiButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnWikiClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xEC17;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Wiki" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                    <Button x:Name="RoadmapButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnRoadmapClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE1C4;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Roadmap" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                    <Button x:Name="FeedbackButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnFeedbackClick">
-                                        <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                            <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE939;" FontSize="14" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="Feedback" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                        </Grid>
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="2" Spacing="12" Margin="6 0 6 0">
-                                <Button x:Name="SettingsButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnSettingsClick">
-                                    <Grid ColumnDefinitions="22,*,Auto" VerticalAlignment="Center">
-                                        <TextBlock Grid.Column="0" FontFamily="Segoe Fluent Icons" Text="&#xE713;" FontSize="14" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="1" Text="Settings" FontSize="14" Margin="0 0 0 2" FontWeight="600" />
-                                    </Grid>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                            </Grid>
+                        </Border>
+                    </ScrollViewer>
                 </SplitView.Pane>
 
                 <!-- Content -->
