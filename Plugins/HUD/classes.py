@@ -84,12 +84,16 @@ class ElementRunner:
                 try:
                     self.element.draw()
                 except Exception:
+                    import traceback
+                    traceback.print_exc()
                     self.data = []
 
             elif isinstance(self.element, HUDWidget):
                 try:
                     self.element.draw(self.offset_x, self.width, self.height)
                 except Exception:
+                    import traceback
+                    traceback.print_exc()
                     self.data = []
 
             self.data = self.element.data

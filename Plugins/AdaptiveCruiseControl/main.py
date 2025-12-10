@@ -610,7 +610,19 @@ class Plugin(ETS2LAPlugin):
 
         if closest_vehicle is None:
             return None
-
+        
+        front_left, front_right, back_right, back_left = closest_vehicle.get_corners(
+            correction_multiplier=-1 if closest_vehicle.is_trailer and not closest_vehicle.is_tmp else 1
+        )
+        
+        closest_distance = 999
+        for point in [front_left, front_right, back_right, back_left]:
+            dist = self.get_distance_to_point(
+                [truck_x, truck_y], [point.x, point.z]
+            ) - 10  # 10m buffer
+            if dist < closest_distance:
+                closest_distance = dist
+ 
         time_to_vehicle = (
             closest_distance + (closest_vehicle.speed - self.speed)
         ) / self.speed
