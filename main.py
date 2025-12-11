@@ -147,7 +147,7 @@ def get_fastest_mirror() -> str:
         print(_("Testing mirrors..."))
         response_times = {}
         for mirror in variables.FRONTEND_MIRRORS:
-            if ".cn" in mirror and "zh_CN" not in locale.getlocale()[0]:
+            if ".cn" in mirror and "Chinese" not in locale.getlocale()[0]:
                 continue
             
             try:
