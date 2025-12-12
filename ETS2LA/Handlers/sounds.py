@@ -1,7 +1,9 @@
 # TODO: This file is garbage. Rewrite it completely.
 from ETS2LA.Utils.packages import DownloadLibrary
 from ETS2LA.Utils.translator import _
+import threading
 import logging
+import time
 import sys
 import os
 
@@ -104,8 +106,7 @@ def GetFilenameForSound(sound: str):
     )
     return None
 
-
-def play_audio(filename, volume=0.5):
+def play_audio(filename, volume=0.5, blocking=False):
     """Plays an audio file with volume control using sounddevice.
 
     :param filename: Path to the audio file
@@ -125,8 +126,67 @@ def play_audio(filename, volume=0.5):
 
     samples /= np.iinfo(np.int16).max  # normalize -1 - 1
     samples *= volume
-    sd.play(samples, samplerate=audio.frame_rate, blocking=False)
+    sd.play(samples, samplerate=audio.frame_rate, blocking=blocking)
 
+stop = False
+is_playing = False
+def continuous_play_audio(filename, volume=0.5):
+    """Continuously plays an audio file in a separate thread.
+
+    :param filename: Path to the audio file
+    :param volume: Volume level (0.0 to 1.0)
+    """
+    global stop, is_playing
+    
+    def play_loop():
+        global is_playing, stop
+        is_playing = True
+        
+        if not (0.0 <= volume <= 1.0):
+            raise ValueError("Volume must be between 0.0 and 1.0")
+
+        audio = AudioSegment.from_file(filename)
+        samples = np.array(audio.get_array_of_samples(), dtype=np.float32)
+
+        # Stereo handling
+        if audio.channels == 2:
+            samples = samples.reshape((-1, 2))  # Stereo
+        else:
+            samples = samples.reshape((-1, 1))  # Mono (force 2D)
+
+        samples /= np.iinfo(np.int16).max  # normalize -1 - 1
+        samples *= volume
+        
+        sd.play(samples, samplerate=audio.frame_rate, blocking=False, loop=True)
+        while not stop:
+            time.sleep(0.1)
+        
+        sd.stop()    
+        is_playing = False
+
+    stop = False
+    thread = threading.Thread(target=play_loop, daemon=True)
+    thread.start()
+
+def StartContinuous(sound: str):
+    filename = GetFilenameForSound(sound)
+    if filename is None:
+        return False
+
+    try:
+        if is_playing:
+            return True
+        
+        continuous_play_audio(filename, VOLUME)  # type: ignore
+    except Exception:
+        return False
+
+    return True
+
+def StopContinuous():
+    global stop
+    stop = True
+    return True
 
 def Play(sound: str):
     filename = GetFilenameForSound(sound)

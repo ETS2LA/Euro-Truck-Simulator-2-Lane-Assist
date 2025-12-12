@@ -2,6 +2,7 @@
 from ETS2LA.Events import events
 from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
 from ETS2LA.Utils.translator import _
+import ETS2LA.Handlers.sounds as sounds
 
 # Local imports
 from Plugins.AdaptiveCruiseControl.controls import enable_disable, increment, decrement
@@ -236,9 +237,11 @@ class Plugin(ETS2LAPlugin):
         self.add_ar_text(f" - Following Accel: {following_accel:.2f} m/s²")
 
         if following_accel < -5.0:
+            sounds.StartContinuous("warning")
             self.tags.AEB = True
             self.add_ar_text(" - AEB!")
         else:
+            sounds.StopContinuous()
             self.tags.AEB = False
 
         return following_accel
@@ -610,7 +613,19 @@ class Plugin(ETS2LAPlugin):
 
         if closest_vehicle is None:
             return None
-
+        
+        front_left, front_right, back_right, back_left = closest_vehicle.get_corners(
+            correction_multiplier=-1 if closest_vehicle.is_trailer and not closest_vehicle.is_tmp else 1
+        )
+        
+        closest_distance = 999
+        for point in [front_left, front_right, back_right, back_left]:
+            dist = self.get_distance_to_point(
+                [truck_x, truck_y], [point.x, point.z]
+            ) - 10  # 10m buffer
+            if dist < closest_distance:
+                closest_distance = dist
+ 
         time_to_vehicle = (
             closest_distance + (closest_vehicle.speed - self.speed)
         ) / self.speed
@@ -904,7 +919,7 @@ class Plugin(ETS2LAPlugin):
 
                 if forward_distance > 0:
                     # Lateral distance (for filtering out gates too far to the side)
-                    lateral_distance = (
+                    lateral_distance = ( 
                         abs(total_distance**2 - forward_distance**2) ** 0.5
                     )
                     if lateral_distance < 11:  # 2 * 4.5m lanes + 2m margin
@@ -957,6 +972,7 @@ class Plugin(ETS2LAPlugin):
         return target_speed
 
     def reset(self) -> None:
+        sounds.StopContinuous() 
         self.controller.aforward = float(0)
         self.controller.abackward = float(0)
 

@@ -3,6 +3,7 @@ from Modules.Traffic.classes import Vehicle
 from Plugins.HUD.classes import HUDRenderer
 from ETS2LA.Utils.translator import _
 
+render_all = False
 
 class Renderer(HUDRenderer):
     name = _("ACC Information")
@@ -15,7 +16,7 @@ class Renderer(HUDRenderer):
     def settings(self):
         return super().settings()
 
-    def render_vehicle(self, vehicle: Vehicle):
+    def render_vehicle(self, vehicle: Vehicle, is_trailer: bool = False):
         truck_x = self.plugin.data["truckPlacement"]["coordinateX"]
         truck_y = self.plugin.data["truckPlacement"]["coordinateY"]
         truck_z = self.plugin.data["truckPlacement"]["coordinateZ"]
@@ -28,7 +29,7 @@ class Renderer(HUDRenderer):
 
         # Line under the vehicle
         front_left, front_right, back_right, back_left = vehicle.get_corners(
-            correction_multiplier=-1
+            correction_multiplier=-1 if is_trailer and not vehicle.is_tmp else 1
         )
         distance = Coordinate(*front_left.tuple()).get_distance_to(
             truck_x, truck_y, truck_z
@@ -82,7 +83,7 @@ class Renderer(HUDRenderer):
         relative_center_front = self.plugin.get_relative_to_head(
             Coordinate(*center_front)
         )
-
+        
         distance_unit = "m" if game == "ETS2" else "ft"
         distance = (
             round(distance, 1) if distance_unit == "m" else round(distance * 3.28084, 1)
@@ -99,10 +100,10 @@ class Renderer(HUDRenderer):
         return_data = [
             Polygon(
                 [
-                    relative_front_left,
-                    relative_front_right,
-                    relative_back_right,
-                    relative_back_left,
+                    Coordinate(*front_left.tuple()) if render_all else relative_front_left,
+                    Coordinate(*front_right.tuple()) if render_all else relative_front_right,
+                    Coordinate(*back_right.tuple()) if render_all else relative_back_right,
+                    Coordinate(*back_left.tuple()) if render_all else relative_back_left,
                 ],
                 color=Color(*color, 120 * alpha),
                 fill=Color(*color, 80 * alpha),
@@ -118,17 +119,20 @@ class Renderer(HUDRenderer):
         angle = vehicle.rotation.euler()[1]
         rotationX = self.plugin.data["truckPlacement"]["rotationX"]
         truck_angle = rotationX * 360 - 360
+        if not vehicle.is_tmp:
+            angle -= 180
+            
         diff = truck_angle - angle
 
         closest_face = None
         if diff < 45 and diff > -45:
-            closest_face = relative_center_back
+            closest_face = Coordinate(*center_back) if render_all else relative_center_back
         elif diff >= 45 and diff < 135:
-            closest_face = relative_center_right
+            closest_face = Coordinate(*center_right) if render_all else relative_center_right
         elif diff <= -45 and diff > -135:
-            closest_face = relative_center_left
+            closest_face = Coordinate(*center_left) if render_all else relative_center_left
         else:
-            closest_face = relative_center_front
+            closest_face = Coordinate(*center_front) if render_all else relative_center_front
 
         # Rectangle and text under the vehicle
         return_data += [
@@ -187,10 +191,15 @@ class Renderer(HUDRenderer):
             for value in targets.values():
                 if value:
                     target_ids.extend(value)
+        else:
+            targets = []
 
         if not target_ids:
-            self.data = []
-            return
+            if not render_all:
+                self.data = []
+                return
+            else:
+                target_ids = []
 
         vehicles = self.plugin.modules.Traffic.run()
         if vehicles is None:
@@ -203,29 +212,33 @@ class Renderer(HUDRenderer):
                     highlighted_vehicles.append(vehicle)
 
         if not highlighted_vehicles:
-            self.data = []
-            return
+            if not render_all:
+                self.data = []
+                return
 
         data = []
-        for vehicle in highlighted_vehicles:
-            if not isinstance(vehicle, Vehicle):
+        for vehicle in vehicles if render_all else highlighted_vehicles:
+            if not isinstance(vehicle, Vehicle): 
                 continue
 
             if vehicle.trailers:
-                trailer = vehicle.trailers[-1]
-                fake_vehicle = Vehicle(
-                    trailer.position,
-                    trailer.rotation,
-                    trailer.size,
-                    vehicle.speed,
-                    vehicle.acceleration,
-                    0,
-                    [],
-                    vehicle.id,
-                    vehicle.is_tmp,
-                    True,
-                )
-                data.extend(self.render_vehicle(fake_vehicle))
+                for trailer in vehicle.trailers if render_all else [vehicle.trailers[0]]:
+                    fake_vehicle = Vehicle(
+                        trailer.position,
+                        trailer.rotation,
+                        trailer.size,
+                        vehicle.speed,
+                        vehicle.acceleration,
+                        0,
+                        [],
+                        vehicle.id,
+                        vehicle.is_tmp,
+                        True,
+                    )
+                    data.extend(self.render_vehicle(fake_vehicle, is_trailer=True))
+                    
+                if render_all:
+                    data.extend(self.render_vehicle(vehicle))
             else:
                 data.extend(self.render_vehicle(vehicle))
 

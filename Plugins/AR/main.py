@@ -1,31 +1,31 @@
-from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
+import logging
+
+from ETS2LA.Plugin import Author, ETS2LAPlugin, PluginDescription
 from ETS2LA.UI import (
+    CheckboxWithTitleDescription,
     ETS2LAPage,
     ETS2LAPageLocation,
-    styles,
-    TitleAndDescription,
-    Tabs,
     Tab,
-    CheckboxWithTitleDescription,
+    Tabs,
+    TitleAndDescription,
+    styles,
 )
-
-from ETS2LA.Utils.Values.numbers import SmoothedValue
-from Plugins.AR.settings import settings
 from ETS2LA.Utils.translator import _
+from ETS2LA.Utils.Values.numbers import SmoothedValue
 from Plugins.AR.classes import (
-    Point,
-    Rectangle,
-    Line,
-    Polygon,
+    Bezier,
     Circle,
     Color,
-    Text,
     Coordinate,
-    Bezier,
     Fade,
+    Line,
+    Point,
+    Polygon,
+    Rectangle,
+    Text,
     get_object_from_dict,
 )
-import logging
+from Plugins.AR.settings import settings
 
 PURPLE = "\033[95m"
 NORMAL = "\033[0m"
@@ -115,10 +115,10 @@ def Resize():
 
 def CalculateAlpha(
     distances,
-    fade_end=10,
-    fade_start=30,
-    max_fade_start=150,
-    max_fade_end=170,
+    fade_end=10.0,
+    fade_start=30.0,
+    max_fade_start=150.0,
+    max_fade_end=170.0,
     verbose=False,
 ):
     if not distances:
@@ -127,17 +127,19 @@ def CalculateAlpha(
     # Calculate the average distance
     avg_distance = sum(distances) / len(distances)
 
-    # Determine the alpha value based on the average distance
+    # Alpha calculation with linear interpolation
     if avg_distance < fade_end:
         return 0
-    elif fade_end <= avg_distance < fade_start:
-        return 255 * (avg_distance - fade_end) / (fade_start - fade_end)
-    elif fade_start <= avg_distance < max_fade_start:
-        return 255
-    elif max_fade_start <= avg_distance < max_fade_end:
-        return 255 * (max_fade_end - avg_distance) / (max_fade_end - max_fade_start)
-    else:
+    elif avg_distance >= max_fade_end:
         return 0
+    elif avg_distance <= fade_start:
+        return int(255 * (avg_distance - fade_end) / (fade_start - fade_end))
+    elif avg_distance <= max_fade_start:
+        return 255
+    else:
+        return int(
+            255 * (max_fade_end - avg_distance) / (max_fade_end - max_fade_start)
+        )
 
 
 def ConvertToScreenCoordinate(
@@ -378,18 +380,18 @@ class Plugin(ETS2LAPlugin):
             time, \
             ttext
 
-        from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
-        import Modules.BetterScreenCapture.main as ScreenCapture
-        import ETS2LA.variables as variables
-
-        import dearpygui.dearpygui as dpg
-        import Plugins.AR.text as ttext
-
-        import win32con
-        import win32gui
         import ctypes
         import math
         import time
+
+        import dearpygui.dearpygui as dpg
+        import win32con
+        import win32gui
+
+        import ETS2LA.variables as variables
+        import Modules.BetterScreenCapture.main as ScreenCapture
+        import Plugins.AR.text as ttext
+        from Modules.TruckSimAPI.main import scsTelemetry as SCSTelemetry
 
         global LastWindowPosition
         global TruckSimAPI
@@ -416,6 +418,8 @@ class Plugin(ETS2LAPlugin):
         self.last_loop_frametime = 0
         self.last_loop_frametime_smoothed = SmoothedValue("time", 1)
         self.item_count = 0
+        self.culled_items = 0
+        self.total_processed_items = 0
 
     def Render(self, items=None):
         global FRAME
@@ -430,30 +434,20 @@ class Plugin(ETS2LAPlugin):
         except Exception:
             pass
 
-        distances = []
-        discard = []
+        valid_items_with_distances = []
         for item in items:
             if item is None:
                 continue
 
             distance = item.get_distance(HeadX, HeadY, HeadZ)
             if distance < 1000:
-                distances.append(item.get_distance(HeadX, HeadY, HeadZ))
-            else:
-                discard.append(item)
+                valid_items_with_distances.append((distance, item))
 
-        for item in discard:
-            items.remove(item)
-
-        sorted_items = [
-            item
-            for _, item in sorted(
-                zip(distances, items, strict=False),
-                key=lambda pair: pair[0],
-                reverse=True,
-            )
-        ]
+        valid_items_with_distances.sort(key=lambda x: x[0], reverse=True)
+        sorted_items = [item for _, item in valid_items_with_distances]
         draw_calls = 0
+        self.culled_items = 0
+        self.total_processed_items = len(sorted_items)
 
         with dpg.viewport_drawlist(label="draw") as FRAME:
             dpg.bind_font(regular_font)
@@ -465,6 +459,13 @@ class Plugin(ETS2LAPlugin):
                         screen_end = points[1].screen(self)
 
                         if screen_start is None or screen_end is None:
+                            continue
+
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
                             continue
 
                         if isinstance(points[0], Coordinate):
@@ -511,6 +512,13 @@ class Plugin(ETS2LAPlugin):
                         if screen_start is None or screen_end is None:
                             continue
 
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
+                            continue
+
                         if isinstance(points[0], Coordinate):
                             alpha = CalculateAlpha(
                                 [screen_start[2], screen_end[2]],
@@ -536,6 +544,13 @@ class Plugin(ETS2LAPlugin):
                         screen_points = [point.screen(self) for point in item.points]
 
                         if None in screen_points:
+                            continue
+
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
                             continue
 
                         if isinstance(points[0], Coordinate):
@@ -566,6 +581,13 @@ class Plugin(ETS2LAPlugin):
                         if screen_center is None:
                             continue
 
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
+                            continue
+
                         if isinstance(center, Coordinate):
                             alpha = CalculateAlpha(
                                 [screen_center[2]],
@@ -592,6 +614,13 @@ class Plugin(ETS2LAPlugin):
                         position = item.point
                         screen_position = position.screen(self)
                         if screen_position is None:
+                            continue
+
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
                             continue
 
                         if isinstance(position, Coordinate):
@@ -630,6 +659,13 @@ class Plugin(ETS2LAPlugin):
                         draw_calls += 1
 
                     elif isinstance(item, Bezier):
+                        viewport_width = WindowPosition[2] - WindowPosition[0]
+                        viewport_height = WindowPosition[3] - WindowPosition[1]
+
+                        if not item.in_viewport(viewport_width, viewport_height, self):
+                            self.culled_items += 1
+                            continue
+
                         p1 = item.p1.tuple()
                         p2 = item.p2.tuple()
                         p3 = item.p3.tuple()
@@ -696,6 +732,17 @@ class Plugin(ETS2LAPlugin):
             _("Draw Calls: {} ({:.0f}%)").format(
                 self.draw_calls,
                 (self.draw_calls / self.item_count if self.item_count > 0 else 0) * 100,
+            )
+        )
+        lines.append(
+            _("Frustum Culled: {} ({:.0f}%)").format(
+                self.culled_items,
+                (
+                    self.culled_items / self.total_processed_items
+                    if self.total_processed_items > 0
+                    else 0
+                )
+                * 100,
             )
         )
         lines.append(_("Text Cache Length: {}").format(len(self.text_renderer.cache)))

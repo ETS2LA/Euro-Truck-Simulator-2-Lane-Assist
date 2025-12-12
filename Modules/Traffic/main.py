@@ -9,7 +9,8 @@ import time
 class Module(ETS2LAModule):
     vehicle_format = "ffffffffffffhhbb"
     trailer_format = "ffffffffff"
-    vehicle_object_format = vehicle_format + trailer_format + trailer_format
+    # Vehicle + 3 Trailers
+    vehicle_object_format = vehicle_format + trailer_format + trailer_format + trailer_format
     total_format = "=" + vehicle_object_format * 40
 
     last_vehicles: dict[int, Vehicle] = {}
@@ -25,7 +26,7 @@ class Module(ETS2LAModule):
         self.buf = None
         while self.buf is None:
             try:
-                size = 5360
+                size = 6960  # 40 vehicles * 174 bytes each
                 self.buf = mmap.mmap(0, size, r"Local\ETS2LATraffic")
             except Exception:
                 if time.time() - self.start_time > 5 and not self.message_shown:
@@ -95,7 +96,7 @@ class Module(ETS2LAModule):
             return None
 
         try:
-            data = struct.unpack(self.total_format, self.buf[:5360])
+            data = struct.unpack(self.total_format, self.buf[:6960])
             vehicles: list[Vehicle] = []
             for _i in range(0, 40):
                 position = Position(data[0], data[1], data[2])
@@ -109,7 +110,7 @@ class Module(ETS2LAModule):
                 is_trailer = data[15]
 
                 trailers = []
-                for j in range(0, trailer_count):
+                for j in range(0, 3):
                     offset = 16 + (j * 10)
                     trailer_position = Position(
                         data[offset], data[offset + 1], data[offset + 2]
@@ -123,9 +124,12 @@ class Module(ETS2LAModule):
                     trailer_size = Size(
                         data[offset + 7], data[offset + 8], data[offset + 9]
                     )
-
+                    
+                    if trailer_position.is_zero():
+                        continue
+                    
                     trailers.append(
-                        Trailer(trailer_position, trailer_rotation, trailer_size)
+                        Trailer(trailer_position, trailer_rotation, trailer_size, is_tmp)
                     )
 
                 if not position.is_zero() and not rotation.is_zero():
@@ -143,8 +147,16 @@ class Module(ETS2LAModule):
                             is_trailer,
                         )
                     )
+                    # if is_tmp:
+                    #     vehicle = vehicles[-1]
+                    #     trailers = vehicle.trailers
+                    #     for i in range(len(trailers)):
+                    #         if i == 0:
+                    #             trailers[i].correct_position(vehicle)
+                    #         else:
+                    #             trailers[i].correct_position(trailers[i - 1])
 
-                data = data[16 + (2 * 10) :]
+                data = data[16 + (3 * 10) :]
 
             if len(vehicles) > 0:
                 for vehicle in vehicles:

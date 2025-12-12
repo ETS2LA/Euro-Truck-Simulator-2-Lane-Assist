@@ -69,6 +69,7 @@ import multiprocessing
 import traceback
 import importlib
 import requests
+import locale
 import queue
 import time
 import git
@@ -146,6 +147,9 @@ def get_fastest_mirror() -> str:
         print(_("Testing mirrors..."))
         response_times = {}
         for mirror in variables.FRONTEND_MIRRORS:
+            if ".cn" in mirror and "Chinese" not in locale.getlocale()[0]:
+                continue
+            
             try:
                 start = time.perf_counter()
                 requests.get(mirror, timeout=5)

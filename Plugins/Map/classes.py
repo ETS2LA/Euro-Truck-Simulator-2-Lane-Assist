@@ -3107,6 +3107,9 @@ class Prefab(BaseItem):
 
         # Make the order match the same as in the prefab description.
         # This ensures that any references to curve indices remain
+        if self.prefab_description is None:
+            return curves
+        
         sorted_curves = []
         for prefab_curve in self.prefab_description.nav_curves:
             h = prefab_curve.hash_curve()

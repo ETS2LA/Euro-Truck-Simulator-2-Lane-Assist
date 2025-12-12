@@ -149,11 +149,22 @@ class Trailer:
     position: Position
     rotation: Quaternion
     size: Size
+    is_tmp: bool
 
-    def __init__(self, position: Position, rotation: Quaternion, size: Size):
+    def __init__(self, position: Position, rotation: Quaternion, size: Size, is_tmp: bool):
         self.position = position
         self.rotation = rotation
         self.size = size
+        self.is_tmp = is_tmp
+        
+    def correct_position(self) -> Position:
+        # Move the position back by half the length in the current direction
+        yaw = self.rotation.euler()[1]
+        yaw = math.radians(yaw)
+        new_position = Position(self.position.x, self.position.y, self.position.z)
+        new_position.x += (self.size.length / 2) * math.sin(yaw)
+        new_position.z += (self.size.length / 2) * math.cos(yaw)
+        return new_position
 
     def is_zero(self):
         return self.position.is_zero() and self.rotation.is_zero()
@@ -162,8 +173,13 @@ class Trailer:
         return f"Trailer({self.position}, {self.rotation}, {self.size})"
 
     def __dict__(self):  # type: ignore
+        if self.is_tmp:
+            position = self.correct_position()
+        else:
+            position = self.position
+            
         return {
-            "position": self.position.__dict__,
+            "position": position.__dict__,
             "rotation": self.rotation.__dict__(),
             "size": self.size.__dict__,
         }
@@ -261,7 +277,7 @@ class Vehicle:
         return f"Vehicle({self.position}, {self.rotation}, {self.size}, {self.speed:.2f}, {self.acceleration:.2f}, {self.trailer_count}, {self.trailers})"
 
     def get_corners(
-        self, offset: Position = None, correction_multiplier: float = 1.0
+        self, offset: Position = None, correction_multiplier: float = 1
     ) -> tuple[Position, Position, Position, Position]:
         """This function will output the corners of the vehicle in the following order:
         1. Front left
@@ -324,6 +340,13 @@ class Vehicle:
         back_left = Position(*back_left)
 
         return front_left, front_right, back_right, back_left
+
+    def get_corrected_position(self) -> Position | None:
+        front_left, front_right, back_right, back_left = self.get_corners()
+        center_x = (front_left.x + front_right.x + back_right.x + back_left.x) / 4
+        center_y = (front_left.y + front_right.y + back_right.y + back_left.y) / 4
+        center_z = (front_left.z + front_right.z + back_right.z + back_left.z) / 4
+        return Position(center_x, center_y, center_z)
 
     def get_position_in(self, seconds: float) -> Position | None:
         distance = self.speed * seconds
