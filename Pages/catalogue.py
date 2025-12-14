@@ -17,6 +17,7 @@ from ETS2LA.UI import (
 from ETS2LA.Settings import GlobalSettings
 from ETS2LA.Handlers import plugins
 from ETS2LA.Utils.translator import _
+import ETS2LA.variables as variables
 from typing import Literal
 import webbrowser
 import threading
@@ -73,7 +74,7 @@ class Page(ETS2LAPage):
 
     loading = False
     catalogue = {}
-    catalogues = ["https://github.com/ETS2LA/plugins"]
+    catalogues = ["https://github.com/ETS2LA/plugins"] if not variables.CHINA_MODE else ["https://gh-proxy.ets2la.cn/https://raw.githubusercontent.com/ETS2LA/plugins/refs/heads/main/catalogue.yaml", "https://github.com/ETS2LA/plugins"]
 
     plugins: list[CataloguePlugin] = []
     selected_plugin: CataloguePlugin = None
