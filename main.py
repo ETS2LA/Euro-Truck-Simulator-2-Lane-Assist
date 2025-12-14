@@ -144,29 +144,101 @@ def get_fastest_mirror() -> str:
         settings.frontend_mirror = "Auto"
 
     if settings.frontend_mirror == "Auto":
-        print(_("Testing mirrors..."))
-        response_times = {}
-        for mirror in variables.FRONTEND_MIRRORS:
-            if ".cn" in mirror and "Chinese" not in locale.getlocale()[0]:
-                continue
-            
+        print(_("Determining mirror via GeoIP..."))
+        chosen = None
+        try:
+            ip = None
             try:
-                start = time.perf_counter()
-                requests.get(mirror, timeout=5)
-                end = time.perf_counter()
-                response_times[mirror] = end - start
-                print(
-                    _("- Reached {0} in {1:.0f}ms").format(
-                        YELLOW + mirror + END, response_times[mirror] * 1000
+                import miniupnpc
+                u = miniupnpc.UPnP()
+                u.discoverdelay = 2000
+                u.discover()
+                u.selectigd()
+                ip = u.externalipaddress()
+                if isinstance(ip, bytes):
+                    ip = ip.decode("utf-8", errors="ignore")
+            except Exception:
+                ip = None
+            if ip:
+                try:
+                    import ipaddress
+                    addr = ipaddress.ip_address(ip)
+                    is_cgnat = addr in ipaddress.ip_network("100.64.0.0/10")
+                    if addr.is_private or addr.is_loopback or addr.is_link_local or is_cgnat:
+                        ip = None
+                except Exception:
+                    pass
+            if not ip:
+                try:
+                    import stun
+                    nat_type, external_ip, external_port = stun.get_ip_info(
+                        stun_host="stun.l.google.com", stun_port=19302, source_port=0
                     )
-                )
-            except requests.RequestException:
-                response_times[mirror] = float("inf")
-                print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
-
-        fastest_mirror = min(response_times, key=response_times.get)
-        settings.frontend_mirror = fastest_mirror
-        return fastest_mirror
+                    if external_ip:
+                        ip = external_ip
+                except Exception:
+                    pass
+            if ip:
+                print(_("Detected external IP: {0}").format(YELLOW + str(ip) + END))
+                cache_dir = f"{variables.PATH}cache"
+                mmdb_path = os.path.join(cache_dir, "GeoLite2-Country.mmdb")
+                try:
+                    os.makedirs(cache_dir, exist_ok=True)
+                except Exception:
+                    pass
+                need_download = True
+                if os.path.exists(mmdb_path):
+                    try:
+                        if time.time() - os.path.getmtime(mmdb_path) < 7 * 24 * 3600:
+                            need_download = False
+                    except Exception:
+                        need_download = True
+                if need_download:
+                    srcs = [
+                        "https://raw.gitmirror.com/adysec/IP_database/main/geolite/GeoLite2-Country.mmdb",
+                        "https://raw.githubusercontent.com/adysec/IP_database/main/geolite/GeoLite2-Country.mmdb",
+                    ]
+                    downloaded = False
+                    for src in srcs:
+                        try:
+                            rr = requests.get(src, timeout=5)
+                            if rr.ok:
+                                with open(mmdb_path, "wb") as f:
+                                    f.write(rr.content)
+                                downloaded = True
+                                break
+                        except Exception:
+                            continue
+                    if not downloaded and os.path.exists(mmdb_path):
+                        pass
+                    elif not downloaded:
+                        raise Exception("Failed to download GeoLite2-Country.mmdb")
+                try:
+                    import maxminddb
+                    with maxminddb.open_database(mmdb_path) as reader:
+                        data = reader.get(ip)
+                    iso = None
+                    try:
+                        iso = (data.get("country") or {}).get("iso_code")
+                    except Exception:
+                        iso = None
+                    if not iso:
+                        try:
+                            iso = (data.get("registered_country") or {}).get("iso_code")
+                        except Exception:
+                            iso = None
+                    if iso == "CN":
+                        chosen = "https://app.ets2la.cn"
+                    else:
+                        chosen = "https://app.ets2la.com"
+                except Exception:
+                    chosen = "https://app.ets2la.com"
+        except Exception:
+            chosen = "https://app.ets2la.com"
+        if not chosen:
+            chosen = "https://app.ets2la.com"
+        settings.frontend_mirror = chosen
+        return chosen
     else:
         mirror = settings.frontend_mirror
         # print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))

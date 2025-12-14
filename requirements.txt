@@ -54,3 +54,6 @@ rich
 rpyc
 vdf
 mss
+maxminddb
+miniupnpc
+pystun3
