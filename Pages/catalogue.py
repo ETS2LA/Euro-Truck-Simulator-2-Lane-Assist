@@ -113,9 +113,14 @@ class Page(ETS2LAPage):
         url = repository
         if "github.com" in url:
             # ex. https://raw.githubusercontent.com/ETS2LA/plugins/refs/heads/main/plugin.yaml
-            url = (
+            raw = (
                 url.replace("github.com", "raw.githubusercontent.com")
                 + "/refs/heads/main/plugin.yaml"
+            )
+            url = (
+                f"https://gh-proxy.ets2la.cn/{raw}"
+                if variables.CHINA_MODE
+                else raw
             )
 
         response = requests.get(url)
@@ -210,9 +215,27 @@ class Page(ETS2LAPage):
 
                 self.installing_state = _("Updating existing installation")
                 self.reset_timer()
-                repo = git.cmd.Git(f"CataloguePlugins/{target.name}")
-                repo.stash()
-                success = repo.pull()
+                repo_path = f"CataloguePlugins/{target.name}"
+                repo_cmd = git.cmd.Git(repo_path)
+                repo_cmd.stash()
+                success = False
+                repo_obj = git.Repo(repo_path)
+                original_url = ""
+                try:
+                    original_url = repo_obj.remotes.origin.url
+                    if variables.CHINA_MODE and "github.com" in original_url:
+                        mirror_url = f"https://gh-proxy.ets2la.cn/{original_url}"
+                        repo_obj.remotes.origin.set_url(mirror_url)
+                    pull_result = repo_obj.remotes.origin.pull()
+                    success = bool(pull_result)
+                except Exception:
+                    success = False
+                finally:
+                    try:
+                        if variables.CHINA_MODE and original_url:
+                            repo_obj.remotes.origin.set_url(original_url)
+                    except Exception:
+                        pass
                 time.sleep(1)  # Wait a bit for user experience
                 if success:
                     self.installing_state = _("Restarting plugin process")
@@ -248,7 +271,12 @@ class Page(ETS2LAPage):
             # install logic
             self.installing_state = _("Cloning repository")
             self.reset_timer()
-            git.Repo.clone_from(target.repository, f"CataloguePlugins/{target.name}")
+            repo_url = (
+                f"https://gh-proxy.ets2la.cn/{target.repository}"
+                if variables.CHINA_MODE and "github.com" in target.repository
+                else target.repository
+            )
+            git.Repo.clone_from(repo_url, f"CataloguePlugins/{target.name}")
             if os.path.exists(f"CataloguePlugins/{target.name}/requirements.txt"):
                 self.installing_state = _("Installing requirements")
                 self.reset_timer()
