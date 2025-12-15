@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-22 16:07+0000\n"
+"PO-Revision-Date: 2025-12-15 20:07+0000\n"
 "Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/backend/"
 "hu/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -372,7 +372,7 @@ msgstr "Elrejtve"
 
 #: .\Pages\about.py:359
 msgid "Notice!"
-msgstr ""
+msgstr "Figyelem!"
 
 #: .\Pages\about.py:364
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
@@ -2412,16 +2412,16 @@ msgstr ""
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{distance} méter"
+msgstr[1] "{distance} méter"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
-msgstr ""
+msgstr "Fényszoró be."
 
 #: .\Plugins\TTS\main.py:666
 msgid "Headlights turned off."
-msgstr ""
+msgstr "Fényszoró ki."
 
 #: .\Plugins\TTS\main.py:683
 msgid "Test mode enabled. This is a test message."
@@ -2480,7 +2480,7 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:315
 msgid "Waiting for plugin to load..."
-msgstr ""
+msgstr "Várakozás a plugin betöltésre..."
 
 #: .\Plugins\VisualizationSockets\main.py:319
 msgid "The following clients are currently connected:"
@@ -2492,7 +2492,7 @@ msgstr ""
 
 #: .\Plugins\VisualizationSockets\main.py:348
 msgid "Channels: {channels}"
-msgstr ""
+msgstr "Csatorn(ák): {channels}"
 
 #: .\Plugins\VisualizationSockets\main.py:358
 msgid "Not acknowledged yet."
