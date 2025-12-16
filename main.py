@@ -144,29 +144,26 @@ def get_fastest_mirror() -> str:
         settings.frontend_mirror = "Auto"
 
     if settings.frontend_mirror == "Auto":
-        print(_("Testing mirrors..."))
-        response_times = {}
-        for mirror in variables.FRONTEND_MIRRORS:
-            if ".cn" in mirror and "Chinese" not in locale.getlocale()[0]:
-                continue
-            
-            try:
-                start = time.perf_counter()
-                requests.get(mirror, timeout=5)
-                end = time.perf_counter()
-                response_times[mirror] = end - start
-                print(
-                    _("- Reached {0} in {1:.0f}ms").format(
-                        YELLOW + mirror + END, response_times[mirror] * 1000
-                    )
-                )
-            except requests.RequestException:
-                response_times[mirror] = float("inf")
-                print(_(" - Reached {0} in (TIMEOUT)").format(YELLOW + mirror + END))
+        print(_("Checking mirrors..."))
+        # Check latency
+        best_mirror = variables.FRONTEND_MIRRORS[0]
+        best_latency = 9999
 
-        fastest_mirror = min(response_times, key=response_times.get)
-        settings.frontend_mirror = fastest_mirror
-        return fastest_mirror
+        for mirror in variables.FRONTEND_MIRRORS:
+            try:
+                start = time.time()
+                requests.get(mirror, timeout=2)
+                end = time.time()
+                latency = (end - start) * 1000
+                print(_("- Reached {0} in {1:.0f}ms").format(mirror, latency))
+                if latency < best_latency:
+                    best_latency = latency
+                    best_mirror = mirror
+            except Exception:
+                print(_(" - Reached {0} in (TIMEOUT)").format(mirror))
+        
+        settings.frontend_mirror = best_mirror
+        return best_mirror
     else:
         mirror = settings.frontend_mirror
         # print(_("Using mirror from settings: {0}").format(YELLOW + mirror + END))
