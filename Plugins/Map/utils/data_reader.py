@@ -13,7 +13,17 @@ path = "Plugins/Map/data"
 
 
 def FindCategoryFilePath(category: str) -> str:
-    for file in os.listdir(path):
+    files = os.listdir(path)
+    if len(files) == 2:
+        # one is the config, then the other is a folder with all the data
+        # (this .zip was packed wrong)
+        for folder in files:
+            if "config" not in folder:
+                for file in os.listdir(os.path.join(path, folder)):
+                    if category in file and file.endswith(".json"):
+                        return os.path.join(path, folder, file)
+
+    for file in files:
         if category in file and file.endswith(".json"):
             return os.path.join(path, file)
     return None
