@@ -25,7 +25,6 @@ namespace ETS2LASDK
             // Check for other OSs
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
-                Logger.Warn("Game telemetry is only supported on Windows.");
                 return;
             }
 
@@ -98,7 +97,6 @@ namespace ETS2LASDK
             // Check for other OSs
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
-                Logger.Warn("Game telemetry is only supported on Windows.");
                 return;
             }
 
@@ -223,7 +221,6 @@ namespace ETS2LASDK
             // Check for other OSs
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
-                Logger.Warn("Game telemetry is only supported on Windows.");
                 return;
             }
 
@@ -309,7 +306,6 @@ namespace ETS2LASDK
             // Check for other OSs
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
-                Logger.Warn("Game telemetry is only supported on Windows.");
                 return;
             }
 

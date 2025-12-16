@@ -22,6 +22,10 @@ public partial class MainWindow : AppWindow
         Settings
     }
 
+    private bool IsWindows =>
+        System.Runtime.InteropServices.RuntimeInformation
+            .IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+
     private readonly List<Button> _navButtons = new();
     private readonly PluginManagerService _pluginService = new();
     private readonly DashboardView _dashboardView = new();
@@ -80,7 +84,7 @@ public partial class MainWindow : AppWindow
         {
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
-            PageKind.Visualization => _visualizationView,
+            PageKind.Visualization => IsWindows ? _visualizationView : CreatePlaceholder("Sorry", "This page is only available on Windows."),
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
             PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),
             PageKind.Wiki => CreatePlaceholder("Wiki", "Link or embed documentation content."),

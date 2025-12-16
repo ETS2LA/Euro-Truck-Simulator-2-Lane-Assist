@@ -38,7 +38,6 @@ namespace ControlsSDK
 
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
-                Logger.Warn("ControlsSDK plugin is only supported on Windows. Plugin will not function.");
                 return;
             }
 

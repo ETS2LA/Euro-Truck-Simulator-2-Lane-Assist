@@ -7,6 +7,7 @@ namespace ETS2LA.Backend
     {
         private readonly IEventBus _bus;
         public readonly List<IPlugin> LoadedPlugins = new();
+        public bool loading = false;
 
         public PluginHandler(IEventBus eventBus)
         {
@@ -21,6 +22,7 @@ namespace ETS2LA.Backend
 
         public void LoadPlugins()
         {
+            loading = true;
             string[] pluginFiles = DiscoverPlugins();
             foreach (string filename in pluginFiles)
             {
@@ -47,10 +49,12 @@ namespace ETS2LA.Backend
                     Logger.Error($"Failed to load plugin from [gray]{filename}[/]: {ex.Message}");
                 }
             }
+            loading = false;
         }
 
         public void UnloadPlugins()
         {
+            loading = true;
             foreach (var plugin in LoadedPlugins)
             {
                 try
@@ -63,6 +67,7 @@ namespace ETS2LA.Backend
                 }
             }
             LoadedPlugins.Clear();
+            loading = false;
         }
 
         private IPlugin? GetPluginByName(string pluginName)

@@ -19,6 +19,11 @@ public sealed class PluginManagerService
 
     public IEnumerable<PluginMetadata> GetPlugins()
     { 
+        while(backend.pluginHandler!.loading)
+        {
+            Thread.Sleep(100);
+        }
+        
         foreach (var plugin in backend.pluginHandler!.LoadedPlugins)
         {
             var assembly = plugin.GetType().Assembly;
