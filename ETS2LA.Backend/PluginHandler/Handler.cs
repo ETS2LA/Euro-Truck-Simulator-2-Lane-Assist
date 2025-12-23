@@ -59,6 +59,9 @@ namespace ETS2LA.Backend
             {
                 try
                 {
+                    if(plugin._IsRunning)
+                        plugin.OnDisable();
+                        
                     plugin.Shutdown();
                 }
                 catch (Exception ex)

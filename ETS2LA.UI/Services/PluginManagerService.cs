@@ -10,7 +10,6 @@ public sealed class PluginManagerService
 
     public PluginManagerService()
     {
-        // Start the backend.
         backend = new Backend.Program();
         Task.Run(() => backend.Main(Array.Empty<string>()));
     }
@@ -57,6 +56,11 @@ public sealed class PluginManagerService
         // backend.pluginHandler!.LoadPlugins();
         // _pluginUis.Clear();
         // NotifyChanged();
+    }
+
+    public void Shutdown()
+    {
+        backend.Shutdown();
     }
 
     public IReadOnlyList<PluginUiInfo> GetPluginUis() => _pluginUis;

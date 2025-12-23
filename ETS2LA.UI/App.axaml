@@ -1,6 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+             xmlns:lucide="clr-namespace:LucideAvalonia;assembly=LucideAvalonia"
              x:Class="ETS2LA.UI.App"
              RequestedThemeVariant="Dark">
     <Application.Resources>
@@ -10,7 +11,11 @@
         <FontFamily x:Key="GeistSemiBold">avares://ETS2LA.UI/Assets/Fonts/Geist-SemiBold.ttf#Geist SemiBold</FontFamily>
         <FontFamily x:Key="GeistBold">avares://ETS2LA.UI/Assets/Fonts/Geist-Bold.ttf#Geist Bold</FontFamily>
         
-        <!-- Adding to the brushes given by husk -->
+        <!-- 
+        Adding to the brushes given by husk 
+        Check here for a full list of available StaticResource colors with husk:
+        https://github.com/d3ara1n/Huskui.Avalonia/blob/main/src/Huskui.Avalonia/Themes/Colors.axaml
+        -->
         <SolidColorBrush x:Key="ControlSecondaryLightForegroundBrush" Color="{DynamicResource Gray11Color}" />
     </Application.Resources>
 
@@ -20,12 +25,12 @@
 
         <!-- Global Font -->
         <Style Selector="TextBlock">
-            <Setter Property="FontFamily" Value="GeistMedium"/>
+            <Setter Property="FontFamily" Value="Geist Medium"/>
         </Style>
 
         <!-- TextBlocks -->
         <Style Selector="TextBlock">
-            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         </Style>
         <Style Selector="TextBlock.Description">
             <Setter Property="Foreground" Value="{StaticResource ControlSecondaryLightForegroundBrush}"/>
@@ -34,7 +39,7 @@
         <!-- Sidebar Buttons -->
         <Style Selector="Button.sidebar">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#eeeeee"/>
+            <Setter Property="Foreground" Value="{StaticResource SolidColor}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="CornerRadius" Value="6"/>
             <Setter Property="Padding" Value="10 5 10 5"/>
@@ -58,10 +63,6 @@
             <Setter Property="Background" Value="#20232A"/>
             <Setter Property="BorderBrush" Value="#20232A"/>
         </Style>
-        <Style Selector="Button.sidebar.Selected:pressed">
-            <Setter Property="Background" Value="#2A2D34"/>
-            <Setter Property="BorderBrush" Value="#2A2D34"/>
-        </Style>
 
         <!-- Titlebar Buttons -->
         <Style Selector="Button.titlebar">
@@ -73,7 +74,7 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="TextElement.Foreground" Value="#eeeeee"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource SolidColor}"/>
         </Style>
 
         <Style Selector="Button.titlebar:pressed">

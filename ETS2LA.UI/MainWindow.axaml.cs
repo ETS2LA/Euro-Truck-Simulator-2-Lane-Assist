@@ -69,6 +69,7 @@ public partial class MainWindow : AppWindow
 
     private void OnCloseClick(object? sender, RoutedEventArgs e)
     {
+        _pluginService.Shutdown();
         Close();
     }
 

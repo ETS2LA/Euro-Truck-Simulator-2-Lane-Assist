@@ -39,5 +39,14 @@ namespace ETS2LA.Backend
                 Logger.Success("ETS2LA is running.");
             });
         }
+
+        public void Shutdown()
+        {
+            if (pluginHandler != null)
+            {
+                pluginHandler.UnloadPlugins();
+            }
+            Logger.Info("ETS2LA has been shut down.");
+        }
     }
 }
