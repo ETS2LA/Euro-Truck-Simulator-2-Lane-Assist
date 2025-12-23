@@ -14,17 +14,45 @@
                     PointerPressed="TitleBar_PointerPressed">
                 <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0 0 0 0" HorizontalAlignment="Left">
-                        <Button Classes="titlebar" Click="TogglePane" Padding="6" Margin="0">
-                            <i:Icon Value="fa-bars"/>
+                        <Button Classes="titlebar" Click="TogglePane" Padding="6" Margin="0" ToolTip.Tip="Toggle Sidebar">
+                            <i:Icon Value="fa-arrow-right-to-bracket" Name="ToggleSidebarIcon" />
                         </Button>
+
+                        <husk:Divider Orientation="Vertical" Name="TitlebarDividerLeft" />
+                        <Button Classes="titlebar" Click="OnVisualizationClick" Padding="6" Margin="0" Name="VisualizationButtonTitlebar" ToolTip.Tip="Open Visualization">
+                            <i:Icon Value="fa-tv"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnManagerClick" Padding="6" Margin="0" Name="ManagerButtonTitlebar" ToolTip.Tip="Open Plugin Manager">
+                            <i:Icon Value="fa-bars-staggered"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnSettingsClick" Padding="6" Margin="0" Name="SettingsButtonTitlebar" ToolTip.Tip="Open Settings">
+                            <i:Icon Value="fa-cog"/>
+                        </Button>
+                        <husk:Divider Orientation="Vertical" Margin="0 0 6 0" Name="TitlebarDividerRight" />
+
                         <TextBlock Text="ETS2LA" FontSize="13" FontWeight="500" VerticalAlignment="Center" Margin="0 0 0 0"/>
                         <TextBlock Text="v0.4.1 - 67bfe5ee9" Classes="Description" FontSize="10" VerticalAlignment="Center" Margin="0 0 0 0" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="0 0 4 0" HorizontalAlignment="Right">
-                        <Button Classes="traffic green" Click="OnMaxRestoreClick"/>
-                        <Button Classes="traffic yellow"/>
-                        <Button Classes="traffic red" Click="OnCloseClick"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="0 0 0 0" HorizontalAlignment="Right">
+                        <Button Classes="titlebar" Click="OnTransparencyClick" Padding="6" Margin="0" ToolTip.Tip="Toggle Transparency">
+                            <i:Icon Value="fa-circle" Name="TransparencyIcon"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnStayOnTopClick" Padding="6" Margin="0" ToolTip.Tip="Stay on Top">
+                            <i:Icon Value="mdi-picture-in-picture-bottom-right-outline" FontSize="15" Name="StayOnTopIcon"/>
+                        </Button>
+                        
+                        <husk:Divider Orientation="Vertical" Margin="0 0 0 0" />
+
+                        <Button Classes="titlebar" Click="OnMinimizeClick" Padding="6" Margin="0" ToolTip.Tip="Minimize">
+                            <i:Icon Value="fa-square-minus" />
+                        </Button>
+                        <Button Classes="titlebar" Click="OnMaxRestoreClick" Padding="6" Margin="0" ToolTip.Tip="Maximize/Restore">
+                            <i:Icon Value="fa-window-maximize" Name="MaximizeRestoreIcon"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnCloseClick" Padding="6" Margin="0" ToolTip.Tip="Close ETS2LA">
+                            <i:Icon Value="fa-rectangle-xmark" />
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>

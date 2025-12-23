@@ -4,6 +4,8 @@ using Avalonia.Interactivity;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using Huskui.Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.LogicalTree;
 
 namespace ETS2LA.UI;
 
@@ -47,6 +49,7 @@ public partial class MainWindow : AppWindow
             PerformanceButton, WikiButton, RoadmapButton, FeedbackButton, SettingsButton
         });
 
+        UpdateTitlebarButtonVisibility();
         SetSelected(DashboardButton);
         ShowPage(PageKind.Dashboard);
     }
@@ -57,6 +60,18 @@ public partial class MainWindow : AppWindow
             BeginMoveDrag(e);
     }
 
+    private void OnStayOnTopClick(object? sender, RoutedEventArgs e)
+    {
+        Topmost = !Topmost;
+        StayOnTopIcon.Value = Topmost ? "mdi-picture-in-picture-bottom-right" : "mdi-picture-in-picture-bottom-right-outline";
+    }
+
+    private void OnTransparencyClick(object? sender, RoutedEventArgs e)
+    {
+        this.Opacity = this.Opacity == 1.0 ? 0.8 : 1.0;
+        TransparencyIcon.Value = this.Opacity == 1.0 ? "fa-circle" : "fa-circle-half-stroke";
+    }
+
     private void OnMinimizeClick(object? sender, RoutedEventArgs e)
     {
         WindowState = WindowState.Minimized;
@@ -65,6 +80,7 @@ public partial class MainWindow : AppWindow
     private void OnMaxRestoreClick(object? sender, RoutedEventArgs e)
     {
         WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        MaximizeRestoreIcon.Value = WindowState == WindowState.Maximized ? "fa-window-restore" : "fa-window-maximize";
     }
 
     private void OnCloseClick(object? sender, RoutedEventArgs e)
@@ -73,10 +89,35 @@ public partial class MainWindow : AppWindow
         Close();
     }
 
+    private void UpdateTitlebarButtonVisibility()
+    {
+        if (MainSplitView.IsPaneOpen)
+        {
+            ToggleSidebarIcon.Value = "fa-arrow-right-to-bracket";
+            ToggleSidebarIcon.RenderTransform = new RotateTransform(180);
+            TitlebarDividerLeft.IsVisible = false;
+            TitlebarDividerRight.IsVisible = false;
+            ManagerButtonTitlebar.IsVisible = false;
+            VisualizationButtonTitlebar.IsVisible = false;
+            SettingsButtonTitlebar.IsVisible = false;
+        }
+        else
+        {
+            ToggleSidebarIcon.Value = "fa-arrow-right-from-bracket";
+            ToggleSidebarIcon.RenderTransform = new RotateTransform(0);
+            TitlebarDividerLeft.IsVisible = true;
+            TitlebarDividerRight.IsVisible = true;
+            ManagerButtonTitlebar.IsVisible = true;
+            VisualizationButtonTitlebar.IsVisible = true;
+            SettingsButtonTitlebar.IsVisible = true;
+        }
+    }
+
     private void TogglePane(object? sender, RoutedEventArgs e)
     {
         MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         ContentBorder.CornerRadius = MainSplitView.IsPaneOpen ? new Avalonia.CornerRadius(12, 0, 0, 0) : new Avalonia.CornerRadius(0);
+        UpdateTitlebarButtonVisibility();
     }
 
     private void ShowPage(PageKind page)
