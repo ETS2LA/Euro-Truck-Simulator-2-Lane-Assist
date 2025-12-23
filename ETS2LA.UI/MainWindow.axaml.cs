@@ -65,16 +65,6 @@ public partial class MainWindow : AppWindow
         ShowPage(PageKind.Dashboard);
     }
 
-    private void OnLoaded(object? sender, RoutedEventArgs e)
-    {
-        _notificationHandler.SendNotification(new Notification
-        {
-            Id = "app_started",
-            Title = "ETS2LA",
-            Content = "Application & Backend started successfully.",
-        });
-    }
-
     private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
@@ -87,10 +77,10 @@ public partial class MainWindow : AppWindow
         StayOnTopIcon.Value = Topmost ? "mdi-picture-in-picture-bottom-right" : "mdi-picture-in-picture-bottom-right-outline";
         _notificationHandler.SendNotification(new Notification
         {
-            Id = "stay_on_top_changed",
-            Title = "Window Setting Changed",
-            Content = Topmost ? "Window will stay on top of other windows." : "Window will no longer stay on top of other windows.",
-            Level = GrowlLevel.Information
+            Id = "MainWindow.StayOnTopChanged",
+            Title = "Stay On Top",
+            Content = Topmost ? "Enabled" : "Disabled",
+            CloseAfter = 2.0f
         });
     }
 
@@ -98,6 +88,13 @@ public partial class MainWindow : AppWindow
     {
         this.Opacity = this.Opacity == 1.0 ? 0.8 : 1.0;
         TransparencyIcon.Value = this.Opacity == 1.0 ? "fa-circle" : "fa-circle-half-stroke";
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "MainWindow.TransparencyChanged",
+            Title = "Transparency",
+            Content = this.Opacity < 1.0 ? "Enabled" : "Disabled",
+            CloseAfter = 2.0f
+        });
     }
 
     private void OnMinimizeClick(object? sender, RoutedEventArgs e)
@@ -113,6 +110,14 @@ public partial class MainWindow : AppWindow
 
     private void OnCloseClick(object? sender, RoutedEventArgs e)
     {
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "MainWindow.Shutdown",
+            Title = "ETS2LA",
+            Content = "Shutting down application & backend...",
+            CloseAfter = 20.0f
+        });
+        Thread.Sleep(100); // allow time for notif to show
         _pluginService.Shutdown();
         _notificationHandler.Shutdown();
         Close();
