@@ -5,9 +5,9 @@ namespace ETS2LAPlugin
 {
     public class ETS2LAPlugin : Plugin
     {
-        public override void Init(IEventBus bus)
+        public override void Init()
         {
-            base.Init(bus);
+            base.Init();
             // Initialization code here
             // e.g., subscribe to events
             // _bus?.Subscribe<YourEventType>("YourTopic", YourEventHandler);

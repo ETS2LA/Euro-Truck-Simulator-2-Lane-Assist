@@ -1,11 +1,18 @@
-using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Input;
+using Avalonia.Controls;
+using Avalonia.Threading;
 using Avalonia.Interactivity;
+
+using ETS2LA.Shared;
+using ETS2LA.Logging;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
+using ETS2LA.UI.Notifications;
+
+using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
-using Avalonia.Media;
-using Avalonia.LogicalTree;
+using Tmds.DBus.Protocol;
 
 namespace ETS2LA.UI;
 
@@ -29,9 +36,10 @@ public partial class MainWindow : AppWindow
             .IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
 
     private readonly List<Button> _navButtons = new();
-    private readonly PluginManagerService _pluginService = new();
+    private readonly PluginManagerService _pluginService;
     private readonly DashboardView _dashboardView = new();
     private readonly VisualizationView _visualizationView = new();
+    private readonly NotificationHandler _notificationHandler;
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
 
@@ -40,6 +48,9 @@ public partial class MainWindow : AppWindow
         CanResize = true;
         ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
+
+        _notificationHandler = new NotificationHandler(this);
+        _pluginService = new PluginManagerService(_notificationHandler);
         _managerView = new ManagerView(_pluginService);
         _settingsView = new SettingsView(_pluginService);
         _visualizationView = new VisualizationView(_pluginService);
@@ -54,6 +65,16 @@ public partial class MainWindow : AppWindow
         ShowPage(PageKind.Dashboard);
     }
 
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "app_started",
+            Title = "ETS2LA",
+            Content = "Application & Backend started successfully.",
+        });
+    }
+
     private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
@@ -64,6 +85,13 @@ public partial class MainWindow : AppWindow
     {
         Topmost = !Topmost;
         StayOnTopIcon.Value = Topmost ? "mdi-picture-in-picture-bottom-right" : "mdi-picture-in-picture-bottom-right-outline";
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "stay_on_top_changed",
+            Title = "Window Setting Changed",
+            Content = Topmost ? "Window will stay on top of other windows." : "Window will no longer stay on top of other windows.",
+            Level = GrowlLevel.Information
+        });
     }
 
     private void OnTransparencyClick(object? sender, RoutedEventArgs e)
@@ -86,6 +114,7 @@ public partial class MainWindow : AppWindow
     private void OnCloseClick(object? sender, RoutedEventArgs e)
     {
         _pluginService.Shutdown();
+        _notificationHandler.Shutdown();
         Close();
     }
 

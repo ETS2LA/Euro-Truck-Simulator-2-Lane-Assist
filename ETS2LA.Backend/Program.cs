@@ -1,4 +1,6 @@
 ﻿using ETS2LA.Logging;
+using ETS2LA.Shared;
+using Huskui.Avalonia.Controls;
 using Spectre.Console;
 using Velopack;
 
@@ -7,33 +9,35 @@ namespace ETS2LA.Backend
     public class Program
     {
         public EventBus? bus;
+        public INotificationHandler? window;
         public PluginHandler? pluginHandler;
 
-        public void Main(string[] args)
+        public void Main(INotificationHandler appWindow)
         {
             // Run Velopack for update checking
             VelopackApp.Build().Run();
 
+            window = appWindow;
             bus = new EventBus();
-            pluginHandler = new PluginHandler(bus);
+            pluginHandler = new PluginHandler(bus, window);
 
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
                 pluginHandler.LoadPlugins();
 
                 //pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
-                pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
+                //pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
 
                 // RenCloud's Game Telemetry plugin provider
                 pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
                 // ets2la_plugin providers and consumers
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
+                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
+                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
+                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
+                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
+                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
                 // scs-sdk-controller consumer
-                pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
+                // pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
 
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running.");

@@ -36,7 +36,7 @@ public abstract class Plugin : IPlugin
 
     // Called when the plugin is initially loaded.
     // Please make sure to call `base.Init(bus)` if you override this function.
-    public virtual void Init(IEventBus bus) {}
+    public virtual void Init() {}
 
     // Called when the plugin is enabled, please also call `base.OnEnable()` if you 
     // override this function or the tick thread will not start.

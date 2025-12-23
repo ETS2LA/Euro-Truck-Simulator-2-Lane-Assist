@@ -1,14 +1,15 @@
 ﻿using ETS2LA.Shared;
 using ETS2LA.Logging;
+using Huskui.Avalonia.Models;
 
 [assembly: PluginInformation("ExampleConsumer", "An example data provider plugin.")]
 namespace ExampleConsumer
 {
     public class MyConsumer : Plugin
     {
-        public override void Init(IEventBus bus)
+        public override void Init()
         {
-            base.Init(bus);
+            base.Init();
             _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
             _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
             _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);

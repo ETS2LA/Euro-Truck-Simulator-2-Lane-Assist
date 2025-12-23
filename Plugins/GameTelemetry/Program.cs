@@ -2,6 +2,7 @@
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
+using Huskui.Avalonia.Models;
 
 [assembly: PluginInformation("Game Telemetry", "This plugin will read game telemetry and transmit it via events.")]
 namespace GameTelemetry
@@ -60,9 +61,10 @@ namespace GameTelemetry
             return gameName;
         }
 
-        public override void Init(IEventBus bus)
+        public override void Init()
         {
-            base.Init(bus);
+            base.Init();
+            Logger.Info("Game Telemetry plugin initialized.");
         }
 
         public override void Tick()
@@ -89,14 +91,20 @@ namespace GameTelemetry
             }
             catch (FileNotFoundException)
             {
+                _window?.SendNotification(new Notification
+                {
+                    Id = "GameTelemetry.MMFNotFound",
+                    Title = "Game Telemetry",
+                    Content = $"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK.",
+                    IsProgressIndeterminate = true,
+                });
                 Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(10000);
                 _reader = null;
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Logger.Error($"Error initializing memory mapped file: {ex.Message}");
                 Thread.Sleep(10000);
                 _reader = null;
                 return;

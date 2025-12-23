@@ -17,9 +17,9 @@ namespace ControlsSDK
         MemoryMappedFile? mmf = null;
         MemoryMappedViewAccessor? accessor = null;
 
-        public override void Init(IEventBus bus)
+        public override void Init()
         {
-            base.Init(bus);
+            base.Init();
 
             // Calculate the memory offsets for each of the variables
             int boolSize = sizeof(bool);

@@ -28,9 +28,9 @@ public partial class ManagerView : UserControl
     }
     private bool _hasPlugins;
 
-    public ManagerView(PluginManagerService? service = null)
+    public ManagerView(PluginManagerService service)
     {
-        _pluginService = service ?? new PluginManagerService();
+        _pluginService = service;
         InitializeComponent();
         DataContext = this;
         UpdatePluginList();

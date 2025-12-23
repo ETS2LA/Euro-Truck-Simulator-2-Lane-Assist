@@ -1,4 +1,6 @@
-﻿namespace ETS2LA.Shared
+﻿using Huskui.Avalonia.Models;
+
+namespace ETS2LA.Shared
 {
     public interface IEventBus
     {
@@ -7,11 +9,38 @@
         void Publish<T>(string topic, T data);
     }
 
+    public class Notification
+    {
+        public required string Id;
+        public bool IsInternal = false;
+
+        // Copied from Huskui GrowlItem
+        public GrowlLevel Level = GrowlLevel.Information;
+        public string Title = "";
+        public string Content = "";
+
+        public float Progress = 0.0f;
+        public bool IsProgressIndeterminate = false;
+
+        // Timing for closing, these are disabled if Progress is used
+        public float CloseAfter = 8.0f; // seconds
+        public float ShowCloseButtonAfter = 0.0f; // seconds
+        public DateTime CreatedAt = DateTime.UtcNow;
+    }
+
+    public interface INotificationHandler
+    {
+        void SendNotification(Notification notification);
+        void UpdateNotification(Notification notification);
+        void CloseNotification(string id);
+    }
+
     // Interface that plugins will follow at a minimum
     public interface IPlugin
     {
         bool _IsRunning { get; set; }
-        void Init(IEventBus bus);
+        void Init();
+        void Register(IEventBus bus, INotificationHandler window);
         void OnEnable();
         void Tick();
         void OnDisable();
@@ -22,11 +51,18 @@
     // but please note that it is *highly* recommended to use this as a base.
     public abstract class Plugin : IPlugin
     {
+        protected INotificationHandler? _window;
         protected IEventBus? _bus;
         public bool _IsRunning { get; set; } = false;
         public virtual float TickRate => 20.0f;
 
-        public virtual void Init(IEventBus bus) { _bus = bus; }
+        public virtual void Init() { }
+        public virtual void Register(IEventBus bus, INotificationHandler window)
+        {
+            _bus = bus;
+            _window = window;
+        }
+
         public virtual void OnEnable()
         {
             _IsRunning = true;

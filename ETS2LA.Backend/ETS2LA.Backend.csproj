@@ -25,5 +25,6 @@
 
   <ItemGroup>
     <PackageReference Include="Velopack" Version="0.0.1298" />
+    <PackageReference Include="Huskui.Avalonia" Version="0.7.2" />
   </ItemGroup>
 </Project>

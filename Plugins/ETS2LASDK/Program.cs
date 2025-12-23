@@ -2,6 +2,7 @@
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
+using Huskui.Avalonia.Models;
 
 [assembly: PluginInformation("ETS2LASDK", "Provider for the custom ets2la_plugin at https://gitlab.com/ETS2LA/ets2la_plugin.")]
 namespace ETS2LASDK
@@ -373,9 +374,9 @@ namespace ETS2LASDK
         long lastBrakeWrite = -1;
         float lastBrake;
 
-        public override void Init(IEventBus bus)
+        public override void Init()
         {
-            base.Init(bus);
+            base.Init();
             // Listen to events from other plugins.
             _bus?.Subscribe<float>("ETS2LA.Output.Steering", WriteSteering);
             _bus?.Subscribe<float>("ETS2LA.Output.Throttle", WriteThrottle);

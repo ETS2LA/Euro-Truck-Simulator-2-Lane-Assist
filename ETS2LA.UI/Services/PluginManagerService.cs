@@ -1,5 +1,7 @@
 using System.Reflection;
+using Avalonia.Controls;
 using ETS2LA.Shared;
+using Huskui.Avalonia.Controls;
 
 namespace ETS2LA.UI.Services;
 
@@ -8,22 +10,29 @@ public sealed class PluginManagerService
     Backend.Program backend = null!;
     private readonly List<PluginUiInfo> _pluginUis = new();
 
-    public PluginManagerService()
+    public PluginManagerService(INotificationHandler window)
     {
         backend = new Backend.Program();
-        Task.Run(() => backend.Main(Array.Empty<string>()));
+        Task.Run(() => backend.Main(
+            window
+        ));
     }
 
     public event Action? PluginsChanged;
 
     public IEnumerable<PluginMetadata> GetPlugins()
-    { 
-        while(backend.pluginHandler!.loading)
+    {
+        while (backend.pluginHandler == null)
         {
             Thread.Sleep(100);
         }
-        
-        foreach (var plugin in backend.pluginHandler!.LoadedPlugins)
+
+        while (backend.pluginHandler.loading)
+        {
+            Thread.Sleep(100);
+        }
+
+        foreach (var plugin in backend.pluginHandler.LoadedPlugins)
         {
             var assembly = plugin.GetType().Assembly;
             var info = assembly.GetCustomAttribute<PluginInformation>();
