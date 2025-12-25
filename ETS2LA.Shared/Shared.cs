@@ -1,4 +1,5 @@
-﻿using Huskui.Avalonia.Models;
+﻿using Huskui.Avalonia.Controls;
+using Huskui.Avalonia.Models;
 
 namespace ETS2LA.Shared
 {
@@ -11,8 +12,11 @@ namespace ETS2LA.Shared
 
     public class Notification
     {
+        // Used by the backend
         public required string Id;
         public bool IsInternal = false;
+        public DateTime CreatedAt = DateTime.UtcNow;
+        public GrowlItem? Item = null;
 
         // Copied from Huskui GrowlItem
         public GrowlLevel Level = GrowlLevel.Information;
@@ -25,7 +29,6 @@ namespace ETS2LA.Shared
         // Timing for closing, these are disabled if Progress is used
         public float CloseAfter = 8.0f; // seconds
         public float ShowCloseButtonAfter = 0.0f; // seconds
-        public DateTime CreatedAt = DateTime.UtcNow;
     }
 
     public interface INotificationHandler

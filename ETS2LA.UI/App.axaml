@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
-             xmlns:lucide="clr-namespace:LucideAvalonia;assembly=LucideAvalonia"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
              x:Class="ETS2LA.UI.App"
              RequestedThemeVariant="Dark">
     <Application.Resources>
@@ -20,17 +20,20 @@
     </Application.Resources>
 
     <Application.Styles>
-        <FluentTheme/>
+        <FluentTheme />
         <husk:HuskuiTheme Corner="Normal" />
-
-        <!-- Global Font -->
-        <Style Selector="TextBlock">
-            <Setter Property="FontFamily" Value="Geist Medium"/>
+        <StyleInclude Source="avares://ETS2LA.UI/Overrides/Overrides.axaml"/>
+        
+        <!-- Icons.Avalonia -->
+        <Style Selector="i|Icon">
+            <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
         </Style>
 
         <!-- TextBlocks -->
         <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Geist Medium"/>
             <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+            <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
         </Style>
         <Style Selector="TextBlock.Description">
             <Setter Property="Foreground" Value="{StaticResource ControlSecondaryLightForegroundBrush}"/>
@@ -47,21 +50,9 @@
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="Margin" Value="4 0 0 0"/>
         </Style>
-        <Style Selector="Button.sidebar:hover">
-            <Setter Property="Background" Value="#20232A"/>
-            <Setter Property="BorderBrush" Value="#20232A"/>
-        </Style>
-        <Style Selector="Button.sidebar:pressed">
-            <Setter Property="Background" Value="#2A2D34"/>
-            <Setter Property="BorderBrush" Value="#2A2D34"/>
-        </Style>
         <Style Selector="Button.sidebar.Selected">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="BorderBrush" Value="#303030"/>
-        </Style>
-        <Style Selector="Button.sidebar.Selected:hover">
-            <Setter Property="Background" Value="#20232A"/>
-            <Setter Property="BorderBrush" Value="#20232A"/>
+            <Setter Property="Background" Value="{StaticResource OverlayInteractiveBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Gray6Color}"/>
         </Style>
 
         <!-- Titlebar Buttons -->

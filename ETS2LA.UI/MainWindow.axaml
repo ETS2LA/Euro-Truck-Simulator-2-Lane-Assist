@@ -3,15 +3,19 @@
                 xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
                 xmlns:i="https://github.com/projektanker/icons.avalonia"
                 x:Class="ETS2LA.UI.MainWindow"
+
+                Title="ETS2LA"
                 Width="1280" Height="720"
+                MinWidth="600" MinHeight="300"
                 SystemDecorations="Full"
                 TransparencyLevelHint="Transparent">
+
     <Border>
         <DockPanel>
             <!-- Title bar -->
             <Border Padding="4"
                     DockPanel.Dock="Top"
-                    PointerPressed="TitleBar_PointerPressed">
+                    PointerPressed="OnTitlebarPressed">
                 <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0 0 0 0" HorizontalAlignment="Left">
                         <Button Classes="titlebar" Click="TogglePane" Padding="6" Margin="0" ToolTip.Tip="Toggle Sidebar">
@@ -57,13 +61,13 @@
                 </Grid>
             </Border>
 
+            <!-- Sidebar -->
             <SplitView IsPaneOpen="True"
                        OpenPaneLength="200"
                        DisplayMode="Inline"
                        Name="MainSplitView"
                        Background="Transparent"
                        PaneBackground="Transparent">
-                <!-- Sidebar -->
                 <SplitView.Pane>
                     <ScrollViewer>
                         <Border Grid.Column="0"

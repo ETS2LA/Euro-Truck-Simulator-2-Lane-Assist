@@ -1,0 +1,6 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
+    <StyleInclude Source="avares://ETS2LA.UI/Overrides/Card.axaml"/>
+    <StyleInclude Source="avares://ETS2LA.UI/Overrides/Growl.axaml"/>
+</Styles>

@@ -99,18 +99,19 @@ namespace GameTelemetry
                     IsProgressIndeterminate = true,
                 });
                 Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
                 _reader = null;
                 return;
             }
             catch (Exception)
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
                 _reader = null;
                 return;
             }
             finally
             {
+                _window?.CloseNotification("GameTelemetry.MMFNotFound");
                 accessor?.Dispose();
                 mmf?.Dispose();
             }

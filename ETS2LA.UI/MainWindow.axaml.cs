@@ -65,7 +65,7 @@ public partial class MainWindow : AppWindow
         ShowPage(PageKind.Dashboard);
     }
 
-    private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+    private void OnTitlebarPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             BeginMoveDrag(e);
@@ -80,7 +80,8 @@ public partial class MainWindow : AppWindow
             Id = "MainWindow.StayOnTopChanged",
             Title = "Stay On Top",
             Content = Topmost ? "Enabled" : "Disabled",
-            CloseAfter = 2.0f
+            CloseAfter = 2.0f,
+            Level = Topmost ? GrowlLevel.Success : GrowlLevel.Information
         });
     }
 
@@ -93,7 +94,8 @@ public partial class MainWindow : AppWindow
             Id = "MainWindow.TransparencyChanged",
             Title = "Transparency",
             Content = this.Opacity < 1.0 ? "Enabled" : "Disabled",
-            CloseAfter = 2.0f
+            CloseAfter = 2.0f,
+            Level = this.Opacity < 1.0 ? GrowlLevel.Success : GrowlLevel.Information
         });
     }
 
@@ -117,7 +119,6 @@ public partial class MainWindow : AppWindow
             Content = "Shutting down application & backend...",
             CloseAfter = 20.0f
         });
-        Thread.Sleep(100); // allow time for notif to show
         _pluginService.Shutdown();
         _notificationHandler.Shutdown();
         Close();
@@ -127,7 +128,7 @@ public partial class MainWindow : AppWindow
     {
         if (MainSplitView.IsPaneOpen)
         {
-            ToggleSidebarIcon.Value = "fa-arrow-right-to-bracket";
+            ToggleSidebarIcon.Value = "fa-right-to-bracket";
             ToggleSidebarIcon.RenderTransform = new RotateTransform(180);
             TitlebarDividerLeft.IsVisible = false;
             TitlebarDividerRight.IsVisible = false;
@@ -137,7 +138,7 @@ public partial class MainWindow : AppWindow
         }
         else
         {
-            ToggleSidebarIcon.Value = "fa-arrow-right-from-bracket";
+            ToggleSidebarIcon.Value = "fa-right-from-bracket";
             ToggleSidebarIcon.RenderTransform = new RotateTransform(0);
             TitlebarDividerLeft.IsVisible = true;
             TitlebarDividerRight.IsVisible = true;

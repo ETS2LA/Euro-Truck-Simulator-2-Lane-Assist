@@ -1,6 +1,3 @@
-// TODO: This file is WIP and needs to be reviewed and tested.
-// The datastructure needs changes before pushing to production
-// for clarity and easier use!
 using ETS2LA.Shared;
 using ETS2LA.Logging;
 using Avalonia.Threading;
@@ -13,7 +10,7 @@ public class NotificationHandler : INotificationHandler
 {
     private readonly AppWindow _window;
     private bool _isRunning = true;
-    public List<Tuple<string, GrowlItem, Notification>> ActiveNotifications { get; } = new();
+    public List<Notification> ActiveNotifications { get; private set; } = new();
 
     public NotificationHandler(AppWindow window)
     {
@@ -39,33 +36,33 @@ public class NotificationHandler : INotificationHandler
             var toClose = new List<string>();
             foreach (var notif in ActiveNotifications)
             {
-                if (notif.Item3.IsProgressIndeterminate || notif.Item3.CloseAfter <= 0.0f)
+                if (notif.IsProgressIndeterminate || notif.CloseAfter <= 0.0f)
                     continue; // skip progress notifs
 
-                float timeElapsed = (float)(now - notif.Item3.CreatedAt).TotalSeconds;
-                float progress = timeElapsed / notif.Item3.CloseAfter * 100; // (0.0 to 100.0)
+                float timeElapsed = (float)(now - notif.CreatedAt).TotalSeconds;
+                float progress = timeElapsed / notif.CloseAfter * 100; // (0.0 to 100.0)
 
-                if (notif.Item3.CloseAfter > 0.0f)
+                if (notif.CloseAfter > 0.0f)
                 {
                     Notification clone = new Notification
                     {
-                        Id = notif.Item3.Id,
-                        Title = notif.Item3.Title,
-                        Content = notif.Item3.Content,
-                        Level = notif.Item3.Level,
+                        Id = notif.Id,
+                        Title = notif.Title,
+                        Content = notif.Content,
+                        Level = notif.Level,
                         Progress = progress,
                         IsProgressIndeterminate = false,
-                        CloseAfter = notif.Item3.CloseAfter,
-                        ShowCloseButtonAfter = notif.Item3.ShowCloseButtonAfter,
-                        CreatedAt = notif.Item3.CreatedAt,
+                        CloseAfter = notif.CloseAfter,
+                        ShowCloseButtonAfter = notif.ShowCloseButtonAfter,
+                        CreatedAt = notif.CreatedAt,
                         IsInternal = true
                     };
                     SendNotification(clone);
                 }
 
-                if (notif.Item3.CloseAfter > 0.0f && timeElapsed >= notif.Item3.CloseAfter)
+                if (notif.CloseAfter > 0.0f && timeElapsed >= notif.CloseAfter)
                 {
-                    toClose.Add(notif.Item1);
+                    toClose.Add(notif.Id);
                 }
             }
 
@@ -91,27 +88,27 @@ public class NotificationHandler : INotificationHandler
             return;
         }
 
-        var toUpdate = ActiveNotifications.FirstOrDefault(x => x.Item1 == notification.Id);
+        var toUpdate = ActiveNotifications.FirstOrDefault(x => x.Id == notification.Id);
         if (toUpdate != null)
         {
-            toUpdate.Item2.Title = notification.Title;
-            toUpdate.Item2.Content = notification.Content;
-            toUpdate.Item2.Level = notification.Level;
-            toUpdate.Item2.Progress = notification.Progress;
-            toUpdate.Item2.IsProgressIndeterminate = notification.IsProgressIndeterminate;
-            toUpdate.Item2.IsCloseButtonVisible = notification.CloseAfter <= 0.0f; // show if not automatic
-            toUpdate.Item2.IsProgressBarVisible = notification.Progress >= 0.0f || notification.IsProgressIndeterminate;
+            toUpdate.Item?.Title = notification.Title;
+            toUpdate.Item?.Content = notification.Content;
+            toUpdate.Item?.Level = notification.Level;
+            toUpdate.Item?.Progress = notification.Progress;
+            toUpdate.Item?.IsProgressIndeterminate = notification.IsProgressIndeterminate;
+            toUpdate.Item?.IsCloseButtonVisible = notification.CloseAfter <= 0.0f; // show if not automatic
+            toUpdate.Item?.IsProgressBarVisible = notification.Progress >= 0.0f || notification.IsProgressIndeterminate;
 
             if (!notification.IsInternal)
             {
-                toUpdate.Item3.Title = notification.Title;
-                toUpdate.Item3.Content = notification.Content;
-                toUpdate.Item3.Level = notification.Level;
-                toUpdate.Item3.Progress = notification.Progress;
-                toUpdate.Item3.IsProgressIndeterminate = notification.IsProgressIndeterminate;
-                toUpdate.Item3.CloseAfter = notification.CloseAfter;
-                toUpdate.Item3.ShowCloseButtonAfter = notification.ShowCloseButtonAfter;
-                toUpdate.Item3.CreatedAt = DateTime.UtcNow;
+                toUpdate.Title = notification.Title;
+                toUpdate.Content = notification.Content;
+                toUpdate.Level = notification.Level;
+                toUpdate.Progress = notification.Progress;
+                toUpdate.IsProgressIndeterminate = notification.IsProgressIndeterminate;
+                toUpdate.CloseAfter = notification.CloseAfter;
+                toUpdate.ShowCloseButtonAfter = notification.ShowCloseButtonAfter;
+                toUpdate.CreatedAt = DateTime.UtcNow;
             }
         }
     }
@@ -128,7 +125,7 @@ public class NotificationHandler : INotificationHandler
         // if we don't do this.
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            if (ActiveNotifications.Any(x => x.Item1 == notification.Id))
+            if (ActiveNotifications.Any(x => x.Id == notification.Id))
             {
                 UpdateNotification(notification);
                 return;
@@ -147,9 +144,10 @@ public class NotificationHandler : INotificationHandler
                 IsCloseButtonVisible = notification.CloseAfter <= 0.0f, // show if not automatic
                 IsProgressBarVisible = notification.Progress >= 0.0f || notification.IsProgressIndeterminate
             };
-            
-            growlHost.Pop(item);
-            ActiveNotifications.Add(new Tuple<string, GrowlItem, Notification>(notification.Id, item, notification));
+
+            notification.Item = item;
+            growlHost.Pop(notification.Item);
+            ActiveNotifications.Add(notification);
         });
     }
 
@@ -161,10 +159,10 @@ public class NotificationHandler : INotificationHandler
             return;
         }
 
-        var toRemove = ActiveNotifications.FirstOrDefault(x => x.Item1 == id);
+        var toRemove = ActiveNotifications.FirstOrDefault(x => x.Id == id);
         if (toRemove != null)
         {
-            toRemove.Item2.Dismiss();
+            toRemove.Item?.Dismiss();
             ActiveNotifications.Remove(toRemove);
         }
     }
