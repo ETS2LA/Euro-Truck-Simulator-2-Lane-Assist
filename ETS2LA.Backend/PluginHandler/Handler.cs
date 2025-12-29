@@ -19,8 +19,14 @@ namespace ETS2LA.Backend
 
         public string[] DiscoverPlugins()
         {
-            var pluginFiles = Directory.GetFiles("Plugins", "*.dll");
-            return pluginFiles;
+            try
+            {
+                var pluginFiles = Directory.GetFiles("Plugins", "*.dll");
+                return pluginFiles;
+            } catch (Exception)
+            {
+                return Array.Empty<string>();
+            }
         }
 
         public void LoadPlugins()

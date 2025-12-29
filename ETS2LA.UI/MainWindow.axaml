@@ -48,15 +48,17 @@
                         
                         <husk:Divider Orientation="Vertical" Margin="0 0 0 0" />
 
-                        <Button Classes="titlebar" Click="OnMinimizeClick" Padding="6" Margin="0" ToolTip.Tip="Minimize">
-                            <i:Icon Value="fa-square-minus" />
-                        </Button>
-                        <Button Classes="titlebar" Click="OnMaxRestoreClick" Padding="6" Margin="0" ToolTip.Tip="Maximize/Restore">
-                            <i:Icon Value="fa-window-maximize" Name="MaximizeRestoreIcon"/>
-                        </Button>
-                        <Button Classes="titlebar" Click="OnCloseClick" Padding="6" Margin="0" ToolTip.Tip="Close ETS2LA">
-                            <i:Icon Value="fa-rectangle-xmark" />
-                        </Button>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 0">
+                            <Button Classes="titlebar" Click="OnMinimizeClick" Padding="6" Margin="0" ToolTip.Tip="Minimize">
+                                <i:Icon Value="fa-square-minus" Foreground="{DynamicResource Warning10Color}" />
+                            </Button>
+                            <Button Classes="titlebar" Click="OnMaxRestoreClick" Padding="6" Margin="0" ToolTip.Tip="Maximize/Restore">
+                                <i:Icon Value="fa-window-maximize" Name="MaximizeRestoreIcon" Foreground="{DynamicResource Success10Color}"/>
+                            </Button>
+                            <Button Classes="titlebar" Click="OnCloseClick" Padding="6" Margin="0" ToolTip.Tip="Close ETS2LA">
+                                <i:Icon Value="fa-rectangle-xmark" Foreground="{DynamicResource Danger10Color}" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Border>

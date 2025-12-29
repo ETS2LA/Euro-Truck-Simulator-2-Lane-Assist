@@ -13,6 +13,7 @@ using ETS2LA.UI.Notifications;
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
 using Tmds.DBus.Protocol;
+using Avalonia;
 
 namespace ETS2LA.UI;
 
@@ -75,13 +76,16 @@ public partial class MainWindow : AppWindow
     {
         Topmost = !Topmost;
         StayOnTopIcon.Value = Topmost ? "mdi-picture-in-picture-bottom-right" : "mdi-picture-in-picture-bottom-right-outline";
+        if (Topmost) StayOnTopIcon.Classes.Add("Highlight");
+        else StayOnTopIcon.Classes.Remove("Highlight");
+        
         _notificationHandler.SendNotification(new Notification
         {
             Id = "MainWindow.StayOnTopChanged",
             Title = "Stay On Top",
             Content = Topmost ? "Enabled" : "Disabled",
             CloseAfter = 2.0f,
-            Level = Topmost ? GrowlLevel.Success : GrowlLevel.Information
+            Level = Topmost ? GrowlLevel.Success : GrowlLevel.Danger
         });
     }
 
@@ -89,13 +93,16 @@ public partial class MainWindow : AppWindow
     {
         this.Opacity = this.Opacity == 1.0 ? 0.8 : 1.0;
         TransparencyIcon.Value = this.Opacity == 1.0 ? "fa-circle" : "fa-circle-half-stroke";
+        if(this.Opacity == 1.0) TransparencyIcon.Classes.Remove("Highlight");
+        else TransparencyIcon.Classes.Add("Highlight");
+        
         _notificationHandler.SendNotification(new Notification
         {
             Id = "MainWindow.TransparencyChanged",
             Title = "Transparency",
             Content = this.Opacity < 1.0 ? "Enabled" : "Disabled",
             CloseAfter = 2.0f,
-            Level = this.Opacity < 1.0 ? GrowlLevel.Success : GrowlLevel.Information
+            Level = this.Opacity < 1.0 ? GrowlLevel.Success : GrowlLevel.Danger
         });
     }
 

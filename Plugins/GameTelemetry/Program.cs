@@ -111,7 +111,6 @@ namespace GameTelemetry
             }
             finally
             {
-                _window?.CloseNotification("GameTelemetry.MMFNotFound");
                 accessor?.Dispose();
                 mmf?.Dispose();
             }
@@ -122,8 +121,9 @@ namespace GameTelemetry
                 return;
             }
 
-            int offset = 0;
+            _window?.CloseNotification("GameTelemetry.MMFNotFound");
 
+            int offset = 0;
             GameTelemetryData telemetry = new GameTelemetryData();
 
             // Root Values

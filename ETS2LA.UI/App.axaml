@@ -17,80 +17,18 @@
         https://github.com/d3ara1n/Huskui.Avalonia/blob/main/src/Huskui.Avalonia/Themes/Colors.axaml
         -->
         <SolidColorBrush x:Key="ControlSecondaryLightForegroundBrush" Color="{DynamicResource Gray11Color}" />
+        <SolidColorBrush x:Key="AccentForeground" Color="{DynamicResource Accent11Color}" />
     </Application.Resources>
 
     <Application.Styles>
         <FluentTheme />
-        <husk:HuskuiTheme Corner="Normal" />
-        <StyleInclude Source="avares://ETS2LA.UI/Overrides/Overrides.axaml"/>
-        
-        <!-- Icons.Avalonia -->
-        <Style Selector="i|Icon">
-            <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
-        </Style>
+        <husk:HuskuiTheme Corner="Normal" Accent="Orange" />
+        <StyleInclude Source="avares://ETS2LA.UI/Styles/Overrides/Overrides.axaml"/>
 
-        <!-- TextBlocks -->
-        <Style Selector="TextBlock">
-            <Setter Property="FontFamily" Value="Geist Medium"/>
-            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-            <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
-        </Style>
-        <Style Selector="TextBlock.Description">
-            <Setter Property="Foreground" Value="{StaticResource ControlSecondaryLightForegroundBrush}"/>
-        </Style>
+        <StyleInclude Source="avares://ETS2LA.UI/Styles/Span.axaml"/>
+        <StyleInclude Source="avares://ETS2LA.UI/Styles/TextBlock.axaml"/>
+        <StyleInclude Source="avares://ETS2LA.UI/Styles/Button.axaml"/>
 
-        <!-- Sidebar Buttons -->
-        <Style Selector="Button.sidebar">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource SolidColor}"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="Padding" Value="10 5 10 5"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="4 0 0 0"/>
-        </Style>
-        <Style Selector="Button.sidebar.Selected">
-            <Setter Property="Background" Value="{StaticResource OverlayInteractiveBackgroundBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Gray6Color}"/>
-        </Style>
-
-        <!-- Titlebar Buttons -->
-        <Style Selector="Button.titlebar">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CornerRadius" Value="4"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="TextElement.Foreground" Value="{StaticResource SolidColor}"/>
-        </Style>
-
-        <Style Selector="Button.titlebar:pressed">
-            <Setter Property="Background" Value="#20232A"/>
-        </Style>
-
-        <!-- Traffic-light buttons -->
-        <Style Selector="Button.traffic">
-            <Setter Property="Width" Value="12"/>
-            <Setter Property="Height" Value="12"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="#3A3D44"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="0"/>
-        </Style>
-        <Style Selector="Button.traffic.red">
-            <Setter Property="Background" Value="#FB2C36"/>
-        </Style>
-        <Style Selector="Button.traffic.yellow">
-            <Setter Property="Background" Value="#F0B100"/>
-        </Style>
-        <Style Selector="Button.traffic.green">
-            <Setter Property="Background" Value="#00C950"/>
-        </Style>
+        <StyleInclude Source="avares://ETS2LA.UI/Styles/Icon.axaml"/>
     </Application.Styles>
 </Application>
