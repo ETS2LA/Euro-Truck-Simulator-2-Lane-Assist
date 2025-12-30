@@ -4,11 +4,17 @@ using ETS2LA.Shared;
 using ETS2LA.Logging;
 using Huskui.Avalonia.Models;
 
-[assembly: PluginInformation("Game Telemetry", "This plugin will read game telemetry and transmit it via events.")]
 namespace GameTelemetry
 {
     public class GameTelemetry : Plugin
     {
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Game Telemetry",
+            Description = "This plugin reads game telemetry from ETS2/ATS and publishes it to the event bus.",
+            AuthorName = "Tumppi066",
+        };
+
         // Read game telemetry at 60FPS
         public override float TickRate => 60f;
 
@@ -65,6 +71,12 @@ namespace GameTelemetry
         {
             base.Init();
             Logger.Info("Game Telemetry plugin initialized.");
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            _window?.CloseNotification("GameTelemetry.MMFNotFound");
         }
 
         public override void Tick()

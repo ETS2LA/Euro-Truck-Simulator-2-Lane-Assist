@@ -6,15 +6,23 @@
              RequestedThemeVariant="Dark">
     <Application.Resources>
         <FontFamily x:Key="GeistLight">avares://ETS2LA.UI/Assets/Fonts/Geist-Light.ttf#Geist Light</FontFamily>
-        <FontFamily x:Key="Geist">avares://ETS2LA.UI/Assets/Fonts/Geist-Regular.ttf#Geist</FontFamily>
+        <FontFamily x:Key="Geist">avares://ETS2LA.UI/Assets/Fonts/Geist[wght].ttf#Geist</FontFamily>
         <FontFamily x:Key="GeistMedium">avares://ETS2LA.UI/Assets/Fonts/Geist-Medium.ttf#Geist Medium</FontFamily>
         <FontFamily x:Key="GeistSemiBold">avares://ETS2LA.UI/Assets/Fonts/Geist-SemiBold.ttf#Geist SemiBold</FontFamily>
         <FontFamily x:Key="GeistBold">avares://ETS2LA.UI/Assets/Fonts/Geist-Bold.ttf#Geist Bold</FontFamily>
+        <FontFamily x:Key="GeistExtraBold">avares://ETS2LA.UI/Assets/Fonts/Geist-ExtraBold.ttf#Geist ExtraBold</FontFamily>
         
         <!-- 
         Adding to the brushes given by husk 
         Check here for a full list of available StaticResource colors with husk:
         https://github.com/d3ara1n/Huskui.Avalonia/blob/main/src/Huskui.Avalonia/Themes/Colors.axaml
+
+        Quick rundown of husk colors (not brushes):
+        - There are 12 shades, from 1 to 12.
+        - There are 7 main colors: Black, White, Gray, Accent, Success, Warning, Danger.
+        - The two most used colors are Gray (base) and Accent (highlight).
+        - For the foreground use 11, for background use 3 or 4, borders or nonimportant highlights are usually 6 or 7.
+        - Accessing colors is done via DynamicResource, brushes via StaticResource.
         -->
         <SolidColorBrush x:Key="ControlSecondaryLightForegroundBrush" Color="{DynamicResource Gray11Color}" />
         <SolidColorBrush x:Key="AccentForeground" Color="{DynamicResource Accent11Color}" />
@@ -23,12 +31,14 @@
     <Application.Styles>
         <FluentTheme />
         <husk:HuskuiTheme Corner="Normal" Accent="Orange" />
-        <StyleInclude Source="avares://ETS2LA.UI/Styles/Overrides/Overrides.axaml"/>
 
+        <!-- Our style edits for normal avalonia elements are here -->
         <StyleInclude Source="avares://ETS2LA.UI/Styles/Span.axaml"/>
         <StyleInclude Source="avares://ETS2LA.UI/Styles/TextBlock.axaml"/>
         <StyleInclude Source="avares://ETS2LA.UI/Styles/Button.axaml"/>
-
         <StyleInclude Source="avares://ETS2LA.UI/Styles/Icon.axaml"/>
+        <!-- and overrides to default husk styles here -->
+        <StyleInclude Source="avares://ETS2LA.UI/Styles/Overrides/Overrides.axaml"/>
+    
     </Application.Styles>
 </Application>

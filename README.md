@@ -25,6 +25,12 @@ You can customize your plugin class as you see fit, it is still recommended to u
 ```csharp
 public abstract class Plugin : IPlugin
 {
+    // Used to describe the plugin. Name, author etc...
+    public abstract PluginInformation Info { get; }
+
+    // Used to communicate with the window, for example sending notifications.
+    protected INotificationHandler? _window;
+
     // Used to communicate with other plugins, expanded further later.
     protected IEventBus? _bus;
 
@@ -228,3 +234,36 @@ SDKControlEvent controlEvent = new SDKControlEvent
 // but the game will only listen to controls in between frames.
 _bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
 ```
+
+### Sending notifications
+You can send notifications to the main window using the `_window` variable in the `Plugin` class. Below is an example of how to use it:
+```csharp
+// Static notification
+_notificationHandler.SendNotification(new Notification
+{
+    Id = "MainWindow.TransparencyChanged", // Always set a unique ID for your notification
+    Title = "Transparency",
+    Content = this.Opacity < 1.0 ? "Enabled" : "Disabled",
+    CloseAfter = 2.0f, // Defines how long until the notification auto 
+                       // closes, 0 = never -> will show a close button
+    Level = this.Opacity < 1.0 
+            ? GrowlLevel.Success  // Internally uses Huskui.GrowlItem, so use the 
+            : GrowlLevel.Danger   // GrowlLevel enum, included in ETS2LA.Shared.
+});
+
+// Dynamic notification (call ShowNotification repeatedly to update)
+_window?.SendNotification(new Notification
+{
+    Id = "ExampleConsumer.Speed",
+    Title = "Truck Speed",
+    Content = $"{speed:F2} km/h",
+    Level = GrowlLevel.Information,
+    Progress = speed / (100 / 3.6f) * 100f, // Progress is from 0 to 100!
+    IsProgressIndeterminate = false, // Used when a process is doing something
+                                     // without knowing how long it will take.
+    CloseAfter = 0 // Always set to 0 unless you want ETS2LA to show
+                   // a progress bar for the remaining time. That progress
+                   // bar will interfere with anything you set!
+});
+```
+**NOTE:** The `_window` variable is currently set directly to `INotificationHandler`. In the future this will be changed to a window interface, expect the callback to change to something like `_window?.Notifications.ShowNotification(...)`.

@@ -4,11 +4,16 @@ using ETS2LA.Shared;
 using ETS2LA.Logging;
 using Huskui.Avalonia.Models;
 
-[assembly: PluginInformation("ETS2LASDK", "Provider for the custom ets2la_plugin at https://gitlab.com/ETS2LA/ets2la_plugin.")]
 namespace ETS2LASDK
 {
     public class CameraProvider : Plugin
     {
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Camera Provider",
+            Description = "Reads camera data from ets2la_plugin and publishes it to the event bus.",
+            AuthorName = "Tumppi066",
+        };
 
         public override float TickRate => 60.0f;
         string mmapName = "Local\\ETS2LACameraProps";
@@ -81,6 +86,12 @@ namespace ETS2LASDK
 
     public class TrafficProvider : Plugin
     {
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Traffic Provider",
+            Description = "Reads traffic data from ets2la_plugin and publishes it to the event bus.",
+            AuthorName = "Tumppi066",
+        };
 
         public override float TickRate => 20.0f;
         string mmapName = "Local\\ETS2LATraffic";
@@ -203,7 +214,13 @@ namespace ETS2LASDK
 
     public class SemaphoreProvider : Plugin
     {
-
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Semaphore Provider",
+            Description = "Reads semaphore (traffic light) data from ets2la_plugin and publishes it to the event bus.",
+            AuthorName = "Tumppi066",
+        };
+        
         // Semaphores are static, no point in running them at high 
         // tick rates. Just enough where it won't feel slow to respond.
         public override float TickRate => 5.0f;
@@ -290,6 +307,13 @@ namespace ETS2LASDK
     public class NavigationProvider : Plugin
     {
 
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Navigation Provider",
+            Description = "Reads navigation data from ets2la_plugin and publishes it to the event bus.",
+            AuthorName = "Tumppi066",
+        };
+
         // Navigation won't be updating often, so a low tick rate is fine.
         public override float TickRate => 0.1f;
         string mmapName = "Local\\ETS2LARoute";
@@ -357,6 +381,13 @@ namespace ETS2LASDK
 
     public class OutputConsumer : Plugin
     {
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Control Provider",
+            Description = "Uses ets2la_plugin to send control information provided by other plugins.",
+            AuthorName = "Tumppi066",
+        };
+
         // Tickrate just affects how often the plugin checks
         // for stale data.
         public override float TickRate => 1.0f;

@@ -9,6 +9,8 @@ namespace ETS2LA.Backend
         private readonly IEventBus _bus;
         private readonly INotificationHandler _window;
         public readonly List<IPlugin> LoadedPlugins = new();
+        public Action<IPlugin>? PluginEnabled;
+        public Action<IPlugin>? PluginDisabled;
         public bool loading = false;
 
         public PluginHandler(IEventBus eventBus, INotificationHandler window)
@@ -117,8 +119,8 @@ namespace ETS2LA.Backend
             try
             {
                 plugin.OnEnable();
-                Thread.Sleep(100); // Slight delay to avoid overwhelming the system
-                                   // and to allow other processes / logging to run smoothly.
+                Logger.Info($"Enabled plugin: {plugin.Info.Name}");
+                PluginEnabled?.Invoke(plugin);
                 return true;
             }
             catch (Exception ex)
@@ -140,6 +142,8 @@ namespace ETS2LA.Backend
             try
             {
                 plugin.OnDisable();
+                Logger.Info($"Disabled plugin: {plugin.Info.Name}");
+                PluginDisabled?.Invoke(plugin);
                 return true;
             }
             catch (Exception ex)

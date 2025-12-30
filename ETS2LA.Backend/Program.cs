@@ -31,13 +31,13 @@ namespace ETS2LA.Backend
                 // RenCloud's Game Telemetry plugin provider
                 pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
                 // ets2la_plugin providers and consumers
-                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
-                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
-                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
-                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
-                // pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
                 // scs-sdk-controller consumer
-                // pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
+                pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
 
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running.");

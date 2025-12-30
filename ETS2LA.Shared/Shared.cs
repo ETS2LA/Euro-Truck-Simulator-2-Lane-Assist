@@ -41,6 +41,7 @@ namespace ETS2LA.Shared
     // Interface that plugins will follow at a minimum
     public interface IPlugin
     {
+        PluginInformation Info { get; }
         bool _IsRunning { get; set; }
         void Init();
         void Register(IEventBus bus, INotificationHandler window);
@@ -54,6 +55,7 @@ namespace ETS2LA.Shared
     // but please note that it is *highly* recommended to use this as a base.
     public abstract class Plugin : IPlugin
     {
+        public abstract PluginInformation Info { get; }
         protected INotificationHandler? _window;
         protected IEventBus? _bus;
         public bool _IsRunning { get; set; } = false;
@@ -112,24 +114,17 @@ namespace ETS2LA.Shared
         }
     }
 
-    [AttributeUsage(AttributeTargets.Assembly)]
-    public class PluginInformation : Attribute
+    public class PluginInformation
     {
         // Required
-        public string Name { get; }
-        public string Description { get; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
 
         // Optional
         public string AuthorName { get; set; } = "";
         public string AuthorWebsite { get; set; } = "";
         public string AuthorIcon { get; set; } = "";
         public string[] Tags { get; set; } = Array.Empty<string>();
-
-        public PluginInformation(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
     }
 
     // Utility classes

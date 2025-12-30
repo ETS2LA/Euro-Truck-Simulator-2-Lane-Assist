@@ -2,14 +2,20 @@
 using ETS2LA.Logging;
 using Huskui.Avalonia.Models;
 
-[assembly: PluginInformation("ExampleConsumer", "An example data provider plugin.")]
 namespace ExampleConsumer
 {
     public class MyConsumer : Plugin
     {
-        public override void Init()
+        public override PluginInformation Info => new PluginInformation
         {
-            base.Init();
+            Name = "Example Consumer",
+            Description = "An example data consumer plugin.",
+            AuthorName = "Tumppi066",
+        };
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
             _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
             _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
             _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
@@ -18,12 +24,43 @@ namespace ExampleConsumer
             _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
         }
 
-        float output = 0;
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            _window?.CloseNotification("ExampleConsumer.Speed");
+            _window?.CloseNotification("ExampleConsumer.RPM");
+        }
+
+        private float output = 0;
+        private float speed = 0;
+        private float rpm = 0;
         public override void Tick()
         {
             output += 0.01f;
             if (output > 1.0f)
                 output = -1.0f;
+
+            _window?.SendNotification(new Notification
+            {
+                Id = "ExampleConsumer.Speed",
+                Title = "Truck Speed",
+                Content = $"{speed:F2} km/h",
+                Level = GrowlLevel.Information,
+                Progress = speed / (100 * 3.6f) * 100f,
+                IsProgressIndeterminate = false,
+                CloseAfter = 0 
+            });
+
+            _window?.SendNotification(new Notification
+            {
+                Id = "ExampleConsumer.RPM",
+                Title = "Engine RPM",
+                Content = $"{rpm:F0} RPM",
+                Level = GrowlLevel.Information,
+                Progress = rpm / 3000.0f * 100f,
+                IsProgressIndeterminate = false,
+                CloseAfter = 0 
+            });
 
             // _bus?.Publish<float>("ETS2LA.Output.Steering", output);
 
@@ -49,6 +86,9 @@ namespace ExampleConsumer
         {
             if (!_IsRunning)
                 return;
+
+            speed = data.truckFloat.speed;
+            rpm = data.truckFloat.engineRpm;
         }
 
         private void OnCameraReceived(Camera camera)

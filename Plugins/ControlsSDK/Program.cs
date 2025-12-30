@@ -3,13 +3,18 @@ using System.IO.MemoryMappedFiles;
 using ETS2LA.Logging;
 using ETS2LA.Shared;
 
-[assembly: PluginInformation("ControlsSDK", "This plugin provides a consumer for control events. Other plugins can access ETS2LA's virtual controller with it.")]
 namespace ControlsSDK
 {
     public class EventConsumer : Plugin
     {
-        public override float TickRate => 1.0f;
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "ControlsSDK",
+            Description = "This plugin provides a consumer for control events. Other plugins can access ETS2LA's virtual controller with it.",
+            AuthorName = "Tumppi066",
+        };
 
+        public override float TickRate => 1.0f;
         string mmapName = "Local\\SCSControls";
         int mmapSize = 0;
         Dictionary<string, int> _shmOffsets = new Dictionary<string, int>();
@@ -43,8 +48,16 @@ namespace ControlsSDK
 
             // Open the memory-mapped file, it's fine to leave it open as
             // only this plugin will ever have access to it.
-            mmf = MemoryMappedFile.OpenExisting(mmapName, MemoryMappedFileRights.Write);
-            accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+            try
+            {
+                mmf = MemoryMappedFile.OpenExisting(mmapName, MemoryMappedFileRights.Write);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+            } catch (Exception)
+            {
+                // open new files
+                mmf = MemoryMappedFile.CreateOrOpen(mmapName, mmapSize, MemoryMappedFileAccess.Write);
+                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+            }
 
             // And finally start listening to events
             _bus?.Subscribe<SDKControlEvent>("ETS2LA.Output.Event", OnControlEvent);

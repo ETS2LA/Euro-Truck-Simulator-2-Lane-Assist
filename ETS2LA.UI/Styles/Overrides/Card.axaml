@@ -4,4 +4,8 @@
     <Style Selector="husk|Card">
         <Setter Property="BorderBrush" Value="{DynamicResource Gray6Color}"/>
     </Style>
+
+    <Style Selector="husk|Card.Highlight">
+        <Setter Property="BorderBrush" Value="{DynamicResource Accent6Color}"/>
+    </Style>
 </Styles>

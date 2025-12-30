@@ -14,19 +14,9 @@ namespace ETS2LA.UI.Views;
 
 public partial class ManagerView : UserControl
 {
+    // This list is listened by the UI to show available plugins.
     public ObservableCollection<PluginItem> Plugins { get; } = new();
     private readonly PluginManagerService _pluginService;
-    public bool HasPlugins
-    {
-        get => _hasPlugins;
-        private set
-        {
-            if (_hasPlugins == value) return;
-            _hasPlugins = value;
-            OnPropertyChanged();
-        }
-    }
-    private bool _hasPlugins;
 
     public ManagerView(PluginManagerService service)
     {
@@ -44,85 +34,46 @@ public partial class ManagerView : UserControl
         }
     }
 
-    private void OnRefreshClick(object? sender, RoutedEventArgs e)
-    {
-        UpdatePluginList();
-    }
-
-    private void OnCardPointerReleased(object? sender, PointerReleasedEventArgs e)
+    private void OnCardPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.Source is Button) return; // avoid toggling when pressing buttons
-        if (sender is Border { Tag: PluginItem item })
+        if (sender is Huskui.Avalonia.Controls.Card { Tag: PluginItem item })
         {
             item.Toggle();
         }
     }
 
-    private async void OnOpenSettingsClick(object? sender, RoutedEventArgs e)
-    {
-        if (sender is not Control { Tag: PluginItem item }) return;
-        var page = item.SettingsPage;
-        if (page == null || item.Ui == null) return;
-
-        var window = new PluginUiWindow();
-        window.LoadPage(page, item.Ui);
-        await window.ShowDialog((Window?)VisualRoot);
-    }
-
-    private void LoadPlugins()
-    {
-        Plugins.Clear();
-        UpdatePluginList();
-    }
-
     private void UpdatePluginList()
     {
-        var uiEntries = _pluginService.GetPluginUis().ToDictionary(x => x.Metadata.Instance);
-        foreach (var plugin in _pluginService.GetPlugins())
+        List<IPlugin> plugins = _pluginService.GetPlugins();
+        foreach (var plugin in plugins)
         {
-            uiEntries.TryGetValue(plugin.Instance, out var uiInfo);
-            Plugins.Add(new PluginItem(plugin, _pluginService, uiInfo?.Ui, uiInfo?.Pages));
+            Plugins.Add(new PluginItem(plugin, _pluginService));
         }
 
-        HasPlugins = Plugins.Count > 0;
+        bool hasPlugins = plugins.Count > 0;
         if (this.FindControl<ItemsControl>("PluginList") is { } list)
-            list.IsVisible = HasPlugins;
+            list.IsVisible = hasPlugins;
         if (this.FindControl<Border>("PlaceholderPanel") is { } placeholder)
-            placeholder.IsVisible = !HasPlugins;
+            placeholder.IsVisible = !hasPlugins;
     }
 
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
-
-    public new event PropertyChangedEventHandler? PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }
 
 public class PluginItem : INotifyPropertyChanged
 {
-    private static readonly IBrush EnabledCard = new SolidColorBrush(Color.Parse("#1E2732"));
-    private static readonly IBrush DisabledCard = new SolidColorBrush(Color.Parse("#16181D"));
-    private static readonly IBrush EnabledStatus = new SolidColorBrush(Color.Parse("#2D7DFF"));
-    private static readonly IBrush DisabledStatus = new SolidColorBrush(Color.Parse("#262B33"));
-    private static readonly IBrush PrimaryText = new SolidColorBrush(Color.Parse("#ECEDEE"));
-
-    private readonly PluginMetadata _metadata;
     private readonly PluginManagerService _service;
+    private readonly IPlugin _instance;
     private bool _isEnabled;
 
-    public string Name { get; }
-    public string Description { get; }
-    public string Source { get; }
-    public string Initials { get; }
-    public bool HasSettingsPage { get; }
-    public PluginPage? SettingsPage { get; }
-    public IPluginUi? Ui { get; }
+    public string Name => _instance.Info.Name;
+    public string Description => _instance.Info.Description;
+    public string Author => _instance.Info.AuthorName;
+    public string Initials => BuildInitials(Name);
 
     public bool IsEnabled
     {
@@ -132,40 +83,27 @@ public class PluginItem : INotifyPropertyChanged
             if (_isEnabled == value) return;
             _isEnabled = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(StatusText));
-            OnPropertyChanged(nameof(CardBackground));
-            OnPropertyChanged(nameof(StatusBackground));
-            OnPropertyChanged(nameof(StatusForeground));
         }
     }
 
-    public string StatusText => IsEnabled ? "Enabled" : "Disabled";
-    public IBrush CardBackground => IsEnabled ? EnabledCard : DisabledCard;
-    public IBrush StatusBackground => IsEnabled ? EnabledStatus : DisabledStatus;
-    public IBrush StatusForeground => IsEnabled ? Brushes.White : PrimaryText;
-
-    public PluginItem(PluginMetadata metadata, PluginManagerService service, IPluginUi? ui = null, IReadOnlyList<PluginPage>? pages = null)
+    public PluginItem(IPlugin instance, PluginManagerService service)
     {
-        _metadata = metadata;
+        _instance = instance;
         _service = service;
-        Ui = ui;
+        _isEnabled = _instance._IsRunning;
+        Update();
+    }
 
-        Name = metadata.Name;
-        Description = metadata.Description;
-        Source = string.IsNullOrWhiteSpace(metadata.Author) ? "Unknown" : metadata.Author;
-        Initials = BuildInitials(Name);
-        _isEnabled = metadata.Instance._IsRunning;
-
-        SettingsPage = pages?.FirstOrDefault(p => p.Location == PluginPageLocation.Settings);
-        HasSettingsPage = SettingsPage != null;
+    public void Update()
+    {
+        IsEnabled = _instance._IsRunning;
     }
 
     public void Toggle()
     {
         var target = !IsEnabled;
-        var success = _service.SetEnabled(_metadata, target);
-        if (success)
-            IsEnabled = target;
+        _service.SetEnabled(_instance, target);
+        Update();
     }
 
     private static string BuildInitials(string name)
@@ -177,7 +115,6 @@ public class PluginItem : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
-
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

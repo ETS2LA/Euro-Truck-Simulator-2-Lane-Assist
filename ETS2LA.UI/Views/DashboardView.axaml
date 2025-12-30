@@ -9,7 +9,7 @@
                     <StackPanel Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock FontSize="18">
-                                Welcome back, <Span Classes="Highlight">Tumppi066</Span>!
+                                Welcome back, <Span Classes="Highlight Italic">Tumppi066</Span>!
                             </TextBlock>
                         </Grid>
 
@@ -93,7 +93,7 @@
                         <WrapPanel Grid.Row="1" ItemSpacing="8" VerticalAlignment="Bottom">
                             <Button Content="Join Discord" />
                             <Button Content="Open GitHub" />
-                            <Button Content="Ko-Fi" Classes="Success" />
+                            <Button Content="Ko-Fi" Classes="Primary" />
                         </WrapPanel>
                     </Grid>
                 </husk:Card>
