@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-04 18:06+0000\n"
-"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
+"PO-Revision-Date: 2025-12-31 12:21+0000\n"
+"Last-Translator: MaisaMaicaE <maisamaica@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
 msgid "Timeout, please try again."
-msgstr "操作已超时，请再次尝试。"
+msgstr "操作超时，请重试。"
 
 #: .\ETS2LA\Controls\picker.py:86
 msgid "Event bound to {device} {action}"
@@ -29,7 +29,7 @@ msgstr "按键绑定到{device} {action}"
 
 #: .\ETS2LA\Handlers\controls.py:100
 msgid "Refreshing joysticks..."
-msgstr "正在刷新摇杆。。。"
+msgstr "正在刷新摇杆..."
 
 #: .\ETS2LA\Handlers\controls.py:114
 msgid "{} connected."
@@ -37,7 +37,7 @@ msgstr "{}已连接。"
 
 #: .\ETS2LA\Handlers\controls.py:116
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
-msgstr "找到摇杆：[bold]{name}[/bold] [dim]({uid})[/dim]"
+msgstr "已发现摇杆：[bold]{name}[/bold] [dim]({uid})[/dim]"
 
 #: .\ETS2LA\Handlers\controls.py:130 .\ETS2LA\Handlers\controls.py:131
 msgid "{} disconnected."
@@ -46,7 +46,7 @@ msgstr "{}断开连接。"
 #: .\ETS2LA\Handlers\controls.py:305 .\ETS2LA\Handlers\controls.py:382
 #: .\ETS2LA\Handlers\controls.py:429
 msgid "Event with alias '{0}' not found."
-msgstr "未找到别名为'{0}'的事件。"
+msgstr "未找到名为'{0}'的事件。"
 
 #: .\ETS2LA\Handlers\controls.py:415
 msgid "Exception occurred while trying to edit the event."
@@ -70,27 +70,27 @@ msgstr "插件{0}开启失败：{1}"
 
 #: .\ETS2LA\Handlers\plugins.py:197
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr "插件[yellow]{0}[/yellow]已成功加载。"
+msgstr "插件 [yellow]{0}[/yellow] 已成功加载。"
 
 #: .\ETS2LA\Handlers\plugins.py:518
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr "插件{0}未找到介绍：已超时。"
+msgstr "插件 {0} 未找到介绍：已超时。"
 
 #: .\ETS2LA\Handlers\plugins.py:524
 msgid "Plugin {0} failed to get description: {1}"
-msgstr "插件{0}未找到介绍：{1}"
+msgstr "插件 {0} 未找到介绍：{1}"
 
 #: .\ETS2LA\Handlers\plugins.py:575
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr "插件 {0}未找到按键：已超时。"
+msgstr "插件 {0} 未找到按键：已超时。"
 
 #: .\ETS2LA\Handlers\plugins.py:588
 msgid "Plugin {0} failed to get controls: {1}"
-msgstr "插件 {0}未找到按键：{1}"
+msgstr "插件 {0} 未找到按键：{1}"
 
 #: .\ETS2LA\Handlers\plugins.py:670
 msgid "Loaded {0} plugins."
-msgstr "已成功加载{0}插件。"
+msgstr "已成功加载 {0} 插件。"
 
 #: .\ETS2LA\Handlers\plugins.py:742 .\ETS2LA\Handlers\plugins.py:932
 msgid "Plugin not found."
@@ -98,11 +98,11 @@ msgstr "插件未找到。"
 
 #: .\ETS2LA\Handlers\plugins.py:754
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr "插件[yellow]{0}[/yellow]已成功开启。"
+msgstr "插件[yellow] {0} [/yellow]已成功开启。"
 
 #: .\ETS2LA\Handlers\plugins.py:765
 msgid "Failed to start plugin: {0}"
-msgstr "未能成功开启插件：{0}"
+msgstr "插件启动失败：{0}"
 
 #: .\ETS2LA\Handlers\plugins.py:766 .\ETS2LA\Handlers\plugins.py:813
 msgid "Timeout"
@@ -114,51 +114,51 @@ msgstr "未找到插件，这可能因为插件崩溃或者加载失败造成的
 
 #: .\ETS2LA\Handlers\plugins.py:805
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr "插件[yellow]{0}[/yellow]已成功退出。"
+msgstr "插件[yellow]{0}[/yellow]已停止运行。"
 
 #: .\ETS2LA\Handlers\plugins.py:812
 msgid "Failed to stop plugin: {0}"
-msgstr "插件未能成功退出：{0}"
+msgstr "插件停止运行失败：{0}"
 
 #: .\ETS2LA\Handlers\plugins.py:833
 msgid "Failed to restart plugin: {0}"
-msgstr "尝试重启插件失败：{0}"
+msgstr "重启插件失败：{0}"
 
 #: .\ETS2LA\Handlers\plugins.py:870 .\ETS2LA\Handlers\plugins.py:889
 msgid "Plugin {0} not found for page {1}."
-msgstr "未能找到页面{1}的插件 {0}。"
+msgstr "未能找到页面 {1} 的插件 {0} 。"
 
 #: .\ETS2LA\Handlers\sounds.py:13
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
-msgstr "无法下载ffmpeg库，请手动下载（例如[code]winget install ffmpeg[/code]）"
+msgstr "无法下载 FFmpeg 库，请手动下载（例如 [code]winget install ffmpeg[/code]）"
 
 #: .\ETS2LA\Handlers\sounds.py:51
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr "声音包'{0}'缺少所需的声音'{1}'"
+msgstr "声音包 '{0}' 缺少所需的声音 '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:60
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr "声音包'{0}'的文件类型'{1}'无效"
+msgstr "声音包 '{0}' 的文件类型 '{1}' 无效"
 
 #: .\ETS2LA\Handlers\sounds.py:99
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr "尝试播放声音\"{0}\"，但在声音包\"{1}\"中找不到该声音"
+msgstr "尝试播放声音 '{0}'，但在声音包 '{1}' 中找不到该声音"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr "注册成功 [bold]http：//{address}[/bold] 指向 [dim]{local_ip}[/dim]。"
+msgstr "[bold]http://{address}[/bold] 已成功注册，指向 [dim]{local_ip}[/dim]。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:94
 msgid "An error occurred while processing a message."
-msgstr "处理消息时发生错误。"
+msgstr "消息处理时出现错误。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:192
 msgid "Tried to send an empty page."
-msgstr "尝试发送一个空页面。"
+msgstr "尝试发送空页面。"
 
 #: .\ETS2LA\Networking\Servers\notifications.py:262
 msgid "Frontend popup websocket started."
-msgstr "前端弹出窗口 websocket 已启动。"
+msgstr "前端弹窗 WebSocket 已启动。"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:119
 msgid "Frontend"
@@ -186,23 +186,23 @@ msgstr "重新加载插件失败"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:469
 msgid "Failed to build frontend"
-msgstr "编译前端失败"
+msgstr "前端编译失败"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:479
 msgid "Building frontend... please wait..."
-msgstr "前端编译中......请稍候..."
+msgstr "前端编译中...请稍候..."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:483
 msgid "Failed to start frontend"
-msgstr "启动前端失败"
+msgstr "前端启动失败"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:508
 msgid "Webserver started at http://{ip}:37520"
-msgstr "网络服务已在 http://{ip}:37520 上启动"
+msgstr "Web 服务器已启动：http://{ip}:37520"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:517
 msgid "Frontend started at http://{ip}:{port}"
-msgstr "前端已在 http://{ip}:{port}上启动"
+msgstr "前端已启动：http://{ip}:{port}"
 
 #: .\ETS2LA\Utils\Console\logging.py:99
 msgid "Logging initialized."
@@ -210,7 +210,7 @@ msgstr "日志系统已初始化。"
 
 #: .\ETS2LA\Utils\Console\logs.py:15
 msgid "Error removing log files. Probably another running ETS2LA instance. Please close it and try again."
-msgstr "删除日志文件时出错。可能是另一个正在运行的 ETS2LA 实例。请关闭它并重试。"
+msgstr "删除日志文件时出错。可能另一个 ETS2LA 实例正在运行。请关闭后重试。"
 
 #: .\ETS2LA\Utils\Console\logs.py:21
 msgid "Errors and warnings in the log files:"
@@ -234,7 +234,8 @@ msgstr "请稍候，正在初始化用户界面"
 
 #: .\ETS2LA\Window\utils.py:213
 msgid "Couldn't find / start the ETS2LA window. Is your PC powerful enough? Use https://app.ets2la.com if you think you should be able to run it."
-msgstr "未找到/启动 ETS2LA UI。你的电脑够强大吗？如果您认为应该能够运行它，请使用 https://app.ets2la.com。"
+msgstr "无法找到或启动 ETS2LA 窗口。您的电脑配置足够运行吗？若您认为可以运行，请使用 "
+"https://app.ets2la.com。"
 
 #: .\ETS2LA\Window\utils.py:227
 msgid "Failed to set window attributes or icon."
@@ -246,15 +247,15 @@ msgstr "后台启动成功"
 
 #: .\Pages\about.py:37
 msgid "Lead developer and creator of ETS2LA, backend & frontend."
-msgstr "ETS2LA 的首席开发人员和创建者。"
+msgstr "ETS2LA 的首席开发者与创建者，负责后端与前端。"
 
 #: .\Pages\about.py:46
 msgid "Navigation Detection, Traffic Light Detection, ETS2LA Lite, 'co-owner'"
-msgstr "导航检测、交通信号灯检测、ETS2LA Lite、\"共同拥有者\""
+msgstr "导航检测、交通信号灯检测、ETS2LA Lite 开发者及“联合创始人”"
 
 #: .\Pages\about.py:53
 msgid "Various additions and improvements, Object Detection AI models & development"
-msgstr "各种添加和改进、物体检测 AI 模型和开发"
+msgstr "多项功能新增与改进，目标检测 AI 模型研发"
 
 #: .\Pages\about.py:63
 msgid "ETS2LA game-side SDK developer. Vehicles, Traffic Lights, Camera data and more direct from the game."
@@ -266,11 +267,11 @@ msgstr "游戏数据提取与处理"
 
 #: .\Pages\about.py:75
 msgid "Linux & Unix Port, various improvements and bug fixes"
-msgstr "Linux 和 Unix 适配,各种改进和错误修复"
+msgstr "Linux 与 Unix 系统适配，多项改进与错误修复"
 
 #: .\Pages\about.py:80
 msgid "ETS2LA SDK C++ developer, Linux & Unix Port, bug fixes"
-msgstr "ETS2LA SDK C ++ 开发者、 linux与UNIX 移植、修复错误"
+msgstr "ETS2LA C++ SDK 开发者，负责 Linux 与 Unix 系统适配及错误修复"
 
 #: .\Pages\about.py:85
 msgid "Help with Navigate on ETS2LA & Map"
@@ -278,19 +279,19 @@ msgstr "协助开发地图插件与导航功能"
 
 #: .\Pages\about.py:90
 msgid "scs-sdk-controller developer"
-msgstr "scs-sdk-controller 开发人员"
+msgstr "scs-sdk-controller 开发者"
 
 #: .\Pages\about.py:95
 msgid "3D models for the visualization"
-msgstr "环境可视化的 3D 模型"
+msgstr "自动驾驶可视化的 3D 模型"
 
 #: .\Pages\about.py:100
 msgid "Data extractor development, support for modded maps."
-msgstr "地图数据提取器开发、支持模块地图。"
+msgstr "地图数据提取器开发、支持模组地图。"
 
 #: .\Pages\about.py:105
 msgid "Discord rich presence plugin developer, slight backend updates."
-msgstr "Discord rich presence插件开发者，一些后端更新。"
+msgstr "Discord rich presence 插件开发者，一些后端更新。"
 
 #: .\Pages\about.py:112
 msgid "Chinese translation, bug fixes"
@@ -314,7 +315,7 @@ msgstr "维护ETS2LA服务的中国镜像站。"
 
 #: .\Pages\about.py:141
 msgid "Game hooks"
-msgstr "hook 游戏"
+msgstr "游戏 Hooks"
 
 #: .\Pages\about.py:142 .\Pages\about.py:145 .\Pages\about.py:148
 #: .\Pages\about.py:149 .\Pages\about.py:150 .\Pages\about.py:151
@@ -327,11 +328,11 @@ msgstr "修复雨刷器（5 秒倒计时）"
 
 #: .\Pages\about.py:210
 msgid "Fixing wipers in {0} seconds..."
-msgstr "在{0}秒内修复雨刷器..."
+msgstr "在{0}秒后修复雨刷器..."
 
 #: .\Pages\about.py:220 .\Pages\about.py:221
 msgid "Wipers should be fixed now."
-msgstr "雨刷现在应该修好了。"
+msgstr "雨刷器现在已修复。"
 
 #: .\Pages\about.py:224
 msgid "Triggering update"
@@ -350,7 +351,7 @@ msgstr[0] "{0} 小时"
 
 #: .\Pages\about.py:249
 msgid "{0} and {1}"
-msgstr "{0}和{1｝"
+msgstr "{0} 和 {1}"
 
 #: .\Pages\about.py:291
 msgid "Hey There!"
@@ -359,10 +360,8 @@ msgstr "嘿！"
 #: .\Pages\about.py:300
 msgid "I see you've disabled ads. That's totally fine, but you can still support ETS2LA development by donating via Ko-Fi. *Every donation is equal to weeks(!) of ad revenue*, we are eternally grateful for every bit of support we get!"
 msgstr ""
-"我看到你已经禁用了广告。这完全没问题，但您仍然可以通过 Ko-Fi 捐赠来支持 "
-"ETS2LA "
-"开发。*每笔捐款都等于数周（！）的广告收入*，我们永远感谢我们得到的每一点支持"
-"！"
+"我看到您已屏蔽了广告。这完全没问题，您依然可以通过 Ko-Fi 捐赠来支持 ETS2LA 的"
+"开发。*每一笔捐赠都相当于数周的广告收入*，我们对每一份支持都心怀感激！"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
@@ -378,7 +377,7 @@ msgstr "注意！"
 
 #: .\Pages\about.py:364
 msgid "An SDK for {0} is outdated. Please reinstall it to update to the latest version in the SDK settings."
-msgstr "{0} SDK 已过时。请在设置-SDK中重新安装以更新到最新版本。"
+msgstr "{0} 的 SDK 版本已过期。请在 设置 — SDK 中重新安装以更新至最新版本。"
 
 #: .\Pages\about.py:370
 msgid "About"
@@ -386,11 +385,15 @@ msgstr "关于"
 
 #: .\Pages\about.py:373
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
-msgstr "ETS2LA 是一个旨在为 ETS2 和 ATS 提供易于使用的自动驾驶解决方案的项目，如果您想了解更多信息，可以访问 github 页面或通过侧边栏访问维基。"
+msgstr ""
+"ETS2LA 是一个旨在为 ETS2 和 ATS 提供易于使用的自动驾驶解决方案的项目，如果您"
+"想了解更多信息，可以访问 github 页面或通过侧边栏访问维基。 ETS2LA 项目致力于"
+"为《欧洲卡车模拟2》（ETS2）及《美国卡车模拟》（ATS）提供简单的自动驾驶解决方"
+"案。如需了解更多信息，您可通过侧边栏访问项目 GitHub 页面或文档。"
 
 #: .\Pages\about.py:381
 msgid "Statistics"
-msgstr "统计信息"
+msgstr "统计"
 
 #: .\Pages\about.py:385
 msgid "Users online:"
@@ -406,7 +409,7 @@ msgstr "过去24小时："
 
 #: .\Pages\about.py:392
 msgid "{0} unique users"
-msgstr "{0} 个去重用户"
+msgstr "{0} 用户"
 
 #: .\Pages\about.py:396
 msgid "Your usage time:"
@@ -460,7 +463,7 @@ msgstr "如果你想做出贡献，我建议你加入 discord 服务器并查看
 
 #: .\Pages\about.py:541
 msgid "If you want to contribute to the translations, then you can do so by joining the discord and contacting a moderator."
-msgstr "如果您想参与翻译，可以加入 discord 并联系语言版主。"
+msgstr "如果您想参与翻译，可以加入 Discord 并联系管理员。"
 
 #: .\Pages\about.py:555
 msgid "Utils"
@@ -468,11 +471,11 @@ msgstr "实用程序"
 
 #: .\Pages\about.py:559
 msgid "Fix Wipers"
-msgstr "修复雨刷"
+msgstr "雨刷修复"
 
 #: .\Pages\about.py:560
 msgid "Did your wipers get stuck? Click the button and alt tab to the game. They should turn off in 5 seconds."
-msgstr "您的雨刷器无法停止吗？点击按钮，然后切换到游戏。它们应该会在 5 秒内完成停止。"
+msgstr "雨刷器卡住了吗？点击按钮并返回游戏，雨刷器将在5秒后关闭。"
 
 #: .\Pages\about.py:563
 msgid "Activate"
@@ -513,19 +516,19 @@ msgstr "未在目录中找到插件。"
 
 #: .\Pages\catalogue.py:185
 msgid "Cloning repository"
-msgstr "克隆存储库"
+msgstr "正在克隆存储库"
 
 #: .\Pages\catalogue.py:189
 msgid "Installing requirements"
-msgstr "安装需求"
+msgstr "正在安装依赖项"
 
 #: .\Pages\catalogue.py:195
 msgid "Starting plugin background process"
-msgstr "启动插件加载过程"
+msgstr "正在启动插件后台进程"
 
 #: .\Pages\catalogue.py:199
 msgid "Failed to start plugin background process, but the plugin files were installed."
-msgstr "未能启动插件加载过程，但是安装了插件文件。"
+msgstr "启动插件后台进程失败，但插件文件已安装。"
 
 #: .\Pages\catalogue.py:204 .\Pages\catalogue.py:294
 msgid "Success"
@@ -533,7 +536,7 @@ msgstr "完成"
 
 #: .\Pages\catalogue.py:209
 msgid "Plugin '{name}' installed successfully."
-msgstr "插件{name}'安装成功。"
+msgstr "插件 '{name}' 安装成功。"
 
 #: .\Pages\catalogue.py:212 .\Pages\catalogue.py:302
 msgid "Failed"
@@ -541,56 +544,56 @@ msgstr "失败"
 
 #: .\Pages\catalogue.py:216
 msgid "Failed to install plugin '{name}': {error}"
-msgstr "安装插件'{name}失败'：错误信息如下{error}"
+msgstr "安装插件“{name}”失败：{error}"
 
 #: .\Pages\catalogue.py:223
 msgid "Uninstalling"
-msgstr "卸载"
+msgstr "卸载中"
 
 #: .\Pages\catalogue.py:238
 msgid "Closing plugin processes"
-msgstr "关闭插件加载"
+msgstr "正在关闭插件进程"
 
 #: .\Pages\catalogue.py:244
 msgid "Failed to stop plugin processes."
-msgstr "无法停止插件进程。"
+msgstr "停止插件进程失败。"
 
 #: .\Pages\catalogue.py:246
 msgid "Unregistering git repository"
-msgstr "未注册的git存储库"
+msgstr "正在注销 Git 仓库"
 
 #: .\Pages\catalogue.py:256
 msgid "Removing plugin files"
-msgstr "删除插件文件"
+msgstr "正在删除插件文件"
 
 #: .\Pages\catalogue.py:281
 msgid "Retrying removal ({cur}/{max})"
-msgstr "重试删除（{cur} / {max}）"
+msgstr "正在重试删除（{cur} / {max}）"
 
 #: .\Pages\catalogue.py:289
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr "{max}尝试后，无法删除插件文件"
+msgstr "经过 {max} 次尝试后，仍未能移除插件文件"
 
 #: .\Pages\catalogue.py:299
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr "插件{name}'卸载成功。"
+msgstr "插件 '{name}' 已成功卸载。"
 
 #: .\Pages\catalogue.py:305
 msgid "Failed to uninstall plugin '{name}': {error}"
-msgstr "无法卸载插件'{name}'：错误信息如下{error}"
+msgstr "卸载插件 '{name}' 失败：{error}"
 
 #: .\Pages\catalogue.py:339
 msgid "Couldn't find source code for this plugin."
-msgstr "找不到此插件的源代码。"
+msgstr "未能找到此插件的源代码。"
 
 #. TRANSLATORS: This text is shown when the plugin catalogue is refreshing the database.
 #: .\Pages\catalogue.py:351
 msgid "Refreshing..."
-msgstr "刷新..."
+msgstr "刷新中..."
 
 #: .\Pages\catalogue.py:354
 msgid "Found {count} plugins"
-msgstr "找到{count}插件"
+msgstr "找到 {count} 个插件"
 
 #: .\Pages\catalogue.py:419
 msgid "Back"
@@ -614,7 +617,7 @@ msgstr "您确定要安装此插件吗？"
 
 #: .\Pages\catalogue.py:511
 msgid "ETS2LA is not responsible for any issues caused by 3rd party plugins."
-msgstr "ETS2LA对第三方插件引起的任何问题概不负责。"
+msgstr "ETS2LA 不对第三方插件引起的任何问题负责。"
 
 #: .\Pages\catalogue.py:521 .\Pages\catalogue.py:588
 msgid "Cancel"
@@ -646,7 +649,7 @@ msgstr "刷新"
 
 #: .\Pages\catalogue.py:628
 msgid "No plugins found in the plugin catalogue."
-msgstr "在插件目录中未找到插件。"
+msgstr "插件目录中未找到插件。"
 
 #: .\Pages\catalogue.py:636
 msgid "Refresh Catalogue"
@@ -671,38 +674,38 @@ msgstr "您已安装所有可用的插件。"
 #: .\Pages\changelog.py:24 .\Pages\updater.py:30
 msgid "{seconds} second ago"
 msgid_plural "{seconds} seconds ago"
-msgstr[0] "{seconds} 秒之前"
+msgstr[0] "{seconds} 秒前"
 
 #: .\Pages\changelog.py:28 .\Pages\updater.py:34
 msgid "{minutes} minute ago"
 msgid_plural "{minutes} minutes ago"
-msgstr[0] "{minutes} 分之前"
+msgstr[0] "{minutes} 分钟前"
 
 #: .\Pages\changelog.py:32 .\Pages\updater.py:38
 msgid "{hours} hour ago"
 msgid_plural "{hours} hours ago"
-msgstr[0] "{hours} 小时之前"
+msgstr[0] "{hours} 小时前"
 
 #: .\Pages\changelog.py:36 .\Pages\updater.py:42
 msgid "{days} day ago"
 msgid_plural "{days} days ago"
-msgstr[0] "{days} 天之前"
+msgstr[0] "{days} 天前"
 
 #: .\Pages\changelog.py:48
 msgid "Fetching changelog and possible changes."
-msgstr "获取更新日志和可能的更改。"
+msgstr "正在获取更新日志及可能的变更。"
 
 #: .\Pages\changelog.py:50
 msgid "Changelog fetched."
-msgstr "已获取更改日志。"
+msgstr "已获取更新日志。"
 
 #: .\Pages\changelog.py:121 .\Pages\updater.py:146
 msgid "View Changes"
-msgstr "查看更改"
+msgstr "查看更新"
 
 #: .\Pages\changelog.py:137 .\Pages\updater.py:162
 msgid "Only the last 20 updates are shown. You can check the repository for further history."
-msgstr "仅显示最近 20 次更新。您可以查看版本库，了解更多历史记录。"
+msgstr "仅显示最近 20 条更新，您可以查看 Github 仓库获取完整历史记录。"
 
 #: .\Pages\controls.py:54 .\Pages\controls.py:101 .\Pages\controls.py:102
 msgid "Show all plugins"
@@ -726,11 +729,11 @@ msgstr "您可以在此更改插件的控制按键。"
 
 #: .\Pages\controls.py:109
 msgid "Search Controls or Plugins"
-msgstr "搜索控件或插件"
+msgstr "搜索控制项或插件"
 
 #: .\Pages\controls.py:146
 msgid "No controls found, try again with different filters."
-msgstr "未找到控件，请使用不同的过滤器重试。"
+msgstr "未找到控制项，请尝试其他筛选条件。"
 
 #: .\Pages\controls.py:207
 msgid "This event has not been bound to a device yet."
@@ -748,7 +751,7 @@ msgstr "无"
 #: .\Pages\global_settings.py:37 .\Pages\global_settings.py:189
 #: .\Pages\global_settings.py:200 .\Pages\global_settings.py:390
 msgid "Minimal (recommended)"
-msgstr "最小（推荐）"
+msgstr "最少（推荐）"
 
 #: .\Pages\global_settings.py:38 .\Pages\global_settings.py:391
 msgid "Medium"
@@ -836,11 +839,11 @@ msgstr "调整音量。这将影响 ETS2LA 播放的所有声音。"
 
 #: .\Pages\global_settings.py:371
 msgid "Startup Sound"
-msgstr "启动声音"
+msgstr "启动音效"
 
 #: .\Pages\global_settings.py:372
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
-msgstr "切换启动声音的开关。每次打开 ETS2LA 窗口时都会播放。"
+msgstr "开启或关闭启动音效。该音效会在每次打开 ETS2LA 窗口时播放。"
 
 #: .\Pages\global_settings.py:380
 msgid "Variables"
@@ -848,27 +851,31 @@ msgstr "变量"
 
 #: .\Pages\global_settings.py:415
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr "支持 Ko-Fi 上支持 ETS2LA 的开发"
+msgstr "在 Ko-Fi 上支持 ETS2LA 开发"
 
 #: .\Pages\global_settings.py:435
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
-msgstr "您将在“概览”页面中看到一个广告。不会有其他广告。建议使用该选项来支持 ETS2LA 的进一步开发。"
+msgstr "您将在主页看到一个广告，不会出现其他广告。推荐启用此选项以支持 ETS2LA 的持续"
+"开发。"
 
 #: .\Pages\global_settings.py:442
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
-msgstr "您将在非必要页面中看到非侵入性广告。可视化页面将无广告。如果要进一步支持开发，建议使用此选项。"
+msgstr "您将在其他页面看到非侵入式广告，可视化页面将保持无广告。若您希望进一步支持开"
+"发，推荐选择此选项。"
 
 #: .\Pages\global_settings.py:449
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
-msgstr "你会看到尽可能多的广告，我认为不会完全破坏使用。启用可视化页面后仍然没有广告。"
+msgstr "您将看到尽可能多的广告，但会控制在不过度影响使用体验的程度。即使启用此选项，"
+"可视化页面仍保持无广告。"
 
 #: .\Pages\global_settings.py:470
 msgid "Fallback to old acceleration method"
-msgstr "回退到旧的加速方法"
+msgstr "回退至旧版加速方案"
 
 #: .\Pages\global_settings.py:471
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
-msgstr "如果您遇到卡车无法正常加速/制动的问题，那么您可以启用此选项来使用另一种方法。请注意，如果新的方法卡住了，切换此选项后可能需要重新启动游戏。"
+msgstr "若您遇到卡车加速/刹车异常的问题，可启用此选项以切换至其他方案。请注意，若新方"
+"案出现卡顿，切换后可能需要重启游戏。"
 
 #: .\Pages\global_settings.py:484 .\Pages\onboarding.py:364
 msgid "High Priority"
@@ -876,7 +883,8 @@ msgstr "高优先级"
 
 #: .\Pages\global_settings.py:485 .\Pages\onboarding.py:365
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
-msgstr "以高优先级模式运行 ETS2LA。这将告诉操作系统为 ETS2LA 分配更多的 CPU 时间，从而以其他应用程序为代价提高性能。"
+msgstr "以高优先级模式运行 ETS2LA。这将使您的系统为 ETS2LA 分配更多 CPU 资源用于提升"
+"性能，但可能会影响其他应用程序的运行。"
 
 #: .\Pages\global_settings.py:506
 msgid "You need to restart ETS2LA to apply the priority change!"
@@ -884,11 +892,12 @@ msgstr "您需要重新启动 ETS2LA 才能应用优先级更改！"
 
 #: .\Pages\global_settings.py:513
 msgid "Slow Loading"
-msgstr "缓慢加载"
+msgstr "缓速加载"
 
 #: .\Pages\global_settings.py:514
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
-msgstr "如果您的电脑在并行加载所有插件时遇到问题，则可以启用此选项让插件顺序加载。请注意，启用此选项将意味着您必须等待一段时间才能使用插件。"
+msgstr "若您的电脑无法同时加载所有插件，可启用此选项以逐个加载。请注意，启用后您需要"
+"等待一段时间才能使用所有插件。"
 
 #: .\Pages\global_settings.py:521
 msgid "Miscellaneous"
@@ -900,7 +909,7 @@ msgstr "前端端口"
 
 #: .\Pages\global_settings.py:526
 msgid "Change the port used by the frontend. This is only used in local mode."
-msgstr "更改前端使用的端口。仅在本地模式下使用。"
+msgstr "更改前端使用的端口。仅在本地模式下可用。"
 
 #: .\Pages\global_settings.py:535
 msgid "Frameless Window"
@@ -908,23 +917,23 @@ msgstr "无边框窗口"
 
 #: .\Pages\global_settings.py:536
 msgid "Disable this option if you have any issues moving the window around."
-msgstr "如果您在移动窗口时遇到任何问题，请禁用此选项。"
+msgstr "如果您在窗口移动时遇到任何问题，请禁用此选项。"
 
 #: .\Pages\global_settings.py:543
 msgid "Send Crash Reports"
-msgstr "发送碰撞报告"
+msgstr "发送崩溃报告"
 
 #: .\Pages\global_settings.py:544
 msgid "Automatically send crash reports to help improve the application."
-msgstr "自动发送崩溃报告，帮助改进应用程序。"
+msgstr "自动发送崩溃报告，帮助改进程序。"
 
 #: .\Pages\global_settings.py:553
 msgid "Use Fancy Traceback"
-msgstr "高级Traceback"
+msgstr "使用高级 Traceback"
 
 #: .\Pages\global_settings.py:554
 msgid "Enable this option to use a fancy traceback for errors."
-msgstr "启用此选项可使用花哨的错误回溯。"
+msgstr "启用此选项以使用增强型错误回溯功能。"
 
 #: .\Pages\global_settings.py:564
 msgid "Debug Mode"
@@ -932,23 +941,23 @@ msgstr "调试模式"
 
 #: .\Pages\global_settings.py:565
 msgid "Enable this option to use the edge debugger for the frontend."
-msgstr "启用该选项可在前端使用边缘调试器。"
+msgstr "启用此选项可在前端使用 Edge 调试器。"
 
 #: .\Pages\global_settings.py:573
 msgid "Default UI Mirror"
-msgstr "设置UI 来源"
+msgstr "默认 UI 镜像"
 
 #: .\Pages\global_settings.py:574
 msgid "The default ETS2LA UI mirror to use. Auto will choose the best available mirror."
-msgstr "要使用的默认 ETS2LA UI 镜像。Auto将会选择最合适的镜像来源。"
+msgstr "选择默认的 ETS2LA UI 镜像源。自动模式将选择最优可用镜像。"
 
 #: .\Pages\global_settings.py:585
 msgid "ETS2LA Window Timeout"
-msgstr "ETS2LA 窗口丢失"
+msgstr "ETS2LA 窗口启动超时时间"
 
 #: .\Pages\global_settings.py:586
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr "ETS2LA 等待窗口出现的时间值。"
+msgstr "ETS2LA 等待窗口显示的最长时间。"
 
 #: .\Pages\global_settings.py:603
 msgid "Fireworks"
@@ -977,7 +986,7 @@ msgstr "加载中...."
 
 #: .\Pages\onboarding.py:113
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
-msgstr "我们正在做的事情需要一点时间。请坐好，放松！"
+msgstr "我们正在处理一些需要较长时间的操作，请稍作等待！"
 
 #: .\Pages\onboarding.py:121
 msgid "Welcome to ETS2LA!"
@@ -985,7 +994,7 @@ msgstr "欢迎来到 ETS2LA！"
 
 #: .\Pages\onboarding.py:123
 msgid "Let's get you setup with the basics right off the bat! Press the button below to continue."
-msgstr "让我们立即让您了解基础知识！按下面的按钮继续。"
+msgstr "让我们立即进行基础设置！请点击下方按钮继续。"
 
 #: .\Pages\onboarding.py:130 .\Pages\onboarding.py:182
 #: .\Pages\onboarding.py:262 .\Pages\onboarding.py:282
@@ -1008,11 +1017,12 @@ msgstr "选择语言"
 
 #: .\Pages\onboarding.py:173
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
-msgstr "请为ETS2LA选择您首选的语言。以后可以在选项中更改此选项。我们所有的翻译都是社区提供的！"
+msgstr "请选择您在 ETS2LA 中偏好的语言。此选项后续可在设置中修改。所有翻译均由社区贡"
+"献完成！"
 
 #: .\Pages\onboarding.py:192
 msgid "Select your preferred language for ETS2LA."
-msgstr "为ETS2LA选择您首选的语言。"
+msgstr "选择您在 ETS2LA 中偏好的语言。"
 
 #: .\Pages\onboarding.py:247 .\Pages\sdk_installation.py:263
 msgid "SDK Setup"
@@ -1020,7 +1030,8 @@ msgstr "SDK 设置"
 
 #: .\Pages\onboarding.py:249
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
-msgstr "开始之前，我们需要设置 SDK。这将允许 ETS2LA 与您的游戏互动。在右侧您会看到一个游戏列表，点击其中一个游戏进行安装，然后继续。"
+msgstr "首先，我们需要设置 SDK。这将使 ETS2LA 能够与您的游戏交互。右侧是游戏列表，请"
+"点击其中一个或多个的“安装”按钮，然后继续。"
 
 #: .\Pages\onboarding.py:257
 msgid "Waiting for SDK installation..."
@@ -1032,7 +1043,8 @@ msgstr "插件"
 
 #: .\Pages\onboarding.py:273
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
-msgstr "ETS2LA 使用插件提供大部分功能。您可以选择简单模式和高级模式。稍后可在设置中进行更改。"
+msgstr "ETS2LA 通过插件提供主要功能。您可选择简单模式或高级模式，此设置后续可在设置中"
+"更改。"
 
 #: .\Pages\onboarding.py:291
 msgid "Advanced Plugin Mode"
@@ -1040,15 +1052,16 @@ msgstr "高级插件模式"
 
 #: .\Pages\onboarding.py:292
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
-msgstr "启用高级插件管理功能。可在插件管理器中随时更改。"
+msgstr "启用高级插件管理功能。此设置可在插件管理器中随时更改。"
 
 #: .\Pages\onboarding.py:318
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
-msgstr "建议禁用 \"高级插件模式 \"**，但希望自行选择插件的高级用户可能希望启用该模式。"
+msgstr "建议保持**高级插件模式**为关闭状态，若您希望自行选择插件，可启用此功能。"
 
 #: .\Pages\onboarding.py:331
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
-msgstr "**高级插件模式**可对启用的插件进行手动控制。它还允许您从其他软件源下载更多插件。请注意，这些第三方插件并非由 *ETS2LA 官方* 支持。"
+msgstr "**高级插件模式**可对启用的插件进行手动控制。允许您从其它地方下载更多插件。请"
+"注意，这些第三方插件并非由 *ETS2LA 官方* 支持。"
 
 #: .\Pages\onboarding.py:342
 msgid "High Priority Mode"
@@ -1056,11 +1069,12 @@ msgstr "高优先级模式"
 
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
-msgstr "ETS2LA 可以自动告诉操作系统它应该以高优先级模式运行。特别是在低端设备上，建议采用这种方式。"
+msgstr "ETS2LA 可自动操控系统以高优先级模式运行。特别推荐在性能较低的设备上启用此功能"
+"。"
 
 #: .\Pages\onboarding.py:390
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
-msgstr "上机后需要重启 ETS2LA 才能应用此更改。"
+msgstr "您需要重启 ETS2LA 使此变更生效。"
 
 #: .\Pages\onboarding.py:401
 msgid "Map Data"
@@ -1072,7 +1086,7 @@ msgstr "ETS2LA 使用从游戏中预先提取的地图数据。我们会事先�
 
 #: .\Pages\onboarding.py:415
 msgid "Waiting for data selection..."
-msgstr "正在等待数据选择..."
+msgstr "等待数据选择..."
 
 #: .\Pages\onboarding.py:434 .\Plugins\Map\ui.py:242
 msgid "Selected Data"
@@ -1080,7 +1094,7 @@ msgstr "选定的数据"
 
 #: .\Pages\onboarding.py:435
 msgid "Select the data that matches your game and mods."
-msgstr "选择与您的游戏和修改器相匹配的数据。"
+msgstr "选择与您的游戏和模组相匹配的数据。"
 
 #: .\Pages\onboarding.py:439 .\Plugins\Map\ui.py:249
 msgid "Search data"
@@ -1116,7 +1130,7 @@ msgstr "未选择数据"
 
 #: .\Pages\onboarding.py:533
 msgid "Please select the data you want to use from the dropdown above."
-msgstr "请从上面的下拉菜单中选择您要使用的数据。"
+msgstr "请从上方下拉菜单中选择您要使用的数据。"
 
 #: .\Pages\onboarding.py:544
 msgid "Window Size"
@@ -1156,9 +1170,9 @@ msgid ""
 "\n"
 "You can *left click* the green button to make the ETS2LA window stay on top of other windows."
 msgstr ""
-"**置顶**\n"
+"**置顶窗口**\n"
 "\n"
-"鼠标*左键*绿色按钮，使 ETS2LA 窗口位于其他窗口之上。"
+"鼠标*左键*点击绿色按钮，使 ETS2LA 窗口位于其他窗口之上。"
 
 #: .\Pages\onboarding.py:651
 msgid ""
@@ -1190,7 +1204,8 @@ msgstr "新手引导完成！"
 
 #: .\Pages\onboarding.py:699
 msgid "You have successfully completed the onboarding process. You can now start using ETS2LA. If you need help, feel free to join our Discord server."
-msgstr "您已成功完成入职流程。现在您可以开始使用 ETS2LA。如果您需要帮助，请随时加入我们的 Discord 服务器。"
+msgstr "您已成功完成初始设置流程，现在可以开始使用 ETS2LA 了。如需帮助，欢迎加入我们"
+"的 Discord 服务器。"
 
 #: .\Pages\onboarding.py:706
 msgid "Finish"
@@ -1201,8 +1216,8 @@ msgid ""
 "<- Press this edge to open and close the sidebar.\n"
 "      Open the Manager to enable plugins."
 msgstr ""
-"<- 按此边缘可打开或关闭侧边栏。\n"
-"      打开管理器，启用插件。"
+"<- 点击此边缘可打开或关闭侧边栏。\n"
+"      打开插件管理，启用插件。"
 
 #: .\Pages\onboarding.py:774
 msgid "Page not found"
@@ -1218,7 +1233,7 @@ msgstr "系统"
 
 #: .\Pages\performance.py:164
 msgid "Data is still being collected, please wait a few seconds for the graphs to stabilize."
-msgstr "数据仍在收集中，请稍等片刻让图表稳定下来。"
+msgstr "数据仍在收集中，请稍等片刻让图表稳定显示。"
 
 #: .\Pages\performance.py:182
 msgid "CPU Usage"
@@ -1238,7 +1253,7 @@ msgstr "内存使用率： "
 
 #: .\Pages\performance.py:237
 msgid "ETS2LA RAM Usage  "
-msgstr "ETS2LA 内存使用量  "
+msgstr "ETS2LA 内存使用率  "
 
 #: .\Pages\performance.py:260 .\Pages\plugins.py:549
 msgid "No plugins are currently running."
@@ -1250,11 +1265,11 @@ msgstr "警告：图表仍在收集数据，请等待 60 秒使其稳定。"
 
 #: .\Pages\performance.py:387
 msgid "Failed to render plugin {plugin_name}."
-msgstr "渲染插件 {plugin_name}失败。"
+msgstr "渲染插件 {plugin_name} 失败。"
 
 #: .\Pages\performance.py:400
 msgid "All displayed data is averaged over a second."
-msgstr "所有显示的数据都是一秒钟内的平均值。"
+msgstr "所有显示数据均为每秒平均值。"
 
 #: .\Pages\performance.py:404
 msgid "This page took {time:.2f} ms to render."
@@ -1266,7 +1281,8 @@ msgstr "转向控制"
 
 #: .\Pages\plugins.py:43
 msgid "Enable automated steering using ETS2LA. You can toggle it on and off using the 'Toggle Steering' keybind in the control settings."
-msgstr "使用 ETS2LA 启用自动转向。您可以使用控制设置中的“Toggle Steering”键绑定来打开和关闭它。"
+msgstr "启用 ETS2LA 的自动转向功能。您可通过控制设置中的“转向开关”按键绑定来开启或关"
+"闭此功能。"
 
 #: .\Pages\plugins.py:49
 msgid "Lateral Control"
@@ -1274,11 +1290,12 @@ msgstr "速度控制"
 
 #: .\Pages\plugins.py:50
 msgid "Enable automated acceleration and deceleration using ETS2LA. You can toggle it on and off using the 'Toggle Speed Control' keybind in the control settings."
-msgstr "使用 ETS2LA 启用自动加速和减速。您可以使用控制设置中的 \"切换速度控制 \"键绑定来打开或关闭该功能。"
+msgstr "启用 ETS2LA 的速度控制功能。您可通过控制设置中的“速度控制开关”按键绑定来开启"
+"或关闭此功能。"
 
 #: .\Pages\plugins.py:56
 msgid "Visualization"
-msgstr "环境可视化"
+msgstr "可视化"
 
 #: .\Pages\plugins.py:57
 msgid ""
@@ -1286,9 +1303,9 @@ msgid ""
 "\n"
 "**This is required for the visualization tab to work.**"
 msgstr ""
-"启用可视化选项卡运行所需的插件。\n"
+"启用可视化页面所需的插件。\n"
 "\n"
-"**这对可视化选项卡的运行是必需的。**"
+"**启用此插件是运行可视化页面的必要条件。**"
 
 #: .\Pages\plugins.py:63 .\Plugins\HUD\main.py:22 .\Plugins\HUD\ui.py:137
 msgid "HUD"
@@ -1296,7 +1313,7 @@ msgstr "HUD"
 
 #: .\Pages\plugins.py:64
 msgid "Enable the HUD to display information about the truck and route. Shown on top of the game screen using accurate 3D mapping."
-msgstr "启用 HUD 显示卡车和路线信息。使用精确的 3D 贴图显示在游戏屏幕上方。"
+msgstr "启用 HUD ，显示卡车和路线信息。使用精确的 3D 映射显示在游戏屏幕上方。"
 
 #: .\Pages\plugins.py:71
 msgid "Text To Speech"
@@ -1340,7 +1357,7 @@ msgstr "已启用"
 
 #: .\Pages\plugins.py:401
 msgid "Disabled"
-msgstr "禁用"
+msgstr "已禁用"
 
 #: .\Pages\plugins.py:421
 msgid "Switch to Advanced Mode"
@@ -1376,11 +1393,11 @@ msgstr "想要启用您上次运行的插件吗？"
 
 #: .\Pages\plugins.py:559
 msgid "Enable Last Plugins"
-msgstr "启用上一次配置"
+msgstr "启用上一次的插件"
 
 #: .\Pages\sdk_installation.py:137
 msgid "Could not find version for {game}, skipping installation"
-msgstr "找不到 {game} 的版本，跳过安装"
+msgstr "无法找到 {game} 的版本，跳过安装"
 
 #: .\Pages\sdk_installation.py:145
 msgid "Installing SDKs for {game}"
@@ -1396,11 +1413,11 @@ msgstr "已安装 {game} 的 SDK，跳过安装"
 
 #: .\Pages\sdk_installation.py:167 .\Pages\sdk_installation.py:211
 msgid "Please make sure the game is closed and try again. {error}"
-msgstr "请确保游戏已关闭，然后重试。{错误｝"
+msgstr "请确保游戏已关闭并重试。{error}"
 
 #: .\Pages\sdk_installation.py:173
 msgid "Error installing SDKs for {game}, please make sure the game is closed."
-msgstr "为 {game} 安装 SDK 时出错，请确保游戏已关闭。"
+msgstr "安装 {game} 的 SDK 时出错，请确保游戏已关闭。"
 
 #: .\Pages\sdk_installation.py:184
 msgid "Could not find version for {game}, skipping uninstallation"
@@ -1500,12 +1517,12 @@ msgstr "无可用更新。(新提交后，页面可能需要一分钟才能更�
 
 #: .\Pages\updater.py:75
 msgid "Update Anyway"
-msgstr "无论如何更新"
+msgstr "强制更新"
 
 #: .\Pages\updater.py:79
 msgid "Restart and apply {count} update"
 msgid_plural "Restart and apply {count} updates"
-msgstr[0] "重启并应用{count}更新"
+msgstr[0] "重启并应用{count}个更新"
 
 #: .\Plugins\AR\main.py:219 .\Plugins\AR\main.py:272 .\Plugins\AR\main.py:334
 msgid "AR"
@@ -1513,7 +1530,7 @@ msgstr "AR"
 
 #: .\Plugins\AR\main.py:273
 msgid "Change the AR overlay settings here."
-msgstr "在此处更改AR覆盖层设置。"
+msgstr "在此处更改AR显示层设置。"
 
 #: .\Plugins\AR\main.py:277 .\Plugins\Map\ui.py:121
 msgid "General"
@@ -1521,11 +1538,12 @@ msgstr "常规"
 
 #: .\Plugins\AR\main.py:279
 msgid "Don't hide AR from recording software"
-msgstr "不要在录制软件中隐藏AR"
+msgstr "不要在录屏软件中隐藏AR显示层"
 
 #: .\Plugins\AR\main.py:280
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
-msgstr "默认情况下，AR覆盖层将在录制软件中隐藏，以防止在ETS2LA使用视觉系统时出现。如果要录制视频或使用覆盖层进行流式传输，则可能需要启用此选项。"
+msgstr "默认情况下，AR显示层将在录屏软件中隐藏，以防止在ETS2LA使用视觉系统时出现。若"
+"您需要录制视频或直播时显示覆盖层，可启用此选项。"
 
 #: .\Plugins\AR\main.py:288
 msgid "Show test objects"
@@ -1533,7 +1551,7 @@ msgstr "显示测试对象"
 
 #: .\Plugins\AR\main.py:289
 msgid "Show test objects in the AR overlay."
-msgstr "在AR覆盖层中显示测试对象。"
+msgstr "在AR显示层中显示测试对象。"
 
 #: .\Plugins\AR\main.py:295
 msgid "Show when not in focus"
@@ -1541,15 +1559,16 @@ msgstr "在未对焦时显示"
 
 #: .\Plugins\AR\main.py:296
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
-msgstr "即使游戏没有焦点，也显示AR覆盖层。这对于更改设置可能很有用。请注意，这也将使AR以最大的fps运行，这可能会导致一些滞后。"
+msgstr "即使游戏窗口未处于焦点状态也显示AR显示层。此功能便于调整设置，但请注意这将使A"
+"R显示层以最高可能帧率运行，可能导致卡顿。"
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr "性能叠加层"
+msgstr "性能数据"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr "显示性能叠加层"
+msgstr "显示性能数据"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
@@ -1573,7 +1592,8 @@ msgstr "在性能叠加层中显示背景。这将使性能叠加层更具可读
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
-msgstr "AR插件为ETS2LA提供了增强现实显示基础层。它被插件（例如HUD）使用，以在游戏世界中显示信息。"
+msgstr "AR插件为ETS2LA提供了增强现实显示基础层。HUD 等插件利用此技术在游戏画面中显示"
+"信息。"
 
 #: .\Plugins\AR\main.py:688
 msgid "Items: {}"
@@ -1617,15 +1637,15 @@ msgstr "帧率: {:.1f}"
 
 #: .\Plugins\AR\main.py:723
 msgid "Camera Position: ({:.1f}, {:.1f}, {:.1f})"
-msgstr "摄像机位置: ({:.1f}, {:.1f}, {:.1f})"
+msgstr "像机位置: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AR\main.py:728
 msgid "Camera Rotation: ({:.1f}, {:.1f}, {:.1f})"
-msgstr "摄像机旋转: ({:.1f}, {:.1f}, {:.1f})"
+msgstr "像机旋转: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr "切换速度控制"
+msgstr "速度控制开关"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
@@ -1633,7 +1653,7 @@ msgstr "当 ACC 运行时，这将切换速度控制的开/关。"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr "增加行驶速度偏移"
+msgstr "增加速度"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
@@ -1641,7 +1661,7 @@ msgstr "这将增加设置中的速度偏移。"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr "降低行驶速度偏移"
+msgstr "降低速度"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
@@ -1652,11 +1672,11 @@ msgstr "这将减少设置中的速度偏移。"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:86
 #: .\Plugins\AdaptiveCruiseControl\settings.py:94
 msgid "Adaptive Cruise Control"
-msgstr "自适应巡航控制系统"
+msgstr "自适应巡航控制"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:84
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
-msgstr "自适应巡航控制（ACC）可根据道路状况和前方的车辆提供自动加速和制动。"
+msgstr "自适应巡航控制（ACC）可根据道路状况和前方车辆提供自动加速和制动。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:87
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
@@ -1680,11 +1700,11 @@ msgstr "跟车距离"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr "自动驻车控制系统应与前车保持多远的距离？"
+msgstr "ACC系统应与前车保持多远的距离？"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
-msgstr "在 80 公里/小时时，ETS2LA 将与前方车辆保持约 {distance}m。"
+msgstr "在 80 公里/小时的速度下，ETS2LA 将与前车保持约 {distance} 米的距离。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
@@ -1696,7 +1716,7 @@ msgstr "无视交通信号灯"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
-msgstr "是否应忽略交通信号灯。请注意，如其所述，这将忽略交通信号灯。"
+msgstr "ACC 是否应忽略交通信号灯。请注意，启用后 ACC 将忽略信号灯驾驶。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
@@ -1704,7 +1724,7 @@ msgstr "交通信号灯模式"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
-msgstr "选择 ACC 应如何处理交通信号灯。正常模式可以更好地处理十字路口另一侧的灯光。"
+msgstr "选择 ACC 处理交通信号灯的方式。正常模式能更好地处理交叉路口另一侧的信号灯。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
@@ -1712,7 +1732,7 @@ msgstr "速度控制"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr "曲线设置"
+msgstr "转弯设置"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
@@ -1736,11 +1756,11 @@ msgstr "ACC 将以最大速度行驶。将此设置为 0 以禁用。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr "回退速度"
+msgstr "应变速度"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
-msgstr "当游戏告诉我们限速为 0 公里/小时时的驾驶速度。"
+msgstr "当游戏提示限速为 0 公里/小时，车辆将以此速度行驶。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Speed Limit"
@@ -1768,27 +1788,28 @@ msgstr "适用于所有限速的速度偏移。请注意，您也可以通过控
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:248
 msgid "PID"
-msgstr "进程标识符"
+msgstr "PID控制器"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:252
 msgid "Unlock PID"
-msgstr "解锁进程标识符"
+msgstr "解锁PID控制器"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:253
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
-msgstr "您可以解锁进程标识符设置以手动调整它们。除非您知道什么是PID以及如何正确调整它，否则不建议这样做。"
+msgstr "您可以解锁PID控制器设置以手动调整它们。除非您知道什么是PID控制器以及如何正确"
+"调整它，否则不建议这样做。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:262
 msgid "PID Kp"
-msgstr "保持PID"
+msgstr "PID Kp（比例增益系数）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:263
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
-msgstr "我们到了吗？ 没有？ 那么我们需要加速更多！ （Pid控制器的比例增益。)"
+msgstr "还没到目标吗？那就继续加速！（PID 控制器的比例增益参数。）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:273
 msgid "PID Ki"
-msgstr "PID 积分增益"
+msgstr "PID Ki（积分增益系数）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:274
 msgid "Has it been a while since we were there? Then we need to accelerate more! (Integral gain for the PID controller.)"
@@ -1796,15 +1817,16 @@ msgstr "我们已经有一段时间没有去那里了吗？那么我们需要进
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:284
 msgid "PID Kd"
-msgstr "PID 微分增益"
+msgstr "PID Kd（微分增益系数）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:285
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
-msgstr "我们接近目标的速度？如果我们走得太快，我们需要减速更多！ （PID控制器的导数增益。）"
+msgstr "我们接近目标的速度有多快？如果过快，就需要提前减速！（PID 控制器的微分增益参"
+"数。）"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:296
 msgid "This video visually explains how a PID controller works. Please watch it fully if you are not familiar with them."
-msgstr "该视频直观地解释了 PID 控制器的工作原理。如果您不熟悉它们，请完整观看。"
+msgstr "这段视频直观演示了 PID 控制器的工作原理。如果您不了解其机制，建议完整观看。"
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:304
 #: .\Plugins\HUD\main.py:308
@@ -1813,7 +1835,7 @@ msgstr "ACC 信息"
 
 #: .\Plugins\HUD\elements\acc.py:10
 msgid "Draw ACC information like vehicle distance and speed."
-msgstr "绘制 ACC 信息，如车辆距离和速度。"
+msgstr "显示 ACC 信息，如车辆距离和速度。"
 
 #: .\Plugins\HUD\elements\acceleration.py:9
 msgid "Acceleration"
@@ -1821,7 +1843,7 @@ msgstr "加速度"
 
 #: .\Plugins\HUD\elements\acceleration.py:10
 msgid "Draw the current acceleration of the truck."
-msgstr "绘制卡车的当前加速度。"
+msgstr "显示卡车的当前加速度。"
 
 #: .\Plugins\HUD\elements\assists.py:16 .\Plugins\HUD\main.py:48
 msgid "Assist Information"
@@ -1829,7 +1851,7 @@ msgstr "辅助信息"
 
 #: .\Plugins\HUD\elements\assists.py:17
 msgid "Draw ACC and Steering status information."
-msgstr "绘制 ACC 和转向状态信息。"
+msgstr "显示 ACC 和转向状态信息。"
 
 #: .\Plugins\HUD\elements\closest.py:10 .\Plugins\HUD\main.py:50
 msgid "Closest City"
@@ -1845,7 +1867,7 @@ msgstr "燃料状态"
 
 #: .\Plugins\HUD\elements\fuel.py:8
 msgid "Draw the current fuel status of the truck."
-msgstr "绘制卡车当前的燃料状态。"
+msgstr "显示卡车当前的燃料状态。"
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
@@ -1861,7 +1883,7 @@ msgstr "转速与挡位"
 
 #: .\Plugins\HUD\elements\gear.py:8
 msgid "Draw the current RPM and gear of the truck."
-msgstr "画出卡车当前的转速和档位。"
+msgstr "显示卡车当前的转速和档位。"
 
 #: .\Plugins\HUD\elements\income.py:7
 msgid "Income"
@@ -1890,7 +1912,7 @@ msgstr "显示歌曲名称、歌手和播放进度等媒体信息。"
 
 #: .\Plugins\HUD\elements\media.py:27
 msgid "No Media Playing"
-msgstr "无媒体播放"
+msgstr "无播放"
 
 #: .\Plugins\HUD\elements\media.py:28 .\Plugins\HUD\elements\media.py:72
 msgid "No Artist"
@@ -1906,7 +1928,7 @@ msgstr "导航"
 
 #: .\Plugins\HUD\elements\navigation.py:10
 msgid "Draw navigation information."
-msgstr "绘制导航信息。"
+msgstr "显示导航信息。"
 
 #. TRANSLATORS: "arrival" is the text in the bottom right corner of the navigation widget
 #: .\Plugins\HUD\elements\navigation.py:71
@@ -1928,7 +1950,7 @@ msgstr "交通信号灯"
 
 #: .\Plugins\HUD\elements\semaphores.py:9
 msgid "Draw traffic light information."
-msgstr "绘制交通灯信息。"
+msgstr "显示交通灯信息。"
 
 #: .\Plugins\HUD\elements\speed.py:8 .\Plugins\HUD\main.py:46
 #: .\Plugins\TTS\main.py:154
@@ -1937,7 +1959,7 @@ msgstr "速度"
 
 #: .\Plugins\HUD\elements\speed.py:9
 msgid "A normal speed display, will also show speed limit changes."
-msgstr "正常速度显示屏也会显示速度限制的变化。"
+msgstr "普通的速度显示器，同时显示限速变化。"
 
 #: .\Plugins\HUD\elements\steering.py:9 .\Plugins\HUD\main.py:306
 #: .\Plugins\HUD\main.py:308
@@ -1946,7 +1968,7 @@ msgstr "转向线"
 
 #: .\Plugins\HUD\elements\steering.py:10
 msgid "Draw steering line from Map."
-msgstr "从地图绘制转向线。"
+msgstr "显示地图上的转向线。"
 
 #: .\Plugins\HUD\main.py:24
 msgid "Creates a heads up display on the windshield. Needs the AR plugin to work."
@@ -2126,7 +2148,7 @@ msgstr "配置 Map 插件的设置。在这里，您可以调整与导航、转�
 
 #: .\Plugins\Map\ui.py:153
 msgid "[Experimental]"
-msgstr "[实验性的]"
+msgstr "[实验性功能]"
 
 #: .\Plugins\Map\ui.py:157
 msgid "Automatic Tolls"
@@ -2134,8 +2156,7 @@ msgstr "自动通过收费站"
 
 #: .\Plugins\Map\ui.py:160
 msgid "Attempt to automatically solve tolls. This may or may not work. Requires a restart to fully reload toll data."
-msgstr "尝试自动通过收费站。这可能有效，也可能无效。需要重新启动才能完全重新加载收费"
-"数据。"
+msgstr "尝试自动通过收费站。此功能可能失效，需要重启以完全重新加载收费站数据。"
 
 #: .\Plugins\Map\ui.py:173
 msgid "Disable FPS Notices"
@@ -2155,11 +2176,11 @@ msgstr "启用后，地图将计算并向游戏发送转向数据。"
 
 #: .\Plugins\Map\ui.py:194
 msgid "Drive Based On Trailer"
-msgstr "挂车转向"
+msgstr "基于挂车转向"
 
 #: .\Plugins\Map\ui.py:195
 msgid "When enabled map will take into account the trailer when calculating the current steering point."
-msgstr "启用后，地图在计算当前转向点时将考虑拖车。"
+msgstr "启用后，地图在计算当前转向点时将考虑挂车。"
 
 #: .\Plugins\Map\ui.py:202
 msgid "Steering Smoothness"
@@ -2199,11 +2220,11 @@ msgstr "驾驶侧"
 
 #: .\Plugins\Map\ui.py:265
 msgid "This will make the indicators behave correctly when lane changing in left handed or right handed countries."
-msgstr "这将使指示器在左侧或右侧通行的国家 在变道时正确运行。"
+msgstr "在左舵或右舵国家变道时，此设置将使转向灯行为符合当地规范。"
 
 #: .\Plugins\Map\ui.py:319
 msgid "The download size for this data is"
-msgstr "此数据的下载大小为"
+msgstr "此数据的大小为"
 
 #: .\Plugins\Map\ui.py:327
 msgid "that will unpack to a total size of"
@@ -2211,7 +2232,7 @@ msgstr "解压后的大小为"
 
 #: .\Plugins\NavigationSockets\main.py:81
 msgid "Navigation Sockets"
-msgstr "导航"
+msgstr "导航数据接口"
 
 #: .\Plugins\NavigationSockets\main.py:83
 msgid "This plugin provides a WebSocket server for navigation data on a world map."
@@ -2219,7 +2240,7 @@ msgstr "该插件为世界地图上的导航数据提供了一个 WebSocket 服�
 
 #: .\Plugins\TTS\main.py:84 .\Plugins\TTS\main.py:194
 msgid "TTS"
-msgstr "TTS(文本转语音)"
+msgstr "文本转语音"
 
 #: .\Plugins\TTS\main.py:85
 msgid "The TTS plugin provides text-to-speech functionality for accessibility and voiced announcements."
@@ -2231,7 +2252,7 @@ msgstr "声音"
 
 #: .\Plugins\TTS\main.py:105
 msgid "Please select a provider!"
-msgstr "请选择一个提供商！"
+msgstr "请选择提供商！"
 
 #: .\Plugins\TTS\main.py:110
 msgid "This will show provider information once the plugin is loaded."
@@ -2336,7 +2357,7 @@ msgstr "禁用自适应巡航控制。"
 #: .\Plugins\TTS\main.py:404
 msgid "Closest city is now {city} at a distance of {distance} kilometer."
 msgid_plural "Closest city is now {city} at a distance of {distance} kilometers."
-msgstr[0] "最近的城市现在是 {city}，距离 {distance} 公里。"
+msgstr[0] "现在最近的城市是 {city}，距离 {distance} 公里。"
 
 #: .\Plugins\TTS\main.py:421
 msgid "Speed limit changed to {0} kilometer per hour."
@@ -2364,23 +2385,23 @@ msgstr "发动机损坏现在为 {0}%。"
 
 #: .\Plugins\TTS\main.py:531
 msgid "Cabin damage is now at {0}%."
-msgstr "机舱伤害现在为 {0}%。"
+msgstr "驾驶室损伤程度已达 {0}%。"
 
 #: .\Plugins\TTS\main.py:534
 msgid "Chassis damage is now at {0}%."
-msgstr "底盘伤害现在为 {0}%。"
+msgstr "底盘损伤程度已达 {0}%。"
 
 #: .\Plugins\TTS\main.py:538
 msgid "Transmission damage is now at {0}%."
-msgstr "传送伤害现在为 {0}%。"
+msgstr "变速箱损伤程度已达 {0}%。"
 
 #: .\Plugins\TTS\main.py:542
 msgid "Wheel damage is now at {0}%."
-msgstr "轮胎伤害现在为 {0}%。"
+msgstr "轮胎损伤程度已达 {0}%。"
 
 #: .\Plugins\TTS\main.py:545
 msgid "Cargo damage is now at {0}%."
-msgstr "货物伤害现在为 {0}%。"
+msgstr "货物损伤程度已达 {0}%。"
 
 #: .\Plugins\TTS\main.py:564
 msgid "Speed {0} kilometers per hour, limit {1}, fuel {2}%, and it's {3} kilometers to the next waypoint."
@@ -2397,7 +2418,7 @@ msgstr "红绿灯更改为 {state}。现在在 {distance} 米处。"
 #: .\Plugins\TTS\main.py:648
 msgid "{distance} meter"
 msgid_plural "{distance} meters"
-msgstr[0] "米"
+msgstr[0] "{distance} 米"
 
 #: .\Plugins\TTS\main.py:664
 msgid "Headlights turned on."
@@ -2415,11 +2436,11 @@ msgstr "测试模式已启用。这是一条测试信息。"
 #: .\Plugins\VisualizationSockets\main.py:229
 #: .\Plugins\VisualizationSockets\main.py:387
 msgid "Visualization Sockets"
-msgstr "可视化"
+msgstr "可视化数据接口"
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
-msgstr "该插件为 ETS2LA 可视化提供了一个 websocket 服务器。"
+msgstr "此插件为 ETS2LA 可视化功能提供 WebSocket 服务器支持。"
 
 #. TRANSLATORS: Host device in this context means the device that is running ETS2LA.
 #: .\Plugins\VisualizationSockets\main.py:237
@@ -2492,7 +2513,7 @@ msgstr "该插件为 ETS2LA 可视化提供了一个 websocket 服务。它允�
 
 #: .\main.py:142
 msgid "Testing mirrors..."
-msgstr "延迟测试..."
+msgstr "延迟镜像..."
 
 #: .\main.py:151
 msgid "- Reached {0} in {1:.0f}ms"
@@ -2512,7 +2533,7 @@ msgstr "在开发者模式下运行 ETS2LA。"
 
 #: .\main.py:213
 msgid "No connection to remote UI mirrors. Running locally."
-msgstr "无法连接远程用户界面镜像。本地运行。"
+msgstr "无法连接远程 UI 镜像。本地运行。"
 
 #: .\main.py:226
 msgid "Running UI in China mode"
@@ -2520,7 +2541,7 @@ msgstr "使用中国镜像运行UI"
 
 #: .\main.py:229
 msgid "> Using mirror {0} for UI."
-msgstr "> 使用镜像 {0} 作为用户界面。"
+msgstr "> 使用 {0} 镜像作为用户界面。"
 
 #: .\main.py:239
 msgid "--no-console cannot be used in combination with --no-ui. The console will not close."
@@ -2532,11 +2553,11 @@ msgstr "用户界面启动后关闭控制台。"
 
 #: .\main.py:272
 msgid "Running in the background without a window."
-msgstr "在没有窗口的情况下在后台运行。"
+msgstr "正在后台无窗口运行。"
 
 #: .\main.py:276
 msgid "Running UI locally"
-msgstr "在本地运行用户界面"
+msgstr "在本地运行UI"
 
 #: .\main.py:294
 msgid "The window process has crashed!"
@@ -2552,7 +2573,7 @@ msgstr "ETS2LA 正在重启..."
 
 #: .\main.py:341
 msgid "Skipping update due to development mode."
-msgstr "由于开发模式，跳过更新。"
+msgstr "因处于开发模式，跳过更新检查。"
 
 #: .\main.py:345
 msgid "ETS2LA is updating..."
@@ -2568,7 +2589,7 @@ msgstr "ETS2LA 崩溃了！"
 
 #: .\main.py:367
 msgid "Send the above traceback to the developers."
-msgstr "将上述回溯信息发送给开发人员。"
+msgstr "请将以上错误信息发送给开发人员。"
 
 #: .\main.py:369
 msgid "ETS2LA has closed."
