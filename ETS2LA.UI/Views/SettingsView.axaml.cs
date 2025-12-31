@@ -1,104 +1,85 @@
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.ComponentModel;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
-using ETS2LA.Shared;
-using ETS2LA.UI.Rendering;
-using ETS2LA.UI.Services;
+using ETS2LA.UI.Views.Settings;
 
 namespace ETS2LA.UI.Views;
 
-public class PluginPageEntry
+public partial class SettingsView : UserControl
 {
-    public string Title { get; }
-    public string Description { get; }
-    public PluginPage Page { get; }
-    public IPluginUi Ui { get; }
 
-    public PluginPageEntry(string title, string description, PluginPage page, IPluginUi ui)
-    {
-        Title = title;
-        Description = description;
-        Page = page;
-        Ui = ui;
-    }
-}
+    private readonly WindowSettings _windowSettings = new();
+    private readonly AudioSettings _audioSettings = new();
+    private readonly ThemeSettings _themeSettings = new();
+    private readonly ControlSettings _controlSettings = new();
+    private readonly SDKSettings _sdkSettings = new();
 
-public partial class SettingsView : UserControl, INotifyPropertyChanged
-{
-    private readonly PluginManagerService _pluginService;
-    public ObservableCollection<PluginPageEntry> Pages { get; } = new();
-    public bool HasPluginPages
-    {
-        get => _hasPluginPages;
-        private set
-        {
-            if (_hasPluginPages == value) return;
-            _hasPluginPages = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasPluginPages)));
-        }
-    }
-    private bool _hasPluginPages;
+    private readonly List<Button> _navButtons = new();
+    ContentControl _contentHost => this.FindControl<ContentControl>("ContentHost") ?? throw new InvalidOperationException("ContentHost not found");
 
-    public SettingsView(PluginManagerService pluginService)
+    public SettingsView()
     {
-        _pluginService = pluginService;
         InitializeComponent();
-        DataContext = this;
-        _pluginService.PluginsChanged += OnPluginsChanged;
-        RefreshPages();
+
+#pragma warning disable CS8601 // Possible null reference assignment.
+        _navButtons.AddRange(
+        [
+            // Don't know why I have to find the controls, a direct reference
+            // to them via x:Name doesn't work in this file for some reason.
+            // TODO: Investigate later.
+            this.FindControl<Button>("WindowButton"),
+            this.FindControl<Button>("AudioButton"),
+            this.FindControl<Button>("ThemeButton"),
+            this.FindControl<Button>("ControlsButton"),
+            this.FindControl<Button>("SDKButton"),
+        ]);
+#pragma warning restore CS8601 // Possible null reference assignment.
+
     }
 
-    private void OnPluginsChanged()
+    private void SetSelected(string active)
     {
-        // Ensure updates happen on the UI thread.
-        Dispatcher.UIThread.Post(RefreshPages);
-    }
-
-    public void RefreshPages()
-    {
-        Pages.Clear();
-        var entries = _pluginService.GetPluginUis()
-            .SelectMany(p => p.Pages
-                .Where(pg => pg.Location == PluginPageLocation.Settings)
-                .Select(pg => new PluginPageEntry(p.Metadata.Name, p.Metadata.Description, pg, p.Ui)))
-            .ToList();
-
-        foreach (var e in entries)
-            Pages.Add(e);
-        HasPluginPages = Pages.Count > 0;
-
-        if (this.FindControl<ListBox>("PluginList") is { } list &&
-            this.FindControl<Border>("PluginPlaceholder") is { } placeholder)
+        foreach (var button in _navButtons)
         {
-            list.IsVisible = HasPluginPages;
-            placeholder.IsVisible = !HasPluginPages;
-
-            if (HasPluginPages)
-                list.SelectedIndex = 0;
-            else if (this.FindControl<ContentControl>("ContentHost") is { } host)
-                host.Content = new TextBlock
-                {
-                    Text = "No plugin settings available.",
-                    Foreground = this.FindResource("TextMutedBrush") as Avalonia.Media.IBrush
-                };
+            button.Classes.Remove("Selected");
         }
+        this.FindControl<Button>(active)?.Classes.Add("Selected");
     }
 
-    private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void OnWindowSettingsClick(object? sender, RoutedEventArgs e)
     {
-        if (this.FindControl<ContentControl>("ContentHost") is not { } host) return;
-        if (sender is not ListBox { SelectedItem: PluginPageEntry entry }) return;
+        _contentHost.Content = _windowSettings;
+        SetSelected("WindowButton");
+    }
 
-        host.Content = PluginUiRenderer.RenderPage(entry.Page, entry.Ui);
+    private void OnAudioSettingsClick(object? sender, RoutedEventArgs e)
+    {
+        _contentHost.Content = _audioSettings;
+        SetSelected("AudioButton");
+    }
+
+    private void OnThemeSettingsClick(object? sender, RoutedEventArgs e)
+    {
+        _contentHost.Content = _themeSettings;
+        SetSelected("ThemeButton");
+    }
+
+    private void OnControlsSettingsClick(object? sender, RoutedEventArgs e)
+    {
+        _contentHost.Content = _controlSettings;
+        SetSelected("ControlsButton");
+    }
+
+    private void OnSDKSettingsClick(object? sender, RoutedEventArgs e)
+    {
+        _contentHost.Content = _sdkSettings;
+        SetSelected("SDKButton");
     }
 
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
-
-    public new event PropertyChangedEventHandler? PropertyChanged;
 }

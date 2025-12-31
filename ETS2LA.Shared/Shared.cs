@@ -1,4 +1,7 @@
-﻿namespace ETS2LA.Shared
+﻿using Huskui.Avalonia.Controls;
+using Huskui.Avalonia.Models;
+
+namespace ETS2LA.Shared
 {
     public interface IEventBus
     {
@@ -7,11 +10,41 @@
         void Publish<T>(string topic, T data);
     }
 
+    public class Notification
+    {
+        // Used by the backend
+        public required string Id;
+        public bool IsInternal = false;
+        public DateTime CreatedAt = DateTime.UtcNow;
+        public GrowlItem? Item = null;
+
+        // Copied from Huskui GrowlItem
+        public GrowlLevel Level = GrowlLevel.Information;
+        public string Title = "";
+        public string Content = "";
+
+        public float Progress = 0.0f;
+        public bool IsProgressIndeterminate = false;
+
+        // Timing for closing, these are disabled if Progress is used
+        public float CloseAfter = 8.0f; // seconds
+        public float ShowCloseButtonAfter = 0.0f; // seconds
+    }
+
+    public interface INotificationHandler
+    {
+        void SendNotification(Notification notification);
+        void UpdateNotification(Notification notification);
+        void CloseNotification(string id);
+    }
+
     // Interface that plugins will follow at a minimum
     public interface IPlugin
     {
+        PluginInformation Info { get; }
         bool _IsRunning { get; set; }
-        void Init(IEventBus bus);
+        void Init();
+        void Register(IEventBus bus, INotificationHandler window);
         void OnEnable();
         void Tick();
         void OnDisable();
@@ -22,11 +55,19 @@
     // but please note that it is *highly* recommended to use this as a base.
     public abstract class Plugin : IPlugin
     {
+        public abstract PluginInformation Info { get; }
+        protected INotificationHandler? _window;
         protected IEventBus? _bus;
         public bool _IsRunning { get; set; } = false;
         public virtual float TickRate => 20.0f;
 
-        public virtual void Init(IEventBus bus) { _bus = bus; }
+        public virtual void Init() { }
+        public virtual void Register(IEventBus bus, INotificationHandler window)
+        {
+            _bus = bus;
+            _window = window;
+        }
+
         public virtual void OnEnable()
         {
             _IsRunning = true;
@@ -73,24 +114,17 @@
         }
     }
 
-    [AttributeUsage(AttributeTargets.Assembly)]
-    public class PluginInformation : Attribute
+    public class PluginInformation
     {
         // Required
-        public string Name { get; }
-        public string Description { get; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
 
         // Optional
         public string AuthorName { get; set; } = "";
         public string AuthorWebsite { get; set; } = "";
         public string AuthorIcon { get; set; } = "";
         public string[] Tags { get; set; } = Array.Empty<string>();
-
-        public PluginInformation(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
     }
 
     // Utility classes

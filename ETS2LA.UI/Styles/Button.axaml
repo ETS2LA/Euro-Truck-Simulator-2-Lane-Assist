@@ -1,0 +1,40 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+        xmlns:i="https://github.com/projektanker/icons.avalonia">
+
+    <!-- Sidebar Buttons -->
+    <Style Selector="Button.sidebar">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource SolidColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="10 5 10 5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="4 0 0 0"/>
+    </Style>
+    <Style Selector="Button.sidebar.Selected Grid i|Icon">
+        <Setter Property="Foreground" Value="{StaticResource AccentForeground}"/>
+    </Style>
+    <Style Selector="Button.sidebar.Selected Grid TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource AccentForeground}"/>
+    </Style>
+
+    <!-- Titlebar Buttons -->
+    <Style Selector="Button.titlebar">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="TextElement.Foreground" Value="{StaticResource SolidColor}"/>
+    </Style>
+    <Style Selector="Button.titlebar:pressed">
+        <Setter Property="Background" Value="#20232A"/>
+    </Style>
+
+</Styles>

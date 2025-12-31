@@ -1,0 +1,39 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
+
+    <!-- Colors -->
+    <Style Selector="Span.Highlight">
+        <Setter Property="Foreground" Value="{DynamicResource AccentForeground}"/>
+    </Style>
+    <Style Selector="Span.Success">
+        <Setter Property="Foreground" Value="{DynamicResource Success11Color}"/>
+    </Style>
+    <Style Selector="Span.Warning">
+        <Setter Property="Foreground" Value="{DynamicResource Warning11Color}"/>
+    </Style>
+    <Style Selector="Span.Danger">
+        <Setter Property="Foreground" Value="{DynamicResource Danger11Color}"/>
+    </Style>
+
+    <!-- Font Weights -->
+    <Style Selector="Span.Thin">
+        <Setter Property="FontFamily" Value="GeistLight"/>
+        <Setter Property="FontWeight" Value="500"/>
+    </Style>
+    <Style Selector="Span.Semibold">
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Span.Bold">
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!-- Text Styles -->
+    <Style Selector="Span.Italic">
+        <Setter Property="FontStyle" Value="Italic"/>
+    </Style>
+    <Style Selector="Span.Underline">
+        <Setter Property="TextDecorations" Value="Underline"/>
+    </Style>
+
+</Styles>

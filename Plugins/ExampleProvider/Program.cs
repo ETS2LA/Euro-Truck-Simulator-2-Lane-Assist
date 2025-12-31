@@ -3,7 +3,6 @@ using ETS2LA.Shared;
 using ETS2LA.Settings;
 using ETS2LA.Logging;
 
-[assembly: PluginInformation("ExampleProvider", "An example data provider plugin.")]
 namespace ExampleProvider
 {
 
@@ -15,6 +14,13 @@ namespace ExampleProvider
 
     public class MyProvider : Plugin
     {
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "Example Provider",
+            Description = "An example data provider plugin.",
+            AuthorName = "Tumppi066",
+        };
+
         public override float TickRate => 1.0f;
         private MySettings? _settings;
         private SettingsHandler? _settingsHandler;

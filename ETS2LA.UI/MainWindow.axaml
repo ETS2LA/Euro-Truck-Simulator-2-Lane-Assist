@@ -1,134 +1,166 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="ETS2LA.UI.MainWindow"
-        Width="1280" Height="720"
-        Background="{DynamicResource BaseBackgroundBrush}"
-        Padding="12"
-        SystemDecorations="None">
-    <Border Background="{DynamicResource BaseBackgroundBrush}" CornerRadius="16">
+<husk:AppWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+                xmlns:i="https://github.com/projektanker/icons.avalonia"
+                x:Class="ETS2LA.UI.MainWindow"
+
+                Title="ETS2LA"
+                Width="1280" Height="720"
+                MinWidth="600" MinHeight="300"
+                SystemDecorations="Full"
+                TransparencyLevelHint="Transparent">
+
+    <Border>
         <DockPanel>
             <!-- Title bar -->
-            <Border Background="#1C1E24"
-                    BorderBrush="#2A2D34"
-                    BorderThickness="1"
-                    CornerRadius="12"
-                    Padding="10 8"
-                    Margin="4 4 4 10"
+            <Border Padding="4"
                     DockPanel.Dock="Top"
-                    PointerPressed="TitleBar_PointerPressed">
+                    PointerPressed="OnTitlebarPressed">
                 <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center" Margin="2 0 0 0">
-                        <Button Classes="traffic red" Click="OnCloseClick"/>
-                        <Button Classes="traffic yellow"/>
-                        <Button Classes="traffic green" Click="OnMaxRestoreClick"/>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="0 0 0 0" HorizontalAlignment="Left">
+                        <Button Classes="titlebar" Click="TogglePane" Padding="6" Margin="0" ToolTip.Tip="Toggle Sidebar">
+                            <i:Icon Value="fa-arrow-right-to-bracket" Name="ToggleSidebarIcon" />
+                        </Button>
+
+                        <husk:Divider Orientation="Vertical" Name="TitlebarDividerLeft" />
+                        <Button Classes="titlebar" Click="OnVisualizationClick" Padding="6" Margin="0" Name="VisualizationButtonTitlebar" ToolTip.Tip="Open Visualization">
+                            <i:Icon Value="fa-tv"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnManagerClick" Padding="6" Margin="0" Name="ManagerButtonTitlebar" ToolTip.Tip="Open Plugin Manager">
+                            <i:Icon Value="fa-bars-staggered"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnSettingsClick" Padding="6" Margin="0" Name="SettingsButtonTitlebar" ToolTip.Tip="Open Settings">
+                            <i:Icon Value="fa-cog"/>
+                        </Button>
+                        <husk:Divider Orientation="Vertical" Margin="0 0 6 0" Name="TitlebarDividerRight" />
+
+                        <TextBlock Text="ETS2LA" FontSize="13" FontWeight="500" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                        <TextBlock Text="v0.4.1 - 67bfe5ee9" Classes="Description" FontSize="10" VerticalAlignment="Center" Margin="0 0 0 0" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="ETS2LA" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" Opacity="0.95"/>
-                        <TextBlock Text="v0.4.1" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" Opacity="0.85"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center" Margin="0 0 0 0" HorizontalAlignment="Right">
+                        <Button Classes="titlebar" Click="OnTransparencyClick" Padding="6" Margin="0" ToolTip.Tip="Toggle Transparency">
+                            <i:Icon Value="fa-circle" Name="TransparencyIcon"/>
+                        </Button>
+                        <Button Classes="titlebar" Click="OnStayOnTopClick" Padding="6" Margin="0" ToolTip.Tip="Stay on Top">
+                            <i:Icon Value="mdi-picture-in-picture-bottom-right-outline" FontSize="15" Name="StayOnTopIcon"/>
+                        </Button>
+                        
+                        <husk:Divider Orientation="Vertical" Margin="0 0 0 0" />
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 0">
+                            <Button Classes="titlebar" Click="OnMinimizeClick" Padding="6" Margin="0" ToolTip.Tip="Minimize">
+                                <i:Icon Value="fa-square-minus" Foreground="{DynamicResource Warning10Color}" />
+                            </Button>
+                            <Button Classes="titlebar" Click="OnMaxRestoreClick" Padding="6" Margin="0" ToolTip.Tip="Maximize/Restore">
+                                <i:Icon Value="fa-window-maximize" Name="MaximizeRestoreIcon" Foreground="{DynamicResource Success10Color}"/>
+                            </Button>
+                            <Button Classes="titlebar" Click="OnCloseClick" Padding="6" Margin="0" ToolTip.Tip="Close ETS2LA">
+                                <i:Icon Value="fa-rectangle-xmark" Foreground="{DynamicResource Danger10Color}" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <Grid ColumnDefinitions="205,*" Margin="8">
-                <!-- Sidebar -->
-                <Border Grid.Column="0"
-                        Background="{DynamicResource PanelBackgroundBrush}"
-                        CornerRadius="14"
-                        Padding="12"
-                        Margin="0 0 12 0">
-                    <Grid RowDefinitions="Auto,*,Auto">
-                        <Border Background="#1F2229" CornerRadius="10" Padding="10" Margin="2 0 2 14">
-                            <StackPanel Spacing="2">
-                                <TextBlock Text="ETS2LA" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                <TextBlock Text="v0.4.1 - 67bfe5ee9" Foreground="{DynamicResource TextMutedBrush}" FontSize="11"/>
-                            </StackPanel>
-                        </Border>
+            <!-- Sidebar -->
+            <SplitView IsPaneOpen="True"
+                       OpenPaneLength="200"
+                       DisplayMode="Inline"
+                       Name="MainSplitView"
+                       Background="Transparent"
+                       PaneBackground="Transparent">
+                <SplitView.Pane>
+                    <ScrollViewer>
+                        <Border Grid.Column="0"
+                                Padding="0 16 4 12"
+                                Margin="0 0 0 0">
+                            <Grid RowDefinitions="Auto,*">
+                                <StackPanel Grid.Row="0" Spacing="14" Margin="6 0 6 0">
+                                    <StackPanel Spacing="0">
+                                        <TextBlock Text="Main" FontSize="12" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <Button x:Name="DashboardButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnDashboardClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-house" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Dashboard" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="VisualizationButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnVisualizationClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-tv" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Visualization" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
 
-                        <StackPanel Grid.Row="1" Spacing="14" Margin="2 0 0 0">
-                            <StackPanel Spacing="8" Margin="10 0 0 0">
-                                <TextBlock Text="Main" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold"/>
-                                <Button x:Name="DashboardButton" Classes="nav selected" Click="OnDashboardClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE80F;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Dashboard" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <StackPanel Spacing="0">
+                                        <TextBlock Text="Plugins" FontSize="12" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <Button x:Name="ManagerButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnManagerClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-bars-staggered" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Manager" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="CatalogueButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnCatalogueClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-store" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Catalogue" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="PerformanceButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnPerformanceClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-chart-simple" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Performance" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
                                     </StackPanel>
-                                </Button>
-                                <Button x:Name="VisualizationButton" Classes="nav" Click="OnVisualizationClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE21C;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Visualization" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
 
-                            <StackPanel Spacing="8" Margin="10 0 0 0">
-                                <TextBlock Text="Plugins" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold"/>
-                                <Button x:Name="ManagerButton" Classes="nav" Click="OnManagerClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE14C;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Manager" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <StackPanel Spacing="0">
+                                        <TextBlock Text="Help" FontSize="12" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <Button x:Name="WikiButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnWikiClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-circle-question" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Wiki" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="RoadmapButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnRoadmapClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-bars-progress" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Roadmap" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="FeedbackButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnFeedbackClick">
+                                            <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                                <i:Icon Grid.Column="0" Value="fa-comment-dots" FontSize="14" />
+                                                <TextBlock Grid.Column="1" Text="Feedback" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                            </Grid>
+                                        </Button>
                                     </StackPanel>
-                                </Button>
-                                <Button x:Name="CatalogueButton" Classes="nav" Click="OnCatalogueClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE179;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Catalogue" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button x:Name="PerformanceButton" Classes="nav" Click="OnPerformanceClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE9D9;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Performance" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-
-                            <StackPanel Spacing="8" Margin="10 0 0 0">
-                                <TextBlock Text="Help" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" FontWeight="SemiBold"/>
-                                <Button x:Name="WikiButton" Classes="nav" Click="OnWikiClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xEC17;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Wiki" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button x:Name="RoadmapButton" Classes="nav" Click="OnRoadmapClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE1C4;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Roadmap" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button x:Name="FeedbackButton" Classes="nav" Click="OnFeedbackClick">
-                                    <StackPanel Orientation="Horizontal" Spacing="9">
-                                        <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE939;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                        <TextBlock Text="Feedback" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="2" Spacing="12">
-                            <Button x:Name="SettingsButton" Classes="nav" Click="OnSettingsClick">
-                                <StackPanel Orientation="Horizontal" Spacing="9" Margin="10 0 0 0">
-                                    <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE713;" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    <TextBlock Text="Settings" FontSize="13.5" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                 </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+
+                                <StackPanel Grid.Row="1" Spacing="12" Margin="6 0 6 0" VerticalAlignment="Bottom">
+                                    <Button x:Name="SettingsButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnSettingsClick">
+                                        <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                                            <i:Icon Grid.Column="0" Value="fa-cog" FontSize="14" />
+                                            <TextBlock Grid.Column="1" Text="Settings" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </ScrollViewer>
+                </SplitView.Pane>
 
                 <!-- Content -->
-                <Border Grid.Column="1"
-                        Background="{DynamicResource CardBackgroundBrush}"
-                        CornerRadius="14"
-                        Padding="20"
-                        BorderBrush="#1F252C"
-                        BorderThickness="1">
+                <husk:Card CornerRadius="12 0 0 0"
+                           BorderThickness="1"
+                           Padding="0"
+                           Name="ContentBorder">
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                         <ContentControl x:Name="ContentHost"/>
                     </ScrollViewer>
-                </Border>
-            </Grid>
+                </husk:Card>
+            </SplitView>
         </DockPanel>
     </Border>
-</Window>
+</husk:AppWindow>

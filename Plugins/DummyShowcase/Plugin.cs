@@ -2,17 +2,16 @@ using ETS2LA.Logging;
 using ETS2LA.Shared;
 using System.Collections.Generic;
 
-[assembly: PluginInformation(
-    "Dummy Showcase",
-    "Minimal plugin used to validate the manager UI and plugin loader.",
-    AuthorName = "ETS2LA UI",
-    Tags = new[] { "demo", "ui" }
-)]
-
 namespace DummyShowcase;
-
 public class DemoPlugin : Plugin, IPluginUi
 {
+    public override PluginInformation Info => new PluginInformation
+    {
+        Name = "Dummy Showcase",
+        Description = "Minimal plugin used to validate the manager UI and plugin loader.",
+        AuthorName = "Flavio Giacchetti",
+    };
+
     public override float TickRate => 0.5f;
 
     public override void OnEnable()

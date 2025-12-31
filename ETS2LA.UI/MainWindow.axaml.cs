@@ -1,13 +1,23 @@
-using System.Collections.Generic;
-using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Input;
+using Avalonia.Controls;
+using Avalonia.Threading;
 using Avalonia.Interactivity;
+
+using ETS2LA.Shared;
+using ETS2LA.Logging;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
+using ETS2LA.UI.Notifications;
+
+using Huskui.Avalonia.Models;
+using Huskui.Avalonia.Controls;
+using Tmds.DBus.Protocol;
+using Avalonia;
 
 namespace ETS2LA.UI;
 
-public partial class MainWindow : Window
+public partial class MainWindow : AppWindow
 {
     private enum PageKind
     {
@@ -22,31 +32,78 @@ public partial class MainWindow : Window
         Settings
     }
 
+    private bool IsWindows =>
+        System.Runtime.InteropServices.RuntimeInformation
+            .IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+
     private readonly List<Button> _navButtons = new();
-    private readonly PluginManagerService _pluginService = new();
+    private readonly PluginManagerService _pluginService;
     private readonly DashboardView _dashboardView = new();
+    private readonly VisualizationView _visualizationView = new();
+    private readonly NotificationHandler _notificationHandler;
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
 
     public MainWindow()
     {
+        CanResize = true;
+        ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
+
+        _notificationHandler = new NotificationHandler(this);
+        _pluginService = new PluginManagerService(_notificationHandler);
         _managerView = new ManagerView(_pluginService);
-        _settingsView = new SettingsView(_pluginService);
+        _settingsView = new SettingsView();
+        _visualizationView = new VisualizationView(_pluginService);
         _navButtons.AddRange(new[]
         {
             DashboardButton, VisualizationButton, ManagerButton, CatalogueButton,
             PerformanceButton, WikiButton, RoadmapButton, FeedbackButton, SettingsButton
         });
 
+        UpdateTitlebarButtonVisibility();
         SetSelected(DashboardButton);
         ShowPage(PageKind.Dashboard);
     }
 
-    private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+    private void OnTitlebarPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             BeginMoveDrag(e);
+    }
+
+    private void OnStayOnTopClick(object? sender, RoutedEventArgs e)
+    {
+        Topmost = !Topmost;
+        StayOnTopIcon.Value = Topmost ? "mdi-picture-in-picture-bottom-right" : "mdi-picture-in-picture-bottom-right-outline";
+        if (Topmost) StayOnTopIcon.Classes.Add("Highlight");
+        else StayOnTopIcon.Classes.Remove("Highlight");
+        
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "MainWindow.StayOnTopChanged",
+            Title = "Stay On Top",
+            Content = Topmost ? "Enabled" : "Disabled",
+            CloseAfter = 2.0f,
+            Level = Topmost ? GrowlLevel.Success : GrowlLevel.Danger
+        });
+    }
+
+    private void OnTransparencyClick(object? sender, RoutedEventArgs e)
+    {
+        this.Opacity = this.Opacity == 1.0 ? 0.8 : 1.0;
+        TransparencyIcon.Value = this.Opacity == 1.0 ? "fa-circle" : "fa-circle-half-stroke";
+        if(this.Opacity == 1.0) TransparencyIcon.Classes.Remove("Highlight");
+        else TransparencyIcon.Classes.Add("Highlight");
+        
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "MainWindow.TransparencyChanged",
+            Title = "Transparency",
+            Content = this.Opacity < 1.0 ? "Enabled" : "Disabled",
+            CloseAfter = 2.0f,
+            Level = this.Opacity < 1.0 ? GrowlLevel.Success : GrowlLevel.Danger
+        });
     }
 
     private void OnMinimizeClick(object? sender, RoutedEventArgs e)
@@ -57,11 +114,60 @@ public partial class MainWindow : Window
     private void OnMaxRestoreClick(object? sender, RoutedEventArgs e)
     {
         WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        MaximizeRestoreIcon.Value = WindowState == WindowState.Maximized ? "fa-window-restore" : "fa-window-maximize";
     }
 
     private void OnCloseClick(object? sender, RoutedEventArgs e)
     {
+        _notificationHandler.SendNotification(new Notification
+        {
+            Id = "MainWindow.Shutdown",
+            Title = "ETS2LA",
+            Content = "Shutting down application & backend...",
+            CloseAfter = 20.0f
+        });
+        _pluginService.Shutdown();
+        _notificationHandler.Shutdown();
         Close();
+    }
+
+    private void UpdateTitlebarButtonVisibility()
+    {
+        if (MainSplitView.IsPaneOpen)
+        {
+            ToggleSidebarIcon.Value = "fa-right-to-bracket";
+            ToggleSidebarIcon.RenderTransform = new RotateTransform(180);
+            TitlebarDividerLeft.IsVisible = false;
+            TitlebarDividerRight.IsVisible = false;
+            ManagerButtonTitlebar.IsVisible = false;
+            VisualizationButtonTitlebar.IsVisible = false;
+            SettingsButtonTitlebar.IsVisible = false;
+        }
+        else
+        {
+            ToggleSidebarIcon.Value = "fa-right-from-bracket";
+            ToggleSidebarIcon.RenderTransform = new RotateTransform(0);
+            TitlebarDividerLeft.IsVisible = true;
+            TitlebarDividerRight.IsVisible = true;
+            ManagerButtonTitlebar.IsVisible = true;
+            VisualizationButtonTitlebar.IsVisible = true;
+            SettingsButtonTitlebar.IsVisible = true;
+        }
+    }
+
+    private void TogglePane(object? sender, RoutedEventArgs e)
+    {
+        MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+        ContentBorder.CornerRadius = MainSplitView.IsPaneOpen ? new Avalonia.CornerRadius(12, 0, 0, 0) : new Avalonia.CornerRadius(0);
+        UpdateTitlebarButtonVisibility();
+    }
+
+    private UserControl ClosePaneAndOpen(UserControl page)
+    {
+        MainSplitView.IsPaneOpen = false;
+        ContentBorder.CornerRadius = new Avalonia.CornerRadius(0);
+        UpdateTitlebarButtonVisibility();
+        return page;
     }
 
     private void ShowPage(PageKind page)
@@ -70,34 +176,31 @@ public partial class MainWindow : Window
         {
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
-            PageKind.Visualization => CreatePlaceholder("Visualization", "Charts, map overlays, and telemetry visuals will live here."),
+            PageKind.Visualization => IsWindows ? ClosePaneAndOpen(_visualizationView) : CreatePlaceholder("Sorry", "This page is only available on Windows."),
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
             PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),
             PageKind.Wiki => CreatePlaceholder("Wiki", "Link or embed documentation content."),
             PageKind.Roadmap => CreatePlaceholder("Roadmap", "Timeline and milestones will appear here."),
             PageKind.Feedback => CreatePlaceholder("Feedback", "Collect feedback or link to forms."),
-            PageKind.Settings => ShowAndRefreshSettings(),
+            PageKind.Settings => _settingsView,
             _ => _dashboardView
         };
     }
 
-    private Control ShowAndRefreshSettings()
-    {
-        _settingsView.RefreshPages();
-        return _settingsView;
-    }
-
     private Control CreatePlaceholder(string title, string body)
     {
-        return new ScrollViewer
-        {
-            Content = new StackPanel
+        return new Border {
+            Padding = new Avalonia.Thickness(20),
+            Child = new ScrollViewer
             {
-                Spacing = 8,
-                Children =
+                Content = new StackPanel
                 {
-                    new TextBlock { Text = title, FontSize = 18, FontWeight = Avalonia.Media.FontWeight.SemiBold, Foreground = this.FindResource("TextPrimaryBrush") as Avalonia.Media.IBrush },
-                    new TextBlock { Text = body, Foreground = this.FindResource("TextSecondaryBrush") as Avalonia.Media.IBrush, TextWrapping = Avalonia.Media.TextWrapping.Wrap }
+                    Spacing = 8,
+                    Children =
+                    {
+                        new TextBlock { Text = title, FontSize = 18, FontWeight = Avalonia.Media.FontWeight.SemiBold },
+                        new TextBlock { Text = body, TextWrapping = Avalonia.Media.TextWrapping.Wrap }
+                    }
                 }
             }
         };
@@ -107,9 +210,9 @@ public partial class MainWindow : Window
     {
         foreach (var button in _navButtons)
         {
-            button.Classes.Remove("selected");
+            button.Classes.Remove("Selected");
         }
-        active.Classes.Add("selected");
+        active.Classes.Add("Selected");
     }
 
     private void OnDashboardClick(object? sender, RoutedEventArgs e)

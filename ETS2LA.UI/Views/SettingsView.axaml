@@ -1,85 +1,53 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
              xmlns:views="clr-namespace:ETS2LA.UI.Views"
              x:Class="ETS2LA.UI.Views.SettingsView"
              x:DataType="views:SettingsView">
-    <UserControl.Resources>
-        <DataTemplate x:Key="PluginPageTemplate" x:DataType="views:PluginPageEntry">
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding Title}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="SemiBold"/>
-                <TextBlock Text="{Binding Description}" Foreground="{DynamicResource TextMutedBrush}" FontSize="12" TextWrapping="Wrap"/>
-            </StackPanel>
-        </DataTemplate>
-    </UserControl.Resources>
 
-    <Grid ColumnDefinitions="240,*">
-        <Border Background="{DynamicResource PanelBackgroundBrush}"
-                BorderBrush="#1F252C"
-                BorderThickness="1"
-                CornerRadius="12"
-                Padding="12"
-                Margin="0 0 12 0">
-            <StackPanel Spacing="14">
-                <TextBlock Text="Settings"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+    <Grid ColumnDefinitions="200,*" ColumnSpacing="12">
+        <StackPanel Margin="5 0 0 0">
+            <TextBlock Text="General" Margin="14 16 0 6" FontSize="12" Classes="Description" />
+            <Button x:Name="WindowButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnWindowSettingsClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-display" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="Window" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
 
-                <StackPanel Spacing="10">
-                    <TextBlock Text="General" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
-                    <Border Background="#1A1C21" CornerRadius="10" Padding="10" BorderBrush="#252A31" BorderThickness="1">
-                        <TextBlock Text="App settings coming soon" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                    </Border>
-                </StackPanel>
+            <Button x:Name="AudioButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnAudioSettingsClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-volume-high" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="Audio" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
 
-                <StackPanel Spacing="10">
-                    <TextBlock Text="SDK" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
-                    <Border Background="#1A1C21" CornerRadius="10" Padding="10" BorderBrush="#252A31" BorderThickness="1">
-                        <TextBlock Text="SDK settings coming soon" Foreground="{DynamicResource TextMutedBrush}" FontSize="12"/>
-                    </Border>
-                </StackPanel>
+            <Button x:Name="ThemeButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnThemeSettingsClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-palette" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="Theme" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
 
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Plugins" Foreground="{DynamicResource TextMutedBrush}" FontSize="13" FontWeight="SemiBold"/>
-                    <ListBox x:Name="PluginList"
-                             ItemTemplate="{StaticResource PluginPageTemplate}"
-                             ItemsSource="{Binding Pages}"
-                             SelectionChanged="OnSelectionChanged">
-                        <ListBox.Styles>
-                            <Style Selector="ListBoxItem">
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="Margin" Value="0 4 0 4"/>
-                                <Setter Property="Background" Value="#1A1C21"/>
-                                <Setter Property="BorderBrush" Value="#252A31"/>
-                                <Setter Property="BorderThickness" Value="1"/>
-                                <Setter Property="CornerRadius" Value="10"/>
-                                <Setter Property="TextElement.Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
-                            </Style>
-                            <Style Selector="ListBoxItem:pointerover">
-                                <Setter Property="Background" Value="#22262E"/>
-                            </Style>
-                            <Style Selector="ListBoxItem:selected">
-                                <Setter Property="Background" Value="#2D323C"/>
-                                <Setter Property="BorderBrush" Value="#2D7DFF"/>
-                            </Style>
-                        </ListBox.Styles>
-                    </ListBox>
-                    <Border x:Name="PluginPlaceholder" IsVisible="False">
-                        <TextBlock Text="Enable a plugin with settings to see it here."
-                                   Foreground="{DynamicResource TextMutedBrush}"
-                                   FontSize="12"/>
-                    </Border>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+            <TextBlock Text="Additional" Margin="14 12 0 6" FontSize="12" Classes="Description" />
+            <Button x:Name="ControlsButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnControlsSettingsClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-keyboard" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="Controls" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
 
-        <Border Grid.Column="1"
-                Background="{DynamicResource CardBackgroundBrush}"
-                BorderBrush="#1F252C"
-                BorderThickness="1"
-                CornerRadius="10"
-                Padding="10">
+            <Button x:Name="SDKButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnSDKSettingsClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-cube" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="SDK" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
+        </StackPanel>
+
+        <husk:Card Grid.Column="1" Padding="10" CornerRadius="0" BorderThickness="1 0 0 0">
             <ContentControl x:Name="ContentHost"/>
-        </Border>
+        </husk:Card>
     </Grid>
 </UserControl>

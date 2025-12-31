@@ -1,0 +1,48 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
+
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Geist}"/>
+        <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+        <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
+        <Setter Property="FontWeight" Value="500"/>
+    </Style>
+    <Style Selector="TextBlock.Description">
+        <Setter Property="Foreground" Value="{StaticResource ControlSecondaryLightForegroundBrush}"/>
+    </Style>
+
+    <!-- Colors -->
+    <Style Selector="TextBlock.Highlight">
+        <Setter Property="Foreground" Value="{DynamicResource AccentForeground}"/>
+    </Style>
+    <Style Selector="TextBlock.Success">
+        <Setter Property="Foreground" Value="{DynamicResource Success11Color}"/>
+    </Style>
+    <Style Selector="TextBlock.Warning">
+        <Setter Property="Foreground" Value="{DynamicResource Warning11Color}"/>
+    </Style>
+    <Style Selector="TextBlock.Danger">
+        <Setter Property="Foreground" Value="{DynamicResource Danger11Color}"/>
+    </Style>
+
+    <!-- Font Weights -->
+    <Style Selector="TextBlock.Thin">
+        <Setter Property="FontWeight" Value="300"/>
+    </Style>
+    <Style Selector="TextBlock.Semibold">
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="TextBlock.Bold">
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!-- Text Styles -->
+    <Style Selector="TextBlock.Italic">
+        <Setter Property="FontStyle" Value="Italic"/>
+    </Style>
+    <Style Selector="TextBlock.Underline">
+        <Setter Property="TextDecorations" Value="Underline"/>
+    </Style>
+
+</Styles>

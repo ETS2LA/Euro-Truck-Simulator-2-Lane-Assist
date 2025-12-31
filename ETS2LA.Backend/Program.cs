@@ -1,46 +1,56 @@
 ﻿using ETS2LA.Logging;
+using ETS2LA.Shared;
+using Huskui.Avalonia.Controls;
 using Spectre.Console;
 using Velopack;
 
 namespace ETS2LA.Backend
 {
-    public static class Program
+    public class Program
     {
-        static EventBus? _bus;
-        static PluginHandler? _pluginHandler;
+        public EventBus? bus;
+        public INotificationHandler? window;
+        public PluginHandler? pluginHandler;
 
-        static void Main(string[] args)
+        public void Main(INotificationHandler appWindow)
         {
             // Run Velopack for update checking
             VelopackApp.Build().Run();
 
-            _bus = new EventBus();
-            _pluginHandler = new PluginHandler(_bus);
+            window = appWindow;
+            bus = new EventBus();
+            pluginHandler = new PluginHandler(bus, window);
 
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
-                _pluginHandler.LoadPlugins();
+                pluginHandler.LoadPlugins();
 
-                //_pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
-                _pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
+                //pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
+                //pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
 
                 // RenCloud's Game Telemetry plugin provider
-                _pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
+                pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
                 // ets2la_plugin providers and consumers
-                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
-                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
-                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
-                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
-                _pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
+                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
                 // scs-sdk-controller consumer
-                _pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
+                pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
 
                 Thread.Sleep(1000);
-                Logger.Success("ETS2LA is running. Press Enter to exit.");
+                Logger.Success("ETS2LA is running.");
             });
+        }
 
-            // Sleep the main thread until the application is closed
-            Console.ReadLine();
+        public void Shutdown()
+        {
+            if (pluginHandler != null)
+            {
+                pluginHandler.UnloadPlugins();
+            }
+            Logger.Info("ETS2LA has been shut down.");
         }
     }
 }
