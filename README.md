@@ -1,6 +1,5 @@
-> [!WARNING]  
-> **ETS2LA V2 is still in development!** Expect bugs, broken features, and crashes.
-> Check [this video](https://www.youtube.com/watch?v=EgZp05tA5ks) for a preview of the current features.
+> [!NOTE]  
+> ETS2LA is being rewritten in C# for performance reasons, we will provide further announcements on our discord server. You can follow our progress by clicking the `Projects` tab at the top of this page. Developers can check the `rewrite` branch for instructions on contributing.
 
 ![](ETS2LA/Assets/markdown_logo.png)
 
