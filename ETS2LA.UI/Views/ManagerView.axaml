@@ -28,7 +28,7 @@
                             <StackPanel Spacing="6" Width="302">
                                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                                     <husk:Tag IsVisible="{Binding IsEnabled}" Classes="Primary">
-                                        <TextBlock Text="Enabled" FontSize="12" FontWeight="300" />
+                                        <TextBlock Text="Enabled" FontSize="12" FontWeight="450" />
                                     </husk:Tag>
                                     <TextBlock Text="{Binding Name}" FontSize="14" />
                                 </StackPanel>

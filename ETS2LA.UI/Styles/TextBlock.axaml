@@ -3,9 +3,10 @@
         xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
 
     <Style Selector="TextBlock">
-        <Setter Property="FontFamily" Value="Geist"/>
+        <Setter Property="FontFamily" Value="{StaticResource Geist}"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
+        <Setter Property="FontWeight" Value="500"/>
     </Style>
     <Style Selector="TextBlock.Description">
         <Setter Property="Foreground" Value="{StaticResource ControlSecondaryLightForegroundBrush}"/>
@@ -27,8 +28,7 @@
 
     <!-- Font Weights -->
     <Style Selector="TextBlock.Thin">
-        <Setter Property="FontFamily" Value="GeistLight"/>
-        <Setter Property="FontWeight" Value="500"/>
+        <Setter Property="FontWeight" Value="300"/>
     </Style>
     <Style Selector="TextBlock.Semibold">
         <Setter Property="FontWeight" Value="SemiBold"/>

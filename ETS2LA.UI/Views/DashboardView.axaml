@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
              x:Class="ETS2LA.UI.Views.DashboardView">
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
         <StackPanel Spacing="14">
@@ -8,8 +9,8 @@
                 <husk:Card Padding="16">
                     <StackPanel Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock FontSize="18">
-                                Welcome back, <Span Classes="Highlight Italic">Tumppi066</Span>!
+                            <TextBlock FontSize="18" FontFamily="{StaticResource Geist}">
+                                Welcome back, <Span Classes="Highlight">Tumppi066</Span>!
                             </TextBlock>
                         </Grid>
 
@@ -18,19 +19,19 @@
                         <WrapPanel ItemSpacing="16">
                             <StackPanel Spacing="4">
                                 <husk:Tag>
-                                    <TextBlock Text="Current Release" FontSize="12" FontWeight="300" />
+                                    <TextBlock Text="Current Release" FontSize="12" FontWeight="450" />
                                 </husk:Tag>
                                 <TextBlock Text="v0.4.1" FontSize="13" Margin="6 0 0 0"/>
                             </StackPanel>
                             <StackPanel Spacing="4">
                                 <husk:Tag>
-                                    <TextBlock Text="Users Online" FontSize="12" FontWeight="300" />
+                                    <TextBlock Text="Users Online" FontSize="12" FontWeight="450" />
                                 </husk:Tag>
                                 <TextBlock Text="112" FontSize="13" Margin="6 0 0 0"/>
                             </StackPanel>
                             <StackPanel Spacing="4">
                                 <husk:Tag>
-                                    <TextBlock Text="Users Over 24h" FontSize="12" FontWeight="300" />
+                                    <TextBlock Text="Users Over 24h" FontSize="12" FontWeight="450" />
                                 </husk:Tag>
                                 <TextBlock Text="646" FontSize="13" Margin="6 0 0 0"/>
                             </StackPanel>
@@ -56,7 +57,7 @@
                 <husk:Card>
                     <StackPanel Spacing="6">
                         <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE9D2;" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <i:Icon Value="fa-chart-line" FontSize="15" />
                             <TextBlock Text="Sessions" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
                         <TextBlock Text="308 total - avg 1h13m" Classes="Description" FontSize="13"/>
@@ -65,8 +66,8 @@
                 <husk:Card>
                     <StackPanel Spacing="6">
                         <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xE14F;" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Uptime" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <i:Icon Value="fa-clock" FontSize="15" />
+                            <TextBlock Text="Playtime" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
                         <TextBlock Text="377h 55m total" Classes="Description" FontSize="13"/>
                     </StackPanel>
@@ -74,7 +75,7 @@
                 <husk:Card>
                     <StackPanel Spacing="6">
                         <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock FontFamily="Segoe Fluent Icons" Text="&#xEB52;" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <i:Icon Value="fa-heart-circle-bolt" FontSize="15" />
                             <TextBlock Text="Stability" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
                         <TextBlock Text="0 crashes last 24h" Classes="Description" FontSize="13"/>
