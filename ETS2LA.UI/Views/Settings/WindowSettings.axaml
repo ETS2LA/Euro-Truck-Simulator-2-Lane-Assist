@@ -3,5 +3,8 @@
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
              x:Class="ETS2LA.UI.Views.Settings.WindowSettings"
              x:DataType="views:WindowSettings">
-    <TextBlock Text="Window Settings Page" />
+    <StackPanel>
+        <TextBlock Text="Window Settings Page" />
+        <TextBlock Text="TODO" Classes="Description" />
+    </StackPanel>
 </UserControl>

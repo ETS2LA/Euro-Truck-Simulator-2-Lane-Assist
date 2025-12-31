@@ -3,5 +3,8 @@
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
              x:Class="ETS2LA.UI.Views.Settings.AudioSettings"
              x:DataType="views:AudioSettings">
-    <TextBlock Text="Audio Settings Page" />
+    <StackPanel>
+        <TextBlock Text="Audio Settings Page" />
+        <TextBlock Text="This page is waiting for the audio implementation to be completed." Classes="Description" />
+    </StackPanel>
 </UserControl>

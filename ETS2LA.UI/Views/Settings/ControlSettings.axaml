@@ -3,5 +3,8 @@
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
              x:Class="ETS2LA.UI.Views.Settings.ControlSettings"
              x:DataType="views:ControlSettings">
-    <TextBlock Text="Control Settings Page" />
+    <StackPanel>
+        <TextBlock Text="Control Settings Page" />
+        <TextBlock Text="This page is waiting for controls to be implemented." Classes="Description" />
+    </StackPanel>
 </UserControl>

@@ -3,5 +3,8 @@
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
              x:Class="ETS2LA.UI.Views.Settings.SDKSettings"
              x:DataType="views:SDKSettings">
-    <TextBlock Text="SDK Settings Page" />
+    <StackPanel>
+        <TextBlock Text="SDK Settings Page" />
+        <TextBlock Text="This page is waiting for game detection and SDK installation to be figured out." Classes="Description" />
+    </StackPanel>
 </UserControl>
