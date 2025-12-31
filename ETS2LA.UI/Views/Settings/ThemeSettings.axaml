@@ -4,8 +4,8 @@
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
              x:Class="ETS2LA.UI.Views.Settings.ThemeSettings"
              x:DataType="views:ThemeSettings">
-    <Grid ColumnDefinitions="*,300,*">
-        <StackPanel Grid.Column="1" Spacing="12">
+    <Grid ColumnDefinitions="300,*">
+        <StackPanel Grid.Column="0" Spacing="12" Margin="20">
             <TextBlock Text="Color Theme" />
             <ComboBox Name="ThemeCombobox" SelectedIndex="0" SelectionChanged="OnThemeChanged">
                 <ComboBoxItem Content="System" />
