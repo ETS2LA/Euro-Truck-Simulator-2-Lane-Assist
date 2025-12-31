@@ -49,6 +49,22 @@ public partial class ManagerView : UserControl
         foreach (var plugin in plugins)
         {
             Plugins.Add(new PluginItem(plugin, _pluginService));
+            _pluginService.backend.pluginHandler?.PluginEnabled += (enabledPlugin) =>
+            {
+                if (enabledPlugin == plugin)
+                {
+                    var item = Plugins.FirstOrDefault(pi => pi.Name == plugin.Info.Name);
+                    item?.Update();
+                }
+            };
+            _pluginService.backend.pluginHandler?.PluginDisabled += (disabledPlugin) =>
+            {
+                if (disabledPlugin == plugin)
+                {
+                    var item = Plugins.FirstOrDefault(pi => pi.Name == plugin.Info.Name);
+                    item?.Update();
+                }
+            };
         }
 
         bool hasPlugins = plugins.Count > 0;
