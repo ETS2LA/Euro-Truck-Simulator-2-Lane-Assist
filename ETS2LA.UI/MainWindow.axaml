@@ -78,7 +78,7 @@
                             <Grid RowDefinitions="Auto,*">
                                 <StackPanel Grid.Row="0" Spacing="14" Margin="6 0 6 0">
                                     <StackPanel Spacing="0">
-                                        <TextBlock Text="Main" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <TextBlock Text="Main" FontSize="12" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
                                         <Button x:Name="DashboardButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnDashboardClick">
                                             <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
                                                 <i:Icon Grid.Column="0" Value="fa-house" FontSize="14" />
@@ -94,7 +94,7 @@
                                     </StackPanel>
 
                                     <StackPanel Spacing="0">
-                                        <TextBlock Text="Plugins" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <TextBlock Text="Plugins" FontSize="12" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
                                         <Button x:Name="ManagerButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnManagerClick">
                                             <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
                                                 <i:Icon Grid.Column="0" Value="fa-bars-staggered" FontSize="14" />
@@ -116,7 +116,7 @@
                                     </StackPanel>
 
                                     <StackPanel Spacing="0">
-                                        <TextBlock Text="Help" FontSize="12" FontWeight="SemiBold" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
+                                        <TextBlock Text="Help" FontSize="12" Margin="15 0 0 8" Classes="Description" TextWrapping="NoWrap" />
                                         <Button x:Name="WikiButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnWikiClick">
                                             <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
                                                 <i:Icon Grid.Column="0" Value="fa-circle-question" FontSize="14" />

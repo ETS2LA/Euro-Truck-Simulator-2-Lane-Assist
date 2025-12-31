@@ -53,7 +53,7 @@ public partial class MainWindow : AppWindow
         _notificationHandler = new NotificationHandler(this);
         _pluginService = new PluginManagerService(_notificationHandler);
         _managerView = new ManagerView(_pluginService);
-        _settingsView = new SettingsView(_pluginService);
+        _settingsView = new SettingsView();
         _visualizationView = new VisualizationView(_pluginService);
         _navButtons.AddRange(new[]
         {
@@ -162,27 +162,29 @@ public partial class MainWindow : AppWindow
         UpdateTitlebarButtonVisibility();
     }
 
+    private UserControl ClosePaneAndOpen(UserControl page)
+    {
+        MainSplitView.IsPaneOpen = false;
+        ContentBorder.CornerRadius = new Avalonia.CornerRadius(0);
+        UpdateTitlebarButtonVisibility();
+        return page;
+    }
+
     private void ShowPage(PageKind page)
     {
         ContentHost.Content = page switch
         {
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
-            PageKind.Visualization => IsWindows ? _visualizationView : CreatePlaceholder("Sorry", "This page is only available on Windows."),
+            PageKind.Visualization => IsWindows ? ClosePaneAndOpen(_visualizationView) : CreatePlaceholder("Sorry", "This page is only available on Windows."),
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
             PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),
             PageKind.Wiki => CreatePlaceholder("Wiki", "Link or embed documentation content."),
             PageKind.Roadmap => CreatePlaceholder("Roadmap", "Timeline and milestones will appear here."),
             PageKind.Feedback => CreatePlaceholder("Feedback", "Collect feedback or link to forms."),
-            PageKind.Settings => ShowAndRefreshSettings(),
+            PageKind.Settings => _settingsView,
             _ => _dashboardView
         };
-    }
-
-    private Control ShowAndRefreshSettings()
-    {
-        _settingsView.RefreshPages();
-        return _settingsView;
     }
 
     private Control CreatePlaceholder(string title, string body)
