@@ -6,6 +6,14 @@ namespace ETS2LA.Backend
 {
     public class PluginHandler
     {
+        // These are files in the plugins folder that the backend will
+        // exclude when trying to load.
+        private readonly List<string> _exclusions = new()
+        {
+            "Microsoft.*",
+            "System.*",
+        };
+
         private readonly IEventBus _bus;
         private readonly INotificationHandler _window;
         public readonly List<IPlugin> LoadedPlugins = new();
@@ -24,6 +32,14 @@ namespace ETS2LA.Backend
             try
             {
                 var pluginFiles = Directory.GetFiles("Plugins", "*.dll");
+
+                // Exclude anything in _exclusions.
+                pluginFiles = pluginFiles.Where(file =>
+                {
+                    var fileName = Path.GetFileName(file);
+                    return !_exclusions.Any(pattern => System.Text.RegularExpressions.Regex.IsMatch(fileName, "^" + System.Text.RegularExpressions.Regex.Escape(pattern).Replace("\\*", ".*") + "$"));
+                }).ToArray();
+
                 return pluginFiles;
             } catch (Exception)
             {

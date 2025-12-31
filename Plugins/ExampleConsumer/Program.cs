@@ -6,6 +6,7 @@ namespace ExampleConsumer
 {
     public class MyConsumer : Plugin
     {
+        public override float TickRate => 60f;
         public override PluginInformation Info => new PluginInformation
         {
             Name = "Example Consumer",
@@ -36,33 +37,43 @@ namespace ExampleConsumer
         private float rpm = 0;
         public override void Tick()
         {
-            output += 0.01f;
-            if (output > 1.0f)
-                output = -1.0f;
+            // sine wave output from -1 to 1
+            double time = DateTime.Now.TimeOfDay.TotalSeconds;
+            output = (float)Math.Sin(time * 2 * Math.PI / 8);
 
+            // _window?.SendNotification(new Notification
+            // {
+            //     Id = "ExampleConsumer.Speed",
+            //     Title = "Truck Speed",
+            //     Content = $"{speed:F2} km/h",
+            //     Level = GrowlLevel.Information,
+            //     Progress = speed / (100 * 3.6f) * 100f,
+            //     IsProgressIndeterminate = false,
+            //     CloseAfter = 0 
+            // });
+
+            // _window?.SendNotification(new Notification
+            // {
+            //     Id = "ExampleConsumer.RPM",
+            //     Title = "Engine RPM",
+            //     Content = $"{rpm:F0} RPM",
+            //     Level = GrowlLevel.Information,
+            //     Progress = rpm / 3000.0f * 100f,
+            //     IsProgressIndeterminate = false,
+            //     CloseAfter = 0 
+            // });
+
+            _bus?.Publish<float>("ForceFeedback.Output", output);
             _window?.SendNotification(new Notification
             {
-                Id = "ExampleConsumer.Speed",
-                Title = "Truck Speed",
-                Content = $"{speed:F2} km/h",
+                Id = "ExampleConsumer.Output",
+                Title = "Steering Output",
+                Content = $"Output: {output:F2}",
                 Level = GrowlLevel.Information,
-                Progress = speed / (100 * 3.6f) * 100f,
+                Progress = (output + 1.0f) / 2.0f * 100f,
                 IsProgressIndeterminate = false,
                 CloseAfter = 0 
             });
-
-            _window?.SendNotification(new Notification
-            {
-                Id = "ExampleConsumer.RPM",
-                Title = "Engine RPM",
-                Content = $"{rpm:F0} RPM",
-                Level = GrowlLevel.Information,
-                Progress = rpm / 3000.0f * 100f,
-                IsProgressIndeterminate = false,
-                CloseAfter = 0 
-            });
-
-            // _bus?.Publish<float>("ETS2LA.Output.Steering", output);
 
             // SDKControlEvent controlEvent = new SDKControlEvent
             // {

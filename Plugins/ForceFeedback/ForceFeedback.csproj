@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>library</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <AssetTargetFallback>net9.0-windows</AssetTargetFallback>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Update="Microsoft.Windows.SDK.NET">
+      <Private>false</Private>
+    </Reference>
+    <Reference Update="WinRT.Runtime">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Don't ask, I shouted at gemini till it copied the DLL into the output... -->
+  <Target Name="CopyWinSDKDll" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
+        Condition="'%(FileName)' == 'Microsoft.Windows.SDK.NET'" />
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
+        Condition="'%(FileName)' == 'WinRT.Runtime'" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Settings\ETS2LA.Settings.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Logging\ETS2LA.Logging.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
