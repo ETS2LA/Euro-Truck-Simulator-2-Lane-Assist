@@ -7,14 +7,17 @@ using ETS2LA.UI.Views.Settings;
 
 namespace ETS2LA.UI.Views;
 
-[TemplatePart(PART_ContentHost, typeof(Control))]
 public partial class SettingsView : UserControl
 {
 
-    private const string PART_ContentHost = "ContentHost";
     private readonly WindowSettings _windowSettings = new();
+    private readonly AudioSettings _audioSettings = new();
+    private readonly ThemeSettings _themeSettings = new();
+    private readonly ControlSettings _controlSettings = new();
+    private readonly SDKSettings _sdkSettings = new();
+
     private readonly List<Button> _navButtons = new();
-    ContentControl _contentHost => this.FindControl<ContentControl>(PART_ContentHost) ?? throw new InvalidOperationException("ContentHost not found");
+    ContentControl _contentHost => this.FindControl<ContentControl>("ContentHost") ?? throw new InvalidOperationException("ContentHost not found");
 
     public SettingsView()
     {
@@ -53,22 +56,26 @@ public partial class SettingsView : UserControl
 
     private void OnAudioSettingsClick(object? sender, RoutedEventArgs e)
     {
-        // Placeholder for future Audio settings
+        _contentHost.Content = _audioSettings;
+        SetSelected("AudioButton");
     }
 
     private void OnThemeSettingsClick(object? sender, RoutedEventArgs e)
     {
-        // Placeholder for future Theme settings
+        _contentHost.Content = _themeSettings;
+        SetSelected("ThemeButton");
     }
 
     private void OnControlsSettingsClick(object? sender, RoutedEventArgs e)
     {
-        // Placeholder for future Controls settings
+        _contentHost.Content = _controlSettings;
+        SetSelected("ControlsButton");
     }
 
     private void OnSDKSettingsClick(object? sender, RoutedEventArgs e)
     {
-        // Placeholder for future SDK settings
+        _contentHost.Content = _sdkSettings;
+        SetSelected("SDKButton");
     }
 
     private void InitializeComponent()
