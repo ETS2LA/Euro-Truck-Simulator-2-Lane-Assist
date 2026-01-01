@@ -234,6 +234,7 @@ SDKControlEvent controlEvent = new SDKControlEvent
 // but the game will only listen to controls in between frames.
 _bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
 ```
+In addition to normal controls, we've also implemented force feedback support via Windows.Gaming.Input. It works similarly to `ETS2LA.Output.Steering`, but the event name is `ForceFeedback.Output`. For a full list of supported wheels, please check [the Windows docs](https://learn.microsoft.com/en-us/uwp/api/windows.gaming.input.racingwheel?view=winrt-26100#remarks), other wheels are not supported at this time.
 
 ### Sending notifications
 You can send notifications to the main window using the `_window` variable in the `Plugin` class. Below is an example of how to use it:
