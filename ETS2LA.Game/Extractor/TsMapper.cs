@@ -393,9 +393,18 @@ namespace ETS2LA.Game.Extractor
             UberFileSystem.Instance.AddSourceDirectory(appWindow, _gameDir);
 
             _mods.Reverse(); // Highest priority mods (top) need to be loaded last
+            int modCount = _mods.Count;
             foreach (var mod in _mods)
             {
                 if (mod.Load) UberFileSystem.Instance.AddSourceFile(mod.ModPath);
+                appWindow.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                    Title = "Loading " + Path.GetFileName(mod.ModPath),
+                    Content = "Please wait while ETS2LA extracts game data...",
+                    CloseAfter = 0,
+                    Progress = (int)((float)(_mods.IndexOf(mod)) / modCount * 10)
+                });
             }
 
             UberFileSystem.Instance.AddSourceFile(Path.Combine(Environment.CurrentDirectory,

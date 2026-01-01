@@ -19,8 +19,10 @@ public class Installation
     public required string ExecutablePath { get; set; }
     public required string Version { get; set; }
     public required INotificationHandler? Window { get; set; }
+    public bool IsParsed { get; set; } = false;
 
     private TsMapper _mapper = null!;
+    private List<Mod>? _selectedMods = null;
 
     public string GetModsPath()
     {
@@ -29,21 +31,68 @@ public class Installation
         return System.IO.Path.Combine(documentsPath, gameName, "mod");
     }
 
+    public List<string> GetSelectedMods()
+    {
+        if (_selectedMods == null)
+        {
+            return new List<string>();
+        }
+        return _selectedMods.Select(m => System.IO.Path.GetFileNameWithoutExtension(m.ModPath)).ToList();
+    }
+
+    public List<string> GetAvailableMods()
+    {
+        string modsPath = GetModsPath();
+        if (!System.IO.Directory.Exists(modsPath))
+        {
+            return new List<string>();
+        }
+
+        List<string> mods = new();
+        foreach (string file in System.IO.Directory.GetFiles(modsPath, "*.scs"))
+        {
+            mods.Add(System.IO.Path.GetFileNameWithoutExtension(file));
+        }
+        return mods;
+    }
+
+    public void SetSelectedMods(List<string> mods)
+    {
+        string modsPath = GetModsPath();
+        _selectedMods = mods.Select(m => new Mod(System.IO.Path.Combine(modsPath, m + ".scs")){
+            Load = true
+        }).ToList();
+        Logger.Info($"Selected {_selectedMods.Count} mods for installation at '{Path}'");
+    }
+
     public TsMapper GetMapper()
     {
         if (_mapper == null)
         {
-            _mapper = new TsMapper(Path, new List<Mod>());
+            _mapper = new TsMapper(Path, _selectedMods ?? new List<Mod>());
         }
         return _mapper;
     }
 
     public void Parse()
     {
+        if (IsParsed)
+        {
+            Logger.Warn($"Installation at '{Path}' has already been parsed.");
+            return;
+        }
+
         Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
         GetMapper().Parse(Window);
+        if(_mapper.Prefabs.Count == 0)
+        {
+            Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
+            return;
+        }
+
         Logger.Success($"Finished parsing installation at '{Path}'");
         Logger.Success($"Found {_mapper.Prefabs.Count} prefabs, {_mapper.Roads.Count} roads and {_mapper.Nodes.Count} nodes.");
+        IsParsed = true;
     }
 }
 
@@ -56,7 +105,6 @@ public class GameHandler
     {
         window = appWindow;
         FindInstallations();
-        Installations.First().Parse();
     }
 
     private void FindInstallations()
