@@ -1,0 +1,1 @@
+This folder has minimal changes from the original one from ts-map. All credits go to dariowouters for figuring this out!
