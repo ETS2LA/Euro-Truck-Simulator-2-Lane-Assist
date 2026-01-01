@@ -1,19 +1,15 @@
 using Avalonia.Media;
 using Avalonia.Input;
 using Avalonia.Controls;
-using Avalonia.Threading;
 using Avalonia.Interactivity;
 
 using ETS2LA.Shared;
-using ETS2LA.Logging;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
-using Tmds.DBus.Protocol;
-using Avalonia;
 
 namespace ETS2LA.UI;
 
