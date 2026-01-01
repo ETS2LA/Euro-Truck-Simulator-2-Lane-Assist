@@ -113,9 +113,9 @@ namespace ETS2LA.Game.Extractor.TsItem
 
             if (overlay == null)
             {
-                Logger.Error(
-                    $"Could not find Overlay: '{_overlayName}'({ScsToken.StringToToken(_overlayName):X}), item uid: 0x{Uid:X}, " +
-                    $"in {Path.GetFileName(Sector.FilePath)} from '{Sector.GetUberFile().Entry.GetArchiveFile().GetPath()}'");
+                // Logger.Error(
+                //     $"Could not find Overlay: '{_overlayName}'({ScsToken.StringToToken(_overlayName):X}), item uid: 0x{Uid:X}, " +
+                //     $"in {Path.GetFileName(Sector.FilePath)} from '{Sector.GetUberFile().Entry.GetArchiveFile().GetPath()}'");
                 return;
             }
 

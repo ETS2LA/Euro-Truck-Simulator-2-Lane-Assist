@@ -23,6 +23,10 @@
     <PackageReference Include="WebViewControl-Avalonia" Version="3.120.10" />
   </ItemGroup>
 
+  <Target Name="CopyLibdeflate" AfterTargets="Build">
+    <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
+  </Target>
+
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>

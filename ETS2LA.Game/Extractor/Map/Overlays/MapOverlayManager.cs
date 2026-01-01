@@ -68,6 +68,8 @@ namespace ETS2LA.Game.Extractor.Map.Overlays
 
         private OverlayImage GetOrCreateOverlayImage(string overlayName, OverlayType overlayType)
         {
+            return null;
+            
             if (overlayName == "") return null;
 
             string path;

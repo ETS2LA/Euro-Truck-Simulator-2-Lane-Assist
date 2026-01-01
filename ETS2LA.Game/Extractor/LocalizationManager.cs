@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ETS2LA.Game.Extractor.FileSystem;
 using ETS2LA.Logging;
+using ETS2LA.Shared;
 
 namespace ETS2LA.Game.Extractor.Helpers
 {
@@ -18,7 +19,7 @@ namespace ETS2LA.Game.Extractor.Helpers
             _localization.Add("None", new Dictionary<string, string>());
         }
 
-        public void LoadLocaleValues()
+        public void LoadLocaleValues(INotificationHandler window)
         {
             var localeDir = UberFileSystem.Instance.GetDirectory("locale");
             if (localeDir == null)
@@ -26,8 +27,20 @@ namespace ETS2LA.Game.Extractor.Helpers
                 Logger.Error("Could not find locale directory.");
                 return;
             }
-            foreach (var localeDirDirectoryName in localeDir.GetSubDirectoryNames())
+
+            var locales = localeDir.GetSubDirectoryNames();
+            var localeCount = locales.Count();
+            foreach (var localeDirDirectoryName in locales)
             {
+                window.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                    Title = "Loading Locale " + localeDirDirectoryName,
+                    Content = "Please wait while ETS2LA extracts game data...",
+                    CloseAfter = 0,
+                    Progress = 20 + (int)((float)(locales.IndexOf(localeDirDirectoryName)) / localeCount * 30)
+                });
+
                 var localeDirDirectory = UberFileSystem.Instance.GetDirectory($"locale/{localeDirDirectoryName}");
 
                 foreach (var localeFilePath in localeDirDirectory.GetFilesByExtension($"locale/{localeDirDirectoryName}", ".sui", ".sii"))

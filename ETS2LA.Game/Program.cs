@@ -1,6 +1,8 @@
 ﻿using ETS2LA.Logging;
 using ETS2LA.Game.Steam;
+using ETS2LA.Game.Extractor;
 using System.Diagnostics;
+using ETS2LA.Shared;
 
 namespace ETS2LA.Game;
 
@@ -16,6 +18,9 @@ public class Installation
     public required string Path { get; set; }
     public required string ExecutablePath { get; set; }
     public required string Version { get; set; }
+    public required INotificationHandler? Window { get; set; }
+
+    private TsMapper _mapper = null!;
 
     public string GetModsPath()
     {
@@ -23,15 +28,35 @@ public class Installation
         string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         return System.IO.Path.Combine(documentsPath, gameName, "mod");
     }
+
+    public TsMapper GetMapper()
+    {
+        if (_mapper == null)
+        {
+            _mapper = new TsMapper(Path, new List<Mod>());
+        }
+        return _mapper;
+    }
+
+    public void Parse()
+    {
+        Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
+        GetMapper().Parse(Window);
+        Logger.Success($"Finished parsing installation at '{Path}'");
+        Logger.Success($"Found {_mapper.Prefabs.Count} prefabs, {_mapper.Roads.Count} roads and {_mapper.Nodes.Count} nodes.");
+    }
 }
 
 public class GameHandler
 {
     public List<Installation> Installations { get; } = new();
+    private INotificationHandler? window;
 
-    public GameHandler()
+    public GameHandler(INotificationHandler? appWindow = null)
     {
+        window = appWindow;
         FindInstallations();
+        Installations.First().Parse();
     }
 
     private void FindInstallations()
@@ -74,7 +99,8 @@ public class GameHandler
                 Type = type,
                 Path = gamePath,
                 ExecutablePath = executablePath,
-                Version = version
+                Version = version,
+                Window = window
             });
         });
     }

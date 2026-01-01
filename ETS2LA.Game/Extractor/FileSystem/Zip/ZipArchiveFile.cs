@@ -34,7 +34,7 @@ namespace ETS2LA.Game.Extractor.FileSystem.Zip
 
         public ZipArchiveFile(string path) : base(path) { }
 
-        public override bool Parse(UberFileSystem fileSystem)
+        public override bool Parse()
         {
             if (!File.Exists(_path))
             {
@@ -99,41 +99,41 @@ namespace ETS2LA.Game.Extractor.FileSystem.Zip
 
                 UberDirectory parentDir;
 
-                if (fileSystem.Directories.ContainsKey(parentDirHash))
+                if (UberFileSystem.Instance.Directories.ContainsKey(parentDirHash))
                 {
-                    parentDir = fileSystem.Directories[parentDirHash];
+                    parentDir = UberFileSystem.Instance.Directories[parentDirHash];
                 }
                 else
                 {
                     parentDir = new UberDirectory();
-                    fileSystem.Directories.Add(parentDirHash, parentDir);
+                    UberFileSystem.Instance.Directories.Add(parentDirHash, parentDir);
                 }
 
                 if (entry.IsDirectory())
                 {
-                    if (fileSystem.Directories.ContainsKey(entry.GetHash()))
+                    if (UberFileSystem.Instance.Directories.ContainsKey(entry.GetHash()))
                     {
-                        var dirEntry = fileSystem.Directories[entry.GetHash()];
+                        var dirEntry = UberFileSystem.Instance.Directories[entry.GetHash()];
                         dirEntry.AddNewEntry(entry);
                     }
                     else
                     {
                         var dir = new UberDirectory();
                         dir.AddNewEntry(entry);
-                        fileSystem.Directories.Add(entry.GetHash(), dir);
+                        UberFileSystem.Instance.Directories.Add(entry.GetHash(), dir);
                     }
                     parentDir.AddSubDirName(Path.GetFileName(name));
                 }
                 else
                 {
-                    if (fileSystem.Files.ContainsKey(entry.GetHash()))
+                    if (UberFileSystem.Instance.Files.ContainsKey(entry.GetHash()))
                     {
-                        fileSystem.Files[entry.GetHash()] = new UberFile(entry);
+                        UberFileSystem.Instance.Files[entry.GetHash()] = new UberFile(entry);
                     }
                     else
                     {
                         parentDir.AddSubFileName(Path.GetFileName(name));
-                        fileSystem.Files.Add(entry.GetHash(), new UberFile(entry));
+                        UberFileSystem.Instance.Files.Add(entry.GetHash(), new UberFile(entry));
                     }
                 }
             }

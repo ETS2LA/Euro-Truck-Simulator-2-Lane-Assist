@@ -24,7 +24,7 @@ namespace ETS2LA.Backend
                 window = appWindow;
                 bus = new EventBus();
                 pluginHandler = new PluginHandler(bus, window);
-                game = new GameHandler();
+                game = new GameHandler(window);
 
                 pluginHandler.LoadPlugins();
 

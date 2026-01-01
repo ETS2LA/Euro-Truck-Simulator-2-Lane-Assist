@@ -6,6 +6,7 @@ using ETS2LA.Game.Extractor.FileSystem.Hash;
 using ETS2LA.Game.Extractor.FileSystem.Zip;
 using ETS2LA.Game.Extractor.Helpers;
 using ETS2LA.Logging;
+using ETS2LA.Shared;
 
 namespace ETS2LA.Game.Extractor.FileSystem
 {
@@ -40,7 +41,7 @@ namespace ETS2LA.Game.Extractor.FileSystem
             if (BitConverter.ToUInt32(buff, 0) == Consts.ScsMagic)
             {
                 var hashFile = new HashArchiveFile(path);
-                if (hashFile.Parse(this))
+                if (hashFile.Parse())
                 {
                     _archiveFiles.Add(hashFile);
                     return true;
@@ -54,7 +55,7 @@ namespace ETS2LA.Game.Extractor.FileSystem
             else
             {
                 var zipFile = new ZipArchiveFile(path);
-                if (zipFile.Parse(this))
+                if (zipFile.Parse())
                 {
                     _archiveFiles.Add(zipFile);
                     return true;
@@ -74,7 +75,7 @@ namespace ETS2LA.Game.Extractor.FileSystem
         /// <param name="path">Path to the directory where to find the files to include</param>
         /// <param name="searchPattern">Search pattern to select specific files eg. "*.scs"</param>
         /// <returns>Whether or not all files were added successfully</returns>
-        public bool AddSourceDirectory(string path, string searchPattern = "*.scs")
+        public bool AddSourceDirectory(INotificationHandler window, string path, string searchPattern = "*.scs")
         {
             if (!Directory.Exists(path))
             {
@@ -87,6 +88,13 @@ namespace ETS2LA.Game.Extractor.FileSystem
 
             foreach (var scsFilePath in scsFilesPaths)
             {
+                window.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                    Title = "Loading " + Path.GetFileName(scsFilePath),
+                    Content = "Please wait while ETS2LA extracts game data...",
+                    CloseAfter = 0
+                });
                 var fileResult = AddSourceFile(scsFilePath);
                 if (!fileResult) result = false;
             }

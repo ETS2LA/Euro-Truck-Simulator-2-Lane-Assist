@@ -16,10 +16,7 @@ namespace ETS2LA.Game.Extractor.FileSystem
             _path = path;
         }
 
-        // TODO: Figure out if this fileSystem param is necessary. I didn't know about
-        // UberFileSystem.instance, so if that works I'll use it instead. (got errors in zip otherwise)
-        // - Tumppi066
-        public abstract bool Parse(UberFileSystem fileSystem);
+        public abstract bool Parse();
 
         public string GetPath()
         {

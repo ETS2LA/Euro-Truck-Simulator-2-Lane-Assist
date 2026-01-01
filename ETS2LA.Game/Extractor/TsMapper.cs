@@ -13,6 +13,7 @@ using ETS2LA.Game.Extractor.Helpers;
 using ETS2LA.Game.Extractor.Map.Overlays;
 using ETS2LA.Game.Extractor.TsItem;
 using ETS2LA.Logging;
+using ETS2LA.Shared;
 
 namespace ETS2LA.Game.Extractor
 {
@@ -321,11 +322,11 @@ namespace ETS2LA.Game.Extractor
 
             startTime = DateTime.Now.Ticks;
             ParsePrefabFiles();
-            Logger.Info($"Loaded {_prefabLookup.Count} prefabs in {(DateTime.Now.Ticks - startTime) / TimeSpan.TicksPerMillisecond}ms");
+            Logger.Info($"Loaded {_prefabLookup.Count} prefab descriptions in {(DateTime.Now.Ticks - startTime) / TimeSpan.TicksPerMillisecond}ms");
 
             startTime = DateTime.Now.Ticks;
             ParseRoadLookFiles();
-            Logger.Info($"Loaded {_roadLookup.Count} roads in {(DateTime.Now.Ticks - startTime) / TimeSpan.TicksPerMillisecond}ms");
+            Logger.Info($"Loaded {_roadLookup.Count} roadlooks in {(DateTime.Now.Ticks - startTime) / TimeSpan.TicksPerMillisecond}ms");
 
             startTime = DateTime.Now.Ticks;
             ParseFerryConnections();
@@ -372,7 +373,7 @@ namespace ETS2LA.Game.Extractor
         /// <summary>
         /// Parse through all .scs files and retrieve all necessary files
         /// </summary>
-        public void Parse()
+        public void Parse(INotificationHandler? appWindow = null)
         {
             var startTime = DateTime.Now.Ticks;
 
@@ -382,10 +383,16 @@ namespace ETS2LA.Game.Extractor
                 return;
             }
 
-            UberFileSystem.Instance.AddSourceDirectory(_gameDir);
+            appWindow.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                Title = "Loading Game Files",
+                Content = "Please wait while ETS2LA extracts game data...",
+                CloseAfter = 0
+            });
+            UberFileSystem.Instance.AddSourceDirectory(appWindow, _gameDir);
 
             _mods.Reverse(); // Highest priority mods (top) need to be loaded last
-
             foreach (var mod in _mods)
             {
                 if (mod.Load) UberFileSystem.Instance.AddSourceFile(mod.ModPath);
@@ -396,23 +403,83 @@ namespace ETS2LA.Game.Extractor
 
             Logger.Info($"Loaded all .scs files in {(DateTime.Now.Ticks - startTime) / TimeSpan.TicksPerMillisecond}ms");
 
+            appWindow.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                Title = "Parsing Game Files",
+                Content = "Please wait while ETS2LA extracts game data...",
+                Progress = 10,
+                CloseAfter = 0
+            });
             ParseDefFiles();
+            appWindow.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                Title = "Parsing Game Files",
+                Content = "Please wait while ETS2LA extracts game data...",
+                Progress = 20,
+                CloseAfter = 0
+            });
             LoadSectorFiles();
 
             var preLocaleTime = DateTime.Now.Ticks;
-            Localization.LoadLocaleValues();
+            Localization.LoadLocaleValues(appWindow);
             Logger.Info($"It took {(DateTime.Now.Ticks - preLocaleTime) / TimeSpan.TicksPerMillisecond} ms to read all locale files");
 
+            appWindow.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                Title = "Parsing Sectors",
+                Content = "Please wait while ETS2LA extracts game data...",
+                Progress = 50,
+                CloseAfter = 0
+            });
+            
             if (_sectorFiles == null) return;
             var preMapParseTime = DateTime.Now.Ticks;
+            
             Sectors = _sectorFiles.Select(file => new TsSector(this, file)).ToList();
-            Sectors.ForEach(sec => sec.Parse());
+            int sectorCount = Sectors.Count; 
+            Sectors.ForEach(sec => {
+                sec.Parse();
+                appWindow.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                    Title = "Parsing Sector " + Path.GetFileName(sec.FilePath),
+                    Content = "Please wait while ETS2LA extracts game data...",
+                    CloseAfter = 0,
+                    Progress = 50 + (int)((float)(Sectors.IndexOf(sec)) / sectorCount * 30)
+                });
+            });
+            
             Sectors.ForEach(sec => sec.ClearFileData());
             Logger.Info($"It took {(DateTime.Now.Ticks - preMapParseTime) / TimeSpan.TicksPerMillisecond} ms to parse all (*.base) files");
 
+            appWindow.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                Title = "Finalizing Map Data",
+                Content = "Please wait while ETS2LA extracts game data...",
+                Progress = 80,
+                CloseAfter = 0
+            });
+            int itemCount = MapItems.Count;
+            int index = 0;
             foreach (var mapItem in MapItems)
             {
                 mapItem.Update();
+                index++;
+                if (index % 1000 == 0)
+                {
+                    appWindow.SendNotification(new Notification
+                    {
+                        Id = "ETS2LA.Game.Extractor.LoadingGameFiles",
+                        Title = "Finalizing Map Data",
+                        Content = "Please wait while ETS2LA extracts game data...",
+                        Progress = 80 + (int)((float)index / itemCount * 20),
+                        CloseAfter = 0
+                    });
+                }
             }
 
             var invalidFerryConnections = _ferryConnectionLookup.Where(x => x.StartPortLocation == PointF.Empty || x.EndPortLocation == PointF.Empty).ToList();
@@ -424,6 +491,8 @@ namespace ETS2LA.Game.Extractor
                     $"due to not having Start/End location set.");
             }
 
+            Thread.Sleep(200); // Allow some extra time for "normality", loading is so fast.
+            appWindow.CloseNotification("ETS2LA.Game.Extractor.LoadingGameFiles");
             Logger.Info($"Loaded {OverlayManager.GetOverlayImagesCount()} overlay images, with {OverlayManager.GetOverlays().Count} overlays on the map");
             Logger.Info($"It took {(DateTime.Now.Ticks - startTime) / TimeSpan.TicksPerMillisecond} ms to fully load.");
         }

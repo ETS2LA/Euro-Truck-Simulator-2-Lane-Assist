@@ -51,9 +51,9 @@ namespace ETS2LA.Game.Extractor.TsItem
             var overlayName = _train ? "train_ico" : "port_overlay";
             if (!Sector.Mapper.OverlayManager.AddOverlay(overlayName, OverlayType.Road, node.X, node.Z, _train ? "Train" : "Ferry", DlcGuard))
             {
-                Logger.Error(
-                    $"Could not find Overlay: '{overlayName}'({ScsToken.StringToToken(overlayName):X}), item uid: 0x{Uid:X}, " +
-                    $"in {Path.GetFileName(Sector.FilePath)} from '{Sector.GetUberFile().Entry.GetArchiveFile().GetPath()}'");
+                // Logger.Error(
+                //     $"Could not find Overlay: '{overlayName}'({ScsToken.StringToToken(overlayName):X}), item uid: 0x{Uid:X}, " +
+                //     $"in {Path.GetFileName(Sector.FilePath)} from '{Sector.GetUberFile().Entry.GetArchiveFile().GetPath()}'");
             }
         }
     }

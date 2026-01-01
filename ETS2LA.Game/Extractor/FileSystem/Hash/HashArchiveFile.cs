@@ -50,7 +50,7 @@ namespace ETS2LA.Game.Extractor.FileSystem.Hash
         /// Does minimal validation on the file and reads all the <see cref="Entry">Entries</see>
         /// </summary>
         /// <returns>Whether parsing was successful or not</returns>
-        public override bool Parse(UberFileSystem fileSystem)
+        public override bool Parse()
         {
             if (!File.Exists(_path))
             {
@@ -87,7 +87,7 @@ namespace ETS2LA.Game.Extractor.FileSystem.Hash
                 Logger.Error("Unsupported Hash Version");
                 return false;
             }
-
+            
             if (_hashHeader.Version == 1)
             {
 
@@ -111,12 +111,12 @@ namespace ETS2LA.Game.Extractor.FileSystem.Hash
 
                     if (entry.IsDirectory())
                     {
-                        UberDirectory dir = fileSystem.GetDirectory(entry.GetHash());
+                        UberDirectory dir = UberFileSystem.Instance.GetDirectory(entry.GetHash());
                         if (dir == null)
                         {
                             dir = new UberDirectory();
                             dir.AddNewEntry(entry);
-                            fileSystem.Directories[entry.GetHash()] = dir;
+                            UberFileSystem.Instance.Directories[entry.GetHash()] = dir;
                         }
 
                         var lines = Encoding.UTF8.GetString(entry.Read()).Split('\n');
@@ -136,14 +136,14 @@ namespace ETS2LA.Game.Extractor.FileSystem.Hash
                     }
                     else
                     {
-                        if (fileSystem.Files.ContainsKey(entry.GetHash()))
+                        if (UberFileSystem.Instance.Files.ContainsKey(entry.GetHash()))
                         {
-                            fileSystem.Files[entry.GetHash()] =
+                            UberFileSystem.Instance.Files[entry.GetHash()] =
                                 new UberFile(entry); // overwrite if there already is a file with the current hash
                         }
                         else
                         {
-                            fileSystem.Files.Add(entry.GetHash(), new UberFile(entry));
+                            UberFileSystem.Instance.Files.Add(entry.GetHash(), new UberFile(entry));
                         }
                     }
                 }
@@ -236,12 +236,12 @@ namespace ETS2LA.Game.Extractor.FileSystem.Hash
 
                     if (entry.IsDirectory())
                     {
-                        var dir = fileSystem.GetDirectory(entry.GetHash());
+                        var dir = UberFileSystem.Instance.GetDirectory(entry.GetHash());
                         if (dir == null)
                         {
                             dir = new UberDirectory();
                             dir.AddNewEntry(entry);
-                            fileSystem.Directories[entry.GetHash()] = dir;
+                            UberFileSystem.Instance.Directories[entry.GetHash()] = dir;
                         }
 
                         var dirSubData = entry.Read();
@@ -270,14 +270,14 @@ namespace ETS2LA.Game.Extractor.FileSystem.Hash
                     }
                     else
                     {
-                        if (fileSystem.Files.ContainsKey(entry.GetHash()))
+                        if (UberFileSystem.Instance.Files.ContainsKey(entry.GetHash()))
                         {
-                            fileSystem.Files[entry.GetHash()] =
+                            UberFileSystem.Instance.Files[entry.GetHash()] =
                                 new UberFile(entry); // overwrite if there already is a file with the current hash
                         }
                         else
                         {
-                            fileSystem.Files.Add(entry.GetHash(), new UberFile(entry));
+                            UberFileSystem.Instance.Files.Add(entry.GetHash(), new UberFile(entry));
                         }
                     }
                 }
