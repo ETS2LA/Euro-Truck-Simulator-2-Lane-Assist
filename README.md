@@ -4,13 +4,13 @@ We're reaching the limits of what we can do on Python, so we've decided to start
 ## Building the Project
 First download .NET 10 from Microsoft. You can find that [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0).
 
-Now clone the repository and open the solution file in your preferred IDE. It's recommended to use VS Code, and that's what I'll be using here. Any code editor should work, but the project comes prepackaged with vscode defs.
+Now clone the repository and open the solution file in your preferred IDE. It's recommended to use VSCode, and that's what I'll be using here. Any code editor should work, but the project comes prepackaged with VSCode defs. For VSCode you should download the `C# Dev Kit` extension, other IDEs should have their own equivalent extensions.
 
-You can build the project by pressing `F1` and then typing in `.NET: Build`. Code will ask you for which projects to build and you'll want to select `All Projects`. This should build ETS2LA and you'll see a `bin` folder appear in `ETS2LA.Backend/bin` where the compiled files are.
+You can build the project by pressing `F1` and then typing in `.NET: Build`. Code will ask you for projects to build and you'll want to select `All Projects`. This should build ETS2LA and you'll see a `bin` folder appear in `ETS2LA.UI/bin` where the compiled files are.
 
 > You don't need to build *everything* all the time, once you've built once you can just build whatever you changed by selecting only that project.
 
-To run ETS2LA the easiest is to open the `Program.cs` file in `ETS2LA.Backend` and press the `>` in the top right hand corner. You can also create your own macros in your IDE of choice to build and run the project on a keypress.
+To run ETS2LA the easiest is to open any `.cs` file in `ETS2LA.UI` and press the run arrow `>` in the top right hand corner. You can also create your own macros in your IDE of choice to build and run the project on a keypress.
 
 ## Contributing
 Whatever you contribute please first **fork** the repository and make your changes in your own seperate branch. Once you're done you can open a PR and we'll review it as soon as possible. The rewrite is still in a very early stage so any improvements and contributions are very much welcome!

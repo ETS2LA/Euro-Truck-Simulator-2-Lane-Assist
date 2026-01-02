@@ -5,23 +5,50 @@ namespace ETS2LAPlugin
 {
     public class ETS2LAPlugin : Plugin
     {
+        public override PluginInformation Info => new PluginInformation
+        {
+            Name = "ETS2LAPlugin",
+            Description = "Consectetur mollit ipsum velit Lorem fugiat aliqua officia exercitation exercitation.",
+            AuthorName = "Developer",
+        };
+
         public override void Init()
         {
             base.Init();
-            // Initialization code here
-            // e.g., subscribe to events
+            // This is run once when the plugin is initially loaded.
+        }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            // Subscribe to events here
             // _bus?.Subscribe<YourEventType>("YourTopic", YourEventHandler);
         }
 
         public override void Tick()
         {
             // This will be run at the specified TickRate when the plugin is enabled.
-            // You can use `public override float TickRate => 10f;` to change the tick rate to whatever FPS you want.
-            // Please do not use a tick rate higher than what you need, that uses extra performance.
+            // You can use `public override float TickRate => 10f;` to change the tick rate to whatever TPS you want.
+            // Please do not use a tick rate higher than what you need, that uses extra performance. ie. something related to
+            // steering might not need over 20 TPS, something related to speed control doesn't need over 10 TPS etc...
 
-            // If your code works exclusively off of events you can remove this override. In this case unless your code
-            // is purely a library, you should check if _IsRunning is true in your even handlers to avoid processing
-            // events when the user has set the plugin to disabled.
+            // If your code works exclusively off of events you can remove this override. If this is the case you should make
+            // sure to lower the tickrate to something low, 1 TPS or even 0.1 TPS is usually fine. The Tick can be used as a general
+            // timer thread in these situations.
+        }
+        
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            // Unsubscribe from events here
+            // _bus?.Unsubscribe<YourEventType>("YourTopic", YourEventHandler);
+        }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+            // This is run once when the plugin is unloaded (at app shutdown), use it to clean up any resources or
+            // threads you created in Init or elsewhere.
         }
     }
 }
