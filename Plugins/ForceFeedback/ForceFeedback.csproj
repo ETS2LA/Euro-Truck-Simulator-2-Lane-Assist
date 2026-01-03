@@ -5,6 +5,7 @@
     <AssetTargetFallback>net9.0-windows</AssetTargetFallback>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,19 @@
       <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
         Condition="'%(FileName)' == 'WinRT.Runtime'" />
     </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="SharpDX.DirectInput" Version="4.2.0">
+      <PrivateAssets>none</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+<!-- SharpDX DLLs Allow us to get more controllers/wheels than the default Windows SDK -->
+  <Target Name="CopySharpDXDlls" AfterTargets="Build">
+    <ItemGroup>
+      <SharpDXFiles Include="$(OutputPath)SharpDX*.dll" />
+    </ItemGroup>
+    <Message Text="SharpDX files found: @(SharpDXFiles)" Importance="high" />
   </Target>
 
   <ItemGroup>
