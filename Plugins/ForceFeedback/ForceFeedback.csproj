@@ -32,12 +32,15 @@
       <PrivateAssets>none</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-<!-- SharpDX DLLs Allow us to get more controllers/wheels than the default Windows SDK -->
-  <Target Name="CopySharpDXDlls" AfterTargets="Build">
+
+  <!-- Copy SharpDX DLLs to output directory -->
+  <Target Name="CopySharpDXDlls" AfterTargets="ResolveReferences">
     <ItemGroup>
-      <SharpDXFiles Include="$(OutputPath)SharpDX*.dll" />
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
+        Condition="'%(FileName)' == 'SharpDX'" />
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
+        Condition="'%(FileName)' == 'SharpDX.DirectInput'" />
     </ItemGroup>
-    <Message Text="SharpDX files found: @(SharpDXFiles)" Importance="high" />
   </Target>
 
   <ItemGroup>

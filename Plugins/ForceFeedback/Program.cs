@@ -19,6 +19,7 @@ namespace ForceFeedback
         public bool IsInitialized = false;
         public bool IsLowPower = true;
 
+        private readonly object _lock = new object();
         private float _last = 0;
         private float _lastError = 0;
         // PID controller gains - tuned for responsive steering
@@ -29,61 +30,74 @@ namespace ForceFeedback
         private float _integralError = 0;
         private const float MaxIntegral = 0.5f;
 
+        // Cached effect parameters to reduce GC pressure (reused every tick)
+        private EffectParameters? _cachedEffectParams;
+        private ConstantForce _cachedConstantForce = new ConstantForce();
+
         public void UpdateToAngle(float targetAngle)
         {
-            if (!IsInitialized || ConstantForceEffect == null) return;
-
-            try
+            lock (_lock)
             {
-                var state = Joystick.GetCurrentState();
-                // X axis is typically the steering wheel, normalized to -1.0 to 1.0
-                float currentAngle = (state.X - 32767.5f) / 32767.5f;
+                if (!IsInitialized || ConstantForceEffect == null) return;
 
-                float error = targetAngle - currentAngle;
-                
-                // Integral term 
-                _integralError += error;
-                _integralError = Math.Clamp(_integralError, -MaxIntegral, MaxIntegral);
-                if (Math.Sign(error) != Math.Sign(_lastError) || Math.Abs(error) < 0.02f)
+                try
                 {
-                    _integralError *= 0.5f;
+                    var state = Joystick.GetCurrentState();
+                    // X axis is typically the steering wheel, normalized to -1.0 to 1.0
+                    float currentAngle = (state.X - 32767.5f) / 32767.5f;
+
+                    float error = targetAngle - currentAngle;
+                    
+                    // Integral term 
+                    _integralError += error;
+                    _integralError = Math.Clamp(_integralError, -MaxIntegral, MaxIntegral);
+                    if (Math.Sign(error) != Math.Sign(_lastError) || Math.Abs(error) < 0.02f)
+                    {
+                        _integralError *= 0.5f;
+                    }
+                    
+                    // PID calculation
+                    float derivative = error - _lastError;
+                    _lastError = error;
+                    float force = error * Kp + _integralError * Ki + derivative * Kd;
+                    force = Math.Clamp(force, -1.0f, 1.0f);
+                    force = _last * 0.3f + force * 0.7f;
+                    _last = force;
+
+                    // Boost weak forces to overcome static friction on some wheels
+                    if (IsLowPower && Math.Abs(force) > 0.03f && Math.Abs(force) < 0.15f)
+                    {
+                        force = Math.Sign(force) * 0.15f;
+                    }
+
+                    // DirectInput force is in the range -10000 to 10000
+                    int diForce = (int)(force * 10000);
+
+                    // Initialize cached params on first use
+                    if (_cachedEffectParams == null)
+                    {
+                        _cachedEffectParams = new EffectParameters
+                        {
+                            Flags = EffectFlags.Cartesian | EffectFlags.ObjectOffsets,
+                            Duration = int.MaxValue,
+                            Gain = 10000,
+                            SamplePeriod = 0,
+                            TriggerButton = -1,
+                            TriggerRepeatInterval = 0,
+                            StartDelay = 0
+                        };
+                        _cachedEffectParams.SetAxes(new int[] { 0 }, new int[] { 0 });
+                    }
+
+                    // Update only the magnitude (reuse cached objects)
+                    _cachedConstantForce.Magnitude = diForce;
+                    _cachedEffectParams.Parameters = _cachedConstantForce;
+                    ConstantForceEffect.SetParameters(_cachedEffectParams, EffectParameterFlags.TypeSpecificParameters);
                 }
-                
-                // PID Controls
-                float derivative = error - _lastError;
-                _lastError = error;
-                float force = error * Kp + _integralError * Ki + derivative * Kd;
-                force = Math.Clamp(force, -1.0f, 1.0f);
-                force = _last * 0.3f + force * 0.7f;
-                _last = force;
-
-                // Boost weak forces to overcome static friction on some wheels
-                if (IsLowPower && Math.Abs(force) > 0.03f && Math.Abs(force) < 0.15f)
+                catch (Exception ex)
                 {
-                    force = Math.Sign(force) * 0.15f;
+                    Logger.Warn($"Error updating force feedback: {ex.Message}");
                 }
-
-                // DirectInput force is in the range -10000 to 10000
-                int diForce = (int)(force * 10000);
-
-                // Update the effect with new magnitude
-                var newParams = new EffectParameters
-                {
-                    Flags = EffectFlags.Cartesian | EffectFlags.ObjectOffsets,
-                    Duration = int.MaxValue,
-                    Gain = 10000,
-                    SamplePeriod = 0,
-                    TriggerButton = -1,
-                    TriggerRepeatInterval = 0,
-                    StartDelay = 0
-                };
-                newParams.SetAxes(new int[] { 0 }, new int[] { 0 });
-                newParams.Parameters = new ConstantForce { Magnitude = diForce };
-                ConstantForceEffect.SetParameters(newParams, EffectParameterFlags.TypeSpecificParameters | EffectParameterFlags.Start);
-            }
-            catch (Exception ex)
-            {
-                Logger.Warn($"Error updating force feedback: {ex.Message}");
             }
         }
 
@@ -142,14 +156,17 @@ namespace ForceFeedback
 
         public void StopEffect()
         {
-            try
+            lock (_lock)
             {
-                ConstantForceEffect?.Stop();
-                ConstantForceEffect?.Dispose();
-                ConstantForceEffect = null;
-                IsInitialized = false;
+                try
+                {
+                    IsInitialized = false; // Set first to prevent UpdateToAngle from using effect
+                    ConstantForceEffect?.Stop();
+                    ConstantForceEffect?.Dispose();
+                    ConstantForceEffect = null;
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
         }
 
         public void Dispose()
@@ -201,8 +218,9 @@ namespace ForceFeedback
                 return fg;
             }
             
-            // Last resort - desktop window
-            return GetDesktopWindow();
+            // Cannot use desktop window for exclusive access - return zero to indicate failure
+            Logger.Warn("No valid window handle found for force feedback. Will retry on next scan.");
+            return IntPtr.Zero;
         }
 
         private void ScanForWheels()
@@ -234,14 +252,21 @@ namespace ForceFeedback
                     bool alreadyAdded = _wheels.Any(w => w.DeviceInfo.InstanceGuid == deviceInstance.InstanceGuid);
                     if (alreadyAdded) continue;
 
+                    Joystick? joystick = null;
                     try
                     {
-                        var joystick = new Joystick(_directInput, deviceInstance.InstanceGuid);
+                        joystick = new Joystick(_directInput, deviceInstance.InstanceGuid);
                         
                         // Get window handle for exclusive access (required for force feedback on some devices)
                         if (_windowHandle == IntPtr.Zero)
                         {
                             _windowHandle = GetWindowHandle();
+                            if (_windowHandle == IntPtr.Zero)
+                            {
+                                Logger.Warn("Cannot initialize force feedback: no valid window handle available.");
+                                joystick.Dispose();
+                                continue;
+                            }
                             Logger.Info($"Using window handle: {_windowHandle}");
                         }
                         
@@ -265,12 +290,18 @@ namespace ForceFeedback
 
                         wheel.InitializeEffect();
                         _wheels.Add(wheel);
+                        joystick = null; // Prevent disposal in finally block - wheel now owns it
 
                         Logger.Info($"Added wheel: {deviceInstance.InstanceName} ({deviceInstance.ProductName})");
                     }
                     catch (Exception ex)
                     {
                         Logger.Warn($"Could not add device {deviceInstance.InstanceName}: {ex.Message}");
+                    }
+                    finally
+                    {
+                        // Dispose joystick if it wasn't successfully added to a wheel
+                        joystick?.Dispose();
                     }
                 }
             }
@@ -314,10 +345,8 @@ namespace ForceFeedback
             _bus?.Unsubscribe<float>("ForceFeedback.Output", OnControlEvent);
             _window?.CloseNotification("ForceFeedback.Debug");
 
-            foreach (var wheel in _wheels)
-            {
-                wheel.StopEffect();
-            }
+            // Properly dispose all resources
+            DisposeResources();
         }
 
         public void OnControlEvent(float steering)
@@ -333,7 +362,7 @@ namespace ForceFeedback
             }
         }
 
-        public void Dispose()
+        private void DisposeResources()
         {
             foreach (var wheel in _wheels)
             {
@@ -341,6 +370,8 @@ namespace ForceFeedback
             }
             _wheels.Clear();
             _directInput?.Dispose();
+            _directInput = null;
+            _windowHandle = IntPtr.Zero; // Reset for potential re-initialization
         }
     }
 }
