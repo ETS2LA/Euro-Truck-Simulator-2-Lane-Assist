@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-07 13:07+0000\n"
+"PO-Revision-Date: 2026-01-05 02:21+0000\n"
 "Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -2412,6 +2412,8 @@ msgstr ""
 #: .\Plugins\VisualizationSockets\main.py:240
 msgid "If you want to view the ETS2LA Visualization on the current device, simply open the 'Visualization' tab on the sidebar, you can then select between the official and Goodnightan mirrors."
 msgstr ""
+"現在のデバイスでETS2LA視覚化を表示したい場合は、サイドバーの視覚化タブを開く"
+"だけで、公式ミラーとGoodnightanミラーのいずれかを選択できます。"
 
 #: .\Plugins\VisualizationSockets\main.py:247
 msgid "You can also use the following website:"
@@ -2472,6 +2474,9 @@ msgstr "現在接続中のクライアントはありません。"
 #: .\Plugins\VisualizationSockets\main.py:389
 msgid "This plugin provides a websocket server for the ETS2LA Visualization. It allows you to connect to the visualization from other devices and view the ETS2LA data in real-time."
 msgstr ""
+"このプラグインはETS2LA視覚化用のWebSocketサーバーを提供します。これにより、他"
+"のデバイスから視覚化に接続し、ETS2LAのデータをリアルタイムで表示することが可"
+"能になります。"
 
 #: .\main.py:142
 msgid "Testing mirrors..."
