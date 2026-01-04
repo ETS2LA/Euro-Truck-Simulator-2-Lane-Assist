@@ -5,6 +5,7 @@
     <AssetTargetFallback>net9.0-windows</AssetTargetFallback>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,22 @@
         Condition="'%(FileName)' == 'Microsoft.Windows.SDK.NET'" />
       <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
         Condition="'%(FileName)' == 'WinRT.Runtime'" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="SharpDX.DirectInput" Version="4.2.0">
+      <PrivateAssets>none</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Copy SharpDX DLLs to output directory -->
+  <Target Name="CopySharpDXDlls" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
+        Condition="'%(FileName)' == 'SharpDX'" />
+      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
+        Condition="'%(FileName)' == 'SharpDX.DirectInput'" />
     </ItemGroup>
   </Target>
 
