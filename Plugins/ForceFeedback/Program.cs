@@ -160,6 +160,14 @@ namespace ForceFeedback
             {
                 try
                 {
+                    // Set force to zero before stopping to release the wheel smoothly
+                    if (IsInitialized && ConstantForceEffect != null && _cachedEffectParams != null)
+                    {
+                        _cachedConstantForce.Magnitude = 0;
+                        _cachedEffectParams.Parameters = _cachedConstantForce;
+                        ConstantForceEffect.SetParameters(_cachedEffectParams, EffectParameterFlags.TypeSpecificParameters);
+                    }
+                    
                     IsInitialized = false; // Set first to prevent UpdateToAngle from using effect
                     ConstantForceEffect?.Stop();
                     ConstantForceEffect?.Dispose();
@@ -174,8 +182,20 @@ namespace ForceFeedback
             StopEffect();
             try
             {
+                if (Joystick != null)
+                {
+                    // Re-enable auto-center spring to center the wheel and unlock it
+                    try 
+                    { 
+                        Joystick.Properties.AutoCenter = true;
+                        Logger.Info($"Re-enabled auto-center for {DeviceInfo.InstanceName}");
+                    } 
+                    catch { }
+                }
+
                 Joystick?.Unacquire();
                 Joystick?.Dispose();
+                Logger.Info($"Disposed wheel: {DeviceInfo.InstanceName}");
             }
             catch (Exception) { }
         }
@@ -192,47 +212,83 @@ namespace ForceFeedback
         public override float TickRate => 60f;
         public override PluginInformation Info => new PluginInformation
         {
-            Name = "Force Feedback",
+            Name = "Enhanced Force Feedback",
             Description = "Provides force feedback effects for compatible steering wheels (Moza, Logitech, Thrustmaster, Fanatec, etc.).",
-            AuthorName = "Tumppi066",
+            AuthorName = "Zkhan4509",
         };
 
         private DirectInput? _directInput;
         private List<WheelDevice> _wheels = new List<WheelDevice>();
         public float TargetAngle = 0;
         private IntPtr _windowHandle = IntPtr.Zero;
+        private int _scanRetryCount = 0;
+        private const int MaxScanRetries = 10;
+        private bool _isScanning = false;
+        private readonly object _scanLock = new object();
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr FindWindow(string? lpClassName, string? lpWindowName);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
 
         private IntPtr GetWindowHandle()
         {
-            // Try to get the main window handle of the current process
+            var currentProcessId = Process.GetCurrentProcess().Id;
+
             var process = Process.GetCurrentProcess();
             if (process.MainWindowHandle != IntPtr.Zero)
             {
+                Logger.Info($"Using main window handle: {process.MainWindowHandle}");
                 return process.MainWindowHandle;
             }
+
+            var consoleHandle = GetConsoleWindow();
+            if (consoleHandle != IntPtr.Zero)
+            {
+                Logger.Info($"Using console window handle: {consoleHandle}");
+                return consoleHandle;
+            }
             
-            // Fallback to foreground window
             var fg = GetForegroundWindow();
             if (fg != IntPtr.Zero)
             {
-                return fg;
+                GetWindowThreadProcessId(fg, out int fgProcessId);
+                if (fgProcessId == currentProcessId)
+                {
+                    Logger.Info($"Using foreground window handle (owned by us): {fg}");
+                    return fg;
+                }
+                else
+                {
+                    Logger.Warn($"Foreground window {fg} belongs to process {fgProcessId}, not us ({currentProcessId})");
+                }
             }
             
-            // Cannot use desktop window for exclusive access - return zero to indicate failure
             Logger.Warn("No valid window handle found for force feedback. Will retry on next scan.");
             return IntPtr.Zero;
         }
 
         private void ScanForWheels()
         {
-            if (_directInput == null)
+            // Prevent concurrent scanning
+            lock (_scanLock)
             {
-                Logger.Error("DirectInput is null, cannot scan for wheels");
-                return;
+                if (_isScanning) return;
+                _isScanning = true;
             }
 
             try
             {
+                if (_directInput == null)
+                {
+                    Logger.Error("DirectInput is null, cannot scan for wheels");
+                    return;
+                }
+
                 // First, list ALL devices to see what's available
                 var allDevices = _directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AllDevices);
                 Logger.Info($"Found {allDevices.Count} total game control devices.");
@@ -248,7 +304,6 @@ namespace ForceFeedback
 
                 foreach (var deviceInstance in devices)
                 {
-                    // Check if we already have this device
                     bool alreadyAdded = _wheels.Any(w => w.DeviceInfo.InstanceGuid == deviceInstance.InstanceGuid);
                     if (alreadyAdded) continue;
 
@@ -271,7 +326,17 @@ namespace ForceFeedback
                         }
                         
                         // Set cooperative level - exclusive access is required for force feedback
-                        joystick.SetCooperativeLevel(_windowHandle, CooperativeLevel.Background | CooperativeLevel.Exclusive);
+                        // Try Background + Exclusive first (allows FFB when window not focused)
+                        try
+                        {
+                            joystick.SetCooperativeLevel(_windowHandle, CooperativeLevel.Background | CooperativeLevel.Exclusive);
+                        }
+                        catch (SharpDX.SharpDXException sdxEx)
+                        {
+                            Logger.Warn($"Background+Exclusive failed (0x{sdxEx.HResult:X8}), trying NonExclusive...");
+                            // Fall back to non-exclusive if exclusive fails
+                            joystick.SetCooperativeLevel(_windowHandle, CooperativeLevel.Background | CooperativeLevel.NonExclusive);
+                        }
                         
                         joystick.Acquire();
 
@@ -290,7 +355,7 @@ namespace ForceFeedback
 
                         wheel.InitializeEffect();
                         _wheels.Add(wheel);
-                        joystick = null; // Prevent disposal in finally block - wheel now owns it
+                        joystick = null;
 
                         Logger.Info($"Added wheel: {deviceInstance.InstanceName} ({deviceInstance.ProductName})");
                     }
@@ -300,7 +365,6 @@ namespace ForceFeedback
                     }
                     finally
                     {
-                        // Dispose joystick if it wasn't successfully added to a wheel
                         joystick?.Dispose();
                     }
                 }
@@ -308,6 +372,13 @@ namespace ForceFeedback
             catch (Exception ex)
             {
                 Logger.Error($"Error scanning for wheels: {ex.Message}");
+            }
+            finally
+            {
+                lock (_scanLock)
+                {
+                    _isScanning = false;
+                }
             }
         }
 
@@ -335,7 +406,20 @@ namespace ForceFeedback
             Logger.Info("ForceFeedback plugin OnEnable() called");
             _bus?.Subscribe<float>("ForceFeedback.Output", OnControlEvent);
 
-            // Re-scan for wheels in case new ones were connected
+            if (_directInput == null)
+            {
+                try
+                {
+                    _directInput = new DirectInput();
+                    Logger.Info("DirectInput re-created successfully");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to re-create DirectInput: {ex.Message}");
+                    return;
+                }
+            }
+
             ScanForWheels();
         }
 
@@ -344,8 +428,6 @@ namespace ForceFeedback
             base.OnDisable();
             _bus?.Unsubscribe<float>("ForceFeedback.Output", OnControlEvent);
             _window?.CloseNotification("ForceFeedback.Debug");
-
-            // Properly dispose all resources
             DisposeResources();
         }
 
@@ -356,14 +438,32 @@ namespace ForceFeedback
 
         public override void Tick()
         {
-            foreach (var wheel in _wheels)
+            try
             {
-                wheel.UpdateToAngle(TargetAngle);
+                if (_wheels.Count == 0 && _scanRetryCount < MaxScanRetries && _directInput != null && !_isScanning)
+                {
+                    _scanRetryCount++;
+                    _windowHandle = IntPtr.Zero;
+                    Logger.Info($"Retrying wheel scan (attempt {_scanRetryCount}/{MaxScanRetries})...");
+                    ScanForWheels();
+                }
+
+                // Copy to local list to avoid modification during iteration
+                var wheels = _wheels.ToList();
+                foreach (var wheel in wheels)
+                {
+                    wheel.UpdateToAngle(TargetAngle);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error in ForceFeedback Tick: {ex.Message}");
             }
         }
 
         private void DisposeResources()
         {
+            Logger.Info("Disposing force feedback resources - centering and unlocking wheels...");
             foreach (var wheel in _wheels)
             {
                 wheel.Dispose();
@@ -371,7 +471,9 @@ namespace ForceFeedback
             _wheels.Clear();
             _directInput?.Dispose();
             _directInput = null;
-            _windowHandle = IntPtr.Zero; // Reset for potential re-initialization
+            _windowHandle = IntPtr.Zero;
+            _scanRetryCount = 0;
+            Logger.Info("Force feedback resources disposed.");
         }
     }
 }
