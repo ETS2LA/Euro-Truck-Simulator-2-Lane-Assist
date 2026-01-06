@@ -36,6 +36,8 @@ public partial class GameView : UserControl
     private void UpdatePluginList()
     {
         List<Installation> installations = gameHandler?.Installations;
+        if (installations == null) return;
+        
         foreach (var install in installations)
         {
             Installations.Add(new GameItem(install, gameHandler));
