@@ -5,9 +5,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <Title>ETS2LA</Title>
-    <Description>Self driving for ETS2 and ATS.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,6 +7,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <ApplicationManifest>ETS2LA.UI.manifest</ApplicationManifest>
+
+    <Title>ETS2LA</Title>
+    <Description>Self driving for ETS2 and ATS.</Description>
+    <Version>3.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,43 @@
+name: Deploy to Releases
+on:
+  push:
+    branches:
+      - rewrite
+    # Tags for the future, right now a build every push to rewrite is fine.
+    # They'll be pre-releases anyway.
+    # tags:
+    #   - '*'
+jobs:
+  pack:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get Version from Project File
+        id: get-version
+        shell: bash
+        run: echo "version=$(grep -oE '<Version>[^<]+' ETS2LA.UI/ETS2LA.UI.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+
+      - name: Install .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build
+        run: |
+          # Build all projects (plugins will not be included in the final package otherwise)
+          dotnet build ./ETS2LA.sln -c Release
+          # Publish ETS2LA.UI
+          .\publish.bat
+          # Run velopack
+          .\velopack.bat
+
+      - name: Create Velopack Release
+        run: |
+          dotnet tool install -g vpk
+          vpk download github --repoUrl https://github.com/${{ github.repository }}
+          vpk pack -u ETS2LA.ETS2LA -v ${{ steps.get-version.outputs.version }} -p publish
+
+          # Upload as pre-release for now
+          vpk upload github -c "win-beta" --pre --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "ETS2LA C# v${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
