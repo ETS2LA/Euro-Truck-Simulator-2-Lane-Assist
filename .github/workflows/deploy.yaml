@@ -31,7 +31,7 @@ jobs:
           # Publish ETS2LA.UI
           .\publish.bat
           # Run velopack
-          .\velopack.bat
+          dnx --yes vpk pack --channel "win-beta" --packId ETS2LA.ETS2LA --packVersion ${{ steps.get-version.outputs.version }} --packDir .\publish --mainExe ETS2LA.UI.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA"
 
       - name: Create Velopack Release
         run: |
@@ -40,4 +40,4 @@ jobs:
           vpk pack -u ETS2LA.ETS2LA -v ${{ steps.get-version.outputs.version }} -p publish
 
           # Upload as pre-release for now
-          vpk upload github -c "win-beta" --pre --merge --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "ETS2LA C# v${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
+          vpk upload github --channel "win-beta" --pre --merge --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "ETS2LA C# v${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
