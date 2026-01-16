@@ -1,7 +1,4 @@
-using System;
-using ETS2LA.Logging;
 using Microsoft.Win32;
-
 namespace ETS2LA.Game.Steam;
 
 class SteamHandler
@@ -9,24 +6,24 @@ class SteamHandler
     public static string GetLibraryPath()
     {
         string steamInstallFolder = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam", "SteamPath", null) as string ?? "C:\\Program Files (x86)\\Steam";
-        return System.IO.Path.Combine(steamInstallFolder, "steamapps", "libraryfolders.vdf");
+        return Path.Combine(steamInstallFolder, "steamapps", "libraryfolders.vdf");
     }
 
     public static List<string> GetLibraryFolders()
     {
         string libraryPath = GetLibraryPath();
-        if (!System.IO.File.Exists(libraryPath))
+        if (!File.Exists(libraryPath))
         {
             return new List<string>();
         }
 
         List<string> libraryFolders = new();
-        foreach (string line in System.IO.File.ReadAllLines(libraryPath))
+        foreach (string line in File.ReadAllLines(libraryPath))
         {
             if (line.Trim().StartsWith("\"") && line.Contains("\"path\""))
             {
                 string path = line.Split('"')[3];
-                libraryFolders.Add(System.IO.Path.Combine(path, "steamapps", "common"));
+                libraryFolders.Add(Path.Combine(path, "steamapps", "common"));
             }
         }
 
@@ -42,8 +39,8 @@ class SteamHandler
         {
             foreach (string gameName in gameNames)
             {
-                string gamePath = System.IO.Path.Combine(library, gameName);
-                if (System.IO.Directory.Exists(gamePath))
+                string gamePath = Path.Combine(library, gameName);
+                if (Directory.Exists(gamePath))
                 {
                     foundGames.Add(gamePath);
                 }
