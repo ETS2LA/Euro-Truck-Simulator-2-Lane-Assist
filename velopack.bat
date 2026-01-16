@@ -1,1 +1,1 @@
-dnx vpk pack --packId ETS2LA.ETS2LA --packVersion 1.0.0 --packDir .\publish --mainExe ETS2LA.UI.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA"
+dnx --yes vpk pack --packId ETS2LA.ETS2LA --packVersion 1.0.0 --packDir .\publish --mainExe ETS2LA.UI.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA"
