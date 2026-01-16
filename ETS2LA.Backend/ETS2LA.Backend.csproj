@@ -21,10 +21,6 @@
     <ProjectReference Include="..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
     <ProjectReference Include="..\ETS2LA.Settings\ETS2LA.Settings.csproj" />
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Velopack" Version="0.0.1298" />
-    <PackageReference Include="Huskui.Avalonia" Version="0.7.2" />
+    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj" />
   </ItemGroup>
 </Project>

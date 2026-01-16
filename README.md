@@ -268,3 +268,7 @@ _window?.SendNotification(new Notification
 });
 ```
 **NOTE:** The `_window` variable is currently set directly to `INotificationHandler`. In the future this will be changed to a window interface, expect the callback to change to something like `_window?.Notifications.ShowNotification(...)`.
+
+## Acknowledgements
+- [SCS Software](https://scssoft.com) - For making Euro Truck Simulator 2 and American Truck Simulator.
+- [ts-map](https://github.com/dariowouters/ts-map) and [maps](https://github.com/truckermudgeon/maps) - For their help and examples in parsing SCS map files, and rendering a usable map.

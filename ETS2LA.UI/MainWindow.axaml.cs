@@ -1,19 +1,15 @@
 using Avalonia.Media;
 using Avalonia.Input;
 using Avalonia.Controls;
-using Avalonia.Threading;
 using Avalonia.Interactivity;
 
 using ETS2LA.Shared;
-using ETS2LA.Logging;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
-using Tmds.DBus.Protocol;
-using Avalonia;
 
 namespace ETS2LA.UI;
 
@@ -23,6 +19,7 @@ public partial class MainWindow : AppWindow
     {
         Dashboard,
         Visualization,
+        Game,
         Manager,
         Catalogue,
         Performance,
@@ -40,6 +37,7 @@ public partial class MainWindow : AppWindow
     private readonly PluginManagerService _pluginService;
     private readonly DashboardView _dashboardView = new();
     private readonly VisualizationView _visualizationView = new();
+    private readonly GameView _gameView;
     private readonly NotificationHandler _notificationHandler;
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
@@ -55,9 +53,10 @@ public partial class MainWindow : AppWindow
         _managerView = new ManagerView(_pluginService);
         _settingsView = new SettingsView();
         _visualizationView = new VisualizationView(_pluginService);
+        _gameView = new GameView(_pluginService);
         _navButtons.AddRange(new[]
         {
-            DashboardButton, VisualizationButton, ManagerButton, CatalogueButton,
+            DashboardButton, VisualizationButton, GameButton, ManagerButton, CatalogueButton,
             PerformanceButton, WikiButton, RoadmapButton, FeedbackButton, SettingsButton
         });
 
@@ -177,6 +176,7 @@ public partial class MainWindow : AppWindow
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
             PageKind.Visualization => IsWindows ? ClosePaneAndOpen(_visualizationView) : CreatePlaceholder("Sorry", "This page is only available on Windows."),
+            PageKind.Game => _gameView,
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
             PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),
             PageKind.Wiki => CreatePlaceholder("Wiki", "Link or embed documentation content."),
@@ -225,6 +225,12 @@ public partial class MainWindow : AppWindow
     {
         SetSelected(VisualizationButton);
         ShowPage(PageKind.Visualization);
+    }
+
+    private void OnGameClick(object? sender, RoutedEventArgs e)
+    {
+        SetSelected(GameButton);
+        ShowPage(PageKind.Game);
     }
 
     private void OnManagerClick(object? sender, RoutedEventArgs e)

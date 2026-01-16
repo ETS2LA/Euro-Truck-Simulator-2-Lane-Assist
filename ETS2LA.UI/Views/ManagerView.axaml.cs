@@ -43,8 +43,14 @@ public partial class ManagerView : UserControl
         }
     }
 
+    private void OnRefreshButtonClick(object? sender, RoutedEventArgs e)
+    {
+        UpdatePluginList();
+    }
+
     private void UpdatePluginList()
     {
+        Plugins.Clear();
         List<IPlugin> plugins = _pluginService.GetPlugins();
         foreach (var plugin in plugins)
         {

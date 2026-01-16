@@ -1,5 +1,6 @@
 using System.Reflection;
 using Avalonia.Controls;
+using ETS2LA.Backend;
 using ETS2LA.Shared;
 using Huskui.Avalonia.Controls;
 
@@ -7,14 +8,12 @@ namespace ETS2LA.UI.Services;
 
 public sealed class PluginManagerService
 {
-    public Backend.Program backend = null!;
+    public PluginBackend backend = null!;
 
     public PluginManagerService(INotificationHandler window)
     {
-        backend = new Backend.Program();
-        Task.Run(() => backend.Main(
-            window
-        ));
+        backend = PluginBackend.Instance;
+        Task.Run(() => backend.Start(window));
     }
 
     public List<IPlugin> GetPlugins()
