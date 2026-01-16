@@ -7,6 +7,9 @@ namespace ETS2LA.Game;
 
 public class GameHandler
 {
+    private static readonly Lazy<GameHandler> _instance = new(() => new GameHandler());
+    public static GameHandler Instance => _instance.Value;
+    
     public List<Installation> Installations { get; } = new();
     private INotificationHandler? window;
 
@@ -14,6 +17,15 @@ public class GameHandler
     {
         window = appWindow;
         FindInstallations();
+    }
+
+    public void SetWindow(INotificationHandler appWindow)
+    {
+        window = appWindow;
+        foreach (var installation in Installations)
+        {
+            installation.Window = window;
+        }
     }
 
     private void FindInstallations()

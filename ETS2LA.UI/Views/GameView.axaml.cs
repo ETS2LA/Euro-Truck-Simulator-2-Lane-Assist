@@ -17,7 +17,7 @@ public partial class GameView : UserControl
 
     public GameView(PluginManagerService service)
     {
-        gameHandler = service.backend.game;
+        gameHandler = GameHandler.Instance;
         InitializeComponent();
         DataContext = this;
         UpdateGameList();

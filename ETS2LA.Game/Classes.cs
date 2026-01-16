@@ -90,7 +90,7 @@ public class Installation
 
     private string GetMapFilepath()
     {
-        return Type == GameType.EuroTruckSimulator2 ? "/map/europe.mbd" : "/map/america.mbd";
+        return Type == GameType.EuroTruckSimulator2 ? "/map/europe.mbd" : "/map/usa.mbd";
     }
 
     public Map GetMap()

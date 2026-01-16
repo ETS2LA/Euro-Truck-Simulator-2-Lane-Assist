@@ -1,30 +1,27 @@
 ﻿using ETS2LA.Game;
 using ETS2LA.Logging;
 using ETS2LA.Shared;
-using Huskui.Avalonia.Controls;
 using Spectre.Console;
-using Velopack;
 
 namespace ETS2LA.Backend
 {
-    public class Program
+    public class PluginBackend
     {
+        private static readonly Lazy<PluginBackend> _instance = new(() => new PluginBackend());
+        public static PluginBackend Instance => _instance.Value;
+
         public EventBus? bus;
-        public GameHandler? game;
         public INotificationHandler? window;
         public PluginHandler? pluginHandler;
 
-        public void Main(INotificationHandler appWindow)
+        public void Start(INotificationHandler appWindow)
         {
-            // Run Velopack for update checking
-            VelopackApp.Build().Run();
-
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
                 window = appWindow;
                 bus = new EventBus();
                 pluginHandler = new PluginHandler(bus, window);
-                game = new GameHandler(window);
+                GameHandler.Instance.SetWindow(window);
 
                 pluginHandler.LoadPlugins();
 
