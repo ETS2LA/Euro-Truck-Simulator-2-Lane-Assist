@@ -24,7 +24,7 @@ namespace ExampleConsumer
             _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
             _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
             _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
-            Logger.Info($"ExampleConsumer read {GameHandler.Instance.Installations[0].GetMap().Nodes.Count} nodes from the game map.");
+            Logger.Info($"ExampleConsumer read {GameHandler.Instance.Installations[0].GetMapData().Nodes.Count} nodes from the game map.");
         }
 
         public override void OnDisable()
