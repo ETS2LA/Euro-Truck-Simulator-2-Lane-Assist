@@ -1,19 +1,17 @@
 using Avalonia.Controls;
 using ETS2LA.Game;
 using ETS2LA.UI.Services;
+using ETS2LA.Logging;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Input;
-using ETS2LA.Shared;
 
 namespace ETS2LA.UI.Views;
 
 public partial class GameView : UserControl
 {
-    // This list is listened by the UI to show available plugins.
     public ObservableCollection<GameItem> Installations { get; } = new();
     private readonly GameHandler? gameHandler;
 
@@ -22,7 +20,7 @@ public partial class GameView : UserControl
         gameHandler = service.backend.game;
         InitializeComponent();
         DataContext = this;
-        UpdatePluginList();
+        UpdateGameList();
     }
 
     private void ParseMapDataCommand(object? sender, RoutedEventArgs e)
@@ -33,18 +31,16 @@ public partial class GameView : UserControl
         }
     }
 
-    private void UpdatePluginList()
+    private void UpdateGameList()
     {
-        List<Installation> installations = gameHandler?.Installations;
-        if (installations == null) return;
-        
+        List<Installation> installations = gameHandler?.Installations ?? new List<Installation>();
         foreach (var install in installations)
         {
             Installations.Add(new GameItem(install, gameHandler));
         }
 
         bool hasInstallations = Installations.Count > 0;
-        if (this.FindControl<ItemsControl>("PluginList") is { } list)
+        if (this.FindControl<ItemsControl>("GameList") is { } list)
             list.IsVisible = hasInstallations;
         if (this.FindControl<Border>("PlaceholderPanel") is { } placeholder)
             placeholder.IsVisible = !hasInstallations;
@@ -65,6 +61,7 @@ public class GameItem : INotifyPropertyChanged
     public string Path => _instance.Path.Replace("\\", "/").Replace("//", "/");
     public string Version => _instance.Version.Split(" ")[0];
     public bool IsParsed => _instance.IsParsed;
+    public bool IsParsing => _instance.IsParsing;
     public IEnumerable<string> Mods => _instance.GetAvailableMods().Select(m => m.ToString());
 
     private ObservableCollection<string> _selectedMods;

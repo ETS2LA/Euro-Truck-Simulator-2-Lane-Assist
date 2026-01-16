@@ -39,10 +39,11 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Border x:Name="PlaceholderPanel" Background="#16181D" BorderBrush="#2A2F37" BorderThickness="1" CornerRadius="12" Padding="14" IsVisible="False">
+            <Border x:Name="PlaceholderPanel" IsVisible="False">
                 <StackPanel Spacing="6">
                     <TextBlock Text="No plugins found" FontSize="16" FontWeight="SemiBold"/>
                     <TextBlock Text="Drop plugin DLLs into the Plugins folder (or build existing plugin projects) and hit Refresh." />
+                    <Button Content="Refresh" Width="100" Click="OnRefreshButtonClick"/>
                 </StackPanel>
             </Border>
         </StackPanel>

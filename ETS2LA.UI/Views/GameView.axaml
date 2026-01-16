@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:ETS2LA.UI.Views"
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
              x:Class="ETS2LA.UI.Views.GameView"
              x:DataType="views:GameView">
     <UserControl.Resources>
@@ -12,7 +13,7 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
         <StackPanel>
-            <ItemsControl x:Name="PluginList" ItemsSource="{Binding Installations}" ItemsPanel="{StaticResource WrapPanelTemplate}">
+            <ItemsControl x:Name="GameList" ItemsSource="{Binding Installations}" ItemsPanel="{StaticResource WrapPanelTemplate}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="views:GameItem">
                         <husk:Card 
@@ -35,7 +36,12 @@
                                 <TextBlock Text="Selected Map Mods:" FontSize="13" Margin="0,8,0,0" />
                                 <TextBlock Text="Use Ctrl+Click to select multiple mods." FontSize="10" Classes="Description" Margin="0,0,0,4" />
                                 <ListBox ItemsSource="{Binding Mods}" SelectedItems="{Binding SelectedMods}, Mode=TwoWay" SelectionMode="Multiple" />
-                                <Button Content="Parse Map Data" Margin="0,10,0,0" Command="{Binding ParseMapDataCommand}" IsEnabled="{Binding !IsParsed}" />
+                                <Button Margin="0,10,0,0" Command="{Binding ParseMapDataCommand}" IsEnabled="{Binding !IsParsed}">
+                                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                        <i:Icon Value="fa-arrows-rotate" IsVisible="{Binding IsParsing}" />
+                                        <TextBlock Text="Parse Map Data" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </husk:Card>
                     </DataTemplate>

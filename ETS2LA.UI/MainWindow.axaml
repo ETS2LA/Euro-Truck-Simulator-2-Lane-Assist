@@ -5,6 +5,7 @@
                 x:Class="ETS2LA.UI.MainWindow"
 
                 Title="ETS2LA"
+                Icon="avares://ETS2LA.UI/Assets/logo.ico"
                 Width="1280" Height="720"
                 MinWidth="600" MinHeight="300"
                 SystemDecorations="Full"
