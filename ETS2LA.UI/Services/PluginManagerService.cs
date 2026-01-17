@@ -10,10 +10,10 @@ public sealed class PluginManagerService
 {
     public PluginBackend backend = null!;
 
-    public PluginManagerService(INotificationHandler window)
+    public PluginManagerService()
     {
         backend = PluginBackend.Instance;
-        Task.Run(() => backend.Start(window));
+        Task.Run(() => backend.Start());
     }
 
     public List<IPlugin> GetPlugins()

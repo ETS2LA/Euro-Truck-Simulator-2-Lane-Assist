@@ -7,9 +7,12 @@ using ETS2LA.Shared;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
+using ETS2LA.Logging;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
+using ETS2LA.UI.Settings;
+using Avalonia.Logging;
 
 namespace ETS2LA.UI;
 
@@ -38,7 +41,6 @@ public partial class MainWindow : AppWindow
     private readonly DashboardView _dashboardView = new();
     private readonly VisualizationView _visualizationView = new();
     private readonly GameView _gameView;
-    private readonly NotificationHandler _notificationHandler;
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
 
@@ -48,12 +50,13 @@ public partial class MainWindow : AppWindow
         ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
 
-        _notificationHandler = new NotificationHandler(this);
-        _pluginService = new PluginManagerService(_notificationHandler);
+        NotificationHandler.Instance.SetWindow(this);
+
+        _pluginService = new PluginManagerService();
         _managerView = new ManagerView(_pluginService);
         _settingsView = new SettingsView();
         _visualizationView = new VisualizationView(_pluginService);
-        _gameView = new GameView(_pluginService);
+        _gameView = new GameView();
         _navButtons.AddRange(new[]
         {
             DashboardButton, VisualizationButton, GameButton, ManagerButton, CatalogueButton,
@@ -63,6 +66,11 @@ public partial class MainWindow : AppWindow
         UpdateTitlebarButtonVisibility();
         SetSelected(DashboardButton);
         ShowPage(PageKind.Dashboard);
+
+        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        Width = settings.WindowWidth;
+        Height = settings.WindowHeight;
+        Position = new Avalonia.PixelPoint(settings.WindowX, settings.WindowY);
     }
 
     private void OnTitlebarPressed(object? sender, PointerPressedEventArgs e)
@@ -78,7 +86,7 @@ public partial class MainWindow : AppWindow
         if (Topmost) StayOnTopIcon.Classes.Add("Highlight");
         else StayOnTopIcon.Classes.Remove("Highlight");
         
-        _notificationHandler.SendNotification(new Notification
+        NotificationHandler.Instance.SendNotification(new Notification
         {
             Id = "MainWindow.StayOnTopChanged",
             Title = "Stay On Top",
@@ -95,7 +103,7 @@ public partial class MainWindow : AppWindow
         if(this.Opacity == 1.0) TransparencyIcon.Classes.Remove("Highlight");
         else TransparencyIcon.Classes.Add("Highlight");
         
-        _notificationHandler.SendNotification(new Notification
+        NotificationHandler.Instance.SendNotification(new Notification
         {
             Id = "MainWindow.TransparencyChanged",
             Title = "Transparency",
@@ -118,7 +126,7 @@ public partial class MainWindow : AppWindow
 
     private void OnCloseClick(object? sender, RoutedEventArgs e)
     {
-        _notificationHandler.SendNotification(new Notification
+        NotificationHandler.Instance.SendNotification(new Notification
         {
             Id = "MainWindow.Shutdown",
             Title = "ETS2LA",
@@ -126,7 +134,15 @@ public partial class MainWindow : AppWindow
             CloseAfter = 20.0f
         });
         _pluginService.Shutdown();
-        _notificationHandler.Shutdown();
+        NotificationHandler.Instance.Shutdown();
+
+        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        settings.WindowWidth = (int)Width;
+        settings.WindowHeight = (int)Height;
+        settings.WindowX = Position.X;
+        settings.WindowY = Position.Y;
+        UISettingsHandler.Instance.Save();
+
         Close();
     }
 

@@ -12,19 +12,19 @@ namespace ETS2LA.Backend
         {
             "Microsoft.*",
             "System.*",
+            "SharpDX.*",
+            "ETS2LA.*",
         };
 
         private readonly IEventBus _bus;
-        private readonly INotificationHandler _window;
         public readonly List<IPlugin> LoadedPlugins = new();
         public Action<IPlugin>? PluginEnabled;
         public Action<IPlugin>? PluginDisabled;
         public bool loading = false;
 
-        public PluginHandler(IEventBus eventBus, INotificationHandler window)
+        public PluginHandler(IEventBus eventBus)
         {
             _bus = eventBus;
-            _window = window;
         }
 
         public string[] DiscoverPlugins()
@@ -41,8 +41,9 @@ namespace ETS2LA.Backend
                 }).ToArray();
 
                 return pluginFiles;
-            } catch (Exception)
+            } catch (Exception ex)
             {
+                Logger.Error($"Failed to discover plugins: {ex.Message}");
                 return Array.Empty<string>();
             }
         }
@@ -51,6 +52,7 @@ namespace ETS2LA.Backend
         {
             loading = true;
             string[] pluginFiles = DiscoverPlugins();
+            Logger.Info($"Discovered {pluginFiles.Length} .dll files in Plugin folder.");
             foreach (string filename in pluginFiles)
             {
                 Thread.Sleep(100); // Slight delay to avoid overwhelming the system
@@ -67,7 +69,7 @@ namespace ETS2LA.Backend
                     {
                         var plugin = (IPlugin)Activator.CreateInstance(type)!;
                         plugin.Init();
-                        plugin.Register(_bus, _window);
+                        plugin.Register(_bus);
                         LoadedPlugins.Add(plugin);
                         Logger.Info($"Loaded plugin: [gray]{type.FullName}[/] from [gray]{filename}[/].");
                     }

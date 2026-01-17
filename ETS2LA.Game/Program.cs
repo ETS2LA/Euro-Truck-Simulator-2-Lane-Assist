@@ -11,20 +11,19 @@ public class GameHandler
     public static GameHandler Instance => _instance.Value;
     
     public List<Installation> Installations { get; } = new();
-    private INotificationHandler? window;
+    private INotificationHandler? _notificationHandler;
 
-    public GameHandler(INotificationHandler? appWindow = null)
+    public GameHandler()
     {
-        window = appWindow;
         FindInstallations();
     }
 
-    public void SetWindow(INotificationHandler appWindow)
+    public void SetNotificationHandler(INotificationHandler? handler)
     {
-        window = appWindow;
+        _notificationHandler = handler;
         foreach (var installation in Installations)
         {
-            installation.Window = window;
+            installation.SetNotificationHandler(_notificationHandler);
         }
     }
 
@@ -69,8 +68,9 @@ public class GameHandler
                 Path = gamePath,
                 ExecutablePath = executablePath,
                 Version = version,
-                Window = window
             });
+            Installation installation = Installations[^1];
+            installation.SetNotificationHandler(_notificationHandler);
         });
     }
 }

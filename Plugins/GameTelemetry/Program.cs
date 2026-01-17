@@ -1,8 +1,9 @@
 #pragma warning disable CA1416 // We check OS compatibility.
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
+using ETS2LA.UI.Notifications;
 using ETS2LA.Logging;
-using Huskui.Avalonia.Models;
+using System.Numerics;
 
 namespace GameTelemetry
 {
@@ -76,7 +77,7 @@ namespace GameTelemetry
         public override void OnDisable()
         {
             base.OnDisable();
-            _window?.CloseNotification("GameTelemetry.MMFNotFound");
+            NotificationHandler.Instance.CloseNotification("GameTelemetry.MMFNotFound");
         }
 
         public override void Tick()
@@ -103,14 +104,13 @@ namespace GameTelemetry
             }
             catch (FileNotFoundException)
             {
-                _window?.SendNotification(new Notification
+                NotificationHandler.Instance.SendNotification(new Notification
                 {
                     Id = "GameTelemetry.MMFNotFound",
                     Title = "Game Telemetry",
                     Content = $"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK.",
                     IsProgressIndeterminate = true,
                 });
-                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(1000);
                 _reader = null;
                 return;
@@ -133,7 +133,7 @@ namespace GameTelemetry
                 return;
             }
 
-            _window?.CloseNotification("GameTelemetry.MMFNotFound");
+            NotificationHandler.Instance.CloseNotification("GameTelemetry.MMFNotFound");
 
             int offset = 0;
             GameTelemetryData telemetry = new GameTelemetryData();

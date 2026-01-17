@@ -12,7 +12,7 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/ETS2LA.UI/bin/Debug/net10.0/ETS2LA.UI.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/ETS2LA.UI",
+            "cwd": "${workspaceFolder}/ETS2LA.UI/bin/Debug/net10.0",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "integratedTerminal",
             "stopAtEntry": false

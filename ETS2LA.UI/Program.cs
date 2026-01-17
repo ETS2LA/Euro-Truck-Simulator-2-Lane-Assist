@@ -4,6 +4,7 @@ using Avalonia.ReactiveUI;
 using Projektanker.Icons.Avalonia;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia.MaterialDesign;
+using Velopack;
 
 namespace ETS2LA.UI;
 
@@ -23,6 +24,11 @@ public class Program
     }
 
     [STAThread]
-    public static void Main(string[] args) =>
+    public static void Main(string[] args)
+    {
+        // Run Velopack for update checking
+        VelopackApp.Build().Run();
+
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+    }
 }

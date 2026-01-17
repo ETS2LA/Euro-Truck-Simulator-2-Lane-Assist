@@ -125,7 +125,7 @@ private void OnSettingsChanged(MySettings data)
 }
 ```
 
-On disk this will create a file at `%AppData%/ETS2LA/Plugins/ExampleProvider.MyProvider.settings.json` with the following content:
+On disk this will create a file at `%AppData%/ETS2LA/_settingsFilename.json` with the following content:
 ```json
 {
     "ExampleValue": 42
@@ -133,6 +133,7 @@ On disk this will create a file at `%AppData%/ETS2LA/Plugins/ExampleProvider.MyP
 ```
 Users can manually edit the file if they want to change settings outside of ETS2LA. For example if with some settings your plugin is broken, they can manually change it.
 
+**NOTE:** Please do not spam the `Save()` function. It is recommended to only save it when a plugin gets disabled or unloaded (or a user changes a setting). You would be spending unnecessary resources and disk writes if you save every frame.
 
 ### Inter Plugin communication
 All communication in ETS2LA is handled via the event bus. You can subscribe to events that other plugins fire, and you can also fire your own events. Below is an example of how to use the event bus.
@@ -237,10 +238,12 @@ _bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
 In addition to normal controls, we've also implemented force feedback support via Windows.Gaming.Input. It works similarly to `ETS2LA.Output.Steering`, but the event name is `ForceFeedback.Output`. For a full list of supported wheels, please check [the Windows docs](https://learn.microsoft.com/en-us/uwp/api/windows.gaming.input.racingwheel?view=winrt-26100#remarks), other wheels are not supported at this time.
 
 ### Sending notifications
-You can send notifications to the main window using the `_window` variable in the `Plugin` class. Below is an example of how to use it:
+You can send notifications to the main window using `NotificationHandler.Instance` from `ETS2LA.UI.Notifications`. Below is an example of how to use it:
 ```csharp
+using ETS2LA.UI.Notifications;
+
 // Static notification
-_notificationHandler.SendNotification(new Notification
+NotificationHandler.Instance.SendNotification(new Notification
 {
     Id = "MainWindow.TransparencyChanged", // Always set a unique ID for your notification
     Title = "Transparency",
@@ -253,7 +256,7 @@ _notificationHandler.SendNotification(new Notification
 });
 
 // Dynamic notification (call ShowNotification repeatedly to update)
-_window?.SendNotification(new Notification
+NotificationHandler.Instance.SendNotification(new Notification
 {
     Id = "ExampleConsumer.Speed",
     Title = "Truck Speed",
@@ -267,7 +270,6 @@ _window?.SendNotification(new Notification
                    // bar will interfere with anything you set!
 });
 ```
-**NOTE:** The `_window` variable is currently set directly to `INotificationHandler`. In the future this will be changed to a window interface, expect the callback to change to something like `_window?.Notifications.ShowNotification(...)`.
 
 ## Acknowledgements
 - [SCS Software](https://scssoft.com) - For making Euro Truck Simulator 2 and American Truck Simulator.

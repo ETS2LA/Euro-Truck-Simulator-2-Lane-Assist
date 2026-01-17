@@ -9,9 +9,6 @@ public partial class App : Application
 {
     public override void Initialize()
     {
-        // Run Velopack for update checking
-        VelopackApp.Build().Run();
-
         AvaloniaXamlLoader.Load(this);
     }
 

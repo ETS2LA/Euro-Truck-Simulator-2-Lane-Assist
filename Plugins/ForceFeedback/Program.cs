@@ -1,3 +1,4 @@
+using ETS2LA.UI.Notifications;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
 using SharpDX.DirectInput;
@@ -427,7 +428,7 @@ namespace ForceFeedback
         {
             base.OnDisable();
             _bus?.Unsubscribe<float>("ForceFeedback.Output", OnControlEvent);
-            _window?.CloseNotification("ForceFeedback.Debug");
+            NotificationHandler.Instance.CloseNotification("ForceFeedback.Debug");
             DisposeResources();
         }
 

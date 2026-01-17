@@ -53,9 +53,8 @@ public enum IgnoredItemTypes
 
 public class MapData : Map
 {
-    private INotificationHandler? _notificationHandler = null;
-
-    public void SetNotificationHandler(INotificationHandler handler)
+    INotificationHandler? _notificationHandler = null;
+    public void SetNotificationHandler(INotificationHandler? handler)
     {
         _notificationHandler = handler;
     }
@@ -105,7 +104,6 @@ public class Installation
     public required string Path { get; set; }
     public required string ExecutablePath { get; set; }
     public required string Version { get; set; }
-    public required INotificationHandler? Window { get; set; }
     public bool IsParsed { get; set; } = false;
     public bool IsParsing { get; set; } = false;
     public List<string> FileExclusions = new List<string>
@@ -116,6 +114,12 @@ public class Installation
     private AssetLoader? _assetLoader = null;
     private MapData? _map = null;
     private List<Mod>? _selectedMods = null;
+    private INotificationHandler? _notificationHandler = null;
+
+    public void SetNotificationHandler(INotificationHandler? handler)
+    {
+        _notificationHandler = handler;
+    }
 
     public string GetModsPath()
     {
@@ -195,7 +199,7 @@ public class Installation
 
             _assetLoader = new AssetLoader(hashFsReaders);
             _map = new MapData();
-            _map.SetNotificationHandler(Window!);
+            _map.SetNotificationHandler(_notificationHandler);
             _map.Read(GetMapFilepath(), _assetLoader);
         }
         return _map;
@@ -211,7 +215,7 @@ public class Installation
 
         IsParsing = true;
         Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
-        Window?.SendNotification(new Notification
+        _notificationHandler?.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing",
             Title = "Parsing Map Data",
@@ -225,7 +229,7 @@ public class Installation
         {
             Logger.Error($"Failed to load map for installation at '{Path}'");
             IsParsing = false;
-            Window?.CloseNotification("ETS2LA.Game.Parsing");
+            _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
             return;
         }
 
@@ -237,7 +241,7 @@ public class Installation
         {
             Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
             IsParsing = false;
-            Window?.CloseNotification("ETS2LA.Game.Parsing");
+            _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
             return;
         }
 
@@ -245,8 +249,8 @@ public class Installation
         Logger.Success($"Found {prefabs} prefabs, {roads} roads and {nodes} nodes.");
         IsParsed = true;
         IsParsing = false;
-        Window?.CloseNotification("ETS2LA.Game.Parsing");
-        Window?.SendNotification(new Notification
+        _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
+        _notificationHandler?.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing.Complete",
             Title = "Map Data Parsed",

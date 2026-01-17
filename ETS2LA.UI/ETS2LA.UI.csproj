@@ -10,26 +10,64 @@
 
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.0.1</Version>
+    <Version>3.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Velopack" Version="0.0.1298" />
-    <PackageReference Include="Avalonia" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.9" />
-    <PackageReference Include="Huskui.Avalonia" Version="0.7.2" />
-    <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.6.2" />
-    <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.2" />
-    <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2" />
-    <PackageReference Include="WebViewControl-Avalonia" Version="3.120.10" />
+    <PackageReference Include="Velopack" Version="0.0.1298">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia" Version="11.3.9">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.9">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9" Condition="'$(Configuration)'=='Debug'" >
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.9">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Huskui.Avalonia" Version="0.7.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.6.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="WebViewControl-Avalonia" Version="3.120.10">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <Target Name="CopyLibdeflate" AfterTargets="Build">
     <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
+  </Target>
+
+  <Target Name="CopyPlugins" AfterTargets="Build">
+    <ItemGroup>
+      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(OutputPath)Plugins\" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyPluginsPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)Plugins\" SkipUnchangedFiles="true" />
   </Target>
 
   <ItemGroup>

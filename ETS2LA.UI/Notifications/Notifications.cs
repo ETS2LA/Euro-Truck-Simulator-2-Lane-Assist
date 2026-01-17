@@ -8,24 +8,21 @@ namespace ETS2LA.UI.Notifications;
 
 public class NotificationHandler : INotificationHandler
 {
-    private readonly AppWindow _window;
+    private static readonly Lazy<NotificationHandler> _instance = new(() => new NotificationHandler());
+    public static NotificationHandler Instance => _instance.Value;
+
+    private AppWindow? _window;
     private bool _isRunning = true;
     public List<Notification> ActiveNotifications { get; private set; } = new();
 
-    public NotificationHandler(AppWindow window)
+    public NotificationHandler()
+    {
+        Task.Run(WatcherThread);
+    }
+
+    public void SetWindow(AppWindow window)
     {
         _window = window;
-        Task.Run(WatcherThread);
-
-        _window.Loaded += (s, e) =>
-        {
-            SendNotification(new Notification
-            {
-                Id = "app_loaded",
-                Title = "ETS2LA",
-                Content = "Application & Backend started successfully.",
-            });
-        };
     }
 
     public void WatcherThread()
