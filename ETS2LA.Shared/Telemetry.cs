@@ -1,5 +1,6 @@
 // This file is based on
 // https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
+using System.Numerics;
 
 namespace ETS2LA.Shared
 {

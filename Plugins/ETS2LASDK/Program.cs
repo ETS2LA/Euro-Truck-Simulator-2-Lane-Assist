@@ -2,7 +2,7 @@
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
-using Huskui.Avalonia.Models;
+using System.Numerics;
 
 namespace ETS2LASDK
 {
@@ -73,7 +73,7 @@ namespace ETS2LASDK
             ); offset += 12;
             camera.cx = _reader.ReadInt16(offset); offset += 2;
             camera.cy = _reader.ReadInt16(offset); offset += 2;
-            camera.rotation = new Quaternion(
+            camera.rotation = new ETS2LA.Shared.Quaternion(
                 _reader.ReadFloat(offset),
                 _reader.ReadFloat(offset + 4),
                 _reader.ReadFloat(offset + 8),
@@ -152,7 +152,7 @@ namespace ETS2LASDK
                     _reader.ReadFloat(offset + 8)
                 ); offset += 12;
 
-                vehicle.rotation = new Quaternion(
+                vehicle.rotation = new ETS2LA.Shared.Quaternion(
                     _reader.ReadFloat(offset),
                     _reader.ReadFloat(offset + 4),
                     _reader.ReadFloat(offset + 8),
@@ -183,7 +183,7 @@ namespace ETS2LASDK
                         _reader.ReadFloat(offset + 8)
                     ); offset += 12;
 
-                    trailer.rotation = new Quaternion(
+                    trailer.rotation = new ETS2LA.Shared.Quaternion(
                         _reader.ReadFloat(offset),
                         _reader.ReadFloat(offset + 4),
                         _reader.ReadFloat(offset + 8),
@@ -285,7 +285,7 @@ namespace ETS2LASDK
                 semaphore.cx = _reader.ReadFloat(offset); offset += 4;
                 semaphore.cy = _reader.ReadFloat(offset); offset += 4;
 
-                semaphore.rotation = new Quaternion(
+                semaphore.rotation = new ETS2LA.Shared.Quaternion(
                     _reader.ReadFloat(offset),
                     _reader.ReadFloat(offset + 4),
                     _reader.ReadFloat(offset + 8),

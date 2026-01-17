@@ -2,7 +2,7 @@
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
-using Huskui.Avalonia.Models;
+using System.Numerics;
 
 namespace GameTelemetry
 {
