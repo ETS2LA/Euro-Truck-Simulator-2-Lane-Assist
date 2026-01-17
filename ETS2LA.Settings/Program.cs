@@ -49,28 +49,36 @@ namespace ETS2LA.Settings
                 throw new ArgumentException("Settings file name must end with .json");
         }
 
-        public void Save<T>(string fileName, T data)
+        public bool Save<T>(string fileName, T data)
         {
             VerifyJsonPath(fileName);
             string json = JsonSerializer.Serialize(data, _jsonOpts);
-            Console.WriteLine($"SettingsHandler: Saving settings to {fileName}");
-            Console.WriteLine(json);
 
             Directory.CreateDirectory(_baseDir);
             string target = Path.Combine(_baseDir, fileName);
             string temp = target + ".tmp";
 
             // Write temp file, then replace the target to avoid lock issues.
-            _savingInProgress.Add(fileName);
-            File.WriteAllText(temp, json, Encoding.UTF8);
-            if (File.Exists(target)) 
-                File.Replace(temp, target, null);
-            else
-                File.Move(temp, target);
-            _savingInProgress.Remove(fileName);
+            try
+            {
+                _savingInProgress.Add(fileName);
+                File.WriteAllText(temp, json, Encoding.UTF8);
+                if (File.Exists(target)) 
+                    File.Replace(temp, target, null);
+                else
+                    File.Move(temp, target);
+                _savingInProgress.Remove(fileName);
+            } catch (Exception ex)
+            {
+                _savingInProgress.Remove(fileName);
+                Console.WriteLine($"Failed to save settings file {fileName}: {ex}");
+                File.Delete(temp);
+                return false;
+            }
 
             // Manually trigger listeners since FS watcher is ignored during save.
             HandleFsChange(target, fileName);
+            return true;
         }
 
         public T Load<T>(string fileName)
@@ -91,7 +99,7 @@ namespace ETS2LA.Settings
             }
             catch (JsonException)
             {
-                Console.WriteLine($"SettingsHandler: Failed to deserialize settings file {fileName}, returning default instance.");
+                Console.WriteLine($"Failed to deserialize settings file {fileName}, returning default instance.");
                 return Activator.CreateInstance<T>();
             }
         }
@@ -170,13 +178,13 @@ namespace ETS2LA.Settings
                     }
                     catch
                     {
-                        Console.WriteLine($"SettingsHandler: Failed to deserialize settings file {name} for listener of type {entry.DataType}, skipping callback.");
+                        Console.WriteLine($"Failed to deserialize settings file {name} for listener of type {entry.DataType}, skipping callback.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SettingsHandler: Error processing filesystem change for {name}: {ex}");
+                Console.WriteLine($"Error processing filesystem change for {name}: {ex}");
             }
         }
 
