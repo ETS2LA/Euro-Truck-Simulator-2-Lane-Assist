@@ -8,6 +8,9 @@
   </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\ETS2LA.UI\ETS2LA.UI.csproj">
+        <Private>false</Private>
+      </ProjectReference>
       <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj">
         <Private>false</Private>
       </ProjectReference>

@@ -1,6 +1,4 @@
-﻿using ETS2LA.Game;
-using ETS2LA.Logging;
-using ETS2LA.Shared;
+﻿using ETS2LA.Logging;
 using Spectre.Console;
 
 namespace ETS2LA.Backend
@@ -11,17 +9,14 @@ namespace ETS2LA.Backend
         public static PluginBackend Instance => _instance.Value;
 
         public EventBus? bus;
-        public INotificationHandler? window;
         public PluginHandler? pluginHandler;
 
-        public void Start(INotificationHandler appWindow)
+        public void Start()
         {
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
-                window = appWindow;
                 bus = new EventBus();
-                pluginHandler = new PluginHandler(bus, window);
-                GameHandler.Instance.SetWindow(window);
+                pluginHandler = new PluginHandler(bus);
 
                 pluginHandler.LoadPlugins();
 

@@ -1,4 +1,5 @@
-﻿using ETS2LA.Shared;
+﻿using ETS2LA.UI.Notifications;
+using ETS2LA.Shared;
 using ETS2LA.Logging;
 using ETS2LA.Game;
 using Huskui.Avalonia.Models;
@@ -30,8 +31,8 @@ namespace ExampleConsumer
         public override void OnDisable()
         {
             base.OnDisable();
-            _window?.CloseNotification("ExampleConsumer.Speed");
-            _window?.CloseNotification("ExampleConsumer.RPM");
+            NotificationHandler.Instance.CloseNotification("ExampleConsumer.Speed");
+            NotificationHandler.Instance.CloseNotification("ExampleConsumer.RPM");
         }
 
         private float output = 0;
@@ -43,7 +44,7 @@ namespace ExampleConsumer
             double time = DateTime.Now.TimeOfDay.TotalSeconds;
             output = (float)Math.Sin(time * 2 * Math.PI / 8);
 
-            // _window?.SendNotification(new Notification
+            // NotificationHandler.Instance.SendNotification(new Notification
             // {
             //     Id = "ExampleConsumer.Speed",
             //     Title = "Truck Speed",
@@ -54,7 +55,7 @@ namespace ExampleConsumer
             //     CloseAfter = 0 
             // });
 
-            // _window?.SendNotification(new Notification
+            // NotificationHandler.Instance.SendNotification(new Notification
             // {
             //     Id = "ExampleConsumer.RPM",
             //     Title = "Engine RPM",
@@ -66,7 +67,7 @@ namespace ExampleConsumer
             // });
 
             _bus?.Publish<float>("ForceFeedback.Output", output);
-            _window?.SendNotification(new Notification
+            NotificationHandler.Instance.SendNotification(new Notification
             {
                 Id = "ExampleConsumer.Output",
                 Title = "Steering Output",

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using ETS2LA.Game;
-using ETS2LA.UI.Services;
+using ETS2LA.UI.Notifications;
 using ETS2LA.Logging;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,13 +13,12 @@ namespace ETS2LA.UI.Views;
 public partial class GameView : UserControl
 {
     public ObservableCollection<GameItem> Installations { get; } = new();
-    private readonly GameHandler? gameHandler;
 
-    public GameView(PluginManagerService service)
+    public GameView()
     {
-        gameHandler = GameHandler.Instance;
         InitializeComponent();
         DataContext = this;
+        GameHandler.Instance.SetNotificationHandler(NotificationHandler.Instance);
         UpdateGameList();
     }
 
@@ -33,10 +32,10 @@ public partial class GameView : UserControl
 
     private void UpdateGameList()
     {
-        List<Installation> installations = gameHandler?.Installations ?? new List<Installation>();
+        List<Installation> installations = GameHandler.Instance.Installations ?? new List<Installation>();
         foreach (var install in installations)
         {
-            Installations.Add(new GameItem(install, gameHandler));
+            Installations.Add(new GameItem(install));
         }
 
         bool hasInstallations = Installations.Count > 0;
@@ -54,7 +53,6 @@ public partial class GameView : UserControl
 
 public class GameItem : INotifyPropertyChanged
 {
-    private readonly GameHandler _service;
     private readonly Installation _instance;
 
     public string Game => TypeToString(_instance.Type);
@@ -83,10 +81,10 @@ public class GameItem : INotifyPropertyChanged
         }
     }
 
-    public GameItem(Installation instance, GameHandler service)
+    public GameItem(Installation instance)
     {
+        _selectedMods = new ObservableCollection<string>(instance.GetSelectedMods());
         _instance = instance;
-        _service = service;
     }
 
     public void ParseMapDataCommand()

@@ -45,7 +45,7 @@ namespace ETS2LA.Shared
         PluginInformation Info { get; }
         bool _IsRunning { get; set; }
         void Init();
-        void Register(IEventBus bus, INotificationHandler window);
+        void Register(IEventBus bus);
         void OnEnable();
         void Tick();
         void OnDisable();
@@ -57,16 +57,14 @@ namespace ETS2LA.Shared
     public abstract class Plugin : IPlugin
     {
         public abstract PluginInformation Info { get; }
-        protected INotificationHandler? _window;
         protected IEventBus? _bus;
         public bool _IsRunning { get; set; } = false;
         public virtual float TickRate => 20.0f;
 
         public virtual void Init() { }
-        public virtual void Register(IEventBus bus, INotificationHandler window)
+        public virtual void Register(IEventBus bus)
         {
             _bus = bus;
-            _window = window;
         }
 
         public virtual void OnEnable()

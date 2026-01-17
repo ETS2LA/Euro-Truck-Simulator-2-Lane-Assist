@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,6 +52,9 @@
       <Private>false</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\ETS2LA.Logging\ETS2LA.Logging.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.UI\ETS2LA.UI.csproj">
       <Private>false</Private>
     </ProjectReference>
   </ItemGroup>
