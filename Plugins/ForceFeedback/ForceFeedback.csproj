@@ -5,32 +5,13 @@
     <AssetTargetFallback>net9.0-windows</AssetTargetFallback>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Update="Microsoft.Windows.SDK.NET">
-      <Private>false</Private>
-    </Reference>
-    <Reference Update="WinRT.Runtime">
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
-
-  <!-- Don't ask, I shouted at gemini till it copied the DLL into the output... -->
-  <Target Name="CopyWinSDKDll" AfterTargets="ResolveReferences">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
-        Condition="'%(FileName)' == 'Microsoft.Windows.SDK.NET'" />
-      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
-        Condition="'%(FileName)' == 'WinRT.Runtime'" />
-    </ItemGroup>
-  </Target>
-
-  <ItemGroup>
     <PackageReference Include="SharpDX.DirectInput" Version="4.2.0">
-      <PrivateAssets>none</PrivateAssets>
+      <Private>false</Private>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
@@ -45,6 +26,12 @@
   </Target>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ETS2LA.Game\ETS2LA.Game.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Backend\ETS2LA.Backend.csproj">
+      <Private>false</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj">
       <Private>false</Private>
     </ProjectReference>

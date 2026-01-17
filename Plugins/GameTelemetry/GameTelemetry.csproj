@@ -19,5 +19,11 @@
     <ProjectReference Include="..\..\ETS2LA.UI\ETS2LA.UI.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Game\ETS2LA.Game.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Backend\ETS2LA.Backend.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 </Project>

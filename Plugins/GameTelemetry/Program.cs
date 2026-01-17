@@ -111,7 +111,6 @@ namespace GameTelemetry
                     Content = $"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK.",
                     IsProgressIndeterminate = true,
                 });
-                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(1000);
                 _reader = null;
                 return;

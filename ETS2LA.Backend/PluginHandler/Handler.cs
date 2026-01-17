@@ -39,8 +39,9 @@ namespace ETS2LA.Backend
                 }).ToArray();
 
                 return pluginFiles;
-            } catch (Exception)
+            } catch (Exception ex)
             {
+                Logger.Error($"Failed to discover plugins: {ex.Message}");
                 return Array.Empty<string>();
             }
         }
@@ -49,6 +50,7 @@ namespace ETS2LA.Backend
         {
             loading = true;
             string[] pluginFiles = DiscoverPlugins();
+            Logger.Info($"Discovered {pluginFiles.Length} .dll files in Plugin folder.");
             foreach (string filename in pluginFiles)
             {
                 Thread.Sleep(100); // Slight delay to avoid overwhelming the system

@@ -46,25 +46,27 @@ namespace ControlsSDK
                 return;
             }
 
-            // Open the memory-mapped file, it's fine to leave it open as
-            // only this plugin will ever have access to it.
-            try
-            {
-                mmf = MemoryMappedFile.OpenExisting(mmapName, MemoryMappedFileRights.Write);
-                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
-            } catch (Exception)
-            {
-                // open new files
-                mmf = MemoryMappedFile.CreateOrOpen(mmapName, mmapSize, MemoryMappedFileAccess.Write);
-                accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
-            }
-
             // And finally start listening to events
             _bus?.Subscribe<SDKControlEvent>("ETS2LA.Output.Event", OnControlEvent);
         }
 
         private void OnControlEvent(SDKControlEvent controlEvent)
         {
+            if (mmf == null)
+            {
+                try
+                {
+                    mmf = MemoryMappedFile.OpenExisting(mmapName, MemoryMappedFileRights.Write);
+                    accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
+                    Logger.Info("ControlsSDK: Created or opened shared memory for SCS Controls SDK.");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"ControlsSDK: Failed to create or open shared memory: {ex.Message}");
+                    return;
+                }
+            }
+            
             // Loop through all properties and see if they're not null
             foreach (var prop in typeof(SDKControlEvent).GetFields())
             {
