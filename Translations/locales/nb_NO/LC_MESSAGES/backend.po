@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-22 16:07+0000\n"
-"Last-Translator: \"Mr.dogo\" <mrdogo@ets2la.com>\n"
+"PO-Revision-Date: 2026-01-18 22:04+0000\n"
+"Last-Translator: kith123413 <kith123413@ets2la.com>\n"
 "Language-Team: Norwegian Bokmål <http://weblate.ets2la.com/projects/ets2la/"
 "backend/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -412,27 +412,27 @@ msgstr ""
 
 #: .\Pages\about.py:385
 msgid "Users online:"
-msgstr ""
+msgstr "Brukere På:"
 
 #: .\Pages\about.py:387
 msgid "{0} users"
-msgstr ""
+msgstr "{0}Brukere"
 
 #: .\Pages\about.py:390
 msgid "Past 24 hours:"
-msgstr ""
+msgstr "Etter 24 timer:"
 
 #: .\Pages\about.py:392
 msgid "{0} unique users"
-msgstr ""
+msgstr "{0} forskjellige brukere"
 
 #: .\Pages\about.py:396
 msgid "Your usage time:"
-msgstr ""
+msgstr "Tiden Din:"
 
 #: .\Pages\about.py:401
 msgid "You are not logged in."
-msgstr ""
+msgstr "Du er ikke logget in."
 
 #: .\Pages\about.py:403
 msgid "Your anonymous user ID is: {0}"
@@ -440,11 +440,11 @@ msgstr ""
 
 #: .\Pages\about.py:411
 msgid "You are logged in."
-msgstr ""
+msgstr "Du er logget in."
 
 #: .\Pages\about.py:413
 msgid "Welcome back, {0}!"
-msgstr ""
+msgstr "Velkommen til bake, {0}!"
 
 #: .\Pages\about.py:421
 msgid "Contributors"
@@ -452,7 +452,7 @@ msgstr ""
 
 #: .\Pages\about.py:443
 msgid "Translations"
-msgstr ""
+msgstr "Språk"
 
 #: .\Pages\about.py:473 .\Pages\global_settings.py:323
 #: .\Pages\onboarding.py:227
