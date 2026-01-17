@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata;
+using System.Text;
 using System.Text.Json;
 
 namespace ETS2LA.Settings
@@ -10,6 +11,11 @@ namespace ETS2LA.Settings
             WriteIndented = true,
             IncludeFields = true
         };
+
+        // This will disable listener callbacks during save operations.
+        // Otherwise saving a file would trigger the listener callback to read it
+        // at the same time -> file access conflicts.
+        readonly List<string> _savingInProgress = new();
 
         readonly Dictionary<string, List<ListenerEntry>> _listeners = new(StringComparer.OrdinalIgnoreCase);
         class ListenerEntry
@@ -54,12 +60,17 @@ namespace ETS2LA.Settings
             string target = Path.Combine(_baseDir, fileName);
             string temp = target + ".tmp";
 
-            // atomic-ish write: write temp then move/replace
+            // Write temp file, then replace the target to avoid lock issues.
+            _savingInProgress.Add(fileName);
             File.WriteAllText(temp, json, Encoding.UTF8);
             if (File.Exists(target)) 
                 File.Replace(temp, target, null);
             else
                 File.Move(temp, target);
+            _savingInProgress.Remove(fileName);
+
+            // Manually trigger listeners since FS watcher is ignored during save.
+            HandleFsChange(target, fileName);
         }
 
         public T Load<T>(string fileName)
@@ -130,6 +141,7 @@ namespace ETS2LA.Settings
         void HandleFsChange(string fullPath, string? name)
         {
             if (name == null) return;
+            if (_savingInProgress.Contains(name)) return;
 
             try
             {

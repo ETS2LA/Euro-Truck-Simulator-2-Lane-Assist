@@ -7,9 +7,12 @@ using ETS2LA.Shared;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
+using ETS2LA.Logging;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
+using ETS2LA.UI.Settings;
+using Avalonia.Logging;
 
 namespace ETS2LA.UI;
 
@@ -63,6 +66,11 @@ public partial class MainWindow : AppWindow
         UpdateTitlebarButtonVisibility();
         SetSelected(DashboardButton);
         ShowPage(PageKind.Dashboard);
+
+        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        Width = settings.WindowWidth;
+        Height = settings.WindowHeight;
+        Position = new Avalonia.PixelPoint(settings.WindowX, settings.WindowY);
     }
 
     private void OnTitlebarPressed(object? sender, PointerPressedEventArgs e)
@@ -127,6 +135,14 @@ public partial class MainWindow : AppWindow
         });
         _pluginService.Shutdown();
         NotificationHandler.Instance.Shutdown();
+
+        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        settings.WindowWidth = (int)Width;
+        settings.WindowHeight = (int)Height;
+        settings.WindowX = Position.X;
+        settings.WindowY = Position.Y;
+        UISettingsHandler.Instance.Save();
+
         Close();
     }
 

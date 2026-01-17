@@ -12,6 +12,8 @@ namespace ETS2LA.Backend
         {
             "Microsoft.*",
             "System.*",
+            "SharpDX.*",
+            "ETS2LA.*",
         };
 
         private readonly IEventBus _bus;
