@@ -7,15 +7,14 @@ using ETS2LA.Shared;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
-using ETS2LA.Logging;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
 using ETS2LA.UI.Settings;
-using Avalonia.Logging;
 
 namespace ETS2LA.UI;
 
+// TODO: Documentation, cleanup code!
 public partial class MainWindow : AppWindow
 {
     private enum PageKind

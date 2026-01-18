@@ -1,22 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <ApplicationManifest>ETS2LA.UI.manifest</ApplicationManifest>
-
-    <Title>ETS2LA</Title>
-    <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Velopack" Version="0.0.1298">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Avalonia" Version="11.3.9">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -54,20 +46,6 @@
 
   <Target Name="CopyLibdeflate" AfterTargets="Build">
     <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
-  </Target>
-
-  <Target Name="CopyPlugins" AfterTargets="Build">
-    <ItemGroup>
-      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(OutputPath)Plugins\" SkipUnchangedFiles="true" />
-  </Target>
-
-  <Target Name="CopyPluginsPublish" AfterTargets="Publish">
-    <ItemGroup>
-      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)Plugins\" SkipUnchangedFiles="true" />
   </Target>
 
   <ItemGroup>

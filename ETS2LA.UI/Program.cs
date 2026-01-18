@@ -4,13 +4,16 @@ using Avalonia.ReactiveUI;
 using Projektanker.Icons.Avalonia;
 using Projektanker.Icons.Avalonia.FontAwesome;
 using Projektanker.Icons.Avalonia.MaterialDesign;
-using Velopack;
 
 namespace ETS2LA.UI;
 
+/// <summary>
+///  The main entrypoint for ETS2LA's user interface.
+///  This class will call App.axaml.cs to start the UI.
+/// </summary>
 public class Program
 {
-    // Avalonia configuration, don't remove; also used by previewer.
+    // Avalonia configuration
     public static AppBuilder BuildAvaloniaApp()
     {
         IconProvider.Current
@@ -19,16 +22,12 @@ public class Program
 
         return AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .LogToTrace()
             .UseReactiveUI();
     }
 
-    [STAThread]
+    // Called from ETS2LA entrypoint.
     public static void Main(string[] args)
     {
-        // Run Velopack for update checking
-        VelopackApp.Build().Run();
-
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 }
