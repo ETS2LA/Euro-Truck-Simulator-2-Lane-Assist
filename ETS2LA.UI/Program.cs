@@ -7,9 +7,13 @@ using Projektanker.Icons.Avalonia.MaterialDesign;
 
 namespace ETS2LA.UI;
 
+/// <summary>
+///  The main entrypoint for ETS2LA's user interface.
+///  This class will call App.axaml.cs to start the UI.
+/// </summary>
 public class Program
 {
-    // Avalonia configuration, don't remove; also used by previewer.
+    // Avalonia configuration
     public static AppBuilder BuildAvaloniaApp()
     {
         IconProvider.Current
@@ -21,6 +25,7 @@ public class Program
             .UseReactiveUI();
     }
 
+    // Called from ETS2LA entrypoint.
     public static void Main(string[] args)
     {
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);

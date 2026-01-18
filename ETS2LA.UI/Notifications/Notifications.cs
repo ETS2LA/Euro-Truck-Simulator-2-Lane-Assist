@@ -6,9 +6,17 @@ using Avalonia.LogicalTree;
 
 namespace ETS2LA.UI.Notifications;
 
+/// <summary>
+///  This class handles in-app notifications.
+///  Access it with `NotificationHandler.Instance`.
+/// </summary>
 public class NotificationHandler : INotificationHandler
 {
     private static readonly Lazy<NotificationHandler> _instance = new(() => new NotificationHandler());
+    /// <summary>
+    ///  This Instance property gives access to the ETS2LA-wide notification handler instance.
+    ///  No matter where this is called from, it will always return the same instance.
+    /// </summary>
     public static NotificationHandler Instance => _instance.Value;
 
     private AppWindow? _window;
