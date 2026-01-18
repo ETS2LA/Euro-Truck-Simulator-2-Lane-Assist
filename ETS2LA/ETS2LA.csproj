@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <Title>ETS2LA</Title>
+    <Description>Self driving for ETS2 and ATS.</Description>
+    <Version>3.0.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Velopack" Version="0.0.1298"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ETS2LA.UI\ETS2LA.UI.csproj" />
+    <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="ETS2LA.UI Requirements">
+    <PackageReference Include="Avalonia" Version="11.3.9"/>
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.9"/>
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9"/>
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9" Condition="'$(Configuration)'=='Debug'" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9"/>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.9"/>
+    <PackageReference Include="Huskui.Avalonia" Version="0.7.2"/>
+    <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.6.2"/>
+    <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.2"/>
+    <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2"/>
+    <PackageReference Include="WebViewControl-Avalonia" Version="3.120.10"/>
+  </ItemGroup>
+
+  <Target Name="CopyPlugins" AfterTargets="Build">
+    <ItemGroup>
+      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(OutputPath)Plugins\" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyPluginsPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)Plugins\" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

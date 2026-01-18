@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForceFeedback", "Plugins\Fo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETS2LA.Game", "ETS2LA.Game\ETS2LA.Game.csproj", "{EAE1AA08-26A1-446A-BB41-BA5C1339F3AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETS2LA", "ETS2LA\ETS2LA.csproj", "{1CA81919-2838-4657-AB62-31EF3B3375DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,18 @@ Global
 		{EAE1AA08-26A1-446A-BB41-BA5C1339F3AC}.Release|x64.Build.0 = Release|Any CPU
 		{EAE1AA08-26A1-446A-BB41-BA5C1339F3AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{EAE1AA08-26A1-446A-BB41-BA5C1339F3AC}.Release|x86.Build.0 = Release|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Debug|x64.Build.0 = Debug|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Release|x64.ActiveCfg = Release|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Release|x64.Build.0 = Release|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{1CA81919-2838-4657-AB62-31EF3B3375DD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

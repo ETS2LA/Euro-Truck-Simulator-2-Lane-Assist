@@ -3,9 +3,19 @@ using Spectre.Console;
 
 namespace ETS2LA.Backend
 {
+    /// <summary>
+    ///  This class represents the plugin backend in ETS2LA. Every action to do with plugins
+    ///  will one way or another go through this class. <br/> 
+    ///  You usually shouldn't access it, but if you do, then use `PluginBackend.Instance`.
+    /// </summary>
     public class PluginBackend
     {
         private static readonly Lazy<PluginBackend> _instance = new(() => new PluginBackend());
+
+        /// <summary>
+        ///  This Instance property gives access to the ETS2LA-wide backend instance.
+        ///  No matter where this is called from, it will always return the same instance.
+        /// </summary>
         public static PluginBackend Instance => _instance.Value;
 
         public EventBus? bus;

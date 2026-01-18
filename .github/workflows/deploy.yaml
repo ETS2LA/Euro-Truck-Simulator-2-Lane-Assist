@@ -19,7 +19,7 @@ jobs:
       - name: Get Version from Project File
         id: get-version
         shell: bash
-        run: echo "version=$(grep -oE '<Version>[^<]+' ETS2LA.UI/ETS2LA.UI.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+        run: echo "version=$(grep -oE '<Version>[^<]+' ETS2LA/ETS2LA.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
 
       - name: Install .NET 10
         uses: actions/setup-dotnet@v4
@@ -33,13 +33,13 @@ jobs:
           # Publish ETS2LA.UI
           .\publish.bat
           # Run velopack
-          dnx --yes vpk pack --channel "win-beta" --packId ETS2LA.ETS2LA --packVersion ${{ steps.get-version.outputs.version }} --packDir .\publish --mainExe ETS2LA.UI.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA"
+          dnx --yes vpk pack --channel "win-beta" --packId ETS2LA --packVersion ${{ steps.get-version.outputs.version }} --packDir .\publish --mainExe ETS2LA.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA"
 
       - name: Create Velopack Release
         run: |
           dotnet tool install -g vpk
           vpk download github --repoUrl https://github.com/${{ github.repository }}
-          vpk pack -u ETS2LA.ETS2LA -v ${{ steps.get-version.outputs.version }} -p publish
+          vpk pack -u ETS2LA -v ${{ steps.get-version.outputs.version }} -p publish
 
           # Upload as pre-release for now
           vpk upload github --channel "win-beta" --pre --merge --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "ETS2LA C# v${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }} --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}
