@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-20 06:20+0000\n"
-"Last-Translator: Wujek Władek <wujekwladek@ets2la.com>\n"
+"PO-Revision-Date: 2026-01-20 17:04+0000\n"
+"Last-Translator: zegar <zeg@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -55,13 +55,15 @@ msgstr "Wystąpił wyjątek podczas próby edytowania zdarzenia."
 
 #: .\ETS2LA\Handlers\controls.py:447
 msgid "Controls listener started."
-msgstr ""
+msgstr "Uruchomiono nasłuchiwanie elementów sterujących."
 
 #: .\ETS2LA\Handlers\plugins.py:158
 msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
+"Wtyczka {0} nie została uruchomiona pomyślnie: Przekroczono limit czasu.\n"
+"Spróbuj zamknąć inne programy, aby zwolnić więcej pamięci i zasobów CPU."
 
 #: .\ETS2LA\Handlers\plugins.py:167
 msgid "Plugin {0} failed to start: {1}"
@@ -73,7 +75,7 @@ msgstr "Wtyczka [yellow]{0}[/yellow] załadowana poprawnie."
 
 #: .\ETS2LA\Handlers\plugins.py:518
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr "Nie udało się pobrać opisu wtyczki {0}: Limit czasu."
+msgstr "Nie udało się pobrać opisu wtyczki {0}: Przekroczono limit czasu."
 
 #: .\ETS2LA\Handlers\plugins.py:524
 msgid "Plugin {0} failed to get description: {1}"
@@ -81,7 +83,9 @@ msgstr "Nie udało się pobrać opisu wtyczki {0}: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:575
 msgid "Plugin {0} failed to get controls: Timeout."
-msgstr "Nie udało się pobrać elementów sterujących wtyczką {0}: Limit czasu."
+msgstr ""
+"Nie udało się pobrać elementów sterujących wtyczką {0}: Przekroczono limit "
+"czasu."
 
 #: .\ETS2LA\Handlers\plugins.py:588
 msgid "Plugin {0} failed to get controls: {1}"
@@ -97,7 +101,7 @@ msgstr "Nie znaleziono wtyczki."
 
 #: .\ETS2LA\Handlers\plugins.py:754
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr "Wtyczka [yellow]{0}[/yellow] uruchomiona poprawnie."
+msgstr "Wtyczka [yellow]{0}[/yellow] uruchomiona pomyślnie."
 
 #: .\ETS2LA\Handlers\plugins.py:765
 msgid "Failed to start plugin: {0}"
@@ -105,7 +109,7 @@ msgstr "Nie udało się uruchomić wtyczki: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:766 .\ETS2LA\Handlers\plugins.py:813
 msgid "Timeout"
-msgstr "Limit czasu"
+msgstr "Przekroczono limit czasu"
 
 #: .\ETS2LA\Handlers\plugins.py:787
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
@@ -157,7 +161,7 @@ msgstr "Próba wysłania pustej strony."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:262
 msgid "Frontend popup websocket started."
-msgstr ""
+msgstr "Uruchomiono websocket dla popupu frontendowego."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:119
 msgid "Frontend"
@@ -574,11 +578,11 @@ msgstr "Ponowna próba usunięcia ({cur}/{max})"
 
 #: .\Pages\catalogue.py:289
 msgid "Failed to remove plugin files after {max} attempts"
-msgstr ""
+msgstr "Nie udało się usunąć plików pluginu po {max} próbach"
 
 #: .\Pages\catalogue.py:299
 msgid "Plugin '{name}' uninstalled successfully."
-msgstr "Wtyczka '{name}' została usunięta."
+msgstr "Wtyczka '{name}' została odinstalowana pomyślnie."
 
 #: .\Pages\catalogue.py:305
 msgid "Failed to uninstall plugin '{name}': {error}"
@@ -627,7 +631,7 @@ msgstr "Anuluj"
 
 #: .\Pages\catalogue.py:538
 msgid "Installing {plugin}"
-msgstr "Instalacja {plugin}"
+msgstr "Instalowanie {plugin}"
 
 #: .\Pages\catalogue.py:548 .\Pages\catalogue.py:567
 msgid "Close"
@@ -635,7 +639,7 @@ msgstr "Zamknij"
 
 #: .\Pages\catalogue.py:556
 msgid "Uninstalling {plugin}"
-msgstr "Usuń wtyczkę {plugin}"
+msgstr "Odinstalowywanie {plugin}"
 
 #: .\Pages\catalogue.py:578
 msgid "Are you sure you want to uninstall this plugin?"
@@ -744,10 +748,12 @@ msgstr ""
 #: .\Pages\controls.py:146
 msgid "No controls found, try again with different filters."
 msgstr ""
+"Nie znaleziono żadnych elementów sterujących, spróbuj ponownie, używając "
+"innych filtrów."
 
 #: .\Pages\controls.py:207
 msgid "This event has not been bound to a device yet."
-msgstr ""
+msgstr "To wydarzenie nie zostało jeszcze powiązane z żadnym urządzeniem."
 
 #: .\Pages\controls.py:212
 msgid "Keyboard: "
@@ -761,15 +767,15 @@ msgstr "Brak"
 #: .\Pages\global_settings.py:37 .\Pages\global_settings.py:189
 #: .\Pages\global_settings.py:200 .\Pages\global_settings.py:390
 msgid "Minimal (recommended)"
-msgstr ""
+msgstr "Minimalne (zalecane)"
 
 #: .\Pages\global_settings.py:38 .\Pages\global_settings.py:391
 msgid "Medium"
-msgstr ""
+msgstr "Średnie"
 
 #: .\Pages\global_settings.py:39 .\Pages\global_settings.py:392
 msgid "Full"
-msgstr ""
+msgstr "Pełne"
 
 #: .\Pages\global_settings.py:211
 msgid "Global Settings"
@@ -778,6 +784,8 @@ msgstr "Ustawienia globalne"
 #: .\Pages\global_settings.py:212
 msgid "Here you can find settings that affect the entire application. Things such as the window size and language."
 msgstr ""
+"Tutaj znajdziesz ustawienia, które mają wpływ na całą aplikację. Są to takie "
+"rzeczy jak rozmiar okna i język."
 
 #: .\Pages\global_settings.py:220
 msgid "User Interface"
@@ -854,14 +862,16 @@ msgstr "Dźwięk startowy"
 #: .\Pages\global_settings.py:372
 msgid "Toggle the startup sound on or off. This plays every time the ETS2LA window is opened."
 msgstr ""
+"Włącz lub wyłącz dźwięk startowy. Jest on odtwarzany za każdym razem, gdy "
+"otwierane jest okno ETS2LA."
 
 #: .\Pages\global_settings.py:380
 msgid "Variables"
-msgstr ""
+msgstr "Zmienne"
 
 #: .\Pages\global_settings.py:415
 msgid "Support ETS2LA Development on Ko-Fi"
-msgstr ""
+msgstr "Wesprzyj rozwój ETS2LA na Ko-Fi"
 
 #: .\Pages\global_settings.py:435
 msgid "You will see exactly one ad in the about page. There will be no other ads. This option is recommended to support further development of ETS2LA."
@@ -870,18 +880,28 @@ msgstr ""
 #: .\Pages\global_settings.py:442
 msgid "You will see non intrusive ads in non essential pages. Visualization pages will be ad free. This option is recommended if you want to support development further."
 msgstr ""
+"Na stronach, które nie są niezbędne, będą wyświetlane nieinwazyjne reklamy. "
+"Strony wizualizacyjne będą wolne od reklam. Ta opcja jest zalecana, jeśli "
+"chcesz dalej wspierać rozwój."
 
 #: .\Pages\global_settings.py:449
 msgid "You will see as many ads as I thought would not completely destroy the usage. Visualization pages are still ad free when enabled."
 msgstr ""
+"Zobaczysz tyle reklam, ile moim zdaniem nie wpłynie negatywnie na komfort "
+"użytkowania. Strony wizualizacyjne pozostają wolne od reklam, gdy są "
+"włączone."
 
 #: .\Pages\global_settings.py:470
 msgid "Fallback to old acceleration method"
-msgstr ""
+msgstr "Powrót do starej metody przyspieszania"
 
 #: .\Pages\global_settings.py:471
 msgid "If you are experiencing issues with the truck not accelerating / braking properly, then you can enable this option to use another method. Please keep in mind that if the new one has gotten stuck, you might need to restart the game after toggling this."
 msgstr ""
+"Jeśli masz problemy z nieprawidłowym przyspieszaniem / hamowaniem "
+"ciężarówki, możesz włączyć tę opcję, aby skorzystać z innej metody. "
+"Pamiętaj, że jeśli nowa opcja utknie, po jej włączeniu może być konieczne "
+"ponowne uruchomienie gry."
 
 #: .\Pages\global_settings.py:484 .\Pages\onboarding.py:364
 msgid "High Priority"
@@ -890,38 +910,47 @@ msgstr "Wysoki priorytet"
 #: .\Pages\global_settings.py:485 .\Pages\onboarding.py:365
 msgid "Run ETS2LA in high priority mode. This will tell your OS to give more CPU time to ETS2LA, which can improve performance at the cost of other applications."
 msgstr ""
+"Uruchom ETS2LA w trybie wysokiego priorytetu. Spowoduje to, że system "
+"operacyjny przeznaczy więcej czasu CPU na ETS2LA, co może poprawić wydajność "
+"kosztem innych aplikacji."
 
 #: .\Pages\global_settings.py:506
 msgid "You need to restart ETS2LA to apply the priority change!"
 msgstr ""
+"Aby zmiana priorytetu zaczęła obowiązywać, należy ponownie uruchomić ETS2LA!"
 
 #: .\Pages\global_settings.py:513
 msgid "Slow Loading"
-msgstr ""
+msgstr "Powolne ładowanie"
 
 #: .\Pages\global_settings.py:514
 msgid "If your PC has troubles loading all plugins in parallel, you can enable this option to load them one by one. Please note that enabling this option will mean you have to wait a while for the plugins to become available."
 msgstr ""
+"Jeśli Twój komputer ma problemy z równoległym ładowaniem wszystkich wtyczek, "
+"możesz włączyć tę opcję, aby ładować je pojedynczo. Pamiętaj, że włączenie "
+"tej opcji oznacza, że będziesz musiał chwilę poczekać, aż wtyczki będą "
+"dostępne."
 
 #: .\Pages\global_settings.py:521
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Różne"
 
 #: .\Pages\global_settings.py:525
 msgid "Frontend Port"
-msgstr ""
+msgstr "Port frontendowy"
 
 #: .\Pages\global_settings.py:526
 msgid "Change the port used by the frontend. This is only used in local mode."
 msgstr ""
+"Zmień port używany przez frontend. Jest to używane tylko w trybie lokalnym."
 
 #: .\Pages\global_settings.py:535
 msgid "Frameless Window"
-msgstr ""
+msgstr "Okno bezramowe"
 
 #: .\Pages\global_settings.py:536
 msgid "Disable this option if you have any issues moving the window around."
-msgstr ""
+msgstr "Wyłącz tę opcję, jeśli masz problemy z przesuwaniem okna."
 
 #: .\Pages\global_settings.py:543
 msgid "Send Crash Reports"
@@ -933,15 +962,15 @@ msgstr "Automatycznie wysyłać raporty awarii, aby poprawić aplikację."
 
 #: .\Pages\global_settings.py:553
 msgid "Use Fancy Traceback"
-msgstr ""
+msgstr "Użyj zaawansowanego śledzenia błędów"
 
 #: .\Pages\global_settings.py:554
 msgid "Enable this option to use a fancy traceback for errors."
-msgstr ""
+msgstr "Włącz tę opcję, aby używać zaawansowanego śledzenia błędów."
 
 #: .\Pages\global_settings.py:564
 msgid "Debug Mode"
-msgstr ""
+msgstr "Tryb Debugowania"
 
 #: .\Pages\global_settings.py:565
 msgid "Enable this option to use the edge debugger for the frontend."
@@ -961,7 +990,7 @@ msgstr ""
 
 #: .\Pages\global_settings.py:586
 msgid "The amount of time ETS2LA waits for the window to show up."
-msgstr ""
+msgstr "Czas, przez jaki ETS2LA czeka na pojawienie się okna."
 
 #: .\Pages\global_settings.py:603
 msgid "Fireworks"
@@ -991,6 +1020,7 @@ msgstr "Ładowanie..."
 #: .\Pages\onboarding.py:113
 msgid "We are doing something that is taking a while. Just sit tight and relax!"
 msgstr ""
+"Robimy coś, co zajmuje trochę czasu. Po prostu poczekaj i zrelaksuj się!"
 
 #: .\Pages\onboarding.py:121
 msgid "Welcome to ETS2LA!"
@@ -1009,7 +1039,7 @@ msgstr "Kontynuuj"
 
 #: .\Pages\onboarding.py:137
 msgid "Skip Onboarding"
-msgstr ""
+msgstr "Pomiń proces wdrażania"
 
 #: .\Pages\onboarding.py:152
 msgid "You can change the theme here!"
@@ -1022,10 +1052,12 @@ msgstr "Wybór języka"
 #: .\Pages\onboarding.py:173
 msgid "Please select your preferred language for ETS2LA. This option can be changed later in the options. All our translations are community made!"
 msgstr ""
+"Wybierz preferowany język dla ETS2LA. Opcję tę można zmienić później w "
+"ustawieniach. Wszystkie nasze tłumaczenia są tworzone przez społeczność!"
 
 #: .\Pages\onboarding.py:192
 msgid "Select your preferred language for ETS2LA."
-msgstr ""
+msgstr "Wybierz preferowany język dla ETS2LA."
 
 #: .\Pages\onboarding.py:247 .\Pages\sdk_installation.py:263
 msgid "SDK Setup"
@@ -1034,6 +1066,9 @@ msgstr "Instalacja SDK"
 #: .\Pages\onboarding.py:249
 msgid "To get started, we need to set up the SDK. This will allow ETS2LA to interact with your game. To the right you will find a list of games, click install on one of them and then continue."
 msgstr ""
+"Aby rozpocząć, musimy skonfigurować SDK. Umożliwi to ETS2LA interakcję z "
+"Twoją grą. Po prawej stronie znajduje się lista gier. Kliknij „Instaluj” "
+"przy jednej z nich, a następnie kontynuuj."
 
 #: .\Pages\onboarding.py:257
 msgid "Waiting for SDK installation..."
@@ -1046,6 +1081,8 @@ msgstr "Wtyczki"
 #: .\Pages\onboarding.py:273
 msgid "ETS2LA uses plugins to provide most of it's functionality. You can select between a simple mode, and an advanced mode. This can be changed later on in the settings."
 msgstr ""
+"ETS2LA wykorzystuje wtyczki, aby zapewnić większość swoich funkcji. Możesz "
+"wybrać tryb prosty lub zaawansowany. Można to zmienić później w ustawieniach."
 
 #: .\Pages\onboarding.py:291
 msgid "Advanced Plugin Mode"
@@ -1054,14 +1091,23 @@ msgstr "Zaawansowany tryb wtyczek"
 #: .\Pages\onboarding.py:292
 msgid "Enables advanced plugin management features. Can be changed at any time in the plugin manager."
 msgstr ""
+"Włącza zaawansowane funkcje zarządzania wtyczkami. Można to zmienić w "
+"dowolnym momencie w menedżerze wtyczek."
 
 #: .\Pages\onboarding.py:318
 msgid "Keeping **Advanced Plugin Mode** disabled is recommended, however advanced users who want to select plugins themselves might want it enabled."
 msgstr ""
+"Zaleca się pozostawienie opcji **Zaawansowany tryb wtyczek** wyłączoną, "
+"jednak zaawansowani użytkownicy, którzy chcą samodzielnie wybierać wtyczki, "
+"mogą chcieć ją włączyć."
 
 #: .\Pages\onboarding.py:331
 msgid "**Advanced Plugin Mode** unlocks manual control of enabled plugins. It also lets you download more plugins from other repositories. Keep in mind that these 3rd party plugins are not *officially* supported by ETS2LA."
 msgstr ""
+"**Zaawansowany tryb wtyczek** odblokowuje ręczne zarządzanie włączonymi "
+"wtyczkami. Pozwala również na pobieranie dodatkowych wtyczek z innych "
+"repozytoriów. Należy pamiętać, że te wtyczki osób trzecich nie są "
+"*oficjalnie* obsługiwane przez ETS2LA."
 
 #: .\Pages\onboarding.py:342
 msgid "High Priority Mode"
@@ -1070,10 +1116,15 @@ msgstr "Tryb wysokiego priorytetu"
 #: .\Pages\onboarding.py:344
 msgid "ETS2LA can automatically tell your operating system that it should run in a high priority mode. This is recommended especially on lower end devices."
 msgstr ""
+"ETS2LA może automatycznie poinformować system operacyjny, że powinien "
+"działać w trybie wysokiego priorytetu. Jest to zalecane zwłaszcza w "
+"przypadku słabszych urządzeń."
 
 #: .\Pages\onboarding.py:390
 msgid "You'll need to restart ETS2LA after doing the onboarding to apply this change."
 msgstr ""
+"Należy ponownie uruchomić ETS2LA po zakończeniu procesu wdrażania, aby "
+"zastosować tę zmianę."
 
 #: .\Pages\onboarding.py:401
 msgid "Map Data"
