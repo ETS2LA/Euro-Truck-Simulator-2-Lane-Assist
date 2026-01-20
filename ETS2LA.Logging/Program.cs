@@ -35,7 +35,9 @@ namespace ETS2LA.Logging
         // message is logged again.
         public static void PrintRepeating(string message)
         {
-            if (repeatCount == 0)
+            bool canMoveCursor = !System.Console.IsOutputRedirected;
+
+            if (repeatCount == 0 || !canMoveCursor)
             {
                 Console.MarkupLine($"{GetTimestamp()} [grey][[^^^]][/]");
             }
