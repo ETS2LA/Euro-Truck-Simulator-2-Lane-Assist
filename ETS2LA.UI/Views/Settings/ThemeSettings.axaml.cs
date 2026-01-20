@@ -20,7 +20,7 @@ public partial class ThemeSettings : UserControl
         UpdateIndex();
         
         loaded = true;
-        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        UISettings settings = UISettingsHandler.Current.GetSettings();
         ChangeTheme(settings.Theme);
         ChangeAccentColor(settings.AccentColor);
 
@@ -49,7 +49,7 @@ public partial class ThemeSettings : UserControl
             _ => ThemeVariant.Default,
         };
         Application.Current?.RequestedThemeVariant = CurrentTheme;
-        UISettingsHandler.Instance.GetSettings().Theme = theme;
+        UISettingsHandler.Current.GetSettings().Theme = theme;
         UpdateIndex();
     }
 
@@ -112,7 +112,7 @@ public partial class ThemeSettings : UserControl
             "Sky" => AccentColor.Sky,
             _ => AccentColor.Orange,
         };
-        UISettingsHandler.Instance.GetSettings().AccentColor = accent;
+        UISettingsHandler.Current.GetSettings().AccentColor = accent;
         UpdateHuskuiTheme();
         UpdateIndex();
     }

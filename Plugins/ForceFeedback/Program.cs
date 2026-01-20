@@ -428,7 +428,7 @@ namespace ForceFeedback
         {
             base.OnDisable();
             _bus?.Unsubscribe<float>("ForceFeedback.Output", OnControlEvent);
-            NotificationHandler.Instance.CloseNotification("ForceFeedback.Debug");
+            NotificationHandler.Current.CloseNotification("ForceFeedback.Debug");
             DisposeResources();
         }
 

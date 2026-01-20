@@ -25,14 +25,14 @@ namespace ExampleConsumer
             _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
             _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
             _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
-            Logger.Info($"ExampleConsumer read {GameHandler.Instance.Installations[0].GetMapData().Nodes.Count} nodes from the game map.");
+            Logger.Info($"ExampleConsumer read {GameHandler.Current.Installations[0].GetMapData().Nodes.Count} nodes from the game map.");
         }
 
         public override void OnDisable()
         {
             base.OnDisable();
-            NotificationHandler.Instance.CloseNotification("ExampleConsumer.Speed");
-            NotificationHandler.Instance.CloseNotification("ExampleConsumer.RPM");
+            NotificationHandler.Current.CloseNotification("ExampleConsumer.Speed");
+            NotificationHandler.Current.CloseNotification("ExampleConsumer.RPM");
         }
 
         private float output = 0;
@@ -44,7 +44,7 @@ namespace ExampleConsumer
             double time = DateTime.Now.TimeOfDay.TotalSeconds;
             output = (float)Math.Sin(time * 2 * Math.PI / 8);
 
-            // NotificationHandler.Instance.SendNotification(new Notification
+            // NotificationHandler.Current.SendNotification(new Notification
             // {
             //     Id = "ExampleConsumer.Speed",
             //     Title = "Truck Speed",
@@ -55,7 +55,7 @@ namespace ExampleConsumer
             //     CloseAfter = 0 
             // });
 
-            // NotificationHandler.Instance.SendNotification(new Notification
+            // NotificationHandler.Current.SendNotification(new Notification
             // {
             //     Id = "ExampleConsumer.RPM",
             //     Title = "Engine RPM",
@@ -67,7 +67,7 @@ namespace ExampleConsumer
             // });
 
             _bus?.Publish<float>("ForceFeedback.Output", output);
-            NotificationHandler.Instance.SendNotification(new Notification
+            NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = "ExampleConsumer.Output",
                 Title = "Steering Output",

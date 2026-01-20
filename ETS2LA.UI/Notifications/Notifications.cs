@@ -8,7 +8,7 @@ namespace ETS2LA.UI.Notifications;
 
 /// <summary>
 ///  This class handles in-app notifications.
-///  Access it with `NotificationHandler.Instance`.
+///  Access it with `NotificationHandler.Current`.
 /// </summary>
 public class NotificationHandler : INotificationHandler
 {
@@ -17,7 +17,7 @@ public class NotificationHandler : INotificationHandler
     ///  This Instance property gives access to the ETS2LA-wide notification handler instance.
     ///  No matter where this is called from, it will always return the same instance.
     /// </summary>
-    public static NotificationHandler Instance => _instance.Value;
+    public static NotificationHandler Current => _instance.Value;
 
     private AppWindow? _window;
     private bool _isRunning = true;

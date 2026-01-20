@@ -77,7 +77,7 @@ namespace GameTelemetry
         public override void OnDisable()
         {
             base.OnDisable();
-            NotificationHandler.Instance.CloseNotification("GameTelemetry.MMFNotFound");
+            NotificationHandler.Current.CloseNotification("GameTelemetry.MMFNotFound");
         }
 
         public override void Tick()
@@ -104,7 +104,7 @@ namespace GameTelemetry
             }
             catch (FileNotFoundException)
             {
-                NotificationHandler.Instance.SendNotification(new Notification
+                NotificationHandler.Current.SendNotification(new Notification
                 {
                     Id = "GameTelemetry.MMFNotFound",
                     Title = "Game Telemetry",
@@ -133,7 +133,7 @@ namespace GameTelemetry
                 return;
             }
 
-            NotificationHandler.Instance.CloseNotification("GameTelemetry.MMFNotFound");
+            NotificationHandler.Current.CloseNotification("GameTelemetry.MMFNotFound");
 
             int offset = 0;
             GameTelemetryData telemetry = new GameTelemetryData();
