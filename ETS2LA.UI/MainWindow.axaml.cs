@@ -54,7 +54,6 @@ public partial class MainWindow : AppWindow
         _pluginService = new PluginManagerService();
         _managerView = new ManagerView(_pluginService);
         _settingsView = new SettingsView();
-        _visualizationView = new VisualizationView(_pluginService);
         _gameView = new GameView();
         _navButtons.AddRange(new[]
         {
