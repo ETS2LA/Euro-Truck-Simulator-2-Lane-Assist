@@ -16,7 +16,7 @@ namespace ETS2LA.UI.Settings
     public class UISettingsHandler
     {
         private static readonly Lazy<UISettingsHandler> _instance = new(() => new UISettingsHandler());
-        public static UISettingsHandler Instance => _instance.Value;
+        public static UISettingsHandler Current => _instance.Value;
 
         private SettingsHandler _settingsHandler;
         private UISettings _settings;

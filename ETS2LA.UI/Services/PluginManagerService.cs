@@ -9,7 +9,7 @@ public sealed class PluginManagerService
 
     public PluginManagerService()
     {
-        backend = PluginBackend.Instance;
+        backend = PluginBackend.Current;
         Task.Run(() => backend.Start());
     }
 

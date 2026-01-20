@@ -14,12 +14,12 @@ internal static class Program
 
         var BackendThread = Task.Run(() =>
         {
-            var backend = Backend.PluginBackend.Instance;
+            var backend = Backend.PluginBackend.Current;
         });
 
         // Gotta wait for the UI thread to close (i.e. user closed the window)
         // and then tell the backend to shutdown too.
         UI.Program.Main(args);
-        Backend.PluginBackend.Instance.Shutdown();
+        Backend.PluginBackend.Current.Shutdown();
     }
 }

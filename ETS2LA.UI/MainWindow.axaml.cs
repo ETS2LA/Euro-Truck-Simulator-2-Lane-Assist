@@ -49,7 +49,7 @@ public partial class MainWindow : AppWindow
         ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
 
-        NotificationHandler.Instance.SetWindow(this);
+        NotificationHandler.Current.SetWindow(this);
 
         _pluginService = new PluginManagerService();
         _managerView = new ManagerView(_pluginService);
@@ -65,7 +65,7 @@ public partial class MainWindow : AppWindow
         SetSelected(DashboardButton);
         ShowPage(PageKind.Dashboard);
 
-        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        UISettings settings = UISettingsHandler.Current.GetSettings();
         Width = settings.WindowWidth;
         Height = settings.WindowHeight;
         Position = new Avalonia.PixelPoint(settings.WindowX, settings.WindowY);
@@ -84,7 +84,7 @@ public partial class MainWindow : AppWindow
         if (Topmost) StayOnTopIcon.Classes.Add("Highlight");
         else StayOnTopIcon.Classes.Remove("Highlight");
         
-        NotificationHandler.Instance.SendNotification(new Notification
+        NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "MainWindow.StayOnTopChanged",
             Title = "Stay On Top",
@@ -101,7 +101,7 @@ public partial class MainWindow : AppWindow
         if(this.Opacity == 1.0) TransparencyIcon.Classes.Remove("Highlight");
         else TransparencyIcon.Classes.Add("Highlight");
         
-        NotificationHandler.Instance.SendNotification(new Notification
+        NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "MainWindow.TransparencyChanged",
             Title = "Transparency",
@@ -124,7 +124,7 @@ public partial class MainWindow : AppWindow
 
     private void OnCloseClick(object? sender, RoutedEventArgs e)
     {
-        NotificationHandler.Instance.SendNotification(new Notification
+        NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "MainWindow.Shutdown",
             Title = "ETS2LA",
@@ -132,14 +132,14 @@ public partial class MainWindow : AppWindow
             CloseAfter = 20.0f
         });
         _pluginService.Shutdown();
-        NotificationHandler.Instance.Shutdown();
+        NotificationHandler.Current.Shutdown();
 
-        UISettings settings = UISettingsHandler.Instance.GetSettings();
+        UISettings settings = UISettingsHandler.Current.GetSettings();
         settings.WindowWidth = (int)Width;
         settings.WindowHeight = (int)Height;
         settings.WindowX = Position.X;
         settings.WindowY = Position.Y;
-        UISettingsHandler.Instance.Save();
+        UISettingsHandler.Current.Save();
 
         Close();
     }

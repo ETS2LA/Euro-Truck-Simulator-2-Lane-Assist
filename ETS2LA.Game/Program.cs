@@ -8,7 +8,7 @@ namespace ETS2LA.Game;
 public class GameHandler
 {
     private static readonly Lazy<GameHandler> _instance = new(() => new GameHandler());
-    public static GameHandler Instance => _instance.Value;
+    public static GameHandler Current => _instance.Value;
     
     public List<Installation> Installations { get; } = new();
     private INotificationHandler? _notificationHandler;

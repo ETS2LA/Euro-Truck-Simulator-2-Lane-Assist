@@ -18,7 +18,7 @@ public partial class GameView : UserControl
     {
         InitializeComponent();
         DataContext = this;
-        GameHandler.Instance.SetNotificationHandler(NotificationHandler.Instance);
+        GameHandler.Current.SetNotificationHandler(NotificationHandler.Current);
         UpdateGameList();
     }
 
@@ -32,7 +32,7 @@ public partial class GameView : UserControl
 
     private void UpdateGameList()
     {
-        List<Installation> installations = GameHandler.Instance.Installations ?? new List<Installation>();
+        List<Installation> installations = GameHandler.Current.Installations ?? new List<Installation>();
         foreach (var install in installations)
         {
             Installations.Add(new GameItem(install));
