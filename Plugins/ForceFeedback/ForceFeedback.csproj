@@ -15,16 +15,6 @@
     </PackageReference>
   </ItemGroup>
 
-  <!-- Copy SharpDX DLLs to output directory -->
-  <Target Name="CopySharpDXDlls" AfterTargets="ResolveReferences">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
-        Condition="'%(FileName)' == 'SharpDX'" />
-      <ReferenceCopyLocalPaths Include="@(ReferencePath)" 
-        Condition="'%(FileName)' == 'SharpDX.DirectInput'" />
-    </ItemGroup>
-  </Target>
-
   <ItemGroup>
     <ProjectReference Include="..\..\ETS2LA.Game\ETS2LA.Game.csproj">
       <Private>false</Private>
