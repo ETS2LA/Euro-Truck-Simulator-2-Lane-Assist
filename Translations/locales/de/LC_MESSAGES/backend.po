@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-09-05 20:07+0000\n"
-"Last-Translator: Leo <leo@ets2la.com>\n"
+"PO-Revision-Date: 2026-01-22 21:04+0000\n"
+"Last-Translator: WhiteDragon <whitedragon@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/backend/de/>"
 "\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -61,8 +61,10 @@ msgid ""
 "Plugin {0} failed to start: Timeout.\n"
 "Try to close other programs to give more memory and CPU to the plugin."
 msgstr ""
-"Plugin {0} Konnte nicht gestartet werden, da die Eingabezeit überschritten wurde!\n"
-"Versuche andere Programme zu schließen und dem Plugin mehr Arbeitsspeicher und CPU Ressourcen zur Verfügung zu stellen."
+"Plugin {0} konnte nicht gestartet werden, da die Eingabezeit überschritten "
+"wurde!\n"
+"Versuche andere Programme zu schließen und dem Plugin mehr Arbeitsspeicher "
+"und CPU Ressourcen zur Verfügung zu stellen."
 
 #: .\ETS2LA\Handlers\plugins.py:167
 msgid "Plugin {0} failed to start: {1}"
@@ -70,11 +72,13 @@ msgstr "Plugin {0} konnte nicht gestartet werden: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:197
 msgid "Plugin [yellow]{0}[/yellow] loaded successfully."
-msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich gestartet."
+msgstr "Plugin [yellow]{0}[/yellow] wurde erfolgreich geladen."
 
 #: .\ETS2LA\Handlers\plugins.py:518
 msgid "Plugin {0} failed to get description: Timeout."
-msgstr "Es konnte die Beschreibung von Plugin {0} nicht geladen werden: Zeitüberschreitung!"
+msgstr ""
+"Die Beschreibung von Plugin {0} konnte nicht geladen werden: "
+"Zeitüberschreitung."
 
 #: .\ETS2LA\Handlers\plugins.py:524
 msgid "Plugin {0} failed to get description: {1}"
@@ -366,7 +370,7 @@ msgstr ""
 "Ich sehe du hast Werbung deaktiviert. Das ist komplett ok, aber du kannst "
 "die ETS2LA Entwicklung unterstützen, indem du etwas über Ko-Fi spendest. *"
 "Jede Spende ist so viel wie Wochen(!) an Werbeeinahmen*, wir sind für jede "
-"Unterstützung die wir bekommen unendlich dankbar."
+"Unterstützung die wir bekommen unendlich dankbar!"
 
 #: .\Pages\about.py:315
 msgid "Donate via Ko-Fi"
@@ -1555,7 +1559,7 @@ msgstr "Zeige das AR-Overlay an, auch wenn das Spiel nicht im Fokus ist. Dies ka
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr "Performance Overlay"
+msgstr "Leistungsübersicht"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
