@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2026-01-23 23:04+0000\n"
+"PO-Revision-Date: 2026-01-25 07:18+0000\n"
 "Last-Translator: zegar <zeg@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
 "\n"
@@ -93,7 +93,7 @@ msgstr "Wtyczka {0} nie może pobrać elementów sterujących: {1}"
 
 #: .\ETS2LA\Handlers\plugins.py:670
 msgid "Loaded {0} plugins."
-msgstr "Załadowano {0} wtyczkę/wtyczki."
+msgstr "Załadowano {0} wtyczek."
 
 #: .\ETS2LA\Handlers\plugins.py:742 .\ETS2LA\Handlers\plugins.py:932
 msgid "Plugin not found."
@@ -137,7 +137,7 @@ msgstr "Nie udało się pobrać biblioteki ffmpeg, pobierz ją ręcznie. (tj. [c
 
 #: .\ETS2LA\Handlers\sounds.py:51
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr "W pakiecie dźwiękowym \"{0}\" brakuje wymaganego dźwięku \"{1}\""
+msgstr "W pakiecie dźwiękowym '{0}' brakuje wymaganego dźwięku '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:60
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
@@ -145,11 +145,15 @@ msgstr "Soundpack '{0}' ma nieprawidłowy typ pliku '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:99
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
-msgstr "Próbowano odtworzyć dźwięk \"{0}\", ale nie znaleziono go w pakiecie dźwiękowym \"{1}\""
+msgstr ""
+"Próbowano odtworzyć dźwięk '{0}', ale nie znaleziono go w pakiecie "
+"dźwiękowym '{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
-msgstr "Pomyślnie zarejestrowany [bold]http://{address}[/bold] aby wskazać [dim]{local_ip}[/dim]."
+msgstr ""
+"Pomyślnie zarejestrowano [bold]http://{address}[/bold] jako odnośnik do [dim]"
+"{local_ip}[/dim]."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:94
 msgid "An error occurred while processing a message."
@@ -157,7 +161,7 @@ msgstr "Podczas przetwarzania wiadomości wystąpił błąd."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:192
 msgid "Tried to send an empty page."
-msgstr "Próba wysłania pustej strony."
+msgstr "Próbowano wysłać pustą stronę."
 
 #: .\ETS2LA\Networking\Servers\notifications.py:262
 msgid "Frontend popup websocket started."
@@ -173,7 +177,7 @@ msgstr "Frontend chce dokonać aktualizacji."
 
 #: .\ETS2LA\Networking\Servers\webserver.py:189
 msgid "Failed to set transparency"
-msgstr "Nie udało się ustalić przejrzystości"
+msgstr "Nie udało się ustawić przezroczystości"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:402
 msgid "Failed to get tag data"
