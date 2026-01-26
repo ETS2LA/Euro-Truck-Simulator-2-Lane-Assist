@@ -24,6 +24,24 @@ public enum AxisType
     SplitPos  // 0.0 to 1.0 for the second half of a combined axis (usually Z for xbox-like controllers)
 }
 
+public class ControlAddedEventArgs : EventArgs
+{
+    public ControlInstance Control;
+    public ControlAddedEventArgs(ControlInstance control)
+    {
+        Control = control;
+    }
+}
+
+public class ControlRemovedEventArgs : EventArgs
+{
+    public ControlInstance Control;
+    public ControlRemovedEventArgs(ControlInstance control)
+    {
+        Control = control;
+    }
+}
+
 public class ControlChangeEventArgs : EventArgs
 {
     public object NewValue;
@@ -66,7 +84,7 @@ public class ControlDefinition
 }
 
 [Serializable]
-class ControlInstance : ISerializable
+public class ControlInstance : ISerializable
 {
     public string DeviceId = "";
     public object ControlId = "";

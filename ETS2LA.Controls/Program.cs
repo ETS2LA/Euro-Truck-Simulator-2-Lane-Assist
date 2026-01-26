@@ -1,5 +1,7 @@
-﻿using ETS2LA.Logging;
+﻿using Avalonia.Controls;
+using ETS2LA.Logging;
 using ETS2LA.Settings;
+using JetBrains.Annotations;
 using SharpDX.DirectInput;
 
 namespace ETS2LA.Controls;
@@ -12,6 +14,9 @@ public class ControlHandler
     private List<ControlInstance> RegisteredControls { get; } = new();
     private SettingsHandler _settingsHandler = new SettingsHandler();
     private string _settingsPath = "Controls/";
+
+    public event EventHandler<ControlAddedEventArgs>? ControlAdded;
+    public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
     // Connected devices is public so other plugins that need it
     // don't have to re-initialize DirectInput and query devices again.
@@ -56,6 +61,7 @@ public class ControlHandler
         }
 
         RegisteredControls.Add(instance);
+        ControlAdded?.Invoke(this, new ControlAddedEventArgs(instance));
         Logger.Info($"Registered control: {definition.Name} [gray italic]({definition.Id})[/]");
     }
 
@@ -78,6 +84,7 @@ public class ControlHandler
             Logger.Warn($"Control with ID '{controlId}' not found for event unsubscription.");
             return;
         }
+        ControlRemoved?.Invoke(this, new ControlRemovedEventArgs(control));
         control.UnregisterCallback(callback);
     }
 
@@ -94,6 +101,11 @@ public class ControlHandler
         {
             Logger.Warn($"Control with ID '{controlId}' not found for unregistration.");
         }
+    }
+
+    public List<ControlInstance> GetRegisteredControls()
+    {
+        return RegisteredControls;
     }
 
     public void Shutdown()

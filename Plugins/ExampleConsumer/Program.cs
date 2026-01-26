@@ -2,8 +2,8 @@
 using ETS2LA.Shared;
 using ETS2LA.Logging;
 using ETS2LA.Game;
-using Huskui.Avalonia.Models;
 using ETS2LA.Controls;
+using Huskui.Avalonia.Models;
 
 namespace ExampleConsumer;
 
@@ -26,11 +26,16 @@ public class MyConsumer : Plugin
         Type = ControlType.Float
     };
 
+    public override void Init()
+    {
+        base.Init();
+        ControlHandler.Current.RegisterControl(ExampleControl);
+        ControlHandler.Current.On(ExampleControl.Id, OnExampleControlChanged);
+    }
+
     public override void OnEnable()
     {
         base.OnEnable();
-        ControlHandler.Current.RegisterControl(ExampleControl);
-        ControlHandler.Current.On(ExampleControl.Id, OnExampleControlChanged);
         _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
         _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
         _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
