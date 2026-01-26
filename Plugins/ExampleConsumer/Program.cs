@@ -26,10 +26,20 @@ public class MyConsumer : Plugin
         Type = ControlType.Float
     };
 
+    public ControlDefinition ExampleControl2 = new ControlDefinition
+    {
+        Id = "ExampleConsumer.ExampleControl2",
+        Name = "Example Control 2",
+        Description = "Pariatur labore occaecat excepteur veniam nisi magna eu. Labore tempor fugiat id commodo amet labore sint elit eiusmod. Mollit non sint ullamco voluptate.",
+        DefaultKeybind = "N",
+        Type = ControlType.Boolean
+    };
+
     public override void Init()
     {
         base.Init();
         ControlHandler.Current.RegisterControl(ExampleControl);
+        ControlHandler.Current.RegisterControl(ExampleControl2);
         ControlHandler.Current.On(ExampleControl.Id, OnExampleControlChanged);
     }
 

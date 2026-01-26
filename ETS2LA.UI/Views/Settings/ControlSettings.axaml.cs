@@ -59,8 +59,10 @@ public class ControlItem : INotifyPropertyChanged
     private readonly ControlHandler _cHandler;
     private readonly ControlInstance _instance;
 
-    public string DeviceName => _instance.DeviceId != "" ? _instance.DeviceId : "Unbound";
+    public string DeviceName => GetDeviceName();
     public string DeviceButton => _instance.ControlId.ToString() ?? "Unbound";
+    public string DeviceButtonType => GetControlType();
+    public bool IsButtonTypeNotNull => DeviceButtonType != "";
     public string Name => _instance.Definition.Name;
     public string Description => _instance.Definition.Description;
 
@@ -85,5 +87,37 @@ public class ControlItem : INotifyPropertyChanged
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private string GetDeviceName()
+    {
+        if (string.IsNullOrEmpty(_instance.DeviceId))
+            return "Unbound";
+
+        if (_instance.DeviceId.ToLower().StartsWith("keyboard"))
+            return "Keyboard";
+        
+        string name = _instance.DeviceId;
+        var joystick = _cHandler.GetJoystickById(_instance.DeviceId);
+        if (joystick != null)
+            name = joystick.Information.ProductName;
+        else
+            name = "Not Connected";
+
+        if (name.Length > 23)
+            name = name.Substring(0, 20) + "...";
+        return name;
+    }
+
+    private string GetControlType()
+    {
+        bool isKeyboard = _instance.DeviceId.ToString().ToLower().StartsWith("keyboard");
+        bool isButton = _instance.ControlId.ToString().StartsWith("B");
+
+        if (isKeyboard)
+            return "Key";
+        if (isButton)
+            return "Button";
+        return "Axis";
     }
 }

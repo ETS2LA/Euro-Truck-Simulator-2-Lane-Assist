@@ -154,6 +154,11 @@ public class ControlHandler
         };
     }
 
+    public Joystick? GetJoystickById(string deviceId)
+    {
+        return _connectedJoysticks.FirstOrDefault(j => j.Information.InstanceGuid.ToString() == deviceId);
+    }
+
     private void ControlListener()
     {
         while (true)
