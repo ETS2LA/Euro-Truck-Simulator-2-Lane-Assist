@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2026-01-05 02:21+0000\n"
+"PO-Revision-Date: 2026-01-27 05:03+0000\n"
 "Last-Translator: yukkuri__aoba <yukkuriaoba@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/backend/"
 "ja/>\n"
@@ -2334,7 +2334,7 @@ msgstr[0] ""
 #: .\Plugins\TTS\main.py:446
 msgid "Fuel range is now critical at only {0} kilometer, please refuel as soon as possible."
 msgid_plural "Fuel range is now critical at only {0} kilometers, please refuel as soon as possible."
-msgstr[0] ""
+msgstr[0] "航続可能距離がわずか {0}キロとなり、危険な状態です。すぐに給油してください。"
 
 #: .\Plugins\TTS\main.py:473 .\Plugins\TTS\main.py:487
 #: .\Plugins\TTS\main.py:509
@@ -2398,7 +2398,7 @@ msgstr "テストモードが有効です。これはテストメッセージで
 #: .\Plugins\VisualizationSockets\main.py:229
 #: .\Plugins\VisualizationSockets\main.py:387
 msgid "Visualization Sockets"
-msgstr ""
+msgstr "視覚化ソケット"
 
 #: .\Plugins\VisualizationSockets\main.py:230
 msgid "This plugin provides a websocket server for the ETS2LA Visualization."
@@ -2438,6 +2438,9 @@ msgstr ""
 #: .\Plugins\VisualizationSockets\main.py:293
 msgid "3. If you have any issues please verify that your device is on the same network as the host. You should also make sure that your firewall does not block the connection between the devices."
 msgstr ""
+"3. 問題が発生した場合は、お使いのデバイスがホストと同じネットワークに接続され"
+"ていることを確認してください。また、ファイアウォールがデバイス間の接続をブロ"
+"ックしていないことを確認してください。"
 
 #: .\Plugins\VisualizationSockets\main.py:300
 msgid "Your IP address could not be found, this is likely due to a network issue. Viewing the visualization externally is not possible."
