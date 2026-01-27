@@ -237,6 +237,37 @@ _bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
 ```
 In addition to normal controls, we've also implemented force feedback support via Windows.Gaming.Input. It works similarly to `ETS2LA.Output.Steering`, but the event name is `ForceFeedback.Output`. For a full list of supported wheels, please check [the Windows docs](https://learn.microsoft.com/en-us/uwp/api/windows.gaming.input.racingwheel?view=winrt-26100#remarks), other wheels are not supported at this time.
 
+### Creating and Listening to User Controls (Keybinds)
+ETS2LA provides a built in `ControlHandler` that you can use to create user configurable keybinds for your plugin. These keybinds can be buttons or axes from any connected joystick, gamepad, or keyboard. Below is an example of how to create and listen to a control.
+
+```csharp
+using ETS2LA.Controls;
+
+public ControlDefinition ExampleControl = new ControlDefinition
+{
+    Id = "ExampleConsumer.ExampleControl", // Never change ID once set!
+    Name = "Example Control",
+    Description = "An example control that outputs a float value.",
+    DefaultKeybind = "K", // You can set any key(!) here, leaving as blank will make it unbound by default.
+    Type = ControlType.Float // ControlType.Boolean is also available, note that keys and buttons can be
+                             // bound to ControlType.Float as well, giving a value of 0.0f or 1.0f.
+                             // Similarly axes can be bound to ControlType.Boolean, giving true/false values
+                             // based on a threshold (0.5f).
+};
+
+public override void Init()
+{
+    base.Init();
+    ControlHandler.Current.RegisterControl(ExampleControl);
+    ControlHandler.Current.On(ExampleControl.Id, OnExampleControlChanged);
+}
+
+private void OnExampleControlChanged(object sender, ControlChangeEventArgs e)
+{
+    float value = (float)e.NewValue; // Remember to cast to your type (return is `object`)
+}
+```
+
 ### Sending notifications
 You can send notifications to the main window using `NotificationHandler.Current` from `ETS2LA.UI.Notifications`. Below is an example of how to use it:
 ```csharp

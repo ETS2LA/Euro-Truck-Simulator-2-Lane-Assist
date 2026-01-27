@@ -54,7 +54,7 @@ namespace ETS2LA.Settings
             VerifyJsonPath(fileName);
             string json = JsonSerializer.Serialize(data, _jsonOpts);
 
-            Directory.CreateDirectory(_baseDir);
+            Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(_baseDir, fileName))!);
             string target = Path.Combine(_baseDir, fileName);
             string temp = target + ".tmp";
 

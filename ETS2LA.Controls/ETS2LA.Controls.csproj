@@ -1,17 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <OutputType>library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup Label="ProjectReferences">
+  <ItemGroup>
+    <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
     <ProjectReference Include="..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
     <ProjectReference Include="..\ETS2LA.Settings\ETS2LA.Settings.csproj" />
-    <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
-    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj" />
-    <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
   </ItemGroup>
 </Project>

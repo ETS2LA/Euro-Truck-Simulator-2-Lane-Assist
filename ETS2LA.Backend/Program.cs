@@ -1,4 +1,5 @@
 ﻿using ETS2LA.Logging;
+using ETS2LA.Controls;
 using Spectre.Console;
 
 namespace ETS2LA.Backend
@@ -61,6 +62,7 @@ namespace ETS2LA.Backend
             {
                 pluginHandler.UnloadPlugins();
             }
+            ControlHandler.Current.Shutdown();
             Logger.Info("ETS2LA has been shut down.");
         }
     }

@@ -137,7 +137,7 @@ namespace ETS2LA.Backend
             try
             {
                 plugin.OnEnable();
-                Logger.Info($"Enabled plugin: {plugin.Info.Name}");
+                Logger.Info($"Enabled plugin: [bold]{plugin.Info.Name}[/]");
                 PluginEnabled?.Invoke(plugin);
                 return true;
             }
@@ -160,7 +160,7 @@ namespace ETS2LA.Backend
             try
             {
                 plugin.OnDisable();
-                Logger.Info($"Disabled plugin: {plugin.Info.Name}");
+                Logger.Info($"Disabled plugin: [bold]{plugin.Info.Name}[/]");
                 PluginDisabled?.Invoke(plugin);
                 return true;
             }
