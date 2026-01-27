@@ -59,7 +59,7 @@
                                     </StackPanel>
                                 </Grid>
                                 <Border ClipToBounds="True" CornerRadius="0 0 8 8">
-                                    <ProgressBar IsVisible="{Binding IsButtonTypeNotNull}" Value="{Binding CurrentValue}" Classes="Transparent" Height="1" Margin="0 7 0 0" />
+                                    <ProgressBar Value="{Binding CurrentValue}" Classes="Transparent" Height="1" Margin="0 7 0 0" />
                                 </Border>
                             </StackPanel>
                         </husk:Card>

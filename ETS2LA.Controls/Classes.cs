@@ -24,6 +24,9 @@ public enum AxisType
     SplitPos  // 0.0 to 1.0 for the second half of a combined axis (usually Z for xbox-like controllers)
 }
 
+/// <summary>
+///  This event is fired when a control is added to the ControlHandler.
+/// </summary>
 public class ControlAddedEventArgs : EventArgs
 {
     public ControlInstance Control;
@@ -33,6 +36,9 @@ public class ControlAddedEventArgs : EventArgs
     }
 }
 
+/// <summary>
+///  This event is fired when a control is removed from the ControlHandler.
+/// </summary>
 public class ControlRemovedEventArgs : EventArgs
 {
     public ControlInstance Control;
@@ -42,6 +48,9 @@ public class ControlRemovedEventArgs : EventArgs
     }
 }
 
+/// <summary>
+///  This event is fired when a control's value changes. i.e. button pressed or axis moved.
+/// </summary>
 public class ControlChangeEventArgs : EventArgs
 {
     public object NewValue;
@@ -83,13 +92,36 @@ public class ControlDefinition
     public ControlType Type { get; set; } = ControlType.Boolean;
 }
 
+/// <summary>
+///  Represents an internal instance of a control binding. Usually shouldn't be 
+///  used directly, and instead through ControlHandler's functions.
+/// </summary>
 [Serializable]
 public class ControlInstance : ISerializable
 {
+    /// <summary>
+    ///  The ID of the device this control is bound to.
+    /// </summary>
     public string DeviceId = "";
+    /// <summary>
+    ///  The ID of the control on the device this is bound to. Button/key/axis where:
+    ///  - Buttons start with "B" (e.g. "B0", "B1", ...)
+    ///  - Keys are the key name (e.g. "Space", "A", "F1", ...) 
+    ///    since they are only used when DeviceId is "keyboard"
+    ///  - Axes don't start with anything (e.g. "X", "Y", "Z", "RotationX", "RotationY", ...)
+    /// </summary>
     public object ControlId = "";
+    /// <summary>
+    ///  The definition this control instance is based on.
+    /// </summary>
     public required ControlDefinition Definition;
+    /// <summary>
+    ///  The behavior of this axis, only relevant if bound to an axis.
+    /// </summary>
     public AxisType AxisBehavior = AxisType.Normal;
+    /// <summary>
+    ///  Event fired when this control's value changes.
+    /// </summary>
     private event EventHandler<ControlChangeEventArgs>? OnChange;
     private object? _lastValue;
 

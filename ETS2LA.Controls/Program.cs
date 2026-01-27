@@ -1,13 +1,12 @@
-﻿using Avalonia.Controls;
-using ETS2LA.Logging;
+﻿using ETS2LA.Logging;
 using ETS2LA.Settings;
-using JetBrains.Annotations;
 using SharpDX.DirectInput;
 
 namespace ETS2LA.Controls;
 
 public class ControlHandler
 {
+    // When accessing ControlHandler, always use ControlHandler.Current
     private static readonly Lazy<ControlHandler> _instance = new(() => new ControlHandler());
     public static ControlHandler Current => _instance.Value;
 
@@ -15,11 +14,19 @@ public class ControlHandler
     private SettingsHandler _settingsHandler = new SettingsHandler();
     private string _settingsPath = "Controls/";
 
+    /// <summary>
+    ///  This event is fired when a control is added to the ControlHandler.
+    /// </summary>
     public event EventHandler<ControlAddedEventArgs>? ControlAdded;
+    /// <summary>
+    ///  This event is fired when a control is removed from the ControlHandler.
+    /// </summary>
     public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
-    // Connected devices is public so other plugins that need it
-    // don't have to re-initialize DirectInput and query devices again.
+    /// <summary>
+    ///  You can access connected joysticks through this list. It is preferred <br/>
+    ///  that you use this list instead of discovering new DI devices again.
+    /// </summary>
     public List<Joystick> _connectedJoysticks = new();
     private DirectInput _directInput = new DirectInput();
     private Keyboard _keyboard;
@@ -44,6 +51,11 @@ public class ControlHandler
         Task.Run(() => ControlListener());
     }
 
+    /// <summary>
+    ///  Register a new control definition to the ControlHandler. <br/>
+    ///  After registering you can use ControlHandler.On to listen for changes to this control.
+    /// </summary>
+    /// <param name="definition">The control definition to register.</param>
     public void RegisterControl(ControlDefinition definition)
     {
         var instance = new ControlInstance
@@ -65,6 +77,12 @@ public class ControlHandler
         Logger.Info($"Registered control: {definition.Name} [gray italic]({definition.Id})[/]");
     }
 
+    /// <summary>
+    ///  Listen for changes to a registered control. Please note that the control must be <br/>
+    ///  registered first using ControlHandler.RegisterControl, each time the app is launched (use init()).
+    /// </summary>
+    /// <param name="controlId">The ID of the control to listen to (ControlDefinition.Id).</param>
+    /// <param name="callback">The callback to invoke when the control's value changes.</param>
     public void On(string controlId, EventHandler<ControlChangeEventArgs> callback)
     {
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
@@ -76,6 +94,11 @@ public class ControlHandler
         control.RegisterCallback(callback);
     }
 
+    /// <summary>
+    ///  Stop listening for changes to a registered control.
+    /// </summary>
+    /// <param name="controlId">The ID of the control to stop listening to (ControlDefinition.Id).</param>
+    /// <param name="callback">The callback to remove.</param>
     public void UnregisterListener(string controlId, EventHandler<ControlChangeEventArgs> callback)
     {
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
@@ -88,6 +111,11 @@ public class ControlHandler
         control.UnregisterCallback(callback);
     }
 
+    /// <summary>
+    ///  Unregister a control from the ControlHandler. This will also save its current state. <br/>
+    ///  **NOTE**: This will remove the control from the settings!
+    /// </summary>
+    /// <param name="controlId">The ID of the control to unregister (ControlDefinition.Id).</param>
     public void UnregisterControl(string controlId)
     {
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
@@ -103,6 +131,13 @@ public class ControlHandler
         }
     }
 
+    /// <summary>
+    ///  Update the bindings for a registered control. This should only ever be called from <br/>
+    ///  the settings menu, however plugins can technically use this as well.
+    /// </summary>
+    /// <param name="controlId">The ID of the control to update (ControlDefinition.Id).</param>
+    /// <param name="deviceId">The ID of the device to bind the control to.</param>
+    /// <param name="controlKey">The key or axis to bind the control to.</param>
     public void UpdateControlBindings(string controlId, string deviceId, string controlKey)
     {
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
@@ -119,6 +154,11 @@ public class ControlHandler
         }
     }
 
+    /// <summary>
+    ///  Update the axis behavior for a registered control.
+    /// </summary>
+    /// <param name="controlId">The ID of the control to update (ControlDefinition.Id).</param>
+    /// <param name="axisType">The new axis behavior to set.</param>
     public void UpdateAxisBehaviour(string controlId, AxisType axisType)
     {
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
@@ -134,11 +174,29 @@ public class ControlHandler
         }
     }
 
+    /// <summary>
+    ///  Get a list of all registered controls.
+    /// </summary>
+    /// <returns>A list of all registered control instances.</returns>
     public List<ControlInstance> GetRegisteredControls()
     {
         return RegisteredControls;
     }
 
+    /// <summary>
+    ///  Return a joystick instance by its device ID.
+    /// </summary>
+    /// <param name="deviceId">The device ID of the joystick.</param>
+    /// <returns>The joystick instance, or null if not found.</returns>
+    public Joystick? GetJoystickById(string deviceId)
+    {
+        return _connectedJoysticks.FirstOrDefault(j => j.Information.InstanceGuid.ToString() == deviceId);
+    }
+
+    /// <summary>
+    ///  Shutdown the ControlHandler, saving all control states to their files. <br/>
+    ///  **NEVER** call this inside of plugins!
+    /// </summary>
     public void Shutdown()
     {
         foreach (var control in RegisteredControls)
@@ -183,11 +241,6 @@ public class ControlHandler
             AxisType.SplitPos => Math.Clamp((rawValue - 0.5f) * 2.0f, 0.0f, 1.0f),
             _ => rawValue,
         };
-    }
-
-    public Joystick? GetJoystickById(string deviceId)
-    {
-        return _connectedJoysticks.FirstOrDefault(j => j.Information.InstanceGuid.ToString() == deviceId);
     }
 
     private void ControlListener()
@@ -249,7 +302,7 @@ public class ControlHandler
     /// <summary>
     ///  Waits for an input from any connected device within the specified timeout.
     /// </summary>
-    /// <param name="timeoutSeconds"></param>
+    /// <param name="timeoutSeconds">How long to wait for input, in seconds.</param>
     /// <returns>
     ///  A tuple containing the device ID and control ID of the detected input.
     ///  If no input is detected within the timeout, returns ("", "").

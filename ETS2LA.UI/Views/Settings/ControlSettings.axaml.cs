@@ -1,14 +1,16 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Avalonia.Controls;
+using System.ComponentModel;
+
 using Avalonia.Interactivity;
+using Avalonia.Controls;
 using Avalonia.Input;
 
 using ETS2LA.Controls;
 using ETS2LA.Logging;
 using ETS2LA.Shared;
 using ETS2LA.UI.Notifications;
+using Huskui.Avalonia.Models;
 
 namespace ETS2LA.UI.Views.Settings;
 
@@ -44,9 +46,9 @@ public partial class ControlSettings : UserControl
         {
             Controls.Add(new ControlItem(instance, _cHandler));
         }
-        Logger.Info($"Control list updated, total controls: {Controls.Count}");
     }
 
+    // Called when a user clicks the control card to rebind it.
     private void OnTriggerChange(object? sender, RoutedEventArgs e)
     {
         if (e is not PointerPressedEventArgs)
@@ -62,6 +64,8 @@ public partial class ControlSettings : UserControl
         }
     }
 
+    // These are called when the user selects an axis type from the context menu.
+    // TODO: Someone who knows more about Avalonia can probably make this cleaner.
     private void OnAxisTypeNormalClick(object? sender, RoutedEventArgs e)
     {
         if (sender is MenuItem { Tag: ControlItem item })
@@ -111,9 +115,7 @@ public class ControlItem : INotifyPropertyChanged
 
     public string DeviceName => GetDeviceName();
     public string DeviceButton => _instance.ControlId.ToString() ?? "Unbound";
-
     public string DeviceButtonType => GetControlType();
-    public bool IsButtonTypeNotNull => DeviceButtonType != "";
     
     private bool _isActive = false;
     public bool IsActive => _isActive;
@@ -127,6 +129,9 @@ public class ControlItem : INotifyPropertyChanged
     {
         _instance = instance;
         _cHandler = cHandler;
+        // Start listening for value updates from the controls handler.
+        // These will trigger a UI refresh so users can see the current values.
+        // (especially useful for setting up the axis type)
         _cHandler.On(_instance.Definition.Id, ValueUpdate);
     }
 
@@ -159,6 +164,7 @@ public class ControlItem : INotifyPropertyChanged
             CloseAfter = 0.0f
         });
         var result = _cHandler.WaitForInput(10.0f);
+        NotificationHandler.Current.CloseNotification("ControlSettings.Binding");
         if (result.Item1 != "" && result.Item2 != "")
         {
             _cHandler.UpdateControlBindings(
@@ -169,8 +175,26 @@ public class ControlItem : INotifyPropertyChanged
             OnPropertyChanged(nameof(DeviceName));
             OnPropertyChanged(nameof(DeviceButton));
             OnPropertyChanged(nameof(DeviceButtonType));
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "ControlSettings.SuccessfullyBound",
+                Title = "Control Bound",
+                Content = $"Successfully bound '{Name}' to {DeviceName} - {DeviceButton}",
+                Level = GrowlLevel.Success,
+                CloseAfter = 5.0f
+            });
         }
-        NotificationHandler.Current.CloseNotification("ControlSettings.Binding");
+        else
+        {
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "ControlSettings.BindingFailed",
+                Title = "Binding Cancelled",
+                Content = $"Binding for '{Name}' was cancelled or timed out.",
+                Level = GrowlLevel.Warning,
+                CloseAfter = 5.0f
+            });
+        }
     }
 
     public void OnAxisTypeChanged(AxisType newType)
@@ -188,20 +212,26 @@ public class ControlItem : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    // This function parses the joystick name from the device ID.
+    // I tried to handle some special cases (like "Controller (XBOX One for Windows)"),
+    // but there might still be some edge cases that look weird.
+    // TODO: Update as necessary.
     private string GetDeviceName()
     {
         if (string.IsNullOrEmpty(_instance.DeviceId))
+        {
             return "Unbound";
+        }
 
         if (_instance.DeviceId.ToLower().StartsWith("keyboard"))
+        {
             return "Keyboard";
-        
-        string name = _instance.DeviceId;
+        }
+
         var joystick = _cHandler.GetJoystickById(_instance.DeviceId);
-        if (joystick != null)
-            name = joystick.Information.ProductName;
-        else
-            name = "Not Connected";
+        string name = joystick != null 
+                      ? joystick.Information.ProductName 
+                      : "Not Connected";
 
         if (name.StartsWith("Controller ("))
         {
@@ -209,20 +239,28 @@ public class ControlItem : INotifyPropertyChanged
             name = name.EndsWith(")") ? name[..^1] : name;
         }
 
+        // TODO: Dynamic truncation? (i.e. when the window is resized)
         if (name.Length > 43)
+        {
             name = name.Substring(0, 40) + "...";
+        }
+
         return name;
     }
 
     private string GetControlType()
     {
+        if (!_instance.IsBound())
+            return "Unbound";
+        
         bool isKeyboard = _instance.DeviceId.ToString().ToLower().StartsWith("keyboard");
-        bool isButton = _instance.ControlId.ToString().StartsWith("B");
+        bool isButton = _instance.ControlId.ToString()?.StartsWith("B") ?? false;
 
         if (isKeyboard)
             return "Key";
         if (isButton)
             return "Button";
+
         return _instance.AxisBehavior.ToString() + " Axis";
     }
 }
