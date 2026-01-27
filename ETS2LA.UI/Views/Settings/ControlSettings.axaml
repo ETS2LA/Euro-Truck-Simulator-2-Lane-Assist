@@ -39,7 +39,7 @@
                                             <TextBlock Text="{Binding DeviceName}" FontSize="12" FontWeight="450" />
                                         </husk:Tag>
                                         <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
-                                            <husk:Tag Classes="Primary" IsVisible="{Binding IsButtonTypeNotNull}">
+                                            <husk:Tag Classes="Primary">
                                                 <TextBlock Text="{Binding DeviceButtonType}" FontSize="12" FontWeight="450" />
                                                 <husk:Tag.ContextMenu>
                                                     <!-- TODO: Someone who knows more about Avalonia can fix this... -->
