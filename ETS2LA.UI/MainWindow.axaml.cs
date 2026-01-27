@@ -12,6 +12,8 @@ using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
 using ETS2LA.UI.Settings;
 
+using ETS2LA.Audio;
+
 namespace ETS2LA.UI;
 
 // TODO: Documentation, cleanup code!
@@ -69,6 +71,8 @@ public partial class MainWindow : AppWindow
         Width = settings.WindowWidth;
         Height = settings.WindowHeight;
         Position = new Avalonia.PixelPoint(settings.WindowX, settings.WindowY);
+
+        AudioHandler.Current.Queue("Assets\\Sounds\\ETS2LA_Assets_Sounds_traditional_boot.mp3", overrideCurrent: false, loopCount: 1);
     }
 
     private void OnTitlebarPressed(object? sender, PointerPressedEventArgs e)
