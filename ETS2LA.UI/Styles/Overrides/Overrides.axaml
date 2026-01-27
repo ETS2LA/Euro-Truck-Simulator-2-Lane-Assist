@@ -3,4 +3,5 @@
         xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
     <StyleInclude Source="avares://ETS2LA.UI/Styles/Overrides/Card.axaml"/>
     <StyleInclude Source="avares://ETS2LA.UI/Styles/Overrides/Growl.axaml"/>
+    <StyleInclude Source="avares://ETS2LA.UI/Styles/Overrides/ProgressBar.axaml"/>
 </Styles>

@@ -103,6 +103,37 @@ public class ControlHandler
         }
     }
 
+    public void UpdateControlBindings(string controlId, string deviceId, string controlKey)
+    {
+        var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
+        if (control != null)
+        {
+            control.DeviceId = deviceId;
+            control.ControlId = controlKey;
+            control.SaveToFile(_settingsHandler, _settingsPath);
+            Logger.Info($"Updated bindings for control: {control.Definition.Name} ({control.Definition.Id}) to Device: {deviceId}, Control: {controlKey}");
+        }
+        else
+        {
+            Logger.Warn($"Control with ID '{controlId}' not found for updating bindings.");
+        }
+    }
+
+    public void UpdateAxisBehaviour(string controlId, AxisType axisType)
+    {
+        var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
+        if (control != null)
+        {
+            control.AxisBehavior = axisType;
+            control.SaveToFile(_settingsHandler, _settingsPath);
+            Logger.Info($"Updated axis behavior for control: {control.Definition.Name} ({control.Definition.Id}) to {axisType}");
+        }
+        else
+        {
+            Logger.Warn($"Control with ID '{controlId}' not found for updating axis behavior.");
+        }
+    }
+
     public List<ControlInstance> GetRegisteredControls()
     {
         return RegisteredControls;
@@ -166,10 +197,10 @@ public class ControlHandler
             var kbBuffer = _keyboard.GetBufferedData();
             foreach (var keyEvent in kbBuffer)
             {
-                string hardwareId = ((Key)keyEvent.Key).ToString();
+                string controlId = ((Key)keyEvent.Key).ToString();
                 var matchingControls = RegisteredControls.Where(c => 
                     c.DeviceId == "Keyboard" && 
-                    c.ControlId.ToString() == hardwareId);
+                    c.ControlId.ToString() == controlId);
 
                 foreach (var control in matchingControls)
                 {
@@ -185,12 +216,12 @@ public class ControlHandler
 
                 foreach (var update in data)
                 {
-                    string hardwareId = GetIdFromOffset(update.Offset);
-                    if (string.IsNullOrEmpty(hardwareId)) continue;
+                    string controlId = GetIdFromOffset(update.Offset);
+                    if (string.IsNullOrEmpty(controlId)) continue;
 
                     var matchingControls = RegisteredControls.Where(c => 
                         c.DeviceId == joystick.Information.InstanceGuid.ToString() && 
-                        c.ControlId.ToString() == hardwareId);
+                        c.ControlId.ToString() == controlId);
 
                     foreach (var control in matchingControls)
                     {
@@ -213,5 +244,55 @@ public class ControlHandler
             // Sleep for 20ms -> ~50 updates per second
             Thread.Sleep(20);
         }
+    }
+
+    /// <summary>
+    ///  Waits for an input from any connected device within the specified timeout.
+    /// </summary>
+    /// <param name="timeoutSeconds"></param>
+    /// <returns>
+    ///  A tuple containing the device ID and control ID of the detected input.
+    ///  If no input is detected within the timeout, returns ("", "").
+    /// </returns>
+    public (string, string) WaitForInput(float timeoutSeconds)
+    {
+        var startTime = DateTime.Now;
+        while ((DateTime.Now - startTime).TotalSeconds < timeoutSeconds)
+        {
+            var kbBuffer = _keyboard.GetBufferedData();
+            if (kbBuffer.Length > 0)
+            {
+                var keyEvent = kbBuffer[0];
+                string controlId = ((Key)keyEvent.Key).ToString();
+                return ("Keyboard", controlId);
+            }
+
+            foreach (var joystick in _connectedJoysticks)
+            {
+                joystick.Poll();
+                var data = joystick.GetBufferedData();
+                if (data.Length > 0)
+                {
+                    var update = data[0];
+                    string controlId = GetIdFromOffset(update.Offset);
+                    
+                    if (update.Offset >= JoystickOffset.Buttons0 && update.Offset <= JoystickOffset.Buttons127)
+                    {
+                        return (joystick.Information.InstanceGuid.ToString(), controlId);
+                    }
+                    else
+                    {
+                        float normalizedValue = NormalizeAxisValue(update.Value / 65535.0f, AxisType.Normal);
+                        if(Math.Abs(normalizedValue) > 0.1f)
+                        {
+                            return (joystick.Information.InstanceGuid.ToString(), controlId);
+                        }
+                    }
+                }
+            }
+            Thread.Sleep(20);
+        }
+
+        return ("", "");
     }
 }

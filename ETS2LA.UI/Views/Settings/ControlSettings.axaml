@@ -7,36 +7,60 @@
 
     <UserControl.Resources>
         <ItemsPanelTemplate x:Key="WrapPanelTemplate">
-            <WrapPanel />
+            <StackPanel />
         </ItemsPanelTemplate>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel>
+            <TextBlock Text="Click a card to change bindings. Right click on 'Normal Axis' to change it's type." Classes="Description" Margin="14 7 14 7" />
             <ItemsControl x:Name="ControlsList" ItemsSource="{Binding Controls}" ItemsPanel="{StaticResource WrapPanelTemplate}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="views:ControlItem">
                         <husk:Card 
-                            Padding="14"
+                            Padding="0 14 0 0"
                             Margin="10"
-                            Width="447"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            ClipToBounds="True"
+                            Tag="{Binding}"
                             Cursor="Hand"
+                            Classes.Highlight="{Binding IsActive}"
+                            PointerPressed="OnTriggerChange"
                         >
-                            <StackPanel Spacing="6" Width="417">
-                                <Grid VerticalAlignment="Center" ColumnDefinitions="*, Auto, Auto, Auto" ColumnSpacing="6">
-                                    <TextBlock Text="{Binding Name}" FontSize="14" />
-                                    <husk:Tag Grid.Column="1" Classes="Primary">
-                                        <TextBlock Text="{Binding DeviceName}" FontSize="12" FontWeight="450" />
-                                    </husk:Tag>
-                                    <husk:Tag Grid.Column="2" Classes="Primary" IsVisible="{Binding IsButtonTypeNotNull}">
-                                        <TextBlock Text="{Binding DeviceButtonType}" FontSize="12" FontWeight="450" />
-                                    </husk:Tag>
-                                    <husk:Tag Grid.Column="3" Classes="Primary">
-                                        <TextBlock Text="{Binding DeviceButton}" FontSize="12" FontWeight="450" />
-                                    </husk:Tag>
+                            <StackPanel>
+                                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="6" Margin="14 0 14 0">
+                                    <StackPanel Spacing="6">
+                                        <TextBlock Text="{Binding Name}" FontSize="14" />
+                                        <TextBlock Text="{Binding Description}" Classes="Description" FontSize="12" Padding="0 0 0 4" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Spacing="6" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                        <husk:Tag Classes="Secondary">
+                                            <TextBlock Text="{Binding DeviceName}" FontSize="12" FontWeight="450" />
+                                        </husk:Tag>
+                                        <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
+                                            <husk:Tag Classes="Primary" IsVisible="{Binding IsButtonTypeNotNull}">
+                                                <TextBlock Text="{Binding DeviceButtonType}" FontSize="12" FontWeight="450" />
+                                                <husk:Tag.ContextMenu>
+                                                    <!-- TODO: Someone who knows more about Avalonia can fix this... -->
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Normal" Click="OnAxisTypeNormalClick" Tag="{Binding}" />
+                                                        <MenuItem Header="Centered" Click="OnAxisTypeCenteredClick" Tag="{Binding}" />
+                                                        <MenuItem Header="Inverted" Click="OnAxisTypeInvertedClick" Tag="{Binding}" />
+                                                        <MenuItem Header="Split Negative" Click="OnAxisTypeSplitNegativeClick" Tag="{Binding}" />
+                                                        <MenuItem Header="Split Positive" Click="OnAxisTypeSplitPositiveClick" Tag="{Binding}" />
+                                                    </ContextMenu>
+                                                </husk:Tag.ContextMenu>
+                                            </husk:Tag>
+                                            <husk:Tag Classes="Primary">
+                                                <TextBlock Text="{Binding DeviceButton}" FontSize="12" FontWeight="450" />
+                                            </husk:Tag>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </Grid>
-                                <TextBlock Text="{Binding Description}" Classes="Description" FontSize="12" Padding="0 0 0 4" />
+                                <Border ClipToBounds="True" CornerRadius="0 0 8 8">
+                                    <ProgressBar IsVisible="{Binding IsButtonTypeNotNull}" Value="{Binding CurrentValue}" Classes="Transparent" Height="1" Margin="0 7 0 0" />
+                                </Border>
                             </StackPanel>
                         </husk:Card>
                     </DataTemplate>

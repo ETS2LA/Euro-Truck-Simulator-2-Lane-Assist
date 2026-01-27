@@ -3,9 +3,12 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Input;
 
 using ETS2LA.Controls;
 using ETS2LA.Logging;
+using ETS2LA.Shared;
+using ETS2LA.UI.Notifications;
 
 namespace ETS2LA.UI.Views.Settings;
 
@@ -21,14 +24,6 @@ public partial class ControlSettings : UserControl
         UpdateControlsList();
         _cHandler.ControlAdded += OnControlAdded;
         _cHandler.ControlRemoved += OnControlRemoved;
-    }
-
-    private void OnTriggerChange(object? sender, RoutedEventArgs e)
-    {
-        if (sender is Control { Tag: ControlItem item })
-        {
-            item.TriggerChange();
-        }
     }
 
     private void OnControlAdded(object? sender, ControlAddedEventArgs e)
@@ -51,6 +46,61 @@ public partial class ControlSettings : UserControl
         }
         Logger.Info($"Control list updated, total controls: {Controls.Count}");
     }
+
+    private void OnTriggerChange(object? sender, RoutedEventArgs e)
+    {
+        if (e is not PointerPressedEventArgs)
+            return;
+
+        var pointerEvent = (PointerPressedEventArgs)e;
+        if (!pointerEvent.Properties.IsLeftButtonPressed)
+            return;
+
+        if (sender is Control { Tag: ControlItem item })
+        {
+            Task.Run(() => item.TriggerChange());
+        }
+    }
+
+    private void OnAxisTypeNormalClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { Tag: ControlItem item })
+        {
+            item.OnAxisTypeChanged(AxisType.Normal);
+        }
+    }
+
+    private void OnAxisTypeCenteredClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { Tag: ControlItem item })
+        {
+            item.OnAxisTypeChanged(AxisType.Centered);
+        }
+    }
+
+    private void OnAxisTypeInvertedClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { Tag: ControlItem item })
+        {
+            item.OnAxisTypeChanged(AxisType.Inverted);
+        }
+    }
+
+    private void OnAxisTypeSplitNegativeClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { Tag: ControlItem item })
+        {
+            item.OnAxisTypeChanged(AxisType.SplitNeg);
+        }
+    }
+
+    private void OnAxisTypeSplitPositiveClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { Tag: ControlItem item })
+        {
+            item.OnAxisTypeChanged(AxisType.SplitPos);
+        }
+    }
 }
 
 
@@ -61,8 +111,15 @@ public class ControlItem : INotifyPropertyChanged
 
     public string DeviceName => GetDeviceName();
     public string DeviceButton => _instance.ControlId.ToString() ?? "Unbound";
+
     public string DeviceButtonType => GetControlType();
     public bool IsButtonTypeNotNull => DeviceButtonType != "";
+    
+    private bool _isActive = false;
+    public bool IsActive => _isActive;
+    private float _currentValue = 0.0f;
+    public float CurrentValue => _currentValue;
+
     public string Name => _instance.Definition.Name;
     public string Description => _instance.Definition.Description;
 
@@ -70,17 +127,59 @@ public class ControlItem : INotifyPropertyChanged
     {
         _instance = instance;
         _cHandler = cHandler;
-        Update();
+        _cHandler.On(_instance.Definition.Id, ValueUpdate);
     }
 
-    public void Update()
+    public void ValueUpdate(object? sender, ControlChangeEventArgs e)
     {
-        
+        if (DeviceButtonType == "Button" || DeviceButtonType == "Key")
+        {
+            _isActive = (bool)e.NewValue;
+            _currentValue = _isActive ? 100.0f : 0.0f;
+            OnPropertyChanged(nameof(CurrentValue));
+            OnPropertyChanged(nameof(IsActive));
+        }
+        else
+        {
+            _currentValue = (float)e.NewValue * 100.0f;
+            _isActive = _currentValue > 0.5f || _currentValue < -0.5f;
+            OnPropertyChanged(nameof(IsActive));
+            OnPropertyChanged(nameof(CurrentValue));
+        }
     }
 
     public void TriggerChange()
     {
-        
+        NotificationHandler.Current.SendNotification(new Notification
+        {
+            Id = "ControlSettings.Binding",
+            Title = "Control Binding",
+            Content = $"Press a key, button or move an axis to bind '{Name}'",
+            IsProgressIndeterminate = true,
+            CloseAfter = 0.0f
+        });
+        var result = _cHandler.WaitForInput(10.0f);
+        if (result.Item1 != "" && result.Item2 != "")
+        {
+            _cHandler.UpdateControlBindings(
+                _instance.Definition.Id,
+                result.Item1,
+                result.Item2
+            );
+            OnPropertyChanged(nameof(DeviceName));
+            OnPropertyChanged(nameof(DeviceButton));
+            OnPropertyChanged(nameof(DeviceButtonType));
+        }
+        NotificationHandler.Current.CloseNotification("ControlSettings.Binding");
+    }
+
+    public void OnAxisTypeChanged(AxisType newType)
+    {
+        _cHandler.UpdateAxisBehaviour(
+            _instance.Definition.Id,
+            newType
+        );
+        OnPropertyChanged(nameof(DeviceButtonType));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -104,8 +203,14 @@ public class ControlItem : INotifyPropertyChanged
         else
             name = "Not Connected";
 
-        if (name.Length > 23)
-            name = name.Substring(0, 20) + "...";
+        if (name.StartsWith("Controller ("))
+        {
+            name = name.Replace("Controller (", "");
+            name = name.EndsWith(")") ? name[..^1] : name;
+        }
+
+        if (name.Length > 43)
+            name = name.Substring(0, 40) + "...";
         return name;
     }
 
@@ -118,6 +223,6 @@ public class ControlItem : INotifyPropertyChanged
             return "Key";
         if (isButton)
             return "Button";
-        return "Axis";
+        return _instance.AxisBehavior.ToString() + " Axis";
     }
 }
