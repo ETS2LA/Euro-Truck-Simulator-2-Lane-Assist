@@ -29,9 +29,17 @@ public class AudioHandler
     ///  Set the current audio volume.
     /// </summary>
     /// <param name="volume">from 0.0f to 1.0f</param>
-    public void SetAudioVolume(float volume)
+    public void SetVolume(float volume)
     {
         _settings.Volume = volume;
+    }
+
+    /// <summary>
+    ///  Get the current audio volume.
+    /// </summary>
+    public float GetVolume()
+    {
+        return _settings.Volume;
     }
 
     /// <summary>

@@ -3,8 +3,13 @@
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
              x:Class="ETS2LA.UI.Views.Settings.AudioSettings"
              x:DataType="views:AudioSettings">
-    <StackPanel>
-        <TextBlock Text="Audio Settings Page" />
-        <TextBlock Text="This page is waiting for the audio implementation to be completed." Classes="Description" />
-    </StackPanel>
+    <Grid ColumnDefinitions="300,*">
+        <StackPanel Grid.Column="0" Spacing="12" Margin="20">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <TextBlock Text="Audio Volume" />
+                <TextBlock Text="{Binding ElementName=VolumeSlider, Path=Value, StringFormat='{}{0:0}%'}" />
+            </StackPanel>
+            <Slider Name="VolumeSlider" Minimum="0" Maximum="100" ValueChanged="OnVolumeChanged" />
+        </StackPanel>
+    </Grid>
 </UserControl>
