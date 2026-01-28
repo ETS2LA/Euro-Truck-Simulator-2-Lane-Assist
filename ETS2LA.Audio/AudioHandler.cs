@@ -50,7 +50,8 @@ public class AudioHandler
             {
                 if (job.LoopCondition != null)
                 {
-                    while ((job.LoopCondition?.Invoke() ?? false) && !_currentCts.Token.IsCancellationRequested)
+                    var conditionMet = job.LoopCondition.Invoke();
+                    while (conditionMet && !_currentCts.Token.IsCancellationRequested)
                     {
                         await PlaySound(job, _currentCts.Token);
                     }
