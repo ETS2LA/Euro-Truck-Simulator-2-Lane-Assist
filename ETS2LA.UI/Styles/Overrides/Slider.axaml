@@ -1,0 +1,11 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
+    <Style Selector="Slider">
+        <Setter Property="ClipToBounds" Value="False"/>
+    </Style>
+    <Style Selector="Slider Panel">
+        <Setter Property="Background" Value="{DynamicResource Gray4Color}"/>
+        <Setter Property="Height" Value="6"/>
+    </Style>
+</Styles>

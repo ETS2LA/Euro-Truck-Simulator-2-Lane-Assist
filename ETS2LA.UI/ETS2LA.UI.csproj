@@ -55,5 +55,6 @@
     <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
     <ProjectReference Include="..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
+    <ProjectReference Include="..\ETS2LA.Audio\ETS2LA.Audio.csproj" />
   </ItemGroup>
 </Project>
