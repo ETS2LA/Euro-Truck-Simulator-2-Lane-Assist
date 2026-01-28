@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2025-09-03 19:31\n"
-"PO-Revision-Date: 2025-10-17 12:07+0000\n"
-"Last-Translator: niicogarciia <niicogarciia@ets2la.com>\n"
+"PO-Revision-Date: 2026-01-29 01:17+0000\n"
+"Last-Translator: tsumiguel <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
 ">\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -727,7 +727,7 @@ msgstr "Presione la tecla/botón que desea vincular a este evento."
 
 #: .\Pages\controls.py:74
 msgid "Event unbound."
-msgstr ""
+msgstr "Evento no vinculado."
 
 #: .\Pages\controls.py:94
 msgid "Controls"
@@ -842,7 +842,7 @@ msgstr "Audio"
 
 #: .\Pages\global_settings.py:347
 msgid "Soundpack"
-msgstr "Soundpack"
+msgstr "Paquete de sonido"
 
 #: .\Pages\global_settings.py:348
 msgid "Select the soundpack to use, these can be added to app/ETS2LA/Assets/Sounds."
@@ -1619,7 +1619,7 @@ msgstr[1] "Reiniciar y aplicar la actualizaciones {count}"
 
 #: .\Plugins\AR\main.py:219 .\Plugins\AR\main.py:272 .\Plugins\AR\main.py:334
 msgid "AR"
-msgstr ""
+msgstr "RA"
 
 #: .\Plugins\AR\main.py:273
 msgid "Change the AR overlay settings here."
@@ -1631,11 +1631,15 @@ msgstr "General"
 
 #: .\Plugins\AR\main.py:279
 msgid "Don't hide AR from recording software"
-msgstr ""
+msgstr "No ocultar la RA del software de grabación"
 
 #: .\Plugins\AR\main.py:280
 msgid "By default the AR overlay is hidden from recording software to prevent it showing up when ETS2LA is using vision systems. If you want to record videos or stream with the overlay, you might want to enable this option."
 msgstr ""
+"Por defecto, la superposición de RA está oculta para el software de "
+"grabación para evitar que aparezca cuando ETS2LA esté usando sistemas de "
+"visión. Si quieres grabar videos o hacer streaming con la superposición, "
+"quizá quieras activar esta opción."
 
 #: .\Plugins\AR\main.py:288
 msgid "Show test objects"
@@ -1643,7 +1647,7 @@ msgstr "Mostrar objetos de prueba"
 
 #: .\Plugins\AR\main.py:289
 msgid "Show test objects in the AR overlay."
-msgstr ""
+msgstr "Mostrar objetos de prueba en la superposición de RA."
 
 #: .\Plugins\AR\main.py:295
 msgid "Show when not in focus"
@@ -1652,18 +1656,24 @@ msgstr "Mostrar cuando no está enfocado"
 #: .\Plugins\AR\main.py:296
 msgid "Show the AR overlay even when the game is not in focus. This can be useful for changing settings. Please note that this will also make AR run at the max possible FPS, this might cause some lag."
 msgstr ""
+"Mostrar la superposición de RA incluso cuando el juego no está en primer "
+"plano. Esto puede ser útil para cambiar la configuración. Ten en cuenta que "
+"esto también hará que la RA se ejecute a la máxima tasa de FPS posible, lo "
+"que podría causar algo de lag."
 
 #: .\Plugins\AR\main.py:304
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Superposición de rendimiento"
 
 #: .\Plugins\AR\main.py:307
 msgid "Show Performance Overlay"
-msgstr ""
+msgstr "Mostrar superposición de rendimiento"
 
 #: .\Plugins\AR\main.py:308
 msgid "Show the performance overlay. This will show a number of useful statistics."
 msgstr ""
+"Mostrar la superposición de rendimiento. Esto mostrará una serie de "
+"estadísticas útiles."
 
 #: .\Plugins\AR\main.py:316
 msgid "Show Game Statistics"
@@ -1671,43 +1681,48 @@ msgstr "Mostrar estadísticas del juego"
 
 #: .\Plugins\AR\main.py:317
 msgid "Show game statistics in the performance overlay."
-msgstr ""
+msgstr "Mostrar estadísticas del juego en la superposición de rendimiento."
 
 #: .\Plugins\AR\main.py:323
 msgid "Show Background"
-msgstr ""
+msgstr "Mostrar fondo"
 
 #: .\Plugins\AR\main.py:324
 msgid "Show the background in the performance overlay. This will make the performance overlay more readable, but it will also make it less transparent."
 msgstr ""
+"Mostrar el fondo en la superposición de rendimiento. Esto hará que la "
+"superposición sea más legible, pero también menos transparente."
 
 #: .\Plugins\AR\main.py:336
 msgid "The AR plugin provides an augmented reality overlay for ETS2LA. It used by plugin like HUD to display information in the game world."
 msgstr ""
+"El plugin de RA proporciona una superposición de realidad aumentada para "
+"ETS2LA. Es usado por plugins como HUD para mostrar información en el mundo "
+"del juego."
 
 #: .\Plugins\AR\main.py:688
 msgid "Items: {}"
-msgstr ""
+msgstr "Elementos: {}"
 
 #: .\Plugins\AR\main.py:690
 msgid "Draw Calls: {} ({:.0f}%)"
-msgstr ""
+msgstr "Llamadas de dibujo: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:695
 msgid "Text Cache Length: {}"
-msgstr ""
+msgstr "Longitud de la caché de texto: {}"
 
 #: .\Plugins\AR\main.py:697
 msgid "Last Render: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Último renderizado: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:705
 msgid "Last Loop: {:.2f} ms ({:.0f} fps)"
-msgstr ""
+msgstr "Último ciclo: {:.2f} ms ({:.0f} fps)"
 
 #: .\Plugins\AR\main.py:713
 msgid "Sync to game: {}"
-msgstr ""
+msgstr "Sincronizar con el juego: {}"
 
 #: .\Plugins\AR\main.py:714
 msgid "Yes"
@@ -1735,7 +1750,7 @@ msgstr "Rotación de la cámara: ({:.1f}, {:.1f}, {:.1f})"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:6
 msgid "Toggle Speed Control"
-msgstr ""
+msgstr "Alternar control de velocidad"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:8
 msgid "When ACC is running this will toggle the speed control on/off."
@@ -1745,146 +1760,167 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:14
 msgid "Increase Driving Speed Offset"
-msgstr ""
+msgstr "Aumentar compensación de velocidad de conducción"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:16
 msgid "This will increase the speed offset in the settings."
-msgstr ""
+msgstr "Esto aumentará la compensación de velocidad en la configuración."
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:22
 msgid "Decrease Driving Speed Offset"
-msgstr ""
+msgstr "Disminuir compensación de velocidad de conducción"
 
 #: .\Plugins\AdaptiveCruiseControl\controls.py:24
 msgid "This will decrease the speed offset in the settings."
-msgstr ""
+msgstr "Esto disminuirá la compensación de velocidad en la configuración."
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:82
 #: .\Plugins\AdaptiveCruiseControl\settings.py:23
 #: .\Plugins\AdaptiveCruiseControl\settings.py:86
 #: .\Plugins\AdaptiveCruiseControl\settings.py:94
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Control de Crucero Adaptativo"
 
 #: .\Plugins\AdaptiveCruiseControl\main.py:84
 msgid "Adaptive Cruise Control (ACC) provides automatic acceleration and braking depending on road conditions and vehicles ahead."
 msgstr ""
+"El Control de Crucero Adaptativo (ACC) proporciona aceleración y frenado "
+"automáticos según las condiciones de la vía y los vehículos que van delante."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:87
 msgid "Adaptive Cruise Control (ACC) controls the speed of the truck based on information gathered from the game."
 msgstr ""
+"El Control de Crucero Adaptativo (ACC) controla la velocidad del camión en "
+"función de la información obtenida del juego."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:97
 msgid "ACC Settings"
-msgstr ""
+msgstr "Configuración de ACC"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:101
 msgid "Aggressiveness"
-msgstr ""
+msgstr "Agresividad"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:102
 msgid "How aggressively should the ACC follow the car in front and change the speedlimit?"
 msgstr ""
+"¿Qué tan agresivamente debe el ACC seguir al vehículo de adelante y ajustar "
+"el límite de velocidad?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:121
 msgid "Follow Distance"
-msgstr ""
+msgstr "Distancia de seguimiento"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:122
 msgid "How far should the ACC keep from the vehicle in front?"
-msgstr ""
+msgstr "¿A qué distancia debe mantenerse el ACC del vehículo de adelante?"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:136
 msgid "At 80km/h ETS2LA will keep approximately {distance}m from the vehicle in front."
 msgstr ""
+"A 80 km/h, ETS2LA mantendrá aproximadamente {distance} m del vehículo de "
+"adelante."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:142
 msgid "Traffic Light Settings"
-msgstr ""
+msgstr "Configuración del semáforo"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:146
 msgid "Ignore Traffic Lights"
-msgstr ""
+msgstr "Ignorar semáforos"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:147
 msgid "Whether the ACC should ignore traffic lights. Please note that this will, as it says ignore the traffic lights."
 msgstr ""
+"Indica si el ACC debe ignorar los semáforos. Ten en cuenta que esto hará "
+"que, efectivamente, se ignoren los semáforos."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:157
 msgid "Traffic Light Mode"
-msgstr ""
+msgstr "Modo de semáforos"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:162
 msgid "Select how the ACC should handle traffic lights. Normal mode handles lights on the other side of the intersection better."
 msgstr ""
+"Selecciona cómo debe manejar el ACC los semáforos. El modo normal gestiona "
+"mejor los semáforos que están al otro lado del cruce."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:168
 msgid "Speed Control"
-msgstr ""
+msgstr "Control de velocidad"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:171
 msgid "Curve Settings"
-msgstr ""
+msgstr "Configuración de curvas"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:173
 msgid "Coefficient of Friction"
-msgstr ""
+msgstr "Coeficiente de fricción"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:174
 msgid "The coefficient of friction used for the ACC calculations. Higher values allow the truck to drive faster in curves."
 msgstr ""
+"Coeficiente de fricción utilizado para los cálculos del ACC. Valores más "
+"altos permiten que el camión tome las curvas a mayor velocidad."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:185
 msgid "Speed Limit Settings"
-msgstr ""
+msgstr "Configuración del límite de velocidad"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:189
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Velocidad máxima"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:190
 msgid "The maximum speed ACC will drive at. Set this to 0 to disable."
 msgstr ""
+"La velocidad máxima a la que conducirá el ACC. Establécelo en 0 para "
+"desactivarlo."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:198
 msgid "Fallback speed"
-msgstr ""
+msgstr "Velocidad de respaldo"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:199
 msgid "The speed to drive when the game tells us that the speed limit is 0 km/h."
 msgstr ""
+"La velocidad a la que se debe conducir cuando el juego indica que el límite "
+"de velocidad es 0 km/h."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Speed Limit"
-msgstr ""
+msgstr "Ignorar límite de velocidad"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:214
 msgid "Whether the ACC should ignore the speed limit."
-msgstr ""
+msgstr "Indica si el ACC debe ignorar el límite de velocidad."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:227
 msgid "Speed Offset Type"
-msgstr ""
+msgstr "Tipo de compensación de velocidad"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:229
 msgid "Select the type of speed offset to apply."
-msgstr ""
+msgstr "Selecciona el tipo de compensación de velocidad que se aplicará."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:233
 msgid "Speed Offset"
-msgstr ""
+msgstr "Compensación de velocidad"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:234
 msgid "The speed offset to apply to all speedlimits. Please note that you can also change this dynamically with the keybinds in the controls."
 msgstr ""
+"La compensación de velocidad que se aplicará a todos los límites de "
+"velocidad. Ten en cuenta que también puedes modificar esto dinámicamente con "
+"las teclas asignadas en los controles."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:248
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:252
 msgid "Unlock PID"
-msgstr ""
+msgstr "Desbloquear PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:253
 msgid "You can unlock the PID settings to adjust them manually. This isn't recommended unless you know what a PID is and how you can tune it correctly."
@@ -1895,7 +1931,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:262
 msgid "PID Kp"
-msgstr ""
+msgstr "PID Kp"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:263
 msgid "Are we there yet? No? Then we need to accelerate more! (Proportional gain for the PID controller.)"
@@ -1915,7 +1951,7 @@ msgstr ""
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:284
 msgid "PID Kd"
-msgstr ""
+msgstr "PID Kd"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:285
 msgid "How fast are we approaching the target? If we are approaching too fast, we need to decelerate more! (Derivative gain for the PID controller.)"
@@ -1973,7 +2009,7 @@ msgstr "Dibuje el estado actual del combustible del camión."
 
 #: .\Plugins\HUD\elements\gap.py:7
 msgid "ACC Gap"
-msgstr ""
+msgstr "Separación del ACC"
 
 #: .\Plugins\HUD\elements\gap.py:8
 msgid "Shows the gap to the vehicle in front."
@@ -1988,7 +2024,6 @@ msgid "Draw the current RPM and gear of the truck."
 msgstr "Dibuje las RPM actuales y la marcha del camión."
 
 #: .\Plugins\HUD\elements\income.py:7
-#, fuzzy
 msgid "Income"
 msgstr "Ingreso"
 
@@ -2001,14 +2036,13 @@ msgid "No job"
 msgstr "Sin trabajo"
 
 #: .\Plugins\HUD\elements\income.py:47
-#, fuzzy
 msgid "Job Income"
 msgstr "Ingresos por trabajo"
 
 #: .\Plugins\HUD\elements\media.py:21 .\Plugins\HUD\main.py:46
 #: .\Plugins\HUD\main.py:49
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 #: .\Plugins\HUD\elements\media.py:22
 msgid "Displays media information such as song title, artist and playback progress."
@@ -2132,63 +2166,76 @@ msgstr "El desplazamiento de profundidad del HUD."
 
 #: .\Plugins\HUD\ui.py:180
 msgid "Widget Sizing"
-msgstr ""
+msgstr "Tamaño del widget"
 
 #: .\Plugins\HUD\ui.py:182
 msgid "These settings control the sizing of the widgets."
-msgstr ""
+msgstr "Estos ajustes controlan el tamaño de los widgets."
 
 #: .\Plugins\HUD\ui.py:191
 msgid "Widget Scaling"
-msgstr ""
+msgstr "Escalado del widget"
 
 #: .\Plugins\HUD\ui.py:192
 msgid "The scaling factor for the widgets. 1 is normal size, 0.5 is half size, 2 is double size."
 msgstr ""
+"El factor de escalado para los widgets. 1 es tamaño normal, 0.5 es la mitad "
+"y 2 es el doble."
 
 #: .\Plugins\HUD\ui.py:199
 msgid "Scale Height"
-msgstr ""
+msgstr "Escalar altura"
 
 #: .\Plugins\HUD\ui.py:200
 msgid "Scale the height of widgets too, please note that this will cause layout issues with some widgets, use with caution."
 msgstr ""
+"Escalar también la altura de los widgets; ten en cuenta que esto puede "
+"causar problemas de diseño en algunos widgets, úsalo con precaución."
 
 #: .\Plugins\HUD\ui.py:208
 msgid "Widget Background"
-msgstr ""
+msgstr "Fondo del widget"
 
 #: .\Plugins\HUD\ui.py:210
 msgid "You can control how much the widget background should be darkened by, either all the time or just during the day."
 msgstr ""
+"Puedes controlar qué tanto debe oscurecerse el fondo del widget, ya sea todo "
+"el tiempo o solo durante el día."
 
 #: .\Plugins\HUD\ui.py:218
 msgid "Darkness"
-msgstr ""
+msgstr "Nivel de oscuridad"
 
 #: .\Plugins\HUD\ui.py:219
 msgid "The darkness of the widget background. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"El nivel de oscuridad del fondo del widget. 0 es sin oscuridad y 1 es "
+"totalmente oscuro."
 
 #: .\Plugins\HUD\ui.py:230
 msgid "Day Darkness"
-msgstr ""
+msgstr "Nivel de oscuridad de día"
 
 #: .\Plugins\HUD\ui.py:231
 msgid "The darkness of the widget background during the day. 0 is no darkness, 1 is fully dark."
 msgstr ""
+"El nivel de oscuridad del fondo del widget durante el día. 0 es sin "
+"oscuridad y 1 es totalmente oscuro."
 
 #: .\Plugins\HUD\ui.py:242
 msgid "Elements"
-msgstr ""
+msgstr "Elementos"
 
 #: .\Plugins\HUD\ui.py:259
 msgid "Enabled Widgets"
-msgstr ""
+msgstr "Widgets habilitados"
 
 #: .\Plugins\HUD\ui.py:261
 msgid "This displays your enabled widgets and their respective sizes. Click one to disable it, you cannot yet move them around, you will instead have to Disable -> Enable to get them where you want them."
 msgstr ""
+"Esto muestra tus widgets habilitados y sus tamaños respectivos. Haz clic en "
+"uno para deshabilitarlo. Aún no puedes moverlos; para colocarlos donde "
+"quieras deberás Deshabilitar → Habilitar."
 
 #: .\Plugins\HUD\ui.py:308
 msgid "Available Widgets"
@@ -2455,9 +2502,8 @@ msgstr ""
 "Habilite el modo de prueba para probar el proveedor TTS sin cargar el juego."
 
 #: .\Plugins\TTS\main.py:181
-#, fuzzy
 msgid "Settings"
-msgstr "Ajustes"
+msgstr "Configuración"
 
 #: .\Plugins\TTS\main.py:183
 msgid "Enable Road Proximity Beep"
