@@ -18,7 +18,13 @@ public class AudioHandler
         Task.Run(ProcessAudioQueue);
     }
 
-    public void Queue(string filename, bool overrideCurrent = false, int loopCount = 1)
+    /// <summary>
+    ///  Queue an audio file for playback.
+    /// </summary>
+    /// <param name="filepath">Filepath of the audio file to play.</param>
+    /// <param name="overrideCurrent">Whether playing this audio should override the currently playing audio (and queue).</param>
+    /// <param name="loopCount">How many times this file should be played.</param>
+    public void Queue(string filepath, bool overrideCurrent = false, int loopCount = 1)
     {
         if (overrideCurrent)
         {
@@ -27,12 +33,17 @@ public class AudioHandler
             _currentCts?.Cancel();
         }
 
-        _queue.Enqueue(new AudioJob(filename, null, loopCount));
+        _queue.Enqueue(new AudioJob(filepath, null, loopCount));
     }
 
-    public void Queue(string filename, Func<bool> loopCondition, int loopCount)
+    /// <summary>
+    ///  Queue an audio file for playback with a loop condition.
+    /// </summary>
+    /// <param name="filepath">The filepath of the audio file to play.</param>
+    /// <param name="loopCondition">The condition under which the audio should loop. (function with bool return)</param>
+    public void Queue(string filepath, Func<bool> loopCondition)
     {
-         _queue.Enqueue(new AudioJob(filename, loopCondition, loopCount));
+         _queue.Enqueue(new AudioJob(filepath, loopCondition, 1));
     }
 
     private async Task ProcessAudioQueue()
