@@ -13,3 +13,9 @@ class AudioJob
         LoopCount = loopCount;
     }
 }
+
+[Serializable]
+public class AudioSettings
+{
+    public float Volume = 0.5f;
+}

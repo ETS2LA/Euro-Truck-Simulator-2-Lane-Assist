@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using ETS2LA.Logging;
+using ETS2LA.Settings;
 using NAudio.Wave;
 
 namespace ETS2LA.Audio;
@@ -13,9 +14,24 @@ public class AudioHandler
     private CancellationTokenSource? _currentCts;
     private bool _isRunning = true;
 
+    private SettingsHandler _settingsHandler;
+    private AudioSettings _settings;
+
     private AudioHandler()
     {
+        _settingsHandler = new SettingsHandler();
+        _settings = _settingsHandler.Load<AudioSettings>("AudioSettings.json");
+        _settingsHandler.RegisterListener<AudioSettings>("AudioSettings.json", OnSettingsChanged);
         Task.Run(ProcessAudioQueue);
+    }
+
+    /// <summary>
+    ///  Set the current audio volume.
+    /// </summary>
+    /// <param name="volume">from 0.0f to 1.0f</param>
+    public void SetAudioVolume(float volume)
+    {
+        _settings.Volume = volume;
     }
 
     /// <summary>
@@ -96,6 +112,7 @@ public class AudioHandler
         using(var outputDevice = new WaveOutEvent())
         {
             outputDevice.Init(audioFile);
+            outputDevice.Volume = _settings.Volume;
             outputDevice.Play();
             while (!token.IsCancellationRequested && outputDevice.PlaybackState == PlaybackState.Playing)
             {
@@ -108,9 +125,15 @@ public class AudioHandler
         }
     }
 
+    private void OnSettingsChanged(AudioSettings audioSettings)
+    {
+        _settings = audioSettings;
+    }
+
     public void Shutdown()
     {
         _isRunning = false;
         _currentCts?.Cancel();
+        _settingsHandler.Save<AudioSettings>("AudioSettings.json", _settings);
     }
 }
