@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using ETS2LA.Logging;
-using ETS2LA.Shared;
 using NAudio.Wave;
 
 namespace ETS2LA.Audio;
@@ -9,9 +8,10 @@ public class AudioHandler
 {
     private static readonly Lazy<AudioHandler> _instance = new(() => new AudioHandler());
     public static AudioHandler Current => _instance.Value;
+
     private readonly ConcurrentQueue<AudioJob> _queue = new();
-    private bool _isRunning = true;
     private CancellationTokenSource? _currentCts;
+    private bool _isRunning = true;
 
     private AudioHandler()
     {
@@ -101,21 +101,5 @@ public class AudioHandler
     {
         _isRunning = false;
         _currentCts?.Cancel();
-    }
-
-    private class AudioJob
-    {
-        public string Filename { get; }
-        public bool Loop { get; }
-        public Func<bool>? LoopCondition { get; }
-        public int LoopCount { get; }
-
-        public AudioJob(string filename, bool loop, Func<bool>? condition, int loopCount)
-        {
-            Filename = filename;
-            Loop = loop;
-            LoopCondition = condition;
-            LoopCount = loopCount;
-        }
     }
 }
