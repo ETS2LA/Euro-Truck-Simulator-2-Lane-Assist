@@ -27,12 +27,12 @@ public class AudioHandler
             _currentCts?.Cancel();
         }
 
-        _queue.Enqueue(new AudioJob(filename, false, null, loopCount));
+        _queue.Enqueue(new AudioJob(filename, null, loopCount));
     }
 
     public void Queue(string filename, Func<bool> loopCondition, int loopCount)
     {
-         _queue.Enqueue(new AudioJob(filename, true, loopCondition, loopCount));
+         _queue.Enqueue(new AudioJob(filename, loopCondition, loopCount));
     }
 
     private async Task ProcessAudioQueue()
@@ -48,7 +48,7 @@ public class AudioHandler
             _currentCts = new CancellationTokenSource();
             try 
             {
-                if (job.Loop)
+                if (job.LoopCondition != null)
                 {
                     while ((job.LoopCondition?.Invoke() ?? false) && !_currentCts.Token.IsCancellationRequested)
                     {
