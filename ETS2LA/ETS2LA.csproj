@@ -34,6 +34,15 @@
     <PackageReference Include="WebViewControl-Avalonia" Version="3.120.10"/>
   </ItemGroup>
 
+  <Target Name="CopyAssets" AfterTargets="Build">
+    <ItemGroup>
+      <AssetFiles Include="$(MSBuildThisFileDirectory)..\Assets\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AssetFiles)" 
+          DestinationFiles="@(AssetFiles->'$(OutputPath)Assets\%(RecursiveDir)%(Filename)%(Extension)')" 
+          SkipUnchangedFiles="true" />
+  </Target>
+
   <Target Name="CopyPlugins" AfterTargets="Build">
     <ItemGroup>
       <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
