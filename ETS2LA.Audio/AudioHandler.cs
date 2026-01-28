@@ -39,40 +39,39 @@ public class AudioHandler
     {
         while (_isRunning)
         {
-            if (_queue.TryDequeue(out var job))
-            {
-                _currentCts = new CancellationTokenSource();
-                try 
-                {
-                    if (job.Loop)
-                    {
-                        while ((job.LoopCondition?.Invoke() ?? false) && !_currentCts.Token.IsCancellationRequested)
-                        {
-                            await PlaySound(job, _currentCts.Token);
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < job.LoopCount; i++)
-                        {
-                            if (_currentCts.Token.IsCancellationRequested) break;
-                            await PlaySound(job, _currentCts.Token);
-                        }
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    Logger.Info("Audio playback canceled");
-                }
-                finally 
-                {
-                    _currentCts.Dispose();
-                    _currentCts = null;
-                }
-            }
-            else
+            if (!_queue.TryDequeue(out var job))
             {
                 await Task.Delay(50);
+                continue;
+            }
+
+            _currentCts = new CancellationTokenSource();
+            try 
+            {
+                if (job.Loop)
+                {
+                    while ((job.LoopCondition?.Invoke() ?? false) && !_currentCts.Token.IsCancellationRequested)
+                    {
+                        await PlaySound(job, _currentCts.Token);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < job.LoopCount; i++)
+                    {
+                        if (_currentCts.Token.IsCancellationRequested) break;
+                        await PlaySound(job, _currentCts.Token);
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Logger.Info("Audio playback canceled");
+            }
+            finally 
+            {
+                _currentCts.Dispose();
+                _currentCts = null;
             }
         }
     }
