@@ -13,5 +13,6 @@
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
     <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj" />
     <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj" />
+    <ProjectReference Include="..\ETS2LA.Audio\ETS2LA.Audio.csproj" />
   </ItemGroup>
 </Project>
