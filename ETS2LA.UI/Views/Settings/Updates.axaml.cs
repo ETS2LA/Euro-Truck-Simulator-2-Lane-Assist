@@ -30,30 +30,39 @@ public partial class Updates : UserControl, INotifyPropertyChanged
 
     public void OnCheckForUpdatesClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        LatestUpdateInfo = _updater.CheckForUpdates();
-        if (LatestUpdateInfo != null)
+        NotificationHandler.Current.SendNotification(new Notification
         {
-            NotificationHandler.Current.SendNotification(new Notification
+            Id = "UpdateNotification",
+            Title = "Checking for Updates",
+            Content = "Please wait while we check for updates...",
+            Level = GrowlLevel.Information,
+        });
+        Task.Run(() => {
+            LatestUpdateInfo = _updater.CheckForUpdates();
+            if (LatestUpdateInfo != null)
             {
-                Id = "UpdateNotification",
-                Title = "Update Available",
-                Content = $"A new version is available: {LatestUpdateInfo.TargetFullRelease.Version}",
-                Level = GrowlLevel.Success,
-            });
-            OnPropertyChanged(nameof(IsUpdateAvailable));
-            OnPropertyChanged(nameof(LatestVersion));
-            OnPropertyChanged(nameof(LatestUpdateInfo));
-        }
-        else
-        {
-            NotificationHandler.Current.SendNotification(new Notification
+                NotificationHandler.Current.SendNotification(new Notification
+                {
+                    Id = "UpdateNotification",
+                    Title = "Update Available",
+                    Content = $"A new version is available: {LatestUpdateInfo.TargetFullRelease.Version}",
+                    Level = GrowlLevel.Success,
+                });
+                OnPropertyChanged(nameof(IsUpdateAvailable));
+                OnPropertyChanged(nameof(LatestVersion));
+                OnPropertyChanged(nameof(LatestUpdateInfo));
+            }
+            else
             {
-                Id = "UpdateNotification",
-                Title = "No Update Available",
-                Content = "You are using the latest version.",
-                Level = GrowlLevel.Information,
-            });
-        }
+                NotificationHandler.Current.SendNotification(new Notification
+                {
+                    Id = "UpdateNotification",
+                    Title = "No Update Available",
+                    Content = "You are using the latest version.",
+                    Level = GrowlLevel.Information,
+                });
+            }
+        });
     }
 
     private void DownloadCallback(int progress)
