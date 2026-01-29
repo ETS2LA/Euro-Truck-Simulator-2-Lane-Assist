@@ -7,12 +7,14 @@ using ETS2LA.Shared;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
+using ETS2LA.UI.Settings;
+using ETS2LA.Audio;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
-using ETS2LA.UI.Settings;
-
-using ETS2LA.Audio;
+using ETS2LA.UI.Views.Settings;
+using ETS2LA.Backend.Updates;
+using Velopack;
 
 namespace ETS2LA.UI;
 
@@ -50,6 +52,8 @@ public partial class MainWindow : AppWindow
         CanResize = true;
         ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
+
+        VersionText.Text = $"v{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3)}";
 
         NotificationHandler.Current.SetWindow(this);
 

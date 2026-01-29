@@ -3,6 +3,7 @@ using ETS2LA.Controls;
 using ETS2LA.Audio;
 
 using Spectre.Console;
+using ETS2LA.Backend.Updates;
 
 namespace ETS2LA.Backend
 {
@@ -56,6 +57,7 @@ namespace ETS2LA.Backend
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running.");
             });
+            Updater.Current.CheckForUpdates();
         }
 
         public void Shutdown()

@@ -4,7 +4,7 @@
 
     <Style Selector="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Geist}"/>
-        <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="Foreground" Value="{StaticResource ControlForegroundBrush}"/>
         <Setter Property="FontWeight" Value="500"/>
     </Style>

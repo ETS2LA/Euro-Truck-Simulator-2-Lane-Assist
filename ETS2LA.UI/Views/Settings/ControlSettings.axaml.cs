@@ -137,7 +137,7 @@ public class ControlItem : INotifyPropertyChanged
 
     public void ValueUpdate(object? sender, ControlChangeEventArgs e)
     {
-        if (DeviceButtonType == "Button" || DeviceButtonType == "Key")
+        if (_instance.Definition.Type == ControlType.Boolean)
         {
             _isActive = (bool)e.NewValue;
             _currentValue = _isActive ? 100.0f : 0.0f;

@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
+             x:Class="ETS2LA.UI.Views.Settings.Updates"
+             x:DataType="views:Updates">
+    <Border Padding="20">
+        <StackPanel Spacing="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="You're currently on " />
+                <TextBlock Classes="Highlight" Text="{Binding CurrentVersion}"/>
+                <TextBlock Text="." />
+            </StackPanel>
+            <Button Content="Check for Updates" Width="150" HorizontalAlignment="Left" Click="OnCheckForUpdatesClick"/>
+            <StackPanel IsVisible="{Binding IsUpdateAvailable}" Spacing="10">
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                    <TextBlock Text="Latest Version: " />
+                    <TextBlock Classes="Highlight" Text="{Binding LatestVersion}"/>
+                </StackPanel>
+                <Button Content="Install and Restart" Width="150" HorizontalAlignment="Left" Click="OnInstallAndRestartClick"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

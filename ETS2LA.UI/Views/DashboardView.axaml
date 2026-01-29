@@ -1,16 +1,20 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:ETS2LA.UI.Views"
              xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
              xmlns:i="https://github.com/projektanker/icons.avalonia"
-             x:Class="ETS2LA.UI.Views.DashboardView">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
+             x:Class="ETS2LA.UI.Views.DashboardView"
+             x:DataType="views:DashboardView">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Spacing="14">
-            <UniformGrid Columns="2" ColumnSpacing="14">
+            <!-- If someone can tell me how to do this without MaxWidth then please do so... -->
+            <UniformGrid Columns="2" ColumnSpacing="14"
+                MaxWidth="{Binding Extent.Width, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
                 <husk:Card Padding="16">
                     <StackPanel Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock FontSize="18" FontFamily="{StaticResource Geist}">
-                                Welcome back, <Span Classes="Highlight">Tumppi066</Span>!
+                                Welcome back, <Span Classes="Highlight">Anonymous</Span>!
                             </TextBlock>
                         </Grid>
 
@@ -21,21 +25,21 @@
                                 <husk:Tag>
                                     <TextBlock Text="Current Release" FontSize="12" FontWeight="450" />
                                 </husk:Tag>
-                                <TextBlock Text="v0.4.1" FontSize="13" Margin="6 0 0 0"/>
+                                <TextBlock Text="{Binding CurrentRelease}" FontSize="13" Margin="6 0 0 0"/>
                             </StackPanel>
                             <StackPanel Spacing="4">
                                 <husk:Tag>
                                     <TextBlock Text="Users Online" FontSize="12" FontWeight="450" />
                                 </husk:Tag>
-                                <TextBlock Text="112" FontSize="13" Margin="6 0 0 0"/>
+                                <TextBlock Text="{Binding UsersOnline}" FontSize="13" Margin="6 0 0 0"/>
                             </StackPanel>
                             <StackPanel Spacing="4">
                                 <husk:Tag>
                                     <TextBlock Text="Users Over 24h" FontSize="12" FontWeight="450" />
                                 </husk:Tag>
-                                <TextBlock Text="646" FontSize="13" Margin="6 0 0 0"/>
+                                <TextBlock Text="{Binding UsersOver24h}" FontSize="13" Margin="6 0 0 0"/>
                             </StackPanel>
-                        </WrapPanel>    
+                        </WrapPanel>
                     </StackPanel>
                 </husk:Card>
                 <husk:Card>
@@ -53,14 +57,15 @@
             </UniformGrid>
 
             <!-- Stats -->
-            <UniformGrid Columns="3" ColumnSpacing="14">
+            <UniformGrid Columns="3" ColumnSpacing="14"
+                MaxWidth="{Binding Extent.Width, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
                 <husk:Card>
                     <StackPanel Spacing="6">
                         <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                             <i:Icon Value="fa-chart-line" FontSize="15" />
                             <TextBlock Text="Sessions" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
-                        <TextBlock Text="308 total - avg 1h13m" Classes="Description" FontSize="13"/>
+                        <TextBlock Text="123 total - avg 4h56m" Classes="Description" FontSize="13"/>
                     </StackPanel>
                 </husk:Card>
                 <husk:Card>
@@ -69,7 +74,7 @@
                             <i:Icon Value="fa-clock" FontSize="15" />
                             <TextBlock Text="Playtime" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
-                        <TextBlock Text="377h 55m total" Classes="Description" FontSize="13"/>
+                        <TextBlock Text="123h 45m total" Classes="Description" FontSize="13"/>
                     </StackPanel>
                 </husk:Card>
                 <husk:Card>
@@ -78,18 +83,18 @@
                             <i:Icon Value="fa-heart-circle-bolt" FontSize="15" />
                             <TextBlock Text="Stability" FontSize="16" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
-                        <TextBlock Text="0 crashes last 24h" Classes="Description" FontSize="13"/>
+                        <TextBlock Text="1 crashes last 24h" Classes="Description" FontSize="13"/>
                     </StackPanel>
                 </husk:Card>
             </UniformGrid>
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="14">
-                <!-- Support -->
-                <husk:Card Grid.Column="0">
+            <UniformGrid Columns="2" ColumnSpacing="14"
+                MaxWidth="{Binding Extent.Width, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                <husk:Card>
                     <Grid RowDefinitions="Auto,*" RowSpacing="16">
                         <StackPanel Grid.Row="0" Spacing="4" VerticalAlignment="Top">
                             <TextBlock Text="Support &amp; Updates" FontSize="16" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                            <TextBlock Text="Follow development and get support. You can also donate to development via Ko-Fi, any kind of support is much appreciated!" Classes="Description" FontSize="13"/>
+                            <TextBlock HorizontalAlignment="Stretch" Text="Follow development and get support. You can also donate to development via Ko-Fi, any kind of support is much appreciated!" Classes="Description" FontSize="13"/>
                         </StackPanel>
                         <WrapPanel Grid.Row="1" ItemSpacing="8" VerticalAlignment="Bottom">
                             <Button Content="Join Discord" />
@@ -99,26 +104,9 @@
                     </Grid>
                 </husk:Card>
 
-                <!-- Quick utils -->
-                <husk:Card Grid.Column="1">
-                    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="12">
-                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
-                            <StackPanel Grid.Column="0" Spacing="3">
-                                <TextBlock Text="Fix Wipers" FontSize="14"/>
-                                <TextBlock Text="If wipers are stuck, click and alt+tab to ETS2. They turn off in ~5s." Classes="Description" FontSize="13"/>
-                            </StackPanel>
-                            <Button Grid.Column="1" Content="Activate" VerticalAlignment="Center" Height="36" Width="84"/>
-                        </Grid>
-                        <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
-                            <StackPanel Grid.Column="0" Spacing="3">
-                                <TextBlock Text="Force Update" FontSize="14"/>
-                                <TextBlock Text="Restart and check for updates if you think you missed one." Classes="Description" FontSize="13"/>
-                            </StackPanel>
-                            <Button Grid.Column="1" Content="Update" VerticalAlignment="Center" Height="36" Width="84"/>
-                        </Grid>
-                    </Grid>
+                <husk:Card>
                 </husk:Card>
-            </Grid>
+            </UniformGrid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

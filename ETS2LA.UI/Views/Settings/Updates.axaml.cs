@@ -1,0 +1,98 @@
+using Avalonia.Controls;
+using Huskui.Avalonia.Models;
+
+using ETS2LA.Shared;
+using ETS2LA.Backend.Updates;
+using ETS2LA.UI.Notifications;
+
+using System.ComponentModel;
+using Velopack;
+
+namespace ETS2LA.UI.Views.Settings;
+
+public partial class Updates : UserControl, INotifyPropertyChanged
+{
+    private Updater _updater;
+    public string CurrentVersion { get; set; } = "Unknown";
+    public bool IsUpdateAvailable => LatestUpdateInfo != null;
+    public string LatestVersion => LatestUpdateInfo != null ? $"v{LatestUpdateInfo.TargetFullRelease.Version}" : "N/A";
+    public UpdateInfo? LatestUpdateInfo { get; set; }
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public Updates()
+    {
+        _updater = Updater.Current;
+        CurrentVersion = $"v{_updater.UpdateManager.CurrentVersion}";
+        InitializeComponent();
+        DataContext = this;
+        OnCheckForUpdatesClick(this, new Avalonia.Interactivity.RoutedEventArgs());
+    }
+
+    public void OnCheckForUpdatesClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        LatestUpdateInfo = _updater.CheckForUpdates();
+        if (LatestUpdateInfo != null)
+        {
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "UpdateNotification",
+                Title = "Update Available",
+                Content = $"A new version is available: {LatestUpdateInfo.TargetFullRelease.Version}",
+                Level = GrowlLevel.Success,
+            });
+            OnPropertyChanged(nameof(IsUpdateAvailable));
+            OnPropertyChanged(nameof(LatestVersion));
+            OnPropertyChanged(nameof(LatestUpdateInfo));
+        }
+        else
+        {
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "UpdateNotification",
+                Title = "No Update Available",
+                Content = "You are using the latest version.",
+                Level = GrowlLevel.Information,
+            });
+        }
+    }
+
+    private void DownloadCallback(int progress)
+    {
+        NotificationHandler.Current.SendNotification(new Notification
+        {
+            Id = "UpdateDownloadProgress",
+            Title = "Downloading Update",
+            Content = $"Download progress: {progress}%",
+            Level = GrowlLevel.Information,
+            Progress = progress,
+            CloseAfter = 0
+        });
+    }
+
+    public void OnInstallAndRestartClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (LatestUpdateInfo != null)
+        {
+            Task.Run(() => 
+            {
+                NotificationHandler.Current.SendNotification(new Notification
+                {
+                    Id = "UpdateDownloadProgress",
+                    Title = "Downloading Update",
+                    Content = $"Starting download...",
+                    Level = GrowlLevel.Information,
+                    Progress = 0,
+                    CloseAfter = 0
+                });
+                _updater.DownloadUpdates(LatestUpdateInfo, DownloadCallback);
+                _updater.ApplyUpdatesAndRestart(LatestUpdateInfo);
+                NotificationHandler.Current.CloseNotification("UpdateDownloadProgress");
+            });
+        }
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}

@@ -15,6 +15,7 @@ public partial class SettingsView : UserControl
     private readonly ThemeSettings _themeSettings = new();
     private readonly ControlSettings _controlSettings = new();
     private readonly SDKSettings _sdkSettings = new();
+    private readonly Updates _updates = new();
 
     private readonly List<Button> _navButtons = new();
     ContentControl _contentHost => this.FindControl<ContentControl>("ContentHost") ?? throw new InvalidOperationException("ContentHost not found");
@@ -34,6 +35,7 @@ public partial class SettingsView : UserControl
             this.FindControl<Button>("ThemeButton"),
             this.FindControl<Button>("ControlsButton"),
             this.FindControl<Button>("SDKButton"),
+            this.FindControl<Button>("UpdateButton"),
         ]);
 #pragma warning restore CS8601 // Possible null reference assignment.
 
@@ -76,6 +78,12 @@ public partial class SettingsView : UserControl
     {
         _contentHost.Content = _sdkSettings;
         SetSelected("SDKButton");
+    }
+
+    private void OnUpdatesClick(object? sender, RoutedEventArgs e)
+    {
+        _contentHost.Content = _updates;
+        SetSelected("UpdateButton");
     }
 
     private void InitializeComponent()
