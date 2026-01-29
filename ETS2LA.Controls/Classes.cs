@@ -148,6 +148,7 @@ public class ControlInstance : ISerializable
         var loaded = settingsHandler.Load<ControlInstance>(fileName);
         DeviceId = loaded.DeviceId;
         ControlId = loaded.ControlId;
+        AxisBehavior = loaded.AxisBehavior;
     }
 
     public void RegisterCallback(EventHandler<ControlChangeEventArgs> callback)
