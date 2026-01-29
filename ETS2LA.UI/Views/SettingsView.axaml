@@ -46,6 +46,15 @@
             </Button>
         </StackPanel>
 
+        <StackPanel Grid.Row="1" Spacing="12" Margin="6 0 12 12" VerticalAlignment="Bottom">
+            <Button x:Name="UpdateButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnUpdatesClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-download" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="Updates" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
+        </StackPanel>
+
         <husk:Card Grid.Column="1" Padding="10" CornerRadius="0" BorderThickness="1 0 0 0">
             <ContentControl x:Name="ContentHost"/>
         </husk:Card>
