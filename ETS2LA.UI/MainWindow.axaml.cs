@@ -51,6 +51,8 @@ public partial class MainWindow : AppWindow
         ExtendClientAreaToDecorationsHint = true;
         InitializeComponent();
 
+        VersionText.Text = $"v{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3)}";
+
         NotificationHandler.Current.SetWindow(this);
 
         _pluginService = new PluginManagerService();
