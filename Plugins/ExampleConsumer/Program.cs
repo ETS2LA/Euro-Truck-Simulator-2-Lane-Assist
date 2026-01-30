@@ -17,30 +17,9 @@ public class MyConsumer : Plugin
         AuthorName = "Tumppi066",
     };
 
-    public ControlDefinition ExampleControl = new ControlDefinition
-    {
-        Id = "ExampleConsumer.ExampleControl",
-        Name = "Example Control",
-        Description = "An example control that outputs a float value.",
-        DefaultKeybind = "K",
-        Type = ControlType.Float
-    };
-
-    public ControlDefinition ExampleControl2 = new ControlDefinition
-    {
-        Id = "ExampleConsumer.ExampleControl2",
-        Name = "Example Control 2",
-        Description = "Pariatur labore occaecat excepteur veniam nisi magna eu. Labore tempor fugiat id commodo amet labore sint elit eiusmod. Mollit non sint ullamco voluptate.",
-        DefaultKeybind = "N",
-        Type = ControlType.Boolean
-    };
-
     public override void Init()
     {
         base.Init();
-        ControlHandler.Current.RegisterControl(ExampleControl);
-        ControlHandler.Current.RegisterControl(ExampleControl2);
-        ControlHandler.Current.On(ExampleControl.Id, OnExampleControlChanged);
     }
 
     public override void OnEnable()
@@ -52,12 +31,6 @@ public class MyConsumer : Plugin
         _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
         _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
         _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
-    }
-
-    public void OnExampleControlChanged(object? sender, ControlChangeEventArgs e)
-    {
-        float value = (float)e.NewValue;
-        Logger.Info($"ExampleControl changed to value: {value}");
     }
 
     public override void OnDisable()

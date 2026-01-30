@@ -12,7 +12,10 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
         <StackPanel>
-            <ItemsControl x:Name="PluginList" ItemsSource="{Binding Plugins}" ItemsPanel="{StaticResource WrapPanelTemplate}">
+            <ItemsControl x:Name="PluginList" 
+                          ItemsSource="{Binding Plugins}" 
+                          ItemsPanel="{StaticResource WrapPanelTemplate}"
+                          IsVisible="{Binding HasPlugins}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="views:PluginItem">
                         <husk:Card 
@@ -39,7 +42,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Border x:Name="PlaceholderPanel" IsVisible="False">
+            <Border x:Name="PlaceholderPanel" IsVisible="{Binding !HasPlugins}">
                 <StackPanel Spacing="6">
                     <TextBlock Text="No plugins found" FontSize="16" FontWeight="SemiBold"/>
                     <TextBlock Text="Drop plugin DLLs into the Plugins folder (or build existing plugin projects) and hit Refresh." />

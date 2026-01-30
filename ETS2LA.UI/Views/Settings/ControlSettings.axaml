@@ -35,7 +35,7 @@
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1" Spacing="6" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                        <husk:Tag Classes="Secondary">
+                                        <husk:Tag Classes="Secondary" HorizontalAlignment="Right">
                                             <TextBlock Text="{Binding DeviceName}" FontSize="12" FontWeight="450" />
                                         </husk:Tag>
                                         <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">

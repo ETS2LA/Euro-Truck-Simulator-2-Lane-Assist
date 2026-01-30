@@ -30,6 +30,14 @@ namespace ETS2LA.Backend
         ///  The PluginHandler is what actually manages the plugins.
         /// </summary>
         public PluginHandler? pluginHandler;
+        /// <summary>
+        ///  This event is fired when the backend has been loaded.
+        /// </summary>
+        public event EventHandler? OnBackendLoaded;
+        /// <summary>
+        ///  Is the backing loaded?
+        /// </summary>
+        public bool IsLoaded = false;
 
         public void Start()
         {
@@ -56,6 +64,8 @@ namespace ETS2LA.Backend
 
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running.");
+                OnBackendLoaded?.Invoke(this, EventArgs.Empty);
+                IsLoaded = true;
             });
         }
 

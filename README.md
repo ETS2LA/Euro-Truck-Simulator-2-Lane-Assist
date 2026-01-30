@@ -135,6 +135,16 @@ Users can manually edit the file if they want to change settings outside of ETS2
 
 **NOTE:** Please do not spam the `Save()` function. It is recommended to only save it when a plugin gets disabled or unloaded (or a user changes a setting). You would be spending unnecessary resources and disk writes if you save every frame.
 
+Additionally ETS2LA provides global settings under `ETS2LA.Settings.Global`. These are shared between all plugins and the main window. **If your setting is found here, then use it instead of your own manager!** This way users only have to change a setting once for all plugins to apply it. Below is an example of how to use global settings, this example uses the `AssistanceSettings` class for driving assist settings.
+```csharp
+using ETS2LA.Settings.Global;
+AssistanceSettings assistanceSettings = AssistanceSettings.Current;
+Console.WriteLine($"Following Distance: {assistanceSettings.FollowingDistance}");
+assistanceSettings.FollowingDistance = FollowingDistanceOption.Near;
+Console.WriteLine($"Following Distance is now: {assistanceSettings.FollowingDistance}");
+```
+Notice that you do not need to call `.Save()` on global settings. Since these are shared between all plugins, any changes are automatically received by them. The backend will handle saving when necessary. **REMEMBER:** If you change a global setting, please notify the user, either via a notification or some other way. They should always know when a setting changes (and ideally it never should without a user's action).
+
 ### Inter Plugin communication
 All communication in ETS2LA is handled via the event bus. You can subscribe to events that other plugins fire, and you can also fire your own events. Below is an example of how to use the event bus.
 
@@ -266,6 +276,15 @@ private void OnExampleControlChanged(object sender, ControlChangeEventArgs e)
 {
     float value = (float)e.NewValue; // Remember to cast to your type (return is `object`)
 }
+```
+Additionally ETS2LA comes with some default controls you can use. These are located in `ControlHandler.Defaults`. Currently available default controls are:
+- `SET` - Works like the `SET` key in real vehicles. The user can change this behaviour with `ETS2LA.Settings.Global.AssistanceSettings.SetSpeedBehaviourOption`. Acts as the `Ok` button when any dialogs are pending confirmation.
+- `Next` - Cycles to the next element in whatever UI needs it. Additionally acts as the `Cancel` button when any dialogs are pending confirmation.
+- `Assist` - Toggles the lane assist on and off. *Should not* update current speed. That is done using the SET key.
+You can use these controls like normal ones:
+```csharp
+using ETS2LA.Controls;
+ControlHandler.Current.On(ControlHandler.Defaults.SET.Id, OnSetControlChanged);
 ```
 
 ### Sending notifications
