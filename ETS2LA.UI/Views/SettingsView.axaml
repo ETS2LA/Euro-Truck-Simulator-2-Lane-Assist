@@ -8,7 +8,15 @@
 
     <Grid ColumnDefinitions="200,*" ColumnSpacing="12">
         <StackPanel Margin="5 0 0 0">
-            <TextBlock Text="General" Margin="14 16 0 6" FontSize="12" Classes="Description" />
+            <TextBlock Text="Driving" Margin="14 16 0 6" FontSize="12" Classes="Description" />
+            <Button x:Name="AssistanceButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnAssistanceSettingsClick">
+                <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
+                    <i:Icon Grid.Column="0" Value="fa-toggle-on" FontSize="14" />
+                    <TextBlock Grid.Column="1" Text="Assistance" FontSize="14" Margin="0 0 0 0" FontWeight="500" TextWrapping="NoWrap" />
+                </Grid>
+            </Button>
+
+            <TextBlock Text="General" Margin="14 12 0 6" FontSize="12" Classes="Description" />
             <Button x:Name="WindowButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnWindowSettingsClick">
                 <Grid ColumnDefinitions="14,*,Auto" VerticalAlignment="Center" ColumnSpacing="8">
                     <i:Icon Grid.Column="0" Value="fa-display" FontSize="14" />

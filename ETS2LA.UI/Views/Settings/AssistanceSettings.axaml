@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
+             x:Class="ETS2LA.UI.Views.Settings.AssistanceSettingsPage"
+             x:DataType="views:AssistanceSettingsPage">
+    <StackPanel>
+        <Grid ColumnDefinitions="400,*">
+        <StackPanel Grid.Column="0" Spacing="20" Margin="20">
+            <StackPanel Spacing="10" Tapped="OnSeparateCruiseAndSteeringClicked">
+                <StackPanel Spacing="3">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="ON " IsVisible="{Binding SeparateCruiseAndSteering}" Classes="Highlight" />
+                        <TextBlock Text="OFF" IsVisible="{Binding !SeparateCruiseAndSteering}" Classes="Description" />
+                        <TextBlock Text="Separate Cruise and Steering" />
+                    </StackPanel>
+                    <TextBlock Text="Whether to separate cruise control and steering. If separated, a single tap will signal Cruise, while a double tap will enable both." FontSize="12" Classes="Description" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <StackPanel Spacing="3">
+                    <TextBlock Text="SET Behaviour" />
+                    <TextBlock Text="When pressing the SET button, what should ETS2LA set as the current cruise control speed?" FontSize="12" Classes="Description" />
+                </StackPanel>
+                <TabStrip ItemsSource="{Binding SetSpeedBehaviourOptions}" 
+                        SelectedIndex="{Binding SelectedSetSpeedBehaviourOption}" 
+                        SelectionChanged="OnSetSpeedBehaviourChanged">
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate x:DataType="views:TabStripItemHandler">
+                            <Border Width="115" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Header}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+            </StackPanel>
+
+            <Separator />
+
+            <StackPanel Spacing="10">
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Steering Response" />
+                    <TextBlock Text="Adjust how ETS2LA will respond to necessary steering changes. This for example controls how quickly ETS2LA will lane-change." FontSize="12" Classes="Description" />
+                </StackPanel>
+                <TabStrip ItemsSource="{Binding SteeringSensitivityOptions}" 
+                        SelectedIndex="{Binding SelectedSteeringSensitivityOption}" 
+                        SelectionChanged="OnSteeringSensitivityChanged">
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate x:DataType="views:TabStripItemHandler">
+                            <Border Width="70" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Header}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+            </StackPanel>
+            
+            <StackPanel Spacing="10">
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Acceleration Response" />
+                    <TextBlock Text="Adjust how quickly ETS2LA will respond to desired changes in acceleration. Emergency braking is not affected." FontSize="12" Classes="Description" />
+                </StackPanel>
+                <TabStrip ItemsSource="{Binding AccelerationOptions}" 
+                        SelectedIndex="{Binding SelectedAccelerationOption}"
+                        SelectionChanged="OnAccelerationOptionChanged">
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate x:DataType="views:TabStripItemHandler">
+                            <Border Width="70" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Header}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Following Distance" />
+                    <TextBlock Text="Adjust the distance ETS2LA will try to maintain from the vehicle in front of you when using adaptive cruise control." FontSize="12" Classes="Description" />
+                </StackPanel>
+                <TabStrip ItemsSource="{Binding FollowingDistanceOptions}" 
+                        SelectedIndex="{Binding SelectedFollowingDistanceOption}" 
+                        SelectionChanged="OnFollowingDistanceChanged">
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate x:DataType="views:TabStripItemHandler">
+                            <Border Width="70" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Header}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+            </StackPanel>
+        </StackPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

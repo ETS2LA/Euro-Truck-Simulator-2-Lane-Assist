@@ -63,10 +63,24 @@ namespace ETS2LA.Settings
             {
                 _savingInProgress.Add(fileName);
                 File.WriteAllText(temp, json, Encoding.UTF8);
-                if (File.Exists(target)) 
-                    File.Replace(temp, target, null);
-                else
-                    File.Move(temp, target);
+                int retries = 3;
+                while (retries-- > 0)
+                {
+                    try {
+                        if (File.Exists(target)) 
+                        { 
+                            File.Replace(temp, target, null); 
+                            break;
+                        }
+                        else
+                        {
+                            File.Move(temp, target);
+                            break;
+                        }
+                    } catch (IOException) when (retries > 1) {
+                        Thread.Sleep(50);
+                    }
+                }
                 _savingInProgress.Remove(fileName);
             } catch (Exception ex)
             {
