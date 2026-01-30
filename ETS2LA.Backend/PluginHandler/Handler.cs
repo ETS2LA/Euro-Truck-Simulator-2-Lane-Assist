@@ -16,16 +16,10 @@ namespace ETS2LA.Backend
             "ETS2LA.*",
         };
 
-        private readonly IEventBus _bus;
         public readonly List<IPlugin> LoadedPlugins = new();
         public Action<IPlugin>? PluginEnabled;
         public Action<IPlugin>? PluginDisabled;
         public bool loading = false;
-
-        public PluginHandler(IEventBus eventBus)
-        {
-            _bus = eventBus;
-        }
 
         public string[] DiscoverPlugins()
         {
@@ -69,7 +63,6 @@ namespace ETS2LA.Backend
                     {
                         var plugin = (IPlugin)Activator.CreateInstance(type)!;
                         plugin.Init();
-                        plugin.Register(_bus);
                         LoadedPlugins.Add(plugin);
                         Logger.Info($"Loaded plugin: [gray]{type.FullName}[/] from [gray]{filename}[/].");
                     }

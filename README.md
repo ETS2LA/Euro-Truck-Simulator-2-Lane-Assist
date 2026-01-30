@@ -31,9 +31,6 @@ public abstract class Plugin : IPlugin
     // Used to communicate with the window, for example sending notifications.
     protected INotificationHandler? _window;
 
-    // Used to communicate with other plugins, expanded further later.
-    protected IEventBus? _bus;
-
     // Marks if the plugin Tick thread is currently running.
     public bool _IsRunning { get; set; } = false;
 
@@ -145,7 +142,7 @@ Console.WriteLine($"Following Distance is now: {assistanceSettings.FollowingDist
 ```
 Notice that you do not need to call `.Save()` on global settings. Since these are shared between all plugins, any changes are automatically received by them. The backend will handle saving when necessary. **REMEMBER:** If you change a global setting, please notify the user, either via a notification or some other way. They should always know when a setting changes (and ideally it never should without a user's action).
 
-### Inter Plugin communication
+### Inter-Plugin communication
 All communication in ETS2LA is handled via the event bus. You can subscribe to events that other plugins fire, and you can also fire your own events. Below is an example of how to use the event bus.
 
 > The event bus works even if the plugin is disabled! If you do anything that could count as "enabled" behaviour, then please remember to check the `_IsRunning` variable in your callback before the code.
@@ -153,10 +150,10 @@ All communication in ETS2LA is handled via the event bus. You can subscribe to e
 ```csharp
 // Provider will call .Publish to fire an event to all subscribers.
 // You have to include the type of data you're sending as a generic parameter.
-_bus.Publish<float>("ExampleProvider.CurMicroseconds", System.DateTime.Now.Microsecond);
+Events.Current.Publish<float>("ExampleProvider.CurMicroseconds", System.DateTime.Now.Microsecond);
 
 // And now a subscriber can listen to that event via a callback function.
-_bus.Subscribe<float>("ExampleProvider.CurMicroseconds", OnCurMicroseconds);
+Events.Current.Subscribe<float>("ExampleProvider.CurMicroseconds", OnCurMicroseconds);
 
 void OnCurMicroseconds(float microseconds)
 {
@@ -171,7 +168,7 @@ You can listen to the game telemetry using the `GameTelemetry` plugin's event bu
 > Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function.
 ```csharp
 GameTelemetryData _latestTelemetry;
-_bus.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryData);
+Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryData);
 
 ...
 
@@ -192,7 +189,7 @@ public override void Tick()
 Reading ets2la_plugin information can be done like so. Just replace `Camera` with whatever available data structure you want to read.
 ```csharp
 Camera _latestCamera;
-_bus.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraData);
+Events.Current.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraData);
 
 private void OnCameraData(Camera data)
 {
@@ -229,7 +226,7 @@ In general it's recommended to keep steering and throttle/brake on ETS2LASDK, an
 float output = 0.2f; // Turn 20% to the right
 
 // Memory editing via ETS2LASDK, the other outputs are `Throttle` and `Brake`
-_bus?.Publish<float>("ETS2LA.Output.Steering", output);
+Events.Current.Publish<float>("ETS2LA.Output.Steering", output);
 
 // Controls via ControlsSDK, you should check the docs or the `SDKControlEvent` class
 // for all available options. You might need to do some testing on how the game handles
@@ -243,7 +240,7 @@ SDKControlEvent controlEvent = new SDKControlEvent
 };
 // Will flush the event to the game, supports any amount of fields being set
 // but the game will only listen to controls in between frames.
-_bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
+Events.Current.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
 ```
 In addition to normal controls, we've also implemented force feedback support via Windows.Gaming.Input. It works similarly to `ETS2LA.Output.Steering`, but the event name is `ForceFeedback.Output`. For a full list of supported wheels, please check [the Windows docs](https://learn.microsoft.com/en-us/uwp/api/windows.gaming.input.racingwheel?view=winrt-26100#remarks), other wheels are not supported at this time.
 
@@ -320,6 +317,15 @@ NotificationHandler.Current.SendNotification(new Notification
                    // bar will interfere with anything you set!
 });
 ```
+
+### Playing Audio
+ETS2LA provides `ETS2LA.Audio` for playing audio. You can use it to play any sound files supported by `NAudio`. Below is an example how to use it:
+```csharp
+using ETS2LA.Audio;
+AudioHandler.Current.Queue("Assets/Sounds/prompt.mp3");
+```
+> [!NOTE]
+> If you need any new features for audio playback, please send us a message on Discord or create an issue / PR on GitHub. Audio playback is extremely barebones and hasn't been thought through yet!
 
 ## Acknowledgements
 - [SCS Software](https://scssoft.com) - For making Euro Truck Simulator 2 and American Truck Simulator.

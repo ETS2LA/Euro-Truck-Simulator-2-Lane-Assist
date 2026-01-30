@@ -1,6 +1,7 @@
 #pragma warning disable CA1416 // We check OS compatibility.
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
+using ETS2LA.Backend.Events;
 using ETS2LA.UI.Notifications;
 using ETS2LA.Logging;
 using System.Numerics;
@@ -82,9 +83,6 @@ namespace GameTelemetry
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-                
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -471,7 +469,7 @@ namespace GameTelemetry
             offset += 90;
 
             // Publish to the event bus
-            _bus.Publish<GameTelemetryData>("GameTelemetry.Data", telemetry);
+            Events.Current.Publish<GameTelemetryData>("GameTelemetry.Data", telemetry);
         }
     }
 }

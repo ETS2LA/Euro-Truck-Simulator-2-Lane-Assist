@@ -139,12 +139,6 @@ namespace ETS2LA.Shared
         /// </summary>
         void Init();
         /// <summary>
-        ///  This function is ran by the backend to register the plugin to the EventBus. <br/>
-        ///  Please do not call this function yourself.
-        /// </summary>
-        /// <param name="bus"></param>
-        void Register(IEventBus bus);
-        /// <summary>
         ///  This function is ran when the plugin is enabled. Use it to subscribe to events. <br/>
         ///  Remember to unsubscribe in `OnDisable` and `Shutdown` as well!
         /// </summary>
@@ -172,10 +166,6 @@ namespace ETS2LA.Shared
     public abstract class Plugin : IPlugin
     {
         public abstract PluginInformation Info { get; }
-        /// <summary>
-        ///  The EventBus this plugin is registered to. Set by the backend, do not edit.
-        /// </summary>
-        protected IEventBus? _bus;
         public bool _IsRunning { get; set; } = false;
         /// <summary>
         ///  The tick rate of this plugin in ticks per second. Default is 20.0f TPS. <br/>
@@ -184,10 +174,6 @@ namespace ETS2LA.Shared
         public virtual float TickRate => 20.0f;
 
         public virtual void Init() { }
-        public virtual void Register(IEventBus bus)
-        {
-            _bus = bus;
-        }
 
         public virtual void OnEnable()
         {
@@ -234,7 +220,6 @@ namespace ETS2LA.Shared
         public virtual void Shutdown()
         {
             _IsRunning = false;
-            _bus = null;
         }
     }
 

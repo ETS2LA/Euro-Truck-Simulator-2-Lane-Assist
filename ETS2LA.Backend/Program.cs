@@ -23,10 +23,6 @@ namespace ETS2LA.Backend
         public static PluginBackend Current => _instance.Value;
 
         /// <summary>
-        ///  The EventBus is used by plugins to communicate with each other.
-        /// </summary>
-        public EventBus? bus;
-        /// <summary>
         ///  The PluginHandler is what actually manages the plugins.
         /// </summary>
         public PluginHandler? pluginHandler;
@@ -43,8 +39,7 @@ namespace ETS2LA.Backend
         {
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
-                bus = new EventBus();
-                pluginHandler = new PluginHandler(bus);
+                pluginHandler = new PluginHandler();
 
                 pluginHandler.LoadPlugins();
 

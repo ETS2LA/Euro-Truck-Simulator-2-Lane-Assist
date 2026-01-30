@@ -16,13 +16,15 @@ namespace ETS2LAPlugin
         {
             base.Init();
             // This is run once when the plugin is initially loaded.
+            // Usually you start to listen to control events here (or register your own).
+            // ControlHandler.Current.On(ControlHandler.Defaults.Next.Id, OnNextPressed);
         }
 
         public override void OnEnable()
         {
             base.OnEnable();
-            // Subscribe to events here
-            // _bus?.Subscribe<YourEventType>("YourTopic", YourEventHandler);
+            // Subscribe to events here, do not subscribe in Init as that's too early.
+            // Events.Current.Subscribe<YourEventType>("YourTopic", YourEventHandler);
         }
 
         public override void Tick()
@@ -41,7 +43,7 @@ namespace ETS2LAPlugin
         {
             base.OnDisable();
             // Unsubscribe from events here
-            // _bus?.Unsubscribe<YourEventType>("YourTopic", YourEventHandler);
+            // Events.Current.Unsubscribe<YourEventType>("YourTopic", YourEventHandler);
         }
 
         public override void Shutdown()
