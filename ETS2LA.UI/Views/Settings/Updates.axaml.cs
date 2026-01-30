@@ -7,6 +7,7 @@ using ETS2LA.UI.Notifications;
 
 using System.ComponentModel;
 using Velopack;
+using Huskui.Avalonia.Controls;
 
 namespace ETS2LA.UI.Views.Settings;
 
@@ -25,7 +26,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
         CurrentVersion = $"v{_updater.UpdateManager.CurrentVersion}";
         InitializeComponent();
         DataContext = this;
-        OnCheckForUpdatesClick(this, new Avalonia.Interactivity.RoutedEventArgs());
+        MainWindow.WindowOpened += (s, e) => OnCheckForUpdatesClick(this, new Avalonia.Interactivity.RoutedEventArgs());
     }
 
     public void OnCheckForUpdatesClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -36,6 +37,8 @@ public partial class Updates : UserControl, INotifyPropertyChanged
             Title = "Checking for Updates",
             Content = "Please wait while we check for updates...",
             Level = GrowlLevel.Information,
+            CloseAfter = 0,
+            IsProgressIndeterminate = true
         });
         Task.Run(() => {
             LatestUpdateInfo = _updater.CheckForUpdates();
@@ -47,6 +50,8 @@ public partial class Updates : UserControl, INotifyPropertyChanged
                     Title = "Update Available",
                     Content = $"A new version is available: {LatestUpdateInfo.TargetFullRelease.Version}",
                     Level = GrowlLevel.Success,
+                    CloseAfter = 5,
+                    IsProgressIndeterminate = false
                 });
                 OnPropertyChanged(nameof(IsUpdateAvailable));
                 OnPropertyChanged(nameof(LatestVersion));
@@ -60,6 +65,8 @@ public partial class Updates : UserControl, INotifyPropertyChanged
                     Title = "No Update Available",
                     Content = "You are using the latest version.",
                     Level = GrowlLevel.Information,
+                    CloseAfter = 5,
+                    IsProgressIndeterminate = false
                 });
             }
         });

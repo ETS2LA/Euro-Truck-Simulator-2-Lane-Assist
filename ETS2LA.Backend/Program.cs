@@ -57,7 +57,6 @@ namespace ETS2LA.Backend
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running.");
             });
-            Task.Run(() => Updater.Current.CheckForUpdates());
         }
 
         public void Shutdown()

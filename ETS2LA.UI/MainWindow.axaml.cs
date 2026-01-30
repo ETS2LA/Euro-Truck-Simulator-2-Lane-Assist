@@ -46,6 +46,7 @@ public partial class MainWindow : AppWindow
     private readonly GameView _gameView;
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
+    public static event EventHandler? WindowOpened;
 
     public MainWindow()
     {
@@ -77,6 +78,7 @@ public partial class MainWindow : AppWindow
         Position = new Avalonia.PixelPoint(settings.WindowX, settings.WindowY);
 
         AudioHandler.Current.Queue("Assets\\Sounds\\ETS2LA_Assets_Sounds_traditional_boot.mp3");
+        Opened += (s, e) => WindowOpened?.Invoke(this, e);
     }
 
     private void OnTitlebarPressed(object? sender, PointerPressedEventArgs e)
