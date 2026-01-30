@@ -1,6 +1,7 @@
 #pragma warning disable CA1416 // We check OS compatibility.
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Shared;
+using ETS2LA.Backend.Events;
 using ETS2LA.Logging;
 using System.Numerics;
 
@@ -22,9 +23,6 @@ namespace ETS2LASDK
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -80,7 +78,7 @@ namespace ETS2LASDK
                 _reader.ReadFloat(offset + 12)
             ); offset += 16;
 
-            _bus.Publish<Camera>("ETS2LASDK.Camera", camera);
+            Events.Current.Publish<Camera>("ETS2LASDK.Camera", camera);
         }
     }
 
@@ -100,9 +98,6 @@ namespace ETS2LASDK
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -208,7 +203,7 @@ namespace ETS2LASDK
                 vehicles[i] = vehicle;
             }
             data.vehicles = vehicles;
-            _bus.Publish<TrafficData>("ETS2LASDK.Traffic", data);
+            Events.Current.Publish<TrafficData>("ETS2LASDK.Traffic", data);
         }
     }
 
@@ -230,9 +225,6 @@ namespace ETS2LASDK
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -300,7 +292,7 @@ namespace ETS2LASDK
                 data.semaphores[i] = semaphore;
             }
 
-            _bus?.Publish<SemaphoreData>("ETS2LASDK.Semaphores", data);
+            Events.Current.Publish<SemaphoreData>("ETS2LASDK.Semaphores", data);
         }
     }
 
@@ -322,9 +314,6 @@ namespace ETS2LASDK
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
@@ -374,7 +363,7 @@ namespace ETS2LASDK
                 data.entries[i] = entry;
             }
 
-            _bus?.Publish<NavigationData>("ETS2LASDK.Navigation", data);
+            Events.Current.Publish<NavigationData>("ETS2LASDK.Navigation", data);
         }
     }
     
@@ -409,16 +398,13 @@ namespace ETS2LASDK
         {
             base.Init();
             // Listen to events from other plugins.
-            _bus?.Subscribe<float>("ETS2LA.Output.Steering", WriteSteering);
-            _bus?.Subscribe<float>("ETS2LA.Output.Throttle", WriteThrottle);
-            _bus?.Subscribe<float>("ETS2LA.Output.Brake", WriteBrake);
+            Events.Current.Subscribe<float>("ETS2LA.Output.Steering", WriteSteering);
+            Events.Current.Subscribe<float>("ETS2LA.Output.Throttle", WriteThrottle);
+            Events.Current.Subscribe<float>("ETS2LA.Output.Brake", WriteBrake);
         }
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-
             long now = DateTimeOffset.Now.ToUnixTimeSeconds();
             if (now > lastSteeringWrite + 1 && lastSteering != 0.0f)
             {

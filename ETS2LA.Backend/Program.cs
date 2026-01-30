@@ -23,20 +23,23 @@ namespace ETS2LA.Backend
         public static PluginBackend Current => _instance.Value;
 
         /// <summary>
-        ///  The EventBus is used by plugins to communicate with each other.
-        /// </summary>
-        public EventBus? bus;
-        /// <summary>
         ///  The PluginHandler is what actually manages the plugins.
         /// </summary>
         public PluginHandler? pluginHandler;
+        /// <summary>
+        ///  This event is fired when the backend has been loaded.
+        /// </summary>
+        public event EventHandler? OnBackendLoaded;
+        /// <summary>
+        ///  Is the backing loaded?
+        /// </summary>
+        public bool IsLoaded = false;
 
         public void Start()
         {
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
-                bus = new EventBus();
-                pluginHandler = new PluginHandler(bus);
+                pluginHandler = new PluginHandler();
 
                 pluginHandler.LoadPlugins();
 
@@ -56,6 +59,8 @@ namespace ETS2LA.Backend
 
                 Thread.Sleep(1000);
                 Logger.Success("ETS2LA is running.");
+                OnBackendLoaded?.Invoke(this, EventArgs.Empty);
+                IsLoaded = true;
             });
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using ETS2LA.Shared;
+using ETS2LA.Backend.Events;
 using ETS2LA.Settings;
 using ETS2LA.Logging;
 
@@ -43,10 +44,7 @@ namespace ExampleProvider
 
         public override void Tick()
         {
-            if (_bus == null)
-                return;
-
-            _bus.Publish<float>("ExampleProvider.Time", System.DateTime.Now.Microsecond);
+            Events.Current.Publish<float>("ExampleProvider.Time", System.DateTime.Now.Microsecond);
         }
     }
 }

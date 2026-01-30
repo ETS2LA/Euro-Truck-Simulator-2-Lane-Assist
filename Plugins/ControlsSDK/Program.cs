@@ -1,6 +1,7 @@
 #pragma warning disable CA1416 // We check OS compatibility.
 using System.IO.MemoryMappedFiles;
 using ETS2LA.Logging;
+using ETS2LA.Backend.Events;
 using ETS2LA.Shared;
 
 namespace ControlsSDK
@@ -47,7 +48,7 @@ namespace ControlsSDK
             }
 
             // And finally start listening to events
-            _bus?.Subscribe<SDKControlEvent>("ETS2LA.Output.Event", OnControlEvent);
+            Events.Current.Subscribe<SDKControlEvent>("ETS2LA.Output.Event", OnControlEvent);
         }
 
         private void OnControlEvent(SDKControlEvent controlEvent)

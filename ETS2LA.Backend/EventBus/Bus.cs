@@ -1,9 +1,15 @@
 using ETS2LA.Shared;
 
-namespace ETS2LA.Backend
+namespace ETS2LA.Backend.Events
 {
-    public class EventBus : IEventBus
+    // Named `Events` since it's nicer to write than `EventBus`. i.e.
+    // Events.Current.Publish(...)
+    // EventBus.Current.Publish(...)
+    public class Events : IEventBus
     {
+        private static readonly Lazy<Events> _instance = new(() => new Events());
+        public static Events Current => _instance.Value;
+
         private static readonly Dictionary<string, List<Delegate>> _subscribers = new();
 
         public void Subscribe<T>(string topic, Action<T> handler)

@@ -77,7 +77,7 @@ public partial class MainWindow : AppWindow
         Height = settings.WindowHeight;
         Position = new Avalonia.PixelPoint(settings.WindowX, settings.WindowY);
 
-        AudioHandler.Current.Queue("Assets\\Sounds\\ETS2LA_Assets_Sounds_traditional_boot.mp3");
+        Opened += (s, e) => AudioHandler.Current.Queue("Assets\\Sounds\\boot.mp3");
         Opened += (s, e) => WindowOpened?.Invoke(this, e);
     }
 

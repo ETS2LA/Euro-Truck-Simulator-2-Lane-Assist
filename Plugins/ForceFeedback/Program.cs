@@ -1,13 +1,14 @@
 using ETS2LA.UI.Notifications;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
+using ETS2LA.Backend.Events;
 using SharpDX.DirectInput;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 // FF listens to "ForceFeedback.Output" bus event for float values between -1.0 and 1.0.
 // If you want to use this plugin then make sure you send those events in addition to normal output.
-// Example: _bus.Publish<float>("ForceFeedback.Output", steeringValue);
+// Example: Events.Current.Publish<float>("ForceFeedback.Output", steeringValue);
 
 namespace ForceFeedback
 {
@@ -405,7 +406,7 @@ namespace ForceFeedback
         {
             base.OnEnable();
             Logger.Info("ForceFeedback plugin OnEnable() called");
-            _bus?.Subscribe<float>("ForceFeedback.Output", OnControlEvent);
+            Events.Current.Subscribe<float>("ForceFeedback.Output", OnControlEvent);
 
             if (_directInput == null)
             {
@@ -427,7 +428,7 @@ namespace ForceFeedback
         public override void OnDisable()
         {
             base.OnDisable();
-            _bus?.Unsubscribe<float>("ForceFeedback.Output", OnControlEvent);
+            Events.Current.Unsubscribe<float>("ForceFeedback.Output", OnControlEvent);
             NotificationHandler.Current.CloseNotification("ForceFeedback.Debug");
             DisposeResources();
         }

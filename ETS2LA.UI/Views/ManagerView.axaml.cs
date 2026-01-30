@@ -12,18 +12,21 @@ using ETS2LA.Shared;
 
 namespace ETS2LA.UI.Views;
 
-public partial class ManagerView : UserControl
+public partial class ManagerView : UserControl, INotifyPropertyChanged
 {
     // This list is listened by the UI to show available plugins.
     public ObservableCollection<PluginItem> Plugins { get; } = new();
     private readonly PluginManagerService _pluginService;
+    public bool HasPlugins => Plugins.Count > 0;
 
     public ManagerView(PluginManagerService service)
     {
-        _pluginService = service;
+        if (!service.backend.IsLoaded) service.backend.OnBackendLoaded += (s, e) => UpdatePluginList();
+        else UpdatePluginList();
+        
         InitializeComponent();
         DataContext = this;
-        UpdatePluginList();
+        _pluginService = service;
     }
 
     private void TogglePluginClick(object? sender, RoutedEventArgs e)
@@ -73,16 +76,19 @@ public partial class ManagerView : UserControl
             };
         }
 
-        bool hasPlugins = plugins.Count > 0;
-        if (this.FindControl<ItemsControl>("PluginList") is { } list)
-            list.IsVisible = hasPlugins;
-        if (this.FindControl<Border>("PlaceholderPanel") is { } placeholder)
-            placeholder.IsVisible = !hasPlugins;
+        OnPropertyChanged(nameof(Plugins));
+        OnPropertyChanged(nameof(HasPlugins));
     }
 
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
 

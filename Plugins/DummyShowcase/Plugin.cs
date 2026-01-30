@@ -23,7 +23,7 @@ public class DemoPlugin : Plugin, IPluginUi
     public override void Tick()
     {
         // Publish a simple heartbeat; consumers can subscribe if desired.
-        _bus?.Publish("DummyShowcase.Heartbeat", DateTime.UtcNow);
+        Events.Current.Publish("DummyShowcase.Heartbeat", DateTime.UtcNow);
     }
 
     public override void OnDisable()

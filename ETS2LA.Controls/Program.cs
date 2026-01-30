@@ -1,6 +1,7 @@
 ﻿using ETS2LA.Logging;
 using ETS2LA.Settings;
 using SharpDX.DirectInput;
+using ETS2LA.Controls.Defaults;
 
 namespace ETS2LA.Controls;
 
@@ -9,6 +10,7 @@ public class ControlHandler
     // When accessing ControlHandler, always use ControlHandler.Current
     private static readonly Lazy<ControlHandler> _instance = new(() => new ControlHandler());
     public static ControlHandler Current => _instance.Value;
+    public static DefaultControls Defaults { get; } = new DefaultControls();
 
     private List<ControlInstance> RegisteredControls { get; } = new();
     private SettingsHandler _settingsHandler = new SettingsHandler();
@@ -49,6 +51,11 @@ public class ControlHandler
         }
 
         Task.Run(() => ControlListener());
+        RegisterControl(Defaults.Assist);
+        RegisterControl(Defaults.SET);
+        RegisterControl(Defaults.Next);
+        RegisterControl(Defaults.Increase);
+        RegisterControl(Defaults.Decrease);
     }
 
     /// <summary>

@@ -1,8 +1,6 @@
 ﻿using ETS2LA.UI.Notifications;
 using ETS2LA.Shared;
-using ETS2LA.Logging;
-using ETS2LA.Game;
-using ETS2LA.Controls;
+using ETS2LA.Backend.Events;
 using Huskui.Avalonia.Models;
 
 namespace ExampleConsumer;
@@ -17,47 +15,20 @@ public class MyConsumer : Plugin
         AuthorName = "Tumppi066",
     };
 
-    public ControlDefinition ExampleControl = new ControlDefinition
-    {
-        Id = "ExampleConsumer.ExampleControl",
-        Name = "Example Control",
-        Description = "An example control that outputs a float value.",
-        DefaultKeybind = "K",
-        Type = ControlType.Float
-    };
-
-    public ControlDefinition ExampleControl2 = new ControlDefinition
-    {
-        Id = "ExampleConsumer.ExampleControl2",
-        Name = "Example Control 2",
-        Description = "Pariatur labore occaecat excepteur veniam nisi magna eu. Labore tempor fugiat id commodo amet labore sint elit eiusmod. Mollit non sint ullamco voluptate.",
-        DefaultKeybind = "N",
-        Type = ControlType.Boolean
-    };
-
     public override void Init()
     {
         base.Init();
-        ControlHandler.Current.RegisterControl(ExampleControl);
-        ControlHandler.Current.RegisterControl(ExampleControl2);
-        ControlHandler.Current.On(ExampleControl.Id, OnExampleControlChanged);
     }
 
     public override void OnEnable()
     {
         base.OnEnable();
-        _bus?.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
-        _bus?.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
-        _bus?.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
-        _bus?.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
-        _bus?.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
-        _bus?.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
-    }
-
-    public void OnExampleControlChanged(object? sender, ControlChangeEventArgs e)
-    {
-        float value = (float)e.NewValue;
-        Logger.Info($"ExampleControl changed to value: {value}");
+        Events.Current.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
+        Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
+        Events.Current.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
+        Events.Current.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
+        Events.Current.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
+        Events.Current.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
     }
 
     public override void OnDisable()
@@ -98,7 +69,7 @@ public class MyConsumer : Plugin
         //     CloseAfter = 0 
         // });
 
-        _bus?.Publish<float>("ForceFeedback.Output", output);
+        Events.Current.Publish<float>("ForceFeedback.Output", output);
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ExampleConsumer.Output",
@@ -116,7 +87,7 @@ public class MyConsumer : Plugin
         //     light = true,
         //     hblight = false
         // };
-        // _bus?.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
+        // Events.Current.Publish<SDKControlEvent>("ETS2LA.Output.Event", controlEvent);
     }
 
     private void OnTimeReceived(float data)
