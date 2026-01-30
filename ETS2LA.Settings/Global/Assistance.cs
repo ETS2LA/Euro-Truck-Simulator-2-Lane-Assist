@@ -27,6 +27,21 @@ public enum SetSpeedBehaviour
     CurrentSpeed
 }
 
+public enum SpeedLimitWarning
+{
+    Off,
+    Visual,
+    Chime
+}
+
+public enum CollisionAvoidance
+{
+    Off,
+    Late,
+    Medium,
+    Early
+}
+
 [Serializable]
 public class AssistanceSettings
 {
@@ -39,6 +54,8 @@ public class AssistanceSettings
     public SteeringSensitivityOption SteeringSensitivity { get; set; } = SteeringSensitivityOption.Normal;
     public FollowingDistanceOption FollowingDistance { get; set; } = FollowingDistanceOption.Normal;
     public SetSpeedBehaviour SetSpeedBehaviourOption { get; set; } = SetSpeedBehaviour.CurrentSpeed;
+    public SpeedLimitWarning SpeedLimitWarningOption { get; set; } = SpeedLimitWarning.Visual;
+    public CollisionAvoidance CollisionAvoidanceOption { get; set; } = CollisionAvoidance.Early;
 
     [NonSerialized]
     private SettingsHandler? _settingsHandler;
@@ -56,6 +73,8 @@ public class AssistanceSettings
                 SteeringSensitivity = loadedSettings.SteeringSensitivity;
                 FollowingDistance = loadedSettings.FollowingDistance;
                 SetSpeedBehaviourOption = loadedSettings.SetSpeedBehaviourOption;
+                SpeedLimitWarningOption = loadedSettings.SpeedLimitWarningOption;
+                CollisionAvoidanceOption = loadedSettings.CollisionAvoidanceOption;
             }
             _settingsHandler.RegisterListener<AssistanceSettings>("AssistanceSettings.json", OnSettingsChanged);
         }
@@ -75,5 +94,7 @@ public class AssistanceSettings
         SteeringSensitivity = newSettings.SteeringSensitivity;
         FollowingDistance = newSettings.FollowingDistance;
         SetSpeedBehaviourOption = newSettings.SetSpeedBehaviourOption;
+        SpeedLimitWarningOption = newSettings.SpeedLimitWarningOption;
+        CollisionAvoidanceOption = newSettings.CollisionAvoidanceOption;
     }
 }

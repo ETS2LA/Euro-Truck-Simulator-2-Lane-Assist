@@ -13,6 +13,8 @@ public partial class AssistanceSettingsPage : UserControl, INotifyPropertyChange
     public ObservableCollection<TabStripItemHandler> SteeringSensitivityOptions { get; } = new();
     public ObservableCollection<TabStripItemHandler> FollowingDistanceOptions { get; } = new();
     public ObservableCollection<TabStripItemHandler> SetSpeedBehaviourOptions { get; } = new();
+    public ObservableCollection<TabStripItemHandler> SpeedLimitWarningOptions { get; } = new();
+    public ObservableCollection<TabStripItemHandler> CollisionAvoidanceOptions { get; } = new();
 
     public bool SeparateCruiseAndSteering
     {
@@ -31,6 +33,8 @@ public partial class AssistanceSettingsPage : UserControl, INotifyPropertyChange
     public int SelectedSteeringSensitivityOption { get; set; }
     public int SelectedFollowingDistanceOption { get; set; }
     public int SelectedSetSpeedBehaviourOption { get; set; }
+    public int SelectedSpeedLimitWarningOption { get; set; }
+    public int SelectedCollisionAvoidanceOption { get; set; }
 
     public AssistanceSettingsPage()
     {
@@ -38,6 +42,8 @@ public partial class AssistanceSettingsPage : UserControl, INotifyPropertyChange
         LoadSteeringSensitivityOptions();
         LoadFollowingDistanceOptions();
         LoadSetSpeedBehaviourOptions();
+        LoadSpeedLimitWarningOptions();
+        LoadCollisionAvoidanceOptions();
         AvaloniaXamlLoader.Load(this);
         DataContext = this;
     }
@@ -78,6 +84,24 @@ public partial class AssistanceSettingsPage : UserControl, INotifyPropertyChange
         }
     }
 
+    private void LoadSpeedLimitWarningOptions()
+    {
+        SelectedSpeedLimitWarningOption = (int)AssistanceSettings.Current.SpeedLimitWarningOption;
+        foreach (SpeedLimitWarning option in Enum.GetValues(typeof(SpeedLimitWarning)))
+        {
+            SpeedLimitWarningOptions.Add(new TabStripItemHandler(option.ToString()));
+        }
+    }
+
+    private void LoadCollisionAvoidanceOptions()
+    {
+        SelectedCollisionAvoidanceOption = (int)AssistanceSettings.Current.CollisionAvoidanceOption;
+        foreach (CollisionAvoidance option in Enum.GetValues(typeof(CollisionAvoidance)))
+        {
+            CollisionAvoidanceOptions.Add(new TabStripItemHandler(option.ToString()));
+        }
+    }
+
     private void OnAccelerationOptionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (SelectedAccelerationOption >= 0)
@@ -110,6 +134,24 @@ public partial class AssistanceSettingsPage : UserControl, INotifyPropertyChange
         if (SelectedSetSpeedBehaviourOption >= 0)
         {
             AssistanceSettings.Current.SetSpeedBehaviourOption = (SetSpeedBehaviour)SelectedSetSpeedBehaviourOption;
+            AssistanceSettings.Current.Save();
+        }
+    }
+
+    private void OnSpeedLimitWarningChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (SelectedSpeedLimitWarningOption >= 0)
+        {
+            AssistanceSettings.Current.SpeedLimitWarningOption = (SpeedLimitWarning)SelectedSpeedLimitWarningOption;
+            AssistanceSettings.Current.Save();
+        }
+    }
+
+    private void OnCollisionAvoidanceChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (SelectedCollisionAvoidanceOption >= 0)
+        {
+            AssistanceSettings.Current.CollisionAvoidanceOption = (CollisionAvoidance)SelectedCollisionAvoidanceOption;
             AssistanceSettings.Current.Save();
         }
     }

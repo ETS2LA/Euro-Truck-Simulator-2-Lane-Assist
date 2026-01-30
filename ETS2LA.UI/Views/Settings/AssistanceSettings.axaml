@@ -1,16 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
+             xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
              x:Class="ETS2LA.UI.Views.Settings.AssistanceSettingsPage"
              x:DataType="views:AssistanceSettingsPage">
     <StackPanel>
-        <Grid ColumnDefinitions="400,*">
+        <Grid ColumnDefinitions="450,*">
         <StackPanel Grid.Column="0" Spacing="20" Margin="20">
             <StackPanel Spacing="10" Tapped="OnSeparateCruiseAndSteeringClicked">
                 <StackPanel Spacing="3">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <TextBlock Text="ON " IsVisible="{Binding SeparateCruiseAndSteering}" Classes="Highlight" />
-                        <TextBlock Text="OFF" IsVisible="{Binding !SeparateCruiseAndSteering}" Classes="Description" />
+                        <husk:Tag IsVisible="{Binding SeparateCruiseAndSteering}" Classes="Primary" Width="35">
+                            <TextBlock Text="ON " Classes="Highlight" HorizontalAlignment="Center" />
+                        </husk:Tag>
+                        <husk:Tag IsVisible="{Binding !SeparateCruiseAndSteering}" Classes="Secondary" Width="35">
+                            <TextBlock Text="OFF" Classes="Description" HorizontalAlignment="Center" />
+                        </husk:Tag>
                         <TextBlock Text="Separate Cruise and Steering" />
                     </StackPanel>
                     <TextBlock Text="Whether to separate cruise control and steering. If separated, a single tap will signal Cruise, while a double tap will enable both." FontSize="12" Classes="Description" />
@@ -81,6 +86,44 @@
                 <TabStrip ItemsSource="{Binding FollowingDistanceOptions}" 
                         SelectedIndex="{Binding SelectedFollowingDistanceOption}" 
                         SelectionChanged="OnFollowingDistanceChanged">
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate x:DataType="views:TabStripItemHandler">
+                            <Border Width="70" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Header}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+            </StackPanel>
+
+            <Separator />
+
+            <StackPanel Spacing="10">
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Speed Limit Warning" />
+                    <TextBlock Text="How should ETS2LA warn you about speed limits?" FontSize="12" Classes="Description" />
+                </StackPanel>
+                <TabStrip ItemsSource="{Binding SpeedLimitWarningOptions}" 
+                        SelectedIndex="{Binding SelectedSpeedLimitWarningOption}"
+                        SelectionChanged="OnSpeedLimitWarningChanged">
+                    <TabStrip.ItemTemplate>
+                        <DataTemplate x:DataType="views:TabStripItemHandler">
+                            <Border Width="70" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Header}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </TabStrip.ItemTemplate>
+                </TabStrip>
+            </StackPanel>
+
+            <StackPanel Spacing="10">
+                <StackPanel Spacing="3">
+                    <TextBlock Text="Collision Avoidance" />
+                    <TextBlock Text="At what time should ETS2LA intervene to avoid a collision?" FontSize="12" Classes="Description" />
+                </StackPanel>
+                <TabStrip ItemsSource="{Binding CollisionAvoidanceOptions}" 
+                        SelectedIndex="{Binding SelectedCollisionAvoidanceOption}" 
+                        SelectionChanged="OnCollisionAvoidanceChanged">
                     <TabStrip.ItemTemplate>
                         <DataTemplate x:DataType="views:TabStripItemHandler">
                             <Border Width="70" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">

@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia">
     <Style Selector="husk|GrowlItem">
-        <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
+        <Setter Property="Background" Value="#151515"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Gray6Color}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="14, 10"/>

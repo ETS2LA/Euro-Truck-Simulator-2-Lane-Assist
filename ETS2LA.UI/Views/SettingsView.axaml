@@ -6,7 +6,7 @@
              x:Class="ETS2LA.UI.Views.SettingsView"
              x:DataType="views:SettingsView">
 
-    <Grid ColumnDefinitions="200,*" ColumnSpacing="12">
+    <Grid ColumnDefinitions="200,*" ColumnSpacing="12" MaxHeight="{Binding Extent.Height, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
         <StackPanel Margin="5 0 0 0">
             <TextBlock Text="Driving" Margin="14 16 0 6" FontSize="12" Classes="Description" />
             <Button x:Name="AssistanceButton" Classes="sidebar" Theme="{StaticResource OutlineButtonTheme}" Click="OnAssistanceSettingsClick">
@@ -64,7 +64,9 @@
         </StackPanel>
 
         <husk:Card Grid.Column="1" Padding="10" CornerRadius="0" BorderThickness="1 0 0 0">
-            <ContentControl x:Name="ContentHost"/>
+            <ScrollViewer>
+                <ContentControl x:Name="ContentHost"/>
+            </ScrollViewer>
         </husk:Card>
     </Grid>
 </UserControl>
