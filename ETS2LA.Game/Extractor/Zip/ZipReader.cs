@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using TruckLib;
 using static Extractor.PathUtils;
 
@@ -166,7 +167,10 @@ namespace Extractor.Zip
         IList<string> IFileSystem.GetFiles(string path)
         {
             RemoveInitialSlash(ref path);
-            return Entries.Keys.Where(x => x.StartsWith(path) && !x.EndsWith('/')).ToList();
+            return Entries.Keys
+                .Where(x => x.StartsWith(path) && !x.EndsWith('/'))
+                .Select(x => x.StartsWith('/') ? x : '/' + x)
+                .ToList();
         }
 
         byte[] IFileSystem.ReadAllBytes(string path)
