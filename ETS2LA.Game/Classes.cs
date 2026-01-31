@@ -4,6 +4,10 @@ using TruckLib.HashFs;
 using TruckLib.ScsMap;
 using TruckLib;
 
+// Copied from https://github.com/sk-zk/Extractor
+using Extractor;
+using Extractor.Zip;
+
 namespace ETS2LA.Game;
 
 public enum GameType
@@ -183,21 +187,53 @@ public class Installation
         if (_map == null)
         {
             List<string> scsFiles = new List<string>();
+            List<string> modFiles = new List<string>();
             GetSCSFilesInRootDirectory(scsFiles);
             foreach (Mod mod in _selectedMods ?? new List<Mod>())
             {
                 if (mod.Load && File.Exists(mod.Path))
                 {
-                    Logger.Info($"Adding mod: {mod.Path}");
-                    scsFiles.Add(mod.Path);
+                    modFiles.Add(mod.Path);
                 }
             }
 
-            IFileSystem[] hashFsReaders = scsFiles
+            List<IFileSystem> hashFsReaders = scsFiles
                 .Select(file => HashFsReader.Open(file) as IFileSystem)
-                .ToArray();
+                .ToList();
 
-            _assetLoader = new AssetLoader(hashFsReaders);
+            int modCount = modFiles.Count;
+            int cur = 0;
+            foreach (string modFile in modFiles)
+            {
+                Logger.Info($"Adding mod: {modFile}");
+                _notificationHandler?.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.Parsing",
+                    Title = "Unpacking Mods",
+                    Content = $"{modFile.Split(System.IO.Path.DirectorySeparatorChar).Last()}",
+                    CloseAfter = 0,
+                    Progress = (cur + 1) / (float)modCount * 100f,
+                });
+                cur++;
+                
+                IFileSystem reader;
+                try 
+                {
+                    reader = ZipReader.Open(modFile) as IFileSystem;
+                }
+                catch (InvalidDataException)
+                {
+                    reader = HashFsReader.Open(modFile) as IFileSystem;
+                }
+
+                if (reader != null)
+                {
+                    hashFsReaders.Add(reader);
+                }
+            }
+
+            hashFsReaders.Reverse(); // Mods first, base game last
+            _assetLoader = new AssetLoader(hashFsReaders.ToArray());
             _map = new MapData();
             _map.SetNotificationHandler(_notificationHandler);
             _map.Read(GetMapFilepath(), _assetLoader);
