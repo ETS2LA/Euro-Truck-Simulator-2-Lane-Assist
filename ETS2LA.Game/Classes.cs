@@ -8,6 +8,7 @@ using TruckLib;
 // Copied from https://github.com/sk-zk/Extractor
 using Extractor;
 using Extractor.Zip;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace ETS2LA.Game;
 
@@ -121,6 +122,10 @@ public class Installation
     private MapData? _map = null;
     private List<Mod>? _selectedMods = null;
     private INotificationHandler? _notificationHandler = null;
+
+    public event Action? OnDataParsed;
+    public event Action? OnDataNotParsed;
+    public event Action? OnParsingStarted;
 
     public void SetNotificationHandler(INotificationHandler? handler)
     {
@@ -308,6 +313,7 @@ public class Installation
         }
 
         IsParsing = true;
+        OnParsingStarted?.Invoke();
         Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
         _notificationHandler?.SendNotification(new Notification
         {
@@ -323,6 +329,7 @@ public class Installation
         {
             Logger.Error($"Failed to load map for installation at '{Path}'");
             IsParsing = false;
+            OnDataNotParsed?.Invoke();
             _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
             return;
         }
@@ -335,6 +342,7 @@ public class Installation
         {
             Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
             IsParsing = false;
+            OnDataNotParsed?.Invoke();
             _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
             return;
         }
@@ -348,6 +356,7 @@ public class Installation
 
         IsParsed = true;
         IsParsing = false;
+        OnDataParsed?.Invoke();
         _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
         _notificationHandler?.SendNotification(new Notification
         {
