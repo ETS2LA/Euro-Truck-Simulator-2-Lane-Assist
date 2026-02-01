@@ -25,5 +25,14 @@
     <ProjectReference Include="..\..\ETS2LA.Backend\ETS2LA.Backend.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Audio\ETS2LA.Audio.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Controls\ETS2LA.Controls.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TruckLib\TruckLib\TruckLib.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 </Project>
