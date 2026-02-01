@@ -7,15 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2025-10-28 17:07+0000\n"
-"Last-Translator: kot_v_palvo <kotvpalvo@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/>\n"
+"PO-Revision-Date: 2026-02-02 00:22+0000\n"
+"Last-Translator: takedown <takedown@ets2la.com>\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
+">\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -385,7 +387,7 @@ msgstr "SDK для {0} устарел. Пожалуйста, переустан�
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Открыть настройки SDK"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -415,9 +417,9 @@ msgstr "Ваше время использования:"
 #: .\Pages\about.py:453
 msgid "over {count} session"
 msgid_plural "over {count} sessions"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "За {count} сессию"
+msgstr[1] "За {count} сессии"
+msgstr[2] "За {count} сессий"
 
 #: .\Pages\about.py:469
 msgid "You are not logged in."
@@ -438,10 +440,14 @@ msgstr "С возвращением, {0}!"
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
 msgstr ""
+"Backend ETS2LA может быть частично недоступен, пожалуйста, имейте в виду "
+"любые ошибочные значения или отсутствующую статистику!"
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
 msgstr ""
+"Мы стараемся восстановить полную функциональность как можно быстрее. "
+"Держитесь крепче, это может занять от нескольких минут до нескольких дней!"
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -528,23 +534,25 @@ msgstr "Плагин не найден в каталоге."
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "Завершение существующих процессов плагинов"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "Не удалось завершить существующие процессы плагинов."
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "Обновление существующей установки"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "Перезапуск процессов плагинов"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
 msgstr ""
+"Не удалось запустить фоновый процесс плагина, однако файлы плагина были "
+"обновлены."
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -552,7 +560,7 @@ msgstr "Успех"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "Плагин '{name}' успешно обновлён."
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -560,7 +568,7 @@ msgstr "Ошибка"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "Не удалось обновить плагин '{name}'"
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -637,11 +645,11 @@ msgstr "Найдено плагинов: {count}"
 
 #: .\Pages\catalogue.py:499
 msgid "Update Available {new}"
-msgstr ""
+msgstr "Доступно обновление {new}"
 
 #: .\Pages\catalogue.py:522
 msgid "Failed to read version"
-msgstr ""
+msgstr "Не удалось прочитать версию"
 
 #: .\Pages\catalogue.py:555
 msgid "Back"
@@ -831,7 +839,7 @@ msgstr "Пользовательский интерфейс"
 
 #: .\Pages\global_settings.py:231
 msgid "Window Settings"
-msgstr ""
+msgstr "Настройки окна"
 
 #: .\Pages\global_settings.py:241 .\Pages\onboarding.py:567
 msgid "Window Width"
@@ -860,7 +868,7 @@ msgstr "Изменить уровень прозрачности окна при
 
 #: .\Pages\global_settings.py:292
 msgid "Language Settings"
-msgstr ""
+msgstr "Настройки языка"
 
 #: .\Pages\global_settings.py:300 .\Pages\onboarding.py:201
 msgid "Language"
@@ -888,7 +896,7 @@ msgstr "Аудио"
 
 #: .\Pages\global_settings.py:355
 msgid "Sound Settings"
-msgstr ""
+msgstr "Настройки звука"
 
 #: .\Pages\global_settings.py:362
 msgid "Soundpack"
@@ -908,23 +916,23 @@ msgstr "Регулирование громкости. Это повлияет �
 
 #: .\Pages\global_settings.py:389
 msgid "Engage"
-msgstr ""
+msgstr "Включить"
 
 #: .\Pages\global_settings.py:395
 msgid "Disengage"
-msgstr ""
+msgstr "Выключить"
 
 #: .\Pages\global_settings.py:401
 msgid "Warning"
-msgstr ""
+msgstr "Предупреждение"
 
 #: .\Pages\global_settings.py:407
 msgid "Prompt"
-msgstr ""
+msgstr "Сообщение"
 
 #: .\Pages\global_settings.py:409
 msgid "Toggle Sounds"
-msgstr ""
+msgstr "Включение/выключение звуков"
 
 #: .\Pages\global_settings.py:413
 msgid "Startup Sound"
@@ -988,7 +996,7 @@ msgstr "Разное"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "Настройки интерфейса"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1032,7 +1040,7 @@ msgstr "Количество времени, которое ETS2LA будет ж
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "Настройки Backend"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1052,7 +1060,7 @@ msgstr "Включите эту опцию, чтобы использовать 
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "Сезонные эффекты"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1291,15 +1299,17 @@ msgstr "Вот эта зелёная кнопка!"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "Уведомление о визуализации"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
 msgstr ""
+"Иногда окно ETS2LA может работать не так, как ожидается. Если у вас "
+"возникнут какие-либо странные проблемы, нажатие F5 перезагрузит окно."
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "Нажмите F5, чтобы продолжить"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
