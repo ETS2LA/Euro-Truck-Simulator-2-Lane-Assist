@@ -246,7 +246,7 @@ public class Installation
         }
     }
 
-    public MapData GetMapData()
+    public MapData? GetMapData()
     {
         if (_map == null)
         {
@@ -299,7 +299,24 @@ public class Installation
             _map.SetNotificationHandler(_notificationHandler);
             var filepath = GetMapFilepath();
             Logger.Info($"Loading map data from '{filepath}'");
-            _map.Read(filepath, _assetLoader);
+            try
+            {
+                _map.Read(filepath, _assetLoader);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error loading map data from '{filepath}': {ex.Message}");
+                _notificationHandler?.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.ErrorParsing",
+                    Title = "Error Loading Map Data",
+                    Content = $"An error occurred while loading map data: {ex.Message}",
+                    IsProgressIndeterminate = false,
+                    Level = Huskui.Avalonia.Models.GrowlLevel.Danger,
+                    CloseAfter = 10
+                });
+                _map = null;
+            }
         }
         return _map;
     }
