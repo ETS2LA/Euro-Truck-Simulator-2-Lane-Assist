@@ -7,14 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2026-01-25 07:18+0000\n"
-"Last-Translator: zegar <zeg@ets2la.com>\n"
-"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>\n"
+"PO-Revision-Date: 2026-02-02 00:22+0000\n"
+"Last-Translator: KanapkaPL <kanapkapl@ets2la.com>\n"
+"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/backend/pl/>"
+"\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
@@ -385,7 +387,7 @@ msgstr "SDK dla {0} jest przestarzały. Proszę go ponownie zainstalować w celu
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Otwórz ustawienia SDK"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -437,10 +439,14 @@ msgstr "Witaj z powrotem, {0}!"
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
 msgstr ""
+"Backend ETS2LA może być częściowo niedostępny, dlatego prosimy mieć na "
+"uwadze ewentualne błędne wartości lub brakujące statystyki!"
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
 msgstr ""
+"Pracujemy nad jak najszybszym przywróceniem pełnej funkcjonalności. Prosimy "
+"o cierpliwość — może to potrwać od kilku minut do nawet kilku dni!"
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -527,23 +533,25 @@ msgstr "Wtyczka nie znaleziona w katalogu."
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "Zamykanie istniejących procesów wtyczki"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "Nie udało się zatrzymać istniejących procesów wtyczki."
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "Aktualizowanie istniejącej instalacji"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "Ponowne uruchamianie procesu wtyczki"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
 msgstr ""
+"Nie udało się uruchomić procesu wtyczki w tle, ale pliki wtyczki zostały "
+"zaktualizowane."
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -551,7 +559,7 @@ msgstr "Sukces"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "Wtyczka „{name}” została pomyślnie zaktualizowana."
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -559,7 +567,7 @@ msgstr "Niepowodzenie"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "Nie udało się zaktualizować wtyczki „{name}”"
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -986,7 +994,7 @@ msgstr "Różne"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "Ustawienia interfejsu użytkownika"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1030,7 +1038,7 @@ msgstr "Czas, przez jaki ETS2LA czeka na pojawienie się okna."
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "Ustawienia backendu"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1050,7 +1058,7 @@ msgstr "Włącz tę opcję, aby używać zaawansowanego śledzenia błędów."
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "Efekty sezonowe"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1289,19 +1297,21 @@ msgstr "To ten zielony przycisk!"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "Powiadomienie wizualizacji"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
 msgstr ""
+"Czasami okno ETS2LA może nie działać poprawnie. Jeśli napotkasz jakieś "
+"dziwne problemy, naciśnięcie klawisza F5 przeładuje okno."
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "Naciśnij F5 aby kontynuować"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "Obejście"
 
 #: .\Pages\onboarding.py:742
 msgid ""
