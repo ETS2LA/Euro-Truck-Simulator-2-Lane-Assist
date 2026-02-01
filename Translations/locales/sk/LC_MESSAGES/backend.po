@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2025-09-09 16:07+0000\n"
+"PO-Revision-Date: 2026-02-02 00:22+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/backend/sk/>"
+"\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -385,7 +386,7 @@ msgstr "Súprava SDK pre {0} je zastaraná. Preinštalujte ju, aby ste aktualizo
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Otvorte Nastavenia súpravy SDK"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -414,9 +415,9 @@ msgstr "Váš čas používania:"
 #: .\Pages\about.py:453
 msgid "over {count} session"
 msgid_plural "over {count} sessions"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "viac ako {count} relácia"
+msgstr[1] "viac ako {count} relácie"
+msgstr[2] "viac ako {count} relácií"
 
 #: .\Pages\about.py:469
 msgid "You are not logged in."
@@ -437,10 +438,14 @@ msgstr "Vitaj späť, {0}!"
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
 msgstr ""
+"Backend ETS2LA môže byť čiastočne nedostupný, dávajte si pozor na akékoľvek "
+"chybné hodnoty alebo chýbajúce štatistiky!"
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
 msgstr ""
+"Pracujeme na tom, aby sme čo najskôr obnovili plnú funkčnosť. Vydržte, môže "
+"to trvať od niekoľkých minút do niekoľkých dní!"
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -527,23 +532,25 @@ msgstr "Plugin sa v katalógu nenašiel."
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "Zatvorenie existujúcich procesov pluginov"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "Nepodarilo sa zastaviť existujúce procesy pluginov."
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "Aktualizácia existujúcej inštalácie"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "Reštartovanie procesu pluginu"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
 msgstr ""
+"Nepodarilo sa spustiť proces pluginu na pozadí, ale súbory pluginu boli "
+"aktualizované."
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -551,7 +558,7 @@ msgstr "Úspech"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "Plugin „{name}“ bol úspešne aktualizovaný."
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -559,7 +566,7 @@ msgstr "Nepodarilo sa"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "Nepodarilo sa aktualizovať plugin „{name}“"
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -636,11 +643,11 @@ msgstr "Nájdených {count} pluginov"
 
 #: .\Pages\catalogue.py:499
 msgid "Update Available {new}"
-msgstr ""
+msgstr "Aktualizácia k dispozícii {new}"
 
 #: .\Pages\catalogue.py:522
 msgid "Failed to read version"
-msgstr ""
+msgstr "Verziu sa nepodarilo prečítať"
 
 #: .\Pages\catalogue.py:555
 msgid "Back"
@@ -830,7 +837,7 @@ msgstr "Používateľské rozhranie"
 
 #: .\Pages\global_settings.py:231
 msgid "Window Settings"
-msgstr ""
+msgstr "Nastavenia okna"
 
 #: .\Pages\global_settings.py:241 .\Pages\onboarding.py:567
 msgid "Window Width"
@@ -858,7 +865,7 @@ msgstr "Zmeňte priehľadnosť okna pri prechode do režimu priehľadnosti. To m
 
 #: .\Pages\global_settings.py:292
 msgid "Language Settings"
-msgstr ""
+msgstr "Nastavenia jazyka"
 
 #: .\Pages\global_settings.py:300 .\Pages\onboarding.py:201
 msgid "Language"
@@ -886,7 +893,7 @@ msgstr "Zvuk"
 
 #: .\Pages\global_settings.py:355
 msgid "Sound Settings"
-msgstr ""
+msgstr "Nastavenia zvuku"
 
 #: .\Pages\global_settings.py:362
 msgid "Soundpack"
@@ -906,23 +913,23 @@ msgstr "Upravte hlasitosť. Toto ovplyvní všetky zvuky prehrávané ETS2LA."
 
 #: .\Pages\global_settings.py:389
 msgid "Engage"
-msgstr ""
+msgstr "Zapnutie"
 
 #: .\Pages\global_settings.py:395
 msgid "Disengage"
-msgstr ""
+msgstr "Vypnutie"
 
 #: .\Pages\global_settings.py:401
 msgid "Warning"
-msgstr ""
+msgstr "Varovanie"
 
 #: .\Pages\global_settings.py:407
 msgid "Prompt"
-msgstr ""
+msgstr "Prompt"
 
 #: .\Pages\global_settings.py:409
 msgid "Toggle Sounds"
-msgstr ""
+msgstr "Prepnúť zvuky"
 
 #: .\Pages\global_settings.py:413
 msgid "Startup Sound"
@@ -986,7 +993,7 @@ msgstr "Rôzne"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "Nastavenia používateľského rozhrania"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1030,7 +1037,7 @@ msgstr "Čas, ktorý ETS2LA čaká na zobrazenie okna."
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "Nastavenia backendu"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1050,7 +1057,7 @@ msgstr "Povoľte túto možnosť, ak chcete použiť efektné spätné sledovani
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "Sezónne efekty"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1289,19 +1296,21 @@ msgstr "Toto je to zelené tlačidlo!"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "Oznámenie o vizualizácii"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
 msgstr ""
+"Okno ETS2LA niekedy nemusí fungovať podľa očakávania. Ak zistíte nejaké "
+"zvláštne problémy, stlačením klávesu F5 sa okno znova načíta."
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "Stlačte F5 pre pokračovanie"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "Obísť"
 
 #: .\Pages\onboarding.py:742
 msgid ""
@@ -1309,10 +1318,14 @@ msgid ""
 "\n"
 "A key you can use to refresh websites. Since this page is also a website it works just the same here."
 msgstr ""
+"**F5**\n"
+"\n"
+"Kláves, ktorý môžete použiť na obnovenie webových stránok. Keďže táto "
+"stránka je zároveň webovou stránkou, funguje tu rovnako."
 
 #: .\Pages\onboarding.py:748
 msgid "Example of a broken visualization page."
-msgstr ""
+msgstr "Príklad nefunkčnej vizualizačnej stránky."
 
 #: .\Pages\onboarding.py:752
 msgid "Onboarding Complete!"
@@ -1423,11 +1436,13 @@ msgstr ""
 #: .\Pages\plugins.py:65 .\Plugins\CollisionAvoidance\main.py:17
 #: .\Plugins\CollisionAvoidance\ui.py:15 .\Plugins\CollisionAvoidance\ui.py:37
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Zabránenie zrážkam"
 
 #: .\Pages\plugins.py:66
 msgid "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
 msgstr ""
+"Zapnite funkcie predchádzania kolíziám, keď sa nákladné vozidlo pohybuje "
+"rýchlosťou pod 30 km/h a v úzkych zákrutách / križovatkách."
 
 #: .\Pages\plugins.py:72 .\Plugins\HUD\main.py:23 .\Plugins\HUD\ui.py:127
 msgid "HUD"
@@ -1726,7 +1741,7 @@ msgstr "Volania remíz: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:738
 msgid "Frustum Culled: {} ({:.0f}%)"
-msgstr ""
+msgstr "Orezané frustom: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:748
 msgid "Text Cache Length: {}"
@@ -1830,18 +1845,22 @@ msgstr "Akú vzdialenosť by mal ACC udržiavať od vozidla pred vami?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
 msgstr ""
+"Pri rýchlosti 80 km/h si ETS2LA udrží približne {distance}m ({distance_ft}ft)"
+" od vozidla pred ním."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
 msgid "Obstruction Settings"
-msgstr ""
+msgstr "Nastavenia prekážok"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:203
 msgid "Ignore Gates"
-msgstr ""
+msgstr "Ignorovať brány"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:204
 msgid "Whether the ACC should ignore gates. Please note that this will, as it says ignore the gates."
 msgstr ""
+"Či má riadiaci systém ACC ignorovať brány. Upozorňujeme, že toto nastavenie "
+"bude, ako už bolo povedané, brány ignorovať."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Traffic Lights"
@@ -1925,11 +1944,13 @@ msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:327
 msgid "Show Debug Data"
-msgstr ""
+msgstr "Zobraziť údaje ladenia"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:328
 msgid "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
 msgstr ""
+"Zobraziť ladiace informácie ACC na AR prekrytí, čo môže pomôcť pri ladení "
+"PID regulátora."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:337
 msgid "Unlock PID"
@@ -1969,19 +1990,21 @@ msgstr "Toto video vizuálne vysvetľuje, ako funguje PID regulátor. Ak s ním 
 
 #: .\Plugins\CollisionAvoidance\main.py:19
 msgid "Provide collision avoidance when inside intersections."
-msgstr ""
+msgstr "Zabezpečte predchádzanie kolíziám vo vnútri križovatiek."
 
 #: .\Plugins\CollisionAvoidance\main.py:119
 msgid "Collision avoidance disabled"
-msgstr ""
+msgstr "Vyhýbanie sa kolíziám vypnuté"
 
 #: .\Plugins\CollisionAvoidance\main.py:127
 msgid "Collision avoidance enabled"
-msgstr ""
+msgstr "Vyhýbanie sa kolíziám zapnuté"
 
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
 msgstr ""
+"Tieto nastavenia ovplyvnia, ako ETS2LA reaguje na premávku v okolí. "
+"Upozorňujeme, že to neovplyvňuje zmeny jazdných pruhov."
 
 #: .\Plugins\CollisionAvoidance\ui.py:44 .\Plugins\Map\ui.py:179
 #: .\Plugins\Map\ui.py:204
@@ -1990,48 +2013,55 @@ msgstr "[Experimentálne]"
 
 #: .\Plugins\CollisionAvoidance\ui.py:51
 msgid "Sensitivity"
-msgstr ""
+msgstr "Citlivosť"
 
 #: .\Plugins\CollisionAvoidance\ui.py:52
 msgid "How close a vehicle has to be to the truck's path to be considered a threat. Higher values make the system more sensitive."
 msgstr ""
+"Ako blízko musí byť vozidlo k dráhe nákladného vozidla, aby bolo považované "
+"za hrozbu. Vyššie hodnoty zvyšujú citlivosť systému."
 
 #: .\Plugins\CollisionAvoidance\ui.py:67
 msgid "Max Speed"
-msgstr ""
+msgstr "Maximálna rýchlosť"
 
 #: .\Plugins\CollisionAvoidance\ui.py:68
 msgid "The maximum speed the truck can be going for collision avoidance to be active."
 msgstr ""
+"Maximálna rýchlosť, ktorou môže nákladné vozidlo ísť, aby bolo aktívne "
+"predchádzanie kolízii."
 
 #: .\Plugins\CollisionAvoidance\ui.py:81
 msgid "Lookahead Time"
-msgstr ""
+msgstr "Predbežný čas"
 
 #: .\Plugins\CollisionAvoidance\ui.py:82
 msgid "How far ahead the system looks for potential collisions."
-msgstr ""
+msgstr "Ako ďaleko dopredu systém hľadá potenciálne kolízie."
 
 #. TRANSLATORS: This means seconds, basically 3s = 3 seconds
 #: .\Plugins\CollisionAvoidance\ui.py:84
 msgid "s"
-msgstr ""
+msgstr "sekundy"
 
 #: .\Plugins\CollisionAvoidance\ui.py:93
 msgid "Announce State"
-msgstr ""
+msgstr "Oznámiť stav"
 
 #: .\Plugins\CollisionAvoidance\ui.py:94
 msgid "Announce when collision avoidance is activated or deactivated."
 msgstr ""
+"Oznámiť, kedy je aktivovaná alebo deaktivovaná funkcia predchádzania "
+"kolíziám."
 
 #: .\Plugins\EventListener\main.py:20
 msgid "Event Listener"
-msgstr ""
+msgstr "Poslucháč udalostí"
 
 #: .\Plugins\EventListener\main.py:22
 msgid "This plugin listens to the events provided by the game SDK and the log files."
 msgstr ""
+"Tento plugin počúva udalosti poskytované herným SDK a súbormi protokolov."
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:320
 #: .\Plugins\HUD\main.py:324
@@ -2361,11 +2391,13 @@ msgstr "Keď je zapnuté, mapa nebude upozorňovať na žiadne problémy súvisi
 
 #: .\Plugins\Map\ui.py:150
 msgid "Takeover When Unreliable"
-msgstr ""
+msgstr "Prevzatie, keď je nespoľahlivé"
 
 #: .\Plugins\Map\ui.py:151
 msgid "When enabled, the map will automatically take over control when the truck is not following the route correctly."
 msgstr ""
+"Keď je táto funkcia zapnutá, mapa automaticky prevezme riadenie, keď "
+"nákladné vozidlo nesleduje trasu správne."
 
 #: .\Plugins\Map\ui.py:183
 msgid "Automatic Tolls"
@@ -2732,7 +2764,7 @@ msgstr "Tento plugin poskytuje websocket server pre vizualizáciu ETS2LA. Umož�
 
 #: .\main.py:147
 msgid "Checking mirrors..."
-msgstr ""
+msgstr "Kontrola zrkadiel..."
 
 #: .\main.py:161
 msgid "- Reached {0} in {1:.0f}ms"
