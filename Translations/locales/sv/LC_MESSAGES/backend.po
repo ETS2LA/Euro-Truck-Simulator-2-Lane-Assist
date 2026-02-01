@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2025-09-12 09:07+0000\n"
+"PO-Revision-Date: 2026-02-02 00:22+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
-"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/>\n"
+"Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
+">\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -383,7 +384,7 @@ msgstr "Ett SDK för {0} är gammal. Installera om det för att uppdatera till d
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Öppna SDK Inställningar"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -412,8 +413,8 @@ msgstr "Din användningstid:"
 #: .\Pages\about.py:453
 msgid "over {count} session"
 msgid_plural "over {count} sessions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "över {count} session"
+msgstr[1] "över {count} sessioner"
 
 #: .\Pages\about.py:469
 msgid "You are not logged in."
@@ -434,10 +435,14 @@ msgstr "Välkommen tillbaks, {0}!"
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
 msgstr ""
+"ETS2LA backend kan vara delvis otillgänglig, vänligen observera eventuella "
+"felaktiga värden eller saknande statistikuppgifter!"
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
 msgstr ""
+"Vi arbetar med att återställa full funktionalitet så snart som möjligt. "
+"Vänta, det kan ta allt från några minuter till flera dagar!"
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -524,23 +529,25 @@ msgstr "Plugin hittades inte i katalogen."
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "Stänger existerande plugin-processer"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "Misslyckades att stanna existerande plugin-processer."
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "Uppdaterar existerande installering"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "Startar om plugin-processen"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
 msgstr ""
+"Misslyckades med att starta plugin bakgrundsprocessen, men plugin filerna "
+"uppdaterades."
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -548,7 +555,7 @@ msgstr "Lyckat"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "Plugin '{name}' har lyckligt uppdaterats."
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -556,7 +563,7 @@ msgstr "Misslyckades"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "Misslyckades att uppdatera plugin '{name}'"
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -633,11 +640,11 @@ msgstr "Hittade {count} plugins"
 
 #: .\Pages\catalogue.py:499
 msgid "Update Available {new}"
-msgstr ""
+msgstr "Uppdatering Tillgänglig {new}"
 
 #: .\Pages\catalogue.py:522
 msgid "Failed to read version"
-msgstr ""
+msgstr "Misslyckades att läsa variation"
 
 #: .\Pages\catalogue.py:555
 msgid "Back"
@@ -823,7 +830,7 @@ msgstr "Gränssnittet"
 
 #: .\Pages\global_settings.py:231
 msgid "Window Settings"
-msgstr ""
+msgstr "Fönster Inställningar"
 
 #: .\Pages\global_settings.py:241 .\Pages\onboarding.py:567
 msgid "Window Width"
@@ -851,7 +858,7 @@ msgstr "Ändra fönstrets transparens när du går in i transparensläge. Detta 
 
 #: .\Pages\global_settings.py:292
 msgid "Language Settings"
-msgstr ""
+msgstr "Språk Inställningar"
 
 #: .\Pages\global_settings.py:300 .\Pages\onboarding.py:201
 msgid "Language"
@@ -879,7 +886,7 @@ msgstr "Ljud"
 
 #: .\Pages\global_settings.py:355
 msgid "Sound Settings"
-msgstr ""
+msgstr "Ljud Inställningar"
 
 #: .\Pages\global_settings.py:362
 msgid "Soundpack"
@@ -899,23 +906,23 @@ msgstr "Justera volymen. Detta påverkar alla ljud som spelas upp av ETS2LA."
 
 #: .\Pages\global_settings.py:389
 msgid "Engage"
-msgstr ""
+msgstr "Engagera"
 
 #: .\Pages\global_settings.py:395
 msgid "Disengage"
-msgstr ""
+msgstr "Koppla Ur"
 
 #: .\Pages\global_settings.py:401
 msgid "Warning"
-msgstr ""
+msgstr "Varning"
 
 #: .\Pages\global_settings.py:407
 msgid "Prompt"
-msgstr ""
+msgstr "Prompt"
 
 #: .\Pages\global_settings.py:409
 msgid "Toggle Sounds"
-msgstr ""
+msgstr "Växla Ljud"
 
 #: .\Pages\global_settings.py:413
 msgid "Startup Sound"
@@ -979,7 +986,7 @@ msgstr "Diverse"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "UI Inställningar"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1023,7 +1030,7 @@ msgstr "Den tid ETS2LA väntar på att fönstret ska visas."
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "Backend Inställningar"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1043,7 +1050,7 @@ msgstr "Aktivera det här alternativet för att använda en avancerad spårning 
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "Säsång Effekter"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1282,19 +1289,21 @@ msgstr "Det är den här gröna knappen!"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "Visualiseringsmeddelande"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
 msgstr ""
+"Ibland fungerar ETS2LA fönstret som det ska. Om du hittar några konstiga "
+"fel, tryck F5 knappen för att återuppta fönstret."
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "Tryck F5 för att fortsätta"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "Bypass"
 
 #: .\Pages\onboarding.py:742
 msgid ""
@@ -1302,10 +1311,14 @@ msgid ""
 "\n"
 "A key you can use to refresh websites. Since this page is also a website it works just the same here."
 msgstr ""
+"**F5**\n"
+"\n"
+"En knapp du kan använda för att återuppta webbsidor. För att denna sida är "
+"också ett webbsida fungerar den precis likadant här."
 
 #: .\Pages\onboarding.py:748
 msgid "Example of a broken visualization page."
-msgstr ""
+msgstr "Exempel av ett söndrigt visualiseringssida."
 
 #: .\Pages\onboarding.py:752
 msgid "Onboarding Complete!"
@@ -1416,11 +1429,13 @@ msgstr ""
 #: .\Pages\plugins.py:65 .\Plugins\CollisionAvoidance\main.py:17
 #: .\Plugins\CollisionAvoidance\ui.py:15 .\Plugins\CollisionAvoidance\ui.py:37
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Kollisionsundvikande"
 
 #: .\Pages\plugins.py:66
 msgid "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
 msgstr ""
+"Aktivera kollisionsundvikande funktioner när lastbilen kör i under 30 km/h "
+"och i tighta kurvor/korsningar."
 
 #: .\Pages\plugins.py:72 .\Plugins\HUD\main.py:23 .\Plugins\HUD\ui.py:127
 msgid "HUD"
@@ -1718,7 +1733,7 @@ msgstr "Dra samtal: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:738
 msgid "Frustum Culled: {} ({:.0f}%)"
-msgstr ""
+msgstr "Frustum Gallrad: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:748
 msgid "Text Cache Length: {}"
@@ -1822,18 +1837,22 @@ msgstr "Hur långt ska ACC:n hålla sig från framförvarande fordon?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
 msgstr ""
+"Vid 80 km/h kommer ETS2LA att hålla ungefär {distance}m ({distance_ft}fot) "
+"från fordonet framför."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
 msgid "Obstruction Settings"
-msgstr ""
+msgstr "Hinder Inställningar"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:203
 msgid "Ignore Gates"
-msgstr ""
+msgstr "Ignorera Grindar"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:204
 msgid "Whether the ACC should ignore gates. Please note that this will, as it says ignore the gates."
 msgstr ""
+"Om ACCn ska ignorera grindar. Notera att detta kommer, som det säger, "
+"ignorera grindar."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Traffic Lights"
@@ -1917,11 +1936,13 @@ msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:327
 msgid "Show Debug Data"
-msgstr ""
+msgstr "Visa Debug Data"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:328
 msgid "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
 msgstr ""
+"Visa ACC debug information på AR overlayen, kan hjälpa när man inställer PID "
+"kontrollern."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:337
 msgid "Unlock PID"
@@ -1961,15 +1982,15 @@ msgstr "Denna video visar visuellt hur en PID-regulator fungerar. Vänligen koll
 
 #: .\Plugins\CollisionAvoidance\main.py:19
 msgid "Provide collision avoidance when inside intersections."
-msgstr ""
+msgstr "Undvik kollisioner inne i korsningar."
 
 #: .\Plugins\CollisionAvoidance\main.py:119
 msgid "Collision avoidance disabled"
-msgstr ""
+msgstr "Kollisionundvikning inaktiverad"
 
 #: .\Plugins\CollisionAvoidance\main.py:127
 msgid "Collision avoidance enabled"
-msgstr ""
+msgstr "Kollisionundvikning aktiverad"
 
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
