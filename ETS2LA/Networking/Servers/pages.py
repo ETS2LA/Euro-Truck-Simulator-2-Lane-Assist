@@ -103,7 +103,10 @@ async def push_update(url: str):
     current_data = json.dumps(current_data)
 
     for ws in websockets:
-        await ws.send('{"url": "' + url + '", "data": ' + current_data + "}")
+        try:
+            await ws.send('{"url": "' + url + '", "data": ' + current_data + "}")
+        except Exception as e:
+            logging.exception(f"Error sending update to {ws}: {e}")
 
 
 # Websocket handler itself, ws.recv() will block until a message is received

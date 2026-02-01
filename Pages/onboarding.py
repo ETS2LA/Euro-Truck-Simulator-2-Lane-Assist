@@ -13,6 +13,7 @@ from ETS2LA.UI import (
     SendPopup,
     Space,
     Link,
+    Image,
     Markdown,
 )
 from ETS2LA.Utils.translator import languages, parse_language
@@ -31,8 +32,9 @@ map_settings = ETS2LASettings("Map")
 
 class Page(ETS2LAPage):
     url = "/onboarding"
+    load_count = 0
     refresh_rate = 2
-    page = 0
+    page = 7
 
     # 2 = render loading page
     # 1 = start rendering
@@ -49,6 +51,10 @@ class Page(ETS2LAPage):
     def decrement_page(self):
         if self.page > 0:
             self.page -= 1
+            
+    def open_event(self):
+        super().open_event()
+        self.load_count += 1
 
     def UninstallSDK(self, game: str):
         sdk_page.UninstallSDK(game)
@@ -161,7 +167,8 @@ class Page(ETS2LAPage):
             icon_style.width = "1.2rem"
             icon_style.height = "1.2rem"
             icon_style.color = "var(--muted-foreground)"
-            Icon("arrow-down", icon_style)
+            Icon("arrow-down", icon_style)    
+        
 
     def language(self):
         with Container(
@@ -695,6 +702,51 @@ class Page(ETS2LAPage):
                 icon_style.color = "var(--muted-foreground)"
                 Icon("arrow-up", icon_style)
 
+    def visualization_notice(self):
+        with Container(
+            style=styles.FlexHorizontal() + styles.Width("1000px") + styles.Gap("48px")
+        ):
+            with Container(style=styles.FlexVertical() + styles.Width("450px")):
+                Text(_("Visualization Notice"), styles.Title())
+                Text(
+                    _(
+                        "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
+                    ),
+                    styles.Description(),
+                )
+                Space()
+                with Button(action=self.increment_page, enabled=self.load_count >= 2):
+                    if self.load_count < 2:
+                        Text(_("Press F5 to Continue"))
+                    else:
+                        Text(_("Continue"))
+                        
+                if self.load_count < 2:
+                    with Button(action=self.increment_page, type="link", style=styles.Classname("w-12 h-4")):
+                        Text(_("Bypass"), styles.Classname("text-xs text-muted-foreground"), pressed=self.increment_page)
+
+            with Container(style=styles.FlexVertical() + styles.Width("600px")):
+                with Container(
+                    styles.FlexHorizontal()
+                    + styles.Gap("12px")
+                    + styles.Classname("border rounded-md p-4 bg-input/10 items-start")
+                ):
+                    style = styles.Style()
+                    style.margin_top = "2px"
+                    style.width = "1rem"
+                    style.height = "1rem"
+                    style.color = "var(--muted-foreground)"
+                    Icon("info", style)
+                    # TRANSLATORS: Please keep the newlines in the text, they are important for the layout.
+                    Markdown(
+                        _(
+                            "**F5**\n\nA key you can use to refresh websites. Since this page is also a website it works just the same here."
+                        )
+                    )
+                    
+                Image("Pages/Assets/BrokenVisualization.png", style=styles.Classname("mt-4 rounded-md border"))
+                Text("^ " + _("Example of a broken visualization page."), styles.Classname("text-xs text-muted-foreground mt-2"))
+
     def complete(self):
         with Container(style=styles.FlexVertical() + styles.Width("400px")):
             Text(_("Onboarding Complete!"), styles.Title())
@@ -731,8 +783,8 @@ class Page(ETS2LAPage):
             3: self.plugins,
             4: self.priority,
             5: self.map_data,
-            6: self.size,
-            7: self.window_controls,
+            6: self.window_controls,
+            7: self.visualization_notice,
             8: self.complete,
         }
 
