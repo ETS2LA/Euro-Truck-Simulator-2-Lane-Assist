@@ -1,12 +1,13 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
+
 using ETS2LA.Game;
 using ETS2LA.UI.Notifications;
-using ETS2LA.Logging;
+
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 
 namespace ETS2LA.UI.Views;
 
@@ -85,13 +86,25 @@ public class GameItem : INotifyPropertyChanged
     {
         _selectedMods = new ObservableCollection<string>(instance.GetSelectedMods());
         _instance = instance;
+        instance.OnDataParsed += () => UpdateFields();
+        instance.OnDataNotParsed += () => UpdateFields();
+        instance.OnParsingStarted += () => UpdateFields();
+    }
+
+    public void UpdateFields()
+    {
+        OnPropertyChanged(nameof(IsParsed));
+        OnPropertyChanged(nameof(IsParsing));
+        OnPropertyChanged(nameof(Mods));
     }
 
     public void ParseMapDataCommand()
     {
+        if (IsParsing || IsParsed)
+            return;
+        
         _instance.SetSelectedMods(new List<string>(SelectedMods));
         Task.Run(() => _instance.Parse());
-        OnPropertyChanged(nameof(IsParsed));
     }
 
     private string TypeToString(GameType type)

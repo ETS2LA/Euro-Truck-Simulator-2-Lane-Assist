@@ -128,32 +128,38 @@ public class NotificationHandler : INotificationHandler
         // Switch to UI thread as this will probably be 
         // called from a plugin thread. Code gets stuck at creating the notif 
         // if we don't do this.
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        try
         {
-            if (ActiveNotifications.Any(x => x.Id == notification.Id))
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                UpdateNotification(notification);
-                return;
-            }
+                if (ActiveNotifications.Any(x => x.Id == notification.Id))
+                {
+                    UpdateNotification(notification);
+                    return;
+                }
 
-            GrowlHost? growlHost = _window.GetLogicalChildren().OfType<GrowlHost>().FirstOrDefault();
-            if (growlHost == null) return;
+                GrowlHost? growlHost = _window.GetLogicalChildren().OfType<GrowlHost>().FirstOrDefault();
+                if (growlHost == null) return;
 
-            GrowlItem item = new GrowlItem
-            {
-                Title = notification.Title,
-                Content = notification.Content,
-                Level = notification.Level,
-                Progress = notification.Progress,
-                IsProgressIndeterminate = notification.IsProgressIndeterminate,
-                IsCloseButtonVisible = notification.CloseAfter <= 0.0f, // show if not automatic
-                IsProgressBarVisible = notification.Progress >= 0.0f || notification.IsProgressIndeterminate
-            };
+                GrowlItem item = new GrowlItem
+                {
+                    Title = notification.Title,
+                    Content = notification.Content,
+                    Level = notification.Level,
+                    Progress = notification.Progress,
+                    IsProgressIndeterminate = notification.IsProgressIndeterminate,
+                    IsCloseButtonVisible = notification.CloseAfter <= 0.0f, // show if not automatic
+                    IsProgressBarVisible = notification.Progress >= 0.0f || notification.IsProgressIndeterminate
+                };
 
-            notification.Item = item;
-            growlHost.Pop(notification.Item);
-            ActiveNotifications.Add(notification);
-        });
+                notification.Item = item;
+                growlHost.Pop(notification.Item);
+                ActiveNotifications.Add(notification);
+            });
+        } catch (Exception ex)
+        {
+            Logger.Error($"Failed to send notification '{notification.Title}': {ex}");
+        }
     }
 
     public void CloseNotification(string id)

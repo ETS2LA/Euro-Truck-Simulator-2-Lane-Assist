@@ -43,10 +43,6 @@
     </PackageReference>
   </ItemGroup>
 
-  <Target Name="CopyLibdeflate" AfterTargets="Build">
-    <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
-  </Target>
-
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
@@ -56,5 +52,6 @@
     <ProjectReference Include="..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
     <ProjectReference Include="..\ETS2LA.Audio\ETS2LA.Audio.csproj" />
+    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj" />
   </ItemGroup>
 </Project>

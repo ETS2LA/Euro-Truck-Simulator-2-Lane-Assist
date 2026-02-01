@@ -42,7 +42,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(10000);
                 _reader = null;
                 return;
@@ -117,7 +116,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(10000);
                 _reader = null;
                 return;
@@ -244,7 +242,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(10000);
                 _reader = null;
                 return;
@@ -333,7 +330,6 @@ namespace ETS2LASDK
             }
             catch (FileNotFoundException)
             {
-                Logger.Warn("Memory mapped file not found. Please open ETS2 or ATS and enable the SDK.");
                 Thread.Sleep(10000);
                 _reader = null;
                 return;

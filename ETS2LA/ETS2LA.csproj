@@ -8,7 +8,7 @@
 
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.0.9</Version>
+    <Version>3.0.10</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,5 +55,9 @@
       <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
     </ItemGroup>
     <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)Plugins\" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyLibdeflate" AfterTargets="Build">
+    <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
   </Target>
 </Project>

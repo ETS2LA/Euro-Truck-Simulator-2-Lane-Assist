@@ -1,8 +1,14 @@
 using ETS2LA.Logging;
 using ETS2LA.Shared;
+using ETS2LA.Game.Utils;
 using TruckLib.HashFs;
 using TruckLib.ScsMap;
 using TruckLib;
+
+// Copied from https://github.com/sk-zk/Extractor
+using Extractor;
+using Extractor.Zip;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace ETS2LA.Game;
 
@@ -16,6 +22,7 @@ public class Mod
 {
     public required string Path { get; set; }
     public required bool Load { get; set; }
+    public int Priority { get; set; } = 0;
 }
 
 public enum IgnoredItemTypes
@@ -116,6 +123,10 @@ public class Installation
     private List<Mod>? _selectedMods = null;
     private INotificationHandler? _notificationHandler = null;
 
+    public event Action? OnDataParsed;
+    public event Action? OnDataNotParsed;
+    public event Action? OnParsingStarted;
+
     public void SetNotificationHandler(INotificationHandler? handler)
     {
         _notificationHandler = handler;
@@ -126,6 +137,29 @@ public class Installation
         string gameName = Type == GameType.EuroTruckSimulator2 ? "Euro Truck Simulator 2" : "American Truck Simulator";
         string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         return System.IO.Path.Combine(documentsPath, gameName, "mod");
+    }
+
+    public int GetPriority(string modName)
+    {
+        if(modName.StartsWith("promods"))
+        {
+            if (modName.Contains("def"))
+                return 1;
+            if (modName.Contains("map"))
+                return 2;
+            if (modName.Contains("assets"))
+                return 3;
+            return 4; // media and models
+        }
+        if(modName.StartsWith("eaa"))
+        {
+            if (modName.Contains("semeuropa"))
+                return 5;
+            if (modName.Contains("base_share"))
+                return 7;
+            return 6; // base
+        }
+        return 100;
     }
 
     public List<string> GetSelectedMods()
@@ -149,6 +183,7 @@ public class Installation
         mods = mods
             .Select(m => System.IO.Path.GetFileNameWithoutExtension(m))
             .ToList();
+
         return mods;
     }
 
@@ -158,8 +193,14 @@ public class Installation
         _selectedMods = mods.Select(m => new Mod
         {
             Path = System.IO.Path.Combine(modsPath, m + ".scs"),
-            Load = true
+            Load = true,
+            Priority = GetPriority(m.ToLower()),
         }).ToList();
+
+        _selectedMods = _selectedMods
+            .OrderBy(m => m.Priority)
+            .ToList();
+        
         Logger.Info($"Selected {_selectedMods.Count} mods for installation at '{Path}'");
     }
 
@@ -175,32 +216,107 @@ public class Installation
 
     private string GetMapFilepath()
     {
-        return Type == GameType.EuroTruckSimulator2 ? "/map/europe.mbd" : "/map/usa.mbd";
+        var maps = _assetLoader?.GetFiles("/map/") ?? new List<string>();
+        if (Type == GameType.EuroTruckSimulator2)
+        {
+            // Discover modded maps. For example with EAA
+            // - /map/europe.external.sii
+            // - /map/europe.mbd
+            // - /map/mapaeaa.climate.sii
+            // - /map/mapaeaa.mbd
+            maps.Remove("/map/europe.mbd");
+            foreach (var map in maps)
+            {
+                if (map.EndsWith(".mbd"))
+                    return map;
+            }
+
+            return "/map/europe.mbd";
+        }
+        else
+        {
+            maps.Remove("/map/usa.mbd");
+            foreach (var map in maps)
+            {
+                if (map.EndsWith(".mbd"))
+                    return map;
+            }
+
+            return "/map/usa.mbd";
+        }
     }
 
-    public MapData GetMapData()
+    public MapData? GetMapData()
     {
         if (_map == null)
         {
             List<string> scsFiles = new List<string>();
+            List<string> modFiles = new List<string>();
             GetSCSFilesInRootDirectory(scsFiles);
             foreach (Mod mod in _selectedMods ?? new List<Mod>())
             {
                 if (mod.Load && File.Exists(mod.Path))
                 {
-                    Logger.Info($"Adding mod: {mod.Path}");
-                    scsFiles.Add(mod.Path);
+                    modFiles.Add(mod.Path);
                 }
             }
 
-            IFileSystem[] hashFsReaders = scsFiles
+            List<IFileSystem> hashFsReaders = scsFiles
                 .Select(file => HashFsReader.Open(file) as IFileSystem)
-                .ToArray();
+                .ToList();
 
-            _assetLoader = new AssetLoader(hashFsReaders);
+            int modCount = modFiles.Count;
+            int cur = 0;
+            foreach (string modFile in modFiles)
+            {
+                Logger.Info($"Adding mod: {modFile}");
+                _notificationHandler?.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.Parsing",
+                    Title = "Unpacking Mods",
+                    Content = $"{modFile.Split(System.IO.Path.DirectorySeparatorChar).Last()}",
+                    CloseAfter = 0,
+                    Progress = (cur + 1) / (float)modCount * 100f,
+                });
+                cur++;
+                
+                IFileSystem reader;
+                try {
+                    reader = ZipReader.Open(modFile) as IFileSystem;
+                }
+                catch (InvalidDataException){
+                    reader = HashFsReader.Open(modFile) as IFileSystem;
+                }
+
+                if (reader != null)
+                {
+                    hashFsReaders.Add(reader);
+                }
+            }
+
+            _assetLoader = new AssetLoader(hashFsReaders.ToArray());
             _map = new MapData();
             _map.SetNotificationHandler(_notificationHandler);
-            _map.Read(GetMapFilepath(), _assetLoader);
+            var filepath = GetMapFilepath();
+            Logger.Info($"Loading map data from '{filepath}'");
+            try
+            {
+                _map.Read(filepath, _assetLoader);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error loading map data from '{filepath}': {ex.Message}");
+                _notificationHandler?.SendNotification(new Notification
+                {
+                    Id = "ETS2LA.Game.ErrorParsing",
+                    Title = "Error Loading Map Data",
+                    Content = $"An error occurred while loading map data: {ex.Message}",
+                    IsProgressIndeterminate = false,
+                    Level = Huskui.Avalonia.Models.GrowlLevel.Danger,
+                    CloseAfter = 10
+                });
+                _map = null;
+            }
         }
         return _map;
     }
@@ -214,6 +330,7 @@ public class Installation
         }
 
         IsParsing = true;
+        OnParsingStarted?.Invoke();
         Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
         _notificationHandler?.SendNotification(new Notification
         {
@@ -225,10 +342,11 @@ public class Installation
         });
         
         GetMapData();
-        if (_map == null)
+        if (_map == null || _assetLoader == null)
         {
             Logger.Error($"Failed to load map for installation at '{Path}'");
             IsParsing = false;
+            OnDataNotParsed?.Invoke();
             _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
             return;
         }
@@ -241,14 +359,21 @@ public class Installation
         {
             Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
             IsParsing = false;
+            OnDataNotParsed?.Invoke();
             _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
             return;
         }
 
         Logger.Success($"Finished parsing installation at '{Path}'");
         Logger.Success($"Found {prefabs} prefabs, {roads} roads and {nodes} nodes.");
+
+        // var centers = RoadUtils.CalculateRoadLaneCenters(_map.MapItems.Values.OfType<Road>().First(), _assetLoader);
+        // Logger.Info($"Left lane centers: {string.Join(", ", centers.Left)}");
+        // Logger.Info($"Right lane centers: {string.Join(", ", centers.Right)}");
+
         IsParsed = true;
         IsParsing = false;
+        OnDataParsed?.Invoke();
         _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
         _notificationHandler?.SendNotification(new Notification
         {

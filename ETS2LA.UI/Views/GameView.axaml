@@ -27,7 +27,7 @@
                         >
                             <StackPanel Spacing="6" Width="460">
                                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                                    <husk:Tag Classes="Neutral">
+                                    <husk:Tag Classes.Primary="{Binding IsParsed}">
                                         <TextBlock Text="{Binding Version}" FontSize="12" FontWeight="450" />
                                     </husk:Tag>
                                     <TextBlock Text="{Binding Game}" FontSize="14" />
@@ -38,7 +38,7 @@
                                 <ListBox ItemsSource="{Binding Mods}" SelectedItems="{Binding SelectedMods}, Mode=TwoWay" SelectionMode="Multiple" />
                                 <Button Margin="0,10,0,0" Command="{Binding ParseMapDataCommand}" IsEnabled="{Binding !IsParsed}">
                                     <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                                        <i:Icon Value="fa-arrows-rotate" IsVisible="{Binding IsParsing}" />
+                                        <i:Icon Value="fa-spinner" IsVisible="{Binding IsParsing}" Animation="Spin" />
                                         <TextBlock Text="Parse Map Data" />
                                     </StackPanel>
                                 </Button>
