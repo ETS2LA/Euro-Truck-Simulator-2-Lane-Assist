@@ -56,4 +56,8 @@
     </ItemGroup>
     <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)Plugins\" SkipUnchangedFiles="true" />
   </Target>
+
+  <Target Name="CopyLibdeflate" AfterTargets="Build">
+    <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
+  </Target>
 </Project>

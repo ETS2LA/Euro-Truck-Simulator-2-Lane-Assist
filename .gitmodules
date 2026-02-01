@@ -1,0 +1,3 @@
+[submodule "TruckLib"]
+	path = TruckLib
+	url = https://github.com/ets2la/trucklib
