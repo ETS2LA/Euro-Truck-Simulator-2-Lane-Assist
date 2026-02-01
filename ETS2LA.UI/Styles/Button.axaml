@@ -3,6 +3,11 @@
         xmlns:husk="https://github.com/d3ara1n/Huskui.Avalonia"
         xmlns:i="https://github.com/projektanker/icons.avalonia">
 
+    <Style Selector="Button">
+        <Setter Property="TextElement.FontFamily" Value="{StaticResource Geist}"/>
+        <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+    </Style>
+
     <!-- Sidebar Buttons -->
     <Style Selector="Button.sidebar">
         <Setter Property="Background" Value="Transparent"/>

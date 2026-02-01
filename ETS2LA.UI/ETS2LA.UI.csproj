@@ -17,7 +17,7 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9" Condition="'$(Configuration)'=='Debug'" >
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.9" Condition="'$(Configuration)'=='Debug'">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9">
@@ -29,6 +29,7 @@
     <PackageReference Include="Huskui.Avalonia" Version="0.7.2">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Markdown.Avalonia" Version="11.0.2" />
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.6.2">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

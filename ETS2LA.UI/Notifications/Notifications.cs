@@ -62,7 +62,7 @@ public class NotificationHandler : INotificationHandler
                         CreatedAt = notif.CreatedAt,
                         IsInternal = true
                     };
-                    SendNotification(clone);
+                    UpdateNotification(clone);
                 }
 
                 if (notif.CloseAfter > 0.0f && timeElapsed >= notif.CloseAfter)

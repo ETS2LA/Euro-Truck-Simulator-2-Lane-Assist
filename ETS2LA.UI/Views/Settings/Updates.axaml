@@ -1,23 +1,93 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:ETS2LA.UI.Views.Settings"
+             xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
+             xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
+             xmlns:mdctl="clr-namespace:Markdown.Avalonia.Controls;assembly=Markdown.Avalonia"
              x:Class="ETS2LA.UI.Views.Settings.Updates"
              x:DataType="views:Updates">
     <Border Padding="20">
         <StackPanel Spacing="10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="You're currently on " />
-                <TextBlock Classes="Highlight" Text="{Binding CurrentVersion}"/>
-                <TextBlock Text="." />
-            </StackPanel>
-            <Button Content="Check for Updates" Width="150" HorizontalAlignment="Left" Click="OnCheckForUpdatesClick"/>
-            <StackPanel IsVisible="{Binding IsUpdateAvailable}" Spacing="10">
-                <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                    <TextBlock Text="Latest Version: " />
-                    <TextBlock Classes="Highlight" Text="{Binding LatestVersion}"/>
+            <StackPanel Orientation="Horizontal" Spacing="24">
+                <StackPanel VerticalAlignment="Center" Spacing="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="You're currently on " />
+                        <TextBlock Classes="Highlight" Text="{Binding CurrentVersion}"/>
+                        <TextBlock Text="." />
+                    </StackPanel>
+                    <Button Content="Check for Updates" Width="150" HorizontalAlignment="Left" Click="OnCheckForUpdatesClick"/>
                 </StackPanel>
-                <Button Content="Install and Restart" Width="150" HorizontalAlignment="Left" Click="OnInstallAndRestartClick"/>
+
+                <TextBlock VerticalAlignment="Center" Text="→" FontSize="20" Classes="Description" IsVisible="{Binding IsUpdateAvailable}"/>
+
+                <StackPanel VerticalAlignment="Center" IsVisible="{Binding IsUpdateAvailable}" Spacing="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Latest Version: " />
+                        <TextBlock Classes="Highlight" Text="{Binding LatestVersion}"/>
+                    </StackPanel>
+                    <Button Content="Install and Restart" Width="150" HorizontalAlignment="Left" Click="OnInstallAndRestartClick"/>
+                </StackPanel>
             </StackPanel>
+            
+            <md:MarkdownScrollViewer Markdown="{Binding ReleaseNotes}" IsVisible="{Binding IsUpdateAvailable}">
+                <md:MarkdownScrollViewer.Styles>
+
+                    <Style Selector="md|MarkdownScrollViewer Grid.List">
+                        <Setter Property="Margin" Value="12 0 0 0"/>
+                    </Style>
+
+                    <Style Selector="mdctl|Rule.Single">
+                        <Setter Property="Foreground" Value="{DynamicResource Gray6Color}"/>
+                        <Setter Property="Margin" Value="0 12 0 12"/>
+                    </Style>
+
+                    <Style Selector="ctxt|CTextBlock">
+                        <Setter Property="FontFamily" Value="{StaticResource Geist}" />
+                        <Setter Property="FontSize" Value="13" />
+                    </Style>
+
+                    <Style Selector="ctxt|CTextBlock.Heading1">
+                        <Setter Property="Foreground" Value="{DynamicResource AccentForeground}"/>
+                        <Setter Property="FontSize" Value="24" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Style>
+
+                    <Style Selector="ctxt|CTextBlock.Heading2">
+                        <Setter Property="Foreground" Value="{DynamicResource AccentForeground}"/>
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Style>
+
+                    <Style Selector="ctxt|CTextBlock.Heading3">
+                        <Setter Property="Foreground" Value="{DynamicResource AccentForeground}"/>
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Style>
+
+                    <Style Selector="ctxt|CCode">
+                        <Style.Setters>
+                            <Setter Property="BorderBrush"         Value="{DynamicResource Gray6Color}"/>
+                            <Setter Property="BorderThickness"     Value="1"/>
+                            <Setter Property="Padding"             Value="0"/>
+                            <Setter Property="MonospaceFontFamily" Value="Meiryo" />
+                            <Setter Property="Foreground"          Value="{StaticResource ControlForegroundBrush}" />
+                            <Setter Property="Background"          Value="{DynamicResource Gray4Color}" />
+                            <Setter Property="CornerRadius"        Value="4"/>
+                        </Style.Setters>
+                    </Style>
+
+                    <Style Selector="Border.CodeBlock">
+                        <Style.Setters>
+                            <Setter Property="BorderBrush"     Value="{DynamicResource Gray6Color}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="CornerRadius"    Value="6"/>
+                            <Setter Property="Padding"         Value="12"/>
+                            <Setter Property="Background"      Value="{DynamicResource Gray4Color}" />
+                        </Style.Setters>
+                    </Style>
+                </md:MarkdownScrollViewer.Styles>
+                No release notes available.
+            </md:MarkdownScrollViewer>
         </StackPanel>
     </Border>
 </UserControl>

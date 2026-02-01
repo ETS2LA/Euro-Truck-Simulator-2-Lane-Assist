@@ -32,6 +32,5 @@ public sealed class PluginManagerService
 
     public void Shutdown()
     {
-        backend.Shutdown();
     }
 }

@@ -21,6 +21,7 @@ namespace GameTelemetry
         public override float TickRate => 60f;
 
         MemoryReader? _reader;
+        GameTelemetryData telemetry = new GameTelemetryData();
 
         string mmapName = "Local\\SCSTelemetry";
         int mmapSize = 32 * 1024;
@@ -134,7 +135,6 @@ namespace GameTelemetry
             NotificationHandler.Current.CloseNotification("GameTelemetry.MMFNotFound");
 
             int offset = 0;
-            GameTelemetryData telemetry = new GameTelemetryData();
 
             // Root Values
             telemetry.sdkActive = _reader.ReadBool(offset); offset += 1;

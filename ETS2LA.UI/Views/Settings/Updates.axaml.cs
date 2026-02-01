@@ -5,18 +5,20 @@ using ETS2LA.Shared;
 using ETS2LA.Backend.Updates;
 using ETS2LA.UI.Notifications;
 
-using System.ComponentModel;
 using Velopack;
-using Huskui.Avalonia.Controls;
+using System.ComponentModel;
 
 namespace ETS2LA.UI.Views.Settings;
 
 public partial class Updates : UserControl, INotifyPropertyChanged
 {
     private Updater _updater;
+
     public string CurrentVersion { get; set; } = "Unknown";
     public bool IsUpdateAvailable => LatestUpdateInfo != null;
     public string LatestVersion => LatestUpdateInfo != null ? $"v{LatestUpdateInfo.TargetFullRelease.Version}" : "N/A";
+    public string ReleaseNotes => GetReleaseNotes();
+
     public UpdateInfo? LatestUpdateInfo { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -27,6 +29,21 @@ public partial class Updates : UserControl, INotifyPropertyChanged
         InitializeComponent();
         DataContext = this;
         MainWindow.WindowOpened += (s, e) => OnCheckForUpdatesClick(this, new Avalonia.Interactivity.RoutedEventArgs());
+    }
+
+    private string GetReleaseNotes()
+    {
+        if(LatestUpdateInfo == null)
+        {
+            return "No release notes available.";
+        }
+
+        if (string.IsNullOrEmpty(LatestUpdateInfo.TargetFullRelease.NotesMarkdown))
+        {
+            return "No release notes available.";
+        }
+
+        return LatestUpdateInfo.TargetFullRelease.NotesMarkdown;
     }
 
     public void OnCheckForUpdatesClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -56,6 +73,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
                 OnPropertyChanged(nameof(IsUpdateAvailable));
                 OnPropertyChanged(nameof(LatestVersion));
                 OnPropertyChanged(nameof(LatestUpdateInfo));
+                OnPropertyChanged(nameof(ReleaseNotes));
             }
             else
             {
