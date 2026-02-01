@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
 "PO-Revision-Date: 2026-02-02 00:22+0000\n"
-"Last-Translator: takedown <takedown@ets2la.com>\n"
+"Last-Translator: kot_v_palvo <kotvpalvo@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/backend/ru/"
 ">\n"
 "Language: ru\n"
@@ -394,9 +394,11 @@ msgid "About"
 msgstr "О программе"
 
 #: .\Pages\about.py:422
-#, fuzzy
 msgid "ETS2LA is a project that aims to provide an easy to use self driving solution for ETS2 and ATS, if you want to learn more then you can visit the github page or the wiki via the sidebar."
-msgstr "ETS2LA — это проект, который предоставляет простое решение для автопилота в ETS2 и ATS. Если вы хотите узнать больше, посетите страницу GitHub или вики через боковую панель."
+msgstr ""
+"ETS2LA — это проект, который предоставляет простое решение для автопилота в "
+"ETS2 и ATS. Если вы хотите узнать больше, посетите страницу GitHub или вики "
+"через боковую панель."
 
 #: .\Pages\about.py:430
 msgid "Statistics"
@@ -1313,7 +1315,7 @@ msgstr "Нажмите F5, чтобы продолжить"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "Обход"
 
 #: .\Pages\onboarding.py:742
 msgid ""
@@ -1321,10 +1323,14 @@ msgid ""
 "\n"
 "A key you can use to refresh websites. Since this page is also a website it works just the same here."
 msgstr ""
+"**F5**\n"
+"\n"
+"Горячая клавиша, которую вы можете использовать для обновления вебсайтов. "
+"Поскольку данная страница тоже вебсайт, клавиша здесь работает точно также."
 
 #: .\Pages\onboarding.py:748
 msgid "Example of a broken visualization page."
-msgstr ""
+msgstr "Пример сломанной страницы визуализации."
 
 #: .\Pages\onboarding.py:752
 msgid "Onboarding Complete!"
@@ -1435,11 +1441,13 @@ msgstr ""
 #: .\Pages\plugins.py:65 .\Plugins\CollisionAvoidance\main.py:17
 #: .\Plugins\CollisionAvoidance\ui.py:15 .\Plugins\CollisionAvoidance\ui.py:37
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Избежание коллизий"
 
 #: .\Pages\plugins.py:66
 msgid "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
 msgstr ""
+"Включите функцию избежание коллизий, когда трак движется со скоростью меньше "
+"30км/ч или в узких поворотах / перекрёстках."
 
 #: .\Pages\plugins.py:72 .\Plugins\HUD\main.py:23 .\Plugins\HUD\ui.py:127
 msgid "HUD"
@@ -1542,7 +1550,6 @@ msgid "SDKs for {game} installed successfully."
 msgstr "SDK для {game} установлена успешно."
 
 #: .\Pages\sdk_installation.py:160
-#, fuzzy
 msgid "SDKs for {game} already installed, skipping installation"
 msgstr "SDK для {game} уже установлены, пропускаю установку"
 
@@ -1843,14 +1850,18 @@ msgstr "Какую дистанцию должен держать АКК от м
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
 msgstr ""
+"На 80км/ч ETS2LA будет держать дистанцию в {distance}м ({distance_ft}ft) до "
+"движущегося впереди транспорта."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
+#, fuzzy
 msgid "Obstruction Settings"
-msgstr ""
+msgstr "Настройки препятствий"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:203
+#, fuzzy
 msgid "Ignore Gates"
-msgstr ""
+msgstr "Игнорировать ворота"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:204
 msgid "Whether the ACC should ignore gates. Please note that this will, as it says ignore the gates."
@@ -1938,11 +1949,13 @@ msgstr "ПИД"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:327
 msgid "Show Debug Data"
-msgstr ""
+msgstr "Отобразить инфо для дебага"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:328
 msgid "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
 msgstr ""
+"Показ дебаг-информации для АКК на AR оверлее, может помочь в настройке PID "
+"контроллера."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:337
 msgid "Unlock PID"
@@ -1982,19 +1995,21 @@ msgstr "Это видео визуально объясняет, как рабо
 
 #: .\Plugins\CollisionAvoidance\main.py:19
 msgid "Provide collision avoidance when inside intersections."
-msgstr ""
+msgstr "Обеспечить предотвращение столкновений на перекрестках."
 
 #: .\Plugins\CollisionAvoidance\main.py:119
 msgid "Collision avoidance disabled"
-msgstr ""
+msgstr "Избежание столкновений отключено"
 
 #: .\Plugins\CollisionAvoidance\main.py:127
 msgid "Collision avoidance enabled"
-msgstr ""
+msgstr "Избежание столкновений включено"
 
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
 msgstr ""
+"Данная настройка влияет на то, как ETS2LA реагирует на траффик. Учтите, что "
+"это не влияет на перестроения."
 
 #: .\Plugins\CollisionAvoidance\ui.py:44 .\Plugins\Map\ui.py:179
 #: .\Plugins\Map\ui.py:204
@@ -2003,15 +2018,17 @@ msgstr "[Экспериментально]"
 
 #: .\Plugins\CollisionAvoidance\ui.py:51
 msgid "Sensitivity"
-msgstr ""
+msgstr "Чувствительность"
 
 #: .\Plugins\CollisionAvoidance\ui.py:52
 msgid "How close a vehicle has to be to the truck's path to be considered a threat. Higher values make the system more sensitive."
 msgstr ""
+"Как близко должно находится транспортное средство до пути трака, чтобы оно "
+"опознавалось как угроза. Большие значения делают систему чувствительнее."
 
 #: .\Plugins\CollisionAvoidance\ui.py:67
 msgid "Max Speed"
-msgstr ""
+msgstr "Максимальная Скорость"
 
 #: .\Plugins\CollisionAvoidance\ui.py:68
 msgid "The maximum speed the truck can be going for collision avoidance to be active."
@@ -2028,23 +2045,25 @@ msgstr ""
 #. TRANSLATORS: This means seconds, basically 3s = 3 seconds
 #: .\Plugins\CollisionAvoidance\ui.py:84
 msgid "s"
-msgstr ""
+msgstr "сек."
 
 #: .\Plugins\CollisionAvoidance\ui.py:93
 msgid "Announce State"
-msgstr ""
+msgstr "Объявлять состояние"
 
 #: .\Plugins\CollisionAvoidance\ui.py:94
 msgid "Announce when collision avoidance is activated or deactivated."
-msgstr ""
+msgstr "Объявлять когда избегание коллизий активировано или деактивировано."
 
 #: .\Plugins\EventListener\main.py:20
 msgid "Event Listener"
-msgstr ""
+msgstr "Слушатель событий"
 
 #: .\Plugins\EventListener\main.py:22
 msgid "This plugin listens to the events provided by the game SDK and the log files."
 msgstr ""
+"Плагин \"слушает\" все события, предоставленные SDK игры и сохраняет их в "
+"логи."
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:320
 #: .\Plugins\HUD\main.py:324
@@ -2745,7 +2764,7 @@ msgstr "Этот плагин предоставляет WebSocket сервер 
 
 #: .\main.py:147
 msgid "Checking mirrors..."
-msgstr ""
+msgstr "Проверка зеркал..."
 
 #: .\main.py:161
 msgid "- Reached {0} in {1:.0f}ms"
