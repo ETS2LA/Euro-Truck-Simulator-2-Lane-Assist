@@ -34,7 +34,7 @@ class Page(ETS2LAPage):
     url = "/onboarding"
     load_count = 0
     refresh_rate = 2
-    page = 7
+    page = 0
 
     # 2 = render loading page
     # 1 = start rendering
