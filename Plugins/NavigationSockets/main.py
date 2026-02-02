@@ -187,7 +187,7 @@ class Plugin(ETS2LAPlugin):
 
     async def start(self):
         self.loop = asyncio.get_running_loop()
-        async with websockets.serve(self.server, "localhost", 62840):
+        async with websockets.serve(self.server, "0.0.0.0", 62840):
             await asyncio.Future()  # run forever
 
     def run_server_thread(self):
