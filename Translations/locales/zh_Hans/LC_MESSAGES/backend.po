@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2025-12-31 12:21+0000\n"
-"Last-Translator: MaisaMaicaE <maisamaica@ets2la.com>\n"
-"Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/projects/ets2la/backend/zh_Hans/>\n"
+"PO-Revision-Date: 2026-02-02 13:42+0000\n"
+"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
+"Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
+"projects/ets2la/backend/zh_Hans/>\n"
+"Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_Hans\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -381,7 +382,7 @@ msgstr "{0} 的 SDK 版本已过期。请在 设置 — SDK 中重新安装以�
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "打开 SDK 设置"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -410,7 +411,7 @@ msgstr "您的使用时长："
 #: .\Pages\about.py:453
 msgid "over {count} session"
 msgid_plural "over {count} sessions"
-msgstr[0] ""
+msgstr[0] "超过 {count} 次会话"
 
 #: .\Pages\about.py:469
 msgid "You are not logged in."
@@ -430,11 +431,11 @@ msgstr "欢迎回来，{0}！"
 
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
-msgstr ""
+msgstr "ETS2LA 后端可能部分不可用，请注意任何错误值或缺失的统计数据！"
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
-msgstr ""
+msgstr "我们正在努力的恢复全部功能。请耐心等待，这可能需要几分钟到几天的时间！"
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -521,23 +522,23 @@ msgstr "未在目录中找到插件。"
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "关闭现有的插件进程"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "无法停止现有的插件进程。"
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "更新现有的安装"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "重启插件进程"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
-msgstr ""
+msgstr "启动插件后台进程失败，但是插件文件已更新。"
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -545,7 +546,7 @@ msgstr "完成"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "插件“{name}”已成功更新。"
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -553,7 +554,7 @@ msgstr "失败"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "更新插件“{name}”失败了"
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -630,11 +631,11 @@ msgstr "找到 {count} 个插件"
 
 #: .\Pages\catalogue.py:499
 msgid "Update Available {new}"
-msgstr ""
+msgstr "有新更新可用 {new}"
 
 #: .\Pages\catalogue.py:522
 msgid "Failed to read version"
-msgstr ""
+msgstr "读取版本失败"
 
 #: .\Pages\catalogue.py:555
 msgid "Back"
@@ -816,7 +817,7 @@ msgstr "用户界面"
 
 #: .\Pages\global_settings.py:231
 msgid "Window Settings"
-msgstr ""
+msgstr "windows 设置"
 
 #: .\Pages\global_settings.py:241 .\Pages\onboarding.py:567
 msgid "Window Width"
@@ -844,7 +845,7 @@ msgstr "进入透明度模式后，可更改窗口的透明度。右击右上角
 
 #: .\Pages\global_settings.py:292
 msgid "Language Settings"
-msgstr ""
+msgstr "语言 设置"
 
 #: .\Pages\global_settings.py:300 .\Pages\onboarding.py:201
 msgid "Language"
@@ -872,7 +873,7 @@ msgstr "音频"
 
 #: .\Pages\global_settings.py:355
 msgid "Sound Settings"
-msgstr ""
+msgstr "声音设置"
 
 #: .\Pages\global_settings.py:362
 msgid "Soundpack"
@@ -892,23 +893,23 @@ msgstr "调整音量。这将影响 ETS2LA 播放的所有声音。"
 
 #: .\Pages\global_settings.py:389
 msgid "Engage"
-msgstr ""
+msgstr "从事"
 
 #: .\Pages\global_settings.py:395
 msgid "Disengage"
-msgstr ""
+msgstr "脱离接触"
 
 #: .\Pages\global_settings.py:401
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: .\Pages\global_settings.py:407
 msgid "Prompt"
-msgstr ""
+msgstr "迅速的"
 
 #: .\Pages\global_settings.py:409
 msgid "Toggle Sounds"
-msgstr ""
+msgstr "切换声音"
 
 #: .\Pages\global_settings.py:413
 msgid "Startup Sound"
@@ -972,7 +973,7 @@ msgstr "杂项"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "UI 设置"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1016,7 +1017,7 @@ msgstr "ETS2LA 等待窗口显示的最长时间。"
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "后端设置"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1036,7 +1037,7 @@ msgstr "启用此选项以使用增强型错误回溯功能。"
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "季节性影响"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1189,7 +1190,7 @@ msgstr "下载大小"
 
 #: .\Pages\onboarding.py:514
 msgid "for this data is"
-msgstr "为"
+msgstr "对于这些数据来说，为"
 
 #: .\Pages\onboarding.py:522
 msgid "that will unpack to a"
@@ -1275,19 +1276,20 @@ msgstr "就是这个绿色的按钮！"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "可视化通知"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
-msgstr ""
+msgstr "有时 ETS2LA 窗口可能无法正常工作。如果遇到任何异常情况，请尝试按 F5 键重新加"
+"载窗口。"
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "按 F5 继续"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "旁路"
 
 #: .\Pages\onboarding.py:742
 msgid ""
@@ -1295,10 +1297,14 @@ msgid ""
 "\n"
 "A key you can use to refresh websites. Since this page is also a website it works just the same here."
 msgstr ""
+"**F5**\n"
+"\n"
+"这是一个可以用来刷新网页的快捷键。由于本页面本身也是一个网站，所以它的刷新功"
+"能与网页刷新键相同。"
 
 #: .\Pages\onboarding.py:748
 msgid "Example of a broken visualization page."
-msgstr ""
+msgstr "可视化页面损坏示例。"
 
 #: .\Pages\onboarding.py:752
 msgid "Onboarding Complete!"
@@ -1409,11 +1415,11 @@ msgstr ""
 #: .\Pages\plugins.py:65 .\Plugins\CollisionAvoidance\main.py:17
 #: .\Plugins\CollisionAvoidance\ui.py:15 .\Plugins\CollisionAvoidance\ui.py:37
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "避免碰撞"
 
 #: .\Pages\plugins.py:66
 msgid "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
-msgstr ""
+msgstr "当卡车速度低于 30 km/h且在急转弯/十字路口行驶时，启用防碰撞功能。"
 
 #: .\Pages\plugins.py:72 .\Plugins\HUD\main.py:23 .\Plugins\HUD\ui.py:127
 msgid "HUD"
@@ -1710,7 +1716,7 @@ msgstr "绘制调用: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:738
 msgid "Frustum Culled: {} ({:.0f}%)"
-msgstr ""
+msgstr "截锥体:{} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:748
 msgid "Text Cache Length: {}"
@@ -1814,18 +1820,20 @@ msgstr "ACC系统应与前车保持多远的距离？"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
 msgstr ""
+"以 80 km/h 的速度行驶时，ETS2LA 将与前方车辆保持约 {distance}米 ({d{distance_"
+"ft}istance ft} 英尺) 的距离。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
 msgid "Obstruction Settings"
-msgstr ""
+msgstr "障碍物设置"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:203
 msgid "Ignore Gates"
-msgstr ""
+msgstr "忽略大门"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:204
 msgid "Whether the ACC should ignore gates. Please note that this will, as it says ignore the gates."
-msgstr ""
+msgstr "ACC功能是否应该忽略闸门。请注意，顾名思义，这将忽略闸门。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Traffic Lights"
@@ -1909,11 +1917,11 @@ msgstr "PID控制器"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:327
 msgid "Show Debug Data"
-msgstr ""
+msgstr "显示调试数据"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:328
 msgid "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
-msgstr ""
+msgstr "在 AR 叠加层上显示 ACC 调试信息，有助于调整 PID 控制器。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:337
 msgid "Unlock PID"
@@ -1953,19 +1961,19 @@ msgstr "这段视频直观演示了 PID 控制器的工作原理。如果您不�
 
 #: .\Plugins\CollisionAvoidance\main.py:19
 msgid "Provide collision avoidance when inside intersections."
-msgstr ""
+msgstr "在十字路口内提供防碰撞功能。"
 
 #: .\Plugins\CollisionAvoidance\main.py:119
 msgid "Collision avoidance disabled"
-msgstr ""
+msgstr "避免碰撞功能已禁用"
 
 #: .\Plugins\CollisionAvoidance\main.py:127
 msgid "Collision avoidance enabled"
-msgstr ""
+msgstr "避免碰撞功能已启用"
 
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
-msgstr ""
+msgstr "这些设置会影响 ETS2LA 对周围交通状况的响应方式。请注意，这不会影响车道变换。"
 
 #: .\Plugins\CollisionAvoidance\ui.py:44 .\Plugins\Map\ui.py:179
 #: .\Plugins\Map\ui.py:204
@@ -1974,48 +1982,49 @@ msgstr "[实验性功能]"
 
 #: .\Plugins\CollisionAvoidance\ui.py:51
 msgid "Sensitivity"
-msgstr ""
+msgstr "敏感"
 
 #: .\Plugins\CollisionAvoidance\ui.py:52
 msgid "How close a vehicle has to be to the truck's path to be considered a threat. Higher values make the system more sensitive."
-msgstr ""
+msgstr "车辆与卡车行驶路线的距离要达到什么程度才会被视为威胁。数值越高，系统灵敏度越"
+"高。"
 
 #: .\Plugins\CollisionAvoidance\ui.py:67
 msgid "Max Speed"
-msgstr ""
+msgstr "最高速度"
 
 #: .\Plugins\CollisionAvoidance\ui.py:68
 msgid "The maximum speed the truck can be going for collision avoidance to be active."
-msgstr ""
+msgstr "卡车在避免碰撞功能启动时可达到的最高速度。"
 
 #: .\Plugins\CollisionAvoidance\ui.py:81
 msgid "Lookahead Time"
-msgstr ""
+msgstr "展望未来时间"
 
 #: .\Plugins\CollisionAvoidance\ui.py:82
 msgid "How far ahead the system looks for potential collisions."
-msgstr ""
+msgstr "该系统能探测到很远的潜在碰撞。"
 
 #. TRANSLATORS: This means seconds, basically 3s = 3 seconds
 #: .\Plugins\CollisionAvoidance\ui.py:84
 msgid "s"
-msgstr ""
+msgstr "秒"
 
 #: .\Plugins\CollisionAvoidance\ui.py:93
 msgid "Announce State"
-msgstr ""
+msgstr "宣布州"
 
 #: .\Plugins\CollisionAvoidance\ui.py:94
 msgid "Announce when collision avoidance is activated or deactivated."
-msgstr ""
+msgstr "避免碰撞功能启用或禁用时发出提示。"
 
 #: .\Plugins\EventListener\main.py:20
 msgid "Event Listener"
-msgstr ""
+msgstr "事件监听器"
 
 #: .\Plugins\EventListener\main.py:22
 msgid "This plugin listens to the events provided by the game SDK and the log files."
-msgstr ""
+msgstr "该插件监听游戏中的 SDK 提供的事件和日志文件。"
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:320
 #: .\Plugins\HUD\main.py:324
@@ -2345,11 +2354,11 @@ msgstr "启用后，地图将不会通知任何与 FPS 相关的问题。"
 
 #: .\Plugins\Map\ui.py:150
 msgid "Takeover When Unreliable"
-msgstr ""
+msgstr "不可靠情况下的解除"
 
 #: .\Plugins\Map\ui.py:151
 msgid "When enabled, the map will automatically take over control when the truck is not following the route correctly."
-msgstr ""
+msgstr "启用此功能后，当卡车未按正确路线行驶时，地图功能将自动接管控制权。"
 
 #: .\Plugins\Map\ui.py:183
 msgid "Automatic Tolls"
@@ -2706,7 +2715,7 @@ msgstr "该插件为 ETS2LA 可视化提供了一个 websocket 服务。它允�
 
 #: .\main.py:147
 msgid "Checking mirrors..."
-msgstr ""
+msgstr "观察后视镜……"
 
 #: .\main.py:161
 msgid "- Reached {0} in {1:.0f}ms"
