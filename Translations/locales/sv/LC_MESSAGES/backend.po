@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2026-02-02 00:22+0000\n"
+"PO-Revision-Date: 2026-02-02 21:13+0000\n"
 "Last-Translator: fabbebu <fabbebu@ets2la.com>\n"
 "Language-Team: Swedish <http://weblate.ets2la.com/projects/ets2la/backend/sv/"
 ">\n"
@@ -1995,6 +1995,8 @@ msgstr "Kollisionundvikning aktiverad"
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
 msgstr ""
+"De här inställningarna kommer påverka hur ETS2LA reagerar till trafik runt "
+"om. Notera att det här påverkar inte filbyten."
 
 #: .\Plugins\CollisionAvoidance\ui.py:44 .\Plugins\Map\ui.py:179
 #: .\Plugins\Map\ui.py:204
@@ -2003,48 +2005,54 @@ msgstr "[Experimentell]"
 
 #: .\Plugins\CollisionAvoidance\ui.py:51
 msgid "Sensitivity"
-msgstr ""
+msgstr "Sensitivitet"
 
 #: .\Plugins\CollisionAvoidance\ui.py:52
 msgid "How close a vehicle has to be to the truck's path to be considered a threat. Higher values make the system more sensitive."
 msgstr ""
+"Hur nära ett fordon behöver vara bakom lastbilens bana för att bli ansedd "
+"som ett hot. Högre värden kan göre systemet mer sensetivt."
 
 #: .\Plugins\CollisionAvoidance\ui.py:67
 msgid "Max Speed"
-msgstr ""
+msgstr "Max Hastighet"
 
 #: .\Plugins\CollisionAvoidance\ui.py:68
 msgid "The maximum speed the truck can be going for collision avoidance to be active."
 msgstr ""
+"Den maximala hastigheten lastbilen kan köra för kollisionsundvikanden att "
+"vara aktiv."
 
 #: .\Plugins\CollisionAvoidance\ui.py:81
 msgid "Lookahead Time"
-msgstr ""
+msgstr "Framåtblickstid"
 
 #: .\Plugins\CollisionAvoidance\ui.py:82
 msgid "How far ahead the system looks for potential collisions."
-msgstr ""
+msgstr "Hur långt framåt systemet letar efter potentiella kollisioner."
 
 #. TRANSLATORS: This means seconds, basically 3s = 3 seconds
 #: .\Plugins\CollisionAvoidance\ui.py:84
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: .\Plugins\CollisionAvoidance\ui.py:93
 msgid "Announce State"
-msgstr ""
+msgstr "Meddela Status"
 
 #: .\Plugins\CollisionAvoidance\ui.py:94
 msgid "Announce when collision avoidance is activated or deactivated."
-msgstr ""
+msgstr "Meddela när kollisionsundvikning aktiveras eller avaktiveras."
 
 #: .\Plugins\EventListener\main.py:20
 msgid "Event Listener"
-msgstr ""
+msgstr "Händelselyssnare"
 
 #: .\Plugins\EventListener\main.py:22
 msgid "This plugin listens to the events provided by the game SDK and the log files."
 msgstr ""
+"Det här pluginet lyssnar på händelserna som tillhandahålls av spelets SDK "
+"och loggfilerna."
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:320
 #: .\Plugins\HUD\main.py:324
@@ -2374,11 +2382,13 @@ msgstr "När den är aktiverad kommer kartan inte att meddela om några FPS-rela
 
 #: .\Plugins\Map\ui.py:150
 msgid "Takeover When Unreliable"
-msgstr ""
+msgstr "Övertagande när det är opålitligt"
 
 #: .\Plugins\Map\ui.py:151
 msgid "When enabled, the map will automatically take over control when the truck is not following the route correctly."
 msgstr ""
+"När den är aktiverad tar kartan automatiskt över kontrollen när lastbilen "
+"inte följer rutten korrekt."
 
 #: .\Plugins\Map\ui.py:183
 msgid "Automatic Tolls"
@@ -2740,7 +2750,7 @@ msgstr "Detta plugin skapar en WebSocket server för ETS2LA Visualiseringen. Den
 
 #: .\main.py:147
 msgid "Checking mirrors..."
-msgstr ""
+msgstr "Kollar backspeglar..."
 
 #: .\main.py:161
 msgid "- Reached {0} in {1:.0f}ms"
