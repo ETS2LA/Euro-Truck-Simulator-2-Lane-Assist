@@ -1,6 +1,5 @@
 using ETS2LA.Shared;
 
-[assembly: PluginInformation("ETS2LAPlugin", "Describe your plugin here.")]
 namespace ETS2LAPlugin
 {
     public class ETS2LAPlugin : Plugin
