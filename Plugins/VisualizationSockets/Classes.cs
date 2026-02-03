@@ -33,3 +33,10 @@ public class ClientWebsocketMessage
         this.method = method;
     }
 }
+
+public class WebsocketLock
+{
+    private static readonly Lazy<WebsocketLock> _instance = new(() => new WebsocketLock());
+    public static WebsocketLock Current => _instance.Value;
+    public SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
+}

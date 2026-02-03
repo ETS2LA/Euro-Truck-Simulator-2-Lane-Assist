@@ -36,7 +36,8 @@ using System.Net.WebSockets;
 //           rz = _data?.truckPlacement.rotation.Z ?? 0f,
 //       }
 //   };
-// - All data is sent as JSON. Like in the above example the data is *always* in root/data, whereas the channel is root/channel.
+// - Sometimes data is sent in nested structures, these are marked with [Serializable].
+// - *All data is sent as JSON*. Like in the above example the data is *always* in root/data, whereas the channel is root/channel.
 
 namespace VisualizationSockets
 {
@@ -70,7 +71,13 @@ namespace VisualizationSockets
             if (_listener == null || !_listener.IsListening)
                 return;
 
-            var context = await _listener.GetContextAsync();
+            HttpListenerContext context;
+            try
+            {
+                context = await _listener.GetContextAsync();
+            }
+            catch { return; }
+            
             if (context.Request.IsWebSocketRequest)
             {
                 HttpListenerWebSocketContext wsContext = await context.AcceptWebSocketAsync(null);
@@ -90,6 +97,7 @@ namespace VisualizationSockets
             return channel switch
             {
                 1 => new Channels.TransformChannel(),
+                3 => new Channels.TruckStateChannel(),
                 _ => null
             };
         }

@@ -6,13 +6,13 @@ using ETS2LA.Backend.Events;
 
 namespace VisualizationSockets.Channels;
 
-public class TransformChannel : IWebsocketChannel
+public class TruckStateChannel : IWebsocketChannel
 {
     private Plugin? _plugin;
     private WebSocket? _socket;
-    public string Name => "Transform";
-    public string Description => "Sends the current transform (position, rotation) of the truck.";
-    public int Channel => 1;
+    public string Name => "Truck State";
+    public string Description => "Sends the current state (throttle, steering, blinkers...) of the truck.";
+    public int Channel => 3;
     public WebSocketChannelType ChannelType => WebSocketChannelType.Continuous;
 
     GameTelemetryData? _data;
@@ -48,20 +48,24 @@ public class TransformChannel : IWebsocketChannel
             channel = Channel,
             data = new
             {
-                x = _data?.truckPlacement.coordinate.X ?? 0f,
-                y = _data?.truckPlacement.coordinate.Y ?? 0f,
-                z = _data?.truckPlacement.coordinate.Z ?? 0f,
-                sector_x = 0,
-                sector_y = 0,
-                rx = _data?.truckPlacement.rotation.X ?? 0f,
-                ry = _data?.truckPlacement.rotation.Y ?? 0f,
-                rz = _data?.truckPlacement.rotation.Z ?? 0f,
+                speed = _data?.truckFloat.speed ?? 0f,
+                speed_limit = _data?.truckFloat.speedLimit ?? 0f,
+                cruise_control = 0f,
+                target_speed = 0f,
+                throttle = _data?.truckFloat.gameThrottle ?? 0f,
+                brake = _data?.truckFloat.gameBrake ?? 0f,
+                indicating_left = _data?.truckBool.blinkerLeftActive ?? false,
+                indicating_right = _data?.truckBool.blinkerRightActive ?? false,
+                indicator_left = _data?.truckBool.blinkerLeftOn ?? false,
+                indicator_right = _data?.truckBool.blinkerRightOn ?? false,
+                game = _data?.scsValues.game ?? "Unknown",
+                time = _data?.commonUI.timeAbsolute
             }
         };
 
         var json = System.Text.Json.JsonSerializer.Serialize(output);
         var buffer = System.Text.Encoding.UTF8.GetBytes(json);
-
+        
         try
         {
             if (socket.State != WebSocketState.Open)
@@ -82,7 +86,6 @@ public class TransformChannel : IWebsocketChannel
 
     public void Shutdown()
     {
-        _socket = null;
         Events.Current.Unsubscribe<GameTelemetryData>("GameTelemetry.Data", OnTelemetryUpdate);
     }
 }
