@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2026-02-02 13:42+0000\n"
+"PO-Revision-Date: 2026-02-03 23:34+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/backend/zh_Hans/>\n"
@@ -1716,7 +1716,7 @@ msgstr "绘制调用: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:738
 msgid "Frustum Culled: {} ({:.0f}%)"
-msgstr "截锥体:{} ({:.0f}%)"
+msgstr "视锥体剔除：{}（{:.0f}%）"
 
 #: .\Plugins\AR\main.py:748
 msgid "Text Cache Length: {}"
@@ -1819,9 +1819,8 @@ msgstr "ACC系统应与前车保持多远的距离？"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
-msgstr ""
-"以 80 km/h 的速度行驶时，ETS2LA 将与前方车辆保持约 {distance}米 ({d{distance_"
-"ft}istance ft} 英尺) 的距离。"
+msgstr "当车速为 80km/h 时，ETS2LA 会与前方车辆保持大约 {distance} 米（{distance_ft} "
+"英尺）的距离。"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
 msgid "Obstruction Settings"
