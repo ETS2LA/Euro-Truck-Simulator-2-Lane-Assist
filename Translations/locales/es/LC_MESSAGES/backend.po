@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2026-01-29 01:17+0000\n"
+"PO-Revision-Date: 2026-02-03 23:34+0000\n"
 "Last-Translator: tsumiguel <tsumiguel@ets2la.com>\n"
-"Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/>\n"
+"Language-Team: Spanish <http://weblate.ets2la.com/projects/ets2la/backend/es/"
+">\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
@@ -383,7 +384,7 @@ msgstr "Un SDK para {0} está desactualizado. Reinstálelo para actualizarlo a l
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Abrir configuración del SDK"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -412,8 +413,8 @@ msgstr "Su tiempo de uso:"
 #: .\Pages\about.py:453
 msgid "over {count} session"
 msgid_plural "over {count} sessions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "durante {count} sesión"
+msgstr[1] "durante {count} sesiones"
 
 #: .\Pages\about.py:469
 msgid "You are not logged in."
@@ -434,10 +435,15 @@ msgstr "¡Bienvenido de nuevo, {0}!"
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
 msgstr ""
+"El backend de ETS2LA podría no estar disponible parcialmente; ten en cuenta "
+"posibles valores erróneos o estadísticas faltantes."
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
 msgstr ""
+"Estamos trabajando para restablecer la funcionalidad completa lo antes "
+"posible. Ten paciencia; esto puede tardar desde unos minutos hasta varios "
+"días."
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -524,23 +530,25 @@ msgstr "Plugin no se encuentra en el catálogo."
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "Cerrando procesos de plugins existentes"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "No se pudieron detener los procesos de plugins existentes."
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "Actualizando la instalación existente"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "Reiniciando el proceso del plugin"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
 msgstr ""
+"No se pudo iniciar el proceso en segundo plano del plugin, pero los archivos "
+"del plugin se actualizaron correctamente."
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -548,7 +556,7 @@ msgstr "Exitoso"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "El plugin ‘{name}’ se actualizó correctamente."
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -556,7 +564,7 @@ msgstr "Fallo"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "No se pudo actualizar el plugin ‘{name}’."
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -633,11 +641,11 @@ msgstr "Se encontraron {count} plugins"
 
 #: .\Pages\catalogue.py:499
 msgid "Update Available {new}"
-msgstr ""
+msgstr "Actualización disponible {new}"
 
 #: .\Pages\catalogue.py:522
 msgid "Failed to read version"
-msgstr ""
+msgstr "No se pudo leer la versión"
 
 #: .\Pages\catalogue.py:555
 msgid "Back"
@@ -823,7 +831,7 @@ msgstr "Interfaz de usuario"
 
 #: .\Pages\global_settings.py:231
 msgid "Window Settings"
-msgstr ""
+msgstr "Configuración de la ventana"
 
 #: .\Pages\global_settings.py:241 .\Pages\onboarding.py:567
 msgid "Window Width"
@@ -851,7 +859,7 @@ msgstr "Cambie la transparencia de la ventana al entrar en el modo de transparen
 
 #: .\Pages\global_settings.py:292
 msgid "Language Settings"
-msgstr ""
+msgstr "Configuración de idioma"
 
 #: .\Pages\global_settings.py:300 .\Pages\onboarding.py:201
 msgid "Language"
@@ -879,7 +887,7 @@ msgstr "Audio"
 
 #: .\Pages\global_settings.py:355
 msgid "Sound Settings"
-msgstr ""
+msgstr "Configuración de sonido"
 
 #: .\Pages\global_settings.py:362
 msgid "Soundpack"
@@ -899,23 +907,23 @@ msgstr "Ajusta el volumen. Esto afectará todos los sonidos interpretados por ET
 
 #: .\Pages\global_settings.py:389
 msgid "Engage"
-msgstr ""
+msgstr "Iniciar"
 
 #: .\Pages\global_settings.py:395
 msgid "Disengage"
-msgstr ""
+msgstr "Detener"
 
 #: .\Pages\global_settings.py:401
 msgid "Warning"
-msgstr ""
+msgstr "Advertencia"
 
 #: .\Pages\global_settings.py:407
 msgid "Prompt"
-msgstr ""
+msgstr "Aviso"
 
 #: .\Pages\global_settings.py:409
 msgid "Toggle Sounds"
-msgstr ""
+msgstr "Alternar sonidos"
 
 #: .\Pages\global_settings.py:413
 msgid "Startup Sound"
@@ -979,7 +987,7 @@ msgstr "Misceláneos"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "Configuración de la interfaz"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1023,7 +1031,7 @@ msgstr "La cantidad de tiempo ETS2LA espera que la ventana aparezca."
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "Configuración del backend"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1043,7 +1051,7 @@ msgstr "Permitir esta opción para usar un trazador para errores."
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "Efectos estacionales"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1282,19 +1290,22 @@ msgstr "¡Es este botón verde!"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "Aviso de visualización"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
 msgstr ""
+"En algunos casos, la ventana de ETS2LA puede no funcionar como se espera. Si "
+"encuentras algún comportamiento extraño, presiona la tecla F5 para recargar "
+"la ventana."
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "Presiona F5 para continuar"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "Omitir"
 
 #: .\Pages\onboarding.py:742
 msgid ""
@@ -1302,10 +1313,14 @@ msgid ""
 "\n"
 "A key you can use to refresh websites. Since this page is also a website it works just the same here."
 msgstr ""
+"**F5**\n"
+"\n"
+"Una tecla que puedes usar para refrescar sitios web. Como esta página "
+"también es un sitio web, aquí funciona de la misma manera."
 
 #: .\Pages\onboarding.py:748
 msgid "Example of a broken visualization page."
-msgstr ""
+msgstr "Ejemplo de una página de visualización con fallos."
 
 #: .\Pages\onboarding.py:752
 msgid "Onboarding Complete!"
@@ -1416,11 +1431,13 @@ msgstr ""
 #: .\Pages\plugins.py:65 .\Plugins\CollisionAvoidance\main.py:17
 #: .\Plugins\CollisionAvoidance\ui.py:15 .\Plugins\CollisionAvoidance\ui.py:37
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Evitación de colisiones"
 
 #: .\Pages\plugins.py:66
 msgid "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
 msgstr ""
+"Habilitar funciones de evitación de colisiones cuando el camión esté a menos "
+"de 30 km/h y en giros cerrados o intersecciones."
 
 #: .\Pages\plugins.py:72 .\Plugins\HUD\main.py:23 .\Plugins\HUD\ui.py:127
 msgid "HUD"
@@ -1718,7 +1735,7 @@ msgstr "Llamadas de dibujo: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:738
 msgid "Frustum Culled: {} ({:.0f}%)"
-msgstr ""
+msgstr "Descartado por frustum: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:748
 msgid "Text Cache Length: {}"
@@ -1822,18 +1839,22 @@ msgstr "¿A qué distancia debe mantenerse el ACC del vehículo de adelante?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
 msgstr ""
+"A 80 km/h, ETS2LA mantendrá aproximadamente {distance} m ({distance_ft} ft) "
+"del vehículo de adelante."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
 msgid "Obstruction Settings"
-msgstr ""
+msgstr "Configuración de obstrucciones"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:203
 msgid "Ignore Gates"
-msgstr ""
+msgstr "Ignorar barreras"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:204
 msgid "Whether the ACC should ignore gates. Please note that this will, as it says ignore the gates."
 msgstr ""
+"Indica si el ACC debe ignorar las barreras. Ten en cuenta que esto hará que, "
+"literalmente, se ignoren las barreras."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Traffic Lights"
@@ -1917,11 +1938,13 @@ msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:327
 msgid "Show Debug Data"
-msgstr ""
+msgstr "Mostrar datos de depuración"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:328
 msgid "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
 msgstr ""
+"Mostrar información de depuración del ACC en la superposición de RA; puede "
+"ayudar al ajustar el controlador PID."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:337
 msgid "Unlock PID"
@@ -1962,18 +1985,21 @@ msgstr "Este video explica visualmente el funcionamiento de un controlador PID. 
 #: .\Plugins\CollisionAvoidance\main.py:19
 msgid "Provide collision avoidance when inside intersections."
 msgstr ""
+"Proporcionar evitación de colisiones al circular dentro de intersecciones."
 
 #: .\Plugins\CollisionAvoidance\main.py:119
 msgid "Collision avoidance disabled"
-msgstr ""
+msgstr "Evitación de colisiones desactivada"
 
 #: .\Plugins\CollisionAvoidance\main.py:127
 msgid "Collision avoidance enabled"
-msgstr ""
+msgstr "Evitación de colisiones activada"
 
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
 msgstr ""
+"Estos ajustes afectarán cómo ETS2LA reacciona al tráfico a su alrededor. Ten "
+"en cuenta que esto no afecta los cambios de carril."
 
 #: .\Plugins\CollisionAvoidance\ui.py:44 .\Plugins\Map\ui.py:179
 #: .\Plugins\Map\ui.py:204
@@ -1982,48 +2008,55 @@ msgstr "[Experimental]"
 
 #: .\Plugins\CollisionAvoidance\ui.py:51
 msgid "Sensitivity"
-msgstr ""
+msgstr "Sensibilidad"
 
 #: .\Plugins\CollisionAvoidance\ui.py:52
 msgid "How close a vehicle has to be to the truck's path to be considered a threat. Higher values make the system more sensitive."
 msgstr ""
+"Qué tan cerca debe estar un vehículo de la trayectoria del camión para "
+"considerarse una amenaza. Valores más altos hacen que el sistema sea más "
+"sensible."
 
 #: .\Plugins\CollisionAvoidance\ui.py:67
 msgid "Max Speed"
-msgstr ""
+msgstr "Velocidad máxima"
 
 #: .\Plugins\CollisionAvoidance\ui.py:68
 msgid "The maximum speed the truck can be going for collision avoidance to be active."
 msgstr ""
+"La velocidad máxima a la que puede ir el camión para que la evitación de "
+"colisiones esté activa."
 
 #: .\Plugins\CollisionAvoidance\ui.py:81
 msgid "Lookahead Time"
-msgstr ""
+msgstr "Tiempo de anticipación"
 
 #: .\Plugins\CollisionAvoidance\ui.py:82
 msgid "How far ahead the system looks for potential collisions."
-msgstr ""
+msgstr "Qué tan lejos hacia adelante el sistema analiza posibles colisiones."
 
 #. TRANSLATORS: This means seconds, basically 3s = 3 seconds
 #: .\Plugins\CollisionAvoidance\ui.py:84
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: .\Plugins\CollisionAvoidance\ui.py:93
 msgid "Announce State"
-msgstr ""
+msgstr "Anunciar estado"
 
 #: .\Plugins\CollisionAvoidance\ui.py:94
 msgid "Announce when collision avoidance is activated or deactivated."
-msgstr ""
+msgstr "Anunciar cuando la evitación de colisiones se activa o se desactiva."
 
 #: .\Plugins\EventListener\main.py:20
 msgid "Event Listener"
-msgstr ""
+msgstr "Escuchador de eventos"
 
 #: .\Plugins\EventListener\main.py:22
 msgid "This plugin listens to the events provided by the game SDK and the log files."
 msgstr ""
+"Este plugin escucha los eventos proporcionados por el SDK del juego y los "
+"archivos de registro."
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:320
 #: .\Plugins\HUD\main.py:324
@@ -2353,11 +2386,13 @@ msgstr "Cuando está habilitado, el mapa no notificará ningún problema relacio
 
 #: .\Plugins\Map\ui.py:150
 msgid "Takeover When Unreliable"
-msgstr ""
+msgstr "Tomar control cuando no sea fiable"
 
 #: .\Plugins\Map\ui.py:151
 msgid "When enabled, the map will automatically take over control when the truck is not following the route correctly."
 msgstr ""
+"Cuando está activado, el mapa tomará automáticamente el control cuando el "
+"camión no esté siguiendo la ruta correctamente."
 
 #: .\Plugins\Map\ui.py:183
 msgid "Automatic Tolls"
@@ -2719,7 +2754,7 @@ msgstr "Este complemento proporciona un servidor websocket para la visualizació
 
 #: .\main.py:147
 msgid "Checking mirrors..."
-msgstr ""
+msgstr "Comprobando los espejos…"
 
 #: .\main.py:161
 msgid "- Reached {0} in {1:.0f}ms"
