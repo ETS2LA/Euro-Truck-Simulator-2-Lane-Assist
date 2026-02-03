@@ -3,6 +3,41 @@ using ETS2LA.Shared;
 using System.Net;
 using System.Net.WebSockets;
 
+// This plugin provides sockets for any external visualizations. The data format and conventions are as follows:
+// - Initial communications:
+//   - Client connects to ws://localhost:37522/ (or ets2la.local:37522)
+//   - Client sends JSON message(s): { "channel": <int>, "method": "subscribe" }
+// - Listening to data:
+//   - Server sends JSON messages: { "channel": <int>, "data": { ... } }
+//   - There are two types of channels, continuous and responsive.
+//     - Continuous channels send data whenever there is an update (e.g. truck position).
+//     - Responsive channels send data only when the client requests it.
+//   - Client can send JSON messages: { "channel": <int>, "method": "acknowledge" } to request data from responsive channels,
+//     the client can vary the data request rate as needed.
+// - Stopping data:
+//   - Client can send JSON message(s): { "channel": <int>, "method": "unsubscribe" }
+//   - The client can also just terminate the WebSocket connection.
+//
+// Data formats:
+// - Please check the individual channel implementations for data formats.
+// - Usually the format is easily deductible, for example this is the format for the Transform channel:
+//   var output = new
+//   {
+//       channel = Channel,
+//       data = new
+//       {
+//           x = _data?.truckPlacement.coordinate.X ?? 0f,
+//           y = _data?.truckPlacement.coordinate.Y ?? 0f,
+//           z = _data?.truckPlacement.coordinate.Z ?? 0f,
+//           sector_x = 0,
+//           sector_y = 0,
+//           rx = _data?.truckPlacement.rotation.X ?? 0f,
+//           ry = _data?.truckPlacement.rotation.Y ?? 0f,
+//           rz = _data?.truckPlacement.rotation.Z ?? 0f,
+//       }
+//   };
+// - All data is sent as JSON. Like in the above example the data is *always* in root/data, whereas the channel is root/channel.
+
 namespace VisualizationSockets
 {
     public class VisualizationSockets : Plugin
