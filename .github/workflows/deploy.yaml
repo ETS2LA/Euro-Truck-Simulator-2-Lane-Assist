@@ -74,4 +74,4 @@ jobs:
         run: |
           VPK="$HOME/.dotnet/tools/vpk"
           $VPK pack --channel "linux-beta" --packId ETS2LA.Linux --packVersion ${{ steps.get-version-linux.outputs.version }} --packDir ./publish --mainExe ETS2LA --icon ./ETS2LA.UI/Assets/logo.ico --packTitle "ETS2LA" --releaseNotes ./ETS2LA/ReleaseNotes.md
-          $VPK upload github --channel "linux-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# (Linux) v${{ steps.get-version-linux.outputs.version }}" --tag "v${{ steps.get-version-linux.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}
+          $VPK upload github --channel "linux-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# v${{ steps.get-version-linux.outputs.version }}" --tag "v${{ steps.get-version-linux.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}
