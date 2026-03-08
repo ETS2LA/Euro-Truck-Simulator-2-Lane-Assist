@@ -2,7 +2,7 @@ using System.Collections;
 
 #if WINDOWS
 using ETS2LA.Controls.Windows;
-#else
+#elif LINUX
 using ETS2LA.Controls.Linux;
 #endif
 
@@ -22,15 +22,15 @@ public class ControlsBackend : IControlsBackend
     {
         if (OperatingSystem.IsWindows())
         {
-    #if WINDOWS
+#if WINDOWS
             _backend = SharpDXControlsBackend.Current;
-    #else
-            throw new PlatformNotSupportedException("Windows backend not compiled.");
-    #endif
+#endif
         }
         else
         {
+#if LINUX
             _backend = new LinuxControlsBackend(); // or Linux backend when ready
+#endif
         }
 
         _backend.ControlAdded += (s, e) => ControlAdded?.Invoke(this, e);

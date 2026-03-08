@@ -1,11 +1,7 @@
-﻿using ETS2LA.AR;
-using Splat;
-using Velopack;
+﻿using Velopack;
 using Velopack.Locators;
 
-#if WINDOWS
-using System.Windows.Forms;
-#endif
+using ETS2LA.AR;
 
 namespace ETS2LA;
 
@@ -25,17 +21,6 @@ internal static class Program
                 version: "1.0.0",
                 packagesDir: "./Releases/Portable"
             ))
-            #endif
-            #if WINDOWS
-            .OnAfterInstallFastCallback((v) =>
-            {
-                // Doing this in a thread since a FastCallback means it should return instantly,
-                // or it will cause Velopack to hang.
-                new Thread(() =>
-                {
-                    MessageBox.Show("Please wait a few seconds for ETS2LA to finish setting up. You can close this notification.", "ETS2LA Installed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }).Start();
-            })
             #endif
             .Run();
 
