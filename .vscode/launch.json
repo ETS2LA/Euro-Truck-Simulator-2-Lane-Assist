@@ -2,25 +2,34 @@
     "version": "0.2.0",
     "configurations": [
         {
-            // Use IntelliSense to find out which attributes exist for C# debugging
-            // Use hover for the description of the existing attributes
-            // For further information visit https://github.com/dotnet/vscode-csharp/blob/main/debugger-launchjson.md
-            "name": ".NET Core Launch (console)",
+            "name": ".NET Core Launch (console) - Windows",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
+            "preLaunchTask": "build-windows",
             "program": "${workspaceFolder}/ETS2LA/bin/Debug/net10.0/ETS2LA.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ETS2LA/bin/Debug/net10.0",
-            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "integratedTerminal",
             "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Launch (console) - Linux",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-linux",
+            "program": "${workspaceFolder}/ETS2LA/bin/Debug/net10.0/ETS2LA",
+            "args": [],
+            "cwd": "${workspaceFolder}/ETS2LA/bin/Debug/net10.0",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "env": {
+                "OPENTK_4_USE_WAYLAND": "0"
+            }
         },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
         }
-    ]
+    ],
 }

@@ -39,9 +39,17 @@
     <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
     <PackageReference Include="WebViewControl-Avalonia" Version="3.120.10">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="!$([MSBuild]::IsOSPlatform('Windows'))">
+    <Compile Remove="Views/VisualizationView.axaml.cs" />
+    <AvaloniaXaml Remove="Views/VisualizationView.axaml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace ETS2LA.UI.Views.Settings;
 public partial class ControlSettings : UserControl
 {
     public ObservableCollection<ControlItem> Controls { get; } = new();
-    private readonly ControlHandler _cHandler = ControlHandler.Current;
+    private readonly ControlsBackend _cHandler = ControlsBackend.Current;
 
     public ControlSettings()
     {
@@ -110,7 +110,7 @@ public partial class ControlSettings : UserControl
 
 public class ControlItem : INotifyPropertyChanged
 {
-    private readonly ControlHandler _cHandler;
+    private readonly ControlsBackend _cHandler;
     private readonly ControlInstance _instance;
 
     public string DeviceName => GetDeviceName();
@@ -125,7 +125,7 @@ public class ControlItem : INotifyPropertyChanged
     public string Name => _instance.Definition.Name;
     public string Description => _instance.Definition.Description;
 
-    public ControlItem(ControlInstance instance, ControlHandler cHandler)
+    public ControlItem(ControlInstance instance, ControlsBackend cHandler)
     {
         _instance = instance;
         _cHandler = cHandler;
@@ -199,7 +199,7 @@ public class ControlItem : INotifyPropertyChanged
 
     public void OnAxisTypeChanged(AxisType newType)
     {
-        _cHandler.UpdateAxisBehaviour(
+        _cHandler.UpdateAxisBehavior(
             _instance.Definition.Id,
             newType
         );
@@ -228,9 +228,9 @@ public class ControlItem : INotifyPropertyChanged
             return "Keyboard";
         }
 
-        var joystick = _cHandler.GetJoystickById(_instance.DeviceId);
+        var joystick = _cHandler.GetInputDeviceInfoById(_instance.DeviceId);
         string name = joystick != null 
-                      ? joystick.Information.ProductName 
+                      ? joystick.Name 
                       : "Not Connected";
 
         if (name.StartsWith("Controller ("))

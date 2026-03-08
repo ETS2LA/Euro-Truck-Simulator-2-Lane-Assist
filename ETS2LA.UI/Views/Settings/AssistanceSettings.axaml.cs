@@ -162,7 +162,7 @@ public partial class AssistanceSettingsPage : UserControl, INotifyPropertyChange
         OnPropertyChanged(nameof(SeparateCruiseAndSteering));
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    public new event PropertyChangedEventHandler? PropertyChanged;
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

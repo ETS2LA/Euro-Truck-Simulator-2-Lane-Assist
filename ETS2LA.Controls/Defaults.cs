@@ -1,5 +1,3 @@
-using Avalonia.Controls;
-
 namespace ETS2LA.Controls.Defaults;
 
 public class DefaultControls

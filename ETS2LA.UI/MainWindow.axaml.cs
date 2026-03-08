@@ -42,11 +42,17 @@ public partial class MainWindow : AppWindow
     private readonly List<Button> _navButtons = new();
     private readonly PluginManagerService _pluginService;
     private readonly DashboardView _dashboardView = new();
-    private readonly VisualizationView _visualizationView = new();
     private readonly GameView _gameView;
     private readonly ManagerView _managerView;
     private readonly SettingsView _settingsView;
     public static event EventHandler? WindowOpened;
+
+    # if WINDOWS
+    private readonly VisualizationView? _visualizationView;
+    # else
+    private readonly UserControl? _visualizationView = null;
+    # endif
+    
 
     public MainWindow()
     {
@@ -57,6 +63,10 @@ public partial class MainWindow : AppWindow
         VersionText.Text = $"v{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3)}";
 
         NotificationHandler.Current.SetWindow(this);
+
+        # if WINDOWS
+        _visualizationView = new VisualizationView();
+        # endif
 
         _pluginService = new PluginManagerService();
         _managerView = new ManagerView(_pluginService);
@@ -199,7 +209,7 @@ public partial class MainWindow : AppWindow
         {
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
-            PageKind.Visualization => IsWindows ? ClosePaneAndOpen(_visualizationView) : CreatePlaceholder("Sorry", "This page is only available on Windows."),
+            PageKind.Visualization => _visualizationView ?? CreatePlaceholder("Sorry", "This page is only available on Windows."),
             PageKind.Game => _gameView,
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
             PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),

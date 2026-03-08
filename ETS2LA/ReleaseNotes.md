@@ -1,7 +1,6 @@
-### ETS2LA C# 3.1.1
-* Fixed loading of DLC roads. They should now work as well as non-DLC roads.
-* Added slight background darkening when interacting with the AR overlay.
-* Changed AR overlay font to match the one used in the main application.
-* CCode `(inline code blocks)` now have their proper monospace font and padding again.
+### ETS2LA C# 3.1.2
+* Added support for Linux. Currently `ETS2LA.AR` and `ETS2LA.Controls` is disabled on Linux, and plugins can't connect to the SDK yet. This will be improved upon in future releases, for now just getting C# booting on Linux is a good first step.
+* Renamed `ControlHandler` to `ControlsBackend` as it changes between platforms. Windows' backend implementation has been renamed to `SharpDXControlsBackend`, Linux' backend is not yet implemented.
+* NOTE: We don't provide a Linux build for ETS2LA yet, but if you want to build it yourself, cloning this repository with `--recurse-submodules` and building the solution with `publish.sh` should work.
 
 **NOTE:** If you're not in the ETS2LA beta program, please take a look at https://ets2la.com/downloads. This version is not what you're looking for!

@@ -20,7 +20,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
     public string ReleaseNotes => GetReleaseNotes();
 
     public UpdateInfo? LatestUpdateInfo { get; set; }
-    public event PropertyChangedEventHandler? PropertyChanged;
+    public new event PropertyChangedEventHandler? PropertyChanged;
 
     public Updates()
     {

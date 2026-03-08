@@ -21,6 +21,7 @@ public class ARHandler
 {
     private static readonly Lazy<ARHandler> _instance = new(() => new ARHandler());
     public static ARHandler Current => _instance.Value;
+    
     private WinHelpers _helpers = new WinHelpers();
 
     public ControlDefinition Interact = new ControlDefinition
@@ -56,8 +57,8 @@ public class ARHandler
 
     public ARHandler()
     {
-        ControlHandler.Current.RegisterControl(Interact);
-        ControlHandler.Current.On(Interact.Id, HandleInput);
+        ControlsBackend.Current.RegisterControl(Interact);
+        ControlsBackend.Current.On(Interact.Id, HandleInput);
         Logger.OnLog += (log) => {
             _consoleMessages.Add(log);
             if (_consoleMessages.Count > 100) { _consoleMessages.RemoveAt(0); }
@@ -81,6 +82,12 @@ public class ARHandler
 
     private void RenderLoop()
     {
+        if (!OperatingSystem.IsWindows())
+        {
+            Logger.Warn("AR Overlay is currently only supported on Windows.");
+            return;
+        }
+
         if(!InitGLFW())
         {
             Logger.Error("Failed to initialize AR overlay");
@@ -235,7 +242,7 @@ public class ARHandler
         ImGui.Separator();
         ImGui.Text("You can interact with the overlay by holding down");
         ImGui.SameLine();
-        var controls = ControlHandler.Current.GetRegisteredControls();        
+        var controls = ControlsBackend.Current.GetRegisteredControls();        
         var interactKey = controls.FirstOrDefault(c => c.Definition.Id == Interact.Id);
         if (interactKey != null)
             ImGui.TextColored(new Vector4(1f, 0.5f, 0.5f, 1f), interactKey.ControlId.ToString());
@@ -321,6 +328,15 @@ public class ARHandler
         unsafe
         {
             Logger.Info("Initializing GLFW Version: " + Utils.DecodeStringUTF8(GLFW.GetVersionString()));
+        }
+
+        // This code sets the platform to X11 instead of wayland. This only needs to be
+        // done inside vscode for whatever reason. https://github.com/opentk/opentk/issues/1823
+        string? sessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
+        string? useWayland = Environment.GetEnvironmentVariable("OPENTK_4_USE_WAYLAND");
+        if (sessionType == "wayland" && useWayland == "0")
+        {
+            GLFW.InitHint(GLFW.GLFW_PLATFORM, GLFW.GLFW_PLATFORM_X11);
         }
 
         GLFW.Init();

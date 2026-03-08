@@ -16,7 +16,7 @@ namespace ETS2LAPlugin
             base.Init();
             // This is run once when the plugin is initially loaded.
             // Usually you start to listen to control events here (or register your own).
-            // ControlHandler.Current.On(ControlHandler.Defaults.Next.Id, OnNextPressed);
+            // ControlsBackend.Current.On(ControlsBackend.Defaults.Next.Id, OnNextPressed);
         }
 
         public override void OnEnable()

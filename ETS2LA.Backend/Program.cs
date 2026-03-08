@@ -70,7 +70,7 @@ namespace ETS2LA.Backend
             {
                 pluginHandler.UnloadPlugins();
             }
-            ControlHandler.Current.Shutdown();
+            ControlsBackend.Current.Shutdown();
             AudioHandler.Current.Shutdown();
             Logger.Info("ETS2LA has been shut down.");
         }

@@ -1,0 +1,25 @@
+{
+  "solution": {
+    "path": "ETS2LA.sln",
+    "projects": [
+      "ETS2LA.Backend/ETS2LA.Backend.csproj",
+      "ETS2LA.Shared/ETS2LA.Shared.csproj",
+      "Plugins/ExampleProvider/ExampleProvider.csproj",
+      "Plugins/ExampleConsumer/ExampleConsumer.csproj",
+      "ETS2LA.Settings/ETS2LA.Settings.csproj",
+      "ETS2LA.Logging/ETS2LA.Logging.csproj",
+      "Plugins/GameTelemetry/GameTelemetry.csproj",
+      "ETS2LA.UI/ETS2LA.UI.csproj",
+      "Plugins/ETS2LASDK/ETS2LASDK.csproj",
+      "Plugins/ControlsSDK/ControlsSDK.csproj",
+      "ETS2LA.Game/ETS2LA.Game.csproj",
+      "ETS2LA/ETS2LA.csproj",
+      "ETS2LA.Controls/ETS2LA.Controls.csproj",
+      "ETS2LA.Audio/ETS2LA.Audio.csproj",
+      "Plugins/VisualizationSockets/VisualizationSockets.csproj",
+      "TruckLib/TruckLib/TruckLib.csproj",
+      "ETS2LA.AR/ETS2LA.AR.csproj",
+      "Plugins/InternalVisualization/InternalVisualization.csproj"
+    ]
+  }
+}
