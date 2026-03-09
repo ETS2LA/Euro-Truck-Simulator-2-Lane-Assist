@@ -1,7 +1,7 @@
 ﻿using Velopack;
 using Velopack.Locators;
 
-using ETS2LA.AR;
+using ETS2LA.Overlay;
 
 namespace ETS2LA;
 
@@ -26,9 +26,9 @@ internal static class Program
 
         var BackendThread = Task.Run(() =>
         {
-            // These initialize global instances of both the AR overlay and the backend.
+            // These initialize global instances of both the overlay and the backend.
             // Overlay is started "first" since some plugins might need to reference it.
-            var ar = ARHandler.Current;
+            var ar = OverlayHandler.Current;
             var backend = Backend.PluginBackend.Current;
         });
 

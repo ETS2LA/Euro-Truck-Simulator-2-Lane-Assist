@@ -29,7 +29,7 @@ public class ControlsBackend : IControlsBackend
         else
         {
 #if LINUX
-            _backend = new LinuxControlsBackend(); // or Linux backend when ready
+            _backend = new SDL3ControlsBackend();
 #endif
         }
 

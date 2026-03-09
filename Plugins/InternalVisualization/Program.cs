@@ -1,5 +1,5 @@
 using ETS2LA.Logging;
-using ETS2LA.AR;
+using ETS2LA.Overlay;
 using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
 
@@ -63,7 +63,7 @@ namespace InternalVisualization
         public override void OnEnable()
         {
             base.OnEnable();
-            ARHandler.Current.RegisterWindow(_windowDefinition, RenderWindow);
+            OverlayHandler.Current.RegisterWindow(_windowDefinition, RenderWindow);
 
             // Subscribe to events here, do not subscribe in Init as that's too early.
             // Events.Current.Subscribe<YourEventType>("YourTopic", YourEventHandler);
@@ -128,7 +128,7 @@ namespace InternalVisualization
         {
             base.OnDisable();
             _mapData = null;
-            ARHandler.Current.UnregisterWindow(_windowDefinition);
+            OverlayHandler.Current.UnregisterWindow(_windowDefinition);
             // Unsubscribe from events here
             // Events.Current.Unsubscribe<YourEventType>("YourTopic", YourEventHandler);
         }

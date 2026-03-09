@@ -1,7 +1,7 @@
 using Hexa.NET.GLFW;
 using GLFWwindowPtr = Hexa.NET.GLFW.GLFWwindowPtr;
 
-namespace ETS2LA.AR;
+namespace ETS2LA.Overlay;
 
 internal unsafe class BindingsContext : HexaGen.Runtime.IGLContext
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ETS2LA.AR;
+namespace ETS2LA.Overlay;
 
 internal class WinHelpers
 {

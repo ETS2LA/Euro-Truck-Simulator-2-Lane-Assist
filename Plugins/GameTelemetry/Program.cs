@@ -5,7 +5,7 @@ using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
 using ETS2LA.UI.Notifications;
 using ETS2LA.Logging;
-using ETS2LA.AR;
+using ETS2LA.Overlay;
 
 using System.Numerics;
 using Hexa.NET.ImGui;
@@ -83,7 +83,7 @@ namespace GameTelemetry
         public override void OnEnable()
         {
             base.OnEnable();
-            ARHandler.Current.RegisterWindow(new WindowDefinition
+            OverlayHandler.Current.RegisterWindow(new WindowDefinition
                 {
                     Title = "Telemetry"
                 }, 

@@ -8,7 +8,7 @@
 
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.1.2</Version>
+    <Version>3.1.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ETS2LA.UI\ETS2LA.UI.csproj" />
-    <ProjectReference Include="..\ETS2LA.AR\ETS2LA.AR.csproj" />
+    <ProjectReference Include="..\ETS2LA.Overlay\ETS2LA.Overlay.csproj" />
     <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
   </ItemGroup>
 

@@ -18,7 +18,7 @@
       "ETS2LA.Audio/ETS2LA.Audio.csproj",
       "Plugins/VisualizationSockets/VisualizationSockets.csproj",
       "TruckLib/TruckLib/TruckLib.csproj",
-      "ETS2LA.AR/ETS2LA.AR.csproj",
+      "ETS2LA.Overlay/ETS2LA.Overlay.csproj",
       "Plugins/InternalVisualization/InternalVisualization.csproj"
     ]
   }

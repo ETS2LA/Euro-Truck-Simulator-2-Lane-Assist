@@ -1,7 +1,7 @@
 using Hexa.NET.ImGui;
 using Avalonia.Data;
 
-namespace ETS2LA.AR
+namespace ETS2LA.Overlay
 {
     public struct WindowDefinition
     {

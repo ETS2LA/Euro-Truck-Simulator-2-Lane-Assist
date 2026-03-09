@@ -15,20 +15,18 @@ using System.Numerics;
 using ETS2LA.Logging;
 using ETS2LA.Controls;
 
-namespace ETS2LA.AR;
+namespace ETS2LA.Overlay;
 
-public class ARHandler
+public class OverlayHandler
 {
-    private static readonly Lazy<ARHandler> _instance = new(() => new ARHandler());
-    public static ARHandler Current => _instance.Value;
-    
-    private WinHelpers _helpers = new WinHelpers();
+    private static readonly Lazy<OverlayHandler> _instance = new(() => new OverlayHandler());
+    public static OverlayHandler Current => _instance.Value;
 
     public ControlDefinition Interact = new ControlDefinition
     {   
-        Id = "ETS2LA.AR.Interact",
+        Id = "ETS2LA.Overlay.Interact",
         Name = "Overlay Interaction",
-        Description = "When this key is held, the AR overlay will receive mouse input and allow you to interact with it. NOTE: Interaction with items below the overlay is not possible during this time.",
+        Description = "When this key is held, the overlay will receive mouse input and allow you to interact with it. NOTE: Interaction with items below the overlay is not possible during this time.",
         DefaultKeybind = "RightAlt",
         Type = ControlType.Boolean
     };
@@ -55,7 +53,7 @@ public class ARHandler
     private GL _gl;
 
 
-    public ARHandler()
+    public OverlayHandler()
     {
         ControlsBackend.Current.RegisterControl(Interact);
         ControlsBackend.Current.On(Interact.Id, HandleInput);
@@ -74,23 +72,11 @@ public class ARHandler
         _isInteracting = b;
     }
 
-    private float LerpInOut(float start, float end, float t)
-    {
-        t = t * t * (3f - 2f * t); // Smoothstep easing
-        return start + (end - start) * t;
-    }
-
     private void RenderLoop()
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            Logger.Warn("AR Overlay is currently only supported on Windows.");
-            return;
-        }
-
         if(!InitGLFW())
         {
-            Logger.Error("Failed to initialize AR overlay");
+            Logger.Error("Failed to initialize overlay");
             return;
         }
         GLFW.MakeContextCurrent(_window);
@@ -98,20 +84,32 @@ public class ARHandler
 
         if (!InitImGui())
         {
-            Logger.Error("Failed to initialize AR overlay");
+            Logger.Error("Failed to initialize overlay");
             return;
         }
 
         while (GLFW.WindowShouldClose(_window) == 0)
         {
             float startTime = DateTime.Now.Millisecond;
-            if (!_isInteracting) { 
-                // Maintain NoInputs on ImGui's main viewport.
-                // TODO: Figure out why this doesn't save.
+            if (!_isInteracting) 
+            { 
+                // This has to be called each frame to properly update the flags.
+                // For whatever reason they are set back to default.
                 ImGui.GetPlatformIO().Viewports[0].Flags |= ImGuiViewportFlags.NoInputs;
+
+                # if LINUX
+                GLFW.SetWindowAttrib(_window, GLFW.GLFW_MOUSE_PASSTHROUGH, 1);
+                # endif
+                
                 _bgOpacityTarget = 0.0f;
             }
-            else _bgOpacityTarget = 0.5f;
+            else 
+            {
+                # if LINUX
+                GLFW.SetWindowAttrib(_window, GLFW.GLFW_MOUSE_PASSTHROUGH, 0);
+                # endif
+                _bgOpacityTarget = 0.5f;
+            }
 
             GLFW.PollEvents();
 
@@ -236,7 +234,7 @@ public class ARHandler
     private void RenderARInfo()
     {
         ImGui.Text("*Shock* there's a new window here O_O");
-        ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "This is the AR overlay that will eventually render information on top of the game. For C# we've actually made it a lot more than it was!");
+        ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "This is the overlay that will eventually render information on top of the game. For C# we've actually made it a lot more than it was!");
         ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "Plugin developers now have full access... and I mean *full* access to ImGui for rendering, hopefully we'll see some interesting things come from that!");
         ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "Right now we've just implemented the basics, and the telemetry plugin will show off some nice performance when rendering a lot of data.");
         ImGui.Separator();
@@ -339,6 +337,7 @@ public class ARHandler
             GLFW.InitHint(GLFW.GLFW_PLATFORM, GLFW.GLFW_PLATFORM_X11);
         }
 
+        Console.WriteLine("Initializing GLFW...");
         GLFW.Init();
         GLFW.WindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
         GLFW.WindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -358,7 +357,7 @@ public class ARHandler
         // NOTE: Width and height set to screen-1
         // If they are set to the screen size, windows does some optimizations that cause the window
         // to go full black when focused. Setting these to -1 seems to prevent that.
-        _window = GLFW.CreateWindow(width-1, height-1, "ETS2LA AR Overlay", null, null);
+        _window = GLFW.CreateWindow(width-1, height-1, "ETS2LA overlay", null, null);
         if (_window.IsNull)
         {
             Logger.Error("Failed to create GLFW window");
@@ -366,7 +365,6 @@ public class ARHandler
             return false;
         }
 
-        _helpers.WindowHandle = GLFW.GetWin32Window(_window);
         return true;
     }
 

@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TruckLib", "TruckLib", "{31
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruckLib", "TruckLib\TruckLib\TruckLib.csproj", "{AEF6CB40-3551-41C5-B80D-A9C7C792A25F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETS2LA.AR", "ETS2LA.AR\ETS2LA.AR.csproj", "{14AE3B02-7E89-451E-88A3-5881302C8764}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETS2LA.Overlay", "ETS2LA.Overlay\ETS2LA.Overlay.csproj", "{14AE3B02-7E89-451E-88A3-5881302C8764}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalVisualization", "Plugins\InternalVisualization\InternalVisualization.csproj", "{BE92F310-D8DA-4051-9C59-6641166642CB}"
 EndProject

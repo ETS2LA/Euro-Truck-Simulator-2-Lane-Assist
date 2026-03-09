@@ -1,4 +1,4 @@
-using ETS2LA.AR;
+using ETS2LA.Overlay;
 using ETS2LA.Game;
 using ETS2LA.Shared;
 using ETS2LA.Logging;
