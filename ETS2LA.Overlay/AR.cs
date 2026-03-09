@@ -126,7 +126,7 @@ public class OverlayHandler
             ImGuiImplOpenGL3.NewFrame();
             ImGuiImplGLFW.NewFrame();
             ImGui.NewFrame();
-
+            
             OnUIRender();
             
             ImGui.Render();
@@ -319,7 +319,9 @@ public class OverlayHandler
         {
             GLFW.SetErrorCallback((error, description) =>
             {
+                # if DEBUG
                 Logger.Error($"GLFW Error {error}: {Utils.DecodeStringUTF8(description)}");
+                # endif
             });
         }
 
