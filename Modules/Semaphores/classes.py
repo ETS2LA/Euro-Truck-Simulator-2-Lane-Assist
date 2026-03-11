@@ -36,15 +36,18 @@ class Quaternion:
         var pitch = asin(-2.0*(q.x*q.z - q.w*q.y));
         var roll = atan2(2.0*(q.x*q.y + q.w*q.z), q.w*q.w + q.x*q.x - q.y*q.y - q.z*q.z);
         """
-        yaw = math.atan2(
-            2.0 * (self.y * self.z + self.w * self.x),
-            self.w * self.w - self.x * self.x - self.y * self.y + self.z * self.z,
-        )
-        pitch = math.asin(-2.0 * (self.x * self.z - self.w * self.y))
-        roll = math.atan2(
-            2.0 * (self.x * self.y + self.w * self.z),
-            self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z,
-        )
+        try:
+            yaw = math.atan2(
+                2.0 * (self.y * self.z + self.w * self.x),
+                self.w * self.w - self.x * self.x - self.y * self.y + self.z * self.z,
+            )
+            pitch = math.asin(-2.0 * (self.x * self.z - self.w * self.y))
+            roll = math.atan2(
+                2.0 * (self.x * self.y + self.w * self.z),
+                self.w * self.w + self.x * self.x - self.y * self.y - self.z * self.z,
+            )
+        except:
+            return 0, 0, 0
 
         yaw = math.degrees(yaw)
         pitch = math.degrees(pitch)
@@ -140,8 +143,8 @@ class TrafficLight(Semaphore):
     def __init__(
         self,
         position: Position,
-        cx: float,
-        cy: float,
+        cx: int,
+        cy: int,
         quat: Quaternion,
         time_left: float,
         state: int,
@@ -208,8 +211,8 @@ class Gate(Semaphore):
     def __init__(
         self,
         position: Position,
-        cx: float,
-        cy: float,
+        cx: int,
+        cy: int,
         quat: Quaternion,
         time_left: float,
         state: int,

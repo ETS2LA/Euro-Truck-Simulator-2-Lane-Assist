@@ -158,6 +158,10 @@ class Plugin(ETS2LAPlugin):
                 break
 
         if closest_hit_index < 999:
+            # Use an earlier point to make sure we stop in time.
+            if closest_hit_index > 2:
+                closest_hit_index -= 2
+            
             distance = math.sqrt(
                 (points[closest_hit_index][0] - api["truckPlacement"]["coordinateX"])
                 ** 2

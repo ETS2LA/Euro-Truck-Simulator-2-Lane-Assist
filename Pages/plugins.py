@@ -556,7 +556,7 @@ class Page(ETS2LAPage):
                 styles.FlexVertical() + styles.Padding("0 20px") + styles.Gap("20px")
             ):
                 Text(_("Running Plugins"), styles.Classname("font-semibold"))
-                if not running_plugins:
+                if not running_plugins or (len(running_plugins) == 1 and running_plugins[0].description.id == "plugins.eventlistener"):
                     if not last_plugins:
                         with Alert():
                             Text(
@@ -571,7 +571,9 @@ class Page(ETS2LAPage):
                             )
                             with Button(action=self.enable_last_plugins):
                                 Text(_("Enable Last Plugins"))
-
+                                
+                        # Might have only EventListener enabled, that still has to be rendered
+                        if running_plugins: self.render_plugin_list(running_plugins)
                 else:
                     self.render_plugin_list(running_plugins)
 

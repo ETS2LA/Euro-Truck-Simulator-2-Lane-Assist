@@ -321,7 +321,7 @@ class SCSController:
         if system == "Windows":
             self._shm_buff = mmap.mmap(0, shm_size, self.MEM_NAME)
             try:
-                self._input_buff = mmap.mmap(0, 19, self.INPUT_MEM_NAME)
+                self._input_buff = mmap.mmap(0, 26, self.INPUT_MEM_NAME)
             except Exception:
                 self._input_buff = None
                 print(
@@ -392,25 +392,26 @@ class SCSController:
         if key not in SCSController.__annotations__:
             raise AttributeError(f"'{key}' input is not known")
 
+        cur_time = time.time()
         if self._input_buff and key == "aforward" and not fallback_acceleration:
             if self._input_buff is not None:
-                self._input_buff.seek(5)
+                self._input_buff.seek(13)
                 self._input_buff.write(struct.pack("f", value))
-                self._input_buff.seek(9)
+                self._input_buff.seek(17)
                 self._input_buff.write(struct.pack("?", True if value != 0 else False))
-                self._input_buff.seek(15)
-                self._input_buff.write(struct.pack("l", math.floor(time.time())))
+                self._input_buff.seek(18)
+                self._input_buff.write(struct.pack("d", cur_time))
                 self._input_buff.flush()
                 return
 
         if self._input_buff and key == "abackward" and not fallback_acceleration:
             if self._input_buff is not None:
-                self._input_buff.seek(10)
-                self._input_buff.write(struct.pack("f", value))
-                self._input_buff.seek(14)
+                self._input_buff.seek(13)
+                self._input_buff.write(struct.pack("f", -value))
+                self._input_buff.seek(17)
                 self._input_buff.write(struct.pack("?", True if value != 0 else False))
-                self._input_buff.seek(15)
-                self._input_buff.write(struct.pack("l", math.floor(time.time())))
+                self._input_buff.seek(18)
+                self._input_buff.write(struct.pack("d", cur_time))
                 self._input_buff.flush()
                 return
 
@@ -420,8 +421,8 @@ class SCSController:
                 self._input_buff.write(struct.pack("f", -value))
                 self._input_buff.seek(4)
                 self._input_buff.write(struct.pack("?", True if value != 0 else False))
-                self._input_buff.seek(15)
-                self._input_buff.write(struct.pack("l", math.floor(time.time())))
+                self._input_buff.seek(5)
+                self._input_buff.write(struct.pack("d", cur_time))
                 self._input_buff.flush()
                 return
 

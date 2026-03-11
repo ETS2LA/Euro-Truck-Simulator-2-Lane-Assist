@@ -147,6 +147,7 @@ class Module(ETS2LAModule):
                             is_trailer,
                         )
                     )
+                    
                     # if is_tmp:
                     #     vehicle = vehicles[-1]
                     #     trailers = vehicle.trailers

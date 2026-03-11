@@ -5,12 +5,14 @@ import struct
 import mmap
 import time
 
+# NOTE: This file is missing reading of the camera projection matrix.
+#       If you need this for your project you should take a look at the C# version of ETS2LA.
 
 class Module(ETS2LAModule):
     start_time = 0
     message_shown = False
 
-    def imports(self):
+    def imports(self): 
         self.start_time = time.time()
         self.wait_for_buffer()
 

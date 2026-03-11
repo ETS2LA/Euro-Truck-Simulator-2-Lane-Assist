@@ -148,6 +148,10 @@ class Page(ETS2LAPage):
                     with open(f"ETS2LA/Assets/DLLs/{version}/{file}", "rb") as f:
                         with open(game + target_path + "\\" + file, "wb") as g:
                             g.write(f.read())
+                            
+                # Remove old ets2_la_plugin.dll
+                if os.path.exists(game + target_path + "\\ets2_la_plugin.dll"):
+                    os.remove(game + target_path + "\\ets2_la_plugin.dll")
 
                 SendPopup(
                     _("SDKs for {game} installed successfully.").format(
@@ -192,6 +196,10 @@ class Page(ETS2LAPage):
                 files = GetFilesForVersion(version)
                 for file in files:
                     os.remove(game + target_path + "\\" + file)
+
+                # Remove old ets2_la_plugin.dll
+                if os.path.exists(game + target_path + "\\ets2_la_plugin.dll"):
+                    os.remove(game + target_path + "\\ets2_la_plugin.dll")
 
                 SendPopup(
                     _("SDKs for {game} uninstalled successfully.").format(

@@ -17,7 +17,7 @@ class Module(ETS2LAModule):
     def wait_for_buffer(self):
         self.buf = None
         while self.buf is None:
-            size = 2080
+            size = 1920
             try:
                 self.buf = mmap.mmap(0, size, r"Local\ETS2LASemaphore")
             except Exception:
@@ -34,9 +34,9 @@ class Module(ETS2LAModule):
             return None
 
         try:
-            semaphore_format = "fffffffffifii"
+            semaphore_format = "fffhhffffifii"
             total_format = "=" + semaphore_format * 40
-            data = struct.unpack(total_format, self.buf[:2080])
+            data = struct.unpack(total_format, self.buf[:1920])
 
             semaphores = []
             for _i in range(0, 40):

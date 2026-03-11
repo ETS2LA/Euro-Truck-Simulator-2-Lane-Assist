@@ -796,7 +796,7 @@ class Plugin(ETS2LAPlugin):
                         )
 
                     except Exception as e:
-                        logging.warning(
+                        logging.exception(
                             f"Error sending data to client: {str(e)} on channel {channel}."
                         )
 

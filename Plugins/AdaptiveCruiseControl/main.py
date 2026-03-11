@@ -135,24 +135,24 @@ class Plugin(ETS2LAPlugin):
     # ACC Parameters
     overwrite_speed = 30  # km/h
     base_max_accel = 3.0  # m/s^2
-    base_comfort_decel = -2.0  # m/s^2
+    base_comfort_decel = -3.0  # m/s^2
     base_emergency_decel = -6.0  # m/s^2
     base_time_gap_seconds = 2.0  # seconds
 
     # These get adjusted by the settings
     max_accel = 3.0
-    comfort_decel = -2.0
+    comfort_decel = -3.0
     emergency_decel = -6.0
     time_gap_seconds = 2.0
 
     # PID gains
     kp_accel = 0.30  # Proportional gain
-    ki_accel = 0.08  # Integral gain
+    ki_accel = 0.24  # Integral gain
     kd_accel = 0.01  # Derivative gain
 
     # PID state variables
     graph = PIDGraph(history=10)
-    accel_errors = deque(maxlen=200)
+    accel_errors = deque(maxlen=1000)
     last_accel_error = 0.0  # For derivative term
     last_control_output = 0.0  # For smoothing changes
     last_time = time.time()
@@ -206,9 +206,6 @@ class Plugin(ETS2LAPlugin):
             )
 
         if self.speed < self.speedlimit + 5 / 3.6:
-            speed_limit_accel *= 0.75
-
-        if self.speed > self.speedlimit + 10 / 3.6:
             speed_limit_accel *= 0.75
             
         if self.speed > self.speedlimit + 20 / 3.6:
@@ -385,10 +382,10 @@ class Plugin(ETS2LAPlugin):
                 self.kp_accel = 0.30
                 settings.pid_kp = self.kp_accel
             if self.ki_accel is None:
-                self.ki_accel = 0.08
+                self.ki_accel = 0.24
                 settings.pid_ki = self.ki_accel
             if self.kd_accel is None:
-                self.kd_accel = 0.05
+                self.kd_accel = 0.01
                 settings.pid_kd = self.kd_accel
 
             # Increase the derivative term if no cargo is loaded.
@@ -655,12 +652,19 @@ class Plugin(ETS2LAPlugin):
         front_left, front_right, back_right, back_left = closest_vehicle.get_corners(
             correction_multiplier=-1 if closest_vehicle.is_trailer and not closest_vehicle.is_tmp else 1
         )
+        points = [front_left, front_right, back_right, back_left]
         
+        for trailer in closest_vehicle.trailers:
+            front_left, front_right, back_right, back_left = trailer.get_corners(
+                correction_multiplier=-1 if not trailer.is_tmp else 1
+            )
+            points.extend([front_left, front_right, back_right, back_left])
+
         closest_distance = 999
-        for point in [front_left, front_right, back_right, back_left]:
+        for point in points:
             dist = self.get_distance_to_point(
                 [truck_x, truck_y], [point.x, point.z]
-            ) - 10  # 10m buffer
+            )
             if dist < closest_distance:
                 closest_distance = dist
  
@@ -1123,9 +1127,6 @@ class Plugin(ETS2LAPlugin):
             self.controller.drive = False
             time.sleep(1 / 20)
 
-            self.controller.aforward = float(0.0001)
-            self.controller.abackward = float(0.0001)
-
             self.state.text = "Detected reverse gear. Please shift to drive."
             return
         elif self.state.text == "Detected reverse gear. Please shift to drive.":
@@ -1133,21 +1134,14 @@ class Plugin(ETS2LAPlugin):
 
         if target_accel >= 0:
             if (
-                clutch < 0.1 or speed < 10 / 3.6
+                clutch < 0.1 or speed < 10 / 3.6 
             ):  # ignore clutch when low speed (at traffic lights)
                 self.controller.aforward = float(target_accel)
             else:  # disable acceleration if clutch is pressed
                 self.controller.aforward = float(0)
-
-            if self.speed > 10 / 3.6 and not self.set_zero:
-                self.controller.abackward = float(0)
-                self.set_zero = True
-            elif not self.set_zero:
-                self.controller.abackward = float(0.0001)
         else:
             self.set_zero = False
             self.controller.abackward = float(-target_accel)
-            self.controller.aforward = float(0)
 
     def apply_pid(self, target_acceleration: float) -> float:
         """Apply PID control to get smooth accelerator/brake inputs based on target acceleration.
@@ -1191,16 +1185,16 @@ class Plugin(ETS2LAPlugin):
         # Clear the integral term if we're speeding
         # (dynamically adjust the number to keep at the speedlimit)
         if self.speed > self.speedlimit and len(self.accel_errors) > 5:
-                if sum(self.accel_errors) > 0:
-                    overshoot = round((self.speed - self.speedlimit) * 3.6)
-                    trim = max(1, overshoot) * 2
-                    for _ in range(min(trim, len(self.accel_errors))):
-                        self.accel_errors.popleft()
+            if sum(self.accel_errors) > 0:
+                overshoot = round((self.speed - self.speedlimit) * 3.6)
+                trim = round(max(1, overshoot) ** 1.5)
+                for i in range(min(trim, len(self.accel_errors))):
+                    self.accel_errors.popleft()
 
         # Clear the integral term if we're under 10 km/h
         # (to prevent overshooting when starting from a stop)
         if self.speed < 10 / 3.6:  # 10 kph -> m/s
-            self.accel_errors = deque(maxlen=200)
+            self.accel_errors = deque(maxlen=1000)
 
         # Integral term
         accel_error_sum = sum(self.accel_errors)
@@ -1217,6 +1211,7 @@ class Plugin(ETS2LAPlugin):
         self.add_ar_text(f"  > Accel Error: {accel_error:.2f} m/s²")
         self.add_ar_text(f" - P-Term: {p_term:.2f}")
         self.add_ar_text(f" - I-Term: {i_term:.2f}")
+        self.add_ar_text(f"  > Length: {len(self.accel_errors)}")
         self.add_ar_text(f" - D-Term: {d_term:.2f}")
 
         # Raw control output calculation
@@ -1269,7 +1264,7 @@ class Plugin(ETS2LAPlugin):
         self.map_points = points
 
         if not self.enabled:
-            self.accel_errors = deque(maxlen=200)
+            self.accel_errors = deque(maxlen=1000)
             self.tags.vehicle_highlights = []
             self.tags.vehicle_in_front_distance = None
             self.tags.AR = []
@@ -1302,6 +1297,7 @@ class Plugin(ETS2LAPlugin):
             try:
                 self.vehicle_in_front = self.get_vehicle_in_front(self.api_data)
             except Exception:
+                logging.exception("Error getting vehicle in front")
                 self.vehicle_in_front = None
 
             if not self.vehicle_in_front:
