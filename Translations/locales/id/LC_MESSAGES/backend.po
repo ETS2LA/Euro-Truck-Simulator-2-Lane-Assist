@@ -7,15 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2025-09-04 18:07+0000\n"
+"PO-Revision-Date: 2026-03-08 15:26+0000\n"
 "Last-Translator: ImNotplying <imnotplying@ets2la.com>\n"
-"Language-Team: Indonesian <http://weblate.ets2la.com/projects/ets2la/backend/id/>\n"
+"Language-Team: Indonesian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"id/>\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -381,7 +382,7 @@ msgstr "SDK untuk {0} sudah kedaluwarsa. Harap instal ulang melalui pengaturan S
 
 #: .\Pages\about.py:414
 msgid "Open SDK Settings"
-msgstr ""
+msgstr "Buka Pengaturan SDK"
 
 #: .\Pages\about.py:419
 msgid "About"
@@ -410,7 +411,7 @@ msgstr "Waktu penggunaan anda:"
 #: .\Pages\about.py:453
 msgid "over {count} session"
 msgid_plural "over {count} sessions"
-msgstr[0] ""
+msgstr[0] "lebih dari {count} sesi"
 
 #: .\Pages\about.py:469
 msgid "You are not logged in."
@@ -431,10 +432,15 @@ msgstr "Selamat datang lagi, {0}!"
 #: .\Pages\about.py:499
 msgid "The ETS2LA backend might be partially unavailable, please mind any erroneous values or missing statistics!"
 msgstr ""
+"Backend ETS2LA mungkin sebagian tidak tersedia, harap maklumi nilai yang "
+"salah atau statistik yang hilang!"
 
 #: .\Pages\about.py:505
 msgid "We are working to restore full functionality as soon as possible. Hang on tight, this might take anywhere from a few minutes to several days!"
 msgstr ""
+"Kami sedang bekerja untuk memulihkan fungsionalitas penuh sesegera mungkin. "
+"Harap bersabar, ini bisa memakan waktu dari beberapa menit hingga beberapa "
+"hari!"
 
 #: .\Pages\about.py:513
 msgid "Contributors"
@@ -521,23 +527,25 @@ msgstr "Plugin tidak ditemukan di katalog."
 
 #: .\Pages\catalogue.py:208
 msgid "Closing existing plugin processes"
-msgstr ""
+msgstr "Menutup proses plugin yang ada"
 
 #: .\Pages\catalogue.py:214
 msgid "Failed to stop existing plugin processes."
-msgstr ""
+msgstr "Gagal menghentikan proses plugin yang ada."
 
 #: .\Pages\catalogue.py:216
 msgid "Updating existing installation"
-msgstr ""
+msgstr "Memperbarui instalasi yang ada"
 
 #: .\Pages\catalogue.py:241
 msgid "Restarting plugin process"
-msgstr ""
+msgstr "Memulai ulang proses plugin"
 
 #: .\Pages\catalogue.py:247
 msgid "Failed to start plugin background process, but the plugin files were updated."
 msgstr ""
+"Gagal memulai proses latar belakang plugin, tetapi file plugin berhasil "
+"diperbarui."
 
 #: .\Pages\catalogue.py:252 .\Pages\catalogue.py:296 .\Pages\catalogue.py:386
 msgid "Success"
@@ -545,7 +553,7 @@ msgstr "Berhasil"
 
 #: .\Pages\catalogue.py:257
 msgid "Plugin '{name}' updated successfully."
-msgstr ""
+msgstr "Plugin '{name}' berhasil diperbarui."
 
 #: .\Pages\catalogue.py:263 .\Pages\catalogue.py:304 .\Pages\catalogue.py:394
 msgid "Failed"
@@ -553,7 +561,7 @@ msgstr "Gagal"
 
 #: .\Pages\catalogue.py:265
 msgid "Failed to update plugin '{name}'"
-msgstr ""
+msgstr "Gagal memperbarui plugin '{name}'"
 
 #: .\Pages\catalogue.py:272
 msgid "Cloning repository"
@@ -630,11 +638,11 @@ msgstr "Menemukan {count} plugin"
 
 #: .\Pages\catalogue.py:499
 msgid "Update Available {new}"
-msgstr ""
+msgstr "Pembaruan Tersedia {new}"
 
 #: .\Pages\catalogue.py:522
 msgid "Failed to read version"
-msgstr ""
+msgstr "Gagal membaca versi"
 
 #: .\Pages\catalogue.py:555
 msgid "Back"
@@ -816,7 +824,7 @@ msgstr "Antarmuka Pengguna"
 
 #: .\Pages\global_settings.py:231
 msgid "Window Settings"
-msgstr ""
+msgstr "Pengaturan Window"
 
 #: .\Pages\global_settings.py:241 .\Pages\onboarding.py:567
 msgid "Window Width"
@@ -844,7 +852,7 @@ msgstr "Ubah transparansi window saat memasuki mode transparansi. Ini dapat dila
 
 #: .\Pages\global_settings.py:292
 msgid "Language Settings"
-msgstr ""
+msgstr "Pengaturan Bahasa"
 
 #: .\Pages\global_settings.py:300 .\Pages\onboarding.py:201
 msgid "Language"
@@ -872,7 +880,7 @@ msgstr "Audio"
 
 #: .\Pages\global_settings.py:355
 msgid "Sound Settings"
-msgstr ""
+msgstr "Pengaturan Suara"
 
 #: .\Pages\global_settings.py:362
 msgid "Soundpack"
@@ -892,23 +900,23 @@ msgstr "Mengubah volume. Ini akan memengaruhi semua suara yang diputar oleh ETS2
 
 #: .\Pages\global_settings.py:389
 msgid "Engage"
-msgstr ""
+msgstr "Aktifkan"
 
 #: .\Pages\global_settings.py:395
 msgid "Disengage"
-msgstr ""
+msgstr "Nonaktifkan"
 
 #: .\Pages\global_settings.py:401
 msgid "Warning"
-msgstr ""
+msgstr "Peringatan"
 
 #: .\Pages\global_settings.py:407
 msgid "Prompt"
-msgstr ""
+msgstr "Pesan"
 
 #: .\Pages\global_settings.py:409
 msgid "Toggle Sounds"
-msgstr ""
+msgstr "Alihkan Suara"
 
 #: .\Pages\global_settings.py:413
 msgid "Startup Sound"
@@ -972,7 +980,7 @@ msgstr "Lain-lain"
 
 #: .\Pages\global_settings.py:558
 msgid "UI Settings"
-msgstr ""
+msgstr "Pengaturan UI"
 
 #: .\Pages\global_settings.py:563
 msgid "Frontend Port"
@@ -1016,7 +1024,7 @@ msgstr "Jumlah waktu ETS2LA menunggu window untuk muncul."
 
 #: .\Pages\global_settings.py:609
 msgid "Backend Settings"
-msgstr ""
+msgstr "Pengaturan Backend"
 
 #: .\Pages\global_settings.py:611
 msgid "Send Crash Reports"
@@ -1036,7 +1044,7 @@ msgstr "Aktifkan opsi ini untuk menggunakan traceback fancy untuk kesalahan."
 
 #: .\Pages\global_settings.py:627
 msgid "Seasonal Effects"
-msgstr ""
+msgstr "Efek Musiman"
 
 #: .\Pages\global_settings.py:634
 msgid "Fireworks"
@@ -1275,19 +1283,21 @@ msgstr "Ini tombol hijaunya!"
 
 #: .\Pages\onboarding.py:710
 msgid "Visualization Notice"
-msgstr ""
+msgstr "Pemberitahuan Visualisasi"
 
 #: .\Pages\onboarding.py:712
 msgid "Sometimes the ETS2LA window might not work as expected. If you find any weird issues, then pressing the F5 key will reload the window."
 msgstr ""
+"Terkadang window ETS2LA mungkin tidak berfungsi seperti yang diharapkan. "
+"Jika Anda menemukan masalah aneh, menekan tombol F5 akan memuat ulang window."
 
 #: .\Pages\onboarding.py:720
 msgid "Press F5 to Continue"
-msgstr ""
+msgstr "Tekan F5 untuk Melanjutkan"
 
 #: .\Pages\onboarding.py:726
 msgid "Bypass"
-msgstr ""
+msgstr "Lewati"
 
 #: .\Pages\onboarding.py:742
 msgid ""
@@ -1295,10 +1305,14 @@ msgid ""
 "\n"
 "A key you can use to refresh websites. Since this page is also a website it works just the same here."
 msgstr ""
+"F5\n"
+"\n"
+"Tombol yang dapat Anda gunakan untuk refresh situs web. Karena halaman ini "
+"juga merupakan situs web, fungsinya sama di sini."
 
 #: .\Pages\onboarding.py:748
 msgid "Example of a broken visualization page."
-msgstr ""
+msgstr "Contoh halaman visualisasi yang rusak."
 
 #: .\Pages\onboarding.py:752
 msgid "Onboarding Complete!"
@@ -1409,11 +1423,13 @@ msgstr ""
 #: .\Pages\plugins.py:65 .\Plugins\CollisionAvoidance\main.py:17
 #: .\Plugins\CollisionAvoidance\ui.py:15 .\Plugins\CollisionAvoidance\ui.py:37
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Penghindaran Tabrakan"
 
 #: .\Pages\plugins.py:66
 msgid "Enable collision avoidance features when the truck is under 30km/h and in tight turns / intersections."
 msgstr ""
+"Aktifkan fitur penghindaran tabrakan saat truk melaju di bawah 30km/jam dan "
+"di tikungan tajam / persimpangan."
 
 #: .\Pages\plugins.py:72 .\Plugins\HUD\main.py:23 .\Plugins\HUD\ui.py:127
 msgid "HUD"
@@ -1710,7 +1726,7 @@ msgstr "Panggilan Gambar: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:738
 msgid "Frustum Culled: {} ({:.0f}%)"
-msgstr ""
+msgstr "Frustum Culled: {} ({:.0f}%)"
 
 #: .\Plugins\AR\main.py:748
 msgid "Text Cache Length: {}"
@@ -1814,18 +1830,22 @@ msgstr "Seberapa jauh ACC harus menjaga jarak dari kendaraan di depan?"
 #: .\Plugins\AdaptiveCruiseControl\settings.py:186
 msgid "At 80km/h ETS2LA will keep approximately {distance}m ({distance_ft}ft) from the vehicle in front."
 msgstr ""
+"Pada 80km/jam ETS2LA akan menjaga jarak sekitar {distance}m ({distance_ft}ft)"
+" dari kendaraan di depan."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:200
 msgid "Obstruction Settings"
-msgstr ""
+msgstr "Pengaturan Rintangan"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:203
 msgid "Ignore Gates"
-msgstr ""
+msgstr "Abaikan Gerbang"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:204
 msgid "Whether the ACC should ignore gates. Please note that this will, as it says ignore the gates."
 msgstr ""
+"Apakah ACC harus mengabaikan gerbang. Harap dicatat bahwa ini akan, sesuai "
+"dengan namanya, mengabaikan gerbang."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:213
 msgid "Ignore Traffic Lights"
@@ -1909,11 +1929,13 @@ msgstr "PID"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:327
 msgid "Show Debug Data"
-msgstr ""
+msgstr "Tampilkan Data Debug"
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:328
 msgid "Show ACC debug information on the AR overlay, can help when tuning the PID controller."
 msgstr ""
+"Tampilkan informasi debug ACC di overlay AR, dapat membantu saat menyetel "
+"pengontrol PID."
 
 #: .\Plugins\AdaptiveCruiseControl\settings.py:337
 msgid "Unlock PID"
@@ -1953,19 +1975,21 @@ msgstr "Video ini menjelaskan secara visual cara kerja pengontrol PID. Silakan t
 
 #: .\Plugins\CollisionAvoidance\main.py:19
 msgid "Provide collision avoidance when inside intersections."
-msgstr ""
+msgstr "Sediakan penghindaran tabrakan saat berada di dalam persimpangan."
 
 #: .\Plugins\CollisionAvoidance\main.py:119
 msgid "Collision avoidance disabled"
-msgstr ""
+msgstr "Penghindaran tabrakan dinonaktifkan"
 
 #: .\Plugins\CollisionAvoidance\main.py:127
 msgid "Collision avoidance enabled"
-msgstr ""
+msgstr "Penghindaran tabrakan diaktifkan"
 
 #: .\Plugins\CollisionAvoidance\ui.py:38
 msgid "These settings will affect how ETS2LA reacts to traffic around it. Please note that this does not affect lane changes."
 msgstr ""
+"Pengaturan ini akan memengaruhi cara ETS2LA bereaksi terhadap lalu lintas di "
+"sekitarnya. Harap dicatat bahwa ini tidak memengaruhi perpindahan lajur."
 
 #: .\Plugins\CollisionAvoidance\ui.py:44 .\Plugins\Map\ui.py:179
 #: .\Plugins\Map\ui.py:204
@@ -1974,48 +1998,53 @@ msgstr "[Eksperimental]"
 
 #: .\Plugins\CollisionAvoidance\ui.py:51
 msgid "Sensitivity"
-msgstr ""
+msgstr "Sensitivitas"
 
 #: .\Plugins\CollisionAvoidance\ui.py:52
 msgid "How close a vehicle has to be to the truck's path to be considered a threat. Higher values make the system more sensitive."
 msgstr ""
+"Seberapa dekat sebuah kendaraan harus berada dengan jalur truk untuk "
+"dianggap sebagai ancaman. Nilai yang lebih tinggi membuat sistem lebih "
+"sensitif."
 
 #: .\Plugins\CollisionAvoidance\ui.py:67
 msgid "Max Speed"
-msgstr ""
+msgstr "Kecepatan Maksimum"
 
 #: .\Plugins\CollisionAvoidance\ui.py:68
 msgid "The maximum speed the truck can be going for collision avoidance to be active."
 msgstr ""
+"Kecepatan maksimum truk yang diizinkan agar penghindaran tabrakan aktif."
 
 #: .\Plugins\CollisionAvoidance\ui.py:81
 msgid "Lookahead Time"
-msgstr ""
+msgstr "Waktu Antisipasi"
 
 #: .\Plugins\CollisionAvoidance\ui.py:82
 msgid "How far ahead the system looks for potential collisions."
-msgstr ""
+msgstr "Seberapa jauh ke depan sistem mencari potensi tabrakan."
 
 #. TRANSLATORS: This means seconds, basically 3s = 3 seconds
 #: .\Plugins\CollisionAvoidance\ui.py:84
 msgid "s"
-msgstr ""
+msgstr "detik"
 
 #: .\Plugins\CollisionAvoidance\ui.py:93
 msgid "Announce State"
-msgstr ""
+msgstr "Umumkan Status"
 
 #: .\Plugins\CollisionAvoidance\ui.py:94
 msgid "Announce when collision avoidance is activated or deactivated."
-msgstr ""
+msgstr "Umumkan saat penghindaran tabrakan diaktifkan atau dinonaktifkan."
 
 #: .\Plugins\EventListener\main.py:20
 msgid "Event Listener"
-msgstr ""
+msgstr "Pendengar Peristiwa"
 
 #: .\Plugins\EventListener\main.py:22
 msgid "This plugin listens to the events provided by the game SDK and the log files."
 msgstr ""
+"Plugin ini mendengarkan peristiwa yang disediakan oleh game SDK dan file log."
 
 #: .\Plugins\HUD\elements\acc.py:9 .\Plugins\HUD\main.py:320
 #: .\Plugins\HUD\main.py:324
@@ -2345,11 +2374,13 @@ msgstr "Saat diaktifkan, peta tidak akan memberi tahu masalah terkait FPS."
 
 #: .\Plugins\Map\ui.py:150
 msgid "Takeover When Unreliable"
-msgstr ""
+msgstr "Ambil Alih Saat Tidak Dapat Diandalkan"
 
 #: .\Plugins\Map\ui.py:151
 msgid "When enabled, the map will automatically take over control when the truck is not following the route correctly."
 msgstr ""
+"Saat diaktifkan, peta akan secara otomatis mengambil alih kendali saat truk "
+"tidak mengikuti rute dengan benar."
 
 #: .\Plugins\Map\ui.py:183
 msgid "Automatic Tolls"
@@ -2706,7 +2737,7 @@ msgstr "Plugin ini menyediakan server websocket untuk Visualisasi ETS2LA. Ini me
 
 #: .\main.py:147
 msgid "Checking mirrors..."
-msgstr ""
+msgstr "Memeriksa cermin..."
 
 #: .\main.py:161
 msgid "- Reached {0} in {1:.0f}ms"
