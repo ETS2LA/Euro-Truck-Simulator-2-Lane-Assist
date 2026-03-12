@@ -119,7 +119,7 @@ def GetVersionForGame(gamePath):
             [
                 str(i)
                 for i in get_version_number(
-                    gamePath + f"{os.sep}bin{os.sep}win_x64{os.sep}eurotrucks2.exe"  
+                    gamePath + f"{os.sep}bin{os.sep}win_x64{os.sep}eurotrucks2.exe"
                 )[:2]
             ]
         )
