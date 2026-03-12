@@ -98,7 +98,7 @@ else:
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
         )
-        assert proc.returncode != 0, (
+        assert proc.returncode == 0, (
             "please check if installed `peres` or `pev-git` (see https://github.com/mentebinaria/readpe)"
         )
 
@@ -119,7 +119,7 @@ def GetVersionForGame(gamePath):
             [
                 str(i)
                 for i in get_version_number(
-                    gamePath + f"{os.sep}bin{os.sep}win_x64{os.sep}eurotrucks2.exe"
+                    gamePath + f"{os.sep}bin{os.sep}win_x64{os.sep}eurotrucks2.exe"  
                 )[:2]
             ]
         )
