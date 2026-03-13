@@ -29,12 +29,6 @@ public class GameHandler
 
     private void FindInstallations()
     {
-        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-        {
-            Logger.Warn("Game installation detection is only supported on Windows.");
-            return;
-        }
-
         List<string> games = SteamHandler.FindGamesInLibraries(new List<string>
         {
             "Euro Truck Simulator 2",
@@ -49,18 +43,29 @@ public class GameHandler
                             : GameType.AmericanTruckSimulator;
 
             string executablePath = System.IO.Path.Combine(
+                # if WINDOWS
                 gamePath, "bin", "win_x64", type == GameType.EuroTruckSimulator2 
                                             ? "eurotrucks2.exe" 
                                             : "amtrucks.exe"
+                # else
+                gamePath, "bin", "linux_x64", type == GameType.EuroTruckSimulator2 
+                                            ? "eurotrucks2" 
+                                            : "amtrucks"
+                # endif
             );
             
             string version = "Unknown";
+            
+            # if WINDOWS
             try
             {
                 var versionInfo = FileVersionInfo.GetVersionInfo(executablePath);
-                version = versionInfo.FileVersion ?? "Unknown";
+                version = versionInfo.FileVersion ?? versionInfo.ProductVersion ?? version;
             }
             catch (Exception) { }
+            # else
+            version = "1.58.0"; // Assume the latest version. TODO: Get this from telemetry!
+            # endif
 
             Installations.Add(new Installation
             {

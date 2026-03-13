@@ -18,4 +18,13 @@
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.10" />
 		<PackageReference Include="Mono.Options" Version="6.12.0.148" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Unix'">
+    <DefineConstants>$(DefineConstants);LINUX</DefineConstants>
+  </PropertyGroup>
+  
 </Project>

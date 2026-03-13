@@ -174,14 +174,18 @@ public class SDL3ControlsBackend : IControlsBackend
             };
         }
 
-        if (!int.TryParse(deviceId, out var joystickId))
-        {
-            return null;
-        }
-
         lock (_sync)
         {
-            return _deviceInfos.TryGetValue(joystickId, out var info) ? info : null;
+            InputDeviceInfo? info;
+            foreach (var device in _deviceInfos.Values)
+            {
+                if (device.Id == deviceId)
+                {
+                    info = device;
+                    return info;
+                }
+            }
+            return null;
         }
     }
 
@@ -250,15 +254,29 @@ public class SDL3ControlsBackend : IControlsBackend
 
                 if (type == (uint)SDLEventType.JoystickButtonDown)
                 {
-                    return (ev.Jbutton.Which.ToString(), $"B{ev.Jbutton.Button}");
+                    InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jbutton.Which) ? _deviceInfos[ev.Jbutton.Which] : default;
+                    if (info.Id == null)
+                    {
+                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jbutton.Which}.");
+                        continue;
+                    }
+
+                    return (info.Id, $"B{ev.Jbutton.Button}");
                 }
 
                 if (type == (uint)SDLEventType.JoystickAxisMotion)
                 {
+                    InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jaxis.Which) ? _deviceInfos[ev.Jaxis.Which] : default;
+                    if (info.Id == null)
+                    {
+                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jaxis.Which}.");
+                        continue;
+                    }
+                    
                     var normalized = NormalizeSdlAxis(ev.Jaxis.Value);
                     if (Math.Abs(normalized) > 0.1f)
                     {
-                        return (ev.Jaxis.Which.ToString(), AxisIdFromIndex(ev.Jaxis.Axis));
+                        return (info.Id, AxisIdFromIndex(ev.Jaxis.Axis));
                     }
                 }
 
@@ -325,7 +343,12 @@ public class SDL3ControlsBackend : IControlsBackend
             case (uint)SDLEventType.JoystickButtonDown:
             case (uint)SDLEventType.JoystickButtonUp:
             {
-                var deviceId = ev.Jbutton.Which.ToString();
+                var instanceId = ev.Jbutton.Which;
+                InputDeviceInfo? deviceInfo = _deviceInfos.ContainsKey(instanceId) ? _deviceInfos[instanceId] : null;
+                if (deviceInfo == null)
+                    break;
+
+                var deviceId = deviceInfo.Id;
                 var controlId = $"B{ev.Jbutton.Button}";
                 var pressed = ev.Jbutton.Down != 0;
                 UpdateMatchingControls(deviceId, controlId, pressed);
@@ -334,7 +357,12 @@ public class SDL3ControlsBackend : IControlsBackend
 
             case (uint)SDLEventType.JoystickAxisMotion:
             {
-                var deviceId = ev.Jaxis.Which.ToString();
+                var instanceId = ev.Jaxis.Which;
+                InputDeviceInfo? deviceInfo = _deviceInfos.ContainsKey(instanceId) ? _deviceInfos[instanceId] : null;
+                if (deviceInfo == null)
+                    break;
+                
+                var deviceId = deviceInfo.Id;
                 var controlId = AxisIdFromIndex(ev.Jaxis.Axis);
                 var raw = NormalizeSdlAxis(ev.Jaxis.Value);
                 UpdateMatchingControls(deviceId, controlId, raw, true);
@@ -420,9 +448,10 @@ public class SDL3ControlsBackend : IControlsBackend
             _openJoysticks[instanceId] = joystick;
 
             var type = SDL.GetJoystickTypeForID(instanceId);
+            var uid = SDL.GetJoystickGUIDForID(instanceId);
             var deviceType = type == SDLJoystickType.Wheel ? DeviceType.Wheel : DeviceType.Gamepad;
 
-            var name = $"Joystick {instanceId}";
+            var name = $"Joystick {uid}";
             try
             {
                 if (!joystick.IsNull)
@@ -437,12 +466,12 @@ public class SDL3ControlsBackend : IControlsBackend
 
             _deviceInfos[instanceId] = new InputDeviceInfo
             {
-                Id = instanceId.ToString(),
-                Name = string.IsNullOrWhiteSpace(name) ? $"Joystick {instanceId}" : name,
+                Id = GuidToString(uid),
+                Name = string.IsNullOrWhiteSpace(name) ? $"Joystick {uid}" : name,
                 Type = deviceType
             };
 
-            Logger.Info($"Connected joystick: [bold]{_deviceInfos[instanceId].Name}[/] [gray italic]({instanceId})[/]");
+            Logger.Info($"Connected joystick: [bold]{_deviceInfos[instanceId].Name}[/] [gray italic]({instanceId}, {uid})[/]");
         }
     }
 
@@ -499,5 +528,14 @@ public class SDL3ControlsBackend : IControlsBackend
             AxisType.SplitPos => Math.Clamp((rawValue - 0.5f) * 2.0f, 0.0f, 1.0f),
             _ => rawValue
         };
+    }
+
+    private static string GuidToString(SdlGuid guid)
+    {
+        return $"{guid.Data_0:X2}{guid.Data_1:X2}{guid.Data_2:X2}{guid.Data_3:X2}-" +
+               $"{guid.Data_4:X2}{guid.Data_5:X2}-" +
+               $"{guid.Data_6:X2}{guid.Data_7:X2}-" +
+               $"{guid.Data_8:X2}{guid.Data_9:X2}-" +
+               $"{guid.Data_10:X2}{guid.Data_11:X2}{guid.Data_12:X2}{guid.Data_13:X2}{guid.Data_14:X2}{guid.Data_15:X2}";
     }
 }
