@@ -365,6 +365,9 @@ class SCSController:
                 self._shm_buff.write(struct.pack("f", 0.0))
 
         self._shm_buff.flush()
+        
+    def using_fallback(self):
+        return fallback_acceleration
 
     def __enter__(self):
         return self

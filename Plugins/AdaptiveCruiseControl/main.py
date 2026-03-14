@@ -1126,6 +1126,10 @@ class Plugin(ETS2LAPlugin):
             time.sleep(1 / 20)
             self.controller.drive = False
             time.sleep(1 / 20)
+            
+            if not self.controller.using_fallback():
+                self.controller.aforward = 0.0001
+                self.controller.abackward = 0.0001
 
             self.state.text = "Detected reverse gear. Please shift to drive."
             return
@@ -1139,9 +1143,18 @@ class Plugin(ETS2LAPlugin):
                 self.controller.aforward = float(target_accel)
             else:  # disable acceleration if clutch is pressed
                 self.controller.aforward = float(0)
+                
+            if not self.controller.using_fallback():
+                if self.speed > 10 / 3.6 and not self.set_zero:
+                    self.controller.abackward = float(0)
+                    self.set_zero = True
+                elif not self.set_zero:
+                    self.controller.abackward = float(0.0001)
         else:
             self.set_zero = False
             self.controller.abackward = float(-target_accel)
+            if not self.controller.using_fallback():
+                self.controller.aforward = 0
 
     def apply_pid(self, target_acceleration: float) -> float:
         """Apply PID control to get smooth accelerator/brake inputs based on target acceleration.
