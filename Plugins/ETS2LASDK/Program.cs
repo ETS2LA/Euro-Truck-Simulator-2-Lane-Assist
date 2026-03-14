@@ -18,6 +18,7 @@ namespace ETS2LASDK
 
         public override float TickRate => 60.0f;
         string mmapName = "Local\\ETS2LACameraProps";
+        string mmapNameLinux = "/dev/shm/ETS2LACameraProps";
         MemoryReader? _reader;
         int mmapSize = 36;
 
@@ -26,16 +27,15 @@ namespace ETS2LASDK
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
-            // Check for other OSs
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-            {
-                return;
-            }
-
             byte[] buffer = new byte[mmapSize];
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
                 accessor.ReadArray(0, buffer, 0, mmapSize);
                 _reader = new MemoryReader(buffer);
@@ -92,6 +92,7 @@ namespace ETS2LASDK
 
         public override float TickRate => 20.0f;
         string mmapName = "Local\\ETS2LATraffic";
+        string mmapNameLinux = "/dev/shm/ETS2LATraffic";
         MemoryReader? _reader;
         int mmapSize = 6960;
 
@@ -100,16 +101,15 @@ namespace ETS2LASDK
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
-            // Check for other OSs
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-            {
-                return;
-            }
-
             byte[] buffer = new byte[mmapSize];
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
                 accessor.ReadArray(0, buffer, 0, mmapSize);
                 _reader = new MemoryReader(buffer);
@@ -228,6 +228,7 @@ namespace ETS2LASDK
         // tick rates. Just enough where it won't feel slow to respond.
         public override float TickRate => 5.0f;
         string mmapName = "Local\\ETS2LASemaphore";
+        string mmapNameLinux = "/dev/shm/ETS2LASemaphore";
         MemoryReader? _reader;
         int mmapSize = 2080;
 
@@ -236,16 +237,15 @@ namespace ETS2LASDK
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
-            // Check for other OSs
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-            {
-                return;
-            }
-
             byte[] buffer = new byte[mmapSize];
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
                 accessor.ReadArray(0, buffer, 0, mmapSize);
                 _reader = new MemoryReader(buffer);
@@ -316,6 +316,7 @@ namespace ETS2LASDK
         // Navigation won't be updating often, so a low tick rate is fine.
         public override float TickRate => 0.1f;
         string mmapName = "Local\\ETS2LARoute";
+        string mmapNameLinux = "/dev/shm/ETS2LARoute";
         MemoryReader? _reader;
         int mmapSize = 96000;
 
@@ -324,16 +325,15 @@ namespace ETS2LASDK
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
-            // Check for other OSs
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-            {
-                return;
-            }
-
             byte[] buffer = new byte[mmapSize];
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
                 accessor.ReadArray(0, buffer, 0, mmapSize);
                 _reader = new MemoryReader(buffer);
@@ -387,6 +387,7 @@ namespace ETS2LASDK
         // for stale data.
         public override float TickRate => 1.0f;
         string mmapName = "Local\\ETS2LAPluginInput";
+        string mmapNameLinux = "/dev/shm/ETS2LAPluginInput";
         int mmapSize = 22;
 
         // TODO: Convert to weight based system.
@@ -433,7 +434,12 @@ namespace ETS2LASDK
 
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
                 accessor.Write(0, -steering);
                 accessor.Write(4, steering != 0.0f);
@@ -464,7 +470,12 @@ namespace ETS2LASDK
 
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
                 accessor.Write(5, throttle);
                 accessor.Write(9, throttle != 0.0f);
@@ -495,7 +506,12 @@ namespace ETS2LASDK
 
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
                 accessor.Write(10, brake);
                 accessor.Write(14, brake != 0.0f);

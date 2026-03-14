@@ -17,6 +17,7 @@ namespace ControlsSDK
 
         public override float TickRate => 1.0f;
         string mmapName = "Local\\SCSControls";
+        string mmapNameLinux = "/dev/shm/SCSControls";
         int mmapSize = 0;
         Dictionary<string, int> _shmOffsets = new Dictionary<string, int>();
 
@@ -57,7 +58,12 @@ namespace ControlsSDK
             {
                 try
                 {
-                    mmf = MemoryMappedFile.OpenExisting(mmapName, MemoryMappedFileRights.Write);
+                    #if WINDOWS
+                        mmf = MemoryMappedFile.OpenExisting(mmapName);
+                    # else
+                        mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                    # endif
+                    
                     accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Write);
                     Logger.Info("ControlsSDK: Created or opened shared memory for SCS Controls SDK.");
                 }

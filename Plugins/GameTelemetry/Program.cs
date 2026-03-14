@@ -28,6 +28,7 @@ namespace GameTelemetry
         GameTelemetryData telemetry = new GameTelemetryData();
 
         string mmapName = "Local\\SCSTelemetry";
+        string mmapNameLinux = "/dev/shm/SCSTelemetry";
         int mmapSize = 32 * 1024;
         
         int stringSize = 64;
@@ -95,6 +96,11 @@ namespace GameTelemetry
         {
             base.OnDisable();
             NotificationHandler.Current.CloseNotification("GameTelemetry.MMFNotFound");
+            OverlayHandler.Current.UnregisterWindow(new WindowDefinition
+                {
+                    Title = "Telemetry"
+                }
+            );
         }
 
         public override void Tick()
@@ -102,16 +108,15 @@ namespace GameTelemetry
             MemoryMappedFile? mmf = null;
             MemoryMappedViewAccessor? accessor = null;
 
-            // Check for other OSs
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-            {
-                return;
-            }
-
             byte[] buffer = new byte[mmapSize];
             try
             {
-                mmf = MemoryMappedFile.OpenExisting(mmapName);
+                #if WINDOWS
+                    mmf = MemoryMappedFile.OpenExisting(mmapName);
+                # else
+                    mmf = MemoryMappedFile.CreateFromFile(mmapNameLinux);
+                # endif
+                
                 accessor = mmf.CreateViewAccessor(0, mmapSize, MemoryMappedFileAccess.Read);
                 accessor.ReadArray(0, buffer, 0, mmapSize);
                 _reader = new MemoryReader(buffer);
