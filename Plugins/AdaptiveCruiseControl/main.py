@@ -1154,7 +1154,7 @@ class Plugin(ETS2LAPlugin):
             self.set_zero = False
             self.controller.abackward = float(-target_accel)
             if self.controller.using_fallback():
-                self.controller.aforward = 0
+                self.controller.aforward = float(0)
 
     def apply_pid(self, target_acceleration: float) -> float:
         """Apply PID control to get smooth accelerator/brake inputs based on target acceleration.
