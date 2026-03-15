@@ -313,21 +313,22 @@ def DrawRoads(sector_change: bool) -> None:
         road_highlighted = (
             HIGHLIGHTED_ROAD is not None and HIGHLIGHTED_ROAD == road.road_look.name
         )
-        if not settings.InternalVisualizationPerformance:
-            poly_points = [
-                ToLocalSectorCoordinates((point.x), (point.z), SCALING_FACTOR)
-                for point in lane.points
-            ]
-            poly_points = [(round(point[0]), round(point[1])) for point in poly_points]
-            poly_points = np.array(poly_points, np.int32)
-            cv2.polylines(
-                road_image,
-                [poly_points],
-                isClosed=False,
-                color=(100, 100, 100),
-                thickness=LINE_THICKNESS,
-                lineType=cv2.LINE_AA,
-            )
+        if settings.InternalVisualizationPerformance:
+            for lane in road.lanes:
+                poly_points = [
+                    ToLocalSectorCoordinates((point.x), (point.z), SCALING_FACTOR)
+                    for point in lane.points
+                ]
+                poly_points = [(round(point[0]), round(point[1])) for point in poly_points]
+                poly_points = np.array(poly_points, np.int32)
+                cv2.polylines(
+                    road_image,
+                    [poly_points],
+                    isClosed=False,
+                    color=(100, 100, 100),
+                    thickness=LINE_THICKNESS,
+                    lineType=cv2.LINE_AA,
+                )
         else:
             for lane in road.lanes:
                 if road_highlighted:
