@@ -1171,6 +1171,7 @@ class Plugin(ETS2LAPlugin):
         if self.api_data:
             clutch = self.api_data["truckFloat"]["userClutch"]
             if clutch > 0.1:
+                self.add_ar_text(f" - ACC disabled due to clutch input {clutch:.2f}")
                 self.last_time = current_time
                 return self.last_control_output
 
