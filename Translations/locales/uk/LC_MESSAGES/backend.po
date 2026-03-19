@@ -7,15 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA Backend 1.0.0\n"
 "POT-Creation-Date: 2026-02-01 15:00\n"
-"PO-Revision-Date: 2025-07-18 18:29+0000\n"
-"Last-Translator: Sta1kERR <sta1kerr@ets2la.com>\n"
-"Language-Team: Ukrainian <http://weblate.ets2la.com/projects/ets2la/backend/uk/>\n"
+"PO-Revision-Date: 2026-03-20 19:10+0000\n"
+"Last-Translator: Volodymyr Ivanikiv <VeysiFed@ets2la.com>\n"
+"Language-Team: Ukrainian <http://weblate.ets2la.com/projects/ets2la/backend/"
+"uk/>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.14.3\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: .\ETS2LA\Controls\picker.py:81
@@ -34,9 +36,8 @@ msgid "Refreshing joysticks..."
 msgstr "Оновлюємо список під'єднаних джойстиків..."
 
 #: .\ETS2LA\Handlers\controls.py:114
-#, fuzzy
 msgid "{} connected."
-msgstr "{} під'єднано"
+msgstr "{} під'єднано."
 
 #: .\ETS2LA\Handlers\controls.py:116
 msgid "Found joystick: [bold]{name}[/bold] [dim]({uid})[/dim]"
@@ -87,59 +88,64 @@ msgstr ""
 
 #: .\ETS2LA\Handlers\plugins.py:739
 msgid "Loaded {0} plugins."
-msgstr ""
+msgstr "{0} плагін завантажено."
 
 #: .\ETS2LA\Handlers\plugins.py:812 .\ETS2LA\Handlers\plugins.py:1002
 msgid "Plugin not found."
-msgstr ""
+msgstr "Плагін не знайдено."
 
 #: .\ETS2LA\Handlers\plugins.py:824
 msgid "Plugin [yellow]{0}[/yellow] started successfully."
-msgstr ""
+msgstr "Плагін [yellow]{0}[/yellow] запущено успішно."
 
 #: .\ETS2LA\Handlers\plugins.py:835
 msgid "Failed to start plugin: {0}"
-msgstr ""
+msgstr "Не вдалось запустити плагін: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:836 .\ETS2LA\Handlers\plugins.py:883
 msgid "Timeout"
-msgstr ""
+msgstr "Час очікування вичерпано"
 
 #: .\ETS2LA\Handlers\plugins.py:857
 msgid "Plugin not found, this can be a result of a plugin crash or failure to load."
-msgstr ""
+msgstr "Плагін не знайдено, можливо через збій плагіна, або невдалий запуск."
 
 #: .\ETS2LA\Handlers\plugins.py:875
 msgid "Plugin [yellow]{0}[/yellow] stopped successfully."
-msgstr ""
+msgstr "Плагін [yellow]{0}[/yellow] успішно зупиненно."
 
 #: .\ETS2LA\Handlers\plugins.py:882
 msgid "Failed to stop plugin: {0}"
-msgstr ""
+msgstr "Не вдалось зупинити плагін: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:903
 msgid "Failed to restart plugin: {0}"
-msgstr ""
+msgstr "Не вдалось перезапустити плагін: {0}"
 
 #: .\ETS2LA\Handlers\plugins.py:940 .\ETS2LA\Handlers\plugins.py:959
+#, fuzzy
 msgid "Plugin {0} not found for page {1}."
-msgstr ""
+msgstr "Плагін {0} не знайдено для сторінки {1}."
 
 #: .\ETS2LA\Handlers\sounds.py:15
 msgid "Failed to download the ffmpeg library, please download it manually. (ie. [code]winget install ffmpeg[/code])"
 msgstr ""
+"Не вдалось завантажити ffmpeg library, спробуйте завантажити вручну. "
+"(наприклад [code]winget install ffmpeg[/code])"
 
 #: .\ETS2LA\Handlers\sounds.py:55
 msgid "Soundpack '{0}' is missing the required sound '{1}'"
-msgstr ""
+msgstr "Набір звуків '{0}' відсутній необхідний звук '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:64
+#, fuzzy
 msgid "Soundpack '{0}' has an invalid file type '{1}'"
-msgstr ""
+msgstr "Набір звуків '{0}' має невірний тип файлу '{1}'"
 
 #: .\ETS2LA\Handlers\sounds.py:103
 msgid "Tried to play sound '{0}', but it was not found in soundpack '{1}'"
 msgstr ""
+"Спроба відтворити звук '{0}', але його не знайдено у звуковому наборі '{1}'"
 
 #: .\ETS2LA\Networking\Servers\discovery.py:33
 msgid "Successfully registered [bold]http://{address}[/bold] to point to [dim]{local_ip}[/dim]."
@@ -159,7 +165,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:120
 msgid "Frontend"
-msgstr ""
+msgstr "Інтерфейс"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:120
 msgid "The frontend wants to perform an update."
@@ -167,7 +173,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:190
 msgid "Failed to set transparency"
-msgstr ""
+msgstr "Не вдалося встановити прозорість"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:415
 msgid "Failed to get tag data"
@@ -179,7 +185,7 @@ msgstr ""
 
 #: .\ETS2LA\Networking\Servers\webserver.py:467
 msgid "Failed to reload plugins"
-msgstr ""
+msgstr "Не вдалося перезавантажити плагіни"
 
 #: .\ETS2LA\Networking\Servers\webserver.py:482
 msgid "Failed to build frontend"
@@ -338,8 +344,9 @@ msgstr ""
 #: .\Pages\about.py:263
 msgid "{0} minute"
 msgid_plural "{0} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} хвилина"
+msgstr[1] "{0} хвилини"
+msgstr[2] "{0} хвилин"
 
 #: .\Pages\about.py:259 .\Pages\about.py:262
 msgid "{0} hour"
