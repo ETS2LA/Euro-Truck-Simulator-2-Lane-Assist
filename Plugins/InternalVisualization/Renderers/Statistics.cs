@@ -1,12 +1,10 @@
-using ETS2LA.Overlay;
 using ETS2LA.Game;
 using ETS2LA.Shared;
-using ETS2LA.Logging;
+using ETS2LA.Telemetry;
 
 using TruckLib.ScsMap;
 using Hexa.NET.ImGui;
 using System.Numerics;
-using TruckLib;
 
 namespace InternalVisualization.Renderers;
 

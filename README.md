@@ -168,7 +168,7 @@ You can listen to the game telemetry using the `GameTelemetry` plugin's event bu
 > Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function.
 ```csharp
 GameTelemetryData _latestTelemetry;
-Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryData);
+Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, OnGameTelemetryData);
 
 ...
 

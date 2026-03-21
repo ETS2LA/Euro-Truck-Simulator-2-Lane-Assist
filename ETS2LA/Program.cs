@@ -1,7 +1,10 @@
 ﻿using Velopack;
 using Velopack.Locators;
 
+using ETS2LA.UI;
 using ETS2LA.Overlay;
+using ETS2LA.Backend;
+using ETS2LA.Telemetry;
 
 namespace ETS2LA;
 
@@ -13,6 +16,8 @@ internal static class Program
     static void Main(string[] args)
     {
         // Velopack is the installer / update manager
+        // Please don't move this, Velopack has to be initialized before anything else,
+        // otherwise we might end up with weird bugs.
         VelopackApp.Build()
             .SetAutoApplyOnStartup(false)
             #if DEBUG
@@ -26,15 +31,16 @@ internal static class Program
 
         var BackendThread = Task.Run(() =>
         {
-            // These initialize global instances of both the overlay and the backend.
-            // Overlay is started "first" since some plugins might need to reference it.
+            // These initialize global instances, if there's a more "official" way to
+            // do this then please make a PR for that.
             var ar = OverlayHandler.Current;
-            var backend = Backend.PluginBackend.Current;
+            var telemetry = GameTelemetry.Current;
+            var backend = PluginBackend.Current;
         });
 
         // Gotta wait for the UI thread to close (i.e. user closed the window)
         // and then tell the backend to shutdown too.
         UI.Program.Main(args);
-        Backend.PluginBackend.Current.Shutdown();
+        PluginBackend.Current.Shutdown();
     }
 }

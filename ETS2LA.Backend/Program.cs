@@ -46,8 +46,6 @@ namespace ETS2LA.Backend
                 //pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
                 //pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
 
-                // RenCloud's Game Telemetry plugin provider
-                pluginHandler.EnablePlugin(pluginName: "GameTelemetry.GameTelemetry");
                 // ets2la_plugin providers and consumers
                 pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
                 pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");

@@ -120,7 +120,7 @@ public class NotificationHandler : INotificationHandler
 
     public async void SendNotification(Notification notification)
     {
-        if (!_window.IsLoaded) {
+        if (_window == null || !_window.IsLoaded) {
             Logger.Warn("Attempted to send notification before MainWindow was loaded.");
             return;
         }

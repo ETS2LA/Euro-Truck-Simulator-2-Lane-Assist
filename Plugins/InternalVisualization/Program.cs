@@ -1,4 +1,4 @@
-using ETS2LA.Logging;
+using ETS2LA.Telemetry;
 using ETS2LA.Overlay;
 using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
@@ -67,7 +67,7 @@ namespace InternalVisualization
 
             // Subscribe to events here, do not subscribe in Init as that's too early.
             // Events.Current.Subscribe<YourEventType>("YourTopic", YourEventHandler);
-            Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnTelemetryUpdated);
+            Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Current.EventString", OnTelemetryUpdated);
         }
 
         private void OnTelemetryUpdated(GameTelemetryData data)

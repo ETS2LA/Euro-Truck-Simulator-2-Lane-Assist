@@ -1,10 +1,10 @@
 // This file is based on
 // https://github.com/RenCloud/scs-sdk-plugin/blob/dev/scs-telemetry/inc/scs-telemetry-common.hpp
 using System.Numerics;
+using ETS2LA.Shared;
 
-namespace ETS2LA.Shared
+namespace ETS2LA.Telemetry
 {
-
     // MARK: Trailer
     public class ConBool
     {

@@ -1,5 +1,6 @@
 ﻿using ETS2LA.UI.Notifications;
 using ETS2LA.Shared;
+using ETS2LA.Telemetry;
 using ETS2LA.Backend.Events;
 using Huskui.Avalonia.Models;
 
@@ -24,7 +25,7 @@ public class MyConsumer : Plugin
     {
         base.OnEnable();
         Events.Current.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
-        Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
+        Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, OnGameTelemetryReceived);
         Events.Current.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
         Events.Current.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
         Events.Current.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
