@@ -163,7 +163,7 @@ void OnCurMicroseconds(float microseconds)
 These events run almost instantly accross all plugins. You can send as large of a data as you want, as these events only pass memory addresses around. Just be careful about editing data!
 
 ### Accessing Game Data
-You can listen to the game telemetry using the `GameTelemetry` plugin's event bus event. The event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
+You can listen to the game telemetry using the `GameTelemetry`'s event. This event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
 
 > Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function or other threads.
 ```csharp
@@ -186,12 +186,14 @@ public override void Tick()
 }
 ```
 
-Reading ets2la_plugin information can be done like so. Just replace `Camera` with whatever available data structure you want to read.
+Reading ets2la_plugin information can be done like so. Just replace `CameraProvider` with whatever available data structure you want to read.
 ```csharp
-Camera _latestCamera;
-Events.Current.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraData);
+using ETS2LA.Game.SDK;
 
-private void OnCameraData(Camera data)
+CameraData _latestCamera;
+Events.Current.Subscribe<CameraData>(CameraProvider.Current.EventString, OnCameraData);
+
+private void OnCameraData(CameraData data)
 {
     _latestCamera = data;
 }
@@ -209,10 +211,10 @@ public override void Tick()
 The camera rotation is a quaternion by default, so we provide the `.ToEuler()` method to convert it back to human readable euler angles.
 
 Current the available ETS2LASDK data structures are:
-- `ETS2LASDK.Camera` (`Camera`)
-- `ETS2LASDK.Traffic` (`TrafficData`)
-- `ETS2LASDK.Semaphores` (`SemaphoreData`)
-- `ETS2LASDK.Navigation` (`NavigationData`)
+- (`ETS2LA.Game.SDK.`)`CameraProvider` (`CameraData`)
+- (`ETS2LA.Game.SDK.`)`TrafficProvider` (`TrafficData`)
+- (`ETS2LA.Game.SDK.`)`SemaphoresProvider` (`SemaphoreData`)
+- (`ETS2LA.Game.SDK.`)`NavigationProvider` (`NavigationData`)
 
 ### Sending Controls to the Game
 ETS2LA has two main ways to send data to the game. These are both tied to SDKs, but the SDKs work differently from each other.
