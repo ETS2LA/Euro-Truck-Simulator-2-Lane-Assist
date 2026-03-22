@@ -1,5 +1,6 @@
 using ETS2LA.Game;
-using ETS2LA.Shared;
+using ETS2LA.Logging;
+using ETS2LA.Game.SDK;
 using ETS2LA.Telemetry;
 using ETS2LA.Backend.Events;
 
@@ -7,7 +8,6 @@ using TruckLib.ScsMap;
 using Hexa.NET.ImGui;
 using System.Numerics;
 using TruckLib;
-
 namespace InternalVisualization.Renderers;
 
 public class TrafficRenderer : Renderer
@@ -15,7 +15,7 @@ public class TrafficRenderer : Renderer
     private TrafficData? _trafficData;
     public TrafficRenderer()
     {
-        Events.Current.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficDataReceived);
+        Events.Current.Subscribe<TrafficData>(TrafficProvider.Current.EventString, OnTrafficDataReceived);
     }
 
     private void OnTrafficDataReceived(TrafficData data)
@@ -62,7 +62,7 @@ public class TrafficRenderer : Renderer
             Vector2 screenPos = Utils.WorldToScreen(center, telemetryData.truckPlacement.coordinate.ToVector3(), windowSize) + windowPos;
 
             ETS2LA.Shared.Quaternion rotation = vehicle.rotation;
-            float angle = new System.Numerics.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W).ToEulerDeg().Y + 90f;
+            float angle = new Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W).ToEulerDeg().Y + 90f;
 
             float width = vehicle.size.X;
             float length = vehicle.size.Z;

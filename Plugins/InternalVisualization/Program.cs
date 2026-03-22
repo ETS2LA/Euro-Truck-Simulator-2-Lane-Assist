@@ -6,14 +6,11 @@ using ETS2LA.Backend.Events;
 using ETS2LA.Game;
 using ETS2LA.Game.SiiFiles;
 using ETS2LA.Game.PpdFiles;
+using TruckLib.ScsMap;
 
 using InternalVisualization.Renderers;
 
-using TruckLib;
-using TruckLib.ScsMap;
-
 using Hexa.NET.ImGui;
-using System.Numerics;
 
 namespace InternalVisualization
 {
@@ -67,7 +64,7 @@ namespace InternalVisualization
 
             // Subscribe to events here, do not subscribe in Init as that's too early.
             // Events.Current.Subscribe<YourEventType>("YourTopic", YourEventHandler);
-            Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Current.EventString", OnTelemetryUpdated);
+            Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, OnTelemetryUpdated);
         }
 
         private void OnTelemetryUpdated(GameTelemetryData data)
@@ -108,7 +105,12 @@ namespace InternalVisualization
 
         private void RenderWindow()
         {
-            if(_mapData == null || _telemetryData == null || _roads == null || _prefabs == null || _nearbyNodes == null)
+            if(_telemetryData == null)
+            {
+                ImGui.Text("Waiting for telemetry data...");
+                return;
+            }
+            if(_mapData == null || _roads == null || _prefabs == null || _nearbyNodes == null)
             {
                 ImGui.Text("Waiting for map data...");
                 return;

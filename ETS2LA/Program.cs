@@ -34,8 +34,8 @@ internal static class Program
             // These initialize global instances, if there's a more "official" way to
             // do this then please make a PR for that.
             var ar = OverlayHandler.Current;
-            var telemetry = GameTelemetry.Current;
             var backend = PluginBackend.Current;
+            var telemetry = GameTelemetry.Current;
         });
 
         // Gotta wait for the UI thread to close (i.e. user closed the window)

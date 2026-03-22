@@ -1,9 +1,11 @@
 ﻿using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
 using ETS2LA.UI.Notifications;
+using ETS2LA.Logging;
 
 using System.IO.MemoryMappedFiles;
 using System.Numerics;
+using System.Diagnostics;
 
 namespace ETS2LA.Telemetry;
 
@@ -16,16 +18,16 @@ public class GameTelemetry
     // only reports at a max of 60Hz anyway, but you can decrease it
     // if you really want to. Note that it will affect most ETS2LA
     // features, so be careful.
-    // 1/60 -> 16.66ms (60Hz)
+    // 1f / 60f -> 16.66ms (60Hz)
     // 1/30 -> 33.33ms (30Hz)
     // etc...
-    private float UpdateRate { get; set; } = 1/60;
+    private float UpdateRate { get; set; } = 1f / 60f;
 
     public string EventString = "ETS2LA.Telemetry.Data";
     
     private MemoryReader? _reader;
     private GameTelemetryData? _currentData = new();
-    private float _lastUpdateTime = 0;
+    
 
     string mmapName = "Local\\SCSTelemetry";
     string mmapNameLinux = "/dev/shm/SCSTelemetry";
@@ -83,18 +85,23 @@ public class GameTelemetry
 
     private void UpdateThread()
     {
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+
         while (true)
         {
-            if (DateTime.Now.Ticks / TimeSpan.TicksPerSecond - _lastUpdateTime < UpdateRate)
+            int timeLeft = (int)((UpdateRate * 1000) - stopwatch.Elapsed.TotalMilliseconds);
+            if (timeLeft > 0)
             {
-                Thread.Sleep((int)(UpdateRate / 2 * 1000));
+                Thread.Sleep(timeLeft);
                 continue;
             }
-            
+
+            stopwatch.Restart();
             try { Update(); }
             catch (Exception ex)
             {
-                Logging.Logger.Error(ex.ToString(), "Error in telemetry update loop.");
+                Logger.Error(ex.ToString(), "Error in telemetry update loop.");
             }
         }
     }
@@ -491,6 +498,6 @@ public class GameTelemetry
         // Publish to the event bus
         Events.Current.Publish<GameTelemetryData>(EventString, _currentData);
 
-        _lastUpdateTime = DateTime.Now.Ticks / TimeSpan.TicksPerSecond;
+        
     }
 }

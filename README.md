@@ -165,7 +165,7 @@ These events run almost instantly accross all plugins. You can send as large of 
 ### Accessing Game Data
 You can listen to the game telemetry using the `GameTelemetry` plugin's event bus event. The event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
 
-> Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function.
+> Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function or other threads.
 ```csharp
 GameTelemetryData _latestTelemetry;
 Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, OnGameTelemetryData);

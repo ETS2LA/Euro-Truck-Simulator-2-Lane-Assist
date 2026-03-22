@@ -1,5 +1,3 @@
-using ETS2LA.Logging;
-using Microsoft.Win32;
 namespace ETS2LA.Game.Steam;
 
 class SteamHandler
