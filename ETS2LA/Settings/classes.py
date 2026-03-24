@@ -15,11 +15,13 @@ settings.some_text # "Great!"
 ```
 """
 
-import threading
+import json
 import sqlite3
-import pickle
+import threading
+from typing import Any
 
 root_path = "ETS2LA/settings.db"
+_JSON_PREFIX = "json:"
 
 
 def _init_db():
@@ -38,8 +40,6 @@ def _init_db():
     conn.close()
 
 
-# This is called for each module as it makes sure the settings
-# file exists before anything else is done.
 _init_db()
 
 
@@ -52,7 +52,6 @@ class ETS2LASettings:
         self._cache = {}
         self._lock = threading.RLock()
 
-        # Load defaults (python syntax is so nice...)
         for key, _typ in getattr(self.__class__, "__annotations__", {}).items():
             default = getattr(self.__class__, key, None)
             self._cache[key] = default
@@ -63,10 +62,41 @@ class ETS2LASettings:
         return sqlite3.connect(root_path, timeout=0.1, isolation_level=None)
 
     def defer(self, func, args, time):
-        """Try again after time seconds."""
         timer = threading.Timer(time, func, args=args)
         timer.daemon = True
         timer.start()
+
+    def _serialize_value(self, value: Any) -> str:
+        if isinstance(value, bool):
+            return "true" if value else "false"
+        if isinstance(value, (str, int, float)):
+            return str(value)
+        try:
+            return _JSON_PREFIX + json.dumps(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                f"Unsupported setting value for {self._category}: {type(value).__name__}"
+            ) from exc
+
+    def _deserialize_value(self, raw_value: str, default: Any) -> Any:
+        if raw_value.startswith(_JSON_PREFIX):
+            try:
+                return json.loads(raw_value[len(_JSON_PREFIX) :])
+            except (TypeError, ValueError):
+                return default
+
+        if raw_value.startswith("b'") or raw_value.startswith('b\"'):
+            return default
+
+        typ = type(default)
+        try:
+            if typ is bool:
+                return raw_value.lower() in ("true", "1", "yes")
+            if default is None:
+                return raw_value
+            return typ(raw_value)
+        except Exception:
+            return raw_value
 
     def _load_from_db(self, i=0):
         try:
@@ -77,28 +107,13 @@ class ETS2LASettings:
                 )
                 for key, value in cur.fetchall():
                     if key in self._cache:
-                        # unpickle if needed
-                        if value.startswith("b'") or value.startswith('b"'):
-                            try:
-                                self._cache[key] = pickle.loads(eval(value))
-                                continue
-                            except Exception:
-                                pass
-
-                        # keep type conversion consistent with default
-                        typ = type(self._cache[key])
-                        try:
-                            if typ is bool:
-                                self._cache[key] = value.lower() in ("true", "1", "yes")
-                            else:
-                                self._cache[key] = typ(value)
-                        except Exception:
-                            self._cache[key] = value
+                        self._cache[key] = self._deserialize_value(
+                            value, self._cache[key]
+                        )
 
         except sqlite3.OperationalError:
-            # db busy, try again later max 5 times
             if i < 5:
-                self.defer(self._load_from_db, [i], 0.1 + 0.05 * i)
+                self.defer(self._load_from_db, [i + 1], 0.1 + 0.05 * i)
 
     def __getattribute__(self, name):
         if name.startswith("_") or name in (
@@ -127,23 +142,15 @@ class ETS2LASettings:
 
         with self._lock:
             self._cache[name] = value
-            # pickle if needed
-            if not isinstance(
-                value,
-                (str, int, float, bool),
-            ):
-                value = pickle.dumps(value)
-
-            # otherwise store the value itself
+            serialized_value = self._serialize_value(value)
             try:
                 with self._get_connection() as conn:
                     conn.execute(
                         "INSERT OR REPLACE INTO settings (category, key, value) VALUES (?, ?, ?)",
-                        (self._category, name, str(value)),
+                        (self._category, name, serialized_value),
                     )
 
             except sqlite3.OperationalError:
-                # db busy, try again later max 5 times
                 if i < 5:
                     self.defer(self.__setattr__, [name, value, i + 1], 0.1 + 0.05 * i)
 

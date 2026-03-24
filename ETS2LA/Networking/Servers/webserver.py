@@ -29,7 +29,7 @@ import ETS2LA.Utils.version as git
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, HTTPException, Request
 from typing import Literal
 from typing import Any
 import multiprocessing
@@ -52,6 +52,31 @@ settings = GlobalSettings()
 IP = None
 
 FRONTEND_PORT = settings.frontend_port
+
+
+def _is_loopback_client(request: Request) -> bool:
+    host = request.client.host if request.client else ""
+    return host in {"127.0.0.1", "::1", "localhost"}
+
+
+def _require_local_or_token(request: Request, *, sensitive: bool = True) -> None:
+    if _is_loopback_client(request):
+        return
+
+    if not settings.expose_backend_to_lan:
+        raise HTTPException(
+            status_code=403,
+            detail="Backend access is restricted to localhost by default.",
+        )
+
+    if sensitive and settings.backend_api_token:
+        provided = request.headers.get("X-ETS2LA-Token") or request.query_params.get(
+            "token"
+        )
+        if provided != settings.backend_api_token:
+            raise HTTPException(
+                status_code=401, detail="Missing or invalid backend API token."
+            )
 
 app = FastAPI(
     title="ETS2LA", description="Backend API for the ETS2LA app.", version="1.0.0"
@@ -93,19 +118,22 @@ def login(code):
 
 
 @app.get("/backend/quit")
-def quitApp():
+def quitApp(request: Request):
+    _require_local_or_token(request)
     variables.CLOSE = True
     return {"status": "ok"}
 
 
 @app.get("/backend/restart")
-def restartApp():
+def restartApp(request: Request):
+    _require_local_or_token(request)
     variables.RESTART = True
     return {"status": "ok"}
 
 
 @app.get("/window/minimize")
-def minimizeApp():
+def minimizeApp(request: Request):
+    _require_local_or_token(request)
     variables.MINIMIZE = True
     return {"status": "ok"}
 
@@ -122,7 +150,8 @@ def update():
 
 
 @app.get("/api/sounds/play/{sound}")
-def play_sound(sound: str):
+def play_sound(sound: str, request: Request):
+    _require_local_or_token(request)
     sounds.Play(sound)
     return True
 
@@ -133,7 +162,8 @@ def get_git_history():
 
 
 @app.get("/api/ui/theme/{theme}")
-def set_theme(theme: Literal["light", "dark"]):
+def set_theme(theme: Literal["light", "dark"], request: Request):
+    _require_local_or_token(request)
     try:
         color_title_bar(theme)
         return True
@@ -176,13 +206,15 @@ def get_stay_on_top():
 
 
 @app.get("/window/stay_on_top/{state}")
-def stay_on_top(state: bool):
+def stay_on_top(state: bool, request: Request):
+    _require_local_or_token(request)
     newState = set_on_top(state)
     return newState
 
 
 @app.get("/window/transparency/{state}")
-def set_transparency_to(state: bool):
+def set_transparency_to(state: bool, request: Request):
+    _require_local_or_token(request)
     try:
         newState = set_transparency(state)
         return newState
@@ -197,7 +229,8 @@ def get_transparency_state():
 
 
 @app.get("/window/fullscreen")
-def toggle_fullscreen_from_ui():
+def toggle_fullscreen_from_ui(request: Request):
+    _require_local_or_token(request)
     return toggle_fullscreen()
 
 
@@ -266,12 +299,14 @@ def get_plugins():
 
 
 @app.get("/backend/plugins/{plugin}/enable")
-def enable_plugin(plugin: str):
+def enable_plugin(plugin: str, request: Request):
+    _require_local_or_token(request)
     return plugins.start_plugin(name=plugin)
 
 
 @app.get("/backend/plugins/{plugin}/disable")
-def disable_plugin(plugin: str):
+def disable_plugin(plugin: str, request: Request):
+    _require_local_or_token(request)
     return plugins.stop_plugin(name=plugin)
 
 
@@ -297,7 +332,8 @@ def get_language():
 # endregion
 # region Popups
 @app.post("/api/popup")
-def popup(data: PopupData):
+def popup(data: PopupData, request: Request):
+    _require_local_or_token(request)
     mainThreadQueue.append(
         [
             sonner,
@@ -317,7 +353,10 @@ def popup(data: PopupData):
 
 
 @app.post("/backend/plugins/{plugin}/settings/{key}/set")
-def set_plugin_setting(plugin: str, key: str, value: Any = Body(...)):  # noqa
+def set_plugin_setting(
+    plugin: str, key: str, request: Request, value: Any = Body(...)
+):  # noqa
+    _require_local_or_token(request)
     if plugin == "global":
         settings.__setattr__(key, value["value"])
         return True
@@ -357,7 +396,8 @@ def get_plugin_settings(plugin: str):
 
 
 @app.post("/api/controls/{control}/change")
-def change_control(control: str):
+def change_control(control: str, request: Request):
+    _require_local_or_token(request)
     mainThreadQueue.append([controls.edit_event, [control], {}])
     while [controls.edit_event, [control], {}] in mainThreadQueue:
         time.sleep(0.01)
@@ -366,7 +406,8 @@ def change_control(control: str):
 
 
 @app.post("/api/controls/{control}/unbind")
-def unbind_control(control: str):
+def unbind_control(control: str, request: Request):
+    _require_local_or_token(request)
     mainThreadQueue.append([controls.unbind_event, [control], {}])
     while [controls.unbind_event, [control], {}] in mainThreadQueue:
         time.sleep(0.01)
@@ -460,7 +501,8 @@ def get_list_of_pages():
 
 
 @app.get("/api/plugins/reload")
-def reload_plugins():
+def reload_plugins(request: Request):
+    _require_local_or_token(request)
     try:
         plugins.reload_plugins()
     except Exception:
@@ -508,7 +550,7 @@ def run():
     global thread
 
     ExtractIP()
-    hostname = "0.0.0.0"
+    hostname = "0.0.0.0" if settings.expose_backend_to_lan else "127.0.0.1"
 
     thread = threading.Thread(
         target=uvicorn.run,

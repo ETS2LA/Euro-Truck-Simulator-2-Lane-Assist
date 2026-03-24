@@ -38,6 +38,10 @@ class GlobalSettings(ETS2LASettings):
     advanced_plugin_mode: bool = False
     slow_loading: bool = False
     high_priority: bool = True
+    expose_backend_to_lan: bool = False
+    expose_websockets_to_lan: bool = False
+    backend_api_token: str = ""
+    allow_unsafe_plugin_requirements: bool = False
 
     # Sounds
     soundpack: str = "default"

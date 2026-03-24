@@ -8,6 +8,7 @@ from ETS2LA.Handlers.pages import (
 )
 import ETS2LA.Handlers.plugins as plugins
 import ETS2LA.variables as variables
+from ETS2LA.Settings import GlobalSettings
 from typing import Dict
 import websockets
 import threading
@@ -17,6 +18,7 @@ import json
 import time
 
 connected: Dict[websockets.WebSocketServerProtocol, list[str]] = {}
+settings = GlobalSettings()
 """
 {
     websocket: [url1, url2, ...]
@@ -170,7 +172,8 @@ async def update_loop():
 
 # Start server + updater loop
 async def start():
-    server = websockets.serve(handler, "0.0.0.0", 37523)
+    host = "0.0.0.0" if settings.expose_websockets_to_lan else "127.0.0.1"
+    server = websockets.serve(handler, host, 37523)
     await server
     await update_loop()
 

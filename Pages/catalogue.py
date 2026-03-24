@@ -21,12 +21,14 @@ import ETS2LA.variables as variables
 from typing import Literal
 import webbrowser
 import threading
+import subprocess
 import requests
 import random
 import shutil
 import time
 import yaml
 import git
+import sys
 import os
 
 settings = GlobalSettings()
@@ -280,9 +282,19 @@ class Page(ETS2LAPage):
             if os.path.exists(f"CataloguePlugins/{target.name}/requirements.txt"):
                 self.installing_state = _("Installing requirements")
                 self.reset_timer()
-                os.system(
-                    f"pip install -r CataloguePlugins/{target.name}/requirements.txt"
-                )
+                requirements_path = f"CataloguePlugins/{target.name}/requirements.txt"
+                if settings.allow_unsafe_plugin_requirements:
+                    SendPopup(
+                        "Developer mode: installing third-party Python requirements from this plugin. Only use this if you fully trust the repository and its dependencies."
+                    )
+                    subprocess.run(
+                        [sys.executable, "-m", "pip", "install", "-r", requirements_path],
+                        check=True,
+                    )
+                else:
+                    SendPopup(
+                        "This plugin ships a requirements.txt file. ETS2LA no longer auto-installs third-party Python packages from catalogue plugins. Review the plugin source and install dependencies manually only if you fully trust it."
+                    )
 
             self.installing_state = _("Starting plugin background process")
             self.reset_timer()
@@ -658,6 +670,10 @@ class Page(ETS2LAPage):
                     "ETS2LA is not responsible for any issues caused by 3rd party plugins."
                 ),
                 styles.Classname("text-xs text-muted-foreground"),
+            )
+            Text(
+                "Security warning: catalogue plugins are third-party code from external repositories. ETS2LA no longer auto-installs their Python requirements by default. Only proceed if you trust the plugin author and have reviewed the source.",
+                styles.Classname("text-xs text-yellow-500 text-center max-w-lg"),
             )
             with Container(
                 styles.FlexHorizontal() + styles.Gap("10px") + styles.Classname("pt-4")

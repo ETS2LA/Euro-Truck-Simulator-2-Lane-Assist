@@ -38,6 +38,7 @@ dialog (open dialog):
 
 from ETS2LA.Utils.translator import _
 from ETS2LA.Handlers import sounds
+from ETS2LA.Settings import GlobalSettings
 
 from typing import Literal
 import logging
@@ -59,6 +60,8 @@ Connected websockets and their messages.
 
 condition = threading.Condition()
 """Threading condition to wait for a response"""
+
+settings = GlobalSettings()
 
 
 async def server(websocket, path) -> None:
@@ -240,8 +243,9 @@ def dialog(ui: dict, no_response: bool = False) -> dict | None:
 
 
 async def start() -> None:
-    """Serve the websocket server on 0.0.0.0 and port 37521."""
-    wsServer = websockets.serve(server, "0.0.0.0", 37521, logger=logging.Logger("null"))
+    """Serve the websocket server on the configured bind host and port 37521."""
+    host = "0.0.0.0" if settings.expose_websockets_to_lan else "127.0.0.1"
+    wsServer = websockets.serve(server, host, 37521, logger=logging.Logger("null"))
     await wsServer
 
 
