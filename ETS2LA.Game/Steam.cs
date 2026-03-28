@@ -1,3 +1,7 @@
+#if WINDOWS
+using Microsoft.Win32;
+#endif
+
 namespace ETS2LA.Game.Steam;
 
 class SteamHandler
