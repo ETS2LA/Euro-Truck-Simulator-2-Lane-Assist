@@ -1,5 +1,9 @@
-### ETS2LA C# 3.1.6
-* Added Linux support for `GameTelemetry`, `ControlsSDK` and `ETS2LASDK` plugins. Linux is now on par with Windows in terms of features. Preview versions of Linux SDKs can be found here: [ets2la_plugin](https://gitlab.com/dariowouters/ets2la_linux_sdk_test), [scs-sdk-plugin](https://github.com/truckermudgeon/scs-sdk-plugin/releases/tag/v1.12.1). Note that `ets2la_plugin` has to be built from source.
+### ETS2LA C# 3.1.7
+* ETS2LA C# now supports the new SDKs from the main Python version. You can now use ETS2LA C# with ETS2 1.58.
+* These new SDKs are also supported on Linux, you can find linux binaries in the closed beta discord announcements.
+* Removed `ETS2LASDK` and `ControlsSDK` plugins. These are now handled by `ETS2LA.Game.SDK` and `ETS2LA.Game.Output.GameOutput` respectively.
+* Multiple plugins can now send control values at the same time, and these will be weighed together. You can now have one plugin for ACC, and one for AEB, for instance.
+* Removed `GameTelemetry` plugin in favor of `ETS2LA.Telemetry`, which doesn't depend on the plugin backend and is always running.
 
 **WARN:** ETS2LA C# cannot yet use the new SDK that the Python version uses. You can find the latest version of the old SDK [on GitHub](https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/tree/ef17194f94214f3ababc619cff12ff74e0729574/ETS2LA/Assets/DLLs/1.58).
 

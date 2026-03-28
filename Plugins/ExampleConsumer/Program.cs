@@ -1,6 +1,9 @@
 ﻿using ETS2LA.UI.Notifications;
 using ETS2LA.Shared;
+using ETS2LA.Telemetry;
 using ETS2LA.Backend.Events;
+using ETS2LA.Game.SDK;
+using ETS2LA.Game.Output;
 using Huskui.Avalonia.Models;
 
 namespace ExampleConsumer;
@@ -24,8 +27,8 @@ public class MyConsumer : Plugin
     {
         base.OnEnable();
         Events.Current.Subscribe<float>("ExampleProvider.Time", OnTimeReceived);
-        Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnGameTelemetryReceived);
-        Events.Current.Subscribe<Camera>("ETS2LASDK.Camera", OnCameraReceived);
+        Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, OnGameTelemetryReceived);
+        Events.Current.Subscribe<CameraData>("ETS2LASDK.Camera", OnCameraReceived);
         Events.Current.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
         Events.Current.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
         Events.Current.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
@@ -69,7 +72,7 @@ public class MyConsumer : Plugin
         //     CloseAfter = 0 
         // });
 
-        Events.Current.Publish<float>("ForceFeedback.Output", output);
+        // Events.Current.Publish<float>("ForceFeedback.Output", output);
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ExampleConsumer.Output",
@@ -79,6 +82,18 @@ public class MyConsumer : Plugin
             Progress = (output + 1.0f) / 2.0f * 100f,
             IsProgressIndeterminate = false,
             CloseAfter = 0 
+        });
+
+        Events.Current.Publish(GameOutput.Current.EventString, new ControlEvent
+        {
+            ChannelDefinition = new ControlChannelDefinition
+            {
+                Id = "ExampleConsumer.Steering",
+            },
+            Variables = new ControlVariables
+            {
+                steering = output
+            }
         });
 
         // SDKControlEvent controlEvent = new SDKControlEvent
@@ -108,7 +123,7 @@ public class MyConsumer : Plugin
         rpm = data.truckFloat.engineRpm;
     }
 
-    private void OnCameraReceived(Camera camera)
+    private void OnCameraReceived(CameraData camera)
     {
         if (!_IsRunning)
             return;

@@ -71,10 +71,20 @@ namespace ETS2LA.Logging
             table.AddColumn(new TableColumn("").NoWrap());
             table.AddColumn(new TableColumn("").NoWrap().Alignment(Justify.Right));
 
-            table.AddRow(
-                new Markup($"{timestamp} {levelTag} {message}"),
-                new Markup(source)
-            );
+            try
+            {
+                table.AddRow(
+                    new Markup($"{timestamp} {levelTag} {message}"),
+                    new Markup(source)
+                );
+            } catch (Exception markupEx)
+            {
+                // If something goes wrong with the markup (eg. message contains invalid markup)
+                // just print the message without markup instead of crashing the logger.
+                Console.WriteLine($"{timestamp} [{level}] {message} ({source})");
+                Console.WriteLine($"Error while writing log line: {markupEx}");
+                return;
+            }
 
             Console.Write(table);
             if (ex != null)

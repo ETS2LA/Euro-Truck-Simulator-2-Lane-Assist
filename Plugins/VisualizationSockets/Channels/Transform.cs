@@ -1,6 +1,7 @@
 using ETS2LA.Logging;
 using ETS2LA.Shared;
 using ETS2LA.Backend;
+using ETS2LA.Telemetry;
 using System.Net.WebSockets;
 using ETS2LA.Backend.Events;
 
@@ -21,7 +22,7 @@ public class TransformChannel : IWebsocketChannel
     {
         _plugin = plugin;
         _socket = socket;
-        Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Data", OnTelemetryUpdate);   
+        Events.Current.Subscribe<GameTelemetryData>("GameTelemetry.Current.EventString", OnTelemetryUpdate);   
         Task.Run(() => SenderThread());
     }
 
@@ -86,6 +87,6 @@ public class TransformChannel : IWebsocketChannel
     public void Shutdown()
     {
         _socket = null;
-        Events.Current.Unsubscribe<GameTelemetryData>("GameTelemetry.Data", OnTelemetryUpdate);
+        Events.Current.Unsubscribe<GameTelemetryData>("GameTelemetry.Current.EventString", OnTelemetryUpdate);
     }
 }

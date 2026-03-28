@@ -54,6 +54,12 @@ namespace ETS2LA.Shared
             return value;
         }
 
+        public short ReadShort(int offset)
+        {
+            short value = BitConverter.ToInt16(memory, offset);
+            return value;
+        }
+
         public float ReadFloat(int offset)
         {
             float value = BitConverter.ToSingle(memory, offset);

@@ -1,7 +1,10 @@
-﻿using ETS2LA.Logging;
+﻿// TODO: Refactor ETS2LA.Game data loading.
+//       Currently it's not up to the standards I want.
+using ETS2LA.Logging;
+using ETS2LA.Game.SDK;
 using ETS2LA.Game.Steam;
+using ETS2LA.Game.Output;
 using ETS2LA.Shared;
-using System.Diagnostics;
 
 namespace ETS2LA.Game;
 
@@ -15,19 +18,20 @@ public class GameHandler
 
     public GameHandler()
     {
-        FindInstallations();
+        PopulateInstallations();
+
+        // Spawn all the SDK readers. They'll start
+        // sending out events as they read the game.
+        var camera = CameraProvider.Current;
+        var navigation = NavigationProvider.Current;
+        var semaphores = SemaphoreProvider.Current;
+        var traffic = TrafficProvider.Current;
+
+        // Spawn the game output handler as well.
+        var output = GameOutput.Current;
     }
 
-    public void SetNotificationHandler(INotificationHandler? handler)
-    {
-        _notificationHandler = handler;
-        foreach (var installation in Installations)
-        {
-            installation.SetNotificationHandler(_notificationHandler);
-        }
-    }
-
-    private void FindInstallations()
+    private void PopulateInstallations()
     {
         List<string> games = SteamHandler.FindGamesInLibraries(new List<string>
         {
@@ -77,5 +81,14 @@ public class GameHandler
             Installation installation = Installations[^1];
             installation.SetNotificationHandler(_notificationHandler);
         });
+    }
+
+    public void SetNotificationHandler(INotificationHandler? handler)
+    {
+        _notificationHandler = handler;
+        foreach (var installation in Installations)
+        {
+            installation.SetNotificationHandler(_notificationHandler);
+        }
     }
 }

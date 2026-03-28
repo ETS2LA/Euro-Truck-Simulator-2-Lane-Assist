@@ -1,16 +1,11 @@
 using ETS2LA.Logging;
 using ETS2LA.Shared;
-using ETS2LA.Game.Utils;
 using TruckLib.HashFs;
 using TruckLib.ScsMap;
 using TruckLib;
 
 // Copied from https://github.com/sk-zk/Extractor
-using Extractor;
 using Extractor.Zip;
-using TruckLib.Sii;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using ETS2LA.Game.SiiFiles;
 
 namespace ETS2LA.Game;
 

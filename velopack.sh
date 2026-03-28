@@ -1,1 +1,1 @@
-dotnet tool exec --yes vpk pack --channel "win-beta" --packId ETS2LA --packVersion 4.0.0 --packDir .\publish --mainExe ETS2LA.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA" --releaseNotes .\ETS2LA\ReleaseNotes.md
+dotnet tool exec --yes vpk pack --channel "linux-beta" --packId ETS2LA --packVersion 4.0.0 --packDir ./publish --mainExe ETS2LA -i ./ETS2LA.UI/Assets/logo.ico --packTitle "ETS2LA" --releaseNotes ./ETS2LA/ReleaseNotes.md

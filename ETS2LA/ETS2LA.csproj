@@ -8,7 +8,7 @@
 
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.1.6</Version>
+    <Version>3.1.7</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\ETS2LA.UI\ETS2LA.UI.csproj" />
     <ProjectReference Include="..\ETS2LA.Overlay\ETS2LA.Overlay.csproj" />
     <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
+    <ProjectReference Include="..\ETS2LA.Telemetry\ETS2LA.Telemetry.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="ETS2LA.UI Requirements">
@@ -64,4 +65,12 @@
   <Target Name="CopyLibdeflate" AfterTargets="Build">
     <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
   </Target>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Unix'">
+    <DefineConstants>$(DefineConstants);LINUX</DefineConstants>
+  </PropertyGroup>
 </Project>

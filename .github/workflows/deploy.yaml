@@ -27,9 +27,6 @@ jobs:
 
       - name: Build
         run: |
-          # Build all projects (plugins will not be included in the final package otherwise)
-          dotnet build ./ETS2LA.sln -c Release
-          # Publish ETS2LA.UI
           .\publish.bat
 
       - name: Install vpk tool
@@ -62,8 +59,6 @@ jobs:
 
       - name: Build
         run: |
-          # Linux has it's own .sh script
-          dotnet build ./ETS2LA.Linux.slnf -c Release
           ./publish.sh
 
       - name: Install vpk tool
@@ -73,5 +68,5 @@ jobs:
         shell: bash
         run: |
           VPK="$HOME/.dotnet/tools/vpk"
-          $VPK pack --channel "linux-beta" --packId ETS2LA.Linux --packVersion ${{ steps.get-version-linux.outputs.version }} --packDir ./publish --mainExe ETS2LA --icon ./ETS2LA.UI/Assets/logo.ico --packTitle "ETS2LA" --releaseNotes ./ETS2LA/ReleaseNotes.md
+          $VPK pack --channel "linux-beta" --packId ETS2LA --packVersion ${{ steps.get-version-linux.outputs.version }} --packDir ./publish --mainExe ETS2LA --icon ./ETS2LA.UI/Assets/logo.ico --packTitle "ETS2LA" --releaseNotes ./ETS2LA/ReleaseNotes.md
           $VPK upload github --channel "linux-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# v${{ steps.get-version-linux.outputs.version }}" --tag "v${{ steps.get-version-linux.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}

@@ -10,6 +10,9 @@
     <ProjectReference Include="..\..\ETS2LA.Shared\ETS2LA.Shared.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\ETS2LA.Telemetry\ETS2LA.Telemetry.csproj">
+      <Private>false</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\ETS2LA.Settings\ETS2LA.Settings.csproj">
       <Private>false</Private>
     </ProjectReference>

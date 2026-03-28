@@ -8,5 +8,14 @@
         "**/__pycache__": true
     },
     "hide-files.files": [],
-    "dotnet.defaultSolution": "ETS2LA.sln"
+    "dotnet.defaultSolution": "ETS2LA.sln",
+    "cSpell.words": [
+        "adblue",
+        "Autopark",
+        "hshifter",
+        "mmap",
+        "Offence",
+        "Susp",
+        "Velopack"
+    ]
 }
