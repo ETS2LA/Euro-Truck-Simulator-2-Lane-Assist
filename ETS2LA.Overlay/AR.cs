@@ -287,8 +287,17 @@ public class OverlayHandler
         // Set fonts
         unsafe
         {
-            _io.Fonts.AddFontFromFileTTF("Assets/Fonts/Geist-Medium.ttf");
-            style.FontSizeBase = 18f;
+            string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", "Geist-Medium.ttf");
+            if (!File.Exists(fontPath))
+            {
+                Logger.Error($"Font file not found at {fontPath}");
+                // style.FontSizeBase = 18f;
+            }
+            else
+            {
+                _io.Fonts.AddFontFromFileTTF(fontPath);
+                style.FontSizeBase = 18f;
+            }
         }
 
         ImGuiImplGLFW.SetCurrentContext(_imGuiContext);
@@ -333,7 +342,7 @@ public class OverlayHandler
         // This code sets the platform to X11 instead of wayland. This only needs to be
         // done inside vscode for whatever reason. https://github.com/opentk/opentk/issues/1823
         string? sessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
-        string? useWayland = Environment.GetEnvironmentVariable("OPENTK_4_USE_WAYLAND");
+        string? useWayland = Environment.GetEnvironmentVariable("GLFW_USE_WAYLAND");
         if (sessionType == "wayland" && useWayland == "0")
         {
             GLFW.InitHint(GLFW.GLFW_PLATFORM, GLFW.GLFW_PLATFORM_X11);

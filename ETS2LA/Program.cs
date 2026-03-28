@@ -38,6 +38,17 @@ internal static class Program
             var telemetry = GameTelemetry.Current;
         });
 
+        # if LINUX
+            string? useWayland = Environment.GetEnvironmentVariable("GLFW_USE_WAYLAND");
+            if (useWayland == null || useWayland == "0" || useWayland == "")
+            {
+                // This is to prevent GLFW from trying to use wayland. If wayland is still required
+                // then setting GLFW_USE_WAYLAND=1 should work fine.
+                Environment.SetEnvironmentVariable("GLFW_USE_WAYLAND", "0");
+                Environment.SetEnvironmentVariable("SDL_VIDEODRIVER", "x11");
+            }
+        # endif
+
         // Gotta wait for the UI thread to close (i.e. user closed the window)
         // and then tell the backend to shutdown too.
         UI.Program.Main(args);

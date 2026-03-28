@@ -8,7 +8,7 @@
 
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.1.6</Version>
+    <Version>3.1.7</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -65,4 +65,12 @@
   <Target Name="CopyLibdeflate" AfterTargets="Build">
     <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
   </Target>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Unix'">
+    <DefineConstants>$(DefineConstants);LINUX</DefineConstants>
+  </PropertyGroup>
 </Project>
