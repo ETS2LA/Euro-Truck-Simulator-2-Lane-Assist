@@ -1,5 +1,10 @@
 ﻿// TODO: Refactor ETS2LA.Game data loading.
 //       Currently it's not up to the standards I want.
+
+#if WINDOWS
+using Microsoft.Win32;
+#endif
+
 using ETS2LA.Logging;
 using ETS2LA.Game.SDK;
 using ETS2LA.Game.Steam;
