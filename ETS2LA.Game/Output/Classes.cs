@@ -331,7 +331,7 @@ public class ControlEvent
 /// <summary>
 ///  **Internal class do not use.**
 /// </summary>
-class ControlChannel
+public class ControlChannel
 {
     /// <summary>
     ///  **Internal class do not use.**

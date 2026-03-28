@@ -1,4 +1,3 @@
-using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
 
 using System.Diagnostics;
@@ -6,7 +5,7 @@ using System.IO.MemoryMappedFiles;
 
 namespace ETS2LA.Game.Output;
 
-class GameOutput
+public class GameOutput
 {
     private static readonly Lazy<GameOutput> _instance = new(() => new GameOutput());
     public static GameOutput Current => _instance.Value;
@@ -19,14 +18,17 @@ class GameOutput
     // Where the first value is the weight and the second value is the control value.
     // The channel itself doesn't matter, just their weights.
     private Dictionary<string, List<Tuple<float, float>>> curFrameFloats = new Dictionary<string, List<Tuple<float, float>>>();
-
     private float TickRate = 1f / 60f;
+
+    private Stopwatch SinceTriedMemoryAccess = new Stopwatch();
+    private bool MemoryAccessAvailable => legacyAccessor != null && modernAccessor != null;
+    private bool IsReset = false;
 
     // Legacy uses a virtual controller provided through the SCSControls plugin. This
     // system works the same as SteamInput for example.
 
     string legacyMapName = "Local\\SCSControls";
-    string legacyMapNameLinux = "/dev/shm/SCSControls";
+    string legacyMapNameLinux = "/dev/shm/SCS/SCSControls";
     int legacyMapSize = 0;
     Dictionary<string, int> legacyShmOffsets = new Dictionary<string, int>();
     MemoryMappedFile? legacyMmf = null;
@@ -42,7 +44,7 @@ class GameOutput
     MemoryMappedFile? modernMmf = null;
     MemoryMappedViewAccessor? modernAccessor = null;
 
-    public void Init()
+    public GameOutput()
     {
         // Calculate the memory offsets for each of the variables
         // for legacy mode.
@@ -50,7 +52,7 @@ class GameOutput
         int floatSize = sizeof(float);
 
         int offset = 0;
-        foreach (var field in typeof(ControlProperties).GetFields())
+        foreach (var field in typeof(ControlVariables).GetFields())
         {
             legacyShmOffsets[field.Name] = offset;
             if (field.FieldType == typeof(bool?))
@@ -60,21 +62,45 @@ class GameOutput
         }
         legacyMapSize = offset;
 
-        // And now we can open the maps.
-        #if WINDOWS
-            legacyMmf = MemoryMappedFile.OpenExisting(legacyMapName);
-            modernMmf = MemoryMappedFile.OpenExisting(modernMapName);
-        # else
-            legacyMmf = MemoryMappedFile.CreateFromFile(legacyMapNameLinux);
-            modernMmf = MemoryMappedFile.CreateFromFile(modernMapNameLinux);
-        # endif
-
-        legacyAccessor = legacyMmf.CreateViewAccessor(0, legacyMapSize, MemoryMappedFileAccess.Write);
-        modernAccessor = modernMmf.CreateViewAccessor(0, modernMapSize, MemoryMappedFileAccess.Write);
-
+        SinceTriedMemoryAccess.Start();
+        TryOpenMemory();
         // Then we start listening to events and spin up the update thread.
         Events.Current.Subscribe<ControlEvent>(EventString, OnControlEvent);
         Task.Run(Tick);
+    }
+
+    private void TryOpenMemory()
+    {
+        if (MemoryAccessAvailable)
+            return;
+
+        float secondsSinceLastTry = (float)SinceTriedMemoryAccess.Elapsed.TotalSeconds;
+        if (secondsSinceLastTry < 5f)
+            return;
+
+
+        try
+        {
+            #if WINDOWS
+                legacyMmf = MemoryMappedFile.OpenExisting(legacyMapName);
+                modernMmf = MemoryMappedFile.OpenExisting(modernMapName);
+            # else
+                legacyMmf = MemoryMappedFile.CreateFromFile(legacyMapNameLinux);
+                modernMmf = MemoryMappedFile.CreateFromFile(modernMapNameLinux);
+            # endif
+
+            legacyAccessor = legacyMmf.CreateViewAccessor(0, legacyMapSize, MemoryMappedFileAccess.Write);
+            modernAccessor = modernMmf.CreateViewAccessor(0, modernMapSize, MemoryMappedFileAccess.ReadWrite);
+        } catch(Exception ex)
+        {
+            // Logging.Logger.Error("Failed to open memory: " + ex.Message);
+            legacyAccessor = null;
+            modernAccessor = null;
+        }
+
+        Logging.Logger.Debug(MemoryAccessAvailable ? "Successfully opened memory for output." 
+                                                  : "Memory not available for output.");
+        SinceTriedMemoryAccess.Restart();
     }
 
     public void OnControlEvent(ControlEvent controlEvent)
@@ -101,6 +127,32 @@ class GameOutput
         }
     }
 
+    private void ResetOutputs()
+    {        
+        if (!MemoryAccessAvailable)
+            return;
+
+        if (IsReset)
+            return;
+        
+        foreach (var field in typeof(ControlVariables).GetFields())
+        {
+            if (field.FieldType == typeof(float?))
+            {
+                WriteFloat(legacyAccessor!, legacyShmOffsets[field.Name], 0);
+            }
+            else if (field.FieldType == typeof(bool?))
+            {
+                WriteBool(legacyAccessor!, legacyShmOffsets[field.Name], false);
+            }
+        }
+
+        modernAccessor!.Flush();
+        legacyAccessor!.Flush();
+        IsReset = true;
+        Logging.Logger.Debug("Reset outputs to default values.");
+    }
+
     private void ToggleBool(MemoryMappedViewAccessor accessor, int offset)
     {
         WriteBool(accessor, offset, true);
@@ -114,6 +166,11 @@ class GameOutput
     }
 
     private void WriteFloat(MemoryMappedViewAccessor accessor, int offset, float value)
+    {
+        accessor.Write(offset, value);
+    }
+
+    private void WriteDouble(MemoryMappedViewAccessor accessor, int offset, double value)
     {
         accessor.Write(offset, value);
     }
@@ -145,10 +202,10 @@ class GameOutput
                     if (propName == "aforward" || propName == "abackward")
                         propName = "acceleration";
 
-                    if (!curFrameFloats.ContainsKey(prop.Name))
-                        curFrameFloats[prop.Name] = new List<Tuple<float, float>>();
+                    if (!curFrameFloats.ContainsKey(propName))
+                        curFrameFloats[propName] = new List<Tuple<float, float>>();
 
-                    curFrameFloats[prop.Name].Add(new Tuple<float, float>(weight, floatValue));
+                    curFrameFloats[propName].Add(new Tuple<float, float>(weight, floatValue));
                 }
             }
         }
@@ -168,15 +225,42 @@ class GameOutput
                 continue;
             }
 
+            // These || need to be added to silence warnings...
+            // If someone knows how to make the compiler understand MemoryAccessAvailable ensures
+            // that the accessors are not null, then please tell me.
+            if (!MemoryAccessAvailable || legacyAccessor == null || modernAccessor == null)
+            {
+                TryOpenMemory();
+                tickTimer.Restart();
+                continue;
+            }
+
+            if(Channels.Count == 0)
+            {
+                if (!IsReset)
+                    ResetOutputs();
+                
+                tickTimer.Restart();
+                continue;
+            }
+
+            IsReset = false;
             foreach (var channel in Channels.Values)
             {
                 if (channel.Properties == null || channel.Variables == null)
                     continue;
 
+                if (channel.LastUpdate.Elapsed.TotalSeconds > channel.Definition.Timeout)
+                {
+                    Logging.Logger.Debug($"Channel {channel.Definition.Id} timed out, removing.");
+                    Channels.Remove(channel.Definition.Id);
+                    continue;
+                }
+
                 ProcessChannel(channel);
             }
 
-            long time = DateTimeOffset.Now.ToUnixTimeSeconds();
+            double time = DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000f;
             foreach (var kvp in curFrameFloats)
             {
                 string propName = kvp.Key;
@@ -187,22 +271,34 @@ class GameOutput
 
                 if(propName == "steering")
                 {
-                    WriteFloat(modernAccessor!, 0, -weightedValue);
-                    WriteBool(modernAccessor!, 4, weightedValue != 0.0f);
-                    WriteFloat(modernAccessor!, 5, time);
+                    WriteFloat(modernAccessor, 0, weightedValue);
+                    WriteBool(modernAccessor, 4, weightedValue != 0.0f);
+                    WriteDouble(modernAccessor, 5, time);
+                    // WriteFloat(legacyAccessor, legacyShmOffsets[propName], -weightedValue);
                 }
                 else if (propName == "acceleration")
                 {
-                    WriteFloat(modernAccessor!, 13, weightedValue);
-                    WriteBool(modernAccessor!, 17, weightedValue != 0.0f);
-                    WriteFloat(modernAccessor!, 18, time);
-                    // TODO: For legacy x < 0 is abackward and x > 0 is aforward.
+                    WriteFloat(modernAccessor, 13, weightedValue);
+                    WriteBool(modernAccessor, 17, weightedValue != 0.0f);
+                    WriteDouble(modernAccessor, 18, time);
+                    // if (weightedValue < 0)
+                    //     WriteFloat(legacyAccessor, legacyShmOffsets["abackward"], -weightedValue);
+                    //     WriteFloat(legacyAccessor, legacyShmOffsets["aforward"], 0);
+                    // else
+                    //     WriteFloat(legacyAccessor, legacyShmOffsets["aforward"], weightedValue);
+                    //     WriteFloat(legacyAccessor, legacyShmOffsets["abackward"], 0);
                 }
                 else
                 {
                     WriteFloat(legacyAccessor!, legacyShmOffsets[propName], weightedValue);
                 }
             }
+
+            modernAccessor.Flush();
+            legacyAccessor.Flush();
+
+            curFrameFloats.Clear();
+            tickTimer.Restart();
         }
 
     }

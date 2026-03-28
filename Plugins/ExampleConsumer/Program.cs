@@ -3,6 +3,7 @@ using ETS2LA.Shared;
 using ETS2LA.Telemetry;
 using ETS2LA.Backend.Events;
 using ETS2LA.Game.SDK;
+using ETS2LA.Game.Output;
 using Huskui.Avalonia.Models;
 
 namespace ExampleConsumer;
@@ -71,7 +72,7 @@ public class MyConsumer : Plugin
         //     CloseAfter = 0 
         // });
 
-        Events.Current.Publish<float>("ForceFeedback.Output", output);
+        // Events.Current.Publish<float>("ForceFeedback.Output", output);
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ExampleConsumer.Output",
@@ -81,6 +82,18 @@ public class MyConsumer : Plugin
             Progress = (output + 1.0f) / 2.0f * 100f,
             IsProgressIndeterminate = false,
             CloseAfter = 0 
+        });
+
+        Events.Current.Publish(GameOutput.Current.EventString, new ControlEvent
+        {
+            ChannelDefinition = new ControlChannelDefinition
+            {
+                Id = "ExampleConsumer.Steering",
+            },
+            Variables = new ControlVariables
+            {
+                steering = output
+            }
         });
 
         // SDKControlEvent controlEvent = new SDKControlEvent

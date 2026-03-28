@@ -40,22 +40,9 @@ namespace ETS2LA.Backend
             Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
             {
                 pluginHandler = new PluginHandler();
-
                 pluginHandler.LoadPlugins();
-
-                //pluginHandler.EnablePlugin(pluginName: "ExampleProvider.MyProvider");
-                //pluginHandler.EnablePlugin(pluginName: "ExampleConsumer.MyConsumer");
-
-                // ets2la_plugin providers and consumers
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.CameraProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.TrafficProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.SemaphoreProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.NavigationProvider");
-                pluginHandler.EnablePlugin(pluginName: "ETS2LASDK.OutputConsumer");
-                // scs-sdk-controller consumer
-                pluginHandler.EnablePlugin(pluginName: "ControlsSDK.EventConsumer");
-
                 Thread.Sleep(1000);
+
                 Logger.Success("ETS2LA is running.");
                 OnBackendLoaded?.Invoke(this, EventArgs.Empty);
                 IsLoaded = true;

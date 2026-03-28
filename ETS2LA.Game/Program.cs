@@ -3,6 +3,7 @@
 using ETS2LA.Logging;
 using ETS2LA.Game.SDK;
 using ETS2LA.Game.Steam;
+using ETS2LA.Game.Output;
 using ETS2LA.Shared;
 
 namespace ETS2LA.Game;
@@ -25,6 +26,9 @@ public class GameHandler
         var navigation = NavigationProvider.Current;
         var semaphores = SemaphoreProvider.Current;
         var traffic = TrafficProvider.Current;
+
+        // Spawn the game output handler as well.
+        var output = GameOutput.Current;
     }
 
     private void PopulateInstallations()
