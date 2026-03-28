@@ -3,6 +3,7 @@
 
 #if WINDOWS
 using Microsoft.Win32;
+using System.Diagnostics;
 #endif
 
 using ETS2LA.Logging;
@@ -10,6 +11,7 @@ using ETS2LA.Game.SDK;
 using ETS2LA.Game.Steam;
 using ETS2LA.Game.Output;
 using ETS2LA.Shared;
+
 
 namespace ETS2LA.Game;
 
