@@ -162,7 +162,12 @@ public class Installation
     public string GetModsPath()
     {
         string gameName = Type == GameType.EuroTruckSimulator2 ? "Euro Truck Simulator 2" : "American Truck Simulator";
-        string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        #if WINDOWS
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        #else
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            documentsPath = System.IO.Path.Combine(documentsPath, ".local", "share");
+        #endif
         return System.IO.Path.Combine(documentsPath, gameName, "mod");
     }
 
@@ -278,6 +283,26 @@ public class Installation
         return _assetLoader;
     }
 
+    private bool? UnpackMod(string modPath, List<IFileSystem> additionalReaders)
+    {
+        try {
+            var fs = ZipReader.Open(modPath) as IFileSystem;
+            if (fs == null)
+                return false;
+            
+            additionalReaders.Add(fs);
+            return true;
+        }
+        catch (InvalidDataException){
+            var fs = HashFsReader.Open(modPath) as IFileSystem;
+            if (fs == null)
+                return false;
+            
+            additionalReaders.Add(fs);
+            return true;
+        }
+    }
+
     public MapData? GetMapData()
     {
         if (_map == null)
@@ -298,34 +323,29 @@ public class Installation
                 .ToList();
 
             int modCount = modFiles.Count;
-            int cur = 0;
+            List<Task> tasks = new List<Task>();
             foreach (string modFile in modFiles)
             {
                 Logger.Info($"Adding mod: {modFile}");
+                tasks.Add(Task.Run(() => UnpackMod(modFile, hashFsReaders)));
+            }
+
+            while (!Task.WhenAll(tasks).IsCompleted)
+            {
+                int completed = tasks.Count(t => t.IsCompleted);
                 _notificationHandler?.SendNotification(new Notification
                 {
                     Id = "ETS2LA.Game.Parsing",
                     Title = "Unpacking Mods",
-                    Content = $"{modFile.Split(System.IO.Path.DirectorySeparatorChar).Last()}",
-                    CloseAfter = 0,
-                    Progress = (cur + 1) / (float)modCount * 100f,
+                    Content = $"This might take a while... ({completed}/{modCount})",
+                    IsProgressIndeterminate = false,
+                    Progress = (completed / (float)modCount) * 100f,
+                    CloseAfter = 0
                 });
-                cur++;
-                
-                IFileSystem reader;
-                try {
-                    reader = ZipReader.Open(modFile) as IFileSystem;
-                }
-                catch (InvalidDataException){
-                    reader = HashFsReader.Open(modFile) as IFileSystem;
-                }
-
-                if (reader != null)
-                {
-                    hashFsReaders.Add(reader);
-                }
+                Thread.Sleep(500);
             }
 
+            hashFsReaders.Reverse();
             _assetLoader = new AssetLoader(hashFsReaders.ToArray());
             _map = new MapData();
             _map.SetNotificationHandler(_notificationHandler);
