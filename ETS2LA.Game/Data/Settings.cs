@@ -36,16 +36,11 @@ public class DataSettings
         {
             _settingsHandler = new SettingsHandler();
             var loadedSettings = _settingsHandler.Load<DataSettings>("DataSettings.json");
-            // if (loadedSettings != null)
-            // {
-            //     SeparateCruiseAndSteering = loadedSettings.SeparateCruiseAndSteering;
-            //     AccelerationResponse = loadedSettings.AccelerationResponse;
-            //     SteeringSensitivity = loadedSettings.SteeringSensitivity;
-            //     FollowingDistance = loadedSettings.FollowingDistance;
-            //     SetSpeedBehaviourOption = loadedSettings.SetSpeedBehaviourOption;
-            //     SpeedLimitWarningOption = loadedSettings.SpeedLimitWarningOption;
-            //     CollisionAvoidanceOption = loadedSettings.CollisionAvoidanceOption;
-            // }
+            if (loadedSettings != null)
+            {
+                DataFidelity = loadedSettings.DataFidelity;
+                CurveQuality = loadedSettings.CurveQuality;
+            }
             _settingsHandler.RegisterListener<DataSettings>("DataSettings.json", OnSettingsChanged);
         }
     }
@@ -59,12 +54,7 @@ public class DataSettings
 
     public void OnSettingsChanged(DataSettings newSettings)
     {
-        // SeparateCruiseAndSteering = newSettings.SeparateCruiseAndSteering;
-        // AccelerationResponse = newSettings.AccelerationResponse;
-        // SteeringSensitivity = newSettings.SteeringSensitivity;
-        // FollowingDistance = newSettings.FollowingDistance;
-        // SetSpeedBehaviourOption = newSettings.SetSpeedBehaviourOption;
-        // SpeedLimitWarningOption = newSettings.SpeedLimitWarningOption;
-        // CollisionAvoidanceOption = newSettings.CollisionAvoidanceOption;
+        DataFidelity = newSettings.DataFidelity;
+        CurveQuality = newSettings.CurveQuality;
     }
 }

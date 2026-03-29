@@ -173,10 +173,12 @@ public class TabStripItemHandler: INotifyPropertyChanged
 {
     public string Item { get; }
     public string Header => GetFormattedName();
+    public bool IsDisabled { get; set; } = false;
 
-    public TabStripItemHandler(string option)
+    public TabStripItemHandler(string option, bool? isDisabled = null)
     {
         Item = option;
+        IsDisabled = isDisabled ?? false;
     }
 
     private string GetFormattedName()
