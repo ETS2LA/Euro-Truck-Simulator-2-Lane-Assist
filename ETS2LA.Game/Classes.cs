@@ -6,6 +6,8 @@ using TruckLib;
 
 // Copied from https://github.com/sk-zk/Extractor
 using Extractor.Zip;
+using ETS2LA.Game.Data;
+using System.Collections;
 
 namespace ETS2LA.Game;
 
@@ -62,29 +64,56 @@ public class MapData : Map
 
     protected override bool PostProcessItem(MapItem item) 
     {
-        // Items ETS2LA doesn't need.
-        if (typeof(IgnoredItemTypes).GetEnumNames().Contains(item.ItemType.ToString()))
+        DataFidelity fidelity = DataSettings.Current.DataFidelity;
+        switch (fidelity)
         {
-            return false;
+            case DataFidelity.Low:
+                // For low fidelity, drop all items that aren't roads or prefabs since
+                // they aren't relevant for driving.
+                if (item is not Prefab && item is not Road)
+                {
+                    return false;
+                }
+                break;
+            case DataFidelity.Medium:
+            case DataFidelity.High:
+                // For medium (and high) fidelity drop all items that aren't in the default enum.
+                if (typeof(IgnoredItemTypes).GetEnumNames().Contains(item.ItemType.ToString()))
+                {
+                    return false;
+                }
+                break;
+            
+            // Extreme just keeps everything.
         }
         
         // Additionally drop terrain data of prefabs and roads;
         // also saves some memory. Dropping entire prefabs/roads can also be
         // done for items that are "secret" (i.e. not show in the UI map) since
-        // they aren't relevant for driving.
+        // they aren't relevant for driving. (in Medium and Low fidelity levels)
         if (item is Prefab p)
         {
-            if (!p.ShowInUiMap) return false;
-            foreach (var node in p.PrefabNodes)
+            if (fidelity < DataFidelity.High && !p.ShowInUiMap)
+                return false;
+            
+            if (fidelity < DataFidelity.Extreme)
             {
-                node.Terrain = null;
+                foreach (var node in p.PrefabNodes)
+                {
+                    node.Terrain = null;
+                }
             }
         }
         else if (item is Road r)
         {
-            if (!r.ShowInUiMap) return false;
-            r.Left.Terrain = null;
-            r.Right.Terrain = null;
+            if (fidelity < DataFidelity.High && !r.ShowInUiMap) 
+                return false;
+            
+            if (fidelity < DataFidelity.Extreme)
+            {
+                r.Left.Terrain = null;
+                r.Right.Terrain = null;
+            }
         }         
         return true;
     }
@@ -133,7 +162,12 @@ public class Installation
     public string GetModsPath()
     {
         string gameName = Type == GameType.EuroTruckSimulator2 ? "Euro Truck Simulator 2" : "American Truck Simulator";
-        string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        #if WINDOWS
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        #else
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            documentsPath = System.IO.Path.Combine(documentsPath, ".local", "share");
+        #endif
         return System.IO.Path.Combine(documentsPath, gameName, "mod");
     }
 
@@ -249,6 +283,26 @@ public class Installation
         return _assetLoader;
     }
 
+    private bool? UnpackMod(string modPath, List<IFileSystem> additionalReaders)
+    {
+        try {
+            var fs = ZipReader.Open(modPath) as IFileSystem;
+            if (fs == null)
+                return false;
+            
+            additionalReaders.Add(fs);
+            return true;
+        }
+        catch (InvalidDataException){
+            var fs = HashFsReader.Open(modPath) as IFileSystem;
+            if (fs == null)
+                return false;
+            
+            additionalReaders.Add(fs);
+            return true;
+        }
+    }
+
     public MapData? GetMapData()
     {
         if (_map == null)
@@ -269,34 +323,29 @@ public class Installation
                 .ToList();
 
             int modCount = modFiles.Count;
-            int cur = 0;
+            List<Task> tasks = new List<Task>();
             foreach (string modFile in modFiles)
             {
                 Logger.Info($"Adding mod: {modFile}");
+                tasks.Add(Task.Run(() => UnpackMod(modFile, hashFsReaders)));
+            }
+
+            while (!Task.WhenAll(tasks).IsCompleted)
+            {
+                int completed = tasks.Count(t => t.IsCompleted);
                 _notificationHandler?.SendNotification(new Notification
                 {
                     Id = "ETS2LA.Game.Parsing",
                     Title = "Unpacking Mods",
-                    Content = $"{modFile.Split(System.IO.Path.DirectorySeparatorChar).Last()}",
-                    CloseAfter = 0,
-                    Progress = (cur + 1) / (float)modCount * 100f,
+                    Content = $"This might take a while... ({completed}/{modCount})",
+                    IsProgressIndeterminate = false,
+                    Progress = (completed / (float)modCount) * 100f,
+                    CloseAfter = 0
                 });
-                cur++;
-                
-                IFileSystem reader;
-                try {
-                    reader = ZipReader.Open(modFile) as IFileSystem;
-                }
-                catch (InvalidDataException){
-                    reader = HashFsReader.Open(modFile) as IFileSystem;
-                }
-
-                if (reader != null)
-                {
-                    hashFsReaders.Add(reader);
-                }
+                Thread.Sleep(500);
             }
 
+            hashFsReaders.Reverse();
             _assetLoader = new AssetLoader(hashFsReaders.ToArray());
             _map = new MapData();
             _map.SetNotificationHandler(_notificationHandler);
