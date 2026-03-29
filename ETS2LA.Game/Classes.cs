@@ -6,6 +6,8 @@ using TruckLib;
 
 // Copied from https://github.com/sk-zk/Extractor
 using Extractor.Zip;
+using ETS2LA.Game.Data;
+using System.Collections;
 
 namespace ETS2LA.Game;
 
@@ -62,29 +64,56 @@ public class MapData : Map
 
     protected override bool PostProcessItem(MapItem item) 
     {
-        // Items ETS2LA doesn't need.
-        if (typeof(IgnoredItemTypes).GetEnumNames().Contains(item.ItemType.ToString()))
+        DataFidelity fidelity = DataSettings.Current.DataFidelity;
+        switch (fidelity)
         {
-            return false;
+            case DataFidelity.Low:
+                // For low fidelity, drop all items that aren't roads or prefabs since
+                // they aren't relevant for driving.
+                if (item is not Prefab && item is not Road)
+                {
+                    return false;
+                }
+                break;
+            case DataFidelity.Medium:
+            case DataFidelity.High:
+                // For medium (and high) fidelity drop all items that aren't in the default enum.
+                if (typeof(IgnoredItemTypes).GetEnumNames().Contains(item.ItemType.ToString()))
+                {
+                    return false;
+                }
+                break;
+            
+            // Extreme just keeps everything.
         }
         
         // Additionally drop terrain data of prefabs and roads;
         // also saves some memory. Dropping entire prefabs/roads can also be
         // done for items that are "secret" (i.e. not show in the UI map) since
-        // they aren't relevant for driving.
+        // they aren't relevant for driving. (in Medium and Low fidelity levels)
         if (item is Prefab p)
         {
-            if (!p.ShowInUiMap) return false;
-            foreach (var node in p.PrefabNodes)
+            if (fidelity < DataFidelity.High && !p.ShowInUiMap)
+                return false;
+            
+            if (fidelity < DataFidelity.Extreme)
             {
-                node.Terrain = null;
+                foreach (var node in p.PrefabNodes)
+                {
+                    node.Terrain = null;
+                }
             }
         }
         else if (item is Road r)
         {
-            if (!r.ShowInUiMap) return false;
-            r.Left.Terrain = null;
-            r.Right.Terrain = null;
+            if (fidelity < DataFidelity.High && !r.ShowInUiMap) 
+                return false;
+            
+            if (fidelity < DataFidelity.Extreme)
+            {
+                r.Left.Terrain = null;
+                r.Right.Terrain = null;
+            }
         }         
         return true;
     }

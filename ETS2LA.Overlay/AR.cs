@@ -40,7 +40,7 @@ public class OverlayHandler
     public bool IsOverlayFocused => _isInteracting;
     public bool ShowDemoWindow { get; set; } = false;
     public bool ShowConsole { get; set; } = true;
-    public bool ShowARInfo { get; set; } = true;
+    public bool ShowARInfo { get; set; } = false;
     public float LastFrameTime => _deltaTime;
 
     public float OverlayWidth => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).Width;
