@@ -1,10 +1,9 @@
-### ETS2LA C# 3.1.7
-* ETS2LA C# now supports the new SDKs from the main Python version. You can now use ETS2LA C# with ETS2 1.58.
-* These new SDKs are also supported on Linux, you can find linux binaries in the closed beta discord announcements.
-* Removed `ETS2LASDK` and `ControlsSDK` plugins. These are now handled by `ETS2LA.Game.SDK` and `ETS2LA.Game.Output.GameOutput` respectively.
-* Multiple plugins can now send control values at the same time, and these will be weighed together. You can now have one plugin for ACC, and one for AEB, for instance.
-* Removed `GameTelemetry` plugin in favor of `ETS2LA.Telemetry`, which doesn't depend on the plugin backend and is always running.
+### ETS2LA C# 3.1.8
+* Added a new `Data` section in the settings. This section has a new `Data Fidelity` setting that control how much of the data we have available to us we actually load in. `Extreme` requires at least 16gb of RAM, base game ETS2 1.58 on `Extreme` uses at least **9gb** of RAM. These changes will be reflected in the internal visualization. A change of this variable requires a restart of ETS2LA.
+* Updated `TruckLib` to it's latest version. Threaded zip loading and fixed mod discovery on Linux in `ETS2LA.Game`.
+* ETS2LA C# can now read map data for ProMods, out of ~1300 sectors, 50 fail to load (~3.85%). These are due to out of date sector versions we don't support.
+* ETS2LA C# should now also be able to read *most* map mods. 
 
-**WARN:** ETS2LA C# cannot yet use the new SDK that the Python version uses. You can find the latest version of the old SDK [on GitHub](https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/tree/ef17194f94214f3ababc619cff12ff74e0729574/ETS2LA/Assets/DLLs/1.58).
+**WARNING:** ETS2LA C# on Linux requires Linux specific SDKs. These can be found on the closed beta Discord, as they aren't yet included in ETS2LA C#.
 
-**NOTE:** If you're not in the ETS2LA beta program, please take a look at https://ets2la.com/downloads. This version is not what you're looking for!
+**IMPORTANT:** If you're not in the ETS2LA beta program, please take a look at https://ets2la.com/downloads. This version is not what you're looking for!
