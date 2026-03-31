@@ -5,6 +5,6 @@
              x:DataType="views:SDKSettings">
     <StackPanel>
         <TextBlock Text="SDK Settings Page" />
-        <TextBlock Text="This page is waiting for game detection and SDK installation to be figured out." Classes="Description" />
+        <TextBlock Text="This version of ETS2LA can't yet handle SDK installation. You can use the python version to do that, both versions use the same SDK." Classes="Description" />
     </StackPanel>
 </UserControl>

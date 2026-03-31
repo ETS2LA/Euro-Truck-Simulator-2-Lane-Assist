@@ -209,13 +209,13 @@ public partial class MainWindow : AppWindow
         {
             PageKind.Dashboard => _dashboardView,
             PageKind.Manager => _managerView,
-            PageKind.Visualization => _visualizationView ?? CreatePlaceholder("Sorry", "This page is only available on Windows."),
+            PageKind.Visualization => _visualizationView ?? CreatePlaceholder("Sorry", "This page is only available on Windows. You can still use the visualization and map by going to https://visualization.ets2la.com (or https://map.ets2la.com)."),
             PageKind.Game => _gameView,
-            PageKind.Catalogue => CreatePlaceholder("Catalogue", "List plugins, tools, or assets here when available."),
-            PageKind.Performance => CreatePlaceholder("Performance", "Performance metrics and graphs will be shown here."),
-            PageKind.Wiki => CreatePlaceholder("Wiki", "Link or embed documentation content."),
-            PageKind.Roadmap => CreatePlaceholder("Roadmap", "Timeline and milestones will appear here."),
-            PageKind.Feedback => CreatePlaceholder("Feedback", "Collect feedback or link to forms."),
+            PageKind.Catalogue => CreatePlaceholder("Catalogue", "This page will contain 3rd party plugins. Those aren't supported yet, you can copy them manually to the plugins folder and restart."),
+            PageKind.Performance => CreatePlaceholder("Performance", "This page hasn't been implemented yet, you can monitor performance using external tools."),
+            PageKind.Wiki => CreatePlaceholder("Wiki", "Please take a look at https://docs.ets2la.com for documentation. This page will link there once we have more content."),
+            PageKind.Roadmap => CreatePlaceholder("Roadmap", "Please take a look at our public roadmap on GitHub. Just got to the repository and click on the Projects tab at the top."),
+            PageKind.Feedback => CreatePlaceholder("Feedback", "Feedback is limited to users in the ETS2LA Closed Beta program. You can use the Discord channels assigned to that for feedback."),
             PageKind.Settings => _settingsView,
             _ => _dashboardView
         };
