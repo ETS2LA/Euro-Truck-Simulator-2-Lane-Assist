@@ -56,9 +56,11 @@ public class OverlayHandler
         ControlsBackend.Current.RegisterControl(Interact);
         ControlsBackend.Current.On(Interact.Id, HandleInput);
 
+        Task.Run(() => RenderLoop());
+        
         _windows.Add(new ConsoleWindow());
         _windows.Add(new ARInfoWindow());
-        Task.Run(() => RenderLoop());
+        _windows.Add(new DemoWindow());
     }
 
     private void HandleInput(object sender, ControlChangeEventArgs e)
@@ -189,6 +191,11 @@ public class OverlayHandler
         foreach (InternalWindow window in _windows)
         {
             if (!window.IsWindowOpen) { continue; }
+            if (window.Definition.NoWindow.GetValueOrDefault(false))
+            {
+                window.Render();
+                continue;
+            }
 
             ImGui.SetNextWindowSize(new Vector2(
                 window.Definition.Width.GetValueOrDefault(480), 
