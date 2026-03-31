@@ -11,5 +11,6 @@ namespace ETS2LA.Overlay
         public Optional<int> Height;
         public Optional<int> X;
         public Optional<int> Y;
+        public Optional<float> Alpha;
     }
 }

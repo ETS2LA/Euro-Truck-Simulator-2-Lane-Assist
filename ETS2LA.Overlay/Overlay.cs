@@ -14,6 +14,9 @@ using System.Numerics;
 
 using ETS2LA.Logging;
 using ETS2LA.Controls;
+using ETS2LA.Overlay.Windows;
+using Avalonia.Data;
+using System.Runtime.InteropServices;
 
 namespace ETS2LA.Overlay;
 
@@ -34,13 +37,9 @@ public class OverlayHandler
     private float _bgOpacityTarget = 0.0f;
     private float _deltaTime = 0f;
     
-    private Dictionary<WindowDefinition, Delegate> WindowRenderers = new();
-    private List<Tuple<string, string>> _consoleMessages = new();
+    private List<InternalWindow> _windows = new();
 
     public bool IsOverlayFocused => _isInteracting;
-    public bool ShowDemoWindow { get; set; } = false;
-    public bool ShowConsole { get; set; } = true;
-    public bool ShowARInfo { get; set; } = false;
     public float LastFrameTime => _deltaTime;
 
     public float OverlayWidth => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).Width;
@@ -52,16 +51,13 @@ public class OverlayHandler
     private ImGuiIOPtr _io;
     private GL _gl;
 
-
     public OverlayHandler()
     {
         ControlsBackend.Current.RegisterControl(Interact);
         ControlsBackend.Current.On(Interact.Id, HandleInput);
-        Logger.OnLog += (log) => {
-            _consoleMessages.Add(log);
-            if (_consoleMessages.Count > 100) { _consoleMessages.RemoveAt(0); }
-        };
 
+        _windows.Add(new ConsoleWindow());
+        _windows.Add(new ARInfoWindow());
         Task.Run(() => RenderLoop());
     }
 
@@ -168,96 +164,65 @@ public class OverlayHandler
             ImGui.Begin("Interaction Mode", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
             ImGui.SetWindowPos(new Vector2(OverlayWidth / 2 - 60, 10), ImGuiCond.Always);
             ImGui.TextColored(new Vector4(0.5f, 0.5f, 0.5f, 1f), "Interaction Mode");
+
+            ImGui.Spacing();
+            foreach (var window in _windows) {
+                bool isOpen = window.IsWindowOpen;
+                Vector4 color = isOpen ? new Vector4(0.5f, 0.6f, 0.5f, 1f) : new Vector4(0.6f, 0.5f, 0.5f, 1f);
+
+                ImGui.TextColored(color, isOpen ? "[X]" : "[   ]");
+                ImGui.SameLine();
+                ImGui.TextColored(color, window.Definition.Title);
+    
+                if (ImGui.IsItemHovered())
+                {
+                    ImGui.SetTooltip("Click to " + (isOpen ? "hide" : "show") + " this window");
+                }
+                if (ImGui.IsItemClicked())
+                {
+                    window.IsWindowOpen = !window.IsWindowOpen;
+                }
+            }
             ImGui.End();
         }
 
-        if (ShowDemoWindow)
-            ImGui.ShowDemoWindow();
-
-        if (ShowARInfo)
+        foreach (InternalWindow window in _windows)
         {
-            ImGui.Begin("Welcome!", ImGuiWindowFlags.AlwaysAutoResize);
-            ImGui.SetWindowPos(new Vector2(OverlayWidth/2, OverlayHeight/2), ImGuiCond.Once);
-            RenderARInfo();
-            RenderWindowContextMenu(() => ShowARInfo = false);
-            ImGui.End();
-        }
+            if (!window.IsWindowOpen) { continue; }
 
-        if (ShowConsole)
-        {
-            ImGui.SetNextWindowBgAlpha(0.5f);
-            ImGui.Begin("Console", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize);
-            ImGui.SetWindowPos(new Vector2(10, 10), ImGuiCond.Once);
-            RenderConsole();
-            RenderWindowContextMenu(() => ShowConsole = false);
-            ImGui.End();
-        }
-
-        foreach (var kvp in WindowRenderers)
-        {
-            var def = kvp.Key;
-            var renderAction = kvp.Value;
-            ImGui.SetNextWindowSize(new Vector2(def.Width.GetValueOrDefault(480), def.Height.GetValueOrDefault(320)), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(
+                window.Definition.Width.GetValueOrDefault(480), 
+                window.Definition.Height.GetValueOrDefault(320)
+            ), ImGuiCond.Once);
             
-            ImGui.Begin(def.Title, def.Flags.GetValueOrDefault(ImGuiWindowFlags.None));
+            ImGui.SetNextWindowBgAlpha(window.Definition.Alpha.GetValueOrDefault(1f));
+            ImGui.Begin(window.Definition.Title, window.Definition.Flags.GetValueOrDefault(ImGuiWindowFlags.None));
+            
+            ImGui.SetWindowPos(new Vector2(
+                (int)window.Definition.X.GetValueOrDefault(OverlayWidth / 2), 
+                (int)window.Definition.Y.GetValueOrDefault(OverlayHeight / 2)
+            ), ImGuiCond.Once);
+
             var isCollapsed = ImGui.IsWindowCollapsed();
             if (isCollapsed) {
                 ImGui.End(); 
                 continue; 
             }
-            
-            renderAction.DynamicInvoke();
+
+            RenderWindowContextMenu(window);
+            window.Render();
             ImGui.End();
         }
     }
 
-    private void RenderConsole()
-    {
-        for(int i = 10; i > 0; i--)
-        {
-            var color = new Vector4(1f, 1f, 1f, 1f);
-            string level, message;
-            level = _consoleMessages.ElementAtOrDefault(_consoleMessages.Count - i)?.Item1 ?? "";
-            message = _consoleMessages.ElementAtOrDefault(_consoleMessages.Count - i)?.Item2 ?? "";
-            if (string.IsNullOrEmpty(level) || string.IsNullOrEmpty(message)) { continue; }
-
-            if (level == "ERR") { color = new Vector4(1f, 0.5f, 0.5f, 1f); }
-            else if (level == "WRN") { color = new Vector4(1f, 1f, 0.5f, 1f); }
-            else if (level == "INF") { color = new Vector4(0.5f, 0.5f, 1f, 1f); }
-            else if (level == "OKK") { color = new Vector4(0.5f, 1f, 0.5f, 1f); }
-            ImGui.TextColored(color, $"[{level}]");
-            ImGui.SameLine();
-            ImGui.Text(message);
-        }
-    }
-
-    private void RenderARInfo()
-    {
-        ImGui.Text("*Shock* there's a new window here O_O");
-        ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "This is the overlay that will eventually render information on top of the game. For C# we've actually made it a lot more than it was!");
-        ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "Plugin developers now have full access... and I mean *full* access to ImGui for rendering, hopefully we'll see some interesting things come from that!");
-        ImGui.TextColored(new Vector4(0.7f, 0.7f, 0.7f, 1f), "Right now we've just implemented the basics, and the telemetry plugin will show off some nice performance when rendering a lot of data.");
-        ImGui.Separator();
-        ImGui.Text("You can interact with the overlay by holding down");
-        ImGui.SameLine();
-        var controls = ControlsBackend.Current.GetRegisteredControls();        
-        var interactKey = controls.FirstOrDefault(c => c.Definition.Id == Interact.Id);
-        if (interactKey != null)
-            ImGui.TextColored(new Vector4(1f, 0.5f, 0.5f, 1f), interactKey.ControlId.ToString());
-        else 
-            ImGui.TextColored(new Vector4(1f, 0.5f, 0.5f, 1f), "UNBOUND");
-        ImGui.SameLine();
-        ImGui.Text("(can be changed in the settings!)");
-        ImGui.Text("The overlay is pretty much a full window system, there shouldn't be any crashes... hopefully... but if there are, report them!");
-    }
-
-    private unsafe void RenderWindowContextMenu(Action onClose)
+    private unsafe void RenderWindowContextMenu(InternalWindow window)
     {
         if (ImGui.BeginPopupContextWindow((byte*)0, ImGuiPopupFlags.MouseButtonRight))
         {
+            window.RenderContextMenu();
             if (ImGui.MenuItem("Close"))
             {
-                onClose?.Invoke();
+                window.IsWindowOpen = false;
             }
             ImGui.EndPopup();
         }
@@ -275,9 +240,17 @@ public class OverlayHandler
         // TODO: This is disabled for now as it causes submenus to appear below main windows.
         //_io.ConfigFlags |= ImGuiConfigFlags.ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
+        var mon = GLFW.GetPrimaryMonitor();
+        float mainScale = ImGuiImplGLFW.GetContentScaleForMonitor(Unsafe.BitCast<Hexa.NET.GLFW.GLFWmonitorPtr, Hexa.NET.ImGui.Backends.GLFW.GLFWmonitorPtr>(mon));
+
         ImGui.StyleColorsDark();
         var style = ImGui.GetStyle();
         // style.ScaleAllSizes(1.5f);
+
+        style.ScaleAllSizes(mainScale);
+        style.FontScaleDpi = mainScale;
+        _io.ConfigDpiScaleFonts = true;
+        _io.ConfigDpiScaleViewports = true;
 
         if ((_io.ConfigFlags & ImGuiConfigFlags.ViewportsEnable) != 0)
         {
@@ -379,22 +352,25 @@ public class OverlayHandler
         return true;
     }
 
-    public void RegisterWindow(WindowDefinition def, Action renderAction)
+    public void RegisterWindow(WindowDefinition def, Action renderAction, Optional<Action> renderContextMenuAction = default)
     {
-        if (WindowRenderers.ContainsKey(def))
+        foreach (var window in _windows)
         {
-            Logger.Warn($"Window with title {def.Title} is already registered. Overwriting.");
+            if (window.Definition.Title == def.Title)
+            {
+                window.Definition = def;
+                window.Render = renderAction;
+                window.RenderContextMenu = renderContextMenuAction.GetValueOrDefault(() => { });
+                return;
+            }
         }
-        WindowRenderers[def] = renderAction;
+        
+        var newWindow = new ExternalWindow(def, renderAction, renderContextMenuAction.GetValueOrDefault(() => { }));
+        _windows.Add(newWindow);
     }
 
     public void UnregisterWindow(WindowDefinition def)
     {
-        if (!WindowRenderers.ContainsKey(def))
-        {
-            Logger.Warn($"Window with title {def.Title} is not registered. Cannot unregister.");
-            return;
-        }
-        WindowRenderers.Remove(def);
+        _windows.RemoveAll(w => w.Definition.Title == def.Title);
     }
 }
