@@ -21,6 +21,16 @@ public sealed class PluginManagerService
         return backend.pluginHandler.LoadedPlugins;
     }
 
+    public void UnloadPlugins()
+    {
+        backend.pluginHandler?.UnloadPlugins();
+    }
+
+    public void ReloadPlugins()
+    {
+        backend.pluginHandler?.LoadPlugins();
+    }
+
     public bool SetEnabled(IPlugin plugin, bool enable)
     {
         var ok = enable
