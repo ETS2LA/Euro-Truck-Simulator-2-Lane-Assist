@@ -7,8 +7,12 @@ on:
       - rewrite
 
 jobs:
-  pack-windows:
-    runs-on: windows-latest
+  check_version:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      should_publish: ${{ steps.check_version.outputs.should_publish }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,8 +21,30 @@ jobs:
 
       - name: Get Version from Project File
         id: get-version
-        shell: bash
-        run: echo "version=$(grep -oE '<Version>[^<]+' ETS2LA/ETS2LA.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+        run: |
+          echo "version=$(grep -oE '<Version>[^<]+' ETS2LA/ETS2LA.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+
+      - name: Check whether release tag already exists
+        id: check_version
+        run: |
+          TAG="v${{ steps.get-version.outputs.version }}"
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "Release tag $TAG already exists. Skipping publish."
+          else
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  pack-windows:
+    name: Pack & Upload Velopack (Windows)
+    needs: check_version
+    if: needs.check_version.outputs.should_publish == 'true'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install .NET 10
         uses: actions/setup-dotnet@v4
@@ -36,21 +62,19 @@ jobs:
         shell: pwsh
         run: |
           $vpk = Join-Path $env:USERPROFILE '.dotnet\tools\vpk.exe'
-          & $vpk pack --channel "win-beta" --packId ETS2LA --packVersion ${{ steps.get-version.outputs.version }} --packDir .\publish --mainExe ETS2LA.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA" --releaseNotes .\ETS2LA\ReleaseNotes.md
-          & $vpk upload github --channel "win-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# v${{ steps.get-version.outputs.version }}" --tag "v${{ steps.get-version.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}
+              & $vpk pack --channel "win-beta" --packId ETS2LA --packVersion ${{ needs.check_version.outputs.version }} --packDir .\publish --mainExe ETS2LA.exe -i .\ETS2LA.UI\Assets\logo.ico -f net10-x64-desktop --packTitle "ETS2LA" --releaseNotes .\ETS2LA\ReleaseNotes.md
+              & $vpk upload github --channel "win-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# v${{ needs.check_version.outputs.version }}" --tag "v${{ needs.check_version.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}
 
   pack-linux:
+    name: Pack & Upload Velopack (Linux)
+    needs: check_version
+    if: needs.check_version.outputs.should_publish == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      - name: Get Version from Project File
-        id: get-version-linux
-        shell: bash
-        run: echo "version=$(grep -oE '<Version>[^<]+' ETS2LA/ETS2LA.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
 
       - name: Install .NET 10
         uses: actions/setup-dotnet@v4
@@ -62,11 +86,11 @@ jobs:
           ./publish.sh
 
       - name: Install vpk tool
-        run: dotnet tool install -g vpk
+        run: |
+          dotnet tool install -g vpk
 
       - name: Pack & Upload Velopack
-        shell: bash
         run: |
           VPK="$HOME/.dotnet/tools/vpk"
-          $VPK pack --channel "linux-beta" --packId ETS2LA --packVersion ${{ steps.get-version-linux.outputs.version }} --packDir ./publish --mainExe ETS2LA --icon ./ETS2LA.UI/Assets/logo.ico --packTitle "ETS2LA" --releaseNotes ./ETS2LA/ReleaseNotes.md
-          $VPK upload github --channel "linux-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# v${{ steps.get-version-linux.outputs.version }}" --tag "v${{ steps.get-version-linux.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}
+          $VPK pack --channel "linux-beta" --packId ETS2LA --packVersion ${{ needs.check_version.outputs.version }} --packDir ./publish --mainExe ETS2LA --icon ./ETS2LA.UI/Assets/logo.ico --packTitle "ETS2LA" --releaseNotes ./ETS2LA/ReleaseNotes.md
+          $VPK upload github --channel "linux-beta" --pre --merge --repoUrl "https://github.com/${{ github.repository }}" --publish --releaseName "ETS2LA C# v${{ needs.check_version.outputs.version }}" --tag "v${{ needs.check_version.outputs.version }}" --token ${{ secrets.GITHUB_TOKEN }} --targetCommitish ${{ github.sha }}

@@ -12,6 +12,10 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
         <StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="10">
+                <Button Content="Unload" Click="OnUnloadButtonClick" IsEnabled="{Binding HasPlugins}"/>
+                <Button Content="Reload" Click="OnReloadButtonClick" IsEnabled="{Binding !HasPlugins}"/>
+            </StackPanel>
             <ItemsControl x:Name="PluginList" 
                           ItemsSource="{Binding Plugins}" 
                           ItemsPanel="{StaticResource WrapPanelTemplate}"
@@ -41,14 +45,9 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-
-            <Border x:Name="PlaceholderPanel" IsVisible="{Binding !HasPlugins}">
-                <StackPanel Spacing="6">
-                    <TextBlock Text="No plugins found" FontSize="16" FontWeight="SemiBold"/>
-                    <TextBlock Text="Drop plugin DLLs into the Plugins folder (or build existing plugin projects) and hit Refresh." />
-                    <Button Content="Refresh" Width="100" Click="OnRefreshButtonClick"/>
-                </StackPanel>
-            </Border>
+            <StackPanel Margin="10" IsVisible="{Binding !HasPlugins}">
+                <TextBlock Text="No plugins found, please make sure there are .DLLs in the plugins folder." Classes="Description" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

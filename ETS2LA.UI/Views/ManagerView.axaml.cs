@@ -45,12 +45,7 @@ public partial class ManagerView : UserControl, INotifyPropertyChanged
             item.Toggle();
         }
     }
-
-    private void OnRefreshButtonClick(object? sender, RoutedEventArgs e)
-    {
-        UpdatePluginList();
-    }
-
+    
     private void UpdatePluginList()
     {
         Plugins.Clear();
@@ -78,6 +73,18 @@ public partial class ManagerView : UserControl, INotifyPropertyChanged
 
         OnPropertyChanged(nameof(Plugins));
         OnPropertyChanged(nameof(HasPlugins));
+    }
+
+    private void OnUnloadButtonClick(object? sender, RoutedEventArgs e)
+    {
+        _pluginService.UnloadPlugins();
+        UpdatePluginList();
+    }
+
+    private void OnReloadButtonClick(object? sender, RoutedEventArgs e)
+    {
+        _pluginService.ReloadPlugins();
+        UpdatePluginList();
     }
 
     private void InitializeComponent()
