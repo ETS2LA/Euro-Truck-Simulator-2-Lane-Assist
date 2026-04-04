@@ -61,6 +61,7 @@ public class OverlayHandler
         _windows.Add(new ConsoleWindow());
         _windows.Add(new ARInfoWindow());
         _windows.Add(new DemoWindow());
+        _windows.Add(new StateWindow());
     }
 
     private void HandleInput(object sender, ControlChangeEventArgs e)

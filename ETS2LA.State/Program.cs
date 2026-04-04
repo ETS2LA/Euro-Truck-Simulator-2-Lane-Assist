@@ -49,7 +49,7 @@ public class ApplicationState
     ///  are included in higher levels, e.g. Emergency Braking should still be active even if the user
     ///  desires Adaptive Cruise Control.
     /// </summary>
-    public LongitudinalAssists DesiredLongitudinalLevel { get; set; } = LongitudinalAssists.None;
+    public LongitudinalAssists DesiredLongitudinalLevel { get; set; } = LongitudinalAssists.AdaptiveCruiseControl;
     /// <summary>
     ///  This value will be set to true if the user has temporarily paused the longitudinal assist,
     ///  e.g. by braking. Once the user resumes assists this value will be set to false again.

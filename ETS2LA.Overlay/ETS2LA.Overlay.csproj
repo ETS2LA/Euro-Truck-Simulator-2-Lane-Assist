@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
     <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj" />
+    <ProjectReference Include="..\ETS2LA.State\ETS2LA.State.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
