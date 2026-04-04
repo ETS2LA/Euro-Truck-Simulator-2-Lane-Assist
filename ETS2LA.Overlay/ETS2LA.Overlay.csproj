@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hexa.NET.GLFW" Version="1.0.5" />
+    <PackageReference Include="Hexa.NET.GLFW" Version="1.0.5"/>
     <PackageReference Include="Hexa.NET.ImGui" Version="2.2.9" />
     <PackageReference Include="Hexa.NET.ImGui.Backends" Version="1.0.18" />
     <PackageReference Include="Hexa.NET.ImGui.Backends.GLFW" Version="1.0.18" />
@@ -16,9 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
-    <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj" />
-    <ProjectReference Include="..\ETS2LA.State\ETS2LA.State.csproj" />
+    <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.State\ETS2LA.State.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">

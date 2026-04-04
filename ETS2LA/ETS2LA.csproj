@@ -51,15 +51,25 @@
 
   <Target Name="CopyPlugins" AfterTargets="Build">
     <ItemGroup>
-      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
+      <PluginProjects Include="$(MSBuildThisFileDirectory)..\Plugins\*\*.csproj" />
     </ItemGroup>
+    
+    <MSBuild Projects="@(PluginProjects)" Targets="GetTargetPath">
+      <Output TaskParameter="TargetOutputs" ItemName="PluginFiles" />
+    </MSBuild>
+    
     <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(OutputPath)Plugins\" SkipUnchangedFiles="true" />
   </Target>
 
   <Target Name="CopyPluginsPublish" AfterTargets="Publish">
     <ItemGroup>
-      <PluginFiles Include="$(MSBuildThisFileDirectory)..\Plugins\**\bin\$(Configuration)\**\*.dll" />
+      <PluginProjects Include="$(MSBuildThisFileDirectory)..\Plugins\*\*.csproj" />
     </ItemGroup>
+    
+    <MSBuild Projects="@(PluginProjects)" Targets="GetTargetPath">
+      <Output TaskParameter="TargetOutputs" ItemName="PluginFiles" />
+    </MSBuild>
+    
     <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)Plugins\" SkipUnchangedFiles="true" />
   </Target>
 
