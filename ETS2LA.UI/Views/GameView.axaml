@@ -35,7 +35,7 @@
                                 <TextBlock Text="{Binding Path}" Classes="Description" FontSize="12" />
                                 <TextBlock Text="Selected Map Mods:" FontSize="13" Margin="0,8,0,0" />
                                 <TextBlock Text="Use Ctrl+Click to select multiple mods." FontSize="10" Classes="Description" Margin="0,0,0,4" />
-                                <ListBox ItemsSource="{Binding Mods}" SelectedItems="{Binding SelectedMods}, Mode=TwoWay" SelectionMode="Multiple" />
+                                <ListBox ItemsSource="{Binding Mods}" SelectedItems="{Binding SelectedMods, Mode=TwoWay}" SelectionMode="Multiple" />
                                 <Button Margin="0,10,0,0" Command="{Binding ParseMapDataCommand}" IsEnabled="{Binding !IsParsed}">
                                     <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                                         <i:Icon Value="fa-spinner" IsVisible="{Binding IsParsing}" Animation="Spin" />
