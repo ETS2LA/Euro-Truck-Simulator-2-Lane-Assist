@@ -12,7 +12,6 @@ public interface IControlsBackend
     ///  This is shared between all plugins.
     /// </summary>
     public static IControlsBackend Current => _instance ?? throw new Exception("No controls backend registered! Make sure to register one in your plugin's OnLoad method.");
-    public static DefaultControls Defaults { get; } = new DefaultControls();
 
     /// <summary>
     ///  This event is fired when a control is added to the ControlsBackend.

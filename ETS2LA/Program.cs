@@ -5,6 +5,7 @@ using ETS2LA.UI;
 using ETS2LA.Overlay;
 using ETS2LA.Backend;
 using ETS2LA.Telemetry;
+using ETS2LA.State;
 
 namespace ETS2LA;
 
@@ -36,6 +37,7 @@ internal static class Program
             var ar = OverlayHandler.Current;
             var backend = PluginBackend.Current;
             var telemetry = GameTelemetry.Current;
+            var state = ApplicationState.Current;
         });
 
         # if LINUX

@@ -1,8 +1,8 @@
 namespace ETS2LA.Controls.Defaults;
 
-public class DefaultControls
+public static class DefaultControls
 {
-    public ControlDefinition Assist = new ControlDefinition
+    public static ControlDefinition Assist { get; } = new ControlDefinition
     {
         Id = "ETS2LA.Controls.Assist",
         Name = "Assist",
@@ -11,7 +11,7 @@ public class DefaultControls
         Type = ControlType.Boolean
     };
 
-    public ControlDefinition SET = new ControlDefinition
+    public static ControlDefinition SET { get; } = new ControlDefinition
     {
         Id = "ETS2LA.Controls.SET",
         Name = "SET/OK",
@@ -20,7 +20,7 @@ public class DefaultControls
         Type = ControlType.Boolean
     };
 
-    public ControlDefinition Next = new ControlDefinition
+    public static ControlDefinition Next { get; } = new ControlDefinition
     {
         Id = "ETS2LA.Controls.Next",
         Name = "Next/Cancel",
@@ -29,7 +29,7 @@ public class DefaultControls
         Type = ControlType.Boolean
     };
 
-    public ControlDefinition Increase = new ControlDefinition
+    public static ControlDefinition Increase { get; } = new ControlDefinition
     {
         Id = "ETS2LA.Controls.Increase",
         Name = "Increase",
@@ -38,7 +38,7 @@ public class DefaultControls
         Type = ControlType.Boolean
     };
 
-    public ControlDefinition Decrease = new ControlDefinition
+    public static ControlDefinition Decrease { get; } = new ControlDefinition
     {
         Id = "ETS2LA.Controls.Decrease",
         Name = "Decrease",
