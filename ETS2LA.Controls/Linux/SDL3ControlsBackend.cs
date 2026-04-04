@@ -9,7 +9,6 @@ public class SDL3ControlsBackend : IControlsBackend
 {
     private static readonly Lazy<SDL3ControlsBackend> _instance = new(() => new SDL3ControlsBackend());
     public static SDL3ControlsBackend Current => _instance.Value;
-    public static DefaultControls Defaults { get; } = new();
 
     private readonly List<ControlInstance> _registeredControls = new();
     private readonly SettingsHandler _settingsHandler = new();
@@ -48,11 +47,11 @@ public class SDL3ControlsBackend : IControlsBackend
             Logger.Warn($"Failed to initialize SDL3 controls backend: {ex.Message}");
         }
 
-        RegisterControl(Defaults.Assist);
-        RegisterControl(Defaults.SET);
-        RegisterControl(Defaults.Next);
-        RegisterControl(Defaults.Increase);
-        RegisterControl(Defaults.Decrease);
+        RegisterControl(DefaultControls.Assist);
+        RegisterControl(DefaultControls.SET);
+        RegisterControl(DefaultControls.Next);
+        RegisterControl(DefaultControls.Increase);
+        RegisterControl(DefaultControls.Decrease);
     }
 
     public void RegisterControl(ControlDefinition definition)

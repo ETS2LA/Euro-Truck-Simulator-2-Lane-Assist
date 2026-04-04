@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
+    <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj" />
+    <ProjectReference Include="..\ETS2LA.Telemetry\ETS2LA.Telemetry.csproj" />
+    <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
+  </ItemGroup>
+
+</Project>

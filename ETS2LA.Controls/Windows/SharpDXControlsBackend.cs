@@ -9,7 +9,6 @@ public class SharpDXControlsBackend : IControlsBackend
 {
     private static readonly Lazy<SharpDXControlsBackend> _instance = new(() => new SharpDXControlsBackend());
     public static SharpDXControlsBackend Current => _instance.Value;
-    public static DefaultControls Defaults { get; } = new DefaultControls();
 
     private List<ControlInstance> RegisteredControls { get; } = new();
     private SettingsHandler _settingsHandler = new SettingsHandler();
@@ -44,11 +43,11 @@ public class SharpDXControlsBackend : IControlsBackend
         }
 
         Task.Run(() => ControlListener());
-        RegisterControl(Defaults.Assist);
-        RegisterControl(Defaults.SET);
-        RegisterControl(Defaults.Next);
-        RegisterControl(Defaults.Increase);
-        RegisterControl(Defaults.Decrease);
+        RegisterControl(DefaultControls.Assist);
+        RegisterControl(DefaultControls.SET);
+        RegisterControl(DefaultControls.Next);
+        RegisterControl(DefaultControls.Increase);
+        RegisterControl(DefaultControls.Decrease);
     }
 
     public void RegisterControl(ControlDefinition definition)
