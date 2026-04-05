@@ -53,12 +53,12 @@
     <ItemGroup>
       <PluginProjects Include="$(MSBuildThisFileDirectory)..\Plugins\*\*.csproj" />
     </ItemGroup>
-    
+  
     <MSBuild Projects="@(PluginProjects)" Targets="GetTargetPath">
       <Output TaskParameter="TargetOutputs" ItemName="PluginFiles" />
     </MSBuild>
-    
-    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(OutputPath)Plugins\" SkipUnchangedFiles="true" />
+  
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(OutputPath)Plugins\" SkipUnchangedFiles="true" ContinueOnError="WarnAndContinue" />
   </Target>
 
   <Target Name="CopyPluginsPublish" AfterTargets="Publish">

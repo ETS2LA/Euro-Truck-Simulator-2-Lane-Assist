@@ -21,6 +21,7 @@ public class SDL3ControlsBackend : IControlsBackend
     private readonly CancellationTokenSource _cts = new();
 
     private bool _sdlInitialized;
+    private bool _changingBindings;
     private Task? _listenerTask;
 
     public event EventHandler<ControlAddedEventArgs>? ControlAdded;
@@ -235,6 +236,7 @@ public class SDL3ControlsBackend : IControlsBackend
             return ("", "");
         }
 
+        _changingBindings = true;
         var end = DateTime.UtcNow.AddSeconds(timeoutSeconds);
 
         while (DateTime.UtcNow < end)
@@ -248,6 +250,7 @@ public class SDL3ControlsBackend : IControlsBackend
 
                 if (type == (uint)SDLEventType.KeyDown)
                 {
+                    _changingBindings = false;
                     return ("Keyboard", ev.Key.Scancode.ToString());
                 }
 
@@ -260,7 +263,21 @@ public class SDL3ControlsBackend : IControlsBackend
                         continue;
                     }
 
-                    return (info.Id, $"B{ev.Jbutton.Button}");
+                    _changingBindings = false;
+                    return (info.Id, $"Button {ev.Jbutton.Button}");
+                }
+
+                if (type == (uint)SDLEventType.JoystickHatMotion)
+                {
+                    InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jhat.Which) ? _deviceInfos[ev.Jhat.Which] : default;
+                    if (info.Id == null)
+                    {
+                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jhat.Which}.");
+                        continue;
+                    }
+
+                    _changingBindings = false;
+                    return (info.Id, $"Hat {ev.Jhat.Hat} {ev.Jhat.Value}");
                 }
 
                 if (type == (uint)SDLEventType.JoystickAxisMotion)
@@ -275,7 +292,25 @@ public class SDL3ControlsBackend : IControlsBackend
                     var normalized = NormalizeSdlAxis(ev.Jaxis.Value);
                     if (Math.Abs(normalized) > 0.1f)
                     {
-                        return (info.Id, AxisIdFromIndex(ev.Jaxis.Axis));
+                        _changingBindings = false;
+                        return (info.Id, $"Axis {AxisIdFromIndex(ev.Jaxis.Axis)}");
+                    }
+                }
+
+                if (type == (uint)SDLEventType.JoystickBallMotion)
+                {
+                    InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jball.Which) ? _deviceInfos[ev.Jball.Which] : default;
+                    if (info.Id == null)
+                    {
+                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jball.Which}.");
+                        continue;
+                    }
+
+                    var movement = Math.Sqrt(ev.Jball.Xrel * ev.Jball.Xrel + ev.Jball.Yrel * ev.Jball.Yrel);
+                    if (movement > 0.1f)
+                    {
+                        _changingBindings = false;
+                        return (info.Id, $"Ball {ev.Jball.Ball}");
                     }
                 }
 
@@ -292,6 +327,7 @@ public class SDL3ControlsBackend : IControlsBackend
             Thread.Sleep(20);
         }
 
+        _changingBindings = false;
         return ("", "");
     }
 
@@ -308,7 +344,7 @@ public class SDL3ControlsBackend : IControlsBackend
     {
         while (!_cts.IsCancellationRequested)
         {
-            if (!_sdlInitialized)
+            if (!_sdlInitialized || _changingBindings)
             {
                 Thread.Sleep(100);
                 continue;
@@ -348,9 +384,38 @@ public class SDL3ControlsBackend : IControlsBackend
                     break;
 
                 var deviceId = deviceInfo.Id;
-                var controlId = $"B{ev.Jbutton.Button}";
+                var controlId = $"Button {ev.Jbutton.Button}";
                 var pressed = ev.Jbutton.Down != 0;
                 UpdateMatchingControls(deviceId, controlId, pressed);
+                break;
+            }
+
+            case (uint)SDLEventType.JoystickHatMotion:
+            {
+                var instanceId = ev.Jhat.Which;
+                InputDeviceInfo? deviceInfo = _deviceInfos.ContainsKey(instanceId) ? _deviceInfos[instanceId] : null;
+                if (deviceInfo == null)
+                    break;
+
+                var deviceId = deviceInfo.Id;
+                string[] controlIds = [
+                    $"Hat {ev.Jhat.Hat} 0",
+                    $"Hat {ev.Jhat.Hat} 1",
+                    $"Hat {ev.Jhat.Hat} 2",
+                    $"Hat {ev.Jhat.Hat} 4",
+                    $"Hat {ev.Jhat.Hat} 8"
+                ];
+                // With hats we have to update all 4 directions separately, as they default to 0 when not active.
+                // 0000 = center,
+                // 0001 = up,
+                // 0010 = right,
+                // 0100 = down,
+                // 1000 = left
+                foreach (var controlId in controlIds)
+                {
+                    bool isActive = controlId.EndsWith(ev.Jhat.Value.ToString());
+                    UpdateMatchingControls(deviceId, controlId, isActive);
+                }
                 break;
             }
 
@@ -362,9 +427,23 @@ public class SDL3ControlsBackend : IControlsBackend
                     break;
                 
                 var deviceId = deviceInfo.Id;
-                var controlId = AxisIdFromIndex(ev.Jaxis.Axis);
+                var controlId = $"Axis {AxisIdFromIndex(ev.Jaxis.Axis)}";
                 var raw = NormalizeSdlAxis(ev.Jaxis.Value);
                 UpdateMatchingControls(deviceId, controlId, raw, true);
+                break;
+            }
+
+            case (uint)SDLEventType.JoystickBallMotion:
+            {
+                var instanceId = ev.Jball.Which;
+                InputDeviceInfo? deviceInfo = _deviceInfos.ContainsKey(instanceId) ? _deviceInfos[instanceId] : null;
+                if (deviceInfo == null)
+                    break;
+
+                var deviceId = deviceInfo.Id;
+                var controlId = $"Ball {ev.Jball.Ball}";
+                var movement = ev.Jball.Xrel + ev.Jball.Yrel;
+                UpdateMatchingControls(deviceId, controlId, movement);
                 break;
             }
 
@@ -505,7 +584,7 @@ public class SDL3ControlsBackend : IControlsBackend
             5 => "RotationZ",
             6 => "Slider1",
             7 => "Slider2",
-            _ => $"Axis{axisIndex}"
+            _ => $"{axisIndex}"
         };
     }
 

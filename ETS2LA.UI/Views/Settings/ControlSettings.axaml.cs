@@ -114,7 +114,7 @@ public class ControlItem : INotifyPropertyChanged
     private readonly ControlInstance _instance;
 
     public string DeviceName => GetDeviceName();
-    public string DeviceButton => _instance.ControlId.ToString() ?? "Unbound";
+    public string DeviceButton => GetDeviceButton();
     public string DeviceButtonType => GetControlType();
     
     private bool _isActive = false;
@@ -248,18 +248,46 @@ public class ControlItem : INotifyPropertyChanged
         return name;
     }
 
+    private string GetDeviceButton()
+    {
+        if (!_instance.IsBound())
+            return "Unbound";
+        
+        string controlIdStr = _instance.ControlId.ToString() ?? "Unbound";
+        string type = GetControlType();
+        controlIdStr = controlIdStr.Replace(type, "").Trim();
+        
+        if (type.StartsWith("Hat"))
+        {
+            int dirId = int.Parse(controlIdStr);
+            controlIdStr = dirId switch
+            {
+                1 => "↑",
+                2 => "→",
+                4 => "↓",
+                8 => "←",
+                _ => controlIdStr
+            };
+        }
+        
+        return controlIdStr;
+    }
+
     private string GetControlType()
     {
         if (!_instance.IsBound())
             return "Unbound";
         
         bool isKeyboard = _instance.DeviceId.ToString().ToLower().StartsWith("keyboard");
-        bool isButton = _instance.ControlId.ToString()?.StartsWith("B") ?? false;
+        bool isButton = _instance.ControlId.ToString()?.StartsWith("Button ") ?? false;
+        bool isHat = _instance.ControlId.ToString()?.StartsWith("Hat ") ?? false;
 
         if (isKeyboard)
             return "Key";
         if (isButton)
             return "Button";
+        if (isHat)
+            return "Hat " + _instance.ControlId.ToString()?.Split(" ")?.ElementAtOrDefault(1);
 
         return _instance.AxisBehavior.ToString() + " Axis";
     }

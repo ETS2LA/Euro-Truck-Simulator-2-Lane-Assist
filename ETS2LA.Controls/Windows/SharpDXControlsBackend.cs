@@ -185,21 +185,21 @@ public class SharpDXControlsBackend : IControlsBackend
         // Handle Buttons
         if (offset >= JoystickOffset.Buttons0 && offset <= JoystickOffset.Buttons127)
         {
-            return "B" + (offset - JoystickOffset.Buttons0);
+            return "Button " + (offset - JoystickOffset.Buttons0);
         }
 
         // Handle Axes
         return offset switch
         {
-            JoystickOffset.X => "X",
-            JoystickOffset.Y => "Y",
-            JoystickOffset.Z => "Z",
-            JoystickOffset.RotationX => "RotationX",
-            JoystickOffset.RotationY => "RotationY",
-            JoystickOffset.RotationZ => "RotationZ",
-            JoystickOffset.Sliders0 => "Slider1",
-            JoystickOffset.Sliders1 => "Slider2",
-            _ => string.Empty
+            JoystickOffset.X => "Axis X",
+            JoystickOffset.Y => "Axis Y",
+            JoystickOffset.Z => "Axis Z",
+            JoystickOffset.RotationX => "Axis RotationX",
+            JoystickOffset.RotationY => "Axis RotationY",
+            JoystickOffset.RotationZ => "Axis RotationZ",
+            JoystickOffset.Sliders0 => "Axis Slider1",
+            JoystickOffset.Sliders1 => "Axis Slider2",
+            _ => "Axis " + offset.ToString()
         };
     }
 
