@@ -7,6 +7,8 @@
     <StackPanel>
         <Grid ColumnDefinitions="450,*">
         <StackPanel Grid.Column="0" Spacing="20" Margin="20">
+
+            <!--
             <StackPanel Spacing="10" Tapped="OnSeparateCruiseAndSteeringClicked">
                 <StackPanel Spacing="3">
                     <StackPanel Orientation="Horizontal" Spacing="6">
@@ -21,6 +23,7 @@
                     <TextBlock Text="Whether to separate cruise control and steering. If separated, a single tap will signal Cruise, while a double tap will enable both." FontSize="12" Classes="Description" />
                 </StackPanel>
             </StackPanel>
+            -->
 
             <StackPanel Spacing="10">
                 <StackPanel Spacing="3">

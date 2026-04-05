@@ -2,6 +2,8 @@
 using ETS2LA.Controls.Defaults;
 using ETS2LA.Backend.Events;
 using ETS2LA.Telemetry;
+using ETS2LA.Settings.Global;
+using ETS2LA.Settings;
 
 namespace ETS2LA.State;
 
@@ -74,6 +76,7 @@ public class ApplicationState
 
     // Internal value to keep track of the latest telemetry we received.
     private GameTelemetryData _latestTelemetryData = new();
+    private AssistanceSettings _assistanceSettings;
 
     public ApplicationState()
     {
@@ -83,6 +86,8 @@ public class ApplicationState
         ControlsBackend.Current.On(DefaultControls.Increase.Id, HandleIncrease);
         ControlsBackend.Current.On(DefaultControls.Decrease.Id, HandleDecrease);
         ControlsBackend.Current.On(DefaultControls.Assist.Id, HandleAssist);
+
+        _assistanceSettings = AssistanceSettings.Current;
     }
 
     public float FromScientificUnits(float speedInMps, Units? overrideDisplayUnits = null)
@@ -114,6 +119,10 @@ public class ApplicationState
         _latestTelemetryData = data;
     }
 
+    // The functions below are for handling control events.
+    // If determining what they do is hard via code, then take a look at the 
+    // example at https://docs.ets2la.com/docs/Rewrite/UserInput#how-to-listen-to-registered-controls
+
     private void HandleSet(object sender, ControlChangeEventArgs e)
     {
         bool b = (bool)e.NewValue;
@@ -122,7 +131,10 @@ public class ApplicationState
         if (PauseLongitudinalAssist)
         {
             PauseLongitudinalAssist = false;
-            DesiredSpeed = _latestTelemetryData.truckFloat.speed;
+            if (_assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.CurrentSpeed)
+                DesiredSpeed = _latestTelemetryData.truckFloat.speed;
+            else if (_assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.SpeedLimit)
+                DesiredSpeed = _latestTelemetryData.truckFloat.speedLimit;
         }
         else
         {
