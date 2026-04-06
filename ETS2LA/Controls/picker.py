@@ -60,7 +60,7 @@ def control_picker(
                     break
                 for key, value in values.items():
                     if (
-                        "button" in key
+                        ("button" in key or "hat" in key)
                         and value != start_values[guid][key]
                         and is_button
                     ):

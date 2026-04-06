@@ -152,6 +152,28 @@ def joystick_update_process(joystick_queue: multiprocessing.Queue) -> None:
                     value = joystick.get_button(j)
                     state[joystick.get_guid()][f"button_{j}"] = value
 
+                for j in range(joystick.get_numhats()):
+                    x, y = joystick.get_hat(j)
+                    # https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist/issues/501
+                    # Credit to zhizi42 for this code, there are no changes on my side.
+                    # - Tumppi066
+                    value = "center"
+                    if x == -1 and y == 0:
+                        value = "left"
+                    elif x == 1 and y == 0:
+                        value = "right"
+                    elif x == 0 and y == -1:
+                        value = "down"
+                    elif x == 0 and y == 1:
+                        value = "up"
+                    if value == "center":
+                        state[joystick.get_guid()][f"hat_{j}_left"] = False
+                        state[joystick.get_guid()][f"hat_{j}_right"] = False
+                        state[joystick.get_guid()][f"hat_{j}_up"] = False
+                        state[joystick.get_guid()][f"hat_{j}_down"] = False
+                    else:
+                        state[joystick.get_guid()][f"hat_{j}_{value}"] = True
+
                 for j in range(joystick.get_numaxes()):
                     value = joystick.get_axis(j)
                     state[joystick.get_guid()][f"axis_{j}"] = value
