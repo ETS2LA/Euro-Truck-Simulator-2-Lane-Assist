@@ -1,3 +1,6 @@
+### ETS2LA C# 3.1.11
+* Fixed issue with plugins not being copied into the build on Windows.
+
 ### ETS2LA C# 3.1.10
 * Added `Unload` and `Reload` buttons to the manager UI, allowing plugin developers to reload their plugins without restarting ETS2LA.
 * Build workflow improvements, builds are now also checked in PRs.
