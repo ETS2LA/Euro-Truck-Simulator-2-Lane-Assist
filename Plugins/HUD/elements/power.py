@@ -19,6 +19,7 @@ class Widget(HUDWidget):
 
     def draw(self, offset_x, width, height=50):
         if not self.plugin.data:
+            self.data = []
             return
 
         gameThrottle = self.plugin.data["truckFloat"]["userThrottle"]

@@ -73,27 +73,35 @@ class ElementRunner:
 
     def run_element(self):
         while True:
-            time.sleep(1 / self.element.fps)
+            try:
+                time.sleep(1 / self.element.fps)
 
-            if not self.enabled:
-                continue
-
-            self.element.scale = self.plugin.widget_scaling
-
-            if isinstance(self.element, HUDRenderer):
-                try:
-                    self.element.draw()
-                except Exception:
-                    import traceback
-                    traceback.print_exc()
+                if not self.enabled:
                     self.data = []
+                    continue
 
-            elif isinstance(self.element, HUDWidget):
-                try:
-                    self.element.draw(self.offset_x, self.width, self.height)
-                except Exception:
-                    import traceback
-                    traceback.print_exc()
-                    self.data = []
+                self.element.scale = self.plugin.widget_scaling
 
-            self.data = self.element.data
+                if isinstance(self.element, HUDRenderer):
+                    try:
+                        self.element.draw()
+                    except Exception:
+                        import traceback
+                        traceback.print_exc()
+                        self.data = []
+
+                elif isinstance(self.element, HUDWidget):
+                    try:
+                        self.element.draw(self.offset_x, self.width, self.height)
+                    except Exception:
+                        import traceback
+                        traceback.print_exc()
+                        self.data = []
+
+                self.data = self.element.data
+            except Exception:
+                # Prevent thread from crashing and leaking memory
+                import traceback
+                traceback.print_exc()
+                self.data = []
+                time.sleep(1)  # Avoid tight loop on error

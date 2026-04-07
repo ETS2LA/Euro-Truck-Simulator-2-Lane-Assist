@@ -21,6 +21,7 @@ class Widget(HUDWidget):
 
     def draw(self, offset_x, width, height=50):
         if not self.plugin.data:
+            self.data = []
             return
 
         self.speed = self.plugin.data["truckFloat"]["speed"]

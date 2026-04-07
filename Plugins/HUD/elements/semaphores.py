@@ -17,6 +17,7 @@ class Renderer(HUDRenderer):
 
     def draw(self):
         if not self.plugin.data:
+            self.data = []
             return
 
         self.data = []
@@ -73,4 +74,4 @@ class Renderer(HUDRenderer):
                 ]
             )
 
-        self.data += data
+        self.data = data

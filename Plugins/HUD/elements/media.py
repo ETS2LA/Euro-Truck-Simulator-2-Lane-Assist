@@ -26,6 +26,7 @@ class Widget(HUDWidget):
 
     title = ScrollingText(_("No Media Playing"), max_width=20)
     artist = ScrollingText(_("No Artist"), max_width=20)
+    media_info = {}
 
     def __init__(self, plugin):
         super().__init__(plugin)
@@ -37,6 +38,11 @@ class Widget(HUDWidget):
     async def media_info_thread(self):
         while True:
             try:
+                if os.name != "nt":
+                    self.media_info = {}
+                    await asyncio.sleep(5)
+                    continue
+                    
                 media_manager = await MediaManager.request_async()
                 current_session = media_manager.get_current_session()
                 if current_session:
@@ -52,6 +58,8 @@ class Widget(HUDWidget):
                             "end": playback_info.end_time,
                             "position": playback_info.position,
                         }
+                    else:
+                        self.media_info = {}
                 else:
                     self.media_info = {}
             except Exception as e:
