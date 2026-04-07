@@ -1,13 +1,14 @@
-import Plugins.Map.utils.prefab_helpers as ph
-import Plugins.Map.navigation.classes as nc
-import Plugins.Map.utils.node_helpers as nh
-import Plugins.Map.utils.road_helpers as rh
-import Plugins.Map.classes as c
-import Plugins.Map.data as data
-from typing import Literal
 import importlib
 import logging
 import sys
+from typing import Literal
+
+import Plugins.Map.classes as c
+import Plugins.Map.data as data
+import Plugins.Map.navigation.classes as nc
+import Plugins.Map.utils.node_helpers as nh
+import Plugins.Map.utils.prefab_helpers as ph
+import Plugins.Map.utils.road_helpers as rh
 
 nc = importlib.reload(nc)
 data.last_length = 0
@@ -48,8 +49,13 @@ def get_direction_for_route_start(route: list):
                 break
 
     if direction == "":
-        logging.warning("Failed to find direction")
-        return "", 0
+        logging.warning(
+            "Failed to find direction, falling back to first available direction"
+        )
+        if len(nav_nodes) > 0:
+            direction = nav_nodes[0].direction
+        else:
+            return "", 0
 
     index = 0
     for item in route:
