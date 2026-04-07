@@ -272,7 +272,7 @@ public class ParsedRoad
         
         TruckLib.OrientedPoint point = Road.InterpolateCurve(t);
         Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Rotation));
-        point.Position = point.Position + normal * offset;
+        point.Position = point.Position + normal * -offset;
 
         return point;
     }
@@ -327,7 +327,7 @@ public class ParsedRoad
         TruckLib.OrientedPoint p = point.Value;
 
         Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Value.Rotation));
-        p.Position = p.Position + normal * offset;
+        p.Position = p.Position + normal * -offset;
 
         return p;
     }

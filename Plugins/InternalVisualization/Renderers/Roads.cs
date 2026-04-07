@@ -55,25 +55,23 @@ public class RoadsRenderer : Renderer
             if (road.RoadType.ToString() == "") continue;
             //if (!road.ShowInUiMap) continue;
 
-            ParsedRoad parsedRoad = ParsedRoad(road);
+            ParsedRoad parsedRoad = new ParsedRoad(road);
             float resolution = RoadUtils.GetRoadResolution(road);
             float length = road.Length;
 
-            float[] steps = new float[(int)(length / resolution) + 1];
-            for (int i = 0; i < steps.Length; i++)
-            {
-                steps[i] = i * resolution;
-            }
+            float stepLength = 1 / length * resolution;
 
             Vector2 minScreenPos = new Vector2(float.MaxValue, float.MaxValue);
             Vector2 maxScreenPos = new Vector2(float.MinValue, float.MinValue);
             for (int laneIndex = 0; laneIndex < parsedRoad.GetLaneCount(Side.Left); laneIndex++)
             {
                 List<Vector3> lanePoints = new List<Vector3>();
-                for (int i = 0; i < steps.Count(); i++)
-                {
-                    var pointOnLane = parsedRoad.InterpolateLane(steps[i], Side.Left, laneIndex).Value.Position;
+                var t = 0f;
+                while (t < 1 + stepLength){
+                    var pointOnLane = parsedRoad.InterpolateLane(t, Side.Left, laneIndex).Position;
                     lanePoints.Add(pointOnLane);
+                    t += stepLength;
+                    if(t > 1 && t < 1 + stepLength) t = 1; // Ensure we include the end point
                 }
 
                 for (int i = 0; i < lanePoints.Count - 1; i++)
@@ -88,13 +86,15 @@ public class RoadsRenderer : Renderer
                 }
             }
 
-            for (int laneIndex = 0; laneIndex < right.Length; laneIndex++)
+            for (int laneIndex = 0; laneIndex < parsedRoad.GetLaneCount(Side.Right); laneIndex++)
             {
                 List<Vector3> lanePoints = new List<Vector3>();
-                for (int i = 0; i < steps.Count(); i++)
-                {
-                    var pointOnLane = parsedRoad.InterpolateLane(steps[i], Side.Right, laneIndex).Value.Position;
+                var t = 0f;
+                while (t < 1 + stepLength){
+                    var pointOnLane = parsedRoad.InterpolateLane(t, Side.Right, laneIndex).Position;
                     lanePoints.Add(pointOnLane);
+                    t += stepLength;
+                    if(t > 1 && t < 1 + stepLength) t = 1; // Ensure we include the end point
                 }
 
                 for (int i = 0; i < lanePoints.Count - 1; i++)
@@ -121,12 +121,7 @@ public class RoadsRenderer : Renderer
                 ImGui.Indent();
                 ImGui.Text("Lanes:");
                 ImGui.SameLine();
-                ImGui.TextColored(new Vector4(0.6f, 0.6f, 1f, 1f), $"{LanesToString(left)}, {LanesToString(right)}");
-                ImGui.Text("Points: ");
-                ImGui.SameLine();
-                ImGui.TextColored(new Vector4(0.6f, 0.6f, 0.6f, 1f), $"{roadPoints.Count * (left.Count() + right.Count())}");
-                ImGui.SameLine();
-                ImGui.TextColored(new Vector4(0.6f, 0.6f, 0.6f, 1f), $"({roadPoints.Count} per lane)");
+                ImGui.TextColored(new Vector4(0.6f, 0.6f, 1f, 1f), $"{parsedRoad.GetLaneCount(Side.Left)}, {parsedRoad.GetLaneCount(Side.Right)}");
                 ImGui.Text($"UID:");
                 ImGui.SameLine();
                 ImGui.TextColored(new Vector4(0.6f, 0.6f, 0.6f, 1f), $"{road.Uid}");
