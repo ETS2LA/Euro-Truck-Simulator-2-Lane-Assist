@@ -1,15 +1,19 @@
-using TruckLib.Sii;
-using System.Numerics;
-using TruckLib.ScsMap;
 using TruckLib;
-using ETS2LA.Logging;
-
-using ETS2LA.Game.SiiFiles;
+using TruckLib.Sii;
+using TruckLib.ScsMap;
 using TruckLib.Models.Ppd;
+
+using System.Numerics;
+using System.Collections.Concurrent;
+
+using ETS2LA.Logging;
+using ETS2LA.Game.SiiFiles;
 namespace ETS2LA.Game.Utils;
 
 public static class RoadUtils
 {
+    private static readonly ConcurrentDictionary<string, (float[] Left, float[] Right)> _roadLaneCache = new ConcurrentDictionary<string, (float[] Left, float[] Right)>();
+
     /// <summary>
     ///  Calculates the lane center positions for a given road. Code from skzk in this <br>
     ///  gist: https://gist.github.com/sk-zk/8e9a2921f7d0b196773678c475d166ca
@@ -18,6 +22,12 @@ public static class RoadUtils
     /// <returns>A tuple containing two float arrays: the left lane centers and the right lane centers.</returns>
     public static (float[] Left, float[] Right) CalculateRoadLaneCenters(Road road)
     {
+        var key = road.RoadType.ToString();
+        if (_roadLaneCache.TryGetValue(key, out var cached))
+        {
+            return cached;
+        }
+
         Unit? roadTmpl;
         // Usually templates seem to have the "road." prefix
         // however some don't, so we gotta check for both.
@@ -114,12 +124,30 @@ public static class RoadUtils
             }
         }
 
-        return (leftCenters, rightCenters);
+        var result = (leftCenters, rightCenters);
+        _roadLaneCache[key] = result;
+
+        return result;
     }
 
     public static float Lerp(float a, float b, float t)
     {
         return a + (b - a) * t;
+    }
+
+    public static float GetRoadResolution(Road road)
+    {
+        switch (road.Resolution)
+        {
+            case RoadResolution.Normal:
+                return 15f;
+            case RoadResolution.HighPoly:
+                return 5f;
+            case RoadResolution.Superfine:
+                return 1f;
+            default:
+                return 15f;
+        }
     }
 }
 

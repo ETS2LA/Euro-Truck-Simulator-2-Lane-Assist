@@ -8,6 +8,8 @@ using TruckLib;
 using Extractor.Zip;
 using ETS2LA.Game.Data;
 using System.Collections;
+using ETS2LA.Game.Utils;
+using System.Numerics;
 
 namespace ETS2LA.Game;
 
@@ -132,308 +134,222 @@ public class MapData : Map
     }
 }
 
-public class Installation
+public enum Side
 {
-    public required GameType Type { get; set; }
-    public required string Path { get; set; }
-    public required string ExecutablePath { get; set; }
-    public required string Version { get; set; }
-    public bool IsParsed { get; set; } = false;
-    public bool IsParsing { get; set; } = false;
-    public List<string> FileExclusions = new List<string>
+    Left,
+    Right
+}
+
+/// <summary>
+///  Parsed road that takes into account all ETS2LA specific adjustments,
+///  such as lane offsets and Next/Last items etc... <br/><br/>
+///  You can get a ParsedRoad by instantiating it with a base Road.
+/// </summary>
+public class ParsedRoad
+{
+    /// <summary>
+    ///  This is the original base road data as parsed from the map.
+    ///  You may use it to access information we don't provide in this parsed version,
+    ///  just keep in mind that the offset values won't be accurate (well available at all)
+    ///  in the base functions.
+    /// </summary>
+    public Road Road;
+    
+    /// <summary>
+    ///  Start node for the current road piece. Note that this doesn't necessarily
+    ///  mean that Start -> End means the right side is going that direction.
+    ///  Sometimes roads can be "reversed" in the map data.
+    /// </summary>
+    public Node? StartNode;
+    /// <summary>
+    ///  End node for the current road piece. Note that this doesn't necessarily
+    ///  mean that Start -> End means the right side is going that direction.
+    ///  Sometimes roads can be "reversed" in the map data.
+    /// </summary>
+    public Node? EndNode;
+
+    /// <summary>
+    ///  The MapItem that connects to the StartNode from the other side.
+    ///  Use `Last is Road` or `Last is Prefab` to check what type it is before
+    ///  casting.
+    /// </summary>    
+    public MapItem? Last = null;
+    /// <summary>
+    ///  The MapItem that connects to the EndNode from the other side.
+    ///  Use `Next is Road` or `Next is Prefab` to check what type it is before
+    ///  casting.    
+    /// </summary>
+    public MapItem? Next = null;
+
+    // The are all private, as they'll be accessed only inside
+    // the functions of this class.
+    private float[]? LeftLaneOffsetsStart;
+    private float[] LeftLaneOffsetsEnd;
+    private float[]? RightLaneOffsetsStart;
+    private float[] RightLaneOffsetsEnd;
+
+    public ParsedRoad(Road road)
     {
-        "dlc_winter.scs",
-    };
+        Road = road;
+        Last = road.BackwardItem as MapItem;
+        Next = road.ForwardItem as MapItem;
+        LeftLaneOffsetsEnd = RoadUtils.CalculateRoadLaneCenters(road).Left;
+        RightLaneOffsetsEnd = RoadUtils.CalculateRoadLaneCenters(road).Right;
 
-    private AssetLoader? _assetLoader = null;
-    private MapData? _map = null;
-    private List<Mod>? _selectedMods = null;
-    private INotificationHandler? _notificationHandler = null;
-
-    public event Action? OnDataParsed;
-    public event Action? OnDataNotParsed;
-    public event Action? OnParsingStarted;
-
-    public void SetNotificationHandler(INotificationHandler? handler)
-    {
-        _notificationHandler = handler;
-    }
-
-    public string GetModsPath()
-    {
-        string gameName = Type == GameType.EuroTruckSimulator2 ? "Euro Truck Simulator 2" : "American Truck Simulator";
-        #if WINDOWS
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        #else
-            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            documentsPath = System.IO.Path.Combine(documentsPath, ".local", "share");
-        #endif
-        return System.IO.Path.Combine(documentsPath, gameName, "mod");
-    }
-
-    public int GetPriority(string modName)
-    {
-        if(modName.StartsWith("promods"))
+        if (Last is Road lastRoad)
         {
-            if (modName.Contains("def"))
-                return 1;
-            if (modName.Contains("map"))
-                return 2;
-            if (modName.Contains("assets"))
-                return 3;
-            return 4; // media and models
+            LeftLaneOffsetsStart = RoadUtils.CalculateRoadLaneCenters(lastRoad).Left;
+            RightLaneOffsetsStart = RoadUtils.CalculateRoadLaneCenters(lastRoad).Right;
         }
-        if(modName.StartsWith("eaa"))
-        {
-            if (modName.Contains("semeuropa"))
-                return 5;
-            if (modName.Contains("base_share"))
-                return 7;
-            return 6; // base
-        }
-        return 100;
     }
 
-    public List<string> GetSelectedMods()
+    /// <summary>
+    ///  Get the lane count for the specified side. Note that lane counts can be different on each side,
+    ///  so for figuring out the total lane count please use `GetTotalLaneCount()`, or tally up the two sides.
+    /// </summary>
+    /// <param name="side">The side for which to get lane count.</param>
+    /// <returns>The number of lanes on the specified side.</returns>
+    public int GetLaneCount(Side side) => side == Side.Left ? LeftLaneOffsetsEnd.Length 
+                                                            : RightLaneOffsetsEnd.Length;
+    /// <summary>
+    ///  Get the total lane count for the road, summing up both sides. Note that lane counts can be different
+    ///  on each side, so use `GetLaneCount(Side side)` if you want to differentiate between them.
+    /// </summary>
+    /// <returns>The total number of lanes on the road.</returns>
+    public int GetTotalLaneCount() => LeftLaneOffsetsEnd.Length + RightLaneOffsetsEnd.Length;
+
+    // The functions are all wrappers around the base Road functions.
+    // They just take into account the last road's offset values, this way
+    // we have accurate transitions between roads everywhere.
+
+    /// <summary>
+    ///  Interpolate the middle of the road at the t value (between 0 and 1).
+    /// </summary>
+    /// <param name="t">The interpolation factor/parameter (0 to 1)</param>
+    /// <returns>TruckLib.OrientedPoint at this location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">When t is not between 0 and 1.</exception>
+    public TruckLib.OrientedPoint Interpolate(float t)
     {
-        if (_selectedMods == null)
-        {
-            return new List<string>();
-        }
-        return _selectedMods
-            .Select(m => System.IO.Path.GetFileNameWithoutExtension(m.Path))
-            .ToList();
+        if (t < 0 || t > 1) throw new ArgumentOutOfRangeException(nameof(t), "t must be between 0 and 1");
+        return Road.InterpolateCurve(t);
     }
 
-    public List<string> GetAvailableMods()
+    /// <summary>
+    ///  Interpolate the middle of the road at the distance along the road. Distance must be between 0 and road length.
+    /// </summary>
+    /// <param name="dist">The distance along the road (0 to road length)</param>
+    /// <returns>TruckLib.OrientedPoint at this location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">When dist is not between 0 and road length.</exception>
+    public TruckLib.OrientedPoint? InterpolateDist(float dist)
     {
-        string modsPath = GetModsPath();
-        if (!Directory.Exists(modsPath))
-            return new List<string>();
-
-        List<string> mods = Directory.GetFiles(modsPath, "*.scs").ToList();
-        mods = mods
-            .Select(m => System.IO.Path.GetFileNameWithoutExtension(m))
-            .ToList();
-
-        return mods;
+        if (dist < 0 || dist > Road.Length) throw new ArgumentOutOfRangeException(nameof(dist), "dist must be between 0 and road length");
+        return Road.InterpolateCurveDist(dist);
     }
 
-    public void SetSelectedMods(List<string> mods)
+    /// <summary>
+    ///  Interpolate the lane position at the t value (between 0 and 1) for the specified lane index and side. 
+    ///  Lane index must be between 0 and lane count for the specified side.
+    /// </summary>
+    /// <param name="t">The interpolation factor/parameter (0 to 1)</param>
+    /// <param name="side">The side for which to interpolate.</param>
+    /// <param name="laneIndex">The index of the lane for which to interpolate.</param>
+    /// <returns>TruckLib.OrientedPoint at this location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">When t is not between 0 and 1, or when laneIndex is not valid for the specified side.</exception>
+    public TruckLib.OrientedPoint InterpolateLane(float t, Side side, int laneIndex)
     {
-        string modsPath = GetModsPath();
-        _selectedMods = mods.Select(m => new Mod
-        {
-            Path = System.IO.Path.Combine(modsPath, m + ".scs"),
-            Load = true,
-            Priority = GetPriority(m.ToLower()),
-        }).ToList();
+        if (t < 0 || t > 1) throw new ArgumentOutOfRangeException(nameof(t), "t must be between 0 and 1");
+        if (side == Side.Left && (laneIndex < 0 || laneIndex >= LeftLaneOffsetsEnd.Length)) 
+            throw new ArgumentOutOfRangeException(nameof(laneIndex), $"laneIndex must be between 0 and {LeftLaneOffsetsEnd.Length - 1} for left side");
+        if (side == Side.Right && (laneIndex < 0 || laneIndex >= RightLaneOffsetsEnd.Length)) 
+            throw new ArgumentOutOfRangeException(nameof(laneIndex), $"laneIndex must be between 0 and {RightLaneOffsetsEnd.Length - 1} for right side");
 
-        _selectedMods = _selectedMods
-            .OrderBy(m => m.Priority)
-            .ToList();
+        float offset = side == Side.Left ? LeftLaneOffsetsEnd[laneIndex] : RightLaneOffsetsEnd[laneIndex];
+        float lastOffset = side == Side.Left ? (LeftLaneOffsetsStart != null ? LeftLaneOffsetsStart[laneIndex] : offset) 
+                                             : (RightLaneOffsetsStart != null ? RightLaneOffsetsStart[laneIndex] : offset);
+
+        if (offset != lastOffset)
+            offset = RoadUtils.Lerp(lastOffset, offset, t);
         
-        Logger.Info($"Selected {_selectedMods.Count} mods for installation at '{Path}'");
+        TruckLib.OrientedPoint point = Road.InterpolateCurve(t);
+        Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Rotation));
+        point.Position = point.Position + normal * offset;
+
+        return point;
     }
 
-    private void GetSCSFilesInRootDirectory(List<string> scsFiles)
+    /// <summary>
+    ///  Interpolate the lane position at the t value (between 0 and 1) for the specified lane index. 
+    ///  Lane index must be between 0 and total lane count.
+    /// </summary>
+    /// <param name="t">The interpolation factor/parameter (0 to 1)</param>
+    /// <param name="laneIndex">The index of the lane for which to interpolate.</param>
+    /// <returns>TruckLib.OrientedPoint at this location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">When t is not between 0 and 1, or when laneIndex is not valid for the specified side.</exception>
+    public TruckLib.OrientedPoint InterpolateLane(float t, int laneIndex)
     {
-        foreach (string file in Directory.GetFiles(Path, "*.scs"))
-        {
-            if (FileExclusions.Contains(System.IO.Path.GetFileName(file)))
-                continue;
-            scsFiles.Add(file);
-        }
-    }
-
-    private string GetMapFilepath()
-    {
-        var maps = _assetLoader?.GetFiles("/map/") ?? new List<string>();
-        if (Type == GameType.EuroTruckSimulator2)
-        {
-            // Discover modded maps. For example with EAA
-            // - /map/europe.external.sii
-            // - /map/europe.mbd
-            // - /map/mapaeaa.climate.sii
-            // - /map/mapaeaa.mbd
-            maps.Remove("/map/europe.mbd");
-            foreach (var map in maps)
-            {
-                if (map.EndsWith(".mbd"))
-                    return map;
-            }
-
-            return "/map/europe.mbd";
-        }
+        int leftLaneCount = LeftLaneOffsetsEnd.Length;
+        if (laneIndex < 0 || laneIndex >= leftLaneCount + RightLaneOffsetsEnd.Length) 
+            throw new ArgumentOutOfRangeException(nameof(laneIndex), $"laneIndex must be between 0 and {leftLaneCount + RightLaneOffsetsEnd.Length - 1}");
+        
+        if (laneIndex < leftLaneCount)
+            return InterpolateLane(t, Side.Left, laneIndex);
         else
-        {
-            maps.Remove("/map/usa.mbd");
-            foreach (var map in maps)
-            {
-                if (map.EndsWith(".mbd"))
-                    return map;
-            }
-
-            return "/map/usa.mbd";
-        }
+            return InterpolateLane(t, Side.Right, laneIndex - leftLaneCount);
     }
 
-    public IFileSystem? GetFileSystem()
+    /// <summary>
+    ///  Interpolate the lane position at the distance along the road for the specified lane index and side. 
+    ///  Distance must be between 0 and road length.
+    /// </summary>
+    /// <param name="dist">The distance along the road (0 to road length)</param>
+    /// <param name="side">The side of the road (left or right)</param>
+    /// <param name="laneIndex">The index of the lane for which to interpolate.</param>
+    /// <returns>TruckLib.OrientedPoint at this location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">When dist is not between 0 and road length.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">When laneIndex is not valid for the specified side.</exception>
+    public TruckLib.OrientedPoint? InterpolateLaneDist(float dist, Side side, int laneIndex)
     {
-        return _assetLoader;
-    }
+        if (dist < 0 || dist > Road.Length) throw new ArgumentOutOfRangeException(nameof(dist), "dist must be between 0 and road length");
+        if (side == Side.Left && (laneIndex < 0 || laneIndex >= LeftLaneOffsetsEnd.Length)) 
+            throw new ArgumentOutOfRangeException(nameof(laneIndex), $"laneIndex must be between 0 and {LeftLaneOffsetsEnd.Length - 1} for left side");
+        if (side == Side.Right && (laneIndex < 0 || laneIndex >= RightLaneOffsetsEnd.Length)) 
+            throw new ArgumentOutOfRangeException(nameof(laneIndex), $"laneIndex must be between 0 and {RightLaneOffsetsEnd.Length - 1} for right side");
 
-    private bool? UnpackMod(string modPath, List<IFileSystem> additionalReaders)
-    {
-        try {
-            var fs = ZipReader.Open(modPath) as IFileSystem;
-            if (fs == null)
-                return false;
-            
-            additionalReaders.Add(fs);
-            return true;
-        }
-        catch (InvalidDataException){
-            var fs = HashFsReader.Open(modPath) as IFileSystem;
-            if (fs == null)
-                return false;
-            
-            additionalReaders.Add(fs);
-            return true;
-        }
-    }
+        float offset = side == Side.Left ? LeftLaneOffsetsEnd[laneIndex] : RightLaneOffsetsEnd[laneIndex];
+        float lastOffset = side == Side.Left ? (LeftLaneOffsetsStart != null ? LeftLaneOffsetsStart[laneIndex] : offset) 
+                                             : (RightLaneOffsetsStart != null ? RightLaneOffsetsStart[laneIndex] : offset);
 
-    public MapData? GetMapData()
-    {
-        if (_map == null)
-        {
-            List<string> scsFiles = new List<string>();
-            List<string> modFiles = new List<string>();
-            GetSCSFilesInRootDirectory(scsFiles);
-            foreach (Mod mod in _selectedMods ?? new List<Mod>())
-            {
-                if (mod.Load && File.Exists(mod.Path))
-                {
-                    modFiles.Add(mod.Path);
-                }
-            }
-
-            List<IFileSystem> hashFsReaders = scsFiles
-                .Select(file => HashFsReader.Open(file) as IFileSystem)
-                .ToList();
-
-            int modCount = modFiles.Count;
-            List<Task> tasks = new List<Task>();
-            foreach (string modFile in modFiles)
-            {
-                Logger.Info($"Adding mod: {modFile}");
-                tasks.Add(Task.Run(() => UnpackMod(modFile, hashFsReaders)));
-            }
-
-            while (!Task.WhenAll(tasks).IsCompleted)
-            {
-                int completed = tasks.Count(t => t.IsCompleted);
-                _notificationHandler?.SendNotification(new Notification
-                {
-                    Id = "ETS2LA.Game.Parsing",
-                    Title = "Unpacking Mods",
-                    Content = $"This might take a while... ({completed}/{modCount})",
-                    IsProgressIndeterminate = false,
-                    Progress = (completed / (float)modCount) * 100f,
-                    CloseAfter = 0
-                });
-                Thread.Sleep(500);
-            }
-
-            hashFsReaders.Reverse();
-            _assetLoader = new AssetLoader(hashFsReaders.ToArray());
-            _map = new MapData();
-            _map.SetNotificationHandler(_notificationHandler);
-            var filepath = GetMapFilepath();
-            Logger.Info($"Loading map data from '{filepath}'");
-            try
-            {
-                _map.Read(filepath, _assetLoader);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Error loading map data from '{filepath}': {ex.Message}");
-                _notificationHandler?.SendNotification(new Notification
-                {
-                    Id = "ETS2LA.Game.ErrorParsing",
-                    Title = "Error Loading Map Data",
-                    Content = $"An error occurred while loading map data: {ex.Message}",
-                    IsProgressIndeterminate = false,
-                    Level = Huskui.Avalonia.Models.GrowlLevel.Danger,
-                    CloseAfter = 10
-                });
-                _map = null;
-            }
-        }
-        return _map;
-    }
-
-    public void Parse()
-    {
-        if (IsParsed)
-        {
-            Logger.Warn($"Installation at '{Path}' has already been parsed.");
-            return;
-        }
-
-        IsParsing = true;
-        OnParsingStarted?.Invoke();
-        Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
-        _notificationHandler?.SendNotification(new Notification
-        {
-            Id = "ETS2LA.Game.Parsing",
-            Title = "Parsing Map Data",
-            Content = "Initializing...",
-            IsProgressIndeterminate = true,
-            CloseAfter = 0
-        });
+        if (offset != lastOffset)
+            offset = RoadUtils.Lerp(lastOffset, offset, dist / Road.Length);
         
-        GetMapData();
-        if (_map == null || _assetLoader == null)
-        {
-            Logger.Error($"Failed to load map for installation at '{Path}'");
-            IsParsing = false;
-            OnDataNotParsed?.Invoke();
-            _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
-            return;
-        }
+        TruckLib.OrientedPoint? point = Road.InterpolateCurveDist(dist);
+        if (point == null) return null;
+        TruckLib.OrientedPoint p = point.Value;
 
-        int prefabs = _map.MapItems.Where(x => x.Value is Prefab).ToList().Count;
-        int roads = _map.MapItems.Where(x => x.Value is Road).ToList().Count;
-        int nodes = _map.Nodes.Count;
+        Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Value.Rotation));
+        p.Position = p.Position + normal * offset;
 
-        if (prefabs == 0 && roads == 0 && nodes == 0)
-        {
-            Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
-            IsParsing = false;
-            OnDataNotParsed?.Invoke();
-            _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
-            return;
-        }
+        return p;
+    }
 
-        Logger.Success($"Finished parsing installation at '{Path}'");
-        Logger.Success($"Found {prefabs} prefabs, {roads} roads and {nodes} nodes.");
-
-        // var centers = RoadUtils.CalculateRoadLaneCenters(_map.MapItems.Values.OfType<Road>().First(), _assetLoader);
-        // Logger.Info($"Left lane centers: {string.Join(", ", centers.Left)}");
-        // Logger.Info($"Right lane centers: {string.Join(", ", centers.Right)}");
-
-        IsParsed = true;
-        IsParsing = false;
-        OnDataParsed?.Invoke();
-        _notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
-        _notificationHandler?.SendNotification(new Notification
-        {
-            Id = "ETS2LA.Game.Parsing.Complete",
-            Title = "Map Data Parsed",
-            Content = $"Found {prefabs} prefabs, {roads} roads and {nodes} nodes.",
-            IsProgressIndeterminate = false,
-            CloseAfter = 5
-        });
+    /// <summary>
+    ///  Interpolate the lane position at the distance along the road for the specified lane index. 
+    ///  Distance must be between 0 and road length. Lane index must be between 0 and total lane count.
+    /// </summary>
+    /// <param name="dist">The distance along the road (0 to road length)</param>
+    /// <param name="laneIndex">The index of the lane for which to interpolate.</param>
+    /// <returns>TruckLib.OrientedPoint at this location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">When dist is not between 0 and road length.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">When laneIndex is not valid for the specified side.</exception>
+    public TruckLib.OrientedPoint? InterpolateLaneDist(float dist, int laneIndex)
+    {
+        int leftLaneCount = LeftLaneOffsetsEnd.Length;
+        if (laneIndex < 0 || laneIndex >= leftLaneCount + RightLaneOffsetsEnd.Length) 
+            throw new ArgumentOutOfRangeException(nameof(laneIndex), $"laneIndex must be between 0 and {leftLaneCount + RightLaneOffsetsEnd.Length - 1}");
+        
+        if (laneIndex < leftLaneCount)
+            return InterpolateLaneDist(dist, Side.Left, laneIndex);
+        else
+            return InterpolateLaneDist(dist, Side.Right, laneIndex - leftLaneCount);
     }
 }

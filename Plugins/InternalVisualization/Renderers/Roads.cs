@@ -55,7 +55,8 @@ public class RoadsRenderer : Renderer
             if (road.RoadType.ToString() == "") continue;
             //if (!road.ShowInUiMap) continue;
 
-            float resolution = 5f;
+            ParsedRoad parsedRoad = ParsedRoad(road);
+            float resolution = RoadUtils.GetRoadResolution(road);
             float length = road.Length;
 
             float[] steps = new float[(int)(length / resolution) + 1];
@@ -64,74 +65,14 @@ public class RoadsRenderer : Renderer
                 steps[i] = i * resolution;
             }
 
-            List<OrientedPoint> roadPoints = new List<OrientedPoint>();
-            for (int i = 0; i < steps.Length; i++)
-            {
-                bool isLast = false;
-                if (i == steps.Length - 1) isLast = true;
-
-                OrientedPoint? point = isLast ? road.InterpolateCurve(1) : road.InterpolateCurveDist(steps[i]);
-                if (point == null) continue;
-                
-                roadPoints.Add(point.Value);
-            }
-
-            float[] left, right;
-            if (roadLaneCache.ContainsKey(road.RoadType.ToString()))
-            {
-                (left, right) = roadLaneCache[road.RoadType.ToString()];
-            }
-            else
-            {
-                (left, right) = RoadUtils.CalculateRoadLaneCenters(road);
-                roadLaneCache.Add(road.RoadType.ToString(), (left, right));
-            }
-
-            // We have to take into account the previous road when doing these calculations.
-            // e.g. https://discord.com/channels/1120719484982939790/1120721175337775124/1474091490648133826
-            IMapItem previous = road.BackwardItem;
-            float[] prevLeft, prevRight;
-            if (previous is Road prevRoad)
-            {
-                if (roadLaneCache.ContainsKey(prevRoad.RoadType.ToString()))
-                {
-                    (prevLeft, prevRight) = roadLaneCache[prevRoad.RoadType.ToString()];
-                }
-                else
-                {
-                    (prevLeft, prevRight) = RoadUtils.CalculateRoadLaneCenters(prevRoad);
-                    roadLaneCache.Add(prevRoad.RoadType.ToString(), (prevLeft, prevRight));
-                }
-            }
-            else
-            {
-                prevLeft = [];
-                prevRight = [];
-            }
-
-            if (left.Length == 0 && right.Length == 0)
-            {
-                if (!invalidRoadTypes.Contains(road.RoadType.ToString()))
-                {
-                    invalidRoadTypes.Add(road.RoadType.ToString());
-                    Logger.Warn($"Road type {road.RoadType} has no lane data. It will not be rendered.");
-                }
-                continue;
-            }
-
             Vector2 minScreenPos = new Vector2(float.MaxValue, float.MaxValue);
             Vector2 maxScreenPos = new Vector2(float.MinValue, float.MinValue);
-            for (int laneIndex = 0; laneIndex < left.Length; laneIndex++)
+            for (int laneIndex = 0; laneIndex < parsedRoad.GetLaneCount(Side.Left); laneIndex++)
             {
-                var laneOffset = left[laneIndex];
-                var prevLaneOffset = prevLeft.Length > 0 ? prevLeft[laneIndex] : laneOffset;
-
                 List<Vector3> lanePoints = new List<Vector3>();
-                for (int i = 0; i < roadPoints.Count; i++)
+                for (int i = 0; i < steps.Count(); i++)
                 {
-                    var pointOffset = RoadUtils.Lerp(prevLaneOffset, laneOffset, i / (float)(roadPoints.Count - 1));
-                    Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, roadPoints[i].Rotation));
-                    Vector3 pointOnLane = roadPoints[i].Position + normal * -pointOffset;
+                    var pointOnLane = parsedRoad.InterpolateLane(steps[i], Side.Left, laneIndex).Value.Position;
                     lanePoints.Add(pointOnLane);
                 }
 
@@ -150,14 +91,9 @@ public class RoadsRenderer : Renderer
             for (int laneIndex = 0; laneIndex < right.Length; laneIndex++)
             {
                 List<Vector3> lanePoints = new List<Vector3>();
-                var laneOffset = right[laneIndex];
-                var prevLaneOffset = prevRight.Length > 0 ? prevRight[laneIndex] : laneOffset;
-
-                for (int i = 0; i < roadPoints.Count; i++)
+                for (int i = 0; i < steps.Count(); i++)
                 {
-                    var pointOffset = RoadUtils.Lerp(prevLaneOffset, laneOffset, i / (float)(roadPoints.Count - 1));
-                    Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, roadPoints[i].Rotation));
-                    Vector3 pointOnLane = roadPoints[i].Position + normal * -pointOffset;
+                    var pointOnLane = parsedRoad.InterpolateLane(steps[i], Side.Right, laneIndex).Value.Position;
                     lanePoints.Add(pointOnLane);
                 }
 
