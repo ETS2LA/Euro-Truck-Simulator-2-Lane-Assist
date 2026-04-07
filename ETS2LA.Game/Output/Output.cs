@@ -274,19 +274,23 @@ public class GameOutput
                     WriteFloat(modernAccessor, 0, weightedValue);
                     WriteBool(modernAccessor, 4, weightedValue != 0.0f);
                     WriteDouble(modernAccessor, 5, time);
-                    // WriteFloat(legacyAccessor, legacyShmOffsets[propName], -weightedValue);
+                    WriteFloat(legacyAccessor, legacyShmOffsets[propName], -weightedValue);
                 }
                 else if (propName == "acceleration")
                 {
                     WriteFloat(modernAccessor, 13, weightedValue);
                     WriteBool(modernAccessor, 17, weightedValue != 0.0f);
                     WriteDouble(modernAccessor, 18, time);
-                    // if (weightedValue < 0)
-                    //     WriteFloat(legacyAccessor, legacyShmOffsets["abackward"], -weightedValue);
-                    //     WriteFloat(legacyAccessor, legacyShmOffsets["aforward"], 0);
-                    // else
-                    //     WriteFloat(legacyAccessor, legacyShmOffsets["aforward"], weightedValue);
-                    //     WriteFloat(legacyAccessor, legacyShmOffsets["abackward"], 0);
+                    if (weightedValue < 0)
+                    {
+                        WriteFloat(legacyAccessor, legacyShmOffsets["abackward"], -weightedValue);
+                        WriteFloat(legacyAccessor, legacyShmOffsets["aforward"], 0);
+                    }
+                    else
+                    {
+                        WriteFloat(legacyAccessor, legacyShmOffsets["aforward"], weightedValue);
+                        WriteFloat(legacyAccessor, legacyShmOffsets["abackward"], 0);   
+                    }
                 }
                 else
                 {

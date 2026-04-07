@@ -196,7 +196,11 @@ namespace ETS2LA.Shared
                 interval = 1000.0 / TickRate;
 
                 next += interval;
-                Tick();
+                try { Tick(); } 
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error in plugin {Info.Name} Tick: {ex}");
+                }
                 double remaining = next - sw.Elapsed.TotalMilliseconds;
 
                 // Use Thread.Sleep for the bigger part of the sleep.
@@ -278,6 +282,26 @@ namespace ETS2LA.Shared
         public Vector3 ToVector3()
         {
             return new Vector3((float)X, (float)Y, (float)Z);
+        }
+
+        public static Vector3Double operator -(Vector3Double a, Vector3Double b)
+        {
+            return new Vector3Double(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
+        public static Vector3Double operator +(Vector3Double a, Vector3Double b)
+        {
+            return new Vector3Double(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+        }
+
+        public static Vector3Double operator *(Vector3Double a, double b)
+        {
+            return new Vector3Double(a.X * b, a.Y * b, a.Z * b);
+        }
+
+        public static Vector3Double operator /(Vector3Double a, double b)
+        {
+            return new Vector3Double(a.X / b, a.Y / b, a.Z / b);
         }
     }
 
