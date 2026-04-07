@@ -216,7 +216,7 @@ class Plugin(ETS2LAPlugin):
                 self.max_accel, max(self.comfort_decel, speed_limit_accel)
             )
 
-        if self.speed < self.speedlimit + 5 / 3.6:
+        if self.speed >= self.speedlimit and self.speed < self.speedlimit + 5 / 3.6:
             speed_limit_accel *= 0.75
 
         if self.speed > self.speedlimit + 20 / 3.6:
