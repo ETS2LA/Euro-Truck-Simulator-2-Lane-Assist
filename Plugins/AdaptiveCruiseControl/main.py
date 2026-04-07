@@ -1,29 +1,36 @@
 # Framework
-from ETS2LA.Events import events
-from ETS2LA.Plugin import ETS2LAPlugin, PluginDescription, Author
-from ETS2LA.Utils.translator import _
-import ETS2LA.Handlers.sounds as sounds
-
-# Local imports
-from Plugins.AdaptiveCruiseControl.controls import enable_disable, increment, decrement, increment_distance, decrement_distance
-from Plugins.AdaptiveCruiseControl.speed import get_maximum_speed_for_points
-from Plugins.AdaptiveCruiseControl.settings import SettingsMenu, settings
-
-# ETS2LA imports
-from Plugins.AR.classes import Coordinate, Polygon, Fade, Color, Text, Point, Rectangle
-from Plugins.Map.classes import Position, Prefab
-from Modules.Semaphores.classes import TrafficLight, Gate
-from ETS2LA.Utils.Values.numbers import SmoothedValue
-from ETS2LA.Utils.Values.graphing import PIDGraph
-from Modules.Traffic.classes import Vehicle
+import logging
+import math
+import time
+import traceback
 
 # Python imports
 from collections import deque
 from typing import cast
-import traceback
-import logging
-import math
-import time
+
+import ETS2LA.Handlers.sounds as sounds
+from ETS2LA.Events import events
+from ETS2LA.Plugin import Author, ETS2LAPlugin, PluginDescription
+from ETS2LA.Utils.translator import _
+from ETS2LA.Utils.Values.graphing import PIDGraph
+from ETS2LA.Utils.Values.numbers import SmoothedValue
+from Modules.Semaphores.classes import Gate, TrafficLight
+from Modules.Traffic.classes import Vehicle
+
+# Local imports
+from Plugins.AdaptiveCruiseControl.controls import (
+    decrement,
+    decrement_distance,
+    enable_disable,
+    increment,
+    increment_distance,
+)
+from Plugins.AdaptiveCruiseControl.settings import SettingsMenu, settings
+from Plugins.AdaptiveCruiseControl.speed import get_maximum_speed_for_points
+
+# ETS2LA imports
+from Plugins.AR.classes import Color, Coordinate, Fade, Point, Polygon, Rectangle, Text
+from Plugins.Map.classes import Position, Prefab
 
 
 class ACCVehicle(Vehicle):
@@ -98,9 +105,11 @@ class Plugin(ETS2LAPlugin):
     )
 
     controls = [
-        enable_disable, 
-        increment, decrement, 
-        increment_distance, decrement_distance
+        enable_disable,
+        increment,
+        decrement,
+        increment_distance,
+        decrement_distance,
     ]
 
     pages = [SettingsMenu]
@@ -123,7 +132,7 @@ class Plugin(ETS2LAPlugin):
     holding_up = False
     holding_down = False
     last_change = 0
-    
+
     # Caching of the last vehicle and semaphores since object detection
     # runs at 15 fps while the PID loop does 60.
     last_object_update = 0
@@ -172,12 +181,14 @@ class Plugin(ETS2LAPlugin):
 
     def imports(self):
         global Controller, np, screeninfo, json, cv2, os
-        from Modules.SDKController.main import SCSController as Controller
+        import json
+        import os
+
+        import cv2
         import numpy as np
         import screeninfo
-        import json
-        import cv2
-        import os
+
+        from Modules.SDKController.main import SCSController as Controller
 
     def add_ar_text(self, text):
         self.ar_data.append(
@@ -207,7 +218,7 @@ class Plugin(ETS2LAPlugin):
 
         if self.speed < self.speedlimit + 5 / 3.6:
             speed_limit_accel *= 0.75
-            
+
         if self.speed > self.speedlimit + 20 / 3.6:
             speed_limit_accel *= 3
 
@@ -246,7 +257,7 @@ class Plugin(ETS2LAPlugin):
 
         following_accel += 0.3 * in_front.acceleration
         following_accel = min(self.max_accel, following_accel)
-        
+
         # Now we weight the deceleration based on the vehicle in front speed.
         # at 80kph the weight is 0.3, at 0kph the weight is 1.0, and it scales linearly in between.
         # This is because at higher speeds the braking force is "higher" causing more oscillations
@@ -483,20 +494,28 @@ class Plugin(ETS2LAPlugin):
             self.last_change = 0
             return  # Callback for the lift up event
         self.holding_down = True
-        
+
     @events.on("increment_distance")
     def on_increment_distance(self, event_object, state: bool):
         if not state:
             return  # Callback for the lift up event
         settings.following_distance = min(4, settings.following_distance + 0.25)
-        self.notify(_("Following distance increased to {distance:.1f} seconds").format(distance=settings.following_distance))
-        
+        self.notify(
+            _("Following distance increased to {distance:.1f} seconds").format(
+                distance=settings.following_distance
+            )
+        )
+
     @events.on("decrement_distance")
     def on_decrement_distance(self, event_object, state: bool):
         if not state:
             return  # Callback for the lift up event
         settings.following_distance = max(0.5, settings.following_distance - 0.25)
-        self.notify(_("Following distance decreased to {distance:.1f} seconds").format(distance=settings.following_distance))
+        self.notify(
+            _("Following distance decreased to {distance:.1f} seconds").format(
+                distance=settings.following_distance
+            )
+        )
 
     def get_distance_to_point(self, point1: list, point2: list) -> float:
         if len(point1) == 2 and len(point2) == 2:
@@ -604,23 +623,28 @@ class Plugin(ETS2LAPlugin):
             closest_point_distance = math.inf
             index = 0
             for point in points:
-                distance = self.get_distance_to_point(
-                    [x, y, z], [point[0], point[2], point[1]]
-                )
-                if distance < closest_point_distance:
-                    closest_point_distance = distance
-                else:
-                    # Make an intermediate point
-                    lastPoint = points[index - 1]
-                    intermediatePoint = [
-                        (lastPoint[0] + point[0]) / 2,
-                        (lastPoint[2] + point[1]) / 2,
-                        (lastPoint[1] + point[2]) / 2,
-                    ]
-                    distance = self.get_distance_to_point([x, y, z], intermediatePoint)
+                if len(point) >= 3:
+                    distance = self.get_distance_to_point(
+                        [x, y, z], [point[0], point[2], point[1]]
+                    )
                     if distance < closest_point_distance:
                         closest_point_distance = distance
-                    break
+                    else:
+                        if index > 0:
+                            # Make an intermediate point
+                            lastPoint = points[index - 1]
+                            if len(lastPoint) >= 3:
+                                intermediatePoint = [
+                                    (lastPoint[0] + point[0]) / 2,
+                                    (lastPoint[2] + point[1]) / 2,
+                                    (lastPoint[1] + point[2]) / 2,
+                                ]
+                                distance = self.get_distance_to_point(
+                                    [x, y, z], intermediatePoint
+                                )
+                                if distance < closest_point_distance:
+                                    closest_point_distance = distance
+                        break
                 index += 1
 
             if (
@@ -648,12 +672,14 @@ class Plugin(ETS2LAPlugin):
 
         if closest_vehicle is None:
             return None
-        
+
         front_left, front_right, back_right, back_left = closest_vehicle.get_corners(
-            correction_multiplier=-1 if closest_vehicle.is_trailer and not closest_vehicle.is_tmp else 1
+            correction_multiplier=-1
+            if closest_vehicle.is_trailer and not closest_vehicle.is_tmp
+            else 1
         )
         points = [front_left, front_right, back_right, back_left]
-        
+
         for trailer in closest_vehicle.trailers:
             front_left, front_right, back_right, back_left = trailer.get_corners(
                 correction_multiplier=-1 if not trailer.is_tmp else 1
@@ -662,12 +688,10 @@ class Plugin(ETS2LAPlugin):
 
         closest_distance = 999
         for point in points:
-            dist = self.get_distance_to_point(
-                [truck_x, truck_y], [point.x, point.z]
-            )
+            dist = self.get_distance_to_point([truck_x, truck_y], [point.x, point.z])
             if dist < closest_distance:
                 closest_distance = dist
- 
+
         time_to_vehicle = (
             closest_distance + (closest_vehicle.speed - self.speed)
         ) / self.speed
@@ -790,9 +814,7 @@ class Plugin(ETS2LAPlugin):
 
     def get_traffic_light_from_prefab(self, api_data: dict) -> ACCTrafficLight:
         try:
-            points, traffic_light = self.get_next_prefab_traffic_light(
-                api_data
-            )
+            points, traffic_light = self.get_next_prefab_traffic_light(api_data)
 
             truck_x = self.api_data["truckPlacement"]["coordinateX"]
             truck_z = self.api_data["truckPlacement"]["coordinateZ"]
@@ -835,9 +857,7 @@ class Plugin(ETS2LAPlugin):
                     Polygon(
                         [
                             Coordinate(left_point[0], left_point[1], left_point[2]),
-                            Coordinate(
-                                right_point[0], right_point[1], right_point[2]
-                            ),
+                            Coordinate(right_point[0], right_point[1], right_point[2]),
                             Coordinate(top_right[0], top_right[1], top_right[2]),
                             Coordinate(top_left[0], top_left[1], top_left[2]),
                         ],
@@ -847,7 +867,7 @@ class Plugin(ETS2LAPlugin):
                         fade=Fade(0, 0, 999, 999),
                     )
                 ]
-                
+
                 return traffic_light
 
         except Exception:
@@ -1030,7 +1050,7 @@ class Plugin(ETS2LAPlugin):
 
                 if forward_distance > 0:
                     # Lateral distance (for filtering out gates too far to the side)
-                    lateral_distance = ( 
+                    lateral_distance = (
                         abs(total_distance**2 - forward_distance**2) ** 0.5
                     )
                     if lateral_distance < 11:  # 2 * 4.5m lanes + 2m margin
@@ -1083,7 +1103,7 @@ class Plugin(ETS2LAPlugin):
         return target_speed
 
     def reset(self) -> None:
-        sounds.StopContinuous() 
+        sounds.StopContinuous()
         self.controller.aforward = float(0)
         self.controller.abackward = float(0)
 
@@ -1117,7 +1137,7 @@ class Plugin(ETS2LAPlugin):
             target_accel = override
             target_accel = min(1, max(-1, target_accel))
             self.tags.acceleration = target_accel
-        
+
         # if target_accel < 0 and target_accel > -0.05:
         #     target_accel = 0.0 # coast instead of braking when close to 0
 
@@ -1126,7 +1146,7 @@ class Plugin(ETS2LAPlugin):
             time.sleep(1 / 20)
             self.controller.drive = False
             time.sleep(1 / 20)
-            
+
             if self.controller.using_fallback():
                 self.controller.aforward = 0.0001
                 self.controller.abackward = 0.0001
@@ -1138,12 +1158,12 @@ class Plugin(ETS2LAPlugin):
 
         if target_accel >= 0:
             if (
-                clutch < 0.1 or speed < 10 / 3.6 
+                clutch < 0.1 or speed < 10 / 3.6
             ):  # ignore clutch when low speed (at traffic lights)
                 self.controller.aforward = float(target_accel)
             else:  # disable acceleration if clutch is pressed
                 self.controller.aforward = float(0)
-                
+
             if self.controller.using_fallback():
                 if self.speed > 10 / 3.6 and not self.set_zero:
                     self.controller.abackward = float(0)
@@ -1165,7 +1185,7 @@ class Plugin(ETS2LAPlugin):
         self.add_ar_text("PID Control Debug:")
         current_time = time.time()
         dt = current_time - self.last_time
-        
+
         # Don't apply PID if clutch is pressed. This blocks the integral term building up
         # during gear shifts.
         if self.api_data:
@@ -1236,7 +1256,9 @@ class Plugin(ETS2LAPlugin):
         # Smoothing (dynamic 0 -> 0.5, 50 -> 1)
         dynamic_smoothing_factor = min(max(self.speed * 3.6 / (50), 0.5), 1)
         smoothing = self.output_smoothing_factor * dynamic_smoothing_factor
-        control_output = (1 - smoothing) * self.last_control_output + smoothing * raw_control
+        control_output = (
+            1 - smoothing
+        ) * self.last_control_output + smoothing * raw_control
         control_output = max(min(control_output, 1.0), -1.0)
 
         self.last_accel_error = accel_error
@@ -1307,7 +1329,7 @@ class Plugin(ETS2LAPlugin):
 
         self.acceleration.smooth(total * self.sign)
 
-        if self.last_object_update + 1/15 < time.perf_counter():
+        if self.last_object_update + 1 / 15 < time.perf_counter():
             try:
                 self.vehicle_in_front = self.get_vehicle_in_front(self.api_data)
             except Exception:
@@ -1322,13 +1344,17 @@ class Plugin(ETS2LAPlugin):
 
             if tl_mode == "Legacy":
                 try:
-                    self.traffic_light_in_front = self.get_traffic_light_in_front(self.api_data)
+                    self.traffic_light_in_front = self.get_traffic_light_in_front(
+                        self.api_data
+                    )
                 except Exception:
                     self.traffic_light_in_front = None
 
             else:
                 try:
-                    self.traffic_light_in_front = self.get_traffic_light_from_prefab(self.api_data)
+                    self.traffic_light_in_front = self.get_traffic_light_from_prefab(
+                        self.api_data
+                    )
                 except Exception:
                     self.traffic_light_in_front = None
 
@@ -1343,11 +1369,14 @@ class Plugin(ETS2LAPlugin):
                 for value in stop_in_dict.values():
                     if isinstance(value, (int, float)) and value > 0:
                         self.stop_in = min(self.stop_in, value)
-                        
+
             self.last_object_update = time.perf_counter()
 
         target_acceleration = self.calculate_target_acceleration(
-            self.vehicle_in_front, self.traffic_light_in_front, self.gate_in_front, self.stop_in
+            self.vehicle_in_front,
+            self.traffic_light_in_front,
+            self.gate_in_front,
+            self.stop_in,
         )
         target_throttle = self.apply_pid(target_acceleration)
         self.set_accel_brake(target_throttle)
