@@ -188,9 +188,14 @@ class Renderer(HUDRenderer):
         targets = self.plugin.tags.vehicle_highlights
         target_ids = []
         if targets:
-            for value in targets.values():
-                if value:
-                    target_ids.extend(value)
+            if isinstance(targets, dict):
+                for value in targets.values():
+                    if value:
+                        target_ids.extend(value)
+            elif isinstance(targets, list):
+                target_ids = [t for t in targets if t]
+            else:
+                targets = []
         else:
             targets = []
 

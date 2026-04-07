@@ -692,9 +692,12 @@ class Plugin(ETS2LAPlugin):
             if dist < closest_distance:
                 closest_distance = dist
 
-        time_to_vehicle = (
-            closest_distance + (closest_vehicle.speed - self.speed)
-        ) / self.speed
+        if self.speed > 0:
+            time_to_vehicle = (
+                closest_distance + (closest_vehicle.speed - self.speed)
+            ) / self.speed
+        else:
+            time_to_vehicle = float('inf')
         self.tags.vehicle_highlights = [closest_vehicle.id]
         self.tags.vehicle_in_front_distance = closest_distance
 
