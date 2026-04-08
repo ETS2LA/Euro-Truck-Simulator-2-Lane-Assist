@@ -310,7 +310,7 @@ class Plugin(ETS2LAPlugin):
                 red_light_accel = max(self.emergency_decel, red_light_accel)
 
             if red_light_accel < 0.02 and self.speed < 1:  # 1m/s = 4kph
-                red_light_accel = min(-1, red_light_accel)
+                red_light_accel = max(-1, red_light_accel)
 
             self.add_ar_text(f" - Filtered Decel: {red_light_accel:.2f} m/s²")
             return red_light_accel
@@ -528,6 +528,7 @@ class Plugin(ETS2LAPlugin):
                 + (point1[1] - point2[1]) ** 2
                 + (point1[2] - point2[2]) ** 2
             )
+        return math.inf
 
     def get_distance(self, p1: list, p2: list):
         if len(p1) == 2:
@@ -693,9 +694,11 @@ class Plugin(ETS2LAPlugin):
                 closest_distance = dist
 
         if self.speed > 0:
-            time_to_vehicle = (
-                closest_distance + (closest_vehicle.speed - self.speed)
-            ) / self.speed
+            relative_speed = self.speed - closest_vehicle.speed
+            if relative_speed > 0:
+                time_to_vehicle = closest_distance / relative_speed
+            else:
+                time_to_vehicle = float('inf')
         else:
             time_to_vehicle = float('inf')
         self.tags.vehicle_highlights = [closest_vehicle.id]
