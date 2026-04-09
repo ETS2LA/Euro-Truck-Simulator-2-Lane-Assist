@@ -17,17 +17,21 @@ class PageManager:
     def __init__(self):
         self.get_urls()
 
-    @staticmethod
-    def get_page_names() -> List[str]:
-        """Get list of all page module names without extensions."""
-        files = [
-            f
-            for f in os.listdir(PAGES_PATH)
-            if os.path.isfile(os.path.join(PAGES_PATH, f))
-            and f.endswith(".py")
-            and f != "__init__.py"
-        ]
-        return [f[:-3] for f in files]
+    @classmethod
+    def get_page_names(cls) -> List[str]:
+        """Get list of loadable page module names in the same order as URLs."""
+        files = cls.get_files()
+        names = []
+
+        try:
+            for filename in files:
+                page, _ = cls.load_page_module(filename)
+                if page:
+                    names.append(filename[:-3])
+        finally:
+            ...
+
+        return names
 
     @staticmethod
     def get_page_object(target_url: str) -> Optional[Any]:
@@ -35,6 +39,21 @@ class PageManager:
         for page in page_objects.values():
             if page.url == target_url:
                 return page
+        return None
+
+    @classmethod
+    def get_page_name_for_url(cls, target_url: str) -> Optional[str]:
+        """Find page module name by URL."""
+        files = cls.get_files()
+
+        try:
+            for filename in files:
+                page, _ = cls.load_page_module(filename)
+                if page and page.url == target_url:
+                    return filename[:-3]
+        finally:
+            ...
+
         return None
 
     @staticmethod
@@ -192,6 +211,10 @@ def get_page_names():
 
 def get_page_object(target_url: str):
     return PageManager.get_page_object(target_url)
+
+
+def get_page_name_for_url(target_url: str):
+    return PageManager.get_page_name_for_url(target_url)
 
 
 def page_function_call(page_name: str, function_name: str, *args, **kwargs):

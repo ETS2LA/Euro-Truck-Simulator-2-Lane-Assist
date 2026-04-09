@@ -1,7 +1,7 @@
 from ETS2LA.Handlers.pages import (
     get_page,
     get_urls,
-    get_page_names,
+    get_page_name_for_url,
     page_function_call,
     open_event,
     close_event,
@@ -29,8 +29,9 @@ connected: Dict[websockets.WebSocketServerProtocol, list[str]] = {}
 def send_open_event(url: str):
     page_urls = get_urls()
     if url in page_urls:
-        page_names = get_page_names()
-        name = page_names[page_urls.index(url)]
+        name = get_page_name_for_url(url)
+        if not name:
+            return
         open_event(name)
     else:
         plugins.page_open_event(url)
@@ -41,8 +42,9 @@ def send_open_event(url: str):
 def send_close_event(url: str):
     page_urls = get_urls()
     if url in page_urls:
-        page_names = get_page_names()
-        name = page_names[page_urls.index(url)]
+        name = get_page_name_for_url(url)
+        if not name:
+            return
         close_event(name)
     else:
         plugins.page_close_event(url)
@@ -60,7 +62,6 @@ def render_page(url: str):
 # Handle a function call from the frontend.
 def handle_functions(data: dict):
     page_urls = get_urls()
-    page_names = get_page_names()
 
     url = data.get("url")
     func = data.get("target", "")
@@ -68,7 +69,9 @@ def handle_functions(data: dict):
 
     if url in page_urls:
         try:
-            name = page_names[page_urls.index(url)]
+            name = get_page_name_for_url(url)
+            if not name:
+                return
             if args:
                 page_function_call(name, func.split(".")[-1], *args)
             else:
