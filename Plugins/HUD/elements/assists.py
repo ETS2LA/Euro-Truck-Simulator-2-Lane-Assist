@@ -95,10 +95,14 @@ class Widget(HUDWidget):
         ]
         # Map
         map_color = enabled_color if map else disabled_color
-        lane_offset = 5
+        # Relative offsets for various resolutions
+        # 50/110 = 0.45, 60/110 = 0.54, 20/110 = 0.18, 90/110 = 0.81
+        # BUT offset_x and width are already used.
+        # Original width for this element was 110.
+        rel_lane_offset = 5 / 110 * width
         num_lines = 5
         start_thickness = 2
-        vertical_spacing = 2
+        vertical_spacing = 2 / 50 * height
 
         data += []
 
@@ -114,13 +118,13 @@ class Widget(HUDWidget):
             data.append(
                 Line(
                     Point(
-                        50 + offset_x + lane_offset,
-                        height - 8 + v_offset,
+                        (50 / 110 * width) + offset_x + rel_lane_offset,
+                        height - (8 / 50 * height) + v_offset,
                         anchor=self.plugin.anchor,
                     ),
                     Point(
-                        width - 60 + offset_x + lane_offset,
-                        8 + v_offset,
+                        width - (60 / 110 * width) + offset_x + rel_lane_offset,
+                        (8 / 50 * height) + v_offset,
                         anchor=self.plugin.anchor,
                     ),
                     color=line_color,
@@ -132,13 +136,13 @@ class Widget(HUDWidget):
             data.append(
                 Line(
                     Point(
-                        width - 20 + offset_x + lane_offset,
-                        height - 8 + v_offset,
+                        width - (20 / 110 * width) + offset_x + rel_lane_offset,
+                        height - (8 / 50 * height) + v_offset,
                         anchor=self.plugin.anchor,
                     ),
                     Point(
-                        90 + offset_x + lane_offset,
-                        8 + v_offset,
+                        (90 / 110 * width) + offset_x + rel_lane_offset,
+                        (8 / 50 * height) + v_offset,
                         anchor=self.plugin.anchor,
                     ),
                     color=line_color,
