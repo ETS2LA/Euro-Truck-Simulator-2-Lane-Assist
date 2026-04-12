@@ -169,45 +169,30 @@ is_updating_external_data = False
 def ExternalDataUpdateThread():
     global external_data, external_data_time, data_needs_update, external_data_changed, is_updating_external_data
     is_updating_external_data = True
-    start = time.perf_counter()
-    external_data = {}
+    temp_external_data = {}
     
-    """
-    "prefabs": [prefab.json() for prefab in current_sector_prefabs],
-    "roads": [road.json() for road in current_sector_roads],
-    "models": [model.json() for model in current_sector_models],
-    "signs": [sign.json() for sign in current_sector_signs],
-    "elevations": [elevation.json() for elevation in current_sector_elevations]
-    if send_elevation_data
-    else [],
-    """
-    
-    external_data["prefabs"] = []
+    temp_external_data["prefabs"] = []
     for prefab in current_sector_prefabs:
-        external_data["prefabs"].append(prefab.json())
-        time.sleep(0.001)
+        temp_external_data["prefabs"].append(prefab.json())
     
-    external_data["roads"] = []
+    temp_external_data["roads"] = []
     for road in current_sector_roads:
-        external_data["roads"].append(road.json())
-        time.sleep(0.001)    
+        temp_external_data["roads"].append(road.json())
     
-    external_data["models"] = []
+    temp_external_data["models"] = []
     for model in current_sector_models:
-        external_data["models"].append(model.json())
-        time.sleep(0.001)
+        temp_external_data["models"].append(model.json())
         
-    external_data["signs"] = []
+    temp_external_data["signs"] = []
     for sign in current_sector_signs:
-        external_data["signs"].append(sign.json())
-        time.sleep(0.001)
+        temp_external_data["signs"].append(sign.json())
         
     if send_elevation_data:
-        external_data["elevations"] = []
+        temp_external_data["elevations"] = []
         for elevation in current_sector_elevations:
-            external_data["elevations"].append(elevation.json())
-            time.sleep(0.001)
+            temp_external_data["elevations"].append(elevation.json())
 
+    external_data = temp_external_data
     external_data_changed = True
     external_data_time = time.perf_counter()
     data_needs_update = False
@@ -254,7 +239,6 @@ def UpdateData(api_data):
     plugin.tags.sector_center = (sector_center_x, sector_center_y)
     
     if (current_sector_x, current_sector_y) != last_sector and not is_updating_external_data:
-        start = time.perf_counter()
         last_sector = (current_sector_x, current_sector_y)
         sectors_to_load = map.get_sectors_for_coordinate_and_distance(
             truck_x, truck_z, load_distance

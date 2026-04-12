@@ -272,18 +272,21 @@ def GetSteering():
                     data.truck_z - points[0].z,
                 ]
 
+            norm_centerline = np.linalg.norm(centerline)
+            if norm_centerline == 0:
+                return 0
+
             lateral_offset = np.cross(
                 truck_position_vector, centerline
-            ) / np.linalg.norm(centerline)
+            ) / norm_centerline
             # data.plugin.tags.lateral_offset = lateral_offset
 
             # Calculate the dot product and the norms
             dot_product = np.dot(forward_vector, centerline)
             norm_forward = np.linalg.norm(forward_vector)
-            norm_centerline = np.linalg.norm(centerline)
 
             # Calculate the cosine of the angle
-            cos_angle = dot_product / (norm_forward * norm_centerline)
+            cos_angle = dot_product / (norm_forward * norm_centerline) if norm_forward != 0 else 0
 
             # Clamp the value to the valid range [-1, 1] to avoid numerical inaccuracies
             cos_angle = np.clip(cos_angle, -1.0, 1.0)
@@ -305,7 +308,7 @@ def GetSteering():
             offset_correction = lateral_offset * 5
             offset_correction = offset_correction
             if isLeft:
-                angle += offset_correction * OFFSET_MULTIPLIER
+                angle -= offset_correction * OFFSET_MULTIPLIER
             else:
                 angle += offset_correction * OFFSET_MULTIPLIER
 
@@ -320,9 +323,13 @@ def GetSteering():
             else:
                 vector = [x - data.truck_x, z - data.truck_z]
 
+            norm_forward = np.linalg.norm(forward_vector)
+            norm_vector = np.linalg.norm(vector)
+            if norm_forward == 0 or norm_vector == 0:
+                return 0
+
             angle = np.arccos(
-                np.dot(forward_vector, vector)
-                / (np.linalg.norm(forward_vector) * np.linalg.norm(vector))
+                np.clip(np.dot(forward_vector, vector) / (norm_forward * norm_vector), -1.0, 1.0)
             )
             angle = math.degrees(angle)
 

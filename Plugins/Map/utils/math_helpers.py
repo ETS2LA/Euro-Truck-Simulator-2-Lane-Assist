@@ -96,9 +96,13 @@ def IsInFront(
         point[0] - truck_position[0],
         point[len(point) - 1] - truck_position[len(truck_position) - 1],
     ]
+    norm_f = np.linalg.norm(forward_vector)
+    norm_p = np.linalg.norm(point_forward_vector)
+    if norm_f == 0 or norm_p == 0:
+        return False
+
     angle = math.acos(
-        np.dot(forward_vector, point_forward_vector)
-        / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector))
+        np.clip(np.dot(forward_vector, point_forward_vector) / (norm_f * norm_p), -1.0, 1.0)
     )
     angle = math.degrees(angle)
     return -90 < angle < 90
@@ -130,9 +134,13 @@ def GetMostInDirection(
             point[0] - truck_position[0],
             point[len(point) - 1] - truck_position[len(truck_position) - 1],
         ]
+        norm_f = np.linalg.norm(forward_vector)
+        norm_p = np.linalg.norm(point_forward_vector)
+        if norm_f == 0 or norm_p == 0:
+            continue
+
         angle = math.acos(
-            np.dot(forward_vector, point_forward_vector)
-            / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector))
+            np.clip(np.dot(forward_vector, point_forward_vector) / (norm_f * norm_p), -1.0, 1.0)
         )
         angle = math.degrees(angle)
         if angle < best_angle:

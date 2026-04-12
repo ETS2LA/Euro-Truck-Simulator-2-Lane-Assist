@@ -77,6 +77,8 @@ class Module(ETS2LAModule):
         width_current_text, height_current_text = textsize
         max_count_current_text = 3
         while width_current_text != text_width or height_current_text > max_text_height:
+            if textsize[0] == 0 or textsize[1] == 0:
+                break
             fontscale *= min(text_width / textsize[0], max_text_height / textsize[1])
             textsize, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontscale, 1)
             max_count_current_text -= 1
@@ -88,6 +90,9 @@ class Module(ETS2LAModule):
         return text, fontscale, thickness, textsize[0], textsize[1]
 
     def CalculateSteeringAngle(self):
+        if not self.steeringValues:
+            return self.OFFSET + (self.gameDifference if API is not None else 0)
+
         if not self.IGNORE_SMOOTH:
             weights = np.arange(len(self.steeringValues)) + 1
             average = np.average(
@@ -119,7 +124,7 @@ class Module(ETS2LAModule):
         w = output_img.shape[1]
         h = output_img.shape[0]
 
-        currentDesired = value * (1 / self.MAX_ANGLE)
+        currentDesired = value * (1 / self.MAX_ANGLE) if self.MAX_ANGLE != 0 else 0
         actualSteering = angle
 
         divider = 5
@@ -248,7 +253,7 @@ class Module(ETS2LAModule):
 
         # Remove all values that are older than SMOOTH_TIME
         if self.SMOOTH_TIME > 0:
-            while self.steeringValues[0].IsOlderThan(
+            while self.steeringValues and self.steeringValues[0].IsOlderThan(
                 time.perf_counter() - self.SMOOTH_TIME
             ):
                 self.steeringValues.pop(0)
