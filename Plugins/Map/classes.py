@@ -2742,6 +2742,12 @@ class PrefabNavRoute:
     def generate_points(self, prefab=None) -> list[Position]:
         self.prefab = prefab
 
+        # Short-circuit during Map initialization so we don't do the point
+        # processing below just to discard it — the caching `points` property
+        # only stores non-empty results, so returning [] retries next tick.
+        if isinstance(prefab, Prefab) and (data is None or data.map is None):
+            return []
+
         new_points = []
         for curve in self.curves:
             new_points += curve.points
@@ -2768,8 +2774,6 @@ class PrefabNavRoute:
         self.distance = distance
 
         if isinstance(prefab, Prefab):
-            if data is None or data.map is None:
-                return []  # Map still initializing; empty result triggers retry next tick (self._points stays [])
             start_node = None
             start_distance = math.inf
             end_node = None
