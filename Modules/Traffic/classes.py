@@ -443,8 +443,11 @@ class Vehicle:
     def get_path_for(self, seconds: float) -> Position | None:
         points_per_second = 10
         points = []
+        iterations = int(seconds * points_per_second)
+        if iterations <= 0:
+            return points
         cached_euler = self.rotation.euler()
-        for i in range(0, int(seconds * points_per_second)):
+        for i in range(0, iterations):
             point = self.get_position_in(i / points_per_second, cached_euler=cached_euler)
             if point:
                 points.append(point)
