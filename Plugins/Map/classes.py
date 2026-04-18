@@ -2768,6 +2768,8 @@ class PrefabNavRoute:
         self.distance = distance
 
         if isinstance(prefab, Prefab):
+            if data is None or data.map is None:
+                return []  # Map still initializing; empty result triggers retry next tick (self._points stays [])
             start_node = None
             start_distance = math.inf
             end_node = None
