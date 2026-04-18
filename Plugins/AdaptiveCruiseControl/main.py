@@ -744,13 +744,12 @@ class Plugin(ETS2LAPlugin):
 
                 # Project to the truck's forward vector
                 # (to get the forward distance to the light)
-                truck_vector_normalized = [truck_vector[0], truck_vector[1]]
                 vector_length = math.sqrt(
-                    truck_vector_normalized[0] ** 2 + truck_vector_normalized[1] ** 2
+                    truck_vector[0] ** 2 + truck_vector[1] ** 2
                 )
                 truck_vector_normalized = [
-                    truck_vector_normalized[0] / vector_length,
-                    truck_vector_normalized[1] / vector_length,
+                    truck_vector[0] / vector_length,
+                    truck_vector[1] / vector_length,
                 ]
 
                 forward_distance = (
