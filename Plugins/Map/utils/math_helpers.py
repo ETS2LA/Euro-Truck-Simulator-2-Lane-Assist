@@ -125,6 +125,7 @@ def GetMostInDirection(
     )
     best_index = 0
     best_angle = 180
+    forward_norm = np.linalg.norm(forward_vector)
     for i, point in enumerate(points):
         point_forward_vector = [
             point[0] - truck_position[0],
@@ -132,7 +133,7 @@ def GetMostInDirection(
         ]
         angle = math.acos(
             np.dot(forward_vector, point_forward_vector)
-            / (np.linalg.norm(forward_vector) * np.linalg.norm(point_forward_vector))
+            / (forward_norm * np.linalg.norm(point_forward_vector))
         )
         angle = math.degrees(angle)
         if angle < best_angle:
