@@ -145,25 +145,22 @@ def GetClosestLanesForPrefab(next_item: c.Prefab, end_point: c.Position) -> list
         points = next_item.nav_routes[closest_lane_id].points
         start_node = None
         start_node_distance = math.inf
-        for node in [
-            data.map.get_node_by_uid(node_uid) for node_uid in next_item.node_uids
-        ]:
-            distance = math_helpers.DistanceBetweenPoints(
-                (points[0].x, points[0].z), (node.x, node.y)
-            )
-            if distance < start_node_distance:
-                start_node_distance = distance
-                start_node = node
         end_node = None
         end_node_distance = math.inf
         for node in [
             data.map.get_node_by_uid(node_uid) for node_uid in next_item.node_uids
         ]:
-            distance = math_helpers.DistanceBetweenPoints(
+            start_distance = math_helpers.DistanceBetweenPoints(
+                (points[0].x, points[0].z), (node.x, node.y)
+            )
+            if start_distance < start_node_distance:
+                start_node_distance = start_distance
+                start_node = node
+            end_distance = math_helpers.DistanceBetweenPoints(
                 (points[-1].x, points[-1].z), (node.x, node.y)
             )
-            if distance < end_node_distance:
-                end_node_distance = distance
+            if end_distance < end_node_distance:
+                end_node_distance = end_distance
                 end_node = node
 
         if start_node != end_node:
