@@ -34,7 +34,9 @@ def calculate_curvature(points, x, z):
 
         # Angle change
         dot_product = np.dot(v1, v2)
-        norm_product = np.linalg.norm(v1) * np.linalg.norm(v2)
+        norm_v1 = np.linalg.norm(v1)
+        norm_v2 = np.linalg.norm(v2)
+        norm_product = norm_v1 * norm_v2
         if norm_product == 0:
             continue  # Skip to avoid division by zero
         cos_angle = dot_product / norm_product
@@ -42,7 +44,7 @@ def calculate_curvature(points, x, z):
         delta_theta = np.arccos(cos_angle)
 
         # Arc length (average of the two segment lengths)
-        delta_s = (np.linalg.norm(v1) + np.linalg.norm(v2)) / 2
+        delta_s = (norm_v1 + norm_v2) / 2
 
         # Curvature (1/m)
         if delta_s == 0:
