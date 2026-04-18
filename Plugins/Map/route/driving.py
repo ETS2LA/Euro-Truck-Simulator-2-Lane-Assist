@@ -228,7 +228,6 @@ def GetSteering():
         data.route_points = points
         return 0
 
-    points = points
     speed = max(data.truck_speed * 3.6, 10)  # Convert to kph
     speed = min(speed, 80)
     # Multiplier is 8 at 10kph and 2 at 80kph
