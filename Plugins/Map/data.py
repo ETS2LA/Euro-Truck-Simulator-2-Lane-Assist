@@ -185,28 +185,23 @@ def ExternalDataUpdateThread():
     external_data["prefabs"] = []
     for prefab in current_sector_prefabs:
         external_data["prefabs"].append(prefab.json())
-        time.sleep(0.001)
-    
+
     external_data["roads"] = []
     for road in current_sector_roads:
         external_data["roads"].append(road.json())
-        time.sleep(0.001)    
-    
+
     external_data["models"] = []
     for model in current_sector_models:
         external_data["models"].append(model.json())
-        time.sleep(0.001)
-        
+
     external_data["signs"] = []
     for sign in current_sector_signs:
         external_data["signs"].append(sign.json())
-        time.sleep(0.001)
-        
+
     if send_elevation_data:
         external_data["elevations"] = []
         for elevation in current_sector_elevations:
             external_data["elevations"].append(elevation.json())
-            time.sleep(0.001)
 
     external_data_changed = True
     external_data_time = time.perf_counter()
