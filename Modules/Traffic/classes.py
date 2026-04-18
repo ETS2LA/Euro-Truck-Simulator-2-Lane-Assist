@@ -413,13 +413,13 @@ class Vehicle:
         center_z = (front_left.z + front_right.z + back_right.z + back_left.z) / 4
         return Position(center_x, center_y, center_z)
 
-    def get_position_in(self, seconds: float) -> Position | None:
+    def get_position_in(self, seconds: float, cached_euler: tuple[float, float, float] | None = None) -> Position | None:
         distance = self.speed * seconds
         if distance == 0:
             return Position(self.position.x, self.position.y, self.position.z)
 
         # x and z are the ground plane, don't care about y
-        pitch, yaw, roll = self.rotation.euler()
+        pitch, yaw, roll = cached_euler if cached_euler is not None else self.rotation.euler()
         yaw = math.radians(yaw)
 
         # adjust based on angular velocity, we assume
@@ -443,8 +443,9 @@ class Vehicle:
     def get_path_for(self, seconds: float) -> Position | None:
         points_per_second = 10
         points = []
+        cached_euler = self.rotation.euler()
         for i in range(0, int(seconds * points_per_second)):
-            point = self.get_position_in(i / points_per_second)
+            point = self.get_position_in(i / points_per_second, cached_euler=cached_euler)
             if point:
                 points.append(point)
 
