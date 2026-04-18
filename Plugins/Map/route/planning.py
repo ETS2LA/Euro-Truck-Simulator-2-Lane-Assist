@@ -129,9 +129,10 @@ def GetClosestRouteSection() -> rc.RouteSection:
 def GetClosestLanesForPrefab(next_item: c.Prefab, end_point: c.Position) -> list[int]:
     closest_lane_ids = []
     closest_point_distance = math.inf
+    _dist = math_helpers.DistanceBetweenPoints
     for lane_id, lane in enumerate(next_item.nav_routes):
         for point in lane.points:
-            distance = math_helpers.DistanceBetweenPoints(
+            distance = _dist(
                 (end_point.x, end_point.y, end_point.z), point.tuple()
             )
             if distance == closest_point_distance:
