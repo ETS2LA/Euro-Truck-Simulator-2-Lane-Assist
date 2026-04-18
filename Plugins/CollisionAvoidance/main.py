@@ -54,11 +54,12 @@ class Plugin(ETS2LAPlugin):
         sensitivity = settings.sensitivity
         intersecting_vehicles = []
         impacts = []
+        lookahead_time = float(settings.lookahead_time)
         for vehicle in vehicles:
             if not IsInFront(vehicle.position.tuple(), truck_rotation, truck_position):
                 continue  # only consider vehicles in front of the truck
 
-            path: list[Position] = vehicle.get_path_for(settings.lookahead_time)
+            path: list[Position] = vehicle.get_path_for(lookahead_time)
             if not path:
                 continue
 
