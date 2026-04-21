@@ -135,20 +135,34 @@ public class GameOutput
         if (IsReset)
             return;
         
-        foreach (var field in typeof(ControlVariables).GetFields())
+        if (legacyAccessor != null)
         {
-            if (field.FieldType == typeof(float?))
+            foreach (var field in typeof(ControlVariables).GetFields())
             {
-                WriteFloat(legacyAccessor!, legacyShmOffsets[field.Name], 0);
+                if (field.FieldType == typeof(float?))
+                {
+                    WriteFloat(legacyAccessor!, legacyShmOffsets[field.Name], 0);
+                }
+                else if (field.FieldType == typeof(bool?))
+                {
+                    WriteBool(legacyAccessor!, legacyShmOffsets[field.Name], false);
+                }
             }
-            else if (field.FieldType == typeof(bool?))
-            {
-                WriteBool(legacyAccessor!, legacyShmOffsets[field.Name], false);
-            }
+            legacyAccessor.Flush();
         }
 
-        modernAccessor!.Flush();
-        legacyAccessor!.Flush();
+        if(modernAccessor != null)
+        {
+            WriteFloat(modernAccessor, 0, 0);
+            WriteBool(modernAccessor, 4, false);
+            WriteDouble(modernAccessor, 5, 0);
+            WriteFloat(modernAccessor, 13, 0);
+            WriteBool(modernAccessor, 17, false);
+            WriteDouble(modernAccessor, 18, 0);
+            
+            modernAccessor.Flush();
+        }
+
         IsReset = true;
         Logging.Logger.Debug("Reset outputs to default values.");
     }
@@ -226,7 +240,7 @@ public class GameOutput
             }
 
             // These || need to be added to silence warnings...
-            // If someone knows how to make the compiler understand MemoryAccessAvailable ensures
+            // If someone knows how to make the compiler understand that MemoryAccessAvailable ensures
             // that the accessors are not null, then please tell me.
             if (!MemoryAccessAvailable || legacyAccessor == null || modernAccessor == null)
             {
@@ -268,6 +282,7 @@ public class GameOutput
 
                 float totalWeight = values.Sum(v => v.Item1);
                 float weightedValue = values.Sum(v => v.Item1 * v.Item2) / totalWeight;
+                weightedValue = Math.Clamp(weightedValue, -1f, 1f);
 
                 if(propName == "steering")
                 {
