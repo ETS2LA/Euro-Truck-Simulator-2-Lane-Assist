@@ -352,4 +352,24 @@ public class ParsedRoad
         else
             return InterpolateLaneDist(dist, Side.Right, laneIndex - leftLaneCount);
     }
+
+    public float GetFactorForPoint(Vector3 point)
+    {
+        Vector3 ab = Road.Node.Position - Road.ForwardNode.Position;
+        float lengthSquared = Vector3.Dot(ab, ab);
+        if (lengthSquared == 0) return 0;
+
+        float t = Vector3.Dot(point - Road.ForwardNode.Position, ab) / lengthSquared;
+        return Math.Clamp(t, 0, 1);
+    }
+
+    public float FactorToDistance(float factor)
+    {
+        return factor * Road.Length;
+    }
+
+    public float DistanceToFactor(float distance)
+    {
+        return distance / Road.Length;
+    }
 }

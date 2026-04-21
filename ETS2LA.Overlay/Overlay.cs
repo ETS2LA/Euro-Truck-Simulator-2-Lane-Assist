@@ -217,8 +217,22 @@ public class OverlayHandler
                 continue; 
             }
 
-            RenderWindowContextMenu(window);
-            window.Render();
+            try
+            {
+                RenderWindowContextMenu(window);
+            } catch (Exception ex)
+            {
+                Logger.Error($"Error rendering context menu for window {window.Definition.Title}: {ex}");
+            }
+
+            try
+            {
+                window.Render();
+            } catch (Exception ex)
+            {
+                Logger.Error($"Error rendering window {window.Definition.Title}: {ex}");
+            }
+
             ImGui.End();
         }
     }
