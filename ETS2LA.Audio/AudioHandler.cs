@@ -1,7 +1,21 @@
 using System.Collections.Concurrent;
 using ETS2LA.Logging;
 using ETS2LA.Settings;
-using NAudio.Wave;
+
+using SoundFlow.Abstracts;
+using SoundFlow.Abstracts.Devices;
+using SoundFlow.Backends.MiniAudio;
+using SoundFlow.Components;
+using SoundFlow.Enums;
+using SoundFlow.Interfaces;
+using SoundFlow.Codecs.FFMpeg;
+using SoundFlow.Providers;
+using SoundFlow.Structs;
+
+using System;
+using System.IO;
+using System.Linq;
+using Microsoft.VisualBasic;
 
 namespace ETS2LA.Audio;
 
@@ -17,8 +31,17 @@ public class AudioHandler
     private SettingsHandler _settingsHandler;
     private AudioSettings _settings;
 
+    private MiniAudioEngine engine;
+    private AudioFormat format = AudioFormat.DvdHq;
+    private AudioPlaybackDevice? outputDevice;
+
     private AudioHandler()
     {
+        engine = new MiniAudioEngine();
+        engine.UpdateAudioDevicesInfo();
+        var defaultDevice = engine.PlaybackDevices.FirstOrDefault(d => d.IsDefault);
+        outputDevice = engine.InitializePlaybackDevice(defaultDevice, format);
+
         _settingsHandler = new SettingsHandler();
         _settings = _settingsHandler.Load<AudioSettings>("AudioSettings.json");
         _settingsHandler.RegisterListener<AudioSettings>("AudioSettings.json", OnSettingsChanged);
@@ -116,21 +139,22 @@ public class AudioHandler
     {
         if (token.IsCancellationRequested) return;
         Logger.Info($"Playing sound: {job.Filename}");
-        using(var audioFile = new AudioFileReader(job.Filename))
-        using(var outputDevice = new WaveOutEvent())
+
+        var dataProvider = new AssetDataProvider(engine, format, File.OpenRead(job.Filename));
+        var player = new SoundPlayer(engine, format, dataProvider);
+
+        outputDevice.MasterMixer.AddComponent(player);
+        outputDevice.Start();
+
+        player.Volume = _settings.Volume;
+        player.Play();
+
+        while (!token.IsCancellationRequested && player.State == PlaybackState.Playing)
         {
-            outputDevice.Init(audioFile);
-            outputDevice.Volume = _settings.Volume;
-            outputDevice.Play();
-            while (!token.IsCancellationRequested && outputDevice.PlaybackState == PlaybackState.Playing)
-            {
-                await Task.Delay(100, token);
-            }
-            if (token.IsCancellationRequested)
-            {
-                outputDevice.Stop();
-            }
+            await Task.Delay(100, token);
         }
+
+        outputDevice.Stop();
     }
 
     private void OnSettingsChanged(AudioSettings audioSettings)
