@@ -53,13 +53,13 @@ contributors = [
         "links": [["Github", "https://github.com/OleFranz"]],
     },
     {
-        "name": "DylDev",
+        "name": "DylanBPY",
         "description": _(
-            "Various additions and improvements, Object Detection AI models & development"
+            "Various additions and improvements, lagacy Object Detection AI models & development"
         ),
         "links": [
-            ["Github", "https://github.com/DylDevs"],
-            ["Youtube", "https://www.youtube.com/@DylDev"],
+            ["Github", "https://github.com/DylanBPY"],
+            ["Youtube", "https://www.youtube.com/@DylanBPY"],
         ],
     },
     {
