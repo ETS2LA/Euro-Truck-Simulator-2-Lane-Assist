@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 
 using ETS2LA.Logging;
 using ETS2LA.Game.SiiFiles;
+using System.Formats.Asn1;
 namespace ETS2LA.Game.Utils;
 
 public static class RoadUtils
@@ -15,8 +16,9 @@ public static class RoadUtils
     private static readonly ConcurrentDictionary<string, (float[] Left, float[] Right)> _roadLaneCache = new ConcurrentDictionary<string, (float[] Left, float[] Right)>();
 
     /// <summary>
-    ///  Calculates the lane center positions for a given road. Code from skzk in this <br>
-    ///  gist: https://gist.github.com/sk-zk/8e9a2921f7d0b196773678c475d166ca
+    ///  Calculates the lane center positions for a given road. Code originally from skzk in this gist:<br/>
+    ///  https://gist.github.com/sk-zk/8e9a2921f7d0b196773678c475d166ca <br/>
+    ///  Modified heavily to bring up to date with mod support and things he missed.
     /// </summary>
     /// <param name="road">The road to calculate lane centers for.</param>
     /// <returns>A tuple containing two float arrays: the left lane centers and the right lane centers.</returns>
@@ -39,57 +41,84 @@ public static class RoadUtils
             return ([], []);
         }
 
+        // Some roads seem to have differing lane widths, is there 
+        // any way to detect that?
         const float laneWidth = 4.5f;
         const float halfLaneWidth = laneWidth / 2f;
 
-        if (!roadTmpl.Attributes.TryGetValue("lanes_right", out var rightLanes))
-        {
-            // Rail model without any traffic lanes
-            return ([], []);
-        }
+        var hasRightModel = roadTmpl.Attributes.TryGetValue("lanes_right", out var rightLanes);
         var hasLeftModel = roadTmpl.Attributes.TryGetValue("lanes_left", out var leftLanes);
 
-        // Generate lane center sequence
         var roadCenter = 0f;
-        var totalLanes = (leftLanes != null ? leftLanes.Count : 0) + rightLanes.Count;
-        if (hasLeftModel && totalLanes % 2 == 1)
+        var totalLanes = (hasLeftModel ? leftLanes?.Count : 0) + (hasRightModel ? rightLanes?.Count : 0);
+
+        // Some roads are not even, e.g. the left side of the road has two lanes
+        // while the right has one. In these cases the offset should be moved to
+        // keep it in the "middle" of the road.
+        if (hasRightModel && hasLeftModel && totalLanes % 2 == 1)
         {
-            int offset = leftLanes.Count - rightLanes.Count;
+            int offset = leftLanes?.Count - rightLanes?.Count;
             roadCenter = offset * laneWidth;
         }
 
-        var rightCenters = new float[rightLanes.Count];
-        rightCenters[0] = 0;
+        float[] rightCenters;
+        rightCenters = new float[hasRightModel ? rightLanes.Count : 0];
+        if (hasRightModel)
+        {
+            rightCenters[0] = 0;
 
-        // Unbalanced two-way roads (e.g. 2 lanes on the right, 1 lane on the left) are centered around the middle lane, 
-        // so we need to offset the right lanes accordingly.
-        // Two sided road.
-        if (hasLeftModel)
-            rightCenters[0] = roadCenter + halfLaneWidth;
-        // One-way with only one lane
-        else if (!hasLeftModel && rightLanes.Count == 1)
-            rightCenters[0] = roadCenter + halfLaneWidth;
-        // One-way with an odd number of lanes, so there's a center lane
-        else if (rightLanes.Count % 2 == 1 && !hasLeftModel)
-            rightCenters[0] = roadCenter - halfLaneWidth;
-        // Others, e.g. one-way with an even number of lanes
-        else
-            rightCenters[0] = roadCenter + MathF.Ceiling(rightLanes.Count / 2f) * (-laneWidth) + halfLaneWidth;
+            // In most cases roads have both a right and left side. For this reason ETS2LA keeps the right side
+            // as the "primary side" when calculating offsets. Turns out Project Japan does things differently,
+            // so you'll find some duplicated if statements in the left centers. If there's a unified way to do
+            // this then go ahead and make a PR. Just be sure to provide test samples in cases where the road is
+            // entirely on the left side.
+        
+            // Unbalanced two-way roads (e.g. 2 lanes on the right, 1 lane on the left) are centered around the middle lane, 
+            // so we need to offset the right lanes accordingly.
+            // Two sided road.
+            if (hasLeftModel)
+                rightCenters[0] = roadCenter + halfLaneWidth;
+            // One-way with only one lane
+            else if (!hasLeftModel && rightLanes?.Count == 1)
+                rightCenters[0] = roadCenter + halfLaneWidth;
+            // One-way with an odd number of lanes, so there's a center lane
+            else if (rightLanes?.Count % 2 == 1 && !hasLeftModel)
+                rightCenters[0] = roadCenter - halfLaneWidth;
+            // Others, e.g. one-way with an even number of lanes
+            else
+                rightCenters[0] = roadCenter + MathF.Ceiling(rightLanes?.Count / 2f) * (-laneWidth) + halfLaneWidth;
 
-        for (int i = 1; i < rightLanes.Count; i++)
-            rightCenters[i] = rightCenters[i - 1] + laneWidth;
+            // This applies the offsets to the full side.
+            // Each lane is separated by a full 4.5m.
+            for (int i = 1; i < rightLanes?.Count; i++)
+                rightCenters[i] = rightCenters[i - 1] + laneWidth;
+        }
 
         float[] leftCenters;
+        leftCenters = new float[hasLeftModel ? leftLanes.Count : 0];
         if (hasLeftModel)
         {
-            leftCenters = new float[leftLanes?.Count];
-            leftCenters[0] = roadCenter - halfLaneWidth;
-            for (int i = 1; i < leftLanes?.Count; i++)
-                leftCenters[i] = leftCenters[i - 1] - laneWidth;
-        }
-        else
-        {
-            leftCenters = [];
+            if (hasRightModel)
+            {
+                leftCenters[0] = roadCenter - halfLaneWidth;
+                for (int i = 1; i < leftLanes?.Count; i++)
+                    leftCenters[i] = leftCenters[i - 1] - laneWidth;
+            }
+            else // So far only Project Japan
+            {
+                // One way with one lane
+                if (leftLanes?.Count == 1)
+                    leftCenters[0] = roadCenter - halfLaneWidth;
+                // One way with odd number of lanes
+                else if (leftLanes?.Count % 2 == 1)
+                    leftCenters[0] = roadCenter + halfLaneWidth;
+                // One way with even number of lanes
+                else
+                    leftCenters[0] = roadCenter + MathF.Ceiling(leftLanes?.Count / 2f) * (+laneWidth) - halfLaneWidth;
+
+                for (int i = 1; i < leftLanes?.Count; i++)
+                    leftCenters[i] = leftCenters[i - 1] - laneWidth;
+            }
         }
 
         // Apply road_offset
@@ -97,16 +126,18 @@ public static class RoadUtils
         {
             for (int i = 0; i < rightCenters.Length; i++)
                 rightCenters[i] += roadOffset;
+
             for (int i = 0; i < leftCenters.Length; i++)
                 leftCenters[i] -= roadOffset;
         }
 
         // Apply lane_offsets
-        if (roadTmpl.Attributes.TryGetValue("lane_offsets_right", out var laneOffsetsRight))
+        if (hasRightModel && roadTmpl.Attributes.TryGetValue("lane_offsets_right", out var laneOffsetsRight))
         {
             for (int i = 0; i < rightCenters.Length; i++)
             {
                 // some parsing weirdness, sorry about that
+                // ^ sk-zk
                 if (laneOffsetsRight[i] is Vector2 v)
                     rightCenters[i] += v.X;
                 else if (laneOffsetsRight[i] is ValueTuple<int, int> t)

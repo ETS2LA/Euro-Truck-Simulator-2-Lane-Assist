@@ -2,6 +2,7 @@ using ETS2LA.Telemetry;
 using ETS2LA.Overlay;
 using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
+using ETS2LA.Logging;
 
 using ETS2LA.Game;
 using ETS2LA.Game.SiiFiles;
@@ -122,7 +123,14 @@ namespace InternalVisualization
 
             foreach (var renderer in renderers)
             {
-                renderer.Render(drawList, windowPos, windowSize, _telemetryData!, _mapData!, _roads!, _prefabs!, _nearbyNodes!);
+                try
+                {
+                    renderer.Render(drawList, windowPos, windowSize, _telemetryData!, _mapData!, _roads!, _prefabs!, _nearbyNodes!);
+                } catch(Exception e)
+                {
+                    Logger.Error($"Error rendering {renderer.GetType().Name}: {e}");
+                    ImGui.Text($"Error rendering {renderer.GetType().Name}: {e}");
+                }
             }
         }
         
