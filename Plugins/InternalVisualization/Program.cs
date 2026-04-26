@@ -5,6 +5,7 @@ using ETS2LA.Backend.Events;
 using ETS2LA.Logging;
 
 using ETS2LA.Game;
+using ETS2LA.Game.Data;
 using ETS2LA.Game.SiiFiles;
 using ETS2LA.Game.PpdFiles;
 using TruckLib.ScsMap;

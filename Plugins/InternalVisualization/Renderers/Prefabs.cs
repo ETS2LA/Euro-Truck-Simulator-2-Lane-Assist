@@ -1,4 +1,4 @@
-using ETS2LA.Game;
+using ETS2LA.Game.Data;
 using ETS2LA.Game.PpdFiles;
 using ETS2LA.Shared;
 using ETS2LA.Telemetry;

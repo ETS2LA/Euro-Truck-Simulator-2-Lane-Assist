@@ -1,4 +1,4 @@
-using ETS2LA.Game;
+using ETS2LA.Game.Data;
 using ETS2LA.Logging;
 using ETS2LA.Game.SDK;
 using ETS2LA.Telemetry;

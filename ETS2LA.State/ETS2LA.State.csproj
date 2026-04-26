@@ -11,6 +11,7 @@
     <ProjectReference Include="..\ETS2LA.Controls\ETS2LA.Controls.csproj" />
     <ProjectReference Include="..\ETS2LA.Telemetry\ETS2LA.Telemetry.csproj" />
     <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
+    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj" />
   </ItemGroup>
 
 </Project>

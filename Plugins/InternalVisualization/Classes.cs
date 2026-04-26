@@ -1,4 +1,4 @@
-using ETS2LA.Game;
+using ETS2LA.Game.Data;
 using ETS2LA.Telemetry;
 using TruckLib.ScsMap;
 using Hexa.NET.ImGui;

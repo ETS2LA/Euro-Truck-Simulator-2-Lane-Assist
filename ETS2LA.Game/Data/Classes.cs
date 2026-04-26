@@ -1,31 +1,18 @@
-using ETS2LA.Logging;
 using ETS2LA.Shared;
-using TruckLib.HashFs;
 using TruckLib.ScsMap;
 using TruckLib;
 
-// Copied from https://github.com/sk-zk/Extractor
-using Extractor.Zip;
-using ETS2LA.Game.Data;
-using System.Collections;
 using ETS2LA.Game.Utils;
 using System.Numerics;
 
-namespace ETS2LA.Game;
+namespace ETS2LA.Game.Data;
 
-public enum GameType
-{
-    EuroTruckSimulator2,
-    AmericanTruckSimulator
-}
-
-public class Mod
-{
-    public required string Path { get; set; }
-    public required bool Load { get; set; }
-    public int Priority { get; set; } = 0;
-}
-
+/// <summary>
+///  List of item types ETS2LA should ignore when
+///  reading map data. These item types are ignored
+///  when DataFidelity is High or lower. 
+///  Extreme loads everything.
+/// </summary>
 public enum IgnoredItemTypes
 {
     Terrain = 0x01,
@@ -56,6 +43,10 @@ public enum IgnoredItemTypes
     VisibilityArea = 0x30,
 };
 
+/// <summary>
+///  Contains all map data for the game. This class overrides TruckLib.ScsMap.Map
+///  with ETS2LA specific notification handling and dropping of items.
+/// </summary>
 public class MapData : Map
 {
     INotificationHandler? _notificationHandler = null;
@@ -89,7 +80,7 @@ public class MapData : Map
             // Extreme just keeps everything.
         }
         
-        // Additionally drop terrain data of prefabs and roads;
+        // Additionally we drop terrain data of prefabs and roads as it
         // also saves some memory. Dropping entire prefabs/roads can also be
         // done for items that are "secret" (i.e. not show in the UI map) since
         // they aren't relevant for driving. (in Medium and Low fidelity levels)
@@ -228,7 +219,7 @@ public class ParsedRoad
     /// <param name="t">The interpolation factor/parameter (0 to 1)</param>
     /// <returns>TruckLib.OrientedPoint at this location.</returns>
     /// <exception cref="ArgumentOutOfRangeException">When t is not between 0 and 1.</exception>
-    public TruckLib.OrientedPoint Interpolate(float t)
+    public OrientedPoint Interpolate(float t)
     {
         if (t < 0 || t > 1) throw new ArgumentOutOfRangeException(nameof(t), "t must be between 0 and 1");
         return Road.InterpolateCurve(t);
@@ -240,7 +231,7 @@ public class ParsedRoad
     /// <param name="dist">The distance along the road (0 to road length)</param>
     /// <returns>TruckLib.OrientedPoint at this location.</returns>
     /// <exception cref="ArgumentOutOfRangeException">When dist is not between 0 and road length.</exception>
-    public TruckLib.OrientedPoint? InterpolateDist(float dist)
+    public OrientedPoint? InterpolateDist(float dist)
     {
         if (dist < 0 || dist > Road.Length) throw new ArgumentOutOfRangeException(nameof(dist), "dist must be between 0 and road length");
         return Road.InterpolateCurveDist(dist);
@@ -255,7 +246,7 @@ public class ParsedRoad
     /// <param name="laneIndex">The index of the lane for which to interpolate.</param>
     /// <returns>TruckLib.OrientedPoint at this location.</returns>
     /// <exception cref="ArgumentOutOfRangeException">When t is not between 0 and 1, or when laneIndex is not valid for the specified side.</exception>
-    public TruckLib.OrientedPoint InterpolateLane(float t, Side side, int laneIndex)
+    public OrientedPoint InterpolateLane(float t, Side side, int laneIndex)
     {
         if (t < 0 || t > 1) throw new ArgumentOutOfRangeException(nameof(t), "t must be between 0 and 1");
         if (side == Side.Left && (laneIndex < 0 || laneIndex >= LeftLaneOffsetsEnd.Length)) 
@@ -270,7 +261,7 @@ public class ParsedRoad
         if (offset != lastOffset)
             offset = RoadUtils.Lerp(lastOffset, offset, t);
         
-        TruckLib.OrientedPoint point = Road.InterpolateCurve(t);
+        OrientedPoint point = Road.InterpolateCurve(t);
         Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Rotation));
         point.Position = point.Position + normal * -offset;
 
@@ -285,7 +276,7 @@ public class ParsedRoad
     /// <param name="laneIndex">The index of the lane for which to interpolate.</param>
     /// <returns>TruckLib.OrientedPoint at this location.</returns>
     /// <exception cref="ArgumentOutOfRangeException">When t is not between 0 and 1, or when laneIndex is not valid for the specified side.</exception>
-    public TruckLib.OrientedPoint InterpolateLane(float t, int laneIndex)
+    public OrientedPoint InterpolateLane(float t, int laneIndex)
     {
         int leftLaneCount = LeftLaneOffsetsEnd.Length;
         if (laneIndex < 0 || laneIndex >= leftLaneCount + RightLaneOffsetsEnd.Length) 
@@ -307,7 +298,7 @@ public class ParsedRoad
     /// <returns>TruckLib.OrientedPoint at this location.</returns>
     /// <exception cref="ArgumentOutOfRangeException">When dist is not between 0 and road length.</exception>
     /// <exception cref="ArgumentOutOfRangeException">When laneIndex is not valid for the specified side.</exception>
-    public TruckLib.OrientedPoint? InterpolateLaneDist(float dist, Side side, int laneIndex)
+    public OrientedPoint? InterpolateLaneDist(float dist, Side side, int laneIndex)
     {
         if (dist < 0 || dist > Road.Length) throw new ArgumentOutOfRangeException(nameof(dist), "dist must be between 0 and road length");
         if (side == Side.Left && (laneIndex < 0 || laneIndex >= LeftLaneOffsetsEnd.Length)) 
@@ -322,9 +313,9 @@ public class ParsedRoad
         if (offset != lastOffset)
             offset = RoadUtils.Lerp(lastOffset, offset, dist / Road.Length);
         
-        TruckLib.OrientedPoint? point = Road.InterpolateCurveDist(dist);
+        OrientedPoint? point = Road.InterpolateCurveDist(dist);
         if (point == null) return null;
-        TruckLib.OrientedPoint p = point.Value;
+        OrientedPoint p = point.Value;
 
         Vector3 normal = Vector3.Normalize(Vector3.Transform(Vector3.UnitX, point.Value.Rotation));
         p.Position = p.Position + normal * -offset;
@@ -341,7 +332,7 @@ public class ParsedRoad
     /// <returns>TruckLib.OrientedPoint at this location.</returns>
     /// <exception cref="ArgumentOutOfRangeException">When dist is not between 0 and road length.</exception>
     /// <exception cref="ArgumentOutOfRangeException">When laneIndex is not valid for the specified side.</exception>
-    public TruckLib.OrientedPoint? InterpolateLaneDist(float dist, int laneIndex)
+    public OrientedPoint? InterpolateLaneDist(float dist, int laneIndex)
     {
         int leftLaneCount = LeftLaneOffsetsEnd.Length;
         if (laneIndex < 0 || laneIndex >= leftLaneCount + RightLaneOffsetsEnd.Length) 
@@ -353,6 +344,13 @@ public class ParsedRoad
             return InterpolateLaneDist(dist, Side.Right, laneIndex - leftLaneCount);
     }
 
+    /// <summary>
+    ///  This method calculates the factor for a given point on the road.
+    ///  Used when you need the equivalent location on a road, for whatever
+    ///  starting point.
+    /// </summary>
+    /// <param name="point">Point to project onto the road.</param>
+    /// <returns>Factor from 0-1 along the road.</returns>
     public float GetFactorForPoint(Vector3 point)
     {
         Vector3 ab = Road.Node.Position - Road.ForwardNode.Position;
@@ -363,11 +361,24 @@ public class ParsedRoad
         return Math.Clamp(t, 0, 1);
     }
 
+    /// <summary>
+    ///  Converts a factor to a distance along the road.
+    ///  Note that this always goes from Start - End, meaning
+    ///  the distance and factor can *decrease* as you drive along
+    ///  the road.
+    /// </summary>
+    /// <param name="factor">Input factor.</param>
+    /// <returns>Distance in meters along the road.</returns>
     public float FactorToDistance(float factor)
     {
         return factor * Road.Length;
     }
 
+    /// <summary>
+    ///  Converts a distance along the road to a factor.
+    /// </summary>
+    /// <param name="distance">Input distance in meters.</param>
+    /// <returns>Factor from 0-1 along the road.</returns>
     public float DistanceToFactor(float distance)
     {
         return distance / Road.Length;
