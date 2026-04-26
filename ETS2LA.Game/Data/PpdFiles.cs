@@ -82,7 +82,7 @@ public class PpdFileHandler
         }
         catch (Exception ex)
         {
-            Logger.Error($"Failed to load PPD file at {path}: {ex.Message}");
+            Logger.Error($"Failed to load PPD file at {path}: {ex}");
             return null;
         }
     }
