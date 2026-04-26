@@ -125,9 +125,12 @@ public class OverlayHandler
             ImGuiImplOpenGL3.NewFrame();
             ImGuiImplGLFW.NewFrame();
             ImGui.NewFrame();
-            
-            OnUIRender();
-            
+
+            try { OnUIRender(); }
+            catch (Exception ex) {
+                Logger.Error($"Error rendering overlay: {ex}");
+            }
+
             ImGui.Render();
             GLFW.MakeContextCurrent(_window);
 

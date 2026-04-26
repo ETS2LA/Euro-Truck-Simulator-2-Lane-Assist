@@ -11,14 +11,14 @@ namespace ETS2LA.Game.SDK;
 public class TrafficTrailer
 {
     public Vector3 position = Vector3.Zero;
-    public ETS2LA.Shared.Quaternion rotation = ETS2LA.Shared.Quaternion.Identity;
+    public System.Numerics.Quaternion rotation = System.Numerics.Quaternion.Identity;
     public Vector3 size = Vector3.Zero;
 }
 
 public class TrafficVehicle
 {
     public Vector3 position = Vector3.Zero;
-    public ETS2LA.Shared.Quaternion rotation = ETS2LA.Shared.Quaternion.Identity;
+    public System.Numerics.Quaternion rotation = System.Numerics.Quaternion.Identity;
     /// <summary>
     ///  Size, X = Width, Y = Height, Z = Length. Note that the length is not always accurate, especially for trailers.
     /// </summary>
@@ -145,7 +145,7 @@ public class TrafficProvider
             ); offset += 12;
 
             // 12
-            vehicle.rotation = new Shared.Quaternion(
+            vehicle.rotation = new System.Numerics.Quaternion(
                 _reader.ReadFloat(offset),
                 _reader.ReadFloat(offset + 4),
                 _reader.ReadFloat(offset + 8),
@@ -185,7 +185,7 @@ public class TrafficProvider
                 ); offset += 12;
 
                 // 12
-                trailer.rotation = new Shared.Quaternion(
+                trailer.rotation = new System.Numerics.Quaternion(
                     _reader.ReadFloat(offset),
                     _reader.ReadFloat(offset + 4),
                     _reader.ReadFloat(offset + 8),

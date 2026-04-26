@@ -37,7 +37,7 @@ public class Semaphore
     public Vector3 position = Vector3.Zero;
     public float cx;
     public float cy;
-    public ETS2LA.Shared.Quaternion rotation = ETS2LA.Shared.Quaternion.Identity;
+    public Quaternion rotation = Quaternion.Identity;
     public SemaphoreType type;
     public float time_remaining;
     public int state;
@@ -153,7 +153,7 @@ public class SemaphoreProvider
             semaphore.cx = _reader.ReadShort(offset); offset += 2;
             semaphore.cy = _reader.ReadShort(offset); offset += 2;
 
-            semaphore.rotation = new ETS2LA.Shared.Quaternion(
+            semaphore.rotation = new Quaternion(
                 _reader.ReadFloat(offset),
                 _reader.ReadFloat(offset + 4),
                 _reader.ReadFloat(offset + 8),

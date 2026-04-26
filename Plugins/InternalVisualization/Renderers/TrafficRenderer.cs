@@ -61,8 +61,8 @@ public class TrafficRenderer : Renderer
             Vector3 center = vehicle.position;
             Vector2 screenPos = Utils.WorldToScreen(center, telemetryData.truckPlacement.coordinate.ToVector3(), windowSize) + windowPos;
 
-            ETS2LA.Shared.Quaternion rotation = vehicle.rotation;
-            float angle = new Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W).ToEulerDeg().Y + 90f;
+            Quaternion rotation = vehicle.rotation;
+            float angle = rotation.ToEulerDeg().Y + 90f;
 
             float width = vehicle.size.X;
             float length = vehicle.size.Z;
@@ -100,8 +100,8 @@ public class TrafficRenderer : Renderer
                 Vector3 trailerCenter = trailer.position;
                 Vector2 trailerScreenPos = Utils.WorldToScreen(trailerCenter, telemetryData.truckPlacement.coordinate.ToVector3(), windowSize) + windowPos;
 
-                ETS2LA.Shared.Quaternion trailerRotation = trailer.rotation;
-                float trailerAngle = new System.Numerics.Quaternion(trailerRotation.X, trailerRotation.Y, trailerRotation.Z, trailerRotation.W).ToEulerDeg().Y + 90f;
+                Quaternion trailerRotation = trailer.rotation;
+                float trailerAngle = trailerRotation.ToEulerDeg().Y + 90f;
 
                 float trailerWidth = trailer.size.X;
                 float trailerLength = trailer.size.Z;

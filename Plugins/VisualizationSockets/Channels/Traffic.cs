@@ -6,6 +6,7 @@ using ETS2LA.Backend.Events;
 using System.Net.WebSockets;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using TruckLib;
 
 namespace VisualizationSockets.Channels;
 
@@ -73,9 +74,9 @@ public class TrafficChannel : IWebsocketChannel
                         y = v.rotation.Y,
                         z = v.rotation.Z,
                         w = v.rotation.W,
-                        yaw = v.rotation.ToEuler().Y,
-                        pitch = v.rotation.ToEuler().X,
-                        roll = v.rotation.ToEuler().Z,
+                        yaw = v.rotation.ToEulerDeg().Y,
+                        pitch = v.rotation.ToEulerDeg().X,
+                        roll = v.rotation.ToEulerDeg().Z,
                     },
                     size = new
                     {
@@ -101,9 +102,9 @@ public class TrafficChannel : IWebsocketChannel
                             y = t.rotation.Y,
                             z = t.rotation.Z,
                             w = t.rotation.W,
-                            yaw = t.rotation.Yaw(),
-                            pitch = t.rotation.Pitch(),
-                            roll = t.rotation.Roll(),
+                            yaw = t.rotation.ToEulerDeg().Y,
+                            pitch = t.rotation.ToEulerDeg().X,
+                            roll = t.rotation.ToEulerDeg().Z,
                         },
                         size = new
                         {

@@ -22,7 +22,7 @@ public class CameraData
     public Vector3 position = Vector3.Zero;
     public Int16 cx;
     public Int16 cy;
-    public ETS2LA.Shared.Quaternion rotation = ETS2LA.Shared.Quaternion.Identity;
+    public Quaternion rotation = Quaternion.Identity;
     public Matrix4x4 projection;
 }
 
@@ -125,7 +125,7 @@ public class CameraProvider
         ); offset += 12;
         _currentData.cx = _reader.ReadInt16(offset); offset += 2;
         _currentData.cy = _reader.ReadInt16(offset); offset += 2;
-        _currentData.rotation = new ETS2LA.Shared.Quaternion(
+        _currentData.rotation = new Quaternion(
             _reader.ReadFloat(offset),
             _reader.ReadFloat(offset + 4),
             _reader.ReadFloat(offset + 8),
