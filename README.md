@@ -13,7 +13,7 @@ You can build the project by pressing `F1` and then typing in `.NET: Build`. Cod
 To run ETS2LA the easiest is to open any `.cs` file in `ETS2LA.UI` and press the run arrow `>` in the top right hand corner. You can also create your own macros in your IDE of choice to build and run the project on a keypress.
 
 ## Contributing
-Whatever you contribute please first **fork** the repository and make your changes in your own seperate branch. Once you're done you can open a PR and we'll review it as soon as possible. The rewrite is still in a very early stage so any improvements and contributions are very much welcome!
+Please read CONTRIBUTING.md for guidelines. We welcome all contributions, but please make sure to follow our guidelines to ensure a smooth review process. If you have any questions, feel free to ask in our Discord server. (https://ets2la.com/discord)
 
 ## Plugin Development
 > The 3rd party plugin framework is not yet implemented. You can still develop plugins as their APIs will be identical to official plugins, but we have no way to release them other than copying their files to `Plugins/` in the build folder.
