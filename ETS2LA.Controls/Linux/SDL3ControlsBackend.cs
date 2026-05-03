@@ -2,9 +2,16 @@ using ETS2LA.Controls.Defaults;
 using ETS2LA.Logging;
 using ETS2LA.Settings;
 using Hexa.NET.SDL3;
+using SharpHook;
+using SharpHook.Providers;
 
 namespace ETS2LA.Controls.Linux;
 
+/// <summary>
+///  This class handles ETS2LA's user input on Linux.
+///  We use SDL3 for joystick/gamepad input, and SharpHook
+///  for keyboard input.
+/// </summary>
 public class SDL3ControlsBackend : IControlsBackend
 {
     private static readonly Lazy<SDL3ControlsBackend> _instance = new(() => new SDL3ControlsBackend());
@@ -16,6 +23,8 @@ public class SDL3ControlsBackend : IControlsBackend
 
     private readonly Dictionary<int, SDLJoystickPtr> _openJoysticks = new();
     private readonly Dictionary<int, InputDeviceInfo> _deviceInfos = new();
+    private List<KeyboardHookEventArgs> _pendingKeyEvents = new();
+    private EventLoopGlobalHook _keyboardHook;
 
     private readonly object _sync = new();
     private readonly CancellationTokenSource _cts = new();
@@ -53,6 +62,26 @@ public class SDL3ControlsBackend : IControlsBackend
         RegisterControl(DefaultControls.Next);
         RegisterControl(DefaultControls.Increase);
         RegisterControl(DefaultControls.Decrease);
+
+        UioHookProvider.Instance.KeyTypedEnabled = true;
+        _keyboardHook = new EventLoopGlobalHook();
+        _keyboardHook.KeyPressed += (s, e) => {
+            lock (_sync)
+                _pendingKeyEvents.Add(e);
+        };
+        _keyboardHook.KeyReleased += (s, e) => {
+            lock (_sync)
+                _pendingKeyEvents.Add(e);
+        };
+
+        _keyboardHook.RunAsync();
+    }
+
+    private string SharpHookCodeToCharacter(SharpHook.Data.KeyCode keyCode)
+    {
+        // SharpHook adds Vc to the beginning of all key codes, removing
+        // that makes it match with SharpDX on Windows.
+        return keyCode.ToString().Replace("Vc", "");
     }
 
     public void RegisterControl(ControlDefinition definition)
@@ -226,6 +255,8 @@ public class SDL3ControlsBackend : IControlsBackend
             SDL.QuitSubSystem((uint)flags);
         }
 
+        _keyboardHook.Dispose();
+
         Logger.Info("Linux controls backend shutdown complete, all controls saved.");
     }
 
@@ -247,12 +278,6 @@ public class SDL3ControlsBackend : IControlsBackend
             while (SDL.PollEvent(ref ev))
             {
                 var type = ev.Type;
-
-                if (type == (uint)SDLEventType.KeyDown)
-                {
-                    _changingBindings = false;
-                    return ("Keyboard", ev.Key.Scancode.ToString());
-                }
 
                 if (type == (uint)SDLEventType.JoystickButtonDown)
                 {
@@ -324,8 +349,23 @@ public class SDL3ControlsBackend : IControlsBackend
                 }
             }
 
+            lock (_sync)
+            {
+                foreach (var keyEvent in _pendingKeyEvents)
+                {
+                    if (keyEvent.RawEvent.Type == SharpHook.Data.EventType.KeyPressed)
+                    {
+                        _changingBindings = false;
+                        return ("Keyboard", SharpHookCodeToCharacter(keyEvent.Data.KeyCode));
+                    }
+                }
+
+                _pendingKeyEvents.Clear();
+            }
+            
             Thread.Sleep(20);
         }
+
 
         _changingBindings = false;
         return ("", "");
@@ -358,6 +398,25 @@ public class SDL3ControlsBackend : IControlsBackend
                 HandleEvent(ev);
             }
 
+            lock (_sync)
+            {
+                foreach (var keyEvent in _pendingKeyEvents)
+                {
+                    if (keyEvent.RawEvent.Type == SharpHook.Data.EventType.KeyPressed)
+                    {
+                        var controlId = SharpHookCodeToCharacter(keyEvent.Data.KeyCode);
+                        UpdateMatchingControls("Keyboard", controlId, true);
+                    }
+                    else if (keyEvent.RawEvent.Type == SharpHook.Data.EventType.KeyReleased)
+                    {
+                        var controlId = SharpHookCodeToCharacter(keyEvent.Data.KeyCode);
+                        UpdateMatchingControls("Keyboard", controlId, false);
+                    }
+                }
+
+                _pendingKeyEvents.Clear();
+            }
+
             Thread.Sleep(20);
         }
     }
@@ -366,15 +425,6 @@ public class SDL3ControlsBackend : IControlsBackend
     {
         switch (ev.Type)
         {
-            case (uint)SDLEventType.KeyDown:
-            case (uint)SDLEventType.KeyUp:
-            {
-                var controlId = ev.Key.Scancode.ToString();
-                var isPressed = ev.Type == (uint)SDLEventType.KeyDown && ev.Key.Down != 0;
-                UpdateMatchingControls("Keyboard", controlId, isPressed);
-                break;
-            }
-
             case (uint)SDLEventType.JoystickButtonDown:
             case (uint)SDLEventType.JoystickButtonUp:
             {
@@ -453,6 +503,9 @@ public class SDL3ControlsBackend : IControlsBackend
 
             case (uint)SDLEventType.JoystickRemoved:
                 UnregisterJoystick(ev.Jdevice.Which);
+                break;
+
+            default:
                 break;
         }
     }

@@ -14,6 +14,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <TextBlock Text="Click a card to change bindings. Right click on 'Normal Axis' to change it's type." Classes="Description" Margin="14 7 14 7" />
+            <TextBlock x:Name="X11Description" Text="ETS2LA uses X11 inputs. Check your system settings for which keys ETS2LA can access (Legacy X11 App Support)." Classes="Description" Margin="14 7 14 7" IsVisible="False" />
             <ItemsControl x:Name="ControlsList" ItemsSource="{Binding Controls}" ItemsPanel="{StaticResource WrapPanelTemplate}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="views:ControlItem">

@@ -26,6 +26,10 @@ public partial class ControlSettings : UserControl
         UpdateControlsList();
         _cHandler.ControlAdded += OnControlAdded;
         _cHandler.ControlRemoved += OnControlRemoved;
+
+        #if LINUX
+        X11Description.IsVisible = true;
+        #endif
     }
 
     private void OnControlAdded(object? sender, ControlAddedEventArgs e)
