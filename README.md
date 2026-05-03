@@ -303,9 +303,9 @@ Additionally ETS2LA comes with it's own control system through `ApplicationState
 This class also includes helper methods for converting between units. You can find the control scheme these variables follow at https://docs.ets2la.com.
 
 ### Sending notifications
-You can send notifications to the main window using `NotificationHandler.Current` from `ETS2LA.UI.Notifications`. Below is an example of how to use it:
+You can send notifications using `NotificationHandler.Current` from `ETS2LA.Notifications`. Below is an example of how to use it:
 ```csharp
-using ETS2LA.UI.Notifications;
+using ETS2LA.Notifications;
 
 // Static notification
 NotificationHandler.Current.SendNotification(new Notification
@@ -316,8 +316,8 @@ NotificationHandler.Current.SendNotification(new Notification
     CloseAfter = 2.0f, // Defines how long until the notification auto 
                        // closes, 0 = never -> will show a close button
     Level = this.Opacity < 1.0 
-            ? GrowlLevel.Success  // Internally uses Huskui.GrowlItem, so use the 
-            : GrowlLevel.Danger   // GrowlLevel enum, included in ETS2LA.Shared.
+            ? NotificationLevel.Success  // Internally uses Huskui.GrowlItem, so use the 
+            : NotificationLevel.Danger   // NotificationLevel enum, included in ETS2LA.Shared.
 });
 
 // Dynamic notification (call ShowNotification repeatedly to update)
@@ -326,7 +326,7 @@ NotificationHandler.Current.SendNotification(new Notification
     Id = "ExampleConsumer.Speed",
     Title = "Truck Speed",
     Content = $"{speed:F2} km/h",
-    Level = GrowlLevel.Information,
+    Level = NotificationLevel.Information,
     Progress = speed / (100 / 3.6f) * 100f, // Progress is from 0 to 100!
     IsProgressIndeterminate = false, // Used when a process is doing something
                                      // without knowing how long it will take.
@@ -335,6 +335,7 @@ NotificationHandler.Current.SendNotification(new Notification
                    // bar will interfere with anything you set!
 });
 ```
+These notification events can also be consumed from said `NotificationHandler`. This allows you to create custom UI elements that react to notifications. Just don't go overboard, as these events are not invoked in a separate thread, and doing heavy calculations in the callback will cause stutters.
 
 ### Playing Audio
 ETS2LA provides `ETS2LA.Audio` for playing audio. You can use it to play any sound files supported by `NAudio`. Below is an example how to use it:
