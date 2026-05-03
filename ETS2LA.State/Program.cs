@@ -3,7 +3,8 @@ using ETS2LA.Controls.Defaults;
 using ETS2LA.Backend.Events;
 using ETS2LA.Telemetry;
 using ETS2LA.Settings.Global;
-using ETS2LA.Settings;
+using ETS2LA.Game;
+using ETS2LA.UI.Notifications;
 
 namespace ETS2LA.State;
 
@@ -28,10 +29,57 @@ public enum Units
     Scientific
 }
 
+/// <summary>
+///  This state contains the most important ETS2LA variables. Most plugins
+///  will use it to follow the user's preferences and read the game data.
+/// </summary>
 public class ApplicationState
 {
     private static readonly Lazy<ApplicationState> _instance = new(() => new ApplicationState());
     public static ApplicationState Current => _instance.Value;
+
+    public ApplicationState()
+    {
+        // TODO: Move notifications from ETS2LA.UI to ETS2LA.Notifications
+        GameHandler.Current.SetNotificationHandler(NotificationHandler.Current);
+
+        Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, HandleTelemetryUpdate);
+
+        ControlsBackend.Current.On(DefaultControls.SET.Id, HandleSet);
+        ControlsBackend.Current.On(DefaultControls.Increase.Id, HandleIncrease);
+        ControlsBackend.Current.On(DefaultControls.Decrease.Id, HandleDecrease);
+        ControlsBackend.Current.On(DefaultControls.Assist.Id, HandleAssist);
+
+        assistanceSettings = AssistanceSettings.Current;
+    }
+
+    private void HandleTelemetryUpdate(GameTelemetryData data)
+    {
+        latestTelemetryData = data;
+        if (data.sdkActive)
+        {
+            IsGameRunning = true;
+            RunningGameType = data.scsValues.game == "ETS2" ? GameType.EuroTruckSimulator2
+                                                            : GameType.AmericanTruckSimulator;
+            RunningGameVersion = data.scsValues.versionMajor.ToString() + "." 
+                               + data.scsValues.versionMinor.ToString();
+
+            if(parsingTask == null)
+                // This function will run until game data is successfully parsed.
+                // TODO: Handle switching game types!
+                WaitForParseSuccessful();
+        }
+    }
+
+
+
+    // MARK: Self-Driving Related
+    // NOTE: This class is organized by *category* and not variable/function type.
+    //       This makes the most sense to avoid having lots of variables back to back
+    //       far from the relevant functions. It is slightly unconventional though.
+    //       Follow the marks :+1:
+
+
 
     /// <summary>
     ///  Defines the level of steering assistance the user wants.
@@ -75,20 +123,8 @@ public class ApplicationState
     public Units DisplayUnits { get; set; } = Units.Metric;
 
     // Internal value to keep track of the latest telemetry we received.
-    private GameTelemetryData _latestTelemetryData = new();
-    private AssistanceSettings _assistanceSettings;
-
-    public ApplicationState()
-    {
-        Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, UpdateTelemetryData);
-
-        ControlsBackend.Current.On(DefaultControls.SET.Id, HandleSet);
-        ControlsBackend.Current.On(DefaultControls.Increase.Id, HandleIncrease);
-        ControlsBackend.Current.On(DefaultControls.Decrease.Id, HandleDecrease);
-        ControlsBackend.Current.On(DefaultControls.Assist.Id, HandleAssist);
-
-        _assistanceSettings = AssistanceSettings.Current;
-    }
+    private GameTelemetryData latestTelemetryData = new();
+    private AssistanceSettings assistanceSettings;
 
     public float FromScientificUnits(float speedInMps, Units? overrideDisplayUnits = null)
     {
@@ -114,11 +150,6 @@ public class ApplicationState
         };
     }
 
-    private void UpdateTelemetryData(GameTelemetryData data)
-    {
-        _latestTelemetryData = data;
-    }
-
     // The functions below are for handling control events.
     // If determining what they do is hard via code, then take a look at the 
     // example at https://docs.ets2la.com/docs/Rewrite/UserInput#how-to-listen-to-registered-controls
@@ -131,10 +162,10 @@ public class ApplicationState
         if (PauseLongitudinalAssist)
         {
             PauseLongitudinalAssist = false;
-            if (_assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.CurrentSpeed)
-                DesiredSpeed = _latestTelemetryData.truckFloat.speed;
-            else if (_assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.SpeedLimit)
-                DesiredSpeed = _latestTelemetryData.truckFloat.speedLimit;
+            if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.CurrentSpeed)
+                DesiredSpeed = latestTelemetryData.truckFloat.speed;
+            else if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.SpeedLimit)
+                DesiredSpeed = latestTelemetryData.truckFloat.speedLimit;
         }
         else
         {
@@ -152,7 +183,7 @@ public class ApplicationState
         if (PauseLongitudinalAssist)
         {
             PauseLongitudinalAssist = false;
-            DesiredSpeed = _latestTelemetryData.truckFloat.speed;
+            DesiredSpeed = latestTelemetryData.truckFloat.speed;
             return;
         }
 
@@ -178,7 +209,7 @@ public class ApplicationState
         if (PauseLongitudinalAssist)
         {
             PauseLongitudinalAssist = false;
-            DesiredSpeed = _latestTelemetryData.truckFloat.speed;
+            DesiredSpeed = latestTelemetryData.truckFloat.speed;
             return;
         }
 
@@ -212,6 +243,50 @@ public class ApplicationState
             {
                 DesiredSteeringLevel = SteeringAssists.None;
             }
+        }
+    }
+
+
+
+    // MARK: Map Data Related
+
+
+
+    public bool IsGameRunning { get; set; } = false;
+    public GameType? RunningGameType { get; set; }
+    public string? RunningGameVersion { get; set; }
+    private Task parsingTask;
+    public Installation? RunningGame { get; set; }
+
+    private async Task WaitForParseSuccessful()
+    {
+        if(parsingTask != null)
+            return;
+
+        while (true)
+        {
+            foreach(Installation install in GameHandler.Current.Installations)
+            {
+                if (RunningGame != null)
+                    break;
+                
+                if(install.Type == RunningGameType)
+                {
+                    install.Version = RunningGameVersion;
+                    parsingTask = Task.Run(async () =>
+                    {
+                        bool success = install.Parse();
+                        if (success)
+                            RunningGame = install;
+                    });
+                    await parsingTask;
+                }
+            }
+
+            if (RunningGame != null)
+                break;
+
+            await Task.Delay(5000);
         }
     }
 }

@@ -162,7 +162,7 @@ void OnCurMicroseconds(float microseconds)
 ```
 These events run almost instantly accross all plugins. You can send as large of a data as you want, as these events only pass memory addresses around. Just be careful about editing data!
 
-### Accessing Game Data
+### Accessing Game Telemetry
 You can listen to the game telemetry using the `GameTelemetry`'s event. This event will be called at 60Hz with the latest telemetry from the game. Please note that the telemetry might not change every frame, as the game might be running at under 60FPS.
 
 > Please do not do heavy calculations in the callback to avoid slowdowns, ideally you should copy the data to a variable, and use that variable in the `Tick()` function or other threads.
@@ -215,6 +215,21 @@ Current the available ETS2LASDK data structures are:
 - (`ETS2LA.Game.SDK.`)`TrafficProvider` (`TrafficData`)
 - (`ETS2LA.Game.SDK.`)`SemaphoresProvider` (`SemaphoreData`)
 - (`ETS2LA.Game.SDK.`)`NavigationProvider` (`NavigationData`)
+
+### Accessing Game Data
+Game data is accessible through ETS2LA's `ApplicationState`. As long as a game is running and ETS2LA can properly determine where that game is located, you can get the `MapData` instance by calling.
+```csharp
+using ETS2LA.State;
+
+var mapData = ApplicationState.Current.RunningGame.GetMapData();
+if (mapData == null)
+    return;
+
+// Now you can use this instance however you want.
+// NOTE: You only need to run this once, you get a pointer to the instance
+//       instead of a copy of it. That would take too much RAM.
+```
+There's *a lot* of data here, and getting used to how it's formatted is on you. That said you can find examples and documentation in [sk-zk's TruckLib Documentation](https://sk-zk.github.io/trucklib/master/docs/introduction.html). Note that ETS2LA includes several helpers and wrappers on top of TruckLib to make working with this data easier. You should take a look at the source code of `ETS2LA.Game.Data` to see how it all fits together.
 
 ### Sending Controls to the Game
 Much like the telemetry, ETS2LA includes a built in method for sending controls to the game. This is exposed at `ETS2LA.Game.Output` as the `GameOutput` class. This class will handle different methods of sending information to the game, as well as weighing different plugins' outputs together.
@@ -277,15 +292,15 @@ private void OnExampleControlChanged(object sender, ControlChangeEventArgs e)
     float value = (float)e.NewValue; // Remember to cast to your type (return is `object`)
 }
 ```
-Additionally ETS2LA comes with some default controls you can use. These are located in `ControlsBackend.Defaults`. Currently available default controls are:
-- `SET` - Works like the `SET` key in real vehicles. The user can change this behaviour with `ETS2LA.Settings.Global.AssistanceSettings.SetSpeedBehaviourOption`. Acts as the `Ok` button when any dialogs are pending confirmation.
-- `Next` - Cycles to the next element in whatever UI needs it. Additionally acts as the `Cancel` button when any dialogs are pending confirmation.
-- `Assist` - Toggles the lane assist on and off. *Should not* update current speed. That is done using the SET key.
-You can use these controls like normal ones:
-```csharp
-using ETS2LA.Controls;
-ControlsBackend.Current.On(ControlsBackend.Defaults.SET.Id, OnSetControlChanged);
-```
+Additionally ETS2LA comes with it's own control system through `ApplicationState`. You can directly listen to the following variables without ever having to work with this control system:
+- DesiredSteeringLevel - *None, LKAS, Full*
+- PauseSteeringAssist - *Indicates if you should not send steering output*
+- DesiredLongitudinalLevel - *None, AEB, ACC*
+- PauseLongitudinalAssist - *Indicates if you should not send longitudinal output*
+- DesiredSpeed - *The speed the user wants to drive at in SI units* (m/s)
+- DisplayUnits - *The units to use for displaying speed (metric/imperial/scientific)*
+
+This class also includes helper methods for converting between units. You can find the control scheme these variables follow at https://docs.ets2la.com.
 
 ### Sending notifications
 You can send notifications to the main window using `NotificationHandler.Current` from `ETS2LA.UI.Notifications`. Below is an example of how to use it:

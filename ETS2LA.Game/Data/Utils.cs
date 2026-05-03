@@ -1,14 +1,18 @@
 using TruckLib;
 using TruckLib.Sii;
 using TruckLib.ScsMap;
+using TruckLib.HashFs;
 using TruckLib.Models.Ppd;
+
+// Copied from https://github.com/sk-zk/Extractor
+using Extractor.Zip;
 
 using System.Numerics;
 using System.Collections.Concurrent;
 
 using ETS2LA.Logging;
 using ETS2LA.Game.SiiFiles;
-using System.Formats.Asn1;
+
 namespace ETS2LA.Game.Utils;
 
 public static class RoadUtils
@@ -238,5 +242,85 @@ public static class PrefabUtils
             BackwardItem = new Node();
             ForwardItem = new Node();
         }
+    }
+}
+
+public static class DataUtils
+{
+    /// <summary>
+    ///  Unpacks a mod path into a file system representation.
+    ///  Supports both normal, as well as zip based mods.
+    /// </summary>
+    /// <param name="modPath">Path to the mod file.</param>
+    /// <param name="additionalReaders">List to add the file system readers to.</param>
+    /// <returns></returns>
+    public static bool? UnpackMod(string modPath, List<IFileSystem> additionalReaders)
+    {
+        try {
+            var fs = ZipReader.Open(modPath) as IFileSystem;
+            if (fs == null)
+                return false;
+            
+            additionalReaders.Add(fs);
+            return true;
+        }
+        catch (InvalidDataException){
+            var fs = HashFsReader.Open(modPath) as IFileSystem;
+            if (fs == null)
+                return false;
+            
+            additionalReaders.Add(fs);
+            return true;
+        }
+    }
+
+    /// <summary>
+    ///  Returns a list of paths to all mods currently loaded in this installation.
+    /// </summary>
+    /// <param name="logs">List of all log messages.</param>
+    /// <returns>List of paths to all loaded mods.</returns>
+    public static List<string> FindModsFromLogs(List<string> logs)
+    {
+        List<string> foundMods = new List<string>();
+        foreach (var line in logs)
+        {
+            // Example line:
+            // 00:00:12.537 : [fs] device C:/Users/Tumppi066/Documents/Euro Truck Simulator 2/mod/5.projectjapan-158-map.scs mounted.
+            if (line.Contains("mod", StringComparison.OrdinalIgnoreCase) &&
+                line.Contains(".scs mounted.", StringComparison.OrdinalIgnoreCase))
+            {
+                foundMods.Add(line.Split("[fs] device ")[1].Split(" mounted.")[0]);
+            }
+        }
+        return foundMods;
+    }
+
+    /// <summary>
+    ///  Returns true if based on the logs this installation is currently running.
+    /// </summary>
+    /// <param name="logs">List of all log messages.</param>
+    /// <returns>Boolean running state</returns>
+    public static bool IsRunningBasedOnLogs(List<string> logs)
+    {
+        bool isRunning = false;
+        foreach (var line in logs)
+        {
+            try
+            {
+                // Example line:
+                // 00:00:12.537 : game
+                if (line.Split(" : ")[1].Trim().Equals("game", StringComparison.OrdinalIgnoreCase))
+                {
+                    isRunning = true;
+                }
+                // Example line:
+                // 00:00:12.537 : exit
+                if (line.Split(" : ")[1].Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+                {
+                    isRunning = false;
+                }
+            } catch {}
+        }
+        return isRunning;
     }
 }

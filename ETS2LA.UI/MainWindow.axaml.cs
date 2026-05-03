@@ -8,13 +8,9 @@ using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
 using ETS2LA.UI.Settings;
-using ETS2LA.Audio;
 
 using Huskui.Avalonia.Models;
 using Huskui.Avalonia.Controls;
-using ETS2LA.UI.Views.Settings;
-using ETS2LA.Backend.Updates;
-using Velopack;
 
 namespace ETS2LA.UI;
 
@@ -25,7 +21,6 @@ public partial class MainWindow : AppWindow
     {
         Dashboard,
         Visualization,
-        Game,
         Manager,
         Catalogue,
         Performance,
@@ -35,22 +30,17 @@ public partial class MainWindow : AppWindow
         Settings
     }
 
-    private bool IsWindows =>
-        System.Runtime.InteropServices.RuntimeInformation
-            .IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
-
-    private readonly List<Button> _navButtons = new();
-    private readonly PluginManagerService _pluginService;
-    private readonly DashboardView _dashboardView = new();
-    private readonly GameView _gameView;
-    private readonly ManagerView _managerView;
-    private readonly SettingsView _settingsView;
+    private readonly List<Button> navButtons = new();
+    private readonly PluginManagerService pluginService;
+    private readonly DashboardView dashboardView = new();
+    private readonly ManagerView managerView;
+    private readonly SettingsView settingsView;
     public static event EventHandler? WindowOpened;
 
     # if WINDOWS
-    private readonly VisualizationView? _visualizationView;
+    private readonly VisualizationView? visualizationView;
     # else
-    private readonly UserControl? _visualizationView = null;
+    private readonly UserControl? visualizationView = null;
     # endif
     
 
@@ -65,16 +55,15 @@ public partial class MainWindow : AppWindow
         NotificationHandler.Current.SetWindow(this);
 
         # if WINDOWS
-        _visualizationView = new VisualizationView();
+        visualizationView = new VisualizationView();
         # endif
 
-        _pluginService = new PluginManagerService();
-        _managerView = new ManagerView(_pluginService);
-        _settingsView = new SettingsView();
-        _gameView = new GameView();
-        _navButtons.AddRange(new[]
+        pluginService = new PluginManagerService();
+        managerView = new ManagerView(pluginService);
+        settingsView = new SettingsView();
+        navButtons.AddRange(new[]
         {
-            DashboardButton, VisualizationButton, GameButton, ManagerButton, CatalogueButton,
+            DashboardButton, VisualizationButton, ManagerButton, CatalogueButton,
             PerformanceButton, WikiButton, RoadmapButton, FeedbackButton, SettingsButton
         });
 
@@ -150,7 +139,7 @@ public partial class MainWindow : AppWindow
             Content = "Shutting down application & backend...",
             CloseAfter = 20.0f
         });
-        _pluginService.Shutdown();
+        pluginService.Shutdown();
         NotificationHandler.Current.Shutdown();
 
         UISettings settings = UISettingsHandler.Current.GetSettings();
@@ -206,17 +195,16 @@ public partial class MainWindow : AppWindow
     {
         ContentHost.Content = page switch
         {
-            PageKind.Dashboard => _dashboardView,
-            PageKind.Manager => _managerView,
-            PageKind.Visualization => _visualizationView ?? CreatePlaceholder("Sorry", "This page is only available on Windows. You can still use the visualization and map by going to https://visualization.ets2la.com (or https://map.ets2la.com)."),
-            PageKind.Game => _gameView,
+            PageKind.Dashboard => dashboardView,
+            PageKind.Manager => managerView,
+            PageKind.Visualization => visualizationView ?? CreatePlaceholder("Sorry", "This page is only available on Windows. You can still use the visualization and map by going to https://visualization.ets2la.com (or https://map.ets2la.com)."),
             PageKind.Catalogue => CreatePlaceholder("Catalogue", "This page will contain 3rd party plugins. Those aren't supported yet, you can copy them manually to the plugins folder and restart."),
             PageKind.Performance => CreatePlaceholder("Performance", "This page hasn't been implemented yet, you can monitor performance using external tools."),
             PageKind.Wiki => CreatePlaceholder("Wiki", "Please take a look at https://docs.ets2la.com for documentation. This page will link there once we have more content."),
             PageKind.Roadmap => CreatePlaceholder("Roadmap", "Please take a look at our public roadmap on GitHub. Just got to the repository and click on the Projects tab at the top."),
             PageKind.Feedback => CreatePlaceholder("Feedback", "Feedback is limited to users in the ETS2LA Closed Beta program. You can use the Discord channels assigned to that for feedback."),
-            PageKind.Settings => _settingsView,
-            _ => _dashboardView
+            PageKind.Settings => settingsView,
+            _ => dashboardView
         };
     }
 
@@ -241,7 +229,7 @@ public partial class MainWindow : AppWindow
 
     private void SetSelected(Button active)
     {
-        foreach (var button in _navButtons)
+        foreach (var button in navButtons)
         {
             button.Classes.Remove("Selected");
         }
@@ -258,12 +246,6 @@ public partial class MainWindow : AppWindow
     {
         SetSelected(VisualizationButton);
         ShowPage(PageKind.Visualization);
-    }
-
-    private void OnGameClick(object? sender, RoutedEventArgs e)
-    {
-        SetSelected(GameButton);
-        ShowPage(PageKind.Game);
     }
 
     private void OnManagerClick(object? sender, RoutedEventArgs e)

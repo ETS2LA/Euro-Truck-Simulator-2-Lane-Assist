@@ -53,38 +53,42 @@ public class GameHandler
                             ? GameType.EuroTruckSimulator2 
                             : GameType.AmericanTruckSimulator;
 
-            string executablePath = System.IO.Path.Combine(
+            string executablePath = Path.Combine(
                 # if WINDOWS
-                gamePath, "bin", "win_x64", type == GameType.EuroTruckSimulator2 
-                                            ? "eurotrucks2.exe" 
-                                            : "amtrucks.exe"
+                    gamePath, 
+                    "bin", 
+                    "win_x64", 
+                    type == GameType.EuroTruckSimulator2 ? "eurotrucks2.exe" 
+                                                         : "amtrucks.exe"
                 # else
-                gamePath, "bin", "linux_x64", type == GameType.EuroTruckSimulator2 
-                                            ? "eurotrucks2" 
-                                            : "amtrucks"
+                    gamePath, 
+                    "bin", 
+                    "linux_x64", 
+                    type == GameType.EuroTruckSimulator2 ? "eurotrucks2" 
+                                                         : "amtrucks"
                 # endif
             );
-            
-            string version = "Unknown";
-            
-            # if WINDOWS
-            try
-            {
-                var versionInfo = FileVersionInfo.GetVersionInfo(executablePath);
-                version = versionInfo.FileVersion ?? versionInfo.ProductVersion ?? version;
-            }
-            catch (Exception) { }
-            # else
-            version = "1.58.0"; // Assume the latest version. TODO: Get this from telemetry!
-            # endif
+
+            string gameName = type == GameType.EuroTruckSimulator2 ? "Euro Truck Simulator 2" 
+                                                                   : "American Truck Simulator";
+            string documentsPath = Path.Combine(
+                #if WINDOWS
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+                    gameName
+                #else
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    ".local", "share", gameName
+                #endif
+            );
 
             Installations.Add(new Installation
             {
                 Type = type,
                 Path = gamePath,
+                DocumentsPath = documentsPath,
                 ExecutablePath = executablePath,
-                Version = version,
             });
+
             Installation installation = Installations[^1];
             installation.SetNotificationHandler(_notificationHandler);
         });
