@@ -4,7 +4,7 @@ using ETS2LA.Backend.Events;
 using ETS2LA.Telemetry;
 using ETS2LA.Settings.Global;
 using ETS2LA.Game;
-using ETS2LA.UI.Notifications;
+using ETS2LA.Notifications;
 
 namespace ETS2LA.State;
 
@@ -40,8 +40,6 @@ public class ApplicationState
 
     public ApplicationState()
     {
-        // TODO: Move notifications from ETS2LA.UI to ETS2LA.Notifications
-        GameHandler.Current.SetNotificationHandler(NotificationHandler.Current);
 
         Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, HandleTelemetryUpdate);
 

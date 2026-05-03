@@ -1,6 +1,6 @@
 ﻿using ETS2LA.Shared;
 using ETS2LA.Backend.Events;
-using ETS2LA.UI.Notifications;
+using ETS2LA.Notifications;
 using ETS2LA.Logging;
 
 using System.IO.MemoryMappedFiles;

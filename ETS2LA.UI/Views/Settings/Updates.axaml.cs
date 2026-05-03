@@ -3,7 +3,7 @@ using Huskui.Avalonia.Models;
 
 using ETS2LA.Shared;
 using ETS2LA.Backend.Updates;
-using ETS2LA.UI.Notifications;
+using ETS2LA.Notifications;
 
 using Velopack;
 using System.ComponentModel;
@@ -53,7 +53,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
             Id = "UpdateNotification",
             Title = "Checking for Updates",
             Content = "Please wait while we check for updates...",
-            Level = GrowlLevel.Information,
+            Level = NotificationLevel.Information,
             CloseAfter = 0,
             IsProgressIndeterminate = true
         });
@@ -66,7 +66,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
                     Id = "UpdateNotification",
                     Title = "Update Available",
                     Content = $"A new version is available: {LatestUpdateInfo.TargetFullRelease.Version}",
-                    Level = GrowlLevel.Success,
+                    Level = NotificationLevel.Success,
                     CloseAfter = 5,
                     IsProgressIndeterminate = false
                 });
@@ -82,7 +82,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
                     Id = "UpdateNotification",
                     Title = "No Update Available",
                     Content = "You are using the latest version.",
-                    Level = GrowlLevel.Information,
+                    Level = NotificationLevel.Information,
                     CloseAfter = 5,
                     IsProgressIndeterminate = false
                 });
@@ -97,7 +97,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
             Id = "UpdateDownloadProgress",
             Title = "Downloading Update",
             Content = $"Download progress: {progress}%",
-            Level = GrowlLevel.Information,
+            Level = NotificationLevel.Information,
             Progress = progress,
             CloseAfter = 0
         });
@@ -114,7 +114,7 @@ public partial class Updates : UserControl, INotifyPropertyChanged
                     Id = "UpdateDownloadProgress",
                     Title = "Downloading Update",
                     Content = $"Starting download...",
-                    Level = GrowlLevel.Information,
+                    Level = NotificationLevel.Information,
                     Progress = 0,
                     CloseAfter = 0
                 });

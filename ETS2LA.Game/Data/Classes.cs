@@ -1,4 +1,4 @@
-using ETS2LA.Shared;
+using ETS2LA.Notifications;
 using TruckLib.ScsMap;
 using TruckLib;
 
@@ -49,12 +49,6 @@ public enum IgnoredItemTypes
 /// </summary>
 public class MapData : Map
 {
-    INotificationHandler? _notificationHandler = null;
-    public void SetNotificationHandler(INotificationHandler? handler)
-    {
-        _notificationHandler = handler;
-    }
-
     protected override bool PostProcessItem(MapItem item) 
     {
         DataFidelity fidelity = DataSettings.Current.DataFidelity;
@@ -113,7 +107,7 @@ public class MapData : Map
 
     protected override void OnSectorLoading(Sector sector, int index, int total)
     {
-        _notificationHandler?.SendNotification(new Notification
+        NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing",
             Title = "Parsing Map Data",

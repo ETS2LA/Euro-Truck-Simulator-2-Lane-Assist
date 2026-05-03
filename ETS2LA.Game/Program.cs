@@ -21,7 +21,6 @@ public class GameHandler
     public static GameHandler Current => _instance.Value;
     
     public List<Installation> Installations { get; } = new();
-    private INotificationHandler? _notificationHandler;
 
     public GameHandler()
     {
@@ -90,16 +89,6 @@ public class GameHandler
             });
 
             Installation installation = Installations[^1];
-            installation.SetNotificationHandler(_notificationHandler);
         });
-    }
-
-    public void SetNotificationHandler(INotificationHandler? handler)
-    {
-        _notificationHandler = handler;
-        foreach (var installation in Installations)
-        {
-            installation.SetNotificationHandler(_notificationHandler);
-        }
     }
 }

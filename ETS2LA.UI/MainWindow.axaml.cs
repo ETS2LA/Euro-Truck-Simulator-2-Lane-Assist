@@ -7,6 +7,7 @@ using ETS2LA.Shared;
 using ETS2LA.UI.Views;
 using ETS2LA.UI.Services;
 using ETS2LA.UI.Notifications;
+using ETS2LA.Notifications;
 using ETS2LA.UI.Settings;
 
 using Huskui.Avalonia.Models;
@@ -52,7 +53,7 @@ public partial class MainWindow : AppWindow
 
         VersionText.Text = $"v{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3)}";
 
-        NotificationHandler.Current.SetWindow(this);
+        UINotificationHandler.Current.SetWindow(this);
 
         # if WINDOWS
         visualizationView = new VisualizationView();
@@ -98,7 +99,7 @@ public partial class MainWindow : AppWindow
             Title = "Stay On Top",
             Content = Topmost ? "Enabled" : "Disabled",
             CloseAfter = 2.0f,
-            Level = Topmost ? GrowlLevel.Success : GrowlLevel.Danger
+            Level = Topmost ? NotificationLevel.Success : NotificationLevel.Danger
         });
     }
 
@@ -115,7 +116,7 @@ public partial class MainWindow : AppWindow
             Title = "Transparency",
             Content = this.Opacity < 1.0 ? "Enabled" : "Disabled",
             CloseAfter = 2.0f,
-            Level = this.Opacity < 1.0 ? GrowlLevel.Success : GrowlLevel.Danger
+            Level = this.Opacity < 1.0 ? NotificationLevel.Success : NotificationLevel.Danger
         });
     }
 
@@ -140,7 +141,7 @@ public partial class MainWindow : AppWindow
             CloseAfter = 20.0f
         });
         pluginService.Shutdown();
-        NotificationHandler.Current.Shutdown();
+        UINotificationHandler.Current.Shutdown();
 
         UISettings settings = UISettingsHandler.Current.GetSettings();
         settings.WindowWidth = (int)Width;
