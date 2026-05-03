@@ -13,8 +13,8 @@ public class ControlsBackend : IControlsBackend
     private static ControlsBackend? _instance;
     public static ControlsBackend Current => _instance ??= new ControlsBackend();
 
-    public event EventHandler<ControlAddedEventArgs> ControlAdded;
-    public event EventHandler<ControlRemovedEventArgs> ControlRemoved;
+    public event EventHandler<ControlAddedEventArgs>? ControlAdded;
+    public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
     private readonly IControlsBackend _backend;
 

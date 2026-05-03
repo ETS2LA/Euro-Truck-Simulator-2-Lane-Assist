@@ -9,7 +9,7 @@ using Avalonia.Input;
 using ETS2LA.Controls;
 using ETS2LA.Logging;
 using ETS2LA.Shared;
-using ETS2LA.UI.Notifications;
+using ETS2LA.Notifications;
 using Huskui.Avalonia.Models;
 
 namespace ETS2LA.UI.Views.Settings;
@@ -180,7 +180,7 @@ public class ControlItem : INotifyPropertyChanged
                 Id = "ControlSettings.SuccessfullyBound",
                 Title = "Control Bound",
                 Content = $"Successfully bound '{Name}' to {DeviceName} - {DeviceButton}",
-                Level = GrowlLevel.Success,
+                Level = NotificationLevel.Success,
                 CloseAfter = 5.0f
             });
         }
@@ -191,7 +191,7 @@ public class ControlItem : INotifyPropertyChanged
                 Id = "ControlSettings.BindingFailed",
                 Title = "Binding Cancelled",
                 Content = $"Binding for '{Name}' was cancelled or timed out.",
-                Level = GrowlLevel.Warning,
+                Level = NotificationLevel.Warning,
                 CloseAfter = 5.0f
             });
         }

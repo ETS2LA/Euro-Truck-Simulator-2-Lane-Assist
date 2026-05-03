@@ -2,6 +2,7 @@ using ETS2LA.Logging;
 using ETS2LA.Shared;
 using ETS2LA.Game.Data;
 using ETS2LA.Game.Utils;
+using ETS2LA.Notifications;
 
 using TruckLib.HashFs;
 using TruckLib.ScsMap;
@@ -48,12 +49,6 @@ public class Installation
     private AssetLoader? assetLoader = null;
     private MapData? map = null;
     private List<Mod>? selectedMods = null;
-    private INotificationHandler? notificationHandler = null;
-
-    public void SetNotificationHandler(INotificationHandler? handler)
-    {
-        notificationHandler = handler;
-    }
 
     public MapData? GetMapData()
     {
@@ -189,7 +184,7 @@ public class Installation
         while (!Task.WhenAll(tasks).IsCompleted)
         {
             int completed = tasks.Count(t => t.IsCompleted);
-            notificationHandler?.SendNotification(new Notification
+            NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = "ETS2LA.Game.Parsing",
                 Title = "Unpacking Mods",
@@ -207,7 +202,6 @@ public class Installation
         assetLoader = new AssetLoader(hashFsReaders.ToArray());
         
         map = new MapData();
-        map.SetNotificationHandler(notificationHandler);
         var filepath = GetMapFilepath();
         
         Logger.Info($"Loading map data from '{filepath}'");
@@ -215,13 +209,13 @@ public class Installation
         catch (Exception ex)
         {
             Logger.Error($"Error loading map data from '{filepath}': {ex.Message}");
-            notificationHandler?.SendNotification(new Notification
+            NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = "ETS2LA.Game.ErrorParsing",
                 Title = "Error Loading Map Data",
                 Content = $"An error occurred while loading map data: {ex.Message}",
                 IsProgressIndeterminate = false,
-                Level = Huskui.Avalonia.Models.GrowlLevel.Danger,
+                Level = NotificationLevel.Danger,
                 CloseAfter = 10
             });
             map = null;
@@ -248,7 +242,7 @@ public class Installation
         IsParsing = true;
         OnParsingStarted?.Invoke();
         Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
-        notificationHandler?.SendNotification(new Notification
+        NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing",
             Title = "Parsing Map Data",
@@ -264,7 +258,7 @@ public class Installation
             Logger.Warn($"Failed to load map for installation at '{Path}'");
             IsParsing = false;
             OnDataNotParsed?.Invoke();
-            notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
+            NotificationHandler.Current.CloseNotification("ETS2LA.Game.Parsing");
             return false;
         }
 
@@ -277,7 +271,7 @@ public class Installation
             Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
             IsParsing = false;
             OnDataNotParsed?.Invoke();
-            notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
+            NotificationHandler.Current.CloseNotification("ETS2LA.Game.Parsing");
             return false;
         }
 
@@ -287,8 +281,8 @@ public class Installation
         IsParsed = true;
         IsParsing = false;
         OnDataParsed?.Invoke();
-        notificationHandler?.CloseNotification("ETS2LA.Game.Parsing");
-        notificationHandler?.SendNotification(new Notification
+        NotificationHandler.Current.CloseNotification("ETS2LA.Game.Parsing");
+        NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing.Complete",
             Title = "Map Data Parsed",

@@ -1,31 +1,82 @@
 using ETS2LA.Shared;
 using ETS2LA.Logging;
+using ETS2LA.Notifications;
+
 using Avalonia.Threading;
 using Huskui.Avalonia.Controls;
 using Avalonia.LogicalTree;
+using Huskui.Avalonia.Models;
 
 namespace ETS2LA.UI.Notifications;
 
 /// <summary>
 ///  This class handles in-app notifications.
-///  Access it with `NotificationHandler.Current`.
+///  Access it with `UINotificationHandler.Current`.
 /// </summary>
-public class NotificationHandler : INotificationHandler
+public class UINotificationHandler
 {
-    private static readonly Lazy<NotificationHandler> _instance = new(() => new NotificationHandler());
+    private static readonly Lazy<UINotificationHandler> _instance = new(() => new UINotificationHandler());
     /// <summary>
     ///  This Instance property gives access to the ETS2LA-wide notification handler instance.
     ///  No matter where this is called from, it will always return the same instance.
     /// </summary>
-    public static NotificationHandler Current => _instance.Value;
+    public static UINotificationHandler Current => _instance.Value;
 
     private AppWindow? _window;
     private bool _isRunning = true;
-    public List<Notification> ActiveNotifications { get; private set; } = new();
+    public List<UINotification> ActiveNotifications { get; private set; } = new();
 
-    public NotificationHandler()
+    public UINotificationHandler()
     {
         Task.Run(WatcherThread);
+        NotificationHandler.Current.OnNotificationAdded += (sender, notification) =>
+        {
+            SendNotification(new UINotification
+            {
+                Id = notification.Id,
+                Title = notification.Title,
+                Content = notification.Content,
+                Level = NotifToGrowlLevel(notification.Level),
+                Progress = notification.Progress,
+                IsProgressIndeterminate = notification.IsProgressIndeterminate,
+                CloseAfter = notification.CloseAfter,
+                ShowCloseButtonAfter = notification.ShowCloseButtonAfter,
+                CreatedAt = notification.CreatedAt
+            });
+        };
+
+        NotificationHandler.Current.OnNotificationUpdated += (sender, notification) =>
+        {
+            UpdateNotification(new UINotification
+            {
+                Id = notification.Id,
+                Title = notification.Title,
+                Content = notification.Content,
+                Level = NotifToGrowlLevel(notification.Level),
+                Progress = notification.Progress,
+                IsProgressIndeterminate = notification.IsProgressIndeterminate,
+                CloseAfter = notification.CloseAfter,
+                ShowCloseButtonAfter = notification.ShowCloseButtonAfter,
+                CreatedAt = notification.CreatedAt
+            });
+        };
+
+        NotificationHandler.Current.OnNotificationRemoved += (sender, id) =>
+        {
+            CloseNotification(id);
+        };
+    }
+
+    private GrowlLevel NotifToGrowlLevel(NotificationLevel level)
+    {
+        return level switch
+        {
+            NotificationLevel.Information => GrowlLevel.Information,
+            NotificationLevel.Success => GrowlLevel.Success,
+            NotificationLevel.Warning => GrowlLevel.Warning,
+            NotificationLevel.Danger => GrowlLevel.Danger,
+            _ => GrowlLevel.Information
+        };
     }
 
     public void SetWindow(AppWindow window)
@@ -33,7 +84,7 @@ public class NotificationHandler : INotificationHandler
         _window = window;
     }
 
-    public void WatcherThread()
+    private void WatcherThread()
     {
         while (_isRunning)
         {
@@ -49,7 +100,7 @@ public class NotificationHandler : INotificationHandler
 
                 if (notif.CloseAfter > 0.0f)
                 {
-                    Notification clone = new Notification
+                    UINotification clone = new UINotification
                     {
                         Id = notif.Id,
                         Title = notif.Title,
@@ -85,7 +136,7 @@ public class NotificationHandler : INotificationHandler
         _isRunning = false;
     }
 
-    public void UpdateNotification(Notification notification)
+    private void UpdateNotification(UINotification notification)
     {
         if (!Dispatcher.UIThread.CheckAccess())
         {
@@ -118,7 +169,7 @@ public class NotificationHandler : INotificationHandler
         }
     }
 
-    public async void SendNotification(Notification notification)
+    private async void SendNotification(UINotification notification)
     {
         if (_window == null || !_window.IsLoaded) {
             Logger.Warn("Attempted to send notification before MainWindow was loaded.");
@@ -162,7 +213,7 @@ public class NotificationHandler : INotificationHandler
         }
     }
 
-    public void CloseNotification(string id)
+    private void CloseNotification(string id)
     {
         if (!Dispatcher.UIThread.CheckAccess())
         {

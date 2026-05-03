@@ -1,10 +1,9 @@
-﻿using ETS2LA.UI.Notifications;
+﻿using ETS2LA.Notifications;
 using ETS2LA.Shared;
 using ETS2LA.Telemetry;
 using ETS2LA.Backend.Events;
 using ETS2LA.Game.SDK;
 using ETS2LA.Game.Output;
-using Huskui.Avalonia.Models;
 
 namespace ExampleConsumer;
 
@@ -55,7 +54,7 @@ public class MyConsumer : Plugin
         //     Id = "ExampleConsumer.Speed",
         //     Title = "Truck Speed",
         //     Content = $"{speed:F2} km/h",
-        //     Level = GrowlLevel.Information,
+        //     Level = NotificationLevel.Information,
         //     Progress = speed / (100 * 3.6f) * 100f,
         //     IsProgressIndeterminate = false,
         //     CloseAfter = 0 
@@ -66,7 +65,7 @@ public class MyConsumer : Plugin
         //     Id = "ExampleConsumer.RPM",
         //     Title = "Engine RPM",
         //     Content = $"{rpm:F0} RPM",
-        //     Level = GrowlLevel.Information,
+        //     Level = NotificationLevel.Information,
         //     Progress = rpm / 3000.0f * 100f,
         //     IsProgressIndeterminate = false,
         //     CloseAfter = 0 
@@ -78,7 +77,7 @@ public class MyConsumer : Plugin
             Id = "ExampleConsumer.Output",
             Title = "Steering Output",
             Content = $"Output: {output:F2}",
-            Level = GrowlLevel.Information,
+            Level = NotificationLevel.Information,
             Progress = (output + 1.0f) / 2.0f * 100f,
             IsProgressIndeterminate = false,
             CloseAfter = 0 
