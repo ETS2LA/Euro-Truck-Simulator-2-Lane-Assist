@@ -2,15 +2,15 @@ using Hexa.NET.ImGui;
 using ETS2LA.Controls;
 using System.Numerics;
 
-namespace ETS2LA.Overlay.Windows;
+namespace ETS2LA.Overlay.Window;
 
-class ARInfoWindow : InternalWindow
+class OverlayInfoWindow : InternalWindow
 {
-    public ARInfoWindow()
+    public OverlayInfoWindow()
     {
         Definition = new WindowDefinition
         {
-            Title = "AR Info",
+            Title = "Overlay Info",
             Flags = ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoSavedSettings,
         };
 

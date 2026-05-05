@@ -31,7 +31,7 @@ public class CameraProvider
     private static readonly Lazy<CameraProvider> _instance = new(() => new CameraProvider());
     public static CameraProvider Current => _instance.Value;
 
-    private float UpdateRate { get; set; } = 1f / 60f;
+    private float UpdateRate { get; set; } = 1f / 144f;
     public string EventString = "ETS2LA.Game.SDK.Camera.Data";
 
     private MemoryReader? _reader;
@@ -39,7 +39,7 @@ public class CameraProvider
 
     string mmapName = "Local\\ETS2LACameraProps";
     string mmapNameLinux = "/dev/shm/ETS2LACameraProps";
-    int mmapSize = 36;
+    int mmapSize = 100;
 
     public CameraProvider()
     {
@@ -50,6 +50,14 @@ public class CameraProvider
         updateThread.Start();
     }
 
+    public CameraData GetCurrentData()
+    {
+        if (_currentData == null)
+            _currentData = new CameraData();
+            
+        return _currentData;
+    }
+
     private void UpdateThread()
     {
         Stopwatch stopwatch = new Stopwatch();
@@ -58,9 +66,9 @@ public class CameraProvider
         while (true)
         {
             int timeLeft = (int)((UpdateRate * 1000) - stopwatch.Elapsed.TotalMilliseconds);
-            if (timeLeft > 0)
+            if (timeLeft > 1)
             {
-                Thread.Sleep(timeLeft);
+                Thread.Sleep(timeLeft - 1);
                 continue;
             }
 
@@ -131,12 +139,13 @@ public class CameraProvider
             _reader.ReadFloat(offset + 8),
             _reader.ReadFloat(offset + 12)
         ); offset += 16;
-        // _currentData.projection = new Matrix4x4(
-        //     _reader.ReadFloat(offset)     , _reader.ReadFloat(offset + 4) , _reader.ReadFloat(offset + 8) , _reader.ReadFloat(offset + 12),
-        //     _reader.ReadFloat(offset + 16), _reader.ReadFloat(offset + 20), _reader.ReadFloat(offset + 24), _reader.ReadFloat(offset + 28),
-        //     _reader.ReadFloat(offset + 32), _reader.ReadFloat(offset + 36), _reader.ReadFloat(offset + 40), _reader.ReadFloat(offset + 44),
-        //     _reader.ReadFloat(offset + 48), _reader.ReadFloat(offset + 52), _reader.ReadFloat(offset + 56), _reader.ReadFloat(offset + 60)
-        // );
+        
+        _currentData.projection = new Matrix4x4(
+            _reader.ReadFloat(offset)     , _reader.ReadFloat(offset + 4) , _reader.ReadFloat(offset + 8) , _reader.ReadFloat(offset + 12),
+            _reader.ReadFloat(offset + 16), _reader.ReadFloat(offset + 20), _reader.ReadFloat(offset + 24), _reader.ReadFloat(offset + 28),
+            _reader.ReadFloat(offset + 32), _reader.ReadFloat(offset + 36), _reader.ReadFloat(offset + 40), _reader.ReadFloat(offset + 44),
+            _reader.ReadFloat(offset + 48), _reader.ReadFloat(offset + 52), _reader.ReadFloat(offset + 56), _reader.ReadFloat(offset + 60)
+        );
 
         Events.Current.Publish<CameraData>(EventString, _currentData);
     }

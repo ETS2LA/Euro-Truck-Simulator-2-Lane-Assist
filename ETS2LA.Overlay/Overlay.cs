@@ -11,12 +11,13 @@ using GLFWwindowPtr = Hexa.NET.GLFW.GLFWwindowPtr;
 
 using System.Runtime.CompilerServices;
 using System.Numerics;
+using Avalonia.Data;
 
 using ETS2LA.Logging;
 using ETS2LA.Controls;
-using ETS2LA.Overlay.Windows;
-using Avalonia.Data;
-using System.Runtime.InteropServices;
+using ETS2LA.Overlay.Window;
+using ETS2LA.Overlay.AR;
+using System.Diagnostics;
 
 namespace ETS2LA.Overlay;
 
@@ -33,14 +34,17 @@ public class OverlayHandler
         DefaultKeybind = "RightAlt",
         Type = ControlType.Boolean
     };
+
+    public ARRenderer AR = new ARRenderer();
+
     private bool _isInteracting = false;
     private float _bgOpacityTarget = 0.0f;
-    private float _deltaTime = 0f;
+    private List<float> _frameTimes = new List<float>();
     
     private List<InternalWindow> _windows = new();
 
     public bool IsOverlayFocused => _isInteracting;
-    public float LastFrameTime => _deltaTime;
+    public float AverageFrameTime => _frameTimes.Count > 0 ? _frameTimes.Average() : 0f;
 
     public float OverlayWidth => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).Width;
     public float OverlayHeight => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).Height;
@@ -59,7 +63,7 @@ public class OverlayHandler
         Task.Run(() => RenderLoop());
         
         _windows.Add(new ConsoleWindow());
-        _windows.Add(new ARInfoWindow());
+        _windows.Add(new OverlayInfoWindow());
         _windows.Add(new DemoWindow());
         _windows.Add(new StateWindow());
     }
@@ -87,13 +91,23 @@ public class OverlayHandler
             return;
         }
 
+        Stopwatch fs = Stopwatch.StartNew();
+        int targetFramerate = GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).RefreshRate;
+        double interval = 1000.0 / targetFramerate;
+        double next = fs.Elapsed.TotalMilliseconds;
+        double start = fs.Elapsed.TotalMilliseconds;
+
         while (GLFW.WindowShouldClose(_window) == 0)
         {
-            float startTime = DateTime.Now.Millisecond;
+            start = fs.Elapsed.TotalMilliseconds;
+            next += interval;
+
+            Stopwatch InteractionStopwatch = Stopwatch.StartNew();
             if (!_isInteracting) 
             { 
                 // This has to be called each frame to properly update the flags.
-                // For whatever reason they are set back to default.
+                // For whatever reason they are set back to default. Shouldn't affect
+                // performance, it's just weird...
                 ImGui.GetPlatformIO().Viewports[0].Flags |= ImGuiViewportFlags.NoInputs;
 
                 # if LINUX
@@ -109,9 +123,13 @@ public class OverlayHandler
                 # endif
                 _bgOpacityTarget = 0.5f;
             }
+            InteractionStopwatch.Stop();
 
+            Stopwatch PollEventsStopwatch = Stopwatch.StartNew();
             GLFW.PollEvents();
+            PollEventsStopwatch.Stop();
 
+            Stopwatch NewFrameStopwatch = Stopwatch.StartNew();
             // Skip rendering if we're minimized, though this should actually
             // never happen for the overlay.
             if (GLFW.GetWindowAttrib(_window, GLFW.GLFW_ICONIFIED) != 0)
@@ -125,30 +143,67 @@ public class OverlayHandler
             ImGuiImplOpenGL3.NewFrame();
             ImGuiImplGLFW.NewFrame();
             ImGui.NewFrame();
+            NewFrameStopwatch.Stop();
 
+            // The actual rendering is happening here,
+            // all other calls are just setup.
+            Stopwatch ARStopwatch = Stopwatch.StartNew();
+            try { AR.Render(); }
+            catch (Exception ex) {
+                Logger.Error($"Error in AR rendering: {ex}");
+            }
+            ARStopwatch.Stop();
+
+            Stopwatch UIRenderStopwatch = Stopwatch.StartNew();
             try { OnUIRender(); }
             catch (Exception ex) {
                 Logger.Error($"Error rendering overlay: {ex}");
             }
+            UIRenderStopwatch.Stop();
+            // ---
 
+            Stopwatch RenderStopwatch = Stopwatch.StartNew();
             ImGui.Render();
-            GLFW.MakeContextCurrent(_window);
 
             _gl.ClearColor(0f, 0f, 0f, _bgOpacityTarget);
             _gl.Clear(GLClearBufferMask.ColorBufferBit);
             
             ImGuiImplOpenGL3.RenderDrawData(ImGui.GetDrawData());
+            RenderStopwatch.Stop();
 
+            Stopwatch UpdatePlatformWindowsStopwatch = Stopwatch.StartNew();
             if ((_io.ConfigFlags & ImGuiConfigFlags.ViewportsEnable) != 0)
             {
                 ImGui.UpdatePlatformWindows();
                 ImGui.RenderPlatformWindowsDefault();
             }
+            UpdatePlatformWindowsStopwatch.Stop();
 
-            GLFW.MakeContextCurrent(_window);
-            // Swap front and back buffers (double buffering)
+            Stopwatch SwapBuffersStopwatch = Stopwatch.StartNew();
+            GLFW.SwapInterval(0); // disable vsync
             GLFW.SwapBuffers(_window);
-            _deltaTime = (DateTime.Now.Millisecond - startTime) / 1000f;
+            SwapBuffersStopwatch.Stop();
+
+            double remaining = next - fs.Elapsed.TotalMilliseconds;
+            if (remaining > 1.0)
+                Thread.Sleep((int)(remaining - 1));
+            
+            // Busy wait the end
+            while (fs.Elapsed.TotalMilliseconds < next)
+                Thread.SpinWait(10);
+            
+            _frameTimes.Add((float)(fs.Elapsed.TotalMilliseconds - start));
+            if (_frameTimes.Count > targetFramerate) { _frameTimes.RemoveAt(0); }
+
+            // TODO: There are some lag spikes that can't be explained using the 
+            // stopwatches in use here, where are those coming from?
+            // if (fs.Elapsed.TotalMilliseconds - start > interval + 20)
+            // {
+            //     Logger.Warn($"Overlay is running behind! Missed frame time by {fs.Elapsed.TotalMilliseconds - start - interval} ms");
+            //     Logger.Warn($"AR rendering took {ARStopwatch.Elapsed.TotalMilliseconds} ms, UI rendering took {UIRenderStopwatch.Elapsed.TotalMilliseconds} ms");
+            //     Logger.Warn($"Interaction took {InteractionStopwatch.Elapsed.TotalMilliseconds} ms, PollEvents took {PollEventsStopwatch.Elapsed.TotalMilliseconds} ms, NewFrame took {NewFrameStopwatch.Elapsed.TotalMilliseconds} ms");
+            //     Logger.Warn($"Render took {RenderStopwatch.Elapsed.TotalMilliseconds} ms, UpdatePlatformWindows took {UpdatePlatformWindowsStopwatch.Elapsed.TotalMilliseconds} ms, SwapBuffers took {SwapBuffersStopwatch.Elapsed.TotalMilliseconds} ms");
+            // }
         }
 
         ImGuiImplOpenGL3.Shutdown();
@@ -191,6 +246,11 @@ public class OverlayHandler
             }
             ImGui.End();
         }
+
+        ImGui.SetNextWindowPos(new Vector2(OverlayWidth - 10, 10), ImGuiCond.Always, new Vector2(1f, 0f));
+        ImGui.Begin("Performance Overlay", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
+        ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{(int)(1/(AverageFrameTime / 1000f))}");
+        ImGui.End();
 
         foreach (InternalWindow window in _windows)
         {

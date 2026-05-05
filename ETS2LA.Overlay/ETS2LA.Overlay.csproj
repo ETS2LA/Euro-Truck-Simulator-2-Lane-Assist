@@ -25,6 +25,12 @@
     <ProjectReference Include="..\ETS2LA.State\ETS2LA.State.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.Telemetry\ETS2LA.Telemetry.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">

@@ -2,7 +2,7 @@ using Hexa.NET.ImGui;
 using ETS2LA.Logging;
 using System.Numerics;
 
-namespace ETS2LA.Overlay.Windows;
+namespace ETS2LA.Overlay.Window;
 
 class ConsoleWindow : InternalWindow
 {

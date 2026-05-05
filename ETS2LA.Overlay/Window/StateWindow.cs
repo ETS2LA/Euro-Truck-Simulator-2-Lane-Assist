@@ -3,7 +3,7 @@ using ETS2LA.Controls;
 using ETS2LA.State;
 using System.Numerics;
 
-namespace ETS2LA.Overlay.Windows;
+namespace ETS2LA.Overlay.Window;
 
 class StateWindow : InternalWindow
 {

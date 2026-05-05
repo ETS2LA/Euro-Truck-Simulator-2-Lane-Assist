@@ -1,7 +1,7 @@
 // NOTE: You should not use this system for generating plugin windows.
 //       Please make your custom windows with OverlayHandler.RegisterWindow instead!
 
-namespace ETS2LA.Overlay.Windows;
+namespace ETS2LA.Overlay.Window;
 
 class InternalWindow
 {

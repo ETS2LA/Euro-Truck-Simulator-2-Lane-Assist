@@ -1,6 +1,6 @@
 using Hexa.NET.ImGui;
 
-namespace ETS2LA.Overlay.Windows;
+namespace ETS2LA.Overlay.Window;
 
 class DemoWindow : InternalWindow
 {

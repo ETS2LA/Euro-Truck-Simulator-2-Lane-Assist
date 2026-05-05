@@ -4,6 +4,10 @@ using ETS2LA.Telemetry;
 using ETS2LA.Backend.Events;
 using ETS2LA.Game.SDK;
 using ETS2LA.Game.Output;
+using ETS2LA.Overlay;
+using ETS2LA.Overlay.AR;
+
+using System.Numerics;
 
 namespace ExampleConsumer;
 
@@ -31,6 +35,21 @@ public class MyConsumer : Plugin
         Events.Current.Subscribe<TrafficData>("ETS2LASDK.Traffic", OnTrafficReceived);
         Events.Current.Subscribe<SemaphoreData>("ETS2LASDK.Semaphores", OnSemaphoreReceived);
         Events.Current.Subscribe<NavigationData>("ETS2LASDK.Navigation", OnNavigationReceived);
+
+        OverlayHandler.Current.AR.RegisterRenderCallback(new ARRenderCallback
+        {
+            Definition = new ARRendererDefinition
+            {
+                Name = "Example Line"
+            },
+            Render3D = () =>
+            {
+                // Draw a test line in AR
+                OverlayHandler.Current.AR.Draw3DLine(position, position + new Vector3(0, 0, 1), 0xFF0000FF);
+                OverlayHandler.Current.AR.Draw3DLine(position, position + new Vector3(1, 0, 0), 0x00FF00FF);
+                OverlayHandler.Current.AR.Draw3DLine(position, position + new Vector3(0, 1, 0), 0x0000FFFF);
+            }
+        });
     }
 
     public override void OnDisable()
@@ -43,11 +62,15 @@ public class MyConsumer : Plugin
     private float output = 0;
     private float speed = 0;
     private float rpm = 0;
+    private Vector3 position;
+
     public override void Tick()
     {
         // sine wave output from -1 to 1
         double time = DateTime.Now.TimeOfDay.TotalSeconds;
         output = (float)Math.Sin(time * 2 * Math.PI / 8);
+
+        // Render a test line in AR
 
         // NotificationHandler.Current.SendNotification(new Notification
         // {
@@ -83,17 +106,17 @@ public class MyConsumer : Plugin
             CloseAfter = 0 
         });
 
-        Events.Current.Publish(GameOutput.Current.EventString, new ControlEvent
-        {
-            ChannelDefinition = new ControlChannelDefinition
-            {
-                Id = "ExampleConsumer.Steering",
-            },
-            Variables = new ControlVariables
-            {
-                steering = output
-            }
-        });
+        // Events.Current.Publish(GameOutput.Current.EventString, new ControlEvent
+        // {
+        //     ChannelDefinition = new ControlChannelDefinition
+        //     {
+        //         Id = "ExampleConsumer.Steering",
+        //     },
+        //     Variables = new ControlVariables
+        //     {
+        //         steering = output
+        //     }
+        // });
 
         // SDKControlEvent controlEvent = new SDKControlEvent
         // {
@@ -120,6 +143,7 @@ public class MyConsumer : Plugin
 
         speed = data.truckFloat.speed;
         rpm = data.truckFloat.engineRpm;
+        position = data.truckPlacement.coordinate.ToVector3();
     }
 
     private void OnCameraReceived(CameraData camera)

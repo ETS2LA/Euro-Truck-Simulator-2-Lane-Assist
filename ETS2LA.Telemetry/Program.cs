@@ -83,6 +83,14 @@ public class GameTelemetry
         updateThread.Start();
     }
 
+    public GameTelemetryData GetCurrentData()
+    {
+        if (_currentData == null)
+            _currentData = new();
+        
+        return _currentData;
+    }
+
     private void UpdateThread()
     {
         Stopwatch stopwatch = new Stopwatch();
@@ -497,7 +505,5 @@ public class GameTelemetry
 
         // Publish to the event bus
         Events.Current.Publish<GameTelemetryData>(EventString, _currentData);
-
-        
     }
 }
