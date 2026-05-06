@@ -35,7 +35,7 @@ public class OverlayHandler
         Type = ControlType.Boolean
     };
 
-    public ARRenderer AR = new ARRenderer();
+    public ARRenderer AR;
 
     private bool _isInteracting = false;
     private float _bgOpacityTarget = 0.0f;
@@ -84,7 +84,7 @@ public class OverlayHandler
         }
         GLFW.MakeContextCurrent(_window);
         _gl = new GL(new BindingsContext(_window));
-
+        
         if (!InitImGui())
         {
             Logger.Error("Failed to initialize overlay");
@@ -148,7 +148,10 @@ public class OverlayHandler
             // The actual rendering is happening here,
             // all other calls are just setup.
             Stopwatch ARStopwatch = Stopwatch.StartNew();
-            try { AR.Render(); }
+            try { 
+                if (AR == null) { AR = new ARRenderer(_gl); }
+                AR.Render(); 
+            }
             catch (Exception ex) {
                 Logger.Error($"Error in AR rendering: {ex}");
             }

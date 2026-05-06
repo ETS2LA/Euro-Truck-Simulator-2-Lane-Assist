@@ -8,6 +8,7 @@ using ETS2LA.Overlay;
 using ETS2LA.Overlay.AR;
 
 using System.Numerics;
+using Hexa.NET.ImGui;
 
 namespace ExampleConsumer;
 
@@ -40,14 +41,22 @@ public class MyConsumer : Plugin
         {
             Definition = new ARRendererDefinition
             {
-                Name = "Example Line"
+                Name = "Example AR Renderer"
             },
             Render3D = () =>
             {
-                // Draw a test line in AR
-                OverlayHandler.Current.AR.Draw3DLine(position, position + new Vector3(0, 0, 1), 0xFF0000FF);
-                OverlayHandler.Current.AR.Draw3DLine(position, position + new Vector3(1, 0, 0), 0x00FF00FF);
-                OverlayHandler.Current.AR.Draw3DLine(position, position + new Vector3(0, 1, 0), 0x0000FFFF);
+                ARRenderer AR = OverlayHandler.Current.AR;
+                // Test lines
+                AR.Draw3DLine(position, position + new Vector3(0, 0, 1), 0xFF0000FF);
+                AR.Draw3DLine(position, position + new Vector3(1, 0, 0), 0x00FF00FF);
+                AR.Draw3DLine(position, position + new Vector3(0, 1, 0), 0x0000FFFF);
+
+                // Test window
+                AR.BeginWindow("Example Window");
+                ImGui.Text($"Position: ({position.X:F2}, {position.Y:F2}, {position.Z:F2})");
+                ImGui.Text($"Speed: {speed:F2} km/h");
+                ImGui.Text($"RPM: {rpm:F0} RPM");
+                AR.EndWindow(position, Quaternion.CreateFromYawPitchRoll(0, 0, 0), 4);
             }
         });
     }
@@ -69,8 +78,6 @@ public class MyConsumer : Plugin
         // sine wave output from -1 to 1
         double time = DateTime.Now.TimeOfDay.TotalSeconds;
         output = (float)Math.Sin(time * 2 * Math.PI / 8);
-
-        // Render a test line in AR
 
         // NotificationHandler.Current.SendNotification(new Notification
         // {
