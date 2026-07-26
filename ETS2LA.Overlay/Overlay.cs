@@ -126,6 +126,8 @@ public class OverlayHandler
                 interval = 1000.0 / targetFramerate;
 
             start = fs.Elapsed.TotalMilliseconds;
+            if (next < start)
+                next = start;
             next += interval;
 
             if (!isInteracting) { 
