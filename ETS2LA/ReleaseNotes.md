@@ -1,9 +1,11 @@
-### ETS2LA C# 3.4.30
-- Added `Simplified Graphics` to Display settings. This will turn off shaders and other effects. If you can't see certain overlay elements, try to enable this.
-- Tweaked `LineWithGradient` to allow more control over the gradient.
-- Added 2D and 3D versions of the `KalmanFilter` class.
-- ETS2LA will now continue parsing the game data, even if one of the core SCS files fails to load. This happens on systems where mods are installed into the game directory, rather than the dedicated mod folder. **These mods are not supported and will not be loaded, ensure you load your mods into Documents/Euro Truck Simulator 2/mod, or a similar path.** Fixes `Error: This is a zip file`.
-- **airskye1** - Add `Open Catalogue` button to the plugin page if no plugins are installed.
+### ETS2LA C# 3.4.31
+- Added `Experiments` tab in the settings.
+- Added `ETS2LA.ML`.
+  - `ETS2LA.ML.Vision` provides a synthetic camera system for machine learning and computer vision models inside ETS2LA. This is still experimental, and only included for development purposes. You can view the default cameras via `Settings -> Experiments -> Render Vision Cameras`.
+  - Note that using Experiments may cause instability and performance issues.
+- **Drk** - Fix overlay not recovering after a missed frame. This caused additional CPU usage further worsening the problem.
+
+**Note:** This update is experimental. It might be worth it to way a day or two before updating to let us fix any issues people report.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
