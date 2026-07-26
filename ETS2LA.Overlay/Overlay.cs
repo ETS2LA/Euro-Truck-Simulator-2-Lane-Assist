@@ -12,13 +12,15 @@ using GLFWwindowPtr = Hexa.NET.GLFW.GLFWwindowPtr;
 
 using System.Runtime.CompilerServices;
 using System.Numerics;
+using System.Diagnostics;
 using Avalonia.Data;
 
 using ETS2LA.Logging;
 using ETS2LA.Controls;
 using ETS2LA.Overlay.Window;
 using ETS2LA.Overlay.AR;
-using System.Diagnostics;
+using ETS2LA.ML;
+using ETS2LA.ML.Vision;
 using ETS2LA.Game.Telemetry;
 
 namespace ETS2LA.Overlay;
@@ -52,15 +54,18 @@ public class OverlayHandler
     private float bgOpacityTarget = 0.0f;
     private bool shutdown = false;
     private List<float> frameTimes = new List<float>();
+    private List<double> remainingMs = new List<double>();
     
     private List<InternalWindow> windows = new();
     public Dictionary<FontStyle, ImFontPtr> Fonts = new Dictionary<FontStyle, ImFontPtr>();
 
     public bool IsOverlayFocused => isInteracting;
     public float AverageFrameTime => frameTimes.Count > 0 ? frameTimes.Average() : 0f;
+    public float AverageRemainingTime => remainingMs.Count > 0 ? (float)remainingMs.Average() : 0f;
 
     public float OverlayWidth => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).Width;
     public float OverlayHeight => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).Height;
+    public float OverlayMonitorRefreshRate => GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).RefreshRate;
 
     private string glslVersion = "#version 150";
     private GLFWwindowPtr glfwWindow;
@@ -82,6 +87,9 @@ public class OverlayHandler
         windows.Add(new OverlayInfoWindow());
         windows.Add(new DemoWindow());
         windows.Add(new StateWindow());
+
+        if (MLSettings.Current.RenderVisionCameras)
+            windows.Add(new VisionCamerasWindow());
     }
 
     private void OnOverlaySettingsUpdated(OverlaySettings newSettings)
@@ -105,6 +113,9 @@ public class OverlayHandler
         }
         GLFW.MakeContextCurrent(glfwWindow);
         gl = new GL(new BindingsContext(glfwWindow));
+
+        if (MLSettings.Current.RenderVisionCameras)
+            VisionHandler.Current.Initialize(gl);
         
         if (!InitImGui())
         {
@@ -113,7 +124,7 @@ public class OverlayHandler
         }
 
         Stopwatch fs = Stopwatch.StartNew();
-        int targetFramerate = GLFW.GetVideoMode(GLFW.GetPrimaryMonitor()).RefreshRate;
+        int targetFramerate = (int)OverlayMonitorRefreshRate;
         double interval = 1000.0 / targetFramerate;
         double next = fs.Elapsed.TotalMilliseconds;
         double start = fs.Elapsed.TotalMilliseconds;
@@ -164,10 +175,25 @@ public class OverlayHandler
             ImGuiImplGLFW.NewFrame();
             ImGui.NewFrame();
 
+            // This renders the virtual cameras into their respective framebuffers.
+            if (MLSettings.Current.RenderVisionCameras)
+                VisionHandler.Current.Render();
+
+            gl.Viewport(0, 0, (int)OverlayWidth, (int)OverlayHeight);
+
             // The actual rendering is happening here,
             // all other calls are just setup.
             try { 
-                if (AR == null) AR = new ARRenderer(gl);
+                if (AR == null) 
+                {
+                    AR = new ARRenderer(gl);
+
+                    if (MLSettings.Current.RenderVisionCameras)
+                    {
+                        VisionCamerasARRenderer renderer = new VisionCamerasARRenderer();
+                        renderer.Register();
+                    }
+                }
                 bool paused = GameTelemetry.Current.GetCurrentData().paused;
                 if (overlaySettings.RenderAR && (!overlaySettings.DontRenderWhenPaused || !paused)) AR.Render(); 
             }
@@ -212,6 +238,9 @@ public class OverlayHandler
             
             frameTimes.Add((float)(fs.Elapsed.TotalMilliseconds - start));
             if (frameTimes.Count > targetFramerate) { frameTimes.RemoveAt(0); }
+            
+            remainingMs.Add(remaining);
+            if (remainingMs.Count > targetFramerate) { remainingMs.RemoveAt(0); }
         }
 
         ImGuiImplOpenGL3.Shutdown();
@@ -263,7 +292,15 @@ public class OverlayHandler
 
         ImGui.SetNextWindowPos(new Vector2(OverlayWidth - 10, 10), ImGuiCond.Always, new Vector2(1f, 0f));
         ImGui.Begin("Performance Overlay", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
-        ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{(int)(1/(AverageFrameTime / 1000f))}");
+
+        var fps = (AverageFrameTime > 0) ? (int)(1 / (AverageFrameTime / 1000f)) : 0;
+        int freePercentage;
+        if (overlaySettings.LimitFramerate)
+            freePercentage = (int)(AverageRemainingTime / (1000f / overlaySettings.MaxFramerate) * 100f);
+        else
+            freePercentage = (int)(AverageRemainingTime / (1000f / OverlayMonitorRefreshRate) * 100f);
+        
+        ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{(int)(1/(AverageFrameTime / 1000f))}\n{freePercentage}%%");
         ImGui.End();
 
         foreach (InternalWindow window in windows)
@@ -557,5 +594,6 @@ public class OverlayHandler
     public void Shutdown()
     {
         shutdown = true;
+        VisionHandler.Current.Shutdown();
     }
 }

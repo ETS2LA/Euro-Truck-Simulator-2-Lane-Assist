@@ -20,6 +20,7 @@ public partial class SettingsView : UserControl
     private readonly AssistanceSettingsPage _assistanceSettings = new();
     private readonly DataSettingsPage _dataSettings = new();
     private readonly UserSettingsView _userSettings = new();
+    private readonly ExperimentsSettings _experimentsSettings = new();
 
     public string SelectedPageName { get; private set; } = string.Empty;
 
@@ -45,6 +46,7 @@ public partial class SettingsView : UserControl
             this.FindControl<Button>("UpdateButton"),
             this.FindControl<Button>("AssistanceButton"),
             this.FindControl<Button>("DataButton"),
+            this.FindControl<Button>("ExperimentsButton")
         ]);
 #pragma warning restore CS8601 // Possible null reference assignment.
 
@@ -119,6 +121,12 @@ public partial class SettingsView : UserControl
     {
         _contentHost.Content = _dataSettings;
         SetSelected("DataButton");
+    }
+
+    private void OnExperimentsSettingsClick(object? sender, RoutedEventArgs e)
+    {
+        _contentHost.Content = _experimentsSettings;
+        SetSelected("ExperimentsButton");
     }
 
     private void InitializeComponent()

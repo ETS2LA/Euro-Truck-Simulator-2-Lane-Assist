@@ -4,6 +4,8 @@ using ETS2LA.Backend.Events;
 using ETS2LA.Game.Telemetry;
 using ETS2LA.Settings.Global;
 using ETS2LA.Game;
+using ETS2LA.Game.SiiFiles;
+using ETS2LA.Game.PpdFiles;
 using ETS2LA.Logging;
 using ETS2LA.Notifications;
 
@@ -400,7 +402,11 @@ public class ApplicationState
                     // The user might have switched games while we were parsing,
                     // in that case throw the now stale data away.
                     if (success && install.Type == RunningGameType)
+                    {
                         RunningGame = install;
+                        SiiFileHandler.Current.SetFileSystem(RunningGame.GetFileSystem());
+                        PpdFileHandler.Current.SetFileSystem(RunningGame.GetFileSystem());
+                    }
                     else if (success)
                         install.ClearParsedData();
                 }

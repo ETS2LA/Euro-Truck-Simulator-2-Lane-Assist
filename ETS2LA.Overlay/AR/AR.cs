@@ -66,7 +66,6 @@ public class ARRenderer
         OverlaySettingsHandler.Current.OnSettingsUpdated += OnOverlaySettingsUpdated;
 
         ImGui.SetCurrentContext(mainContext);
-
     }
 
     private void OnOverlaySettingsUpdated(OverlaySettings newSettings)
@@ -138,7 +137,6 @@ public class ARRenderer
     {
         if (thisFrameView != default)
             return thisFrameView;
-        
 
         thisFrameOffsetX = 512 * cameraData.cx;
         thisFrameOffsetZ = 512 * cameraData.cy;
