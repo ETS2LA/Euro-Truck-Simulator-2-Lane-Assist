@@ -1,11 +1,6 @@
-### ETS2LA C# 3.4.31
-- Added `Experiments` tab in the settings.
-- Added `ETS2LA.ML`.
-  - `ETS2LA.ML.Vision` provides a synthetic camera system for machine learning and computer vision models inside ETS2LA. This is still experimental, and only included for development purposes. You can view the default cameras via `Settings -> Experiments -> Render Vision Cameras`.
-  - Note that using Experiments may cause instability and performance issues.
-- **Drk** - Fix overlay not recovering after a missed frame. This caused additional CPU usage further worsening the problem.
-
-**Note:** This update is experimental. It might be worth it to way a day or two before updating to let us fix any issues people report.
+### ETS2LA C# 3.4.32
+- `WindowDefinition` now supports`Open` property to control window visibility at registration time.
+  - This is useful for settings windows that should be hidden by default, and only opened when the user wants to.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
