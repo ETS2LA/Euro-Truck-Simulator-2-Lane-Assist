@@ -58,6 +58,7 @@ public class OverlayHandler
     
     private List<InternalWindow> windows = new();
     public Dictionary<FontStyle, ImFontPtr> Fonts = new Dictionary<FontStyle, ImFontPtr>();
+    public const float DefaultFontSize = 18f;
 
     public bool IsOverlayFocused => isInteracting;
     public float AverageFrameTime => frameTimes.Count > 0 ? frameTimes.Average() : 0f;
@@ -462,7 +463,7 @@ public class OverlayHandler
                     Logger.Error($"Font file not found at {fontPath}");
                     continue;
                 }
-                ImFont* font = io.Fonts.AddFontFromFileTTF(fontPath, 18f);
+                ImFont* font = io.Fonts.AddFontFromFileTTF(fontPath, DefaultFontSize);
                 ImFontPtr fontPtr = new ImFontPtr(font);
                 Fonts[fonts[i].Item1] = fontPtr;
             }
@@ -565,6 +566,11 @@ public class OverlayHandler
         }
         
         var newWindow = new ExternalWindow(def, renderAction, renderContextMenuAction.GetValueOrDefault(() => { }));
+        if (def.Open.HasValue)
+        {
+            newWindow.IsWindowOpen = def.Open.Value;
+        }
+
         windows.Add(newWindow);
     }
 

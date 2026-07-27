@@ -18,6 +18,7 @@ namespace ETS2LA.Overlay
         public Optional<int> Y;
         public Optional<Func<(int, int)>> LocationFunction;
         public Optional<float> Alpha;
+        public Optional<bool> Open;
         /// <summary>
         ///  This might be useful if you want a reliable callback to when
         ///  the overlay is rendered. Setting this variable to true will mean
