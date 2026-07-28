@@ -110,14 +110,11 @@ namespace ETS2LA.Shared
 
         public string ReadChar(int offset, int count)
         {
-            StringBuilder charBuilder = new StringBuilder();
-            for (int i = 0; i < count; i++)
-            {
-                char c = (char)memory[offset + i];
-                if (c == '\0') break; // C strings terminate at first null
-                charBuilder.Append(c);
-            }
-            return charBuilder.ToString();
+            int length = 0;
+            while (length < count && memory[offset + length] != 0) // C strings terminate at first null
+                length++;
+
+            return Encoding.Latin1.GetString(memory, offset, length);
         }
 
         public double ReadDouble(int offset)
