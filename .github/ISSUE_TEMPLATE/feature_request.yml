@@ -15,11 +15,3 @@ body:
       placeholder: Description
     validations:
       required: true
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Confirmation
-      description: By submitting this issue, you will create a public issue on the ETS2 Lane Assist GitHub page.
-      options:
-        - label: I accept
-          required: true
