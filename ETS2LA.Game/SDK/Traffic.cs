@@ -78,6 +78,7 @@ public class TrafficProvider
     private MemoryReader _reader;
     private TrafficData? _currentData = new();
     private TrafficVehicle[] _lastVehicles = Array.Empty<TrafficVehicle>();
+    private readonly Dictionary<short, TrafficVehicle> _lastVehicleById = new();
 
 
     string mmapName = "Local\\ETS2LATraffic";
@@ -268,26 +269,35 @@ public class TrafficProvider
         _lastVehicles = _currentData.vehicles;
         _currentData.vehicles = vehicles.ToArray();
 
+        bool anyTMP = false;
+        foreach (var vehicle in _currentData.vehicles)
+        {
+            if (vehicle.isTMP) { anyTMP = true; break; }
+        }
+
+        _lastVehicleById.Clear();
+        if (anyTMP)
+        {
+            foreach (var lastVehicle in _lastVehicles)
+                _lastVehicleById.TryAdd(lastVehicle.id, lastVehicle);
+        }
+
         // Update vehicle speeds
         var curTime = Environment.TickCount / 1000f;
         foreach (var vehicle in _currentData.vehicles)
         {
-            if (vehicle.isTMP)
+            if (vehicle.isTMP && _lastVehicleById.TryGetValue(vehicle.id, out var lastVehicle))
             {
-                var lastVehicle = _lastVehicles.FirstOrDefault(v => v.id == vehicle.id);
-                if (lastVehicle != null)
+                vehicle.speed = lastVehicle.speed;
+                vehicle.speedFilter = lastVehicle.speedFilter;
+                vehicle.lastPosition = lastVehicle.lastPosition;
+                vehicle.lastUpdateTime = lastVehicle.lastUpdateTime;
+                if (curTime - vehicle.lastUpdateTime > SpeedUpdateRateInTMP)
                 {
-                    vehicle.speed = lastVehicle.speed;
-                    vehicle.speedFilter = lastVehicle.speedFilter;
-                    vehicle.lastPosition = lastVehicle.lastPosition;
-                    vehicle.lastUpdateTime = lastVehicle.lastUpdateTime;
-                    if (curTime - vehicle.lastUpdateTime > SpeedUpdateRateInTMP)
-                    {
-                        var distance = Vector3.Distance(vehicle.lastPosition, vehicle.Position);
-                        vehicle.speed = vehicle.speedFilter.Update(distance / (curTime - vehicle.lastUpdateTime));
-                        vehicle.lastPosition = vehicle.Position;
-                        vehicle.lastUpdateTime = curTime;
-                    }
+                    var distance = Vector3.Distance(vehicle.lastPosition, vehicle.Position);
+                    vehicle.speed = vehicle.speedFilter.Update(distance / (curTime - vehicle.lastUpdateTime));
+                    vehicle.lastPosition = vehicle.Position;
+                    vehicle.lastUpdateTime = curTime;
                 }
             }
         }
