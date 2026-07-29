@@ -266,7 +266,7 @@ public class ARRenderer
             ((rgba & 0x000000FF) << 24); 
     }
 
-    private bool AllPointsOutsideRenderDistance(ARCoordinate[] points)
+    private bool AllPointsOutsideRenderDistance(params ReadOnlySpan<ARCoordinate> points)
     {
         float maxDistance = overlaySettings.MaxARDistance;
         Vector3 cameraPos = cameraData.position;
@@ -292,7 +292,7 @@ public class ARRenderer
     /// <param name="thickness">Thickness of the line in pixels.</param>
     public void Draw3DLine(ARCoordinate start, ARCoordinate end, UInt32 color, float thickness = 1.0f)
     {
-        if (AllPointsOutsideRenderDistance(new ARCoordinate[] { start, end }))
+        if (AllPointsOutsideRenderDistance(start, end))
             return;
         
         Vector2? p1 = WorldToScreen(ARCoordinateToVector3(start), thisFrameWidth, thisFrameHeight);
@@ -380,7 +380,7 @@ public class ARRenderer
             ARCoordinate outEnd   = leftPoints[i + 1];
             ARCoordinate inEnd    = rightPoints[i + 1];
 
-            if (AllPointsOutsideRenderDistance(new[] { outStart, inStart, outEnd, inEnd }))
+            if (AllPointsOutsideRenderDistance(outStart, inStart, outEnd, inEnd))
                 continue;
 
             Vector2? ndcOutStart = WorldToNDC(ARCoordinateToVector3(outStart));
@@ -420,7 +420,7 @@ public class ARRenderer
     /// <param name="thickness">The thickness of the circle outline.</param>
     public void Draw3DCircle(ARCoordinate center, float radius, UInt32 color, bool filled = false, float thickness = 1)
     {
-        if (AllPointsOutsideRenderDistance(new ARCoordinate[] { center }))
+        if (AllPointsOutsideRenderDistance(center))
             return;
 
         Vector2? centerScreen = WorldToScreen(ARCoordinateToVector3(center), thisFrameWidth, thisFrameHeight);
@@ -497,7 +497,7 @@ public class ARRenderer
     /// <param name="thickness">The thickness of a non filled quad.</param>
     public void Draw3DQuad(ARCoordinate p1, ARCoordinate p2, ARCoordinate p3, ARCoordinate p4, UInt32 color, bool filled = false, float thickness = 1)
     {
-        if (AllPointsOutsideRenderDistance(new ARCoordinate[] { p1, p2, p3, p4 }))
+        if (AllPointsOutsideRenderDistance(p1, p2, p3, p4))
             return;
         
         Vector2? p1s = WorldToScreen(ARCoordinateToVector3(p1), thisFrameWidth, thisFrameHeight);
@@ -535,7 +535,7 @@ public class ARRenderer
     /// <param name="thickness">The thickness of a non filled triangle.</param>
     public void Draw3DTriangle(ARCoordinate p1, ARCoordinate p2, ARCoordinate p3, UInt32 color, bool filled = false, float thickness = 1)
     {
-        if (AllPointsOutsideRenderDistance(new ARCoordinate[] { p1, p2, p3 }))
+        if (AllPointsOutsideRenderDistance(p1, p2, p3))
             return;
 
         Vector2? p1s = WorldToScreen(ARCoordinateToVector3(p1), thisFrameWidth, thisFrameHeight);
@@ -573,7 +573,7 @@ public class ARRenderer
     /// <param name="centerY">Whether to center the text vertically on the position.</param>
     public void Draw3DText(ARCoordinate position, string text, UInt32 color, float xFactor = 0f, float yFactor = 0f, UInt32? bgColor = null, UInt32? bgBorderColor = null, float bgBorderThickness = 1f, float bgPaddingX = 0f, float bgPaddingY = 0f, float bgRounding = 0f)
     {
-        if (AllPointsOutsideRenderDistance(new ARCoordinate[] { position }))
+        if (AllPointsOutsideRenderDistance(position))
             return;
 
         Vector2? screenPos = WorldToScreen(ARCoordinateToVector3(position), thisFrameWidth, thisFrameHeight);
@@ -677,7 +677,7 @@ public class ARRenderer
         // onto the main overlay background.
         ImGui.SetCurrentContext(oldContext);
 
-        if (AllPointsOutsideRenderDistance(new ARCoordinate[] { center }))
+        if (AllPointsOutsideRenderDistance(center))
         {
             isWindowContextInitialized = false;
             return;
