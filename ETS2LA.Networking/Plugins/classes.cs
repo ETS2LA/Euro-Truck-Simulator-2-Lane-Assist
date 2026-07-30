@@ -48,7 +48,7 @@ public class NetworkPlugin
         var compatibleVersions = Versions
             .Where(v => IsCompatible(Version.Parse(appVersion), v.AppVersion))
             .Where(v => v.SupportedOperatingSystems.Contains(os))
-            .OrderByDescending(v => v.Version)
+            .OrderByDescending(v => Version.TryParse(v.Version, out var parsed) ? parsed : new Version(0, 0, 0))
             .ToList();
         return compatibleVersions.FirstOrDefault();
     }
