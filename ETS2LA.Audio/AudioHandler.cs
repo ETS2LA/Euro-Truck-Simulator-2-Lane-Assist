@@ -132,6 +132,10 @@ public class AudioHandler
             {
                 Logger.Info("Audio playback canceled");
             }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error playing audio file {job.Filename}: {ex}");
+            }
             finally 
             {
                 _currentCts.Dispose();
