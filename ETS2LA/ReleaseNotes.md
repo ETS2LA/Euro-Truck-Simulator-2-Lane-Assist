@@ -1,6 +1,10 @@
-### ETS2LA C# 3.4.32
-- `WindowDefinition` now supports`Open` property to control window visibility at registration time.
-  - This is useful for settings windows that should be hidden by default, and only opened when the user wants to.
+### ETS2LA C# 3.4.33
+- ETS2LA will now warn the user if it is running as a system administrator. While this is still supported, it is not recommended and this warning is to make sure the user is aware of the risks.
+- **Drk** - Improved `ReadChar()` function when handling virtual memory. Memory allocation down 76%.
+- **Drk** - Replace O(n^2) traffic vehicle matching with a dictionary lookup.
+- **Drk** - Stack allocate AR renderdistance point lists.
+- **Drk** - Fix catalogue plugin version ordering.
+- **Drk** - Keep the audio worker alive even if playback throws an error.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
