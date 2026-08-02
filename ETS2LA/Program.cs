@@ -54,6 +54,9 @@ internal static class Program
 
         args = Utils.WaitForRestartParentProcess(args);
 
+        if (Utils.IsRunningAsRoot())
+            Utils.HandleContinueClose("ETS2LA is running as a system administrator. This puts your system at risk if you use 3rd party plugins. Select Yes to continue anyway and accept the risk.");
+
         if (Utils.DoesETS2LAProcessExist())
             throw new InvalidOperationException("ETS2LA is already running, please close it from the Task Manager.");
 

@@ -60,6 +60,46 @@ static class Utils
         Environment.Exit(1);
     }
 
+    public static void HandleContinueClose(string message)
+    {
+        # if WINDOWS
+            try {
+                int result = NativeMethods.MessageBox(IntPtr.Zero, message, "ETS2LA", 0x4 | 0x20); // MB_YESNO | MB_ICONQUESTION
+                if (result == 6) // ID_YES
+                    return;
+            } catch { }
+        # else
+            try
+            {
+                int exitCode = -1;
+                try {
+                    using var proc = System.Diagnostics.Process.Start("zenity", $"--question --title=\"ETS2LA\" --text=\"{message.Replace("\"", "\\\"")}\"");
+                    if (proc == null) return;
+                    
+                    proc?.WaitForExit();
+                    exitCode = proc?.ExitCode ?? -1;
+                } catch { }
+
+                if (exitCode == 0) // zenity returns 0 for "Yes"
+                    return;
+            }
+            catch { }
+        # endif
+
+        Environment.Exit(0);
+    }
+
+    public static bool IsRunningAsRoot()
+    {
+        #if WINDOWS
+            using var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+            var principal = new System.Security.Principal.WindowsPrincipal(identity);
+            return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+        #else
+            return Environment.UserName == "root" || Environment.UserName == "admin";
+        #endif
+    }
+
     public static bool DoesETS2LAProcessExist()
     {
         var processName = "ets2la";
