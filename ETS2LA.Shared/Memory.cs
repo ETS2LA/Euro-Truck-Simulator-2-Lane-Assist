@@ -32,6 +32,14 @@ namespace ETS2LA.Shared
             return bools;
         }
 
+        public void ReadBool(int offset, Span<bool> destination)
+        {
+            for (int i = 0; i < destination.Length; i++)
+            {
+                destination[i] = memory[offset + i] != 0;
+            }
+        }
+
         public int ReadInt(int offset)
         {
             int value = BitConverter.ToInt32(memory, offset);
@@ -46,6 +54,14 @@ namespace ETS2LA.Shared
                 ints[i] = BitConverter.ToInt32(memory, offset + i * 4);
             }
             return ints;
+        }
+
+        public void ReadInt(int offset, Span<int> destination)
+        {
+            for (int i = 0; i < destination.Length; i++)
+            {
+                destination[i] = BitConverter.ToInt32(memory, offset + i * 4);
+            }
         }
 
         public Int16 ReadInt16(int offset)
@@ -74,6 +90,14 @@ namespace ETS2LA.Shared
                 floats[i] = BitConverter.ToSingle(memory, offset + i * 4);
             }
             return floats;
+        }
+
+        public void ReadFloat(int offset, Span<float> destination)
+        {
+            for (int i = 0; i < destination.Length; i++)
+            {
+                destination[i] = BitConverter.ToSingle(memory, offset + i * 4);
+            }
         }
 
         public long ReadLong(int offset)
@@ -113,6 +137,25 @@ namespace ETS2LA.Shared
             int length = 0;
             while (length < count && memory[offset + length] != 0) // C strings terminate at first null
                 length++;
+
+            return Encoding.Latin1.GetString(memory, offset, length);
+        }
+
+        public string ReadChar(int offset, int count, string? current)
+        {
+            int length = 0;
+            while (length < count && memory[offset + length] != 0)
+                length++;
+
+            if (current != null && current.Length == length)
+            {
+                int i = 0;
+                while (i < length && current[i] == (char)memory[offset + i])
+                    i++;
+
+                if (i == length)
+                    return current;
+            }
 
             return Encoding.Latin1.GetString(memory, offset, length);
         }
