@@ -49,11 +49,15 @@ public class NotificationHandler
 
     public void CloseNotification(string id)
     {
-        var toRemove = ActiveNotifications.FirstOrDefault(x => x.Id == id);
-        if (toRemove != null)
+        for (int i = 0; i < ActiveNotifications.Count; i++)
         {
-            ActiveNotifications.Remove(toRemove);
+            Notification candidate = ActiveNotifications[i];
+            if (candidate.Id != id)
+                continue;
+
+            ActiveNotifications.Remove(candidate);
             OnNotificationRemoved?.Invoke(this, id);
+            return;
         }
     }
 
