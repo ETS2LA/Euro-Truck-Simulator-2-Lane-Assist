@@ -255,7 +255,7 @@ public class ParsedRoad : IParsedItem
     /// </summary>
     /// <param name="Position">The input position to check.</param>
     /// <returns>The best lane for the given position.</returns>
-    public int GetBestLaneFor(Vector3 Position, bool inverted = false)
+    public int GetBestLaneFor(Vector3 Position, bool inverted = false, bool allowRetry = true)
     {
         float closestFactor = GetFactorForPoint(Position);
         if (inverted) closestFactor = 1 - closestFactor;
@@ -283,8 +283,8 @@ public class ParsedRoad : IParsedItem
             }
         }
 
-        if (!inverted && closestLaneDistance > 4.5f * 3) // 3 lanes
-            closestLane = GetBestLaneFor(Position, true);
+        if (allowRetry && closestLaneDistance > 4.5f * 3) // 3 lanes
+            closestLane = GetBestLaneFor(Position, !inverted, false);
 
         return closestLane;
     }
@@ -670,7 +670,7 @@ public class ParsedRoadList : IParsedItem
     /// </summary>
     /// <param name="Position">The input position to check.</param>
     /// <returns>The best lane for the given position.</returns>
-    public int GetBestLaneFor(Vector3 Position, bool inverted = false)
+    public int GetBestLaneFor(Vector3 Position, bool inverted = false, bool allowRetry = true)
     {
         float closestFactor = GetFactorForPoint(Position);
         if (inverted) closestFactor = 1 - closestFactor;
@@ -698,8 +698,8 @@ public class ParsedRoadList : IParsedItem
             }
         }
 
-        if (!inverted && closestLaneDistance > 4.5f * 3) // 3 lanes
-            closestLane = GetBestLaneFor(Position, true);
+        if (allowRetry && closestLaneDistance > 4.5f * 3) // 3 lanes
+            closestLane = GetBestLaneFor(Position, !inverted, false);
 
         return closestLane;
     }
