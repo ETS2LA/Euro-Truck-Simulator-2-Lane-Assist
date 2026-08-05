@@ -1,10 +1,7 @@
-### ETS2LA C# 3.4.33
-- ETS2LA will now warn the user if it is running as a system administrator. While this is still supported, it is not recommended and this warning is to make sure the user is aware of the risks.
-- **Drk** - Improved `ReadChar()` function when handling virtual memory. Memory allocation down 76%.
-- **Drk** - Replace O(n^2) traffic vehicle matching with a dictionary lookup.
-- **Drk** - Stack allocate AR renderdistance point lists.
-- **Drk** - Fix catalogue plugin version ordering.
-- **Drk** - Keep the audio worker alive even if playback throws an error.
+### ETS2LA C# 3.4.34
+- **Drk** - Fix the anonymous user ID always being empty. Existing users are given a proper ID on startup.
+- **Drk** - Fix `GetBestLaneFor` recursing forever and crashing ETS2LA with a stack overflow.
+- **Drk** - Remove steady-state allocations from the telemetry read path. Allocation while on a job down 98%.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
