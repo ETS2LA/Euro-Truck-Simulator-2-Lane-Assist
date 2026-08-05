@@ -27,9 +27,16 @@ public class NetworkingSettings
             var loadedSettings = _settingsHandler.Load<NetworkingSettings>("NetworkingSettings.json");
             if (loadedSettings != null)
             {
-                CurrentUser = loadedSettings.CurrentUser;
+                CurrentUser = loadedSettings.CurrentUser ?? new User();
                 CurrentApiServer = loadedSettings.CurrentApiServer;
             }
+
+            if (CurrentUser.Id == Guid.Empty)
+            {
+                CurrentUser.Id = Guid.NewGuid();
+                Save();
+            }
+
             _settingsHandler.RegisterListener<NetworkingSettings>("NetworkingSettings.json", OnSettingsChanged);
         }
     }

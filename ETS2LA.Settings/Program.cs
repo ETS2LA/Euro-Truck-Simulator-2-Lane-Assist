@@ -101,8 +101,9 @@ namespace ETS2LA.Settings
             string path = Path.Combine(_baseDir, fileName);
             if (!File.Exists(path))
             {
-                Save(fileName, Activator.CreateInstance<T>());
-                return Activator.CreateInstance<T>();
+                T created = Activator.CreateInstance<T>();
+                Save(fileName, created);
+                return created;
             }
 
             string json = File.ReadAllText(path, Encoding.UTF8);
