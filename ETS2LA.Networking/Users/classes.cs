@@ -10,7 +10,7 @@ public enum UserRole
 [Serializable]
 public class User
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.Empty;
     public string Username { get; set; } = "Anonymous";
     public string JwtToken { get; set; } = string.Empty;
     public DateTime Expiry { get; set; } = DateTime.MinValue;
