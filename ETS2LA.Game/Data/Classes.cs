@@ -283,7 +283,7 @@ public class ParsedRoad : IParsedItem
             }
         }
 
-        if (closestLaneDistance > 4.5f * 3) // 3 lanes
+        if (!inverted && closestLaneDistance > 4.5f * 3) // 3 lanes
             closestLane = GetBestLaneFor(Position, true);
 
         return closestLane;
@@ -698,7 +698,7 @@ public class ParsedRoadList : IParsedItem
             }
         }
 
-        if (closestLaneDistance > 4.5f * 3) // 3 lanes
+        if (!inverted && closestLaneDistance > 4.5f * 3) // 3 lanes
             closestLane = GetBestLaneFor(Position, true);
 
         return closestLane;
