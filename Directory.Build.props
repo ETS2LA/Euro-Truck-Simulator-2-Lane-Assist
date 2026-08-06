@@ -1,7 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <!-- This version has to be changed if *some* of the core assemblies are changed in a breaking way.
-         This prevents *every* tiny internal logic change from requiring a new version to be built for each plugin. (I think...) -->
-    <AssemblyVersion>3.4.34.0</AssemblyVersion>
-  </PropertyGroup>
-</Project>

@@ -711,6 +711,12 @@ public class ParsedRoadList : IParsedItem
         return closestLane;
     }
 
+    [Obsolete("Use GetBestLaneFor(Vector3 Position, bool inverted = false, bool allowRetry = true) instead. Included for plugins built for <= 3.4.33")]
+    public int GetBestLaneFor(Vector3 Position, bool inverted = false)
+    {
+        return GetBestLaneFor(Position, inverted, true);
+    }
+
     // The functions are all wrappers around the base Road functions.
     // They just take into account the last road's offset values, this way
     // we have accurate transitions between roads everywhere.
