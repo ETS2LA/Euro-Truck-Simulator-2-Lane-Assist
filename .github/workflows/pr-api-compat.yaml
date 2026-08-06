@@ -1,0 +1,69 @@
+name: API Compatibility Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          path: pr-branch
+          fetch-depth: 0
+
+      - name: Checkout Main
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          ref: main
+          path: main-branch
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install ApiCompat
+        run: dotnet tool install -g Microsoft.DotNet.ApiCompat.Tool
+
+      - name: Identify Changed Projects
+        id: detect
+        run: |
+          cd pr-branch
+          # list of top-level project folders containing changed files
+          CHANGED_PROJECTS=$(git diff --name-only origin/main...HEAD | grep '/' | cut -d'/' -f1 | sort -u)
+          
+          echo "Modified:"
+          echo "$CHANGED_PROJECTS"
+
+          {
+            echo 'CHANGED_PROJECTS<<EOF'
+            echo "$CHANGED_PROJECTS"
+            echo 'EOF'
+          } >> $GITHUB_ENV
+
+      - name: Build Main
+        if: env.CHANGED_PROJECTS != ''
+        run: dotnet build main-branch/ETS2LA.sln -c Release
+
+      - name: Build PR
+        if: env.CHANGED_PROJECTS != ''
+        run: dotnet build pr-branch/ETS2LA.sln -c Release
+
+      - name: Check API Compatibility
+        if: env.CHANGED_PROJECTS != ''
+        run: |
+          set -e
+
+          for proj in $CHANGED_PROJECTS; do
+            main_dll=$(find "main-branch/$proj" -type f -name "${proj}.dll" -path "*/bin/Release/net10.0/*" 2>/dev/null | head -n 1)
+            pr_dll=$(find "pr-branch/$proj" -type f -name "${proj}.dll" -path "*/bin/Release/net10.0/*" 2>/dev/null | head -n 1)
+
+            if [ -n "$main_dll" ] && [ -n "$pr_dll" ]; then
+              apicompat --left "$main_dll" --right "$pr_dll" --enable-rule-cannot-change-parameter-name
+            fi
+          done
