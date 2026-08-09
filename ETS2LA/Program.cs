@@ -10,6 +10,7 @@ using ETS2LA.Logging;
 using ETS2LA.Settings.Global;
 using ETS2LA.Telemetry;
 using ETS2LA.Networking;
+using ETS2LA.UI;
 
 using OpenTelemetry;
 using OpenTelemetry.Resources;
@@ -138,7 +139,7 @@ internal static class Program
 
         // Gotta wait for the UI thread to close (i.e. user closed the window)
         // and then tell the backend to shutdown too.
-        UI.Program.Main(args);
+        WebviewWindow.Main(args);
 
         shutdown = true;
         PluginBackend.Current.Shutdown();

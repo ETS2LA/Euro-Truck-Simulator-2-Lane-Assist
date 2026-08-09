@@ -1,53 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <OutputType>library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.8.0" />
-    <PackageReference Include="Avalonia" Version="12.0.2">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Avalonia.Desktop" Version="12.0.2">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.2">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1" Condition="'$(Configuration)'=='Debug'">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.0.0">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Huskui.Avalonia" Version="1.1.3">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Huskui.Avalonia.Markdown" Version="1.1.3">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Optris.Icons.Avalonia" Version="12.0.6">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Optris.Icons.Avalonia.FontAwesome" Version="12.0.6">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Optris.Icons.Avalonia.MaterialDesign" Version="12.0.6">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Photino.NET" Version="4.0.16" />
   </ItemGroup>
 
-  <ItemGroup Condition="!$([MSBuild]::IsOSPlatform('Windows'))">
-    <Compile Remove="Views/VisualizationView.axaml.cs" />
-    <AvaloniaXaml Remove="Views/VisualizationView.axaml" />
+  <ItemGroup>
+    <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETS2LA.Frontend/dist/**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="BuildSvelteApp" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <Message Text="Building Svelte frontend with Bun..." Importance="high" />
+    <Exec WorkingDirectory="ETS2LA.Frontend" Command="bun install" />
+    <Exec WorkingDirectory="ETS2LA.Frontend" Command="bun run build" />
+  </Target>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
@@ -57,18 +36,4 @@
     <DefineConstants>$(DefineConstants);LINUX</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-
-  <ItemGroup Label="ProjectReferences">
-    <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
-    <ProjectReference Include="..\ETS2LA.Shared\ETS2LA.Shared.csproj" />
-    <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
-    <ProjectReference Include="..\ETS2LA.Audio\ETS2LA.Audio.csproj" />
-    <ProjectReference Include="..\ETS2LA.Notifications\ETS2LA.Notifications.csproj" />
-    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj" />
-    <ProjectReference Include="..\ETS2LA.Overlay\ETS2LA.Overlay.csproj" />
-    <ProjectReference Include="..\ETS2LA.Networking\ETS2LA.Networking.csproj" />
-  </ItemGroup>
 </Project>

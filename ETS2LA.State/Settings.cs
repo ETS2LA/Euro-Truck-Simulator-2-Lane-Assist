@@ -7,6 +7,7 @@ namespace ETS2LA.State;
 public class StateSettings
 {
     public Units DisplayUnits = Units.Metric;
+    public string DisplayLanguage = "English";
     public int SpeedControlStepSize = 2;
     public bool SnapTo10s = true;
 }

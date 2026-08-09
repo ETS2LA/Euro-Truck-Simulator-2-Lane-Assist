@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETS2LA.UI\ETS2LA.UI.csproj" />
     <ProjectReference Include="..\ETS2LA.Overlay\ETS2LA.Overlay.csproj" />
     <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj" />
     <ProjectReference Include="..\ETS2LA.Telemetry\ETS2LA.Telemetry.csproj" />
@@ -27,6 +26,7 @@
     <ProjectReference Include="..\ETS2LA.State\ETS2LA.State.csproj" />
     <ProjectReference Include="..\ETS2LA.Settings\ETS2LA.Settings.csproj" />
     <ProjectReference Include="..\ETS2LA.Networking\ETS2LA.Networking.csproj" />
+    <ProjectReference Include="..\ETS2LA.UI\ETS2LA.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="ETS2LA.UI Requirements">
