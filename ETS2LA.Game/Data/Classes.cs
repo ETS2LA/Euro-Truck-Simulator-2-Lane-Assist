@@ -663,7 +663,10 @@ public class ParsedRoadList : IParsedItem
             if (accumulatedLength + r.Road.Length >= distance - 1f)
             {
                 float localDistance = distance - accumulatedLength;
-                float localFactor = localDistance / r.Road.Length;
+
+                // The road above can end up to a metre before the distance we asked for, so
+                // this can come out above 1 and InterpolateCurve would extrapolate the curve.
+                float localFactor = Math.Clamp(localDistance / r.Road.Length, 0f, 1f);
                 return localFactor;
             }
             accumulatedLength += r.Road.Length;
