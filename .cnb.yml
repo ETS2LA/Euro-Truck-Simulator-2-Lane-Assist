@@ -6,3 +6,5 @@ v*:
           options:
             latest: true
             description: Release created from tag.
+      git:
+        submodules: false
