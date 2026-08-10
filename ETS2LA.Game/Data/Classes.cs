@@ -1224,7 +1224,7 @@ public class ParsedPrefab : IParsedItem
         prefabStart = prefab.Nodes[0].Position - Descriptor.Nodes[prefab.Origin].Position;
         prefabRotation = prefab.Nodes[0].Rotation.ToEuler() - MathEx.GetNodeRotation(Descriptor.Nodes[prefab.Origin].Direction).ToEuler();
         rotationMatrix = Matrix4x4.CreateRotationY(prefabRotation.Y, prefab.Nodes[0].Position);
-        rotationMatrix *= Matrix4x4.CreateRotationX(prefabRotation.X, prefab.Nodes[0].Position);
+        rotationMatrix *= Matrix4x4.CreateRotationX(-prefabRotation.X, prefab.Nodes[0].Position);
         rotationMatrix *= Matrix4x4.CreateRotationZ(prefabRotation.Z, prefab.Nodes[0].Position);
     }
 
