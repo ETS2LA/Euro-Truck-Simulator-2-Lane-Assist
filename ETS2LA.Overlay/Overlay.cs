@@ -10,6 +10,7 @@ using Hexa.NET.OpenGL;
 using HexaGen.Runtime;
 using GLFWwindowPtr = Hexa.NET.GLFW.GLFWwindowPtr;
 
+using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Numerics;
 using System.Diagnostics;
@@ -24,6 +25,17 @@ using ETS2LA.ML.Vision;
 using ETS2LA.Game.Telemetry;
 
 namespace ETS2LA.Overlay;
+
+#if WINDOWS
+    public static class NativeMethods
+    {
+        [DllImport("winmm.dll", EntryPoint = "timeBeginPeriod", SetLastError = true)]
+        public static extern uint TimeBeginPeriod(uint uMilliseconds);
+
+        [DllImport("winmm.dll", EntryPoint = "timeEndPeriod", SetLastError = true)]
+        public static extern uint TimeEndPeriod(uint uMilliseconds);
+    }
+#endif
 
 public enum FontStyle
 {
@@ -124,6 +136,12 @@ public class OverlayHandler
             return;
         }
 
+        #if WINDOWS
+            // 1ms sleep accuracy on windows
+            // Linux is fine from the get go
+            NativeMethods.TimeBeginPeriod(1);
+        #endif
+
         Stopwatch fs = Stopwatch.StartNew();
         int targetFramerate = (int)OverlayMonitorRefreshRate;
         double interval = 1000.0 / targetFramerate;
@@ -140,6 +158,7 @@ public class OverlayHandler
             start = fs.Elapsed.TotalMilliseconds;
             if (next < start)
                 next = start;
+            
             next += interval;
 
             if (!isInteracting) { 
@@ -232,8 +251,6 @@ public class OverlayHandler
             double remaining = next - fs.Elapsed.TotalMilliseconds;
             if (remaining > 1.0)
                 Thread.Sleep((int)(remaining - 1));
-            
-            // Busy wait the end
             while (fs.Elapsed.TotalMilliseconds < next)
                 Thread.SpinWait(10);
             
@@ -301,7 +318,13 @@ public class OverlayHandler
         else
             freePercentage = (int)(AverageRemainingTime / (1000f / OverlayMonitorRefreshRate) * 100f);
         
-        ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{(int)(1/(AverageFrameTime / 1000f))}\n{freePercentage}%%");
+        ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{(int)(1/(AverageFrameTime / 1000f))}");
+        ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{freePercentage}%%");
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip("Overlay free CPU time percentage");
+        }
+
         ImGui.End();
 
         foreach (InternalWindow window in windows)
