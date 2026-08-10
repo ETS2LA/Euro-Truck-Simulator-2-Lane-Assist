@@ -184,6 +184,10 @@ public class ARRenderer
         return thisFrameProjection;
     }
 
+    // Closer than this the perspective divide throws the point way outside -1 to 1 instead
+    // of behind us, which stretches anything drawn from several points across the screen.
+    private const float NearClipDistance = 1.0f;
+
     /// <summary>
     ///  Convert a world position into a screen coordinate. This takes all current
     ///  camera variables into account.
@@ -198,7 +202,7 @@ public class ARRenderer
             thisFrameViewProjection = GetViewMatrix() * GetProjectionMatrix();
 
         Vector4 clipSpacePos = Vector4.Transform(new Vector4(worldPos, 1.0f), thisFrameViewProjection);
-        if (clipSpacePos.W <= 0.1f) return null; // behind the camera
+        if (clipSpacePos.W <= NearClipDistance) return null; // behind or right on top of the camera
 
         // perspective divide to normalize coordinates
         // so that means x,y is -1 to 1 where 0,0 is the center
@@ -220,7 +224,7 @@ public class ARRenderer
             thisFrameViewProjection = GetViewMatrix() * GetProjectionMatrix();
 
         Vector4 clipSpacePos = Vector4.Transform(new Vector4(worldPos, 1.0f), thisFrameViewProjection);
-        if (clipSpacePos.W <= 0.1f) return null; // behind
+        if (clipSpacePos.W <= NearClipDistance) return null; // behind or right on top of the camera
 
         return new Vector2(clipSpacePos.X / clipSpacePos.W, clipSpacePos.Y / clipSpacePos.W);
     }
