@@ -1213,7 +1213,6 @@ public class ParsedPrefab : IParsedItem
     public PrefabDescriptor? Descriptor;
 
     private Vector3 prefabStart;
-    private Vector3 prefabRotation;
     Matrix4x4 rotationMatrix;
 
     public ParsedPrefab(Prefab prefab)
@@ -1222,10 +1221,15 @@ public class ParsedPrefab : IParsedItem
         Descriptor = (PrefabDescriptor?)PpdFileHandler.Current.GetPpdFile(prefab.Model.ToString());
 
         prefabStart = prefab.Nodes[0].Position - Descriptor.Nodes[prefab.Origin].Position;
-        prefabRotation = prefab.Nodes[0].Rotation.ToEuler() - MathEx.GetNodeRotation(Descriptor.Nodes[prefab.Origin].Direction).ToEuler();
-        rotationMatrix = Matrix4x4.CreateRotationY(prefabRotation.Y, prefab.Nodes[0].Position);
-        rotationMatrix *= Matrix4x4.CreateRotationX(-prefabRotation.X, prefab.Nodes[0].Position);
-        rotationMatrix *= Matrix4x4.CreateRotationZ(prefabRotation.Z, prefab.Nodes[0].Position);
+
+        // Euler triples dont subtract, that only held while both rotations were pure yaw
+        Quaternion descriptorRotation = MathEx.GetNodeRotation(Descriptor.Nodes[prefab.Origin].Direction);
+        Quaternion relativeRotation = Quaternion.Normalize(prefab.Nodes[0].Rotation * Quaternion.Conjugate(descriptorRotation));
+
+        Vector3 pivot = prefab.Nodes[0].Position;
+        rotationMatrix = Matrix4x4.CreateTranslation(-pivot)
+                       * Matrix4x4.CreateFromQuaternion(relativeRotation)
+                       * Matrix4x4.CreateTranslation(pivot);
     }
 
     public ControlNode GetControlNodeForNode(Node node)
