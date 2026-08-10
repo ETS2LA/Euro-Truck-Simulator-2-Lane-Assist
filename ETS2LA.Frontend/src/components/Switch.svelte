@@ -18,7 +18,7 @@
     <div class="flex justify-between">
         <p>{title}</p>
         <!-- svelte-ignore a11y_consider_explicit_label -->
-        <button class={"w-12 bg-control h-6 rounded-full" + (value ? ' bg-accent-border!' : '')} onclick={() => {
+        <button class={"cursor-pointer w-12 bg-control h-6 rounded-full" + (value ? ' bg-accent-border!' : '')} onclick={() => {
             onToggle?.(!value);
             value = !value;
         }}>

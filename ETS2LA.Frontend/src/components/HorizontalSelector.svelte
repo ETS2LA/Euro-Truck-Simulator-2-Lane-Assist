@@ -25,7 +25,7 @@
     <div class="flex gap-4 mt-2">
         {#each options as option, index}
             <button
-                class={"px-4 py-2 rounded-sm bg-control-bg-dark description hover:bg-control/50 hover:text-text text-[14px] transition-colors" + (index === selectedIndex ? ' text-text bg-accent-dark!' : '')}
+                class={"px-4 py-2 cursor-pointer rounded-sm bg-control-bg-dark description hover:bg-control/50 hover:text-text text-[14px] transition-colors" + (index === selectedIndex ? ' text-text bg-accent-dark!' : '')}
                 onclick={() => {
                     onSelect?.(index);
                     selectedIndex = index;

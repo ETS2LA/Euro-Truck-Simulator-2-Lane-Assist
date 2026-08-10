@@ -28,6 +28,7 @@ internal static class Program
     /// <summary>
     ///  Main entrypoint for ETS2LA.
     /// </summary>
+    [STAThread]
     static void Main(string[] args)
     {
         // This handles the main thread crashing (Avalonia)

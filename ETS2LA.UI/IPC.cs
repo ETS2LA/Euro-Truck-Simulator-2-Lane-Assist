@@ -45,7 +45,8 @@ static class IPC
                 window.SetMaximized(!window.Maximized);
                 break;
             case "window:close":
-                window.Close();
+                if (window.ShowMessage("Are you sure?", "This will disconnect ETS2LA from the game and close the window. You can minimize the window to keep ETS2LA running.", PhotinoDialogButtons.YesNo, PhotinoDialogIcon.Question) == PhotinoDialogResult.Yes)
+                    window.Close();
                 break;
             case "window:focus":
                 window.SetTopMost(true);

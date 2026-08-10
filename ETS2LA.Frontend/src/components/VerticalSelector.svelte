@@ -27,7 +27,7 @@
 
     <div class="relative w-full">
         <button 
-            class={"w-full h-11 border border-control-bg bg-control-bg rounded-md items-center flex px-4 justify-between" + (isOpen ? ' border-accent-dark!' : '')}
+            class={"w-full cursor-pointer h-11 border border-control-bg bg-control-bg rounded-md items-center flex px-4 justify-between" + (isOpen ? ' border-accent-dark!' : '')}
             onclick={() => isOpen = !isOpen}
         >
             <p>{options[selectedIndex]}</p>
@@ -38,10 +38,11 @@
         </button>
 
         {#if isOpen}
-            <div class="absolute top-full left-0 mt-1 w-full max-h-48 bg-control-bg-dark rounded-md z-50 overflow-y-auto flex flex-col shadow-lg">
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div class="absolute top-full left-0 mt-1 w-full max-h-48 bg-control-bg-dark rounded-md z-50 overflow-y-auto flex flex-col shadow-lg" onmouseleave={() => isOpen = false}>
                 {#each options as option, index}
                     <button
-                        class={"w-full px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors" + (index === selectedIndex ? ' text-text bg-accent-dark!' : '')}
+                        class={"w-full px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors cursor-pointer" + (index === selectedIndex ? ' cursor-default! text-text bg-accent-dark!' : '')}
                         onclick={() => {
                             onSelect?.(index);
                             selectedIndex = index;

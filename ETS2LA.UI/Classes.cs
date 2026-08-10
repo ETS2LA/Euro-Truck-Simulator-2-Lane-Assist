@@ -23,11 +23,13 @@ public class WebviewWindow
         var window = new PhotinoWindow()
             .SetTitle("ETS2LA")
             .SetUseOsDefaultSize(false)
+            .SetUseOsDefaultLocation(false)
             .SetMinSize(800, 600)
             .SetSize(1280, 720)
             # if DEBUG
             .SetDevToolsEnabled(true)
             # endif
+            .Center()
             .SetChromeless(true);
 
         window.RegisterWebMessageReceivedHandler((sender, message) => IPC.HandleMessage(message, window));
