@@ -26,9 +26,11 @@ Please check the [FAQ](https://ets2la.com/faq) for answers. If your question is 
 > Information below this line is meant for **developers**. If you're a normal user then please use the information above.
 
 ### Building the Project
-First download .NET 10 from Microsoft. You can find that [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0).
+First download .NET 10 from Microsoft. You can find that [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). You'll also have to install [Bun](https://bun.sh/).
 
 Now clone the repository and open the solution file in your preferred IDE. We recommend [VSCode](https://code.visualstudio.com). Any code editor should work, but the project comes prepackaged with VSCode tasks. You should also download the `C# Dev Kit` extension, other IDEs should have their own equivalent extensions.
+
+Before you can run ETS2LA, you'll have to install the required npm packages. Open a terminal in `ETS2LA.UI` and run `bun install`. This will install all the required UI packages. Note that ETS2LA will use `bun` to build tailwind each time it's built, so make sure you have it installed (or change the .csproj file to use `npm` instead).
 
 Building depends on your IDE. On ETS2LA you just press `F5`.
 
