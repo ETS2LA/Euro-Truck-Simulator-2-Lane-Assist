@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,25 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Photino.NET" Version="4.0.16" />
+    <PackageReference Include="Photino.Blazor" Version="4.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ETS2LA.Backend\ETS2LA.Backend.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.State\ETS2LA.State.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.Overlay\ETS2LA.Overlay.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.Game\ETS2LA.Game.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.Audio\ETS2LA.Audio.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ETS2LA.ML\ETS2LA.ML.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="ETS2LA.Frontend/dist/**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <Target Name="BuildSvelteApp" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
-    <Message Text="Building Svelte frontend with Bun..." Importance="high" />
-    <Exec WorkingDirectory="ETS2LA.Frontend" Command="bun install" />
-    <Exec WorkingDirectory="ETS2LA.Frontend" Command="bun run build" />
+  <Target Name="BuildTailwind" BeforeTargets="Build">
+    <Exec Command="bun run build:css" />
+    <Message Text="Tailwind CSS build completed." Importance="high" />
   </Target>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">

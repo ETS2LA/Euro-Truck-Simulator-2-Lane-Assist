@@ -54,6 +54,15 @@
     <Copy SourceFiles="..\ETS2LA.Game\libs\libdeflate.dll" DestinationFolder="$(OutputPath)" />
   </Target>
 
+  <Target Name="CopyWwwroot" AfterTargets="Build">
+    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\index.html" DestinationFolder="$(OutputPath)wwwroot\" />
+    
+    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\css\app.css" DestinationFolder="$(OutputPath)wwwroot\css\" />
+    
+    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\js\ipc.js" DestinationFolder="$(OutputPath)wwwroot\js\" />
+    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\js\windowTransform.js" DestinationFolder="$(OutputPath)wwwroot\js\" />
+  </Target>
+
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>

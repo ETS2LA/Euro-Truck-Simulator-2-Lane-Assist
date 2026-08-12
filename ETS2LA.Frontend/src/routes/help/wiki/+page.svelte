@@ -1,1 +1,0 @@
-<iframe src="https://ets2la.com/help/faq" class="w-full h-full rounded-md" title="ETS2LA Wiki"></iframe>

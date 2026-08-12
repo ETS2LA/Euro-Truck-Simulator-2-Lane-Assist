@@ -1,0 +1,25 @@
+@page "/settings/audio"
+@layout Shared.Layouts.SettingsLayout
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.Audio;
+
+@code {
+    public float Volume
+    {
+        get => (float)Math.Round(AudioHandler.Current.GetVolume() * 100, 0);
+        set
+        {
+            AudioHandler.Current.SetVolume(value / 100);
+        }
+    }
+}
+
+<div class="flex flex-col w-104 m-5 ml-8 gap-6">
+    <Slider Title="Volume"
+            Description="Adjust the volume of the audio output."
+            Suffix="%"
+            Min="0"
+            Max="100"
+            Value="@Volume"
+            ValueChanged="@((float value) => Volume = value)" />
+</div>

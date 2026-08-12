@@ -1,0 +1,10 @@
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+}
+
+<div class="px-3 flex py-1.5">
+    <p class="description text-[11px] font-medium">
+        @Title
+    </p>
+</div>

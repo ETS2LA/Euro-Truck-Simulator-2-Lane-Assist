@@ -1,0 +1,24 @@
+@page "/settings/telemetry"
+@layout Shared.Layouts.SettingsLayout
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.Settings.Global
+
+@code {
+    // TODO: Make <a> links open external browser windows.
+    private bool AnonymousTelemetry {
+        get => UserSettings.Current.IsTelemetryEnabled;
+        set {
+            var settings = UserSettings.Current;
+            settings.IsTelemetryEnabled = value;
+            UserSettings.Current.Save();
+        }
+    }
+}
+
+<div class="flex flex-col w-104 m-5 ml-8 gap-6">
+    <Switch Title="Anonymous Telemetry"
+            Description="Anonymous telemetry helps us improve ETS2LA by giving us insights into users' system specs, crashes, and other usage data. Your data cannot be identified with any personal information."
+            Value="@AnonymousTelemetry"
+            ValueChanged="@(value => AnonymousTelemetry = value)" />
+    <a href="https://telemetry.ets2la.com/public-dashboards/17f53fce4749475c8efcab181b1306f3" target="_blank" class="text-text-l hover:text-text-h hover:underline transition-colors">View Public Telemetry</a>
+</div>

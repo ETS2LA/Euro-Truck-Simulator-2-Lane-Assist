@@ -1,0 +1,81 @@
+@code {
+    [Parameter]
+    public string Content { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Delay { get; set; } = 0; // in milliseconds
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool isHovered = false;
+    private double x = 0;
+    private double y = 0;
+    private CancellationTokenSource? cts;
+
+    private void HandleMouseEnter(MouseEventArgs e)
+    {
+        UpdatePosition(e);
+
+        cts?.Cancel();
+        cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                if (Delay > 0)
+                {
+                    await Task.Delay(Delay, token);
+                }
+
+                if (!token.IsCancellationRequested)
+                {
+                    isHovered = true;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch (TaskCanceledException) { }
+        });
+    }
+
+    private void HandleMouseMove(MouseEventArgs e)
+    {
+        UpdatePosition(e);
+        if (isHovered)
+        {
+            StateHasChanged();
+        }
+    }
+
+    private void HandleMouseLeave()
+    {
+        cts?.Cancel();
+        isHovered = false;
+    }
+
+    private void UpdatePosition(MouseEventArgs e)
+    {
+        x = e.ClientX + 5;
+        y = e.ClientY + 5;
+    }
+}
+
+<div class="@Class"
+    @onmouseenter="HandleMouseEnter"
+    @onmouseleave="HandleMouseLeave"
+    @onmousemove="HandleMouseMove">
+    @ChildContent
+</div>
+
+@if (isHovered && !string.IsNullOrEmpty(Content))
+{
+    <div style="top: @(y)px; left: @(x)px;" 
+         class="fixed p-1 rounded-sm bg-control-bg border border-border z-50 pointer-events-none text-xs">
+        @Content
+    </div>
+}

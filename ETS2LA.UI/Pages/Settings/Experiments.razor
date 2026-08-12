@@ -1,0 +1,22 @@
+@page "/settings/experiments"
+@layout Shared.Layouts.SettingsLayout
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.ML
+
+@code {
+    private bool RenderVisionCameras {
+        get => MLSettings.Current.RenderVisionCameras;
+        set {
+            var settings = MLSettings.Current;
+            settings.RenderVisionCameras = value;
+            MLSettings.Current.Save();
+        }
+    }
+}
+
+<div class="flex flex-col w-104 m-5 ml-8 gap-6">
+    <Switch Title="Render Vision Cameras"
+            Description="Render the vision cameras in the game world. This is useful for debugging, but can cause performance issues."
+            Value="@RenderVisionCameras"
+            ValueChanged="@(value => RenderVisionCameras = value)" />
+</div>

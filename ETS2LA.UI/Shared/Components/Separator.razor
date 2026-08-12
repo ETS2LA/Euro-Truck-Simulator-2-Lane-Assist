@@ -1,0 +1,19 @@
+@code {
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Orientation { get; set; } = "horizontal";
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+}
+
+<div class="flex @(Orientation == "horizontal" ? "flex-row" : "flex-col") items-center @Class">
+    <div class="flex-1 border-t border-description/50"></div>
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span class="px-2 description">@Label</span>
+    }
+    <div class="flex-1 border-t border-description/50"></div>
+</div>

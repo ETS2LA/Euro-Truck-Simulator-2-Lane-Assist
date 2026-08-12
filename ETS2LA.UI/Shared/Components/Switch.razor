@@ -1,0 +1,36 @@
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnToggle { get; set; }
+
+    private async Task Toggle()
+    {
+        Value = !Value;
+        await ValueChanged.InvokeAsync(Value);
+        await OnToggle.InvokeAsync(Value);
+    }
+}
+
+<div class="flex flex-col gap-1">
+    <div class="flex justify-between items-center">
+        <p>@Title</p>
+        <button type="button"
+                aria-label="@Title"
+                class="cursor-pointer w-12 bg-control h-6 rounded-full @(Value ? "bg-accent-border!" : "")" 
+                @onclick="Toggle">
+            <div class="ml-1 size-[15px] bg-text-l/80 rounded-full transition-all duration-200 @(Value ? "translate-x-[19px] bg-text-l!" : "")"></div>
+        </button>
+    </div>
+    <p class="description">@Description</p>
+</div>

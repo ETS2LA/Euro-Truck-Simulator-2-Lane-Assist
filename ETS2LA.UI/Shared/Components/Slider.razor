@@ -1,0 +1,57 @@
+@using Hexa.NET.SDL3
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Suffix { get; set; } = string.Empty;
+
+    [Parameter]
+    public float Min { get; set; } = 0;
+
+    [Parameter]
+    public float Max { get; set; } = 100;
+
+    [Parameter]
+    public float Step { get; set; } = 1;
+
+    [Parameter]
+    public float Value { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<float> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    private async Task UpdateValue(float newValue)
+    {
+        if (Disabled) return;
+
+        Value = newValue;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
+
+<div class="flex flex-col @Class">
+    <div>
+        <p>@Title - @Value @Suffix</p>
+    </div>
+    <div class="flex gap-4 mt-2">
+        <input type="range"
+               min="@Min"
+               max="@Max"
+               step="@Step"
+               value="@Value"
+               disabled="@Disabled"
+               class="w-full cursor-pointer accent-accent-dark transition-colors hover:accent-accent/50"
+               @oninput="@(async (ChangeEventArgs e) => await UpdateValue(float.Parse(e.Value?.ToString() ?? "0")))" />
+    </div>
+    <p class="description mt-1">@Description</p>
+</div>

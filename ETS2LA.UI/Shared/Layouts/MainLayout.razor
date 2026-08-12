@@ -1,0 +1,51 @@
+@using ETS2LA.UI.Shared.WindowControls
+@using ETS2LA.UI.Shared.Components
+
+@inherits LayoutComponentBase
+
+<main class="flex h-screen w-screen flex-col border border-border rounded-md bg-bg">
+  <ResizeHandles />
+  <Titlebar />
+  
+  <div class="flex p-1.5 h-full w-full">
+    <!-- Sidebar -->
+    <div class="w-[230px] pl-1 pr-3 pt-2.5 flex gap-6.5 flex-col h-full">
+      <div class="flex pl-3 flex-col">
+        <div class="flex items-end gap-[2px]">
+          <p class="font-bold">ETS2LA</p>
+          <p class="text-[12px] mb-[1px]">Development</p>
+        </div>
+        <p class="description text-[11px] font-medium -my-0.5">v2026.8.3.4079</p>
+      </div>
+
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title="Main" />
+        <SidebarButton Name="Dashboard" Path="/" Match="NavLinkMatch.All" />
+        <SidebarButton Name="Visualization" Path="/visualization" />
+      </div>
+
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title="Plugins" />
+        <SidebarButton Name="Manager" Path="/plugins/manager" />
+        <SidebarButton Name="Catalogue" Path="/plugins/catalogue" />
+        <SidebarButton Name="Adjustments" Path="/plugins/adjustments" />
+      </div>
+
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title="Help" />
+        <SidebarButton Name="Wiki / FAQ" Path="/help/wiki" />
+        <SidebarButton Name="Contact Us" Path="/help/contact" />
+      </div>
+
+      <div class="flex flex-col w-52 gap-0 bottom-4 absolute">
+        <SidebarButton Name="Settings" Path="/settings/assists" />
+        <SidebarButton Name="Anonymous" Path="/settings/account" />
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-full h-full bg-bg-dark rounded-md rounded-l-lg overflow-y-auto">
+      @Body      
+    </div>
+  </div>
+</main>

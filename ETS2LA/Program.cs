@@ -140,7 +140,7 @@ internal static class Program
 
         // Gotta wait for the UI thread to close (i.e. user closed the window)
         // and then tell the backend to shutdown too.
-        WebviewWindow.Main(args);
+        UserInterface.Start(args);
 
         shutdown = true;
         PluginBackend.Current.Shutdown();

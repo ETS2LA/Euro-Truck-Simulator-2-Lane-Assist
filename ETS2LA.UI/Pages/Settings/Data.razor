@@ -1,0 +1,61 @@
+@page "/settings/data"
+@layout Shared.Layouts.SettingsLayout
+@using ETS2LA.Game.Data;
+@using ETS2LA.UI.Shared.Components;
+
+@code {
+    List<String> DataFidelityOptions = Enum.GetNames<DataFidelity>().ToList();
+    List<String> CurveQualityOptions = Enum.GetNames<CurveQuality>().ToList();
+
+    private bool ForceBaseMapName {
+        get => DataSettings.Current.ForceBaseMapName;
+        set {
+            var settings = DataSettings.Current;
+            settings.ForceBaseMapName = value;
+            DataSettings.Current.Save();
+        }
+    }
+
+    private bool ForceMapLoad {
+        
+        get => DataSettings.Current.ForceMapLoad;
+        set {
+            var settings = DataSettings.Current;
+            settings.ForceMapLoad = value;
+            DataSettings.Current.Save();
+        }
+    }
+}
+
+
+<div class="flex flex-col w-104 m-5 ml-8 gap-6">
+    <Separator Label="Overrides" />
+    <Switch Title="Force Base Map Name"
+            Description="Some mods implement additional maps like japan.mbd or russia.mbd. If you find your mods are not loading properly, try enabling this option. This is known to be required for RusMap."
+            Value="@ForceBaseMapName"
+            ValueChanged="@(value => ForceBaseMapName = value)" />
+    <Switch Title="Force Map Load"
+            Description="Force ETS2LA to load the map on game startup. This can resolve issues where your game.log.txt is not where ETS2LA expects it."
+            Value="@ForceMapLoad"
+            ValueChanged="@(value => ForceMapLoad = value)" />
+
+    <Separator Label="Data Quality" />
+    <Listbox Title="Data Fidelity"
+             Description="Adjust the level of detail of the game data we use. Higher values use more RAM, but include more information. All levels drive the same."
+             Options="@DataFidelityOptions"
+             SelectedIndex="@(Array.IndexOf(DataFidelityOptions.ToArray(), Enum.GetName<DataFidelity>(DataSettings.Current.DataFidelity) ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = DataSettings.Current;
+                settings.DataFidelity = Enum.Parse<DataFidelity>(DataFidelityOptions[index]);
+                DataSettings.Current.Save();
+             })" />
+    <Listbox Title="Curve Quality"
+             Description="Adjust the quality of the curves used for path planning and visualization. By default this matches the game."
+             Options="@CurveQualityOptions"
+             SelectedIndex="@(Array.IndexOf(CurveQualityOptions.ToArray(), Enum.GetName<CurveQuality>(DataSettings.Current.CurveQuality) ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = DataSettings.Current;
+                settings.CurveQuality = Enum.Parse<CurveQuality>(CurveQualityOptions[index]);
+                DataSettings.Current.Save();
+             })" />
+</div>

@@ -546,6 +546,10 @@ public class OverlayHandler
         GLFW.WindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 2);
         GLFW.WindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
 
+        # if LINUX
+            GLFW.WindowHint(GLFW.GLFW_CONTEXT_CREATION_API, GLFW.GLFW_EGL_CONTEXT_API);
+        # endif
+
         GLFW.WindowHint(GLFW.GLFW_TRANSPARENT_FRAMEBUFFER, 1);  // Transparent
         GLFW.WindowHint(GLFW.GLFW_DECORATED, 0);                // No window decorations
         GLFW.WindowHint(GLFW.GLFW_FLOATING, 1);                 // Always on top

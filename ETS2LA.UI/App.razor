@@ -1,0 +1,14 @@
+@using ETS2LA.UI.Pages
+@using Microsoft.AspNetCore.Components.Routing
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Shared.Layouts.MainLayout)" />
+    </Found>
+    <NotFound>
+        <!-- TODO: We get stuck in the error page if it ever renders? -->
+        <LayoutView Layout="@typeof(Shared.Layouts.MainLayout)">
+            <Error StatusCode="404" Message="Not Found" />
+        </LayoutView>
+    </NotFound>
+</Router>

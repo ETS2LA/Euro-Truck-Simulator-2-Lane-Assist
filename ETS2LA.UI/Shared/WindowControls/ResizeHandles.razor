@@ -1,0 +1,46 @@
+@inject IJSRuntime JS
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initResizing", null);
+        }
+    }
+}
+
+<div class="resize-handle e" onmousedown="window.startResize(event, 'e')"></div>
+<div class="resize-handle s" onmousedown="window.startResize(event, 's')"></div>
+<div class="resize-handle se" onmousedown="window.startResize(event, 'se')"></div>
+
+<style>
+  .resize-handle {
+    position: fixed;
+    z-index: 9999;
+  }
+
+  .e {
+    top: 36px;
+    right: 0;
+    width: 6px;
+    height: 100%;
+    cursor: e-resize;
+  }
+
+  .s {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    cursor: s-resize;
+  }
+
+  .se {
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    cursor: se-resize;
+  }
+</style>
