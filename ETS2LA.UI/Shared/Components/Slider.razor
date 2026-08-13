@@ -30,18 +30,26 @@
     [Parameter]
     public string Class { get; set; } = string.Empty;
 
-    private async Task UpdateValue(float newValue)
+    private async Task UpdateValue(string newValue)
     {
         if (Disabled) return;
 
-        Value = newValue;
+        Value = float.TryParse(newValue, out float parsedValue) ? parsedValue : Value;
+        if (Value < Min) Value = Min;
+        if (Value > Max) Value = Max;
         await ValueChanged.InvokeAsync(Value);
     }
 }
 
 <div class="flex flex-col @Class">
-    <div>
-        <p>@Title - @Value @Suffix</p>
+    <div class="flex">
+        <p>@Title </p>
+        <input type="text"
+               value="@Value"
+               disabled="@Disabled"
+               class="w-12 ml-2 mr-1 px-1 py-0.5 rounded-md bg-control-bg text-center text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:ring-offset-1 focus:ring-offset-control"
+               @onchange="@(async (ChangeEventArgs e) => await UpdateValue(e.Value?.ToString() ?? "0"))" />
+        <p class="ml-1">@Suffix</p>
     </div>
     <div class="flex gap-4 mt-2">
         <input type="range"
@@ -51,7 +59,7 @@
                value="@Value"
                disabled="@Disabled"
                class="w-full cursor-pointer accent-accent-dark transition-colors hover:accent-accent/50"
-               @oninput="@(async (ChangeEventArgs e) => await UpdateValue(float.Parse(e.Value?.ToString() ?? "0")))" />
+               @oninput="@(async (ChangeEventArgs e) => await UpdateValue(e.Value?.ToString() ?? "0"))" />
     </div>
     <p class="description mt-1">@Description</p>
 </div>

@@ -65,7 +65,7 @@
     private float ToDisplayUnits(float value)
     {
         var units = ApplicationState.Current.DisplayUnits;
-        return UnitConversions.FromScientificUnits(UnitType.Speed, value, units);
+        return (int)Math.Round(UnitConversions.FromScientificUnits(UnitType.Speed, value, units), 0);
     }
 
     private float ToScientificUnits(float value)
@@ -168,5 +168,5 @@
             ValueChanged="@((float value) => MaximumSpeedLimit = ToScientificUnits(value))"
             Min="0"
             Max="120"
-            Step="0.5f" />
+            Step="1" />
 </div>

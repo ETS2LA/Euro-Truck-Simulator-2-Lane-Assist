@@ -202,11 +202,11 @@
     }
 }
 
-<div class="flex flex-col w-108 m-5 ml-8 gap-6">
+<div class="flex flex-col w-108 m-5 ml-8 gap-8">
     @foreach (var control in controlInstances)
     {
         <div class="flex flex-col gap-2">
-            <p class="font-bold ml-2">@control.Definition.Name</p>
+            <Separator Label="@control.Definition.Name" LabelPosition="0.005f" Anchor="left" />
             <div class="w-108 flex flex-col">
                 <div class="flex gap-2">
                     <button class="@GetClass(control)" @onclick="() => StartBinding(control)">

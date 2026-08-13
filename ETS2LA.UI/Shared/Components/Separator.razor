@@ -1,3 +1,5 @@
+@using System.Globalization
+
 @code {
     [Parameter]
     public string Class { get; set; } = string.Empty;
@@ -7,13 +9,51 @@
 
     [Parameter]
     public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public float LabelPosition { get; set; } = 0.5f;
+
+    [Parameter]
+    public string Anchor { get; set; } = "center";
+
+    private string LineClass => Orientation == "horizontal"
+        ? "border-t border-description/50"
+        : "border-l border-description/50";
+
+    private string GetFirstLineStyle()
+    {
+        float pos = Math.Clamp(LabelPosition, 0f, 1f);
+        string posPercent = (pos * 100f).ToString(CultureInfo.InvariantCulture);
+
+        return Anchor switch
+        {
+            "left" => $"flex: 0 0 {posPercent}%;",
+            "right" => "flex: 1 1 0%;",
+            "center" or _ => $"flex: {pos.ToString(CultureInfo.InvariantCulture)} 1 0%;"
+        };
+    }
+
+    private string GetSecondLineStyle()
+    {
+        float pos = Math.Clamp(LabelPosition, 0f, 1f);
+        string remainingPercent = ((1f - pos) * 100f).ToString(CultureInfo.InvariantCulture);
+
+        return Anchor switch
+        {
+            "left" => "flex: 1 1 0%;",
+            "right" => $"flex: 0 0 {remainingPercent}%;",
+            "center" or _ => $"flex: {(1f - pos).ToString(CultureInfo.InvariantCulture)} 1 0%;"
+        };
+    }
 }
 
 <div class="flex @(Orientation == "horizontal" ? "flex-row" : "flex-col") items-center @Class">
-    <div class="flex-1 border-t border-description/50"></div>
+    <div class="@LineClass" style="@GetFirstLineStyle()"></div>
     @if (!string.IsNullOrEmpty(Label))
     {
-        <span class="px-2 description">@Label</span>
+        <span class="@(Orientation == "horizontal" ? "px-2" : "py-2") description whitespace-nowrap">
+            @Label
+        </span>
     }
-    <div class="flex-1 border-t border-description/50"></div>
+    <div class="@LineClass" style="@GetSecondLineStyle()"></div>
 </div>
