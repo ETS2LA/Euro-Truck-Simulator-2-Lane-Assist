@@ -2,6 +2,7 @@
 @layout Shared.Layouts.SettingsLayout
 @using ETS2LA.Game.Data;
 @using ETS2LA.UI.Shared.Components;
+@using System.Runtime.InteropServices;
 
 @code {
     List<String> DataFidelityOptions = Enum.GetNames<DataFidelity>().ToList();
@@ -13,6 +14,11 @@
             var settings = DataSettings.Current;
             settings.ForceBaseMapName = value;
             DataSettings.Current.Save();
+
+            UserInterfaceUtils.AskForRestart(
+                "Restart Required",
+                "Changing this option requires a restart of ETS2LA to take effect. Restart now?"
+            );
         }
     }
 
@@ -24,6 +30,14 @@
             settings.ForceMapLoad = value;
             DataSettings.Current.Save();
         }
+    }
+
+    private bool ShowRamWarningHigh {
+        get => GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / (1024f * 1024f * 1024f) < 15;
+    }
+
+    private bool ShowRamWarningExtreme {
+        get => GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / (1024f * 1024f * 1024f) < 19;
     }
 }
 
@@ -45,10 +59,39 @@
              Options="@DataFidelityOptions"
              SelectedIndex="@(Array.IndexOf(DataFidelityOptions.ToArray(), Enum.GetName<DataFidelity>(DataSettings.Current.DataFidelity) ?? string.Empty))"
              SelectedIndexChanged="@(index => {
+                var fidelity = Enum.Parse<DataFidelity>(DataFidelityOptions[index]);
+                if(fidelity == DataFidelity.Extreme && ShowRamWarningExtreme)
+                {
+                    UserInterface.Current.Window.ShowMessage(
+                        "Warning: Insufficient RAM",
+                        "Your system has less than 20GB of RAM. Extreme data fidelity uses significant amounts of RAM, and may cause your system to become unstable. Please select a lower fidelity.",
+                        PhotinoDialogButtons.Ok
+                    );
+                    return;
+                }
+                if(fidelity == DataFidelity.High && ShowRamWarningHigh)
+                {
+                    UserInterface.Current.Window.ShowMessage(
+                        "Warning: Insufficient RAM",
+                        "Your system has less than 16GB of RAM. High data fidelity uses significant amounts of RAM, and may cause your system to become unstable. Please select a lower fidelity.",
+                        PhotinoDialogButtons.Ok
+                    );
+                    return;
+                }
+
                 var settings = DataSettings.Current;
-                settings.DataFidelity = Enum.Parse<DataFidelity>(DataFidelityOptions[index]);
+                settings.DataFidelity = fidelity;
                 DataSettings.Current.Save();
              })" />
+    <div class="flex flex-col gap-2">
+        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.Low ? "" : "hidden")">This setting only loads roads and intersections visible on the in game map. It discards all other information.</p>
+        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.Medium ? "" : "hidden")">This setting drops redundant information while maintaining most detail objects (such as signs). Doesn't include any roads / intersections not shown in the in game map.</p>
+        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.High ? "" : "hidden")">This setting drops redundant information while maintaining most detail objects (such as signs). Includes all hidden and AI only roads.</p>
+        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.Extreme ? "" : "hidden")">This setting includes all available data, most of which is redundant. <span class="text-warning">Warning: Extreme uses significant amounts of RAM, expect over 10GB of usage.</span></p>
+        <p class="@(ShowRamWarningHigh ? "text-warning" : "hidden")">Warning: Your system has less than 16GB of RAM. You can only select up to Medium.</p>
+        <p class="@((ShowRamWarningExtreme && !ShowRamWarningHigh) ? "text-warning" : "hidden")">Warning: Your system has less than 20GB of RAM. You can only select up to High.</p>
+    </div>
+
     <Listbox Title="Curve Quality"
              Description="Adjust the quality of the curves used for path planning and visualization. By default this matches the game."
              Options="@CurveQualityOptions"

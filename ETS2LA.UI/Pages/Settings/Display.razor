@@ -8,9 +8,26 @@
 
 @code {
     List<String> displayUnitOptions = Enum.GetNames<Units>().ToList();
-
     // TODO: Translation framework
     List<String> displayLanguageOptions = new List<string>() { "English", "Finnish", "Chinese (Simplified)", "Chinese (Traditional)" };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Task.Factory.StartNew(async () =>
+        {
+            using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
+            while (await timer.WaitForNextTickAsync())
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+        }, TaskCreationOptions.LongRunning);
+    }
+
+    private int CurrentARFramerate
+    {
+        get => (int)Math.Round((OverlayHandler.Current.AverageFrameTime > 0) ? (int)(1 / (OverlayHandler.Current.AverageFrameTime / 1000f)) : 0f, 0);
+    }
 
     private int CurrentUnits
     {
@@ -38,6 +55,11 @@
             var settings = OverlaySettingsHandler.Current.GetSettings();
             settings.SupportMultipleViewports = value;
             OverlaySettingsHandler.Current.Save();
+
+            UserInterfaceUtils.AskForRestart(
+                "Restart Required",
+                "Changing this option requires a restart of ETS2LA to take effect. Restart now?"
+            );
         }
     }
 
@@ -145,7 +167,7 @@
             Value="@LimitOverlayFramerate"
             ValueChanged="@((bool value) => LimitOverlayFramerate = value)" />
     <Slider Title="Max Overlay Framerate"
-            Description=""
+            Description="@($"Currently running at {CurrentARFramerate} FPS.")"
             Suffix="FPS"
             Class="@(LimitOverlayFramerate ? "" : "opacity-30 pointer-events-none")"
             Min="10"

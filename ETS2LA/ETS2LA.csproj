@@ -56,7 +56,8 @@
 
   <Target Name="CopyWwwroot" AfterTargets="Build">
     <Copy SourceFiles="..\ETS2LA.UI\wwwroot\index.html" DestinationFolder="$(OutputPath)wwwroot\" />
-    
+    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\favicon.ico" DestinationFolder="$(OutputPath)wwwroot\" />
+
     <Copy SourceFiles="..\ETS2LA.UI\wwwroot\css\app.css" DestinationFolder="$(OutputPath)wwwroot\css\" />
     
     <Copy SourceFiles="..\ETS2LA.UI\wwwroot\js\ipc.js" DestinationFolder="$(OutputPath)wwwroot\js\" />

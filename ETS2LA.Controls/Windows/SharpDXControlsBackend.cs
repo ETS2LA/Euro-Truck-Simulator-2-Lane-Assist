@@ -23,6 +23,7 @@ public class SharpDXControlsBackend : IControlsBackend
     private SettingsHandler _settingsHandler = new SettingsHandler();
     private string _settingsPath = "Controls/";
 
+    public event EventHandler<ControlChangeEventArgs>? ControlValueChanged;
     public event EventHandler<ControlAddedEventArgs>? ControlAdded;
     public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
@@ -328,6 +329,7 @@ public class SharpDXControlsBackend : IControlsBackend
                 {
                     bool isPressed = keyEvent.Value != 0;
                     control.UpdateState(isPressed);
+                    ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(isPressed, control.Definition));
                 }
             }
 
@@ -371,11 +373,13 @@ public class SharpDXControlsBackend : IControlsBackend
                             {
                                 // Value is 128 for pressed, 0 for released (for whatever reason...)
                                 control.UpdateState(update.Value == 128);
+                                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(update.Value == 128, control.Definition));
                             }
                             else if (update.Offset >= JoystickOffset.PointOfViewControllers0 && update.Offset <= JoystickOffset.PointOfViewControllers3)
                             {
                                 var dir = DecodePovHatSwitch(update.Value);
                                 control.UpdateState(dir == DecodeHatIdToValue(control.ControlId.ToString()));
+                                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(dir == DecodeHatIdToValue(control.ControlId.ToString()), control.Definition));
                             }
                             else
                             {
@@ -383,6 +387,7 @@ public class SharpDXControlsBackend : IControlsBackend
                                 // (luckily that stays constant across devices)
                                 float normalizedValue = NormalizeAxisValue(update.Value / 65535.0f, control.AxisBehavior);
                                 control.UpdateState(normalizedValue);
+                                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(normalizedValue, control.Definition));
                             }
                         }
                     } catch {}

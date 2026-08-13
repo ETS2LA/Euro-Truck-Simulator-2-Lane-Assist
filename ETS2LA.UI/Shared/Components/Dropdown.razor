@@ -20,6 +20,9 @@
     [Parameter]
     public bool Disabled { get; set; }
 
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
     private bool isOpen = false;
 
     private void ToggleOpen()
@@ -48,16 +51,16 @@
     }
 }
 
-<div class="flex flex-col gap-2">
+<div class="flex flex-col gap-2 @Class">
     <div class="flex flex-col">
         <p>@Title</p>
         <p class="description">@Description</p>
     </div>
 
-    <div class="relative w-full">
+    <div class="relative w-full h-full">
         <button type="button"
                 disabled="@Disabled"
-                class="w-full cursor-pointer h-11 border border-control-bg bg-control-bg rounded-md items-center flex px-4 justify-between @(isOpen ? "border-accent-dark!" : "")"
+                class="w-full cursor-pointer border border-control-bg bg-control-bg rounded-md items-center flex @(Title != "" ? "h-11 px-4" : "h-full px-2") justify-between @(isOpen ? "border-accent-dark!" : "")"
                 @onclick="ToggleOpen">
             <p>@GetSelectedOptionText()</p>
             <svg class="description transition-transform duration-200 @(isOpen ? "rotate-180" : "")" 
@@ -69,7 +72,7 @@
 
         @if (isOpen)
         {
-            <div class="absolute top-full left-0 mt-1 w-full max-h-48 bg-control-bg-dark rounded-md z-50 overflow-y-auto flex flex-col shadow-lg" 
+            <div class="absolute top-full left-0 mt-1 w-full min-w-24 max-h-48 bg-control-bg-dark rounded-md z-50 overflow-y-auto flex flex-col shadow-lg" 
                 @onmouseleave="() => isOpen = false">
                 @for (int i = 0; i < Options.Count; i++)
                 {
@@ -77,7 +80,7 @@
                     bool isSelected = index == SelectedIndex;
 
                     <button type="button"
-                            class="w-full px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors cursor-pointer @(isSelected ? "cursor-default! text-text bg-accent-dark!" : "")"
+                            class="w-full min-w-24 px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors cursor-pointer @(isSelected ? "cursor-default! text-text bg-accent-dark!" : "")"
                             @onclick="() => SelectOption(index)">
                         @Options[index]
                     </button>

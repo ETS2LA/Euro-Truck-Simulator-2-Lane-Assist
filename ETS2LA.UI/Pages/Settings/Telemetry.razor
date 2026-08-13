@@ -11,6 +11,11 @@
             var settings = UserSettings.Current;
             settings.IsTelemetryEnabled = value;
             UserSettings.Current.Save();
+
+            UserInterfaceUtils.AskForRestart(
+                "Restart Required",
+                "Changing this option requires a restart of ETS2LA to take effect. Restart now?"
+            );
         }
     }
 }

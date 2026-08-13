@@ -61,6 +61,24 @@
             AssistanceSettings.Current.Save();
         }
     }
+
+    private float ToDisplayUnits(float value)
+    {
+        var units = ApplicationState.Current.DisplayUnits;
+        return UnitConversions.FromScientificUnits(UnitType.Speed, value, units);
+    }
+
+    private float ToScientificUnits(float value)
+    {
+        var units = ApplicationState.Current.DisplayUnits;
+        return UnitConversions.ToScientificUnits(UnitType.Speed, value, units);
+    }
+
+    private string DisplayUnits()
+    {
+        var units = ApplicationState.Current.DisplayUnits;
+        return UnitConversions.GetUnitAbbreviation(UnitType.Speed, units);
+    }
 }
 
 <div class="flex flex-col w-104 m-5 ml-8 gap-6">
@@ -74,13 +92,13 @@
                 settings.SetSpeedBehaviourOption = Enum.Parse<SetSpeedBehaviour>(SetSpeedBehaviourOptions[index]);
                 AssistanceSettings.Current.Save();
              })" />
-    <Switch Title="Snap to 10s"
-            Description="When changing the speed, snap to the nearest 10 units. i.e. 37 -> 39 -> 40 -> 42..."
+    <Switch Title="@($"Snap to each 10 {DisplayUnits()}")"
+            Description="When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
             Value="@SnapTo10s"
             ValueChanged="@((bool value) => SnapTo10s = value)" />
     <Slider Title="Speed Control Step Size"
             Description="The step size for changing the cruise control speed."
-            Suffix="Units"
+            Suffix="@DisplayUnits()"
             Value="@SpeedControlStepSize"
             ValueChanged="@((float value) => SpeedControlStepSize = value)"
             Min="1"
@@ -145,10 +163,10 @@
             ValueChanged="@((bool value) => IgnoreTrafficRules = value)" />
     <Slider Title="Maximum Speed"
             Description="The maximum speed ETS2LA will accelerate to. It might still drift over this limit due to momentum."
-            Suffix="m/s"
-            Value="@MaximumSpeedLimit"
-            ValueChanged="@((float value) => MaximumSpeedLimit = value)"
-            Min="5"
-            Max="50"
-            Step="0.1f" />
+            Suffix="@(MaximumSpeedLimit == 0 ? $"{@DisplayUnits()} (Disabled)" : @DisplayUnits())"
+            Value="@ToDisplayUnits(MaximumSpeedLimit)"
+            ValueChanged="@((float value) => MaximumSpeedLimit = ToScientificUnits(value))"
+            Min="0"
+            Max="120"
+            Step="0.5f" />
 </div>

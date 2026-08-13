@@ -18,6 +18,7 @@ public class SDL3ControlsBackend : IControlsBackend
     public static SDL3ControlsBackend Current => _instance.Value;
 
     private readonly List<ControlInstance> _registeredControls = new();
+    private readonly Dictionary<string, object> _previousStates = new();
     private readonly SettingsHandler _settingsHandler = new();
     private const string SettingsPath = "Controls/";
 
@@ -33,6 +34,7 @@ public class SDL3ControlsBackend : IControlsBackend
     private bool _changingBindings;
     private Task? _listenerTask;
 
+    public event EventHandler<ControlChangeEventArgs>? ControlValueChanged;
     public event EventHandler<ControlAddedEventArgs>? ControlAdded;
     public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
@@ -314,9 +316,13 @@ public class SDL3ControlsBackend : IControlsBackend
                         continue;
                     }
                     
-                    var normalized = NormalizeSdlAxis(ev.Jaxis.Value);
-                    if (Math.Abs(normalized) > 0.1f)
+                    var previousStateKey = $"{info.Id}:Axis {AxisIdFromIndex(ev.Jaxis.Axis)}";
+                    if (_previousStates.TryGetValue(previousStateKey, out var previousValueObj) && previousValueObj is float previousValue)
                     {
+                        var value = NormalizeSdlAxis(ev.Jaxis.Value);
+                        if (Math.Abs(previousValue - value) < 0.1f)
+                            continue;
+                        
                         _changingBindings = false;
                         return (info.Id, $"Axis {AxisIdFromIndex(ev.Jaxis.Axis)}");
                     }
@@ -331,12 +337,16 @@ public class SDL3ControlsBackend : IControlsBackend
                         continue;
                     }
 
+                    var previousStateKey = $"{info.Id}:Ball {ev.Jball.Ball}";
                     var movement = Math.Sqrt(ev.Jball.Xrel * ev.Jball.Xrel + ev.Jball.Yrel * ev.Jball.Yrel);
-                    if (movement > 0.1f)
+                    if (_previousStates.TryGetValue(previousStateKey, out var previousValueObj) && previousValueObj is float previousValue)
                     {
-                        _changingBindings = false;
-                        return (info.Id, $"Ball {ev.Jball.Ball}");
+                        if (Math.Abs(previousValue - movement) < 0.1f)
+                            continue;
                     }
+
+                    _changingBindings = false;
+                    return (info.Id, $"Ball {ev.Jball.Ball}");
                 }
 
                 if (type == (uint)SDLEventType.JoystickAdded)
@@ -436,6 +446,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 var deviceId = deviceInfo.Id;
                 var controlId = $"Button {ev.Jbutton.Button}";
                 var pressed = ev.Jbutton.Down != 0;
+                _previousStates[$"{deviceId}:{controlId}"] = pressed;
                 UpdateMatchingControls(deviceId, controlId, pressed);
                 break;
             }
@@ -464,6 +475,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 foreach (var controlId in controlIds)
                 {
                     bool isActive = controlId.EndsWith(ev.Jhat.Value.ToString());
+                    _previousStates[$"{deviceId}:{controlId}"] = isActive;
                     UpdateMatchingControls(deviceId, controlId, isActive);
                 }
                 break;
@@ -479,6 +491,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 var deviceId = deviceInfo.Id;
                 var controlId = $"Axis {AxisIdFromIndex(ev.Jaxis.Axis)}";
                 var raw = NormalizeSdlAxis(ev.Jaxis.Value);
+                _previousStates[$"{deviceId}:{controlId}"] = raw;
                 UpdateMatchingControls(deviceId, controlId, raw, true);
                 break;
             }
@@ -493,6 +506,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 var deviceId = deviceInfo.Id;
                 var controlId = $"Ball {ev.Jball.Ball}";
                 var movement = ev.Jball.Xrel + ev.Jball.Yrel;
+                _previousStates[$"{deviceId}:{controlId}"] = movement;
                 UpdateMatchingControls(deviceId, controlId, movement);
                 break;
             }
@@ -526,10 +540,12 @@ public class SDL3ControlsBackend : IControlsBackend
             {
                 var v = NormalizeAxisValue((float)value, control.AxisBehavior);
                 control.UpdateState(v);
+                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(v, control.Definition));
             }
             else
             {
                 control.UpdateState(value);
+                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(value, control.Definition));
             }
         }
     }

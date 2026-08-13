@@ -13,6 +13,7 @@ public class ControlsBackend : IControlsBackend
     private static ControlsBackend? _instance;
     public static ControlsBackend Current => _instance ??= new ControlsBackend();
 
+    public event EventHandler<ControlChangeEventArgs>? ControlValueChanged;
     public event EventHandler<ControlAddedEventArgs>? ControlAdded;
     public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
@@ -33,6 +34,7 @@ public class ControlsBackend : IControlsBackend
 #endif
         }
 
+        _backend.ControlValueChanged += (s, e) => ControlValueChanged?.Invoke(this, e);
         _backend.ControlAdded += (s, e) => ControlAdded?.Invoke(this, e);
         _backend.ControlRemoved += (s, e) => ControlRemoved?.Invoke(this, e);
     }

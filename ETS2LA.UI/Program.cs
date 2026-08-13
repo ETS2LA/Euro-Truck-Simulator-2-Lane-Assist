@@ -2,11 +2,17 @@
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 using Photino.Blazor;
+using Photino.NET;
 
 namespace ETS2LA.UI;
 
 public class UserInterface
 {
+    private static readonly Lazy<UserInterface> _instance = new(() => new UserInterface());
+    public static UserInterface Current => _instance.Value;
+
+    public PhotinoWindow Window { get; private set; }
+    
     #if LINUX
         [DllImport("libc", EntryPoint = "setenv", CallingConvention = CallingConvention.Cdecl)]
         private static extern int SetNativeEnv(string name, string value, int overwrite);
@@ -30,6 +36,7 @@ public class UserInterface
         app.MainWindow
             .SetTitle("ETS2LA")
             .SetUserAgent("ETS2LA/3.X.X")
+            .SetIconFile("wwwroot/favicon.ico")
             .SetUseOsDefaultSize(false)
             .SetUseOsDefaultLocation(false)
             .SetMinSize(800, 600)
@@ -42,6 +49,8 @@ public class UserInterface
             .Center()
             .SetChromeless(true);
 
+        UserInterface.Current.Window = app.MainWindow;
+        
         // blocking until window is closed.
         app.Run();
     }
