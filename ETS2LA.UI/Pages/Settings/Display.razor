@@ -144,7 +144,7 @@
     }
 }
 
-<div class="flex flex-col w-104 m-5 ml-8 gap-6">
+<div class="flex flex-col w-108 m-5 ml-8 gap-6">
     <Separator Label="Units and Language" />
     <Listbox Title="Display Units" 
              Description="The units ETS2LA will use when displaying information to a user. Scientific has only slight differences to metric."
@@ -157,7 +157,7 @@
               SelectedIndex="@CurrentLanguage"
               SelectedIndexChanged="OnDisplayLanguageChanged"/>
     
-    <Separator Label="Overlay" />
+    <Separator Label="Overlay" Class="mt-8" />
     <Switch Title="Support Multiple Viewports"
             Description="This allows ETS2LA to render in multiple viewports, meaning you can move overlay windows to any monitor."
             Value="@SupportMultipleViewports"
@@ -175,7 +175,7 @@
             Value="@MaxOverlayFramerate"
             ValueChanged="@((float value) => MaxOverlayFramerate = (int)value)" />
 
-    <Separator Label="3D Renderer" />
+    <Separator Label="3D Renderer" Class="mt-8" />
     <Switch Title="Render AR Elements"
             Description="We can render elements in the game world using the overlay. This will use additional CPU and GPU resources."
             Value="@RenderARElements"

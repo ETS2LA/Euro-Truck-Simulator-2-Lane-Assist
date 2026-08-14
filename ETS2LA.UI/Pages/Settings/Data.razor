@@ -42,7 +42,7 @@
 }
 
 
-<div class="flex flex-col w-104 m-5 ml-8 gap-6">
+<div class="flex flex-col w-108 m-5 ml-8 gap-6">
     <Separator Label="Overrides" />
     <Switch Title="Force Base Map Name"
             Description="Some mods implement additional maps like japan.mbd or russia.mbd. If you find your mods are not loading properly, try enabling this option. This is known to be required for RusMap."
@@ -53,7 +53,7 @@
             Value="@ForceMapLoad"
             ValueChanged="@(value => ForceMapLoad = value)" />
 
-    <Separator Label="Data Quality" />
+    <Separator Label="Data Quality" Class="mt-8" />
     <Listbox Title="Data Fidelity"
              Description="Adjust the level of detail of the game data we use. Higher values use more RAM, but include more information. All levels drive the same."
              Options="@DataFidelityOptions"
