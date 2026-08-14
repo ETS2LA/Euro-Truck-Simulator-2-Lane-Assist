@@ -16,6 +16,7 @@
   --color-control-bg: var(--control-bg);
   --color-control-bg-dark: var(--control-bg-dark);
 
+  --color-text-accent: var(--text-accent);
   --color-accent: var(--accent);
   --color-accent-border: var(--accent-border);
   --color-accent-dark: var(--accent-dark);
@@ -49,13 +50,14 @@
   --bg: #2B2B2B;
   --bg-dark: #272727;
   --bg-darker: #242424;
-
+  
   --border: #474747;
-
+  
   --control: #474747;
   --control-bg: #2D2D2D;
   --control-bg-dark: #2A2A2A;
-
+  
+  --text-accent: #ecaf93;
   --accent: #9a6a54;
   --accent-border: #61493C;
   --accent-dark: #423732;
@@ -111,6 +113,7 @@
     --control-bg: #2D2D2D;
     --control-bg-dark: #2A2A2A;
 
+    --text-accent: #ecaf93;
     --accent: #9a6a54;
     --accent-border: #61493C;
     --accent-dark: #423732;
