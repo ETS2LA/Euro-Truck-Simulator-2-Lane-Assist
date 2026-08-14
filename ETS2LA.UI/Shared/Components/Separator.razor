@@ -17,8 +17,8 @@
     public string Anchor { get; set; } = "center";
 
     private string LineClass => Orientation == "horizontal"
-        ? "border-t border-description/50"
-        : "border-l border-description/50";
+        ? "border-t border-description/50 border-[1px]"
+        : "border-l border-description/50 border-[1px]";
 
     private string GetFirstLineStyle()
     {
@@ -47,11 +47,11 @@
     }
 }
 
-<div class="flex @(Orientation == "horizontal" ? "flex-row" : "flex-col") items-center @Class">
+<div class="flex @(Orientation == "horizontal" ? "flex-row" : "flex-col") description items-center @Class">
     <div class="@LineClass" style="@GetFirstLineStyle()"></div>
     @if (!string.IsNullOrEmpty(Label))
     {
-        <span class="@(Orientation == "horizontal" ? "px-2" : "py-2") description whitespace-nowrap">
+        <span class="@(Orientation == "horizontal" ? "px-2" : "py-2") whitespace-nowrap">
             @Label
         </span>
     }

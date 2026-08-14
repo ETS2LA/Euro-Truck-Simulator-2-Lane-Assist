@@ -2,6 +2,7 @@ using Photino.Blazor;
 using Photino.NET;
 using System.Drawing;
 using ETS2LA.Backend.Events;
+using ETS2LA.Logging;
 
 namespace ETS2LA.UI;
 
@@ -49,9 +50,11 @@ static class IPC
                 if (app.MainWindow.ShowMessage("Are you sure?", "This will disconnect ETS2LA from the game and close the window. You can minimize the window to keep ETS2LA running.", PhotinoDialogButtons.YesNo, PhotinoDialogIcon.Question) == PhotinoDialogResult.Yes)
                     app.MainWindow.Close();
                 break;
-            case "window:focus":
-                app.MainWindow.SetTopMost(true);
-                app.MainWindow.SetTopMost(false);
+            case "window:topmost":
+                // TODO
+                break;
+            case "window:notopmost":
+                // TODO
                 break;
         }
     }

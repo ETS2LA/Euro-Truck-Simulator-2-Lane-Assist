@@ -114,7 +114,7 @@
     --accent: #9a6a54;
     --accent-border: #61493C;
     --accent-dark: #423732;
-    --accent-bg: #211916;
+    --accent-darker: #322925;
 
     --success: #008E3A;
     --success-dark: #006B2A;
@@ -157,4 +157,31 @@ h3 {
   color: var(--text-h);
   font-size: 16px;
   font-weight: 600;
+}
+
+.button {
+  color: var(--text-h);
+  background-color: var(--control-bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button:hover {
+  background-color: var(--control-bg);
+}
+
+.button-accent {
+  color: var(--text-h);
+  background-color: var(--accent-darker);
+  border: 1px solid var(--accent-border);
+}
+
+.button-accent:hover {
+  background-color: var(--accent-dark);
 }

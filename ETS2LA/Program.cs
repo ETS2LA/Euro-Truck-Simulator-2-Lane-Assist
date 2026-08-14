@@ -4,6 +4,7 @@ using Velopack.Locators;
 using ETS2LA.Tutorials;
 using ETS2LA.Overlay;
 using ETS2LA.Backend;
+using ETS2LA.Game;
 using ETS2LA.Game.Telemetry;
 using ETS2LA.State;
 using ETS2LA.Logging;
@@ -125,6 +126,7 @@ internal static class Program
             var state = ApplicationState.Current;
             var tutorials = TutorialHandler.Current;
             var networking = NetworkingClient.Current;
+            var games = GameHandler.Current;
         });
 
         # if LINUX

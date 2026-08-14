@@ -28,13 +28,14 @@ window.initTitlebarDrag = function (element) {
             isDragging = false;
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.sendIPCMessage('window:notopmost');
         };
 
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
 
         if (window.external && window.external.sendMessage) {
-            window.external.sendMessage('window:focus');
+            window.external.sendMessage('window:topmost');
         }
     });
 };

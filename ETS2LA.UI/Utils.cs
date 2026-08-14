@@ -6,6 +6,11 @@ namespace ETS2LA.UI;
 
 public static class UserInterfaceUtils
 {
+    public static string ClassnameWithSpaces(string option)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(option, @"(\B[A-Z]|(?<=[a-zA-Z])\d)", " $1");
+    }
+
     public static void AskForRestart(string title, string message)
     {
         if(UserInterface.Current.Window.ShowMessage(

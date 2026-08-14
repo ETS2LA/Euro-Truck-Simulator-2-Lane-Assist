@@ -1,4 +1,86 @@
 @page "/settings/sdk"
 @layout Shared.Layouts.SettingsLayout
+@using ETS2LA.Game;
+@using ETS2LA.Game.Data;
+@using ETS2LA.UI.Shared.Components;
 
-<p>TODO: Implement SDK settings</p>
+@code {
+    GameHandler gameHandler = GameHandler.Current;
+
+    List<Installation> controlInstances {
+        get => gameHandler.Installations;
+    }
+
+    private void AddGameManually()
+    {
+        string[] paths = UserInterface.Current.Window.ShowOpenFile(
+            "Select core.scs",
+            filters: new[] { ("SCS File", new[] { ".scs" }) }
+        );
+        
+        string? path = paths.FirstOrDefault();
+        if (path == null)
+            return;
+        
+        if (!File.Exists(path))
+        {
+            UserInterface.Current.Window.ShowMessage("Invalid file", "The selected file does not exist.");
+            return;
+        }
+        
+        if (!path.EndsWith("core.scs", StringComparison.OrdinalIgnoreCase))
+        {
+            UserInterface.Current.Window.ShowMessage("Invalid file", "The selected file is not a core.scs file.");
+            return;
+        }
+
+        string installDir = Path.GetDirectoryName(path) ?? "";
+        if (!Directory.Exists(installDir))
+        {
+            UserInterface.Current.Window.ShowMessage("Invalid directory", "The selected directory does not exist.");
+            return;
+        }
+
+        if (GameHandler.Current.AddManualInstallation(installDir) != null)
+        {
+            UserInterface.Current.Window.ShowMessage("Game added", "The game has been added successfully.");
+        }
+        else
+        {
+            UserInterface.Current.Window.ShowMessage("Failed to add game", "Please see the logs for more information.");
+        }
+    }
+}
+
+<div class="flex flex-col w-104 m-5 ml-8 gap-24">
+    <div class="flex flex-col gap-6">
+        @for(int i = 0; i < controlInstances.Count; i++)
+        {
+            var instance = controlInstances[i];
+
+            <div class="flex flex-col gap-2">
+                @if (i > 0) {
+                    <Separator class="mb-3" />
+                }
+                
+                <div class="flex flex-col gap-1">
+                    <p>@(UserInterfaceUtils.ClassnameWithSpaces(@instance.Type.ToString()) + "  -  " + instance.Version.ToString())</p>
+                </div>
+                <p class="description">@(instance.IsSDKInstalled(instance.Version) ? "SDKs are currently installed." : "SDKs need to be installed.") This game was found at @instance.Path</p>
+                <button class="@(instance.IsSDKInstalled(instance.Version) ? "hidden" : "button button-accent w-full!")" @onclick="@(() => instance.InstallSDK(instance.Version))">Install SDKs</button>
+                <button class="@(instance.IsSDKInstalled(instance.Version) ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">Uninstall SDKs</button>
+            </div>
+        }
+    </div>
+    
+    <div class="h-full">
+        <div class="flex flex-col gap-4 absolute bottom-6 w-104">
+            <div class="flex flex-col gap-2">
+                <Separator Label="Game missing?" />
+                <p class="description">You can add it by selecting its core.scs file.</p>
+                <p class="description text-warning">Cracked games or demos will block our SDK from loading. They do not work, and we don't intend to fix this.</p>
+            </div>
+            <button class="button w-full!" @onclick="AddGameManually">Add Game Manually</button>
+        </div>
+    </div>
+</div>
