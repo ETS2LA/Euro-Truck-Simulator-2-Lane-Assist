@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:41+0000\n"
+"PO-Revision-Date: 2026-08-21 17:48+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
 "\n"
@@ -183,7 +183,7 @@ msgstr "Ohjäinmääritys {0} ({1}) määritelty laitteen {2} painikkeeseen {3}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:53
 msgid "Button"
-msgstr "Näppäin"
+msgstr "Nappi"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:379
 #, csharp-format
@@ -717,136 +717,138 @@ msgstr "Laitteiden päivitys epäonnistui: {0}"
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:234
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "Lisäosan {0} sulkeminen epäonnistui: {1}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:240
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
+msgstr "Lisäosan {0} nykyisen version poisto epäonnistui."
 
 #: ../../../ETS2LA.Game/Installation.cs:442
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "SDK:n poisto paikasta {0} paikkaan {1} epäonnistui: {2}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:254
 #, csharp-format
 msgid "Failed to unload plugin load context: {0}"
-msgstr ""
+msgstr "Lisäosan latauskontekstin poisto epäonnistui: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:31
 msgid "Far"
-msgstr ""
+msgstr "Kaukana"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "Nopea"
 
 #: ../../../ETS2LA.State/Units.cs:193
 msgid "feet"
-msgstr ""
+msgstr "jalkaa"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:75
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Löydettiin {0} lisäosa osoitteesta {1}"
+msgstr[1] "Löydettiin {0} lisäosaa osoitteesta {1}"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:79
 #, csharp-format
 msgid "File not found: {0}"
-msgstr ""
+msgstr "Tiedostoa {0} ei löydetty"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:208
 msgid "Finished loading plugins"
-msgstr ""
+msgstr "Lisäosien lataus on valmis"
 
 #: ../../../ETS2LA.Game/Installation.cs:296
 #, csharp-format
 msgid "Finished parsing installation at '{0}'"
-msgstr ""
+msgstr "Pelin [gray]{0}[/] karttadatan lataus valmistui"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:168
 msgid "Following Distance"
-msgstr ""
+msgstr "Seuraamisetäisyys"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:487
 #, csharp-format
 msgid "Font file not found at {0}"
-msgstr ""
+msgstr "Fonttia {0} ei löytynyt"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:60
 msgid "Force Base Map Name"
-msgstr ""
+msgstr "Pakota pelin oma kartan nimi"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:65
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"Pakota ETS2LA lataaman pelin karttadata heti kun se käynnistyy. Voi korjata "
+"ongelmia joissa pelilokisi (game.log.txt) ei ole oletetussa paikassa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:64
 msgid "Force Map Load"
-msgstr ""
+msgstr "Pakota kartan lataus"
 
 #: ../../../ETS2LA.Game/Program.cs:149
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
-msgstr ""
+msgstr "Löydettiin {0} (versio {1}) paikassa {2}"
 
 #: ../../../ETS2LA.Game/Program.cs:57
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Löydettiin {0} peli."
+msgstr[1] "Löydettiin {0} peliä."
 
 #: ../../../ETS2LA.Game/Installation.cs:303
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} piste"
+msgstr[1] "{0} pistettä"
 
 #: ../../../ETS2LA.Game/Installation.cs:299
 #, csharp-format
 msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Löydettiin {0} risteys"
+msgstr[1] "Löydettiin {0} risteystä"
 
 #: ../../../ETS2LA.Game/Installation.cs:301
 #, csharp-format
 msgid "found {0} road"
 msgid_plural "found {0} roads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} tie"
+msgstr[1] "{0} tietä"
 
 #: ../../../ETS2LA.State/Units.cs:267
 msgid "ft"
-msgstr ""
+msgstr "ft"
 
 #: ../../../ETS2LA.State/Units.cs:278
 msgid "gal"
-msgstr ""
+msgstr "gal"
 
 #: ../../../ETS2LA.State/Units.cs:204
 msgid "gallons"
-msgstr ""
+msgstr "gallonaa"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "Game added"
-msgstr ""
+msgstr "Peli lisätty"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
 msgid "Game SDK"
-msgstr ""
+msgstr "Pelin SDK"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:151
 msgid "Game Telemetry"
-msgstr ""
+msgstr "Pelin Telemetria"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:22
 msgid ""
@@ -856,24 +858,24 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:18
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:56
 msgid "Hat"
-msgstr ""
+msgstr "D-Pad"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:35
 msgid "Help"
-msgstr ""
+msgstr "Apua"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "hide"
-msgstr ""
+msgstr "piilottaaksesi"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:12
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:20
 msgid "High"
-msgstr ""
+msgstr "Korkea"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:38
 #, csharp-format
@@ -881,17 +883,24 @@ msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the "
 "{1}Discord Server{2} or on {3}GitHub{4}."
 msgstr ""
+"Miten sä tänne päädyit? Herranjestas mitä sä oikein ajattelit?{0}Aiai, "
+"kerroppas nyt meille {1}Discordissa{2} tai {3}GitHubissa{4}. Ehkä me voidaan "
+"auttaa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:178
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning this "
 "to off will disable collision avoidance regardless of your enabled plugins."
 msgstr ""
+"Miten aikaisin ETS2LA pyrkii välttämään mahdolliset törmäykset. Kytkemällä "
+"tämän pois katkaisee törmäyksen eston riippumatta käynnissä olevista "
+"lisäosista."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
 msgstr ""
+"Miten ETS2LA varoittaa sinua nopeusrajoituksen merkittävästä ohituksesta."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
 #, csharp-format
@@ -899,401 +908,411 @@ msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
+"Jos uskot tämän olevan pikku bugi, kerro meille {0}Discordissa{1} tai "
+"{2}GitHubissa{3}, jotta kärpäslätkä ohjataan oikeaan paikkaan."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:201
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "Ohita liikennesäännöt"
 
 #: ../../../ETS2LA/Program.cs:60
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "Ohitettiin DBus virhe: {0}"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:41
 msgid "Increase"
-msgstr ""
+msgstr "Kasvata"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:42
 msgid ""
 "Increases the current value (e.g. target speed) by one step. Without any "
 "visual modifier shown in the UI, this will increase the target speed by 1 km/h."
 msgstr ""
+"Kasvattaa nykyistä arvoa (esim. tavoite nopeus) yhdellä askeleella. Ilman "
+"käyttöliittymän ilmaisimia, tämä kasvattaa tavoitenopeutta 1 km/h."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:532
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
-msgstr ""
+msgstr "Käynnistetään GLFW versiota: {0}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:544
 msgid "Initializing GLFW..."
-msgstr ""
+msgstr "Käynnistetään GLFW ikkunaa..."
 
 #: ../../../ETS2LA.Game/Installation.cs:267
 msgid "Initializing..."
-msgstr ""
+msgstr "Alustetaan..."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:418
 #, csharp-format
 msgid "Inner Exception: {0}"
-msgstr ""
+msgstr "Sisäinen virhe: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:168
 msgid "Install"
-msgstr ""
+msgstr "Asenna"
 
 #: ../../../ETS2LA.Game/Installation.cs:256
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
-msgstr ""
+msgstr "Peli {0} on jo ladattu."
 
 #: ../../../ETS2LA.Game/Installation.cs:167
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
+msgstr "Peli {0} ei ole käynnissä, odotetaan käyttäjäprofiilin latausta."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:131
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Asennettiin {0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:262
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
-msgstr ""
+msgstr "Asennettua lisäosaa ID:llä {0} ei löydy."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:281
 #: ../../../ETS2LA.Overlay/Overlay.cs:283
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Muokkaustila"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:19
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
 "prevented it from fulfilling the request."
 msgstr ""
+"Sisäinen palvelimen virhe. Palvelin syystä tai toisesta joutuu katkaisemaan "
+"yhteyden virheen vuoksi."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "Invalid directory"
-msgstr ""
+msgstr "Virheellinen kansio"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:27
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:33
 msgid "Invalid file"
-msgstr ""
+msgstr "Virheellinen tiedosto"
 
 #: ../../../ETS2LA.State/Units.cs:228
 #: ../../../ETS2LA.State/Units.cs:302
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:51
 msgid "Key"
-msgstr ""
+msgstr "Näppäin"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:126
 msgid "Keybind Behaviour"
-msgstr ""
+msgstr "Ohjainmäärityksien Toiminta"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:70
 msgid "Keyboard"
-msgstr ""
+msgstr "Näppäimistö"
 
 #: ../../../ETS2LA.State/Units.cs:287
 #: ../../../ETS2LA.State/Units.cs:291
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #: ../../../ETS2LA.State/Units.cs:213
 #: ../../../ETS2LA.State/Units.cs:217
 msgid "kilograms"
-msgstr ""
+msgstr "kilogrammaa"
 
 #: ../../../ETS2LA.State/Units.cs:180
 msgid "kilometers per hour"
-msgstr ""
+msgstr "kilometriä tunnissa"
 
 #: ../../../ETS2LA.State/Units.cs:254
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 #: ../../../ETS2LA.State/Units.cs:276
 #: ../../../ETS2LA.State/Units.cs:280
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:54
 msgid "Late"
-msgstr ""
+msgstr "Myöhään"
 
 #: ../../../ETS2LA.State/Units.cs:289
 msgid "lbs"
-msgstr ""
+msgstr "lbs"
 
 #: ../../../ETS2LA.State/Units.cs:202
 #: ../../../ETS2LA.State/Units.cs:206
 msgid "liters"
-msgstr ""
+msgstr "litraa"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:209
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
 msgid_plural "Loaded {0} plugins from the Plugins folder."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ladattiin {0} lisäosa \"Plugins\" kansiosta."
+msgstr[1] "Ladattiin {0} lisäosaa \"Plugins\" kansiosta."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:131
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Ladatiin kirjasto [gray]{0}[/] paikasta [gray]{1}[/]."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:178
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Ladattiin lisäosa [gray]{0}[/] paikasta [gray]{1}[/]."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:190
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:412
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "LoaderException: {0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:225
 #, csharp-format
 msgid "Loading map data from '{0}'"
-msgstr ""
+msgstr "Ladataan karttadataa paikasta {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:10
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:18
 msgid "Low"
-msgstr ""
+msgstr "Alhainen"
 
 #: ../../../ETS2LA.State/Units.cs:265
 #: ../../../ETS2LA.State/Units.cs:269
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: ../../../ETS2LA.State/Units.cs:258
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
-msgstr ""
+msgstr "Pääasialliset"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:29
 msgid "Manager"
-msgstr ""
+msgstr "Hallinta"
 
 #: ../../../ETS2LA.Game/Program.cs:72
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
+"Manuaalisesti lisätyllä pelillä paikassa {0} ei enää ole "
+"käynnistystiedostoa, ohitetaan."
 
 #: ../../../ETS2LA.Game/Installation.cs:314
 msgid "Map Data Parsed"
-msgstr ""
+msgstr "Karttadata ladattu"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:19
 msgid "Match Game"
-msgstr ""
+msgstr "Kuin peli"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:205
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maksimi nopeus"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 msgid "Medium"
-msgstr ""
+msgstr "Keskitaso"
 
 #: ../../../ETS2LA.State/Units.cs:191
 #: ../../../ETS2LA.State/Units.cs:195
 msgid "meters"
-msgstr ""
+msgstr "metriä"
 
 #: ../../../ETS2LA.State/Units.cs:184
 msgid "meters per second"
-msgstr ""
+msgstr "metriä sekunnissa"
 
 #: ../../../ETS2LA.State/Units.cs:182
 msgid "miles per hour"
-msgstr ""
+msgstr "mailia tunnissa"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:361
 #, csharp-format
 msgid "Missing dependency: {0}"
-msgstr ""
+msgstr "Vaatimusta {0} ei löydy"
 
 #: ../../../ETS2LA.State/Units.cs:256
 msgid "mph"
-msgstr ""
+msgstr "mph"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:29
 msgid "Near"
-msgstr ""
+msgstr "Lähellä"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:31
 msgid "Networking"
-msgstr ""
+msgstr "Verkko"
 
 #: ../../../ETS2LA.State/Program.cs:230
 #, csharp-format
 msgid "New limit {0} {1}"
-msgstr ""
+msgstr "Uusi rajoitus {0} {1}"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:31
 msgid "Next/Cancel"
-msgstr ""
+msgstr "Seuraava/Peruuta"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "Lisäosalle {0} ei löytynyt latausosoitetta alueelta {1}."
 
 #: ../../../ETS2LA.Game/Program.cs:174
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
-msgstr ""
+msgstr "Käynnistystiedostoa ei löytynyt paikasta {0}, peliä ei lisätä."
 
 #: ../../../ETS2LA.Game/Installation.cs:289
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
-msgstr ""
+msgstr "Karttadataa ei voitu ladata pelille {0}, onko se oikein ladattu?"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:97
 msgid "No plugins found."
-msgstr ""
+msgstr "Lisäosia ei löytynyt."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:233
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
-msgstr ""
+msgstr "Lisäosalle {0} ei ole saatavilla päivityksiä."
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:61
 msgid "No updates available."
-msgstr ""
+msgstr "Päivityksiä ei ole saatavilla."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:104
 #: ../../../ETS2LA.Networking/Plugins/client.cs:129
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
-msgstr ""
+msgstr "Lisäosalle {0} ei löydy toimivia versioita."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:14
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:22
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:30
 msgid "Normal"
-msgstr ""
+msgstr "Normaali"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:177
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "Lisäosan {0} kaikkia vaatimuksia ei ole ladattu."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:76
 msgid "Not Connected"
-msgstr ""
+msgstr "Laite irrotettu"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:135
 msgid "Not Installed"
-msgstr ""
+msgstr "Ei asennettu"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:45
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:55
 msgid "Off"
-msgstr ""
+msgstr "Pois"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:326
 msgid "Overlay free CPU time percentage"
-msgstr ""
+msgstr "Peitekuvan vapaan prosessoriajan määrä"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:57
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "Peitekuvan kanssa interaktio"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:59
 msgid "Overrides"
-msgstr ""
+msgstr "Pakotukset"
 
 #: ../../../ETS2LA.State/Units.cs:313
 msgid "Pa"
-msgstr ""
+msgstr "Pa"
 
 #: ../../../ETS2LA.Game/Installation.cs:262
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "Ladataan peliä {0} (versio {1})"
 
 #: ../../../ETS2LA.Game/Installation.cs:266
 #: ../../../ETS2LA.Game/Data/Classes.cs:124
 msgid "Parsing Map Data"
-msgstr ""
+msgstr "Ladataan pelidataa"
 
 #: ../../../ETS2LA.Game/Data/Classes.cs:125
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
-msgstr ""
+msgstr "Ladataan sektoria {0}/{1}..."
 
 #: ../../../ETS2LA.Game/Installation.cs:186
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
 "available to ETS2LA."
 msgstr ""
+"Lataus jatkuu, mutta tässä tiedostossa oleva informaatio ei ole saatavilla "
+"ETS2LA:lle."
 
 #: ../../../ETS2LA.State/Units.cs:239
 msgid "Pascals"
-msgstr ""
+msgstr "Paskalia"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:197
 msgid "Pause When Unstable"
-msgstr ""
+msgstr "Pysäytä peli jos vaarallinen"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:313
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Suorituskyvyn Peitekuva"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:151
 #, csharp-format
 msgid "Playing sound: {0}"
-msgstr ""
+msgstr "Soitetaan ääntä: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:50
 msgid "Please see the logs for more information."
-msgstr ""
+msgstr "Katso lokitiedosto."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Settings.cs:57
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr ""
+msgstr "Lisäosan {0} DLL tiedosto puuttuu ({1}) joten se on poistettu."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:52
 msgid "Plugin Installer"
-msgstr ""
+msgstr "Lisäosien asentaja"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:88
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
-msgstr ""
+msgstr "Lisäosaa {0} ei löydetty."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "Lisäosaa jonka ID {0} ei löydetty."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
-msgstr ""
+msgstr "Lisäosat"
 
 #: ../../../ETS2LA.State/Units.cs:215
 msgid "pounds"
-msgstr ""
+msgstr "paunaa"
 
 #: ../../../ETS2LA.State/Units.cs:237
 #: ../../../ETS2LA.State/Units.cs:311
 msgid "psi"
-msgstr ""
+msgstr "psi"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:291
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:304
@@ -1301,101 +1320,105 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:338
 #, csharp-format
 msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
+msgstr "Laitteelta {0} saatiin vastaus."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:134
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:114
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
+msgstr "Rekisteröitiin ohjainmääritys {0} [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.Game/Program.cs:195
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
-msgstr ""
+msgstr "Poistetaan manuaalisesti lisätty peli {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Experiments.razor:19
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
 "but can cause performance issues."
 msgstr ""
+"Renderöi näkömallejen kamerat pelimaailmassa. Tämä on hyödyllinen "
+"debuggaamisen yhteydessä, mutta voi vaikuttaa suorituskykyyn."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Experiments.razor:18
 msgid "Render Vision Cameras"
-msgstr ""
+msgstr "Renderöi näkömallien kamerat"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:149
 msgid "Responsiveness"
-msgstr ""
+msgstr "Herkkyys"
 
 #: ../../../ETS2LA.UI/Utils.cs:18
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 msgid "Restart Required"
-msgstr ""
+msgstr "Käynnistys vaaditaan"
 
 #: ../../../ETS2LA.UI/Utils.cs:29
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "Käynnistetään uudelleen..."
 
 #: ../../../ETS2LA.Game/Data/Utils.cs:45
 #, csharp-format
 msgid "Road template for {0} not found in SII file."
-msgstr ""
+msgstr "Tielle {0} ei löytynyt tietoja SII tiedostoista."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "SDK:t ovat asennettu."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs need to be installed."
-msgstr ""
+msgstr "SDK:t täytyy vielä asentaa ennen käyttöä."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:84
 msgid "Search for plugins..."
-msgstr ""
+msgstr "Hae lisäosia..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:17
 msgid "Select core.scs"
-msgstr ""
+msgstr "Valitse core.scs -tiedosto"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:123
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
+msgstr "Valittua päivityspalvelinta {0} ei löydy, palataan oletuspalvelimeen."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:21
 msgid ""
 "Service unavailable. The server is currently unable to handle the request due "
 "to temporary overloading or maintenance."
 msgstr ""
+"Palvelu ei ole saatavilla. Palvelin ei pysty käsittelemään pyyntöä niiden "
+"määrän, tai esimerkiksi huollon takia."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:127
 msgid "SET Behaviour"
-msgstr ""
+msgstr "Aseta -käytös"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:21
 msgid "SET/OK"
-msgstr ""
+msgstr "Aseta/OK"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:42
 msgid "Settings"
-msgstr ""
+msgstr "Asetukset"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "show"
-msgstr ""
+msgstr "näytääksesi"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Ohitetiin vanha lisäosan varjokansio [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:13
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:21
 msgid "Slow"
-msgstr ""
+msgstr "Hidas"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:61
 msgid ""
@@ -1403,6 +1426,9 @@ msgid ""
 "your mods are not loading properly, try enabling this option. This is known "
 "to be required for RusMap."
 msgstr ""
+"Jotkut modit lisäävät omia karttoja kuten japan.mbd. Jos huomaat, että "
+"modisi eivät lataudu oikein, kokeile laittaa tämä asetus päälle. Tämän "
+"tiedetään olevan tarpeellinen RusMap:lle."
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
@@ -1410,128 +1436,141 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 msgid "Sorry"
-msgstr ""
+msgstr "Anteeksi"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:140
 msgid "Speed Control Step Size"
-msgstr ""
+msgstr "Nopeuden valinnan askelkoko"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:38
 msgid "Speed Limit"
-msgstr ""
+msgstr "Nopeusrajoitus"
 
 #: ../../../ETS2LA.State/Program.cs:229
 msgid "Speed limit changed"
-msgstr ""
+msgstr "Nopeusrajoitus muuttui"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:188
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "Nopeusrajoituksen varoitus"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:154
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "Aloitetaan ohjausmäärityksen {0} ({1}) uudelleenmääritys"
 
 #: ../../../ETS2LA.Backend/Program.cs:40
 msgid "Starting ETS2LA..."
-msgstr ""
+msgstr "Käynnistetään..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:150
 msgid "Steering Sensitivity"
-msgstr ""
+msgstr "Ohjauksen herkkyys"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:7
 msgid ""
 "Subscriptions will <span class=\"font-bold text-text-accent\">never</span> be "
 "required for using ETS2LA. They are a way you can support the development."
 msgstr ""
+"Tilaaminen ei tule <span class=\"font-bold text-text-accent\">koskaan</span> "
+"olemaan tarpeellinen sovelluksen käyttöä varten. Se on vain tapa tukea "
+"kehitystä :)"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "Lisäosa {0} ({1}, {2}) asennettiin onnistuneesti"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:300
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
-msgstr ""
+msgstr "Lisäosa {0} poistettiin onnistuneesti."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:253
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
-msgstr ""
+msgstr "Lisäosa {0} päivitettiin onnistuneesti."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:33
 msgid "Telemetry"
-msgstr ""
+msgstr "Telemetria"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "The game has been added successfully."
-msgstr ""
+msgstr "Peli lisättiin onnistuneesti."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
+"Maksiminopeus johon ETS2LA kiihdyttää. Alamäessä nopeus voi nousta tätä "
+"korkeammaksi."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:395
 msgid "The plugin was enabled successfully."
-msgstr ""
+msgstr "Lisäosa käynnistetiin onnistuneesti."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:16
 msgid ""
 "The request method is recognized by the server but is not supported by the "
 "target resource."
 msgstr ""
+"Palvelin tunnistaa pyynnön tyypin, mutta tavoiteresurssi ei hyväksy sitä."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "The selected directory does not exist."
-msgstr ""
+msgstr "Valittu kansio ei ole olemassa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:27
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "Valittu tiedosto ei ole olemassa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:33
 msgid "The selected file is not a core.scs file."
-msgstr ""
+msgstr "Valittu tiedosto ei ole core.scs."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:15
 msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
 "the resource has been removed."
 msgstr ""
+"Palvelin ei löydä pyydettyä resurssia. Osoite voi olla kirjoitettu väärin, "
+"tai resurssi voi olla poistettu."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:12
 msgid ""
 "The server could not understand the request due to invalid syntax or "
 "corrupted request data."
 msgstr ""
+"Palvelin ei ymmärtänyt pyyntöä korruptoidun datan, tai väärän syntaksin "
+"takia."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:17
 msgid "The server timed out waiting for the request from the client."
 msgstr ""
+"Palvelin katkaisi yhteyden, sillä käyttäjä ei vastannut kyselyyn ajoissa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:141
 msgid "The step size for changing the cruise control speed."
-msgstr ""
+msgstr "Vakionopeudensäätimen nopeuden säädön askelkoko."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "This game was found at"
-msgstr ""
+msgstr "Tämä peli löytyi"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:32
 msgid ""
 "This key will navigate any ETS2LA menus forward, it will also work as the "
 "cancel key for any confirmations."
 msgstr ""
+"Tämä näppäin navigoi ETS2LA:n valikkoja eteenpäin. Se toimii myös peruuta "
+"painikkeena vahvistuksiin."
 
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "Tässä voi kestää hetki... ({0}/{1})"
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:5
@@ -1539,22 +1578,26 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
-msgstr ""
+msgstr "Tätä sivua ei ole vielä tehty, mutta se on tulossa <i>kohta</i>."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:5
 msgid "This page will be implemented in a future update."
-msgstr ""
+msgstr "Tämä sivu rakennetaan tulevassa päivityksessä."
 
 #: ../../../ETS2LA.UI/IPC.cs:51
 msgid ""
 "This will disconnect ETS2LA from the game and close the window. You can "
 "minimize the window to keep ETS2LA running."
 msgstr ""
+"Tämä katkaisee ETS2LA:n pelistä ja sulkee tämän ikkunan. Voit pienentää "
+"ETS2LA:n ikkunan jotta se pysyy päällä, mutta pois tieltä."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:18
 msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
 msgstr ""
+"Liikaa kyselyitä. Olet lähettänyt liian monta kyselyä lyhyessä ajassa, "
+"palvelin katkaisi yhteyden."
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:103
 #, csharp-format
@@ -1562,85 +1605,92 @@ msgid ""
 "Tried to change update source to '{0}', but it was not found among available "
 "sources."
 msgstr ""
+"Yritettiin vaihtaa päivityspalvelin osoitteeseen {0}, mutta se ei ole "
+"saatavissa olevissa palvelimissa."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:433
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
+"Lisäosa {0} yritettiin sammuttaa, mutta sitä ei löytynyt ladatuista "
+"lisäosista."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:346
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
 msgstr ""
+"Lisäosa {0} yritettiin käynnistää, mutta sitä ei löytynyt ladatuista "
+"lisäosista."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:44
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:65
 msgid "Unbound"
-msgstr ""
+msgstr "Määrittelemätön"
 
 #: ../../../ETS2LA.Game/Installation.cs:36
 msgid "Undetermined"
-msgstr ""
+msgstr "Määrittelemätön"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:164
 msgid "Uninstall"
-msgstr ""
+msgstr "Poista"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:104
 #, csharp-format
 msgid "Unknown manifest type: {0}"
-msgstr ""
+msgstr "Tuntematon tietotyyppi: {0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:333
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "Tyhjennetään karttatietoja pelille {0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:208
 msgid "Unpacking Mods"
-msgstr ""
+msgstr "Puretaan modeja"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:167
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:157
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
-msgstr ""
+msgstr "Ohjainmäärityksen {0} ({1}) rekisteröinti poistettiin"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:60
 #, csharp-format
 msgid "Update available: {0}"
-msgstr ""
+msgstr "Päivitys saatavilla: {0}"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:53
 msgid "Update check skipped, using already cached result."
-msgstr ""
+msgstr "Päivityksen tarkastus ohitettiin, käytetään tallennettua vastausta."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:160
 #, csharp-format
 msgid "Update to {0}"
-msgstr ""
+msgstr "Päivitä versioon {0}"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:124
 #, csharp-format
 msgid "Update to {0} from {1}"
-msgstr ""
+msgstr "Päivitä versioon {0} versiosta {1}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:198
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:187
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
-msgstr ""
+msgstr "Muutettiin akselin toimintaa ohjainmääritykselle {0} ({1} -> {2})"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:183
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:173
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
+"Päivitettiin ohjainmääritys {0} ({1}), nyt laitteessa {2} ja painikkeessa {3}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:139
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
-msgstr ""
+msgstr "Lisäosalle {1} ei löytynyt versiota {0}."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
@@ -1648,54 +1698,62 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"Lisäosan {1} versio {0} ei ole yhteensopiva nykyisen sovellusversion tai "
+"käyttöjärjestelmän kanssa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "Katso julkinen telemetria"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:46
 msgid "Visual"
-msgstr ""
+msgstr "Visuaalinen"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:24
 msgid "Visualization"
-msgstr ""
+msgstr "Visualisaatio"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:18
 msgid "Volume"
-msgstr ""
+msgstr "Äänenvoimakkuus"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:79
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:88
 msgid "Warning: Insufficient RAM"
-msgstr ""
+msgstr "Varoitus: Muistu (RAM) ei ole riittävä"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:187
 msgid "Warnings & Overrides"
-msgstr ""
+msgstr "Varoitukset ja pakotukset"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:202
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"Emme ota huomioon liikennesääntöjä tai nopeuksia. Ajoneuvosi joutuu "
+"korkealla todennäköisyydellä kolariin."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:198
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
 msgstr ""
+"Pysäytämme pelin kun huomaamme ohjauksen olevan vaarallista / epäluotettavaa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:137
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
+"Kun vaihdat nopeutta, valitsemme lähimmän 10. Esim. 37 -> 39 -> 40 -> 42..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:128
 msgid ""
 "When pressing the SET keybind, what should ETS2LA set as the current cruise "
 "control speed?"
 msgstr ""
+"Kun painat Aseta ohjainmääritystä, minkä ETS2LA asettaa "
+"vakionopeudensäätimen nopeudeksi?"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:58
 msgid ""
@@ -1703,10 +1761,12 @@ msgid ""
 "interact with it. NOTE: Interaction with items below the overlay is not "
 "possible during this time."
 msgstr ""
+"Kun tämä ohjausmääritys on painettu, peitekuva ottaa huomioon hiiren ja "
+"antaa sinun muokata ikkunoiden kokoa ja sisältöä."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:36
 msgid "Wiki / FAQ"
-msgstr ""
+msgstr "Wiki / UKK"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:12
 msgid ""
@@ -1714,28 +1774,36 @@ msgid ""
 "if you want that. You can change how this key (and SET) behave in the "
 "Assistance settings."
 msgstr ""
+"Kytkee ETS2LA:n avustimet päälle a pois. Ei päivitä nopeutta, käytä Aseta "
+"määritystä siihen. Voit vaihtaa mitä tämä (ja Aseta) tekevät avustimien "
+"asetuksissa."
 
 #: ../../../ETS2LA.Controls/Defaults.cs:22
 msgid ""
 "Works like Assist, but will act the way you select in the Assistance "
 "settings. This key will additionally be used for confirmations."
 msgstr ""
+"Toimii kuten Avustimet, mutta seuraa valintaa avustimien asetuksissa. Tätä "
+"määritystä käytetään myös hyväksyntöjä varten."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:14
 msgid ""
 "You do not have permission to access this resource. The server understood the "
 "request but refuses to authorize it."
 msgstr ""
+"Sinulla ei ole lupaa käyttää tätä resurssia. Palvelin ymmärsi pyynnön mutta "
+"ei vastaa siihen."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:36
 msgid "You took a wrong turn!"
-msgstr ""
+msgstr "Käännyit väärään suuntaan!"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:6
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
 "here."
 msgstr ""
+"Rekisteröidyt, kirjaudut, ja muokkaat tiliäsi ja tilauksiasi tällä sivulla."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:89
 msgid ""
@@ -1743,6 +1811,8 @@ msgid ""
 "amounts of RAM, and may cause your system to become unstable. Please select a "
 "lower fidelity."
 msgstr ""
+"Laitteessasi on vähemmän kuin 16GB muistia. Korkea karttadatan tarkkuus "
+"vaatii suuria määriä muistia, ja voi aiheuttaa järjestelmän kaatumisen."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:80
 msgid ""
@@ -1750,3 +1820,5 @@ msgid ""
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
 msgstr ""
+"Laitteessasi on vähemmän kuin 20GB muistia. Korkea karttadatan tarkkuus "
+"vaatii suuria määriä muistia, ja voi aiheuttaa järjestelmän kaatumisen."
