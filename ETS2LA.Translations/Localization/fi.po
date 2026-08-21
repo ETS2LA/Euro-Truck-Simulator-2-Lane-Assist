@@ -2,15 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 18:05:14+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-21 15:56+0000\n"
+"Last-Translator: Tumppi066 <contact@ets2la.com>\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -18,93 +19,99 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:139
 #, csharp-format
 msgid "{0} not found in supported languages."
-msgstr ""
+msgstr "Kieltä {0} ei tueta."
 
 #: ../../../ETS2LA.State/Units.cs:224
 #: ../../../ETS2LA.State/Units.cs:298
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: ../../../ETS2LA.State/Units.cs:226
 #: ../../../ETS2LA.State/Units.cs:300
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
 msgid "Acceleration Response"
-msgstr ""
+msgstr "Kiihdytyksiin Reagointi"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:32
 msgid "Account"
-msgstr ""
+msgstr "Käyttäjätili"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:79
 msgid "Add Game Manually"
-msgstr ""
+msgstr "Lisää muu peli"
 
 #: ../../../ETS2LA.Game/Installation.cs:198
 #, csharp-format
 msgid "Adding mod: {0}"
-msgstr ""
+msgstr "Lisätään modia: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:25
 msgid "Additional"
-msgstr ""
+msgstr "Lisäasetukset"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:151
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
+"Säädä miten ETS2LA reagoi tarpeellisiin ohjausliikkeisiin. Tämä esimerkiksi "
+"säätää miten nopeasti vaihdamme kaistaa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:160
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
 "Emergency braking is not affected."
 msgstr ""
+"Säädä miten nopeasti ETS2LA reagoi tarpeellisiin nopeuden muutoksiin. Tämä "
+"ei vaikuta hätäjarrutukseen."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:169
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
 "you when using Adaptive Cruise Control."
-msgstr ""
+msgstr "Säädä etäisyyttä, jonka ETS2LA pitää edellä ajavasta ajoneuvosta."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:71
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Säädä käyttämämme karttadatan tarkkuutta. Korkeat arvot käyttävät enemmän "
+"muistia (RAM). Kaikki tasot ajavat lähes samoin."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:19
 msgid "Adjust the volume of the audio output."
-msgstr ""
+msgstr "Säädä äänenvoimakkuutta."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:31
 msgid "Adjustments"
-msgstr ""
+msgstr "Säädöt"
 
 #: ../../../ETS2LA.Game/Installation.cs:186
 #, csharp-format
 msgid "An error occurred while loading file '{0}': {1}"
-msgstr ""
+msgstr "Tiedoston '{0}' latauksen yhteydessä ilmeentyi virhe {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:234
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
-msgstr ""
+msgstr "Karttadatan latauksen yhteydessä ilmeentyi virhe: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:43
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonyymi"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:24
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Anonyymi Tietojenkeräys"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:25
 msgid ""
@@ -112,31 +119,35 @@ msgid ""
 "system specs, crashes, and other usage data. Your data cannot be identified "
 "with any personal information."
 msgstr ""
+"Anonyymi tietojenkeräys auttaa meitä kehittämään ETS2LA:ta, antamalla meille "
+"tietoja käyttäjien tietokoneista, sovelluksen kaatumisista, ja muusta "
+"käyttödatasta. Kerättyjä tietoja ei voida linkittää yksityiseen henkilöön, "
+"tai muuhun informaatioon."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:290
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
+msgstr "Lisäosan ilmeistä kansiota {0} ei löydetty."
 
 #: ../../../ETS2LA.UI/IPC.cs:51
 msgid "Are you sure?"
-msgstr ""
+msgstr "Oletko varma?"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:11
 msgid "Assist"
-msgstr ""
+msgstr "Ajotuet"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:13
 msgid "Assists"
-msgstr ""
+msgstr "Ajotuet"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:20
 msgid "Audio"
-msgstr ""
+msgstr "Ääni"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:134
 msgid "Audio playback canceled"
-msgstr ""
+msgstr "Äänentoisto katkaistiin"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:13
 msgid ""
