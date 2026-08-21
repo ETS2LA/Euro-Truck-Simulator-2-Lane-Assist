@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 15:56+0000\n"
+"PO-Revision-Date: 2026-08-21 16:00+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
 "\n"
@@ -154,10 +154,12 @@ msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
 msgstr ""
+"Tunnistautuminen vaaditaan. Käyttäjän (selaimen) täytyy tunnistaa itsensä "
+"saadakseen vastauksen."
 
 #: ../../../ETS2LA.Backend/Program.cs:61
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "Taustapalvelu on suljettu."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:20
 msgid ""
@@ -168,7 +170,7 @@ msgstr ""
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
 msgid "bar"
-msgstr ""
+msgstr "bar"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:133
 msgid "Binding thread started with no control to bind."
