@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:14+0000\n"
+"PO-Revision-Date: 2026-08-21 16:41+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -94,116 +94,117 @@ msgstr "調整"
 #: ../../../ETS2LA.Game/Installation.cs:186
 #, csharp-format
 msgid "An error occurred while loading file '{0}': {1}"
-msgstr ""
+msgstr "載入檔案「{0}」時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:234
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
-msgstr ""
+msgstr "載入地圖資料時發生錯誤：{0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:43
 msgid "Anonymous"
-msgstr ""
+msgstr "匿名"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:24
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "匿名遙測"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:25
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into users' "
 "system specs, crashes, and other usage data. Your data cannot be identified "
 "with any personal information."
-msgstr ""
+msgstr "匿名遙測會提供使用者的系統規格、程式崩潰及其他使用資料，協助我們改進 ETS2LA。"
+"收集到的資料無法與任何個人資訊建立關聯。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:290
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
+msgstr "找不到插件目錄 {0}。"
 
 #: ../../../ETS2LA.UI/IPC.cs:51
 msgid "Are you sure?"
-msgstr ""
+msgstr "你確定嗎？"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:11
 msgid "Assist"
-msgstr ""
+msgstr "輔助"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:13
 msgid "Assists"
-msgstr ""
+msgstr "輔助"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:20
 msgid "Audio"
-msgstr ""
+msgstr "音訊"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:134
 msgid "Audio playback canceled"
-msgstr ""
+msgstr "音訊播放已取消"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:13
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
-msgstr ""
+msgstr "需要身分驗證。用戶端必須完成驗證，才能取得要求的回應。"
 
 #: ../../../ETS2LA.Backend/Program.cs:61
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "後端已完成關閉。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:20
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
-msgstr ""
+msgstr "閘道錯誤。伺服器作為閘道或代理伺服器時，從上游伺服器收到無效回應。"
 
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
 msgid "bar"
-msgstr ""
+msgstr "bar"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:133
 msgid "Binding thread started with no control to bind."
-msgstr ""
+msgstr "綁定執行緒已啟動，但沒有指定要綁定的控制項。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:139
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
+msgstr "已將控制項 {0}（{1}）綁定至裝置 {2} 的控制項 {3}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:53
 msgid "Button"
-msgstr ""
+msgstr "按鈕"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:379
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
-msgstr ""
+msgstr "無法啟用插件 {0}，因為依賴項目 {1} 啟用失敗。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:364
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
-msgstr ""
+msgstr "無法啟用插件 {0}，因為找不到依賴項目 {1}。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:274
 #, csharp-format
 msgid ""
 "Cannot uninstall plugin with ID {0} because the following installed plugins "
 "depend on it: {1}"
-msgstr ""
+msgstr "無法解除安裝 ID 為 {0} 的插件，因為下列已安裝的插件依賴此插件：{1}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:30
 msgid "Catalogue"
-msgstr ""
+msgstr "插件庫"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:111
 #, csharp-format
 msgid "Changed update source to '{0}'."
-msgstr ""
+msgstr "已將更新來源變更為「{0}」。"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
 msgid "Changelog"
-msgstr ""
+msgstr "更新日誌"
 
 #: ../../../ETS2LA.UI/Utils.cs:19
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
@@ -211,101 +212,102 @@ msgstr ""
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
-msgstr ""
+msgstr "變更此選項後需要重新啟動 ETS2LA 才能生效。要立即重新啟動嗎？"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:38
 msgid "Check For Updates"
-msgstr ""
+msgstr "檢查更新"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:44
 msgid "Chime"
-msgstr ""
+msgstr "提示音"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 #, csharp-format
 msgid "Click to {0} this window"
-msgstr ""
+msgstr "按一下即可{0}此視窗"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:432
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "防碰撞"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:623
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
+msgstr "已連接搖桿：[bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:105
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "已連接搖桿：[bold]{0}[/] [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:37
 msgid "Contact Us"
-msgstr ""
+msgstr "聯絡我們"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:142
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
+msgstr "訂閱事件時找不到 ID 為「{0}」的控制項。"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:153
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:134
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
-msgstr ""
+msgstr "取消訂閱事件時找不到 ID 為「{0}」的控制項。"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:171
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:150
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
-msgstr ""
+msgstr "取消註冊時找不到 ID 為「{0}」的控制項。"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:202
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:181
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "更新軸向行為時找不到 ID 為「{0}」的控制項。"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:187
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:166
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
+msgstr "更新綁定時找不到 ID 為「{0}」的控制項。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:21
 msgid "Controls"
-msgstr ""
+msgstr "控制"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:243
 msgid "Controls Backend shutdown complete, all controls saved."
-msgstr ""
+msgstr "控制後端已關閉，所有控制項已儲存。"
 
 #: ../../../ETS2LA.Game/Installation.cs:395
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr ""
+msgstr "已將「{0}」複製到「{1}」"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:152
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
-msgstr ""
+msgstr "無法連接至遊戲。請開啟 ETS2 或 ATS，並啟用 SDK。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
 "we don't intend to fix this."
-msgstr ""
+msgstr "破解版遊戲或試玩版會阻止我們的 SDK 載入。這些版本無法運作，我們也不打算修正此"
+"問題。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:64
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
+msgstr "已建立插件目錄：[gray]{0}[/]"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
 msgid "Current Speed"
