@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:03+0000\n"
+"PO-Revision-Date: 2026-08-21 16:14+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
 "\n"
@@ -62,50 +62,59 @@ msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
+"Nastavte, ako bude ETS2LA reagovať na potrebné zmeny smeru jazdy. Týmto "
+"nastavením sa napríklad určuje, ako rýchlo bude ETS2LA meniť jazdný pruh."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:160
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
 "Emergency braking is not affected."
 msgstr ""
+"Nastavte, ako rýchlo bude ETS2LA reagovať na požadované zmeny zrýchlenia. "
+"Núdzové brzdenie tým nie je ovplyvnené."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:169
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
 "you when using Adaptive Cruise Control."
 msgstr ""
+"Nastavte vzdialenosť, ktorú sa ETS2LA bude snažiť dodržiavať od vozidla pred "
+"vami pri používaní adaptívneho tempomatu."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:71
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Nastavte úroveň detailov herných údajov, ktoré používame. Vyššie hodnoty "
+"spotrebúvajú viac RAM, ale obsahujú viac informácií. Všetky úrovne sa hrajú "
+"rovnako."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:19
 msgid "Adjust the volume of the audio output."
-msgstr ""
+msgstr "Upravte hlasitosť zvukového výstupu."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:31
 msgid "Adjustments"
-msgstr ""
+msgstr "Úpravy"
 
 #: ../../../ETS2LA.Game/Installation.cs:186
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "An error occurred while loading file '{0}': {1}"
-msgstr ""
+msgstr "Pri načítaní súboru „{0}“ došlo k chybe: {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:234
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
-msgstr ""
+msgstr "Pri načítavaní údajov o mape došlo k chybe: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:43
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonymný"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:24
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Anonymná telemetria"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:25
 msgid ""
@@ -113,6 +122,10 @@ msgid ""
 "system specs, crashes, and other usage data. Your data cannot be identified "
 "with any personal information."
 msgstr ""
+"Anonymná telemetria nám pomáha vylepšovať ETS2LA tým, že nám poskytuje "
+"informácie o systémových špecifikáciách používateľov, zlyhaniach a ďalších "
+"údajoch o používaní. Vaše údaje nie je možné priradiť k žiadnym osobným "
+"údajom."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:290
 #, csharp-format
