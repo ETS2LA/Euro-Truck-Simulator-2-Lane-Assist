@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @theme {
   --color-text-h: var(--text-h);
   --color-text: var(--text);
@@ -177,6 +178,12 @@ h3 {
 
 .button:hover {
   background-color: var(--control-bg);
+}
+
+.button-small {
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 4px 8px;
 }
 
 .button-accent {

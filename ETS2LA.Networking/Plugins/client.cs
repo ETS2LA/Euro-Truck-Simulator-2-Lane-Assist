@@ -79,19 +79,19 @@ public class PluginApiClient
         }
     }
 
-    public bool PluginHasUpdateAvailable(string pluginId)
+    public NetworkPluginVersion? GetPluginUpdate(string pluginId)
     {
         var plugin = AvailablePlugins.FirstOrDefault(p => p.Id == pluginId);
         if (plugin == null)
         {
             Log($"Plugin with ID {pluginId} not found in available plugins.", NotificationLevel.Warning);
-            return false;
+            return null;
         }
 
         InstalledPlugin? installedPlugin = InstalledPluginManifest.Current.InstalledPlugins.FirstOrDefault(p => p.Id == pluginId);
         if (!installedPlugin.HasValue || string.IsNullOrEmpty(installedPlugin.Value.Version))
         {
-            return false;
+            return null;
         }
 
         var appVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "0.0.0";
@@ -101,13 +101,13 @@ public class PluginApiClient
         if (latestVersion == null || string.IsNullOrEmpty(latestVersion.Version))
         {
             Log($"No valid versions found for plugin with ID {pluginId}.", NotificationLevel.Warning);
-            return false;
+            return null;
         }
 
-        return new Version(latestVersion.Version) > new Version(installedPlugin.Value.Version);
+        return new Version(latestVersion.Version) > new Version(installedPlugin.Value.Version) ? latestVersion : null;
     }
 
-    public bool InstallPlugin(string pluginId)
+    public bool InstallPlugin(string pluginId, string? version = null)
     {
         var plugin = AvailablePlugins.FirstOrDefault(p => p.Id == pluginId);
         if (plugin == null)
@@ -118,16 +118,36 @@ public class PluginApiClient
 
         var appVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "0.0.0";
         OperatingSystem currentOS = Environment.OSVersion.Platform != PlatformID.Unix ? OperatingSystem.Windows : OperatingSystem.Linux;
-        var latestVersion = plugin.GetLatestCompatibleVersion(appVersion, currentOS);
-        if (latestVersion == null)
+
+        NetworkPluginVersion targetVersion;
+        if (string.IsNullOrEmpty(version))
         {
-            Log($"No valid versions found for plugin with ID {pluginId}.", NotificationLevel.Warning);
-            return false;
+            var latestVersion = plugin.GetLatestCompatibleVersion(appVersion, currentOS);
+            if (latestVersion == null)
+            {
+                Log($"No valid versions found for plugin with ID {pluginId}.", NotificationLevel.Warning);
+                return false;
+            }
+            targetVersion = latestVersion;
+        }
+        else
+        {
+            targetVersion = plugin.Versions.FirstOrDefault(v => v.Version == version);
+            if (targetVersion == null)
+            {
+                Log($"Version {version} not found for plugin with ID {pluginId}.", NotificationLevel.Warning);
+                return false;
+            }
+            if (!plugin.IsCompatible(targetVersion, appVersion, currentOS))
+            {
+                Log($"Version {version} of plugin with ID {pluginId} is not compatible with the current application version or operating system.", NotificationLevel.Warning);
+                return false;
+            }
         }
 
         // Downloading is done from whatever region the user is in
         Region currentRegion = NetworkingSettings.Current.CurrentApiServer?.Name == "China" ? Region.China : Region.Global;
-        string downloadUrl = latestVersion.DownloadUrl.FirstOrDefault(d => d.Key == Region.Global).Value;
+        string downloadUrl = targetVersion.DownloadUrl.FirstOrDefault(d => d.Key == Region.Global).Value;
         if (currentRegion == Region.China)
             downloadUrl = downloadUrl.Replace("ets2la.com", "ets2la.cn");
 
@@ -137,10 +157,10 @@ public class PluginApiClient
             return false;
         }
 
-        if (latestVersion.Dependencies.Count > 0)
+        if (targetVersion.Dependencies.Count > 0)
         {
             bool allDependenciesInstalled = true;
-            foreach (var dependencyId in latestVersion.Dependencies)
+            foreach (var dependencyId in targetVersion.Dependencies)
             {
                 if (!InstalledPluginManifest.Current.InstalledPlugins.Any(p => p.Id == dependencyId))
                 {
@@ -192,22 +212,22 @@ public class PluginApiClient
         InstalledPluginManifest.Current.InstalledPlugins.Add(new InstalledPlugin
         {
             Id = plugin.Id,
-            Version = latestVersion.Version,
-            Dependencies = latestVersion.Dependencies,
-            DllPath = Path.Combine(outputPath, latestVersion.DllPath),
+            Version = targetVersion.Version,
+            Dependencies = targetVersion.Dependencies,
+            DllPath = Path.Combine(outputPath, targetVersion.DllPath),
             Type = type == "Plugin" ? PluginType.Plugin : PluginType.Library
         });
         InstalledPluginManifest.Current.Save();
 
         Events.Current.Publish<string>("ETS2LA.Plugins.Installed", pluginId);
         Events.Current.Publish<EventArgs>($"ETS2LA.Plugins.Installed.{pluginId}", EventArgs.Empty);
-        Log($"Successfully installed plugin {plugin.Name} ({plugin.Id}, {latestVersion.Version})", NotificationLevel.Success);
+        Log($"Successfully installed plugin {plugin.Name} ({plugin.Id}, {targetVersion.Version})", NotificationLevel.Success);
         return true;
     }
 
     public bool UpdatePlugin(string pluginId)
     {
-        if (!PluginHasUpdateAvailable(pluginId))
+        if (GetPluginUpdate(pluginId) == null)
         {
             Log($"No update available for plugin with ID {pluginId}.", NotificationLevel.Information);
             return false;

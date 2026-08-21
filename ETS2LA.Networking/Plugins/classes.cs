@@ -53,7 +53,6 @@ public class NetworkPlugin
         return compatibleVersions.FirstOrDefault();
     }
 
-
     private bool IsCompatible(Version currentVersion, string constraint)
     {
         if (string.IsNullOrEmpty(constraint)) return true;
@@ -85,6 +84,11 @@ public class NetworkPlugin
         }
 
         return false;
+    }
+
+    public bool IsCompatible(NetworkPluginVersion version, string appVersion, OperatingSystem os)
+    {
+        return IsCompatible(Version.Parse(appVersion), version.AppVersion) && version.SupportedOperatingSystems.Contains(os);
     }
 }
 
