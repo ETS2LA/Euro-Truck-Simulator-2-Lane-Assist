@@ -2,15 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 21:12:01+0300\n"
-"PO-Revision-Date: 2026-08-21 21:12:01+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-22 10:51+0000\n"
+"Last-Translator: Pastel <pastel@ets2la.com>\n"
+"Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
+">\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -18,7 +19,7 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:140
 #, csharp-format
@@ -28,12 +29,12 @@ msgstr ""
 #: ../../../ETS2LA.State/Units.cs:224
 #: ../../../ETS2LA.State/Units.cs:298
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: ../../../ETS2LA.State/Units.cs:226
 #: ../../../ETS2LA.State/Units.cs:300
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:186
 msgid "3D Renderer"
@@ -45,7 +46,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:32
 msgid "Account"
-msgstr ""
+msgstr "アカウント"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:79
 msgid "Add Game Manually"
@@ -128,25 +129,26 @@ msgstr ""
 
 #: ../../../ETS2LA.Controls/Defaults.cs:11
 msgid "Assist"
-msgstr ""
+msgstr "アシスト"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:13
 msgid "Assists"
-msgstr ""
+msgstr "アシスト"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:20
 msgid "Audio"
-msgstr ""
+msgstr "オーディオ"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:134
 msgid "Audio playback canceled"
-msgstr ""
+msgstr "音声の再生が中止されました"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:13
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
-msgstr ""
+msgstr "認証が必要です。クライアントは、要求した応答を取得するために、自身を認証する"
+"必要があります。"
 
 #: ../../../ETS2LA.Backend/Program.cs:61
 msgid "Backend shutdown complete."
@@ -195,7 +197,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:30
 msgid "Catalogue"
-msgstr ""
+msgstr "カタログ"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:111
 #, csharp-format
@@ -204,13 +206,14 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
 msgid "Changelog"
-msgstr ""
+msgstr "変更履歴"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:150
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
-msgstr ""
+msgstr "表示言語を変更するには、ETS2LAを再起動する必要があります。今すぐ再起動します"
+"か？"
 
 #: ../../../ETS2LA.UI/Utils.cs:19
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
@@ -239,7 +242,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "衝突回避"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:623
 #, csharp-format
@@ -287,7 +290,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:21
 msgid "Controls"
-msgstr ""
+msgstr "コントロール"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:243
 msgid "Controls Backend shutdown complete, all controls saved."
@@ -301,13 +304,15 @@ msgstr ""
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:152
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
-msgstr ""
+msgstr "ゲームに接続できませんでした。ETS2またはATSを起動して、SDKを有効にしてくださ"
+"い。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
 "we don't intend to fix this."
-msgstr ""
+msgstr "クラックされたゲームやデモ版では、当社のSDKが読み込まれなくなります。これらは"
+"動作せず、この問題を修正する予定はありません。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:64
 #, csharp-format
@@ -400,11 +405,11 @@ msgstr[1] ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:19
 msgid "Display"
-msgstr ""
+msgstr "ディスプレイ"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:162
 msgid "Display Language"
-msgstr ""
+msgstr "表示言語"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:157
 msgid "Display Units"
@@ -542,10 +547,13 @@ msgid ""
 "you use 3rd party plugins. Select Yes to continue anyway and accept the "
 "risk."
 msgstr ""
+"ETS2LAは管理者権限で実行されています。サードパーティ製のプラグインを使用する"
+"場合、これによりシステムにリスクが生じます。「はい」を選択して、リスクを受け"
+"入れた上で続行してください。"
 
 #: ../../../ETS2LA.Backend/Program.cs:47
 msgid "ETS2LA is running."
-msgstr ""
+msgstr "ETS2LAが動作中です。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:27
 msgid "Experiments"
@@ -605,7 +613,8 @@ msgstr ""
 #: ../../../ETS2LA.Networking/Plugins/client.cs:79
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
-msgstr ""
+msgstr "利用可能なプラグインの取得に失敗しました。インターネット接続を確認してくださ"
+"い。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:499
 msgid "Failed to init ImGui Impl GLFW"
@@ -613,11 +622,11 @@ msgstr ""
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:507
 msgid "Failed to init ImGui Impl OpenGL3"
-msgstr ""
+msgstr "ImGui Impl OpenGL3 の初期化に失敗しました"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:136
 msgid "Failed to initialize overlay, ImGui initialization failed."
-msgstr ""
+msgstr "オーバーレイの初期化に失敗しました。ImGuiの初期化に失敗しました。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:125
 msgid "Failed to initialize overlay, OpenGL initialization failed."
@@ -818,17 +827,20 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
 msgid "Game SDK"
-msgstr ""
+msgstr "ゲームSDK"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:151
 msgid "Game Telemetry"
-msgstr ""
+msgstr "ゲームテレメトリ"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:22
 msgid ""
 "Gateway timeout. The server was acting as a gateway or proxy and did not "
 "receive a timely response from the upstream server."
 msgstr ""
+"ゲートウェイのタイムアウト。サーバーはゲートウェイまたはプロキシとして機能し"
+"ていましたが、アップストリームサーバーから適時に応答を受け取ることができませ"
+"んでした。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:18
 msgid "General"
@@ -863,6 +875,9 @@ msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning this "
 "to off will disable collision avoidance regardless of your enabled plugins."
 msgstr ""
+"ETS2LAが衝突の可能性に対して、どの程度早く対応しようとするかを設定します。こ"
+"れを「オフ」に設定すると、有効にしているプラグインに関係なく、衝突回避機能が"
+"無効になります。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
 msgid ""
@@ -890,6 +905,8 @@ msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the overlay. "
 "Limiting the framerate will reduce CPU usage."
 msgstr ""
+"ほとんどの場合、ETS2LAのCPU使用量の半分以上はオーバーレイによって消費されてい"
+"ます。フレームレートを制限することで、CPU使用量を削減できます。"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:41
 msgid "Increase"
@@ -953,7 +970,8 @@ msgstr ""
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
 "prevented it from fulfilling the request."
-msgstr ""
+msgstr "内部サーバーエラー。サーバーで予期しない事態が発生し、リクエストを処理できま"
+"せんでした。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "Invalid directory"
@@ -1192,16 +1210,16 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:135
 msgid "Not Installed"
-msgstr ""
+msgstr "未インストール"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:45
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:55
 msgid "Off"
-msgstr ""
+msgstr "オフ"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
 msgid "Overlay"
-msgstr ""
+msgstr "オーバーレイ"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:326
 msgid "Overlay free CPU time percentage"
@@ -1238,7 +1256,7 @@ msgstr ""
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
 "available to ETS2LA."
-msgstr ""
+msgstr "解析は続行されますが、このファイルに含まれる情報はETS2LAでは利用できません。"
 
 #: ../../../ETS2LA.State/Units.cs:239
 msgid "Pascals"
@@ -1250,7 +1268,7 @@ msgstr ""
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:313
 msgid "Performance Overlay"
-msgstr ""
+msgstr "パフォーマンスオーバーレイ"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:151
 #, csharp-format
@@ -1282,7 +1300,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
-msgstr ""
+msgstr "プラグイン"
 
 #: ../../../ETS2LA.State/Units.cs:215
 msgid "pounds"
@@ -1320,7 +1338,8 @@ msgstr ""
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
 "but can cause performance issues."
-msgstr ""
+msgstr "ゲームワールド内でビジョンカメラをレンダリングします。これはデバッグに役立ち"
+"ますが、パフォーマンスの問題を引き起こす可能性があります。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Experiments.razor:18
 msgid "Render Vision Cameras"
@@ -1339,7 +1358,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:29
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "ETS2LAを再起動しています..."
 
 #: ../../../ETS2LA.Game/Data/Utils.cs:45
 #, csharp-format
@@ -1352,7 +1371,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs need to be installed."
-msgstr ""
+msgstr "SDKをインストールする必要があります。"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:84
 msgid "Search for plugins..."
@@ -1366,7 +1385,8 @@ msgstr ""
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
+msgstr "選択された更新ソース「{0}」が見つかりませんでした。利用可能な最初のソースをデ"
+"フォルトとして使用します。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:21
 msgid ""
@@ -1380,11 +1400,11 @@ msgstr ""
 
 #: ../../../ETS2LA.Controls/Defaults.cs:21
 msgid "SET/OK"
-msgstr ""
+msgstr "SET/OK"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:42
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "show"
@@ -1392,7 +1412,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:191
 msgid "Simplified Graphics"
-msgstr ""
+msgstr "簡略化されたグラフィック"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
 #, csharp-format
@@ -1410,6 +1430,9 @@ msgid ""
 "your mods are not loading properly, try enabling this option. This is known "
 "to be required for RusMap."
 msgstr ""
+"一部のMODでは、japan.mbdやrussia.mbdといった追加のマップが実装されています。M"
+"ODが正しく読み込まれない場合は、このオプションを有効にしてみてください。RusMa"
+"pでは、この設定が必要であることが確認されています。"
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
@@ -1425,7 +1448,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:38
 msgid "Speed Limit"
-msgstr ""
+msgstr "制限速度"
 
 #: ../../../ETS2LA.State/Program.cs:229
 msgid "Speed limit changed"
@@ -1442,7 +1465,7 @@ msgstr ""
 
 #: ../../../ETS2LA.Backend/Program.cs:40
 msgid "Starting ETS2LA..."
-msgstr ""
+msgstr "ETS2LAを起動しています..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:150
 msgid "Steering Sensitivity"
@@ -1479,7 +1502,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:33
 msgid "Telemetry"
-msgstr ""
+msgstr "テレメトリー"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "The game has been added successfully."
@@ -1495,7 +1518,8 @@ msgstr ""
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this can "
 "be used to improve performance on lower-end hardware."
-msgstr ""
+msgstr "3D要素がレンダリングされる最大距離です。この値を小さくすることで、低スペック"
+"のハードウェアでのパフォーマンスを向上させることができます。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
@@ -1529,7 +1553,8 @@ msgstr ""
 msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
 "the resource has been removed."
-msgstr ""
+msgstr "サーバーは、リクエストされたリソースを見つけることができません。URLのスペルが"
+"間違っているか、リソースが削除された可能性があります。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:12
 msgid ""
@@ -1582,7 +1607,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:5
 msgid "This page will be implemented in a future update."
-msgstr ""
+msgstr "このページは今後のアップデートで実装される予定です。"
 
 #: ../../../ETS2LA.UI/IPC.cs:51
 msgid ""
@@ -1619,7 +1644,7 @@ msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:36
 msgid "Undetermined"
-msgstr ""
+msgstr "未定"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:164
 msgid "Uninstall"
@@ -1685,6 +1710,9 @@ msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
 msgstr ""
+"簡略化されたグラフィックスを使用することで、低スペックのハードウェアでのパフ"
+"ォーマンスを向上させたり、シェーダーなどの高度な機能がサポートされていない場"
+"合の問題を解決したりすることができます。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:139
 #, csharp-format
@@ -1712,7 +1740,7 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:18
 msgid "Volume"
-msgstr ""
+msgstr "音量"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:79
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:88
@@ -1774,6 +1802,9 @@ msgid ""
 "if you want that. You can change how this key (and SET) behave in the "
 "Assistance settings."
 msgstr ""
+"ETS2LAのアシスト機能を切り替えます。速度は更新されません。速度を更新したい場"
+"合は「SET」キーを使用してください。このキー（および「SET」キー）の動作は、「"
+"アシスト設定」で変更できます。"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:22
 msgid ""
@@ -1803,6 +1834,9 @@ msgid ""
 "amounts of RAM, and may cause your system to become unstable. Please select a "
 "lower fidelity."
 msgstr ""
+"お使いのシステムのRAM容量は16GB未満です。「高精細」モードでは大量のRAMを使用"
+"するため、システムの動作が不安定になる可能性があります。より低い精細度を選択"
+"してください。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:80
 msgid ""
@@ -1810,3 +1844,6 @@ msgid ""
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
 msgstr ""
+"お使いのシステムのRAM容量が20GB未満です。「最高精度」モードでは大量のRAMを使"
+"用するため、システムの動作が不安定になる可能性があります。より低い精度を選択"
+"してください。"
