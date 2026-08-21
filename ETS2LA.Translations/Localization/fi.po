@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:00+0000\n"
+"PO-Revision-Date: 2026-08-21 16:03+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
 "\n"
@@ -174,16 +174,16 @@ msgstr "bar"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:133
 msgid "Binding thread started with no control to bind."
-msgstr ""
+msgstr "Kuuntelusäe käynnistettiin ilman ohjainmääritystä."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:139
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
+msgstr "Ohjäinmääritys {0} ({1}) määritelty laitteen {2} painikkeeseen {3}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:53
 msgid "Button"
-msgstr ""
+msgstr "Näppäin"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:379
 #, csharp-format
