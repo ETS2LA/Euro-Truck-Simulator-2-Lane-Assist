@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:03+0000\n"
+"PO-Revision-Date: 2026-08-21 16:14+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
 "\n"
@@ -189,11 +189,13 @@ msgstr "Näppäin"
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
 msgstr ""
+"Lisäosan {0} käynnistys estetty, sillä se edellyttää {1}, jonka käynnistys "
+"epäonnistui."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:364
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
-msgstr ""
+msgstr "Lisäosan {0} käynnistys estetty, sillä sen edellytystä {1} ei löydetty."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:274
 #, csharp-format
@@ -201,19 +203,21 @@ msgid ""
 "Cannot uninstall plugin with ID {0} because the following installed plugins "
 "depend on it: {1}"
 msgstr ""
+"Lisäosan {0} poisto estettiin, sillä seuraavat lisäosat vaativat sen "
+"toimiakseen: {1}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:30
 msgid "Catalogue"
-msgstr ""
+msgstr "Luettelo"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:111
 #, csharp-format
 msgid "Changed update source to '{0}'."
-msgstr ""
+msgstr "Vaihdettiin päivityspalvelin osoitteeseen '{0}'."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
 msgid "Changelog"
-msgstr ""
+msgstr "Muutosloki"
 
 #: ../../../ETS2LA.UI/Utils.cs:19
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
@@ -222,116 +226,131 @@ msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
 msgstr ""
+"Tämän asetuksen muuttaminen vaatii sovelluksen uudelleenkäynnistystä. "
+"Tehdäänkö tämä nyt?"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:38
 msgid "Check For Updates"
-msgstr ""
+msgstr "Tarkista Päivitykset"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:44
 msgid "Chime"
-msgstr ""
+msgstr "Äänimerkki"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 #, csharp-format
 msgid "Click to {0} this window"
-msgstr ""
+msgstr "Paina {0} tämän ikkunan"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:432
 msgid "Close"
-msgstr ""
+msgstr "Sulje"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Törmäyksen Esto"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:623
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
+msgstr "Yhdistettiin laite: [bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:105
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "Yhdistettiin laite: [bold]{0}[/] [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:37
 msgid "Contact Us"
-msgstr ""
+msgstr "Yhteydenotto"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:142
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
+"Ohjainmääritystä jonka ID {0}, ei löytynyt tapahtuman kuuntelemista varten."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:153
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:134
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
+"Ohjainmääritystä jonka ID {0}, ei löytynyt tapahtuman kuuntelemisen "
+"lopettamista varten."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:171
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:150
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
+"Ohjainmääritystä jonka ID {0}, ei löytynyt rekisteröinnin poistamista varten."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:202
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:181
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
+"Ohjainmääritystä jonka ID {0}, ei löytynyt akselin toiminnan muuttamista "
+"varten."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:187
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:166
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
+"Ohjainmääritystä jonka ID {0}, ei löytynyt määrityksen muuttamista varten."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:21
 msgid "Controls"
-msgstr ""
+msgstr "Ohjainmääritykset"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:243
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr ""
+"Ohjainmäärityksen taustapalvelun asetukset tallennettu ja suljettu "
+"onnistuneesti."
 
 #: ../../../ETS2LA.Game/Installation.cs:395
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr ""
+msgstr "Kopioitiin tiedosto {0} paikkaan {1}"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:152
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
 msgstr ""
+"Peliin ei saatu yhteyttä. Avaa ETS2 tai ATS ja muista asentaa SDK "
+"asetuksista."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
 "we don't intend to fix this."
 msgstr ""
+"Murretut pelit ja demot estävät SDK:n latauksen. Ne siis eivät usein toimi, "
+"ja emme aio korjata tätä."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:64
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
+msgstr "Luotiin lisäosan kansio: [gray]{0}[/]"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
 msgid "Current Speed"
-msgstr ""
+msgstr "Nykyinen Nopeus"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:23
 msgid "Dashboard"
-msgstr ""
+msgstr "Etusivu"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:70
 msgid "Data Fidelity"
-msgstr ""
+msgstr "Karttadatan Tarkkuus"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
 msgid "Data Parsing"
-msgstr ""
+msgstr "Karttadatan Lataaminen"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
 msgid "Data Quality"
