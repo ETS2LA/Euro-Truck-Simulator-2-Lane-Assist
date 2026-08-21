@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 18:13+0000\n"
+"PO-Revision-Date: 2026-08-21 19:17+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -523,7 +523,7 @@ msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk if "
 "you use 3rd party plugins. Select Yes to continue anyway and accept the "
 "risk."
-msgstr "ETS2LA 目前正以系統管理員身分執行。若使用第三方插件，可能會使您的系統面臨風險"
+msgstr "ETS2LA 目前正以系統管理員身分執行。若使用第三方插件，可能會使你的系統面臨風險"
 "。若仍要繼續並接受此風險，請選擇「是」。"
 
 #: ../../../ETS2LA.Backend/Program.cs:47
@@ -1172,85 +1172,85 @@ msgstr "疊加層互動"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:59
 msgid "Overrides"
-msgstr "強制設定"
+msgstr "強制選項"
 
 #: ../../../ETS2LA.State/Units.cs:313
 msgid "Pa"
-msgstr ""
+msgstr "Pa"
 
 #: ../../../ETS2LA.Game/Installation.cs:262
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "正在解析位於「{0}」的遊戲資料（版本：{1}）"
 
 #: ../../../ETS2LA.Game/Installation.cs:266
 #: ../../../ETS2LA.Game/Data/Classes.cs:124
 msgid "Parsing Map Data"
-msgstr ""
+msgstr "地圖資料解析中"
 
 #: ../../../ETS2LA.Game/Data/Classes.cs:125
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
-msgstr ""
+msgstr "正在解析區段 {0}/{1}..."
 
 #: ../../../ETS2LA.Game/Installation.cs:186
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
 "available to ETS2LA."
-msgstr ""
+msgstr "解析仍會繼續，但此檔案中的資訊將無法供 ETS2LA 使用。"
 
 #: ../../../ETS2LA.State/Units.cs:239
 msgid "Pascals"
-msgstr ""
+msgstr "帕斯卡"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:197
 msgid "Pause When Unstable"
-msgstr ""
+msgstr "不穩定時暫停"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:313
 msgid "Performance Overlay"
-msgstr ""
+msgstr "效能疊加層"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:151
 #, csharp-format
 msgid "Playing sound: {0}"
-msgstr ""
+msgstr "正在播放音效：{0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:50
 msgid "Please see the logs for more information."
-msgstr ""
+msgstr "請查看記錄檔以取得更多資訊。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Settings.cs:57
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr ""
+msgstr "插件「{0}」在「{1}」找不到 DLL，已將該插件移除。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:52
 msgid "Plugin Installer"
-msgstr ""
+msgstr "插件安裝器"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:88
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
-msgstr ""
+msgstr "在可用插件中找不到 ID 為 {0} 的插件。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "找不到 ID 為 {0} 的插件。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
-msgstr ""
+msgstr "插件"
 
 #: ../../../ETS2LA.State/Units.cs:215
 msgid "pounds"
-msgstr ""
+msgstr "磅"
 
 #: ../../../ETS2LA.State/Units.cs:237
 #: ../../../ETS2LA.State/Units.cs:311
 msgid "psi"
-msgstr ""
+msgstr "psi"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:291
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:304
@@ -1258,101 +1258,101 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:338
 #, csharp-format
 msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
+msgstr "收到未知搖桿的輸入（執行個體 ID：{0}）。"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:134
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:114
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
+msgstr "已註冊控制項：{0} [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.Game/Program.cs:195
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
-msgstr ""
+msgstr "正在移除手動新增的遊戲安裝位置「{0}」"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Experiments.razor:19
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
 "but can cause performance issues."
-msgstr ""
+msgstr "在遊戲世界中渲染視覺攝影機。此功能有助於除錯，但可能會造成效能問題。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Experiments.razor:18
 msgid "Render Vision Cameras"
-msgstr ""
+msgstr "渲染視覺攝影機"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:149
 msgid "Responsiveness"
-msgstr ""
+msgstr "反應"
 
 #: ../../../ETS2LA.UI/Utils.cs:18
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 msgid "Restart Required"
-msgstr ""
+msgstr "需要重新啟動"
 
 #: ../../../ETS2LA.UI/Utils.cs:29
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "正在重新啟動 ETS2LA..."
 
 #: ../../../ETS2LA.Game/Data/Utils.cs:45
 #, csharp-format
 msgid "Road template for {0} not found in SII file."
-msgstr ""
+msgstr "在 SII 檔案中找不到 {0} 的道路範本。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "SDK 目前已安裝。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs need to be installed."
-msgstr ""
+msgstr "需要安裝 SDK。"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:84
 msgid "Search for plugins..."
-msgstr ""
+msgstr "搜尋插件..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:17
 msgid "Select core.scs"
-msgstr ""
+msgstr "選擇 core.scs"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:123
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
+msgstr "找不到所選的更新來源「{0}」，將改用第一個可用的來源。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:21
 msgid ""
 "Service unavailable. The server is currently unable to handle the request due "
 "to temporary overloading or maintenance."
-msgstr ""
+msgstr "服務暫時無法使用。伺服器目前因暫時過載或維護而無法處理此請求。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:127
 msgid "SET Behaviour"
-msgstr ""
+msgstr "「設定」按鍵行為"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:21
 msgid "SET/OK"
-msgstr ""
+msgstr "設定/確定"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:42
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "show"
-msgstr ""
+msgstr "顯示"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "已略過殘留的插件暫存目錄 [gray]{0}[/]：{1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:13
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:21
 msgid "Slow"
-msgstr ""
+msgstr "慢"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:61
 msgid ""
@@ -1360,6 +1360,8 @@ msgid ""
 "your mods are not loading properly, try enabling this option. This is known "
 "to be required for RusMap."
 msgstr ""
+"部分模組會加入額外的地圖，例如 japan.mbd 或 russia.mbd。若發現模組無法正常載"
+"入，請嘗試啟用此選項。已知 RusMap 需要啟用此選項才能正常運作。"
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
@@ -1367,128 +1369,130 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 msgid "Sorry"
-msgstr ""
+msgstr "抱歉"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:140
 msgid "Speed Control Step Size"
-msgstr ""
+msgstr "巡航速度調整級距"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:38
 msgid "Speed Limit"
-msgstr ""
+msgstr "速限"
 
 #: ../../../ETS2LA.State/Program.cs:229
 msgid "Speed limit changed"
-msgstr ""
+msgstr "速限已變更"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:188
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "速限警告"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:154
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "開始綁定控制項 {0}（{1}）"
 
 #: ../../../ETS2LA.Backend/Program.cs:40
 msgid "Starting ETS2LA..."
-msgstr ""
+msgstr "正在啟動 ETS2LA..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:150
 msgid "Steering Sensitivity"
-msgstr ""
+msgstr "轉向靈敏度"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:7
 msgid ""
 "Subscriptions will <span class=\"font-bold text-text-accent\">never</span> be "
 "required for using ETS2LA. They are a way you can support the development."
 msgstr ""
+"使用 ETS2LA <span class=\"font-bold text-text-accent\">永遠</span>不需要訂閱"
+"。訂閱只是支持開發的一種方式。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "已成功安裝插件 {0}（{1}，{2}）"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:300
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
-msgstr ""
+msgstr "已成功解除安裝 ID 為 {0} 的插件。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:253
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
-msgstr ""
+msgstr "已成功更新 ID 為 {0} 的插件。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:33
 msgid "Telemetry"
-msgstr ""
+msgstr "遙測"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "The game has been added successfully."
-msgstr ""
+msgstr "遊戲已成功新增。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
-msgstr ""
+msgstr "ETS2LA 會加速到的最高速度。由於慣性，速度仍可能略微超過此限制。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:395
 msgid "The plugin was enabled successfully."
-msgstr ""
+msgstr "插件已成功啟用。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:16
 msgid ""
 "The request method is recognized by the server but is not supported by the "
 "target resource."
-msgstr ""
+msgstr "伺服器能辨識此請求方法，但目標資源不支援該方法。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "The selected directory does not exist."
-msgstr ""
+msgstr "所選目錄不存在。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:27
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "所選的檔案不存在。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:33
 msgid "The selected file is not a core.scs file."
-msgstr ""
+msgstr "所選的檔案不是 core.scs 檔案。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:15
 msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
 "the resource has been removed."
-msgstr ""
+msgstr "伺服器找不到請求的資源。網址可能有誤，或該資源已被移除。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:12
 msgid ""
 "The server could not understand the request due to invalid syntax or "
 "corrupted request data."
-msgstr ""
+msgstr "伺服器無法理解此請求，原因是語法無效或請求資料已損毀。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:17
 msgid "The server timed out waiting for the request from the client."
-msgstr ""
+msgstr "伺服器等待用戶端傳送請求時逾時。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:141
 msgid "The step size for changing the cruise control speed."
-msgstr ""
+msgstr "調整巡航速度時，每次變更的級距。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "This game was found at"
-msgstr ""
+msgstr "此遊戲位於"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:32
 msgid ""
 "This key will navigate any ETS2LA menus forward, it will also work as the "
 "cancel key for any confirmations."
-msgstr ""
+msgstr "此按鍵可在 ETS2LA 的任何選單中前往下一步，也可在任何確認操作中作為取消鍵。"
 
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "這可能需要一點時間...（{0}/{1}）"
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:5
@@ -1496,174 +1500,177 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
-msgstr ""
+msgstr "此頁面尚未建立，不過<i>很快</i>就會推出。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:5
 msgid "This page will be implemented in a future update."
-msgstr ""
+msgstr "此頁面將於後續更新中實作。"
 
 #: ../../../ETS2LA.UI/IPC.cs:51
 msgid ""
 "This will disconnect ETS2LA from the game and close the window. You can "
 "minimize the window to keep ETS2LA running."
-msgstr ""
+msgstr "這會中斷 ETS2LA 與遊戲的連接並關閉視窗。你可以將視窗最小化，讓 ETS2LA 繼續執"
+"行。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:18
 msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
-msgstr ""
+msgstr "請求過多。你在一段時間內傳送了太多請求。"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:103
 #, csharp-format
 msgid ""
 "Tried to change update source to '{0}', but it was not found among available "
 "sources."
-msgstr ""
+msgstr "嘗試將更新來源變更為「{0}」，但在可用來源中找不到該來源。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:433
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
-msgstr ""
+msgstr "嘗試停用 {0}，但在已載入的插件中找不到該插件。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:346
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
-msgstr ""
+msgstr "嘗試啟用 {0}，但在已載入的插件中找不到該插件。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:44
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:65
 msgid "Unbound"
-msgstr ""
+msgstr "未綁定"
 
 #: ../../../ETS2LA.Game/Installation.cs:36
 msgid "Undetermined"
-msgstr ""
+msgstr "無法判定"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:164
 msgid "Uninstall"
-msgstr ""
+msgstr "解除安裝"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:104
 #, csharp-format
 msgid "Unknown manifest type: {0}"
-msgstr ""
+msgstr "未知的資訊清單類型：{0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:333
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "正在卸載遊戲安裝位置「{0}」已解析的地圖資料"
 
 #: ../../../ETS2LA.Game/Installation.cs:208
 msgid "Unpacking Mods"
-msgstr ""
+msgstr "解包模組中"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:167
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:157
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
-msgstr ""
+msgstr "已取消註冊控制項：{0}（{1}）"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:60
 #, csharp-format
 msgid "Update available: {0}"
-msgstr ""
+msgstr "有可用的更新：{0}"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:53
 msgid "Update check skipped, using already cached result."
-msgstr ""
+msgstr "已略過更新檢查，使用現有的快取結果。"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:160
 #, csharp-format
 msgid "Update to {0}"
-msgstr ""
+msgstr "更新至 {0}"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:124
 #, csharp-format
 msgid "Update to {0} from {1}"
-msgstr ""
+msgstr "從 {1} 更新至 {0}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:198
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:187
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
-msgstr ""
+msgstr "已將控制項 {0}（{1}）的軸向行為更新為 {2}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:183
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:173
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
-msgstr ""
+msgstr "已將控制項 {0}（{1}）的綁定更新為裝置 {2}、控制項 {3}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:139
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
-msgstr ""
+msgstr "找不到 ID 為 {1} 的插件版本 {0}。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
 msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
-msgstr ""
+msgstr "ID 為 {1} 的插件版本 {0} 與目前的應用程式版本或作業系統不相容。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "查看公開遙測資料"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:46
 msgid "Visual"
-msgstr ""
+msgstr "視覺提示"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:24
 msgid "Visualization"
-msgstr ""
+msgstr "視覺化"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:18
 msgid "Volume"
-msgstr ""
+msgstr "音量"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:79
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:88
 msgid "Warning: Insufficient RAM"
-msgstr ""
+msgstr "警告：記憶體不足"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:187
 msgid "Warnings & Overrides"
-msgstr ""
+msgstr "警告與行為"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:202
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
-msgstr ""
+msgstr "開啟後將忽略交通規則和速限。你的車輛以及其他車輛都可能受損。你為什麼會想啟用"
+"這個？"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:198
 msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
-msgstr ""
+msgstr "當偵測到不穩定狀況，或轉向功能沒有反應 / 因其他原因自行停用時，將暫停遊戲。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:137
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
-msgstr ""
+msgstr "變更速度時，接近 10 的倍數會自動對齊。例如：37 -> 39 -> 40 -> 42..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:128
 msgid ""
 "When pressing the SET keybind, what should ETS2LA set as the current cruise "
 "control speed?"
-msgstr ""
+msgstr "按下「設定」按鍵時，ETS2LA 應將目前巡航速度設定為哪個速度？"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:58
 msgid ""
 "When this key is held, the overlay will receive mouse input and allow you to "
 "interact with it. NOTE: Interaction with items below the overlay is not "
 "possible during this time."
-msgstr ""
+msgstr "按住此按鍵時，疊加層將接收滑鼠輸入，讓你可以與其互動。注意：此時無法與疊加層"
+"下方的項目互動。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:36
 msgid "Wiki / FAQ"
-msgstr ""
+msgstr "維基 / 常見問題"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:12
 msgid ""
@@ -1671,39 +1678,44 @@ msgid ""
 "if you want that. You can change how this key (and SET) behave in the "
 "Assistance settings."
 msgstr ""
+"切換 ETS2LA 輔助功能的開啟或關閉狀態。不會更新速度；若要更新速度，請使用「設"
+"定」按鍵。你可以在輔助設定中變更此按鍵與「設定」按鍵的行為。"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:22
 msgid ""
 "Works like Assist, but will act the way you select in the Assistance "
 "settings. This key will additionally be used for confirmations."
-msgstr ""
+msgstr "功能與「輔助」按鍵類似，但會依照你在輔助設定中選擇的方式運作。此外，此按鍵也"
+"會用於確認操作。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:14
 msgid ""
 "You do not have permission to access this resource. The server understood the "
 "request but refuses to authorize it."
-msgstr ""
+msgstr "你沒有存取此資源的權限。伺服器已理解此請求，但拒絕授權此次存取。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:36
 msgid "You took a wrong turn!"
-msgstr ""
+msgstr "你走錯路了！"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:6
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
 "here."
-msgstr ""
+msgstr "你可以在這裡註冊、登入，以及管理帳號設定和訂閱。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:89
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
 "amounts of RAM, and may cause your system to become unstable. Please select a "
 "lower fidelity."
-msgstr ""
+msgstr "你的系統記憶體少於 16GB。資料精細度設為「高」時會使用大量記憶體，可能導致系統"
+"不穩定。請選擇較低的資料精細度。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:80
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses significant "
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
-msgstr ""
+msgstr "你的系統記憶體少於 20GB。資料精細度設為「極高」時會使用大量記憶體，可能導致系"
+"統不穩定。請選擇較低的資料精細度。"
