@@ -5,11 +5,11 @@
 @using ETS2LA.State;
 @using ETS2LA.Overlay;
 @using ETS2LA.Logging;
+@using static ETS2LA.Translations.Languages;
 
 @code {
     List<String> displayUnitOptions = Enum.GetNames<Units>().ToList();
-    // TODO: Translation framework
-    List<String> displayLanguageOptions = new List<string>() { "English", "Finnish", "Chinese (Simplified)", "Chinese (Traditional)" };
+    List<String> displayLanguageOptions = SupportedLanguages.Select(l => l.NativeName + $" ({l.EnglishName})").ToList();
 
     protected override void OnInitialized()
     {
@@ -34,17 +34,9 @@
         get => (int)ApplicationState.Current.DisplayUnits;
     }
 
-    // TODO: Translation framework
     private int CurrentLanguage
     {
-        get => StateSettingsHandler.Current.GetSettings().DisplayLanguage switch
-        {
-            "English" => 0,
-            "Finnish" => 1,
-            "Chinese (Simplified)" => 2,
-            "Chinese (Traditional)" => 3,
-            _ => 0
-        };
+        get => SupportedLanguages.IndexOf(StateSettingsHandler.Current.GetSettings().DisplayLanguage);
     }
 
     private bool SupportMultipleViewports
@@ -136,11 +128,27 @@
         StateSettingsHandler.Current.Save();
     }
 
+    @using System.Globalization
+
     private void OnDisplayLanguageChanged(int index)
     {
+        var selectedLanguageName = displayLanguageOptions[index].Split("(")[0].Trim();
+        var selectedLanguage = SupportedLanguages.FirstOrDefault(l => l.NativeName == selectedLanguageName);
+        if (selectedLanguage == null)
+        {
+            Logger.Error(_("{0} not found in supported languages.", selectedLanguageName));
+            return;
+        }
+
+        var culture = new CultureInfo(selectedLanguage.Code);
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+
         var settings = StateSettingsHandler.Current.GetSettings();
-        settings.DisplayLanguage = displayLanguageOptions[index];
+        settings.DisplayLanguage = selectedLanguage;
         StateSettingsHandler.Current.Save();
+
+        StateHasChanged();
     }
 }
 

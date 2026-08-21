@@ -1,6 +1,7 @@
 ﻿using ETS2LA.Logging;
 using ETS2LA.Controls;
 using ETS2LA.Audio;
+using static ETS2LA.Translations.T;
 
 using Spectre.Console;
 
@@ -36,14 +37,14 @@ namespace ETS2LA.Backend
 
         public void Start()
         {
-            Logger.Console.Status().Start("Starting ETS2LA...", ctx =>
+            Logger.Console.Status().Start(_("Starting ETS2LA..."), ctx =>
             {
                 PluginHandler = new PluginHandler();
                 PluginHandler.LoadLibraries();
                 PluginHandler.LoadPlugins();
                 Thread.Sleep(1000);
 
-                Logger.Success("ETS2LA is running.");
+                Logger.Success(_("ETS2LA is running."));
                 OnBackendLoaded?.Invoke(this, EventArgs.Empty);
                 IsLoaded = true;
             });
@@ -57,7 +58,7 @@ namespace ETS2LA.Backend
             }
             ControlsBackend.Current.Shutdown();
             AudioHandler.Current.Shutdown();
-            Logger.Info("Backend shutdown complete.");
+            Logger.Info(_("Backend shutdown complete."));
         }
     }
 }

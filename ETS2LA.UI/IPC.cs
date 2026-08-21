@@ -3,6 +3,7 @@ using Photino.NET;
 using System.Drawing;
 using ETS2LA.Backend.Events;
 using ETS2LA.Logging;
+using static ETS2LA.Translations.T;
 
 namespace ETS2LA.UI;
 
@@ -47,7 +48,7 @@ static class IPC
                 app.MainWindow.SetMaximized(!app.MainWindow.Maximized);
                 break;
             case "window:close":
-                if (app.MainWindow.ShowMessage("Are you sure?", "This will disconnect ETS2LA from the game and close the window. You can minimize the window to keep ETS2LA running.", PhotinoDialogButtons.YesNo, PhotinoDialogIcon.Question) == PhotinoDialogResult.Yes)
+                if (app.MainWindow.ShowMessage(_("Are you sure?"), _("This will disconnect ETS2LA from the game and close the window. You can minimize the window to keep ETS2LA running."), PhotinoDialogButtons.YesNo, PhotinoDialogIcon.Question) == PhotinoDialogResult.Yes)
                     app.MainWindow.Close();
                 break;
             case "window:topmost":

@@ -41,18 +41,19 @@
     private string GetControlType(ControlInstance control)
     {
         if (!control.IsBound())
-            return "Unbound";
+            return _("Unbound");
         
         bool isKeyboard = control.DeviceId.ToString().ToLower().StartsWith("keyboard");
         bool isButton = control.ControlId.ToString()?.StartsWith("Button ") ?? false;
         bool isHat = control.ControlId.ToString()?.StartsWith("Hat ") ?? false;
 
         if (isKeyboard)
-            return "Key";
+            return _("Key");
         if (isButton)
-            return "Button";
+            return _("Button");
         if (isHat)
-            return "Hat " + control.ControlId.ToString()?.Split(" ")?.ElementAtOrDefault(1);
+            // TRANSLATORS: This is also called a D-Pad on some controllers.
+            return _("Hat") + " " + control.ControlId.ToString()?.Split(" ")?.ElementAtOrDefault(1);
 
         return control.AxisBehavior.ToString();
     }
@@ -61,18 +62,18 @@
     {
         if (string.IsNullOrEmpty(control.DeviceId))
         {
-            return "Unbound";
+            return _("Unbound");
         }
 
         if (control.DeviceId.ToLower().StartsWith("keyboard"))
         {
-            return "Keyboard";
+            return _("Keyboard");
         }
 
         var joystick = controlsBackend.GetInputDeviceInfoById(control.DeviceId);
         string name = joystick != null 
                       ? joystick.Name 
-                      : "Not Connected";
+                      : _("Not Connected");
 
         if (name.StartsWith("Controller ("))
         {
@@ -129,13 +130,13 @@
     {
         if (bindingControl == null)
         {
-            Logger.Error("Binding thread started with no control to bind.");
+            Logger.Error(_("Binding thread started with no control to bind."));
             return;
         }
 
         var input = controlsBackend.WaitForInput(bindingTimeout);
         controlsBackend.UpdateControlBindings(bindingControl.Definition.Id, input.Item1, input.Item2);
-        Logger.Info($"Bound control {bindingControl.Definition.Name} ({bindingControl.ControlId}) to device {input.Item1} and control {input.Item2}");
+        Logger.Info(_("Bound control {0} ({1}) to device {2} and control {3}", bindingControl.Definition.Name, bindingControl.ControlId, input.Item1, input.Item2));
         bindingControl = null;
         bindingThread = null;
         InvokeAsync(StateHasChanged);
@@ -150,7 +151,7 @@
             bindingThread = null;
         }
 
-        Logger.Info($"Starting binding for control {control.Definition.Name} ({control.ControlId})");
+        Logger.Info(_("Starting binding for control {0} ({1})", control.Definition.Name, control.ControlId));
         bindingControl = control;
         bindingThread = new Thread(() => BindingThreadFunction());
         StateHasChanged();

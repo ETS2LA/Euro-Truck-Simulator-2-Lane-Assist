@@ -1,3 +1,5 @@
+using static ETS2LA.Translations.T;
+
 namespace ETS2LA.State;
 
 public enum UnitType
@@ -175,66 +177,66 @@ public static class UnitConversions
                 switch (units)
                 {
                     case Units.Metric:
-                        return "kilometers per hour";
+                        return _("kilometers per hour");
                     case Units.Imperial:
-                        return "miles per hour";
+                        return _("miles per hour");
                     case Units.Scientific:
-                        return "meters per second";
+                        return _("meters per second");
                 }
                 break;
             case UnitType.Distance:
                 switch (units)
                 {
                     case Units.Metric:
-                        return "meters";
+                        return _("meters");
                     case Units.Imperial:
-                        return "feet";
+                        return _("feet");
                     case Units.Scientific:
-                        return "meters";
+                        return _("meters");
                 }
                 break;
             case UnitType.Liquid:
                 switch (units)
                 {
                     case Units.Metric:
-                        return "liters";
+                        return _("liters");
                     case Units.Imperial:
-                        return "gallons";
+                        return _("gallons");
                     case Units.Scientific:
-                        return "liters";
+                        return _("liters");
                 }
                 break;
             case UnitType.Weight:
                 switch (units)       
                 {
                     case Units.Metric:
-                        return "kilograms";
+                        return _("kilograms");
                     case Units.Imperial:
-                        return "pounds";
+                        return _("pounds");
                     case Units.Scientific:
-                        return "kilograms";
+                        return _("kilograms");
                 }
                 break;
             case UnitType.Temperature:
                 switch (units)
                 {
                     case Units.Metric:
-                        return "°C";
+                        return _("°C");
                     case Units.Imperial:
-                        return "°F";
+                        return _("°F");
                     case Units.Scientific:
-                        return "K";
+                        return _("K");
                 }
                 break;
             case UnitType.Pressure:
                 switch (units)
                 {                    
                     case Units.Metric:
-                        return "bar";
+                        return _("bar");
                     case Units.Imperial:
-                        return "psi";
+                        return _("psi");
                     case Units.Scientific:
-                        return "Pascals";
+                        return _("Pascals");
                 }
                 break;
         }
@@ -249,66 +251,66 @@ public static class UnitConversions
                 switch (units)
                 {
                     case Units.Metric:
-                        return "km/h";
+                        return _("km/h");
                     case Units.Imperial:
-                        return "mph";
+                        return _("mph");
                     case Units.Scientific:
-                        return "m/s";
+                        return _("m/s");
                 }
                 break;
             case UnitType.Distance:
                 switch (units)
                 {
                     case Units.Metric:
-                        return "m";
+                        return _("m");
                     case Units.Imperial:
-                        return "ft";
+                        return _("ft");
                     case Units.Scientific:
-                        return "m";
+                        return _("m");
                 }
                 break;
             case UnitType.Liquid:
                 switch (units)
                 {
                     case Units.Metric:
-                        return "L";
+                        return _("L");
                     case Units.Imperial:
-                        return "gal";
+                        return _("gal");
                     case Units.Scientific:
-                        return "L";
+                        return _("L");
                 }
                 break;
             case UnitType.Weight:
                 switch (units)       
                 {
                     case Units.Metric:
-                        return "kg";
+                        return _("kg");
                     case Units.Imperial:
-                        return "lbs";
+                        return _("lbs");
                     case Units.Scientific:
-                        return "kg";
+                        return _("kg");
                 }
                 break;
             case UnitType.Temperature:
                 switch (units)
                 {
                     case Units.Metric:
-                        return "°C";
+                        return _("°C");
                     case Units.Imperial:
-                        return "°F";
+                        return _("°F");
                     case Units.Scientific:
-                        return "K";
+                        return _("K");
                 }
                 break;
             case UnitType.Pressure:
                 switch (units)
                 {                    
                     case Units.Metric:
-                        return "bar";
+                        return _("bar");
                     case Units.Imperial:
-                        return "psi";
+                        return _("psi");
                     case Units.Scientific:
-                        return "Pa";
+                        return _("Pa");
                 }
                 break;
         }

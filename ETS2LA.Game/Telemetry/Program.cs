@@ -2,6 +2,7 @@
 using ETS2LA.Backend.Events;
 using ETS2LA.Notifications;
 using ETS2LA.Logging;
+using static ETS2LA.Translations.T;
 
 using System.IO.MemoryMappedFiles;
 using System.Numerics;
@@ -118,7 +119,7 @@ public class GameTelemetry
             try { Update(); }
             catch (Exception ex)
             {
-                Logger.Error(ex.ToString(), "Error in telemetry update loop.");
+                Logger.Error(ex.ToString(), _("Error in telemetry update loop."));
             }
         }
 
@@ -147,8 +148,8 @@ public class GameTelemetry
             NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = "GameTelemetry.MMFNotFound",
-                Title = "Game Telemetry",
-                Content = $"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK.",
+                Title = _("Game Telemetry"),
+                Content = _("Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."),
                 IsProgressIndeterminate = true,
             });
             Thread.Sleep(1000);

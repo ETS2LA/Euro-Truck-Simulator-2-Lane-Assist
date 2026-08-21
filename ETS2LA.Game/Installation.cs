@@ -3,6 +3,7 @@ using ETS2LA.Shared;
 using ETS2LA.Game.Data;
 using ETS2LA.Game.Utils;
 using ETS2LA.Notifications;
+using static ETS2LA.Translations.T;
 
 using TruckLib.HashFs;
 using TruckLib.ScsMap;
@@ -32,7 +33,7 @@ public class Installation
     public required string DocumentsPath { get; set; }
     public required string ExecutablePath { get; set; }
 
-    public string Version { get; set; } = "Undetermined";
+    public string Version { get; set; } = _("Undetermined");
 
     public bool IsManuallyAdded { get; set; } = false;
 
@@ -83,7 +84,7 @@ public class Installation
         }
         catch (IOException ex)
         {
-            Logger.Warn($"Failed to read log file at '{logFileLocation}': {ex.Message}");
+            Logger.Warn(_("Failed to read log file at '{0}': {1}", logFileLocation, ex.Message));
             return new List<string>();
         }
     }
@@ -163,7 +164,7 @@ public class Installation
         var logs = GetLogFileContents();
         if(!DataUtils.IsRunningBasedOnLogs(logs))
         {
-            Logger.Warn($"Installation at '{Path}' is not currently running, waiting for load of profile.");
+            Logger.Warn(_("Installation at '{0}' is not currently running, waiting for load of profile.", Path));
             return false;
         }
 
@@ -177,12 +178,12 @@ public class Installation
             try { hashFsReaders.Add(HashFsReader.Open(file) as IFileSystem); }
             catch (Exception ex)
             {
-                Logger.Error($"Error loading '{file}': {ex.Message}\n\nEnsure you don't have any mods installed in the root directory. Those have to be installed in Documents/Euro Truck Simulator 2/mod.");
+                Logger.Error(_("Error loading '{0}': {1}", file, ex.Message) + "\n\n" + _("Ensure you don't have any mods installed in the root directory. Those have to be installed in Documents/Euro Truck Simulator 2/mod."));
                 NotificationHandler.Current.SendNotification(new Notification
                 {
                     Id = $"ETS2LA.Game.Error.{Guid.NewGuid()}",
-                    Title = "Error Loading File",
-                    Content = $"An error occurred while loading file '{file}': {ex.Message}\nParsing will continue, however information contained in this file won't be available to ETS2LA.",
+                    Title = _("Error Loading File"),
+                    Content = _("An error occurred while loading file '{0}': {1}", file, ex.Message) + "\n" + _("Parsing will continue, however information contained in this file won't be available to ETS2LA."),
                     IsProgressIndeterminate = false,
                     Level = NotificationLevel.Danger,
                     CloseAfter = 10
@@ -194,7 +195,7 @@ public class Installation
         List<Task> tasks = new List<Task>();
         foreach (string modFile in modFiles)
         {
-            Logger.Info($"Adding mod: {modFile}");
+            Logger.Info(_("Adding mod: {0}", modFile));
             tasks.Add(Task.Run(() => DataUtils.UnpackMod(modFile, hashFsReaders)));
         }
 
@@ -204,8 +205,8 @@ public class Installation
             NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = "ETS2LA.Game.Parsing",
-                Title = "Unpacking Mods",
-                Content = $"This might take a while... ({completed}/{modCount})",
+                Title = _("Unpacking Mods"),
+                Content = _("This might take a while... ({0}/{1})", completed, modCount),
                 IsProgressIndeterminate = false,
                 Progress = completed / (float)modCount * 100f,
                 CloseAfter = 0
@@ -221,16 +222,16 @@ public class Installation
         map = new MapData();
         var filepath = GetMapFilepath();
         
-        Logger.Info($"Loading map data from '{filepath}'");
+        Logger.Info(_("Loading map data from '{0}'", filepath));
         try { map.Read(filepath, assetLoader); }
         catch (Exception ex)
         {
-            Logger.Error($"Error loading map data from '{filepath}': {ex.Message}");
+            Logger.Error(_("Error loading map data from '{0}': {1}", filepath, ex.Message));
             NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = "ETS2LA.Game.ErrorParsing",
-                Title = "Error Loading Map Data",
-                Content = $"An error occurred while loading map data: {ex.Message}",
+                Title = _("Error Loading Map Data"),
+                Content = _("An error occurred while loading map data: {0}", ex.Message),
                 IsProgressIndeterminate = false,
                 Level = NotificationLevel.Danger,
                 CloseAfter = 10
@@ -252,18 +253,18 @@ public class Installation
     {
         if (IsParsed)
         {
-            Logger.Warn($"Installation at '{Path}' has already been parsed.");
+            Logger.Warn(_("Installation at '{0}' has already been parsed.", Path));
             return true;
         }
 
         IsParsing = true;
         OnParsingStarted?.Invoke();
-        Logger.Info($"Parsing installation at '{Path}' (version: {Version})");
+        Logger.Info(_("Parsing installation at '{0}' (version: {1})", Path, Version));
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing",
-            Title = "Parsing Map Data",
-            Content = "Initializing...",
+            Title = _("Parsing Map Data"),
+            Content = _("Initializing..."),
             IsProgressIndeterminate = true,
             CloseAfter = 0
         });
@@ -272,7 +273,7 @@ public class Installation
 
         if (map == null || assetLoader == null || !success)
         {
-            Logger.Warn($"Failed to load map for installation at '{Path}'");
+            Logger.Warn(_("Failed to load map for installation at '{0}'", Path));
             IsParsing = false;
             OnDataNotParsed?.Invoke();
             NotificationHandler.Current.CloseNotification("ETS2LA.Game.Parsing");
@@ -285,15 +286,23 @@ public class Installation
 
         if (prefabs == 0 && roads == 0 && nodes == 0)
         {
-            Logger.Warn($"No map data found for installation at '{Path}'. Is the installation valid?");
+            Logger.Warn(_("No map data found for installation at '{0}'. Is the installation valid?", Path));
             IsParsing = false;
             OnDataNotParsed?.Invoke();
             NotificationHandler.Current.CloseNotification("ETS2LA.Game.Parsing");
             return false;
         }
 
-        Logger.Success($"Finished parsing installation at '{Path}'");
-        Logger.Success($"Found {prefabs} prefabs, {roads} roads and {nodes} nodes.");
+        Logger.Success(_("Finished parsing installation at '{0}'", Path));
+
+                     // TRANSLATORS: Part of a three part message: "Found {0} prefabs, found {0} roads, found {0} nodes."
+        var foundText = _n("Found {0} prefab", "Found {0} prefabs", prefabs, prefabs) + ", "
+                     // TRANSLATORS: Part of a three part message: "Found {0} prefabs, found {0} roads, found {0} nodes."
+                      + _n("found {0} road", "found {0} roads", roads, roads) + "," 
+                     // TRANSLATORS: Part of a three part message: "Found {0} prefabs, found {0} roads, found {0} nodes."
+                      + _n("found {0} node", "found {0} nodes", nodes, nodes) + ".";
+        
+        Logger.Success(foundText);
 
         IsParsed = true;
         IsParsing = false;
@@ -302,8 +311,8 @@ public class Installation
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing.Complete",
-            Title = "Map Data Parsed",
-            Content = $"Found {prefabs} prefabs, {roads} roads and {nodes} nodes.",
+            Title = _("Map Data Parsed"),
+            Content = foundText,
             IsProgressIndeterminate = false,
             CloseAfter = 5
         });
@@ -321,7 +330,7 @@ public class Installation
         if (!IsParsed)
             return;
 
-        Logger.Info($"Unloading parsed map data for installation at '{Path}'");
+        Logger.Info(_("Unloading parsed map data for installation at '{0}'", Path));
         map = null;
         assetLoader = null;
         IsParsed = false;
@@ -383,14 +392,14 @@ public class Installation
             foreach (string newPath in Directory.GetFiles(SDKSourcePath, "*.*", SearchOption.AllDirectories))
             {
                 File.Copy(newPath, newPath.Replace(SDKSourcePath, SDKDestinationPath), true);
-                Logger.Info($"Copied '{newPath}' to '{newPath.Replace(SDKSourcePath, SDKDestinationPath)}'");
+                Logger.Info(_("Copied '{0}' to '{1}'", newPath, newPath.Replace(SDKSourcePath, SDKDestinationPath)));
             }
 
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Error($"Failed to install SDK from '{SDKSourcePath}' to '{SDKDestinationPath}': {ex.Message}");
+            Logger.Error(_("Failed to install SDK from '{0}' to '{1}': {2}", SDKSourcePath, SDKDestinationPath, ex.Message));
             return false;
         }
     }
@@ -423,14 +432,14 @@ public class Installation
             foreach (string newPath in Directory.GetFiles(SDKSourcePath, "*.*", SearchOption.AllDirectories))
             {
                 File.Delete(newPath.Replace(SDKSourcePath, SDKDestinationPath));
-                Logger.Info($"Deleted '{newPath.Replace(SDKSourcePath, SDKDestinationPath)}'");
+                Logger.Info(_("Deleted '{0}'", newPath.Replace(SDKSourcePath, SDKDestinationPath)));
             }
 
             return true;
         }
         catch (Exception ex)
         {
-            Logger.Error($"Failed to uninstall SDK from '{SDKSourcePath}' to '{SDKDestinationPath}': {ex.Message}");
+            Logger.Error(_("Failed to uninstall SDK from '{0}' to '{1}': {2}", SDKSourcePath, SDKDestinationPath, ex.Message));
             return false;
         }
     }

@@ -9,33 +9,33 @@
     <!-- Sidebar -->
     <div class="w-[230px] pl-2 pr-3 pt-2 flex gap-6.5 flex-col h-full">
       <div class="flex flex-col gap-0">
-        <SidebarGroupLabel Title="Driving" />
-        <SidebarButton Name="Assists" Path="/settings/assists" />
-        <SidebarButton Name="Data Parsing" Path="/settings/data" />
+        <SidebarGroupLabel Title=@(_("Driving")) />
+        <SidebarButton Name=@(_("Assists")) Path="/settings/assists" />
+        <SidebarButton Name=@(_("Data Parsing")) Path="/settings/data" />
       </div>
 
       <div class="flex flex-col gap-0">
-        <SidebarGroupLabel Title="General" />
-        <SidebarButton Name="Display" Path="/settings/display" />
-        <SidebarButton Name="Audio" Path="/settings/audio" />
-        <SidebarButton Name="Controls" Path="/settings/controls" />
+        <SidebarGroupLabel Title=@(_("General")) />
+        <SidebarButton Name=@(_("Display")) Path="/settings/display" />
+        <SidebarButton Name=@(_("Audio")) Path="/settings/audio" />
+        <SidebarButton Name=@(_("Controls")) Path="/settings/controls" />
       </div>
 
       <div class="flex flex-col gap-0">
-        <SidebarGroupLabel Title="Additional" />
-        <SidebarButton Name="Game SDK" Path="/settings/sdk" />
-        <SidebarButton Name="Experiments" Path="/settings/experiments" />
+        <SidebarGroupLabel Title=@(_("Additional")) />
+        <SidebarButton Name=@(_("Game SDK")) Path="/settings/sdk" />
+        <SidebarButton Name=@(_("Experiments")) Path="/settings/experiments" />
       </div>
 
       <div class="flex flex-col gap-0">
-        <SidebarGroupLabel Title="Networking" />
-        <SidebarButton Name="Account" Path="/settings/account" />
-        <SidebarButton Name="Telemetry" Path="/settings/telemetry" />
+        <SidebarGroupLabel Title=@(_("Networking")) />
+        <SidebarButton Name=@(_("Account")) Path="/settings/account" />
+        <SidebarButton Name=@(_("Telemetry")) Path="/settings/telemetry" />
       </div>
 
       <div class="w-full h-full relative">
         <div class="flex flex-col w-full gap-0 bottom-4 absolute">
-          <SidebarButton Name="Check For Updates" Path="/settings/updates" />
+          <SidebarButton Name=@(_("Check For Updates")) Path="/settings/updates" />
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Numerics;
 using System.Diagnostics;
-using Avalonia.Data;
+using ETS2LA.Shared;
 
 using ETS2LA.Logging;
 using ETS2LA.Controls;
@@ -23,6 +23,7 @@ using ETS2LA.Overlay.AR;
 using ETS2LA.ML;
 using ETS2LA.ML.Vision;
 using ETS2LA.Game.Telemetry;
+using static ETS2LA.Translations.T;
 
 namespace ETS2LA.Overlay;
 
@@ -53,8 +54,8 @@ public class OverlayHandler
     public ControlDefinition Interact = new ControlDefinition
     {   
         Id = "ETS2LA.Overlay.Interact",
-        Name = "Overlay Interaction",
-        Description = "When this key is held, the overlay will receive mouse input and allow you to interact with it. NOTE: Interaction with items below the overlay is not possible during this time.",
+        Name = _("Overlay Interaction"),
+        Description = _("When this key is held, the overlay will receive mouse input and allow you to interact with it. NOTE: Interaction with items below the overlay is not possible during this time."),
         DefaultKeybind = "RightAlt",
         Type = ControlType.Boolean
     };
@@ -121,7 +122,7 @@ public class OverlayHandler
     {
         if(!InitGLFW())
         {
-            Logger.Error("Failed to initialize overlay");
+            Logger.Error(_("Failed to initialize overlay, OpenGL initialization failed."));
             return;
         }
         GLFW.MakeContextCurrent(glfwWindow);
@@ -132,7 +133,7 @@ public class OverlayHandler
         
         if (!InitImGui())
         {
-            Logger.Error("Failed to initialize overlay");
+            Logger.Error(_("Failed to initialize overlay, ImGui initialization failed."));
             return;
         }
 
@@ -218,12 +219,12 @@ public class OverlayHandler
                 if (overlaySettings.RenderAR && (!overlaySettings.DontRenderWhenPaused || !paused)) AR.Render(); 
             }
             catch (Exception ex) {
-                Logger.Error($"Error in AR rendering: {ex}");
+                Logger.Error(_("Error in AR rendering: {0}", ex.Message));
             }
 
             try { OnUIRender(); }
             catch (Exception ex) {
-                Logger.Error($"Error rendering overlay: {ex}");
+                Logger.Error(_("Error rendering overlay: {0}", ex.Message));
             }
             // ---
 
@@ -234,7 +235,7 @@ public class OverlayHandler
 
             try { AR.RenderShaders(); } 
             catch (Exception ex) {
-                Logger.Error($"Error in AR OpenGL pass: {ex}");
+                Logger.Error(_("Error in AR OpenGL pass: {0}", ex.Message));
             }
             
             ImGuiImplOpenGL3.RenderDrawData(ImGui.GetDrawData());
@@ -277,9 +278,9 @@ public class OverlayHandler
     {
         if (isInteracting)
         {
-            ImGui.Begin("Interaction Mode", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
+            ImGui.Begin(_("Interaction Mode"), ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
             ImGui.SetWindowPos(new Vector2(OverlayWidth / 2 - 60, 10), ImGuiCond.Always);
-            ImGui.TextColored(new Vector4(0.5f, 0.5f, 0.5f, 1f), "Interaction Mode");
+            ImGui.TextColored(new Vector4(0.5f, 0.5f, 0.5f, 1f), _("Interaction Mode"));
 
             ImGui.Spacing();
             try
@@ -294,7 +295,7 @@ public class OverlayHandler
         
                     if (ImGui.IsItemHovered())
                     {
-                        ImGui.SetTooltip("Click to " + (isOpen ? "hide" : "show") + " this window");
+                        ImGui.SetTooltip(_("Click to {0} this window", isOpen ? _("hide") : _("show")));
                     }
                     if (ImGui.IsItemClicked())
                     {
@@ -303,13 +304,13 @@ public class OverlayHandler
                 }
             } catch (Exception ex)
             {
-                Logger.Error($"Error rendering interaction mode window controls: {ex}");
+                Logger.Error(_("Error rendering interaction mode window controls: {0}", ex.Message));
             }
             ImGui.End();
         }
 
         ImGui.SetNextWindowPos(new Vector2(OverlayWidth - 10, 10), ImGuiCond.Always, new Vector2(1f, 0f));
-        ImGui.Begin("Performance Overlay", ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
+        ImGui.Begin(_("Performance Overlay"), ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground);
 
         var fps = (AverageFrameTime > 0) ? (int)(1 / (AverageFrameTime / 1000f)) : 0;
         int freePercentage;
@@ -322,7 +323,7 @@ public class OverlayHandler
         ImGui.TextColored(new Vector4(1f,1f,1f,0.5f), $"{freePercentage}%%");
         if (ImGui.IsItemHovered())
         {
-            ImGui.SetTooltip("Overlay free CPU time percentage");
+            ImGui.SetTooltip(_("Overlay free CPU time percentage"));
         }
 
         ImGui.End();
@@ -363,8 +364,8 @@ public class OverlayHandler
                 // once each startup. Use ImGuiWindowFlags to disallow resizing.
                 if (window.Definition.X.HasValue || window.Definition.Y.HasValue)
                 {
-                    int x = (int)window.Definition.X.GetValueOrDefault(OverlayWidth / 2);
-                    int y = (int)window.Definition.Y.GetValueOrDefault(OverlayHeight / 2);
+                    int x = window.Definition.X.GetValueOrDefault((int)(OverlayWidth / 2));
+                    int y = window.Definition.Y.GetValueOrDefault((int)(OverlayHeight / 2));
                     if (x >= 0 && y >= 0)
                     {
                         ImGui.SetWindowPos(new Vector2(x, y), ImGuiCond.Once);
@@ -401,7 +402,7 @@ public class OverlayHandler
                     RenderWindowContextMenu(window);
                 } catch (Exception ex)
                 {
-                    Logger.Error($"Error rendering context menu for window {window.Definition.Title}: {ex}");
+                    Logger.Error(_("Error rendering context menu for window {0}: {1}", window.Definition.Title, ex.Message));
                 }
 
                 try
@@ -409,7 +410,7 @@ public class OverlayHandler
                     window.Render();
                 } catch (Exception ex)
                 {
-                    Logger.Error($"Error rendering window {window.Definition.Title}: {ex}");
+                    Logger.Error(_("Error rendering window {0}: {1}", window.Definition.Title, ex.Message));
                 }
 
                 ImGui.End();
@@ -418,7 +419,7 @@ public class OverlayHandler
             {
                 try { ImGui.End(); }
                 catch { }
-                Logger.Error($"Error rendering window {window.Definition.Title}: {ex}");
+                Logger.Error(_("Error rendering window {0}: {1}", window.Definition.Title, ex.Message));
             }
         }
     }
@@ -428,7 +429,7 @@ public class OverlayHandler
         if (ImGui.BeginPopupContextWindow((byte*)0, ImGuiPopupFlags.MouseButtonRight))
         {
             window.RenderContextMenu();
-            if (ImGui.MenuItem("Close"))
+            if (ImGui.MenuItem(_("Close")))
             {
                 window.IsWindowOpen = false;
             }
@@ -483,7 +484,7 @@ public class OverlayHandler
                 string fontPath = fonts[i].Item2;
                 if (!File.Exists(fontPath))
                 {
-                    Logger.Error($"Font file not found at {fontPath}");
+                    Logger.Error(_("Font file not found at {0}", fontPath));
                     continue;
                 }
                 ImFont* font = io.Fonts.AddFontFromFileTTF(fontPath, DefaultFontSize);
@@ -495,7 +496,7 @@ public class OverlayHandler
         ImGuiImplGLFW.SetCurrentContext(imGuiContext);
         if (!ImGuiImplGLFW.InitForOpenGL(Unsafe.BitCast<GLFWwindowPtr, Hexa.NET.ImGui.Backends.GLFW.GLFWwindowPtr>(glfwWindow), true))
         {
-            Logger.Error("Failed to init ImGui Impl GLFW");
+            Logger.Error(_("Failed to init ImGui Impl GLFW"));
             GLFW.Terminate();
             return false;
         }
@@ -503,7 +504,7 @@ public class OverlayHandler
         ImGuiImplOpenGL3.SetCurrentContext(imGuiContext);
         if (!ImGuiImplOpenGL3.Init(glslVersion))
         {
-            Logger.Error("Failed to init ImGui Impl OpenGL3");
+            Logger.Error(_("Failed to init ImGui Impl OpenGL3"));
             GLFW.Terminate();
             return false;
         }
@@ -521,14 +522,14 @@ public class OverlayHandler
             GLFW.SetErrorCallback((error, description) =>
             {
                 # if DEBUG
-                Logger.Error($"GLFW Error {error}: {Utils.DecodeStringUTF8(description)}");
+                Logger.Error(_("GLFW Error {0}: {1}", error, Utils.DecodeStringUTF8(description)));
                 # endif
             });
         }
 
         unsafe
         {
-            Logger.Info("Initializing GLFW Version: " + Utils.DecodeStringUTF8(GLFW.GetVersionString()));
+            Logger.Info(_("Initializing GLFW Version: {0}", Utils.DecodeStringUTF8(GLFW.GetVersionString())));
         }
 
         // This code sets the platform to X11 instead of wayland. This only needs to be
@@ -540,7 +541,7 @@ public class OverlayHandler
             GLFW.InitHint(GLFW.GLFW_PLATFORM, GLFW.GLFW_PLATFORM_X11);
         }
 
-        Console.WriteLine("Initializing GLFW...");
+        Logger.Info(_("Initializing GLFW..."));
         GLFW.Init();
         GLFW.WindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
         GLFW.WindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -567,7 +568,7 @@ public class OverlayHandler
         glfwWindow = GLFW.CreateWindow(width - 2, height - 2, "ETS2LA overlay", null, null);
         if (glfwWindow.IsNull)
         {
-            Logger.Error("Failed to create GLFW window");
+            Logger.Error(_("Failed to create GLFW window"));
             GLFW.Terminate();
             return false;
         }

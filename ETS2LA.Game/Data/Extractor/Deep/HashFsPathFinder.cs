@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls.Converters;
-using Extractor.Properties;
+﻿using Extractor.Properties;
 using Sprache;
 using System;
 using System.Collections.Generic;

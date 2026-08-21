@@ -14,7 +14,7 @@
     private void AddGameManually()
     {
         string[] paths = UserInterface.Current.Window.ShowOpenFile(
-            "Select core.scs",
+            _("Select core.scs"),
             filters: new[] { ("core.scs", new[] { ".scs" }) }
         );
         
@@ -24,30 +24,30 @@
         
         if (!File.Exists(path))
         {
-            UserInterface.Current.Window.ShowMessage("Invalid file", "The selected file does not exist.");
+            UserInterface.Current.Window.ShowMessage(_("Invalid file"), _("The selected file does not exist."));
             return;
         }
         
         if (!path.EndsWith("core.scs", StringComparison.OrdinalIgnoreCase))
         {
-            UserInterface.Current.Window.ShowMessage("Invalid file", "The selected file is not a core.scs file.");
+            UserInterface.Current.Window.ShowMessage(_("Invalid file"), _("The selected file is not a core.scs file."));
             return;
         }
 
         string installDir = Path.GetDirectoryName(path) ?? "";
         if (!Directory.Exists(installDir))
         {
-            UserInterface.Current.Window.ShowMessage("Invalid directory", "The selected directory does not exist.");
+            UserInterface.Current.Window.ShowMessage(_("Invalid directory"), _("The selected directory does not exist."));
             return;
         }
 
         if (GameHandler.Current.AddManualInstallation(installDir) != null)
         {
-            UserInterface.Current.Window.ShowMessage("Game added", "The game has been added successfully.");
+            UserInterface.Current.Window.ShowMessage(_("Game added"), _("The game has been added successfully."));
         }
         else
         {
-            UserInterface.Current.Window.ShowMessage("Failed to add game", "Please see the logs for more information.");
+            UserInterface.Current.Window.ShowMessage(_("Failed to add game"), _("Please see the logs for more information."));
         }
     }
 }
@@ -66,17 +66,17 @@
                 <div class="flex flex-col gap-1">
                     <p>@(UserInterfaceUtils.ClassnameWithSpaces(@instance.Type.ToString()) + "  -  " + instance.Version.ToString())</p>
                 </div>
-                <p class="description">@(instance.IsSDKInstalled(instance.Version) ? "SDKs are currently installed." : "SDKs need to be installed.") This game was found at @instance.Path</p>
-                <button class="@(instance.IsSDKInstalled(instance.Version) ? "hidden" : "button button-accent w-full!")" @onclick="@(() => instance.InstallSDK(instance.Version))">Install SDKs</button>
-                <button class="@(instance.IsSDKInstalled(instance.Version) ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">Uninstall SDKs</button>
+                <p class="description">@(instance.IsSDKInstalled(instance.Version) ? _("SDKs are currently installed.") : _("SDKs need to be installed.")) @(_("This game was found at")) @instance.Path</p>
+                <button class="@(instance.IsSDKInstalled(instance.Version) ? "hidden" : "button button-accent w-full!")" @onclick="@(() => instance.InstallSDK(instance.Version))">@((_("Install SDKs")))</button>
+                <button class="@(instance.IsSDKInstalled(instance.Version) ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">@((_("Uninstall SDKs")))</button>
             </div>
         }
     </div>
     
     <div class="h-full">
         <div class="flex flex-col gap-4 absolute bottom-6 w-108">
-            <p class="description text-warning">Cracked games or demos will block our SDK from loading. They do not work, and we don't intend to fix this.</p>
-            <button class="button w-full!" @onclick="AddGameManually">Add Game Manually</button>
+            <p class="description text-warning">@((_("Cracked games or demos will block our SDK from loading. They do not work, and we don't intend to fix this.")))</p>
+            <button class="button w-full!" @onclick="AddGameManually">@((_("Add Game Manually")))</button>
         </div>
     </div>
 </div>

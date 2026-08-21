@@ -1,7 +1,9 @@
 ﻿using ETS2LA.Logging;
 using ETS2LA.Settings;
-using SharpDX.DirectInput;
 using ETS2LA.Controls.Defaults;
+using static ETS2LA.Translations.T;
+
+using SharpDX.DirectInput;
 
 namespace ETS2LA.Controls.Windows;
 
@@ -84,7 +86,7 @@ public class SharpDXControlsBackend : IControlsBackend
             }
             else
             {
-                Logger.Info($"Disconnected joystick: [gray italic]({guid})[/]");
+                Logger.Info(_("Disconnected joystick: [gray italic]({0})[/]", guid));
                 try { joystick.Unacquire(); } catch { }
             }
         }
@@ -100,11 +102,11 @@ public class SharpDXControlsBackend : IControlsBackend
                 joystick.Properties.BufferSize = 16;
                 joystick.Acquire();
                 updated.Add(joystick);
-                Logger.Info($"Connected joystick: [bold]{joystick.Information.InstanceName}[/] [gray italic]({guid})[/]");
+                Logger.Info(_("Connected joystick: [bold]{0}[/] [gray italic]({1})[/]", joystick.Information.InstanceName, guid));
             }
             catch (Exception ex)
             {
-                Logger.Warn($"Failed to acquire joystick [gray italic]({guid})[/]: {ex.Message}");
+                Logger.Warn(_("Failed to acquire joystick [gray italic]({0})[/]: {1}", guid, ex.Message));
             }
         }
 
@@ -129,7 +131,7 @@ public class SharpDXControlsBackend : IControlsBackend
 
         RegisteredControls.Add(instance);
         ControlAdded?.Invoke(this, new ControlAddedEventArgs(instance));
-        Logger.Info($"Registered control: {definition.Name} [gray italic]({definition.Id})[/]");
+        Logger.Info(_("Registered control: {0} [gray italic]({1})[/]", definition.Name, definition.Id));
     }
 
     public void On(string controlId, EventHandler<ControlChangeEventArgs> callback)
@@ -137,7 +139,7 @@ public class SharpDXControlsBackend : IControlsBackend
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
         if (control == null)
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for event subscription.");
+            Logger.Warn(_("Control with ID '{0}' not found for event subscription.", controlId));
             return;
         }
         control.RegisterCallback(callback);
@@ -148,7 +150,7 @@ public class SharpDXControlsBackend : IControlsBackend
         var control = RegisteredControls.FirstOrDefault(c => c.Definition.Id.Equals(controlId, StringComparison.OrdinalIgnoreCase));
         if (control == null)
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for event unsubscription.");
+            Logger.Warn(_("Control with ID '{0}' not found for event unsubscription.", controlId));
             return;
         }
         ControlRemoved?.Invoke(this, new ControlRemovedEventArgs(control));
@@ -162,11 +164,11 @@ public class SharpDXControlsBackend : IControlsBackend
         {
             control.SaveToFile(_settingsHandler, _settingsPath);
             RegisteredControls.Remove(control);
-            Logger.Info($"Unregistered control: {control.Definition.Name} ({control.Definition.Id})");
+            Logger.Info(_("Unregistered control: {0} ({1})", control.Definition.Name, control.Definition.Id));
         }
         else
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for unregistration.");
+            Logger.Warn(_("Control with ID '{0}' not found for unregistration.", controlId));
         }
     }
 
@@ -178,11 +180,11 @@ public class SharpDXControlsBackend : IControlsBackend
             control.DeviceId = deviceId;
             control.ControlId = controlKey;
             control.SaveToFile(_settingsHandler, _settingsPath);
-            Logger.Info($"Updated bindings for control: {control.Definition.Name} ({control.Definition.Id}) to Device: {deviceId}, Control: {controlKey}");
+            Logger.Info(_("Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}", control.Definition.Name, control.Definition.Id, deviceId, controlKey));
         }
         else
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for updating bindings.");
+            Logger.Warn(_("Control with ID '{0}' not found for updating bindings.", controlId));
         }
     }
 
@@ -193,11 +195,11 @@ public class SharpDXControlsBackend : IControlsBackend
         {
             control.AxisBehavior = behavior;
             control.SaveToFile(_settingsHandler, _settingsPath);
-            Logger.Info($"Updated axis behavior for control: {control.Definition.Name} ({control.Definition.Id}) to {behavior}");
+            Logger.Info(_("Updated axis behavior for control: {0} ({1}) to {2}", control.Definition.Name, control.Definition.Id, behavior));
         }
         else
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for updating axis behavior.");
+            Logger.Warn(_("Control with ID '{0}' not found for updating axis behavior.", controlId));
         }
     }
 
@@ -238,7 +240,7 @@ public class SharpDXControlsBackend : IControlsBackend
             control.SaveToFile(_settingsHandler, _settingsPath);
         }
         RegisteredControls.Clear();
-        Logger.Info("ControlsBackend shutdown complete, all controls saved.");
+        Logger.Info(_("Controls Backend shutdown complete, all controls saved."));
     }
 
     private string GetIdFromOffset(JoystickOffset offset)
@@ -313,7 +315,7 @@ public class SharpDXControlsBackend : IControlsBackend
             if ((DateTime.Now - lastDeviceRefresh).TotalSeconds >= 2)
             {
                 try { RefreshConnectedJoysticks(); }
-                catch (Exception ex) { Logger.Warn($"Failed to refresh joysticks: {ex.Message}"); }
+                catch (Exception ex) { Logger.Warn(_("Failed to refresh joysticks: {0}", ex.Message)); }
                 lastDeviceRefresh = DateTime.Now;
             }
 

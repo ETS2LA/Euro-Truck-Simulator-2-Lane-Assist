@@ -1,5 +1,7 @@
 using ETS2LA.Logging;
 using ETS2LA.Settings;
+using static ETS2LA.Translations.T;
+
 using Velopack;
 using Velopack.Sources;
 
@@ -48,21 +50,21 @@ public class Updater
     {
         if (latestUpdateInfo != null)
         {
-            Logger.Info("Update check skipped, using already cached result.");
+            Logger.Info(_("Update check skipped, using already cached result."));
             return latestUpdateInfo;
         }
 
         try
         {
             var updateInfo = UpdateManager.CheckForUpdates();
-            if (updateInfo != null) { Logger.Info($"Update available: {updateInfo.TargetFullRelease.Version}"); }
-            else { Logger.Info("No updates available."); }
+            if (updateInfo != null) { Logger.Info(_("Update available: {0}", updateInfo.TargetFullRelease.Version)); }
+            else { Logger.Info(_("No updates available.")); }
             latestUpdateInfo = updateInfo;
             return updateInfo;
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while checking for updates: {ex.Message}");
+            Logger.Error(_("Error while checking for updates: {0}", ex.Message));
             return null;
         }
     }
@@ -75,7 +77,7 @@ public class Updater
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while downloading update: {ex.Message}");
+            Logger.Error(_("Error while downloading update: {0}", ex.Message));
         }
     }
 
@@ -88,7 +90,7 @@ public class Updater
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while applying update: {ex.Message}");
+            Logger.Error(_("Error while applying update: {0}", ex.Message));
         }
         return false;
     }
@@ -98,7 +100,7 @@ public class Updater
         var source = AvailableSources.FirstOrDefault(s => s.sourceName == sourceName);
         if (source == null)
         {
-            Logger.Error($"Tried to change update source to '{sourceName}', but it was not found among available sources.");
+            Logger.Error(_("Tried to change update source to '{0}', but it was not found among available sources.", sourceName));
             return;
         }
         settings.SelectedSource = sourceName;
@@ -106,7 +108,7 @@ public class Updater
         settingsHandler.Save("Updater.json", settings);
         UpdateManager = CreateUpdateManager(source.source);
         latestUpdateInfo = null;
-        Logger.Info($"Changed update source to '{sourceName}'.");
+        Logger.Info(_("Changed update source to '{0}'.", sourceName));
     }
 
     public UpdaterSource GetSelectedSource()
@@ -118,7 +120,7 @@ public class Updater
         var source = AvailableSources.FirstOrDefault(s => s.sourceName == selectedSource);
         if (source == null)
         {
-            Logger.Warn($"Selected update source '{selectedSource}' not found, defaulting to first available source.");
+            Logger.Warn(_("Selected update source '{0}' not found, defaulting to first available source.", selectedSource));
             source = AvailableSources[0];
             Logger.Warn($"> '{source.sourceName}'.");
         }
@@ -148,7 +150,7 @@ public class Updater
         }
         catch (Exception ex)
         {
-            Logger.Warn($"Failed to read bundled update source marker: {ex.Message}");
+            Logger.Warn(_("Failed to read bundled update source marker: {0}", ex.Message));
             return FallbackSource;
         }
     }

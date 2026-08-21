@@ -16,7 +16,6 @@ class TelemetryEvents
     {
         if (data.truckFloat.speedLimit != (float)previousEventValues["truckFloat.speedLimit"])
         {
-            Console.WriteLine($"Speed limit changed: {data.truckFloat.speedLimit}");
             previousEventValues["truckFloat.speedLimit"] = data.truckFloat.speedLimit;
             Events.Current.Publish("TelemetryEvents.SpeedLimitChanged", data.truckFloat.speedLimit);
         }

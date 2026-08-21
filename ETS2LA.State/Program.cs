@@ -8,6 +8,7 @@ using ETS2LA.Game.SiiFiles;
 using ETS2LA.Game.PpdFiles;
 using ETS2LA.Logging;
 using ETS2LA.Notifications;
+using static ETS2LA.Translations.T;
 
 namespace ETS2LA.State;
 
@@ -71,7 +72,7 @@ public class ApplicationState
 
             if (RunningGame != null && RunningGame.Type != RunningGameType)
             {
-                Logger.Info($"Detected a switch to {RunningGameType}, waiting for its game data to be parsed.");
+                Logger.Info(_("Detected a switch to {0}, waiting for its game data to be parsed.", RunningGameType));
                 Installation oldGame = RunningGame;
                 RunningGame = null;
                 // Unload in the background so the forced GC doesn't
@@ -225,8 +226,8 @@ public class ApplicationState
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ApplicationState.SpeedLimitChanged",
-            Title = "Speed limit changed",
-            Content = $"New limit {UnitConversions.FromScientificUnits(UnitType.Speed, newSpeedLimit, DisplayUnits):0} {UnitConversions.GetUnitAbbreviation(UnitType.Speed, DisplayUnits)}"
+            Title = _("Speed limit changed"),
+            Content = _("New limit {0} {1}", UnitConversions.FromScientificUnits(UnitType.Speed, newSpeedLimit, DisplayUnits), UnitConversions.GetUnitAbbreviation(UnitType.Speed, DisplayUnits))
         });
     }
 

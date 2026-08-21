@@ -1,5 +1,5 @@
 using Hexa.NET.ImGui;
-using Avalonia.Data;
+using ETS2LA.Shared;
 
 # if WINDOWS
 using System.Runtime.InteropServices;

@@ -1,7 +1,7 @@
 ﻿using Velopack;
 using Velopack.Locators;
 
-using ETS2LA.Tutorials;
+// using ETS2LA.Tutorials;
 using ETS2LA.Overlay;
 using ETS2LA.Backend;
 using ETS2LA.Game;
@@ -12,12 +12,15 @@ using ETS2LA.Settings.Global;
 using ETS2LA.Telemetry;
 using ETS2LA.Networking;
 using ETS2LA.UI;
+using static ETS2LA.Translations.T;
 
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Exporter;
+
+using System.Globalization;
 
 namespace ETS2LA;
 
@@ -32,6 +35,12 @@ internal static class Program
     [STAThread]
     static void Main(string[] args)
     {
+        var stateSettings = StateSettingsHandler.Current.GetSettings();
+        var language = stateSettings.DisplayLanguage;
+        var culture = new CultureInfo(language.Code);
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+
         // This handles the main thread crashing (Avalonia)
         // Nothing else *should* run on the main thread.
         AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
@@ -48,7 +57,7 @@ internal static class Program
             // that nothing awaits (like when closing the window). They are harmless, can be ignored.
             if (e.Exception.Flatten().InnerExceptions.All(ex => ex is Tmds.DBus.Protocol.DBusExceptionBase))
             {
-                Logger.Warn($"Ignored DBus exception: {e.Exception.InnerException?.Message}");
+                Logger.Warn(_("Ignored DBus exception: {0}", e.Exception.InnerException?.Message ?? "Unknown"));
                 return;
             }
 
@@ -58,7 +67,7 @@ internal static class Program
         args = Utils.WaitForRestartParentProcess(args);
 
         if (Utils.IsRunningAsRoot())
-            Utils.HandleContinueClose("ETS2LA is running as a system administrator. This puts your system at risk if you use 3rd party plugins. Select Yes to continue anyway and accept the risk.");
+            Utils.HandleContinueClose(_("ETS2LA is running as a system administrator. This puts your system at risk if you use 3rd party plugins. Select Yes to continue anyway and accept the risk."));
 
         if (Utils.DoesETS2LAProcessExist())
             throw new InvalidOperationException("ETS2LA is already running, please close it from the Task Manager.");
@@ -124,7 +133,8 @@ internal static class Program
             var backend = PluginBackend.Current;
             var telemetry = GameTelemetry.Current;
             var state = ApplicationState.Current;
-            var tutorials = TutorialHandler.Current;
+            // TODO: Reintroduce tutorials
+            // var tutorials = TutorialHandler.Current;
             var networking = NetworkingClient.Current;
             var games = GameHandler.Current;
         });
@@ -149,7 +159,7 @@ internal static class Program
         OverlayHandler.Current.Shutdown();
         GameTelemetry.Current.Shutdown();
         ApplicationState.Current.Shutdown();
-        TutorialHandler.Current.Shutdown();
+        // TutorialHandler.Current.Shutdown();
 
         LogFileWriter.Current.Save();
         meterProvider?.Dispose();

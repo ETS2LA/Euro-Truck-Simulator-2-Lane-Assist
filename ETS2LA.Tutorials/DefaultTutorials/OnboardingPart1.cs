@@ -1,8 +1,6 @@
 using Hexa.NET.ImGui;
 using ETS2LA.Overlay;
 using ETS2LA.Controls;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using System.Numerics;
 using ETS2LA.Backend.Events;
 
@@ -207,26 +205,28 @@ public class OnboardingPart1
 
     private (int, int) ETS2LAWindowLocation()
     {
-        if (Application.Current == null || Application.Current.ApplicationLifetime == null)
-            return (0, 0);
-
-        var window = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
-        if (window == null)
-            return (0, 0);
-        
-        return (window.Position.X, window.Position.Y);
+        // if (Application.Current == null || Application.Current.ApplicationLifetime == null)
+        //     return (0, 0);
+// 
+        // var window = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        // if (window == null)
+        //     return (0, 0);
+        // 
+        // return (window.Position.X, window.Position.Y);
+        return (0, 0);
     }
 
     private (int, int) ETS2LAWindowSize()
     {
-        if (Application.Current == null || Application.Current.ApplicationLifetime == null)
-            return (0, 0);
-
-        var window = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
-        if (window == null || window.FrameSize == null)
-            return (0, 0);
-        
-        var size = ((int)window.FrameSize.Value.Width, (int)window.FrameSize.Value.Height);
-        return size;
+        //if (Application.Current == null || Application.Current.ApplicationLifetime == null)
+        //    return (0, 0);
+//
+        //var window = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        //if (window == null || window.FrameSize == null)
+        //    return (0, 0);
+        //
+        //var size = ((int)window.FrameSize.Value.Width, (int)window.FrameSize.Value.Height);
+        //return size;
+        return (0, 0);
     }
 }

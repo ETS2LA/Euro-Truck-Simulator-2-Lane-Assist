@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 
 using ETS2LA.Logging;
 using ETS2LA.Game.SiiFiles;
+using static ETS2LA.Translations.T;
 
 namespace ETS2LA.Game.Utils;
 
@@ -41,7 +42,7 @@ public static class RoadUtils
         if (roadTmpl == null) roadTmpl = SiiFileHandler.Current.GetRoadUnit(road.RoadType.ToString());
         if (roadTmpl == null)
         {
-            Logger.Error($"Road template for {road.RoadType} not found in SII file.");
+            Logger.Error(_("Road template for {0} not found in SII file.", road.RoadType));
             return ([], []);
         }
 

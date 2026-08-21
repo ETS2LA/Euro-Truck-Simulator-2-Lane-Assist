@@ -15,8 +15,8 @@
 }
 
 <div class="flex flex-col w-108 m-5 ml-8 gap-6">
-    <Switch Title="Render Vision Cameras"
-            Description="Render the vision cameras in the game world. This is useful for debugging, but can cause performance issues."
+    <Switch Title=@(_("Render Vision Cameras"))
+            Description=@(_("Render the vision cameras in the game world. This is useful for debugging, but can cause performance issues."))
             Value="@RenderVisionCameras"
             ValueChanged="@(value => RenderVisionCameras = value)" />
 </div>

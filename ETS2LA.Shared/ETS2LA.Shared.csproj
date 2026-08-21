@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Huskui.Avalonia" Version="1.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ETS2LA.Logging\ETS2LA.Logging.csproj" />
+    <ProjectReference Include="..\ETS2LA.Translations\ETS2LA.Translations.csproj" />
   </ItemGroup>
 </Project>

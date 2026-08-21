@@ -1,12 +1,14 @@
 using ETS2LA.Notifications;
+using ETS2LA.Logging;
+using ETS2LA.Game.Utils;
+using ETS2LA.Game.PpdFiles;
+using static ETS2LA.Translations.T;
+
+using TruckLib.Models.Ppd;
 using TruckLib.ScsMap;
 using TruckLib;
 
-using ETS2LA.Game.Utils;
-using ETS2LA.Game.PpdFiles;
 using System.Numerics;
-using TruckLib.Models.Ppd;
-using ETS2LA.Logging;
 
 namespace ETS2LA.Game.Data;
 
@@ -119,8 +121,8 @@ public class MapData : Map
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ETS2LA.Game.Parsing",
-            Title = "Parsing Map Data",
-            Content = $"Parsing sector {index + 1} of {total}...",
+            Title = _("Parsing Map Data"),
+            Content = _("Parsing sector {0} of {1}...", index + 1, total),
             IsProgressIndeterminate = false,
             Progress = ((index + 1) / (float)total) * 100f,
             CloseAfter = 0
