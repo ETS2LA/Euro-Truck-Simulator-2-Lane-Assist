@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 19:17+0000\n"
+"PO-Revision-Date: 2026-08-21 22:28+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
 "\n"
@@ -362,7 +362,7 @@ msgstr "Kvalita údajov"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:51
 msgid "Decrease"
-msgstr "Zníženie"
+msgstr "Znížiť"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:52
 msgid ""
@@ -707,179 +707,195 @@ msgstr "Nepodarilo sa načítať označenie zdroja aktualizácie v balíku: {0}"
 #: ../../../ETS2LA.Game/Installation.cs:87
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "Nepodarilo sa načítať súbor protokolu v umiestnení „{0}“: {1}"
 
 #: ../../../ETS2LA.Game/Program.cs:222
 #: ../../../ETS2LA.Game/Program.cs:252
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "Nepodarilo sa načítať verziu z „{0}“: {1}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:318
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "Nepodarilo sa obnoviť joysticky: {0}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:234
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "Nepodarilo sa vypnúť plugin {0}: {1}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:240
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
+msgstr "Nepodarilo sa odinštalovať aktuálnu verziu pluginu s ID {0}."
 
 #: ../../../ETS2LA.Game/Installation.cs:442
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "Nepodarilo sa odinštalovať SDK z „{0}“ do „{1}“: {2}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:254
 #, csharp-format
 msgid "Failed to unload plugin load context: {0}"
-msgstr ""
+msgstr "Nepodarilo sa vyprázdniť kontext načítania pluginu: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:31
 msgid "Far"
-msgstr ""
+msgstr "Ďaleko"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "Rýchlo"
 
 #: ../../../ETS2LA.State/Units.cs:193
+#, fuzzy
 msgid "feet"
-msgstr ""
+msgstr "stopa"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:75
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Načítal som {0} plugin z {1}"
+msgstr[1] "Načítal som {0} pluginy z {1}"
+msgstr[2] "Načítal som {0} pluginov z {1}"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:79
 #, csharp-format
 msgid "File not found: {0}"
-msgstr ""
+msgstr "Súbor nebol nájdený: {0}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:208
 msgid "Finished loading plugins"
-msgstr ""
+msgstr "Načítanie pluginov bolo dokončené"
 
 #: ../../../ETS2LA.Game/Installation.cs:296
 #, csharp-format
 msgid "Finished parsing installation at '{0}'"
-msgstr ""
+msgstr "Dokončilo sa analýzovanie inštalácie v „{0}“"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:168
 msgid "Following Distance"
-msgstr ""
+msgstr "Dodržiavanie odstupu"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:487
 #, csharp-format
 msgid "Font file not found at {0}"
-msgstr ""
+msgstr "Súbor s písmom sa nenašiel v {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:60
+#, fuzzy
 msgid "Force Base Map Name"
-msgstr ""
+msgstr "Vynútiť názov mapy"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:65
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"Nastavte ETS2LA tak, aby načítala mapu pri spustení hry. Týmto spôsobom je "
+"možné vyriešiť problémy, keď sa súbor game.log.txt nenachádza tam, kde ho "
+"ETS2LA očakáva."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:64
 msgid "Force Map Load"
-msgstr ""
+msgstr "Vynútiť načítanie mapy"
 
 #: ../../../ETS2LA.Game/Program.cs:149
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
-msgstr ""
+msgstr "Našlo sa {0} (verzia: {1}) v „{2}“"
 
 #: ../../../ETS2LA.Game/Program.cs:57
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Našla sa {0} inštalácia hry."
+msgstr[1] "Našli sa {0} inštalácie hry."
+msgstr[2] "Našlo sa {0} inštalácií hry."
 
 #: ../../../ETS2LA.Game/Installation.cs:303
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bol nájdený {0} uzol"
+msgstr[1] "Boli nájdené {0} uzly"
+msgstr[2] "Bolo nájdených {0} uzlov"
 
 #: ../../../ETS2LA.Game/Installation.cs:299
 #, csharp-format
 msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bol nájdený {0} prefab"
+msgstr[1] "Boli nájdené {0} prefaby"
+msgstr[2] "Bolo nájdených {0} prefabov"
 
 #: ../../../ETS2LA.Game/Installation.cs:301
 #, csharp-format
 msgid "found {0} road"
 msgid_plural "found {0} roads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bola nájdená {0} cesta"
+msgstr[1] "Boli nájdené {0} cesty"
+msgstr[2] "Bolo nájdených {0} ciest"
 
 #: ../../../ETS2LA.State/Units.cs:267
 msgid "ft"
-msgstr ""
+msgstr "ft"
 
 #: ../../../ETS2LA.State/Units.cs:278
+#, fuzzy
 msgid "gal"
-msgstr ""
+msgstr "gal"
 
 #: ../../../ETS2LA.State/Units.cs:204
+#, fuzzy
 msgid "gallons"
-msgstr ""
+msgstr "galóny"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "Game added"
-msgstr ""
+msgstr "Hra bola pridaná"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
 msgid "Game SDK"
-msgstr ""
+msgstr "Herné SDK"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:151
 msgid "Game Telemetry"
-msgstr ""
+msgstr "Herná telemetria"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:22
 msgid ""
 "Gateway timeout. The server was acting as a gateway or proxy and did not "
 "receive a timely response from the upstream server."
 msgstr ""
+"Časový limit brány. Server fungoval ako brána alebo proxy a nedostal včasnú "
+"odpoveď od nadradeného servera."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:18
+#, fuzzy
 msgid "General"
-msgstr ""
+msgstr "Všeobecné informácie"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:56
+#, fuzzy
 msgid "Hat"
-msgstr ""
+msgstr "Hat"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:35
 msgid "Help"
-msgstr ""
+msgstr "Pomoc"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "hide"
-msgstr ""
+msgstr "skryť"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:12
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:20
 msgid "High"
-msgstr ""
+msgstr "Vysoký"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:38
 #, csharp-format
@@ -887,17 +903,22 @@ msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the "
 "{1}Discord Server{2} or on {3}GitHub{4}."
 msgstr ""
+"Ako si sa sem dostal? Čo si si vlastne myslel?{0}Povedz nám to na {1}Discord "
+"serveri{2} alebo na {3}GitHube{4}."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:178
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning this "
 "to off will disable collision avoidance regardless of your enabled plugins."
 msgstr ""
+"Ako skoro sa ETS2LA pokúsi reagovať na možné kolízie. Vypnutím tejto funkcie "
+"deaktivujete systém zabraňujúci kolíziám bez ohľadu na to, ktoré pluginy "
+"máte zapnuté."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
-msgstr ""
+msgstr "Ako vás ETS2LA upozorní na výrazné prekročenie rýchlostného limitu."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
 #, csharp-format
@@ -905,148 +926,158 @@ msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
+"Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
+"alebo na {2}GitHube{3}."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:201
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "Ignorovať dopravné predpisy"
 
 #: ../../../ETS2LA/Program.cs:60
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "Ignorovaná výnimka DBus: {0}"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:41
 msgid "Increase"
-msgstr ""
+msgstr "Zvýšiť"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:42
 msgid ""
 "Increases the current value (e.g. target speed) by one step. Without any "
 "visual modifier shown in the UI, this will increase the target speed by 1 km/h."
 msgstr ""
+"Zvýši aktuálnu hodnotu (napr. cieľovú rýchlosť) o jeden stupeň. Ak sa v "
+"používateľskom rozhraní nezobrazuje žiadny vizuálny indikátor, cieľová "
+"rýchlosť sa tým zvýši o 1 km/h."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:532
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
-msgstr ""
+msgstr "Inicializácia verzie GLFW: {0}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:544
 msgid "Initializing GLFW..."
-msgstr ""
+msgstr "Inicializácia GLFW..."
 
 #: ../../../ETS2LA.Game/Installation.cs:267
 msgid "Initializing..."
-msgstr ""
+msgstr "Inicializujem..."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:418
 #, csharp-format
 msgid "Inner Exception: {0}"
-msgstr ""
+msgstr "Vnútorná výnimka: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:168
 msgid "Install"
-msgstr ""
+msgstr "Inštalovať"
 
 #: ../../../ETS2LA.Game/Installation.cs:256
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
-msgstr ""
+msgstr "Inštalácia v „{0}“ už bola spracovaná."
 
 #: ../../../ETS2LA.Game/Installation.cs:167
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
+msgstr "Inštalácia v „{0}“ momentálne neprebieha, čaká sa na načítanie profilu."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:131
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Nainštalované {0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:262
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
-msgstr ""
+msgstr "Nenašiel sa nainštalovaný plugin s ID {0}."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:281
 #: ../../../ETS2LA.Overlay/Overlay.cs:283
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Režim interakcie"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:19
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
 "prevented it from fulfilling the request."
 msgstr ""
+"Vnútorná chyba servera. Na serveri došlo k neočakávanej situácii, ktorá mu "
+"zabránila spracovať požiadavku."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "Invalid directory"
-msgstr ""
+msgstr "Neplatný adresár"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:27
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:33
 msgid "Invalid file"
-msgstr ""
+msgstr "Neplatný súbor"
 
 #: ../../../ETS2LA.State/Units.cs:228
 #: ../../../ETS2LA.State/Units.cs:302
+#, fuzzy
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:51
 msgid "Key"
-msgstr ""
+msgstr "Kľúč"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:126
 msgid "Keybind Behaviour"
-msgstr ""
+msgstr "Správanie klávesových skratiek"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:70
 msgid "Keyboard"
-msgstr ""
+msgstr "Klávesnica"
 
 #: ../../../ETS2LA.State/Units.cs:287
 #: ../../../ETS2LA.State/Units.cs:291
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #: ../../../ETS2LA.State/Units.cs:213
 #: ../../../ETS2LA.State/Units.cs:217
 msgid "kilograms"
-msgstr ""
+msgstr "kilogramy"
 
 #: ../../../ETS2LA.State/Units.cs:180
 msgid "kilometers per hour"
-msgstr ""
+msgstr "kilometre za hodinu"
 
 #: ../../../ETS2LA.State/Units.cs:254
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 #: ../../../ETS2LA.State/Units.cs:276
 #: ../../../ETS2LA.State/Units.cs:280
+#, fuzzy
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:54
 msgid "Late"
-msgstr ""
+msgstr "Neskoro"
 
 #: ../../../ETS2LA.State/Units.cs:289
 msgid "lbs"
-msgstr ""
+msgstr "lbs"
 
 #: ../../../ETS2LA.State/Units.cs:202
 #: ../../../ETS2LA.State/Units.cs:206
 msgid "liters"
-msgstr ""
+msgstr "litre"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:209
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
 msgid_plural "Loaded {0} plugins from the Plugins folder."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Načítal sa {0} plugin zo zložky Plugins."
+msgstr[1] "Načítali sa {0} pluginy zo zložky Plugins."
+msgstr[2] "Načítalo sa {0} pluginov zo zložky Plugins."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:131
 #, csharp-format
@@ -1062,70 +1093,74 @@ msgstr "Načítaný plugin: [gray]{0}[/] z [gray]{1}[/]."
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:412
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "Výnimka načítača: {0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:225
 #, csharp-format
 msgid "Loading map data from '{0}'"
-msgstr ""
+msgstr "Načítavanie údajov mapy z „{0}“"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:10
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:18
 msgid "Low"
-msgstr ""
+msgstr "Nízky"
 
 #: ../../../ETS2LA.State/Units.cs:265
 #: ../../../ETS2LA.State/Units.cs:269
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: ../../../ETS2LA.State/Units.cs:258
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
+#, fuzzy
 msgid "Main"
-msgstr ""
+msgstr "Hlavný"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:29
 msgid "Manager"
-msgstr ""
+msgstr "Manažér"
 
 #: ../../../ETS2LA.Game/Program.cs:72
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
+"Hra pridaná ručne v priečinku „{0}“ už neobsahuje spustiteľný súbor hry, "
+"preto sa preskočí."
 
 #: ../../../ETS2LA.Game/Installation.cs:314
 msgid "Map Data Parsed"
-msgstr ""
+msgstr "Údaje z mapy boli spracované"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:19
+#, fuzzy
 msgid "Match Game"
-msgstr ""
+msgstr "Spárovať hru"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:205
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maximálna rýchlosť"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 msgid "Medium"
-msgstr ""
+msgstr "Stredný"
 
 #: ../../../ETS2LA.State/Units.cs:191
 #: ../../../ETS2LA.State/Units.cs:195
 msgid "meters"
-msgstr ""
+msgstr "metre"
 
 #: ../../../ETS2LA.State/Units.cs:184
 msgid "meters per second"
-msgstr ""
+msgstr "metre za sekundu"
 
 #: ../../../ETS2LA.State/Units.cs:182
 msgid "miles per hour"
-msgstr ""
+msgstr "míle za hodinu"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:361
 #, csharp-format
