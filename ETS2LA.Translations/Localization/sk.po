@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:14+0000\n"
+"PO-Revision-Date: 2026-08-21 16:41+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
 "\n"
@@ -128,73 +128,83 @@ msgstr ""
 "údajom."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:290
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
+msgstr "Zdá sa, že adresár s pluginami {0} neexistuje."
 
 #: ../../../ETS2LA.UI/IPC.cs:51
 msgid "Are you sure?"
-msgstr ""
+msgstr "Ste si istí?"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:11
+#, fuzzy
 msgid "Assist"
-msgstr ""
+msgstr "Asistent"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:13
+#, fuzzy
 msgid "Assists"
-msgstr ""
+msgstr "Asistenti"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:20
 msgid "Audio"
-msgstr ""
+msgstr "Zvuk"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:134
 msgid "Audio playback canceled"
-msgstr ""
+msgstr "Prehrávanie zvuku bolo zrušené"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:13
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
 msgstr ""
+"Je potrebné overenie. Klient sa musí overiť, aby získal požadovanú odpoveď."
 
 #: ../../../ETS2LA.Backend/Program.cs:61
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "Vypnutie backendu bolo úspešne dokončené."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:20
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
 msgstr ""
+"Chyba brány. Server, ktorý fungoval ako brána alebo proxy, prijal neplatnú "
+"odpoveď od prichádzajúceho servera."
 
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
+#, fuzzy
 msgid "bar"
-msgstr ""
+msgstr "bar"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:133
+#, fuzzy
 msgid "Binding thread started with no control to bind."
-msgstr ""
+msgstr "Vlákno na mapovanie bolo spustené bez ovládacieho prvku na namapovanie."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:139
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
+msgstr "Priradili sme ovládač {0} ({1}) k zariadeniu {2} a ovládač {3}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:53
 msgid "Button"
-msgstr ""
+msgstr "Tlačidlo"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:379
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
 msgstr ""
+"Plugin {0} sa nedá aktivovať, pretože sa nepodarilo aktivovať jeho závislosť "
+"{1}."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:364
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr ""
+"Plugin {0} sa nedá aktivovať, pretože sa nepodarilo nájsť jeho závislosť {1}."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:274
 #, csharp-format
@@ -202,19 +212,21 @@ msgid ""
 "Cannot uninstall plugin with ID {0} because the following installed plugins "
 "depend on it: {1}"
 msgstr ""
+"Plugin s ID {0} nie je možné odinštalovať, pretože na ňom závisia "
+"nasledujúce nainštalované pluginy: {1}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:30
 msgid "Catalogue"
-msgstr ""
+msgstr "Katalóg"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:111
 #, csharp-format
 msgid "Changed update source to '{0}'."
-msgstr ""
+msgstr "Zdroj aktualizácií bol zmenený na „{0}“."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
 msgid "Changelog"
-msgstr ""
+msgstr "Zoznam zmien"
 
 #: ../../../ETS2LA.UI/Utils.cs:19
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
@@ -223,65 +235,69 @@ msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"
 msgstr ""
+"Aby sa táto zmena uplatnila, je potrebné reštartovať ETS2LA. Chcete "
+"reštartovať teraz?"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:38
 msgid "Check For Updates"
-msgstr ""
+msgstr "Skontrolujte dostupnosť aktualizácií"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:44
+#, fuzzy
 msgid "Chime"
-msgstr ""
+msgstr "Zvonenie"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 #, csharp-format
 msgid "Click to {0} this window"
-msgstr ""
+msgstr "Kliknite na {0}, aby ste zatvorili toto okno"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:432
 msgid "Close"
-msgstr ""
+msgstr "Zatvoriť"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
+#, fuzzy
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Predchádzanie zrážkam"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:623
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
+msgstr "Pripojený joystick: [tučné]{0}[/] [sivé kurzívou]({1}, {2})[/]"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:105
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "Pripojený joystick: [tučné]{0}[/] [sivé kurzívou]({1})[/]"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:37
 msgid "Contact Us"
-msgstr ""
+msgstr "Kontaktujte nás"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:142
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
+msgstr "Kontrola s ID „{0}“ nebola nájdené pre predplatné."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:153
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:134
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
-msgstr ""
+msgstr "Kontrola s ID „{0}“ nebola nájdené pre zrušenie predplatného."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:171
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:150
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
-msgstr ""
+msgstr "Kontrola s ID „{0}“ nebola nájdené pre zrušenie registrácie."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:202
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:181
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "Kontrola s ID „{0}“ nebola nájdené pre aktualizáciu správania osí."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:187
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:166
