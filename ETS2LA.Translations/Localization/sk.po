@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:41+0000\n"
+"PO-Revision-Date: 2026-08-21 17:48+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
 "\n"
@@ -264,12 +264,12 @@ msgstr "Predchádzanie zrážkam"
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:623
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr "Pripojený joystick: [tučné]{0}[/] [sivé kurzívou]({1}, {2})[/]"
+msgstr "Pripojený joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:105
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr "Pripojený joystick: [tučné]{0}[/] [sivé kurzívou]({1})[/]"
+msgstr "Pripojený joystick: [bold]{0}[/] [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:37
 msgid "Contact Us"
@@ -301,38 +301,44 @@ msgstr "Kontrola s ID „{0}“ nebola nájdené pre aktualizáciu správania os
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:187
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:166
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
+msgstr "Kontrola s ID „{0}“ nebola nájdené pre aktualizáciu mapovania kláves."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:21
 msgid "Controls"
-msgstr ""
+msgstr "Ovládacie prvky"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:243
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr ""
+"Vypnutie backendu mapovania kláves bolo úspešné, všetky mapovania klávesov "
+"boli uložené."
 
 #: ../../../ETS2LA.Game/Installation.cs:395
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr ""
+msgstr "Skopírovalo sa „{0}“ do „{1}“"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:152
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
 msgstr ""
+"Nepodarilo sa pripojiť k hre. Otvorte prosím hru ETS2 alebo ATS a aktivujte "
+"SDK."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
 "we don't intend to fix this."
 msgstr ""
+"Pirátené hry alebo demo verzie zabránia načítaniu nášho SDK. Nefungujú a "
+"nemáme v úmysle tento problém riešiť."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:64
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
+msgstr "Vytvoril sa adresár pluginov: [gray]{0}[/]"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
 msgid "Current Speed"
@@ -381,13 +387,13 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:440
 #, csharp-format
 msgid "Disabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "Deaktivovaný plugin: [bold]{0}[/]"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:89
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:642
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "Odpojený joystick: [gray italic]({0})[/]"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:114
 #, csharp-format
@@ -428,7 +434,7 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:389
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "Aktivovaný plugin: [bold]{0}[/]"
 
 #: ../../../ETS2LA.Game/Installation.cs:181
 msgid ""
@@ -572,7 +578,7 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:109
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
-msgstr ""
+msgstr "Nepodarilo sa získať joystick [gray italic]({0})[/]: {1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:50
 msgid "Failed to add game"
@@ -584,6 +590,8 @@ msgid ""
 "Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
 "the next startup: {1}"
 msgstr ""
+"Nepodarilo sa vyčistiť tieňový adresár pluginu [gray]{0}[/], bude odstránený "
+"pri nasledujúcom spustení: {1}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:571
 msgid "Failed to create GLFW window"
@@ -657,7 +665,7 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:136
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Nepodarilo sa načítať plugin knižnice z [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:276
 #, csharp-format
@@ -669,7 +677,7 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:200
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:593
 #, csharp-format
@@ -1028,12 +1036,12 @@ msgstr[1] ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:131
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Načítaný plugin knižnice: [gray]{0}[/] z [gray]{1}[/]."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:178
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Načítaný plugin: [gray]{0}[/] z [gray]{1}[/]."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:190
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:412
@@ -1290,7 +1298,7 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:114
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
+msgstr "Registrovaná kontrola: {0} [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.Game/Program.cs:195
 #, csharp-format
@@ -1373,7 +1381,7 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Preskočil sa zastaraný tieňový adresár pluginu [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:13
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:21
