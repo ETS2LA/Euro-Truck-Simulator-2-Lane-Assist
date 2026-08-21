@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:14+0000\n"
+"PO-Revision-Date: 2026-08-21 16:41+0000\n"
 "Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
@@ -28,13 +28,15 @@ msgstr ""
 
 #: ../../../ETS2LA.State/Units.cs:224
 #: ../../../ETS2LA.State/Units.cs:298
+#, fuzzy
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: ../../../ETS2LA.State/Units.cs:226
 #: ../../../ETS2LA.State/Units.cs:300
+#, fuzzy
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
 msgid "Acceleration Response"
