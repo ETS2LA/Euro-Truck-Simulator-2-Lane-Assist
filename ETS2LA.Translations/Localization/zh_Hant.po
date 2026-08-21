@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 17:48+0000\n"
+"PO-Revision-Date: 2026-08-21 18:13+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -947,233 +947,232 @@ msgstr "K"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:51
 msgid "Key"
-msgstr ""
+msgstr "按鍵"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:126
 msgid "Keybind Behaviour"
-msgstr ""
+msgstr "按鍵行為"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:70
 msgid "Keyboard"
-msgstr ""
+msgstr "鍵盤"
 
 #: ../../../ETS2LA.State/Units.cs:287
 #: ../../../ETS2LA.State/Units.cs:291
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #: ../../../ETS2LA.State/Units.cs:213
 #: ../../../ETS2LA.State/Units.cs:217
 msgid "kilograms"
-msgstr ""
+msgstr "公斤"
 
 #: ../../../ETS2LA.State/Units.cs:180
 msgid "kilometers per hour"
-msgstr ""
+msgstr "公里每小時"
 
 #: ../../../ETS2LA.State/Units.cs:254
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 #: ../../../ETS2LA.State/Units.cs:276
 #: ../../../ETS2LA.State/Units.cs:280
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:54
 msgid "Late"
-msgstr ""
+msgstr "較晚"
 
 #: ../../../ETS2LA.State/Units.cs:289
 msgid "lbs"
-msgstr ""
+msgstr "lbs"
 
 #: ../../../ETS2LA.State/Units.cs:202
 #: ../../../ETS2LA.State/Units.cs:206
 msgid "liters"
-msgstr ""
+msgstr "公升"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:209
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
 msgid_plural "Loaded {0} plugins from the Plugins folder."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "已從 Plugins 資料夾載入 {0} 個插件。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:131
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "已從 [gray]{1}[/] 載入函式庫插件：[gray]{0}[/]。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:178
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "已從 [gray]{1}[/] 載入插件：[gray]{0}[/]。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:190
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:412
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "載入器例外：{0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:225
 #, csharp-format
 msgid "Loading map data from '{0}'"
-msgstr ""
+msgstr "正在從「{0}」載入地圖資料"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:10
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:18
 msgid "Low"
-msgstr ""
+msgstr "低"
 
 #: ../../../ETS2LA.State/Units.cs:265
 #: ../../../ETS2LA.State/Units.cs:269
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: ../../../ETS2LA.State/Units.cs:258
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
-msgstr ""
+msgstr "主要"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:29
 msgid "Manager"
-msgstr ""
+msgstr "插件管理"
 
 #: ../../../ETS2LA.Game/Program.cs:72
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
-msgstr ""
+msgstr "手動新增的遊戲路徑「{0}」已找不到遊戲執行檔，將略過。"
 
 #: ../../../ETS2LA.Game/Installation.cs:314
 msgid "Map Data Parsed"
-msgstr ""
+msgstr "地圖資料解析完成"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:19
 msgid "Match Game"
-msgstr ""
+msgstr "與遊戲一致"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:205
 msgid "Maximum Speed"
-msgstr ""
+msgstr "最高速度"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 msgid "Medium"
-msgstr ""
+msgstr "中等"
 
 #: ../../../ETS2LA.State/Units.cs:191
 #: ../../../ETS2LA.State/Units.cs:195
 msgid "meters"
-msgstr ""
+msgstr "公尺"
 
 #: ../../../ETS2LA.State/Units.cs:184
 msgid "meters per second"
-msgstr ""
+msgstr "公尺每秒"
 
 #: ../../../ETS2LA.State/Units.cs:182
 msgid "miles per hour"
-msgstr ""
+msgstr "英里每小時"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:361
 #, csharp-format
 msgid "Missing dependency: {0}"
-msgstr ""
+msgstr "缺少依賴項目：{0}"
 
 #: ../../../ETS2LA.State/Units.cs:256
 msgid "mph"
-msgstr ""
+msgstr "mph"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:29
 msgid "Near"
-msgstr ""
+msgstr "近"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:31
 msgid "Networking"
-msgstr ""
+msgstr "網路"
 
 #: ../../../ETS2LA.State/Program.cs:230
 #, csharp-format
 msgid "New limit {0} {1}"
-msgstr ""
+msgstr "新速限：{0} {1}"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:31
 msgid "Next/Cancel"
-msgstr ""
+msgstr "下一步/取消"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "在區域 {1} 中找不到 ID 為 {0} 的插件下載網址。"
 
 #: ../../../ETS2LA.Game/Program.cs:174
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
-msgstr ""
+msgstr "在「{0}」中找不到遊戲執行檔，因此不會將其新增為遊戲安裝位置。"
 
 #: ../../../ETS2LA.Game/Installation.cs:289
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
-msgstr ""
+msgstr "遊戲安裝位置「{0}」中找不到地圖資料。此安裝位置是否有效？"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:97
 msgid "No plugins found."
-msgstr ""
+msgstr "找不到任何插件。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:233
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
-msgstr ""
+msgstr "ID 為 {0} 的插件目前沒有可用更新。"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:61
 msgid "No updates available."
-msgstr ""
+msgstr "沒有可用的更新。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:104
 #: ../../../ETS2LA.Networking/Plugins/client.cs:129
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
-msgstr ""
+msgstr "找不到 ID 為 {0} 的有效插件版本。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:14
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:22
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:30
 msgid "Normal"
-msgstr ""
+msgstr "標準"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:177
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "插件 {0} 的依賴項目尚未全部安裝。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:76
 msgid "Not Connected"
-msgstr ""
+msgstr "未連接"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:135
 msgid "Not Installed"
-msgstr ""
+msgstr "未安裝"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:45
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:55
 msgid "Off"
-msgstr ""
+msgstr "關閉"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:326
 msgid "Overlay free CPU time percentage"
-msgstr ""
+msgstr "疊加層 CPU 空閒時間百分比"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:57
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "疊加層互動"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:59
 msgid "Overrides"
-msgstr ""
+msgstr "強制設定"
 
 #: ../../../ETS2LA.State/Units.cs:313
 msgid "Pa"
