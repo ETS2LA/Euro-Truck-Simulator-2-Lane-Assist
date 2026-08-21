@@ -9,7 +9,7 @@
 
 @code {
     List<String> displayUnitOptions = Enum.GetNames<Units>().ToList();
-    List<String> displayLanguageOptions = SupportedLanguages.Select(l => l.NativeName + $" ({l.EnglishName})").ToList();
+    List<String> displayLanguageOptions = SupportedLanguages.Select(l => l.NativeName + $" - {l.EnglishName}").ToList();
 
     protected override void OnInitialized()
     {
@@ -36,7 +36,7 @@
 
     private int CurrentLanguage
     {
-        get => SupportedLanguages.IndexOf(StateSettingsHandler.Current.GetSettings().DisplayLanguage);
+        get => SupportedLanguages.FindIndex(l => l.Code == StateSettingsHandler.Current.GetSettings().DisplayLanguage?.Code);
     }
 
     private bool SupportMultipleViewports
@@ -132,50 +132,50 @@
 
     private void OnDisplayLanguageChanged(int index)
     {
-        var selectedLanguageName = displayLanguageOptions[index].Split("(")[0].Trim();
-        var selectedLanguage = SupportedLanguages.FirstOrDefault(l => l.NativeName == selectedLanguageName);
+        var selectedLanguageName = displayLanguageOptions[index].Split("-")[1].Trim();
+        Logger.Info($"Selecting language {selectedLanguageName} ({index})");
+        var selectedLanguage = SupportedLanguages.FirstOrDefault(l => l.EnglishName == selectedLanguageName);
         if (selectedLanguage == null)
         {
             Logger.Error(_("{0} not found in supported languages.", selectedLanguageName));
             return;
         }
 
-        var culture = new CultureInfo(selectedLanguage.Code);
-        CultureInfo.CurrentCulture = culture;
-        CultureInfo.CurrentUICulture = culture;
-
         var settings = StateSettingsHandler.Current.GetSettings();
         settings.DisplayLanguage = selectedLanguage;
         StateSettingsHandler.Current.Save();
 
-        StateHasChanged();
+        UserInterfaceUtils.AskForRestart(
+            _("Restart Required"),
+            _("Changing the display language requires a restart of ETS2LA to take effect. Restart now?")
+        );
     }
 }
 
 <div class="flex flex-col w-108 m-5 ml-8 gap-6">
-    <Separator Label="Units and Language" />
-    <Listbox Title="Display Units" 
-             Description="The units ETS2LA will use when displaying information to a user. Scientific has only slight differences to metric."
+    <Separator Label=@(_("Units and Language")) />
+    <Listbox Title=@(_("Display Units")) 
+             Description=@(_("The units ETS2LA will use when displaying information to a user. Scientific has only slight differences to metric."))
              Options="@displayUnitOptions"
              SelectedIndex="@CurrentUnits"
              SelectedIndexChanged="OnDisplayUnitChanged"/>
-    <Dropdown Title="Display Language"
-              Description="The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy."
+    <Dropdown Title=@(_("Display Language"))
+              Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy."))
               Options="@displayLanguageOptions"
               SelectedIndex="@CurrentLanguage"
               SelectedIndexChanged="OnDisplayLanguageChanged"/>
     
-    <Separator Label="Overlay" Class="mt-8" />
-    <Switch Title="Support Multiple Viewports"
-            Description="This allows ETS2LA to render in multiple viewports, meaning you can move overlay windows to any monitor."
+    <Separator Label=@(_("Overlay")) Class="mt-8" />
+    <Switch Title=@(_("Support Multiple Viewports"))
+            Description=@(_("This allows ETS2LA to render in multiple viewports, meaning you can move overlay windows to any monitor."))
             Value="@SupportMultipleViewports"
             ValueChanged="@((bool value) => SupportMultipleViewports = value)" />
-    <Switch Title="Limit Overlay Framerate"
-            Description="In most situations, over half of ETS2LA's CPU use is consumed by the overlay. Limiting the framerate will reduce CPU usage."
+    <Switch Title=@(_("Limit Overlay Framerate"))
+            Description=@(_("In most situations, over half of ETS2LA's CPU use is consumed by the overlay. Limiting the framerate will reduce CPU usage."))
             Value="@LimitOverlayFramerate"
             ValueChanged="@((bool value) => LimitOverlayFramerate = value)" />
-    <Slider Title="Max Overlay Framerate"
-            Description="@($"Currently running at {CurrentARFramerate} FPS.")"
+    <Slider Title=@(_("Max Overlay Framerate"))
+            Description=@(_("Currently running at {0} FPS.", CurrentARFramerate))
             Suffix="FPS"
             Class="@(LimitOverlayFramerate ? "" : "opacity-30 pointer-events-none")"
             Min="10"
@@ -183,22 +183,22 @@
             Value="@MaxOverlayFramerate"
             ValueChanged="@((float value) => MaxOverlayFramerate = (int)value)" />
 
-    <Separator Label="3D Renderer" Class="mt-8" />
-    <Switch Title="Render AR Elements"
-            Description="We can render elements in the game world using the overlay. This will use additional CPU and GPU resources."
+    <Separator Label=@(_("3D Renderer")) Class="mt-8" />
+    <Switch Title=@(_("Render AR Elements"))
+            Description=@(_("We can render elements in the game world using the overlay. This will use additional CPU and GPU resources."))
             Value="@RenderARElements"
             ValueChanged="@((bool value) => RenderARElements = value)" />
-    <Switch Title="Simplified Graphics"
-            Description="Using simplified graphics can improve performance on lower-end hardware, or fix situations in which advanced features like shaders are not supported."
+    <Switch Title=@(_("Simplified Graphics"))
+            Description=@(_("Using simplified graphics can improve performance on lower-end hardware, or fix situations in which advanced features like shaders are not supported."))
             Value="@SimplifiedGraphics"
             ValueChanged="@((bool value) => SimplifiedGraphics = value)" />
-    <Switch Title="Stop Rendering When Game is Paused"
-            Description="When the game reports itself being paused, ETS2LA won't render AR elements."
+    <Switch Title=@(_("Stop Rendering When Game is Paused"))
+            Description=@(_("When the game reports itself being paused, ETS2LA won't render AR elements."))
             Value="@StopRenderingWhenGamePaused"
             ValueChanged="@((bool value) => StopRenderingWhenGamePaused = value)" />
-    <Slider Title="Max Render Distance"
+    <Slider Title=@(_("Max Render Distance"))
             Suffix="m"
-            Description="The maximum distance at which 3D elements will be rendered. Lowering this can be used to improve performance on lower-end hardware."
+            Description=@(_("The maximum distance at which 3D elements will be rendered. Lowering this can be used to improve performance on lower-end hardware."))
             Min="50"
             Max="512"
             Value="@MaxRenderDistance"

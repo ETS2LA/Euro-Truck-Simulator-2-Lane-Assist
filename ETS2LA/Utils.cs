@@ -3,8 +3,16 @@ using OpenTelemetry.Trace;
 
 using ETS2LA.Logging;
 using ETS2LA.Telemetry;
+using ETS2LA.Translations;
+using ETS2LA.State;
 
+using System.Globalization;
 using System.Runtime.InteropServices;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.FileProviders;
 
 namespace ETS2LA;
 
@@ -134,6 +142,44 @@ static class Utils
 
         // Keep the internal restart argument away from the UI.
         return args.Where(argument => !argument.StartsWith(argumentPrefix, StringComparison.Ordinal)).ToArray();
+    }
+
+    public static void InitializeTranslations()
+    {
+        var services = new ServiceCollection();
+
+        IHostEnvironment hostEnvironment = new HostingEnvironment
+        {
+            ContentRootPath = AppContext.BaseDirectory,
+            ContentRootFileProvider = new PhysicalFileProvider(AppContext.BaseDirectory),
+            EnvironmentName = Environments.Production,
+            ApplicationName = "ETS2LA"
+        };
+        services.AddSingleton(hostEnvironment);
+
+        services.AddLogging();
+        services.AddMemoryCache();
+        services.AddPortableObjectLocalization(options =>
+        {
+            options.ResourcesPath = "Localization";
+        });
+
+        IServiceProvider serviceProvider = services.BuildServiceProvider();
+
+        // 2. Initialize static T helper
+        T.Initialize(serviceProvider);
+
+        // 3. Set application culture from saved settings
+        var stateSettings = StateSettingsHandler.Current.GetSettings();
+        var language = stateSettings.DisplayLanguage;
+        
+        // Fall back to English ("en") if language or Code is null/empty
+        string cultureCode = string.IsNullOrWhiteSpace(language?.Code) ? "en" : language.Code;
+        Logger.Info($"Setting application culture to: {cultureCode}");
+        
+        var culture = new CultureInfo(cultureCode);
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
     }
 }
 

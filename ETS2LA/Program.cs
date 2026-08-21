@@ -20,8 +20,6 @@ using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Exporter;
 
-using System.Globalization;
-
 namespace ETS2LA;
 
 internal static class Program
@@ -35,11 +33,7 @@ internal static class Program
     [STAThread]
     static void Main(string[] args)
     {
-        var stateSettings = StateSettingsHandler.Current.GetSettings();
-        var language = stateSettings.DisplayLanguage;
-        var culture = new CultureInfo(language.Code);
-        CultureInfo.CurrentCulture = culture;
-        CultureInfo.CurrentUICulture = culture;
+        Utils.InitializeTranslations();
 
         // This handles the main thread crashing (Avalonia)
         // Nothing else *should* run on the main thread.
