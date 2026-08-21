@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 16:41+0000\n"
+"PO-Revision-Date: 2026-08-21 17:48+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -311,144 +311,144 @@ msgstr "已建立插件目錄：[gray]{0}[/]"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
 msgid "Current Speed"
-msgstr ""
+msgstr "目前速度"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:23
 msgid "Dashboard"
-msgstr ""
+msgstr "首頁"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:70
 msgid "Data Fidelity"
-msgstr ""
+msgstr "資料精細度"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
 msgid "Data Parsing"
-msgstr ""
+msgstr "資料解析"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
 msgid "Data Quality"
-msgstr ""
+msgstr "資料品質"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:51
 msgid "Decrease"
-msgstr ""
+msgstr "降低"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:52
 msgid ""
 "Decreases the current value (e.g. target speed) by one step. Without any "
 "visual modifier shown in the UI, this will decrease the target speed by 1 km/h."
-msgstr ""
+msgstr "將目前的數值（例如目標速度）降低一個級距。若介面上沒有顯示其他調整值，則每次"
+"會將目標速度降低 1 km/h。"
 
 #: ../../../ETS2LA.Game/Installation.cs:435
 #, csharp-format
 msgid "Deleted '{0}'"
-msgstr ""
+msgstr "已刪除「{0}」"
 
 #: ../../../ETS2LA.State/Program.cs:75
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr ""
+msgstr "偵測到已切換至 {0}，正在等待遊戲資料解析完成。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
 msgid "Disabled"
-msgstr ""
+msgstr "已停用"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:440
 #, csharp-format
 msgid "Disabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "已停用插件：[bold]{0}[/]"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:89
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:642
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "已中斷搖桿：[gray italic]({0})[/]"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:114
 #, csharp-format
 msgid "Discovered {0} libraries in total."
-msgstr ""
+msgstr "總共發現 {0} 個函式庫。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:112
 #, csharp-format
 msgid "Discovered {0} manually installed libraries."
-msgstr ""
+msgstr "發現 {0} 個手動安裝的函式庫。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:145
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "發現 {0} 個手動安裝的插件。"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:147
 #, csharp-format
 msgid "Discovered {0} plugins in total."
 msgid_plural "Discovered {0} plugins in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "總共發現 {0} 個插件。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:19
 msgid "Display"
-msgstr ""
+msgstr "顯示"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:12
 msgid "Driving"
-msgstr ""
+msgstr "駕駛"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:52
 msgid "Early"
-msgstr ""
+msgstr "提早"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:389
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "已啟用插件：[bold]{0}[/]"
 
 #: ../../../ETS2LA.Game/Installation.cs:181
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have to "
 "be installed in Documents/Euro Truck Simulator 2/mod."
-msgstr ""
+msgstr "請確認根目錄中沒有安裝任何模組。模組必須安裝至 文件/Euro Truck Simulator 2/"
+"mod。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:238
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
-msgstr ""
+msgstr "AR OpenGL 渲染階段發生錯誤：{0}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:222
 #, csharp-format
 msgid "Error in AR rendering: {0}"
-msgstr ""
+msgstr "AR 渲染時發生錯誤：{0}"
 
 #: ../../../ETS2LA.Game/SDK/Camera.cs:100
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "相機更新時發生錯誤。"
 
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:92
 msgid "Error in navigation update loop."
-msgstr ""
+msgstr "導航更新時發生錯誤。"
 
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:78
 msgid "Error in parked vehicles update loop."
-msgstr ""
+msgstr "停放車輛更新時發生錯誤。"
 
 #: ../../../ETS2LA.Shared/Shared.cs:120
 #, csharp-format
 msgid "Error in plugin {0} Tick: {1}"
-msgstr ""
+msgstr "插件 {0} 更新時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:146
 msgid "Error in semaphore update loop."
-msgstr ""
+msgstr "交通號誌更新時發生錯誤。"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:122
 msgid "Error in telemetry update loop."
-msgstr ""
+msgstr "遙測更新時發生錯誤。"
 
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:129
 msgid "Error in traffic update loop."
-msgstr ""
+msgstr "交通更新時發生錯誤。"
 
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
@@ -457,493 +457,493 @@ msgstr ""
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
-msgstr ""
+msgstr "初始化記憶體對應檔案時發生錯誤：{0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:181
 #, csharp-format
 msgid "Error loading '{0}': {1}"
-msgstr ""
+msgstr "載入「{0}」時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:185
 msgid "Error Loading File"
-msgstr ""
+msgstr "載入檔案時發生錯誤"
 
 #: ../../../ETS2LA.Game/Installation.cs:233
 msgid "Error Loading Map Data"
-msgstr ""
+msgstr "載入地圖資料時發生錯誤"
 
 #: ../../../ETS2LA.Game/Installation.cs:229
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr ""
+msgstr "從「{0}」載入地圖資料時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:138
 #, csharp-format
 msgid "Error playing audio file {0}: {1}"
-msgstr ""
+msgstr "播放音訊檔案 {0} 時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:405
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
-msgstr ""
+msgstr "渲染視窗 {0} 的內容選單時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:307
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
-msgstr ""
+msgstr "渲染互動模式視窗控制項時發生錯誤：{0}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:227
 #, csharp-format
 msgid "Error rendering overlay: {0}"
-msgstr ""
+msgstr "渲染疊加層時發生錯誤：{0}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:413
 #: ../../../ETS2LA.Overlay/Overlay.cs:422
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "渲染視窗 {0} 時發生錯誤：{1}"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:93
 #, csharp-format
 msgid "Error while applying update: {0}"
-msgstr ""
+msgstr "套用更新時發生錯誤：{0}"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:67
 #, csharp-format
 msgid "Error while checking for updates: {0}"
-msgstr ""
+msgstr "檢查更新時發生錯誤：{0}"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:80
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
+msgstr "下載更新時發生錯誤：{0}"
 
 #: ../../../ETS2LA/Program.cs:70
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk if "
 "you use 3rd party plugins. Select Yes to continue anyway and accept the "
 "risk."
-msgstr ""
+msgstr "ETS2LA 目前正以系統管理員身分執行。若使用第三方插件，可能會使您的系統面臨風險"
+"。若仍要繼續並接受此風險，請選擇「是」。"
 
 #: ../../../ETS2LA.Backend/Program.cs:47
 msgid "ETS2LA is running."
-msgstr ""
+msgstr "ETS2LA 已啟動。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:27
 msgid "Experiments"
-msgstr ""
+msgstr "實驗性功能"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:13
 msgid "Extreme"
-msgstr ""
+msgstr "極高"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:409
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:417
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:422
 #, csharp-format
 msgid "Failed enable {0}: {1}"
-msgstr ""
+msgstr "啟用 {0} 失敗：{1}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:109
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
-msgstr ""
+msgstr "無法取得搖桿 [gray italic]({0})[/]：{1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:50
 msgid "Failed to add game"
-msgstr ""
+msgstr "遊戲新增失敗"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:306
 #, csharp-format
 msgid ""
 "Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
 "the next startup: {1}"
-msgstr ""
+msgstr "清理插件暫存目錄 [gray]{0}[/] 失敗，將於下次啟動時移除：{1}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:571
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "GLFW 視窗建立失敗"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:448
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
-msgstr ""
+msgstr "停用 {0} 失敗：{1}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:84
 #, csharp-format
 msgid "Failed to discover Dlls: {0}"
-msgstr ""
+msgstr "偵測 DLL 失敗：{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:190
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
-msgstr ""
+msgstr "從 {1} 下載 ID 為 {0} 的插件失敗。狀態碼：{2}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:376
 #, csharp-format
 msgid "Failed to enable dependency: {0}"
-msgstr ""
+msgstr "依賴項目啟用失敗：{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:79
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
-msgstr ""
+msgstr "可用插件取得失敗。請檢查網路連線。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:499
 msgid "Failed to init ImGui Impl GLFW"
-msgstr ""
+msgstr "ImGui GLFW 實作初始化失敗"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:507
 msgid "Failed to init ImGui Impl OpenGL3"
-msgstr ""
+msgstr "ImGui OpenGL3 實作初始化失敗"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:136
 msgid "Failed to initialize overlay, ImGui initialization failed."
-msgstr ""
+msgstr "疊加層初始化失敗，ImGui 初始化失敗。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:125
 msgid "Failed to initialize overlay, OpenGL initialization failed."
-msgstr ""
+msgstr "疊加層初始化失敗，OpenGL 初始化失敗。"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:61
 #, csharp-format
 msgid "Failed to initialize SDL3 controls backend: {0}"
-msgstr ""
+msgstr "SDL3 控制後端初始化失敗：{0}"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:51
 msgid "Failed to initialize SDL3 input backend."
-msgstr ""
+msgstr "SDL3 輸入後端初始化失敗。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:170
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
-msgstr ""
+msgstr "插件 {1} 的依賴項目 {0} 安裝失敗。"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:247
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
-msgstr ""
+msgstr "ID 為 {0} 的插件最新版本安裝失敗。"
 
 #: ../../../ETS2LA.Game/Installation.cs:402
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "將 SDK 從「{0}」安裝至「{1}」失敗：{2}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:136
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "從 [gray]{0}[/] 載入函式庫插件失敗：{1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:276
 #, csharp-format
 msgid "Failed to load map for installation at '{0}'"
-msgstr ""
+msgstr "載入遊戲安裝位置「{0}」的地圖失敗"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:187
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:195
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:200
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:593
 #, csharp-format
 msgid "Failed to open joystick {0}."
-msgstr ""
+msgstr "無法存取搖桿 {0}。"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:153
 #, csharp-format
 msgid "Failed to read bundled update source marker: {0}"
-msgstr ""
+msgstr "讀取內建更新來源標記失敗：{0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:87
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "讀取位於「{0}」的記錄檔失敗：{1}"
 
 #: ../../../ETS2LA.Game/Program.cs:222
 #: ../../../ETS2LA.Game/Program.cs:252
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "從「{0}」讀取版本資訊失敗：{1}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:318
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "重新整理搖桿失敗：{0}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:234
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "關閉插件 {0} 失敗：{1}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:240
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
+msgstr "ID 為 {0} 的插件目前版本解除安裝失敗。"
 
 #: ../../../ETS2LA.Game/Installation.cs:442
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "解除安裝 SDK（從「{0}」至「{1}」）失敗：{2}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:254
 #, csharp-format
 msgid "Failed to unload plugin load context: {0}"
-msgstr ""
+msgstr "卸載插件載入內容失敗：{0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:31
 msgid "Far"
-msgstr ""
+msgstr "遠"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "快"
 
 #: ../../../ETS2LA.State/Units.cs:193
 msgid "feet"
-msgstr ""
+msgstr "英尺"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:75
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "已從 {1} 取得 {0} 個插件"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:79
 #, csharp-format
 msgid "File not found: {0}"
-msgstr ""
+msgstr "找不到檔案：{0}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:208
 msgid "Finished loading plugins"
-msgstr ""
+msgstr "插件載入完成"
 
 #: ../../../ETS2LA.Game/Installation.cs:296
 #, csharp-format
 msgid "Finished parsing installation at '{0}'"
-msgstr ""
+msgstr "已完成解析位於「{0}」的遊戲安裝資料"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:168
 msgid "Following Distance"
-msgstr ""
+msgstr "跟車距離"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:487
 #, csharp-format
 msgid "Font file not found at {0}"
-msgstr ""
+msgstr "找不到字型檔案：{0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:60
 msgid "Force Base Map Name"
-msgstr ""
+msgstr "強制使用遊戲預設地圖名稱"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:65
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
-msgstr ""
+msgstr "強制 ETS2LA 在遊戲啟動時載入地圖。若 game.log.txt 不在 ETS2LA 預期的位置，啟"
+"用此選項可能可以解決問題。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:64
 msgid "Force Map Load"
-msgstr ""
+msgstr "強制載入地圖"
 
 #: ../../../ETS2LA.Game/Program.cs:149
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
-msgstr ""
+msgstr "在「{2}」找到 {0}（版本：{1}）"
 
 #: ../../../ETS2LA.Game/Program.cs:57
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "找到 {0} 個遊戲安裝位置。"
 
 #: ../../../ETS2LA.Game/Installation.cs:303
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "找到 {0} 個節點"
 
 #: ../../../ETS2LA.Game/Installation.cs:299
 #, csharp-format
 msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "找到 {0} 個預製件"
 
 #: ../../../ETS2LA.Game/Installation.cs:301
 #, csharp-format
 msgid "found {0} road"
 msgid_plural "found {0} roads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "找到 {0} 個道路"
 
 #: ../../../ETS2LA.State/Units.cs:267
 msgid "ft"
-msgstr ""
+msgstr "ft"
 
 #: ../../../ETS2LA.State/Units.cs:278
 msgid "gal"
-msgstr ""
+msgstr "gal"
 
 #: ../../../ETS2LA.State/Units.cs:204
 msgid "gallons"
-msgstr ""
+msgstr "加侖"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "Game added"
-msgstr ""
+msgstr "遊戲已新增"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
 msgid "Game SDK"
-msgstr ""
+msgstr "遊戲 SDK"
 
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:151
 msgid "Game Telemetry"
-msgstr ""
+msgstr "遊戲遙測"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:22
 msgid ""
 "Gateway timeout. The server was acting as a gateway or proxy and did not "
 "receive a timely response from the upstream server."
-msgstr ""
+msgstr "閘道逾時。伺服器作為閘道或代理伺服器時，未能在時間內收到上游伺服器的回應。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:18
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:56
 msgid "Hat"
-msgstr ""
+msgstr "十字鍵"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:35
 msgid "Help"
-msgstr ""
+msgstr "幫助"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "hide"
-msgstr ""
+msgstr "隱藏"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:12
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:20
 msgid "High"
-msgstr ""
+msgstr "高"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:38
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the "
 "{1}Discord Server{2} or on {3}GitHub{4}."
-msgstr ""
+msgstr "你是怎麼跑到這裡來的？你到底在想什麼？{0}請到 {1}Discord 伺服器{2} 或 "
+"{3}GitHub{4} 告訴我們。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:178
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning this "
 "to off will disable collision avoidance regardless of your enabled plugins."
-msgstr ""
+msgstr "調整 ETS2LA 對潛在碰撞的提前反應程度。將此設定設為關閉時，無論啟用了哪些插件"
+"，都會停用防碰撞功能。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
-msgstr ""
+msgstr "當你大幅超過速限時，ETS2LA 將如何發出警告。"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
-msgstr ""
+msgstr "如果你認為這是一個錯誤，請在 {0}Discord 伺服器{1} 或 {2}GitHub{3} 回報。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:201
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "忽略交通規則"
 
 #: ../../../ETS2LA/Program.cs:60
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "已忽略 DBus 例外：{0}"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:41
 msgid "Increase"
-msgstr ""
+msgstr "提高"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:42
 msgid ""
 "Increases the current value (e.g. target speed) by one step. Without any "
 "visual modifier shown in the UI, this will increase the target speed by 1 km/h."
-msgstr ""
+msgstr "將目前的數值（例如目標速度）提高一個級距。若介面上沒有顯示其他調整值，則每次"
+"會將目標速度提高 1 km/h。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:532
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
-msgstr ""
+msgstr "正在初始化 GLFW，版本：{0}"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:544
 msgid "Initializing GLFW..."
-msgstr ""
+msgstr "正在初始化 GLFW..."
 
 #: ../../../ETS2LA.Game/Installation.cs:267
 msgid "Initializing..."
-msgstr ""
+msgstr "正在初始化..."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:418
 #, csharp-format
 msgid "Inner Exception: {0}"
-msgstr ""
+msgstr "內部例外：{0}"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:168
 msgid "Install"
-msgstr ""
+msgstr "安裝"
 
 #: ../../../ETS2LA.Game/Installation.cs:256
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
-msgstr ""
+msgstr "遊戲安裝位置「{0}」已完成解析。"
 
 #: ../../../ETS2LA.Game/Installation.cs:167
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
+msgstr "位於「{0}」的遊戲目前未執行，正在等待玩家資料載入。"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:131
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "已安裝 {0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:262
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
-msgstr ""
+msgstr "找不到 ID 為 {0} 的已安裝插件。"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:281
 #: ../../../ETS2LA.Overlay/Overlay.cs:283
 msgid "Interaction Mode"
-msgstr ""
+msgstr "互動模式"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:19
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
 "prevented it from fulfilling the request."
-msgstr ""
+msgstr "內部伺服器錯誤。伺服器發生未預期的狀況，導致無法完成請求。"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "Invalid directory"
-msgstr ""
+msgstr "目錄無效"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:27
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:33
 msgid "Invalid file"
-msgstr ""
+msgstr "檔案無效"
 
 #: ../../../ETS2LA.State/Units.cs:228
 #: ../../../ETS2LA.State/Units.cs:302
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:51
 msgid "Key"
