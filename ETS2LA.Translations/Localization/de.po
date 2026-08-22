@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 19:15:55+0300\n"
-"PO-Revision-Date: 2026-08-22 18:09+0000\n"
+"PO-Revision-Date: 2026-08-22 20:15+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
 "\n"
@@ -29,7 +29,6 @@ msgstr "Unbekannte Steuerung ID"
 msgid "Sorry"
 msgstr "Sorry"
 
-#, fuzzy
 msgid "Display"
 msgstr "Anzeigen"
 
@@ -143,7 +142,6 @@ msgstr "Verbindung für Steuerung {0} ({1}) ist abgelaufen."
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#, fuzzy
 msgid "Error in navigation update loop."
 msgstr "Fehler in der Navigations-Aktualisierungs-Schleife."
 
@@ -157,7 +155,6 @@ msgstr ""
 msgid "Increase"
 msgstr "Erhöhen"
 
-#, fuzzy
 msgid "Window Zoom"
 msgstr "Fenstervergrößerung"
 
@@ -206,13 +203,11 @@ msgstr "Fehler während herunterladens eines Updates."
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
 msgstr ""
-"Kein Spiel ausführbare Datei gefunden in '{0}', wird nicht als Installation "
-"hinzugefügt."
+"Keine Spiel Datei gefunden in '{0}', wird nicht als Installation hinzugefügt."
 
-#, fuzzy
 msgid "Chime"
 msgstr "Gong"
 
@@ -253,9 +248,8 @@ msgstr ""
 "Steuerung mit der ID '{0}' nicht gefunden zum Aktualisieren des "
 "Achtenverhaltens."
 
-#, fuzzy
 msgid "Networking"
-msgstr "Netzwerk"
+msgstr "Networking"
 
 #, csharp-format
 msgid ""
@@ -309,20 +303,17 @@ msgstr "Render AR Elemente"
 msgid "LoaderException: {0}"
 msgstr "LoaderException: {0}"
 
-#, fuzzy
 msgid "Data Fidelity"
-msgstr "Datenintegrität"
+msgstr "Datenfidelität"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr ""
 "Fehler beim Deinstallieren der aktuellen Version des Plugins mit ID {0}."
 
-#, fuzzy
 msgid "Assist"
-msgstr "Assistent"
+msgstr "Assist"
 
-#, fuzzy
 msgid "Early"
 msgstr "Früh"
 
@@ -336,7 +327,6 @@ msgstr ""
 msgid "The server timed out waiting for the request from the client."
 msgstr "Der Server wartete zu lange auf die Anfrage vom Client."
 
-#, fuzzy
 msgid "Backend shutdown complete."
 msgstr "Backend-Herunterfahren abgeschlossen."
 
@@ -355,9 +345,8 @@ msgstr "Kontaktiere uns"
 msgid "Copied '{0}' to '{1}'"
 msgstr "'{0}' wurde nach '{1}' kopiert"
 
-#, fuzzy
 msgid "show"
-msgstr "zeigen"
+msgstr "Zeigen"
 
 msgid "Select core.scs"
 msgstr "Wähle core.scs"
@@ -427,7 +416,7 @@ msgstr "SDK Deinstalliert"
 msgid "Low"
 msgstr "Niedrig"
 
-#, csharp-format, fuzzy
+#, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
 msgstr "Das Apparente Plugin-Verzeichnis {0} existiert nicht."
 
@@ -440,7 +429,6 @@ msgid_plural "Loaded {0} plugins from the Plugins folder."
 msgstr[0] "{0} Plugin aus dem Ordner Plugins geladen."
 msgstr[1] "{0} Plugins aus dem Ordner Plugins geladen."
 
-#, fuzzy
 msgid "Late"
 msgstr "Spät"
 
@@ -478,7 +466,6 @@ msgstr "Fehler beim Entdecken von DLLs: {0}"
 msgid "Not Installed"
 msgstr "Nicht installiert"
 
-#, fuzzy
 msgid "gal"
 msgstr "gal"
 
@@ -533,12 +520,11 @@ msgstr "Unbestimmt"
 msgid "meters per second"
 msgstr "Meter pro Sekunde"
 
-#, fuzzy
 msgid ""
 "This key will navigate any ETS2LA menus forward, it will also work as the "
 "cancel key for any confirmations."
 msgstr ""
-"Dieser Schlüssel navigiert alle ETS2LA-Menüs vorwärts und dient auch als "
+"Dieser Tastenkürzel navigiert alle ETS2LA-Menüs vorwärts und dient auch als "
 "Abbrechen-Schlüssel für Bestätigungen."
 
 msgid "Update check skipped, using already cached result."
@@ -632,9 +618,8 @@ msgstr "Neues Limit {0}{1}"
 msgid "Error playing audio file {0}: {1}"
 msgstr "Fehler beim Abspielen der Audiodatei {0}: {1}."
 
-#, fuzzy
 msgid "Controls Backend shutdown complete, all controls saved."
-msgstr "Backend-Herunterfahren abgeschlossen, alle Steuerelemente gespeichert."
+msgstr "Backend-Herunterfahren abgeschlossen, alle Steuerungen gespeichert."
 
 msgid "Anonymous"
 msgstr "Anonym"
@@ -757,9 +742,8 @@ msgstr ""
 msgid "Search for plugins..."
 msgstr "Plugins suchen…"
 
-#, fuzzy
 msgid "Assists"
-msgstr "Hilfsfunktionen"
+msgstr "Assists"
 
 msgid "mph"
 msgstr "mph"
@@ -767,17 +751,14 @@ msgstr "mph"
 msgid "°F"
 msgstr "°F"
 
-#, fuzzy
 msgid "Pa"
 msgstr "Pa"
 
-#, fuzzy
 msgid "Game Telemetry"
 msgstr "Spieltelemetrie"
 
-#, fuzzy
 msgid "Key"
-msgstr "Schlüssel"
+msgstr "Taste"
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
@@ -937,7 +918,6 @@ msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "{0} Plugin von {1} abgerufen"
 msgstr[1] "{0} Plugins von {1} abgerufen"
 
-#, fuzzy
 msgid "Error in telemetry update loop."
 msgstr "Fehler im Telemetrie-Aktualisierungsloop."
 
@@ -971,9 +951,8 @@ msgstr "Fehlgeschlagene Aktivierung von {0}: {1}"
 msgid "Acceleration Response"
 msgstr "Beschleunigungsreaktion"
 
-#, fuzzy
 msgid "Error in parked vehicles update loop."
-msgstr "Fehler in der Parkfahrzeug-Aktualisierungs-Schleife."
+msgstr "Fehler in der Parkfahrzeug-Aktualisierungsloop."
 
 msgid "The plugin was enabled successfully."
 msgstr "Das Plugin wurde erfolgreich aktiviert."
@@ -1006,7 +985,6 @@ msgstr "Fehlgeschlagenes Installieren der SDK-Version '{0}' zu '{1}': {2}"
 msgid "Failed to read bundled update source marker: {0}"
 msgstr "Fehler beim Lesen des gebündelten Update-Quellmarkierungszeichens: {0}"
 
-#, fuzzy
 msgid "liters"
 msgstr "Liter"
 
@@ -1044,11 +1022,9 @@ msgstr "Keine Updates verfügbar."
 msgid "Error rendering overlay: {0}"
 msgstr "Fehler beim rendering des Overlays: {0}"
 
-#, fuzzy
 msgid "Off"
 msgstr "Aus"
 
-#, fuzzy
 msgid "L"
 msgstr "L"
 
@@ -1059,9 +1035,8 @@ msgstr "Fehlgeschlagen beim Hinzufügen des Spiels"
 msgid "Font file not found at {0}"
 msgstr "Schriftdatei nicht gefunden unter {0}"
 
-#, fuzzy
 msgid "Changelog"
-msgstr "Änderungenprotokoll"
+msgstr "Änderungsprotokoll"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1140,7 +1115,6 @@ msgstr "Ein Fehler ist beim Laden der Karten-Daten aufgetreten: {0}"
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Geladene Plugin Bibliothek: [gray]{0}[/] from [gray]{1}[/]."
 
-#, fuzzy
 msgid "Responsiveness"
 msgstr "Reaktionsfähigkeit"
 
@@ -1173,11 +1147,10 @@ msgstr ""
 "Wir können Elemente in der Spielwelt mit dem Overlay rendern. Dies "
 "verbraucht zusätzliche CPU- und GPU-Ressourcen."
 
-#, fuzzy
 msgid "kilometers per hour"
 msgstr "Kilometer pro Stunde"
 
-#, csharp-format, fuzzy
+#, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "Steuerung mit der ID '{0}' nicht gefunden um das Event zu beenden."
 
@@ -1252,9 +1225,8 @@ msgstr ""
 "Fehlgeschlagen beim Abrufen verfügbarer Plugins. Bitte überprüfe deine "
 "Internetverbindung."
 
-#, fuzzy
 msgid "feet"
-msgstr "fuß"
+msgstr "Fuß"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -1289,14 +1261,12 @@ msgstr "Fehler beim Laden der Datei"
 msgid "Force Base Map Name"
 msgstr "Basis-Kartenname erzwingen"
 
-#, fuzzy
 msgid "Experiments"
-msgstr "Experimente"
+msgstr "Experimentell"
 
 msgid "gallons"
 msgstr "Gallonen"
 
-#, fuzzy
 msgid "m"
 msgstr "m"
 
@@ -1394,7 +1364,6 @@ msgstr ""
 "Ihre Mods nicht richtig geladen werden, versuchen Sie, diese Option zu "
 "aktivieren. Dies ist bekanntlich für RusMap erforderlich."
 
-#, fuzzy
 msgid "Extreme"
 msgstr "Extrem"
 
@@ -1459,7 +1428,6 @@ msgstr "Steuerung registriert: {0} [gray italic]({1})[/]"
 msgid "Please see the logs for more information."
 msgstr "Bitte sehen Sie sich die Protokolle für weitere Informationen an."
 
-#, fuzzy
 msgid "Binding Timed Out"
 msgstr "Zuordnung abgelaufen"
 
@@ -1482,7 +1450,6 @@ msgstr "Die ausgewählte Datei ist keine core.scs Datei."
 msgid "Translated by:"
 msgstr "Übersetzt von:"
 
-#, fuzzy
 msgid "This game was found at"
 msgstr "Dieses Spiel wurde hier gefunden"
 
@@ -1503,7 +1470,7 @@ msgstr "Allgemein"
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
 msgstr "Fehlgeschlagen beim Deinstallieren des SDKs von '{0}' nach '{1}': {2}"
 
-#, csharp-format, fuzzy
+#, csharp-format
 msgid "Inner Exception: {0}"
 msgstr "Innere Ausnahme: {0}"
 
@@ -1543,7 +1510,6 @@ msgstr "GLFW wird Version initialisiert: {0}"
 msgid "Render Vision Cameras"
 msgstr "Sichtkameras rendern"
 
-#, fuzzy
 msgid "Match Game"
 msgstr "Spiel abgleichen"
 
@@ -1561,7 +1527,6 @@ msgstr "Klicken Sie, um dieses Fenster mit {0} zu öffnen"
 msgid "Error rendering interaction mode window controls: {0}"
 msgstr "Fehler beim Rendern der Interaktionsmodus-Fenstersteuerungen: {0}"
 
-#, fuzzy
 msgid "Overlay free CPU time percentage"
 msgstr "Overlay-CPU-Zeitanteil in Prozent"
 
@@ -1609,7 +1574,6 @@ msgstr "SDK-Version '{0}' von '{1}' erfolgreich deinstalliert"
 msgid "Next/Cancel"
 msgstr "Weiter/Abbrechen"
 
-#, fuzzy
 msgid "meters"
 msgstr "Meter"
 
@@ -1654,7 +1618,7 @@ msgstr "Schaltflächenverhalten"
 msgid "Help"
 msgstr "Hilfe"
 
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
 msgstr "Übersprungenes veraltetes Plugin-Schattenverzeichnis [gray]{0}[/]:{1}"
 
@@ -1665,7 +1629,6 @@ msgstr ""
 "Der Zoom-Level des ETS2LA-Fensters. Dies kann verwendet werden, um das "
 "Fenster an die DPI-Einstellungen Ihres Monitors anzupassen."
 
-#, fuzzy
 msgid "Finished loading plugins"
 msgstr "Plugin laden beendet"
 
@@ -1673,9 +1636,8 @@ msgstr "Plugin laden beendet"
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "Fehler beim Installieren der Abhängigkeit {0} für das Plugin {1}."
 
-#, fuzzy
 msgid "Error in semaphore update loop."
-msgstr "Fehler in der Semaphore-Aktualisierungs-Schleife."
+msgstr "Fehler in der Semaphore-Aktualisierungsloop."
 
 #, csharp-format
 msgid "Missing dependency: {0}"
