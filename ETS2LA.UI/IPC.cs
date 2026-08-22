@@ -39,6 +39,18 @@ static class IPC
             return;
         }
 
+        if (message.StartsWith("window:zoom"))
+        {
+            var parts = message.Replace("window:zoom:", "").Split(',');
+            if (parts.Length == 1 && int.TryParse(parts[0], out int zoom))
+            {
+                WindowSettings.Current.Zoom = zoom;
+                WindowSettings.Current.Save();
+                app.MainWindow.SetZoom(zoom);
+            }
+            return;
+        }
+
         switch (message)
         {
             case "window:minimize":

@@ -40,18 +40,36 @@ public class UserInterface
             .SetUseOsDefaultSize(false)
             .SetUseOsDefaultLocation(false)
             .SetMinSize(800, 600)
-            .SetSize(1280, 720)
+            .SetSize(WindowSettings.Current.Width, WindowSettings.Current.Height)
             .SetLogVerbosity(0)
+            .SetTransparent(true)
+            .SetZoom(WindowSettings.Current.Zoom)
             .RegisterWebMessageReceivedHandler((sender, e) => IPC.HandleMessage(e, sender, app))
             #if DEBUG
             .SetDevToolsEnabled(true)
             #endif
-            .Center()
             .SetChromeless(true);
+
+        if (WindowSettings.Current.X != 0 || WindowSettings.Current.Y != 0)
+            app.MainWindow.Location = new System.Drawing.Point(WindowSettings.Current.X, WindowSettings.Current.Y);
+        else 
+            app.MainWindow.Center();
 
         UserInterface.Current.Window = app.MainWindow;
         
+        UserInterface.Current.Window.WindowSizeChanged += (sender, e) =>
+        {
+            WindowSettings.Current.Width = e.Width;
+            WindowSettings.Current.Height = e.Height;
+        };
+        UserInterface.Current.Window.WindowLocationChanged += (sender, e) =>
+        {
+            WindowSettings.Current.X = e.X;
+            WindowSettings.Current.Y = e.Y;
+        };
+        
         // blocking until window is closed.
         app.Run();
+        WindowSettings.Current.Save();
     }
 }
