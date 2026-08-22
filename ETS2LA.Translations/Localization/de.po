@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 14:40+0000\n"
-"Last-Translator: Max <max@ets2la.com>\n"
+"PO-Revision-Date: 2026-08-22 16:19+0000\n"
+"Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
 "\n"
 "Language: de\n"
@@ -560,6 +560,8 @@ msgstr ""
 msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
 msgstr ""
+"Zu viele Anfragen. Sie haben zu viele Anfragen innerhalb eines bestimmten "
+"Zeitraums gesendet."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:274
 #, csharp-format
@@ -567,12 +569,16 @@ msgid ""
 "Cannot uninstall plugin with ID {0} because the following installed plugins "
 "depend on it: {1}"
 msgstr ""
+"Das Plugin mit der ID {0} kann nicht deinstalliert werden, da die folgenden "
+"installierten Plugins davon abhängen: {1}"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:14
 msgid ""
 "You do not have permission to access this resource. The server understood the "
 "request but refuses to authorize it."
 msgstr ""
+"Sie haben keine Berechtigung, auf diese Ressource zuzugreifen. Der Server "
+"hat die Anfrage verstanden, lehnt aber ab, sie zu autorisieren."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:58
 msgid ""
@@ -580,102 +586,115 @@ msgid ""
 "interact with it. NOTE: Interaction with items below the overlay is not "
 "possible during this time."
 msgstr ""
+"Wenn dieser Tastenkürzel gedrückt wird, erhält die Überlagerung Maus-"
+"Eingaben und ermöglicht es Ihnen, mit ihr zu interagieren. ANMERKUNG: Die "
+"Interaktion mit Elementen unterhalb der Überlagerung ist während dieser Zeit "
+"nicht möglich."
 
 #: ../../../ETS2LA.Game/Installation.cs:181
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have to "
 "be installed in Documents/Euro Truck Simulator 2/mod."
 msgstr ""
+"Stellen Sie sicher, dass keine Mods im Stammverzeichnis installiert sind. "
+"Diese müssen unter Dokumente/Euro Truck Simulator 2/mod installiert werden."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:405
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
-msgstr ""
+msgstr "Fehler beim Rendern des Kontextmenüs für Fenster {0}: {1}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:142
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
+msgstr "Steuerung mit der ID '{0}' nicht gefunden für das Ereignis-Abonnement."
 
 #: ../../../ETS2LA.Game/Program.cs:222
 #: ../../../ETS2LA.Game/Program.cs:252
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "Fehler beim Lesen der Version von '{0}': {1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:169
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "Mehrere Ansichten unterstützen"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:17
 msgid "The server timed out waiting for the request from the client."
-msgstr ""
+msgstr "Der Server wartete zu lange auf die Anfrage vom Client."
 
 #: ../../../ETS2LA.Game/Installation.cs:233
 msgid "Error Loading Map Data"
-msgstr ""
+msgstr "Fehler beim Laden der Karten-Daten"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:139
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
-msgstr ""
+msgstr "Version {0} nicht gefunden für das Plugin mit der ID {1}."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:104
 #, csharp-format
 msgid "Unknown manifest type: {0}"
-msgstr ""
+msgstr "Unbekannter Manifesttyp: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:60
 msgid "Force Base Map Name"
-msgstr ""
+msgstr "Basis-Kartenname erzwingen"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "The selected directory does not exist."
-msgstr ""
+msgstr "Das ausgewählte Verzeichnis existiert nicht."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:196
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
+"Wenn das Spiel meldet, dass es angehalten wurde, wird ETS2LA keine AR-"
+"Elemente rendern."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:19
+#, fuzzy
 msgid "Display"
-msgstr ""
+msgstr "Anzeigen"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:135
 msgid "Not Installed"
-msgstr ""
+msgstr "Nicht installiert"
 
 #: ../../../ETS2LA.State/Units.cs:202
 #: ../../../ETS2LA.State/Units.cs:206
+#, fuzzy
 msgid "liters"
-msgstr ""
+msgstr "Liter"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:147
 #, csharp-format
 msgid "Discovered {0} plugins in total."
 msgid_plural "Discovered {0} plugins in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Entdeckte {0} Plugin."
+msgstr[1] "Entdeckte insgesamt {0} Plugins."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:35
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:326
+#, fuzzy
 msgid "Overlay free CPU time percentage"
-msgstr ""
+msgstr "Overlay-CPU-Zeitanteil in Prozent"
 
 #: ../../../ETS2LA.Game/Program.cs:174
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "No game executable found in '{0}', not adding it as an installation."
 msgstr ""
+"Kein Spiel ausführbare Datei gefunden in '{0}', wird nicht als Installation "
+"hinzugefügt."
 
 #: ../../../ETS2LA.Game/Data/Utils.cs:45
 #, csharp-format
 msgid "Road template for {0} not found in SII file."
-msgstr ""
+msgstr "Straßenvorlage für {0} nicht im SII-Datei gefunden."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:153
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:134
@@ -1017,40 +1036,45 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:37
 msgid "Contact Us"
-msgstr ""
+msgstr "Kontaktiere uns"
 
 #: ../../../ETS2LA.State/Units.cs:287
 #: ../../../ETS2LA.State/Units.cs:291
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:107
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"Diese Einstellung entfernt redundante Informationen, behält aber die meisten "
+"Detailobjekte (wie Schildern) bei. Enthält alle versteckten und nur für KI "
+"zugänglichen Straßen."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:24
 msgid "Visualization"
-msgstr ""
+msgstr "Visualisierung"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:157
 msgid "Display Units"
-msgstr ""
+msgstr "Anzeigeeinheiten"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:6
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
 "here."
 msgstr ""
+"Sie werden sich hier registrieren, anmelden und Ihre Kontoeinstellungen "
+"sowie Abonnements verwalten."
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:164
 msgid "Uninstall"
-msgstr ""
+msgstr "Deinstallieren"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
 msgid "Game SDK"
-msgstr ""
+msgstr "Spiel SDK"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:51
 #, csharp-format
@@ -1058,54 +1082,62 @@ msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
+"Wenn Sie glauben, dass dies ein Fehler ist, melden Sie ihn bitte auf dem {0"
+"}Discord-Server{1} oder auf {2}GitHub{3}."
 
 #: ../../../ETS2LA.Shared/Shared.cs:120
 #, csharp-format
 msgid "Error in plugin {0} Tick: {1}"
-msgstr ""
+msgstr "Fehler in Plugin {0} Tick: {1}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:33
 msgid "Telemetry"
-msgstr ""
+msgstr "Telemetrie"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
 "we don't intend to fix this."
 msgstr ""
+"Raubkopierte Spiele oder Demos verhindern das Laden unseres SDKs. Sie "
+"funktionieren nicht, und wir haben nicht vor, dies zu beheben."
 
 #: ../../../ETS2LA.Game/Data/Classes.cs:125
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
-msgstr ""
+msgstr "Sektor {0} von {1} wird analysiert..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:33
 msgid "The selected file is not a core.scs file."
-msgstr ""
+msgstr "Die ausgewählte Datei ist keine core.scs Datei."
 
 #: ../../../ETS2LA.State/Units.cs:180
+#, fuzzy
 msgid "kilometers per hour"
-msgstr ""
+msgstr "Kilometer pro Stunde"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:54
+#, fuzzy
 msgid "Late"
-msgstr ""
+msgstr "Spät"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:227
 #, csharp-format
 msgid "Error rendering overlay: {0}"
-msgstr ""
+msgstr "Fehler beim rendering des Overlays: {0}"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:123
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
 msgstr ""
+"Ausgewählte Update-Quelle „{0}“ nicht gefunden, es wird standardmäßig die "
+"erste verfügbare Quelle verwendet."
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:623
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
+msgstr "Verbundener Joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:104
 msgid ""
@@ -1113,87 +1145,102 @@ msgid ""
 "objects (such as signs). Doesn't include any roads / intersections not shown in the "
 "in game map."
 msgstr ""
+"Diese Einstellung entfernt redundante Informationen, behält aber die meisten "
+"Detailobjekte (wie Schilder) bei. Enthält keine Straßen/Kreuzungen, die "
+"nicht auf der In-Game-Karte angezeigt werden."
 
 #: ../../../ETS2LA.Game/Installation.cs:402
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "Fehler beim Installieren des SDKs von „{0}“ nach „{1}“: {2}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:162
 msgid "Display Language"
-msgstr ""
+msgstr "Anzeigesprache"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:186
 msgid "3D Renderer"
-msgstr ""
+msgstr "3D Renderer"
 
 #: ../../../ETS2LA.State/Units.cs:258
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
 msgstr ""
+"Wie ETS2LA dich bei erheblichen überschreiten der Geschwindigkeitsberenzung "
+"warnen wird."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:178
 #, csharp-format
 msgid "Currently running at {0} FPS."
-msgstr ""
+msgstr "Läuft momentan mit {0} FPS."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:136
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Fehler beim Laden des Bibliotheks-Plugins von [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:65
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"Zwingt ETS2LA dazu, die Karte beim Spielstart zu laden. Dies kann Probleme "
+"beheben, bei denen sich Ihre game.log.txt nicht an dem von ETS2LA erwarteten "
+"Ort befindet."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:158
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
 msgstr ""
+"Die Einheiten, die ETS2LA bei der Anzeige von Informationen für den Benutzer "
+"verwendet. Wissenschaftlich unterscheidet sich nur geringfügig von Metrisch."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:166
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "Tastenbelegung für Steuerung {0} ({1}) wird gestartet"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:318
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "Fehler beim Aktualisieren des Joysticks: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:45
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:55
+#, fuzzy
 msgid "Off"
-msgstr ""
+msgstr "Aus"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:187
 msgid "Render AR Elements"
-msgstr ""
+msgstr "Render AR Elemente"
 
 #: ../../../ETS2LA.Game/Installation.cs:186
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
 "available to ETS2LA."
 msgstr ""
+"Die Analyse wird fortgesetzt, die in dieser Datei enthaltenen Informationen "
+"stehen ETS2LA jedoch nicht zur Verfügung."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:208
+#, fuzzy
 msgid "Finished loading plugins"
-msgstr ""
+msgstr "Plugin laden beendet"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:43
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonym"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
+#, fuzzy
 msgid "show"
-msgstr ""
+msgstr "zeigen"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:291
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:304
@@ -1201,91 +1248,104 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:338
 #, csharp-format
 msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
+msgstr "Eingang von unbekanntem Joystick mit Instanz-ID {0}."
 
 #: ../../../ETS2LA.Game/Installation.cs:234
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
-msgstr ""
+msgstr "Ein Fehler ist beim Laden der Karten-Daten aufgetreten: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
+#, fuzzy
 msgid "This game was found at"
-msgstr ""
+msgstr "Dieses Spiel wurde hier gefunden"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:44
+#, fuzzy
 msgid "Chime"
-msgstr ""
+msgstr "Gong"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:31
+#, fuzzy
 msgid "Networking"
-msgstr ""
+msgstr "Netzwerk"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:16
 msgid ""
 "The request method is recognized by the server but is not supported by the "
 "target resource."
 msgstr ""
+"Die Anfrage-Methode wird vom Server erkannt, ist aber von der Zielressource "
+"nicht unterstützt."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:168
 msgid "Overlay"
-msgstr ""
+msgstr "Overlay"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
+#, fuzzy
 msgid "Changelog"
-msgstr ""
+msgstr "Änderungenprotokoll"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:22
 msgid ""
 "Works like Assist, but will act the way you select in the Assistance "
 "settings. This key will additionally be used for confirmations."
 msgstr ""
+"Funktioniert wie Assist, wird aber so vorgehen, wie du in den Assistenten-"
+"Einstellungen auswählst. Dieser Schlüssel wird zusätzlich für Bestätigungen "
+"verwendet."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:141
 msgid "The step size for changing the cruise control speed."
-msgstr ""
+msgstr "Die Schrittweite zur Änderung der Cruise-Control-Geschwindigkeit."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:243
+#, fuzzy
 msgid "Controls Backend shutdown complete, all controls saved."
-msgstr ""
+msgstr "Backend-Herunterfahren abgeschlossen, alle Steuerelemente gespeichert."
 
 #: ../../../ETS2LA.Controls/Defaults.cs:51
 msgid "Decrease"
-msgstr ""
+msgstr "Verringern"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:17
 msgid "Select core.scs"
-msgstr ""
+msgstr "Wähle core.scs"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:313
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Leistungsoberfläche"
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
+#, fuzzy
 msgid "Sorry"
-msgstr ""
+msgstr "Sorry"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:507
 msgid "Failed to init ImGui Impl OpenGL3"
-msgstr ""
+msgstr "Fehler beim Initialisieren von ImGui Impl OpenGL3"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:10
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:18
 msgid "Low"
-msgstr ""
+msgstr "Niedrig"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:205
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maximale Geschwindigkeit"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:169
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
 "you when using Adaptive Cruise Control."
 msgstr ""
+"Passe den Abstand an, den ETS2LA versuchen wird, beim Fahrzeug vor dir zu "
+"halten, wenn Adaptive Cruise Control verwendet wird."
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:103
 #, csharp-format
@@ -1293,21 +1353,27 @@ msgid ""
 "Tried to change update source to '{0}', but it was not found among available "
 "sources."
 msgstr ""
+"Versuchte, die Update-Quelle auf '{0}' zu ändern, aber sie wurde nicht unter "
+"den verfügbaren Quellen gefunden."
 
 #: ../../../ETS2LA.Game/Installation.cs:267
 msgid "Initializing..."
-msgstr ""
+msgstr "Initialisieren…"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:32
+#, fuzzy
 msgid ""
 "This key will navigate any ETS2LA menus forward, it will also work as the "
 "cancel key for any confirmations."
 msgstr ""
+"Dieser Schlüssel navigiert alle ETS2LA-Menüs vorwärts und dient auch als "
+"Abbrechen-Schlüssel für Bestätigungen."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:240
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr ""
+"Fehler beim Deinstallieren der aktuellen Version des Plugins mit ID {0}."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:38
 #, csharp-format
@@ -1315,20 +1381,24 @@ msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the "
 "{1}Discord Server{2} or on {3}GitHub{4}."
 msgstr ""
+"Wie bist du hierhergekommen? Was hattest du überhaupt für Gedanken? {0}"
+"Erzählt uns bitte im {1}Discord-Server{2} oder auf {3}GitHub{4}."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:346
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
 msgstr ""
+"Versuchte, {0} zu aktivieren, aber es wurde nicht unter den geladenen "
+"Plugins gefunden."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:57
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "Overlay Interaktion"
 
 #: ../../../ETS2LA.Audio/AudioHandler.cs:138
 #, csharp-format
 msgid "Error playing audio file {0}: {1}"
-msgstr ""
+msgstr "Fehler beim Abspielen der Audiodatei {0}: {1}."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:22
 msgid ""
