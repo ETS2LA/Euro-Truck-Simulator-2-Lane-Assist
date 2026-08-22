@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 19:15:55+0300\n"
-"PO-Revision-Date: 2026-08-22 16:19+0000\n"
+"PO-Revision-Date: 2026-08-22 16:29+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
-">\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
+"\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
-msgstr ""
+msgstr "Не удалось открыть джойстик {0}."
 
 msgid "Anonymous Telemetry"
 msgstr "Анонимная телеметрия"
@@ -304,7 +304,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
-msgstr ""
+msgstr "Регистрация элемента управления отменена: {0} ({1})"
 
 msgid "Contact Us"
 msgstr ""
@@ -414,7 +414,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Failed to init ImGui Impl GLFW"
-msgstr ""
+msgstr "Не удалось инициализировать бэкенд ImGui для GLFW"
 
 #, csharp-format
 msgid "Failed to discover Dlls: {0}"
@@ -473,7 +473,7 @@ msgid "Undetermined"
 msgstr ""
 
 msgid "meters per second"
-msgstr ""
+msgstr "метры в секунду"
 
 msgid ""
 "This key will navigate any ETS2LA menus forward, it will also work as the "
@@ -531,6 +531,8 @@ msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
 "It discards all other information."
 msgstr ""
+"Этот режим загружает только дороги и перекрёстки, отображаемые на игровой "
+"карте. Вся остальная информация отбрасывается."
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
@@ -633,7 +635,7 @@ msgid "Limit Overlay Framerate"
 msgstr ""
 
 msgid "Wiki / FAQ"
-msgstr ""
+msgstr "Вики / Частые вопросы"
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
@@ -726,10 +728,10 @@ msgid "Failed to load map for installation at '{0}'"
 msgstr ""
 
 msgid "Not Connected"
-msgstr ""
+msgstr "Не подключено"
 
 msgid "This page will be implemented in a future update."
-msgstr ""
+msgstr "Эта страница будет реализована в одном из будущих обновлений."
 
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
@@ -816,8 +818,9 @@ msgstr ""
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Получен {0} плагин с {1}"
+msgstr[1] "Получено {0} плагина с {1}"
+msgstr[2] "Получено {0} плагинов с {1}"
 
 msgid "Error in telemetry update loop."
 msgstr ""
@@ -890,7 +893,7 @@ msgid "No valid versions found for plugin with ID {0}."
 msgstr ""
 
 msgid "Binding thread started with no control to bind."
-msgstr ""
+msgstr "Поток привязки запущен, но элемент управления для привязки не выбран."
 
 #, csharp-format
 msgid ""
@@ -988,7 +991,7 @@ msgstr "Скрыть"
 
 #, csharp-format
 msgid "Update available: {0}"
-msgstr ""
+msgstr "Доступно обновление: {0}"
 
 msgid "Error in traffic update loop."
 msgstr ""
@@ -1012,7 +1015,7 @@ msgid "Parsing Map Data"
 msgstr ""
 
 msgid "SDKs need to be installed."
-msgstr ""
+msgstr "Необходимо установить SDK."
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr ""
@@ -1061,7 +1064,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Update to {0} from {1}"
-msgstr ""
+msgstr "Обновить с {1} до {0}"
 
 msgid "Restarting ETS2LA..."
 msgstr "Перезапуск ETS2LA…"
@@ -1232,6 +1235,9 @@ msgid ""
 "find your mods are not loading properly, try enabling this option. This is "
 "known to be required for RusMap."
 msgstr ""
+"Некоторые моды добавляют дополнительные карты, например japan.mbd или "
+"russia.mbd. Если ваши моды загружаются некорректно, попробуйте включить эту "
+"опцию. Известно, что она необходима для RusMap."
 
 msgid "Extreme"
 msgstr ""
@@ -1366,7 +1372,7 @@ msgid "Render Vision Cameras"
 msgstr ""
 
 msgid "Match Game"
-msgstr ""
+msgstr "Как в игре"
 
 msgid "Unpacking Mods"
 msgstr ""
