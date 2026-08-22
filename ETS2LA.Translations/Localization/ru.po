@@ -3,20 +3,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 13:37:26+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-22 16:19+0000\n"
+"Last-Translator: Tema <tema@ets2la.com>\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
+"\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:177
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "Максимальная частота кадров оверлея"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
@@ -24,30 +25,32 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"Версия {0} плагина с ID {1} несовместима с текущей версией приложения или "
+"операционной системой."
 
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
 msgid "bar"
-msgstr ""
+msgstr "Панель"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "Плагин {0} ({1}, {2}) успешно установлен"
 
 #: ../../../ETS2LA/Program.cs:54
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "Исключение DBus проигнорировано: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
-msgstr ""
+msgstr "Главная"
 
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "Это может занять некоторое время… ({0}/{1})"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -55,189 +58,208 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "Плагин с ID {0} не найден."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
-msgstr ""
+msgstr "Плагины"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:571
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "Не удалось создать окно GLFW"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Предотвращение столкновения"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:71
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Настройте уровень детализации игровых данных, которые мы используем. Более "
+"высокие значения используют больше оперативной памяти, но содержат больше "
+"информации. На управление это не влияет."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:281
 #: ../../../ETS2LA.Overlay/Overlay.cs:283
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Режим взаимодействия"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "Не найдена ссылка для скачивания плагина с ID {0} в регионе {1}."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:145
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Обнаружен {0} плагин, установленный вручную."
+msgstr[1] "Обнаружено {0} плагина, установленных вручную."
+msgstr[2] "Обнаружено {0} плагинов, установленных вручную."
 
 #: ../../../ETS2LA.UI/Utils.cs:29
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "Перезапуск ETS2LA…"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Пропущен устаревший теневой каталог плагина [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:303
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Найден {0} узел"
+msgstr[1] "Найдено {0} узла"
+msgstr[2] "Найдено {0} узлов"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "Быстро"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
 msgid "Data Parsing"
-msgstr ""
+msgstr "Обработка данных"
 
 #: ../../../ETS2LA.State/Units.cs:228
 #: ../../../ETS2LA.State/Units.cs:302
 msgid "K"
-msgstr ""
+msgstr "К"
 
 #: ../../../ETS2LA.Game/SDK/Camera.cs:100
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "Ошибка в цикле обновления камеры."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:202
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"Мы будем игнорировать правила дорожного движения и ограничения скорости. "
+"Будьте готовы к повреждению вашего автомобиля и других машин. Зачем вообще "
+"это включать?"
 
 #: ../../../ETS2LA.Game/Installation.cs:442
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "Не удалось удалить SDK из «{0}» в «{1}»: {2}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:30
 msgid "Catalogue"
-msgstr ""
+msgstr "Каталог"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
+"Максимальная скорость, до которой ETS2LA будет разгоняться. Из-за инерции "
+"скорость всё равно может немного превысить этот предел."
 
 #: ../../../ETS2LA.State/Program.cs:230
 #, csharp-format
 msgid "New limit {0} {1}"
-msgstr ""
+msgstr "Новый лимит: {0} {1}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Settings.cs:57
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
 msgstr ""
+"У плагина «{0}» отсутствует DLL-файл по пути «{1}», поэтому плагин был "
+"удалён."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:170
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"Это позволяет ETS2LA отображаться в нескольких окнах, благодаря чему окна "
+"оверлея можно перемещать на любой монитор."
 
 #: ../../../ETS2LA.Game/Installation.cs:87
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "Не удалось прочитать лог-файл по пути «{0}»: {1}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:433
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
-msgstr ""
+msgstr "Попытка отключить {0}, но этот плагин не найден среди загруженных."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:79
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
 msgstr ""
+"Не удалось получить список доступных плагинов. Проверьте подключение к "
+"интернету."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:413
 #: ../../../ETS2LA.Overlay/Overlay.cs:422
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "Ошибка при отображении окна {0}: {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:167
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
+msgstr "Установка по пути «{0}» сейчас не запущена, ожидается загрузка профиля."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:112
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Обнаружена {0} библиотека, установленная вручную."
+msgstr[1] "Обнаружено {0} библиотеки, установленных вручную."
+msgstr[2] "Обнаружено {0} библиотек, установленных вручную."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:131
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Загружен плагин-библиотека: [gray]{0}[/] из [gray]{1}[/]."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:177
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "Не все зависимости для плагина {0} установлены."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:13
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
 msgstr ""
+"Требуется аутентификация. Клиент должен пройти аутентификацию, чтобы "
+"получить запрошенный ответ."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:156
 msgid "Units and Language"
-msgstr ""
+msgstr "Единицы измерения и язык"
 
 #: ../../../ETS2LA.Game/Installation.cs:333
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "Выгрузка обработанных данных карты для установки по пути '{0}'"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "SDK уже установлены."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:199
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Максимальная дальность отрисовки"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:188
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "Предупреждение о превышении скорости"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:80
 msgid ""
@@ -245,33 +267,39 @@ msgid ""
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
 msgstr ""
+"В вашей системе меньше 20 ГБ оперативной памяти. Экстремальный уровень "
+"детализации данных использует значительный объём ОЗУ и может привести к "
+"нестабильной работе системы. Пожалуйста, выберите более низкий уровень "
+"детализации."
 
 #: ../../../ETS2LA.Controls/Defaults.cs:41
 msgid "Increase"
-msgstr ""
+msgstr "Увеличить"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:131
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Установлено: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:25
 msgid "Additional"
-msgstr ""
+msgstr "Дополнительно"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:46
 msgid "Visual"
-msgstr ""
+msgstr "Визуальные"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:121
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. By "
 "default this matches the game."
 msgstr ""
+"Настройте качество кривых, используемых для планирования маршрута и "
+"визуализации. По умолчанию оно соответствует настройкам игры."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "Просмотреть общедоступную телеметрию"
 
 #: ../../../ETS2LA.State/Units.cs:224
 #: ../../../ETS2LA.State/Units.cs:298
@@ -280,84 +308,91 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:59
 msgid "Overrides"
-msgstr ""
+msgstr "Принудительные настройки"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:234
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "Не удалось завершить работу плагина {0}: {1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:24
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Анонимная телеметрия"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:50
 msgid "Failed to add game"
-msgstr ""
+msgstr "Не удалось добавить игру"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:79
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:88
 msgid "Warning: Insufficient RAM"
-msgstr ""
+msgstr "Предупреждение: недостаточно оперативной памяти"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "hide"
-msgstr ""
+msgstr "Скрыть"
 
 #: ../../../ETS2LA.Game/Program.cs:72
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
+"Добавленная вручную игра по пути '{0}' больше не содержит исполняемого файла "
+"игры, пропускаем."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:113
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
 msgstr ""
+"Предупреждение: в вашей системе меньше 16 ГБ оперативной памяти. Можно "
+"выбрать только уровень до «Среднего»."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:137
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
+"При изменении скорости округлять значение до ближайшего десятка. Например: "
+"37 -> 39 -> 40 -> 42…"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
 msgid "Data Quality"
-msgstr ""
+msgstr "Качество данных"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:222
 #, csharp-format
 msgid "Error in AR rendering: {0}"
-msgstr ""
+msgstr "Ошибка при рендеринге AR: {0}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:114
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Всего обнаружена {0} библиотека."
+msgstr[1] "Всего обнаружено {0} библиотеки."
+msgstr[2] "Всего обнаружено {0} библиотек."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:42
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:178
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Загружен плагин: [gray]{0}[/] из [gray]{1}[/]."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 msgid "Medium"
-msgstr ""
+msgstr "Средний"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:113
 msgid "Hat"
-msgstr ""
+msgstr "Крестовина"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "Game added"
-msgstr ""
+msgstr "Игра добавлена"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:167
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:157
