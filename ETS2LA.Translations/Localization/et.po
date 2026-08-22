@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 15:13+0000\n"
+"PO-Revision-Date: 2026-08-22 16:19+0000\n"
 "Last-Translator: svllyu <svllyu@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/ets2la/et/"
 ">\n"
@@ -40,16 +40,16 @@ msgstr "Laiend {0} ({1}, {2}) on edukalt installitud"
 #: ../../../ETS2LA/Program.cs:54
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "ignoreeritud DBus erind: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
-msgstr ""
+msgstr "Peamine"
 
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "See võib natuke aega võtta... ({0}/{1})"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -57,24 +57,24 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "Laiend ID-ga {0} ei ole leitud."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
-msgstr ""
+msgstr "Laiendused"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:571
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "GLHW akna loomine ebaõnnestus"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Kokkupõrke vältimine"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:71
 msgid ""
@@ -85,12 +85,12 @@ msgstr ""
 #: ../../../ETS2LA.Overlay/Overlay.cs:281
 #: ../../../ETS2LA.Overlay/Overlay.cs:283
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Puudutus Mode"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "Allalaadimis URL ei leitud laiendusele ID-ga {0} regioonis {1}."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:145
 #, csharp-format
