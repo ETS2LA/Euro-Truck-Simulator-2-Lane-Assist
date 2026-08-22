@@ -1,8 +1,9 @@
+# Lun <lun@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 10:59+0000\n"
+"PO-Revision-Date: 2026-08-22 11:40+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -14,7 +15,7 @@ msgstr ""
 "X-Generator: Weblate 5.14.3\n"
 
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "疊加層最高影格率"
 
 #, csharp-format
 msgid ""
@@ -130,7 +131,7 @@ msgstr "插件「{0}」在「{1}」找不到 DLL，已將該插件移除。"
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
-msgstr ""
+msgstr "這可以讓 ETS2LA 在多個視窗中進行渲染，讓你可以將疊加層視窗移動到任何螢幕上。"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -156,7 +157,7 @@ msgstr "位於「{0}」的遊戲目前未執行，正在等待玩家資料載入
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
+msgstr[0] "發現 {0} 個手動安裝的函式庫。"
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -172,7 +173,7 @@ msgid ""
 msgstr "需要身分驗證。用戶端必須完成驗證，才能取得要求的回應。"
 
 msgid "Units and Language"
-msgstr ""
+msgstr "單位與語言"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -182,7 +183,7 @@ msgid "SDKs are currently installed."
 msgstr "SDK 目前已安裝。"
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "最大渲染距離"
 
 msgid "Speed Limit Warning"
 msgstr "速限警告"
@@ -211,7 +212,7 @@ msgstr "視覺提示"
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
-msgstr ""
+msgstr "調整用於路徑規劃與視覺化的曲線品質。預設會與遊戲保持一致。"
 
 msgid "View Public Telemetry"
 msgstr "查看公開遙測資料"
@@ -246,7 +247,7 @@ msgstr "手動新增的遊戲路徑「{0}」已找不到遊戲執行檔，將略
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
-msgstr ""
+msgstr "警告：你的系統記憶體少於 16GB。你最多只能選擇「中等」。"
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
@@ -262,7 +263,7 @@ msgstr "AR 渲染時發生錯誤：{0}"
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
+msgstr[0] "總共發現 {0} 個函式庫。"
 
 msgid "Settings"
 msgstr "設定"
@@ -321,7 +322,7 @@ msgstr "無法存取搖桿 {0}。"
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
 "It discards all other information."
-msgstr ""
+msgstr "此設定只會載入遊戲地圖上可見的道路與路口，並捨棄其他所有資訊。"
 
 msgid "Not Connected"
 msgstr "未連接"
@@ -442,7 +443,7 @@ msgid "Failed to read version from '{0}': {1}"
 msgstr "從「{0}」讀取版本資訊失敗：{1}"
 
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "支援多螢幕顯示"
 
 msgid "The server timed out waiting for the request from the client."
 msgstr "伺服器等待用戶端傳送請求時逾時。"
@@ -466,7 +467,7 @@ msgstr "所選目錄不存在。"
 
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
-msgstr ""
+msgstr "當遊戲處於暫停狀態時，ETS2LA 不會顯示 AR 元素。"
 
 msgid "Display"
 msgstr "顯示"
@@ -536,7 +537,7 @@ msgstr "遙測更新時發生錯誤。"
 msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
-msgstr ""
+msgstr "ETS2LA 的顯示語言。翻譯由社群提供，我們無法保證其準確性。"
 
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
@@ -575,7 +576,8 @@ msgstr "下一步/取消"
 msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
-msgstr ""
+msgstr "在大多數情況下，ETS2LA 超過一半的 CPU 使用量都來自疊加層。限制影格率可以降低 "
+"CPU 使用量。"
 
 #, csharp-format
 msgid "Error while checking for updates: {0}"
@@ -585,7 +587,7 @@ msgid "Volume"
 msgstr "音量"
 
 msgid "Limit Overlay Framerate"
-msgstr ""
+msgstr "限制疊加層影格率"
 
 msgid "Pascals"
 msgstr "帕斯卡"
@@ -646,7 +648,7 @@ msgstr "目前速度"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
+msgstr "對齊至 10 {0} 的倍數"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
@@ -672,7 +674,7 @@ msgstr "正在從「{0}」載入地圖資料"
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
-msgstr ""
+msgstr "3D 元素的最大渲染距離。降低此設定可提升較低階硬體的效能。"
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
@@ -682,7 +684,7 @@ msgid "m"
 msgstr "m"
 
 msgid "Curve Quality"
-msgstr ""
+msgstr "曲線品質"
 
 msgid "Initializing GLFW..."
 msgstr "正在初始化 GLFW..."
@@ -756,13 +758,14 @@ msgstr "kg"
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
-msgstr ""
+msgstr "此設定會捨棄重複資訊，同時保留大部分細節物件（例如標誌），並包含所有隱藏道路"
+"與 AI 專用道路。"
 
 msgid "Visualization"
 msgstr "視覺化"
 
 msgid "Display Units"
-msgstr ""
+msgstr "顯示單位"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
@@ -826,17 +829,18 @@ msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Doesn't include any roads / intersections not shown "
 "in the in game map."
-msgstr ""
+msgstr "此設定會捨棄重複資訊，同時保留大部分細節物件（例如標誌），但不包含遊戲地圖上"
+"未顯示的道路或路口。"
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
 msgstr "將 SDK 從「{0}」安裝至「{1}」失敗：{2}"
 
 msgid "Display Language"
-msgstr ""
+msgstr "顯示語言"
 
 msgid "3D Renderer"
-msgstr ""
+msgstr "3D 渲染器"
 
 msgid "m/s"
 msgstr "m/s"
@@ -847,7 +851,7 @@ msgstr "當你大幅超過速限時，ETS2LA 將如何發出警告。"
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
-msgstr ""
+msgstr "目前以 {0} FPS 執行。"
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
@@ -863,7 +867,7 @@ msgstr ""
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
-msgstr ""
+msgstr "ETS2LA 向使用者顯示資訊時所使用的單位。科學單位制與公制僅有些微差異。"
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -877,7 +881,7 @@ msgid "Off"
 msgstr "關閉"
 
 msgid "Render AR Elements"
-msgstr ""
+msgstr "渲染 AR 元素"
 
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
@@ -916,7 +920,7 @@ msgid ""
 msgstr "伺服器能辨識此請求方法，但目標資源不支援該方法。"
 
 msgid "Overlay"
-msgstr ""
+msgstr "疊加層"
 
 msgid "Changelog"
 msgstr "更新日誌"
@@ -1053,6 +1057,8 @@ msgid ""
 "class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
 "expect over 10GB of usage.</span>"
 msgstr ""
+"此設定包含所有可用資料，其中大部分為重複資訊。<span class=\"text-warning\">警"
+"告：「極高」會使用大量記憶體，預期使用量將超過 10GB。</span>"
 
 msgid "You took a wrong turn!"
 msgstr "你走錯路了！"
@@ -1119,7 +1125,7 @@ msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
 msgstr "無法取得搖桿 [gray italic]({0})[/]：{1}"
 
 msgid "Stop Rendering When Game is Paused"
-msgstr ""
+msgstr "遊戲暫停時停止渲染"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -1134,7 +1140,7 @@ msgstr "你確定嗎？"
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
-msgstr ""
+msgstr "變更顯示語言後，需要重新啟動 ETS2LA 才會生效。要現在重新啟動嗎？"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1158,7 +1164,7 @@ msgstr ""
 msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
-msgstr ""
+msgstr "我們可以透過疊加層在遊戲世界中渲染元素。這會額外使用 CPU 和 GPU 資源。"
 
 msgid "Button"
 msgstr "按鈕"
@@ -1216,7 +1222,7 @@ msgstr "按鍵行為"
 msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
-msgstr ""
+msgstr "警告：你的系統記憶體少於 20GB。你最多只能選擇「高」。"
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
@@ -1257,7 +1263,7 @@ msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 為 {0} 的插件最新版本安裝失敗。"
 
 msgid "Simplified Graphics"
-msgstr ""
+msgstr "簡化圖形"
 
 msgid "km/h"
 msgstr "km/h"
@@ -1358,7 +1364,7 @@ msgstr "調整音訊輸出的音量。"
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
-msgstr ""
+msgstr "使用簡化圖形可提升較低階硬體的效能，或解決著色器等進階功能不受支援的情況。"
 
 msgid "The plugin was enabled successfully."
 msgstr "插件已成功啟用。"
