@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.FileProviders;
 
 namespace ETS2LA.Translations;
 
@@ -19,19 +20,24 @@ public static class Languages
         new Language { EnglishName = "Chinese (Traditional)", NativeName = "繁體中文", Code = "zh_Hant" },
         new Language { EnglishName = "Slovak", NativeName = "Slovenčina", Code = "sk" },
         new Language { EnglishName = "Finnish", NativeName = "Suomi", Code = "fi" },
-        new Language { EnglishName = "Japanese", NativeName = "日本語", Code = "ja" }
-    };
+        new Language { EnglishName = "Japanese", NativeName = "日本語", Code = "ja" },
+        new Language { EnglishName = "German", NativeName = "Deutsch", Code = "de" },
+        new Language { EnglishName = "Korean", NativeName = "한국어", Code = "ko" },
+        new Language { EnglishName = "Hungarian", NativeName = "Magyar", Code = "hu" },
+    }.OrderBy(l => l.EnglishName).ToList();
 }
 
 
 public static class T
 {
     private static IStringLocalizer? _localizer;
+    private static IServiceProvider? _serviceProvider;
 
     public static void Initialize(IServiceProvider provider)
     {
         var factory = provider.GetRequiredService<IStringLocalizerFactory>();
         _localizer = factory.Create("Resources", "ETS2LA.Translations");
+        _serviceProvider = provider;
     }
 
     /// <summary>
@@ -58,5 +64,44 @@ public static class T
 
         // OrchardCore handles plural indexing automatically
         return _localizer[singular, arguments]; 
+    }
+
+    /// <summary>
+    ///  Gets the credits for a specific language code.
+    /// </summary>
+    public static List<string> LanguageCredits(string languageCode)
+    {
+        // Credits are stored in the first comment lines of all translation files. For example:
+        // # Tumppi066 <tumppi066@ets2la.com>, 2026, 2025.
+        // # Dylan <dylan@ets2la.com>, 2026.
+        var assembly = typeof(T).Assembly;
+        var resourceName = $"ETS2LA.Translations.Localization.{languageCode}.po";
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+        if (stream == null) return new List<string> { "No credits available." };
+        using var reader = new StreamReader(stream);
+        var credits = new List<string>();
+        while (!reader.EndOfStream)
+        {
+            var line = reader.ReadLine();
+            if (line == null) break;
+            if (line.StartsWith("#"))
+            {
+                var credit = line.Substring(1).Trim();
+                if (!string.IsNullOrEmpty(credit))
+                {
+                    var emailIndex = credit.IndexOf('<') - 1; // Removing the space before the email
+                    var emailEndIndex = credit.IndexOf('>');
+                    if (emailIndex >= 0 && emailEndIndex > emailIndex)
+                        credit = credit.Remove(emailIndex, emailEndIndex - emailIndex + 1).Trim();
+                    
+                    credits.Add(credit);
+                }
+            }
+            else
+            {
+                break; // Stop reading after the first non-comment line
+            }
+        }
+        return credits;
     }
 }

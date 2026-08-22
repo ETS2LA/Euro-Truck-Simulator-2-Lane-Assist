@@ -173,11 +173,22 @@
              Options="@displayUnitOptions"
              SelectedIndex="@CurrentUnits"
              SelectedIndexChanged="OnDisplayUnitChanged"/>
-    <Dropdown Title=@(_("Display Language"))
-              Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy."))
-              Options="@displayLanguageOptions"
-              SelectedIndex="@CurrentLanguage"
-              SelectedIndexChanged="OnDisplayLanguageChanged"/>
+    <div class="flex flex-col gap-2 w-full">
+        <Dropdown Title=@(_("Display Language"))
+                Description=@(_("The language ETS2LA will be displayed at. Translations are provided by the community, we cannot guarantee their accuracy."))
+                Options="@displayLanguageOptions"
+                SelectedIndex="@CurrentLanguage"
+                SelectedIndexChanged="OnDisplayLanguageChanged"/>
+        <div class="flex flex-col gap-0">
+            <p class="text-sm text-description">@_("Translated by:")</p>
+            @foreach (var credit in LanguageCredits(SupportedLanguages[CurrentLanguage].Code))
+            {
+                <p class="text-sm text-description">
+                    @credit
+                </p>
+            }
+        </div>
+    </div>
     
     <Separator Label=@(_("Window")) Class="mt-8" />
     <Slider Title=@(_("Window Zoom"))

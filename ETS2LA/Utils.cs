@@ -166,14 +166,10 @@ static class Utils
 
         IServiceProvider serviceProvider = services.BuildServiceProvider();
 
-        // 2. Initialize static T helper
         T.Initialize(serviceProvider);
 
-        // 3. Set application culture from saved settings
         var stateSettings = StateSettingsHandler.Current.GetSettings();
         var language = stateSettings.DisplayLanguage;
-        
-        // Fall back to English ("en") if language or Code is null/empty
         string cultureCode = string.IsNullOrWhiteSpace(language?.Code) ? "en" : language.Code;
         Logger.Info($"Setting application culture to: {cultureCode}");
         
