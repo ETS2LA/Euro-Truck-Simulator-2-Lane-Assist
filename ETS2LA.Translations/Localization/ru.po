@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 23:07:20+0300\n"
-"PO-Revision-Date: 2026-08-22 20:59+0000\n"
+"PO-Revision-Date: 2026-08-23 04:24+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
 "\n"
@@ -1096,7 +1096,7 @@ msgid "Failed to refresh joysticks: {0}"
 msgstr "Не удалось обновить список джойстиков: {0}"
 
 msgid "Show Fewer Logs"
-msgstr ""
+msgstr "Показать меньше записей журнала"
 
 msgid "Render AR Elements"
 msgstr "Отображать элементы AR"
@@ -1126,7 +1126,7 @@ msgstr "Получен ввод от неизвестного джойстика
 
 #, csharp-format
 msgid "Download progress: {0}%"
-msgstr ""
+msgstr "Загрузка: {0}%"
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
@@ -1217,7 +1217,7 @@ msgstr ""
 "любые подтверждения."
 
 msgid "Full"
-msgstr ""
+msgstr "Полный"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
@@ -1309,7 +1309,7 @@ msgstr ""
 "использует значительный объём ОЗУ — ожидайте более 10 ГБ.</span>"
 
 msgid "Lane Keep"
-msgstr ""
+msgstr "Удержания в полосе"
 
 msgid "You took a wrong turn!"
 msgstr "Вы свернули не туда!"
@@ -1358,7 +1358,7 @@ msgid "feet"
 msgstr "футы"
 
 msgid "Desired Longitudinal Level: "
-msgstr ""
+msgstr "Целевой уровень продольного управления: "
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
@@ -1402,7 +1402,7 @@ msgstr ""
 "ETS2LA. Перезапустить сейчас?"
 
 msgid "Clear Console"
-msgstr ""
+msgstr "Очистить консоль"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1552,7 +1552,7 @@ msgid "Near"
 msgstr "Близко"
 
 msgid "Scientific"
-msgstr ""
+msgstr "Научная система"
 
 msgid "Early"
 msgstr "Рано"
@@ -1585,10 +1585,10 @@ msgstr ""
 
 #, csharp-format
 msgid "A new update is available: {0}"
-msgstr ""
+msgstr "Доступно новое обновление: {0}"
 
 msgid "Downloading Update"
-msgstr ""
+msgstr "Загрузка обновления"
 
 #, csharp-format
 msgid "found {0} road"
@@ -1598,7 +1598,7 @@ msgstr[1] "Найдено {0} дороги"
 msgstr[2] "Найдено {0} дорог"
 
 msgid "You are running the latest version."
-msgstr ""
+msgstr "У вас установлена последняя версия."
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
@@ -1630,7 +1630,7 @@ msgid "Deleted '{0}'"
 msgstr "Удалено '{0}'"
 
 msgid "Console"
-msgstr ""
+msgstr "Консоль"
 
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
@@ -1647,7 +1647,7 @@ msgid "Update to {0}"
 msgstr "Обновить до {0}"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Доступно обновление"
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -1660,7 +1660,7 @@ msgid "Plugin Installer"
 msgstr "Установщик плагинов"
 
 msgid "No Update Available"
-msgstr ""
+msgstr "Обновлений нет"
 
 msgid "Adjust the volume of the audio output."
 msgstr "Настройте громкость аудиовыхода."
@@ -1677,7 +1677,7 @@ msgstr ""
 "поддерживаются."
 
 msgid "Unknown Version"
-msgstr ""
+msgstr "Неизвестная версия"
 
 msgid "The plugin was enabled successfully."
 msgstr "Плагин успешно включён."
@@ -1690,7 +1690,7 @@ msgstr "Ошибка в цикле обновления припаркованн
 
 #, csharp-format
 msgid "Current Version: {0}"
-msgstr ""
+msgstr "Текущая версия: {0}"
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -1784,7 +1784,7 @@ msgid "gallons"
 msgstr "галлоны"
 
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Проверка обновлений..."
 
 msgid "Following Distance"
 msgstr "Дистанция следования"
