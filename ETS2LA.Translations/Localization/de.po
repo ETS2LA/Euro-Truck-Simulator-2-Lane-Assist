@@ -3,19 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 13:37:26+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-22 12:25+0000\n"
+"Last-Translator: ABOY <aboy@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:177
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "Maximale Bildwiederholrate des Overlays"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
@@ -23,21 +24,23 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"Version {0} von dem Plugin mit ID {1} ist nicht kompatibel mit der aktuellen "
+"Version der Anwendung oder Betriebssystem."
 
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
 msgid "bar"
-msgstr ""
+msgstr "bar"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "Erfolgreich installierte Plugins {0} ( {1}, {2})"
 
 #: ../../../ETS2LA/Program.cs:54
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "Ignorierte D-Bus-Ausnahme: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
