@@ -4,10 +4,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 19:15:55+0300\n"
-"PO-Revision-Date: 2026-08-22 16:19+0000\n"
-"Last-Translator: Max <max@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
-">\n"
+"PO-Revision-Date: 2026-08-22 16:29+0000\n"
+"Last-Translator: ABOY <aboy@ets2la.com>\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,9 +53,10 @@ msgid ""
 "h."
 msgstr ""
 
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
+"Steuerung mit der ID '{0}' nicht gefunden zum Aktualisieren von Bindungen."
 
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
@@ -106,7 +107,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "Verbundener Joystick: [bold]{0}[/] [gray italic]({1})[/]"
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -419,7 +420,7 @@ msgid "Late"
 msgstr "Spät"
 
 msgid "Force Map Load"
-msgstr ""
+msgstr "Karte erzwingen laden"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
@@ -498,7 +499,7 @@ msgstr "Verbundener Joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 #, csharp-format
 msgid "Error while checking for updates: {0}"
-msgstr ""
+msgstr "Fehler beim Prüfen auf Updates: {0}"
 
 msgid "Undetermined"
 msgstr ""
@@ -516,6 +517,8 @@ msgstr ""
 
 msgid "Update check skipped, using already cached result."
 msgstr ""
+"Aktuelligkeitsprüfung übersprungen, verwendet bereits zwischengespeicherte "
+"Ergebnisse."
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -654,8 +657,9 @@ msgid_plural "Found {0} prefabs"
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
 msgid "Pascals"
-msgstr ""
+msgstr "Pascals"
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
@@ -675,7 +679,7 @@ msgid "miles per hour"
 msgstr ""
 
 msgid "Limit Overlay Framerate"
-msgstr ""
+msgstr "Overlay Bildwiederholfrequenz begrenzen"
 
 msgid "Wiki / FAQ"
 msgstr "Wiki / FAQ"
@@ -721,8 +725,9 @@ msgstr ""
 msgid "Search for plugins..."
 msgstr ""
 
+#, fuzzy
 msgid "Assists"
-msgstr ""
+msgstr "Hilfsfunktionen"
 
 msgid "mph"
 msgstr ""
@@ -765,6 +770,9 @@ msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
+"In den meisten Fällen wird mehr als die Hälfte der CPU-Auslastung von ETS2LA "
+"durch die Überlagerung verbraucht. Das Begrenzen der Bildrate reduziert die "
+"CPU-Auslastung."
 
 msgid ""
 "This setting includes all available data, most of which is redundant. <span "
@@ -792,7 +800,7 @@ msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
 msgid "No plugins found."
-msgstr ""
+msgstr "Keine Plugins gefunden."
 
 msgid ""
 "When pressing the SET keybind, what should ETS2LA set as the current cruise "
@@ -844,7 +852,7 @@ msgstr[0] "{0} gefundener Punkt"
 msgstr[1] "{0} gefundene Punkte"
 
 msgid "Volume"
-msgstr ""
+msgstr "Lautstärke"
 
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
@@ -876,8 +884,9 @@ msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "{0} Plugin von {1} abgerufen"
 msgstr[1] "{0} Plugins von {1} abgerufen"
 
+#, fuzzy
 msgid "Error in telemetry update loop."
-msgstr ""
+msgstr "Fehler im Telemetrie-Aktualisierungsloop."
 
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
@@ -898,7 +907,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Disabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "Plugin deaktiviert: [bold]{0}[/]"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -924,7 +933,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to initialize SDL3 controls backend: {0}"
-msgstr ""
+msgstr "Fehler beim Initialisieren des SDL3-Backend für Steuerelemente: {0}"
 
 msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
@@ -945,7 +954,7 @@ msgstr "Liter"
 
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
-msgstr ""
+msgstr "Keine gültigen Versionen für das Plugin mit der ID {0} gefunden."
 
 msgid "Binding thread started with no control to bind."
 msgstr "Zuordnungs-Thread gestartet, ohne zuordnebare Steuerung."
@@ -1097,9 +1106,9 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr "Kilometer pro Stunde"
 
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Control with ID '{0}' not found for event unsubscription."
-msgstr ""
+msgstr "Steuerung mit der ID '{0}' nicht gefunden um das Event zu beenden."
 
 #, csharp-format
 msgid "Binding {0}"
@@ -1243,10 +1252,14 @@ msgid ""
 "Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
 "the next startup: {1}"
 msgstr ""
+"Fehler beim Bereinigen des Plugin-Schattenverzeichnisses [gray]{0}[/gray], "
+"es wird beim nächsten Start entfernt: {1}"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
 msgstr ""
+"Das Plugin {0} kann nicht aktiviert werden, da die Abhängigkeit {1} "
+"fehlgeschlagen ist."
 
 #, csharp-format
 msgid "Discovered {0} manually installed library"
@@ -1503,11 +1516,13 @@ msgstr ""
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
 msgstr ""
 
+#, fuzzy
 msgid "Next/Cancel"
-msgstr ""
+msgstr "Weiter/Abbrechen."
 
+#, fuzzy
 msgid "meters"
-msgstr ""
+msgstr "Meter"
 
 msgid "°C"
 msgstr "°C"
@@ -1536,11 +1551,13 @@ msgstr ""
 
 #, csharp-format
 msgid "Playing sound: {0}"
-msgstr ""
+msgstr "Wiedergabe von Sound: {0}"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr ""
+"Das Plugin {0} kann nicht aktiviert werden, da die Abhängigkeit {1} nicht "
+"gefunden wurde."
 
 msgid "Keybind Behaviour"
 msgstr ""
@@ -1563,7 +1580,7 @@ msgstr "Plugin laden beendet"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
-msgstr ""
+msgstr "Fehler beim Installieren der Abhängigkeit {0} für das Plugin {1}."
 
 msgid "Error in semaphore update loop."
 msgstr ""
@@ -1602,6 +1619,8 @@ msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
+"Die Sprache, in der ETS2LA angezeigt wird. Übersetzungen werden von der "
+"Community bereitgestellt, wir können deren Genauigkeit nicht garantieren."
 
 msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
@@ -1613,7 +1632,7 @@ msgstr "Interaktionsmodus"
 
 #, csharp-format
 msgid "Adding mod: {0}"
-msgstr ""
+msgstr "Füge Mod hinzu: {0}"
 
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
