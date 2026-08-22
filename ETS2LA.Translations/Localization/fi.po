@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 23:07:20+0300\n"
-"PO-Revision-Date: 2026-08-22 11:40+0000\n"
+"PO-Revision-Date: 2026-08-22 20:54+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
-">\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgid "bar"
 msgstr "bar"
 
 msgid "Translated by:"
-msgstr ""
+msgstr "Kääntäjänä toimi:"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -55,7 +55,7 @@ msgid "Plugin with ID {0} not found."
 msgstr "Lisäosaa jonka ID {0} ei löydetty."
 
 msgid "Pause Steering Assist: "
-msgstr ""
+msgstr "Ohjausavustimet pysäytetty: "
 
 msgid "Plugins"
 msgstr "Lisäosat"
@@ -67,7 +67,7 @@ msgid "Collision Avoidance"
 msgstr "Törmäyksen Esto"
 
 msgid "Starting download..."
-msgstr ""
+msgstr "Aloitetaan lataus..."
 
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
@@ -80,7 +80,7 @@ msgid "Interaction Mode"
 msgstr "Muokkaustila"
 
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "Asenna päivitys ja käynnistä uudelleen"
 
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
@@ -93,7 +93,7 @@ msgstr[0] "Löydettiin {0} manuaalisesti asennettu lisäosa."
 msgstr[1] "Löydettiin {0} manuaalisesti asennettua lisäosaa."
 
 msgid "SDK Uninstalled"
-msgstr ""
+msgstr "SDK Poistettu"
 
 msgid "Restarting ETS2LA..."
 msgstr "Käynnistetään uudelleen..."
@@ -115,7 +115,7 @@ msgid "Data Parsing"
 msgstr "Karttadatan Lataaminen"
 
 msgid "Desired Speed: "
-msgstr ""
+msgstr "Tavoitenopeus: "
 
 msgid "K"
 msgstr "K"
@@ -131,7 +131,7 @@ msgstr ""
 "korkealla todennäköisyydellä kolariin."
 
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "Muuttumaton"
 
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
@@ -163,10 +163,10 @@ msgstr ""
 "peitekuvan ikkunoita vapaasti mihin vain."
 
 msgid "Display Units: "
-msgstr ""
+msgstr "Yksiköt: "
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "Näkömallien kamerat"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -208,7 +208,7 @@ msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Lisäosan {0} kaikkia vaatimuksia ei ole ladattu."
 
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Adaptiivinen vakionopeudensäädin"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
@@ -234,7 +234,7 @@ msgid "Speed Limit Warning"
 msgstr "Nopeusrajoituksen varoitus"
 
 msgid "Imperial"
-msgstr ""
+msgstr "Brittiläinen"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -275,7 +275,7 @@ msgstr "Pakotukset"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "Viimeisin versio: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
@@ -288,7 +288,7 @@ msgid "Failed to add game"
 msgstr "Virhe pelin lisäämisessä"
 
 msgid "Show More Logs"
-msgstr ""
+msgstr "Näytä lisää lokeja"
 
 msgid "Warning: Insufficient RAM"
 msgstr "Varoitus: Muistu (RAM) ei ole riittävä"
@@ -336,14 +336,14 @@ msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Ladattiin lisäosa [gray]{0}[/] paikasta [gray]{1}[/]."
 
 msgid "Metric"
-msgstr ""
+msgstr "Metrinen"
 
 msgid "Medium"
 msgstr "Keskitaso"
 
 #, csharp-format
 msgid "{0} m/s ({1} in {2})"
-msgstr ""
+msgstr "{0} m/s ({1} kun {2})"
 
 msgid "Game added"
 msgstr "Peli lisätty"
@@ -411,6 +411,8 @@ msgid ""
 "Press a button or move an axis on your input device to bind it to this "
 "control. This will time out in {0} seconds."
 msgstr ""
+"Paina nappia tai liikuta akselia laitteessasi. Aikakatkaisu määritykselle on "
+"{0} sekunttia."
 
 #, csharp-format
 msgid "Update to {0} from {1}"
@@ -421,7 +423,7 @@ msgid "Plugin with ID {0} not found in available plugins."
 msgstr "Lisäosaa {0} ei löydetty."
 
 msgid "State Info"
-msgstr ""
+msgstr "Sovelluksen Tila"
 
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
@@ -442,7 +444,7 @@ msgid "Failed to unload plugin load context: {0}"
 msgstr "Lisäosan latauskontekstin poisto epäonnistui: {0}"
 
 msgid "Pause Longitudinal Assist: "
-msgstr ""
+msgstr "Nopeusavustimet pysäytetty: "
 
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning "
@@ -455,7 +457,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
-msgstr ""
+msgstr "Kamera {0} ({1}x{2})"
 
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
@@ -534,7 +536,7 @@ msgid "Error rendering context menu for window {0}: {1}"
 msgstr "Virhe ikkunan {0} valikon renderöinnissä: {1}"
 
 msgid "Unknown Control"
-msgstr ""
+msgstr "Tuntematon määritys"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
@@ -615,7 +617,7 @@ msgstr ""
 "Ohjainmääritystä jonka ID {0}, ei löytynyt määrityksen muuttamista varten."
 
 msgid "Binding Successful"
-msgstr ""
+msgstr "Määrittäminen onnistui"
 
 msgid "meters"
 msgstr "metriä"
@@ -668,7 +670,7 @@ msgstr ""
 "Lisäosan {0} käynnistys estetty, sillä sen edellytystä {1} ei löydetty."
 
 msgid "Emergency Braking"
-msgstr ""
+msgstr "Hätäjarrutus"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
@@ -714,7 +716,7 @@ msgid "Limit Overlay Framerate"
 msgstr "Rajoita peitekuvan kuvataajuutta"
 
 msgid "None"
-msgstr ""
+msgstr "Pois"
 
 msgid "Pascals"
 msgstr "Paskalia"
@@ -724,7 +726,7 @@ msgid "Failed enable {0}: {1}"
 msgstr "Virhe käynnistäessä lisäosaa {0}: {1}"
 
 msgid "SDK Installed"
-msgstr ""
+msgstr "SDK asennettu"
 
 msgid "Experiments"
 msgstr "Kokeilut"
@@ -771,7 +773,7 @@ msgstr ""
 "ETS2LA:n ikkunan jotta se pysyy päällä, mutta pois tieltä."
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "SDK:n asennus epäonnistui"
 
 msgid "L"
 msgstr "L"
@@ -823,7 +825,7 @@ msgid "m"
 msgstr "m"
 
 msgid "Binding Timed Out"
-msgstr ""
+msgstr "Määrittäminen aikakatkaistiin"
 
 msgid "Curve Quality"
 msgstr "Mutkien laatu"
@@ -839,7 +841,7 @@ msgid "Failed to load map for installation at '{0}'"
 msgstr "Karttadatan lataus epäonnistui pelille paikassa {0}"
 
 msgid "Desired Steering Level: "
-msgstr ""
+msgstr "Ohjaustaso: "
 
 msgid "Close"
 msgstr "Sulje"
@@ -848,17 +850,17 @@ msgid "kilograms"
 msgstr "kilogrammaa"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "Käännetään muutoslokia..."
 
 msgid "No release notes available."
-msgstr ""
+msgstr "Muutoslokia ei saatavilla."
 
 msgid "Unbound"
 msgstr "Määrittelemätön"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr ""
+msgstr "Asennettiin SDK versio {0} onnistuneesti paikkaan {1}"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
@@ -867,6 +869,7 @@ msgstr "Kopioitiin tiedosto {0} paikkaan {1}"
 msgid ""
 "This might take a while depending on your internet connection and the source."
 msgstr ""
+"Tässä voi kestää hetki riippue verkkosi- ja päivityspalvelimen nopeudesta."
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
@@ -878,7 +881,7 @@ msgstr "Luotiin lisäosan kansio: [gray]{0}[/]"
 
 #, csharp-format
 msgid "Binding {0}"
-msgstr ""
+msgstr "Määritetään {0}"
 
 msgid "Check For Updates"
 msgstr "Tarkista Päivitykset"
@@ -917,7 +920,7 @@ msgid "Add Game Manually"
 msgstr "Lisää muu peli"
 
 msgid "Demo Window"
-msgstr ""
+msgstr "Demoikkuna"
 
 msgid "Contact Us"
 msgstr "Yhteydenotto"
@@ -996,7 +999,7 @@ msgid ""
 msgstr "Valittua päivityspalvelinta {0} ei löydy, palataan oletuspalvelimeen."
 
 msgid "Window Zoom"
-msgstr ""
+msgstr "Ikkunan suurennus"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
@@ -1006,10 +1009,12 @@ msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
 "your monitor's DPI settings."
 msgstr ""
+"ETS2LA:n ikkunan suurennusaste. Jos teksti ja muut grafiikat ovat mielestäsi "
+"liian pieniä, voit nostaa tätä arvoa."
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "Ohjainmäärityksen {0} ({1}) määritys aikakatkaistiin."
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
@@ -1054,7 +1059,7 @@ msgstr ""
 "ongelmia joissa pelilokisi (game.log.txt) ei ole oletetussa paikassa."
 
 msgid "Window"
-msgstr ""
+msgstr "Ikkuna"
 
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
@@ -1072,7 +1077,7 @@ msgid "Failed to refresh joysticks: {0}"
 msgstr "Laitteiden päivitys epäonnistui: {0}"
 
 msgid "Show Fewer Logs"
-msgstr ""
+msgstr "Näytä vähemmän lokeja"
 
 msgid "Render AR Elements"
 msgstr "Renderöi AR (3D) elementit"
@@ -1102,7 +1107,7 @@ msgstr "Laitteelta {0} saatiin vastaus."
 
 #, csharp-format
 msgid "Download progress: {0}%"
-msgstr ""
+msgstr "Latauksen eteneminen: {0}%"
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
@@ -1116,7 +1121,7 @@ msgstr "Äänimerkki"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
-msgstr ""
+msgstr "SDK:n version {0} poistaminen paikasta {1} epäonnistui: {2}"
 
 msgid "Networking"
 msgstr "Verkko"
@@ -1193,7 +1198,7 @@ msgstr ""
 "painikkeena vahvistuksiin."
 
 msgid "Full"
-msgstr ""
+msgstr "Täysi"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
@@ -1218,7 +1223,7 @@ msgid "Overlay Interaction"
 msgstr "Peitekuvan kanssa interaktio"
 
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "Tuntematon ohjainmäärityksen ID"
 
 #, csharp-format
 msgid "Error playing audio file {0}: {1}"
@@ -1287,7 +1292,7 @@ msgstr ""
 "käyttää järjettömän määrän muistia, odota reilusti yli 10GB käyttöä.</span>"
 
 msgid "Lane Keep"
-msgstr ""
+msgstr "Kaistallapito"
 
 msgid "You took a wrong turn!"
 msgstr "Käännyit väärään suuntaan!"
@@ -1337,7 +1342,7 @@ msgid "feet"
 msgstr "jalkaa"
 
 msgid "Desired Longitudinal Level: "
-msgstr ""
+msgstr "Nopeudensäätelyn taso: "
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
@@ -1381,7 +1386,7 @@ msgstr ""
 "uudelleen nyt?"
 
 msgid "Clear Console"
-msgstr ""
+msgstr "Tyhjennä"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1528,7 +1533,7 @@ msgid "Near"
 msgstr "Lähellä"
 
 msgid "Scientific"
-msgstr ""
+msgstr "Tieteellinen"
 
 msgid "Early"
 msgstr "Aikaisin"
@@ -1561,10 +1566,10 @@ msgstr ""
 
 #, csharp-format
 msgid "A new update is available: {0}"
-msgstr ""
+msgstr "Uusi päivitys on saatavilla: {0}"
 
 msgid "Downloading Update"
-msgstr ""
+msgstr "Ladataan päivitystä"
 
 #, csharp-format
 msgid "found {0} road"
@@ -1573,7 +1578,7 @@ msgstr[0] "{0} tie"
 msgstr[1] "{0} tietä"
 
 msgid "You are running the latest version."
-msgstr ""
+msgstr "Sinulla on uusin versio."
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
@@ -1605,7 +1610,7 @@ msgid "Deleted '{0}'"
 msgstr "Poistettiin {0}"
 
 msgid "Console"
-msgstr ""
+msgstr "Konsoli"
 
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
@@ -1622,7 +1627,7 @@ msgid "Update to {0}"
 msgstr "Päivitä versioon {0}"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Päivitys saatavilla"
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -1635,13 +1640,13 @@ msgid "Plugin Installer"
 msgstr "Lisäosien asentaja"
 
 msgid "No Update Available"
-msgstr ""
+msgstr "Päivitystä ei ole saatavilla"
 
 msgid "Adjust the volume of the audio output."
 msgstr "Säädä äänenvoimakkuutta."
 
 msgid "SDK Uninstallation Failed"
-msgstr ""
+msgstr "SDK:n poistaminen epäonnistui"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
@@ -1652,7 +1657,7 @@ msgstr ""
 "OpenGL \"shaderit\" eivät ole saatavilla."
 
 msgid "Unknown Version"
-msgstr ""
+msgstr "Tuntematon versio"
 
 msgid "The plugin was enabled successfully."
 msgstr "Lisäosa käynnistetiin onnistuneesti."
@@ -1665,7 +1670,7 @@ msgstr "Virhe pysäköityjen ajoneuvojen päivityksessä."
 
 #, csharp-format
 msgid "Current Version: {0}"
-msgstr ""
+msgstr "Nykyinen versio: {0}"
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -1707,7 +1712,7 @@ msgstr "Virhe tiesignaalien päivityksessä."
 
 #, csharp-format
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
+msgstr "Poistettiin SDK versio {0} onnistuneesti paikasta {1}"
 
 msgid "miles per hour"
 msgstr "mailia tunnissa"
@@ -1752,7 +1757,7 @@ msgstr "Yleiset"
 
 #, csharp-format
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "SDK:n version {0} asentaminen paikkaan {1} epäonnistui: {2}"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -1762,7 +1767,7 @@ msgid "gallons"
 msgstr "gallonaa"
 
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Tarkastetaan päivityksiä..."
 
 msgid "Following Distance"
 msgstr "Seuraamisetäisyys"
