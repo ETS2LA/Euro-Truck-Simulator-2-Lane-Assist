@@ -1,6 +1,9 @@
 using Hexa.NET.ImGui;
+
 using ETS2LA.Controls;
 using ETS2LA.State;
+using static ETS2LA.Translations.T;
+
 using System.Numerics;
 
 namespace ETS2LA.Overlay.Window;
@@ -29,7 +32,7 @@ class StateWindow : InternalWindow
     {
         Definition = new WindowDefinition
         {
-            Title = "State Info",
+            Title = _("State Info"),
             Flags = ImGuiWindowFlags.AlwaysAutoResize,
         };
 
@@ -37,21 +40,21 @@ class StateWindow : InternalWindow
 
         Render = () =>
         {
-            DescriptionText("Desired Steering Level: "); ImGui.SameLine(); Text(ApplicationState.Current.DesiredSteeringLevel.ToString());
+            DescriptionText(_("Desired Steering Level: ")); ImGui.SameLine(); Text(ApplicationState.Current.SteeringLevelTranslation[ApplicationState.Current.DesiredSteeringLevel]);
 
-            DescriptionText("Pause Steering Assist: "); ImGui.SameLine(); ColoredBoolean(ApplicationState.Current.PauseSteeringAssist, invert: true);
+            DescriptionText(_("Pause Steering Assist: ")); ImGui.SameLine(); ColoredBoolean(ApplicationState.Current.PauseSteeringAssist, invert: true);
 
-            DescriptionText("Desired Longitudinal Level: "); ImGui.SameLine(); Text(ApplicationState.Current.DesiredLongitudinalLevel.ToString());
+            DescriptionText(_("Desired Longitudinal Level: ")); ImGui.SameLine(); Text(ApplicationState.Current.LongitudinalLevelTranslation[ApplicationState.Current.DesiredLongitudinalLevel]);
 
-            DescriptionText("Pause Longitudinal Assist: "); ImGui.SameLine(); ColoredBoolean(ApplicationState.Current.PauseLongitudinalAssist, invert: true);
+            DescriptionText(_("Pause Longitudinal Assist: ")); ImGui.SameLine(); ColoredBoolean(ApplicationState.Current.PauseLongitudinalAssist, invert: true);
 
             float speed = ApplicationState.Current.DesiredSpeed;
             Units displayUnits = ApplicationState.Current.DisplayUnits;
             float speedInUnits = UnitConversions.FromScientificUnits(UnitType.Speed, speed, displayUnits);
             string unitAbbreviation = UnitConversions.GetUnitAbbreviation(UnitType.Speed, displayUnits);
-            DescriptionText("Desired Speed: "); ImGui.SameLine(); Text($"{speed:F1} m/s ({speedInUnits:F1} in {unitAbbreviation})");
+            DescriptionText(_("Desired Speed: ")); ImGui.SameLine(); Text(_("{0} m/s ({1} in {2})", speed.ToString("F1"), speedInUnits.ToString("F1"), unitAbbreviation));
 
-            DescriptionText("Display Units: "); ImGui.SameLine(); Text(ApplicationState.Current.DisplayUnits.ToString());
+            DescriptionText(_("Display Units: ")); ImGui.SameLine(); Text(ApplicationState.Current.DisplayUnitsTranslation[ApplicationState.Current.DisplayUnits]);
         };
     }
 }

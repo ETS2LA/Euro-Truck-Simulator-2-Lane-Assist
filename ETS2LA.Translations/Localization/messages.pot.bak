@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-22 19:14:28+0300\n"
-"PO-Revision-Date: 2026-08-22 19:14:28+0300\n"
+"POT-Creation-Date: 2026-08-22 23:07:04+0300\n"
+"PO-Revision-Date: 2026-08-22 23:07:05+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,15 +16,15 @@ msgid ""
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:181
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:183
 msgid "Unknown Control ID"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:4
-#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
+#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 msgid "Sorry"
 msgstr ""
 
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:57
+#: ../../../ETS2LA.Overlay/Overlay.cs:59
 msgid "Overlay Interaction"
 msgstr ""
 
@@ -55,8 +55,8 @@ msgid ""
 "visual modifier shown in the UI, this will increase the target speed by 1 km/h."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:166
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:187
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:166
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
@@ -85,6 +85,11 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
 
+#: ../../../ETS2LA.State/Program.cs:117
+#: ../../../ETS2LA.State/Program.cs:136
+msgid "None"
+msgstr ""
+
 #: ../../../ETS2LA.State/Units.cs:287
 #: ../../../ETS2LA.State/Units.cs:291
 msgid "kg"
@@ -100,8 +105,8 @@ msgstr ""
 msgid "Error loading map data from '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
+#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 msgid "Medium"
 msgstr ""
 
@@ -119,7 +124,7 @@ msgstr ""
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:200
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:202
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
 msgstr ""
@@ -148,13 +153,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:161
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:165
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:166
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:24
 msgid "Dashboard"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:49
+msgid "Update Available"
 msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:92
@@ -175,6 +184,10 @@ msgstr ""
 msgid "Window Zoom"
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/Console.cs:50
+msgid "Show More Logs"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
@@ -193,8 +206,8 @@ msgstr ""
 msgid "Initializing..."
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:413
-#: ../../../ETS2LA.Overlay/Overlay.cs:422
+#: ../../../ETS2LA.Overlay/Overlay.cs:414
+#: ../../../ETS2LA.Overlay/Overlay.cs:423
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
 msgstr ""
@@ -222,6 +235,10 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/Console.cs:54
+msgid "Show Fewer Logs"
+msgstr ""
+
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:80
 #, csharp-format
 msgid "Error while downloading update: {0}"
@@ -240,13 +257,17 @@ msgstr ""
 msgid "Chime"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:571
+#: ../../../ETS2LA.Overlay/Overlay.cs:593
 msgid "Failed to create GLFW window"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:139
+msgid "Install Update and Restart"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:120
@@ -264,7 +285,11 @@ msgstr ""
 msgid "Successfully uninstalled plugin with ID {0}."
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:313
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:82
+msgid "No Update Available"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Overlay.cs:314
 msgid "Performance Overlay"
 msgstr ""
 
@@ -279,8 +304,8 @@ msgstr ""
 msgid "Update to {0}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:181
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:202
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:181
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
@@ -322,6 +347,15 @@ msgstr ""
 msgid "The selected file does not exist."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:132
+#, csharp-format
+msgid "Latest Version: {0}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:62
+msgid "Translating release notes..."
+msgstr ""
+
 #: ../../../ETS2LA.Game/Program.cs:222
 #: ../../../ETS2LA.Game/Program.cs:252
 #, csharp-format
@@ -334,6 +368,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:222
 msgid "Render AR Elements"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:132
+msgid "Unchanged / Unavailable"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:190
@@ -373,14 +411,14 @@ msgstr ""
 msgid "Backend shutdown complete."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:142
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:157
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:167
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:157
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
@@ -394,7 +432,11 @@ msgstr ""
 msgid "Copied '{0}' to '{1}'"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:298
+#: ../../../ETS2LA.Overlay/Window/Console.cs:46
+msgid "Clear Console"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Overlay.cs:299
 msgid "show"
 msgstr ""
 
@@ -402,7 +444,7 @@ msgstr ""
 msgid "Select core.scs"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:507
+#: ../../../ETS2LA.Overlay/Overlay.cs:529
 msgid "Failed to init ImGui Impl OpenGL3"
 msgstr ""
 
@@ -414,7 +456,7 @@ msgstr ""
 msgid "You took a wrong turn!"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:544
+#: ../../../ETS2LA.Overlay/Overlay.cs:566
 msgid "Initializing GLFW..."
 msgstr ""
 
@@ -499,7 +541,7 @@ msgstr ""
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:136
+#: ../../../ETS2LA.Overlay/Overlay.cs:137
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 
@@ -507,7 +549,7 @@ msgstr ""
 msgid "Speed Limit Warning"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:229
+#: ../../../ETS2LA.State/Program.cs:249
 msgid "Speed limit changed"
 msgstr ""
 
@@ -518,7 +560,7 @@ msgid_plural "Discovered {0} plugins in total."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:499
+#: ../../../ETS2LA.Overlay/Overlay.cs:521
 msgid "Failed to init ImGui Impl GLFW"
 msgstr ""
 
@@ -557,6 +599,11 @@ msgstr ""
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
 "here."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:129
+#, csharp-format
+msgid "Current Version: {0}"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:233
@@ -616,6 +663,11 @@ msgstr ""
 msgid "Audio"
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:55
+#, csharp-format
+msgid "{0} m/s ({1} in {2})"
+msgstr ""
+
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:291
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:304
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:317
@@ -638,7 +690,11 @@ msgstr ""
 msgid "Adjustments"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:222
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:35
+msgid "State Info"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Overlay.cs:223
 #, csharp-format
 msgid "Error in AR rendering: {0}"
 msgstr ""
@@ -666,6 +722,11 @@ msgid ""
 "minimize the window to keep ETS2LA running."
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/VisionCameras.cs:31
+#, csharp-format
+msgid "Camera {0} ({1}x{2})"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:101
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -677,8 +738,8 @@ msgstr ""
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:173
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:183
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:173
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
@@ -696,7 +757,7 @@ msgstr ""
 msgid "File not found: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.State/Program.cs:230
+#: ../../../ETS2LA.State/Program.cs:250
 #, csharp-format
 msgid "New limit {0} {1}"
 msgstr ""
@@ -710,6 +771,10 @@ msgstr ""
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr ""
 
+#: ../../../ETS2LA.State/Program.cs:118
+msgid "Lane Keep"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:44
 msgid "Anonymous"
 msgstr ""
@@ -720,8 +785,8 @@ msgid ""
 "has only slight differences to metric."
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:150
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:171
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:150
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
@@ -784,14 +849,14 @@ msgstr ""
 msgid "SDK Installed"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
-msgid "Current Speed"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:177
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:181
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:178
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:183
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
+msgid "Current Speed"
 msgstr ""
 
 #: ../../../ETS2LA.State/Units.cs:182
@@ -811,7 +876,7 @@ msgstr ""
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:58
+#: ../../../ETS2LA.Overlay/Overlay.cs:60
 msgid ""
 "When this key is held, the overlay will receive mouse input and allow you to "
 "interact with it. NOTE: Interaction with items below the overlay is not "
@@ -824,7 +889,7 @@ msgid ""
 "target resource."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:180
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:182
 msgid "Binding Successful"
 msgstr ""
 
@@ -841,6 +906,11 @@ msgstr ""
 msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have to "
 "be installed in Documents/Euro Truck Simulator 2/mod."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:97
+#, csharp-format
+msgid "Download progress: {0}%"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:84
@@ -928,6 +998,10 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:5
 msgid "This page will be implemented in a future update."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:83
+msgid "You are running the latest version."
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:190
@@ -1030,6 +1104,14 @@ msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] ""
 msgstr[1] ""
 
+#: ../../../ETS2LA.State/Program.cs:119
+msgid "Full"
+msgstr ""
+
+#: ../../../ETS2LA.State/Program.cs:164
+msgid "Metric"
+msgstr ""
+
 #: ../../../ETS2LA.Game/Telemetry/Program.cs:122
 msgid "Error in telemetry update loop."
 msgstr ""
@@ -1050,8 +1132,8 @@ msgstr ""
 msgid "Failed to read log file at '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:187
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:198
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:187
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
 msgstr ""
@@ -1068,12 +1150,12 @@ msgstr ""
 msgid "Failed enable {0}: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
-msgid "Acceleration Response"
-msgstr ""
-
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:78
 msgid "Error in parked vehicles update loop."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
+msgid "Acceleration Response"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:395
@@ -1087,7 +1169,7 @@ msgid "Normal"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:153
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:181
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:183
 msgid "Unknown Control"
 msgstr ""
 
@@ -1111,7 +1193,7 @@ msgstr ""
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Updates/Handler.cs:153
+#: ../../../ETS2LA.Networking/Updates/Handler.cs:165
 #, csharp-format
 msgid "Failed to read bundled update source marker: {0}"
 msgstr ""
@@ -1137,8 +1219,17 @@ msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:96
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:112
+msgid "Downloading Update"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:226
 msgid "Simplified Graphics"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:45
+msgid "Pause Steering Assist: "
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:150
@@ -1157,11 +1248,16 @@ msgstr ""
 msgid "{0}"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:38
+msgid ""
+"This might take a while depending on your internet connection and the source."
+msgstr ""
+
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:61
 msgid "No updates available."
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:227
+#: ../../../ETS2LA.Overlay/Overlay.cs:228
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr ""
@@ -1180,13 +1276,17 @@ msgstr ""
 msgid "Failed to add game"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:487
+#: ../../../ETS2LA.Overlay/Overlay.cs:509
 #, csharp-format
 msgid "Font file not found at {0}"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
 msgid "Changelog"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:55
+msgid "No release notes available."
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:75
@@ -1222,6 +1322,10 @@ msgid_plural "Discovered {0} libraries in total."
 msgstr[0] ""
 msgstr[1] ""
 
+#: ../../../ETS2LA.Overlay/Window/Console.cs:17
+msgid "Console"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
 msgid "The game has been added successfully."
 msgstr ""
@@ -1245,7 +1349,11 @@ msgid_plural "Found {0} game installations."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:298
+#: ../../../ETS2LA.State/Program.cs:166
+msgid "Scientific"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Overlay.cs:299
 msgid "hide"
 msgstr ""
 
@@ -1286,7 +1394,7 @@ msgstr ""
 msgid "SDKs need to be installed."
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:125
+#: ../../../ETS2LA.Overlay/Overlay.cs:126
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr ""
 
@@ -1314,8 +1422,8 @@ msgstr ""
 msgid "kilometers per hour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:134
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:153
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:134
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr ""
@@ -1333,6 +1441,10 @@ msgstr ""
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
+msgstr ""
+
+#: ../../../ETS2LA.State/Program.cs:137
+msgid "Emergency Braking"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:152
@@ -1354,11 +1466,15 @@ msgstr ""
 msgid "ETS2LA is running."
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:43
+msgid "Desired Steering Level: "
+msgstr ""
+
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:29
 msgid "Plugins"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:432
+#: ../../../ETS2LA.Overlay/Overlay.cs:433
 msgid "Close"
 msgstr ""
 
@@ -1386,11 +1502,15 @@ msgstr ""
 msgid "Speed Limit"
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/VisionCameras.cs:15
+msgid "Vision Cameras"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:5
-#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
+#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
 msgstr ""
 
@@ -1416,6 +1536,10 @@ msgstr ""
 #: ../../../ETS2LA.Game/Installation.cs:256
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:49
+msgid "Pause Longitudinal Assist: "
 msgstr ""
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:109
@@ -1448,6 +1572,11 @@ msgstr ""
 msgid "Error Loading File"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:50
+#, csharp-format
+msgid "A new update is available: {0}"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:60
 msgid "Force Base Map Name"
 msgstr ""
@@ -1470,9 +1599,9 @@ msgid "SDKs are currently installed."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:18
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:151
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:151
 msgid "Restart Required"
 msgstr ""
 
@@ -1481,7 +1610,7 @@ msgstr ""
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:405
+#: ../../../ETS2LA.Overlay/Overlay.cs:406
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
 msgstr ""
@@ -1545,14 +1674,14 @@ msgid ""
 "risk."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
+msgid "Game added"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
-msgid "Game added"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:334
@@ -1595,11 +1724,11 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
+#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
-#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
 msgstr ""
@@ -1619,7 +1748,7 @@ msgstr ""
 msgid "Adjust the volume of the audio output."
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Updates/Handler.cs:123
+#: ../../../ETS2LA.Networking/Updates/Handler.cs:134
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
@@ -1634,8 +1763,8 @@ msgstr ""
 msgid "SET Behaviour"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:114
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:134
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:114
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr ""
@@ -1644,8 +1773,12 @@ msgstr ""
 msgid "Please see the logs for more information."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:164
+#: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:165
 msgid "Binding Timed Out"
+msgstr ""
+
+#: ../../../ETS2LA.State/Program.cs:138
+msgid "Adaptive Cruise Control"
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:346
@@ -1663,12 +1796,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
-msgid "Translated by:"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "This game was found at"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
+msgid "Translated by:"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
@@ -1679,7 +1812,7 @@ msgstr ""
 msgid "Overlay"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:238
+#: ../../../ETS2LA.Overlay/Overlay.cs:239
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
 msgstr ""
@@ -1722,7 +1855,7 @@ msgstr ""
 msgid "Display Language"
 msgstr ""
 
-#: ../../../ETS2LA.Networking/Updates/Handler.cs:111
+#: ../../../ETS2LA.Networking/Updates/Handler.cs:113
 #, csharp-format
 msgid "Changed update source to '{0}'."
 msgstr ""
@@ -1732,7 +1865,7 @@ msgstr ""
 msgid "Removing manually added installation at '{0}'"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:532
+#: ../../../ETS2LA.Overlay/Overlay.cs:554
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
 msgstr ""
@@ -1745,6 +1878,10 @@ msgstr ""
 msgid "Match Game"
 msgstr ""
 
+#: ../../../ETS2LA.State/Program.cs:165
+msgid "Imperial"
+msgstr ""
+
 #: ../../../ETS2LA.Game/Installation.cs:208
 msgid "Unpacking Mods"
 msgstr ""
@@ -1753,22 +1890,26 @@ msgstr ""
 msgid "m/s"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:298
+#: ../../../ETS2LA.Overlay/Overlay.cs:299
 #, csharp-format
 msgid "Click to {0} this window"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:307
+#: ../../../ETS2LA.Overlay/Overlay.cs:308
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:326
+#: ../../../ETS2LA.Overlay/Overlay.cs:327
 msgid "Overlay free CPU time percentage"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:40
 msgid "Invalid directory"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:113
+msgid "Starting download..."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:12
@@ -1796,6 +1937,11 @@ msgid ""
 "you when using Adaptive Cruise Control."
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:50
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:129
+msgid "Unknown Version"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:80
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses significant "
@@ -1806,6 +1952,10 @@ msgstr ""
 #: ../../../ETS2LA.Game/Installation.cs:463
 #, csharp-format
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:55
+msgid "Desired Speed: "
 msgstr ""
 
 #: ../../../ETS2LA.Controls/Defaults.cs:31
@@ -1828,6 +1978,10 @@ msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] ""
 msgstr[1] ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:37
+msgid "Checking for updates..."
+msgstr ""
 
 #: ../../../ETS2LA.Backend/Program.cs:40
 msgid "Starting ETS2LA..."
@@ -1861,6 +2015,10 @@ msgstr ""
 msgid "Keybind Behaviour"
 msgstr ""
 
+#: ../../../ETS2LA.Overlay/Window/DemoWindow.cs:13
+msgid "Demo Window"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:36
 msgid "Help"
 msgstr ""
@@ -1883,6 +2041,10 @@ msgstr ""
 #: ../../../ETS2LA.Networking/Plugins/client.cs:170
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:47
+msgid "Desired Longitudinal Level: "
 msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:146
@@ -1926,10 +2088,8 @@ msgstr ""
 msgid "Successfully installed SDK version '{0}' to '{1}'"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:178
-msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
+#: ../../../ETS2LA.Overlay/Window/StateWindow.cs:57
+msgid "Display Units: "
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:116
@@ -1938,8 +2098,14 @@ msgid ""
 "High."
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Overlay.cs:281
-#: ../../../ETS2LA.Overlay/Overlay.cs:283
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:178
+msgid ""
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Overlay.cs:282
+#: ../../../ETS2LA.Overlay/Overlay.cs:284
 msgid "Interaction Mode"
 msgstr ""
 

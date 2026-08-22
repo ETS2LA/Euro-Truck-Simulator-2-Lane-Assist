@@ -22,9 +22,10 @@ public class Updater
     private static readonly Lazy<Updater> _instance = new(() => new Updater());
     public static Updater Current => _instance.Value;
 
+    public static string[] AvailableChannels => new string[] { "release" };
+
     public UpdateManager UpdateManager;
     private UpdaterSettings settings = new();
-    private SettingsHandler settingsHandler;
     private UpdateInfo? latestUpdateInfo;
     
     public List<UpdaterSource> AvailableSources => new()
@@ -41,8 +42,7 @@ public class Updater
 
     public Updater()
     {
-        settingsHandler = new SettingsHandler();
-        settings = settingsHandler.Load<UpdaterSettings>("Updater.json");
+        settings = UpdaterSettings.Current;
         UpdateManager = CreateUpdateManager(GetSelectedSource().source);
     }
 
@@ -103,12 +103,23 @@ public class Updater
             Logger.Error(_("Tried to change update source to '{0}', but it was not found among available sources.", sourceName));
             return;
         }
+        
         settings.SelectedSource = sourceName;
         settings.IsSourceSelectedByUser = true;
-        settingsHandler.Save("Updater.json", settings);
+        settings.Save();
+
         UpdateManager = CreateUpdateManager(source.source);
         latestUpdateInfo = null;
         Logger.Info(_("Changed update source to '{0}'.", sourceName));
+    }
+
+    public string GetSelectedChannelName()
+    {
+        #if WINDOWS
+        return "win-" + settings.SelectedChannel;
+        #else
+        return "linux-" + settings.SelectedChannel;
+        #endif
     }
 
     public UpdaterSource GetSelectedSource()
@@ -129,10 +140,11 @@ public class Updater
 
     private UpdateManager CreateUpdateManager(IUpdateSource source)
     {
-        return new UpdateManager(source, new UpdateOptions
-        {
-            
-        });
+        UpdateOptions options = new UpdateOptions();
+        options.AllowVersionDowngrade = true;
+        options.ExplicitChannel = GetSelectedChannelName();
+
+        return new UpdateManager(source, options);
     }
 
     private string GetBundledDefaultSourceName()

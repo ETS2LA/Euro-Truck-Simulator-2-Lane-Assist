@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.FileProviders;
 using OrchardCore.Localization;
+using GTranslate.Translators;
 
 namespace ETS2LA.Translations;
 
@@ -27,6 +28,8 @@ public static class Languages
         new Language { EnglishName = "Hungarian", NativeName = "Magyar", Code = "hu" },
         new Language { EnglishName = "Russian", NativeName = "Русский", Code = "ru" },
         new Language { EnglishName = "Estonian", NativeName = "Eesti", Code = "et" },
+        new Language { EnglishName = "Polish", NativeName = "Polski", Code = "pl" },
+        new Language { EnglishName = "Vietnamese", NativeName = "Tiếng Việt", Code = "vi" },
     }.OrderBy(l => l.EnglishName).ToList();
 }
 
@@ -105,5 +108,44 @@ public static class T
             }
         }
         return credits;
+    }
+}
+
+public class DynamicTranslationTask
+{
+    private GoogleTranslator translator = new GoogleTranslator();
+
+    public event Action<string>? OnTranslationCompleted;
+    public string SourceText { get; private set; } = string.Empty;
+    public string TargetLanguage { get; private set; } = string.Empty;
+
+    private string result = "";
+
+    public DynamicTranslationTask(string sourceText, string targetLanguage)
+    {
+        SourceText = sourceText;
+        TargetLanguage = targetLanguage;
+    }
+
+    public async Task StartTranslationAsync()
+    {
+        try
+        {
+            var translatedText = await translator.TranslateAsync(SourceText, TargetLanguage);
+            result = translatedText.Translation;
+            OnTranslationCompleted?.Invoke(translatedText.Translation);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Dynamic translation failed: {ex.Message}");
+            result = SourceText;
+            OnTranslationCompleted?.Invoke(SourceText);
+        }
+    }
+
+    public string Translate()
+    {
+        Task.Run(async () => await StartTranslationAsync());
+        return result;
     }
 }

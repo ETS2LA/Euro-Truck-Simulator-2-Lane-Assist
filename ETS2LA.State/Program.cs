@@ -112,6 +112,13 @@ public class ApplicationState
     ///  level.
     /// </summary>
     public SteeringAssists DesiredSteeringLevel { get; set; } = SteeringAssists.Full;
+    public Dictionary<SteeringAssists, string> SteeringLevelTranslation = new Dictionary<SteeringAssists, string>
+    {
+        { SteeringAssists.None, _("None") },
+        { SteeringAssists.LaneKeep, _("Lane Keep") },
+        { SteeringAssists.Full, _("Full") }
+    };
+
     /// <summary>
     ///  This value will be set to true if the user has temporarily paused the steering assist,
     ///  e.g. by braking. Once the user resumes assists this value will be set to false again.
@@ -124,6 +131,13 @@ public class ApplicationState
     ///  desires Adaptive Cruise Control.
     /// </summary>
     public LongitudinalAssists DesiredLongitudinalLevel { get; set; } = LongitudinalAssists.AdaptiveCruiseControl;
+    public Dictionary<LongitudinalAssists, string> LongitudinalLevelTranslation = new Dictionary<LongitudinalAssists, string>
+    {
+        { LongitudinalAssists.None, _("None") },
+        { LongitudinalAssists.EmergencyBraking, _("Emergency Braking") },
+        { LongitudinalAssists.AdaptiveCruiseControl, _("Adaptive Cruise Control") }
+    };
+
     /// <summary>
     ///  This value will be set to true if the user has temporarily paused the longitudinal assist,
     ///  e.g. by braking. Once the user resumes assists this value will be set to false again.
@@ -145,6 +159,12 @@ public class ApplicationState
     ///  **Use UnitConversions.FromScientificUnits and UnitConversions.ToScientificUnits to convert values to and from the current display units.**
     /// </summary>
     public Units DisplayUnits { get; set; } = Units.Metric;
+    public Dictionary<Units, string> DisplayUnitsTranslation = new Dictionary<Units, string>
+    {
+        { Units.Metric, _("Metric") },
+        { Units.Imperial, _("Imperial") },
+        { Units.Scientific, _("Scientific") }
+    };
 
     // Internal value to keep track of the latest telemetry we received.
     private GameTelemetryData latestTelemetryData = new();

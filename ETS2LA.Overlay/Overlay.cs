@@ -23,6 +23,8 @@ using ETS2LA.Overlay.AR;
 using ETS2LA.ML;
 using ETS2LA.ML.Vision;
 using ETS2LA.Game.Telemetry;
+using ETS2LA.State;
+using ETS2LA.Translations;
 using static ETS2LA.Translations.T;
 
 namespace ETS2LA.Overlay;
@@ -98,7 +100,6 @@ public class OverlayHandler
         Task.Factory.StartNew(RenderLoop, TaskCreationOptions.LongRunning);
         
         windows.Add(new ConsoleWindow());
-        windows.Add(new OverlayInfoWindow());
         windows.Add(new DemoWindow());
         windows.Add(new StateWindow());
 
@@ -468,12 +469,33 @@ public class OverlayHandler
         io.ConfigDpiScaleFonts = true;
         io.ConfigDpiScaleViewports = true;
 
+        Language language = StateSettingsHandler.Current.GetSettings().DisplayLanguage;
+        string fontName = "Geist";
+
+        switch (language.EnglishName)
+        {
+            case "Japanese":
+                fontName = "NotoSansJP";
+                break;
+            case "Chinese (Simplified)":
+                fontName = "NotoSansSC";
+                break;
+            case "Chinese (Traditional)":
+                fontName = "NotoSansTC";
+                break;
+            case "Korean":
+                fontName = "NotoSansKR";
+                break;
+            default:
+                break;
+        }
+
         List<Tuple<FontStyle, string>> fonts = new List<Tuple<FontStyle, string>>()
         {
-            new Tuple<FontStyle, string>(FontStyle.Medium, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", "Geist-Medium.ttf")),
-            new Tuple<FontStyle, string>(FontStyle.Regular, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", "Geist-Regular.ttf")),
-            new Tuple<FontStyle, string>(FontStyle.SemiBold, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", "Geist-SemiBold.ttf")),
-            new Tuple<FontStyle, string>(FontStyle.Bold, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", "Geist-Bold.ttf")),
+            new Tuple<FontStyle, string>(FontStyle.Medium, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", $"{fontName}", $"{fontName}-Medium.ttf")),
+            new Tuple<FontStyle, string>(FontStyle.Regular, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", $"{fontName}", $"{fontName}-Regular.ttf")),
+            new Tuple<FontStyle, string>(FontStyle.SemiBold, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", $"{fontName}", $"{fontName}-SemiBold.ttf")),
+            new Tuple<FontStyle, string>(FontStyle.Bold, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Fonts", $"{fontName}", $"{fontName}-Bold.ttf")),
         };
 
         // Set fonts

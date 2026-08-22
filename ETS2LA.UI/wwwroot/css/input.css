@@ -43,6 +43,7 @@ html {
 
   --font-sans: 
     Outfit, 
+    /* Other "Western" Languages */ "Noto Sans",
     /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
     /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
     /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
@@ -50,6 +51,7 @@ html {
     /* System */ sans-serif;
   --font-heading: 
     Outfit, 
+    /* Other "Western" Languages */ "Noto Sans",
     /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
     /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
     /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
