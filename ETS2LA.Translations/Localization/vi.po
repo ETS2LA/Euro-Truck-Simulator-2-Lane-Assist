@@ -3,25 +3,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 19:15:55+0300\n"
-"PO-Revision-Date: 2026-08-22 19:15:55+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-22 18:09+0000\n"
+"Last-Translator: phucc <phucc@ets2la.com>\n"
+"Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
+"vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:107
+#, fuzzy
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"Cài đặt này sẽ loại bỏ các thông tin thừa nhưng vẫn giữ lại hầu hết các vật "
+"thể chi tiết (Ví dụ như biển báo), bao gồm tất cả các tuyến đường bị ẩn và "
+"tuyến đường dành riêng cho AI."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:183
+#, fuzzy
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "ID Điều khiển không xác định."
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
@@ -29,28 +35,28 @@ msgstr ""
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 msgid "Sorry"
-msgstr ""
+msgstr "Xin lỗi"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:19
 msgid "Display"
-msgstr ""
+msgstr "Hiển thị"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:57
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "Tương tác với giao diện nổi"
 
 #: ../../../ETS2LA.Game/Installation.cs:416
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "Cài đặt SDK thất bại"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:593
 #, csharp-format
 msgid "Failed to open joystick {0}."
-msgstr ""
+msgstr "Không thể mở tay cầm điều khiển {0}."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:24
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Thu thập dữ liệu ẩn danh"
 
 #: ../../../ETS2LA.Controls/Defaults.cs:42
 msgid ""
@@ -62,79 +68,84 @@ msgstr ""
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:187
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
+msgstr "Không tìm thấy điều khiển '{0}' để cập nhật gán phím."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:65
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"Buộc ETS2LA tải bản đồ khi khởi động game. Có thể giải quyết lỗi không tìm "
+"thấy game.log.txt ở thư mục mặc định."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:26
 msgid "Game SDK"
-msgstr ""
+msgstr "SDK Trò chơi"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:201
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "Bỏ qua luật giao thông"
 
 #: ../../../ETS2LA.Game/Installation.cs:262
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "Đang phân tích bản cài đặt tại '{0}' (phiên bản:{1})"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:137
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
+"Khi thay đổi tốc độ, tự làm tròn về số chia hết cho 10 gần nhất. Ví dụ 37 -> "
+"39 -> 40 ->42..."
 
 #: ../../../ETS2LA.State/Units.cs:287
 #: ../../../ETS2LA.State/Units.cs:291
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:131
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Đã cài đặt {0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:229
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr ""
+msgstr "Lỗi khi đang tải dữ liệu bản đồ từ '{0}':{1}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 msgid "Medium"
-msgstr ""
+msgstr "Trung bình"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:205
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Tốc độ tối đa"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:231
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
+"Khi trò chơi ở trạng thái tạm dừng, ETS2LA sẽ không hiện thị các yếu tố AR."
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:105
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "Đã kết nối với tay cầm/vô lăng: [bold]{0}[/] [gray italic]({1})[/]"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:202
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "Bắt đầu gán phím cho nút điều khiển: {0} ({1})"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:376
 #, csharp-format
 msgid "Failed to enable dependency: {0}"
-msgstr ""
+msgstr "Không thể kích hoạt thành phần phụ thuộc: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:23
 msgid "Main"
-msgstr ""
+msgstr "Trang chính"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
@@ -142,151 +153,162 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"Phiên bản {0} của plugin với ID {1} không tương thích với phiên bản hiện tại "
+"của ứng dụng hoặc hệ điều hành."
 
 #: ../../../ETS2LA.Game/Installation.cs:301
 #, csharp-format
 msgid "found {0} road"
 msgid_plural "found {0} roads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Đã tìm thấy {0} tuyến đường"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:161
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:166
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "Quá thời gian gán phím cho nút điều khiển {0} ({1})."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:24
 msgid "Dashboard"
-msgstr ""
+msgstr "Bảng điều khiển"
 
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:92
 msgid "Error in navigation update loop."
-msgstr ""
+msgstr "Lỗi trong vòng lặp cập nhật điều hướng."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:113
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
 msgstr ""
+"Cảnh báo: Hệ thống của bán có ít hơn 16GB Ram. Bạn chỉ có thể chọn tối đa "
+"mức trung bình."
 
 #: ../../../ETS2LA.Controls/Defaults.cs:41
 msgid "Increase"
-msgstr ""
+msgstr "Tăng"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:194
 msgid "Window Zoom"
-msgstr ""
+msgstr "Phóng to cửa sổ"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:78
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, and "
 "we don't intend to fix this."
 msgstr ""
+"Các phiên bản lậu hoặc thử nghiệm sẽ chặn SDK của chúng tôi tải lên. Chúng "
+"không hoạt động và chúng tôi không có ý định khắc phục điều này."
 
 #: ../../../ETS2LA.State/Units.cs:254
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:141
 msgid "The step size for changing the cruise control speed."
-msgstr ""
+msgstr "Mức tăng/giảm mỗi lần thay đổi tốc độ ga tự động."
 
 #: ../../../ETS2LA.Game/Installation.cs:267
 msgid "Initializing..."
-msgstr ""
+msgstr "Đang tải..."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:413
 #: ../../../ETS2LA.Overlay/Overlay.cs:422
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "Lỗi hiển thị cửa sổ {0}: {1}"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:318
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "Không thể làm mới danh sách tay cầm/vô lăng: {0}"
 
 #: ../../../ETS2LA.Game/Installation.cs:181
 #, csharp-format
 msgid "Error loading '{0}': {1}"
-msgstr ""
+msgstr "Lỗi khi tải '{0}': {1}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:253
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
-msgstr ""
+msgstr "Cập nhật plugin với ID {0} thành công."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:46
+#, fuzzy
 msgid "Visual"
-msgstr ""
+msgstr "Giao diện"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:25
 msgid "Additional"
-msgstr ""
+msgstr "Bổ sung"
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:80
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
+msgstr "Lỗi khi đang tải bản cập nhật: {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:71
 msgid "Keyboard"
-msgstr ""
+msgstr "Bàn phím"
 
 #: ../../../ETS2LA.Game/Program.cs:174
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
 msgstr ""
+"Không tìm thấy tệp chạy game trong '{0}', sẽ không thêm đường dẫn này vào "
+"danh sách cài đặt."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:44
 msgid "Chime"
-msgstr ""
+msgstr "Tiếng bíp"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:571
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "Không thể khởi tạo cửa sổ GLFW"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "Nhanh"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:120
+#, fuzzy
 msgid "Curve Quality"
-msgstr ""
+msgstr "Chất lượng đường cua"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:151
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
+"Điều chình mức độ phản hồi của ETS2LA khi thay đổi hướng lái khi cần thiết. "
+"Ví dụ: điều khiển tốc độ chuyển làn nhanh hay chậm."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:300
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
-msgstr ""
+msgstr "Gỡ cài đặt plugin với ID {0} thành công."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:313
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Bảng thông số hiệu năng"
 
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:89
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:642
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "Đã ngắt kết nối với tay cầm: [gray italic]({0})[/]"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:160
 #, csharp-format
 msgid "Update to {0}"
-msgstr ""
+msgstr "Cập nhật lên {0}"
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:181
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:202
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "Không tìm thấy điều khiển có ID '{0}' để cập nhật hành vi trục."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:31
 msgid "Networking"
@@ -298,124 +320,135 @@ msgid ""
 "Press a button or move an axis on your input device to bind it to this "
 "control. This will time out in {0} seconds."
 msgstr ""
+"Nhấn một nút hoặc gạt cần/trục trên vô lăng/tay cầm để gán phím. Thao tác sẽ "
+"hết hạn trong {0} giây."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Account.razor:7
 msgid ""
 "Subscriptions will <span class=\"font-bold text-text-accent\">never</span> be "
 "required for using ETS2LA. They are a way you can support the development."
 msgstr ""
+"Bạn sẽ <span class=\"font-bold text-text-accent\">không bao giờ</span>bị bắt "
+"buộc phải trả phí để sử dụng ETS2LA. Nó là cách để ủng hộ dự án phát triển."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
 msgid "Data Parsing"
-msgstr ""
+msgstr "Phân tích dữ liệu"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:21
 msgid ""
 "Service unavailable. The server is currently unable to handle the request due "
 "to temporary overloading or maintenance."
 msgstr ""
+"Dịch vụ không khả dụng. Máy chủ hiện tại không thể xử lí yêu cầu do quá tải "
+"hoặc đang bảo trì."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:178
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning this "
 "to off will disable collision avoidance regardless of your enabled plugins."
 msgstr ""
+"Thời điểm mà ETS2LA sẽ phản hồi để tránh va chạm. Tắt tùy chọn này sẽ vô "
+"hiệu hóa tính năng tránh va chạm cho dù bạn có bật plugin nào đi nữa."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:27
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "Tệp vừa chọn không tồn tại."
 
 #: ../../../ETS2LA.Game/Program.cs:222
 #: ../../../ETS2LA.Game/Program.cs:252
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "Không thể đọc phiên bản từ '{0}': {1}"
 
 #: ../../../ETS2LA.UI/IPC.cs:63
 msgid "Are you sure?"
-msgstr ""
+msgstr "Bạn có chắc chắn không ?"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:222
 msgid "Render AR Elements"
-msgstr ""
+msgstr "Hiển thị các phần tử AR"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:190
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:412
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "Lỗi tải (LoaderException): {0}"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:70
 msgid "Data Fidelity"
-msgstr ""
+msgstr "Độ chính xác dữ liệu"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:240
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
+msgstr "Không thể gỡ cài đặt phiên bản hiện tại của plugin với ID {0}."
 
 #: ../../../ETS2LA.Controls/Defaults.cs:11
 msgid "Assist"
-msgstr ""
+msgstr "Hỗ trợ lái"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:52
 msgid "Early"
-msgstr ""
+msgstr "Sớm"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:20
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
 msgstr ""
+"Cổng kết nối lỗi (Bad gateway). Máy chủ đóng vai trò trung gian không nhận "
+"được phản hồi hợp lệ từ máy chủ đích."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:17
 msgid "The server timed out waiting for the request from the client."
 msgstr ""
+"Hết thời gian chờ yêu cầu máy chủ do phía khách (client) không gửi dữ liệu."
 
 #: ../../../ETS2LA.Backend/Program.cs:61
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "Hoàn tất tắt hệ thống backend."
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:122
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:142
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
+msgstr "Không tìm thấy điều khiển có ID '{0}' để đăng kí sự kiện."
 
 #: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:157
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:167
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
-msgstr ""
+msgstr "Điều khiển chưa được đăng kí: {0} ({1})"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:38
 msgid "Contact Us"
-msgstr ""
+msgstr "Liên lạc với chúng tôi"
 
 #: ../../../ETS2LA.Game/Installation.cs:396
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr ""
+msgstr "Sao chép '{0}' đến '{1}'"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:298
 msgid "show"
-msgstr ""
+msgstr "hiện"
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:17
 msgid "Select core.scs"
-msgstr ""
+msgstr "Chọn core.scs"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:507
 msgid "Failed to init ImGui Impl OpenGL3"
-msgstr ""
+msgstr "Khởi tạo ImGui Impl OpenGL3 thất bại"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:204
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "Hỗ trợ nhiều khung hình (Multiple Viewports)"
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:36
 msgid "You took a wrong turn!"
-msgstr ""
+msgstr "Bạn đã đi sai hướng!"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:544
 msgid "Initializing GLFW..."
