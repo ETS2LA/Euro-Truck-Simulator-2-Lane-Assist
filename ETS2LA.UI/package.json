@@ -6,7 +6,8 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "@types/bun": "latest",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "tailwindcss-animate": "^1.0.7"
   },
   "peerDependencies": {
     "typescript": "^5"

@@ -298,7 +298,7 @@ public class Installation
                      // TRANSLATORS: Part of a three part message: "Found {0} prefabs, found {0} roads, found {0} nodes."
         var foundText = _n("Found {0} prefab", "Found {0} prefabs", prefabs, prefabs) + ", "
                      // TRANSLATORS: Part of a three part message: "Found {0} prefabs, found {0} roads, found {0} nodes."
-                      + _n("found {0} road", "found {0} roads", roads, roads) + "," 
+                      + _n("found {0} road", "found {0} roads", roads, roads) + ", " 
                      // TRANSLATORS: Part of a three part message: "Found {0} prefabs, found {0} roads, found {0} nodes."
                       + _n("found {0} node", "found {0} nodes", nodes, nodes) + ".";
         
@@ -313,6 +313,7 @@ public class Installation
             Id = "ETS2LA.Game.Parsing.Complete",
             Title = _("Map Data Parsed"),
             Content = foundText,
+            Level = NotificationLevel.Success,
             IsProgressIndeterminate = false,
             CloseAfter = 5
         });
@@ -395,10 +396,30 @@ public class Installation
                 Logger.Info(_("Copied '{0}' to '{1}'", newPath, newPath.Replace(SDKSourcePath, SDKDestinationPath)));
             }
 
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.SDK.Install",
+                Title = _("SDK Installed"),
+                Content = _("Successfully installed SDK version '{0}' to '{1}'", version, SDKDestinationPath),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Success,
+                CloseAfter = 5
+            });
+
             return true;
         }
         catch (Exception ex)
         {
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.SDK.Install.Error",
+                Title = _("SDK Installation Failed"),
+                Content = _("Failed to install SDK version '{0}' to '{1}': {2}", version, SDKDestinationPath, ex.Message),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Danger,
+                CloseAfter = 10
+            });
+
             Logger.Error(_("Failed to install SDK from '{0}' to '{1}': {2}", SDKSourcePath, SDKDestinationPath, ex.Message));
             return false;
         }
@@ -435,10 +456,30 @@ public class Installation
                 Logger.Info(_("Deleted '{0}'", newPath.Replace(SDKSourcePath, SDKDestinationPath)));
             }
 
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.SDK.Uninstall",
+                Title = _("SDK Uninstalled"),
+                Content = _("Successfully uninstalled SDK version '{0}' from '{1}'", version, SDKDestinationPath),
+                Level = NotificationLevel.Success,
+                IsProgressIndeterminate = false,
+                CloseAfter = 5
+            });
+
             return true;
         }
         catch (Exception ex)
         {
+            NotificationHandler.Current.SendNotification(new Notification
+            {
+                Id = "ETS2LA.Game.SDK.Uninstall.Error",
+                Title = _("SDK Uninstallation Failed"),
+                Content = _("Failed to uninstall SDK version '{0}' from '{1}': {2}", version, SDKDestinationPath, ex.Message),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Danger,
+                CloseAfter = 10
+            });
+
             Logger.Error(_("Failed to uninstall SDK from '{0}' to '{1}': {2}", SDKSourcePath, SDKDestinationPath, ex.Message));
             return false;
         }

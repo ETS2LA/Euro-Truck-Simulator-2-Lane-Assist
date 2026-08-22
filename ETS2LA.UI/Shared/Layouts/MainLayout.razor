@@ -1,4 +1,4 @@
-@using ETS2LA.UI.Shared.WindowControls
+@using ETS2LA.UI.Shared.Overlays
 @using ETS2LA.UI.Shared.Components
 
 @inherits LayoutComponentBase
@@ -6,7 +6,8 @@
 <main class="flex h-screen w-screen flex-col border border-border rounded-md bg-bg">
   <ResizeHandles />
   <Titlebar />
-  
+  <Notifications />
+    
   <div class="flex p-1.5 h-full w-full">
     <!-- Sidebar -->
     <div class="w-[210px] pl-1 pr-3 pt-2.5 flex gap-6.5 flex-col h-full">

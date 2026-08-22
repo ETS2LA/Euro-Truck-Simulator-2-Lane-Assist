@@ -3,6 +3,7 @@
 @using ETS2LA.UI.Shared.Components
 @using ETS2LA.Controls;
 @using ETS2LA.Logging;
+@using ETS2LA.Notifications;
 
 @code {
     ControlsBackend controlsBackend = ControlsBackend.Current;
@@ -140,18 +141,53 @@
 
     private void BindingThreadFunction()
     {
+
         if (bindingControl == null)
         {
             Logger.Error(_("Binding thread started with no control to bind."));
             return;
         }
 
+        NotificationHandler.Current.SendNotification(new Notifications.Notification{
+            Id = "ETS2LA.UI.Settings.Controls.Binding",
+            Title = _("Binding {0}", bindingControl?.Definition.Name ?? _("Unknown Control")),
+            Content = _("Press a button or move an axis on your input device to bind it to this control. This will time out in {0} seconds.", bindingTimeout),
+            IsProgressIndeterminate = true,
+        });
+
         var input = controlsBackend.WaitForInput(bindingTimeout);
+        if (String.IsNullOrEmpty(input.Item1) || String.IsNullOrEmpty(input.Item2))
+        {
+            Logger.Info(_("Binding for control {0} ({1}) timed out.", bindingControl.Definition.Name, bindingControl.ControlId));
+            NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Controls.Binding");
+            NotificationHandler.Current.SendNotification(new Notifications.Notification{
+                Id = "ETS2LA.UI.Settings.Controls.Binding.Timeout",
+                Title = _("Binding Timed Out"),
+                Content = _("Binding for control {0} ({1}) timed out.", bindingControl.Definition.Name, bindingControl.ControlId),
+                Level = NotificationLevel.Warning
+            });
+            
+            bindingControl = null;
+            bindingThread = null;
+            InvokeAsync(StateHasChanged);
+            return;
+        }
+
         controlsBackend.UpdateControlBindings(bindingControl.Definition.Id, input.Item1, input.Item2);
-        Logger.Info(_("Bound control {0} ({1}) to device {2} and control {3}", bindingControl.Definition.Name, bindingControl.ControlId, input.Item1, input.Item2));
+        
+        Logger.Info(_("Bound control {0} ({1}) to device {2} and control {3}", bindingControl.Definition.Name, bindingControl.Definition.Id, input.Item1, input.Item2));
+        NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Controls.Binding");
+        NotificationHandler.Current.SendNotification(new Notifications.Notification{
+            Id = "ETS2LA.UI.Settings.Controls.Binding.Success",
+            Title = _("Binding Successful"),
+            Content = _("Bound control {0} ({1}) to device {2} and control {3}", bindingControl?.Definition.Name ?? _("Unknown Control"), bindingControl?.Definition.Id ?? _("Unknown Control ID"), input.Item1, input.Item2),
+            Level = NotificationLevel.Success
+        });
+        
         bindingControl = null;
         bindingThread = null;
         InvokeAsync(StateHasChanged);
+
     }
 
     private void StartBinding(ControlInstance control)

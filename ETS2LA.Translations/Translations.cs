@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.FileProviders;
+using OrchardCore.Localization;
 
 namespace ETS2LA.Translations;
 
@@ -62,8 +63,7 @@ public static class T
         if (_localizer == null) 
             return string.Format(count == 1 ? singular : plural, arguments);
 
-        // OrchardCore handles plural indexing automatically
-        return _localizer[singular, arguments]; 
+        return _localizer.Plural(count, singular, plural, arguments.Skip(1).ToArray());
     }
 
     /// <summary>

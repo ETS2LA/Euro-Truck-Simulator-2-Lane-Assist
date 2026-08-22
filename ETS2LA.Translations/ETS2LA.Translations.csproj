@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="OrchardCore.Localization" Version="3.0.1" />
+    <PackageReference Include="OrchardCore.Localization.Abstractions" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +23,6 @@
 
   <Target Name="ExtractGetTextStrings" BeforeTargets="BeforeBuild">
     <MakeDir Directories="$(SolutionDir)ETS2LA.Translations/Localization" />
-    <Exec Command="dotnet GetText.Extractor -s . -t ETS2LA.Translations/Localization/messages.pot -as _ -ap _n -u" 
-          WorkingDirectory="$(SolutionDir)" />
+    <Exec Command="dotnet GetText.Extractor -s . -t ETS2LA.Translations/Localization/messages.pot -as _ -ap _n -u" WorkingDirectory="$(SolutionDir)" />
   </Target>
 </Project>
