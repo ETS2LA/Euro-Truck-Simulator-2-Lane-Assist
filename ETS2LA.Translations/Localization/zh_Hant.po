@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-21 18:05:14+0300\n"
-"PO-Revision-Date: 2026-08-21 19:17+0000\n"
+"PO-Revision-Date: 2026-08-22 10:59+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -89,7 +89,7 @@ msgstr "調整音訊輸出的音量。"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:31
 msgid "Adjustments"
-msgstr "調整"
+msgstr "設定"
 
 #: ../../../ETS2LA.Game/Installation.cs:186
 #, csharp-format
@@ -1040,7 +1040,7 @@ msgstr "主要"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:29
 msgid "Manager"
-msgstr "插件管理"
+msgstr "管理"
 
 #: ../../../ETS2LA.Game/Program.cs:72
 #, csharp-format
