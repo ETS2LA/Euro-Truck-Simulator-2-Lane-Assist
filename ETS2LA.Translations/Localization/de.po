@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 12:25+0000\n"
+"PO-Revision-Date: 2026-08-22 13:13+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
 "\n"
@@ -33,7 +33,7 @@ msgid "bar"
 msgstr "bar"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
-#, csharp-format, fuzzy
+#, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
 msgstr "Erfolgreich installierte Plugins {0} ( {1}, {2})"
 
@@ -44,12 +44,12 @@ msgstr "Ignorierte D-Bus-Ausnahme: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
-msgstr ""
+msgstr "Haupt"
 
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "Das könnte eine Weile dauern... ({0}/{1})"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -57,152 +57,169 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "Plugin mit ID {0} nicht gefunden."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:571
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "Fehlgeschlagen beim Erstellen des GLFW-Fensters"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Kollisionvermeidung"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:71
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Passe den Detaillierungsgrad der von uns verwendeten Spieldaten an. Höhere "
+"Werte verbrauchen mehr Arbeitsspeicher, enthalten aber mehr Informationen. "
+"Alle Stufen fahren sich gleich."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:281
 #: ../../../ETS2LA.Overlay/Overlay.cs:283
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Interaktionsmodus"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "Keine Download URL gefunden fpr Plugin mit ID {0} in Region {1}."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:145
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} manuell installiertes Plugin gefunden."
+msgstr[1] "{0} manuell installierte Plugins gefunden."
 
 #: ../../../ETS2LA.UI/Utils.cs:29
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "ETS2LA neustarten..."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Übersprungenes veraltetes Plugin-Schattenverzeichnis [gray]{0}[/]:{1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:303
-#, csharp-format
+#, csharp-format, fuzzy
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} gefundene node"
+msgstr[1] "{0} gefundene nodes"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "Schnell"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
+#, fuzzy
 msgid "Data Parsing"
-msgstr ""
+msgstr "Datenanalyse"
 
 #: ../../../ETS2LA.State/Units.cs:228
 #: ../../../ETS2LA.State/Units.cs:302
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: ../../../ETS2LA.Game/SDK/Camera.cs:100
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "Fehler in Kamera-Aktualisierungsschleife."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:202
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"Wir werden Verkehrsregeln und Geschwindigkeitsbegrenzungen ignorieren. "
+"Rechne mit Schäden an deinem Fahrzeug und anderen. Warum solltest du das "
+"aktivieren?"
 
 #: ../../../ETS2LA.Game/Installation.cs:442
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "Fehlgeschlagen beim Deinstallieren des SDKs von '{0}' nach '{1}': {2}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:30
 msgid "Catalogue"
-msgstr ""
+msgstr "Katalog"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
+"Die maximale Geschwindigkeit ETS2LA beschleunigen wird. Es drifte vielleicht "
+"trotzdem über das Limit durch Momentum."
 
 #: ../../../ETS2LA.State/Program.cs:230
 #, csharp-format
 msgid "New limit {0} {1}"
-msgstr ""
+msgstr "Neues Limit {0}{1}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Settings.cs:57
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr ""
+msgstr "Plugin '{0}' fehlt eine DLL bei '{1}' und wurde entfernt."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:170
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"Dies erlaubt ETS2LA mehrere viewports zu render, heißt du kannst das Overlay "
+"zu jedem Monitor bewegen."
 
 #: ../../../ETS2LA.Game/Installation.cs:87
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "Fehlgeschlagen beim Lesen der Logdatei unter '{0}': {1}"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:433
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
+"Versucht, {0} zu deaktivieren, aber es wurde unter den geladenen Plugins "
+"nicht gefunden."
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:79
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
 msgstr ""
+"Fehlgeschlagen beim Abrufen verfügbarer Plugins. Bitte überprüfe deine "
+"Internetverbindung."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:413
 #: ../../../ETS2LA.Overlay/Overlay.cs:422
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "Fehler bei Laden des Fenster {0}: {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:167
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
 msgstr ""
+"Installation bei '{0}' läuft gerade nicht, warte bis das Profil geladen "
+"wurde."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:112
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} entdeckte, manuelle installierte Bibliothek."
+msgstr[1] "{0} entdeckte, manuelle installierte Bibliotheken."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:131
 #, csharp-format
