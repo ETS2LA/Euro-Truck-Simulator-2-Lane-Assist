@@ -70,9 +70,9 @@
     <Listbox Title=@(_("Data Fidelity"))
              Description=@(_("Adjust the level of detail of the game data we use. Higher values use more RAM, but include more information. All levels drive the same."))
              Options="@DataFidelityOptions"
-             SelectedIndex="@(Array.IndexOf(DataFidelityOptions.ToArray(), Enum.GetName<DataFidelity>(DataSettings.Current.DataFidelity) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(DataFidelityOptions.ToArray(), TranslateDataFidelity[DataSettings.Current.DataFidelity] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
-                var fidelity = Enum.Parse<DataFidelity>(DataFidelityOptions[index]);
+                var fidelity = (DataFidelity)index;
                 if(fidelity == DataFidelity.Extreme && ShowRamWarningExtreme)
                 {
                     UserInterface.Current.Window.ShowMessage(
@@ -97,21 +97,33 @@
                 DataSettings.Current.Save();
              })" />
     <div class="flex flex-col gap-2">
-        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.Low ? "" : "hidden")">@(_("This setting only loads roads and intersections visible on the in game map. It discards all other information."))</p>
-        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.Medium ? "" : "hidden")">@(_("This setting drops redundant information while maintaining most detail objects (such as signs). Doesn't include any roads / intersections not shown in the in game map."))</p>
-        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.High ? "" : "hidden")">@(_("This setting drops redundant information while maintaining most detail objects (such as signs). Includes all hidden and AI only roads."))</p>
-        <p class="@(DataSettings.Current.DataFidelity == DataFidelity.Extreme ? "" : "hidden")">@(_("This setting includes all available data, most of which is redundant. <span class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, expect over 10GB of usage.</span>"))</p>
-        <p class="@(ShowRamWarningHigh ? "text-warning" : "hidden")">@(_("Warning: Your system has less than 16GB of RAM. You can only select up to Medium."))</p>
-        <p class="@((ShowRamWarningExtreme && !ShowRamWarningHigh) ? "text-warning" : "hidden")">@(_("Warning: Your system has less than 20GB of RAM. You can only select up to High."))</p>
+        @if (DataSettings.Current.DataFidelity == DataFidelity.Low) {
+            <p>@(_("This setting only loads roads and intersections visible on the in game map. It discards all other information."))</p>
+        }
+        @if (DataSettings.Current.DataFidelity == DataFidelity.Medium) {
+            <p>@(_("This setting drops redundant information while maintaining most detail objects (such as signs). Doesn't include any roads / intersections not shown in the in game map."))</p>
+        }
+        @if (DataSettings.Current.DataFidelity == DataFidelity.High) {
+            <p>@(_("This setting drops redundant information while maintaining most detail objects (such as signs). Includes all hidden and AI only roads."))</p>
+        }
+        @if (DataSettings.Current.DataFidelity == DataFidelity.Extreme) {
+            <p>@(_("This setting includes all available data, most of which is redundant. <span class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, expect over 10GB of usage.</span>"))</p>
+        }
+        @if (ShowRamWarningHigh) {
+            <p class="text-warning">@(_("Warning: Your system has less than 16GB of RAM. You can only select up to Medium."))</p>
+        }
+        @if (ShowRamWarningExtreme && !ShowRamWarningHigh) {
+            <p class="text-warning">@(_("Warning: Your system has less than 20GB of RAM. You can only select up to High."))</p>
+        }
     </div>
 
     <Listbox Title=@(_("Curve Quality"))
              Description=@(_("Adjust the quality of the curves used for path planning and visualization. By default this matches the game."))
              Options="@CurveQualityOptions"
-             SelectedIndex="@(Array.IndexOf(CurveQualityOptions.ToArray(), Enum.GetName<CurveQuality>(DataSettings.Current.CurveQuality) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(CurveQualityOptions.ToArray(), TranslateCurveQuality[DataSettings.Current.CurveQuality] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = DataSettings.Current;
-                settings.CurveQuality = Enum.Parse<CurveQuality>(CurveQualityOptions[index]);
+                settings.CurveQuality = (CurveQuality)index;
                 DataSettings.Current.Save();
              })" />
 </div>

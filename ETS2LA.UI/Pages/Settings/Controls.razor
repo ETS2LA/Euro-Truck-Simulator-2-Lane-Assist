@@ -53,7 +53,7 @@
             return _("Button");
         if (isHat)
             // TRANSLATORS: This is also called a D-Pad on some controllers.
-            return _("Hat") + " " + control.ControlId.ToString()?.Split(" ")?.ElementAtOrDefault(1);
+            return "Hat " + control.ControlId.ToString()?.Split(" ")?.ElementAtOrDefault(1);
 
         return control.AxisBehavior.ToString();
     }
@@ -122,6 +122,18 @@
             };
         }
         #endif
+
+        if (type.StartsWith(_("Key")))
+        {
+            controlIdStr = controlIdStr switch
+            {
+                "Up" => "↑",
+                "Right" => "→",
+                "Down" => "↓",
+                "Left" => "←",
+                _ => controlIdStr
+            };
+        }
 
         return controlIdStr;
     }

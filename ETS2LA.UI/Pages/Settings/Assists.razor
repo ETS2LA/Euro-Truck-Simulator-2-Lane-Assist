@@ -127,13 +127,13 @@
     <Listbox Title=@(_("SET Behaviour"))
              Description=@(_("When pressing the SET keybind, what should ETS2LA set as the current cruise control speed?"))
              Options="@SetSpeedBehaviourOptions"
-             SelectedIndex="@(Array.IndexOf(SetSpeedBehaviourOptions.ToArray(), Enum.GetName<SetSpeedBehaviour>(AssistanceSettings.Current.SetSpeedBehaviourOption) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(SetSpeedBehaviourOptions.ToArray(), TranslateSetSpeedBehaviourOptions[AssistanceSettings.Current.SetSpeedBehaviourOption] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = AssistanceSettings.Current;
-                settings.SetSpeedBehaviourOption = Enum.Parse<SetSpeedBehaviour>(SetSpeedBehaviourOptions[index]);
+                settings.SetSpeedBehaviourOption = (SetSpeedBehaviour)index;
                 AssistanceSettings.Current.Save();
              })" />
-    <Switch Title="@(_("Snap to each 10 {0}", DisplayUnits()))"
+    <Switch Title=@(_("Snap to each 10 {0}", DisplayUnits()))
             Description=@(_("When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."))
             Value="@SnapTo10s"
             ValueChanged="@((bool value) => SnapTo10s = value)" />
@@ -150,37 +150,37 @@
     <Listbox Title=@(_("Steering Sensitivity"))
              Description=@(_("Adjust how ETS2LA will respond to necessary steering changes. This for example controls how quickly ETS2LA will lane-change."))
              Options="@SteeringResponseOptions"
-             SelectedIndex="@(Array.IndexOf(SteeringResponseOptions.ToArray(), Enum.GetName<SteeringSensitivityOption>(AssistanceSettings.Current.SteeringSensitivity) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(SteeringResponseOptions.ToArray(), TranslateSteeringResponseOptions[AssistanceSettings.Current.SteeringSensitivity] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = AssistanceSettings.Current;
-                settings.SteeringSensitivity = Enum.Parse<SteeringSensitivityOption>(SteeringResponseOptions[index]);
+                settings.SteeringSensitivity = (SteeringSensitivityOption)index;
                 AssistanceSettings.Current.Save();
              })" />
     <Listbox Title=@(_("Acceleration Response"))
              Description=@(_("Adjust how quickly ETS2LA will respond to desired changes in acceleration. Emergency braking is not affected."))
              Options="@AccelerationOptions"
-             SelectedIndex="@(Array.IndexOf(AccelerationOptions.ToArray(), Enum.GetName<AccelerationResponseOption>(AssistanceSettings.Current.AccelerationResponse) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(AccelerationOptions.ToArray(), TranslateAccelerationOptions[AssistanceSettings.Current.AccelerationResponse] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = AssistanceSettings.Current;
-                settings.AccelerationResponse = Enum.Parse<AccelerationResponseOption>(AccelerationOptions[index]);
+                settings.AccelerationResponse = (AccelerationResponseOption)index;
                 AssistanceSettings.Current.Save();
              })" />
     <Listbox Title=@(_("Following Distance"))
              Description=@(_("Adjust the distance ETS2LA will try to maintain from the vehicle in front of you when using Adaptive Cruise Control."))
              Options="@FollowingDistanceOptions"
-             SelectedIndex="@(Array.IndexOf(FollowingDistanceOptions.ToArray(), Enum.GetName<FollowingDistanceOption>(AssistanceSettings.Current.FollowingDistance) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(FollowingDistanceOptions.ToArray(), TranslateFollowingDistanceOptions[AssistanceSettings.Current.FollowingDistance] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = AssistanceSettings.Current;
-                settings.FollowingDistance = Enum.Parse<FollowingDistanceOption>(FollowingDistanceOptions[index]);
+                settings.FollowingDistance = (FollowingDistanceOption)index;
                 AssistanceSettings.Current.Save();
              })" />
     <Listbox Title=@(_("Collision Avoidance"))
              Description=@(_("How early ETS2LA will attempt to respond to possible collisions. Turning this to off will disable collision avoidance regardless of your enabled plugins."))
              Options="@CollisionAvoidanceOptions"
-             SelectedIndex="@(Array.IndexOf(CollisionAvoidanceOptions.ToArray(), Enum.GetName<CollisionAvoidance>(AssistanceSettings.Current.CollisionAvoidanceOption) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(CollisionAvoidanceOptions.ToArray(), TranslateCollisionAvoidanceOptions[AssistanceSettings.Current.CollisionAvoidanceOption] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = AssistanceSettings.Current;
-                settings.CollisionAvoidanceOption = Enum.Parse<CollisionAvoidance>(CollisionAvoidanceOptions[index]);
+                settings.CollisionAvoidanceOption = (CollisionAvoidance)index;
                 AssistanceSettings.Current.Save();
              })" />
 
@@ -188,10 +188,10 @@
     <Listbox Title=@(_("Speed Limit Warning"))
              Description=@(_("How ETS2LA will warn you about exceeding the speed limit by a major amount."))
              Options="@SpeedLimitWarningOptions"
-             SelectedIndex="@(Array.IndexOf(SpeedLimitWarningOptions.ToArray(), Enum.GetName<SpeedLimitWarning>(AssistanceSettings.Current.SpeedLimitWarningOption) ?? string.Empty))"
+             SelectedIndex="@(Array.IndexOf(SpeedLimitWarningOptions.ToArray(), TranslateSpeedLimitWarningOptions[AssistanceSettings.Current.SpeedLimitWarningOption] ?? string.Empty))"
              SelectedIndexChanged="@(index => {
                 var settings = AssistanceSettings.Current;
-                settings.SpeedLimitWarningOption = Enum.Parse<SpeedLimitWarning>(SpeedLimitWarningOptions[index]);
+                settings.SpeedLimitWarningOption = (SpeedLimitWarning)index;
                 AssistanceSettings.Current.Save();
              })" />
     <Switch Title=@(_("Pause When Unstable"))

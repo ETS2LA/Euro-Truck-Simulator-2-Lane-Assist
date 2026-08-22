@@ -109,9 +109,9 @@ public class PluginHandler
     public void LoadLibraries()
     {
         string[] libraryFiles = DiscoverManualDlls("Libraries");
-        Logger.Info(_("Discovered {0} manually installed libraries.", libraryFiles.Length));
+        Logger.Info(_n("Discovered {0} manually installed library", "Discovered {0} manually installed libraries.", libraryFiles.Length, libraryFiles.Length));
         libraryFiles = libraryFiles.Concat(DiscoverManifestDlls(PluginType.Library)).ToArray();
-        Logger.Info(_("Discovered {0} libraries in total.", libraryFiles.Length));
+        Logger.Info(_n("Discovered {0} library in total", "Discovered {0} libraries in total.", libraryFiles.Length, libraryFiles.Length));
 
         foreach (string filename in libraryFiles)
         {

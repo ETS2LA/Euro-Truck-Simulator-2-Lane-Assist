@@ -86,14 +86,14 @@
                @oninput="OnSearchQueryChanged" />
     </div>
 
-    <div class="mt-3 mb-3 bg-control-bg w-0.5 rounded-md"></div>
+    <div class="mt-2 mb-2 bg-control-bg w-0.5 rounded-md"></div>
 
     <!-- Plugins -->
     <div class="w-full h-full bg-bg-dark overflow-y-auto">
         <div class="w-108 m-5 ml-8 flex flex-col gap-4">
             @if (filteredPlugins.Count == 0)
             {
-                <div class="flex flex-col items-center justify-center h-full">
+                <div class="flex flex-col h-full">
                     <p class="text-text-muted">@(_("No plugins found."))</p>
                 </div>
             }
