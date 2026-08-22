@@ -282,7 +282,7 @@ msgstr "Überschreiben"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "Letzte Version: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
