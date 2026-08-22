@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
 "PO-Revision-Date: 2026-08-22 16:19+0000\n"
-"Last-Translator: ABOY <aboy@ets2la.com>\n"
+"Last-Translator: Max <max@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
 "\n"
 "Language: de\n"
@@ -554,7 +554,7 @@ msgstr ""
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:80
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
+msgstr "Fehler während herunterladens eines Updates."
 
 #: ../../../ETS2LA.UI/Pages/Error.razor:18
 msgid ""
