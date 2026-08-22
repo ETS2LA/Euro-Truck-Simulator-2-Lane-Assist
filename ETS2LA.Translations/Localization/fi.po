@@ -1,11 +1,12 @@
+# Tumppi066 <contact@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-21 17:48+0000\n"
+"PO-Revision-Date: 2026-08-22 11:40+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
-"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
-">\n"
+"Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
+"\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,7 +15,7 @@ msgstr ""
 "X-Generator: Weblate 5.14.3\n"
 
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "Peitekuvan kuvataajuus"
 
 #, csharp-format
 msgid ""
@@ -137,6 +138,8 @@ msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"Tämä antaa peitekuvan renderöidä monessa eri ikkunassa. Voit siis siirtää "
+"peitekuvan ikkunoita vapaasti mihin vain."
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -166,8 +169,8 @@ msgstr "Peli {0} ei ole käynnissä, odotetaan käyttäjäprofiilin latausta."
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Löydettiin {0} manuaalisesti asennettu kirjasto"
+msgstr[1] "Löydettiin {0} manuaalisesti asennettua kirjastoa"
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -185,7 +188,7 @@ msgstr ""
 "saadakseen vastauksen."
 
 msgid "Units and Language"
-msgstr ""
+msgstr "Yksiköt ja kieli"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -195,7 +198,7 @@ msgid "SDKs are currently installed."
 msgstr "SDK:t ovat asennettu."
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Maksimi renderöinti etäisyys"
 
 msgid "Speed Limit Warning"
 msgstr "Nopeusrajoituksen varoitus"
@@ -225,6 +228,8 @@ msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"Säädä mutkien tarkkuutta. Tämä siis säätä kuinka monta kolmiota niiden "
+"näyttämiseen käytetään."
 
 msgid "View Public Telemetry"
 msgstr "Katso julkinen telemetria"
@@ -262,6 +267,8 @@ msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
 msgstr ""
+"Varoitus: Laitteessasi on vähemmän kuin 16GB muistia. Voit valita "
+"korkeintaan keskitason."
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
@@ -278,8 +285,8 @@ msgstr "Virhe AR:n renderöinnissä: {0}"
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Löydettiin kokonaisuudessaan {0} kirjasto."
+msgstr[1] "Löydettiin kokonaisuudessaan {0} kirjastoa."
 
 msgid "Settings"
 msgstr "Asetukset"
@@ -340,6 +347,8 @@ msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
 "It discards all other information."
 msgstr ""
+"Tämä asetus lataa vain tiet ja risteyksen, jotka ovat ajettavissa. Asetus "
+"hylkää kaiken muun tiedon."
 
 msgid "Not Connected"
 msgstr "Laite irrotettu"
@@ -474,7 +483,7 @@ msgid "Failed to read version from '{0}': {1}"
 msgstr "Version määritys paikasta {0} epäonnistui: {1}"
 
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "Tue montaa ikkunaa"
 
 msgid "The server timed out waiting for the request from the client."
 msgstr ""
@@ -500,6 +509,7 @@ msgstr "Valittu kansio ei ole olemassa."
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
+"Kun peli raportoi olevansa pysäytetty, ETS2LA ei renderöi AR'n elementtejä."
 
 msgid "Display"
 msgstr "Grafiikat"
@@ -576,6 +586,8 @@ msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
+"Kieli jolla ETS2LA näytetään. Käännökset ovat yhteysön tekemiä, joten emme "
+"takaa niiden laatua. Paitsi suomeksi tietenkin, kirjoitettu by yours truly."
 
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
@@ -618,6 +630,9 @@ msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
+"Melkein kaikissa tilanteissa, suurin osa ETS2LA'n prosessorin käytöstä "
+"johtuu peitekuvasta. Asettamalla oman kuvataajuuden, voit vähentää "
+"sovelluksen prosessorin käyttöä."
 
 #, csharp-format
 msgid "Error while checking for updates: {0}"
@@ -627,7 +642,7 @@ msgid "Volume"
 msgstr "Äänenvoimakkuus"
 
 msgid "Limit Overlay Framerate"
-msgstr ""
+msgstr "Rajoita peitekuvan kuvataajuutta"
 
 msgid "Pascals"
 msgstr "Paskalia"
@@ -652,6 +667,8 @@ msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
 msgstr ""
+"Reittiä ei löytynyt. Palvelin, joka toimii reitittimenä sai virheellisen "
+"(tai puuttuvan) vastauksen seuraavalta palvelimenlta."
 
 msgid ""
 "Service unavailable. The server is currently unable to handle the request "
@@ -690,7 +707,7 @@ msgstr "Nykyinen Nopeus"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
+msgstr "Lovita jokaiseen 10 {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
@@ -717,6 +734,8 @@ msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
 msgstr ""
+"Suurin etäisyys jolla 3D elementit renderöidään. Tämän vähentäminen voi "
+"parantaa suorituskykyä vanhoissa tietokoneissa."
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
@@ -726,7 +745,7 @@ msgid "m"
 msgstr "m"
 
 msgid "Curve Quality"
-msgstr ""
+msgstr "Mutkien laatu"
 
 msgid "Initializing GLFW..."
 msgstr "Käynnistetään GLFW ikkunaa..."
@@ -805,12 +824,15 @@ msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"Tämä asetus hylkää turhat tiedot, mutta kuitenkin pitää lähes kaikki "
+"yksityiskohdat (kuten kyltit). Sisältää piilotetut ja vain tekoälylle "
+"tarkoitetut tiet."
 
 msgid "Visualization"
 msgstr "Visualisaatio"
 
 msgid "Display Units"
-msgstr ""
+msgstr "Yksiköt"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
@@ -877,16 +899,19 @@ msgid ""
 "objects (such as signs). Doesn't include any roads / intersections not shown "
 "in the in game map."
 msgstr ""
+"Tämä asetus hylkää turhat tiedot, mutta kuitenkin pitää lähes kaikki "
+"yksityiskohdat (kuten kyltit). Ei sisällä piilotettuja ja vain tekoälylle "
+"tarkoitettuja teitä."
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
 msgstr "Lisäosan asennus paikasta {0} paikkaan {1} epäonnistui: {2}"
 
 msgid "Display Language"
-msgstr ""
+msgstr "Kieli"
 
 msgid "3D Renderer"
-msgstr ""
+msgstr "3D Renderöinti"
 
 msgid "m/s"
 msgstr "m/s"
@@ -898,7 +923,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
-msgstr ""
+msgstr "Tämänhetkinen virkistystaajuus {0} FPS."
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
@@ -915,6 +940,8 @@ msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
 msgstr ""
+"Yksiköt joita käytetään lähes kaikessa näytetyssä informaatiossa. "
+"Tieteellisten ero metrisiin on hyvin pieni."
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -928,7 +955,7 @@ msgid "Off"
 msgstr "Pois"
 
 msgid "Render AR Elements"
-msgstr ""
+msgstr "Renderöi AR (3D) elementit"
 
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
@@ -970,7 +997,7 @@ msgstr ""
 "Palvelin tunnistaa pyynnön tyypin, mutta tavoiteresurssi ei hyväksy sitä."
 
 msgid "Overlay"
-msgstr ""
+msgstr "Peitekuva"
 
 msgid "Changelog"
 msgstr "Muutosloki"
@@ -1064,6 +1091,8 @@ msgid ""
 "Gateway timeout. The server was acting as a gateway or proxy and did not "
 "receive a timely response from the upstream server."
 msgstr ""
+"Reitityksen aikakatkaisu. Palvelin joka toimii reitittimenä ei saanut "
+"seuraavalta palvelimelta vastausta aikakatkaisun puitteissa."
 
 #, csharp-format
 msgid "Installed plugin with ID {0} not found."
@@ -1116,6 +1145,9 @@ msgid ""
 "class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
 "expect over 10GB of usage.</span>"
 msgstr ""
+"Tämä asetus sisältää kaiken saatavilla olevan karttadatan. Suurin osa näistä "
+"tiedoista on turhia. <span class=\"text-warning\">Varoitus: Tämä asetus "
+"käyttää järjettömän määrän muistia, odota reilusti yli 10GB käyttöä.</span>"
 
 msgid "You took a wrong turn!"
 msgstr "Käännyit väärään suuntaan!"
@@ -1186,7 +1218,7 @@ msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
 msgstr "Virhe laitteen [gray italic]({0})[/] tietojen keräämisessä: {1}"
 
 msgid "Stop Rendering When Game is Paused"
-msgstr ""
+msgstr "Pysäytä renderöinti pelin kanssa"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -1202,6 +1234,8 @@ msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
 msgstr ""
+"Kielen vaihtaminen vaatii sovelluksen uudelleenkäynnistystä. Käynnistetäänkö "
+"uudelleen nyt?"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1226,6 +1260,8 @@ msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
 msgstr ""
+"Voimme renderöitä mm. tekstiä pelimaailmassa peitekuvaa käyttäen. Tämä "
+"vaatii lisää suorituskykyä prosessorilta ja näytönohjaimelta."
 
 msgid "Button"
 msgstr "Nappi"
@@ -1287,6 +1323,8 @@ msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
 msgstr ""
+"Varoitus: Laitteessasi on vähemmän kuin 20GB muistia. Voit valita "
+"korkeintaan \"Korkea\" asetuksen."
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
@@ -1329,7 +1367,7 @@ msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Virhe lisäosan {0} uusimman version latauksessa."
 
 msgid "Simplified Graphics"
-msgstr ""
+msgstr "Yksinkertaistetut grafiikat"
 
 msgid "km/h"
 msgstr "km/h"
@@ -1438,6 +1476,9 @@ msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
 msgstr ""
+"Käyttämällä tätä asetusta voi vähentää 3D grafiikkojen "
+"suorituskykyvaatimuksia. Tämä voi myös korjata tilanteita joissa esimerkiksi "
+"OpenGL \"shaderit\" eivät ole saatavilla."
 
 msgid "The plugin was enabled successfully."
 msgstr "Lisäosa käynnistetiin onnistuneesti."
