@@ -1,10 +1,11 @@
 # ABOY <aboy@ets2la.com>, 2026.
+# Max <max@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
 "PO-Revision-Date: 2026-08-22 14:40+0000\n"
-"Last-Translator: ABOY <aboy@ets2la.com>\n"
+"Last-Translator: Max <max@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
 "\n"
 "Language: de\n"
@@ -112,11 +113,11 @@ msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
 msgstr "Übersprungenes veraltetes Plugin-Schattenverzeichnis [gray]{0}[/]:{1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:303
-#, csharp-format, fuzzy
+#, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] "{0} gefundene node"
-msgstr[1] "{0} gefundene nodes"
+msgstr[0] "{0} gefundener Punkt"
+msgstr[1] "{0} gefundene Punkte"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
@@ -124,7 +125,6 @@ msgid "Fast"
 msgstr "Schnell"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
-#, fuzzy
 msgid "Data Parsing"
 msgstr "Datenanalyse"
 
@@ -348,11 +348,10 @@ msgstr ""
 "auswählen."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:137
-#, fuzzy
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
-"Beim Ändern der Geschwindigkeit auf den nächste Zahl einrasten, z. B. 37 -> "
+"Beim ändern der Geschwindigkeit auf der nächsten Zahl einrasten, z. B. 37 -> "
 "39 -> 40 -> 42 ..."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
@@ -386,7 +385,6 @@ msgid "Medium"
 msgstr "Medium"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:113
-#, fuzzy
 msgid "Hat"
 msgstr "Hut"
 
@@ -401,11 +399,8 @@ msgid "Unregistered control: {0} ({1})"
 msgstr "Nicht registrierte Steuerung: {0} ({1})"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:145
-#, fuzzy
 msgid "Binding thread started with no control to bind."
-msgstr ""
-"Zuordnungs-Thread gestartet, ohne dass eine zuordnende Steuerung vorhanden "
-"ist."
+msgstr "Zuordnungs-Thread gestartet, ohne zuordnebare Steuerung."
 
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
 msgid "SDKs need to be installed."
@@ -413,7 +408,7 @@ msgstr "SDKs müssen installiert werden."
 
 #: ../../../ETS2LA.State/Units.cs:184
 msgid "meters per second"
-msgstr "meter pro sekunde"
+msgstr "Meter pro Sekunde"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:19
 msgid "Match Game"
