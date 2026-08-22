@@ -3,19 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 13:37:26+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-22 15:13+0000\n"
+"Last-Translator: H4ck3r_pr0_g4m3r <hpg@ets2la.com>\n"
+"Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
+"hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:177
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "Overlay maximális képkockasebessége"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
@@ -23,21 +24,23 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"A plugin (ID :{1} ) {0} verziója nem kompatibilis a jelenlegi operációs "
+"rendszerrel."
 
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
 msgid "bar"
-msgstr ""
+msgstr "bar"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "Plugin sikeresen telepítve {0} ({1}, {2})"
 
 #: ../../../ETS2LA/Program.cs:54
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "Ignorált DBus-kivétel: {0}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:22
 msgid "Main"
@@ -46,7 +49,7 @@ msgstr ""
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "Ez lehet, hogy elfog tartani egy ideig… ({0}/{1})"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -54,12 +57,12 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "A plugin (ID {0}) nem találva."
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:28
 msgid "Plugins"
