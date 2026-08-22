@@ -1,9 +1,10 @@
+# ShengFan <shengfan@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 19:15:55+0300\n"
-"PO-Revision-Date: 2026-08-21 17:48+0000\n"
-"Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
+"PO-Revision-Date: 2026-08-22 18:09+0000\n"
+"Last-Translator: ShengFan <shengfan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -16,283 +17,292 @@ msgstr ""
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
-msgstr ""
+msgstr "这项设置将会移除冗余的信息，保留大部分细节物体（比如路牌）。冗余的信息包括隐"
+"藏的和仅AI可行的道路。"
 
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "未知控制ID"
 
 msgid "Sorry"
-msgstr ""
+msgstr "抱歉"
 
 msgid "Display"
-msgstr ""
+msgstr "显示"
 
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "叠加层交互"
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "SDK 安装失败"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
-msgstr ""
+msgstr "摇杆 {0} 打开失败。"
 
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "匿名遥测"
 
 msgid ""
 "Increases the current value (e.g. target speed) by one step. Without any "
 "visual modifier shown in the UI, this will increase the target speed by 1 km/"
 "h."
-msgstr ""
+msgstr "以一步为单位，增大当前选中的数值。如果没有从界面中选中任何一个数值，将会增加"
+"1km/h的目标速度。"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
+msgstr "找不到可以修改绑定的 {0} 号控制。"
 
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"强制 ETS2LA 在游戏启动时加载地图。若游戏的 game.log.txt 文件不在 ETS2LA 预期"
+"的位置，此选项可以解决由此导致的一些问题。"
 
 msgid "Game SDK"
-msgstr ""
+msgstr "游戏 SDK"
 
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "忽略交通规则"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "解析位于 '{0}' 的安装实例（版本 {1}）"
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
-msgstr ""
+msgstr "当修改速度时，将会尝试对齐到最近的 10 的倍数。比如步长为 2 时，调整顺序为 37 "
+"-> 39 -> 40 -> 42。"
 
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "已安装 {0}"
 
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr ""
+msgstr "从 {0} 加载地图数据时出错：{1}"
 
 msgid "Medium"
-msgstr ""
+msgstr "中等"
 
 msgid "Maximum Speed"
-msgstr ""
+msgstr "最高速度"
 
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
-msgstr ""
+msgstr "当游戏处于暂停状态时，ETS2LA 将不会显示 AR 元素。"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "已连接摇杆：[bold]{0}[/] [gray italic]({1})[/]"
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "正在绑定控制 {0} （{1}）"
 
 #, csharp-format
 msgid "Failed to enable dependency: {0}"
-msgstr ""
+msgstr "启用依赖项失败：{0}"
 
 msgid "Main"
-msgstr ""
+msgstr "主菜单"
 
 #, csharp-format
 msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
-msgstr ""
+msgstr "插件（ID：{1}）的 {0} 版本和当前的应用版本或操作系统不兼容。"
 
 #, csharp-format
 msgid "found {0} road"
 msgid_plural "found {0} roads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "找到了 {0} 条道路"
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "控制 {0}（{1}）的绑定超时了。"
 
 msgid "Dashboard"
-msgstr ""
+msgstr "仪表盘"
 
 msgid "Error in navigation update loop."
-msgstr ""
+msgstr "导航更新时出现错误。"
 
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
-msgstr ""
+msgstr "警告：你的系统内存少于 16GB。你最多只能选择“中等”。"
 
 msgid "Increase"
-msgstr ""
+msgstr "增加"
 
 msgid "Window Zoom"
-msgstr ""
+msgstr "窗口缩放"
 
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, "
 "and we don't intend to fix this."
-msgstr ""
+msgstr "破解版游戏或试玩版会阻止我们的 SDK 加载，因此无法正常使用。我们也没有计划对此"
+"进行适配。"
 
 msgid "km/h"
-msgstr ""
+msgstr "km/h"
 
 msgid "The step size for changing the cruise control speed."
-msgstr ""
+msgstr "调整巡航速度时的步长。"
 
 msgid "Initializing..."
-msgstr ""
+msgstr "正在初始化..."
 
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "渲染窗口 {0} 时发生错误：{1}"
 
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "刷新摇杆时出错：{0}"
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
-msgstr ""
+msgstr "加载“{0}”时出错：{1}"
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
-msgstr ""
+msgstr "成功更新了 ID 为 {0} 的插件。"
 
 msgid "Visual"
-msgstr ""
+msgstr "视觉提示"
 
 msgid "Additional"
-msgstr ""
+msgstr "其他"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
+msgstr "下载更新时发生错误：{0}"
 
 msgid "Keyboard"
-msgstr ""
+msgstr "键盘"
 
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
-msgstr ""
+msgstr "无法在路径“{0}”里找到游戏可执行文件，将不会把它添加为游戏安装位置。"
 
 msgid "Chime"
-msgstr ""
+msgstr "提示音"
 
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "无法创建 GLFW 窗口"
 
 msgid "Fast"
-msgstr ""
+msgstr "快"
 
 msgid "Curve Quality"
-msgstr ""
+msgstr "曲线质量"
 
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
-msgstr ""
+msgstr "调整 ETS2LA 应对必要转向调整的方式。例如，这项设置可以控制 ETS2LA 变道的速度"
+"。"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
-msgstr ""
+msgstr "成功卸载 ID 为 {0} 的插件。"
 
 msgid "Performance Overlay"
-msgstr ""
+msgstr "性能叠加层"
 
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "摇杆断开连接：[gray italic]({0})[/]"
 
 #, csharp-format
 msgid "Update to {0}"
-msgstr ""
+msgstr "更新到 {0}"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "未找到 ID 为“{0}”的控制项，无法更新输入轴行为。"
 
 msgid "Networking"
-msgstr ""
+msgstr "网络"
 
 #, csharp-format
 msgid ""
 "Press a button or move an axis on your input device to bind it to this "
 "control. This will time out in {0} seconds."
-msgstr ""
+msgstr "按下设备上的按键或移动输入轴，以将其绑定到此控制项。请在 {0} 秒内完成操作。"
 
 msgid ""
 "Subscriptions will <span class=\"font-bold text-text-accent\">never</span> "
 "be required for using ETS2LA. They are a way you can support the development."
 msgstr ""
+"使用 ETS2LA <span class=\"font-bold text-text-accent\">永远</span>不需要订阅"
+"。订阅只是支持开发的一种方式。"
 
 msgid "Data Parsing"
-msgstr ""
+msgstr "数据解析"
 
 msgid ""
 "Service unavailable. The server is currently unable to handle the request "
 "due to temporary overloading or maintenance."
-msgstr ""
+msgstr "服务不可用。由于暂时过载或者维护目的，服务器目前无法处理请求。"
 
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning "
 "this to off will disable collision avoidance regardless of your enabled "
 "plugins."
-msgstr ""
+msgstr "调整 ETS2LA 对潜在碰撞的反应提前程度。关闭时，无论启用了什么插件，防碰撞功能"
+"都会停用。"
 
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "选中的文件不存在。"
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "无法从“{0}”读取版本信息：{1}"
 
 msgid "Are you sure?"
-msgstr ""
+msgstr "你确定吗？"
 
 msgid "Render AR Elements"
-msgstr ""
+msgstr "渲染 AR 元素"
 
 #, csharp-format
 msgid "LoaderException: {0}"
 msgstr "加载器异常：{0}"
 
 msgid "Data Fidelity"
-msgstr ""
+msgstr "数据精细度"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
+msgstr "无法卸载 ID 为 {0} 插件的当前版本。"
 
 msgid "Assist"
-msgstr ""
+msgstr "辅助"
 
 msgid "Early"
-msgstr ""
+msgstr "早"
 
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
-msgstr ""
+msgstr "网关出错。服务器作为网关或代理时，从上游服务器收到了无效响应。"
 
 msgid "The server timed out waiting for the request from the client."
-msgstr ""
+msgstr "服务器在等待客户端发送请求时超时。"
 
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "后端已关闭。"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
+msgstr "订阅事件时找不到 ID 为“{0}”的控制项。"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
