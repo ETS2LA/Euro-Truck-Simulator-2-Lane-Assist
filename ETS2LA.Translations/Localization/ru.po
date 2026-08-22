@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 19:15:55+0300\n"
-"PO-Revision-Date: 2026-08-22 16:29+0000\n"
+"PO-Revision-Date: 2026-08-22 18:08+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
 "\n"
@@ -19,21 +19,24 @@ msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"Этот режим отбрасывает избыточную информацию, сохраняя большинство объектов "
+"детализации (например, дорожные знаки). Включает все скрытые дороги и "
+"дороги, используемые только ИИ."
 
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "Неизвестный ID элемента управления"
 
 msgid "Sorry"
-msgstr ""
+msgstr "Извини"
 
 msgid "Display"
-msgstr ""
+msgstr "Дисплей"
 
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "Взаимодействие с оверлеем"
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "Ошибка установки SDK"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
@@ -47,18 +50,24 @@ msgid ""
 "visual modifier shown in the UI, this will increase the target speed by 1 km/"
 "h."
 msgstr ""
+"Увеличивает текущее значение (например, целевую скорость) на один шаг. Если "
+"в интерфейсе не отображается дополнительный модификатор, целевая скорость "
+"увеличивается на 1 км/ч."
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
+msgstr "Элемент управления с ID '{0}' не найден для обновления привязок."
 
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"Заставляет ETS2LA загружать карту при запуске игры. Это может решить "
+"проблемы, если файл game.log.txt находится не там, где ETS2LA ожидает его "
+"найти."
 
 msgid "Game SDK"
-msgstr ""
+msgstr "SDK игры"
 
 msgid "Ignore Traffic Rules"
 msgstr ""
@@ -587,7 +596,7 @@ msgstr "Не удалось завершить работу плагина {0}: 
 
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
-msgstr ""
+msgstr "Плагин с ID {0} не найден среди доступных плагинов."
 
 msgid "Manager"
 msgstr ""
