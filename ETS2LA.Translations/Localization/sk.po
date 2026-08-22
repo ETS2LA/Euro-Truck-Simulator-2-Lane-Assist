@@ -1,11 +1,12 @@
+# Ketchup1812 <ketchup1812@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 13:37:25+0300\n"
-"PO-Revision-Date: 2026-08-22 10:51+0000\n"
+"PO-Revision-Date: 2026-08-22 11:40+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
-">\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
+"\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,7 +15,7 @@ msgstr ""
 "X-Generator: Weblate 5.14.3\n"
 
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "Maximálna snímková frekvencia pre prekrývanie"
 
 #, csharp-format
 msgid ""
@@ -142,6 +143,9 @@ msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"Vďaka tomu môže ETS2LA vykresľovať obraz vo viacerých zobrazeniach, čo "
+"znamená, že okná s prekrývajúcimi sa vrstvami môžete presúvať na ľubovoľný "
+"monitor."
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -170,9 +174,9 @@ msgstr ""
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Zistená {0} ručne nainštalovaná knižnica."
+msgstr[1] "Zistené {0} ručne nainštalované knižnice."
+msgstr[2] "Zistených {0} ručne nainštalovaných knižníc."
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -189,7 +193,7 @@ msgstr ""
 "Je potrebné overenie. Klient sa musí overiť, aby získal požadovanú odpoveď."
 
 msgid "Units and Language"
-msgstr ""
+msgstr "Jednotky a jazyk"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -199,7 +203,7 @@ msgid "SDKs are currently installed."
 msgstr "SDK sú v súčasnosti nainštalované."
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Maximálna vzdialenosť vykresľovania"
 
 msgid "Speed Limit Warning"
 msgstr "Upozornenie na rýchlostný limit"
@@ -230,6 +234,8 @@ msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"Nastavte kvalitu kriviek používaných pri plánovaní trasy a vizualizácii. V "
+"predvolenom nastavení sa táto hodnota zhoduje s nastavením v hre."
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -267,6 +273,8 @@ msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
 msgstr ""
+"Upozornenie: Váš systém má menej ako 16 GB pamäte RAM. Môžete zvoliť iba "
+"nastavenie „Stredné“."
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
@@ -282,9 +290,9 @@ msgstr "Chyba pri vykresľovaní AR: {0}"
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Celkovo bola nájdená {0} knižnica."
+msgstr[1] "Celkovo boli nájdené {0} knižnice."
+msgstr[2] "Celkovo bolo nájdených {0} knižníc."
 
 msgid "Settings"
 msgstr "Nastavenia"
@@ -346,6 +354,8 @@ msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
 "It discards all other information."
 msgstr ""
+"Toto nastavenie načíta iba cesty a križovatky, ktoré sú viditeľné na mape v "
+"hre. Všetky ostatné informácie sa ignorujú."
 
 msgid "Not Connected"
 msgstr "Nie je pripojený"
@@ -480,7 +490,7 @@ msgid "Failed to read version from '{0}': {1}"
 msgstr "Nepodarilo sa načítať verziu z „{0}“: {1}"
 
 msgid "Support Multiple Viewports"
-msgstr ""
+msgstr "Podpora viacerých zobrazení"
 
 msgid "The server timed out waiting for the request from the client."
 msgstr "Serveru vypršal časový limit pri čakaní na požiadavku od klienta."
@@ -505,6 +515,8 @@ msgstr "Vybraný adresár neexistuje."
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
+"Keď hra zaznamená, že je pozastavená, ETS2LA nebude vykresľovať prvky "
+"rozšírenej reality."
 
 msgid "Display"
 msgstr "Zobraziť"
@@ -583,6 +595,8 @@ msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
+"Jazyk, v ktorom sa bude zobrazovať ETS2LA. Preklady poskytuje komunita, "
+"nemôžeme zaručiť ich správnosť :)"
 
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
@@ -625,6 +639,9 @@ msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
+"Vo väčšine prípadov viac ako polovicu vyťaženia procesora v hre ETS2LA "
+"spotrebúva overlay. Obmedzením počtu snímok za sekundu sa zníži vyťaženie "
+"procesora."
 
 #, csharp-format
 msgid "Error while checking for updates: {0}"
@@ -634,7 +651,7 @@ msgid "Volume"
 msgstr "Hlasitosť"
 
 msgid "Limit Overlay Framerate"
-msgstr ""
+msgstr "Obmedziť snímkovú frekvenciu prekrývania"
 
 msgid "Pascals"
 msgstr "Pascali"
@@ -699,7 +716,7 @@ msgstr "Aktuálna rýchlosť"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
+msgstr "Zarovnať po každých 10 {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
@@ -726,6 +743,8 @@ msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
 msgstr ""
+"Maximálna vzdialenosť, do ktorej sa budú vykresľovať 3D prvky. Znížením "
+"tejto hodnoty je možné zlepšiť výkon na slabšom hardvéri."
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
@@ -737,7 +756,7 @@ msgid "m"
 msgstr "m"
 
 msgid "Curve Quality"
-msgstr ""
+msgstr "Kvalita krivky"
 
 msgid "Initializing GLFW..."
 msgstr "Inicializácia GLFW..."
@@ -817,12 +836,15 @@ msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"Toto nastavenie odstraňuje nadbytočné informácie, pričom zachováva väčšinu "
+"detailných objektov (napríklad dopravné značky). Zahŕňa všetky skryté cesty "
+"a cesty určené výlučne pre umelú inteligenciu."
 
 msgid "Visualization"
 msgstr "Vizualizácia"
 
 msgid "Display Units"
-msgstr ""
+msgstr "Displeje"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
@@ -892,16 +914,19 @@ msgid ""
 "objects (such as signs). Doesn't include any roads / intersections not shown "
 "in the in game map."
 msgstr ""
+"Toto nastavenie odstraňuje nadbytočné informácie, pričom zachováva väčšinu "
+"detailných objektov (napríklad dopravné značky). Nezahŕňa žiadne cesty ani "
+"križovatky, ktoré nie sú zobrazené na mape v hre."
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
 msgstr "Nepodarila sa Inštalácia SDK z „{0}“ do „{1}“: {2}"
 
 msgid "Display Language"
-msgstr ""
+msgstr "Jazyk zobrazenia"
 
 msgid "3D Renderer"
-msgstr ""
+msgstr "3D renderovač"
 
 msgid "m/s"
 msgstr "m/s"
@@ -912,7 +937,7 @@ msgstr "Ako vás ETS2LA upozorní na výrazné prekročenie rýchlostného limit
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
-msgstr ""
+msgstr "V súčasnosti beží rýchlosťou {0} FPS."
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
@@ -930,6 +955,8 @@ msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
 msgstr ""
+"Jednotky, ktoré ETS2LA používa pri zobrazovaní informácií používateľovi. "
+"Vedecký systém sa od metrického líši len minimálne."
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -943,7 +970,7 @@ msgid "Off"
 msgstr "Vypnúť"
 
 msgid "Render AR Elements"
-msgstr ""
+msgstr "Vykresliť prvky AR"
 
 msgid ""
 "Parsing will continue, however information contained in this file won't be "
@@ -985,7 +1012,7 @@ msgstr ""
 "Metóda požiadavky je serverom rozpoznaná, cieľový zdroj ju však nepodporuje."
 
 msgid "Overlay"
-msgstr ""
+msgstr "Prekrytie"
 
 msgid "Changelog"
 msgstr "Zoznam zmien"
@@ -1135,6 +1162,10 @@ msgid ""
 "class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
 "expect over 10GB of usage.</span>"
 msgstr ""
+"Toto nastavenie zahŕňa všetky dostupné údaje, z ktorých je väčšina "
+"nadbytočná. <span class=\"text-warning\">Upozornenie: Režim „Extreme“ "
+"spotrebúva značné množstvo pamäte RAM, počítajte s využitím viac ako 10 "
+"GB.</span>"
 
 msgid "You took a wrong turn!"
 msgstr "Zabočil si nesprávne!"
@@ -1204,7 +1235,7 @@ msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
 msgstr "Nepodarilo sa získať joystick [gray italic]({0})[/]: {1}"
 
 msgid "Stop Rendering When Game is Paused"
-msgstr ""
+msgstr "Zastaviť vykresľovanie, keď je hra pozastavená"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -1220,6 +1251,8 @@ msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
 msgstr ""
+"Aby sa zmena jazyka zobrazenia uplatnila, je potrebné reštartovať ETS2LA. "
+"Chcete reštartovať teraz?"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1245,6 +1278,8 @@ msgid ""
 "We can render elements in the game world using the overlay. This will use "
 "additional CPU and GPU resources."
 msgstr ""
+"Pomocou prekrývacieho okna môžeme vykresľovať prvky v hernom svete. To bude "
+"vyžadovať dodatočné zdroje procesora a grafickej karty."
 
 msgid "Button"
 msgstr "Tlačidlo"
@@ -1309,6 +1344,8 @@ msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
 msgstr ""
+"Upozornenie: Váš systém má menej ako 20 GB pamäte RAM. Môžete zvoliť "
+"maximálne úroveň „Vysoký“."
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
@@ -1351,7 +1388,7 @@ msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
 
 msgid "Simplified Graphics"
-msgstr ""
+msgstr "Zjednodušená grafika"
 
 msgid "km/h"
 msgstr "km/h"
@@ -1462,6 +1499,9 @@ msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
 msgstr ""
+"Použitie zjednodušenej grafiky môže zvýšiť výkon na slabšom hardvéri alebo "
+"vyriešiť situácie, v ktorých nie sú podporované pokročilé funkcie, ako "
+"napríklad shadery."
 
 msgid "The plugin was enabled successfully."
 msgstr "Plugin bol úspešne aktivovaný."
