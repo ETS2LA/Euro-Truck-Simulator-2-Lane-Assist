@@ -25,6 +25,8 @@ public static class Languages
         new Language { EnglishName = "German", NativeName = "Deutsch", Code = "de" },
         new Language { EnglishName = "Korean", NativeName = "한국어", Code = "ko" },
         new Language { EnglishName = "Hungarian", NativeName = "Magyar", Code = "hu" },
+        new Language { EnglishName = "Russian", NativeName = "Русский", Code = "ru" },
+        new Language { EnglishName = "Estonian", NativeName = "Eesti", Code = "et" },
     }.OrderBy(l => l.EnglishName).ToList();
 }
 
