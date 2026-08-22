@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+html {
+  font-feature-settings: "locl";
+}
 
 @theme {
   --color-text-h: var(--text-h);
@@ -37,8 +40,20 @@
 
   --color-code-bg: var(--code-bg);
 
-  --font-sans: Outfit, system-ui, sans-serif;
-  --font-heading: Outfit, system-ui, sans-serif;
+  --font-sans: 
+    Outfit, 
+    /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
+    /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
+    /* Korean */ "Noto Sans KR", "Malgun Gothic",
+    /* System */ sans-serif;
+  --font-heading: 
+    Outfit, 
+    /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
+    /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
+    /* Korean */ "Noto Sans KR", "Malgun Gothic",
+    /* System */ sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
 }
 

@@ -15,10 +15,11 @@ public static class Languages
     public static List<Language> SupportedLanguages = new List<Language>
     {
         new Language { EnglishName = "English", NativeName = "English", Code = "en" },
-        new Language { EnglishName = "Chinese (Simplified)", NativeName = "...", Code = "zh_Hans" },
-        new Language { EnglishName = "Chinese (Traditional)", NativeName = "...", Code = "zh_Hant" },
-        new Language { EnglishName = "Slovak", NativeName = "...", Code = "sk" },
-        new Language { EnglishName = "Finnish", NativeName = "Suomi", Code = "fi" }
+        new Language { EnglishName = "Chinese (Simplified)", NativeName = "简体中文", Code = "zh_Hans" },
+        new Language { EnglishName = "Chinese (Traditional)", NativeName = "繁體中文", Code = "zh_Hant" },
+        new Language { EnglishName = "Slovak", NativeName = "Slovenčina", Code = "sk" },
+        new Language { EnglishName = "Finnish", NativeName = "Suomi", Code = "fi" },
+        new Language { EnglishName = "Japanese", NativeName = "日本語", Code = "ja" }
     };
 }
 
