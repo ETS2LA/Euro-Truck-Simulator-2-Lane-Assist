@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-22 23:07:20+0300\n"
+"POT-Creation-Date: 2026-08-23 13:15:24+0300\n"
 "PO-Revision-Date: 2026-08-22 15:13+0000\n"
 "Last-Translator: H4ck3r_pr0_g4m3r <hpg@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -14,8 +14,100 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.14.3\n"
 
-msgid "Max Overlay Framerate"
-msgstr "Overlay maximális képkockasebessége"
+msgid ""
+"This setting drops redundant information while maintaining most detail "
+"objects (such as signs). Includes all hidden and AI only roads."
+msgstr ""
+
+msgid "Unknown Control ID"
+msgstr ""
+
+msgid "Sorry"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Overlay Interaction"
+msgstr ""
+
+msgid "SDK Installation Failed"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to open joystick {0}."
+msgstr ""
+
+msgid "Anonymous Telemetry"
+msgstr ""
+
+msgid ""
+"Increases the current value (e.g. target speed) by one step. Without any "
+"visual modifier shown in the UI, this will increase the target speed by 1 km/"
+"h."
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for updating bindings."
+msgstr ""
+
+msgid ""
+"Force ETS2LA to load the map on game startup. This can resolve issues where "
+"your game.log.txt is not where ETS2LA expects it."
+msgstr ""
+
+msgid "Game SDK"
+msgstr ""
+
+msgid "Ignore Traffic Rules"
+msgstr ""
+
+#, csharp-format
+msgid "Parsing installation at '{0}' (version: {1})"
+msgstr ""
+
+msgid ""
+"When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "kg"
+msgstr ""
+
+#, csharp-format
+msgid "Installed {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Error loading map data from '{0}': {1}"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Maximum Speed"
+msgstr ""
+
+msgid ""
+"When the game reports itself being paused, ETS2LA won't render AR elements."
+msgstr ""
+
+#, csharp-format
+msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
+msgstr ""
+
+#, csharp-format
+msgid "Starting binding for control {0} ({1})"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to enable dependency: {0}"
+msgstr ""
+
+msgid "Main"
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -25,262 +117,23 @@ msgstr ""
 "A plugin (ID :{1} ) {0} verziója nem kompatibilis a jelenlegi operációs "
 "rendszerrel."
 
-msgid "bar"
-msgstr "bar"
-
-msgid "Translated by:"
-msgstr ""
-
 #, csharp-format
-msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr "Plugin sikeresen telepítve {0} ({1}, {2})"
-
-#, csharp-format
-msgid "Ignored DBus exception: {0}"
-msgstr "Ignorált DBus-kivétel: {0}"
-
-msgid "Main"
-msgstr ""
-
-#, csharp-format
-msgid "This might take a while... ({0}/{1})"
-msgstr "Ez lehet, hogy elfog tartani egy ideig… ({0}/{1})"
-
-#, csharp-format
-msgid "{0}"
-msgstr "{0}"
-
-#, csharp-format
-msgid "Plugin with ID {0} not found."
-msgstr "A plugin (ID {0}) nem találva."
-
-msgid "Pause Steering Assist: "
-msgstr ""
-
-msgid "Plugins"
-msgstr ""
-
-msgid "Failed to create GLFW window"
-msgstr ""
-
-msgid "Collision Avoidance"
-msgstr ""
-
-msgid "Starting download..."
-msgstr ""
-
-msgid ""
-"Adjust the level of detail of the game data we use. Higher values use more "
-"RAM, but include more information. All levels drive the same."
-msgstr ""
-
-msgid "Interaction Mode"
-msgstr ""
-
-msgid "Install Update and Restart"
-msgstr ""
-
-#, csharp-format
-msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
-
-#, csharp-format
-msgid "Discovered {0} manually installed plugin."
-msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "SDK Uninstalled"
-msgstr ""
-
-msgid "Restarting ETS2LA..."
-msgstr ""
-
-#, csharp-format
-msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
-
-#, csharp-format
-msgid "found {0} node"
-msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Fast"
-msgstr ""
-
-msgid "Data Parsing"
-msgstr ""
-
-msgid "Desired Speed: "
-msgstr ""
-
-msgid "K"
-msgstr ""
-
-msgid "Error in camera update loop."
-msgstr ""
-
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-
-msgid "Unchanged / Unavailable"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
-
-msgid "Catalogue"
-msgstr ""
-
-msgid ""
-"The maximum speed ETS2LA will accelerate to. It might still drift over this "
-"limit due to momentum."
-msgstr ""
-
-#, csharp-format
-msgid "New limit {0} {1}"
-msgstr ""
-
-#, csharp-format
-msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr ""
-
-msgid ""
-"This allows ETS2LA to render in multiple viewports, meaning you can move "
-"overlay windows to any monitor."
-msgstr ""
-
-msgid "Display Units: "
-msgstr ""
-
-msgid "Vision Cameras"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
-
-#, csharp-format
-msgid "Tried to disable {0}, but it was not found among loaded plugins."
-msgstr ""
-
-msgid ""
-"Failed to fetch available plugins. Please check your internet connection."
-msgstr ""
-
-#, csharp-format
-msgid "Error rendering window {0}: {1}"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
-
-#, csharp-format
-msgid "Discovered {0} manually installed library"
-msgid_plural "Discovered {0} manually installed libraries."
+msgid "found {0} road"
+msgid_plural "found {0} roads"
 msgstr[0] ""
 msgstr[1] ""
 
 #, csharp-format
-msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgid "Binding for control {0} ({1}) timed out."
 msgstr ""
 
-#, csharp-format
-msgid "Not all dependencies for plugin {0} are installed."
+msgid "Dashboard"
 msgstr ""
 
-msgid "Adaptive Cruise Control"
+msgid "Update Available"
 msgstr ""
 
-msgid ""
-"Authentication is required. The client must authenticate itself to get the "
-"requested response."
-msgstr ""
-
-msgid "Units and Language"
-msgstr ""
-
-#, csharp-format
-msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
-
-msgid "SDKs are currently installed."
-msgstr ""
-
-msgid "Max Render Distance"
-msgstr ""
-
-msgid "Speed Limit Warning"
-msgstr ""
-
-msgid "Imperial"
-msgstr ""
-
-msgid ""
-"Your system has less than 20GB of RAM. Extreme data fidelity uses "
-"significant amounts of RAM, and may cause your system to become unstable. "
-"Please select a lower fidelity."
-msgstr ""
-
-msgid "Increase"
-msgstr ""
-
-#, csharp-format
-msgid "Installed {0}"
-msgstr ""
-
-msgid "Additional"
-msgstr ""
-
-msgid "Visual"
-msgstr ""
-
-msgid ""
-"Adjust the quality of the curves used for path planning and visualization. "
-"By default this matches the game."
-msgstr ""
-
-msgid "View Public Telemetry"
-msgstr ""
-
-msgid "°C"
-msgstr ""
-
-msgid "Overrides"
-msgstr ""
-
-#, csharp-format
-msgid "Latest Version: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
-
-msgid "Anonymous Telemetry"
-msgstr ""
-
-msgid "Failed to add game"
-msgstr ""
-
-msgid "Show More Logs"
-msgstr ""
-
-msgid "Warning: Insufficient RAM"
-msgstr ""
-
-msgid "hide"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Manually added game at '{0}' no longer contains a game executable, skipping."
+msgid "Error in navigation update loop."
 msgstr ""
 
 msgid ""
@@ -288,94 +141,108 @@ msgid ""
 "Medium."
 msgstr ""
 
-msgid ""
-"When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
+msgid "Increase"
 msgstr ""
 
-msgid "Data Quality"
+msgid "Window Zoom"
 msgstr ""
 
-#, csharp-format
-msgid "Error in AR rendering: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Discovered {0} library in total"
-msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Settings"
-msgstr ""
-
-#, csharp-format
-msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
-
-msgid "Metric"
-msgstr ""
-
-msgid "Medium"
-msgstr ""
-
-#, csharp-format
-msgid "{0} m/s ({1} in {2})"
-msgstr ""
-
-msgid "Game added"
-msgstr ""
-
-#, csharp-format
-msgid "Unregistered control: {0} ({1})"
-msgstr ""
-
-msgid "Binding thread started with no control to bind."
-msgstr ""
-
-msgid "SDKs need to be installed."
-msgstr ""
-
-msgid "meters per second"
-msgstr ""
-
-msgid "Match Game"
-msgstr ""
-
-msgid "Wiki / FAQ"
-msgstr ""
-
-msgid "Failed to init ImGui Impl GLFW"
-msgstr ""
-
-#, csharp-format
-msgid "Update available: {0}"
-msgstr ""
-
-msgid "This page will be implemented in a future update."
-msgstr ""
-
-#, csharp-format
-msgid "Fetched {0} plugin from {1}"
-msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] ""
-msgstr[1] ""
-
-#, csharp-format
-msgid "Failed to open joystick {0}."
+msgid "Show More Logs"
 msgstr ""
 
 msgid ""
-"This setting only loads roads and intersections visible on the in game map. "
-"It discards all other information."
+"Cracked games or demos will block our SDK from loading. They do not work, "
+"and we don't intend to fix this."
 msgstr ""
 
-msgid "Not Connected"
+msgid "km/h"
+msgstr ""
+
+msgid "The step size for changing the cruise control speed."
+msgstr ""
+
+msgid "Initializing..."
+msgstr ""
+
+#, csharp-format
+msgid "Error rendering window {0}: {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to refresh joysticks: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Error loading '{0}': {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Successfully updated plugin with ID {0}."
+msgstr ""
+
+msgid "Visual"
+msgstr ""
+
+msgid "Additional"
+msgstr ""
+
+msgid "Show Fewer Logs"
+msgstr ""
+
+#, csharp-format
+msgid "Error while downloading update: {0}"
+msgstr ""
+
+msgid "Keyboard"
+msgstr ""
+
+#, csharp-format
+msgid "No game executable found in '{0}', not adding it as an installation."
+msgstr ""
+
+msgid "Chime"
+msgstr ""
+
+msgid "Failed to create GLFW window"
+msgstr ""
+
+msgid "Fast"
+msgstr ""
+
+msgid "Install Update and Restart"
+msgstr ""
+
+msgid "Curve Quality"
 msgstr ""
 
 msgid ""
-"Some mods implement additional maps like japan.mbd or russia.mbd. If you "
-"find your mods are not loading properly, try enabling this option. This is "
-"known to be required for RusMap."
+"Adjust how ETS2LA will respond to necessary steering changes. This for "
+"example controls how quickly ETS2LA will lane-change."
+msgstr ""
+
+#, csharp-format
+msgid "Successfully uninstalled plugin with ID {0}."
+msgstr ""
+
+msgid "No Update Available"
+msgstr ""
+
+msgid "Performance Overlay"
+msgstr ""
+
+#, csharp-format
+msgid "Disconnected joystick: [gray italic]({0})[/]"
+msgstr ""
+
+#, csharp-format
+msgid "Update to {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for updating axis behavior."
+msgstr ""
+
+msgid "Networking"
 msgstr ""
 
 #, csharp-format
@@ -384,36 +251,20 @@ msgid ""
 "control. This will time out in {0} seconds."
 msgstr ""
 
-#, csharp-format
-msgid "Update to {0} from {1}"
+msgid ""
+"Subscriptions will <span class=\"font-bold text-text-accent\">never</span> "
+"be required for using ETS2LA. They are a way you can support the development."
 msgstr ""
 
-#, csharp-format
-msgid "Plugin with ID {0} not found in available plugins."
+msgid "Data Parsing"
 msgstr ""
 
-msgid "State Info"
+msgid ""
+"Service unavailable. The server is currently unable to handle the request "
+"due to temporary overloading or maintenance."
 msgstr ""
 
-#, csharp-format
-msgid "Error in AR OpenGL pass: {0}"
-msgstr ""
-
-msgid "Error in traffic update loop."
-msgstr ""
-
-#, csharp-format
-msgid "Error while applying update: {0}"
-msgstr ""
-
-msgid "Adjustments"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to unload plugin load context: {0}"
-msgstr ""
-
-msgid "Pause Longitudinal Assist: "
+msgid "Enabled"
 msgstr ""
 
 msgid ""
@@ -422,13 +273,97 @@ msgid ""
 "plugins."
 msgstr ""
 
+msgid "The selected file does not exist."
+msgstr ""
+
 #, csharp-format
-msgid "Camera {0} ({1}x{2})"
+msgid "Latest Version: {0}"
+msgstr ""
+
+msgid "Translating release notes..."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to read version from '{0}': {1}"
+msgstr ""
+
+msgid "Are you sure?"
+msgstr ""
+
+msgid "Render AR Elements"
+msgstr ""
+
+msgid "Unchanged / Unavailable"
+msgstr ""
+
+#, csharp-format
+msgid "LoaderException: {0}"
+msgstr ""
+
+msgid "Data Fidelity"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to uninstall current version of plugin with ID {0}."
+msgstr ""
+
+msgid "Assist"
+msgstr ""
+
+msgid "Early"
 msgstr ""
 
 msgid ""
-"Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
-"Emergency braking is not affected."
+"Bad gateway. The server, while acting as a gateway or proxy, received an "
+"invalid response from an inbound server."
+msgstr ""
+
+msgid "The server timed out waiting for the request from the client."
+msgstr ""
+
+msgid "Backend shutdown complete."
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for event subscription."
+msgstr ""
+
+#, csharp-format
+msgid "Unregistered control: {0} ({1})"
+msgstr ""
+
+msgid "Contact Us"
+msgstr ""
+
+#, csharp-format
+msgid "Copied '{0}' to '{1}'"
+msgstr ""
+
+msgid "Clear Console"
+msgstr ""
+
+msgid "show"
+msgstr ""
+
+msgid "Select core.scs"
+msgstr ""
+
+msgid "Failed to init ImGui Impl OpenGL3"
+msgstr ""
+
+msgid "Support Multiple Viewports"
+msgstr ""
+
+msgid "You took a wrong turn!"
+msgstr ""
+
+msgid "Initializing GLFW..."
+msgstr ""
+
+msgid "3D Renderer"
+msgstr ""
+
+msgid "SDK Uninstallation Failed"
 msgstr ""
 
 msgid ""
@@ -437,37 +372,327 @@ msgid ""
 "Assistance settings."
 msgstr ""
 
-msgid "Speed Control Step Size"
+#, csharp-format
+msgid "Attempting to enable plugin: [bold]{0}[/]"
+msgstr ""
+
+msgid "Max Overlay Framerate"
+msgstr "Overlay maximális képkockasebessége"
+
+msgid ""
+"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
+"and others. Why would you enable this?"
+msgstr ""
+
+#, csharp-format
+msgid ""
+"How did you get here? What were you even thinking?{0}Do tell us in the {1}"
+"Discord Server{2} or on {3}GitHub{4}."
+msgstr ""
+
+msgid "Uninstall"
+msgstr ""
+
+msgid ""
+"Anonymous telemetry helps us improve ETS2LA by giving us insights into "
+"users' system specs, crashes, and other usage data. Your data cannot be "
+"identified with any personal information."
+msgstr ""
+
+msgid "SDK Uninstalled"
+msgstr ""
+
+msgid "Low"
+msgstr ""
+
+#, csharp-format
+msgid "Apparent plugin directory {0} does not exist."
+msgstr ""
+
+msgid "Visualization"
+msgstr ""
+
+#, csharp-format
+msgid "Loaded {0} plugin from the Plugins folder."
+msgid_plural "Loaded {0} plugins from the Plugins folder."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Late"
+msgstr ""
+
+msgid "Force Map Load"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
 msgstr ""
 
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr ""
 
-msgid "ft"
+msgid "Speed Limit Warning"
 msgstr ""
 
-msgid ""
-"Changing this option requires a restart of ETS2LA to take effect. Restart "
-"now?"
+msgid "Speed limit changed"
 msgstr ""
 
 #, csharp-format
-msgid "Error while downloading update: {0}"
+msgid "Discovered {0} plugins in total."
+msgid_plural "Discovered {0} plugins in total."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed to init ImGui Impl GLFW"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to discover Dlls: {0}"
+msgstr ""
+
+msgid "Not Installed"
+msgstr ""
+
+msgid "gal"
+msgstr ""
+
+msgid "Error in camera update loop."
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+#, csharp-format
+msgid "Loading map data from '{0}'"
+msgstr ""
+
+msgid "Warning: Insufficient RAM"
+msgstr ""
+
+msgid "Error Loading Map Data"
+msgstr ""
+
+msgid ""
+"You'll register, login, and manage your account settings and subscriptions "
+"here."
+msgstr ""
+
+#, csharp-format
+msgid "Current Version: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "No update available for plugin with ID {0}."
+msgstr ""
+
+msgid "Speed Control Step Size"
+msgstr ""
+
+msgid "Slow"
+msgstr ""
+
+msgid ""
+"Authentication is required. The client must authenticate itself to get the "
+"requested response."
+msgstr ""
+
+#, csharp-format
+msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
+msgstr ""
+
+#, csharp-format
+msgid "Error while checking for updates: {0}"
+msgstr ""
+
+msgid "Undetermined"
+msgstr ""
+
+msgid "meters per second"
+msgstr ""
+
+msgid ""
+"This key will navigate any ETS2LA menus forward, it will also work as the "
+"cancel key for any confirmations."
+msgstr ""
+
+msgid "Update check skipped, using already cached result."
+msgstr ""
+
+#, csharp-format
+msgid "Installed plugin with ID {0} not found."
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+#, csharp-format
+msgid "{0} m/s ({1} in {2})"
+msgstr ""
+
+#, csharp-format
+msgid "Received input from unknown joystick with instance ID {0}."
+msgstr ""
+
+msgid ""
+"Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
+"Emergency braking is not affected."
+msgstr ""
+
+msgid "Display Units"
+msgstr ""
+
+msgid "Adjustments"
+msgstr ""
+
+msgid "State Info"
+msgstr ""
+
+#, csharp-format
+msgid "Error in AR rendering: {0}"
+msgstr ""
+
+msgid "Collision Avoidance"
+msgstr ""
+
+msgid "Warnings & Overrides"
+msgstr ""
+
+msgid "Overrides"
 msgstr ""
 
 msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
 msgstr ""
 
-#, csharp-format
 msgid ""
-"Cannot uninstall plugin with ID {0} because the following installed plugins "
-"depend on it: {1}"
+"This will disconnect ETS2LA from the game and close the window. You can "
+"minimize the window to keep ETS2LA running."
+msgstr ""
+
+#, csharp-format
+msgid "Camera {0} ({1}x{2})"
 msgstr ""
 
 msgid ""
-"You do not have permission to access this resource. The server understood "
-"the request but refuses to authorize it."
+"This setting only loads roads and intersections visible on the in game map. "
+"It discards all other information."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
+msgstr ""
+
+msgid "Pause When Unstable"
+msgstr ""
+
+msgid "Stop Rendering When Game is Paused"
+msgstr ""
+
+#, csharp-format
+msgid "File not found: {0}"
+msgstr ""
+
+msgid "Restart Now"
+msgstr ""
+
+#, csharp-format
+msgid "New limit {0} {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Error playing audio file {0}: {1}"
+msgstr ""
+
+msgid "Controls Backend shutdown complete, all controls saved."
+msgstr ""
+
+msgid "Lane Keep"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid ""
+"The units ETS2LA will use when displaying information to a user. Scientific "
+"has only slight differences to metric."
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for unregistration."
+msgstr ""
+
+msgid ""
+"Your system has less than 16GB of RAM. High data fidelity uses significant "
+"amounts of RAM, and may cause your system to become unstable. Please select "
+"a lower fidelity."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to shutdown plugin {0}: {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Plugin with ID {0} not found in available plugins."
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
+msgid "Near"
+msgstr ""
+
+msgid "Driving"
+msgstr ""
+
+msgid "Failed to initialize SDL3 input backend."
+msgstr ""
+
+#, csharp-format
+msgid "{0} not found in supported languages."
+msgstr ""
+
+#, csharp-format
+msgid "Found {0} prefab"
+msgid_plural "Found {0} prefabs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Pascals"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to disable {0}: {1}"
+msgstr ""
+
+msgid "SDK Installed"
+msgstr ""
+
+#, csharp-format
+msgid "Checking dependencies for plugin: [bold]{0}[/]"
+msgstr ""
+
+msgid "Current Speed"
+msgstr ""
+
+#, csharp-format
+msgid "Bound control {0} ({1}) to device {2} and control {3}"
+msgstr ""
+
+msgid "miles per hour"
+msgstr ""
+
+msgid "Limit Overlay Framerate"
+msgstr ""
+
+msgid "Wiki / FAQ"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to install SDK from '{0}' to '{1}': {2}"
 msgstr ""
 
 msgid ""
@@ -477,455 +702,51 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Ensure you don't have any mods installed in the root directory. Those have "
-"to be installed in Documents/Euro Truck Simulator 2/mod."
+"The request method is recognized by the server but is not supported by the "
+"target resource."
 msgstr ""
 
-#, csharp-format
-msgid "Error rendering context menu for window {0}: {1}"
+msgid "Binding Successful"
 msgstr ""
 
-msgid "Unknown Control"
+msgid "Disable"
 msgstr ""
 
-#, csharp-format
-msgid "Control with ID '{0}' not found for event subscription."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to read version from '{0}': {1}"
-msgstr ""
-
-msgid "Support Multiple Viewports"
-msgstr ""
-
-msgid "The server timed out waiting for the request from the client."
-msgstr ""
-
-msgid "Error Loading Map Data"
-msgstr ""
-
-#, csharp-format
-msgid "Version {0} not found for plugin with ID {1}."
+msgid "Controls"
 msgstr ""
 
 #, csharp-format
 msgid "Unknown manifest type: {0}"
 msgstr ""
 
-msgid "Force Base Map Name"
-msgstr ""
-
 msgid ""
-"When the game reports itself being paused, ETS2LA won't render AR elements."
-msgstr ""
-
-msgid "The selected directory does not exist."
-msgstr ""
-
-msgid "Display"
-msgstr ""
-
-msgid "Not Installed"
-msgstr ""
-
-msgid "liters"
+"Ensure you don't have any mods installed in the root directory. Those have "
+"to be installed in Documents/Euro Truck Simulator 2/mod."
 msgstr ""
 
 #, csharp-format
-msgid "Discovered {0} plugins in total."
-msgid_plural "Discovered {0} plugins in total."
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Help"
+msgid "Download progress: {0}%"
 msgstr ""
 
-msgid "Overlay free CPU time percentage"
-msgstr ""
-
-#, csharp-format
-msgid "No game executable found in '{0}', not adding it as an installation."
-msgstr ""
-
-#, csharp-format
-msgid "Road template for {0} not found in SII file."
-msgstr ""
-
-#, csharp-format
-msgid "Control with ID '{0}' not found for event unsubscription."
-msgstr ""
-
-#, csharp-format
-msgid "Control with ID '{0}' not found for updating bindings."
-msgstr ""
-
-msgid "Binding Successful"
-msgstr ""
-
-msgid "meters"
-msgstr ""
-
-#, csharp-format
-msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
-"the next startup: {1}"
+msgid "Search for plugins..."
 msgstr ""
 
 msgid "Assists"
 msgstr ""
 
-msgid "Force Map Load"
-msgstr ""
-
-msgid "Update check skipped, using already cached result."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to install dependency {0} for plugin {1}."
-msgstr ""
-
-msgid "Error in telemetry update loop."
-msgstr ""
-
-msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
-msgstr ""
-
-#, csharp-format
-msgid "No valid versions found for plugin with ID {0}."
-msgstr ""
-
-msgid "No plugins found."
-msgstr ""
-
-#, csharp-format
-msgid "Cannot enable plugin {0} because dependency {1} was not found."
-msgstr ""
-
-msgid "Emergency Braking"
-msgstr ""
-
-#, csharp-format
-msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
-msgstr ""
-
-#, csharp-format
-msgid "Disabled plugin: [bold]{0}[/]"
-msgstr ""
-
-#, csharp-format
-msgid "Playing sound: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Adding mod: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to initialize SDL3 controls backend: {0}"
-msgstr ""
-
-msgid "Next/Cancel"
-msgstr ""
-
-msgid ""
-"In most situations, over half of ETS2LA's CPU use is consumed by the "
-"overlay. Limiting the framerate will reduce CPU usage."
-msgstr ""
-
-#, csharp-format
-msgid "Error while checking for updates: {0}"
-msgstr ""
-
-msgid "Volume"
-msgstr ""
-
-msgid "Limit Overlay Framerate"
-msgstr ""
-
-msgid "None"
-msgstr ""
-
-msgid "Pascals"
-msgstr ""
-
-#, csharp-format
-msgid "Failed enable {0}: {1}"
-msgstr ""
-
-msgid "SDK Installed"
-msgstr ""
-
-msgid "Experiments"
-msgstr ""
-
-msgid "Pa"
-msgstr ""
-
-msgid "Invalid file"
-msgstr ""
-
-msgid "Key"
-msgstr ""
-
-msgid ""
-"Bad gateway. The server, while acting as a gateway or proxy, received an "
-"invalid response from an inbound server."
-msgstr ""
-
-msgid ""
-"Service unavailable. The server is currently unable to handle the request "
-"due to temporary overloading or maintenance."
-msgstr ""
-
-#, csharp-format
-msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
-
-#, csharp-format
-msgid "Removing manually added installation at '{0}'"
-msgstr ""
-
-msgid "Please see the logs for more information."
-msgstr ""
-
-msgid ""
-"This will disconnect ETS2LA from the game and close the window. You can "
-"minimize the window to keep ETS2LA running."
-msgstr ""
-
-msgid "SDK Installation Failed"
-msgstr ""
-
-msgid "L"
-msgstr ""
-
-#, csharp-format
-msgid "No update available for plugin with ID {0}."
-msgstr ""
-
-msgid "Current Speed"
-msgstr ""
-
-#, csharp-format
-msgid "Snap to each 10 {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
-
-#, csharp-format
-msgid "File not found: {0}"
-msgstr ""
-
-msgid "Invalid directory"
-msgstr ""
-
-msgid "Normal"
+msgid "mph"
 msgstr ""
 
 msgid "°F"
 msgstr ""
 
-#, csharp-format
-msgid "Loading map data from '{0}'"
+msgid "Pa"
 msgstr ""
 
-msgid ""
-"The maximum distance at which 3D elements will be rendered. Lowering this "
-"can be used to improve performance on lower-end hardware."
+msgid "Game Telemetry"
 msgstr ""
 
-#, csharp-format
-msgid "No map data found for installation at '{0}'. Is the installation valid?"
-msgstr ""
-
-msgid "m"
-msgstr ""
-
-msgid "Binding Timed Out"
-msgstr ""
-
-msgid "Curve Quality"
-msgstr ""
-
-msgid "Initializing GLFW..."
-msgstr ""
-
-msgid "Assist"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to load map for installation at '{0}'"
-msgstr ""
-
-msgid "Desired Steering Level: "
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "kilograms"
-msgstr ""
-
-msgid "Translating release notes..."
-msgstr ""
-
-msgid "No release notes available."
-msgstr ""
-
-msgid "Unbound"
-msgstr ""
-
-#, csharp-format
-msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr ""
-
-#, csharp-format
-msgid "Copied '{0}' to '{1}'"
-msgstr ""
-
-msgid ""
-"This might take a while depending on your internet connection and the source."
-msgstr ""
-
-#, csharp-format
-msgid "Error rendering interaction mode window controls: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
-
-#, csharp-format
-msgid "Binding {0}"
-msgstr ""
-
-msgid "Check For Updates"
-msgstr ""
-
-msgid "Failed to initialize overlay, OpenGL initialization failed."
-msgstr ""
-
-#, csharp-format
-msgid "Error loading map data from '{0}': {1}"
-msgstr ""
-
-msgid ""
-"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
-msgstr ""
-
-#, csharp-format
-msgid "Found {0} game installation."
-msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
-
-#, csharp-format
-msgid "Failed to read bundled update source marker: {0}"
-msgstr ""
-
-msgid "Slow"
-msgstr ""
-
-msgid "Parsing Map Data"
-msgstr ""
-
-msgid "Add Game Manually"
-msgstr ""
-
-msgid "Demo Window"
-msgstr ""
-
-msgid "Contact Us"
-msgstr ""
-
-msgid "kg"
-msgstr ""
-
-msgid ""
-"This setting drops redundant information while maintaining most detail "
-"objects (such as signs). Includes all hidden and AI only roads."
-msgstr ""
-
-msgid "Visualization"
-msgstr ""
-
-msgid "Display Units"
-msgstr ""
-
-msgid ""
-"You'll register, login, and manage your account settings and subscriptions "
-"here."
-msgstr ""
-
-msgid "Uninstall"
-msgstr ""
-
-msgid "Game SDK"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"If you think this is a bug, please report it in the {0}Discord Server{1} or "
-"on {2}GitHub{3}."
-msgstr ""
-
-#, csharp-format
-msgid "Error in plugin {0} Tick: {1}"
-msgstr ""
-
-msgid "Telemetry"
-msgstr ""
-
-msgid ""
-"Cracked games or demos will block our SDK from loading. They do not work, "
-"and we don't intend to fix this."
-msgstr ""
-
-#, csharp-format
-msgid "Parsing sector {0} of {1}..."
-msgstr ""
-
-msgid "The selected file is not a core.scs file."
-msgstr ""
-
-msgid "kilometers per hour"
-msgstr ""
-
-msgid "Late"
-msgstr ""
-
-#, csharp-format
-msgid "Error rendering overlay: {0}"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
-
-msgid "Window Zoom"
-msgstr ""
-
-#, csharp-format
-msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
-
-msgid ""
-"The zoom level of the ETS2LA window. This can be used to scale the window to "
-"your monitor's DPI settings."
-msgstr ""
-
-#, csharp-format
-msgid "Binding for control {0} ({1}) timed out."
+msgid "Key"
 msgstr ""
 
 msgid ""
@@ -934,234 +755,22 @@ msgid ""
 "in the in game map."
 msgstr ""
 
-#, csharp-format
-msgid "Failed to install SDK from '{0}' to '{1}': {2}"
+msgid "bar"
+msgstr "bar"
+
+msgid ""
+"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
 msgstr ""
 
-msgid "Display Language"
+msgid "Button"
 msgstr ""
 
-msgid "3D Renderer"
-msgstr ""
-
-msgid "m/s"
-msgstr ""
-
-#, csharp-format
-msgid "Currently running at {0} FPS."
+msgid "Add Game Manually"
 msgstr ""
 
 msgid ""
-"How ETS2LA will warn you about exceeding the speed limit by a major amount."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
-
-msgid ""
-"Force ETS2LA to load the map on game startup. This can resolve issues where "
-"your game.log.txt is not where ETS2LA expects it."
-msgstr ""
-
-msgid "Window"
-msgstr ""
-
-msgid ""
-"The units ETS2LA will use when displaying information to a user. Scientific "
-"has only slight differences to metric."
-msgstr ""
-
-#, csharp-format
-msgid "Starting binding for control {0} ({1})"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to refresh joysticks: {0}"
-msgstr ""
-
-msgid "Show Fewer Logs"
-msgstr ""
-
-msgid "Render AR Elements"
-msgstr ""
-
-msgid "Off"
-msgstr ""
-
-msgid ""
-"Parsing will continue, however information contained in this file won't be "
-"available to ETS2LA."
-msgstr ""
-
-msgid "Finished loading plugins"
-msgstr ""
-
-msgid "Anonymous"
-msgstr ""
-
-msgid "show"
-msgstr ""
-
-#, csharp-format
-msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
-
-#, csharp-format
-msgid "Download progress: {0}%"
-msgstr ""
-
-#, csharp-format
-msgid "An error occurred while loading map data: {0}"
-msgstr ""
-
-msgid "This game was found at"
-msgstr ""
-
-msgid "Chime"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
-msgstr ""
-
-msgid "Networking"
-msgstr ""
-
-msgid ""
-"The request method is recognized by the server but is not supported by the "
-"target resource."
-msgstr ""
-
-msgid "Overlay"
-msgstr ""
-
-msgid "Changelog"
-msgstr ""
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr ""
-
-msgid "The step size for changing the cruise control speed."
-msgstr ""
-
-msgid "Controls Backend shutdown complete, all controls saved."
-msgstr ""
-
-msgid "Decrease"
-msgstr ""
-
-msgid "Select core.scs"
-msgstr ""
-
-msgid "Performance Overlay"
-msgstr ""
-
-msgid "Sorry"
-msgstr ""
-
-msgid "Failed to init ImGui Impl OpenGL3"
-msgstr ""
-
-msgid "Low"
-msgstr ""
-
-msgid "Maximum Speed"
-msgstr ""
-
-msgid ""
-"Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
-"you when using Adaptive Cruise Control."
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Tried to change update source to '{0}', but it was not found among available "
-"sources."
-msgstr ""
-
-msgid "Initializing..."
-msgstr ""
-
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-
-msgid "Full"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr ""
-
-#, csharp-format
-msgid ""
-"How did you get here? What were you even thinking?{0}Do tell us in the {1}"
-"Discord Server{2} or on {3}GitHub{4}."
-msgstr ""
-
-#, csharp-format
-msgid "Tried to enable {0}, but it was not found among loaded plugins."
-msgstr ""
-
-msgid "Overlay Interaction"
-msgstr ""
-
-msgid "Unknown Control ID"
-msgstr ""
-
-#, csharp-format
-msgid "Error playing audio file {0}: {1}"
-msgstr ""
-
-msgid ""
-"Gateway timeout. The server was acting as a gateway or proxy and did not "
-"receive a timely response from the upstream server."
-msgstr ""
-
-#, csharp-format
-msgid "Installed plugin with ID {0} not found."
-msgstr ""
-
-msgid "Manager"
-msgstr ""
-
-#, csharp-format
-msgid "Updated axis behavior for control: {0} ({1}) to {2}"
-msgstr ""
-
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-
-msgid ""
-"Render the vision cameras in the game world. This is useful for debugging, "
-"but can cause performance issues."
-msgstr ""
-
-msgid "Account"
-msgstr ""
-
-msgid "Failed to initialize SDL3 input backend."
-msgstr ""
-
-#, csharp-format
-msgid "Found {0} (version: {1}) at '{2}'"
-msgstr ""
-
-msgid "Keyboard"
-msgstr ""
-
-msgid "Dashboard"
-msgstr ""
-
-#, csharp-format
-msgid "Changed update source to '{0}'."
+"In most situations, over half of ETS2LA's CPU use is consumed by the "
+"overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
 
 msgid ""
@@ -1170,124 +779,29 @@ msgid ""
 "expect over 10GB of usage.</span>"
 msgstr ""
 
-msgid "Lane Keep"
-msgstr ""
-
-msgid "You took a wrong turn!"
-msgstr ""
-
-#, csharp-format
-msgid "Inner Exception: {0}"
-msgstr ""
-
-msgid "Steering Sensitivity"
-msgstr ""
-
 msgid ""
-"The server could not understand the request due to invalid syntax or "
-"corrupted request data."
-msgstr ""
-
-msgid "SET/OK"
+"Using simplified graphics can improve performance on lower-end hardware, or "
+"fix situations in which advanced features like shaders are not supported."
 msgstr ""
 
 #, csharp-format
-msgid "{0} not found in supported languages."
+msgid "Failed to load map for installation at '{0}'"
 msgstr ""
 
-msgid ""
-"Subscriptions will <span class=\"font-bold text-text-accent\">never</span> "
-"be required for using ETS2LA. They are a way you can support the development."
+msgid "Not Connected"
 msgstr ""
 
-msgid ""
-"ETS2LA is running as a system administrator. This puts your system at risk "
-"if you use 3rd party plugins. Select Yes to continue anyway and accept the "
-"risk."
+msgid "This page will be implemented in a future update."
 msgstr ""
 
-msgid "Ignore Traffic Rules"
-msgstr ""
-
-msgid "feet"
-msgstr ""
-
-msgid "Desired Longitudinal Level: "
+msgid "You are running the latest version."
 msgstr ""
 
 #, csharp-format
-msgid "Successfully updated plugin with ID {0}."
+msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
-#, csharp-format
-msgid "Installation at '{0}' has already been parsed."
-msgstr ""
-
-msgid "Speed Limit"
-msgstr ""
-
-msgid "High"
-msgstr ""
-
-msgid "Game Telemetry"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
-msgstr ""
-
-msgid "Stop Rendering When Game is Paused"
-msgstr ""
-
-#, csharp-format
-msgid "Successfully uninstalled plugin with ID {0}."
-msgstr ""
-
-msgid "mph"
-msgstr ""
-
-msgid "Are you sure?"
-msgstr ""
-
-msgid ""
-"Changing the display language requires a restart of ETS2LA to take effect. "
-"Restart now?"
-msgstr ""
-
-msgid "Clear Console"
-msgstr ""
-
-#, csharp-format
-msgid "Initializing GLFW Version: {0}"
-msgstr ""
-
-msgid "Undetermined"
-msgstr ""
-
-msgid "Controls"
-msgstr ""
-
-msgid "Restart Required"
-msgstr ""
-
-msgid ""
-"We will pause the game when we detect instability or the steering is "
-"unresponsive / disables itself for other reasons."
-msgstr ""
-
-msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
-msgstr ""
-
-msgid "Button"
-msgstr ""
-
-msgid "Far"
-msgstr ""
-
-#, csharp-format
-msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
+msgid "No plugins found."
 msgstr ""
 
 msgid ""
@@ -1295,117 +809,221 @@ msgid ""
 "control speed?"
 msgstr ""
 
-msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
-msgstr ""
-
-msgid "psi"
-msgstr ""
-
-msgid "gal"
-msgstr ""
-
-msgid "lbs"
-msgstr ""
-
-msgid "Render Vision Cameras"
-msgstr ""
-
-#, csharp-format
-msgid "Enabled plugin: [bold]{0}[/]"
+msgid "The selected directory does not exist."
 msgstr ""
 
 msgid ""
-"Adjust how ETS2LA will respond to necessary steering changes. This for "
-"example controls how quickly ETS2LA will lane-change."
-msgstr ""
-
-msgid "pounds"
-msgstr ""
-
-msgid "Backend shutdown complete."
-msgstr ""
-
-msgid "Extreme"
-msgstr ""
-
-msgid "Keybind Behaviour"
-msgstr ""
-
-msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
+"Adjust the quality of the curves used for path planning and visualization. "
+"By default this matches the game."
 msgstr ""
 
 #, csharp-format
-msgid "Error loading '{0}': {1}"
+msgid "Error while applying update: {0}"
 msgstr ""
 
-msgid "SET Behaviour"
+msgid "Following Distance"
 msgstr ""
 
-msgid "Speed limit changed"
+msgid "Check For Updates"
 msgstr ""
 
-msgid "Disabled"
-msgstr ""
-
-msgid "Search for plugins..."
-msgstr ""
-
-msgid "No updates available."
-msgstr ""
-
-msgid "Audio"
+msgid "Telemetry"
 msgstr ""
 
 msgid ""
-"Anonymous telemetry helps us improve ETS2LA by giving us insights into "
-"users' system specs, crashes, and other usage data. Your data cannot be "
-"identified with any personal information."
+"This allows ETS2LA to render in multiple viewports, meaning you can move "
+"overlay windows to any monitor."
+msgstr ""
+
+msgid ""
+"Adjust the level of detail of the game data we use. Higher values use more "
+"RAM, but include more information. All levels drive the same."
 msgstr ""
 
 #, csharp-format
-msgid "Registered control: {0} [gray italic]({1})[/]"
+msgid "found {0} node"
+msgid_plural "found {0} nodes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Volume"
+msgstr ""
+
+#, csharp-format
+msgid "Parsing sector {0} of {1}..."
+msgstr ""
+
+msgid "Unbound"
 msgstr ""
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
-msgid "Simplified Graphics"
+#, csharp-format
+msgid ""
+"If you think this is a bug, please report it in the {0}Discord Server{1} or "
+"on {2}GitHub{3}."
 msgstr ""
 
-msgid "km/h"
+msgid ""
+"The maximum distance at which 3D elements will be rendered. Lowering this "
+"can be used to improve performance on lower-end hardware."
 msgstr ""
 
 #, csharp-format
-msgid "Found {0} prefab"
-msgid_plural "Found {0} prefabs"
+msgid "Fetched {0} plugin from {1}"
+msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Near"
+msgid "Full"
 msgstr ""
 
-msgid "Scientific"
+msgid "Metric"
 msgstr ""
 
-msgid "Early"
+msgid "Error in telemetry update loop."
 msgstr ""
 
-msgid "Driving"
+msgid ""
+"Internal server error. The server encountered an unexpected condition that "
+"prevented it from fulfilling the request."
 msgstr ""
 
 #, csharp-format
-msgid "Error initializing memory mapped file: {0}"
+msgid "Road template for {0} not found in SII file."
 msgstr ""
 
-msgid "Audio playback canceled"
+#, csharp-format
+msgid "Failed to read log file at '{0}': {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Updated axis behavior for control: {0} ({1}) to {2}"
+msgstr ""
+
+#, csharp-format
+msgid "Disabled plugin: [bold]{0}[/]"
+msgstr ""
+
+#, csharp-format
+msgid "Failed enable {0}: {1}"
+msgstr ""
+
+msgid "Acceleration Response"
+msgstr ""
+
+msgid "Error in parked vehicles update loop."
+msgstr ""
+
+msgid "The plugin was enabled successfully."
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Unknown Control"
+msgstr ""
+
+msgid "pounds"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to initialize SDL3 controls backend: {0}"
 msgstr ""
 
 msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
 "the resource has been removed."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to install SDK version '{0}' to '{1}': {2}"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to read bundled update source marker: {0}"
+msgstr ""
+
+msgid "liters"
+msgstr ""
+
+#, csharp-format
+msgid "No valid versions found for plugin with ID {0}."
+msgstr ""
+
+msgid "Binding thread started with no control to bind."
+msgstr ""
+
+#, csharp-format
+msgid ""
+"Installation at '{0}' is not currently running, waiting for load of profile."
+msgstr ""
+
+msgid "Downloading Update"
+msgstr ""
+
+msgid "Simplified Graphics"
+msgstr ""
+
+msgid "Pause Steering Assist: "
+msgstr ""
+
+msgid "Steering Sensitivity"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+#, csharp-format
+msgid "{0}"
+msgstr "{0}"
+
+msgid ""
+"This might take a while depending on your internet connection and the source."
+msgstr ""
+
+msgid "No updates available."
+msgstr ""
+
+#, csharp-format
+msgid "Error rendering overlay: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Enabling plugin: [bold]{0}[/]"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "L"
+msgstr ""
+
+msgid "Failed to add game"
+msgstr ""
+
+#, csharp-format
+msgid "Font file not found at {0}"
+msgstr ""
+
+msgid "No release notes available."
+msgstr ""
+
+msgid "Changelog"
+msgstr ""
+
+#, csharp-format
+msgid "Detected a switch to {0}, waiting for its game data to be parsed."
+msgstr ""
+
+#, csharp-format
+msgid "Currently running at {0} FPS."
+msgstr ""
+
+#, csharp-format
+msgid "Version {0} not found for plugin with ID {1}."
 msgstr ""
 
 msgid ""
@@ -1414,211 +1032,620 @@ msgid ""
 "h."
 msgstr ""
 
-#, csharp-format
-msgid "A new update is available: {0}"
-msgstr ""
-
-msgid "Downloading Update"
+msgid "Invalid file"
 msgstr ""
 
 #, csharp-format
-msgid "found {0} road"
-msgid_plural "found {0} roads"
+msgid "Discovered {0} library in total"
+msgid_plural "Discovered {0} libraries in total."
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "You are running the latest version."
+msgid "Console"
 msgstr ""
 
-#, csharp-format
-msgid "Failed to disable {0}: {1}"
-msgstr ""
-
-msgid "Starting ETS2LA..."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to discover Dlls: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Missing dependency: {0}"
+msgid "The game has been added successfully."
 msgstr ""
 
 msgid ""
-"Internal server error. The server encountered an unexpected condition that "
-"prevented it from fulfilling the request."
+"The server could not understand the request due to invalid syntax or "
+"corrupted request data."
+msgstr ""
+
+#, csharp-format
+msgid ""
+"Manually added game at '{0}' no longer contains a game executable, skipping."
+msgstr ""
+
+#, csharp-format
+msgid "Found {0} game installation."
+msgid_plural "Found {0} game installations."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Scientific"
+msgstr ""
+
+msgid "hide"
+msgstr ""
+
+#, csharp-format
+msgid "Update available: {0}"
+msgstr ""
+
+msgid "Error in traffic update loop."
+msgstr ""
+
+#, csharp-format
+msgid "Error in plugin {0} Tick: {1}"
+msgstr ""
+
+#, csharp-format
+msgid "An error occurred while loading map data: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgstr ""
+
+msgid "Responsiveness"
+msgstr ""
+
+msgid "Parsing Map Data"
+msgstr ""
+
+msgid "SDKs need to be installed."
+msgstr ""
+
+msgid "Failed to initialize overlay, OpenGL initialization failed."
+msgstr ""
+
+#, csharp-format
+msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+#, csharp-format
+msgid "Found {0} (version: {1}) at '{2}'"
+msgstr ""
+
+msgid ""
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
+msgstr ""
+
+msgid "kilometers per hour"
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for event unsubscription."
+msgstr ""
+
+#, csharp-format
+msgid "Binding {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to unload plugin load context: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "No download URL found for plugin with ID {0} in region {1}."
+msgstr ""
+
+msgid "Emergency Braking"
+msgstr ""
+
+msgid ""
+"Changing the display language requires a restart of ETS2LA to take effect. "
+"Restart now?"
+msgstr ""
+
+#, csharp-format
+msgid "Update to {0} from {1}"
+msgstr ""
+
+msgid "Restarting ETS2LA..."
+msgstr ""
+
+msgid "ETS2LA is running."
+msgstr ""
+
+msgid "Desired Steering Level: "
+msgstr ""
+
+msgid "Plugins"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "lbs"
+msgstr ""
+
+#, csharp-format
+msgid "Tried to disable {0}, but it was not found among loaded plugins."
+msgstr ""
+
+msgid "Install"
+msgstr ""
+
+#, csharp-format
+msgid ""
+"Tried to change update source to '{0}', but it was not found among available "
+"sources."
+msgstr ""
+
+msgid "Speed Limit"
+msgstr ""
+
+msgid "Vision Cameras"
+msgstr ""
+
+msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
+msgstr ""
+
+#, csharp-format
+msgid "This might take a while... ({0}/{1})"
+msgstr "Ez lehet, hogy elfog tartani egy ideig… ({0}/{1})"
+
+msgid ""
+"Failed to fetch available plugins. Please check your internet connection."
+msgstr ""
+
+msgid "feet"
+msgstr ""
+
+#, csharp-format
+msgid "Successfully installed plugin {0} ({1}, {2})"
+msgstr "Plugin sikeresen telepítve {0} ({1}, {2})"
+
+#, csharp-format
+msgid "Installation at '{0}' has already been parsed."
+msgstr ""
+
+msgid "Pause Longitudinal Assist: "
+msgstr ""
+
+#, csharp-format
+msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
+msgstr ""
+
+msgid "Far"
+msgstr ""
+
+msgid "Decrease"
+msgstr ""
+
+msgid "K"
+msgstr ""
+
+msgid "Window"
+msgstr ""
+
+msgid "Settings"
 msgstr ""
 
 msgid "Error Loading File"
 msgstr ""
 
 #, csharp-format
-msgid "Deleted '{0}'"
+msgid "A new update is available: {0}"
 msgstr ""
 
-msgid "Console"
+msgid "Force Base Map Name"
+msgstr ""
+
+msgid "Experiments"
+msgstr ""
+
+msgid "gallons"
+msgstr ""
+
+msgid "m"
+msgstr ""
+
+msgid "SDKs are currently installed."
+msgstr ""
+
+msgid "Restart Required"
 msgstr ""
 
 #, csharp-format
-msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
-
-msgid "Responsiveness"
-msgstr ""
-
-msgid "Warnings & Overrides"
+msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
 
 #, csharp-format
-msgid "Update to {0}"
+msgid "Error rendering context menu for window {0}: {1}"
 msgstr ""
 
-msgid "Update Available"
+msgid "Audio playback canceled"
+msgstr ""
+
+msgid "kilograms"
+msgstr ""
+
+msgid "ft"
 msgstr ""
 
 #, csharp-format
-msgid "LoaderException: {0}"
-msgstr ""
-
-msgid "Acceleration Response"
-msgstr ""
-
-msgid "Plugin Installer"
-msgstr ""
-
-msgid "No Update Available"
-msgstr ""
-
-msgid "Adjust the volume of the audio output."
-msgstr ""
-
-msgid "SDK Uninstallation Failed"
-msgstr ""
-
 msgid ""
-"Using simplified graphics can improve performance on lower-end hardware, or "
-"fix situations in which advanced features like shaders are not supported."
-msgstr ""
-
-msgid "Unknown Version"
-msgstr ""
-
-msgid "The plugin was enabled successfully."
-msgstr ""
-
-msgid "Install"
-msgstr ""
-
-msgid "Error in parked vehicles update loop."
+"Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
+"the next startup: {1}"
 msgstr ""
 
 #, csharp-format
-msgid "Current Version: {0}"
+msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
 msgstr ""
 
 #, csharp-format
-msgid "Loaded {0} plugin from the Plugins folder."
-msgid_plural "Loaded {0} plugins from the Plugins folder."
+msgid "Discovered {0} manually installed library"
+msgid_plural "Discovered {0} manually installed libraries."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Max Render Distance"
+msgstr ""
+
 msgid ""
-"Your system has less than 16GB of RAM. High data fidelity uses significant "
-"amounts of RAM, and may cause your system to become unstable. Please select "
-"a lower fidelity."
+"Gateway timeout. The server was acting as a gateway or proxy and did not "
+"receive a timely response from the upstream server."
 msgstr ""
 
-#, csharp-format
-msgid "Failed to enable dependency: {0}"
-msgstr ""
-
-msgid "ETS2LA is running."
-msgstr ""
-
-#, csharp-format
-msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
-
-msgid "Data Fidelity"
-msgstr ""
-
-#, csharp-format
-msgid "Font file not found at {0}"
-msgstr ""
-
-msgid "Pause When Unstable"
-msgstr ""
-
-msgid "Error in semaphore update loop."
-msgstr ""
-
-#, csharp-format
-msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
-
-msgid "miles per hour"
-msgstr ""
-
-#, csharp-format
-msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr ""
-
-msgid "The selected file does not exist."
+msgid "psi"
 msgstr ""
 
 #, csharp-format
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr ""
 
-#, csharp-format
-msgid "Control with ID '{0}' not found for updating axis behavior."
+msgid ""
+"ETS2LA is running as a system administrator. This puts your system at risk "
+"if you use 3rd party plugins. Select Yes to continue anyway and accept the "
+"risk."
 msgstr ""
 
-msgid "Unpacking Mods"
+msgid ""
+"The maximum speed ETS2LA will accelerate to. It might still drift over this "
+"limit due to momentum."
+msgstr ""
+
+msgid "Game added"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
+msgid "Unloading parsed map data for installation at '{0}'"
+msgstr ""
+
+msgid ""
+"Some mods implement additional maps like japan.mbd or russia.mbd. If you "
+"find your mods are not loading properly, try enabling this option. This is "
+"known to be required for RusMap."
+msgstr ""
+
+msgid "Extreme"
 msgstr ""
 
 #, csharp-format
-msgid "Control with ID '{0}' not found for unregistration."
+msgid ""
+"Cannot uninstall plugin with ID {0} because the following installed plugins "
+"depend on it: {1}"
+msgstr ""
+
+msgid ""
+"We will pause the game when we detect instability or the steering is "
+"unresponsive / disables itself for other reasons."
+msgstr ""
+
+msgid ""
+"Render the vision cameras in the game world. This is useful for debugging, "
+"but can cause performance issues."
 msgstr ""
 
 #, csharp-format
-msgid "Click to {0} this window"
+msgid "Deleted '{0}'"
+msgstr ""
+
+#, csharp-format
+msgid "Error initializing memory mapped file: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid "View Public Telemetry"
+msgstr ""
+
+msgid "Adjust the volume of the audio output."
+msgstr ""
+
+#, csharp-format
+msgid ""
+"Selected update source '{0}' not found, defaulting to first available source."
+msgstr ""
+
+#, csharp-format
+msgid "Ignored DBus exception: {0}"
+msgstr "Ignorált DBus-kivétel: {0}"
+
+msgid "SET Behaviour"
+msgstr ""
+
+#, csharp-format
+msgid "Registered control: {0} [gray italic]({1})[/]"
+msgstr ""
+
+msgid "Please see the logs for more information."
+msgstr ""
+
+msgid "Binding Timed Out"
+msgstr ""
+
+msgid "Adaptive Cruise Control"
+msgstr ""
+
+msgid "Changes will take effect after restarting the application."
+msgstr ""
+
+#, csharp-format
+msgid "Tried to enable {0}, but it was not found among loaded plugins."
+msgstr ""
+
+msgid ""
+"Parsing will continue, however information contained in this file won't be "
+"available to ETS2LA."
+msgstr ""
+
+msgid "The selected file is not a core.scs file."
+msgstr ""
+
+msgid "Translated by:"
+msgstr ""
+
+msgid "This game was found at"
+msgstr ""
+
+msgid "Data Quality"
+msgstr ""
+
+msgid "Overlay"
+msgstr ""
+
+#, csharp-format
+msgid "Error in AR OpenGL pass: {0}"
 msgstr ""
 
 msgid "General"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to install SDK version '{0}' to '{1}': {2}"
+msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
 msgstr ""
 
 #, csharp-format
-msgid "Parsing installation at '{0}' (version: {1})"
+msgid "Inner Exception: {0}"
 msgstr ""
 
-msgid "gallons"
+#, csharp-format
+msgid "Plugin with ID {0} not found."
+msgstr "A plugin (ID {0}) nem találva."
+
+msgid "Units and Language"
 msgstr ""
+
+#, csharp-format
+msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgstr ""
+
+msgid ""
+"You do not have permission to access this resource. The server understood "
+"the request but refuses to authorize it."
+msgstr ""
+
+msgid "Display Language"
+msgstr ""
+
+#, csharp-format
+msgid "Changed update source to '{0}'."
+msgstr ""
+
+#, csharp-format
+msgid "Removing manually added installation at '{0}'"
+msgstr ""
+
+#, csharp-format
+msgid "Initializing GLFW Version: {0}"
+msgstr ""
+
+msgid "Render Vision Cameras"
+msgstr ""
+
+msgid "Match Game"
+msgstr ""
+
+msgid "Imperial"
+msgstr ""
+
+msgid "Unpacking Mods"
+msgstr ""
+
+msgid "m/s"
+msgstr ""
+
+#, csharp-format
+msgid "Click to {0} this window"
+msgstr ""
+
+#, csharp-format
+msgid "Error rendering interaction mode window controls: {0}"
+msgstr ""
+
+msgid "Overlay free CPU time percentage"
+msgstr ""
+
+msgid "Invalid directory"
+msgstr ""
+
+msgid "Starting download..."
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "SET/OK"
+msgstr ""
+
+msgid "Map Data Parsed"
+msgstr ""
+
+msgid ""
+"Works like Assist, but will act the way you select in the Assistance "
+"settings. This key will additionally be used for confirmations."
+msgstr ""
+
+msgid ""
+"Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
+"you when using Adaptive Cruise Control."
+msgstr ""
+
+msgid "Unknown Version"
+msgstr ""
+
+msgid ""
+"Your system has less than 20GB of RAM. Extreme data fidelity uses "
+"significant amounts of RAM, and may cause your system to become unstable. "
+"Please select a lower fidelity."
+msgstr ""
+
+#, csharp-format
+msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
+msgstr ""
+
+msgid "Desired Speed: "
+msgstr ""
+
+msgid "Next/Cancel"
+msgstr ""
+
+msgid "meters"
+msgstr ""
+
+msgid "°C"
+msgstr ""
+
+#, csharp-format
+msgid "Discovered {0} manually installed plugin."
+msgid_plural "Discovered {0} manually installed plugins."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Checking for updates..."
 msgstr ""
 
-msgid "Following Distance"
+msgid "Starting ETS2LA..."
 msgstr ""
 
-msgid "Map Data Parsed"
+msgid "Catalogue"
+msgstr ""
+
+msgid ""
+"How ETS2LA will warn you about exceeding the speed limit by a major amount."
 msgstr ""
 
 #, csharp-format
 msgid "Finished parsing installation at '{0}'"
 msgstr ""
 
-msgid "Error in navigation update loop."
+#, csharp-format
+msgid "Playing sound: {0}"
 msgstr ""
 
-msgid "The game has been added successfully."
+#, csharp-format
+msgid "Cannot enable plugin {0} because dependency {1} was not found."
+msgstr ""
+
+msgid "Keybind Behaviour"
+msgstr ""
+
+msgid "Demo Window"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+#, csharp-format
+msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid ""
+"The zoom level of the ETS2LA window. This can be used to scale the window to "
+"your monitor's DPI settings."
+msgstr ""
+
+msgid "Finished loading plugins"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to install dependency {0} for plugin {1}."
+msgstr ""
+
+msgid "Desired Longitudinal Level: "
+msgstr ""
+
+msgid "Error in semaphore update loop."
+msgstr ""
+
+#, csharp-format
+msgid "Missing dependency: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Snap to each 10 {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Created plugin directory: [gray]{0}[/]"
+msgstr ""
+
+#, csharp-format
+msgid "Enabled plugin: [bold]{0}[/]"
+msgstr ""
+
+msgid ""
+"Changing this option requires a restart of ETS2LA to take effect. Restart "
+"now?"
+msgstr ""
+
+msgid "Plugin Installer"
+msgstr ""
+
+#, csharp-format
+msgid "Successfully installed SDK version '{0}' to '{1}'"
+msgstr ""
+
+msgid "Display Units: "
+msgstr ""
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+
+msgid ""
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
+msgstr ""
+
+msgid "Interaction Mode"
+msgstr ""
+
+#, csharp-format
+msgid "Adding mod: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Not all dependencies for plugin {0} are installed."
 msgstr ""
