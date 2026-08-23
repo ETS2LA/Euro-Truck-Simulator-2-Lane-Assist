@@ -3,6 +3,8 @@
 
 html {
   font-feature-settings: "locl";
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 @theme {

@@ -35,7 +35,7 @@
         <br />
         <p>@(_("You took a wrong turn!"))</p>
         <p class="description">
-            @(new HtmlString(_("How did you get here? What were you even thinking?{0}Do tell us in the {1}Discord Server{2} or on {3}GitHub{4}.", 
+            @((MarkupString)(_("How did you get here? What were you even thinking?{0}Do tell us in the {1}Discord Server{2} or on {3}GitHub{4}.", 
       "<br />", 
                 "<a href=\"https://discord.gg/ets2la\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-text-l hover:underline\">", "</a>", 
                 "<a href=\"https://github.com/ETS2LA\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-text-l hover:underline\">", "</a>")))
@@ -48,7 +48,7 @@
         <p>@StatusCode - @Message</p>
         <p class="description">
             @GetHttpDescription(StatusCode)<br /><br />
-            @(new HtmlString(_("If you think this is a bug, please report it in the {0}Discord Server{1} or on {2}GitHub{3}.", 
+            @((MarkupString)(_("If you think this is a bug, please report it in the {0}Discord Server{1} or on {2}GitHub{3}.", 
                 "<a href=\"https://discord.gg/ets2la\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-text-l hover:underline\">", "</a>", 
                 "<a href=\"https://github.com/ETS2LA\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-text-l hover:underline\">", "</a>")))
         </p>
