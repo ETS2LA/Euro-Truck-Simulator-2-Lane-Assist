@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 13:15:24+0300\n"
-"PO-Revision-Date: 2026-08-23 10:19+0000\n"
+"PO-Revision-Date: 2026-08-23 13:37+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
 "vi/>\n"
@@ -226,7 +226,7 @@ msgid "Fast"
 msgstr "Nhanh"
 
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "Tải bản cập nhật và khởi động lại"
 
 #, fuzzy
 msgid "Curve Quality"
@@ -407,7 +407,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Attempting to enable plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "Đang thử bật plugin: [bold]{0}[/]"
 
 msgid "Max Overlay Framerate"
 msgstr "Tốc độ khung hình tối đa của lớp phủ (overlay)"
@@ -416,21 +416,29 @@ msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"Chúng tôi sẽ bỏ qua luật giao thông và giới hạn tốc độ. Hãy chuẩn bị cho "
+"việc xe của bạn và người khác bị hư hại. Tại sao bạn lại muốn bật cái thứ "
+"này ?"
 
 #, csharp-format
 msgid ""
 "How did you get here? What were you even thinking?{0}Do tell us in the {1}"
 "Discord Server{2} or on {3}GitHub{4}."
 msgstr ""
+"Tại sao bạn lại vào được đây? Rốt cuộc bạn đang nghĩ cái gì thế?{0}Hãy chia "
+"sẻ cho chúng tôi trong {1}Máy chủ Discord{2} hoặc trên {3}Github{4}."
 
 msgid "Uninstall"
-msgstr ""
+msgstr "Gỡ cài đặt"
 
 msgid ""
 "Anonymous telemetry helps us improve ETS2LA by giving us insights into "
 "users' system specs, crashes, and other usage data. Your data cannot be "
 "identified with any personal information."
 msgstr ""
+"Dữ liệu thu thập từ xa ẩn danh giúp chúng tôi cải thiện ETS2LA bằng cách "
+"phân tích thông số hệ thống, nhật kí sự cố và các dữ liệu sử dụng khác. Dữ "
+"liệu của bản không iên kết với thông tin cá nhân nào."
 
 msgid "SDK Uninstalled"
 msgstr ""
@@ -587,7 +595,7 @@ msgid "Error in AR rendering: {0}"
 msgstr ""
 
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Tránh va chạm"
 
 msgid "Warnings & Overrides"
 msgstr ""
@@ -886,6 +894,9 @@ msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Điều chỉnh mức độ chi tiết của dữ liệu trò chơi mà chúng tôi sử dụng. Giá "
+"trị cao hơn sẽ sử dụng RAM nhiều hơn nhưng bao gồm nhiều thông tin hơn. Tất "
+"cả các mức độ đều cho trải nghiệm lái như nhau."
 
 #, csharp-format
 msgid "found {0} node"
@@ -1014,7 +1025,7 @@ msgid "Simplified Graphics"
 msgstr ""
 
 msgid "Pause Steering Assist: "
-msgstr ""
+msgstr "Tạm dừng hỗ trợ đánh lái. "
 
 msgid "Steering Sensitivity"
 msgstr ""
@@ -1024,7 +1035,7 @@ msgstr ""
 
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 msgid ""
 "This might take a while depending on your internet connection and the source."
@@ -1179,7 +1190,7 @@ msgstr "Không thể giải phóng vùng nhớ của plugin: {0}"
 
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "Không tìm thấy URL tải xuống cho plugin với ID {0} ở khu vực {1}."
 
 msgid "Emergency Braking"
 msgstr "Phanh khẩn cấp"
@@ -1203,7 +1214,7 @@ msgid "Desired Steering Level: "
 msgstr ""
 
 msgid "Plugins"
-msgstr ""
+msgstr "Plugin"
 
 msgid "Close"
 msgstr ""
@@ -1235,7 +1246,7 @@ msgstr ""
 
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "Quá trình này có thể mất một chút thời gian... ({0}/{1})"
 
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
@@ -1246,7 +1257,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "Đã cài đặt thành công plugin {0} ({1},{2})"
 
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
@@ -1421,7 +1432,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Ignored DBus exception: {0}"
-msgstr ""
+msgstr "Đã bỏ qua ngoại lệ DBus: {0}"
 
 msgid "SET Behaviour"
 msgstr ""
@@ -1483,7 +1494,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "Không tìm thấy plugin với ID {0}."
 
 msgid "Units and Language"
 msgstr ""
@@ -1544,7 +1555,7 @@ msgid "Invalid directory"
 msgstr ""
 
 msgid "Starting download..."
-msgstr ""
+msgstr "Bắt đầu tải xuống..."
 
 msgid "High"
 msgstr ""
@@ -1593,8 +1604,7 @@ msgstr ""
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Phát hiện {0} plugin được cài đặt thủ công."
 
 msgid "Checking for updates..."
 msgstr ""
@@ -1697,7 +1707,7 @@ msgstr ""
 "chúng tôi không bảo đảm tính chính xác."
 
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Chế độ tương tác"
 
 #, csharp-format
 msgid "Adding mod: {0}"
