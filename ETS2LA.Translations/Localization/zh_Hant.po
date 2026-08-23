@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 14:58:45+0300\n"
-"PO-Revision-Date: 2026-08-22 11:40+0000\n"
+"PO-Revision-Date: 2026-08-23 16:55+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -27,7 +27,7 @@ msgid "bar"
 msgstr "bar"
 
 msgid "Translated by:"
-msgstr ""
+msgstr "翻譯者："
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -49,7 +49,7 @@ msgid "Plugin with ID {0} not found."
 msgstr "找不到 ID 為 {0} 的插件。"
 
 msgid "Pause Steering Assist: "
-msgstr ""
+msgstr "暫停轉向輔助： "
 
 msgid "Plugins"
 msgstr "插件"
@@ -61,10 +61,10 @@ msgid "Collision Avoidance"
 msgstr "防碰撞"
 
 msgid "Starting download..."
-msgstr ""
+msgstr "正在開始下載..."
 
 msgid "Restart Now"
-msgstr ""
+msgstr "立即重新啟動"
 
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
@@ -77,7 +77,7 @@ msgid "Interaction Mode"
 msgstr "互動模式"
 
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "安裝更新並重新啟動"
 
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
@@ -89,7 +89,7 @@ msgid_plural "Discovered {0} manually installed plugins."
 msgstr[0] "發現 {0} 個手動安裝的插件。"
 
 msgid "SDK Uninstalled"
-msgstr ""
+msgstr "SDK 已解除安裝"
 
 msgid "Restarting ETS2LA..."
 msgstr "正在重新啟動 ETS2LA..."
@@ -110,13 +110,13 @@ msgid "Fast"
 msgstr "快"
 
 msgid "Desired Speed: "
-msgstr ""
+msgstr "期望速度： "
 
 msgid "K"
 msgstr "K"
 
 msgid "Error in camera update loop."
-msgstr "相機更新時發生錯誤。"
+msgstr "攝影機更新時發生錯誤。"
 
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
@@ -126,7 +126,7 @@ msgstr ""
 "這個？"
 
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "未變更 / 無法取得"
 
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
@@ -155,10 +155,10 @@ msgstr ""
 "這可以讓 ETS2LA 在多個視窗中進行渲染，讓你可以將疊加層視窗移動到任何螢幕上。"
 
 msgid "Display Units: "
-msgstr ""
+msgstr "顯示單位： "
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "視覺攝影機"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -195,7 +195,7 @@ msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依賴項目尚未全部安裝。"
 
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "主動式巡航控制"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
@@ -210,7 +210,7 @@ msgid "Unloading parsed map data for installation at '{0}'"
 msgstr "正在卸載遊戲安裝位置「{0}」已解析的地圖資料"
 
 msgid "Enable"
-msgstr ""
+msgstr "啟用"
 
 msgid "SDKs are currently installed."
 msgstr "SDK 目前已安裝。"
@@ -222,7 +222,7 @@ msgid "Speed Limit Warning"
 msgstr "速限警告"
 
 msgid "Imperial"
-msgstr ""
+msgstr "英制"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -261,7 +261,7 @@ msgstr "強制選項"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "最新版本：{0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
@@ -274,7 +274,7 @@ msgid "Failed to add game"
 msgstr "遊戲新增失敗"
 
 msgid "Show More Logs"
-msgstr ""
+msgstr "顯示更多日誌"
 
 msgid "Warning: Insufficient RAM"
 msgstr "警告：記憶體不足"
@@ -316,14 +316,14 @@ msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "已從 [gray]{1}[/] 載入插件：[gray]{0}[/]。"
 
 msgid "Metric"
-msgstr ""
+msgstr "公制"
 
 msgid "Medium"
 msgstr "中等"
 
 #, csharp-format
 msgid "{0} m/s ({1} in {2})"
-msgstr ""
+msgstr "{0} m/s（{1} {2}）"
 
 msgid "Game added"
 msgstr "遊戲已新增"
@@ -390,14 +390,14 @@ msgstr "從 {1} 更新至 {0}"
 msgid ""
 "Press a button or move an axis on your input device to bind it to this "
 "control. This will time out in {0} seconds."
-msgstr ""
+msgstr "按下輸入裝置上的按鍵或操作任一軸，即可綁定此控制項。將在 {0} 秒後逾時。"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
 msgstr "在可用插件中找不到 ID 為 {0} 的插件。"
 
 msgid "State Info"
-msgstr ""
+msgstr "狀態資訊"
 
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
@@ -418,7 +418,7 @@ msgid "Failed to unload plugin load context: {0}"
 msgstr "卸載插件載入內容失敗：{0}"
 
 msgid "Pause Longitudinal Assist: "
-msgstr ""
+msgstr "暫停縱向輔助： "
 
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning "
@@ -430,7 +430,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
-msgstr ""
+msgstr "攝影機 {0}（{1}×{2}）"
 
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
@@ -498,7 +498,7 @@ msgid "Error rendering context menu for window {0}: {1}"
 msgstr "渲染視窗 {0} 的內容選單時發生錯誤：{1}"
 
 msgid "Unknown Control"
-msgstr ""
+msgstr "未知控制項"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
@@ -572,7 +572,7 @@ msgid "Control with ID '{0}' not found for updating bindings."
 msgstr "更新綁定時找不到 ID 為「{0}」的控制項。"
 
 msgid "Binding Successful"
-msgstr ""
+msgstr "綁定成功"
 
 msgid "meters"
 msgstr "公尺"
@@ -620,7 +620,7 @@ msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr "無法啟用插件 {0}，因為找不到依賴項目 {1}。"
 
 msgid "Emergency Braking"
-msgstr ""
+msgstr "緊急煞車"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
@@ -663,7 +663,7 @@ msgid "Limit Overlay Framerate"
 msgstr "限制疊加層影格率"
 
 msgid "None"
-msgstr ""
+msgstr "無"
 
 msgid "Pascals"
 msgstr "帕斯卡"
@@ -673,7 +673,7 @@ msgid "Failed enable {0}: {1}"
 msgstr "啟用 {0} 失敗：{1}"
 
 msgid "SDK Installed"
-msgstr ""
+msgstr "SDK 已安裝"
 
 msgid "Experiments"
 msgstr "實驗性功能"
@@ -702,7 +702,7 @@ msgid "Disconnected joystick: [gray italic]({0})[/]"
 msgstr "已中斷搖桿：[gray italic]({0})[/]"
 
 msgid "Changes will take effect after restarting the application."
-msgstr ""
+msgstr "重新啟動應用程式後，變更才會生效。"
 
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
@@ -719,7 +719,7 @@ msgstr ""
 "行。"
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "SDK 安裝失敗"
 
 msgid "L"
 msgstr "L"
@@ -769,7 +769,7 @@ msgid "m"
 msgstr "m"
 
 msgid "Binding Timed Out"
-msgstr ""
+msgstr "綁定逾時"
 
 msgid "Curve Quality"
 msgstr "曲線品質"
@@ -781,7 +781,7 @@ msgid "Assist"
 msgstr "輔助"
 
 msgid "Desired Steering Level: "
-msgstr ""
+msgstr "目標轉向輔助等級： "
 
 #, csharp-format
 msgid "Failed to load map for installation at '{0}'"
@@ -794,17 +794,17 @@ msgid "kilograms"
 msgstr "公斤"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "正在翻譯版本說明..."
 
 msgid "No release notes available."
-msgstr ""
+msgstr "沒有可用的版本說明。"
 
 msgid "Unbound"
 msgstr "未綁定"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr ""
+msgstr "已成功將 SDK 版本「{0}」安裝至「{1}」"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
@@ -812,7 +812,7 @@ msgstr "已將「{0}」複製到「{1}」"
 
 msgid ""
 "This might take a while depending on your internet connection and the source."
-msgstr ""
+msgstr "依照你的網路連線狀況和更新來源而定，可能需要一點時間。"
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
@@ -824,7 +824,7 @@ msgstr "已建立插件目錄：[gray]{0}[/]"
 
 #, csharp-format
 msgid "Binding {0}"
-msgstr ""
+msgstr "正在綁定 {0}"
 
 msgid "Check For Updates"
 msgstr "檢查更新"
@@ -859,7 +859,7 @@ msgid "Add Game Manually"
 msgstr "手動新增遊戲"
 
 msgid "Demo Window"
-msgstr ""
+msgstr "示範視窗"
 
 msgid "Contact Us"
 msgstr "聯絡我們"
@@ -935,7 +935,7 @@ msgid ""
 msgstr "找不到所選的更新來源「{0}」，將改用第一個可用的來源。"
 
 msgid "Window Zoom"
-msgstr ""
+msgstr "視窗縮放"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
@@ -944,11 +944,11 @@ msgstr "已連接搖桿：[bold]{0}[/] [gray italic]({1}, {2})[/]"
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
 "your monitor's DPI settings."
-msgstr ""
+msgstr "ETS2LA 視窗的縮放比例。可用於配合螢幕的 DPI 設定調整視窗大小。"
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "控制項 {0}（{1}）的綁定已逾時。"
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
@@ -991,7 +991,7 @@ msgstr ""
 "用此選項可能可以解決問題。"
 
 msgid "Window"
-msgstr ""
+msgstr "視窗"
 
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
@@ -1007,7 +1007,7 @@ msgid "Failed to refresh joysticks: {0}"
 msgstr "重新整理搖桿失敗：{0}"
 
 msgid "Show Fewer Logs"
-msgstr ""
+msgstr "顯示較少記錄"
 
 msgid "Render AR Elements"
 msgstr "渲染 AR 元素"
@@ -1035,7 +1035,7 @@ msgstr "收到未知搖桿的輸入（執行個體 ID：{0}）。"
 
 #, csharp-format
 msgid "Download progress: {0}%"
-msgstr ""
+msgstr "下載進度：{0}%"
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
@@ -1049,7 +1049,7 @@ msgstr "提示音"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
-msgstr ""
+msgstr "無法從「{1}」解除安裝 SDK 版本「{0}」：{2}"
 
 msgid "Networking"
 msgstr "網路"
@@ -1088,7 +1088,7 @@ msgid "Performance Overlay"
 msgstr "效能疊加層"
 
 msgid "Enabled"
-msgstr ""
+msgstr "已啟用"
 
 msgid "Sorry"
 msgstr "抱歉"
@@ -1123,7 +1123,7 @@ msgstr ""
 "此按鍵可在 ETS2LA 的任何選單中前往下一步，也可在任何確認操作中作為取消鍵。"
 
 msgid "Full"
-msgstr ""
+msgstr "完整"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
@@ -1145,7 +1145,7 @@ msgid "Overlay Interaction"
 msgstr "疊加層互動"
 
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "未知控制項 ID"
 
 #, csharp-format
 msgid "Error playing audio file {0}: {1}"
@@ -1210,7 +1210,7 @@ msgstr ""
 "告：「極高」會使用大量記憶體，預期使用量將超過 10GB。</span>"
 
 msgid "Lane Keep"
-msgstr ""
+msgstr "車道維持"
 
 msgid "You took a wrong turn!"
 msgstr "你走錯路了！"
@@ -1256,7 +1256,7 @@ msgid "feet"
 msgstr "英尺"
 
 msgid "Desired Longitudinal Level: "
-msgstr ""
+msgstr "目標縱向輔助等級： "
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
@@ -1298,7 +1298,7 @@ msgid ""
 msgstr "變更顯示語言後，需要重新啟動 ETS2LA 才會生效。要現在重新啟動嗎？"
 
 msgid "Clear Console"
-msgstr ""
+msgstr "清除控制台"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1417,7 +1417,7 @@ msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr "已註冊控制項：{0} [gray italic]({1})[/]"
 
 msgid "Disable"
-msgstr ""
+msgstr "停用"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1438,7 +1438,7 @@ msgid "Near"
 msgstr "近"
 
 msgid "Scientific"
-msgstr ""
+msgstr "科學單位"
 
 msgid "Early"
 msgstr "提早"
@@ -1468,10 +1468,10 @@ msgstr ""
 
 #, csharp-format
 msgid "A new update is available: {0}"
-msgstr ""
+msgstr "有新版本可用：{0}"
 
 msgid "Downloading Update"
-msgstr ""
+msgstr "正在下載更新"
 
 #, csharp-format
 msgid "found {0} road"
@@ -1479,7 +1479,7 @@ msgid_plural "found {0} roads"
 msgstr[0] "找到 {0} 個道路"
 
 msgid "You are running the latest version."
-msgstr ""
+msgstr "你目前使用的是最新版本。"
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
@@ -1509,7 +1509,7 @@ msgid "Deleted '{0}'"
 msgstr "已刪除「{0}」"
 
 msgid "Console"
-msgstr ""
+msgstr "控制台"
 
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
@@ -1522,7 +1522,7 @@ msgid "Warnings & Overrides"
 msgstr "警告與行為"
 
 msgid "Update Available"
-msgstr ""
+msgstr "有可用的更新"
 
 #, csharp-format
 msgid "Update to {0}"
@@ -1539,13 +1539,13 @@ msgid "Plugin Installer"
 msgstr "插件安裝器"
 
 msgid "No Update Available"
-msgstr ""
+msgstr "沒有可用更新"
 
 msgid "Adjust the volume of the audio output."
 msgstr "調整音訊輸出的音量。"
 
 msgid "SDK Uninstallation Failed"
-msgstr ""
+msgstr "SDK 解除安裝失敗"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
@@ -1554,7 +1554,7 @@ msgstr ""
 "使用簡化圖形可提升較低階硬體的效能，或解決著色器等進階功能不受支援的情況。"
 
 msgid "Unknown Version"
-msgstr ""
+msgstr "未知版本"
 
 msgid "The plugin was enabled successfully."
 msgstr "插件已成功啟用。"
@@ -1567,7 +1567,7 @@ msgstr "停放車輛更新時發生錯誤。"
 
 #, csharp-format
 msgid "Current Version: {0}"
-msgstr ""
+msgstr "目前版本：{0}"
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -1608,7 +1608,7 @@ msgstr "交通號誌更新時發生錯誤。"
 
 #, csharp-format
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
+msgstr "已成功從「{1}」解除安裝 SDK 版本「{0}」"
 
 msgid "miles per hour"
 msgstr "英里每小時"
@@ -1648,7 +1648,7 @@ msgstr "一般"
 
 #, csharp-format
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "無法將 SDK 版本「{0}」安裝至「{1}」：{2}"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -1658,7 +1658,7 @@ msgid "gallons"
 msgstr "加侖"
 
 msgid "Checking for updates..."
-msgstr ""
+msgstr "正在檢查更新..."
 
 msgid "Following Distance"
 msgstr "跟車距離"
