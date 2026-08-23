@@ -1,11 +1,12 @@
 # ShengFan <shengfan@ets2la.com>, 2026.
 # goodnightan <goodnightan@ets2la.com>, 2026.
+# Lun <lun@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 14:58:45+0300\n"
-"PO-Revision-Date: 2026-08-23 10:19+0000\n"
-"Last-Translator: ShengFan <shengfan@ets2la.com>\n"
+"PO-Revision-Date: 2026-08-23 16:55+0000\n"
+"Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -111,7 +112,7 @@ msgid "Fast"
 msgstr "快"
 
 msgid "Desired Speed: "
-msgstr "目标速度： "
+msgstr "预期速度： "
 
 msgid "K"
 msgstr "K"
