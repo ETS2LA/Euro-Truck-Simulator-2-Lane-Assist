@@ -10,6 +10,7 @@
     private string searchQuery = string.Empty;
 
     private Dictionary<NetworkPlugin, string> selectedVersions = new Dictionary<NetworkPlugin, string>();
+    private bool needsRestart = false;
 
     private void OnSearchQueryChanged(ChangeEventArgs e)
     {
@@ -74,6 +75,11 @@
         var installedPlugin = InstalledPluginManifest.Current.InstalledPlugins.FirstOrDefault(p => p.Id == plugin.Id);
         return installedPlugin.Version?.ToString() ?? string.Empty;
     }
+
+    private void Restart()
+    {
+        UserInterfaceUtils.Restart();
+    }
 }
 
 <div class="flex h-full w-full flex-col bg-bg-dark">
@@ -84,6 +90,13 @@
                placeholder=@(_("Search for plugins..."))
                class="w-full p-2 rounded-md bg-control-bg text-text-muted placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent"
                @oninput="OnSearchQueryChanged" />
+        @if (needsRestart)
+        {
+            <div class="flex flex-col gap-2">
+                <p class="text-text-accent text-[12px]">@(_("Changes will take effect after restarting the application."))</p>
+                <button class="button button-small button-accent w-full!" @onclick="@Restart">@(_("Restart Now"))</button>
+            </div>
+        }
     </div>
 
     <div class="mt-2 mb-2 bg-control-bg w-0.5 rounded-md"></div>
@@ -157,15 +170,15 @@
                                 />
                                 @if (updateVersion != null)
                                 {
-                                    <button class="button button-small button-accent w-full!" @onclick="@(() => NetworkingClient.Current.Plugins.UpdatePlugin(plugin.Id))">@(_("Update to {0}", updateVersion.Version))</button>
+                                    <button class="button button-small button-accent w-full!" @onclick="@(() => { needsRestart = true; NetworkingClient.Current.Plugins.UpdatePlugin(plugin.Id); })">@(_("Update to {0}", updateVersion.Version))</button>
                                 }
                                 else if (!string.IsNullOrEmpty(installedVersion))
                                 {
-                                    <button class="button button-small w-full!" @onclick="@(() => NetworkingClient.Current.Plugins.UninstallPlugin(plugin.Id))">@(_("Uninstall"))</button>
+                                    <button class="button button-small w-full!" @onclick="@(() => { needsRestart = true; NetworkingClient.Current.Plugins.UninstallPlugin(plugin.Id); })">@(_("Uninstall"))</button>
                                 }
                                 else
                                 {
-                                    <button class="button button-small w-full!" @onclick="@(() => NetworkingClient.Current.Plugins.InstallPlugin(plugin.Id, selectedVersions[plugin].Split(" ")[0]))">@(_("Install"))</button>
+                                    <button class="button button-small w-full!" @onclick="@(() => { needsRestart = true; NetworkingClient.Current.Plugins.InstallPlugin(plugin.Id, selectedVersions[plugin].Split(" ")[0]); })">@(_("Install"))</button>
                                 }
                             </div>
                         </div>

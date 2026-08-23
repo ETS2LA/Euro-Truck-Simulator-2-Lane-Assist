@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-22 23:07:04+0300\n"
-"PO-Revision-Date: 2026-08-22 23:07:05+0300\n"
+"POT-Creation-Date: 2026-08-23 13:13:17+0300\n"
+"PO-Revision-Date: 2026-08-23 13:13:17+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,10 +21,9 @@ msgid "Unknown Control ID"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:4
-#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
+#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 msgid "Sorry"
 msgstr ""
 
@@ -95,7 +94,7 @@ msgstr ""
 msgid "kg"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:131
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:144
 #, csharp-format
 msgid "Installed {0}"
 msgstr ""
@@ -299,7 +298,7 @@ msgstr ""
 msgid "Disconnected joystick: [gray italic]({0})[/]"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:160
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:173
 #, csharp-format
 msgid "Update to {0}"
 msgstr ""
@@ -335,6 +334,10 @@ msgstr ""
 msgid ""
 "Service unavailable. The server is currently unable to handle the request due "
 "to temporary overloading or maintenance."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:100
+msgid "Enabled"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:178
@@ -492,7 +495,7 @@ msgid ""
 "{1}Discord Server{2} or on {3}GitHub{4}."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:164
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:177
 msgid "Uninstall"
 msgstr ""
 
@@ -569,7 +572,7 @@ msgstr ""
 msgid "Failed to discover Dlls: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:135
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:148
 msgid "Not Installed"
 msgstr ""
 
@@ -579,6 +582,10 @@ msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/Camera.cs:100
 msgid "Error in camera update loop."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:125
+msgid "Enable"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:225
@@ -757,6 +764,10 @@ msgstr ""
 msgid "File not found: {0}"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:97
+msgid "Restart Now"
+msgstr ""
+
 #: ../../../ETS2LA.State/Program.cs:250
 #, csharp-format
 msgid "New limit {0} {1}"
@@ -893,6 +904,10 @@ msgstr ""
 msgid "Binding Successful"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:121
+msgid "Disable"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:21
 msgid "Controls"
 msgstr ""
@@ -913,7 +928,8 @@ msgstr ""
 msgid "Download progress: {0}%"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:84
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:61
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:90
 msgid "Search for plugins..."
 msgstr ""
 
@@ -1009,7 +1025,8 @@ msgstr ""
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:97
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:74
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:110
 msgid "No plugins found."
 msgstr ""
 
@@ -1150,12 +1167,12 @@ msgstr ""
 msgid "Failed enable {0}: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:78
-msgid "Error in parked vehicles update loop."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:159
 msgid "Acceleration Response"
+msgstr ""
+
+#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:78
+msgid "Error in parked vehicles update loop."
 msgstr ""
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:395
@@ -1236,6 +1253,7 @@ msgstr ""
 msgid "Steering Sensitivity"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:104
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
 msgid "Disabled"
 msgstr ""
@@ -1281,7 +1299,7 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:126
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:139
 msgid "Changelog"
 msgstr ""
 
@@ -1453,7 +1471,7 @@ msgid ""
 "Restart now?"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:124
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:137
 #, csharp-format
 msgid "Update to {0} from {1}"
 msgstr ""
@@ -1487,7 +1505,7 @@ msgstr ""
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:168
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:181
 msgid "Install"
 msgstr ""
 
@@ -1507,10 +1525,9 @@ msgid "Vision Cameras"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:5
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:5
-#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
+#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
 msgstr ""
 
@@ -1599,9 +1616,9 @@ msgid "SDKs are currently installed."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:18
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:151
 #: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:151
 msgid "Restart Required"
 msgstr ""
 
@@ -1674,14 +1691,14 @@ msgid ""
 "risk."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
-msgid "Game added"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:46
+msgid "Game added"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:334
@@ -1724,10 +1741,10 @@ msgstr ""
 msgid "Deleted '{0}'"
 msgstr ""
 
-#: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
-#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:122
+#: ../../../ETS2LA.Game/SDK/Camera.cs:130
+#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1781,6 +1798,10 @@ msgstr ""
 msgid "Adaptive Cruise Control"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:96
+msgid "Changes will take effect after restarting the application."
+msgstr ""
+
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:346
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
@@ -1796,12 +1817,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
-msgid "This game was found at"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
 msgid "Translated by:"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:69
+msgid "This game was found at"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69

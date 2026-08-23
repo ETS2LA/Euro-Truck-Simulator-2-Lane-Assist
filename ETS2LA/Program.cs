@@ -123,8 +123,10 @@ internal static class Program
         {
             // These initialize global instances, if there's a more "official" way to
             // do this then please make a PR for that.
-            var ar = OverlayHandler.Current;
             var backend = PluginBackend.Current;
+            backend.Start();
+
+            var ar = OverlayHandler.Current;
             var telemetry = GameTelemetry.Current;
             var state = ApplicationState.Current;
             // TODO: Reintroduce tutorials

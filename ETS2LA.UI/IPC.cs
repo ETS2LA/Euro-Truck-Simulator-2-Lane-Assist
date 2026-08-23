@@ -11,13 +11,6 @@ static class IPC
 {
     public static void HandleMessage(string message, object sender, PhotinoBlazorApp app)
     {
-        if (message.StartsWith("event:"))
-        {
-            var eventData = message.Replace("event:", "");
-            var eventName = eventData.Split(':')[0];
-            var eventPayload = eventData.Substring(eventName.Length + 1);
-            Events.Current.Publish(eventName, eventPayload);
-        }
         if (message.StartsWith("window:moveBy:"))
         {
             var parts = message.Replace("window:moveBy:", "").Split(',');
