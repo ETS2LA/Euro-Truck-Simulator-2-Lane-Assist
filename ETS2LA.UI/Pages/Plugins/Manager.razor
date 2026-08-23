@@ -1,6 +1,7 @@
 @page "/plugins/manager"
-@using ETS2LA.Backend;
-@using ETS2LA.Shared;
+@using ETS2LA.Backend
+@using ETS2LA.Shared
+@using ETS2LA.UI.Shared.Components
 
 @code {
     PluginHandler handler;
@@ -118,7 +119,7 @@
                             <div class="flex items-center gap-2">
                                 @if (enabled)
                                 {
-                                    <button class="button button-small w-full!" @onclick="@(() => handler.DisablePlugin(plugin))">@(_("Disable"))</button>
+                                    <button class="button button-small button-accent w-full!" @onclick="@(() => handler.DisablePlugin(plugin))">@(_("Disable"))</button>
                                 }
                                 else
                                 {
@@ -127,6 +128,11 @@
                             </div>
                         </div>
                     </div>
+
+                    @if (i == FilteredPlugins.Count - 1)
+                    {
+                        <Separator />
+                    }
                 }
             }
         </div>

@@ -42,7 +42,7 @@ public static class T
     public static void Initialize(IServiceProvider provider)
     {
         var factory = provider.GetRequiredService<IStringLocalizerFactory>();
-        _localizer = factory.Create("Resources", "ETS2LA.Translations");
+        _localizer = factory.Create(typeof(T));
         _serviceProvider = provider;
     }
 

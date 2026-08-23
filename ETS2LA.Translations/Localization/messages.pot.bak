@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-23 13:13:17+0300\n"
-"PO-Revision-Date: 2026-08-23 13:13:17+0300\n"
+"POT-Creation-Date: 2026-08-23 14:58:42+0300\n"
+"PO-Revision-Date: 2026-08-23 14:58:42+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,8 +20,8 @@ msgstr ""
 msgid "Unknown Control ID"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:4
+#: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 msgid "Sorry"
@@ -104,8 +104,8 @@ msgstr ""
 msgid "Error loading map data from '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
 msgid "Medium"
 msgstr ""
 
@@ -336,7 +336,7 @@ msgid ""
 "to temporary overloading or maintenance."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:100
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:101
 msgid "Enabled"
 msgstr ""
 
@@ -365,7 +365,7 @@ msgstr ""
 msgid "Failed to read version from '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/IPC.cs:63
+#: ../../../ETS2LA.UI/IPC.cs:56
 msgid "Are you sure?"
 msgstr ""
 
@@ -584,7 +584,7 @@ msgstr ""
 msgid "Error in camera update loop."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:125
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:126
 msgid "Enable"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
 msgstr ""
 
-#: ../../../ETS2LA.UI/IPC.cs:63
+#: ../../../ETS2LA.UI/IPC.cs:56
 msgid ""
 "This will disconnect ETS2LA from the game and close the window. You can "
 "minimize the window to keep ETS2LA running."
@@ -860,14 +860,14 @@ msgstr ""
 msgid "SDK Installed"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
+msgid "Current Speed"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:178
 #: ../../../ETS2LA.UI/Pages/Settings/Controls.razor:183
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:37
-msgid "Current Speed"
 msgstr ""
 
 #: ../../../ETS2LA.State/Units.cs:182
@@ -904,7 +904,7 @@ msgstr ""
 msgid "Binding Successful"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:121
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:122
 msgid "Disable"
 msgstr ""
 
@@ -928,7 +928,7 @@ msgstr ""
 msgid "Download progress: {0}%"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:61
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:62
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:90
 msgid "Search for plugins..."
 msgstr ""
@@ -1025,7 +1025,7 @@ msgstr ""
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:74
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:75
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:110
 msgid "No plugins found."
 msgstr ""
@@ -1253,7 +1253,7 @@ msgstr ""
 msgid "Steering Sensitivity"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:104
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:105
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
 msgid "Disabled"
 msgstr ""
@@ -1403,8 +1403,8 @@ msgstr ""
 msgid "Responsiveness"
 msgstr ""
 
-#: ../../../ETS2LA.Game/Installation.cs:266
 #: ../../../ETS2LA.Game/Data/Classes.cs:124
+#: ../../../ETS2LA.Game/Installation.cs:266
 msgid "Parsing Map Data"
 msgstr ""
 
@@ -1524,8 +1524,8 @@ msgstr ""
 msgid "Vision Cameras"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Visualization.razor:5
 #: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:5
+#: ../../../ETS2LA.UI/Pages/Visualization.razor:5
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
 #: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
@@ -1684,7 +1684,7 @@ msgstr ""
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA/Program.cs:64
+#: ../../../ETS2LA/Program.cs:48
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk if "
 "you use 3rd party plugins. Select Yes to continue anyway and accept the "
@@ -1743,8 +1743,8 @@ msgstr ""
 
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:122
 #: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
+#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1757,23 +1757,18 @@ msgstr ""
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
-msgid "View Public Telemetry"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Audio.razor:19
 msgid "Adjust the volume of the audio output."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:28
+msgid "View Public Telemetry"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:134
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
-
-#: ../../../ETS2LA/Program.cs:54
-#, csharp-format
-msgid "Ignored DBus exception: {0}"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:127
@@ -2004,12 +1999,12 @@ msgstr[1] ""
 msgid "Checking for updates..."
 msgstr ""
 
-#: ../../../ETS2LA.Backend/Program.cs:40
-msgid "Starting ETS2LA..."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:31
 msgid "Catalogue"
+msgstr ""
+
+#: ../../../ETS2LA.Backend/Program.cs:40
+msgid "Starting ETS2LA..."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:189
@@ -2113,16 +2108,16 @@ msgstr ""
 msgid "Display Units: "
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:116
-msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:178
 msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:116
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
 msgstr ""
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:282

@@ -96,7 +96,7 @@ public abstract class Plugin : IPlugin
     public virtual void OnEnable()
     {
         _IsRunning = true;
-        Task.Factory.StartNew(RunningThread, TaskCreationOptions.LongRunning);
+        Task.Run(RunningThread);
     }
 
     /// <summary>

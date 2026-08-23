@@ -5,6 +5,7 @@ using ETS2LA.Logging;
 using ETS2LA.Telemetry;
 using ETS2LA.Translations;
 using ETS2LA.State;
+using ETS2LA.Backend.Plugins;
 
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.FileProviders;
+using OrchardCore.Localization;
 
 namespace ETS2LA;
 
@@ -147,6 +149,7 @@ static class Utils
     public static void InitializeTranslations()
     {
         var services = new ServiceCollection();
+        var installedPlugins = InstalledPluginManifest.Current.InstalledPlugins;
 
         IHostEnvironment hostEnvironment = new HostingEnvironment
         {
@@ -159,13 +162,16 @@ static class Utils
 
         services.AddLogging();
         services.AddMemoryCache();
+        
         services.AddPortableObjectLocalization(options =>
         {
             options.ResourcesPath = "Localization";
         });
 
-        IServiceProvider serviceProvider = services.BuildServiceProvider();
+        IEnumerable<string> pluginPaths = installedPlugins.Select(p => Path.GetDirectoryName(p.DllPath)).Where(p => p != null).Select(p => p!);
+        services.AddSingleton<ILocalizationFileLocationProvider>(new MultiPoFileProvider(pluginPaths));
 
+        IServiceProvider serviceProvider = services.BuildServiceProvider();
         T.Initialize(serviceProvider);
 
         var stateSettings = StateSettingsHandler.Current.GetSettings();
@@ -183,4 +189,50 @@ internal static class NativeMethods
 {
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     public static extern int MessageBox(IntPtr hWnd, String text, String caption, uint type);
+}
+
+public class MultiPoFileProvider : ILocalizationFileLocationProvider
+{
+    private readonly List<IFileProvider> _fileProviders;
+
+    public MultiPoFileProvider(IEnumerable<string> pluginPaths)
+    {
+        _fileProviders = new List<IFileProvider>
+        {
+            // This is ETS2LA's base (so bin/net10.0 in build and the root of the app in publish)
+            new PhysicalFileProvider(AppContext.BaseDirectory)
+        };
+
+        foreach (var path in pluginPaths)
+        {
+            if (Directory.Exists(path))
+            {
+                // And this points to the plugin's root directory
+                # if LINUX
+                    var usedPath = path.EndsWith("/") ? path : path + "/";
+                # else
+                    var usedPath = path.EndsWith("\\") ? path : path + "\\";
+                # endif
+                Logger.Info($"Added Localization provider {usedPath}");
+                _fileProviders.Add(new PhysicalFileProvider(usedPath));
+            }
+        }
+    }
+
+    public IEnumerable<IFileInfo> GetLocations(string cultureName)
+    {
+        var fileInfos = new List<IFileInfo>();
+
+        foreach (var provider in _fileProviders)
+        {
+            var fileInfo = provider.GetFileInfo(Path.Combine("Localization", $"{cultureName}.po"));
+            Logger.Info($"Checking for localization file: {fileInfo.PhysicalPath}");
+            if (fileInfo.Exists)
+            {
+                fileInfos.Add(fileInfo);
+            }
+        }
+
+        return fileInfos;
+    }
 }

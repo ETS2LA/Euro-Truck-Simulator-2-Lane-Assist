@@ -35,26 +35,10 @@ internal static class Program
     {
         Utils.InitializeTranslations();
 
-        // This handles the main thread crashing (Avalonia)
-        // Nothing else *should* run on the main thread.
-        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-        {
-            Utils.HandleFatalException(e.ExceptionObject as Exception, tracerProvider, meterProvider);
-        };
-
         // This is for unobserved exceptions, i.e. plugins and other Task.Run() calls etc..
         TaskScheduler.UnobservedTaskException += (sender, e) =>
         {
             e.SetObserved(); // Prevents an immediate crash, we'll handle termination in HandleFatalException instead.
-
-            // Avalonia's IBus integration on linux throws these from DBus calls
-            // that nothing awaits (like when closing the window). They are harmless, can be ignored.
-            if (e.Exception.Flatten().InnerExceptions.All(ex => ex is Tmds.DBus.Protocol.DBusExceptionBase))
-            {
-                Logger.Warn(_("Ignored DBus exception: {0}", e.Exception.InnerException?.Message ?? "Unknown"));
-                return;
-            }
-
             Utils.HandleFatalException(e.Exception, tracerProvider, meterProvider);
         };
 
@@ -123,16 +107,15 @@ internal static class Program
         {
             // These initialize global instances, if there's a more "official" way to
             // do this then please make a PR for that.
-            var backend = PluginBackend.Current;
-            backend.Start();
-
             var ar = OverlayHandler.Current;
+            var backend = PluginBackend.Current;
             var telemetry = GameTelemetry.Current;
             var state = ApplicationState.Current;
             // TODO: Reintroduce tutorials
             // var tutorials = TutorialHandler.Current;
             var networking = NetworkingClient.Current;
             var games = GameHandler.Current;
+            backend.Start();
         });
 
         # if LINUX

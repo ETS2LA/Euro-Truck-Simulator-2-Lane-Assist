@@ -29,20 +29,6 @@
     <ProjectReference Include="..\ETS2LA.Translations\ETS2LA.Translations.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="ETS2LA.UI Requirements">
-    <PackageReference Include="Avalonia" Version="12.0.2" />
-    <PackageReference Include="Avalonia.Desktop" Version="12.0.2" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.2" />
-    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9" />
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.0.0" />
-    <PackageReference Include="Huskui.Avalonia" Version="1.1.3" />
-    <PackageReference Include="Huskui.Avalonia.Markdown" Version="1.1.3" />
-    <PackageReference Include="Optris.Icons.Avalonia" Version="12.0.6" />
-    <PackageReference Include="Optris.Icons.Avalonia.FontAwesome" Version="12.0.6" />
-    <PackageReference Include="Optris.Icons.Avalonia.MaterialDesign" Version="12.0.6" />
-  </ItemGroup>
-
   <Target Name="CopyAssets" AfterTargets="Build">
     <ItemGroup>
       <AssetFiles Include="$(MSBuildThisFileDirectory)..\Assets\**\*.*" />
