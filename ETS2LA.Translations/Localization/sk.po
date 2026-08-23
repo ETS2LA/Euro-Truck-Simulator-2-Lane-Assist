@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 23:07:20+0300\n"
-"PO-Revision-Date: 2026-08-22 11:40+0000\n"
+"PO-Revision-Date: 2026-08-23 09:46+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
-">\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
+"\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgid "bar"
 msgstr "bar"
 
 msgid "Translated by:"
-msgstr ""
+msgstr "Preložil:"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -40,7 +40,7 @@ msgid "Ignored DBus exception: {0}"
 msgstr "Ignorovaná výnimka DBus: {0}"
 
 msgid "Main"
-msgstr "Hlavný"
+msgstr "Hlavné"
 
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
@@ -55,7 +55,7 @@ msgid "Plugin with ID {0} not found."
 msgstr "Plugin s ID {0} nebol nájdený."
 
 msgid "Pause Steering Assist: "
-msgstr ""
+msgstr "Pozastavte asistenta zatáčania: "
 
 msgid "Plugins"
 msgstr "Pluginy"
@@ -67,26 +67,26 @@ msgid "Collision Avoidance"
 msgstr "Predchádzanie zrážkam"
 
 msgid "Starting download..."
-msgstr ""
+msgstr "Začína sa sťahovanie..."
 
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
-"Nastavte úroveň detailov herných údajov, ktoré používame. Vyššie hodnoty "
-"spotrebúvajú viac RAM, ale obsahujú viac informácií. Všetky úrovne sa hrajú "
+"Nastavte úroveň detailov herných údajov ktoré používame. Vyššie hodnoty "
+"spotrebúvajú viac RAM, ale obsahujú viac informácií. Všetky úrovne sa riadia "
 "rovnako."
 
 msgid "Interaction Mode"
 msgstr "Režim interakcie"
 
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "Nainštalujte aktualizáciu a reštartujte"
 
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
 msgstr ""
-"V regióne {1} nebola nájdená žiadna adresa URL na stiahnutie pre plugin s ID "
+"V regióne {1} nebola nájdená žiadna adresa URL na stiahnutie pluginu s ID "
 "{0}."
 
 #, csharp-format
@@ -97,7 +97,7 @@ msgstr[1] "Našli sa {0} ručne nainštalované pluginy."
 msgstr[2] "Našlo sa {0} ručne nainštalovaných pluginov."
 
 msgid "SDK Uninstalled"
-msgstr ""
+msgstr "SDK je odinštalované"
 
 msgid "Restarting ETS2LA..."
 msgstr "Reštartujem ETS2LA..."
@@ -120,7 +120,7 @@ msgid "Data Parsing"
 msgstr "Analýza údajov"
 
 msgid "Desired Speed: "
-msgstr ""
+msgstr "Požadovaná rýchlosť: "
 
 msgid "K"
 msgstr "K"
@@ -136,7 +136,7 @@ msgstr ""
 "poškodením vášho vozidla aj vozidiel ostatných. Prečo by ste to mali povoliť?"
 
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "Nezmenené / Nedostupné"
 
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
@@ -169,10 +169,10 @@ msgstr ""
 "monitor."
 
 msgid "Display Units: "
-msgstr ""
+msgstr "Displeje: "
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "Kamery na sledovanie"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
@@ -214,7 +214,7 @@ msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie sú nainštalované všetky závislosti pre plugin {0}."
 
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Adaptívny tempomat"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
@@ -239,7 +239,7 @@ msgid "Speed Limit Warning"
 msgstr "Upozornenie na rýchlostný limit"
 
 msgid "Imperial"
-msgstr ""
+msgstr "Imperiálny"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
@@ -281,7 +281,7 @@ msgstr "Prepísania"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "Najnovšia verzia: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
@@ -294,7 +294,7 @@ msgid "Failed to add game"
 msgstr "Nepodarilo sa pridať hru"
 
 msgid "Show More Logs"
-msgstr ""
+msgstr "Zobraziť viac protokolov"
 
 msgid "Warning: Insufficient RAM"
 msgstr "Upozornenie: Nedostatočná pamäť RAM"
@@ -342,14 +342,14 @@ msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
 msgstr "Načítaný plugin: [gray]{0}[/] z [gray]{1}[/]."
 
 msgid "Metric"
-msgstr ""
+msgstr "Metrický"
 
 msgid "Medium"
 msgstr "Stredný"
 
 #, csharp-format
 msgid "{0} m/s ({1} in {2})"
-msgstr ""
+msgstr "{0} m/s ({1} in {2})"
 
 msgid "Game added"
 msgstr "Hra bola pridaná"
@@ -418,6 +418,8 @@ msgid ""
 "Press a button or move an axis on your input device to bind it to this "
 "control. This will time out in {0} seconds."
 msgstr ""
+"Stlačte tlačidlo alebo posuňte os na vašom vstupnom zariadení, aby ste ho "
+"priradili k tomuto ovládacímu prvku. Časový limit vyprší za {0} sekúnd."
 
 #, csharp-format
 msgid "Update to {0} from {1}"
@@ -428,7 +430,7 @@ msgid "Plugin with ID {0} not found in available plugins."
 msgstr "Plugin s ID {0} nebol nájdený medzi dostupnými pluginmi."
 
 msgid "State Info"
-msgstr ""
+msgstr "Informácie o stave"
 
 #, csharp-format
 msgid "Error in AR OpenGL pass: {0}"
@@ -449,7 +451,7 @@ msgid "Failed to unload plugin load context: {0}"
 msgstr "Nepodarilo sa vyprázdniť kontext načítania pluginu: {0}"
 
 msgid "Pause Longitudinal Assist: "
-msgstr ""
+msgstr "Pozastavte Longitudinal Asistenta: "
 
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning "
@@ -462,7 +464,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Camera {0} ({1}x{2})"
-msgstr ""
+msgstr "Kamera {0} ({1}×{2})"
 
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
@@ -542,7 +544,7 @@ msgid "Error rendering context menu for window {0}: {1}"
 msgstr "Chyba pri zobrazení kontextového menu pre okno {0}: {1}"
 
 msgid "Unknown Control"
-msgstr ""
+msgstr "Neznámy ovládací prvok"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
@@ -622,7 +624,7 @@ msgid "Control with ID '{0}' not found for updating bindings."
 msgstr "Kontrola s ID „{0}“ nebola nájdené pre aktualizáciu mapovania kláves."
 
 msgid "Binding Successful"
-msgstr ""
+msgstr "Mapovanie kláves bol úspešný"
 
 msgid "meters"
 msgstr "metre"
@@ -677,7 +679,7 @@ msgstr ""
 "Plugin {0} sa nedá aktivovať, pretože sa nepodarilo nájsť jeho závislosť {1}."
 
 msgid "Emergency Braking"
-msgstr ""
+msgstr "Núdzové brzdenie"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
@@ -723,7 +725,7 @@ msgid "Limit Overlay Framerate"
 msgstr "Obmedziť snímkovú frekvenciu prekrývania"
 
 msgid "None"
-msgstr ""
+msgstr "Žiadne"
 
 msgid "Pascals"
 msgstr "Pascali"
@@ -733,7 +735,7 @@ msgid "Failed enable {0}: {1}"
 msgstr "Aktivácia sa nepodarila {0}: {1}"
 
 msgid "SDK Installed"
-msgstr ""
+msgstr "SDK je nainštalované"
 
 msgid "Experiments"
 msgstr "Experimenty"
@@ -780,7 +782,7 @@ msgstr ""
 "aby ETS2LA naďalej bežalo."
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "Inštalácia SDK sa nepodarila"
 
 msgid "L"
 msgstr "L"
@@ -834,7 +836,7 @@ msgid "m"
 msgstr "m"
 
 msgid "Binding Timed Out"
-msgstr ""
+msgstr "Časový limit pre mapovanie kláves vypršal"
 
 msgid "Curve Quality"
 msgstr "Kvalita krivky"
@@ -850,7 +852,7 @@ msgid "Failed to load map for installation at '{0}'"
 msgstr "Nepodarilo sa načítať mapu pre inštaláciu v umiestnení „{0}“"
 
 msgid "Desired Steering Level: "
-msgstr ""
+msgstr "Požadovaná úroveň zatáčania: "
 
 msgid "Close"
 msgstr "Zatvoriť"
@@ -859,17 +861,17 @@ msgid "kilograms"
 msgstr "kilogramy"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "Prekladám poznámky k verzii..."
 
 msgid "No release notes available."
-msgstr ""
+msgstr "Poznámky k verzii nie sú k dispozícii."
 
 msgid "Unbound"
 msgstr "Nepriradené"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr ""
+msgstr "Verzia SDK „{0}“ bola úspešne nainštalovaná do „{1}“"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
@@ -878,6 +880,7 @@ msgstr "Skopírovalo sa „{0}“ do „{1}“"
 msgid ""
 "This might take a while depending on your internet connection and the source."
 msgstr ""
+"V závislosti od vášho internetového pripojenia a zdroja to môže chvíľu trvať."
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
@@ -889,7 +892,7 @@ msgstr "Vytvoril sa adresár pluginov: [gray]{0}[/]"
 
 #, csharp-format
 msgid "Binding {0}"
-msgstr ""
+msgstr "Mapujem {0}"
 
 msgid "Check For Updates"
 msgstr "Skontrolujte dostupnosť aktualizácií"
@@ -929,7 +932,7 @@ msgid "Add Game Manually"
 msgstr "Pridať hru manuálne"
 
 msgid "Demo Window"
-msgstr ""
+msgstr "Ukážkové okno"
 
 msgid "Contact Us"
 msgstr "Kontaktujte nás"
@@ -1011,7 +1014,7 @@ msgstr ""
 "zdroj."
 
 msgid "Window Zoom"
-msgstr ""
+msgstr "Zväčšenie okna"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
@@ -1021,10 +1024,12 @@ msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
 "your monitor's DPI settings."
 msgstr ""
+"Úroveň priblíženia okna ETS2LA. Túto funkciu môžete použiť na prispôsobenie "
+"veľkosti okna nastaveniam DPI vášho monitora."
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "Vypršal časový limit pre mapovanie ovládacieho prvku {0} ({1})."
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
@@ -1069,7 +1074,7 @@ msgstr ""
 "ETS2LA očakáva."
 
 msgid "Window"
-msgstr ""
+msgstr "Okno"
 
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
@@ -1087,7 +1092,7 @@ msgid "Failed to refresh joysticks: {0}"
 msgstr "Nepodarilo sa obnoviť joysticky: {0}"
 
 msgid "Show Fewer Logs"
-msgstr ""
+msgstr "Zobraziť menej záznamov"
 
 msgid "Render AR Elements"
 msgstr "Vykresliť prvky AR"
@@ -1117,7 +1122,7 @@ msgstr "Bol prijatý vstup z neznámeho joysticku s ID inštancie {0}."
 
 #, csharp-format
 msgid "Download progress: {0}%"
-msgstr ""
+msgstr "Prebieha sťahovanie: {0}%"
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
@@ -1131,7 +1136,7 @@ msgstr "Vyzváňanie"
 
 #, csharp-format
 msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
-msgstr ""
+msgstr "Nepodarilo sa odinštalovať verziu SDK „{0}“ z „{1}“: {2}"
 
 msgid "Networking"
 msgstr "Sieťovanie"
@@ -1211,7 +1216,7 @@ msgstr ""
 "funguje ako klávesa na zrušenie akéhokoľvek potvrdenia."
 
 msgid "Full"
-msgstr ""
+msgstr "Úplný"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
@@ -1234,7 +1239,7 @@ msgid "Overlay Interaction"
 msgstr "Interakcia s prekrývacím prvkom"
 
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "Neznáme kontrolné ID"
 
 #, csharp-format
 msgid "Error playing audio file {0}: {1}"
@@ -1305,7 +1310,7 @@ msgstr ""
 "span>"
 
 msgid "Lane Keep"
-msgstr ""
+msgstr "Udržiavanie jazdného pruhu"
 
 msgid "You took a wrong turn!"
 msgstr "Zabočil si nesprávne!"
@@ -1315,7 +1320,7 @@ msgid "Inner Exception: {0}"
 msgstr "Vnútorná výnimka: {0}"
 
 msgid "Steering Sensitivity"
-msgstr "Citlivosť riadenia"
+msgstr "Citlivosť zatáčania"
 
 msgid ""
 "The server could not understand the request due to invalid syntax or "
@@ -1354,7 +1359,7 @@ msgid "feet"
 msgstr "stopa"
 
 msgid "Desired Longitudinal Level: "
-msgstr ""
+msgstr "Požadovaný Longitudinaly level: "
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
@@ -1398,7 +1403,7 @@ msgstr ""
 "Chcete reštartovať teraz?"
 
 msgid "Clear Console"
-msgstr ""
+msgstr "Prečistiť konzolu"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1417,7 +1422,7 @@ msgid ""
 "We will pause the game when we detect instability or the steering is "
 "unresponsive / disables itself for other reasons."
 msgstr ""
-"Hru pozastavíme, keď zistíme nestabilitu alebo ak riadenie nereaguje / z "
+"Hru pozastavíme, keď zistíme nestabilitu alebo ak zatáčanie nereaguje / z "
 "iných dôvodov prestane fungovať."
 
 msgid ""
@@ -1471,7 +1476,7 @@ msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
-"Nastavte, ako bude ETS2LA reagovať na potrebné zmeny smeru jazdy. Týmto "
+"Nastavte, ako bude ETS2LA reagovať na potrebné dotočenie volantom. Týmto "
 "nastavením sa napríklad určuje, ako rýchlo bude ETS2LA meniť jazdný pruh."
 
 msgid "pounds"
@@ -1550,7 +1555,7 @@ msgid "Near"
 msgstr "Blízko"
 
 msgid "Scientific"
-msgstr ""
+msgstr "Vedecký"
 
 msgid "Early"
 msgstr "Skoro"
@@ -1583,10 +1588,10 @@ msgstr ""
 
 #, csharp-format
 msgid "A new update is available: {0}"
-msgstr ""
+msgstr "Je k dispozícii nová aktualizácia: {0}"
 
 msgid "Downloading Update"
-msgstr ""
+msgstr "Sťahovanie aktualizácie"
 
 #, csharp-format
 msgid "found {0} road"
@@ -1596,7 +1601,7 @@ msgstr[1] "Boli nájdené {0} cesty"
 msgstr[2] "Bolo nájdených {0} ciest"
 
 msgid "You are running the latest version."
-msgstr ""
+msgstr "Používate najnovšiu verziu."
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
@@ -1628,7 +1633,7 @@ msgid "Deleted '{0}'"
 msgstr "Odstránené „{0}“"
 
 msgid "Console"
-msgstr ""
+msgstr "Konzola"
 
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
@@ -1645,7 +1650,7 @@ msgid "Update to {0}"
 msgstr "Aktualizuj do {0}"
 
 msgid "Update Available"
-msgstr ""
+msgstr "K dispozícii je aktualizácia"
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -1658,13 +1663,13 @@ msgid "Plugin Installer"
 msgstr "Plugin inštalátor"
 
 msgid "No Update Available"
-msgstr ""
+msgstr "Nie je k dispozícii žiadna aktualizácia"
 
 msgid "Adjust the volume of the audio output."
 msgstr "Upravte hlasitosť zvukového výstupu."
 
 msgid "SDK Uninstallation Failed"
-msgstr ""
+msgstr "Odinštalovanie SDK sa nepodarilo"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
@@ -1675,7 +1680,7 @@ msgstr ""
 "napríklad shadery."
 
 msgid "Unknown Version"
-msgstr ""
+msgstr "Neznáma verzia"
 
 msgid "The plugin was enabled successfully."
 msgstr "Plugin bol úspešne aktivovaný."
@@ -1688,7 +1693,7 @@ msgstr "Chyba v cykle aktualizácie zaparkovaných vozidiel."
 
 #, csharp-format
 msgid "Current Version: {0}"
-msgstr ""
+msgstr "Aktuálna verzia: {0}"
 
 #, csharp-format
 msgid "Loaded {0} plugin from the Plugins folder."
@@ -1732,7 +1737,7 @@ msgstr "Chyba v cykle aktualizácie semaforu."
 
 #, csharp-format
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
+msgstr "Verzia SDK „{0}“ bola úspešne odinštalovaná z „{1}“"
 
 msgid "miles per hour"
 msgstr "míle za hodinu"
@@ -1772,7 +1777,7 @@ msgstr "Všeobecné informácie"
 
 #, csharp-format
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "Inštalácia verzie SDK „{0}“ do „{1}“ sa nepodarila: {2}"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -1782,7 +1787,7 @@ msgid "gallons"
 msgstr "galóny"
 
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Hľadám aktualizácie..."
 
 msgid "Following Distance"
 msgstr "Dodržiavanie odstupu"
