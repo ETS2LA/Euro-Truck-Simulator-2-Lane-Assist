@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-22 23:07:20+0300\n"
-"PO-Revision-Date: 2026-08-22 16:19+0000\n"
+"PO-Revision-Date: 2026-08-23 04:24+0000\n"
 "Last-Translator: svllyu <svllyu@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/ets2la/et/"
 ">\n"
@@ -29,7 +29,7 @@ msgid "bar"
 msgstr "baar"
 
 msgid "Translated by:"
-msgstr ""
+msgstr "Tõlkinud:"
 
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
@@ -55,7 +55,7 @@ msgid "Plugin with ID {0} not found."
 msgstr "Laiend ID-ga {0} ei ole leitud."
 
 msgid "Pause Steering Assist: "
-msgstr ""
+msgstr "Peata roolimisabi: "
 
 msgid "Plugins"
 msgstr "Laiendused"
@@ -67,18 +67,20 @@ msgid "Collision Avoidance"
 msgstr "Kokkupõrke vältimine"
 
 msgid "Starting download..."
-msgstr ""
+msgstr "Algab allalaadimine..."
 
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Muuda kasutatavate mänguandmete detailsust. Kõrgemad väärtused kasutavad "
+"rohkem mälu, kuid sisaldavad rohkem teavet. Kõik tasemed sõidavad sama moodi."
 
 msgid "Interaction Mode"
 msgstr "Puudutus Mode"
 
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "Installi värskendus ja taaskäivita"
 
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
@@ -87,82 +89,89 @@ msgstr "Allalaadimis URL ei leitud laiendusele ID-ga {0} regioonis {1}."
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Leiti{0} manuaalselt installitud laiendus."
+msgstr[1] "Leiti {0} manuaalselt installitud laiendused."
 
 msgid "SDK Uninstalled"
-msgstr ""
+msgstr "SDK eemaldatud"
 
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "ETS2LA taaskäivitamine..."
 
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Jäeti vahele aegunud laiendus varukataloog [gray]{0}[/]: {1}"
 
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "leiti {0} sõlme"
+msgstr[1] "leiti {0} sõlmi"
 
 msgid "Fast"
-msgstr ""
+msgstr "Kiire"
 
 msgid "Data Parsing"
-msgstr ""
+msgstr "Andmete sõelumine"
 
 msgid "Desired Speed: "
-msgstr ""
+msgstr "Soovitud kiirus: "
 
 msgid "K"
-msgstr ""
+msgstr "K"
 
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "Viga kaamera värskendus tsüklis."
 
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"Me ignoreerime liikluseeskirju ja kiiruspiiranguid. Arvesta kahjustustega "
+"nii oma kui ka teiste sõidukitele. Miks sa peaksid selle sisse ültse "
+"lülitama?"
 
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "Muutumatu / Pole saadaval"
 
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "SDK eemaldamine asukohast '{0}' asukohta '{1}' ebaõnnestus: {2}"
 
 msgid "Catalogue"
-msgstr ""
+msgstr "Kataloog"
 
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
+"Maksimaalne kiirus, milleni ETS2LA kiirendab. Limiidist tingituna võib "
+"sõiduk sellest piirist siiski veidi üle minna."
 
 #, csharp-format
 msgid "New limit {0} {1}"
-msgstr ""
+msgstr "Uus limiit {0} {1}"
 
 #, csharp-format
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr ""
+msgstr "Laiendusest '{0}' puudub DLL asukohas '{1}' ja see on eemaldatud."
 
 msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"See võimaldab ETS2LA renderida mitmes vaateaknas, mis tähendab, et saad "
+"paigutada ülekatteaknad mis tahes monitorile."
 
 msgid "Display Units: "
-msgstr ""
+msgstr "Kuvaühikud: "
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "Visioonikaamerad"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "Logifaili lugemine asukohast '{0}' ebaõnnestus: {1}"
 
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
@@ -204,89 +213,98 @@ msgid ""
 msgstr ""
 
 msgid "Units and Language"
-msgstr ""
+msgstr "Ühikud ja keel"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "Analüüsitud kaardiandmete mahalaadimine installimiseks asukohta '{0}'"
 
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "SDK-d on hetkel installitud."
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Maksimaalne renderikaugus"
 
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "Kiiruspiirangu hoiatus"
 
 msgid "Imperial"
-msgstr ""
+msgstr "Briti mõõtühik"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
 "significant amounts of RAM, and may cause your system to become unstable. "
 "Please select a lower fidelity."
 msgstr ""
+"Teie süsteemil on vähem kui 20 GB mälu. Äärmuslik andmetäpsus nõuab "
+"märkimisväärses koguses mälu ja võib muuta süsteemi ebastabiilseks. Palun "
+"valige madalam täpsusaste."
 
 msgid "Increase"
-msgstr ""
+msgstr "Suurendamine"
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Installitud {0}"
 
 msgid "Additional"
-msgstr ""
+msgstr "Täiendav"
 
 msgid "Visual"
-msgstr ""
+msgstr "Visuaalne"
 
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"Reguleeri teekonna planeerimisel ja visualiseerimisel kasutatavate kõverate "
+"kvaliteeti. Vaikimisi vastab see mängu omale."
 
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "Kuva avalik telemeetria"
 
 msgid "°C"
-msgstr ""
+msgstr "Celsius"
 
 msgid "Overrides"
-msgstr ""
+msgstr "Ülekirjutused"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "Uusim versioon: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "Laiendust {0} ei õnnestunud sulgeda: {1}"
 
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Anonüümne telemeetria"
 
 msgid "Failed to add game"
-msgstr ""
+msgstr "Mängu lisamine ebaõnnestus"
 
 msgid "Show More Logs"
-msgstr ""
+msgstr "Kuva rohkem logisid"
 
 msgid "Warning: Insufficient RAM"
-msgstr ""
+msgstr "Hoiatus: Pole piisavalt mälu"
 
 msgid "hide"
-msgstr ""
+msgstr "peida"
 
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
+"Käsitsi lisatud mäng asukohas '{0}' ei sisalda enam mängu käivitatavat faili "
+",jäetakse vahele."
 
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
 msgstr ""
+"Hoiatus: teie süsteemil on vähem kui 16 GB mälu. Saate valida vaid kuni "
+"keskmise taseme."
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
