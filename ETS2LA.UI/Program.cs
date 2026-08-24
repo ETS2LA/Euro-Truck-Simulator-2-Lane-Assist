@@ -55,15 +55,12 @@ public class UserInterface
         else 
             app.MainWindow.Center();
 
-        UserInterface.Current.Window = app.MainWindow;
-        
-        UserInterface.Current.Window.WindowSizeChanged += (sender, e) =>
-        {
+        Current.Window = app.MainWindow;
+        Current.Window.WindowSizeChanged += (sender, e) => {
             WindowSettings.Current.Width = e.Width;
             WindowSettings.Current.Height = e.Height;
         };
-        UserInterface.Current.Window.WindowLocationChanged += (sender, e) =>
-        {
+        Current.Window.WindowLocationChanged += (sender, e) => {
             WindowSettings.Current.X = e.X;
             WindowSettings.Current.Y = e.Y;
         };

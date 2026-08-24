@@ -33,8 +33,8 @@
 
     private string GetButtonClass()
     {
-        string baseClass = "px-3 py-1 flex hover:bg-control/50 rounded-md transition-colors";
-        
+        string baseClass = "px-3 py-1 flex hover:bg-control/50 rounded-md transition-colors whitespace-nowrap";
+
         string relativePath = Navigation.ToBaseRelativePath(Navigation.Uri);
         string targetPath = Path.TrimStart('/');
 
@@ -50,7 +50,7 @@
                        || relativePath.StartsWith(targetPath + "/", StringComparison.OrdinalIgnoreCase);
         }
 
-        return isActive ? $"{baseClass} bg-control/40 text-[#ffffff]" : baseClass;
+        return isActive ? $"{baseClass} bg-control/40 text-text-h!" : baseClass;
     }
 
     public void Dispose()
