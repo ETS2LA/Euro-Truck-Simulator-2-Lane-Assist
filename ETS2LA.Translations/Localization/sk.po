@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 14:58:45+0300\n"
-"PO-Revision-Date: 2026-08-23 09:46+0000\n"
+"PO-Revision-Date: 2026-08-24 10:33+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
-">\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
+"\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,7 +66,7 @@ msgid "Starting download..."
 msgstr "Začína sa sťahovanie..."
 
 msgid "Restart Now"
-msgstr ""
+msgstr "Reštartovať teraz"
 
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
@@ -229,7 +229,7 @@ msgid "Unloading parsed map data for installation at '{0}'"
 msgstr "Ukladanie analyzovaných údajov mapy na inštaláciu do adresára „{0}“"
 
 msgid "Enable"
-msgstr ""
+msgstr "Zapnúť"
 
 msgid "SDKs are currently installed."
 msgstr "SDK sú v súčasnosti nainštalované."
@@ -770,7 +770,7 @@ msgid "Disconnected joystick: [gray italic]({0})[/]"
 msgstr "Odpojený joystick: [gray italic]({0})[/]"
 
 msgid "Changes will take effect after restarting the application."
-msgstr ""
+msgstr "Zmeny sa uplatnia po reštartovaní aplikácie."
 
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
@@ -1184,7 +1184,7 @@ msgid "Performance Overlay"
 msgstr "Prekrývací panel výkonu"
 
 msgid "Enabled"
-msgstr ""
+msgstr "Zapnuté"
 
 msgid "Sorry"
 msgstr "Prepáčte"
@@ -1543,7 +1543,7 @@ msgid "Registered control: {0} [gray italic]({1})[/]"
 msgstr "Registrovaná kontrola: {0} [gray italic]({1})[/]"
 
 msgid "Disable"
-msgstr ""
+msgstr "Vypnúť"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
