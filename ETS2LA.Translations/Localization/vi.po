@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 14:58:45+0300\n"
-"PO-Revision-Date: 2026-08-24 15:13+0000\n"
+"PO-Revision-Date: 2026-08-24 15:38+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
 "vi/>\n"
@@ -869,7 +869,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
-msgstr ""
+msgstr "Lỗi khi hiển thị bảng điều khiển cửa sổ ở chế độ tương tác: {0}"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
