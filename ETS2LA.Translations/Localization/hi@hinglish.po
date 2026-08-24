@@ -3,19 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 14:58:45+0300\n"
-"PO-Revision-Date: 2026-08-23 14:58:45+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-08-24 02:15+0000\n"
+"Last-Translator: Artyz <artyz@ets2la.com>\n"
+"Language-Team: Hindi (Hinglish) <http://weblate.ets2la.com/projects/ets2la/"
+"ets2la/hi@hinglish/>\n"
 "Language: hi@hinglish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GetText.NET Extractor\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:212
 msgid "Max Overlay Framerate"
-msgstr ""
+msgstr "अधिकतम ओवरले फ़्रेमरेट"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:144
 #, csharp-format
@@ -23,6 +24,8 @@ msgid ""
 "Version {0} of plugin with ID {1} is not compatible with the current "
 "application version or operating system."
 msgstr ""
+"Plugin, ID {1} ke saath, current application version ya operating system ke "
+"saath compatible nahi hai."
 
 #: ../../../ETS2LA.State/Units.cs:235
 #: ../../../ETS2LA.State/Units.cs:309
@@ -31,21 +34,21 @@ msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
 msgid "Translated by:"
-msgstr ""
+msgstr "Anuvadak:"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:225
 #, csharp-format
 msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr ""
+msgstr "Plugin {0} ({1},{2}) successfully install ho gaya hai"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:23
 msgid "Main"
-msgstr ""
+msgstr "Mukhya"
 
 #: ../../../ETS2LA.Game/Installation.cs:209
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
-msgstr ""
+msgstr "Isme thoda time lag sakta hai… ({0}/{1})"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:196
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:360
@@ -53,124 +56,129 @@ msgstr ""
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:394
 #, csharp-format
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:116
 #, csharp-format
 msgid "Plugin with ID {0} not found."
-msgstr ""
+msgstr "ID {0} ka plugin nai mil saka"
 
 #: ../../../ETS2LA.Overlay/Window/StateWindow.cs:45
 msgid "Pause Steering Assist: "
-msgstr ""
+msgstr "Rokho Steering Assist : "
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:29
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:593
 msgid "Failed to create GLFW window"
-msgstr ""
+msgstr "GLFW window banane mein problem ho gayi"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:177
 msgid "Collision Avoidance"
-msgstr ""
+msgstr "Takkar Bachav"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:113
 msgid "Starting download..."
-msgstr ""
+msgstr "Download shuru ho raha hai…"
 
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:97
 msgid "Restart Now"
-msgstr ""
+msgstr "Abhi restart karo"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:71
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
 msgstr ""
+"Game data ke detail level ko adjust karein jo hum use karte hain. Higher "
+"values zyada RAM use karti hain, lekin isme zyada information hoti hai. "
+"Sabhi levels mein driving same rehti hai."
 
 #: ../../../ETS2LA.Overlay/Overlay.cs:282
 #: ../../../ETS2LA.Overlay/Overlay.cs:284
 msgid "Interaction Mode"
-msgstr ""
+msgstr "Interaction Mode"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:139
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "Update ko install aur restart karo"
 
 #: ../../../ETS2LA.Networking/Plugins/client.cs:157
 #, csharp-format
 msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr ""
+msgstr "Download URL plugin ID {0} ke saat nai mil raha hai region {1} mein."
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:145
 #, csharp-format
 msgid "Discovered {0} manually installed plugin."
 msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} manually installed plugin mila."
+msgstr[1] "{0} manually installed plugins mil gaya."
 
 #: ../../../ETS2LA.Game/Installation.cs:462
 msgid "SDK Uninstalled"
-msgstr ""
+msgstr "SDK uninstall ho gaya"
 
 #: ../../../ETS2LA.UI/Utils.cs:29
 msgid "Restarting ETS2LA..."
-msgstr ""
+msgstr "ETS2LA ke restart kare…"
 
 #: ../../../ETS2LA.Backend/PluginHandler/Handler.cs:326
 #, csharp-format
 msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Stale plugin shadow directory skip kar liya [gray]{0}[/]: {1}"
 
 #: ../../../ETS2LA.Game/Installation.cs:303
 #, csharp-format
 msgid "found {0} node"
 msgid_plural "found {0} nodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mil gaya {0} node"
+msgstr[1] "{0} nodes mil gaya"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/SettingsLayout.razor:14
 msgid "Data Parsing"
-msgstr ""
+msgstr "Data Parsing"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:15
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:23
 msgid "Fast"
-msgstr ""
+msgstr "Tez"
 
 #: ../../../ETS2LA.Overlay/Window/StateWindow.cs:55
 msgid "Desired Speed: "
-msgstr ""
+msgstr "Kitni speed chahte: "
 
 #: ../../../ETS2LA.State/Units.cs:228
 #: ../../../ETS2LA.State/Units.cs:302
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: ../../../ETS2LA.Game/SDK/Camera.cs:100
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "Camera update loop mein error aayi."
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:202
 msgid ""
 "We will ignore traffic rules and speed limits. Expect damage to your vehicle "
 "and others. Why would you enable this?"
 msgstr ""
+"Hum traffic rules aur speed limits ignore karenge. Apni vehicle aur doosron "
+"ko damage expect karein. Aap ise enable kyun karna chahte hain?"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:132
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "Badla nahi / Available nahi hai"
 
 #: ../../../ETS2LA.Game/Installation.cs:483
 #, csharp-format
 msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "'{0}' se '{1}' tak SDK uninstall fail ho gaya: {2}"
 
 #: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:31
 msgid "Catalogue"
-msgstr ""
+msgstr "Catalogue"
 
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
