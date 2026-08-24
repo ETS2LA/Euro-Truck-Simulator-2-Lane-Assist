@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-23 14:58:45+0300\n"
-"PO-Revision-Date: 2026-08-24 09:16+0000\n"
+"PO-Revision-Date: 2026-08-24 15:13+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
 "vi/>\n"
@@ -50,9 +50,8 @@ msgstr "{0}"
 msgid "Plugin with ID {0} not found."
 msgstr "Không tìm thấy plugin với ID {0}."
 
-#, fuzzy
 msgid "Pause Steering Assist: "
-msgstr "Tạm dừng hỗ trợ đánh lái:. "
+msgstr "Tạm dừng hỗ trợ đánh lái: "
 
 msgid "Plugins"
 msgstr "Plugin"
@@ -160,24 +159,27 @@ msgid ""
 "This allows ETS2LA to render in multiple viewports, meaning you can move "
 "overlay windows to any monitor."
 msgstr ""
+"Điều này cho phép ETS2LA hiển thị trên nhiều khung hình, nghĩa là bạn có thể "
+"di chuyển các cửa sổ đè (overlay) lên bất kì màn hình nào."
 
 msgid "Display Units: "
-msgstr ""
+msgstr "Đơn vị hiển thị:. "
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "Camera nhận diện"
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "Không thể đọc tệp log tại '{0}': {1}"
 
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
-msgstr ""
+msgstr "Đã thử tắt {0}, nhưng không tìm thấy trong danh sách plugin đã nạp."
 
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
 msgstr ""
+"Không thể tải danh sách plugin khả dụng. Vui lòng kiểm tra kết nối mạng."
 
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
@@ -186,57 +188,59 @@ msgstr "Lỗi hiển thị cửa sổ {0}: {1}"
 #, csharp-format
 msgid ""
 "Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr ""
+msgstr "Bản cài đăt tại '{0}' hiện đang không chạy, đang chờ để tải hồ sơ."
 
 #, csharp-format
 msgid "Discovered {0} manually installed library"
 msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Đã tìm thấy {0} thư viện được cài thủ công."
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Đã nạp plugin thư viện: [gray]{0}[/] from [gray]{1}[/]."
 
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "Chưa cài đặt đủ các phụ thuộc của plugin {0}."
 
 msgid "Adaptive Cruise Control"
-msgstr ""
+msgstr "Ga tự dộng thích ứng"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
-msgstr ""
+msgstr "Yêu cầu xác thực. Client phải xác thực để nhận phản hồi được yêu cầu."
 
 msgid "Units and Language"
-msgstr ""
+msgstr "Đơn vị và ngôn ngữ"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "Đang hủy nạp dữ liệu bản đồ đã phân tích cho bản cài đặt tại '{0}'"
 
 msgid "Enable"
-msgstr ""
+msgstr "Bật"
 
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "Các SDK hiện đã được cài đặt."
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Khoảng cách hiển thị tối đa"
 
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "Cảnh báo tốc độ giới hạn"
 
 msgid "Imperial"
-msgstr ""
+msgstr "Hệ Anh (Imperial)"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
 "significant amounts of RAM, and may cause your system to become unstable. "
 "Please select a lower fidelity."
 msgstr ""
+"Hệ thống của bạn có ít hơn 20GB RAM. Mức độ chi tiết dữ liệu cực cao sử dụng "
+"lượng RAM lớn và có thể khiến hệ thống của bạn mất ổn định. Vui lòng chọn "
+"mức độ chi tiết thấp hơn."
 
 msgid "Increase"
 msgstr "Tăng"
@@ -248,7 +252,6 @@ msgstr "Bổ sung"
 msgid "Installed {0}"
 msgstr "Đã cài đặt {0}"
 
-#, fuzzy
 msgid "Visual"
 msgstr "Giao diện"
 
@@ -256,43 +259,47 @@ msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"Điều chỉnh chất lượng của các đường cong để dùng cho lập kế hoạch đường đi "
+"và hiển thị. Mặc định nó sễ giống với trò chơi."
 
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "Xem dữ liệu thu thập từ xa công khai"
 
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 msgid "Overrides"
-msgstr ""
+msgstr "Ghi đè"
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "Phiên bản mới nhất: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "Tắt plugin {0} thất bại: {1}"
 
 msgid "Anonymous Telemetry"
 msgstr "Thu thập dữ liệu ẩn danh"
 
 msgid "Failed to add game"
-msgstr ""
+msgstr "Thêm trò chơi không thành công"
 
 msgid "Show More Logs"
-msgstr ""
+msgstr "Hiện thị thêm nhật kí (log)"
 
 msgid "Warning: Insufficient RAM"
-msgstr ""
+msgstr "Cảnh báo: Không đủ dung lượng RAM"
 
 msgid "hide"
-msgstr ""
+msgstr "ẩn"
 
 #, csharp-format
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
+"Đã thêm thủ công trò chơi tại '{0}' không còn chứa tệp thực thi trò chơi, "
+"đang bỏ qua."
 
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
@@ -308,37 +315,36 @@ msgstr ""
 "39 -> 40 ->42..."
 
 msgid "Data Quality"
-msgstr ""
+msgstr "Chất lượng dữ liệu"
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
-msgstr ""
+msgstr "Lỗi khi hiển thị AR: {0}"
 
 #, csharp-format
 msgid "Discovered {0} library in total"
 msgid_plural "Discovered {0} libraries in total."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Đã tìm thấy tổng cộng {0} thư viện."
 
 msgid "Settings"
-msgstr ""
+msgstr "Cài đặt"
 
 #, csharp-format
 msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr ""
+msgstr "Đã nạp plugin: [gray]{0}[/] from [gray]{1}[/]."
 
 msgid "Metric"
-msgstr ""
+msgstr "Hệ mét (km)"
 
 msgid "Medium"
 msgstr "Trung bình"
 
 #, csharp-format
 msgid "{0} m/s ({1} in {2})"
-msgstr ""
+msgstr "{0} m/s ({1} trong {2})"
 
 msgid "Game added"
-msgstr ""
+msgstr "Đã thêm trò chơi"
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
@@ -743,108 +749,114 @@ msgid "Disconnected joystick: [gray italic]({0})[/]"
 msgstr "Đã ngắt kết nối với tay cầm: [gray italic]({0})[/]"
 
 msgid "Changes will take effect after restarting the application."
-msgstr ""
+msgstr "Các thay đổi sẽ hoạt động sau khi khời động lại ứng dụng."
 
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
-msgstr ""
+msgstr "Đang xóa bản cài đặt được thêm thủ công tại '{0}'"
 
 msgid "Please see the logs for more information."
-msgstr ""
+msgstr "Vui lòng xem nhật kí (log) để có nhiều thông tin hơn."
 
 msgid ""
 "This will disconnect ETS2LA from the game and close the window. You can "
 "minimize the window to keep ETS2LA running."
 msgstr ""
+"Điều này sẽ ngắt kết nối ETS2LA khỏi trò chơi và đóng cửa sổ. Bạn có thể thu "
+"nhỏ cửa sổ để ETS2LA tiếp tục chạy nền."
 
 msgid "SDK Installation Failed"
 msgstr "Cài đặt SDK thất bại"
 
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
-msgstr ""
+msgstr "Không có bản cập nhật khả dụng nào cho plugin với ID {0}."
 
 msgid "Current Speed"
-msgstr ""
+msgstr "Tốc độ hiện tại"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
+msgstr "Căn chỉnh theo mỗi 10 {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
 
 #, csharp-format
 msgid "File not found: {0}"
-msgstr ""
+msgstr "Không tìm thấy tệp: {0}"
 
 msgid "Invalid directory"
-msgstr ""
+msgstr "Đường dẫn không hợp lệ"
 
 msgid "Normal"
-msgstr ""
+msgstr "Bình thường"
 
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 #, csharp-format
 msgid "Loading map data from '{0}'"
-msgstr ""
+msgstr "Đang tải dữ liệu bản đồ từ '{0}'"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
 msgstr ""
+"Khoảng cách tối đa mà các yếu tố 3D sẽ được hiển thị. Giảm giá trị này có "
+"thể giúp cải thiện hiệu năng đối với máy yếu."
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
+"Không thể tìm thấy dữ liệu bản đồ cho bản cài đặt tại '{0}'. Bản cài đặt có "
+"hợp lệ không ?"
 
 msgid "m"
-msgstr ""
+msgstr "m"
 
 msgid "Binding Timed Out"
-msgstr ""
+msgstr "Hết thời gian gán phím"
 
-#, fuzzy
 msgid "Curve Quality"
-msgstr "Chất lượng đường cua"
+msgstr "Chất lượng đường cong"
 
 msgid "Initializing GLFW..."
-msgstr ""
+msgstr "Đang khởi tạo GLFW..."
 
 msgid "Assist"
 msgstr "Hỗ trợ lái"
 
+#, fuzzy
 msgid "Desired Steering Level: "
-msgstr ""
+msgstr "Mức độ đánh lái mong muốn: "
 
 #, csharp-format
 msgid "Failed to load map for installation at '{0}'"
-msgstr ""
+msgstr "Tải bản đồ cho bản cài đặt tại '{0}' thất bại"
 
 msgid "Close"
-msgstr ""
+msgstr "Đóng"
 
 msgid "kilograms"
-msgstr ""
+msgstr "kg"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "Đang dịch ghi chú cập nhật..."
 
 msgid "No release notes available."
-msgstr ""
+msgstr "Hiện không có ghi chú cập nhật nào."
 
 msgid "Unbound"
-msgstr ""
+msgstr "Chưa gán phím"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr ""
+msgstr "Tải thành công SDK phiên bản '{0}' đến '{1}'"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
@@ -853,6 +865,7 @@ msgstr "Sao chép '{0}' đến '{1}'"
 msgid ""
 "This might take a while depending on your internet connection and the source."
 msgstr ""
+"Quá trình này có thể mất một lúc tùy vào tốc độ mạng của bạn và nguồn tải."
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
@@ -1210,6 +1223,8 @@ msgid ""
 "visual modifier shown in the UI, this will increase the target speed by 1 km/"
 "h."
 msgstr ""
+"Tăng giá trị hiện tại (Ví dụ: tốc độ mong muốn) lên một nấc. Khi không dùng "
+"phím bổ trợ, thao tác này sẽ tăng tốc độ mục tiêu lên 1 km/h."
 
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
