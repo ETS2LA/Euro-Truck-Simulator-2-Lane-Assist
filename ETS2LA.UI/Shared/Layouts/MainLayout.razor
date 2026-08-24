@@ -1,8 +1,18 @@
 @using ETS2LA.UI.Shared.Overlays
 @using ETS2LA.UI.Shared.Components
+@using ETS2LA.Logging;
 
 @inherits LayoutComponentBase
 
+@code {
+  protected override void OnInitialized()
+  {
+    base.OnInitialized();
+    UserInterfaceState.Current.NeedsFullReload += (sender, e) => {
+        InvokeAsync(StateHasChanged); 
+    };
+  }
+}
 
 <main class="flex h-screen w-screen flex-col border border-border rounded-md bg-bg">
   <ResizeHandles />
@@ -21,7 +31,7 @@
           <p class="description text-[11px] font-medium -my-0.5">v2026.8.3.4079</p>
         </div>
 
-        <div class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center cursor-pointer" @onclick="() => UserInterfaceState.Current.IsSidebarOpen = !UserInterfaceState.Current.IsSidebarOpen">
+        <div class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center cursor-pointer" @onclick="() => { UserInterfaceState.Current.IsSidebarOpen = !UserInterfaceState.Current.IsSidebarOpen; UserInterfaceState.Current.RequestFullReload(); }">
           <div class=@((UserInterfaceState.Current.IsSidebarOpen ? "w-3 h-[2px] bg-border" : "w-[2px] h-3 bg-border") + " transition-all duration-300 ease-in-out")></div>
         </div>
       </div>

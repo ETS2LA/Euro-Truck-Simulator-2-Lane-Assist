@@ -11,6 +11,7 @@ public class WindowSettings
     public int Height = 720;
 
     public int Zoom = 100;
+    public bool HasCompletedOnboarding = false;
 
     [NonSerialized]
     private static readonly Lazy<WindowSettings> _instance = new(() => new WindowSettings(loadSettings: true));
@@ -32,6 +33,7 @@ public class WindowSettings
                 Width = loadedSettings.Width;
                 Height = loadedSettings.Height;
                 Zoom = loadedSettings.Zoom;
+                HasCompletedOnboarding = loadedSettings.HasCompletedOnboarding;
             }
             _settingsHandler.RegisterListener<WindowSettings>("WindowSettings.json", OnSettingsChanged);
         }
@@ -51,5 +53,6 @@ public class WindowSettings
         Width = newSettings.Width;
         Height = newSettings.Height;
         Zoom = newSettings.Zoom;
+        HasCompletedOnboarding = newSettings.HasCompletedOnboarding;
     }
 }

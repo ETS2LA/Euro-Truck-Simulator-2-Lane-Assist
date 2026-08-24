@@ -48,11 +48,12 @@ public class GameHandler
 
     private void PopulateInstallations()
     {
-        Dictionary<string, string> games = SteamHandler.FindGamesInLibraries(new List<string>
-        {
-            SteamHandler.EuroTruckSimulator2AppId,
-            SteamHandler.AmericanTruckSimulatorAppId
-        });
+        Dictionary<string, string> games = new();
+        //Dictionary<string, string> games = SteamHandler.FindGamesInLibraries(new List<string>
+        //{
+        //    SteamHandler.EuroTruckSimulator2AppId,
+        //    SteamHandler.AmericanTruckSimulatorAppId
+        //});
 
         Logger.Info(_n("Found {0} game installation.", "Found {0} game installations.", games.Count, games.Count));
         foreach ((string appId, string gamePath) in games)

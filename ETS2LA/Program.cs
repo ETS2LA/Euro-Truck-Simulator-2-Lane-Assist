@@ -111,8 +111,6 @@ internal static class Program
             var backend = PluginBackend.Current;
             var telemetry = GameTelemetry.Current;
             var state = ApplicationState.Current;
-            // TODO: Reintroduce tutorials
-            // var tutorials = TutorialHandler.Current;
             var networking = NetworkingClient.Current;
             var games = GameHandler.Current;
             backend.Start();

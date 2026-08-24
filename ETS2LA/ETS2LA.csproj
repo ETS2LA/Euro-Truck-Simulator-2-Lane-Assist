@@ -41,15 +41,10 @@
   </Target>
 
   <Target Name="CopyWwwroot" AfterTargets="Build">
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\index.html" DestinationFolder="$(OutputPath)wwwroot\" />
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\favicon.ico" DestinationFolder="$(OutputPath)wwwroot\" />
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\Outfit.ttf" DestinationFolder="$(OutputPath)wwwroot\" />
-
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\css\app.css" DestinationFolder="$(OutputPath)wwwroot\css\" />
-    
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\js\ipc.js" DestinationFolder="$(OutputPath)wwwroot\js\" />
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\js\windowTransform.js" DestinationFolder="$(OutputPath)wwwroot\js\" />
-    <Copy SourceFiles="..\ETS2LA.UI\wwwroot\js\tooltipHelper.js" DestinationFolder="$(OutputPath)wwwroot\js\" />
+    <ItemGroup>
+      <AssetFiles Include="$(MSBuildThisFileDirectory)..\ETS2LA.UI\wwwroot\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AssetFiles)" DestinationFiles="@(AssetFiles->'$(OutputPath)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">

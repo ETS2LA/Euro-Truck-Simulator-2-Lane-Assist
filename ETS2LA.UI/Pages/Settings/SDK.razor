@@ -5,10 +5,22 @@
 @using ETS2LA.UI.Shared.Components;
 
 @code {
+    [Parameter]
+    public bool IsOnboarding { get; set; } = false;
+    [Parameter]
+    public EventCallback OnOneSDKInstalled { get; set; }
+
     GameHandler gameHandler = GameHandler.Current;
 
     List<Installation> controlInstances {
         get => gameHandler.Installations;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        bool foundInstalled = controlInstances.Any(i => i.IsSDKInstalled(i.Version));
+        if (foundInstalled) OnOneSDKInstalled.InvokeAsync();
     }
 
     private void AddGameManually()
@@ -52,31 +64,46 @@
     }
 }
 
-<div class="flex flex-col w-108 m-5 ml-8 gap-24">
-    <div class="flex flex-col gap-6">
-        @for(int i = 0; i < controlInstances.Count; i++)
-        {
-            var instance = controlInstances[i];
+<div class="flex flex-col w-108 ml-8 m-5 gap-24">
+    @if (controlInstances.Count > 0)
+    {
+        <div class="flex flex-col gap-6">
+            @for(int i = 0; i < controlInstances.Count; i++)
+            {
+                var instance = controlInstances[i];
 
-            <div class="flex flex-col gap-2">
-                @if (i > 0) {
-                    <Separator class="mb-3" />
-                }
-                
-                <div class="flex flex-col gap-1">
-                    <p>@(UserInterfaceUtils.ClassnameWithSpaces(@instance.Type.ToString()) + "  -  " + instance.Version.ToString())</p>
+                <div class="flex flex-col gap-2">
+                    @if (i > 0) {
+                        <Separator class="mb-3" />
+                    }
+                    
+                    <div class="flex flex-col gap-1">
+                        <p>@(UserInterfaceUtils.ClassnameWithSpaces(@instance.Type.ToString()) + "  -  " + instance.Version.ToString())</p>
+                    </div>
+
+                    @if (!IsOnboarding)
+                    {
+                        <p class="description">@(instance.IsSDKInstalled(instance.Version) ? _("SDKs are currently installed.") : _("SDKs need to be installed.")) @(_("This game was found at")) @instance.Path</p>
+                    }
+                    else 
+                    {
+                        <p class="description">@instance.Path</p>    
+                    }
+                    
+                    <button class="@(instance.IsSDKInstalled(instance.Version) ? "hidden" : "button button-accent w-full!")" @onclick="@(() => { OnOneSDKInstalled.InvokeAsync(); instance.InstallSDK(instance.Version); })">@((_("Install SDKs")))</button>
+                    <button class="@(instance.IsSDKInstalled(instance.Version) ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">@((_("Uninstall SDKs")))</button>
                 </div>
-                <p class="description">@(instance.IsSDKInstalled(instance.Version) ? _("SDKs are currently installed.") : _("SDKs need to be installed.")) @(_("This game was found at")) @instance.Path</p>
-                <button class="@(instance.IsSDKInstalled(instance.Version) ? "hidden" : "button button-accent w-full!")" @onclick="@(() => instance.InstallSDK(instance.Version))">@((_("Install SDKs")))</button>
-                <button class="@(instance.IsSDKInstalled(instance.Version) ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">@((_("Uninstall SDKs")))</button>
-            </div>
-        }
-    </div>
-    
-    <div class="h-full">
-        <div class="flex flex-col gap-4 absolute bottom-6 w-108">
-            <p class="description text-warning">@((_("Cracked games or demos will block our SDK from loading. They do not work, and we don't intend to fix this.")))</p>
-            <button class="button w-full!" @onclick="AddGameManually">@((_("Add Game Manually")))</button>
+            }
         </div>
-    </div>
+    }
+    
+    @if ((IsOnboarding && controlInstances.Count == 0) || !IsOnboarding)
+    {
+        <div class=@(IsOnboarding ? " justify-self-center" : " h-full")>
+            <div class=@($"flex flex-col gap-4 w-108" + (IsOnboarding ? "" : " absolute bottom-6"))>
+                <p class="description text-warning">@((_("Cracked games or demos will block our SDK from loading. They do not work, and we don't intend to fix this.")))</p>
+                <button class="button w-full!" @onclick="AddGameManually">@((_("Add Game Manually")))</button>
+            </div>
+        </div>
+    }
 </div>

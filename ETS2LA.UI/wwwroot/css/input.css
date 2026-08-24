@@ -27,7 +27,7 @@ html {
   --color-accent: var(--accent);
   --color-accent-border: var(--accent-border);
   --color-accent-dark: var(--accent-dark);
-  --color-accent-bg: var(--accent-bg);
+  --color-accent-darker: var(--accent-darker);
 
   --color-success: var(--success);
   --color-success-dark: var(--success-dark);

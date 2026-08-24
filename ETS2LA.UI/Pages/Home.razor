@@ -1,4 +1,16 @@
 @page "/"
+@inject NavigationManager Navigation
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if(!WindowSettings.Current.HasCompletedOnboarding)
+        {
+            Navigation.NavigateTo("/onboarding", true);
+        }
+    }
+}
 
 <div class="flex flex-col p-6">
     <p class="description">Hi</p>

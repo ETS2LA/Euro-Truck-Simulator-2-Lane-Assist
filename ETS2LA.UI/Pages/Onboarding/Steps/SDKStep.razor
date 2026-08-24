@@ -1,0 +1,28 @@
+@using ETS2LA.UI.Pages.Settings;
+
+@code {
+    [Parameter]
+    public EventCallback OnNext { get; set; }
+
+    private bool hasInstalledSDK = false;
+}
+
+<div class="flex gap-12 text-start items-center justify-center">
+    <div class="flex flex-col gap-2 max-w-108">
+        <h3>@(_("SDK Installation"))</h3>
+        <p>@((MarkupString)(_("ETS2LA requires you to install our <span class=\"text-text-accent font-bold\">SDK</span> to get started. Please install the SDK for <span class=\"text-text-accent font-bold\">at least one game</span> to continue.")))</p>
+        
+        @if (hasInstalledSDK)
+        {
+            <button class="button mt-2 w-full!" @onclick="OnNext">@_("Continue")</button>
+        }
+        else 
+        {
+            <p class="description mt-2">@(_("Waiting..."))</p>
+        }
+    </div>
+
+    <div class="">
+        <SDK IsOnboarding="true" OnOneSDKInstalled="() => { hasInstalledSDK = true; }" />
+    </div>
+</div>

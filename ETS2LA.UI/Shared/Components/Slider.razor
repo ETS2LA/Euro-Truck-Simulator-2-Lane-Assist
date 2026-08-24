@@ -71,7 +71,7 @@
                step="@Step"
                value="@Value"
                disabled="@Disabled"
-               class="w-full cursor-pointer accent-accent-dark transition-colors hover:accent-accent/50"
+               class="w-full cursor-pointer accent-accent-dark transition-colors duration-150 hover:accent-accent"
                @oninput="@(async (ChangeEventArgs e) => await UpdateValue(e.Value?.ToString() ?? "0"))" 
                @onfocusout="@(async (FocusEventArgs e) => await SubmitValue())"
                @onpointerleave="@(async (PointerEventArgs e) => await SubmitValue())"

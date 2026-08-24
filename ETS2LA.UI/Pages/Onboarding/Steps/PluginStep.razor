@@ -1,0 +1,56 @@
+@using ETS2LA.State;
+@using ETS2LA.Logging;
+@using static ETS2LA.Translations.Languages;
+@using ETS2LA.UI.Shared.Components;
+@using ETS2LA.Networking;
+
+@code {
+    [Parameter]
+    public Action OnNext { get; set; }
+
+    [Parameter]
+    public Action OnPrevious { get; set; }
+
+    private bool installing = false;
+    private bool installed = false;
+
+    private void InstallRecommendedPlugins()
+    {
+        Logger.Info("Installing recommended plugins...");
+        Task.Run(() => {
+            installing = true;
+            InvokeAsync(() => StateHasChanged());
+            NetworkingClient.Current.Plugins.InstallPlugin("tumppi066.laneassist");
+            NetworkingClient.Current.Plugins.InstallPlugin("tumppi066.adaptivecruisecontrol");
+            installing = false;
+            installed = true;
+            InvokeAsync(() => StateHasChanged());
+        });
+    }
+}
+
+<div class="flex flex-col gap-2 max-w-108">
+    <div class="flex flex-col gap-1">
+        <h3>@(_("Recommended Plugins"))</h3>
+        <p>@((MarkupString)(_("To get started fast, you can install our <span class=\"text-text-accent font-bold\">recommended</span> plugins. These contain everything you need to get driving.")))</p>
+    </div>
+
+    <div class="mt-2 flex flex-col gap-2">
+        @if (!installing)
+        {
+            @if (installed)
+            {
+                <p class="mb-2">@((MarkupString)_("<span class=\"text-text-accent\"))>Success!</span> You can find more plugins in the catalogue later."))</p>
+            }
+            else
+            {
+                <button class="button button-accent w-full!" @onclick="InstallRecommendedPlugins">@_("Install Plugins")</button>
+            }
+            <button class="button w-full!" @onclick="OnNext">@_("Continue")</button>
+        }
+        else 
+        {
+            <p class="description">@(_("Installing..."))</p>
+        }
+    </div>
+</div>

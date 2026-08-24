@@ -1,0 +1,41 @@
+@page "/onboarding"
+@using ETS2LA.UI.Pages.Onboarding.Steps
+
+@code {
+    private int currentStep;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        currentStep = 0;
+        UserInterfaceState.Current.IsSidebarOpen = false;
+        UserInterfaceState.Current.RequestFullReload();
+    }
+
+    private void NextStep() => currentStep++;
+    private void PreviousStep() => currentStep--;
+}
+
+<div class="flex flex-col items-center justify-center w-full h-full relative">
+    @switch (currentStep)
+    {
+        case 0:
+            <WelcomeStep OnNext="NextStep" />
+            break;
+        case 1:
+            <SDKStep OnNext="NextStep" />
+            break;
+        case 2:
+            <SDKReminderStep OnNext="NextStep" />
+            break;
+        case 3:
+            <PluginStep OnNext="NextStep" />
+            break;
+        case 4:
+            <DisclaimerStep OnNext="NextStep" />
+            break;
+        case 5:
+            <FinishStep />
+            break;
+    }
+</div>

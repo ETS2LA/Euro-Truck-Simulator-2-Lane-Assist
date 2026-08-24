@@ -1,0 +1,34 @@
+@using ETS2LA.Logging;
+
+@code
+{
+    bool isSidebarOpen { get => UserInterfaceState.Current.IsSidebarOpen; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserInterfaceState.Current.NeedsFullReload += (sender, e) => {
+            InvokeAsync(StateHasChanged); 
+        };
+
+        WindowSettings.Current.HasCompletedOnboarding = true;
+        WindowSettings.Current.Save();
+    }
+}
+
+<div class=@("left-2 flex absolute gap-2 transition-all duration-300 ease-in-out" + (isSidebarOpen ? " top-56.5" : " top-2"))>
+    <p class="animate-pulse text-lg">🡐</p>
+    <div class="mt-0.5">
+        @if (isSidebarOpen)
+        {
+            <p>@_("You can enable the plugins we installed in the previous step here.")</p>
+            <button class="button button-accent mt-2" @onclick="UserInterfaceUtils.Restart">@_("Restart ETS2LA First!")</button>
+        }
+        else
+        {
+            <p>@_("Use this button to extend the sidebar.")</p>
+        }
+    </div>
+</div>
+
+<p class="description">@(_("Look in the top left corner."))</p>

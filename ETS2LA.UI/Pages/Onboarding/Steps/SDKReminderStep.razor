@@ -1,0 +1,23 @@
+@using ETS2LA.State;
+@using ETS2LA.Logging;
+@using static ETS2LA.Translations.Languages;
+@using ETS2LA.UI.Shared.Components;
+
+@code {
+    [Parameter]
+    public Action OnNext { get; set; }
+
+    [Parameter]
+    public Action OnPrevious { get; set; }
+}
+
+<div class="flex flex-col gap-2 max-w-108">
+    <div class="flex flex-col gap-1">
+        <h3>@(_("Remember!"))</h3>
+        <p>@((MarkupString)(_("You'll have to reinstall the SDK for <span class=\"text-text-accent font-bold\">every game update</span>. You'll find the installation page in the settings.")))</p>
+    </div>
+
+    <div class="flex gap-2 mt-2">
+        <button class="button w-full!" @onclick="OnNext">@_("I understand")</button>
+    </div>
+</div>
