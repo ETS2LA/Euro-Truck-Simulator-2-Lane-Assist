@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-25 16:57+0000\n"
+"PO-Revision-Date: 2026-08-25 18:45+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/>"
 "\n"
@@ -677,7 +677,7 @@ msgid "Help"
 msgstr "Pomoc"
 
 msgid "Overlay free CPU time percentage"
-msgstr ""
+msgstr "Procent wolnego czasu procesora nakładki"
 
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
@@ -716,220 +716,244 @@ msgid ""
 "Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on "
 "the next startup: {1}"
 msgstr ""
+"Nie udało się wyczyścić tymczasowego katalogu pluginu [gray]{0}[/], zostanie "
+"on usunięty przy następnym uruchomieniu: {1}"
 
 msgid "Assists"
-msgstr ""
+msgstr "Asysty"
 
 msgid "Force Map Load"
-msgstr ""
+msgstr "Wymuś załadowanie mapy"
 
 msgid "Update check skipped, using already cached result."
-msgstr ""
+msgstr "Pominięto sprawdzanie aktualizacji, użyto już zbuforowanych wyników."
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
-msgstr ""
+msgstr "Nie udało się zainstalować zależności {0} dla pluginu {1}."
 
 msgid "Error in telemetry update loop."
-msgstr ""
+msgstr "Błąd w pętli aktualizacji telemetrii."
 
 msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
+"Język w jakim będzie wyświetlany ETS2LA. Tłumaczenia są tworzone przez "
+"społeczność, nie gwarantujemy ich dokładności."
 
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
-msgstr ""
+msgstr "Nie znaleziono prawidłowych wersji dla pluginu o identyfikatorze {0}."
 
 msgid "No plugins found."
-msgstr ""
+msgstr "Nie znaleziono pluginów."
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
-msgstr ""
+msgstr "Nie można włączyć plugin {0}, ponieważ nie znaleziono zależności {1}."
 
 msgid "Emergency Braking"
-msgstr ""
+msgstr "Hamowanie awaryjne"
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
 msgstr ""
+"Nie można włączyć pluginu {0}, ponieważ nie udało się włączyć zależności {1}."
 
 #, csharp-format
 msgid "Disabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "Wyłączono plugin: [bold]{0}[/]"
 
 #, csharp-format
 msgid "Playing sound: {0}"
-msgstr ""
+msgstr "Odtwarzanie dźwięku: {0}"
 
 #, csharp-format
 msgid "Adding mod: {0}"
-msgstr ""
+msgstr "Dodawanie moda: {0}"
 
 #, csharp-format
 msgid "Failed to initialize SDL3 controls backend: {0}"
-msgstr ""
+msgstr "Nie udało się zainicjować zaplecza kontroli SDL3: {0}"
 
 msgid "Next/Cancel"
-msgstr ""
+msgstr "Dalej/Anuluj"
 
 msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
+"W większości przypadków nakładka pochłania ponad połowę mocy obliczeniowej "
+"procesora ETS2LA. Ograniczenie liczby klatek na sekundę zmniejszy obciążenie "
+"procesora."
 
 #, csharp-format
 msgid "Error while checking for updates: {0}"
-msgstr ""
+msgstr "Błąd podczas sprawdzania dostępności aktualizacji: {0}"
 
 msgid "Volume"
-msgstr ""
+msgstr "Głośność"
 
 msgid "Limit Overlay Framerate"
-msgstr ""
+msgstr "Ogranicz liczbę klatek na sekundę nakładki"
 
 msgid "None"
-msgstr ""
+msgstr "Żadna"
 
 msgid "Pascals"
-msgstr ""
+msgstr "Paskale"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
-msgstr ""
+msgstr "Nie udało się włączyć {0}: {1}"
 
 msgid "SDK Installed"
-msgstr ""
+msgstr "Zainstalowano zestaw SDK"
 
 msgid "Experiments"
-msgstr ""
+msgstr "Eksperymentalne"
 
 msgid "Pa"
-msgstr ""
+msgstr "Pa"
 
 msgid "Invalid file"
-msgstr ""
+msgstr "Nieprawidłowy plik"
 
 msgid ""
 "You'll have to reinstall the SDK for <span class=\"text-text-accent font-"
 "bold\">every game update</span>. You'll find the installation page in the "
 "settings."
 msgstr ""
+"Będziesz musiał ponownie zainstalować pakiet SDK dla <span class=\"text-text-"
+"accent font-bold\">każdej aktualizacji gry</span>. Stronę instalacji "
+"znajdziesz w ustawieniach."
 
 msgid ""
 "To get started fast, you can install our <span class=\"text-text-accent font-"
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"Aby szybko zacząć, możesz zainstalować nasze <span class=\"text-text-accent "
+"font-bold\">zalecane</span> pluginy. Zawierają one wszystko, czego "
+"potrzebujesz, aby zacząć jeździć."
 
 msgid "Key"
-msgstr ""
+msgstr "Klawisz"
 
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
 msgstr ""
+"Nieprawidłowa brama. Serwer, działając jako brama lub serwer proxy, otrzymał "
+"nieprawidłową odpowiedź od serwera przychodzącego."
 
 msgid ""
 "Service unavailable. The server is currently unable to handle the request "
 "due to temporary overloading or maintenance."
 msgstr ""
+"Usługa niedostępna. Serwer nie może obecnie obsłużyć żądania z powodu "
+"tymczasowego przeciążenia lub konserwacji."
 
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "Odłączono joystick: [gray italic]({0})[/]"
 
 msgid "Changes will take effect after restarting the application."
-msgstr ""
+msgstr "Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji."
 
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
-msgstr ""
+msgstr "Usuwanie ręcznie dodanej instalacji w '{0}'"
 
 msgid "Please see the logs for more information."
-msgstr ""
+msgstr "Więcej informacji znajdziesz w logach."
 
 msgid ""
 "This will disconnect ETS2LA from the game and close the window. You can "
 "minimize the window to keep ETS2LA running."
 msgstr ""
+"Spowoduje to odłączenie ETS2LA od gry i zamknięcie okna. Możesz "
+"zminimalizować okno, aby ETS2LA nadal działało."
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "Instalacja zestawu SDK nie powiodła się"
 
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
-msgstr ""
+msgstr "Brak dostępnej aktualizacji dla pluginu o identyfikatorze {0}."
 
 msgid "Current Speed"
-msgstr ""
+msgstr "Aktualna prędkość"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
-msgstr ""
+msgstr "Przeskakuj do każdej 10 {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Nie udało się załadować pluginu z [gray]{0}[/]: {1}"
 
 #, csharp-format
 msgid "File not found: {0}"
-msgstr ""
+msgstr "Nie znaleziono pliku: {0}"
 
 msgid "Invalid directory"
-msgstr ""
+msgstr "Nieprawidłowy katalog"
 
 msgid "Normal"
-msgstr ""
+msgstr "Normalny"
 
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 #, csharp-format
 msgid "Loading map data from '{0}'"
-msgstr ""
+msgstr "Ładowanie danych mapy z '{0}'"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
 msgstr ""
+"Maksymalna odległość, z jakiej będą renderowane elementy 3D. Obniżenie tej "
+"wartości może poprawić wydajność na sprzęcie o niższej wydajności."
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
+"Nie znaleziono danych mapy dla instalacji w '{0}'. Czy instalacja jest "
+"prawidłowa?"
 
 msgid "m"
-msgstr ""
+msgstr "m"
 
 msgid "Binding Timed Out"
-msgstr ""
+msgstr "Przekroczono limit czasu łączenia"
 
 msgid "Curve Quality"
-msgstr ""
+msgstr "Jakość krzywej"
 
 msgid "Initializing GLFW..."
-msgstr ""
+msgstr "Inicjalizacja GLFW..."
 
 msgid "Assist"
-msgstr ""
+msgstr "Asysta"
 
 msgid "Desired Steering Level: "
-msgstr ""
+msgstr "Pożądany poziom sterowania: "
 
 #, csharp-format
 msgid "Failed to load map for installation at '{0}'"
-msgstr ""
+msgstr "Nie udało się załadować mapy dla instalacji w '{0}'"
 
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 msgid "kilograms"
-msgstr ""
+msgstr "kilogramy"
 
 msgid "Translating release notes..."
 msgstr ""
