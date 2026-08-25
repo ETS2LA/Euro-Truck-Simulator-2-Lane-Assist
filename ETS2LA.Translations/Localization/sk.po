@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-25 09:53+0000\n"
+"PO-Revision-Date: 2026-08-25 11:19+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
 "\n"
@@ -113,7 +113,7 @@ msgstr[1] "Boli nájdené {0} uzly"
 msgstr[2] "Bolo nájdených {0} uzlov"
 
 msgid "Restart"
-msgstr ""
+msgstr "Reštartovať"
 
 msgid "Fast"
 msgstr "Rýchlo"
@@ -128,7 +128,7 @@ msgid "K"
 msgstr "K"
 
 msgid "Installing..."
-msgstr ""
+msgstr "Inštaluje sa..."
 
 msgid "Error in camera update loop."
 msgstr "Chyba v cykle aktualizácie kamery."
@@ -226,6 +226,10 @@ msgid ""
 "find issues with it's driving and safety. <span class=\"text-text-accent "
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
+"Ide o vysoko experimentálny program. ETS2LA nie je dokonalý a narazíte v ňom "
+"na problémy s riadením a bezpečnosťou. <span class=\"text-text-accent font-"
+"bold\">Nenechávajte ETS2LA bežať bez dozoru, najmä v režime pre viacerých "
+"hráčov.</span>"
 
 msgid "Adaptive Cruise Control"
 msgstr "Adaptívny tempomat"
@@ -288,7 +292,7 @@ msgstr ""
 "predvolenom nastavení sa táto hodnota zhoduje s nastavením v hre."
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "Záverečné upozornenie <span class=\"description\">2/2</span>"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -303,6 +307,8 @@ msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"Prosím, absolvujte tento <span class=\"text-text-accent font-bold\">krátky</"
+"span> proces zapracovania, aby ste mohli začať."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -406,7 +412,7 @@ msgid "Update available: {0}"
 msgstr "K dispozícii je aktualizácia: {0}"
 
 msgid "I understand, now let me in!"
-msgstr ""
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
@@ -433,7 +439,7 @@ msgid "Failed to open joystick {0}."
 msgstr "Nepodarilo sa otvoriť joystick {0}."
 
 msgid "Next"
-msgstr ""
+msgstr "Ďalej"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -446,7 +452,7 @@ msgid "Not Connected"
 msgstr "Nie je pripojený"
 
 msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgstr "Nenechám ETS2LA bez dozoru"
 
 msgid ""
 "Some mods implement additional maps like japan.mbd or russia.mbd. If you "
@@ -602,7 +608,7 @@ msgid "Control with ID '{0}' not found for event subscription."
 msgstr "Kontrola s ID „{0}“ nebola nájdené pre predplatné."
 
 msgid "Waiting..."
-msgstr ""
+msgstr "Čakám..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
@@ -623,6 +629,10 @@ msgid ""
 "text-accent font-bold\">Please check with your community <i>before</i> using "
 "ETS2LA.</span>"
 msgstr ""
+"Okrem toho niektoré komunity, ako napríklad VTC, Job Trackers a "
+"Leaderboards, zakazujú buď konkrétne funkcie, alebo používanie ETS2LA ako "
+"celku. <span class=\"text-text-accent font-bold\">Prosím skontrolujte svoj "
+"VTC <i>pred</i> používaním ETS2LA.</span>"
 
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
@@ -688,7 +698,7 @@ msgid "Binding Successful"
 msgstr "Mapovanie kláves bol úspešný"
 
 msgid "Did you remember to restart after installing them?"
-msgstr ""
+msgstr "Nezabudli ste po ich inštalácii reštartovať?"
 
 msgid "meters"
 msgstr "metre"
@@ -815,12 +825,17 @@ msgid ""
 "bold\">every game update</span>. You'll find the installation page in the "
 "settings."
 msgstr ""
+"SDK budeš musieť preinštalovať pri <span class=\"text-text-accent font-bold\""
+">každej aktualizácii hry</span>. Stránku s inštaláciou nájdeš v nastaveniach."
 
 msgid ""
 "To get started fast, you can install our <span class=\"text-text-accent font-"
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"Ak chcete rýchlo začať, môžete si nainštalovať naše <span class=\"text-text-"
+"accent font-bold\">odporúčané</span> pluginy. Obsahujú všetko, čo "
+"potrebujete na to, aby ste mohli začať."
 
 msgid "Key"
 msgstr "Kľúč"
@@ -1037,7 +1052,7 @@ msgid "Display Units"
 msgstr "Displeje"
 
 msgid "Continue"
-msgstr ""
+msgstr "Pokračovať"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
@@ -1220,7 +1235,7 @@ msgid "This game was found at"
 msgstr "Túto hru sme našli v"
 
 msgid "Recommended Plugins"
-msgstr ""
+msgstr "Odporúčané pluginy"
 
 msgid "Chime"
 msgstr "Vyzváňanie"
@@ -1278,6 +1293,11 @@ msgid ""
 "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
 "accent font-bold\">Right-Alt</span> by default. Try it!"
 msgstr ""
+"ETS2LA zobrazuje informácie v prekrývajúcom okne nad hrou. S týmito prvkami "
+"prekrývacieho okna môžete interagovať pomocou funkcie <span class=\"text-"
+"text-accent font-bold\">Interakcia s prekrývajúcim oknom</span>. Táto "
+"funkcia je štandardne priradená k klávesovej skratke <span class=\"text-text-"
+"accent font-bold\">Pravý Alt</span>. Vyskúšajte to!"
 
 msgid "Sorry"
 msgstr "Prepáčte"
@@ -1374,7 +1394,7 @@ msgstr ""
 "rýchlosť sa tým zvýši o 1 km/h."
 
 msgid "Remember!"
-msgstr ""
+msgstr "Nezabudnite!"
 
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
@@ -1573,7 +1593,7 @@ msgid "Render Vision Cameras"
 msgstr "Kamery Render Vision"
 
 msgid "Use this button to extend the sidebar."
-msgstr ""
+msgstr "Týmto tlačidlom rozbalíte bočný panel."
 
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
@@ -1594,6 +1614,7 @@ msgstr "Vypnutie backendu bolo úspešne dokončené."
 
 msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
+"Tu môžete aktivovať pluginy, ktoré sme nainštalovali v predchádzajúcom kroku."
 
 msgid "Extreme"
 msgstr "Extrémny"
@@ -1625,7 +1646,7 @@ msgid "Search for plugins..."
 msgstr "Vyhľadávanie pluginov..."
 
 msgid "I understand"
-msgstr ""
+msgstr "Rozumiem"
 
 msgid "No updates available."
 msgstr "Nie sú k dispozícii žiadne aktualizácie."
@@ -1835,7 +1856,7 @@ msgid "ETS2LA is running."
 msgstr "ETS2LA je spustené."
 
 msgid "SDK Installation"
-msgstr ""
+msgstr "Inštalácia SDK"
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
@@ -1862,7 +1883,7 @@ msgid "miles per hour"
 msgstr "míle za hodinu"
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "Reštartovať a pokračovať"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1902,7 +1923,7 @@ msgid "Failed to install SDK version '{0}' to '{1}': {2}"
 msgstr "Inštalácia verzie SDK „{0}“ do „{1}“ sa nepodarila: {2}"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "Záverečné varovanie <span class=\"description\">1/2</span>"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
