@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-25 18:45+0000\n"
+"PO-Revision-Date: 2026-08-25 19:23+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/>"
 "\n"
@@ -956,54 +956,56 @@ msgid "kilograms"
 msgstr "kilogramy"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "Tłumaczenie notatek o wydaniu..."
 
 msgid "Look in the top left corner."
-msgstr ""
+msgstr "Spójrz w lewy górny róg."
 
 msgid "No release notes available."
-msgstr ""
+msgstr "Brak dostępnych informacji o wydaniu."
 
 msgid "Unbound"
-msgstr ""
+msgstr "Nieprzypisany"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr ""
+msgstr "Pomyślnie zainstalowano wersję SDK '{0}' to '{1}'"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr ""
+msgstr "Skopiowano '{0}' do '{1}'"
 
 msgid ""
 "This might take a while depending on your internet connection and the source."
 msgstr ""
+"Może to potrwać chwilę, w zależności od połączenia internetowego i źródła."
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
-msgstr ""
+msgstr "Błąd renderowania elementów trybu interakcji sterujących oknami: {0}"
 
 #, csharp-format
 msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
+msgstr "Utworzono katalog pluginów: [gray]{0}[/]"
 
 #, csharp-format
 msgid "Binding {0}"
-msgstr ""
+msgstr "Przypisywanie {0}"
 
 msgid "Check For Updates"
-msgstr ""
+msgstr "Sprawdź aktualizacje"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr ""
+"Nie udało się zainicjować nakładki, inicjalizacja OpenGL nie powiodła się."
 
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr ""
+msgstr "Błąd ładowania danych mapy z '{0}': {1}"
 
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
-msgstr ""
+msgstr "Nie udało się połączyć z grą. Otwórz ETS2 lub ATS i włącz SDK."
 
 #, csharp-format
 msgid "Found {0} game installation."
@@ -1014,140 +1016,158 @@ msgstr[2] "Znaleziono {0} instalacji gry."
 
 #, csharp-format
 msgid "Failed to read bundled update source marker: {0}"
-msgstr ""
+msgstr "Nie udało się odczytać znacznika źródła dołączonej aktualizacji: {0}"
 
 msgid "Slow"
-msgstr ""
+msgstr "Powolnie"
 
 msgid "Parsing Map Data"
-msgstr ""
+msgstr "Analiza danych mapy"
 
 msgid "Add Game Manually"
-msgstr ""
+msgstr "Dodaj grę ręcznie"
 
 msgid "Demo Window"
-msgstr ""
+msgstr "Okno demonstracyjne"
 
 msgid "Contact Us"
-msgstr ""
+msgstr "Skontaktuj się z nami"
 
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"To ustawienie usuwa zbędne informacje, zachowując jednocześnie większość "
+"szczegółowych obiektów (takich jak znaki drogowe). Obejmuje wszystkie ukryte "
+"drogi i drogi obsługiwane wyłącznie przez sztuczną inteligencję."
 
 msgid "Visualization"
-msgstr ""
+msgstr "Wizualizacja"
 
 msgid "Display Units"
-msgstr ""
+msgstr "Wyświetlane jednostki"
 
 msgid "Continue"
-msgstr ""
+msgstr "Kontynuuj"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
 "here."
 msgstr ""
+"Tutaj możesz się zarejestrować, zalogować i zarządzać ustawieniami konta "
+"oraz subskrypcjami."
 
 msgid "Uninstall"
-msgstr ""
+msgstr "Odinstaluj"
 
 msgid "Game SDK"
-msgstr ""
+msgstr "Zestaw SDK gry"
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Witamy w ETS2LA!"
 
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
+"Jeśli uważasz, że to błąd, zgłoś to na {0}serwerze Discord{1} lub na "
+"{2}GitHubie{3}."
 
 #, csharp-format
 msgid "Error in plugin {0} Tick: {1}"
-msgstr ""
+msgstr "Bład pluginu {0} Tick: {1}"
 
 msgid "Telemetry"
-msgstr ""
+msgstr "Telemetria"
 
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, "
 "and we don't intend to fix this."
 msgstr ""
+"Piracone gry lub wersje demonstracyjne będą blokować ładowanie naszego "
+"pakietu SDK. Nie działają i nie zamierzamy tego naprawiać."
 
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
-msgstr ""
+msgstr "Analizowanie sektora {0} z {1}..."
 
 msgid "The selected file is not a core.scs file."
-msgstr ""
+msgstr "Wybrany plik nie jest plikiem core.scs ."
 
 msgid "kilometers per hour"
-msgstr ""
+msgstr "kilometry na godzinę"
 
 msgid "Late"
-msgstr ""
+msgstr "Późno"
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
-msgstr ""
+msgstr "Błąd renderowania nakładki: {0}"
 
 #, csharp-format
 msgid ""
 "Selected update source '{0}' not found, defaulting to first available source."
 msgstr ""
+"Wybrane źródło aktualizacji '{0}' nie zostało znalezione. Domyślnie "
+"wybieranie pierwszegi dostępnego źródła."
 
 msgid "Window Zoom"
-msgstr ""
+msgstr "Powiększenie okna"
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
+msgstr "Podłączono joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
 
 msgid ""
 "The zoom level of the ETS2LA window. This can be used to scale the window to "
 "your monitor's DPI settings."
 msgstr ""
+"Poziom powiększenia okna ETS2LA. Można go użyć do skalowania okna zgodnie z "
+"ustawieniami DPI monitora."
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "Upłynął limit czasu przypisywania klawisza {0} ({1})."
 
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Doesn't include any roads / intersections not shown "
 "in the in game map."
 msgstr ""
+"To ustawienie usuwa zbędne informacje, zachowując jednocześnie większość "
+"szczegółowych obiektów (takich jak znaki drogowe). Nie obejmuje dróg/"
+"skrzyżowań, które nie są widoczne na mapie w grze."
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "Nie udało się zainstalować zestawu SDK z '{0}' do '{1}': {2}"
 
 msgid "Display Language"
-msgstr ""
+msgstr "Wyświetlany język"
 
 msgid "3D Renderer"
-msgstr ""
+msgstr "Renderer 3D"
 
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
 msgstr ""
+"W jaki sposób ETS2LA ostrzeże Cię o przekroczeniu znacznym przekroczeniu "
+"dozwolonej prędkości."
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
-msgstr ""
+msgstr "Aktualnie działa z prędkością {0} FPS."
 
 #, csharp-format
 msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
+msgstr "Nie udało się załadować biblioteki pluginu z [gray]{0}[/]: {1}"
 
 msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
