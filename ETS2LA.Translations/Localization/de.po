@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-25 13:41+0000\n"
+"PO-Revision-Date: 2026-08-25 18:45+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
 "\n"
@@ -290,8 +290,9 @@ msgstr ""
 "Passe die Qualität der Kurven an, die für die Pfadplanung und Visualisierung "
 "verwendet werden. Standardmäßig entspricht dies dem Spiel."
 
+#, fuzzy
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "Letzte Vorwarnung <span class=\"description\">2/2</span>"
 
 msgid "View Public Telemetry"
 msgstr "Öffentliche Telemetrie anzeigen"
@@ -302,10 +303,13 @@ msgstr "°C"
 msgid "Overrides"
 msgstr "Überschreiben"
 
+#, fuzzy
 msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"Bitte vervöllständige die <span class=\"text-text-accent font-bold\">kurze</"
+"span> Einrichtung um anzufangen."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -410,7 +414,7 @@ msgid "Update available: {0}"
 msgstr "Update verfügbar: {0}"
 
 msgid "I understand, now let me in!"
-msgstr ""
+msgstr "Ich verstehe, jetzt lass mich rein!"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
@@ -431,8 +435,9 @@ msgstr[1] "{0} Plugins von {1} abgerufen"
 msgid "Failed to open joystick {0}."
 msgstr "Fehlgeschlagen beim Öffnen von Joystick {0}."
 
+#, fuzzy
 msgid "Next"
-msgstr ""
+msgstr "Nächste"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
