@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-25 00:24:40+0300\n"
+"POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
 "PO-Revision-Date: 2026-08-24 15:38+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -14,112 +14,8 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.14.3\n"
 
-#, fuzzy
-msgid ""
-"This setting drops redundant information while maintaining most detail "
-"objects (such as signs). Includes all hidden and AI only roads."
-msgstr ""
-"Cài đặt này sẽ loại bỏ các thông tin thừa nhưng vẫn giữ lại hầu hết các vật "
-"thể chi tiết (Ví dụ như biển báo), bao gồm tất cả các tuyến đường bị ẩn và "
-"tuyến đường dành riêng cho AI."
-
-#, fuzzy
-msgid "Unknown Control ID"
-msgstr "ID Điều khiển không xác định."
-
-msgid "Sorry"
-msgstr "Xin lỗi"
-
-msgid "Display"
-msgstr "Hiển thị"
-
-msgid "Overlay Interaction"
-msgstr "Tương tác với giao diện nổi"
-
-msgid "SDK Installation Failed"
-msgstr "Cài đặt SDK thất bại"
-
-#, csharp-format
-msgid "Failed to open joystick {0}."
-msgstr "Không thể mở tay cầm điều khiển {0}."
-
-msgid "Anonymous Telemetry"
-msgstr "Thu thập dữ liệu ẩn danh"
-
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-"Tăng giá trị hiện tại (Ví dụ: tốc độ mong muốn) lên một nấc. Khi không dùng "
-"phím bổ trợ, thao tác này sẽ tăng tốc độ mục tiêu lên 1 km/h."
-
-#, csharp-format
-msgid "Control with ID '{0}' not found for updating bindings."
-msgstr "Không tìm thấy nút với ID '{0}' để cập nhật gán phím."
-
-msgid ""
-"Force ETS2LA to load the map on game startup. This can resolve issues where "
-"your game.log.txt is not where ETS2LA expects it."
-msgstr ""
-"Buộc ETS2LA tải bản đồ khi khởi động game. Có thể giải quyết lỗi không tìm "
-"thấy game.log.txt ở thư mục mặc định."
-
-msgid "Game SDK"
-msgstr "SDK Trò chơi"
-
-msgid "Ignore Traffic Rules"
-msgstr "Bỏ qua luật giao thông"
-
-#, csharp-format
-msgid "Parsing installation at '{0}' (version: {1})"
-msgstr "Đang phân tích bản cài đặt tại '{0}' (phiên bản:{1})"
-
-msgid ""
-"When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
-msgstr ""
-"Khi thay đổi tốc độ, tự làm tròn về số chia hết cho 10 gần nhất. Ví dụ 37 -> "
-"39 -> 40 ->42..."
-
-msgid "None"
-msgstr "Không có"
-
-msgid "kg"
-msgstr "kg"
-
-#, csharp-format
-msgid "Installed {0}"
-msgstr "Đã cài đặt {0}"
-
-#, csharp-format
-msgid "Error loading map data from '{0}': {1}"
-msgstr "Lỗi khi đang tải dữ liệu bản đồ từ '{0}':{1}"
-
-msgid "Medium"
-msgstr "Trung bình"
-
-msgid "Maximum Speed"
-msgstr "Tốc độ tối đa"
-
-msgid ""
-"When the game reports itself being paused, ETS2LA won't render AR elements."
-msgstr ""
-"Khi trò chơi ở trạng thái tạm dừng, ETS2LA sẽ không hiện thị các yếu tố AR."
-
-#, csharp-format
-msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr "Đã kết nối với tay cầm/vô lăng: [bold]{0}[/] [gray italic]({1})[/]"
-
-#, csharp-format
-msgid "Starting binding for control {0} ({1})"
-msgstr "Bắt đầu gán phím cho nút điều khiển: {0} ({1})"
-
-#, csharp-format
-msgid "Failed to enable dependency: {0}"
-msgstr "Không thể kích hoạt thành phần phụ thuộc: {0}"
-
-msgid "Main"
-msgstr "Trang chính"
+msgid "Max Overlay Framerate"
+msgstr "Tốc độ khung hình tối đa của lớp phủ (overlay)"
 
 #, csharp-format
 msgid ""
@@ -129,23 +25,304 @@ msgstr ""
 "Phiên bản {0} của plugin với ID {1} không tương thích với phiên bản hiện tại "
 "của ứng dụng hoặc hệ điều hành."
 
-#, csharp-format
-msgid "found {0} road"
-msgid_plural "found {0} roads"
-msgstr[0] "Đã tìm thấy {0} tuyến đường"
+msgid "bar"
+msgstr "bar"
+
+msgid "Translated by:"
+msgstr "Được dịch bởi:"
 
 #, csharp-format
-msgid "Binding for control {0} ({1}) timed out."
-msgstr "Quá thời gian gán phím cho nút điều khiển {0} ({1})."
+msgid "Successfully installed plugin {0} ({1}, {2})"
+msgstr "Đã cài đặt thành công plugin {0} ({1},{2})"
 
-msgid "Dashboard"
-msgstr "Bảng điều khiển"
+msgid "Main"
+msgstr "Trang chính"
 
-msgid "Update Available"
+#, csharp-format
+msgid "This might take a while... ({0}/{1})"
+msgstr "Quá trình này có thể mất một chút thời gian... ({0}/{1})"
+
+#, csharp-format
+msgid "{0}"
+msgstr "{0}"
+
+#, csharp-format
+msgid "Plugin with ID {0} not found."
+msgstr "Không tìm thấy plugin với ID {0}."
+
+msgid "Pause Steering Assist: "
+msgstr "Tạm dừng hỗ trợ đánh lái: "
+
+msgid "Plugins"
+msgstr "Plugin"
+
+msgid "Failed to create GLFW window"
+msgstr "Không thể khởi tạo cửa sổ GLFW"
+
+msgid "Collision Avoidance"
+msgstr "Tránh va chạm"
+
+msgid "Starting download..."
+msgstr "Bắt đầu tải xuống..."
+
+msgid "Restart Now"
+msgstr "Khởi động lại ngay bây giờ"
+
+msgid ""
+"Adjust the level of detail of the game data we use. Higher values use more "
+"RAM, but include more information. All levels drive the same."
+msgstr ""
+"Điều chỉnh mức độ chi tiết của dữ liệu trò chơi mà chúng tôi sử dụng. Giá "
+"trị cao hơn sẽ sử dụng RAM nhiều hơn nhưng bao gồm nhiều thông tin hơn. Tất "
+"cả các mức độ đều cho trải nghiệm lái như nhau."
+
+msgid "Interaction Mode"
+msgstr "Chế độ tương tác"
+
+msgid "Install Update and Restart"
+msgstr "Tải bản cập nhật và khởi động lại"
+
+#, csharp-format
+msgid "No download URL found for plugin with ID {0} in region {1}."
+msgstr "Không tìm thấy URL tải xuống cho plugin với ID {0} ở khu vực {1}."
+
+#, csharp-format
+msgid "Discovered {0} manually installed plugin."
+msgid_plural "Discovered {0} manually installed plugins."
+msgstr[0] "Phát hiện {0} plugin được cài đặt thủ công."
+
+msgid "SDK Uninstalled"
+msgstr "Đã gỡ cài đặt SDK"
+
+msgid "Restarting ETS2LA..."
+msgstr "Đang khởi động lại ETS2LA..."
+
+#, csharp-format
+msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
+msgstr "Đã bỏ qua thư mục ẩn của plugin cũ [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "found {0} node"
+msgid_plural "found {0} nodes"
+msgstr[0] "Đã tìm thấy {0} node"
+
+msgid "Restart"
 msgstr ""
 
-msgid "Error in navigation update loop."
-msgstr "Lỗi trong vòng lặp cập nhật điều hướng."
+msgid "Fast"
+msgstr "Nhanh"
+
+msgid "Data Parsing"
+msgstr "Phân tích dữ liệu"
+
+#, fuzzy
+msgid "Desired Speed: "
+msgstr "Tốc độ mong muốn. "
+
+msgid "K"
+msgstr "K"
+
+msgid "Installing..."
+msgstr ""
+
+msgid "Error in camera update loop."
+msgstr "Lỗi trong vòng lặp cập nhật camera."
+
+msgid ""
+"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
+"and others. Why would you enable this?"
+msgstr ""
+"Chúng tôi sẽ bỏ qua luật giao thông và giới hạn tốc độ. Hãy chuẩn bị cho "
+"việc xe của bạn và người khác bị hư hại. Tại sao bạn lại muốn bật cái thứ "
+"này ?"
+
+msgid "Unchanged / Unavailable"
+msgstr "Chưa thay đổi / Không khả dụng"
+
+#, csharp-format
+msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
+msgstr "Gỡ cài đặt SDK từ '{0}' đến '{1}' không thành công: {2}"
+
+msgid "Catalogue"
+msgstr "Danh mục"
+
+msgid ""
+"The maximum speed ETS2LA will accelerate to. It might still drift over this "
+"limit due to momentum."
+msgstr ""
+"Tốc độ tối đa mà ETS2LA sẽ tăng tốc tới. Xe vẫn có thể vượt quá giới hạn do "
+"đà di chuyển."
+
+#, csharp-format
+msgid "New limit {0} {1}"
+msgstr "Giới hạn mới {0}{1}"
+
+#, csharp-format
+msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
+msgstr "Plugin '{0}' bị thiếu mất DLL tại '{1}' và đã bị xóa."
+
+msgid ""
+"This allows ETS2LA to render in multiple viewports, meaning you can move "
+"overlay windows to any monitor."
+msgstr ""
+"Điều này cho phép ETS2LA hiển thị trên nhiều khung hình, nghĩa là bạn có thể "
+"di chuyển các cửa sổ đè (overlay) lên bất kì màn hình nào."
+
+msgid "Display Units: "
+msgstr "Đơn vị hiển thị:. "
+
+msgid "Vision Cameras"
+msgstr "Camera nhận diện"
+
+#, csharp-format
+msgid "Failed to read log file at '{0}': {1}"
+msgstr "Không thể đọc tệp log tại '{0}': {1}"
+
+#, csharp-format
+msgid "Tried to disable {0}, but it was not found among loaded plugins."
+msgstr "Đã thử tắt {0}, nhưng không tìm thấy trong danh sách plugin đã nạp."
+
+msgid ""
+"Failed to fetch available plugins. Please check your internet connection."
+msgstr ""
+"Không thể tải danh sách plugin khả dụng. Vui lòng kiểm tra kết nối mạng."
+
+#, csharp-format
+msgid "Error rendering window {0}: {1}"
+msgstr "Lỗi hiển thị cửa sổ {0}: {1}"
+
+#, csharp-format
+msgid ""
+"Installation at '{0}' is not currently running, waiting for load of profile."
+msgstr "Bản cài đăt tại '{0}' hiện đang không chạy, đang chờ để tải hồ sơ."
+
+#, csharp-format
+msgid "Discovered {0} manually installed library"
+msgid_plural "Discovered {0} manually installed libraries."
+msgstr[0] "Đã tìm thấy {0} thư viện được cài thủ công."
+
+#, csharp-format
+msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgstr "Đã nạp plugin thư viện: [gray]{0}[/] from [gray]{1}[/]."
+
+#, csharp-format
+msgid "Not all dependencies for plugin {0} are installed."
+msgstr "Chưa cài đặt đủ các phụ thuộc của plugin {0}."
+
+msgid "Install Plugins"
+msgstr ""
+
+msgid ""
+"This is a highly experimental program. ETS2LA is not perfect, and you will "
+"find issues with it's driving and safety. <span class=\"text-text-accent "
+"font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
+msgstr ""
+
+msgid "Adaptive Cruise Control"
+msgstr "Ga tự dộng thích ứng"
+
+msgid ""
+"Authentication is required. The client must authenticate itself to get the "
+"requested response."
+msgstr "Yêu cầu xác thực. Client phải xác thực để nhận phản hồi được yêu cầu."
+
+msgid "Units and Language"
+msgstr "Đơn vị và ngôn ngữ"
+
+#, csharp-format
+msgid "Unloading parsed map data for installation at '{0}'"
+msgstr "Đang hủy nạp dữ liệu bản đồ đã phân tích cho bản cài đặt tại '{0}'"
+
+msgid "Enable"
+msgstr "Bật"
+
+msgid "SDKs are currently installed."
+msgstr "Các SDK hiện đã được cài đặt."
+
+msgid "Max Render Distance"
+msgstr "Khoảng cách hiển thị tối đa"
+
+msgid "Speed Limit Warning"
+msgstr "Cảnh báo tốc độ giới hạn"
+
+msgid "Imperial"
+msgstr "Hệ Anh (Imperial)"
+
+msgid ""
+"Your system has less than 20GB of RAM. Extreme data fidelity uses "
+"significant amounts of RAM, and may cause your system to become unstable. "
+"Please select a lower fidelity."
+msgstr ""
+"Hệ thống của bạn có ít hơn 20GB RAM. Mức độ chi tiết dữ liệu cực cao sử dụng "
+"lượng RAM lớn và có thể khiến hệ thống của bạn mất ổn định. Vui lòng chọn "
+"mức độ chi tiết thấp hơn."
+
+msgid "Increase"
+msgstr "Tăng"
+
+#, csharp-format
+msgid "Installed {0}"
+msgstr "Đã cài đặt {0}"
+
+msgid "Additional"
+msgstr "Bổ sung"
+
+msgid "Visual"
+msgstr "Giao diện"
+
+msgid ""
+"Adjust the quality of the curves used for path planning and visualization. "
+"By default this matches the game."
+msgstr ""
+"Điều chỉnh chất lượng của các đường cong để dùng cho lập kế hoạch đường đi "
+"và hiển thị. Mặc định nó sễ giống với trò chơi."
+
+msgid "Final Disclaimer <span class=\"description\">2/2</span>"
+msgstr ""
+
+msgid "View Public Telemetry"
+msgstr "Xem dữ liệu thu thập từ xa công khai"
+
+msgid "°C"
+msgstr "°C"
+
+msgid "Overrides"
+msgstr "Ghi đè"
+
+msgid ""
+"Please complete this <span class=\"text-text-accent font-bold\">short</span> "
+"onboarding process to get started."
+msgstr ""
+
+#, csharp-format
+msgid "Latest Version: {0}"
+msgstr "Phiên bản mới nhất: {0}"
+
+#, csharp-format
+msgid "Failed to shutdown plugin {0}: {1}"
+msgstr "Tắt plugin {0} thất bại: {1}"
+
+msgid "Anonymous Telemetry"
+msgstr "Thu thập dữ liệu ẩn danh"
+
+msgid "Failed to add game"
+msgstr "Thêm trò chơi không thành công"
+
+msgid "Show More Logs"
+msgstr "Hiện thị thêm nhật kí (log)"
+
+msgid "Warning: Insufficient RAM"
+msgstr "Cảnh báo: Không đủ dung lượng RAM"
+
+msgid "hide"
+msgstr "ẩn"
+
+#, csharp-format
+msgid ""
+"Manually added game at '{0}' no longer contains a game executable, skipping."
+msgstr ""
+"Đã thêm thủ công trò chơi tại '{0}' không còn chứa tệp thực thi trò chơi, "
+"đang bỏ qua."
 
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
@@ -154,50 +331,72 @@ msgstr ""
 "Cảnh báo: Hệ thống của bán có ít hơn 16GB Ram. Bạn chỉ có thể chọn tối đa "
 "mức trung bình."
 
-msgid "Increase"
-msgstr "Tăng"
-
-msgid "Window Zoom"
-msgstr "Phóng to cửa sổ"
-
-msgid "Show More Logs"
-msgstr "Hiện thị thêm nhật kí (log)"
-
 msgid ""
-"Cracked games or demos will block our SDK from loading. They do not work, "
-"and we don't intend to fix this."
+"When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
-"Các phiên bản lậu hoặc thử nghiệm sẽ chặn SDK của chúng tôi tải lên. Chúng "
-"không hoạt động và chúng tôi không có ý định khắc phục điều này."
+"Khi thay đổi tốc độ, tự làm tròn về số chia hết cho 10 gần nhất. Ví dụ 37 -> "
+"39 -> 40 ->42..."
 
-msgid "km/h"
-msgstr "km/h"
-
-msgid "The step size for changing the cruise control speed."
-msgstr "Mức tăng/giảm mỗi lần thay đổi tốc độ ga tự động."
-
-msgid "Welcome to ETS2LA!"
-msgstr ""
-
-msgid ""
-"<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
-"in the catalogue later."
-msgstr ""
-
-msgid "Initializing..."
-msgstr "Đang tải..."
+msgid "Data Quality"
+msgstr "Chất lượng dữ liệu"
 
 #, csharp-format
-msgid "Error rendering window {0}: {1}"
-msgstr "Lỗi hiển thị cửa sổ {0}: {1}"
+msgid "Error in AR rendering: {0}"
+msgstr "Lỗi khi hiển thị AR: {0}"
 
 #, csharp-format
-msgid "Failed to refresh joysticks: {0}"
-msgstr "Không thể làm mới danh sách tay cầm/vô lăng: {0}"
+msgid "Discovered {0} library in total"
+msgid_plural "Discovered {0} libraries in total."
+msgstr[0] "Đã tìm thấy tổng cộng {0} thư viện."
+
+msgid "Settings"
+msgstr "Cài đặt"
 
 #, csharp-format
-msgid "Error loading '{0}': {1}"
-msgstr "Lỗi khi tải '{0}': {1}"
+msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
+msgstr "Đã nạp plugin: [gray]{0}[/] from [gray]{1}[/]."
+
+msgid "Metric"
+msgstr "Hệ mét (km)"
+
+msgid "Medium"
+msgstr "Trung bình"
+
+#, csharp-format
+msgid "{0} m/s ({1} in {2})"
+msgstr "{0} m/s ({1} trong {2})"
+
+msgid "Game added"
+msgstr "Đã thêm trò chơi"
+
+#, csharp-format
+msgid "Unregistered control: {0} ({1})"
+msgstr "Điều khiển chưa được đăng kí: {0} ({1})"
+
+msgid "Binding thread started with no control to bind."
+msgstr "Luồng gán phím đã chạy nhưng không có nút điều khiển để gán."
+
+msgid "SDKs need to be installed."
+msgstr "Cần cài đặt các bộ SDK."
+
+msgid "meters per second"
+msgstr "mét trên giây"
+
+msgid "Match Game"
+msgstr "Khớp với trò chơi"
+
+msgid "Wiki / FAQ"
+msgstr "Wiki / Câu hỏi thường gặp"
+
+msgid "Failed to init ImGui Impl GLFW"
+msgstr "Khởi tạo ImGui Impl GLFW thất bại"
+
+#, csharp-format
+msgid "Update available: {0}"
+msgstr "Bản cập nhật mới: {0}"
+
+msgid "I understand, now let me in!"
+msgstr ""
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
@@ -205,84 +404,46 @@ msgid ""
 "class=\"text-text-accent font-bold\">at least one game</span> to continue."
 msgstr ""
 
-#, csharp-format
-msgid "Successfully updated plugin with ID {0}."
-msgstr "Cập nhật plugin với ID {0} thành công."
-
-msgid "Look in the top left corner."
-msgstr ""
-
-msgid "Visual"
-msgstr "Giao diện"
-
-msgid "Additional"
-msgstr "Bổ sung"
-
-msgid "Install Plugins"
-msgstr ""
-
-msgid "Show Fewer Logs"
-msgstr ""
+msgid "This page will be implemented in a future update."
+msgstr "Trang này sẽ được thêm vào trong phiên bản sắp tới."
 
 #, csharp-format
-msgid "Error while downloading update: {0}"
-msgstr "Lỗi khi đang tải bản cập nhật: {0}"
-
-msgid "Keyboard"
-msgstr "Bàn phím"
+msgid "Fetched {0} plugin from {1}"
+msgid_plural "Fetched {0} plugins from {1}"
+msgstr[0] "Đã lấy plugin {0} từ {1}"
 
 #, csharp-format
-msgid "No game executable found in '{0}', not adding it as an installation."
+msgid "Failed to open joystick {0}."
+msgstr "Không thể mở tay cầm điều khiển {0}."
+
+msgid "Next"
 msgstr ""
-"Không tìm thấy tệp chạy game trong '{0}', sẽ không thêm đường dẫn này vào "
-"danh sách cài đặt."
-
-msgid "Chime"
-msgstr "Tiếng bíp"
-
-msgid "Failed to create GLFW window"
-msgstr "Không thể khởi tạo cửa sổ GLFW"
-
-msgid "Fast"
-msgstr "Nhanh"
-
-msgid "Install Update and Restart"
-msgstr "Tải bản cập nhật và khởi động lại"
-
-msgid "Curve Quality"
-msgstr "Chất lượng đường cong"
 
 msgid ""
-"Adjust how ETS2LA will respond to necessary steering changes. This for "
-"example controls how quickly ETS2LA will lane-change."
+"This setting only loads roads and intersections visible on the in game map. "
+"It discards all other information."
 msgstr ""
-"Điều chình mức độ phản hồi của ETS2LA khi thay đổi hướng lái khi cần thiết. "
-"Ví dụ: điều khiển tốc độ chuyển làn nhanh hay chậm."
+"Cài đặt này chỉ tải các tuyến đường và giao lộ có thể nhìn thấy trong bản đồ "
+"trò chơi. Toàn bộ thông tin khác sẽ bị loại bỏ."
 
-#, csharp-format
-msgid "Successfully uninstalled plugin with ID {0}."
-msgstr "Gỡ cài đặt plugin với ID {0} thành công."
+msgid "Not Connected"
+msgstr "Chưa được kết nối"
 
-msgid "No Update Available"
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
-msgid "Performance Overlay"
-msgstr "Bảng thông số hiệu năng"
-
-#, csharp-format
-msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr "Đã ngắt kết nối với tay cầm: [gray italic]({0})[/]"
-
-#, csharp-format
-msgid "Update to {0}"
-msgstr "Cập nhật lên {0}"
-
-#, csharp-format
-msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr "Không tìm thấy điều khiển có ID '{0}' để cập nhật hành vi trục."
-
-msgid "Networking"
+msgid ""
+"Some mods implement additional maps like japan.mbd or russia.mbd. If you "
+"find your mods are not loading properly, try enabling this option. This is "
+"known to be required for RusMap."
 msgstr ""
+"Một số bản mod sử dụng các bản đồ bổ sung như japan.mbd hoặc russia.mbd. Nếu "
+"bạn thấy các bản mod đang không tải đúng cách, hãy thử bật tùy chọn này. Tùy "
+"chọn này phải bật đối với Rusmap."
+
+#, csharp-format
+msgid "Update to {0} from {1}"
+msgstr "Cập nhật lên {0} từ {1}"
 
 #, csharp-format
 msgid ""
@@ -293,24 +454,38 @@ msgstr ""
 "hết hạn trong {0} giây."
 
 msgid ""
-"Subscriptions will <span class=\"font-bold text-text-accent\">never</span> "
-"be required for using ETS2LA. They are a way you can support the development."
+"<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
+"in the catalogue later."
 msgstr ""
-"Bạn sẽ <span class=\"font-bold text-text-accent\">không bao giờ</span>bị bắt "
-"buộc phải trả phí để sử dụng ETS2LA. Nó là cách để ủng hộ dự án phát triển."
 
-msgid "Data Parsing"
-msgstr "Phân tích dữ liệu"
-
-msgid ""
-"Service unavailable. The server is currently unable to handle the request "
-"due to temporary overloading or maintenance."
+#, csharp-format
+msgid "Plugin with ID {0} not found in available plugins."
 msgstr ""
-"Dịch vụ không khả dụng. Máy chủ hiện tại không thể xử lí yêu cầu do quá tải "
-"hoặc đang bảo trì."
+"Không thể tìm thấy plugin với ID {0} trong phần danh sách plugin hiện có."
 
-msgid "Enabled"
-msgstr ""
+msgid "State Info"
+msgstr "Thông tin trạng thái"
+
+#, csharp-format
+msgid "Error in AR OpenGL pass: {0}"
+msgstr "Lỗi trong tiến trình AR OpenGL: {0}"
+
+msgid "Error in traffic update loop."
+msgstr "Lỗi trong vòng lặp cập nhật giao thông."
+
+#, csharp-format
+msgid "Error while applying update: {0}"
+msgstr "Lỗi trong quá trình ứng dụng bản cập nhật: {0}"
+
+msgid "Adjustments"
+msgstr "Tùy chỉnh"
+
+#, fuzzy, csharp-format
+msgid "Failed to unload plugin load context: {0}"
+msgstr "Không thể giải phóng vùng nhớ của plugin: {0}"
+
+msgid "Pause Longitudinal Assist: "
+msgstr "Tạm dừng hỗ trợ giữ làn dọc: "
 
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning "
@@ -320,101 +495,16 @@ msgstr ""
 "Thời điểm mà ETS2LA sẽ phản hồi để tránh va chạm. Tắt tùy chọn này sẽ vô "
 "hiệu hóa tính năng tránh va chạm cho dù bạn có bật plugin nào đi nữa."
 
-msgid "The selected file does not exist."
-msgstr "Tệp vừa chọn không tồn tại."
-
 #, csharp-format
-msgid "Latest Version: {0}"
-msgstr "Phiên bản mới nhất: {0}"
-
-msgid "Translating release notes..."
-msgstr "Đang dịch ghi chú cập nhật..."
-
-#, csharp-format
-msgid "Failed to read version from '{0}': {1}"
-msgstr "Không thể đọc phiên bản từ '{0}': {1}"
-
-msgid "Are you sure?"
-msgstr "Bạn có chắc chắn không ?"
-
-msgid "Render AR Elements"
-msgstr "Hiển thị các phần tử AR"
-
-msgid "Unchanged / Unavailable"
-msgstr "Chưa thay đổi / Không khả dụng"
-
-#, csharp-format
-msgid "LoaderException: {0}"
-msgstr "Lỗi tải (LoaderException): {0}"
-
-msgid "Data Fidelity"
-msgstr "Độ chính xác dữ liệu"
-
-#, csharp-format
-msgid "Failed to uninstall current version of plugin with ID {0}."
-msgstr "Không thể gỡ cài đặt phiên bản hiện tại của plugin với ID {0}."
-
-msgid "Assist"
-msgstr "Hỗ trợ lái"
-
-msgid "Early"
-msgstr "Sớm"
+msgid "Camera {0} ({1}x{2})"
+msgstr "Camera {0} ({1}x{2})"
 
 msgid ""
-"Bad gateway. The server, while acting as a gateway or proxy, received an "
-"invalid response from an inbound server."
+"Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
+"Emergency braking is not affected."
 msgstr ""
-"Cổng kết nối lỗi (Bad gateway). Máy chủ đóng vai trò trung gian không nhận "
-"được phản hồi hợp lệ từ máy chủ đích."
-
-msgid "The server timed out waiting for the request from the client."
-msgstr ""
-"Hết thời gian chờ yêu cầu máy chủ do phía khách (client) không gửi dữ liệu."
-
-msgid "Backend shutdown complete."
-msgstr "Hoàn tất tắt hệ thống backend."
-
-#, csharp-format
-msgid "Control with ID '{0}' not found for event subscription."
-msgstr "Không tìm thấy điều khiển có ID '{0}' để đăng kí sự kiện."
-
-#, csharp-format
-msgid "Unregistered control: {0} ({1})"
-msgstr "Điều khiển chưa được đăng kí: {0} ({1})"
-
-msgid "Contact Us"
-msgstr "Liên lạc với chúng tôi"
-
-#, csharp-format
-msgid "Copied '{0}' to '{1}'"
-msgstr "Sao chép '{0}' đến '{1}'"
-
-msgid "Clear Console"
-msgstr ""
-
-msgid "show"
-msgstr "hiện"
-
-msgid "Select core.scs"
-msgstr "Chọn core.scs"
-
-msgid "Failed to init ImGui Impl OpenGL3"
-msgstr "Khởi tạo ImGui Impl OpenGL3 thất bại"
-
-msgid "Support Multiple Viewports"
-msgstr "Hỗ trợ nhiều khung hình (Multiple Viewports)"
-
-msgid "You took a wrong turn!"
-msgstr "Bạn đã đi sai hướng!"
-
-msgid "Initializing GLFW..."
-msgstr "Đang khởi tạo GLFW..."
-
-msgid "3D Renderer"
-msgstr ""
-
-msgid "SDK Uninstallation Failed"
-msgstr ""
+"Điều chỉnh tốc độ mà ETS2LA sẽ phản hồi theo mức thay đổi gia tốc mong muốn. "
+"Tính năng phanh khẩn cấp sẽ không bị ảnh hưởng."
 
 msgid ""
 "Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
@@ -425,209 +515,24 @@ msgstr ""
 "dùng SET nếu bạn muốn đặt lại tốc độ. Bạn có thể đổi cách phím này (và phím "
 "SET) hoạt động trong Cài đặt hỗ trợ (Assistant settings)."
 
-msgid "Max Overlay Framerate"
-msgstr "Tốc độ khung hình tối đa của lớp phủ (overlay)"
-
-msgid ""
-"We will ignore traffic rules and speed limits. Expect damage to your vehicle "
-"and others. Why would you enable this?"
-msgstr ""
-"Chúng tôi sẽ bỏ qua luật giao thông và giới hạn tốc độ. Hãy chuẩn bị cho "
-"việc xe của bạn và người khác bị hư hại. Tại sao bạn lại muốn bật cái thứ "
-"này ?"
-
-#, csharp-format
-msgid ""
-"How did you get here? What were you even thinking?{0}Do tell us in the {1}"
-"Discord Server{2} or on {3}GitHub{4}."
-msgstr ""
-"Tại sao bạn lại vào được đây? Rốt cuộc bạn đang nghĩ cái gì thế?{0}Hãy chia "
-"sẻ cho chúng tôi trong {1}Máy chủ Discord{2} hoặc trên {3}Github{4}."
-
-msgid "Uninstall"
-msgstr "Gỡ cài đặt"
-
-msgid ""
-"Anonymous telemetry helps us improve ETS2LA by giving us insights into "
-"users' system specs, crashes, and other usage data. Your data cannot be "
-"identified with any personal information."
-msgstr ""
-"Dữ liệu thu thập từ xa ẩn danh giúp chúng tôi cải thiện ETS2LA bằng cách "
-"phân tích thông số hệ thống, nhật kí sự cố và các dữ liệu sử dụng khác. Dữ "
-"liệu của bản không iên kết với thông tin cá nhân nào."
-
-msgid "SDK Uninstalled"
-msgstr "Đã gỡ cài đặt SDK"
-
-msgid "Low"
-msgstr ""
-
-msgid ""
-"Additionally, some communities like VTCs, Job Trackers and Leaderboards will "
-"ban either specific features, or the entirety of ETS2LA. <span class=\"text-"
-"text-accent font-bold\">Please check with your community <i>before</i> using "
-"ETS2LA.</span>"
-msgstr ""
-
-#, csharp-format
-msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
-
-msgid "Visualization"
-msgstr ""
-
-#, csharp-format
-msgid "Loaded {0} plugin from the Plugins folder."
-msgid_plural "Loaded {0} plugins from the Plugins folder."
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Late"
-msgstr ""
-
-msgid "Force Map Load"
-msgstr "Bắt buộc tải bản đồ"
-
-#, csharp-format
-msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
-msgstr ""
+msgid "Speed Control Step Size"
+msgstr "Mức tăng/giảm tốc độ"
 
 msgid "Failed to initialize overlay, ImGui initialization failed."
 msgstr "Khởi tạo lớp phủ (overlay) thất bại, không thể khởi tạo ImGui."
 
-msgid "Speed Limit Warning"
-msgstr "Cảnh báo tốc độ giới hạn"
-
-msgid "Speed limit changed"
-msgstr ""
-
-#, csharp-format
-msgid "Discovered {0} plugins in total."
-msgid_plural "Discovered {0} plugins in total."
-msgstr[0] "Đã tìm thấy tổng cộng {0} plugin."
-
-msgid "Failed to init ImGui Impl GLFW"
-msgstr "Khởi tạo ImGui Impl GLFW thất bại"
-
-#, csharp-format
-msgid "Failed to discover Dlls: {0}"
-msgstr ""
-
-msgid "Not Installed"
-msgstr "Chưa cài đặt"
-
-msgid "gal"
-msgstr ""
-
-msgid "Error in camera update loop."
-msgstr "Lỗi trong vòng lặp cập nhật camera."
-
-msgid "Enable"
-msgstr "Bật"
-
-#, csharp-format
-msgid "Loading map data from '{0}'"
-msgstr "Đang tải dữ liệu bản đồ từ '{0}'"
-
-msgid "Warning: Insufficient RAM"
-msgstr "Cảnh báo: Không đủ dung lượng RAM"
-
-msgid "Error Loading Map Data"
-msgstr "Lỗi khi tải dữ liệu bản đồ"
+msgid "ft"
+msgstr "ft"
 
 msgid ""
-"You'll register, login, and manage your account settings and subscriptions "
-"here."
+"Changing this option requires a restart of ETS2LA to take effect. Restart "
+"now?"
 msgstr ""
+"Bạn cần khởi động lại ETS2LA để tùy chọn này hoạt động. Khời động lại ?"
 
 #, csharp-format
-msgid "Current Version: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "No update available for plugin with ID {0}."
-msgstr "Không có bản cập nhật khả dụng nào cho plugin với ID {0}."
-
-msgid "Speed Control Step Size"
-msgstr "Mức tăng/giảm tốc độ"
-
-msgid "Slow"
-msgstr ""
-
-msgid ""
-"Authentication is required. The client must authenticate itself to get the "
-"requested response."
-msgstr "Yêu cầu xác thực. Client phải xác thực để nhận phản hồi được yêu cầu."
-
-#, csharp-format
-msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
-msgstr ""
-
-#, csharp-format
-msgid "Error while checking for updates: {0}"
-msgstr "Lỗi khi đang kiểm tra các bản cập nhật: {0}"
-
-msgid "Undetermined"
-msgstr ""
-
-msgid "meters per second"
-msgstr "mét trên giây"
-
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-
-msgid "Update check skipped, using already cached result."
-msgstr ""
-"Đã bỏ qua kiểm tra cập nhật, đang sử dụng kết quả trong bộ nhớ tạm thời."
-
-#, csharp-format
-msgid "Installed plugin with ID {0} not found."
-msgstr ""
-
-msgid "Audio"
-msgstr ""
-
-#, csharp-format
-msgid "{0} m/s ({1} in {2})"
-msgstr "{0} m/s ({1} trong {2})"
-
-#, csharp-format
-msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
-
-msgid ""
-"Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
-"Emergency braking is not affected."
-msgstr ""
-"Điều chỉnh tốc độ mà ETS2LA sẽ phản hồi theo mức thay đổi gia tốc mong muốn. "
-"Tính năng phanh khẩn cấp sẽ không bị ảnh hưởng."
-
-msgid "Display Units"
-msgstr ""
-
-msgid "Adjustments"
-msgstr "Tùy chỉnh"
-
-msgid "State Info"
-msgstr "Thông tin trạng thái"
-
-msgid "You can enable the plugins we installed in the previous step here."
-msgstr ""
-
-#, csharp-format
-msgid "Error in AR rendering: {0}"
-msgstr "Lỗi khi hiển thị AR: {0}"
-
-msgid "Collision Avoidance"
-msgstr "Tránh va chạm"
-
-msgid "Warnings & Overrides"
-msgstr ""
-
-msgid "Overrides"
-msgstr "Ghi đè"
+msgid "Error while downloading update: {0}"
+msgstr "Lỗi khi đang tải bản cập nhật: {0}"
 
 msgid ""
 "Too many requests. You have sent too many requests in a given amount of time."
@@ -635,140 +540,19 @@ msgstr ""
 "Quá nhiều yêu cầu. Bạn đã gửi quá nhiều yêu cầu trong một khoảng thời gian "
 "nhất định."
 
-msgid ""
-"This will disconnect ETS2LA from the game and close the window. You can "
-"minimize the window to keep ETS2LA running."
-msgstr ""
-"Điều này sẽ ngắt kết nối ETS2LA khỏi trò chơi và đóng cửa sổ. Bạn có thể thu "
-"nhỏ cửa sổ để ETS2LA tiếp tục chạy nền."
-
 #, csharp-format
-msgid "Camera {0} ({1}x{2})"
-msgstr "Camera {0} ({1}x{2})"
+msgid ""
+"Cannot uninstall plugin with ID {0} because the following installed plugins "
+"depend on it: {1}"
+msgstr ""
+"Không thể xóa plugin với ID {0} vì các plugin sau đang phụ thuộc vào nó: {1}"
 
 msgid ""
-"This setting only loads roads and intersections visible on the in game map. "
-"It discards all other information."
+"You do not have permission to access this resource. The server understood "
+"the request but refuses to authorize it."
 msgstr ""
-"Cài đặt này chỉ tải các tuyến đường và giao lộ có thể nhìn thấy trong bản đồ "
-"trò chơi. Toàn bộ thông tin khác sẽ bị loại bỏ."
-
-#, csharp-format
-msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
-msgstr ""
-
-#, csharp-format
-msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
-msgstr ""
-
-msgid "Pause When Unstable"
-msgstr ""
-
-msgid "Stop Rendering When Game is Paused"
-msgstr ""
-
-#, csharp-format
-msgid "File not found: {0}"
-msgstr "Không tìm thấy tệp: {0}"
-
-msgid "Restart Now"
-msgstr "Khởi động lại ngay bây giờ"
-
-#, csharp-format
-msgid "New limit {0} {1}"
-msgstr "Giới hạn mới {0}{1}"
-
-#, csharp-format
-msgid "Error playing audio file {0}: {1}"
-msgstr ""
-
-msgid "Controls Backend shutdown complete, all controls saved."
-msgstr ""
-
-msgid "Lane Keep"
-msgstr ""
-
-msgid "Anonymous"
-msgstr ""
-
-msgid ""
-"The units ETS2LA will use when displaying information to a user. Scientific "
-"has only slight differences to metric."
-msgstr ""
-
-#, csharp-format
-msgid "Control with ID '{0}' not found for unregistration."
-msgstr ""
-
-msgid ""
-"Your system has less than 16GB of RAM. High data fidelity uses significant "
-"amounts of RAM, and may cause your system to become unstable. Please select "
-"a lower fidelity."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to shutdown plugin {0}: {1}"
-msgstr "Tắt plugin {0} thất bại: {1}"
-
-#, csharp-format
-msgid "Plugin with ID {0} not found in available plugins."
-msgstr ""
-"Không thể tìm thấy plugin với ID {0} trong phần danh sách plugin hiện có."
-
-msgid "Manager"
-msgstr ""
-
-msgid "Near"
-msgstr ""
-
-msgid "Driving"
-msgstr ""
-
-msgid "Failed to initialize SDL3 input backend."
-msgstr ""
-
-#, csharp-format
-msgid "{0} not found in supported languages."
-msgstr ""
-
-#, csharp-format
-msgid "Found {0} prefab"
-msgid_plural "Found {0} prefabs"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Pascals"
-msgstr "Pascals"
-
-msgid "Final Disclaimer"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to disable {0}: {1}"
-msgstr ""
-
-msgid "SDK Installed"
-msgstr "Đã cài đặt SDK"
-
-msgid "Current Speed"
-msgstr "Tốc độ hiện tại"
-
-#, csharp-format
-msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
-
-msgid "miles per hour"
-msgstr ""
-
-msgid "Limit Overlay Framerate"
-msgstr "Giới hạn tốc độ khung hình của lớp phủ (Overlay)"
-
-msgid "Wiki / FAQ"
-msgstr "Wiki / Câu hỏi thường gặp"
-
-#, csharp-format
-msgid "Failed to install SDK from '{0}' to '{1}': {2}"
-msgstr ""
+"Bạn không có quyền để truy cập vào tài nguyên này. Máy chủ đã hiểu yêu cầu "
+"nhưng từ chối cấp phép."
 
 msgid ""
 "When this key is held, the overlay will receive mouse input and allow you to "
@@ -780,24 +564,6 @@ msgstr ""
 "(overlay) trong thời điểm này."
 
 msgid ""
-"The request method is recognized by the server but is not supported by the "
-"target resource."
-msgstr ""
-
-msgid "Binding Successful"
-msgstr "Gán phím thành công"
-
-msgid "Disable"
-msgstr ""
-
-msgid "Controls"
-msgstr ""
-
-#, csharp-format
-msgid "Unknown manifest type: {0}"
-msgstr "Loại manifest không xác định: {0}"
-
-msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
 msgstr ""
@@ -805,599 +571,109 @@ msgstr ""
 "buộc phải cài trong thư mục Documents/Euro Truck Simulator 2/mod."
 
 #, csharp-format
-msgid "Download progress: {0}%"
-msgstr ""
-
-msgid "Search for plugins..."
-msgstr ""
-
-msgid "SDK Installation"
-msgstr ""
-
-msgid "Assists"
-msgstr "Hỗ trợ lái"
-
-msgid "mph"
-msgstr ""
-
-msgid "°F"
-msgstr "°F"
-
-msgid "Pa"
-msgstr "Pa"
-
-msgid "Game Telemetry"
-msgstr ""
-
-msgid "Key"
-msgstr "Phím"
-
-msgid ""
-"This setting drops redundant information while maintaining most detail "
-"objects (such as signs). Doesn't include any roads / intersections not shown "
-"in the in game map."
-msgstr ""
-
-msgid "bar"
-msgstr "bar"
-
-msgid ""
-"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
-msgstr ""
-
-msgid "Button"
-msgstr ""
-
-msgid "Add Game Manually"
-msgstr ""
-
-msgid ""
-"In most situations, over half of ETS2LA's CPU use is consumed by the "
-"overlay. Limiting the framerate will reduce CPU usage."
-msgstr ""
-"Trong đa số trường hợp, hơn một nửa việc sử dụng CPU của ETS2LA bị tiêu tốn "
-"cho lớp phủ (overlay). Giới hạn tốc độ khung hình sẽ giảm đi mức sử dụng CPU."
-
-msgid ""
-"This setting includes all available data, most of which is redundant. <span "
-"class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
-"expect over 10GB of usage.</span>"
-msgstr ""
-
-msgid ""
-"Using simplified graphics can improve performance on lower-end hardware, or "
-"fix situations in which advanced features like shaders are not supported."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to load map for installation at '{0}'"
-msgstr "Tải bản đồ cho bản cài đặt tại '{0}' thất bại"
-
-msgid "Not Connected"
-msgstr "Chưa được kết nối"
-
-msgid "This page will be implemented in a future update."
-msgstr "Trang này sẽ được thêm vào trong phiên bản sắp tới."
-
-msgid "You are running the latest version."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
-msgstr ""
-
-msgid "No plugins found."
-msgstr "Không tìm thấy plugin nào."
-
-msgid ""
-"When pressing the SET keybind, what should ETS2LA set as the current cruise "
-"control speed?"
-msgstr ""
-
-msgid "The selected directory does not exist."
-msgstr "Thư mục vừa chọn không tồn tại."
-
-msgid ""
-"Adjust the quality of the curves used for path planning and visualization. "
-"By default this matches the game."
-msgstr ""
-"Điều chỉnh chất lượng của các đường cong để dùng cho lập kế hoạch đường đi "
-"và hiển thị. Mặc định nó sễ giống với trò chơi."
-
-#, csharp-format
-msgid "Error while applying update: {0}"
-msgstr "Lỗi trong quá trình ứng dụng bản cập nhật: {0}"
-
-msgid "Following Distance"
-msgstr ""
-
-msgid "Check For Updates"
-msgstr ""
-
-msgid "Telemetry"
-msgstr ""
-
-msgid ""
-"This allows ETS2LA to render in multiple viewports, meaning you can move "
-"overlay windows to any monitor."
-msgstr ""
-"Điều này cho phép ETS2LA hiển thị trên nhiều khung hình, nghĩa là bạn có thể "
-"di chuyển các cửa sổ đè (overlay) lên bất kì màn hình nào."
-
-msgid ""
-"Adjust the level of detail of the game data we use. Higher values use more "
-"RAM, but include more information. All levels drive the same."
-msgstr ""
-"Điều chỉnh mức độ chi tiết của dữ liệu trò chơi mà chúng tôi sử dụng. Giá "
-"trị cao hơn sẽ sử dụng RAM nhiều hơn nhưng bao gồm nhiều thông tin hơn. Tất "
-"cả các mức độ đều cho trải nghiệm lái như nhau."
-
-#, csharp-format
-msgid "found {0} node"
-msgid_plural "found {0} nodes"
-msgstr[0] "Đã tìm thấy {0} node"
-
-msgid "Did you remember to restart after installing them?"
-msgstr ""
-
-msgid "Volume"
-msgstr "Âm lượng"
-
-#, csharp-format
-msgid "Parsing sector {0} of {1}..."
-msgstr ""
-
-msgid "Unbound"
-msgstr "Chưa gán phím"
-
-#, csharp-format
-msgid "Failed to install latest version of plugin with ID {0}."
-msgstr ""
-
-msgid "I understand, now let me in!"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"If you think this is a bug, please report it in the {0}Discord Server{1} or "
-"on {2}GitHub{3}."
-msgstr ""
-
-msgid ""
-"The maximum distance at which 3D elements will be rendered. Lowering this "
-"can be used to improve performance on lower-end hardware."
-msgstr ""
-"Khoảng cách tối đa mà các yếu tố 3D sẽ được hiển thị. Giảm giá trị này có "
-"thể giúp cải thiện hiệu năng đối với máy yếu."
-
-#, csharp-format
-msgid "Fetched {0} plugin from {1}"
-msgid_plural "Fetched {0} plugins from {1}"
-msgstr[0] "Đã lấy plugin {0} từ {1}"
-
-msgid "Full"
-msgstr ""
-
-msgid "Metric"
-msgstr "Hệ mét (km)"
-
-msgid "Error in telemetry update loop."
-msgstr "Lỗi trong vòng lặp cập nhật Telemetry."
-
-msgid ""
-"Internal server error. The server encountered an unexpected condition that "
-"prevented it from fulfilling the request."
-msgstr ""
-
-#, csharp-format
-msgid "Road template for {0} not found in SII file."
-msgstr "Không tìm thấy mẫu đường (road template) cho {0} trong tệp SII."
-
-#, csharp-format
-msgid "Failed to read log file at '{0}': {1}"
-msgstr "Không thể đọc tệp log tại '{0}': {1}"
-
-#, csharp-format
-msgid "Updated axis behavior for control: {0} ({1}) to {2}"
-msgstr ""
-
-#, csharp-format
-msgid "Disabled plugin: [bold]{0}[/]"
-msgstr "Đã tắt plugin: [bold]{0}[/]"
-
-msgid "Continue"
-msgstr ""
-
-#, csharp-format
-msgid "Failed enable {0}: {1}"
-msgstr "Bật {0} thất bại: {1}"
-
-msgid "Acceleration Response"
-msgstr ""
-
-msgid "Error in parked vehicles update loop."
-msgstr ""
-
-msgid "The plugin was enabled successfully."
-msgstr ""
-
-msgid "Normal"
-msgstr "Bình thường"
+msgid "Error rendering context menu for window {0}: {1}"
+msgstr "Lỗi hiển thị menu ngữ cảnh cho cửa sổ {0}: {1}"
 
 msgid "Unknown Control"
 msgstr "Nút điều khiển không xác định"
 
-msgid "pounds"
+#, csharp-format
+msgid "Control with ID '{0}' not found for event subscription."
+msgstr "Không tìm thấy điều khiển có ID '{0}' để đăng kí sự kiện."
+
+msgid "Waiting..."
 msgstr ""
 
 #, csharp-format
-msgid "Failed to initialize SDL3 controls backend: {0}"
-msgstr "Khởi tạo backend điều khiển SDL3 thất bại: {0}"
+msgid "Failed to read version from '{0}': {1}"
+msgstr "Không thể đọc phiên bản từ '{0}': {1}"
+
+msgid "Support Multiple Viewports"
+msgstr "Hỗ trợ nhiều khung hình (Multiple Viewports)"
+
+msgid "The server timed out waiting for the request from the client."
+msgstr ""
+"Hết thời gian chờ yêu cầu máy chủ do phía khách (client) không gửi dữ liệu."
+
+msgid "Error Loading Map Data"
+msgstr "Lỗi khi tải dữ liệu bản đồ"
 
 msgid ""
-"The server cannot find the requested resource. The URL may be misspelled, or "
-"the resource has been removed."
-msgstr ""
-
-#, csharp-format
-msgid "Failed to install SDK version '{0}' to '{1}': {2}"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to read bundled update source marker: {0}"
-msgstr ""
-
-msgid "liters"
-msgstr "lít"
-
-#, csharp-format
-msgid "No valid versions found for plugin with ID {0}."
-msgstr "Không tìm thấy phiên bản hợp lệ nào cho plugin với ID {0}."
-
-msgid "Binding thread started with no control to bind."
-msgstr "Luồng gán phím đã chạy nhưng không có nút điều khiển để gán."
-
-#, csharp-format
-msgid ""
-"Installation at '{0}' is not currently running, waiting for load of profile."
-msgstr "Bản cài đăt tại '{0}' hiện đang không chạy, đang chờ để tải hồ sơ."
-
-msgid "Downloading Update"
-msgstr ""
-
-msgid "Simplified Graphics"
-msgstr ""
-
-msgid "Pause Steering Assist: "
-msgstr "Tạm dừng hỗ trợ đánh lái: "
-
-msgid "Steering Sensitivity"
-msgstr ""
-
-msgid "Disabled"
-msgstr ""
-
-#, csharp-format
-msgid "{0}"
-msgstr "{0}"
-
-msgid ""
-"This might take a while depending on your internet connection and the source."
-msgstr ""
-"Quá trình này có thể mất một lúc tùy vào tốc độ mạng của bạn và nguồn tải."
-
-msgid "No updates available."
-msgstr ""
-
-#, csharp-format
-msgid "Error rendering overlay: {0}"
-msgstr ""
-
-msgid "Off"
-msgstr ""
-
-msgid "L"
-msgstr "L"
-
-msgid "Installing..."
-msgstr ""
-
-msgid "Failed to add game"
-msgstr "Thêm trò chơi không thành công"
-
-#, csharp-format
-msgid "Font file not found at {0}"
-msgstr ""
-
-msgid "Changelog"
-msgstr ""
-
-msgid "No release notes available."
-msgstr "Hiện không có ghi chú cập nhật nào."
-
-#, csharp-format
-msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr ""
-
-#, csharp-format
-msgid "Currently running at {0} FPS."
+"Additionally, some communities like VTCs, Job Trackers and Leaderboards will "
+"ban either specific features, or the entirety of ETS2LA. <span class=\"text-"
+"text-accent font-bold\">Please check with your community <i>before</i> using "
+"ETS2LA.</span>"
 msgstr ""
 
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr "Không thể tìm thấy phiên bản {0} cho plugin với ID {1}."
 
-msgid ""
-"Decreases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
-"h."
-msgstr ""
-
-msgid "Invalid file"
-msgstr "Tệp không hợp lệ"
-
 #, csharp-format
-msgid "Discovered {0} library in total"
-msgid_plural "Discovered {0} libraries in total."
-msgstr[0] "Đã tìm thấy tổng cộng {0} thư viện."
+msgid "Unknown manifest type: {0}"
+msgstr "Loại manifest không xác định: {0}"
 
-msgid "Console"
-msgstr ""
+msgid "Force Base Map Name"
+msgstr "Bắt buộc dùng tên bản đồ gốc"
 
-msgid "The game has been added successfully."
-msgstr ""
+msgid "The selected directory does not exist."
+msgstr "Thư mục vừa chọn không tồn tại."
 
 msgid ""
-"The server could not understand the request due to invalid syntax or "
-"corrupted request data."
+"When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
+"Khi trò chơi ở trạng thái tạm dừng, ETS2LA sẽ không hiện thị các yếu tố AR."
+
+msgid "Display"
+msgstr "Hiển thị"
+
+msgid "Not Installed"
+msgstr "Chưa cài đặt"
+
+msgid "liters"
+msgstr "lít"
 
 #, csharp-format
-msgid ""
-"Manually added game at '{0}' no longer contains a game executable, skipping."
-msgstr ""
-"Đã thêm thủ công trò chơi tại '{0}' không còn chứa tệp thực thi trò chơi, "
-"đang bỏ qua."
+msgid "Discovered {0} plugins in total."
+msgid_plural "Discovered {0} plugins in total."
+msgstr[0] "Đã tìm thấy tổng cộng {0} plugin."
+
+msgid "Help"
+msgstr "Trợ giúp"
+
+msgid "Overlay free CPU time percentage"
+msgstr "Phần trăm thời gian CPU rảnh của lớp phủ (Overlay)"
 
 #, csharp-format
-msgid "Found {0} game installation."
-msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Scientific"
+msgid "No game executable found in '{0}', not adding it as an installation."
 msgstr ""
-
-msgid "Waiting..."
-msgstr ""
-
-msgid "hide"
-msgstr "ẩn"
+"Không tìm thấy tệp chạy game trong '{0}', sẽ không thêm đường dẫn này vào "
+"danh sách cài đặt."
 
 #, csharp-format
-msgid "Update available: {0}"
-msgstr "Bản cập nhật mới: {0}"
-
-msgid "Error in traffic update loop."
-msgstr "Lỗi trong vòng lặp cập nhật giao thông."
-
-#, csharp-format
-msgid "Error in plugin {0} Tick: {1}"
-msgstr ""
-
-msgid ""
-"To get started fast, you can install our <span class=\"text-text-accent font-"
-"bold\">recommended</span> plugins. These contain everything you need to get "
-"driving."
-msgstr ""
-
-#, csharp-format
-msgid "An error occurred while loading map data: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr "Đã nạp plugin thư viện: [gray]{0}[/] from [gray]{1}[/]."
-
-msgid "Responsiveness"
-msgstr ""
-
-msgid "Parsing Map Data"
-msgstr ""
-
-msgid "SDKs need to be installed."
-msgstr "Cần cài đặt các bộ SDK."
-
-msgid "Failed to initialize overlay, OpenGL initialization failed."
-msgstr ""
-
-#, csharp-format
-msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
-msgstr "Plugin '{0}' bị thiếu mất DLL tại '{1}' và đã bị xóa."
-
-msgid "Account"
-msgstr ""
-
-#, csharp-format
-msgid "Found {0} (version: {1}) at '{2}'"
-msgstr ""
-
-msgid ""
-"We can render elements in the game world using the overlay. This will use "
-"additional CPU and GPU resources."
-msgstr ""
-
-msgid "kilometers per hour"
-msgstr ""
+msgid "Road template for {0} not found in SII file."
+msgstr "Không tìm thấy mẫu đường (road template) cho {0} trong tệp SII."
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
 msgstr "Không thể tìm thấy nút với ID '{0}' để hủy đăng kí sự kiện."
 
 #, csharp-format
-msgid "Binding {0}"
+msgid "Control with ID '{0}' not found for updating bindings."
+msgstr "Không tìm thấy nút với ID '{0}' để cập nhật gán phím."
+
+msgid "Binding Successful"
+msgstr "Gán phím thành công"
+
+msgid "Did you remember to restart after installing them?"
 msgstr ""
 
-#, fuzzy, csharp-format
-msgid "Failed to unload plugin load context: {0}"
-msgstr "Không thể giải phóng vùng nhớ của plugin: {0}"
+msgid "meters"
+msgstr "mét"
 
 #, csharp-format
-msgid "No download URL found for plugin with ID {0} in region {1}."
-msgstr "Không tìm thấy URL tải xuống cho plugin với ID {0} ở khu vực {1}."
-
-msgid "Emergency Braking"
-msgstr "Phanh khẩn cấp"
-
-msgid ""
-"Changing the display language requires a restart of ETS2LA to take effect. "
-"Restart now?"
-msgstr ""
-
-#, csharp-format
-msgid "Update to {0} from {1}"
-msgstr "Cập nhật lên {0} từ {1}"
-
-msgid "Restarting ETS2LA..."
-msgstr "Đang khởi động lại ETS2LA..."
-
-msgid "ETS2LA is running."
-msgstr ""
-
-#, fuzzy
-msgid "Desired Steering Level: "
-msgstr "Mức độ đánh lái mong muốn: "
-
-msgid "Restart"
-msgstr ""
-
-msgid "Plugins"
-msgstr "Plugin"
-
-msgid "Close"
-msgstr "Đóng"
-
-msgid "lbs"
-msgstr ""
-
-#, csharp-format
-msgid "Tried to disable {0}, but it was not found among loaded plugins."
-msgstr "Đã thử tắt {0}, nhưng không tìm thấy trong danh sách plugin đã nạp."
-
-msgid "Install"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Tried to change update source to '{0}', but it was not found among available "
-"sources."
-msgstr ""
-
-msgid "Speed Limit"
-msgstr ""
-
-msgid "Vision Cameras"
-msgstr "Camera nhận diện"
-
-msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
-msgstr ""
-
-#, csharp-format
-msgid "This might take a while... ({0}/{1})"
-msgstr "Quá trình này có thể mất một chút thời gian... ({0}/{1})"
-
-msgid ""
-"Please complete this <span class=\"text-text-accent font-bold\">short</span> "
-"onboarding process to get started."
-msgstr ""
-
-msgid "Remember!"
-msgstr ""
-
-msgid ""
-"Failed to fetch available plugins. Please check your internet connection."
-msgstr ""
-"Không thể tải danh sách plugin khả dụng. Vui lòng kiểm tra kết nối mạng."
-
-msgid "feet"
-msgstr ""
-
-#, csharp-format
-msgid "Successfully installed plugin {0} ({1}, {2})"
-msgstr "Đã cài đặt thành công plugin {0} ({1},{2})"
-
-#, csharp-format
-msgid "Installation at '{0}' has already been parsed."
-msgstr ""
-
-msgid "Pause Longitudinal Assist: "
-msgstr "Tạm dừng hỗ trợ giữ làn dọc: "
-
-#, csharp-format
-msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
-msgstr ""
-
-msgid "Far"
-msgstr ""
-
-msgid "Decrease"
-msgstr ""
-
-msgid "K"
-msgstr "K"
-
-msgid "Window"
-msgstr ""
-
-msgid "Settings"
-msgstr "Cài đặt"
-
-msgid "Error Loading File"
-msgstr ""
-
-#, csharp-format
-msgid "A new update is available: {0}"
-msgstr ""
-
-msgid "Force Base Map Name"
-msgstr "Bắt buộc dùng tên bản đồ gốc"
-
-msgid "Experiments"
-msgstr "Thử nghiệm"
-
-msgid "gallons"
-msgstr ""
-
-msgid "m"
-msgstr "m"
-
-msgid "SDKs are currently installed."
-msgstr "Các SDK hiện đã được cài đặt."
-
-msgid "Restart Required"
-msgstr ""
-
-msgid "I understand"
-msgstr ""
-
-#, csharp-format
-msgid "No map data found for installation at '{0}'. Is the installation valid?"
-msgstr ""
-"Không thể tìm thấy dữ liệu bản đồ cho bản cài đặt tại '{0}'. Bản cài đặt có "
-"hợp lệ không ?"
-
-#, csharp-format
-msgid "Error rendering context menu for window {0}: {1}"
-msgstr "Lỗi hiển thị menu ngữ cảnh cho cửa sổ {0}: {1}"
-
-msgid "Audio playback canceled"
-msgstr ""
-
-msgid "kilograms"
-msgstr "kg"
-
-msgid "ft"
-msgstr "ft"
+msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
+msgstr "Đã kết nối với tay cầm/vô lăng: [bold]{0}[/] [gray italic]({1})[/]"
 
 #, csharp-format
 msgid ""
@@ -1407,394 +683,22 @@ msgstr ""
 "Không thể dọn dẹp thư mục tạm (shadow directory) của plugin [gray]{0}[/], "
 "thư mục sẽ bị xóa ở lần khời động tới: {1}"
 
-#, csharp-format
-msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
-msgstr "Không thể bật plugin {0} vì không thể kích hoạt phụ thuộc {1}."
+msgid "Assists"
+msgstr "Hỗ trợ lái"
 
-#, csharp-format
-msgid "Discovered {0} manually installed library"
-msgid_plural "Discovered {0} manually installed libraries."
-msgstr[0] "Đã tìm thấy {0} thư viện được cài thủ công."
+msgid "Force Map Load"
+msgstr "Bắt buộc tải bản đồ"
 
-msgid "Max Render Distance"
-msgstr "Khoảng cách hiển thị tối đa"
-
-msgid ""
-"Gateway timeout. The server was acting as a gateway or proxy and did not "
-"receive a timely response from the upstream server."
+msgid "Update check skipped, using already cached result."
 msgstr ""
-
-msgid "psi"
-msgstr ""
-
-#, csharp-format
-msgid "An error occurred while loading file '{0}': {1}"
-msgstr ""
-
-msgid ""
-"ETS2LA is running as a system administrator. This puts your system at risk "
-"if you use 3rd party plugins. Select Yes to continue anyway and accept the "
-"risk."
-msgstr ""
-
-msgid "Recommended Plugins"
-msgstr ""
-
-msgid ""
-"The maximum speed ETS2LA will accelerate to. It might still drift over this "
-"limit due to momentum."
-msgstr ""
-"Tốc độ tối đa mà ETS2LA sẽ tăng tốc tới. Xe vẫn có thể vượt quá giới hạn do "
-"đà di chuyển."
-
-msgid "Game added"
-msgstr "Đã thêm trò chơi"
-
-#, csharp-format
-msgid "Unloading parsed map data for installation at '{0}'"
-msgstr "Đang hủy nạp dữ liệu bản đồ đã phân tích cho bản cài đặt tại '{0}'"
-
-msgid ""
-"Some mods implement additional maps like japan.mbd or russia.mbd. If you "
-"find your mods are not loading properly, try enabling this option. This is "
-"known to be required for RusMap."
-msgstr ""
-"Một số bản mod sử dụng các bản đồ bổ sung như japan.mbd hoặc russia.mbd. Nếu "
-"bạn thấy các bản mod đang không tải đúng cách, hãy thử bật tùy chọn này. Tùy "
-"chọn này phải bật đối với Rusmap."
-
-msgid "Extreme"
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Cannot uninstall plugin with ID {0} because the following installed plugins "
-"depend on it: {1}"
-msgstr ""
-"Không thể xóa plugin với ID {0} vì các plugin sau đang phụ thuộc vào nó: {1}"
-
-msgid ""
-"We will pause the game when we detect instability or the steering is "
-"unresponsive / disables itself for other reasons."
-msgstr ""
-
-msgid ""
-"Render the vision cameras in the game world. This is useful for debugging, "
-"but can cause performance issues."
-msgstr ""
-
-#, csharp-format
-msgid "Deleted '{0}'"
-msgstr ""
-
-#, csharp-format
-msgid "Error initializing memory mapped file: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
-
-msgid "View Public Telemetry"
-msgstr "Xem dữ liệu thu thập từ xa công khai"
-
-msgid "Adjust the volume of the audio output."
-msgstr ""
-
-#, csharp-format
-msgid ""
-"Selected update source '{0}' not found, defaulting to first available source."
-msgstr ""
-
-msgid "SET Behaviour"
-msgstr ""
-
-#, csharp-format
-msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
-
-msgid ""
-"You'll have to reinstall the SDK for <span class=\"text-text-accent font-"
-"bold\">every game update</span>. You'll find the installation page in the "
-"settings."
-msgstr ""
-
-msgid "Please see the logs for more information."
-msgstr "Vui lòng xem nhật kí (log) để có nhiều thông tin hơn."
-
-msgid "Binding Timed Out"
-msgstr "Hết thời gian gán phím"
-
-msgid "Adaptive Cruise Control"
-msgstr "Ga tự dộng thích ứng"
-
-msgid "Changes will take effect after restarting the application."
-msgstr "Các thay đổi sẽ hoạt động sau khi khời động lại ứng dụng."
-
-msgid "Use this button to extend the sidebar."
-msgstr ""
-
-msgid ""
-"This is a highly experimental program. ETS2LA is not perfect, and you will "
-"find issues with it's driving and safety. <span class=\"text-text-accent "
-"font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
-msgstr ""
-
-#, csharp-format
-msgid "Tried to enable {0}, but it was not found among loaded plugins."
-msgstr ""
-
-msgid ""
-"Parsing will continue, however information contained in this file won't be "
-"available to ETS2LA."
-msgstr ""
-
-msgid "The selected file is not a core.scs file."
-msgstr ""
-
-msgid "Translated by:"
-msgstr "Được dịch bởi:"
-
-msgid "This game was found at"
-msgstr ""
-
-msgid "Data Quality"
-msgstr "Chất lượng dữ liệu"
-
-msgid "Overlay"
-msgstr ""
-
-#, csharp-format
-msgid "Error in AR OpenGL pass: {0}"
-msgstr "Lỗi trong tiến trình AR OpenGL: {0}"
-
-msgid "General"
-msgstr ""
-
-#, csharp-format
-msgid "Failed to uninstall SDK from '{0}' to '{1}': {2}"
-msgstr "Gỡ cài đặt SDK từ '{0}' đến '{1}' không thành công: {2}"
-
-#, csharp-format
-msgid "Inner Exception: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Plugin with ID {0} not found."
-msgstr "Không tìm thấy plugin với ID {0}."
-
-msgid "Units and Language"
-msgstr "Đơn vị và ngôn ngữ"
-
-#, csharp-format
-msgid "Loaded plugin: [gray]{0}[/] from [gray]{1}[/]."
-msgstr "Đã nạp plugin: [gray]{0}[/] from [gray]{1}[/]."
-
-msgid ""
-"You do not have permission to access this resource. The server understood "
-"the request but refuses to authorize it."
-msgstr ""
-"Bạn không có quyền để truy cập vào tài nguyên này. Máy chủ đã hiểu yêu cầu "
-"nhưng từ chối cấp phép."
-
-msgid "Display Language"
-msgstr ""
-
-#, csharp-format
-msgid "Changed update source to '{0}'."
-msgstr ""
-
-#, csharp-format
-msgid "Removing manually added installation at '{0}'"
-msgstr "Đang xóa bản cài đặt được thêm thủ công tại '{0}'"
-
-#, csharp-format
-msgid "Initializing GLFW Version: {0}"
-msgstr ""
-
-msgid "Render Vision Cameras"
-msgstr ""
-
-msgid "Match Game"
-msgstr "Khớp với trò chơi"
-
-msgid "Imperial"
-msgstr "Hệ Anh (Imperial)"
-
-msgid "Unpacking Mods"
-msgstr ""
-
-msgid "m/s"
-msgstr ""
-
-#, csharp-format
-msgid "Click to {0} this window"
-msgstr ""
-
-#, csharp-format
-msgid "Error rendering interaction mode window controls: {0}"
-msgstr "Lỗi khi hiển thị bảng điều khiển cửa sổ ở chế độ tương tác: {0}"
-
-msgid "Overlay free CPU time percentage"
-msgstr "Phần trăm thời gian CPU rảnh của lớp phủ (Overlay)"
-
-msgid "Invalid directory"
-msgstr "Đường dẫn không hợp lệ"
-
-msgid "Starting download..."
-msgstr "Bắt đầu tải xuống..."
-
-msgid "High"
-msgstr ""
-
-msgid "SET/OK"
-msgstr ""
-
-msgid "Map Data Parsed"
-msgstr ""
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr ""
-
-msgid ""
-"Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
-"you when using Adaptive Cruise Control."
-msgstr ""
-
-msgid "Unknown Version"
-msgstr ""
-
-msgid ""
-"Your system has less than 20GB of RAM. Extreme data fidelity uses "
-"significant amounts of RAM, and may cause your system to become unstable. "
-"Please select a lower fidelity."
-msgstr ""
-"Hệ thống của bạn có ít hơn 20GB RAM. Mức độ chi tiết dữ liệu cực cao sử dụng "
-"lượng RAM lớn và có thể khiến hệ thống của bạn mất ổn định. Vui lòng chọn "
-"mức độ chi tiết thấp hơn."
-
-#, csharp-format
-msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
-
-#, fuzzy
-msgid "Desired Speed: "
-msgstr "Tốc độ mong muốn. "
-
-msgid "Next/Cancel"
-msgstr "Tiếp theo/Hủy"
-
-msgid "meters"
-msgstr "mét"
-
-msgid "°C"
-msgstr "°C"
-
-#, csharp-format
-msgid "Discovered {0} manually installed plugin."
-msgid_plural "Discovered {0} manually installed plugins."
-msgstr[0] "Phát hiện {0} plugin được cài đặt thủ công."
-
-msgid "Checking for updates..."
-msgstr ""
-
-msgid "Starting ETS2LA..."
-msgstr ""
-
-msgid "Catalogue"
-msgstr "Danh mục"
-
-msgid ""
-"How ETS2LA will warn you about exceeding the speed limit by a major amount."
-msgstr ""
-
-#, csharp-format
-msgid "Finished parsing installation at '{0}'"
-msgstr ""
-
-#, csharp-format
-msgid "Playing sound: {0}"
-msgstr "Đang phát âm thanh: {0}"
-
-#, csharp-format
-msgid "Cannot enable plugin {0} because dependency {1} was not found."
-msgstr "Không thể bật plugin {0} vì không thấy phụ thuộc {1}."
-
-msgid "Keybind Behaviour"
-msgstr ""
-
-msgid "Next"
-msgstr ""
-
-msgid "Demo Window"
-msgstr ""
-
-msgid "Help"
-msgstr "Trợ giúp"
-
-#, csharp-format
-msgid "Skipped stale plugin shadow directory [gray]{0}[/]: {1}"
-msgstr "Đã bỏ qua thư mục ẩn của plugin cũ [gray]{0}[/]: {1}"
-
-msgid ""
-"The zoom level of the ETS2LA window. This can be used to scale the window to "
-"your monitor's DPI settings."
-msgstr ""
-
-msgid "Restart ETS2LA First!"
-msgstr ""
-
-msgid "Finished loading plugins"
-msgstr ""
+"Đã bỏ qua kiểm tra cập nhật, đang sử dụng kết quả trong bộ nhớ tạm thời."
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "Cài đặt thư viện phụ thuộc {0} cho plugin {1}."
 
-msgid "Desired Longitudinal Level: "
-msgstr ""
-
-msgid "Error in semaphore update loop."
-msgstr ""
-
-#, csharp-format
-msgid "Missing dependency: {0}"
-msgstr ""
-
-#, csharp-format
-msgid "Snap to each 10 {0}"
-msgstr "Căn chỉnh theo mỗi 10 {0}"
-
-#, csharp-format
-msgid "Created plugin directory: [gray]{0}[/]"
-msgstr ""
-
-#, csharp-format
-msgid "Enabled plugin: [bold]{0}[/]"
-msgstr ""
-
-msgid ""
-"Changing this option requires a restart of ETS2LA to take effect. Restart "
-"now?"
-msgstr ""
-"Bạn cần khởi động lại ETS2LA để tùy chọn này hoạt động. Khời động lại ?"
-
-msgid "Plugin Installer"
-msgstr ""
-
-#, csharp-format
-msgid "Successfully installed SDK version '{0}' to '{1}'"
-msgstr "Tải thành công SDK phiên bản '{0}' đến '{1}'"
-
-msgid "Display Units: "
-msgstr "Đơn vị hiển thị:. "
-
-msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
+msgid "Error in telemetry update loop."
+msgstr "Lỗi trong vòng lặp cập nhật Telemetry."
 
 msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
@@ -1803,16 +707,1125 @@ msgstr ""
 "Ngôn ngữ hiển thị của ETS2LA. Các bản dịch được cung cấp bởi cộng đồng và "
 "chúng tôi không bảo đảm tính chính xác."
 
-msgid "Interaction Mode"
-msgstr "Chế độ tương tác"
+#, csharp-format
+msgid "No valid versions found for plugin with ID {0}."
+msgstr "Không tìm thấy phiên bản hợp lệ nào cho plugin với ID {0}."
+
+msgid "No plugins found."
+msgstr "Không tìm thấy plugin nào."
+
+#, csharp-format
+msgid "Cannot enable plugin {0} because dependency {1} was not found."
+msgstr "Không thể bật plugin {0} vì không thấy phụ thuộc {1}."
+
+msgid "Emergency Braking"
+msgstr "Phanh khẩn cấp"
+
+#, csharp-format
+msgid "Cannot enable plugin {0} because dependency {1} failed to enable."
+msgstr "Không thể bật plugin {0} vì không thể kích hoạt phụ thuộc {1}."
+
+#, csharp-format
+msgid "Disabled plugin: [bold]{0}[/]"
+msgstr "Đã tắt plugin: [bold]{0}[/]"
+
+#, csharp-format
+msgid "Playing sound: {0}"
+msgstr "Đang phát âm thanh: {0}"
 
 #, csharp-format
 msgid "Adding mod: {0}"
 msgstr "Đang thêm mod: {0}"
 
 #, csharp-format
-msgid "Not all dependencies for plugin {0} are installed."
-msgstr "Chưa cài đặt đủ các phụ thuộc của plugin {0}."
+msgid "Failed to initialize SDL3 controls backend: {0}"
+msgstr "Khởi tạo backend điều khiển SDL3 thất bại: {0}"
+
+msgid "Next/Cancel"
+msgstr "Tiếp theo/Hủy"
+
+msgid ""
+"In most situations, over half of ETS2LA's CPU use is consumed by the "
+"overlay. Limiting the framerate will reduce CPU usage."
+msgstr ""
+"Trong đa số trường hợp, hơn một nửa việc sử dụng CPU của ETS2LA bị tiêu tốn "
+"cho lớp phủ (overlay). Giới hạn tốc độ khung hình sẽ giảm đi mức sử dụng CPU."
+
+#, csharp-format
+msgid "Error while checking for updates: {0}"
+msgstr "Lỗi khi đang kiểm tra các bản cập nhật: {0}"
+
+msgid "Volume"
+msgstr "Âm lượng"
+
+msgid "Limit Overlay Framerate"
+msgstr "Giới hạn tốc độ khung hình của lớp phủ (Overlay)"
+
+msgid "None"
+msgstr "Không có"
+
+msgid "Pascals"
+msgstr "Pascals"
+
+#, csharp-format
+msgid "Failed enable {0}: {1}"
+msgstr "Bật {0} thất bại: {1}"
+
+msgid "SDK Installed"
+msgstr "Đã cài đặt SDK"
+
+msgid "Experiments"
+msgstr "Thử nghiệm"
+
+msgid "Pa"
+msgstr "Pa"
+
+msgid "Invalid file"
+msgstr "Tệp không hợp lệ"
+
+msgid ""
+"You'll have to reinstall the SDK for <span class=\"text-text-accent font-"
+"bold\">every game update</span>. You'll find the installation page in the "
+"settings."
+msgstr ""
+
+msgid ""
+"To get started fast, you can install our <span class=\"text-text-accent font-"
+"bold\">recommended</span> plugins. These contain everything you need to get "
+"driving."
+msgstr ""
+
+msgid "Key"
+msgstr "Phím"
+
+msgid ""
+"Bad gateway. The server, while acting as a gateway or proxy, received an "
+"invalid response from an inbound server."
+msgstr ""
+"Cổng kết nối lỗi (Bad gateway). Máy chủ đóng vai trò trung gian không nhận "
+"được phản hồi hợp lệ từ máy chủ đích."
+
+msgid ""
+"Service unavailable. The server is currently unable to handle the request "
+"due to temporary overloading or maintenance."
+msgstr ""
+"Dịch vụ không khả dụng. Máy chủ hiện tại không thể xử lí yêu cầu do quá tải "
+"hoặc đang bảo trì."
+
+#, csharp-format
+msgid "Disconnected joystick: [gray italic]({0})[/]"
+msgstr "Đã ngắt kết nối với tay cầm: [gray italic]({0})[/]"
+
+msgid "Changes will take effect after restarting the application."
+msgstr "Các thay đổi sẽ hoạt động sau khi khời động lại ứng dụng."
+
+#, csharp-format
+msgid "Removing manually added installation at '{0}'"
+msgstr "Đang xóa bản cài đặt được thêm thủ công tại '{0}'"
+
+msgid "Please see the logs for more information."
+msgstr "Vui lòng xem nhật kí (log) để có nhiều thông tin hơn."
+
+msgid ""
+"This will disconnect ETS2LA from the game and close the window. You can "
+"minimize the window to keep ETS2LA running."
+msgstr ""
+"Điều này sẽ ngắt kết nối ETS2LA khỏi trò chơi và đóng cửa sổ. Bạn có thể thu "
+"nhỏ cửa sổ để ETS2LA tiếp tục chạy nền."
+
+msgid "SDK Installation Failed"
+msgstr "Cài đặt SDK thất bại"
+
+msgid "L"
+msgstr "L"
+
+#, csharp-format
+msgid "No update available for plugin with ID {0}."
+msgstr "Không có bản cập nhật khả dụng nào cho plugin với ID {0}."
+
+msgid "Current Speed"
+msgstr "Tốc độ hiện tại"
+
+#, csharp-format
+msgid "Snap to each 10 {0}"
+msgstr "Căn chỉnh theo mỗi 10 {0}"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "File not found: {0}"
+msgstr "Không tìm thấy tệp: {0}"
+
+msgid "Invalid directory"
+msgstr "Đường dẫn không hợp lệ"
+
+msgid "Normal"
+msgstr "Bình thường"
+
+msgid "°F"
+msgstr "°F"
+
+#, csharp-format
+msgid "Loading map data from '{0}'"
+msgstr "Đang tải dữ liệu bản đồ từ '{0}'"
+
+msgid ""
+"The maximum distance at which 3D elements will be rendered. Lowering this "
+"can be used to improve performance on lower-end hardware."
+msgstr ""
+"Khoảng cách tối đa mà các yếu tố 3D sẽ được hiển thị. Giảm giá trị này có "
+"thể giúp cải thiện hiệu năng đối với máy yếu."
+
+#, csharp-format
+msgid "No map data found for installation at '{0}'. Is the installation valid?"
+msgstr ""
+"Không thể tìm thấy dữ liệu bản đồ cho bản cài đặt tại '{0}'. Bản cài đặt có "
+"hợp lệ không ?"
+
+msgid "m"
+msgstr "m"
+
+msgid "Binding Timed Out"
+msgstr "Hết thời gian gán phím"
+
+msgid "Curve Quality"
+msgstr "Chất lượng đường cong"
+
+msgid "Initializing GLFW..."
+msgstr "Đang khởi tạo GLFW..."
+
+msgid "Assist"
+msgstr "Hỗ trợ lái"
+
+#, fuzzy
+msgid "Desired Steering Level: "
+msgstr "Mức độ đánh lái mong muốn: "
+
+#, csharp-format
+msgid "Failed to load map for installation at '{0}'"
+msgstr "Tải bản đồ cho bản cài đặt tại '{0}' thất bại"
+
+msgid "Close"
+msgstr "Đóng"
+
+msgid "kilograms"
+msgstr "kg"
+
+msgid "Translating release notes..."
+msgstr "Đang dịch ghi chú cập nhật..."
+
+msgid "Look in the top left corner."
+msgstr ""
+
+msgid "No release notes available."
+msgstr "Hiện không có ghi chú cập nhật nào."
+
+msgid "Unbound"
+msgstr "Chưa gán phím"
+
+#, csharp-format
+msgid "Successfully installed SDK version '{0}' to '{1}'"
+msgstr "Tải thành công SDK phiên bản '{0}' đến '{1}'"
+
+#, csharp-format
+msgid "Copied '{0}' to '{1}'"
+msgstr "Sao chép '{0}' đến '{1}'"
+
+msgid ""
+"This might take a while depending on your internet connection and the source."
+msgstr ""
+"Quá trình này có thể mất một lúc tùy vào tốc độ mạng của bạn và nguồn tải."
+
+#, csharp-format
+msgid "Error rendering interaction mode window controls: {0}"
+msgstr "Lỗi khi hiển thị bảng điều khiển cửa sổ ở chế độ tương tác: {0}"
+
+#, csharp-format
+msgid "Created plugin directory: [gray]{0}[/]"
+msgstr ""
+
+#, csharp-format
+msgid "Binding {0}"
+msgstr ""
+
+msgid "Check For Updates"
+msgstr ""
+
+msgid "Failed to initialize overlay, OpenGL initialization failed."
+msgstr ""
+
+#, csharp-format
+msgid "Error loading map data from '{0}': {1}"
+msgstr "Lỗi khi đang tải dữ liệu bản đồ từ '{0}':{1}"
+
+msgid ""
+"Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
+msgstr ""
+
+#, csharp-format
+msgid "Found {0} game installation."
+msgid_plural "Found {0} game installations."
+msgstr[0] ""
+msgstr[1] ""
+
+#, csharp-format
+msgid "Failed to read bundled update source marker: {0}"
+msgstr ""
+
+msgid "Slow"
+msgstr ""
+
+msgid "Parsing Map Data"
+msgstr ""
+
+msgid "Add Game Manually"
+msgstr ""
+
+msgid "Demo Window"
+msgstr ""
+
+msgid "Contact Us"
+msgstr "Liên lạc với chúng tôi"
+
+msgid "kg"
+msgstr "kg"
+
+#, fuzzy
+msgid ""
+"This setting drops redundant information while maintaining most detail "
+"objects (such as signs). Includes all hidden and AI only roads."
+msgstr ""
+"Cài đặt này sẽ loại bỏ các thông tin thừa nhưng vẫn giữ lại hầu hết các vật "
+"thể chi tiết (Ví dụ như biển báo), bao gồm tất cả các tuyến đường bị ẩn và "
+"tuyến đường dành riêng cho AI."
+
+msgid "Visualization"
+msgstr ""
+
+msgid "Display Units"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid ""
+"You'll register, login, and manage your account settings and subscriptions "
+"here."
+msgstr ""
+
+msgid "Uninstall"
+msgstr "Gỡ cài đặt"
+
+msgid "Game SDK"
+msgstr "SDK Trò chơi"
+
+msgid "Welcome to ETS2LA!"
+msgstr ""
+
+#, csharp-format
+msgid ""
+"If you think this is a bug, please report it in the {0}Discord Server{1} or "
+"on {2}GitHub{3}."
+msgstr ""
+
+#, csharp-format
+msgid "Error in plugin {0} Tick: {1}"
+msgstr ""
+
+msgid "Telemetry"
+msgstr ""
+
+msgid ""
+"Cracked games or demos will block our SDK from loading. They do not work, "
+"and we don't intend to fix this."
+msgstr ""
+"Các phiên bản lậu hoặc thử nghiệm sẽ chặn SDK của chúng tôi tải lên. Chúng "
+"không hoạt động và chúng tôi không có ý định khắc phục điều này."
+
+#, csharp-format
+msgid "Parsing sector {0} of {1}..."
+msgstr ""
+
+msgid "The selected file is not a core.scs file."
+msgstr ""
+
+msgid "kilometers per hour"
+msgstr ""
+
+msgid "Late"
+msgstr ""
+
+#, csharp-format
+msgid "Error rendering overlay: {0}"
+msgstr ""
+
+#, csharp-format
+msgid ""
+"Selected update source '{0}' not found, defaulting to first available source."
+msgstr ""
+
+msgid "Window Zoom"
+msgstr "Phóng to cửa sổ"
+
+#, csharp-format
+msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
+msgstr ""
+
+msgid ""
+"The zoom level of the ETS2LA window. This can be used to scale the window to "
+"your monitor's DPI settings."
+msgstr ""
+
+#, csharp-format
+msgid "Binding for control {0} ({1}) timed out."
+msgstr "Quá thời gian gán phím cho nút điều khiển {0} ({1})."
+
+msgid ""
+"This setting drops redundant information while maintaining most detail "
+"objects (such as signs). Doesn't include any roads / intersections not shown "
+"in the in game map."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to install SDK from '{0}' to '{1}': {2}"
+msgstr ""
+
+msgid "Display Language"
+msgstr ""
+
+msgid "3D Renderer"
+msgstr ""
+
+msgid "m/s"
+msgstr ""
+
+msgid ""
+"How ETS2LA will warn you about exceeding the speed limit by a major amount."
+msgstr ""
+
+#, csharp-format
+msgid "Currently running at {0} FPS."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to load library plugin from [gray]{0}[/]: {1}"
+msgstr ""
+
+msgid ""
+"Force ETS2LA to load the map on game startup. This can resolve issues where "
+"your game.log.txt is not where ETS2LA expects it."
+msgstr ""
+"Buộc ETS2LA tải bản đồ khi khởi động game. Có thể giải quyết lỗi không tìm "
+"thấy game.log.txt ở thư mục mặc định."
+
+msgid "Window"
+msgstr ""
+
+msgid ""
+"The units ETS2LA will use when displaying information to a user. Scientific "
+"has only slight differences to metric."
+msgstr ""
+
+#, csharp-format
+msgid "Starting binding for control {0} ({1})"
+msgstr "Bắt đầu gán phím cho nút điều khiển: {0} ({1})"
+
+#, csharp-format
+msgid "Failed to refresh joysticks: {0}"
+msgstr "Không thể làm mới danh sách tay cầm/vô lăng: {0}"
+
+msgid "Show Fewer Logs"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Render AR Elements"
+msgstr "Hiển thị các phần tử AR"
+
+msgid ""
+"Parsing will continue, however information contained in this file won't be "
+"available to ETS2LA."
+msgstr ""
+
+msgid "Finished loading plugins"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "show"
+msgstr "hiện"
+
+#, csharp-format
+msgid "Received input from unknown joystick with instance ID {0}."
+msgstr ""
+
+#, csharp-format
+msgid "Download progress: {0}%"
+msgstr ""
+
+#, csharp-format
+msgid "An error occurred while loading map data: {0}"
+msgstr ""
+
+msgid "This game was found at"
+msgstr ""
+
+msgid "Recommended Plugins"
+msgstr ""
+
+msgid "Chime"
+msgstr "Tiếng bíp"
+
+#, csharp-format
+msgid "Failed to uninstall SDK version '{0}' from '{1}': {2}"
+msgstr ""
+
+msgid "Networking"
+msgstr ""
+
+msgid ""
+"The request method is recognized by the server but is not supported by the "
+"target resource."
+msgstr ""
+
+msgid "Overlay"
+msgstr ""
+
+msgid "Changelog"
+msgstr ""
+
+msgid ""
+"Works like Assist, but will act the way you select in the Assistance "
+"settings. This key will additionally be used for confirmations."
+msgstr ""
+
+msgid "The step size for changing the cruise control speed."
+msgstr "Mức tăng/giảm mỗi lần thay đổi tốc độ ga tự động."
+
+msgid "Controls Backend shutdown complete, all controls saved."
+msgstr ""
+
+msgid "Decrease"
+msgstr ""
+
+msgid "Select core.scs"
+msgstr "Chọn core.scs"
+
+msgid "Performance Overlay"
+msgstr "Bảng thông số hiệu năng"
+
+msgid "Enabled"
+msgstr ""
+
+msgid ""
+"ETS2LA will display information on top of the game. You can interact with "
+"these overlay elements using <span class=\"text-text-accent font-"
+"bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
+"accent font-bold\">Right-Alt</span> by default. Try it!"
+msgstr ""
+
+msgid "Sorry"
+msgstr "Xin lỗi"
+
+msgid "Failed to init ImGui Impl OpenGL3"
+msgstr "Khởi tạo ImGui Impl OpenGL3 thất bại"
+
+msgid "Low"
+msgstr ""
+
+msgid "Maximum Speed"
+msgstr "Tốc độ tối đa"
+
+msgid ""
+"Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
+"you when using Adaptive Cruise Control."
+msgstr ""
+
+#, csharp-format
+msgid ""
+"Tried to change update source to '{0}', but it was not found among available "
+"sources."
+msgstr ""
+
+msgid "Initializing..."
+msgstr "Đang tải..."
+
+msgid ""
+"This key will navigate any ETS2LA menus forward, it will also work as the "
+"cancel key for any confirmations."
+msgstr ""
+
+msgid "Full"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to uninstall current version of plugin with ID {0}."
+msgstr "Không thể gỡ cài đặt phiên bản hiện tại của plugin với ID {0}."
+
+#, csharp-format
+msgid ""
+"How did you get here? What were you even thinking?{0}Do tell us in the {1}"
+"Discord Server{2} or on {3}GitHub{4}."
+msgstr ""
+"Tại sao bạn lại vào được đây? Rốt cuộc bạn đang nghĩ cái gì thế?{0}Hãy chia "
+"sẻ cho chúng tôi trong {1}Máy chủ Discord{2} hoặc trên {3}Github{4}."
+
+#, csharp-format
+msgid "Tried to enable {0}, but it was not found among loaded plugins."
+msgstr ""
+
+msgid "Overlay Interaction"
+msgstr "Tương tác với giao diện nổi"
+
+#, fuzzy
+msgid "Unknown Control ID"
+msgstr "ID Điều khiển không xác định."
+
+#, csharp-format
+msgid "Error playing audio file {0}: {1}"
+msgstr ""
+
+msgid ""
+"Gateway timeout. The server was acting as a gateway or proxy and did not "
+"receive a timely response from the upstream server."
+msgstr ""
+
+#, csharp-format
+msgid "Installed plugin with ID {0} not found."
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
+#, csharp-format
+msgid "Updated axis behavior for control: {0} ({1}) to {2}"
+msgstr ""
+
+msgid ""
+"Increases the current value (e.g. target speed) by one step. Without any "
+"visual modifier shown in the UI, this will increase the target speed by 1 km/"
+"h."
+msgstr ""
+"Tăng giá trị hiện tại (Ví dụ: tốc độ mong muốn) lên một nấc. Khi không dùng "
+"phím bổ trợ, thao tác này sẽ tăng tốc độ mục tiêu lên 1 km/h."
+
+msgid "Remember!"
+msgstr ""
+
+msgid ""
+"Render the vision cameras in the game world. This is useful for debugging, "
+"but can cause performance issues."
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Failed to initialize SDL3 input backend."
+msgstr ""
+
+#, csharp-format
+msgid "Found {0} (version: {1}) at '{2}'"
+msgstr ""
+
+msgid "Keyboard"
+msgstr "Bàn phím"
+
+msgid "Dashboard"
+msgstr "Bảng điều khiển"
+
+#, csharp-format
+msgid "Changed update source to '{0}'."
+msgstr ""
+
+msgid ""
+"This setting includes all available data, most of which is redundant. <span "
+"class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
+"expect over 10GB of usage.</span>"
+msgstr ""
+
+msgid "Lane Keep"
+msgstr ""
+
+msgid "You took a wrong turn!"
+msgstr "Bạn đã đi sai hướng!"
+
+#, csharp-format
+msgid "Inner Exception: {0}"
+msgstr ""
+
+msgid "Steering Sensitivity"
+msgstr ""
+
+msgid ""
+"The server could not understand the request due to invalid syntax or "
+"corrupted request data."
+msgstr ""
+
+msgid "SET/OK"
+msgstr ""
+
+#, csharp-format
+msgid "{0} not found in supported languages."
+msgstr ""
+
+msgid ""
+"Subscriptions will <span class=\"font-bold text-text-accent\">never</span> "
+"be required for using ETS2LA. They are a way you can support the development."
+msgstr ""
+"Bạn sẽ <span class=\"font-bold text-text-accent\">không bao giờ</span>bị bắt "
+"buộc phải trả phí để sử dụng ETS2LA. Nó là cách để ủng hộ dự án phát triển."
+
+msgid ""
+"ETS2LA is running as a system administrator. This puts your system at risk "
+"if you use 3rd party plugins. Select Yes to continue anyway and accept the "
+"risk."
+msgstr ""
+
+msgid "Ignore Traffic Rules"
+msgstr "Bỏ qua luật giao thông"
+
+msgid "feet"
+msgstr ""
+
+msgid "Desired Longitudinal Level: "
+msgstr ""
+
+#, csharp-format
+msgid "Successfully updated plugin with ID {0}."
+msgstr "Cập nhật plugin với ID {0} thành công."
+
+#, csharp-format
+msgid "Installation at '{0}' has already been parsed."
+msgstr ""
+
+msgid "Speed Limit"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Game Telemetry"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
+msgstr ""
+
+msgid "Stop Rendering When Game is Paused"
+msgstr ""
+
+#, csharp-format
+msgid "Successfully uninstalled plugin with ID {0}."
+msgstr "Gỡ cài đặt plugin với ID {0} thành công."
+
+msgid "mph"
+msgstr ""
+
+msgid "Are you sure?"
+msgstr "Bạn có chắc chắn không ?"
+
+msgid ""
+"Changing the display language requires a restart of ETS2LA to take effect. "
+"Restart now?"
+msgstr ""
+
+msgid "Clear Console"
+msgstr ""
+
+#, csharp-format
+msgid "Initializing GLFW Version: {0}"
+msgstr ""
+
+msgid "Undetermined"
+msgstr ""
+
+msgid "Controls"
+msgstr ""
+
+msgid "Restart Required"
+msgstr ""
+
+msgid ""
+"We will pause the game when we detect instability or the steering is "
+"unresponsive / disables itself for other reasons."
+msgstr ""
+
+msgid ""
+"We can render elements in the game world using the overlay. This will use "
+"additional CPU and GPU resources."
+msgstr ""
+
+msgid "Button"
+msgstr ""
+
+msgid "Far"
+msgstr ""
+
+#, csharp-format
+msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
+msgstr ""
+
+msgid ""
+"When pressing the SET keybind, what should ETS2LA set as the current cruise "
+"control speed?"
+msgstr ""
+
+msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
+msgstr ""
+
+msgid "psi"
+msgstr ""
+
+msgid "gal"
+msgstr ""
+
+msgid "lbs"
+msgstr ""
+
+msgid "Render Vision Cameras"
+msgstr ""
+
+msgid "Use this button to extend the sidebar."
+msgstr ""
+
+#, csharp-format
+msgid "Enabled plugin: [bold]{0}[/]"
+msgstr ""
+
+msgid ""
+"Adjust how ETS2LA will respond to necessary steering changes. This for "
+"example controls how quickly ETS2LA will lane-change."
+msgstr ""
+"Điều chình mức độ phản hồi của ETS2LA khi thay đổi hướng lái khi cần thiết. "
+"Ví dụ: điều khiển tốc độ chuyển làn nhanh hay chậm."
+
+msgid "pounds"
+msgstr ""
+
+msgid "Backend shutdown complete."
+msgstr "Hoàn tất tắt hệ thống backend."
+
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr ""
+
+msgid "Extreme"
+msgstr ""
+
+msgid "Keybind Behaviour"
+msgstr ""
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+
+#, csharp-format
+msgid "Error loading '{0}': {1}"
+msgstr "Lỗi khi tải '{0}': {1}"
+
+msgid "SET Behaviour"
+msgstr ""
+
+msgid "Speed limit changed"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Search for plugins..."
+msgstr ""
+
+msgid "I understand"
+msgstr ""
+
+msgid "No updates available."
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid ""
+"Anonymous telemetry helps us improve ETS2LA by giving us insights into "
+"users' system specs, crashes, and other usage data. Your data cannot be "
+"identified with any personal information."
+msgstr ""
+"Dữ liệu thu thập từ xa ẩn danh giúp chúng tôi cải thiện ETS2LA bằng cách "
+"phân tích thông số hệ thống, nhật kí sự cố và các dữ liệu sử dụng khác. Dữ "
+"liệu của bản không iên kết với thông tin cá nhân nào."
+
+#, csharp-format
+msgid "Registered control: {0} [gray italic]({1})[/]"
+msgstr ""
+
+msgid "Disable"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to install latest version of plugin with ID {0}."
+msgstr ""
+
+msgid "Simplified Graphics"
+msgstr ""
+
+msgid "km/h"
+msgstr "km/h"
+
+#, csharp-format
+msgid "Found {0} prefab"
+msgid_plural "Found {0} prefabs"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Near"
+msgstr ""
+
+msgid "Scientific"
+msgstr ""
+
+msgid "Early"
+msgstr "Sớm"
+
+msgid "Driving"
+msgstr ""
+
+#, csharp-format
+msgid "Error initializing memory mapped file: {0}"
+msgstr ""
+
+msgid "Audio playback canceled"
+msgstr ""
+
+msgid ""
+"The server cannot find the requested resource. The URL may be misspelled, or "
+"the resource has been removed."
+msgstr ""
+
+msgid ""
+"Decreases the current value (e.g. target speed) by one step. Without any "
+"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
+"h."
+msgstr ""
+
+#, csharp-format
+msgid "A new update is available: {0}"
+msgstr ""
+
+msgid "Downloading Update"
+msgstr ""
+
+#, csharp-format
+msgid "found {0} road"
+msgid_plural "found {0} roads"
+msgstr[0] "Đã tìm thấy {0} tuyến đường"
+
+msgid "You are running the latest version."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to disable {0}: {1}"
+msgstr ""
+
+msgid "Starting ETS2LA..."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to discover Dlls: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Missing dependency: {0}"
+msgstr ""
+
+msgid ""
+"Internal server error. The server encountered an unexpected condition that "
+"prevented it from fulfilling the request."
+msgstr ""
+
+msgid "Error Loading File"
+msgstr ""
+
+#, csharp-format
+msgid "Deleted '{0}'"
+msgstr ""
+
+msgid "Console"
+msgstr ""
+
+#, csharp-format
+msgid "Bound control {0} ({1}) to device {2} and control {3}"
+msgstr ""
+
+msgid "Responsiveness"
+msgstr ""
+
+msgid "Warnings & Overrides"
+msgstr ""
+
+#, csharp-format
+msgid "Update to {0}"
+msgstr "Cập nhật lên {0}"
+
+msgid "Update Available"
+msgstr ""
+
+#, csharp-format
+msgid "LoaderException: {0}"
+msgstr "Lỗi tải (LoaderException): {0}"
+
+msgid "Acceleration Response"
+msgstr ""
+
+msgid "Plugin Installer"
+msgstr ""
+
+msgid "No Update Available"
+msgstr ""
+
+msgid "Adjust the volume of the audio output."
+msgstr ""
+
+msgid "SDK Uninstallation Failed"
+msgstr ""
+
+msgid ""
+"Using simplified graphics can improve performance on lower-end hardware, or "
+"fix situations in which advanced features like shaders are not supported."
+msgstr ""
+
+msgid "Unknown Version"
+msgstr ""
+
+msgid "The plugin was enabled successfully."
+msgstr ""
+
+msgid "Install"
+msgstr ""
+
+msgid "Error in parked vehicles update loop."
+msgstr ""
+
+#, csharp-format
+msgid "Current Version: {0}"
+msgstr ""
+
+#, csharp-format
+msgid "Loaded {0} plugin from the Plugins folder."
+msgid_plural "Loaded {0} plugins from the Plugins folder."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"Your system has less than 16GB of RAM. High data fidelity uses significant "
+"amounts of RAM, and may cause your system to become unstable. Please select "
+"a lower fidelity."
+msgstr ""
+
+#, csharp-format
+msgid "Failed to enable dependency: {0}"
+msgstr "Không thể kích hoạt thành phần phụ thuộc: {0}"
+
+msgid "ETS2LA is running."
+msgstr ""
+
+msgid "SDK Installation"
+msgstr ""
+
+#, csharp-format
+msgid "Apparent plugin directory {0} does not exist."
+msgstr ""
+
+msgid "Data Fidelity"
+msgstr "Độ chính xác dữ liệu"
+
+#, csharp-format
+msgid "Font file not found at {0}"
+msgstr ""
+
+msgid "Pause When Unstable"
+msgstr ""
+
+msgid "Error in semaphore update loop."
+msgstr ""
+
+#, csharp-format
+msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
+msgstr ""
+
+msgid "miles per hour"
+msgstr ""
+
+msgid "Restart and Continue"
+msgstr ""
+
+#, csharp-format
+msgid "Detected a switch to {0}, waiting for its game data to be parsed."
+msgstr ""
+
+msgid "The selected file does not exist."
+msgstr "Tệp vừa chọn không tồn tại."
+
+#, csharp-format
+msgid "An error occurred while loading file '{0}': {1}"
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for updating axis behavior."
+msgstr "Không tìm thấy điều khiển có ID '{0}' để cập nhật hành vi trục."
+
+msgid "Unpacking Mods"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
+msgstr ""
+
+#, csharp-format
+msgid "Control with ID '{0}' not found for unregistration."
+msgstr ""
+
+#, csharp-format
+msgid "Click to {0} this window"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+#, csharp-format
+msgid "Failed to install SDK version '{0}' to '{1}': {2}"
+msgstr ""
+
+msgid "Final Disclaimer <span class=\"description\">1/2</span>"
+msgstr ""
+
+#, csharp-format
+msgid "Parsing installation at '{0}' (version: {1})"
+msgstr "Đang phân tích bản cài đặt tại '{0}' (phiên bản:{1})"
+
+msgid "gallons"
+msgstr ""
+
+msgid "Checking for updates..."
+msgstr ""
+
+msgid "Following Distance"
+msgstr ""
+
+msgid "Map Data Parsed"
+msgstr ""
+
+#, csharp-format
+msgid "Finished parsing installation at '{0}'"
+msgstr ""
+
+msgid "Error in navigation update loop."
+msgstr "Lỗi trong vòng lặp cập nhật điều hướng."
+
+msgid "The game has been added successfully."
+msgstr ""
 
 #, csharp-format
 #~ msgid "Attempting to enable plugin: [bold]{0}[/]"
