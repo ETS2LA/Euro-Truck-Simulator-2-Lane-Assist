@@ -1,9 +1,9 @@
 namespace ETS2LA.UI;
 
-public class UserInterfaceState
+public class WindowState
 {
-    private static readonly Lazy<UserInterfaceState> _instance = new(() => new UserInterfaceState());
-    public static UserInterfaceState Current => _instance.Value;
+    private static readonly Lazy<WindowState> _instance = new(() => new WindowState());
+    public static WindowState Current => _instance.Value;
 
     public event EventHandler? NeedsFullReload;
     public bool IsSidebarOpen { get; set; } = true;

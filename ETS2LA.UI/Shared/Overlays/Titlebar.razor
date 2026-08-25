@@ -33,9 +33,9 @@
     }
 </style>
 
-<header @ref="titlebarRef" class="titlebar group select-none flex justify-between items-center h-5 absolute right-0 left-[200px] cursor-grab active:cursor-grabbing">
+<header @ref="titlebarRef" class="titlebar group select-none flex justify-between items-center h-5 absolute right-0 left-40 cursor-grab active:cursor-grabbing z-999">
     <div></div>
-    <div class="titlebar-no-drag rounded-bl-md rounded-tr-md border-r border-border group z-50 flex h-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity p-1 items-center">
+    <div class="titlebar-no-drag rounded-bl-md rounded-tr-md border-r border-border group z-1000 flex h-full bg-bg opacity-0 group-hover:opacity-100 transition-opacity p-1 items-center">
         <button @onclick='() => SendMessage("window:minimize")' class="w-5 p-0.5 text-description hover:text-text cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7 19h10c.55 0 1 .45 1 1s-.45 1-1 1H7c-.55 0-1-.45-1-1s.45-1 1-1"/></svg>
         </button>

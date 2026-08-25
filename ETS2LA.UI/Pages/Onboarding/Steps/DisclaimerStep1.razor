@@ -1,0 +1,23 @@
+@using ETS2LA.State;
+@using ETS2LA.Logging;
+@using static ETS2LA.Translations.Languages;
+@using ETS2LA.UI.Shared.Components;
+
+@code {
+    [Parameter]
+    public Action OnNext { get; set; }
+
+    [Parameter]
+    public Action OnPrevious { get; set; }
+}
+
+<div class="flex flex-col gap-2">
+    <h3>@((MarkupString)_("Final Disclaimer <span class=\"description\">1/2</span>"))</h3>
+    <div class="max-w-108">
+        <p>@((MarkupString)(_("This is a highly experimental program. ETS2LA is not perfect, and you will find issues with it's driving and safety. <span class=\"text-text-accent font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>")))</p>
+    </div>
+
+    <div class="flex gap-2 mt-4">
+        <button class="button w-full!" @onclick="OnNext">@_("I won't leave ETS2LA unattended")</button>
+    </div>
+</div>

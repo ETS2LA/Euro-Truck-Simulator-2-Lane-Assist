@@ -2,12 +2,12 @@
 
 @code
 {
-    bool isSidebarOpen { get => UserInterfaceState.Current.IsSidebarOpen; }
+    bool isSidebarOpen { get => WindowState.Current.IsSidebarOpen; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        UserInterfaceState.Current.NeedsFullReload += (sender, e) => {
+        WindowState.Current.NeedsFullReload += (sender, e) => {
             InvokeAsync(StateHasChanged); 
         };
 
@@ -21,8 +21,7 @@
     <div class="mt-0.5">
         @if (isSidebarOpen)
         {
-            <p>@_("You can enable the plugins we installed in the previous step here.")</p>
-            <button class="button button-accent mt-2" @onclick="UserInterfaceUtils.Restart">@_("Restart ETS2LA First!")</button>
+            <p>@_("You can enable the plugins we installed in a previous step here.")</p>
         }
         else
         {

@@ -27,6 +27,13 @@
             InvokeAsync(() => StateHasChanged());
         });
     }
+
+    private void RestartAndContinue()
+    {
+        WindowSettings.Current.OnboardingStep++;
+        WindowSettings.Current.Save();
+        UserInterfaceUtils.Restart();
+    }
 }
 
 <div class="flex flex-col gap-2 max-w-108">
@@ -41,12 +48,13 @@
             @if (installed)
             {
                 <p class="mb-2">@((MarkupString)_("<span class=\"text-text-accent\"))>Success!</span> You can find more plugins in the catalogue later."))</p>
+                <button class="button button-accent w-full!" @onclick="RestartAndContinue">@_("Restart and Continue")</button>
             }
             else
             {
                 <button class="button button-accent w-full!" @onclick="InstallRecommendedPlugins">@_("Install Plugins")</button>
+                <button class="button w-full!" @onclick="OnNext">@_("Continue")</button>
             }
-            <button class="button w-full!" @onclick="OnNext">@_("Continue")</button>
         }
         else 
         {

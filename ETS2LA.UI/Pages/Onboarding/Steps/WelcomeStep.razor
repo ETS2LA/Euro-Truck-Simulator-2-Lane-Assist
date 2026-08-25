@@ -1,11 +1,15 @@
 @using ETS2LA.State;
 @using ETS2LA.Logging;
-@using static ETS2LA.Translations.Languages;
 @using ETS2LA.UI.Shared.Components;
+
+@using ETS2LA.Translations;
+@using static ETS2LA.Translations.Languages;
 
 @code {
     [Parameter]
     public Action OnNext { get; set; }
+
+    private Language initialLanguage = StateSettingsHandler.Current.GetSettings().DisplayLanguage;
 
     // Copied from Settings/Display.razor
     List<String> displayLanguageOptions = SupportedLanguages.Select(l => l.NativeName + $" - {l.EnglishName}").ToList();
@@ -30,7 +34,7 @@
         settings.DisplayLanguage = selectedLanguage;
         StateSettingsHandler.Current.Save();
 
-        if (selectedLanguage.Code == "en")
+        if (selectedLanguage.Code == initialLanguage.Code)
             hasChangedLanguage = false;
         else
             hasChangedLanguage = true;

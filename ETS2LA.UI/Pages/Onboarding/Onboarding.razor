@@ -2,21 +2,35 @@
 @using ETS2LA.UI.Pages.Onboarding.Steps
 
 @code {
+    private bool transitionOut = false;
     private int currentStep;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        currentStep = 0;
-        UserInterfaceState.Current.IsSidebarOpen = false;
-        UserInterfaceState.Current.RequestFullReload();
+        currentStep = WindowSettings.Current.OnboardingStep;
+        WindowState.Current.IsSidebarOpen = false;
+        WindowState.Current.RequestFullReload();
     }
 
-    private void NextStep() => currentStep++;
+    private void NextStep()
+    {
+        transitionOut = true;
+        Task.Delay(300).ContinueWith(_ => {
+            InvokeAsync(() => {
+                transitionOut = false;
+                currentStep++;
+                WindowSettings.Current.OnboardingStep = currentStep;
+                WindowSettings.Current.Save();
+                StateHasChanged();
+            });
+        });
+    }
+
     private void PreviousStep() => currentStep--;
 }
 
-<div class="flex flex-col items-center justify-center w-full h-full relative">
+<div class=@((transitionOut ? "opacity-0" : "opacity-100") + " flex flex-col items-center justify-center w-full h-full relative transition-all duration-200 ease-in-out")>
     @switch (currentStep)
     {
         case 0:
@@ -29,12 +43,18 @@
             <SDKReminderStep OnNext="NextStep" />
             break;
         case 3:
-            <PluginStep OnNext="NextStep" />
+            <OverlayStep OnNext="NextStep" />
             break;
         case 4:
-            <DisclaimerStep OnNext="NextStep" />
+            <PluginStep OnNext="NextStep" />
             break;
         case 5:
+            <DisclaimerStep1 OnNext="NextStep" />
+            break;
+        case 6:
+            <DisclaimerStep2 OnNext="NextStep" />
+            break;
+        case 7:
             <FinishStep />
             break;
     }
