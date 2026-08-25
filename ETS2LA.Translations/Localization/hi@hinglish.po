@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-24 21:27+0000\n"
+"PO-Revision-Date: 2026-08-25 11:19+0000\n"
 "Last-Translator: Artyz <artyz@ets2la.com>\n"
 "Language-Team: Hindi (Hinglish) <http://weblate.ets2la.com/projects/ets2la/"
 "ets2la/hi@hinglish/>\n"
@@ -109,7 +109,7 @@ msgstr[0] "Mil gaya {0} node"
 msgstr[1] "{0} nodes mil gaya"
 
 msgid "Restart"
-msgstr ""
+msgstr "Restart"
 
 msgid "Fast"
 msgstr "Tez"
@@ -124,7 +124,7 @@ msgid "K"
 msgstr "K"
 
 msgid "Installing..."
-msgstr ""
+msgstr "Installing…"
 
 msgid "Error in camera update loop."
 msgstr "Camera ka update loop mein error aayi."
@@ -213,16 +213,20 @@ msgstr "Library plugin loaded ho gayi: [gray]{0}[/] from [gray]{1}[/]."
 
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
-msgstr ""
+msgstr "Plugin {0} ke liye sabhi dependencies install nahi hain."
 
 msgid "Install Plugins"
-msgstr ""
+msgstr "Install plugins"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
 "find issues with it's driving and safety. <span class=\"text-text-accent "
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
+"Ye ek highly experimental program hai. ETS2LA perfect nahi hai, aur aapko "
+"iski driving aur safety mein issues milenge. <span class=\"text-text-accent "
+"font-bold\">ETS2LA ko bina dhyan diye na chhodein, khas karke multiplayer "
+"mein.</span>"
 
 msgid "Adaptive Cruise Control"
 msgstr "Adaptive Cruise Control"
@@ -239,74 +243,81 @@ msgstr "Units aur Language"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
-msgstr ""
+msgstr "'{0}' par installation ke liye parsed map data unload karein"
 
 msgid "Enable"
-msgstr ""
+msgstr "Enable"
 
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "SDKs abhi installed hain."
 
 msgid "Max Render Distance"
-msgstr ""
+msgstr "Max Render Distance"
 
 msgid "Speed Limit Warning"
-msgstr ""
+msgstr "Speed limit ki warning"
 
 msgid "Imperial"
-msgstr ""
+msgstr "Imperial"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
 "significant amounts of RAM, and may cause your system to become unstable. "
 "Please select a lower fidelity."
 msgstr ""
+"Aapke system mein 20GB se kam RAM hai. Extreme data fidelity bohot zyada RAM "
+"ka istemal karti hai, aur isse aapka system unstable ho sakta hai. Please "
+"kam fidelity select kar."
 
 msgid "Increase"
-msgstr ""
+msgstr "Increase"
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Installed {0}"
 
 msgid "Additional"
-msgstr ""
+msgstr "Additional"
 
 msgid "Visual"
-msgstr ""
+msgstr "Visual"
 
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
+"Path planning aur visualization ke liye use hone wali curves ki quality "
+"adjust karein. Default se ye game se match karti hai."
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "Aakhri Disclaimer <span class=\"description\">2/2</span>"
 
 msgid "View Public Telemetry"
-msgstr ""
+msgstr "Public Telemetry Dekho"
 
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 msgid "Overrides"
-msgstr ""
+msgstr "Overrides"
 
 msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"Shuru karne ke liye ye <span class=\"text-text-accent font-bold\">short</"
+"span> onboarding process complete karein."
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "Latest Version: {0}"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
-msgstr ""
+msgstr "Plugin {0} shutdown nahi ho paya: {1}"
 
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Anonymous Telemetry"
 
 msgid "Failed to add game"
 msgstr ""
