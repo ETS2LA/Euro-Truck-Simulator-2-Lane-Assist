@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-25 09:50+0000\n"
+"PO-Revision-Date: 2026-08-25 11:19+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -104,7 +104,7 @@ msgid_plural "found {0} nodes"
 msgstr[0] "找到 {0} 個節點"
 
 msgid "Restart"
-msgstr ""
+msgstr "重新啟動"
 
 msgid "Fast"
 msgstr "快"
@@ -113,13 +113,13 @@ msgid "Data Parsing"
 msgstr "資料解析"
 
 msgid "Desired Speed: "
-msgstr "期望速度： "
+msgstr "目標速度： "
 
 msgid "K"
 msgstr "K"
 
 msgid "Installing..."
-msgstr ""
+msgstr "正在安裝..."
 
 msgid "Error in camera update loop."
 msgstr "攝影機更新時發生錯誤。"
@@ -201,13 +201,16 @@ msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依賴項目尚未全部安裝。"
 
 msgid "Install Plugins"
-msgstr ""
+msgstr "安裝插件"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
 "find issues with it's driving and safety. <span class=\"text-text-accent "
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
+"這是一個高度實驗性的程式。ETS2LA 並不完美，你可能會遇到駕駛表現與安全性方面的"
+"問題。<span class=\"text-text-accent font-bold\">請勿讓 ETS2LA 在無人監督的情"
+"況下運行，尤其是在多人遊戲中。</span>"
 
 msgid "Adaptive Cruise Control"
 msgstr "主動式巡航控制"
@@ -266,7 +269,7 @@ msgid ""
 msgstr "調整用於路徑規劃與視覺化的曲線品質。預設會與遊戲保持一致。"
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "最後提醒 <span class=\"description\">2/2</span>"
 
 msgid "View Public Telemetry"
 msgstr "查看公開遙測資料"
@@ -281,6 +284,8 @@ msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"請完成這個 <span class=\"text-text-accent font-bold\">簡短的</span>初始設定流"
+"程，即可開始使用。"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -378,13 +383,16 @@ msgid "Update available: {0}"
 msgstr "有可用的更新：{0}"
 
 msgid "I understand, now let me in!"
-msgstr ""
+msgstr "我知道了，現在讓我進去吧！"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
 "bold\">SDK</span> to get started. Please install the SDK for <span "
 "class=\"text-text-accent font-bold\">at least one game</span> to continue."
 msgstr ""
+"若要開始使用 ETS2LA，你需要安裝我們的 <span class=\"text-text-accent font-"
+"bold\">SDK</span>。請為 <span class=\"text-text-accent font-bold\">至少一款遊"
+"戲</span> 安裝 SDK 才能繼續。"
 
 msgid "This page will be implemented in a future update."
 msgstr "此頁面將於後續更新中實作。"
@@ -399,7 +407,7 @@ msgid "Failed to open joystick {0}."
 msgstr "無法存取搖桿 {0}。"
 
 msgid "Next"
-msgstr ""
+msgstr "下一步"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -410,7 +418,7 @@ msgid "Not Connected"
 msgstr "未連接"
 
 msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgstr "我不會讓 ETS2LA 在無人監督下運行"
 
 msgid ""
 "Some mods implement additional maps like japan.mbd or russia.mbd. If you "
@@ -434,7 +442,8 @@ msgstr ""
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
-msgstr ""
+msgstr "<span class=\"text-text-accent\"))>成功！</span> 你之後可以在插件庫中找到更多"
+"插件。"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
@@ -549,7 +558,7 @@ msgid "Control with ID '{0}' not found for event subscription."
 msgstr "訂閱事件時找不到 ID 為「{0}」的控制項。"
 
 msgid "Waiting..."
-msgstr ""
+msgstr "等待中..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
@@ -570,6 +579,9 @@ msgid ""
 "text-accent font-bold\">Please check with your community <i>before</i> using "
 "ETS2LA.</span>"
 msgstr ""
+"此外，一些社群，例如 VTC、貨運追蹤服務和排行榜，可能會禁止使用 ETS2LA 的特定"
+"功能，甚至完全禁止使用 ETS2LA。<span class=\"text-text-accent font-bold\">在"
+"使用 ETS2LA <i>之前</i>，請先確認你所在社群的相關規定。</span>"
 
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
@@ -629,7 +641,7 @@ msgid "Binding Successful"
 msgstr "綁定成功"
 
 msgid "Did you remember to restart after installing them?"
-msgstr ""
+msgstr "安裝後有記得重新啟動嗎？"
 
 msgid "meters"
 msgstr "公尺"
@@ -746,12 +758,16 @@ msgid ""
 "bold\">every game update</span>. You'll find the installation page in the "
 "settings."
 msgstr ""
+"<span class=\"text-text-accent font-bold\">每次遊戲更新後</span>，你都需要重"
+"新安裝 SDK。你可以在設定中找到 SDK 安裝頁面。"
 
 msgid ""
 "To get started fast, you can install our <span class=\"text-text-accent font-"
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"若要快速上手，你可以安裝我們 <span class=\"text-text-accent font-bold\">推薦<"
+"/span> 的插件。這些插件包含開始駕駛所需的一切。"
 
 msgid "Key"
 msgstr "按鍵"
@@ -866,7 +882,7 @@ msgid "Translating release notes..."
 msgstr "正在翻譯版本說明..."
 
 msgid "Look in the top left corner."
-msgstr ""
+msgstr "請看左上角。"
 
 msgid "No release notes available."
 msgstr "沒有可用的版本說明。"
@@ -953,7 +969,7 @@ msgid "Display Units"
 msgstr "顯示單位"
 
 msgid "Continue"
-msgstr ""
+msgstr "繼續"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
@@ -967,7 +983,7 @@ msgid "Game SDK"
 msgstr "遊戲 SDK"
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "歡迎使用 ETS2LA！"
 
 #, csharp-format
 msgid ""
@@ -1123,7 +1139,7 @@ msgid "This game was found at"
 msgstr "此遊戲位於"
 
 msgid "Recommended Plugins"
-msgstr ""
+msgstr "推薦插件"
 
 msgid "Chime"
 msgstr "提示音"
@@ -1177,6 +1193,9 @@ msgid ""
 "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
 "accent font-bold\">Right-Alt</span> by default. Try it!"
 msgstr ""
+"ETS2LA 會在遊戲畫面上顯示資訊。你可以使用 <span class=\"text-text-accent "
+"font-bold\">疊加層互動</span> 與這些疊加層元素互動。此功能預設綁定至 <span "
+"class=\"text-text-accent font-bold\">右 Alt 鍵</span>。試試看！"
 
 msgid "Sorry"
 msgstr "抱歉"
@@ -1265,7 +1284,7 @@ msgstr ""
 "會將目標速度提高 1 km/h。"
 
 msgid "Remember!"
-msgstr ""
+msgstr "請記住！"
 
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
@@ -1446,7 +1465,7 @@ msgid "Render Vision Cameras"
 msgstr "渲染視覺攝影機"
 
 msgid "Use this button to extend the sidebar."
-msgstr ""
+msgstr "使用此按鈕展開側邊欄。"
 
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
@@ -1466,7 +1485,7 @@ msgid "Backend shutdown complete."
 msgstr "後端已完成關閉。"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "你可以在這裡啟用我們在先前步驟中安裝的插件。"
 
 msgid "Extreme"
 msgstr "極高"
@@ -1496,7 +1515,7 @@ msgid "Search for plugins..."
 msgstr "搜尋插件..."
 
 msgid "I understand"
-msgstr ""
+msgstr "我知道了"
 
 msgid "No updates available."
 msgstr "沒有可用的更新。"
@@ -1690,7 +1709,7 @@ msgid "ETS2LA is running."
 msgstr "ETS2LA 已啟動。"
 
 msgid "SDK Installation"
-msgstr ""
+msgstr "SDK 安裝"
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
@@ -1717,7 +1736,7 @@ msgid "miles per hour"
 msgstr "英里每小時"
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "重新啟動並繼續"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1757,7 +1776,7 @@ msgid "Failed to install SDK version '{0}' to '{1}': {2}"
 msgstr "無法將 SDK 版本「{0}」安裝至「{1}」：{2}"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "最後提醒 <span class=\"description\">1/2</span>"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
