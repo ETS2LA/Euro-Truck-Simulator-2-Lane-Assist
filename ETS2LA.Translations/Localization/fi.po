@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-25 12:48:25+0300\n"
-"PO-Revision-Date: 2026-08-25 09:53+0000\n"
+"PO-Revision-Date: 2026-08-25 11:18+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/>"
 "\n"
@@ -286,7 +286,7 @@ msgstr ""
 "näyttämiseen käytetään."
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "Viimeiset huomiot <span class=\"description\">2/2</span>"
 
 msgid "View Public Telemetry"
 msgstr "Katso julkinen telemetria"
@@ -301,6 +301,8 @@ msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"Käy tämä <span class=\"text-text-accent font-bold\">lyhyt</span> perehdytys "
+"läpi. Tässä ei kauaa kestä!"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -404,13 +406,16 @@ msgid "Update available: {0}"
 msgstr "Päivitys saatavilla: {0}"
 
 msgid "I understand, now let me in!"
-msgstr ""
+msgstr "Ymmärrän, päästä jo sisään!"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
 "bold\">SDK</span> to get started. Please install the SDK for <span "
 "class=\"text-text-accent font-bold\">at least one game</span> to continue."
 msgstr ""
+"Sovelluksen käyttö vaatii että asennat meidän <span class=\"text-text-accent "
+"font-bold\">SDK:n</span>. Asenna se <span class=\"text-text-accent font-"
+"bold\">ainakin yhteen peliin</span> jatkaaksesi."
 
 msgid "This page will be implemented in a future update."
 msgstr "Tämä sivu rakennetaan tulevassa päivityksessä."
@@ -426,7 +431,7 @@ msgid "Failed to open joystick {0}."
 msgstr "Laitteen {0} avaus epäonnistui."
 
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 msgid ""
 "This setting only loads roads and intersections visible on the in game map. "
@@ -439,7 +444,7 @@ msgid "Not Connected"
 msgstr "Laite irrotettu"
 
 msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgstr "En jätä sovellusta vahtimatta"
 
 msgid ""
 "Some mods implement additional maps like japan.mbd or russia.mbd. If you "
@@ -466,6 +471,8 @@ msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
 msgstr ""
+"<span class=\"text-text-accent\"))>Onnistui!</span> Löydät enemmän lisäosia "
+"luettelosta myöhemmin."
 
 #, csharp-format
 msgid "Plugin with ID {0} not found in available plugins."
@@ -593,7 +600,7 @@ msgstr ""
 "Ohjainmääritystä jonka ID {0}, ei löytynyt tapahtuman kuuntelemista varten."
 
 msgid "Waiting..."
-msgstr ""
+msgstr "Odotetaan..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
@@ -615,6 +622,9 @@ msgid ""
 "text-accent font-bold\">Please check with your community <i>before</i> using "
 "ETS2LA.</span>"
 msgstr ""
+"Jotkin yhteistöt kuten VTC:t, job trackerit ja leaderboardit kieltävät osan, "
+"tai kaikki ETS2LA:n toiminnoista. <span class=\"text-text-accent font-bold\""
+">Tarkasta yhteisösi säännöt <i>ennen</i> sovelluksen käyttöä.</span>"
 
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
@@ -679,7 +689,7 @@ msgid "Binding Successful"
 msgstr "Määrittäminen onnistui"
 
 msgid "Did you remember to restart after installing them?"
-msgstr ""
+msgstr "Muistitko käynnistää sovelluksen uudelleen asennuksen jälkeen?"
 
 msgid "meters"
 msgstr "metriä"
@@ -804,12 +814,17 @@ msgid ""
 "bold\">every game update</span>. You'll find the installation page in the "
 "settings."
 msgstr ""
+"Sinun täytyy asentaa uudet SDK:t jokaisen <span class=\"text-text-accent "
+"font-bold\">pelipäivityksen</span> jälkeen. Löydät asennussivun asetuksista."
 
 msgid ""
 "To get started fast, you can install our <span class=\"text-text-accent font-"
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"Nopeaa aloitusta varten, voit asentaa meidän <span class=\"text-text-accent "
+"font-bold\">suositellut</span> lisäosat. Näihin sisältyy kaikki jota "
+"tarvitsen ajamisen aloittamiseen."
 
 msgid "Key"
 msgstr "Näppäin"
@@ -931,7 +946,7 @@ msgid "Translating release notes..."
 msgstr "Käännetään muutoslokia..."
 
 msgid "Look in the top left corner."
-msgstr ""
+msgstr "Katso vasempaan yläkulmaan."
 
 msgid "No release notes available."
 msgstr "Muutoslokia ei saatavilla."
@@ -1024,7 +1039,7 @@ msgid "Display Units"
 msgstr "Yksiköt"
 
 msgid "Continue"
-msgstr ""
+msgstr "Jatka"
 
 msgid ""
 "You'll register, login, and manage your account settings and subscriptions "
@@ -1039,7 +1054,7 @@ msgid "Game SDK"
 msgstr "Pelin SDK"
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Tervetuloa ETS2LA:han!"
 
 #, csharp-format
 msgid ""
@@ -1204,7 +1219,7 @@ msgid "This game was found at"
 msgstr "Tämä peli löytyi"
 
 msgid "Recommended Plugins"
-msgstr ""
+msgstr "Suositellut lisäosat"
 
 msgid "Chime"
 msgstr "Äänimerkki"
@@ -1261,6 +1276,11 @@ msgid ""
 "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
 "accent font-bold\">Right-Alt</span> by default. Try it!"
 msgstr ""
+"Sovellus näyttää informaatiota pelin päällä. Voit muokata peitekuvan "
+"elementtejä ja ikkunoita käyttämällä sen <span class=\"text-text-accent font-"
+"bold\">muokkaus ohjainmääritelmää</span>. Tämä on asetettu <span class"
+"=\"text-text-accent font-bold\">oikeaan ALT painikkeeseen</span> ensimmäisen "
+"käynnistyksen yhteydessä. Kokeile painaa!"
 
 msgid "Sorry"
 msgstr "Anteeksi"
@@ -1356,7 +1376,7 @@ msgstr ""
 "käyttöliittymän ilmaisimia, tämä kasvattaa tavoitenopeutta 1 km/h."
 
 msgid "Remember!"
-msgstr ""
+msgstr "Muistathan!"
 
 msgid ""
 "Render the vision cameras in the game world. This is useful for debugging, "
@@ -1551,7 +1571,7 @@ msgid "Render Vision Cameras"
 msgstr "Renderöi näkömallien kamerat"
 
 msgid "Use this button to extend the sidebar."
-msgstr ""
+msgstr "Käytä tätä painiketta avaaksesi sivupalkin."
 
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
@@ -1571,7 +1591,7 @@ msgid "Backend shutdown complete."
 msgstr "Taustapalvelu on suljettu."
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
 
 msgid "Extreme"
 msgstr "Järjetön"
@@ -1603,7 +1623,7 @@ msgid "Search for plugins..."
 msgstr "Hae lisäosia..."
 
 msgid "I understand"
-msgstr ""
+msgstr "Ymmärrän"
 
 msgid "No updates available."
 msgstr "Päivityksiä ei ole saatavilla."
@@ -1809,7 +1829,7 @@ msgid "ETS2LA is running."
 msgstr "ETS2LA on käynnistetty."
 
 msgid "SDK Installation"
-msgstr ""
+msgstr "SDK:n asennus"
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
@@ -1836,7 +1856,7 @@ msgid "miles per hour"
 msgstr "mailia tunnissa"
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "Käynnistä uudelleen ja jatka"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1881,7 +1901,7 @@ msgid "Failed to install SDK version '{0}' to '{1}': {2}"
 msgstr "SDK:n version {0} asentaminen paikkaan {1} epäonnistui: {2}"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "Viimeiset huomiot <span class=\"description\">1/2</span>"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
