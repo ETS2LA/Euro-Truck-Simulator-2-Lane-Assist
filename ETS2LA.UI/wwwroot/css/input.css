@@ -189,7 +189,7 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 6px 12px;
-  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
   width: fit-content;
   display: flex;
   justify-content: center;
@@ -214,6 +214,20 @@ h3 {
     [&::-webkit-slider-thumb]:hover:bg-accent
     [&::-webkit-slider-thumb]:hover:ring-2
     [&::-webkit-slider-thumb]:hover:ring-text-accent/60;
+}
+
+.checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: var(--control);
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+}
+
+.checkbox:checked {
+  background-color: var(--accent);
 }
 
 .button:hover {

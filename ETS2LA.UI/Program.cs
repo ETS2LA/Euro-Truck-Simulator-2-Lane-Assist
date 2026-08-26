@@ -42,7 +42,9 @@ public class UserInterface
             .SetMinSize(800, 600)
             .SetSize(WindowSettings.Current.Width, WindowSettings.Current.Height)
             .SetLogVerbosity(0)
-            .SetTransparent(true)
+            // Want to see a weird bug? Uncomment this line on Windows and make
+            // the window larger. Bizarre 'innit!
+            //.SetTransparent(true)
             .SetZoom(WindowSettings.Current.Zoom)
             .RegisterWebMessageReceivedHandler((sender, e) => IPC.HandleMessage(e, sender, app))
             #if DEBUG

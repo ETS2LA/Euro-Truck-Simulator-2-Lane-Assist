@@ -107,7 +107,7 @@
             <p>@(_("This setting drops redundant information while maintaining most detail objects (such as signs). Includes all hidden and AI only roads."))</p>
         }
         @if (DataSettings.Current.DataFidelity == DataFidelity.Extreme) {
-            <p>@(_("This setting includes all available data, most of which is redundant. <span class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, expect over 10GB of usage.</span>"))</p>
+            <p>@((MarkupString)_("This setting includes all available data, most of which is redundant. <span class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, expect over 10GB of usage.</span>"))</p>
         }
         @if (ShowRamWarningHigh) {
             <p class="text-warning">@(_("Warning: Your system has less than 16GB of RAM. You can only select up to Medium."))</p>

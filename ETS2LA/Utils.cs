@@ -212,7 +212,9 @@ public class MultiPoFileProvider : ILocalizationFileLocationProvider
                     var usedPath = path.EndsWith("/") ? path : path + "/";
                 # else
                     var usedPath = path.EndsWith("\\") ? path : path + "\\";
+                    usedPath = Path.Combine(AppContext.BaseDirectory, usedPath);
                 # endif
+
                 Logger.Info($"Added Localization provider {usedPath}");
                 _fileProviders.Add(new PhysicalFileProvider(usedPath));
             }

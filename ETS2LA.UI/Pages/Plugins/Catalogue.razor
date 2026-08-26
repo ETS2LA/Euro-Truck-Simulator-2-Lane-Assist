@@ -1,4 +1,5 @@
 @page "/plugins/catalogue"
+@using ETS2LA.Logging
 @using ETS2LA.Networking;
 @using ETS2LA.Networking.Plugins;
 @using ETS2LA.UI.Shared.Components;
@@ -7,7 +8,9 @@
 @code {
     private List<NetworkPlugin> plugins = new List<NetworkPlugin>();
     private List<NetworkPlugin> filteredPlugins = new List<NetworkPlugin>();
+    
     private string searchQuery = string.Empty;
+    private bool hideInstalled = false;
 
     private Dictionary<NetworkPlugin, string> selectedVersions = new Dictionary<NetworkPlugin, string>();
     private bool needsRestart = false;
@@ -18,21 +21,35 @@
         FilterPlugins();
     }
 
+    private void OnHideInstalledChanged(ChangeEventArgs e)
+    {
+        hideInstalled = (bool)e.Value;
+        Logger.Info($"Hide Installed: {hideInstalled}");
+        FilterPlugins();
+    }
+
     private void FilterPlugins()
     {
-        if (string.IsNullOrWhiteSpace(searchQuery))
+        if (!string.IsNullOrWhiteSpace(searchQuery))
         {
-            filteredPlugins = plugins;
-        }
-        else
-        {
-            filteredPlugins = plugins.Where(p => 
+            filteredPlugins = plugins.Where(p =>
                 p.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
                 || p.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
                 || p.Author.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
                 || p.Tags.Any(tag => tag.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
             ).ToList();
         }
+        else 
+        {
+            filteredPlugins = plugins;
+        }
+
+        if (hideInstalled)
+        {
+            filteredPlugins = filteredPlugins.Where(p => String.IsNullOrEmpty(GetInstalledVersion(p))).ToList();
+        }
+
+        InvokeAsync(StateHasChanged);
     }
 
     protected override void OnInitialized()
@@ -86,10 +103,17 @@
 <div class="flex p-1.5 h-full w-full">
     <!-- Sidebar -->
     <div class="w-[230px] pl-2 pr-3 pt-2 flex gap-6.5 flex-col h-full">
-        <input type="text"
-               placeholder=@(_("Search for plugins..."))
-               class="w-full p-2 rounded-md bg-control-bg text-text-muted placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent"
-               @oninput="OnSearchQueryChanged" />
+        <div class="flex flex-col gap-2">
+            <input type="text"
+                placeholder=@(_("Search for plugins..."))
+                class="w-full p-2 rounded-md bg-control-bg text-text-muted placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+                @oninput="OnSearchQueryChanged" />
+            <div class="flex items-center gap-2">
+                <input type="checkbox" class="checkbox" id="hide-installed" value=@(hideInstalled.ToString()) @oninput="OnHideInstalledChanged" />
+                <label for="hide-installed" class=@(hideInstalled ? "text-[12px] transition-all duration-150" : "description transition-all duration-150")>@(_("Hide Installed"))</label>
+            </div>
+        </div>
+
         @if (needsRestart)
         {
             <div class="flex flex-col gap-2">
@@ -103,8 +127,8 @@
 
     <!-- Plugins -->
     <div class="w-full h-full bg-bg-dark overflow-y-auto">
-        <div class="w-108 m-5 ml-8 flex flex-col gap-4">
-            @if (filteredPlugins.Count == 0)
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
+            @if (filteredPlugins.Count == 0) //             w-108 -> min size I designed for with plugin cards
             {
                 <div class="flex flex-col h-full">
                     <p class="text-text-muted">@(_("No plugins found."))</p>
@@ -118,12 +142,7 @@
                     var installedVersion = GetInstalledVersion(plugin);
                     var updateVersion = NetworkingClient.Current.Plugins.GetPluginUpdate(plugin.Id);
 
-                    @if (i > 0)
-                    {
-                        <Separator />
-                    }
-
-                    <div class="flex flex-col rounded-sm">
+                    <div class=@($"flex flex-col rounded-sm bg-control-bg-dark border p-4" + (String.IsNullOrEmpty(installedVersion) ? " border-bg-darker" : " border-accent-dark"))>
                         <div class="flex">
                             <div class="flex flex-col gap-1">
                                 <div class="flex justify-between">
@@ -156,7 +175,7 @@
                             <div class="flex items-center gap-2">
                                 @foreach (var tag in plugin.Tags)
                                 {
-                                    <span class="bg-control-bg rounded-sm text-[12px] p-1">@UserInterfaceUtils.ClassnameWithSpaces(tag.ToString())</span>
+                                    <span class="bg-control-bg hover:bg-control transition-all duration-300 rounded-sm text-[12px] p-1">@UserInterfaceUtils.ClassnameWithSpaces(tag.ToString())</span>
                                 }
                             </div>
                             <div class="flex items-center gap-2">

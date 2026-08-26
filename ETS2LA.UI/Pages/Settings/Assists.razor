@@ -133,10 +133,6 @@
                 settings.SetSpeedBehaviourOption = (SetSpeedBehaviour)index;
                 AssistanceSettings.Current.Save();
              })" />
-    <Switch Title=@(_("Snap to each 10 {0}", DisplayUnits()))
-            Description=@(_("When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."))
-            Value="@SnapTo10s"
-            ValueChanged="@((bool value) => SnapTo10s = value)" />
     <Slider Title=@(_("Speed Control Step Size"))
             Description=@(_("The step size for changing the cruise control speed."))
             Suffix="@DisplayUnits()"
@@ -145,6 +141,10 @@
             Min="1"
             Max="10"
             Step="1" />
+    <Switch Title=@(_("Snap to each 10 {0}", DisplayUnits()))
+            Description=@(_("When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."))
+            Value="@SnapTo10s"
+            ValueChanged="@((bool value) => SnapTo10s = value)" />
 
     <Separator Label=@(_("Responsiveness")) Class="mt-8" />
     <Listbox Title=@(_("Steering Sensitivity"))
