@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
-"PO-Revision-Date: 2026-08-24 15:38+0000\n"
+"PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
 "vi/>\n"
@@ -14,7 +14,6 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.14.3\n"
 
-#, fuzzy
 msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
@@ -23,9 +22,8 @@ msgstr ""
 "thể chi tiết (Ví dụ như biển báo), bao gồm tất cả các tuyến đường bị ẩn và "
 "tuyến đường dành riêng cho AI."
 
-#, fuzzy
 msgid "Unknown Control ID"
-msgstr "ID Điều khiển không xác định."
+msgstr "ID Điều khiển không xác định"
 
 msgid "Sorry"
 msgstr "Xin lỗi"
@@ -142,7 +140,7 @@ msgid "Dashboard"
 msgstr "Bảng điều khiển"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Có bản cập nhật mới"
 
 msgid "Error in navigation update loop."
 msgstr "Lỗi trong vòng lặp cập nhật điều hướng."
@@ -177,12 +175,15 @@ msgid "The step size for changing the cruise control speed."
 msgstr "Mức tăng/giảm mỗi lần thay đổi tốc độ ga tự động."
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Chào mừng đến với ETS2LA!"
 
+#, fuzzy
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
 msgstr ""
+"<span class=\"text-text-accent\"))>Thành công!</span> Bạn có thể tìm thêm "
+"plugin trong danh mục."
 
 msgid "Initializing..."
 msgstr "Đang tải..."
@@ -1591,6 +1592,10 @@ msgid ""
 "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
 "accent font-bold\">Right-Alt</span> by default. Try it!"
 msgstr ""
+"ETS2LA sẽ hiển thị thông tin đè lên trên game. Bạn có thể tương tác với các "
+"phần tử overlay này bằng <span class=\"text-text-accent font-bold\">Overlay "
+"Interaction</span>. Phím này mặc định được gán cho <span class=\"text-text-"
+"accent font-bold\">Right-Alt</span>. Hãy thử xem!"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1635,14 +1640,14 @@ msgid "Imperial"
 msgstr "Hệ Anh (Imperial)"
 
 msgid "Unpacking Mods"
-msgstr ""
+msgstr "Đang giải nén mod"
 
 msgid "m/s"
-msgstr ""
+msgstr "m/s"
 
 #, csharp-format
 msgid "Click to {0} this window"
-msgstr ""
+msgstr "Nhấn để {0} cửa sổ này"
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
@@ -1658,29 +1663,33 @@ msgid "Starting download..."
 msgstr "Bắt đầu tải xuống..."
 
 msgid "High"
-msgstr ""
+msgstr "Cao"
 
 msgid "SET/OK"
-msgstr ""
+msgstr "Thiết lập/OK"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "Lưu ý cuối cùng <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
-msgstr ""
+msgstr "Đã phân tích dữ liệu bản đồ"
 
 msgid ""
 "Works like Assist, but will act the way you select in the Assistance "
 "settings. This key will additionally be used for confirmations."
 msgstr ""
+"Hoạt động giống như Hỗ trợ lái, nhưng sẽ xử lý theo thiết lập trong cài đặt "
+"Hỗ trợ. Phím này cũng dùng để xác nhận."
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
 "you when using Adaptive Cruise Control."
 msgstr ""
+"Điểu chỉnh khoảng cách mà ETS2LA sẽ cố gắng duy trì với xe phía trước khi "
+"dùng Kiểm soát hành trình thích ứng."
 
 msgid "Unknown Version"
-msgstr ""
+msgstr "Phiên bản không xác định"
 
 msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
