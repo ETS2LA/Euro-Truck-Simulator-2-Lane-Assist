@@ -1,3 +1,4 @@
+@using ETS2LA.UI.Shared.Layouts
 @code {
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
@@ -71,7 +72,7 @@
                step="@Step"
                value="@Value"
                disabled="@Disabled"
-               class="w-full cursor-pointer accent-accent-dark transition-colors duration-150 hover:accent-accent"
+               class="slider w-full cursor-pointer transition-colors duration-150 appearance-none bg-transparent"
                @oninput="@(async (ChangeEventArgs e) => await UpdateValue(e.Value?.ToString() ?? "0"))" 
                @onfocusout="@(async (FocusEventArgs e) => await SubmitValue())"
                @onpointerleave="@(async (PointerEventArgs e) => await SubmitValue())"

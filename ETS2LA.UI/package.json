@@ -13,7 +13,7 @@
     "typescript": "^5"
   },
   "scripts": {
-    "dev:css": "bunx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --watch",
-    "build:css": "bunx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --minify"
+    "dev:css": "bun x @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --watch",
+    "build:css": "bun x @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --minify"
   }
 }

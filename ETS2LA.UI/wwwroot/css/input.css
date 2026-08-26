@@ -197,6 +197,25 @@ h3 {
   cursor: pointer;
 }
 
+.slider {
+    @apply
+    [&::-webkit-slider-runnable-track]:rounded-sm 
+    [&::-webkit-slider-runnable-track]:transition-all
+    [&::-webkit-slider-runnable-track]:duration-150
+    [&::-webkit-slider-runnable-track]:bg-control-bg 
+    [&::-webkit-slider-runnable-track]:hover:bg-control/50 
+    [&::-webkit-slider-thumb]:appearance-none 
+    [&::-webkit-slider-thumb]:h-3.5
+    [&::-webkit-slider-thumb]:w-3.5
+    [&::-webkit-slider-thumb]:rounded-sm 
+    [&::-webkit-slider-thumb]:transition-all
+    [&::-webkit-slider-thumb]:duration-150
+    [&::-webkit-slider-thumb]:bg-accent/80
+    [&::-webkit-slider-thumb]:hover:bg-accent
+    [&::-webkit-slider-thumb]:hover:ring-2
+    [&::-webkit-slider-thumb]:hover:ring-text-accent/60;
+}
+
 .button:hover {
   background-color: var(--control-bg);
 }

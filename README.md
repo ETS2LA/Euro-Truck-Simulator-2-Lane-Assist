@@ -23,16 +23,25 @@ Please check the [FAQ](https://ets2la.com/faq) for answers. If your question is 
 ---
 
 > [!WARNING]  
-> Information below this line is meant for **developers**. If you're a normal user then please use the information above.
+> Information below this line is meant for **developers**. If you're a "normal" user then please use the information above.
 
 ### Building the Project
-First download .NET 10 from Microsoft. You can find that [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). You'll also have to install [Bun](https://bun.sh/).
+Download .NET 10 from Microsoft. You can find that [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). You'll also have to install [Bun](https://bun.sh/).
 
-Now clone the repository and open the solution file in your preferred IDE. We recommend [VSCode](https://code.visualstudio.com). Any code editor should work, but the project comes prepackaged with VSCode tasks. You should also download the `C# Dev Kit` extension, other IDEs should have their own equivalent extensions.
+Now clone the repository and open the solution file in your preferred IDE. We recommend [VSCode](https://code.visualstudio.com). Any code editor should work, but the project comes prepackaged with VSCode tasks for Windows and Linux. You should also download the `C# Dev Kit` extension, other IDEs should have their own equivalent extensions.
 
-Before you can run ETS2LA, you'll have to install the required npm packages. Open a terminal in `ETS2LA.UI` and run `bun install`. This will install all the required UI packages. Note that ETS2LA will use `bun` to build tailwind each time it's built, so make sure you have it installed (or change the .csproj file to use `npm` instead).
+Before you can run ETS2LA, you'll need to make sure you have all the required dotnet tools installed. To install them, just run `dotnet restore` and `dotnet tool restore` in the **root** of the repository.
 
-Building depends on your IDE. On ETS2LA you just press `F5`.
+Building (and running) depends on your IDE. If you're using VSCode, you just press `F5`.
+
+### Testing Translations
+Weblate will commit translations every so often, usually within a few hours. However if you want to test your translations immediately, you can:
+1. Click your language
+2. At the top, click `Files`, then `Download original translation files as ZIP file`
+3. Copy `ets2la/ets2la/ETS2LA.Translations/Localization/lang_code.po` into your local `ETS2LA.Translations/Localization/lang_code.po` folder.
+4. Build ETS2LA, your new translations will be included.
+
+You can also directly edit the translations files in `ETS2LA.Translations/Localization/`. **However**, do not upload those back to weblate. You can edit the files, and then in weblate edit the text manually. Uploading translation files can (and will) break credits as well as cause the loss of some translations.
 
 ### Contributing
 Please read CONTRIBUTING.md for guidelines. We welcome all contributions, but please make sure to follow our guidelines to ensure a smooth review process. If you have any questions, feel free to ask in our Discord server. (https://ets2la.com/discord)
