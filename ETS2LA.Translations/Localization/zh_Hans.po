@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
-"PO-Revision-Date: 2026-08-26 11:34+0000\n"
+"PO-Revision-Date: 2026-08-27 13:05+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
@@ -171,12 +171,13 @@ msgid "The step size for changing the cruise control speed."
 msgstr "调整巡航速度时的步长。"
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "欢迎使用ETS2LA！"
 
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
-msgstr ""
+msgstr "<span class=\"text-text-accent\"))>成功！</span>稍后您可以在插件目录中找到更"
+"多插件。"
 
 msgid "Initializing..."
 msgstr "正在初始化..."
@@ -198,13 +199,16 @@ msgid ""
 "bold\">SDK</span> to get started. Please install the SDK for <span "
 "class=\"text-text-accent font-bold\">at least one game</span> to continue."
 msgstr ""
+"ETS2LA 要求您安装我们的 <span class=\"text-text-accent font-bold\">SDK</"
+"span> 才能开始使用。请至少为 <span class=\"text-text-accent font-bold\">一款"
+"游戏</span> 安装 SDK 以继续。"
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
 msgstr "成功更新了 ID 为 {0} 的插件。"
 
 msgid "Look in the top left corner."
-msgstr ""
+msgstr "看看左上角。"
 
 msgid "Visual"
 msgstr "视觉提示"
@@ -216,14 +220,14 @@ msgid "Show Fewer Logs"
 msgstr "显示更少日志"
 
 msgid "Install Plugins"
-msgstr ""
+msgstr "安装插件"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下载更新时发生错误：{0}"
 
 msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgstr "我不会在无人看管的情况下运行 ETS2LA"
 
 msgid "Keyboard"
 msgstr "键盘"
@@ -302,7 +306,7 @@ msgid ""
 msgstr "服务不可用。由于暂时过载或者维护目的，服务器目前无法处理请求。"
 
 msgid "Enabled"
-msgstr ""
+msgstr "启用"
 
 msgid ""
 "How early ETS2LA will attempt to respond to possible collisions. Turning "
@@ -454,6 +458,9 @@ msgid ""
 "text-accent font-bold\">Please check with your community <i>before</i> using "
 "ETS2LA.</span>"
 msgstr ""
+"此外，一些社区（例如 VTC、工作追踪器和排行榜）可能会禁止使用特定功能，甚至完"
+"全禁止使用 ETS2LA。<span class=\"text-text-accent font-bold\">请在使用 "
+"ETS2LA <i>之前</i>先确认您所在的社区是否允许使用。</span>"
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
@@ -508,7 +515,7 @@ msgid "Error in camera update loop."
 msgstr "相机更新时发生错误。"
 
 msgid "Enable"
-msgstr ""
+msgstr "启用"
 
 #, csharp-format
 msgid "Loading map data from '{0}'"
@@ -647,9 +654,8 @@ msgstr "游戏暂停时停止渲染"
 msgid "File not found: {0}"
 msgstr "未找到文件: {0}"
 
-#, fuzzy
 msgid "Restart Now"
-msgstr "立即重新启动"
+msgstr "立即重启"
 
 #, csharp-format
 msgid "New limit {0} {1}"
@@ -714,7 +720,6 @@ msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
 msgstr[0] "找到 {0} 个预制件"
 
-#, fuzzy
 msgid "Pascals"
 msgstr "帕斯卡（压力单位）"
 
@@ -723,7 +728,7 @@ msgid "Failed to disable {0}: {1}"
 msgstr "停用 {0} 失败：{1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "您可以在此处启用我们在上一步安装的插件。"
 
 msgid "SDK Installed"
 msgstr "已安装SDK"
@@ -765,7 +770,7 @@ msgid "Binding Successful"
 msgstr "绑定成功"
 
 msgid "Disable"
-msgstr ""
+msgstr "禁用"
 
 msgid "Controls"
 msgstr "控制"
@@ -792,12 +797,11 @@ msgid "Assists"
 msgstr "辅助"
 
 msgid "SDK Installation"
-msgstr ""
+msgstr "安装SDK"
 
 msgid "mph"
 msgstr "mph"
 
-#, fuzzy
 msgid "°F"
 msgstr "°F"
 
@@ -847,7 +851,7 @@ msgstr ""
 "告：“极高”会使用大量内存，预期使用量将超过 10GB。</span>"
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "重启并继续"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
@@ -920,7 +924,7 @@ msgid_plural "found {0} nodes"
 msgstr[0] "找到 {0} 个节点"
 
 msgid "Did you remember to restart after installing them?"
-msgstr ""
+msgstr "您是否在安装后重启程序？"
 
 msgid "Volume"
 msgstr "音量"
@@ -937,7 +941,7 @@ msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 为 {0} 的插件最新版本安装失败。"
 
 msgid "I understand, now let me in!"
-msgstr ""
+msgstr "我明白了，现在让我进入！"
 
 #, csharp-format
 msgid ""
@@ -987,7 +991,7 @@ msgid "Disabled plugin: [bold]{0}[/]"
 msgstr "已停用插件：[bold]{0}[/]"
 
 msgid "Continue"
-msgstr ""
+msgstr "继续"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1080,7 +1084,7 @@ msgid "L"
 msgstr "L"
 
 msgid "Installing..."
-msgstr ""
+msgstr "安装中..."
 
 msgid "Failed to add game"
 msgstr "游戏添加失败"
@@ -1144,12 +1148,11 @@ msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
 msgstr[0] "找到 {0} 个游戏安装位置。"
 
-#, fuzzy
 msgid "Scientific"
 msgstr "科学单位制"
 
 msgid "Waiting..."
-msgstr ""
+msgstr "等待中..."
 
 msgid "hide"
 msgstr "隐藏"
@@ -1170,6 +1173,8 @@ msgid ""
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"为了快速开始，您可以安装我们<span class=\"text-text-accent font-bold\">推荐的"
+"</span>插件。这些插件包含开始驾驶所需的一切。"
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
@@ -1189,7 +1194,7 @@ msgid "SDKs need to be installed."
 msgstr "需要安装 SDK。"
 
 msgid "Hide Installed"
-msgstr ""
+msgstr "隐藏已安装"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr "叠加层初始化失败，OpenGL 初始化失败。"
@@ -1291,10 +1296,11 @@ msgstr "这可能需要一点时间...（{0}/{1}）"
 msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
-msgstr ""
+msgstr "请完成这个 <span class=\"text-text-accent font-bold\">简短</span> 的引导流程"
+"以开始使用。"
 
 msgid "Remember!"
-msgstr ""
+msgstr "请记住！"
 
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
@@ -1359,7 +1365,7 @@ msgid "Restart Required"
 msgstr "需要重新启动"
 
 msgid "I understand"
-msgstr ""
+msgstr "我明白"
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
@@ -1418,7 +1424,7 @@ msgstr ""
 "险。若仍要继续并接受此风险，请选择“是”。"
 
 msgid "Recommended Plugins"
-msgstr ""
+msgstr "推荐插件"
 
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
@@ -1495,6 +1501,8 @@ msgid ""
 "bold\">every game update</span>. You'll find the installation page in the "
 "settings."
 msgstr ""
+"每次 <span class=\"text-text-accent font-bold\">游戏更新</span> 后，您都需要"
+"重新安装 SDK。您可以在设置中找到安装页面。"
 
 msgid "Please see the logs for more information."
 msgstr "请查看日志文件以获取更多信息。"
@@ -1506,16 +1514,19 @@ msgid "Adaptive Cruise Control"
 msgstr "自适应巡航控制系统"
 
 msgid "Changes will take effect after restarting the application."
-msgstr ""
+msgstr "修改将会在应用重启后生效。"
 
 msgid "Use this button to extend the sidebar."
-msgstr ""
+msgstr "点击此按钮展开侧边栏。"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
 "find issues with it's driving and safety. <span class=\"text-text-accent "
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
+"这是一个高度实验性的程序。ETS2LA 并不完美，您可能会遇到驾驶和安全方面的问题。"
+"<span class=\"text-text-accent font-bold\">请勿在无人看管的情况下运行 ETS2LA"
+"，尤其是在多人游戏中。</span>"
 
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
@@ -1562,6 +1573,9 @@ msgid ""
 "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
 "accent font-bold\">Right-Alt</span> by default. Try it!"
 msgstr ""
+"ETS2LA 会在游戏画面上方显示信息。您可以使用 <span class=\"text-text-accent "
+"font-bold\">叠加层交互</span> 与这些叠加层元素进行交互。默认情况下，此功能绑"
+"定到 <span class=\"text-text-accent font-bold\">右 Alt 键</span>。试试看吧！"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1633,7 +1647,7 @@ msgid "SET/OK"
 msgstr "设定/确定"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "最终免责声明 <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
 msgstr "地图数据解析完成"
@@ -1674,7 +1688,6 @@ msgstr "下一步/取消"
 msgid "meters"
 msgstr "米"
 
-#, fuzzy
 msgid "°C"
 msgstr "°C"
 
@@ -1712,7 +1725,7 @@ msgid "Keybind Behaviour"
 msgstr "按键行为"
 
 msgid "Next"
-msgstr ""
+msgstr "下一步"
 
 msgid "Demo Window"
 msgstr "演示窗口"
@@ -1747,7 +1760,7 @@ msgid "Missing dependency: {0}"
 msgstr "缺少依赖项：{0}"
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
-msgstr ""
+msgstr "最终免责声明 <span class=\"description\">2/2</span>"
 
 #, csharp-format
 msgid "Snap to each 10 {0}"
