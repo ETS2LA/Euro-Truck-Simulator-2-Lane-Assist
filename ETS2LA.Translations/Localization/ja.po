@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
-"PO-Revision-Date: 2026-08-26 11:34+0000\n"
+"PO-Revision-Date: 2026-08-27 03:24+0000\n"
 "Last-Translator: Pastel <pastel@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
 ">\n"
@@ -71,7 +71,7 @@ msgstr "交通ルールを無視する"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "「{0}」のインストール先を解析中(バージョン: {1})"
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
@@ -115,7 +115,7 @@ msgstr "操作 {0}（{1}）の割り当てを開始"
 
 #, csharp-format
 msgid "Failed to enable dependency: {0}"
-msgstr ""
+msgstr "依存関係の有効化に失敗しました: {0}"
 
 msgid "Main"
 msgstr "メイン"
@@ -144,7 +144,7 @@ msgid "Update Available"
 msgstr "利用可能なアップデート"
 
 msgid "Error in navigation update loop."
-msgstr ""
+msgstr "ナビゲーション更新処理でエラーが発生しました。"
 
 msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
@@ -198,7 +198,7 @@ msgstr "ジョイスティックの更新に失敗しました: {0}"
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
-msgstr ""
+msgstr "「{0}」の読み込み中にエラーが発生しました: {1}"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
@@ -262,7 +262,8 @@ msgstr "曲線の品質"
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
-msgstr ""
+msgstr "ETS2LAが必要なステアリング操作にどのように反応するかを調整します。例えば、こ"
+"れによりETS2LAが車線変更を行う速度を制御できます。"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -284,7 +285,7 @@ msgstr "{0} の更新"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "ID「{0}」の操作が見つからないため、軸動作を更新できません。"
 
 msgid "Networking"
 msgstr "ネットワーキング"
@@ -328,7 +329,7 @@ msgstr ""
 "無効になります。"
 
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "選択したファイルは存在しません。"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -352,10 +353,10 @@ msgstr "変更なし / 利用不可"
 
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "LoaderException: {0}"
 
 msgid "Data Fidelity"
-msgstr ""
+msgstr "データの正確性"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
@@ -366,7 +367,7 @@ msgid "Assist"
 msgstr "アシスト"
 
 msgid "Early"
-msgstr ""
+msgstr "早い"
 
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
@@ -380,7 +381,7 @@ msgstr ""
 "サーバーは、クライアントからのリクエストを待機中にタイムアウトしました。"
 
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "バックエンドのシャットダウンが完了しました。"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
@@ -422,7 +423,7 @@ msgid "3D Renderer"
 msgstr "3Dレンダラー"
 
 msgid "SDK Uninstallation Failed"
-msgstr ""
+msgstr "SDKのアンインストールに失敗しました"
 
 msgid ""
 "Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
@@ -459,6 +460,9 @@ msgid ""
 "users' system specs, crashes, and other usage data. Your data cannot be "
 "identified with any personal information."
 msgstr ""
+"匿名化されたテレメトリデータは、ユーザーのシステム仕様、クラッシュ、その他の"
+"利用状況に関する情報を提供することで、ETS2LAの改善に役立ちます。このデータか"
+"らは、個人を特定することはできません。"
 
 msgid "SDK Uninstalled"
 msgstr "SDKがアンインストールされました"
@@ -479,7 +483,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
-msgstr ""
+msgstr "指定されたプラグインディレクトリ {0} が存在しません。"
 
 msgid "Visualization"
 msgstr "ビジュアル表示"
@@ -506,7 +510,7 @@ msgid "Speed Limit Warning"
 msgstr "制限速度警告"
 
 msgid "Speed limit changed"
-msgstr ""
+msgstr "制限速度の変更"
 
 #, csharp-format
 msgid "Discovered {0} plugins in total."
@@ -551,7 +555,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Current Version: {0}"
-msgstr ""
+msgstr "現在のバージョン: {0}"
 
 #, csharp-format
 msgid "No update available for plugin with ID {0}."
@@ -671,7 +675,7 @@ msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr "操作 {0}（{1}）の割り当てをデバイス: {2}、操作: {3} に更新"
 
 msgid "Pause When Unstable"
-msgstr ""
+msgstr "不安定な場合は一時停止する"
 
 msgid "Stop Rendering When Game is Paused"
 msgstr "ゲームが一時停止したときにレンダリングを停止する"
@@ -705,13 +709,12 @@ msgstr "匿名"
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
-msgstr ""
-"ETS2LAがユーザーに情報を表示する際に使用する単位です。科学単位系はメートル法"
-"とわずかな違いがあります。"
+msgstr "ETS2LAがユーザーに情報を表示する際に使用する単位です。科学単位はメートル法と"
+"わずかな違いがあります。"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
-msgstr ""
+msgstr "ID「{0}」の操作が見つからないため、登録解除できません。"
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -734,7 +737,7 @@ msgid "Manager"
 msgstr "マネージャー"
 
 msgid "Near"
-msgstr ""
+msgstr "近く"
 
 msgid "Driving"
 msgstr "運転"
@@ -749,8 +752,7 @@ msgstr "{0} は対応言語に含まれていません。"
 #, csharp-format
 msgid "Found {0} prefab"
 msgid_plural "Found {0} prefabs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0}個のプレハブが見つかりました"
 
 msgid "Pascals"
 msgstr "パスカル"
@@ -760,7 +762,7 @@ msgid "Failed to disable {0}: {1}"
 msgstr "{0} の無効化に失敗しました: {1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "ここで、前の手順でインストールしたプラグインを有効にできます。"
 
 msgid "SDK Installed"
 msgstr "SDKがインストールされました"
@@ -774,7 +776,7 @@ msgid "Current Speed"
 msgstr "現在の速度"
 
 msgid "miles per hour"
-msgstr ""
+msgstr "マイル毎時"
 
 msgid "Limit Overlay Framerate"
 msgstr "オーバーレイのフレームレートを制限する"
@@ -806,7 +808,7 @@ msgid "Binding Successful"
 msgstr "割り当てに成功しました"
 
 msgid "Disable"
-msgstr ""
+msgstr "無効"
 
 msgid "Controls"
 msgstr "コントロール"
@@ -827,7 +829,7 @@ msgid "Download progress: {0}%"
 msgstr "ダウンロードの進捗状況: {0}%"
 
 msgid "Search for plugins..."
-msgstr ""
+msgstr "プラグインを検索..."
 
 msgid "Assists"
 msgstr "アシスト"
@@ -891,7 +893,7 @@ msgstr ""
 "10GB以上の使用が見込まれます。</span>"
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "再起動して続行"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
@@ -916,7 +918,8 @@ msgstr "最新バージョンがインストールされています。"
 
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
-msgstr ""
+msgstr "ID {0} のプラグインを {1} からダウンロードできませんでした。ステータスコード:"
+" {2}"
 
 msgid "No plugins found."
 msgstr "プラグインが見つかりませんでした。"
@@ -943,7 +946,7 @@ msgid "Error while applying update: {0}"
 msgstr "更新の適用中にエラーが発生しました: {0}"
 
 msgid "Following Distance"
-msgstr ""
+msgstr "車間距離"
 
 msgid "Check For Updates"
 msgstr "アップデートの確認"
@@ -985,7 +988,7 @@ msgstr "割り当てなし"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
-msgstr ""
+msgstr "ID {0} のプラグインの最新バージョンのインストールに失敗しました。"
 
 msgid "I understand, now let me in!"
 msgstr "理解しました。始めよう!"
@@ -1050,7 +1053,7 @@ msgid "Failed enable {0}: {1}"
 msgstr "{0} の有効化に失敗しました: {1}"
 
 msgid "Acceleration Response"
-msgstr ""
+msgstr "加速応答"
 
 msgid "Error in parked vehicles update loop."
 msgstr "駐車車両の更新処理でエラーが発生しました。"
@@ -1065,7 +1068,7 @@ msgid "Unknown Control"
 msgstr "不明なコントロール"
 
 msgid "pounds"
-msgstr ""
+msgstr "ポンド"
 
 #, csharp-format
 msgid "Failed to initialize SDL3 controls backend: {0}"
@@ -1080,7 +1083,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "SDK バージョン「{0}」を「{1}」にインストールできませんでした:{2}"
 
 #, csharp-format
 msgid "Failed to read bundled update source marker: {0}"
@@ -1116,7 +1119,7 @@ msgid "Steering Sensitivity"
 msgstr "ステアリングの感度"
 
 msgid "Disabled"
-msgstr ""
+msgstr "無効"
 
 #, csharp-format
 msgid "{0}"
@@ -1127,7 +1130,7 @@ msgid ""
 msgstr "インターネット接続や取得元によっては、時間がかかる場合があります。"
 
 msgid "No updates available."
-msgstr ""
+msgstr "アップデートはありません。"
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
@@ -1147,7 +1150,7 @@ msgstr "ゲームの追加に失敗しました"
 
 #, csharp-format
 msgid "Font file not found at {0}"
-msgstr ""
+msgstr "フォントファイルが {0} に見つかりません"
 
 msgid "No release notes available."
 msgstr "リリースノートはありません。"
@@ -1157,7 +1160,8 @@ msgstr "変更履歴"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr ""
+msgstr "{0}への切り替えを検出しました。ゲームデータの解析が完了するまで待機しています"
+"。"
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
@@ -1187,7 +1191,7 @@ msgid "Console"
 msgstr "コンソール"
 
 msgid "The game has been added successfully."
-msgstr ""
+msgstr "ゲームが正常に追加されました。"
 
 msgid ""
 "The server could not understand the request due to invalid syntax or "
@@ -1209,7 +1213,7 @@ msgid_plural "Found {0} game installations."
 msgstr[0] "{0} 個のゲームインストールを検出しました。"
 
 msgid "Scientific"
-msgstr ""
+msgstr "科学単位"
 
 msgid "Waiting..."
 msgstr "待機中..."
@@ -1247,7 +1251,7 @@ msgstr ""
 "ライブラリプラグイン: [gray]{0}[/] を [gray]{1}[/] から読み込みました。"
 
 msgid "Responsiveness"
-msgstr ""
+msgstr "応答性"
 
 msgid "Parsing Map Data"
 msgstr "地図データの解析"
@@ -1256,7 +1260,7 @@ msgid "SDKs need to be installed."
 msgstr "SDKをインストールする必要があります。"
 
 msgid "Hide Installed"
-msgstr ""
+msgstr "インストール済みを非表示にする"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr "オーバーレイの初期化に失敗しました。OpenGLの初期化に失敗しました。"
@@ -1429,7 +1433,7 @@ msgid "Experiments"
 msgstr "実験"
 
 msgid "gallons"
-msgstr ""
+msgstr "ガロン"
 
 msgid "m"
 msgstr "m"
@@ -1441,7 +1445,7 @@ msgid "Restart Required"
 msgstr "再起動が必要です"
 
 msgid "I understand"
-msgstr ""
+msgstr "理解しました"
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
@@ -1497,7 +1501,7 @@ msgstr "psi"
 
 #, csharp-format
 msgid "An error occurred while loading file '{0}': {1}"
-msgstr ""
+msgstr "ファイル「{0}」の読み込み中にエラーが発生しました: {1}"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1535,7 +1539,7 @@ msgstr ""
 "RusMapでは、この設定が必要であることが確認されています。"
 
 msgid "Extreme"
-msgstr ""
+msgstr "エクストリーム"
 
 #, csharp-format
 msgid ""
@@ -1561,11 +1565,11 @@ msgstr ""
 
 #, csharp-format
 msgid "Deleted '{0}'"
-msgstr ""
+msgstr "「{0}」を削除しました"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
-msgstr ""
+msgstr "メモリマップファイルの初期化中にエラーが発生しました: {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
@@ -1575,7 +1579,7 @@ msgid "View Public Telemetry"
 msgstr "公開テレメトリを表示"
 
 msgid "Adjust the volume of the audio output."
-msgstr ""
+msgstr "音声出力の音量を調整します。"
 
 #, csharp-format
 msgid ""
@@ -1585,11 +1589,11 @@ msgstr ""
 "フォルトとして使用します。"
 
 msgid "SET Behaviour"
-msgstr ""
+msgstr "SET の動作"
 
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
+msgstr "操作を登録しました: {0} [gray italic]({1})[/]"
 
 msgid ""
 "You'll have to reinstall the SDK for <span class=\"text-text-accent font-"
@@ -1613,7 +1617,7 @@ msgid "Changes will take effect after restarting the application."
 msgstr "変更はアプリケーションを再起動した後に反映されます。"
 
 msgid "Use this button to extend the sidebar."
-msgstr ""
+msgstr "このボタンをクリックすると、サイドバーを展開できます。"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1720,14 +1724,14 @@ msgid "Imperial"
 msgstr "ヤード・ポンド法"
 
 msgid "Unpacking Mods"
-msgstr ""
+msgstr "MODの展開"
 
 msgid "m/s"
 msgstr "m/s"
 
 #, csharp-format
 msgid "Click to {0} this window"
-msgstr ""
+msgstr "クリックしてこのウィンドウを{0}する"
 
 #, csharp-format
 msgid "Error rendering interaction mode window controls: {0}"
@@ -1751,10 +1755,10 @@ msgid "SET/OK"
 msgstr "SET/OK"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
-msgstr ""
+msgstr "最終免責事項 <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
-msgstr ""
+msgstr "マップデータの解析完了"
 
 msgid ""
 "Works like Assist, but will act the way you select in the Assistance "
@@ -1784,7 +1788,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Successfully uninstalled SDK version '{0}' from '{1}'"
-msgstr ""
+msgstr "SDKバージョン「{0}」を「{1}」から正常にアンインストールしました"
 
 msgid "Desired Speed: "
 msgstr "希望速度: "
@@ -1818,7 +1822,7 @@ msgstr "制限速度を大幅に超過した際にETS2LAが警告する方法。
 
 #, csharp-format
 msgid "Finished parsing installation at '{0}'"
-msgstr ""
+msgstr "「{0}」でのインストールの解析が完了しました"
 
 #, csharp-format
 msgid "Playing sound: {0}"
@@ -1830,7 +1834,7 @@ msgstr ""
 "依存関係 {1} が見つからなかったため、プラグイン {0} を有効にできません。"
 
 msgid "Keybind Behaviour"
-msgstr ""
+msgstr "キー割り当ての動作"
 
 msgid "Next"
 msgstr "次"
@@ -1864,11 +1868,11 @@ msgid "Desired Longitudinal Level: "
 msgstr "目標縦方向レベル: "
 
 msgid "Error in semaphore update loop."
-msgstr ""
+msgstr "信号更新処理でエラーが発生しました。"
 
 #, csharp-format
 msgid "Missing dependency: {0}"
-msgstr ""
+msgstr "不足している依存関係: {0}"
 
 msgid "Final Disclaimer <span class=\"description\">2/2</span>"
 msgstr "最終的な免責事項 <span class=\"description\">2/2</span>"
@@ -1883,7 +1887,7 @@ msgstr "プラグインディレクトリを作成しました：[gray]{0}[/]"
 
 #, csharp-format
 msgid "Enabled plugin: [bold]{0}[/]"
-msgstr ""
+msgstr "有効なプラグイン: [bold]{0}[/]"
 
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
@@ -1893,7 +1897,7 @@ msgstr ""
 "すぐ再起動しますか？"
 
 msgid "Plugin Installer"
-msgstr ""
+msgstr "プラグインインストーラー"
 
 #, csharp-format
 msgid "Successfully installed SDK version '{0}' to '{1}'"
@@ -1905,7 +1909,7 @@ msgstr "表示単位： "
 msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
-msgstr ""
+msgstr "警告: お使いのシステムのRAM容量が20GB未満です。「高」までしか選択できません。"
 
 msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
