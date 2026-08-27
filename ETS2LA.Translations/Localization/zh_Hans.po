@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
-"PO-Revision-Date: 2026-08-27 13:05+0000\n"
-"Last-Translator: ShengFan <shengfan@ets2la.com>\n"
+"PO-Revision-Date: 2026-08-27 20:59+0000\n"
+"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -458,9 +458,9 @@ msgid ""
 "text-accent font-bold\">Please check with your community <i>before</i> using "
 "ETS2LA.</span>"
 msgstr ""
-"此外，一些社区（例如 VTC、工作追踪器和排行榜）可能会禁止使用特定功能，甚至完"
-"全禁止使用 ETS2LA。<span class=\"text-text-accent font-bold\">请在使用 "
-"ETS2LA <i>之前</i>先确认您所在的社区是否允许使用。</span>"
+"此外，一些社区，例如 VTC、工作追踪器和排行榜，可能会禁止 ETS2LA 的特定功能，"
+"甚至完全禁止使用 ETS2LA。<span class=\"text-text-accent font-bold\">请务必在"
+"使用 ETS2LA <i>之前</i>先向您所在的社区确认。</span>"
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
@@ -587,7 +587,7 @@ msgstr "{0} 米/秒（{1}，{2}）"
 
 #, csharp-format
 msgid "Received input from unknown joystick with instance ID {0}."
-msgstr "收到未知摇杆的输入（实例 ID：{0}）。"
+msgstr "已收到来自未知操纵杆的输入，其实例 ID 为 {0}。"
 
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
@@ -724,7 +724,7 @@ msgstr "帕斯卡（压力单位）"
 
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
-msgstr "停用 {0} 失败：{1}"
+msgstr "停用 {0} 失败:{1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
 msgstr "您可以在此处启用我们在上一步安装的插件。"
@@ -846,8 +846,8 @@ msgid ""
 "class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
 "expect over 10GB of usage.</span>"
 msgstr ""
-"此设置包含所有可用数据，其中大部分为冗余信息。<span class=\"text-warning\">警"
-"告：“极高”会使用大量内存，预期使用量将超过 10GB。</span>"
+"此设置包含所有可用数据，其中大部分是冗余的。<span class=\"text-warning\">警告"
+"：极致模式会占用大量内存，预计内存使用量将超过 10GB。</span>"
 
 msgid "Restart and Continue"
 msgstr "重启并继续"
@@ -913,9 +913,8 @@ msgstr ""
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
-msgstr ""
-"调整 ETS2LA 使用的游戏数据详细程度。设置越高，会占用更多内存，但包含的信息也"
-"更多。不论选择哪个等级，驾驶表现都相同。"
+msgstr "调整我们所使用游戏数据的详细程度。数值越高，占用的内存越多，但包含的信息也越"
+"丰富。所有级别的驾驶效果相同。"
 
 #, csharp-format
 msgid "found {0} node"
@@ -1601,7 +1600,7 @@ msgstr "已将更新源为“{0}”。"
 
 #, csharp-format
 msgid "Removing manually added installation at '{0}'"
-msgstr "正在移除手动添加的游戏安装位置“{0}”"
+msgstr "正在移除手动添加的游戏安装位置'{0}'"
 
 #, csharp-format
 msgid "Initializing GLFW Version: {0}"
@@ -1654,9 +1653,8 @@ msgstr "地图数据解析完成"
 msgid ""
 "Works like Assist, but will act the way you select in the Assistance "
 "settings. This key will additionally be used for confirmations."
-msgstr ""
-"功能与“辅助”按键类似，但会依照你在辅助设置中选择的方式运行。此外，此按键也会"
-"用于确认操作。"
+msgstr "其工作方式类似于“辅助”，但会按照您在“辅助设置”中选择的方式执行。此按键还将用"
+"于确认操作。"
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
@@ -1741,7 +1739,7 @@ msgid ""
 msgstr "ETS2LA 窗口的缩放级别。可用来将窗口调整至与你显示器的 DPI 设置相匹配。"
 
 msgid "Finished loading plugins"
-msgstr "插件加载已完成"
+msgstr "插件加载完成"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
