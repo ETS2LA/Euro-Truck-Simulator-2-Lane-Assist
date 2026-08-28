@@ -5,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
-"PO-Revision-Date: 2026-08-25 18:45+0000\n"
+"PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
-"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
-">\n"
+"Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/>"
+"\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,12 +182,14 @@ msgid "The step size for changing the cruise control speed."
 msgstr "Die Schrittweite zur Änderung der Cruise-Control-Geschwindigkeit."
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "Willkommen zu ETS2LA!"
 
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
 msgstr ""
+"<span class=\"text-text-accent\"))>Erfolgreich!</span> Du findest mehr "
+"Plugins im Katalog später."
 
 msgid "Initializing..."
 msgstr "Initialisieren…"
@@ -215,7 +217,7 @@ msgid "Successfully updated plugin with ID {0}."
 msgstr "Plugin mit der ID {0} erfolgreich aktualisiert."
 
 msgid "Look in the top left corner."
-msgstr ""
+msgstr "Gucke in die obere linke Ecke."
 
 msgid "Visual"
 msgstr "Visuell"
@@ -233,8 +235,9 @@ msgstr "Plugins installieren"
 msgid "Error while downloading update: {0}"
 msgstr "Fehler beim Herunterladen des Updates: {0}"
 
+#, fuzzy
 msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgstr "Ich werde nicht ETS2LA unbeachtet lassen"
 
 msgid "Keyboard"
 msgstr "Tastatur"
@@ -772,7 +775,7 @@ msgid "Failed to disable {0}: {1}"
 msgstr "Fehlgeschlagenes Deaktivieren von {0}: {1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "Hier kannst du die Plugins von vorher aktivieren."
 
 msgid "SDK Installed"
 msgstr "SDK installiert"
@@ -844,8 +847,9 @@ msgstr "Plugins suchen…"
 msgid "Assists"
 msgstr "Assists"
 
+#, fuzzy
 msgid "SDK Installation"
-msgstr ""
+msgstr "SDK Installation"
 
 msgid "mph"
 msgstr "mph"
@@ -904,8 +908,9 @@ msgstr ""
 "verbraucht erhebliche Mengen an RAM, erwarten Sie eine Nutzung von über 10 "
 "GB.</span>"
 
+#, fuzzy
 msgid "Restart and Continue"
-msgstr ""
+msgstr "Neustarten und weitermachen"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
@@ -1065,7 +1070,7 @@ msgid "Disabled plugin: [bold]{0}[/]"
 msgstr "Plugin deaktiviert: [bold]{0}[/]"
 
 msgid "Continue"
-msgstr ""
+msgstr "Weiter"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1242,7 +1247,7 @@ msgid "Scientific"
 msgstr "Wissenschaftlich"
 
 msgid "Waiting..."
-msgstr ""
+msgstr "Warten..."
 
 msgid "hide"
 msgstr "Ausblenden"
@@ -1281,8 +1286,9 @@ msgstr "Parsing der Karten-Daten"
 msgid "SDKs need to be installed."
 msgstr "SDKs müssen installiert werden."
 
+#, fuzzy
 msgid "Hide Installed"
-msgstr ""
+msgstr "Installierte verstecken"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr ""
@@ -1467,7 +1473,7 @@ msgid "Restart Required"
 msgstr "Neustart erforderlich"
 
 msgid "I understand"
-msgstr ""
+msgstr "Ich verstehe"
 
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
@@ -1535,7 +1541,7 @@ msgstr ""
 "das Risiko zu akzeptieren."
 
 msgid "Recommended Plugins"
-msgstr ""
+msgstr "Empfohlene Plugins"
 
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
