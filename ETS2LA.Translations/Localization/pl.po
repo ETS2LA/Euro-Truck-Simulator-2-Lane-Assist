@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
-"PO-Revision-Date: 2026-08-27 23:28+0000\n"
+"PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/>"
 "\n"
@@ -293,6 +293,8 @@ msgstr "Aktualizacja do {0}"
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
+"Nie znaleziono sterowania o identyfikatorze '{0}' umożliwiającej "
+"aktualizację zachowania osi."
 
 msgid "Networking"
 msgstr "Sieciowanie"
@@ -683,6 +685,8 @@ msgstr "Nie udało się załadować biblioteki pluginu z [gray]{0}[/]: {1}"
 #, csharp-format
 msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
+"Zaktualizowano przypisanie dla sterowania: {0} ({1}) do urządzenia: {2}, "
+"sterowanie: {3}"
 
 msgid "Pause When Unstable"
 msgstr "Wstrzymaj, gdy jest niestabilny"
@@ -727,6 +731,7 @@ msgstr ""
 #, csharp-format
 msgid "Control with ID '{0}' not found for unregistration."
 msgstr ""
+"Nie znaleziono sterowania o identyfikatorze '{0}' w celu wyrejestrowania."
 
 msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
@@ -784,7 +789,7 @@ msgstr "Zainstalowano zestaw SDK"
 
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
-msgstr ""
+msgstr "Powiąż sterowanie {0} ({1}) z urządzeniem {2} i sterowaniem {3}"
 
 msgid "Current Speed"
 msgstr "Aktualna prędkość"
@@ -1058,7 +1063,7 @@ msgstr "Nie udało się odczytać pliku dziennika w '{0}': {1}"
 
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
-msgstr ""
+msgstr "Zaktualizowane zachowanie osi dla sterowania: {0} ({1}) do {2}"
 
 #, csharp-format
 msgid "Disabled plugin: [bold]{0}[/]"
@@ -1616,7 +1621,7 @@ msgstr "zachowanie USTAW"
 
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
-msgstr ""
+msgstr "Zarejestrowano sterowanie: {0} [gray italic]({1})[/]"
 
 msgid ""
 "You'll have to reinstall the SDK for <span class=\"text-text-accent font-"
