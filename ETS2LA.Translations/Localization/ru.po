@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
-"PO-Revision-Date: 2026-08-25 18:45+0000\n"
+"PO-Revision-Date: 2026-08-30 22:59+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
-">\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
+"\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,6 +81,9 @@ msgid ""
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"Уменьшает текущую целевую скорость на один шаг. Если управление скоростью и "
+"удержание в полосе отключены, эта клавиша работает как SET: она "
+"устанавливает текущую скорость равной ограничению скорости."
 
 #, csharp-format
 msgid "Installed {0}"
@@ -173,9 +176,12 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"ETS2LA будет отображать информацию поверх игры. Взаимодействовать с "
+"элементами оверлея можно с помощью <span class=\"text-text-accent font-bold\""
+">режима взаимодействия с оверлеем</span>. Попробуйте!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "Если вы не можете взаимодействовать с окном, нажмите CTRL+R."
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Шаг изменения скорости круиз-контроля."
@@ -340,6 +346,7 @@ msgstr "Выбранный файл не существует."
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Ассистенты включены: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -365,6 +372,8 @@ msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
 msgstr ""
+"Эта клавиша используется для выбора пунктов в меню интерфейса, а также "
+"служит клавишей подтверждения для любых уведомлений."
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -378,7 +387,7 @@ msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr "Не удалось удалить текущую версию плагина с ID {0}."
 
 msgid "Early"
-msgstr "Рано"
+msgstr "Ранний"
 
 msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
@@ -427,13 +436,13 @@ msgid "You took a wrong turn!"
 msgstr "Вы свернули не туда!"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "Только адаптивный круиз-контроль"
 
 msgid "Initializing GLFW..."
 msgstr "Инициализация GLFW..."
 
 msgid "3D Renderer"
-msgstr "3D-рендерер"
+msgstr "3D-рендер"
 
 msgid "SDK Uninstallation Failed"
 msgstr "Ошибка удаления SDK"
@@ -502,7 +511,7 @@ msgstr[1] "Загружено {0} плагина из папки Plugins."
 msgstr[2] "Загружено {0} плагинов из папки Plugins."
 
 msgid "Late"
-msgstr "Поздно"
+msgstr "Поздний"
 
 msgid "Force Map Load"
 msgstr "Принудительная загрузка карты"
@@ -753,7 +762,7 @@ msgid "{0} not found in supported languages."
 msgstr "{0} не найден среди поддерживаемых языков."
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "Ассистенты включены: "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -941,7 +950,7 @@ msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
 "By default this matches the game."
 msgstr ""
-"Настройте качество кривых, используемых для планирования маршрута и "
+"Настройте качество кривых, используемых для планирования траектории и "
 "визуализации. По умолчанию оно соответствует настройкам игры."
 
 #, csharp-format
@@ -996,6 +1005,8 @@ msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"ETS2LA использует схему управления, приближенную к системам реальных "
+"автомобилей. Переназначить клавиши по умолчанию можно на панели справа."
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1060,7 +1071,7 @@ msgid "Continue"
 msgstr "Продолжить"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "Отмена/MODE"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1114,6 +1125,8 @@ msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
 msgstr ""
+"При нажатии отключает ассистенты ETS2LA. Если ассистенты уже отключены, эта "
+"клавиша переключает режимы вождения."
 
 msgid "Binding thread started with no control to bind."
 msgstr "Поток привязки запущен, но элемент управления для привязки не выбран."
@@ -1272,7 +1285,7 @@ msgid "SDKs need to be installed."
 msgstr "Необходимо установить SDK."
 
 msgid "Hide Installed"
-msgstr ""
+msgstr "Скрыть установленные"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr "Не удалось инициализировать оверлей: ошибка инициализации OpenGL."
@@ -1288,6 +1301,10 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"Увеличивает текущую целевую скорость на один шаг. Если ассистенты отключены, "
+"эта клавиша работает как RES: она возобновит движение с последней заданной "
+"целевой скоростью. Если целевая скорость ранее не задана, клавиша работает "
+"как SET."
 
 msgid "Account"
 msgstr "Аккаунт"
@@ -1357,7 +1374,7 @@ msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "Не удалось отключить {0}: плагин не найден среди загруженных."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "Полный автопилот"
 
 msgid "Install"
 msgstr "Установить"
@@ -1411,7 +1428,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "Установка по пути '{0}' уже обработана."
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "Увеличение/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1515,7 +1532,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Произошла ошибка при загрузке файла '{0}': {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "Далее/OK"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1584,6 +1601,7 @@ msgstr "Удалено '{0}'"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
+"Целевая скорость: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1596,6 +1614,7 @@ msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Режим ассистентов: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Просмотреть общедоступную телеметрию"
@@ -1639,7 +1658,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "Используйте эту кнопку, чтобы развернуть боковую панель."
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "Только удержание в полосе"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1831,7 +1850,7 @@ msgid "Playing sound: {0}"
 msgstr "Воспроизведение звука: {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "Уровень ассистентов: "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1861,7 +1880,7 @@ msgstr ""
 "под настройки DPI вашего монитора."
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "Уменьшение/SET"
 
 msgid "Finished loading plugins"
 msgstr "Загрузка плагинов завершена"
