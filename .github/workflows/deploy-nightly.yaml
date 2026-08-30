@@ -60,6 +60,11 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Build
         run: |
           .\publish.bat
@@ -81,7 +86,7 @@ jobs:
             --mainExe ETS2LA.exe `
             --msi `
             --instLocation PerUser `
-            -i .\ETS2LA.UI\Assets\logo.ico `
+            -i .\Assets\Installer\favicon.ico `
             --instLicense .\LICENSE.txt `
             --msiBanner .\Assets\Installer\welcome.bmp `
             --msiLogo .\Assets\Installer\banner.bmp `
@@ -108,7 +113,7 @@ jobs:
             --mainExe ETS2LA.exe `
             --msi `
             --instLocation PerUser `
-            -i .\ETS2LA.UI\Assets\logo.ico `
+            -i .\Assets\Installer\favicon.ico `
             --instLicense .\LICENSE.txt `
             --msiBanner .\Assets\Installer\welcome.bmp `
             --msiLogo .\Assets\Installer\banner.bmp `
@@ -138,6 +143,11 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Build
         run: |
           ./publish.sh
@@ -157,7 +167,7 @@ jobs:
             --packVersion ${{ needs.check_version.outputs.version }} \
             --packDir ./publish \
             --mainExe ETS2LA \
-            --icon ./ETS2LA.UI/Assets/logo.ico \
+            --icon ./Assets/Installer/favicon.ico \
             --packTitle "ETS2LA" \
             --releaseNotes ./ETS2LA/ReleaseNotes.md
           $VPK upload github \
@@ -178,7 +188,7 @@ jobs:
             --packVersion ${{ needs.check_version.outputs.version }} \
             --packDir ./publish \
             --mainExe ETS2LA \
-            --icon ./ETS2LA.UI/Assets/logo.ico \
+            --icon ./Assets/Installer/favicon.ico \
             --packTitle "ETS2LA" \
             --releaseNotes ./ETS2LA/ReleaseNotes.md
 
