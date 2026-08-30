@@ -1,5 +1,6 @@
 using ETS2LA.Logging;
 using ETS2LA.Settings;
+
 using Velopack;
 using Velopack.Sources;
 
@@ -20,15 +21,17 @@ public class Updater
     private static readonly Lazy<Updater> _instance = new(() => new Updater());
     public static Updater Current => _instance.Value;
 
+    public static string[] AvailableChannels => new string[] { "release", "nightly" };
+
     public UpdateManager UpdateManager;
     private UpdaterSettings settings = new();
-    private SettingsHandler settingsHandler;
     private UpdateInfo? latestUpdateInfo;
+    private string latestUpdateInfoChannel;
     
     public List<UpdaterSource> AvailableSources => new()
     {
         new UpdaterSource(
-            new GithubSource("https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", null, false),
+            new GithubSource("https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", null, true),
             "GitHub"
         ),
         new UpdaterSource(
@@ -39,14 +42,13 @@ public class Updater
 
     public Updater()
     {
-        settingsHandler = new SettingsHandler();
-        settings = settingsHandler.Load<UpdaterSettings>("Updater.json");
+        settings = UpdaterSettings.Current;
         UpdateManager = CreateUpdateManager(GetSelectedSource().source);
     }
 
     public UpdateInfo? CheckForUpdates()
     {
-        if (latestUpdateInfo != null)
+        if (latestUpdateInfo != null && latestUpdateInfoChannel == settings.SelectedChannel)
         {
             Logger.Info("Update check skipped, using already cached result.");
             return latestUpdateInfo;
@@ -55,14 +57,15 @@ public class Updater
         try
         {
             var updateInfo = UpdateManager.CheckForUpdates();
-            if (updateInfo != null) { Logger.Info($"Update available: {updateInfo.TargetFullRelease.Version}"); }
+            if (updateInfo != null) { Logger.Info("Update available: {0}", updateInfo.TargetFullRelease.Version.ToString()); }
             else { Logger.Info("No updates available."); }
+            latestUpdateInfoChannel = settings.SelectedChannel;
             latestUpdateInfo = updateInfo;
             return updateInfo;
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while checking for updates: {ex.Message}");
+            Logger.Error("Error while checking for updates: {0}", ex.Message);
             return null;
         }
     }
@@ -75,7 +78,7 @@ public class Updater
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while downloading update: {ex.Message}");
+            Logger.Error("Error while downloading update: {0}", ex.Message);
         }
     }
 
@@ -88,7 +91,7 @@ public class Updater
         }
         catch (Exception ex)
         {
-            Logger.Error($"Error while applying update: {ex.Message}");
+            Logger.Error("Error while applying update: {0}", ex.Message);
         }
         return false;
     }
@@ -98,15 +101,26 @@ public class Updater
         var source = AvailableSources.FirstOrDefault(s => s.sourceName == sourceName);
         if (source == null)
         {
-            Logger.Error($"Tried to change update source to '{sourceName}', but it was not found among available sources.");
+            Logger.Error("Tried to change update source to '{0}', but it was not found among available sources.", sourceName);
             return;
         }
+        
         settings.SelectedSource = sourceName;
         settings.IsSourceSelectedByUser = true;
-        settingsHandler.Save("Updater.json", settings);
+        settings.Save();
+
         UpdateManager = CreateUpdateManager(source.source);
         latestUpdateInfo = null;
-        Logger.Info($"Changed update source to '{sourceName}'.");
+        Logger.Info("Changed update source to '{0}'.", sourceName);
+    }
+
+    public string GetSelectedChannelName()
+    {
+        #if WINDOWS
+        return "win-" + settings.SelectedChannel;
+        #else
+        return "linux-" + settings.SelectedChannel;
+        #endif
     }
 
     public UpdaterSource GetSelectedSource()
@@ -118,19 +132,22 @@ public class Updater
         var source = AvailableSources.FirstOrDefault(s => s.sourceName == selectedSource);
         if (source == null)
         {
-            Logger.Warn($"Selected update source '{selectedSource}' not found, defaulting to first available source.");
+            Logger.Warn("Selected update source '{0}' not found, defaulting to first available source.", selectedSource);
             source = AvailableSources[0];
-            Logger.Warn($"> '{source.sourceName}'.");
+            settings.SelectedSource = source.sourceName;
+            Logger.Warn($"> Selected '{source.sourceName}'.");
         }
         return source;
     }
 
     private UpdateManager CreateUpdateManager(IUpdateSource source)
     {
-        return new UpdateManager(source, new UpdateOptions
-        {
-            
-        });
+        UpdateOptions options = new UpdateOptions();
+        options.AllowVersionDowngrade = true;
+        options.ExplicitChannel = GetSelectedChannelName();
+        Logger.Info($"Creating UpdateManager for source: {source.ToString()}, channel: {options.ExplicitChannel}");
+
+        return new UpdateManager(source, options);
     }
 
     private string GetBundledDefaultSourceName()
@@ -138,17 +155,20 @@ public class Updater
         var sourceFile = Path.Combine(AppContext.BaseDirectory, DistributionSourceFile);
         if (!File.Exists(sourceFile))
         {
+            settings.SelectedSource = FallbackSource;
             return FallbackSource;
         }
 
         try
         {
             var sourceName = File.ReadAllText(sourceFile).Trim();
-            return string.IsNullOrWhiteSpace(sourceName) ? FallbackSource : sourceName;
+            settings.SelectedSource = string.IsNullOrWhiteSpace(sourceName) ? FallbackSource : sourceName;
+            return settings.SelectedSource;
         }
         catch (Exception ex)
         {
-            Logger.Warn($"Failed to read bundled update source marker: {ex.Message}");
+            Logger.Warn("Failed to read bundled update source marker: {0}", ex.Message);
+            settings.SelectedSource = FallbackSource;
             return FallbackSource;
         }
     }

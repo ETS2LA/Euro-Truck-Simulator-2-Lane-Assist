@@ -19,6 +19,33 @@ public partial class Updates : UserControl, INotifyPropertyChanged
     public string LatestVersion => LatestUpdateInfo != null ? $"v{LatestUpdateInfo.TargetFullRelease.Version}" : "N/A";
     public string ReleaseNotes => GetReleaseNotes();
 
+    public string SelectedChannel { 
+        get => UpdaterSettings.Current.SelectedChannel;
+        set
+        {
+            if (UpdaterSettings.Current.SelectedChannel != value)
+            {
+                UpdaterSettings.Current.SelectedChannel = value;
+                UpdaterSettings.Current.Save();
+                OnPropertyChanged(nameof(SelectedChannel));
+            }
+        }
+    }
+
+    public int SelectedChannelIndex
+    {
+        get => Array.IndexOf(AvailableChannels, SelectedChannel);
+        set
+        {
+            if (value >= 0 && value < AvailableChannels.Length)
+            {
+                SelectedChannel = AvailableChannels[value];
+            }
+        }
+    }
+
+    public string[] AvailableChannels => new string[] { "release", "nightly" };
+
     public UpdateInfo? LatestUpdateInfo { get; set; }
     public new event PropertyChangedEventHandler? PropertyChanged;
 

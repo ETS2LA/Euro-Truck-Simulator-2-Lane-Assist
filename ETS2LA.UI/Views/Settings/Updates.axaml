@@ -8,6 +8,14 @@
              x:DataType="views:Updates">
     <Border Padding="20">
         <StackPanel Spacing="10">
+            <StackPanel Spacing="10" MaxWidth="140" HorizontalAlignment="Left">
+                <TextBlock Text="Update Channel:" />
+                <ComboBox SelectedIndex="{Binding SelectedChannelIndex}">
+                    <ComboBoxItem Content="release" />
+                    <ComboBoxItem Content="nightly" />
+                </ComboBox>
+            </StackPanel>
+
             <StackPanel Orientation="Horizontal" Spacing="24">
                 <StackPanel VerticalAlignment="Center" Spacing="10">
                     <StackPanel Orientation="Horizontal">
