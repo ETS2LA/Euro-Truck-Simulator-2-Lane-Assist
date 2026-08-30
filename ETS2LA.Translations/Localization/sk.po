@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
-"PO-Revision-Date: 2026-08-27 20:59+0000\n"
+"PO-Revision-Date: 2026-08-30 22:59+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
-">\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
+"\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Toto nastavenie odstraňuje nadbytočné informácie, pričom zachováva väčšinu "
 "detailných objektov (napríklad dopravné značky). Zahŕňa všetky skryté cesty "
-"a cesty určené výlučne pre umelú inteligenciu."
+"a cesty určené iba pre umelú inteligenciu."
 
 msgid "Unknown Control ID"
 msgstr "Neznáme kontrolné ID"
@@ -78,6 +78,10 @@ msgid ""
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"Zníži aktuálnu cieľovú rýchlosť o jeden stupeň. Ak sú funkcie regulácie "
+"rýchlosti a asistenta udržania jazdného pruhu vypnuté, táto klávesa funguje "
+"ako SET. To znamená, že nastaví aktuálnu rýchlosť na hodnotu rýchlostného "
+"obmedzenia."
 
 #, csharp-format
 msgid "Installed {0}"
@@ -88,16 +92,14 @@ msgid "Error loading map data from '{0}': {1}"
 msgstr "Chyba pri načítaní údajov mapy z „{0}“: {1}"
 
 msgid "Medium"
-msgstr "Stredný"
+msgstr "Stredná"
 
 msgid "Maximum Speed"
 msgstr "Maximálna rýchlosť"
 
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
-msgstr ""
-"Keď hra zaznamená, že je pozastavená, ETS2LA nebude vykresľovať prvky "
-"rozšírenej reality."
+msgstr "Keď hra zaznamená, že je pozastavená, ETS2LA prestane vykresľovať."
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -170,9 +172,13 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"ETS2LA bude zobrazovať informácie v prekrývajúcom okne nad hrou. S týmito "
+"prvkami prekrývacieho okna môžete pracovať pomocou funkcie <span class"
+"=\"text-text-accent font-bold\">Interakcia s prekrývajúcim oknom</span>. "
+"Vyskúšajte to!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "Ak nemôžete interagovať s oknom, stlačte klávesovú skratku CTRL+R."
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Veľkosť kroku pri zmene rýchlosti tempomatu."
@@ -310,7 +316,7 @@ msgstr ""
 "potrebné na používanie ETS2LA. Je to spôsob, ako môžete podporiť vývoj."
 
 msgid "Data Parsing"
-msgstr "Analýza údajov"
+msgstr "Dáta Mapy"
 
 msgid ""
 "Service unavailable. The server is currently unable to handle the request "
@@ -337,6 +343,7 @@ msgstr "Vybraný súbor neexistuje."
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Asisnenti zapnutý: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -362,6 +369,8 @@ msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
 msgstr ""
+"Táto klávesa slúži na výber v ponukách používateľského rozhrania. Slúži tiež "
+"ako klávesa na potvrdenie akýchkoľvek oznámení."
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -424,13 +433,13 @@ msgid "You took a wrong turn!"
 msgstr "Zabočil si nesprávne!"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "Iba adaptívny tempomat"
 
 msgid "Initializing GLFW..."
 msgstr "Inicializácia GLFW..."
 
 msgid "3D Renderer"
-msgstr "3D renderovač"
+msgstr "3D renderovanie"
 
 msgid "SDK Uninstallation Failed"
 msgstr "Odinštalovanie SDK sa nepodarilo"
@@ -470,7 +479,7 @@ msgid "SDK Uninstalled"
 msgstr "SDK je odinštalované"
 
 msgid "Low"
-msgstr "Nízky"
+msgstr "Nízka"
 
 msgid ""
 "Additionally, some communities like VTCs, Job Trackers and Leaderboards will "
@@ -750,7 +759,7 @@ msgid "{0} not found in supported languages."
 msgstr "{0} nebola nájdená v podporovaných jazykoch."
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "Zapnutý asistenti: "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -894,9 +903,9 @@ msgid ""
 "expect over 10GB of usage.</span>"
 msgstr ""
 "Toto nastavenie zahŕňa všetky dostupné údaje, z ktorých je väčšina "
-"nadbytočná. <span class=\"text-warning\">Upozornenie: Režim „Extreme“ "
-"spotrebúva značné množstvo pamäte RAM, počítajte s využitím viac ako 10 GB.</"
-"span>"
+"nadbytočná. <span class=\"text-warning\">Upozornenie: Režim „Extrém“ "
+"spotrebúva značné množstvo pamäte RAM, počítajte s využitím viac ako 10 "
+"GB.</span>"
 
 msgid "Restart and Continue"
 msgstr "Reštartovať a pokračovať"
@@ -954,7 +963,7 @@ msgid "Following Distance"
 msgstr "Dodržiavanie odstupu"
 
 msgid "Check For Updates"
-msgstr "Skontrolujte dostupnosť aktualizácií"
+msgstr "Aktualizície"
 
 msgid "Telemetry"
 msgstr "Telemetria"
@@ -999,6 +1008,9 @@ msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"ETS2LA používa nastavenie ovládania, ktoré by malo byť podobné systémom v "
+"reálnom živote. Predvolené ovládacie prvky si môžete prenastaviť na pravej "
+"strane."
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1062,7 +1074,7 @@ msgid "Continue"
 msgstr "Pokračovať"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "Zrušiť/MODE"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1116,6 +1128,8 @@ msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
 msgstr ""
+"Po stlačení tejto klávesy sa vypnú asistenti ETS2LA. Ak sú asistenti už "
+"vypnutý, táto klávesa bude prepínať medzi režimami jazdy."
 
 msgid "Binding thread started with no control to bind."
 msgstr "Mapovanie bolo spustené bez ovládacieho prvku na namapovanie."
@@ -1287,6 +1301,10 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"Zvýši aktuálnu cieľovú rýchlosť o jeden stupeň. Ak sú asistenčné funkcie "
+"vypnuté, táto klávesa funguje ako RES. To znamená, že obnoví poslednú "
+"nastavenú cieľovú rýchlosť. Ak nebola nastavená žiadna posledná cieľová "
+"rýchlosť, táto klávesa funguje ako SET."
 
 msgid "Account"
 msgstr "Účet"
@@ -1357,7 +1375,7 @@ msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "Snažil som sa vypnúť {0}, ale medzi načítanými pluginami sa nenašiel."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "Plne autonómne riadenie"
 
 msgid "Install"
 msgstr "Inštalovať"
@@ -1413,7 +1431,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "Inštalácia v „{0}“ už bola spracovaná."
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "Zvýšiť/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1517,7 +1535,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Došlo k chybe pri načítaní súboru „{0}“: {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "Ďalej/OK"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1555,7 +1573,7 @@ msgstr ""
 "možnosť zapnúť. Je známe, že táto možnosť je nevyhnutná pre RusMap."
 
 msgid "Extreme"
-msgstr "Extrémny"
+msgstr "Extrémna"
 
 #, csharp-format
 msgid ""
@@ -1586,6 +1604,7 @@ msgstr "Odstránené „{0}“"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
+"Cieľová rýchlosť: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1597,7 +1616,7 @@ msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -1641,7 +1660,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "Týmto tlačidlom rozbalíte bočný panel."
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "Iba asistent jazdy v pruhu"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1732,7 +1751,7 @@ msgid "Render Vision Cameras"
 msgstr "Kamery Render Vision"
 
 msgid "Match Game"
-msgstr "Spárovať hru"
+msgstr "Predvolená"
 
 msgid "Imperial"
 msgstr "Imperiálny"
@@ -1761,7 +1780,7 @@ msgid "Starting download..."
 msgstr "Začína sa sťahovanie..."
 
 msgid "High"
-msgstr "Vysoký"
+msgstr "Vysoká"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "Záverečné varovanie <span class=\"description\">1/2</span>"
@@ -1830,7 +1849,7 @@ msgid "Playing sound: {0}"
 msgstr "Prehrávanie zvuku: {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "Úroveň asistencie: "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1861,7 +1880,7 @@ msgstr ""
 "veľkosti okna nastaveniam DPI vášho monitora."
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "Znížiť/SET"
 
 msgid "Finished loading plugins"
 msgstr "Načítanie pluginov bolo dokončené"
