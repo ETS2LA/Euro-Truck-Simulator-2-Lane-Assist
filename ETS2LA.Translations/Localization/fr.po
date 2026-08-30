@@ -3,11 +3,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
+"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
 "PO-Revision-Date: 2026-08-30 08:00+0000\n"
 "Last-Translator: retroposition <retroposition@ets2la.com>\n"
-"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/>"
-"\n"
+"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,15 +45,6 @@ msgstr "Échec de l'ouverture du joystick {0}."
 msgid "Anonymous Telemetry"
 msgstr "Télémétrie anonyme"
 
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-"Augmente la valeur actuelle (par ex. la vitesse cible) d'un pas. Sans aucun "
-"modificateur visuel affiché dans l'interface, cela augmentera la vitesse "
-"cible de 1 km/h."
-
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
@@ -82,11 +73,14 @@ msgstr ""
 "Lors de la modification de la vitesse, aligner sur la dizaine la plus "
 "proche. Par ex. 37 -> 39 -> 40 -> 42..."
 
-msgid "None"
-msgstr "Aucun"
-
 msgid "kg"
 msgstr "kg"
+
+msgid ""
+"Decreases the current target speed by one step. If speed control and lane "
+"assist are off, this key acts like SET. Meaning it will set the current "
+"speed to speedlimit."
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -157,9 +151,6 @@ msgstr ""
 "Avertissement : votre système dispose de moins de 16 Go de RAM. Vous ne "
 "pouvez sélectionner que jusqu'à Moyen."
 
-msgid "Increase"
-msgstr "Augmenter"
-
 msgid "Window Zoom"
 msgstr "Zoom de la fenêtre"
 
@@ -175,6 +166,15 @@ msgstr ""
 
 msgid "km/h"
 msgstr "km/h"
+
+msgid ""
+"ETS2LA will display information on top of the game. You can interact with "
+"these overlay elements using <span class=\"text-text-accent font-"
+"bold\">Overlay Interaction</span>. Try it!"
+msgstr ""
+
+msgid "If you can't interact with the Window, press CTRL+R."
+msgstr ""
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Le pas de modification de la vitesse du régulateur de vitesse."
@@ -340,6 +340,10 @@ msgid "The selected file does not exist."
 msgstr "Le fichier sélectionné n'existe pas."
 
 #, csharp-format
+msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Latest Version: {0}"
 msgstr "Dernière version : {0}"
 
@@ -359,6 +363,11 @@ msgstr "Afficher les éléments AR"
 msgid "Unchanged / Unavailable"
 msgstr "Inchangé / Indisponible"
 
+msgid ""
+"This key is used to select in UI menus. It also acts as the approval key for "
+"any notifications."
+msgstr ""
+
 #, csharp-format
 msgid "LoaderException: {0}"
 msgstr "LoaderException : {0}"
@@ -370,9 +379,6 @@ msgstr "Fidélité des données"
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr ""
 "Échec de la désinstallation de la version actuelle du plugin avec l'ID {0}."
-
-msgid "Assist"
-msgstr "Assistance"
 
 msgid "Early"
 msgstr "Tôt"
@@ -424,6 +430,9 @@ msgstr "Prendre en charge plusieurs zones d'affichage"
 msgid "You took a wrong turn!"
 msgstr "Vous avez pris un mauvais virage !"
 
+msgid "Adaptive Cruise Control Only"
+msgstr ""
+
 msgid "Initializing GLFW..."
 msgstr "Initialisation de GLFW..."
 
@@ -432,15 +441,6 @@ msgstr "Moteur de rendu 3D"
 
 msgid "SDK Uninstallation Failed"
 msgstr "Échec de la désinstallation du SDK"
-
-msgid ""
-"Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
-"if you want that. You can change how this key (and SET) behave in the "
-"Assistance settings."
-msgstr ""
-"Active ou désactive les assistances d'ETS2LA. Ne modifie pas la vitesse ; "
-"utilisez SET pour cela. Vous pouvez modifier le comportement de cette touche "
-"(et de SET) dans les paramètres d'assistance."
 
 msgid "Max Overlay Framerate"
 msgstr "Fréquence d'images max. de l'overlay"
@@ -602,13 +602,6 @@ msgstr "Indéterminé"
 msgid "meters per second"
 msgstr "mètres par seconde"
 
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-"Cette touche permet de naviguer vers l'avant dans les menus d'ETS2LA ; elle "
-"sert également de touche d'annulation pour les confirmations."
-
 msgid "Update check skipped, using already cached result."
 msgstr ""
 "Vérification des mises à jour ignorée, utilisation du résultat déjà mis en "
@@ -718,9 +711,6 @@ msgstr ""
 "Arrêt du backend de commandes terminé, toutes les commandes ont été "
 "enregistrées."
 
-msgid "Lane Keep"
-msgstr "Maintien de voie"
-
 msgid "Anonymous"
 msgstr "Anonyme"
 
@@ -768,6 +758,9 @@ msgstr "Échec de l'initialisation du backend d'entrée SDL3."
 #, csharp-format
 msgid "{0} not found in supported languages."
 msgstr "{0} introuvable parmi les langues prises en charge."
+
+msgid "Assists Enabled: "
+msgstr ""
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -1013,13 +1006,15 @@ msgstr "Analyse du secteur {0} sur {1}..."
 msgid "Unbound"
 msgstr "Non associé"
 
+msgid ""
+"ETS2LA uses a control setup that should be similar to real life systems. You "
+"can rebind the default controls on the right side."
+msgstr ""
+
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 "Échec de l'installation de la dernière version du plugin avec l'ID {0}."
-
-msgid "I understand, now let me in!"
-msgstr "J'ai compris, laissez-moi entrer !"
 
 #, csharp-format
 msgid ""
@@ -1028,6 +1023,9 @@ msgid ""
 msgstr ""
 "Si vous pensez qu'il s'agit d'un bug, veuillez le signaler sur le {0}serveur "
 "Discord{1} ou sur {2}GitHub{3}."
+
+msgid "I understand, now let me in!"
+msgstr "J'ai compris, laissez-moi entrer !"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1041,9 +1039,6 @@ msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "{0} plugin récupéré depuis {1}"
 msgstr[1] "{0} plugins récupérés depuis {1}"
-
-msgid "Full"
-msgstr "Complet"
 
 msgid "Metric"
 msgstr "Métrique"
@@ -1076,6 +1071,9 @@ msgstr "Plugin désactivé : [bold]{0}[/]"
 
 msgid "Continue"
 msgstr "Continuer"
+
+msgid "Cancel/MODE"
+msgstr ""
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1126,6 +1124,11 @@ msgstr "litres"
 msgid "No valid versions found for plugin with ID {0}."
 msgstr "Aucune version valide trouvée pour le plugin avec l'ID {0}."
 
+msgid ""
+"Will disable ETS2LA's assists when pressed. If assists are already disabled, "
+"this key will switch between driving modes."
+msgstr ""
+
 msgid "Binding thread started with no control to bind."
 msgstr "Le thread de liaison a démarré sans commande à lier."
 
@@ -1141,9 +1144,6 @@ msgstr "Téléchargement de la mise à jour"
 
 msgid "Simplified Graphics"
 msgstr "Graphismes simplifiés"
-
-msgid "Pause Steering Assist: "
-msgstr "Suspendre l'assistance à la direction : "
 
 msgid "Steering Sensitivity"
 msgstr "Sensibilité de la direction"
@@ -1201,15 +1201,6 @@ msgstr "Fonctionne actuellement à {0} FPS."
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr "Version {0} introuvable pour le plugin avec l'ID {1}."
-
-msgid ""
-"Decreases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
-"h."
-msgstr ""
-"Diminue la valeur actuelle (par ex. la vitesse cible) d'un pas. Sans aucun "
-"modificateur visuel affiché dans l'interface, cela diminuera la vitesse "
-"cible de 1 km/h."
 
 msgid "Invalid file"
 msgstr "Fichier non valide"
@@ -1306,6 +1297,12 @@ msgstr ""
 "Le plugin « {0} » est privé de sa DLL à l'emplacement « {1} » et a été "
 "supprimé."
 
+msgid ""
+"Increases the current target speed by one step. If assists are disabled, "
+"this key acts like RES. Meaning it will resume the last set target speed. If "
+"a last target speed was not set, this key acts like SET."
+msgstr ""
+
 msgid "Account"
 msgstr "Compte"
 
@@ -1342,9 +1339,6 @@ msgstr ""
 "Aucune URL de téléchargement trouvée pour le plugin dont l'ID est {0} dans "
 "la région {1}."
 
-msgid "Emergency Braking"
-msgstr "Freinage d'urgence"
-
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -1362,9 +1356,6 @@ msgstr "Redémarrage d'ETS2LA..."
 msgid "ETS2LA is running."
 msgstr "ETS2LA est en cours d'exécution."
 
-msgid "Desired Steering Level: "
-msgstr "Niveau de direction souhaité : "
-
 msgid "Restart"
 msgstr "Redémarrer"
 
@@ -1380,6 +1371,9 @@ msgstr "lbs"
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "Impossible de désactiver {0} : introuvable parmi les plugins chargés."
+
+msgid "Full Self-Driving"
+msgstr ""
 
 msgid "Install"
 msgstr "Installer"
@@ -1432,8 +1426,8 @@ msgstr "Plugin {0} installé avec succès ({1}, {2})"
 msgid "Installation at '{0}' has already been parsed."
 msgstr "L'installation dans « {0} » a déjà été analysée."
 
-msgid "Pause Longitudinal Assist: "
-msgstr "Pause de l'assistance longitudinale : "
+msgid "Increase/RES"
+msgstr ""
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1441,9 +1435,6 @@ msgstr "Échec de l'acquisition du joystick [gray italic]({0})[/] : {1}"
 
 msgid "Far"
 msgstr "Loin"
-
-msgid "Decrease"
-msgstr "Diminuer"
 
 msgid "K"
 msgstr "K"
@@ -1538,6 +1529,9 @@ msgstr "psi"
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Une erreur s'est produite lors du chargement du fichier « {0} » : {1}"
 
+msgid "Next/OK"
+msgstr ""
+
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
 "if you use 3rd party plugins. Select Yes to continue anyway and accept the "
@@ -1605,12 +1599,20 @@ msgid "Deleted '{0}'"
 msgstr "« {0} » supprimé"
 
 #, csharp-format
+msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Error initializing memory mapped file: {0}"
 msgstr "Erreur lors de l'initialisation du fichier mappé en mémoire : {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Afficher la télémétrie publique"
@@ -1647,15 +1649,15 @@ msgstr "Veuillez consulter les journaux pour plus d'informations."
 msgid "Binding Timed Out"
 msgstr "Délai d'association dépassé"
 
-msgid "Adaptive Cruise Control"
-msgstr "Régulateur de vitesse adaptatif"
-
 msgid "Changes will take effect after restarting the application."
 msgstr ""
 "Les modifications prendront effet après le redémarrage de l'application."
 
 msgid "Use this button to extend the sidebar."
 msgstr "Utilisez ce bouton pour déployer la barre latérale."
+
+msgid "Lane Assist Only"
+msgstr ""
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1709,18 +1711,6 @@ msgstr "Échec de la désinstallation du SDK de « {0} » vers « {1} » : {2}"
 #, csharp-format
 msgid "Inner Exception: {0}"
 msgstr "Exception interne : {0}"
-
-msgid ""
-"ETS2LA will display information on top of the game. You can interact with "
-"these overlay elements using <span class=\"text-text-accent font-"
-"bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
-"accent font-bold\">Right-Alt</span> by default. Try it!"
-msgstr ""
-"ETS2LA affichera des informations par-dessus le jeu. Vous pouvez interagir "
-"avec ces éléments de l'overlay à l'aide de <span class=\"text-text-accent "
-"font-bold\">Interaction avec l'overlay</span>. Cette action est associée à "
-"<span class=\"text-text-accent font-bold\">Alt droite</span> par défaut. "
-"Essayez !"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1791,22 +1781,11 @@ msgstr "Téléchargement en cours..."
 msgid "High"
 msgstr "Élevé"
 
-msgid "SET/OK"
-msgstr "SET/OK"
-
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "Avertissement final <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
 msgstr "Données de carte analysées"
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr ""
-"Fonctionne comme Assistance, mais agira selon ce que vous sélectionnez dans "
-"les paramètres d'assistance. Cette touche servira également aux "
-"confirmations."
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
@@ -1833,9 +1812,6 @@ msgstr "Version « {0} » du SDK désinstallée avec succès depuis « {1} »"
 
 msgid "Desired Speed: "
 msgstr "Vitesse souhaitée : "
-
-msgid "Next/Cancel"
-msgstr "Suivant/Annuler"
 
 msgid "meters"
 msgstr "mètres"
@@ -1872,6 +1848,9 @@ msgstr "Analyse de l'installation dans « {0} » terminée"
 msgid "Playing sound: {0}"
 msgstr "Lecture du son : {0}"
 
+msgid "Assist Level: "
+msgstr ""
+
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr ""
@@ -1900,15 +1879,15 @@ msgstr ""
 "Le niveau de zoom de la fenêtre ETS2LA. Cela permet d'adapter la fenêtre aux "
 "réglages DPI de votre moniteur."
 
+msgid "Decrease/SET"
+msgstr ""
+
 msgid "Finished loading plugins"
 msgstr "Chargement des plugins terminé"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "Échec de l'installation de la dépendance {0} pour le plugin {1}."
-
-msgid "Desired Longitudinal Level: "
-msgstr "Niveau longitudinal souhaité : "
 
 msgid "Error in semaphore update loop."
 msgstr "Erreur dans la boucle de mise à jour des sémaphores."
@@ -1950,18 +1929,18 @@ msgid "Display Units: "
 msgstr "Unités d'affichage : "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Avertissement : votre système dispose de moins de 20 Go de RAM. Vous ne "
-"pouvez sélectionner que jusqu'à Élevé."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "La langue dans laquelle ETS2LA sera affiché. Les traductions sont fournies "
 "par la communauté, nous ne pouvons pas garantir leur exactitude."
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Avertissement : votre système dispose de moins de 20 Go de RAM. Vous ne "
+"pouvez sélectionner que jusqu'à Élevé."
 
 msgid "Interaction Mode"
 msgstr "Mode d'interaction"
@@ -1973,3 +1952,99 @@ msgstr "Ajout du mod : {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Il manque des dépendances pour le plugin {0}."
+
+#~ msgid ""
+#~ "Increases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will increase the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "Augmente la valeur actuelle (par ex. la vitesse cible) d'un pas. Sans "
+#~ "aucun modificateur visuel affiché dans l'interface, cela augmentera la "
+#~ "vitesse cible de 1 km/h."
+
+#~ msgid "None"
+#~ msgstr "Aucun"
+
+#~ msgid "Increase"
+#~ msgstr "Augmenter"
+
+#~ msgid "Assist"
+#~ msgstr "Assistance"
+
+#~ msgid ""
+#~ "Will toggle ETS2LA's assists on and off. Will not update the speed, use "
+#~ "SET if you want that. You can change how this key (and SET) behave in the "
+#~ "Assistance settings."
+#~ msgstr ""
+#~ "Active ou désactive les assistances d'ETS2LA. Ne modifie pas la vitesse ; "
+#~ "utilisez SET pour cela. Vous pouvez modifier le comportement de cette "
+#~ "touche (et de SET) dans les paramètres d'assistance."
+
+#~ msgid ""
+#~ "This key will navigate any ETS2LA menus forward, it will also work as the "
+#~ "cancel key for any confirmations."
+#~ msgstr ""
+#~ "Cette touche permet de naviguer vers l'avant dans les menus d'ETS2LA ; "
+#~ "elle sert également de touche d'annulation pour les confirmations."
+
+#~ msgid "Lane Keep"
+#~ msgstr "Maintien de voie"
+
+#~ msgid "Full"
+#~ msgstr "Complet"
+
+#~ msgid "Pause Steering Assist: "
+#~ msgstr "Suspendre l'assistance à la direction : "
+
+#~ msgid ""
+#~ "Decreases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will decrease the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "Diminue la valeur actuelle (par ex. la vitesse cible) d'un pas. Sans "
+#~ "aucun modificateur visuel affiché dans l'interface, cela diminuera la "
+#~ "vitesse cible de 1 km/h."
+
+#~ msgid "Emergency Braking"
+#~ msgstr "Freinage d'urgence"
+
+#~ msgid "Desired Steering Level: "
+#~ msgstr "Niveau de direction souhaité : "
+
+#~ msgid "Pause Longitudinal Assist: "
+#~ msgstr "Pause de l'assistance longitudinale : "
+
+#~ msgid "Decrease"
+#~ msgstr "Diminuer"
+
+#~ msgid "Adaptive Cruise Control"
+#~ msgstr "Régulateur de vitesse adaptatif"
+
+#~ msgid ""
+#~ "ETS2LA will display information on top of the game. You can interact with "
+#~ "these overlay elements using <span class=\"text-text-accent font-"
+#~ "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-"
+#~ "text-accent font-bold\">Right-Alt</span> by default. Try it!"
+#~ msgstr ""
+#~ "ETS2LA affichera des informations par-dessus le jeu. Vous pouvez "
+#~ "interagir avec ces éléments de l'overlay à l'aide de <span class=\"text-"
+#~ "text-accent font-bold\">Interaction avec l'overlay</span>. Cette action "
+#~ "est associée à <span class=\"text-text-accent font-bold\">Alt droite</"
+#~ "span> par défaut. Essayez !"
+
+#~ msgid "SET/OK"
+#~ msgstr "SET/OK"
+
+#~ msgid ""
+#~ "Works like Assist, but will act the way you select in the Assistance "
+#~ "settings. This key will additionally be used for confirmations."
+#~ msgstr ""
+#~ "Fonctionne comme Assistance, mais agira selon ce que vous sélectionnez "
+#~ "dans les paramètres d'assistance. Cette touche servira également aux "
+#~ "confirmations."
+
+#~ msgid "Next/Cancel"
+#~ msgstr "Suivant/Annuler"
+
+#~ msgid "Desired Longitudinal Level: "
+#~ msgstr "Niveau longitudinal souhaité : "

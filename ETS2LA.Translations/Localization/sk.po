@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
+"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
 "PO-Revision-Date: 2026-08-27 20:59+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
-"\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
+">\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,15 +44,6 @@ msgstr "Nepodarilo sa otvoriť joystick {0}."
 msgid "Anonymous Telemetry"
 msgstr "Anonymná telemetria"
 
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-"Zvýši aktuálnu hodnotu (napr. cieľovú rýchlosť) o jeden stupeň. Ak sa v "
-"používateľskom rozhraní nezobrazuje žiadny vizuálny indikátor, cieľová "
-"rýchlosť sa tým zvýši o 1 km/h."
-
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr "Kontrola s ID „{0}“ nebola nájdené pre aktualizáciu mapovania kláves."
@@ -79,11 +70,14 @@ msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr "Pri zmene rýchlosti nastavte najbližšiu 10 37 -> 39 -> 40 -> 42..."
 
-msgid "None"
-msgstr "Žiadne"
-
 msgid "kg"
 msgstr "kg"
+
+msgid ""
+"Decreases the current target speed by one step. If speed control and lane "
+"assist are off, this key acts like SET. Meaning it will set the current "
+"speed to speedlimit."
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -155,9 +149,6 @@ msgstr ""
 "Upozornenie: Váš systém má menej ako 16 GB pamäte RAM. Môžete zvoliť iba "
 "nastavenie „Stredné“."
 
-msgid "Increase"
-msgstr "Zvýšiť"
-
 msgid "Window Zoom"
 msgstr "Zväčšenie okna"
 
@@ -173,6 +164,15 @@ msgstr ""
 
 msgid "km/h"
 msgstr "km/h"
+
+msgid ""
+"ETS2LA will display information on top of the game. You can interact with "
+"these overlay elements using <span class=\"text-text-accent font-"
+"bold\">Overlay Interaction</span>. Try it!"
+msgstr ""
+
+msgid "If you can't interact with the Window, press CTRL+R."
+msgstr ""
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Veľkosť kroku pri zmene rýchlosti tempomatu."
@@ -335,6 +335,10 @@ msgid "The selected file does not exist."
 msgstr "Vybraný súbor neexistuje."
 
 #, csharp-format
+msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Latest Version: {0}"
 msgstr "Najnovšia verzia: {0}"
 
@@ -354,6 +358,11 @@ msgstr "Vykresliť prvky AR"
 msgid "Unchanged / Unavailable"
 msgstr "Nezmenené / Nedostupné"
 
+msgid ""
+"This key is used to select in UI menus. It also acts as the approval key for "
+"any notifications."
+msgstr ""
+
 #, csharp-format
 msgid "LoaderException: {0}"
 msgstr "Výnimka načítača: {0}"
@@ -364,9 +373,6 @@ msgstr "Presnosť údajov"
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr "Nepodarilo sa odinštalovať aktuálnu verziu pluginu s ID {0}."
-
-msgid "Assist"
-msgstr "Asistent"
 
 msgid "Early"
 msgstr "Skoro"
@@ -417,6 +423,9 @@ msgstr "Podpora viacerých zobrazení"
 msgid "You took a wrong turn!"
 msgstr "Zabočil si nesprávne!"
 
+msgid "Adaptive Cruise Control Only"
+msgstr ""
+
 msgid "Initializing GLFW..."
 msgstr "Inicializácia GLFW..."
 
@@ -425,15 +434,6 @@ msgstr "3D renderovač"
 
 msgid "SDK Uninstallation Failed"
 msgstr "Odinštalovanie SDK sa nepodarilo"
-
-msgid ""
-"Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
-"if you want that. You can change how this key (and SET) behave in the "
-"Assistance settings."
-msgstr ""
-"Touto klávesou zapnete alebo vypnete asistenčné funkcie ETS2LA. Rýchlosť sa "
-"tým neaktualizuje; ak to chcete, použite klávesu SET. Správanie tejto "
-"klávesy (a klávesy SET) môžete zmeniť v nastaveniach asistenčných funkcií."
 
 msgid "Max Overlay Framerate"
 msgstr "Maximálna snímková frekvencia pre prekrývanie"
@@ -594,13 +594,6 @@ msgstr "Neurčené"
 msgid "meters per second"
 msgstr "metre za sekundu"
 
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-"Táto klávesa slúži na prechod vpred v akomkoľvek menu hry ETS2LA a zároveň "
-"funguje ako klávesa na zrušenie akéhokoľvek potvrdenia."
-
 msgid "Update check skipped, using already cached result."
 msgstr ""
 "Kontrola aktualizácií bola preskočená, používa sa výsledok už uložený v "
@@ -709,9 +702,6 @@ msgstr ""
 "Vypnutie backendu mapovania kláves bolo úspešné, všetky mapovania klávesov "
 "boli uložené."
 
-msgid "Lane Keep"
-msgstr "Udržiavanie jazdného pruhu"
-
 msgid "Anonymous"
 msgstr "Anonymný"
 
@@ -758,6 +748,9 @@ msgstr "Nepodarilo sa inicializovať vstupný backend SDL3."
 #, csharp-format
 msgid "{0} not found in supported languages."
 msgstr "{0} nebola nájdená v podporovaných jazykoch."
+
+msgid "Assists Enabled: "
+msgstr ""
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -1002,12 +995,14 @@ msgstr "Analyzovanie sektora {0} z {1}..."
 msgid "Unbound"
 msgstr "Nepriradené"
 
+msgid ""
+"ETS2LA uses a control setup that should be similar to real life systems. You "
+"can rebind the default controls on the right side."
+msgstr ""
+
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
-
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, tak ma teraz pusťte dnu!"
 
 #, csharp-format
 msgid ""
@@ -1016,6 +1011,9 @@ msgid ""
 msgstr ""
 "Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
 "alebo na {2}GitHube{3}."
+
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1030,9 +1028,6 @@ msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "Načítal som {0} plugin z {1}"
 msgstr[1] "Načítal som {0} pluginy z {1}"
 msgstr[2] "Načítal som {0} pluginov z {1}"
-
-msgid "Full"
-msgstr "Úplný"
 
 msgid "Metric"
 msgstr "Metrický"
@@ -1065,6 +1060,9 @@ msgstr "Vypnutý plugin: [bold]{0}[/]"
 
 msgid "Continue"
 msgstr "Pokračovať"
+
+msgid "Cancel/MODE"
+msgstr ""
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1114,6 +1112,11 @@ msgstr "litre"
 msgid "No valid versions found for plugin with ID {0}."
 msgstr "Nenašli sa žiadne platné verzie pre plugin s ID {0}."
 
+msgid ""
+"Will disable ETS2LA's assists when pressed. If assists are already disabled, "
+"this key will switch between driving modes."
+msgstr ""
+
 msgid "Binding thread started with no control to bind."
 msgstr "Mapovanie bolo spustené bez ovládacieho prvku na namapovanie."
 
@@ -1128,9 +1131,6 @@ msgstr "Sťahovanie aktualizácie"
 
 msgid "Simplified Graphics"
 msgstr "Zjednodušená grafika"
-
-msgid "Pause Steering Assist: "
-msgstr "Pozastavte asistenta zatáčania: "
 
 msgid "Steering Sensitivity"
 msgstr "Citlivosť zatáčania"
@@ -1187,15 +1187,6 @@ msgstr "V súčasnosti beží rýchlosťou {0} FPS."
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr "Verzia {0} nebola nájdená pre plugin s ID {1}."
-
-msgid ""
-"Decreases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
-"h."
-msgstr ""
-"Zníži aktuálnu hodnotu (napr. cieľovú rýchlosť) o jeden stupeň. Ak sa v "
-"používateľskom rozhraní nezobrazuje žiadny vizuálny indikátor, cieľová "
-"rýchlosť sa zníži o 1 km/h."
 
 msgid "Invalid file"
 msgstr "Neplatný súbor"
@@ -1291,6 +1282,12 @@ msgstr ""
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
 msgstr "Plugin „{0}“ chýba súbor DLL v umiestnení „{1}“ a bol odstránený."
 
+msgid ""
+"Increases the current target speed by one step. If assists are disabled, "
+"this key acts like RES. Meaning it will resume the last set target speed. If "
+"a last target speed was not set, this key acts like SET."
+msgstr ""
+
 msgid "Account"
 msgstr "Účet"
 
@@ -1326,9 +1323,6 @@ msgstr ""
 "V regióne {1} nebola nájdená žiadna adresa URL na stiahnutie pluginu s ID "
 "{0}."
 
-msgid "Emergency Braking"
-msgstr "Núdzové brzdenie"
-
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -1346,9 +1340,6 @@ msgstr "Reštartujem ETS2LA..."
 msgid "ETS2LA is running."
 msgstr "ETS2LA je spustené."
 
-msgid "Desired Steering Level: "
-msgstr "Požadovaná úroveň zatáčania: "
-
 msgid "Restart"
 msgstr "Reštartovať"
 
@@ -1364,6 +1355,9 @@ msgstr "lbs"
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "Snažil som sa vypnúť {0}, ale medzi načítanými pluginami sa nenašiel."
+
+msgid "Full Self-Driving"
+msgstr ""
 
 msgid "Install"
 msgstr "Inštalovať"
@@ -1418,8 +1412,8 @@ msgstr "Plugin {0} bol úspešne nainštalovaný ({1}, {2})"
 msgid "Installation at '{0}' has already been parsed."
 msgstr "Inštalácia v „{0}“ už bola spracovaná."
 
-msgid "Pause Longitudinal Assist: "
-msgstr "Pozastavte Longitudinal Asistenta: "
+msgid "Increase/RES"
+msgstr ""
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1427,9 +1421,6 @@ msgstr "Nepodarilo sa získať joystick [gray italic]({0})[/]: {1}"
 
 msgid "Far"
 msgstr "Ďaleko"
-
-msgid "Decrease"
-msgstr "Znížiť"
 
 msgid "K"
 msgstr "K"
@@ -1525,6 +1516,9 @@ msgstr "psi"
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Došlo k chybe pri načítaní súboru „{0}“: {1}"
 
+msgid "Next/OK"
+msgstr ""
+
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
 "if you use 3rd party plugins. Select Yes to continue anyway and accept the "
@@ -1590,12 +1584,20 @@ msgid "Deleted '{0}'"
 msgstr "Odstránené „{0}“"
 
 #, csharp-format
+msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
@@ -1632,14 +1634,14 @@ msgstr "Ďalšie informácie nájdete v protokoloch."
 msgid "Binding Timed Out"
 msgstr "Časový limit pre mapovanie kláves vypršal"
 
-msgid "Adaptive Cruise Control"
-msgstr "Adaptívny tempomat"
-
 msgid "Changes will take effect after restarting the application."
 msgstr "Zmeny sa uplatnia po reštartovaní aplikácie."
 
 msgid "Use this button to extend the sidebar."
 msgstr "Týmto tlačidlom rozbalíte bočný panel."
+
+msgid "Lane Assist Only"
+msgstr ""
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1692,18 +1694,6 @@ msgstr "Nepodarilo sa odinštalovať SDK z „{0}“ do „{1}“: {2}"
 #, csharp-format
 msgid "Inner Exception: {0}"
 msgstr "Vnútorná výnimka: {0}"
-
-msgid ""
-"ETS2LA will display information on top of the game. You can interact with "
-"these overlay elements using <span class=\"text-text-accent font-"
-"bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
-"accent font-bold\">Right-Alt</span> by default. Try it!"
-msgstr ""
-"ETS2LA zobrazuje informácie v prekrývajúcom okne nad hrou. S týmito prvkami "
-"prekrývacieho okna môžete interagovať pomocou funkcie <span class=\"text-"
-"text-accent font-bold\">Interakcia s prekrývajúcim oknom</span>. Táto "
-"funkcia je štandardne priradená k klávesovej skratke <span class=\"text-text-"
-"accent font-bold\">Pravý Alt</span>. Vyskúšajte to!"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1773,22 +1763,11 @@ msgstr "Začína sa sťahovanie..."
 msgid "High"
 msgstr "Vysoký"
 
-msgid "SET/OK"
-msgstr "SET/OK"
-
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "Záverečné varovanie <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
 msgstr "Údaje z mapy boli spracované"
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr ""
-"Funguje podobne ako klávesa „Assist“, ale bude sa správať podľa toho, čo si "
-"nastavíte v nastaveniach asistencie. Táto klávesa sa bude navyše používať na "
-"potvrdzovanie."
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
@@ -1815,9 +1794,6 @@ msgstr "Verzia SDK „{0}“ bola úspešne odinštalovaná z „{1}“"
 
 msgid "Desired Speed: "
 msgstr "Požadovaná rýchlosť: "
-
-msgid "Next/Cancel"
-msgstr "Ďalej/Zrušiť"
 
 msgid "meters"
 msgstr "metre"
@@ -1853,6 +1829,9 @@ msgstr "Dokončilo sa analýzovanie inštalácie v „{0}“"
 msgid "Playing sound: {0}"
 msgstr "Prehrávanie zvuku: {0}"
 
+msgid "Assist Level: "
+msgstr ""
+
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr ""
@@ -1881,15 +1860,15 @@ msgstr ""
 "Úroveň priblíženia okna ETS2LA. Túto funkciu môžete použiť na prispôsobenie "
 "veľkosti okna nastaveniam DPI vášho monitora."
 
+msgid "Decrease/SET"
+msgstr ""
+
 msgid "Finished loading plugins"
 msgstr "Načítanie pluginov bolo dokončené"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "Inštalácia závislosti {0} pre plugin {1} sa nepodarila."
-
-msgid "Desired Longitudinal Level: "
-msgstr "Požadovaný Longitudinaly level: "
 
 msgid "Error in semaphore update loop."
 msgstr "Chyba v cykle aktualizácie semaforu."
@@ -1931,18 +1910,18 @@ msgid "Display Units: "
 msgstr "Displeje: "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Upozornenie: Váš systém má menej ako 20 GB pamäte RAM. Môžete zvoliť "
-"maximálne úroveň „Vysoký“."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "Jazyk, v ktorom sa bude zobrazovať ETS2LA. Preklady poskytuje komunita, "
 "nemôžeme zaručiť ich správnosť :)"
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Upozornenie: Váš systém má menej ako 20 GB pamäte RAM. Môžete zvoliť "
+"maximálne úroveň „Vysoký“."
 
 msgid "Interaction Mode"
 msgstr "Režim interakcie"
@@ -1954,6 +1933,102 @@ msgstr "Pridávam mód:{0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie sú nainštalované všetky závislosti pre plugin {0}."
+
+#~ msgid ""
+#~ "Increases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will increase the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "Zvýši aktuálnu hodnotu (napr. cieľovú rýchlosť) o jeden stupeň. Ak sa v "
+#~ "používateľskom rozhraní nezobrazuje žiadny vizuálny indikátor, cieľová "
+#~ "rýchlosť sa tým zvýši o 1 km/h."
+
+#~ msgid "None"
+#~ msgstr "Žiadne"
+
+#~ msgid "Increase"
+#~ msgstr "Zvýšiť"
+
+#~ msgid "Assist"
+#~ msgstr "Asistent"
+
+#~ msgid ""
+#~ "Will toggle ETS2LA's assists on and off. Will not update the speed, use "
+#~ "SET if you want that. You can change how this key (and SET) behave in the "
+#~ "Assistance settings."
+#~ msgstr ""
+#~ "Touto klávesou zapnete alebo vypnete asistenčné funkcie ETS2LA. Rýchlosť "
+#~ "sa tým neaktualizuje; ak to chcete, použite klávesu SET. Správanie tejto "
+#~ "klávesy (a klávesy SET) môžete zmeniť v nastaveniach asistenčných funkcií."
+
+#~ msgid ""
+#~ "This key will navigate any ETS2LA menus forward, it will also work as the "
+#~ "cancel key for any confirmations."
+#~ msgstr ""
+#~ "Táto klávesa slúži na prechod vpred v akomkoľvek menu hry ETS2LA a "
+#~ "zároveň funguje ako klávesa na zrušenie akéhokoľvek potvrdenia."
+
+#~ msgid "Lane Keep"
+#~ msgstr "Udržiavanie jazdného pruhu"
+
+#~ msgid "Full"
+#~ msgstr "Úplný"
+
+#~ msgid "Pause Steering Assist: "
+#~ msgstr "Pozastavte asistenta zatáčania: "
+
+#~ msgid ""
+#~ "Decreases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will decrease the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "Zníži aktuálnu hodnotu (napr. cieľovú rýchlosť) o jeden stupeň. Ak sa v "
+#~ "používateľskom rozhraní nezobrazuje žiadny vizuálny indikátor, cieľová "
+#~ "rýchlosť sa zníži o 1 km/h."
+
+#~ msgid "Emergency Braking"
+#~ msgstr "Núdzové brzdenie"
+
+#~ msgid "Desired Steering Level: "
+#~ msgstr "Požadovaná úroveň zatáčania: "
+
+#~ msgid "Pause Longitudinal Assist: "
+#~ msgstr "Pozastavte Longitudinal Asistenta: "
+
+#~ msgid "Decrease"
+#~ msgstr "Znížiť"
+
+#~ msgid "Adaptive Cruise Control"
+#~ msgstr "Adaptívny tempomat"
+
+#~ msgid ""
+#~ "ETS2LA will display information on top of the game. You can interact with "
+#~ "these overlay elements using <span class=\"text-text-accent font-"
+#~ "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-"
+#~ "text-accent font-bold\">Right-Alt</span> by default. Try it!"
+#~ msgstr ""
+#~ "ETS2LA zobrazuje informácie v prekrývajúcom okne nad hrou. S týmito "
+#~ "prvkami prekrývacieho okna môžete interagovať pomocou funkcie <span "
+#~ "class=\"text-text-accent font-bold\">Interakcia s prekrývajúcim oknom</"
+#~ "span>. Táto funkcia je štandardne priradená k klávesovej skratke <span "
+#~ "class=\"text-text-accent font-bold\">Pravý Alt</span>. Vyskúšajte to!"
+
+#~ msgid "SET/OK"
+#~ msgstr "SET/OK"
+
+#~ msgid ""
+#~ "Works like Assist, but will act the way you select in the Assistance "
+#~ "settings. This key will additionally be used for confirmations."
+#~ msgstr ""
+#~ "Funguje podobne ako klávesa „Assist“, ale bude sa správať podľa toho, čo "
+#~ "si nastavíte v nastaveniach asistencie. Táto klávesa sa bude navyše "
+#~ "používať na potvrdzovanie."
+
+#~ msgid "Next/Cancel"
+#~ msgstr "Ďalej/Zrušiť"
+
+#~ msgid "Desired Longitudinal Level: "
+#~ msgstr "Požadovaný Longitudinaly level: "
 
 #, csharp-format
 #~ msgid "Ignored DBus exception: {0}"

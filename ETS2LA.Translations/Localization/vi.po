@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
+"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -44,14 +44,6 @@ msgstr "Không thể mở tay cầm điều khiển {0}."
 msgid "Anonymous Telemetry"
 msgstr "Thu thập dữ liệu ẩn danh"
 
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-"Tăng giá trị hiện tại (Ví dụ: tốc độ mong muốn) lên một nấc. Khi không dùng "
-"phím bổ trợ, thao tác này sẽ tăng tốc độ mục tiêu lên 1 km/h."
-
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr "Không tìm thấy nút với ID '{0}' để cập nhật gán phím."
@@ -79,11 +71,14 @@ msgstr ""
 "Khi thay đổi tốc độ, tự làm tròn về số chia hết cho 10 gần nhất. Ví dụ 37 -> "
 "39 -> 40 ->42..."
 
-msgid "None"
-msgstr "Không có"
-
 msgid "kg"
 msgstr "kg"
+
+msgid ""
+"Decreases the current target speed by one step. If speed control and lane "
+"assist are off, this key acts like SET. Meaning it will set the current "
+"speed to speedlimit."
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -152,9 +147,6 @@ msgstr ""
 "Cảnh báo: Hệ thống của bán có ít hơn 16GB Ram. Bạn chỉ có thể chọn tối đa "
 "mức trung bình."
 
-msgid "Increase"
-msgstr "Tăng"
-
 msgid "Window Zoom"
 msgstr "Phóng to cửa sổ"
 
@@ -170,6 +162,15 @@ msgstr ""
 
 msgid "km/h"
 msgstr "km/h"
+
+msgid ""
+"ETS2LA will display information on top of the game. You can interact with "
+"these overlay elements using <span class=\"text-text-accent font-"
+"bold\">Overlay Interaction</span>. Try it!"
+msgstr ""
+
+msgid "If you can't interact with the Window, press CTRL+R."
+msgstr ""
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Mức tăng/giảm mỗi lần thay đổi tốc độ ga tự động."
@@ -328,6 +329,10 @@ msgid "The selected file does not exist."
 msgstr "Tệp vừa chọn không tồn tại."
 
 #, csharp-format
+msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Latest Version: {0}"
 msgstr "Phiên bản mới nhất: {0}"
 
@@ -347,6 +352,11 @@ msgstr "Hiển thị các phần tử AR"
 msgid "Unchanged / Unavailable"
 msgstr "Chưa thay đổi / Không khả dụng"
 
+msgid ""
+"This key is used to select in UI menus. It also acts as the approval key for "
+"any notifications."
+msgstr ""
+
 #, csharp-format
 msgid "LoaderException: {0}"
 msgstr "Lỗi tải (LoaderException): {0}"
@@ -357,9 +367,6 @@ msgstr "Độ chính xác dữ liệu"
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr "Không thể gỡ cài đặt phiên bản hiện tại của plugin với ID {0}."
-
-msgid "Assist"
-msgstr "Hỗ trợ lái"
 
 msgid "Early"
 msgstr "Sớm"
@@ -411,6 +418,9 @@ msgstr "Hỗ trợ nhiều khung hình (Multiple Viewports)"
 msgid "You took a wrong turn!"
 msgstr "Bạn đã đi sai hướng!"
 
+msgid "Adaptive Cruise Control Only"
+msgstr ""
+
 msgid "Initializing GLFW..."
 msgstr "Đang khởi tạo GLFW..."
 
@@ -419,15 +429,6 @@ msgstr ""
 
 msgid "SDK Uninstallation Failed"
 msgstr ""
-
-msgid ""
-"Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
-"if you want that. You can change how this key (and SET) behave in the "
-"Assistance settings."
-msgstr ""
-"Dùng để bật tắt các tính năng hỗ trợ của ETS2LA. Sẽ không cập nhật tốc độ, "
-"dùng SET nếu bạn muốn đặt lại tốc độ. Bạn có thể đổi cách phím này (và phím "
-"SET) hoạt động trong Cài đặt hỗ trợ (Assistant settings)."
 
 msgid "Max Overlay Framerate"
 msgstr "Tốc độ khung hình tối đa của lớp phủ (overlay)"
@@ -577,11 +578,6 @@ msgstr ""
 msgid "meters per second"
 msgstr "mét trên giây"
 
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-
 msgid "Update check skipped, using already cached result."
 msgstr ""
 "Đã bỏ qua kiểm tra cập nhật, đang sử dụng kết quả trong bộ nhớ tạm thời."
@@ -686,9 +682,6 @@ msgstr ""
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr ""
 
-msgid "Lane Keep"
-msgstr ""
-
 msgid "Anonymous"
 msgstr ""
 
@@ -730,6 +723,9 @@ msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
+msgstr ""
+
+msgid "Assists Enabled: "
 msgstr ""
 
 #, csharp-format
@@ -954,17 +950,22 @@ msgstr ""
 msgid "Unbound"
 msgstr "Chưa gán phím"
 
-#, csharp-format
-msgid "Failed to install latest version of plugin with ID {0}."
+msgid ""
+"ETS2LA uses a control setup that should be similar to real life systems. You "
+"can rebind the default controls on the right side."
 msgstr ""
 
-msgid "I understand, now let me in!"
+#, csharp-format
+msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
+msgstr ""
+
+msgid "I understand, now let me in!"
 msgstr ""
 
 msgid ""
@@ -978,9 +979,6 @@ msgstr ""
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "Đã lấy plugin {0} từ {1}"
-
-msgid "Full"
-msgstr ""
 
 msgid "Metric"
 msgstr "Hệ mét (km)"
@@ -1010,6 +1008,9 @@ msgid "Disabled plugin: [bold]{0}[/]"
 msgstr "Đã tắt plugin: [bold]{0}[/]"
 
 msgid "Continue"
+msgstr ""
+
+msgid "Cancel/MODE"
 msgstr ""
 
 #, csharp-format
@@ -1058,6 +1059,11 @@ msgstr "lít"
 msgid "No valid versions found for plugin with ID {0}."
 msgstr "Không tìm thấy phiên bản hợp lệ nào cho plugin với ID {0}."
 
+msgid ""
+"Will disable ETS2LA's assists when pressed. If assists are already disabled, "
+"this key will switch between driving modes."
+msgstr ""
+
 msgid "Binding thread started with no control to bind."
 msgstr "Luồng gán phím đã chạy nhưng không có nút điều khiển để gán."
 
@@ -1071,9 +1077,6 @@ msgstr ""
 
 msgid "Simplified Graphics"
 msgstr ""
-
-msgid "Pause Steering Assist: "
-msgstr "Tạm dừng hỗ trợ đánh lái: "
 
 msgid "Steering Sensitivity"
 msgstr ""
@@ -1130,12 +1133,6 @@ msgstr ""
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr "Không thể tìm thấy phiên bản {0} cho plugin với ID {1}."
-
-msgid ""
-"Decreases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
-"h."
-msgstr ""
 
 msgid "Invalid file"
 msgstr "Tệp không hợp lệ"
@@ -1222,6 +1219,12 @@ msgstr ""
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
 msgstr "Plugin '{0}' bị thiếu mất DLL tại '{1}' và đã bị xóa."
 
+msgid ""
+"Increases the current target speed by one step. If assists are disabled, "
+"this key acts like RES. Meaning it will resume the last set target speed. If "
+"a last target speed was not set, this key acts like SET."
+msgstr ""
+
 msgid "Account"
 msgstr ""
 
@@ -1253,9 +1256,6 @@ msgstr "Không thể giải phóng vùng nhớ của plugin: {0}"
 msgid "No download URL found for plugin with ID {0} in region {1}."
 msgstr "Không tìm thấy URL tải xuống cho plugin với ID {0} ở khu vực {1}."
 
-msgid "Emergency Braking"
-msgstr "Phanh khẩn cấp"
-
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -1270,10 +1270,6 @@ msgstr "Đang khởi động lại ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr ""
-
-#, fuzzy
-msgid "Desired Steering Level: "
-msgstr "Mức độ đánh lái mong muốn: "
 
 msgid "Restart"
 msgstr ""
@@ -1290,6 +1286,9 @@ msgstr ""
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "Đã thử tắt {0}, nhưng không tìm thấy trong danh sách plugin đã nạp."
+
+msgid "Full Self-Driving"
+msgstr ""
 
 msgid "Install"
 msgstr ""
@@ -1337,17 +1336,14 @@ msgstr "Đã cài đặt thành công plugin {0} ({1},{2})"
 msgid "Installation at '{0}' has already been parsed."
 msgstr ""
 
-msgid "Pause Longitudinal Assist: "
-msgstr "Tạm dừng hỗ trợ giữ làn dọc: "
+msgid "Increase/RES"
+msgstr ""
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
 msgstr ""
 
 msgid "Far"
-msgstr ""
-
-msgid "Decrease"
 msgstr ""
 
 msgid "K"
@@ -1438,6 +1434,9 @@ msgstr ""
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr ""
 
+msgid "Next/OK"
+msgstr ""
+
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
 "if you use 3rd party plugins. Select Yes to continue anyway and accept the "
@@ -1495,12 +1494,20 @@ msgid "Deleted '{0}'"
 msgstr ""
 
 #, csharp-format
+msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Xem dữ liệu thu thập từ xa công khai"
@@ -1532,13 +1539,13 @@ msgstr "Vui lòng xem nhật kí (log) để có nhiều thông tin hơn."
 msgid "Binding Timed Out"
 msgstr "Hết thời gian gán phím"
 
-msgid "Adaptive Cruise Control"
-msgstr "Ga tự dộng thích ứng"
-
 msgid "Changes will take effect after restarting the application."
 msgstr "Các thay đổi sẽ hoạt động sau khi khời động lại ứng dụng."
 
 msgid "Use this button to extend the sidebar."
+msgstr ""
+
+msgid "Lane Assist Only"
 msgstr ""
 
 msgid ""
@@ -1585,17 +1592,6 @@ msgstr "Gỡ cài đặt SDK từ '{0}' đến '{1}' không thành công: {2}"
 #, csharp-format
 msgid "Inner Exception: {0}"
 msgstr ""
-
-msgid ""
-"ETS2LA will display information on top of the game. You can interact with "
-"these overlay elements using <span class=\"text-text-accent font-"
-"bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
-"accent font-bold\">Right-Alt</span> by default. Try it!"
-msgstr ""
-"ETS2LA sẽ hiển thị thông tin đè lên trên game. Bạn có thể tương tác với các "
-"phần tử overlay này bằng <span class=\"text-text-accent font-bold\">Overlay "
-"Interaction</span>. Phím này mặc định được gán cho <span class=\"text-text-"
-"accent font-bold\">Right-Alt</span>. Hãy thử xem!"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1665,21 +1661,11 @@ msgstr "Bắt đầu tải xuống..."
 msgid "High"
 msgstr "Cao"
 
-msgid "SET/OK"
-msgstr "Thiết lập/OK"
-
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "Lưu ý cuối cùng <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
 msgstr "Đã phân tích dữ liệu bản đồ"
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr ""
-"Hoạt động giống như Hỗ trợ lái, nhưng sẽ xử lý theo thiết lập trong cài đặt "
-"Hỗ trợ. Phím này cũng dùng để xác nhận."
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
@@ -1707,9 +1693,6 @@ msgstr ""
 #, fuzzy
 msgid "Desired Speed: "
 msgstr "Tốc độ mong muốn. "
-
-msgid "Next/Cancel"
-msgstr "Tiếp theo/Hủy"
 
 msgid "meters"
 msgstr "mét"
@@ -1743,6 +1726,9 @@ msgstr ""
 msgid "Playing sound: {0}"
 msgstr "Đang phát âm thanh: {0}"
 
+msgid "Assist Level: "
+msgstr ""
+
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr "Không thể bật plugin {0} vì không thấy phụ thuộc {1}."
@@ -1768,15 +1754,15 @@ msgid ""
 "your monitor's DPI settings."
 msgstr ""
 
+msgid "Decrease/SET"
+msgstr ""
+
 msgid "Finished loading plugins"
 msgstr ""
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "Cài đặt thư viện phụ thuộc {0} cho plugin {1}."
-
-msgid "Desired Longitudinal Level: "
-msgstr ""
 
 msgid "Error in semaphore update loop."
 msgstr ""
@@ -1817,16 +1803,16 @@ msgid "Display Units: "
 msgstr "Đơn vị hiển thị:. "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "Ngôn ngữ hiển thị của ETS2LA. Các bản dịch được cung cấp bởi cộng đồng và "
 "chúng tôi không bảo đảm tính chính xác."
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
 
 msgid "Interaction Mode"
 msgstr "Chế độ tương tác"
@@ -1838,6 +1824,72 @@ msgstr "Đang thêm mod: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Chưa cài đặt đủ các phụ thuộc của plugin {0}."
+
+#~ msgid ""
+#~ "Increases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will increase the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "Tăng giá trị hiện tại (Ví dụ: tốc độ mong muốn) lên một nấc. Khi không "
+#~ "dùng phím bổ trợ, thao tác này sẽ tăng tốc độ mục tiêu lên 1 km/h."
+
+#~ msgid "None"
+#~ msgstr "Không có"
+
+#~ msgid "Increase"
+#~ msgstr "Tăng"
+
+#~ msgid "Assist"
+#~ msgstr "Hỗ trợ lái"
+
+#~ msgid ""
+#~ "Will toggle ETS2LA's assists on and off. Will not update the speed, use "
+#~ "SET if you want that. You can change how this key (and SET) behave in the "
+#~ "Assistance settings."
+#~ msgstr ""
+#~ "Dùng để bật tắt các tính năng hỗ trợ của ETS2LA. Sẽ không cập nhật tốc "
+#~ "độ, dùng SET nếu bạn muốn đặt lại tốc độ. Bạn có thể đổi cách phím này "
+#~ "(và phím SET) hoạt động trong Cài đặt hỗ trợ (Assistant settings)."
+
+#~ msgid "Pause Steering Assist: "
+#~ msgstr "Tạm dừng hỗ trợ đánh lái: "
+
+#~ msgid "Emergency Braking"
+#~ msgstr "Phanh khẩn cấp"
+
+#, fuzzy
+#~ msgid "Desired Steering Level: "
+#~ msgstr "Mức độ đánh lái mong muốn: "
+
+#~ msgid "Pause Longitudinal Assist: "
+#~ msgstr "Tạm dừng hỗ trợ giữ làn dọc: "
+
+#~ msgid "Adaptive Cruise Control"
+#~ msgstr "Ga tự dộng thích ứng"
+
+#~ msgid ""
+#~ "ETS2LA will display information on top of the game. You can interact with "
+#~ "these overlay elements using <span class=\"text-text-accent font-"
+#~ "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-"
+#~ "text-accent font-bold\">Right-Alt</span> by default. Try it!"
+#~ msgstr ""
+#~ "ETS2LA sẽ hiển thị thông tin đè lên trên game. Bạn có thể tương tác với "
+#~ "các phần tử overlay này bằng <span class=\"text-text-accent font-"
+#~ "bold\">Overlay Interaction</span>. Phím này mặc định được gán cho <span "
+#~ "class=\"text-text-accent font-bold\">Right-Alt</span>. Hãy thử xem!"
+
+#~ msgid "SET/OK"
+#~ msgstr "Thiết lập/OK"
+
+#~ msgid ""
+#~ "Works like Assist, but will act the way you select in the Assistance "
+#~ "settings. This key will additionally be used for confirmations."
+#~ msgstr ""
+#~ "Hoạt động giống như Hỗ trợ lái, nhưng sẽ xử lý theo thiết lập trong cài "
+#~ "đặt Hỗ trợ. Phím này cũng dùng để xác nhận."
+
+#~ msgid "Next/Cancel"
+#~ msgstr "Tiếp theo/Hủy"
 
 #, csharp-format
 #~ msgid "Attempting to enable plugin: [bold]{0}[/]"

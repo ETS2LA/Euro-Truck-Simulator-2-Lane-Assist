@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
+"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
 "PO-Revision-Date: 2026-08-30 08:00+0000\n"
 "Last-Translator: Pastel <pastel@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
@@ -43,14 +43,6 @@ msgstr "ジョイスティック {0} を開くことができませんでした�
 msgid "Anonymous Telemetry"
 msgstr "匿名テレメトリ"
 
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-"現在の値（目標速度など）を1段階増やします。UIに表示される視覚的な補正がない場"
-"合、目標速度は1 km/h増加します。"
-
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr "割り当ての更新に必要な、ID「{0}」のコントロールが見つかりません。"
@@ -79,11 +71,14 @@ msgstr ""
 "速度を変更するときは、10の倍数に近い値にスナップします。例：37 → 39 → 40 → "
 "42…"
 
-msgid "None"
-msgstr "なし"
-
 msgid "kg"
 msgstr "kg"
+
+msgid ""
+"Decreases the current target speed by one step. If speed control and lane "
+"assist are off, this key acts like SET. Meaning it will set the current "
+"speed to speedlimit."
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -153,9 +148,6 @@ msgstr ""
 "警告 : お使いのシステムのRAM容量が16GB未満です。「中」までしか選択できませ"
 "ん。"
 
-msgid "Increase"
-msgstr "増加"
-
 msgid "Window Zoom"
 msgstr "ウィンドウのズーム"
 
@@ -171,6 +163,15 @@ msgstr ""
 
 msgid "km/h"
 msgstr "km/h"
+
+msgid ""
+"ETS2LA will display information on top of the game. You can interact with "
+"these overlay elements using <span class=\"text-text-accent font-"
+"bold\">Overlay Interaction</span>. Try it!"
+msgstr ""
+
+msgid "If you can't interact with the Window, press CTRL+R."
+msgstr ""
 
 msgid "The step size for changing the cruise control speed."
 msgstr "クルーズコントロールの速度を変更する際の刻み幅です。"
@@ -262,7 +263,8 @@ msgstr "曲線の品質"
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
-msgstr "ETS2LAが必要なステアリング操作にどのように反応するかを調整します。例えば、こ"
+msgstr ""
+"ETS2LAが必要なステアリング操作にどのように反応するかを調整します。例えば、こ"
 "れによりETS2LAが車線変更を行う速度を制御できます。"
 
 #, csharp-format
@@ -332,6 +334,10 @@ msgid "The selected file does not exist."
 msgstr "選択したファイルは存在しません。"
 
 #, csharp-format
+msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Latest Version: {0}"
 msgstr "最新バージョン: {0}"
 
@@ -351,6 +357,11 @@ msgstr "AR要素を描画する"
 msgid "Unchanged / Unavailable"
 msgstr "変更なし / 利用不可"
 
+msgid ""
+"This key is used to select in UI menus. It also acts as the approval key for "
+"any notifications."
+msgstr ""
+
 #, csharp-format
 msgid "LoaderException: {0}"
 msgstr "LoaderException: {0}"
@@ -362,9 +373,6 @@ msgstr "データの正確性"
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr ""
 "ID {0} のプラグインの現在のバージョンをアンインストールできませんでした。"
-
-msgid "Assist"
-msgstr "アシスト"
 
 msgid "Early"
 msgstr "早い"
@@ -416,6 +424,9 @@ msgstr "複数のビューポートに対応"
 msgid "You took a wrong turn!"
 msgstr "道を間違えました！"
 
+msgid "Adaptive Cruise Control Only"
+msgstr ""
+
 msgid "Initializing GLFW..."
 msgstr "GLFWの初期化中..."
 
@@ -424,15 +435,6 @@ msgstr "3Dレンダラー"
 
 msgid "SDK Uninstallation Failed"
 msgstr "SDKのアンインストールに失敗しました"
-
-msgid ""
-"Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
-"if you want that. You can change how this key (and SET) behave in the "
-"Assistance settings."
-msgstr ""
-"ETS2LAのアシスト機能を切り替えます。速度は更新されません。速度を更新したい場"
-"合は「SET」キーを使用してください。このキー（および「SET」キー）の動作は、"
-"「アシスト設定」で変更できます。"
 
 msgid "Max Overlay Framerate"
 msgstr "オーバーレイの最大フレームレート"
@@ -588,13 +590,6 @@ msgstr "未定"
 msgid "meters per second"
 msgstr "メートル毎秒"
 
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-"このキーを押すと、ETS2LAのあらゆるメニューで次の項目へ進むことができます。ま"
-"た、確認画面でのキャンセルキーとしても機能します。"
-
 msgid "Update check skipped, using already cached result."
 msgstr "アップデートの確認をスキップし、キャッシュ済みの結果を使用しています。"
 
@@ -700,16 +695,14 @@ msgstr ""
 "制御システムのバックエンドのシャットダウンが完了しました。すべての制御設定が"
 "保存されました。"
 
-msgid "Lane Keep"
-msgstr "レーンキープ"
-
 msgid "Anonymous"
 msgstr "匿名"
 
 msgid ""
 "The units ETS2LA will use when displaying information to a user. Scientific "
 "has only slight differences to metric."
-msgstr "ETS2LAがユーザーに情報を表示する際に使用する単位です。科学単位はメートル法と"
+msgstr ""
+"ETS2LAがユーザーに情報を表示する際に使用する単位です。科学単位はメートル法と"
 "わずかな違いがあります。"
 
 #, csharp-format
@@ -748,6 +741,9 @@ msgstr "SDL3の入力バックエンドの初期化に失敗しました。"
 #, csharp-format
 msgid "{0} not found in supported languages."
 msgstr "{0} は対応言語に含まれていません。"
+
+msgid "Assists Enabled: "
+msgstr ""
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -918,8 +914,9 @@ msgstr "最新バージョンがインストールされています。"
 
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
-msgstr "ID {0} のプラグインを {1} からダウンロードできませんでした。ステータスコード:"
-" {2}"
+msgstr ""
+"ID {0} のプラグインを {1} からダウンロードできませんでした。ステータスコー"
+"ド: {2}"
 
 msgid "No plugins found."
 msgstr "プラグインが見つかりませんでした。"
@@ -986,12 +983,14 @@ msgstr "{1}のセクター{0}を解析中..."
 msgid "Unbound"
 msgstr "割り当てなし"
 
+msgid ""
+"ETS2LA uses a control setup that should be similar to real life systems. You "
+"can rebind the default controls on the right side."
+msgstr ""
+
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID {0} のプラグインの最新バージョンのインストールに失敗しました。"
-
-msgid "I understand, now let me in!"
-msgstr "理解しました。始めよう!"
 
 #, csharp-format
 msgid ""
@@ -1000,6 +999,9 @@ msgid ""
 msgstr ""
 "バグだと思われる場合は、{0}Discordサーバー{1}または{2}GitHub{3}で報告してくだ"
 "さい。"
+
+msgid "I understand, now let me in!"
+msgstr "理解しました。始めよう!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1012,9 +1014,6 @@ msgstr ""
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "{1} から {0} 個のプラグインを取得しました"
-
-msgid "Full"
-msgstr "完全"
 
 msgid "Metric"
 msgstr "メートル法"
@@ -1047,6 +1046,9 @@ msgstr "無効化されたプラグイン：[bold]{0}[/]"
 
 msgid "Continue"
 msgstr "続ける"
+
+msgid "Cancel/MODE"
+msgstr ""
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1096,6 +1098,11 @@ msgstr "リットル"
 msgid "No valid versions found for plugin with ID {0}."
 msgstr "ID {0} のプラグインに対して、有効なバージョンが見つかりませんでした。"
 
+msgid ""
+"Will disable ETS2LA's assists when pressed. If assists are already disabled, "
+"this key will switch between driving modes."
+msgstr ""
+
 msgid "Binding thread started with no control to bind."
 msgstr "割り当てる操作がない状態でバインド処理を開始しました。"
 
@@ -1111,9 +1118,6 @@ msgstr "アップデートをダウンロード中"
 
 msgid "Simplified Graphics"
 msgstr "簡略化されたグラフィック"
-
-msgid "Pause Steering Assist: "
-msgstr "ステアリングアシストを一時停止: "
 
 msgid "Steering Sensitivity"
 msgstr "ステアリングの感度"
@@ -1160,8 +1164,9 @@ msgstr "変更履歴"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr "{0}への切り替えを検出しました。ゲームデータの解析が完了するまで待機しています"
-"。"
+msgstr ""
+"{0}への切り替えを検出しました。ゲームデータの解析が完了するまで待機していま"
+"す。"
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
@@ -1170,14 +1175,6 @@ msgstr "現在{0} FPSで動作しています。"
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr "ID {1} のプラグインに対応するバージョン {0} が見つかりませんでした。"
-
-msgid ""
-"Decreases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
-"h."
-msgstr ""
-"現在の値（例：目標速度）を1段階下げます。UI上で視覚的な補正値が表示されていな"
-"い場合、目標速度を1 km/h下げます。"
 
 msgid "Invalid file"
 msgstr "無効なファイル"
@@ -1270,6 +1267,12 @@ msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
 msgstr ""
 "pluginプラグイン「{0}」のDLLが「{1}」に見つからないため、削除しました。"
 
+msgid ""
+"Increases the current target speed by one step. If assists are disabled, "
+"this key acts like RES. Meaning it will resume the last set target speed. If "
+"a last target speed was not set, this key acts like SET."
+msgstr ""
+
 msgid "Account"
 msgstr "アカウント"
 
@@ -1305,9 +1308,6 @@ msgstr ""
 "リージョン {1} 内の ID {0} のプラグインのダウンロード URL が見つかりませんで"
 "した。"
 
-msgid "Emergency Braking"
-msgstr "緊急ブレーキ"
-
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -1324,9 +1324,6 @@ msgstr "ETS2LAを再起動しています..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LAが動作中です。"
-
-msgid "Desired Steering Level: "
-msgstr "希望ステアリングレベル: "
 
 msgid "Restart"
 msgstr "再起動"
@@ -1345,6 +1342,9 @@ msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
 "{0} を無効化しようとしましたが、読み込まれているプラグインの中に見つかりませ"
 "んでした。"
+
+msgid "Full Self-Driving"
+msgstr ""
 
 msgid "Install"
 msgstr "インストール"
@@ -1397,8 +1397,8 @@ msgstr "プラグイン {0}（{1}、{2}）のインストールに成功しま�
 msgid "Installation at '{0}' has already been parsed."
 msgstr "「{0}」へのインストールはすでに解析済みです。"
 
-msgid "Pause Longitudinal Assist: "
-msgstr "縦方向アシストを一時停止: "
+msgid "Increase/RES"
+msgstr ""
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1406,9 +1406,6 @@ msgstr "ジョイスティック [gray italic]({0})[/] の取得に失敗しま�
 
 msgid "Far"
 msgstr "遠い"
-
-msgid "Decrease"
-msgstr "減らす"
 
 msgid "K"
 msgstr "K"
@@ -1503,6 +1500,9 @@ msgstr "psi"
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr "ファイル「{0}」の読み込み中にエラーが発生しました: {1}"
 
+msgid "Next/OK"
+msgstr ""
+
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
 "if you use 3rd party plugins. Select Yes to continue anyway and accept the "
@@ -1568,12 +1568,20 @@ msgid "Deleted '{0}'"
 msgstr "「{0}」を削除しました"
 
 #, csharp-format
+msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Error initializing memory mapped file: {0}"
 msgstr "メモリマップファイルの初期化中にエラーが発生しました: {0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "プラグインを [gray]{0}[/] から読み込めませんでした: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "公開テレメトリを表示"
@@ -1610,14 +1618,14 @@ msgstr "詳細については、ログをご確認ください。"
 msgid "Binding Timed Out"
 msgstr "割り当てがタイムアウトしました"
 
-msgid "Adaptive Cruise Control"
-msgstr "アダプティブクルーズコントロール"
-
 msgid "Changes will take effect after restarting the application."
 msgstr "変更はアプリケーションを再起動した後に反映されます。"
 
 msgid "Use this button to extend the sidebar."
 msgstr "このボタンをクリックすると、サイドバーを展開できます。"
+
+msgid "Lane Assist Only"
+msgstr ""
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1669,17 +1677,6 @@ msgstr "'{0}' から '{1}' へのSDKのアンインストールに失敗しま�
 #, csharp-format
 msgid "Inner Exception: {0}"
 msgstr "内部例外: {0}"
-
-msgid ""
-"ETS2LA will display information on top of the game. You can interact with "
-"these overlay elements using <span class=\"text-text-accent font-"
-"bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
-"accent font-bold\">Right-Alt</span> by default. Try it!"
-msgstr ""
-"ETS2LAは、ゲーム画面の上に情報を表示します。これらのオーバーレイ要素は、"
-"<span class=\"text-text-accent font-bold\">オーバーレイ操作</span> を使用して"
-"操作できます。これはデフォルトで <span class=\"text-text-accent font-bold\">"
-"右Altキー</span> に割り当てられています。ぜひ試してみてください！"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1751,21 +1748,11 @@ msgstr "ダウンロードを開始します..."
 msgid "High"
 msgstr "高い"
 
-msgid "SET/OK"
-msgstr "SET/OK"
-
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "最終免責事項 <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
 msgstr "マップデータの解析完了"
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr ""
-"アシストと同様に機能しますが、アシスタンス設定で選択した動作を行います。ま"
-"た、このキーは確認操作にも使用されます。"
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
@@ -1792,9 +1779,6 @@ msgstr "SDKバージョン「{0}」を「{1}」から正常にアンインスト
 
 msgid "Desired Speed: "
 msgstr "希望速度: "
-
-msgid "Next/Cancel"
-msgstr "次へ／キャンセル"
 
 msgid "meters"
 msgstr "メートル"
@@ -1828,6 +1812,9 @@ msgstr "「{0}」でのインストールの解析が完了しました"
 msgid "Playing sound: {0}"
 msgstr "音声を再生: {0}"
 
+msgid "Assist Level: "
+msgstr ""
+
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr ""
@@ -1857,15 +1844,15 @@ msgstr ""
 "ETS2LA ウィンドウのズーム倍率です。これを使用すると、モニターの DPI 設定に合"
 "わせてウィンドウの拡大・縮小を行うことができます。"
 
+msgid "Decrease/SET"
+msgstr ""
+
 msgid "Finished loading plugins"
 msgstr "プラグインの読み込みが完了しました"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "プラグイン {1} の依存関係 {0} のインストールに失敗しました。"
-
-msgid "Desired Longitudinal Level: "
-msgstr "目標縦方向レベル: "
 
 msgid "Error in semaphore update loop."
 msgstr "信号更新処理でエラーが発生しました。"
@@ -1907,16 +1894,17 @@ msgid "Display Units: "
 msgstr "表示単位： "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr "警告: お使いのシステムのRAM容量が20GB未満です。「高」までしか選択できません。"
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "ETS2LAで表示される言語です。翻訳はコミュニティによって提供されているため、そ"
 "の正確性を保証することはできません。"
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"警告: お使いのシステムのRAM容量が20GB未満です。「高」までしか選択できません。"
 
 msgid "Interaction Mode"
 msgstr "インタラクションモード"
@@ -1928,3 +1916,95 @@ msgstr "MODを追加: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "プラグイン {0} に必要な依存関係がすべてインストールされていません。"
+
+#~ msgid ""
+#~ "Increases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will increase the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "現在の値（目標速度など）を1段階増やします。UIに表示される視覚的な補正がな"
+#~ "い場合、目標速度は1 km/h増加します。"
+
+#~ msgid "None"
+#~ msgstr "なし"
+
+#~ msgid "Increase"
+#~ msgstr "増加"
+
+#~ msgid "Assist"
+#~ msgstr "アシスト"
+
+#~ msgid ""
+#~ "Will toggle ETS2LA's assists on and off. Will not update the speed, use "
+#~ "SET if you want that. You can change how this key (and SET) behave in the "
+#~ "Assistance settings."
+#~ msgstr ""
+#~ "ETS2LAのアシスト機能を切り替えます。速度は更新されません。速度を更新したい"
+#~ "場合は「SET」キーを使用してください。このキー（および「SET」キー）の動作"
+#~ "は、「アシスト設定」で変更できます。"
+
+#~ msgid ""
+#~ "This key will navigate any ETS2LA menus forward, it will also work as the "
+#~ "cancel key for any confirmations."
+#~ msgstr ""
+#~ "このキーを押すと、ETS2LAのあらゆるメニューで次の項目へ進むことができます。"
+#~ "また、確認画面でのキャンセルキーとしても機能します。"
+
+#~ msgid "Lane Keep"
+#~ msgstr "レーンキープ"
+
+#~ msgid "Full"
+#~ msgstr "完全"
+
+#~ msgid "Pause Steering Assist: "
+#~ msgstr "ステアリングアシストを一時停止: "
+
+#~ msgid ""
+#~ "Decreases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will decrease the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "現在の値（例：目標速度）を1段階下げます。UI上で視覚的な補正値が表示されて"
+#~ "いない場合、目標速度を1 km/h下げます。"
+
+#~ msgid "Emergency Braking"
+#~ msgstr "緊急ブレーキ"
+
+#~ msgid "Desired Steering Level: "
+#~ msgstr "希望ステアリングレベル: "
+
+#~ msgid "Pause Longitudinal Assist: "
+#~ msgstr "縦方向アシストを一時停止: "
+
+#~ msgid "Decrease"
+#~ msgstr "減らす"
+
+#~ msgid "Adaptive Cruise Control"
+#~ msgstr "アダプティブクルーズコントロール"
+
+#~ msgid ""
+#~ "ETS2LA will display information on top of the game. You can interact with "
+#~ "these overlay elements using <span class=\"text-text-accent font-"
+#~ "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-"
+#~ "text-accent font-bold\">Right-Alt</span> by default. Try it!"
+#~ msgstr ""
+#~ "ETS2LAは、ゲーム画面の上に情報を表示します。これらのオーバーレイ要素は、"
+#~ "<span class=\"text-text-accent font-bold\">オーバーレイ操作</span> を使用"
+#~ "して操作できます。これはデフォルトで <span class=\"text-text-accent font-"
+#~ "bold\">右Altキー</span> に割り当てられています。ぜひ試してみてください！"
+
+#~ msgid "SET/OK"
+#~ msgstr "SET/OK"
+
+#~ msgid ""
+#~ "Works like Assist, but will act the way you select in the Assistance "
+#~ "settings. This key will additionally be used for confirmations."
+#~ msgstr ""
+#~ "アシストと同様に機能しますが、アシスタンス設定で選択した動作を行います。ま"
+#~ "た、このキーは確認操作にも使用されます。"
+
+#~ msgid "Next/Cancel"
+#~ msgstr "次へ／キャンセル"
+
+#~ msgid "Desired Longitudinal Level: "
+#~ msgstr "目標縦方向レベル: "

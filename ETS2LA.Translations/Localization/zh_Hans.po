@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-26 13:54:35+0300\n"
+"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
 "PO-Revision-Date: 2026-08-27 20:59+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -45,14 +45,6 @@ msgstr "摇杆 {0} 打开失败。"
 msgid "Anonymous Telemetry"
 msgstr "匿名遥测"
 
-msgid ""
-"Increases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will increase the target speed by 1 km/"
-"h."
-msgstr ""
-"以一步为单位，增大当前选中的数值。如果没有从界面中选中任何一个数值，将会增加"
-"1km/h的目标速度。"
-
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr "找不到可以修改绑定的 {0} 号控件。"
@@ -80,11 +72,14 @@ msgstr ""
 "当修改速度时，将会尝试对齐到最近的 10 的倍数。比如步长为 2 时，调整顺序为 37 "
 "-> 39 -> 40 -> 42…"
 
-msgid "None"
-msgstr "无"
-
 msgid "kg"
 msgstr "kg"
+
+msgid ""
+"Decreases the current target speed by one step. If speed control and lane "
+"assist are off, this key acts like SET. Meaning it will set the current "
+"speed to speedlimit."
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -148,9 +143,6 @@ msgid ""
 "Medium."
 msgstr "警告：你的系统内存少于 16GB。你最多只能选择“中等”。"
 
-msgid "Increase"
-msgstr "增加"
-
 msgid "Window Zoom"
 msgstr "窗口缩放"
 
@@ -167,6 +159,15 @@ msgstr ""
 msgid "km/h"
 msgstr "km/h"
 
+msgid ""
+"ETS2LA will display information on top of the game. You can interact with "
+"these overlay elements using <span class=\"text-text-accent font-"
+"bold\">Overlay Interaction</span>. Try it!"
+msgstr ""
+
+msgid "If you can't interact with the Window, press CTRL+R."
+msgstr ""
+
 msgid "The step size for changing the cruise control speed."
 msgstr "调整巡航速度时的步长。"
 
@@ -176,7 +177,8 @@ msgstr "欢迎使用ETS2LA！"
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
-msgstr "<span class=\"text-text-accent\"))>成功！</span>稍后您可以在插件目录中找到更"
+msgstr ""
+"<span class=\"text-text-accent\"))>成功！</span>稍后您可以在插件目录中找到更"
 "多插件。"
 
 msgid "Initializing..."
@@ -320,6 +322,10 @@ msgid "The selected file does not exist."
 msgstr "选中的文件不存在。"
 
 #, csharp-format
+msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Latest Version: {0}"
 msgstr "最新版本：{0}"
 
@@ -339,6 +345,11 @@ msgstr "渲染 AR 元素"
 msgid "Unchanged / Unavailable"
 msgstr "未更改 / 不可用"
 
+msgid ""
+"This key is used to select in UI menus. It also acts as the approval key for "
+"any notifications."
+msgstr ""
+
 #, csharp-format
 msgid "LoaderException: {0}"
 msgstr "加载器异常：{0}"
@@ -349,9 +360,6 @@ msgstr "数据精细度"
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
 msgstr "无法卸载 ID 为 {0} 插件的当前版本。"
-
-msgid "Assist"
-msgstr "辅助"
 
 msgid "Early"
 msgstr "早"
@@ -400,6 +408,9 @@ msgstr "支持多屏幕显示"
 msgid "You took a wrong turn!"
 msgstr "你走错路了！"
 
+msgid "Adaptive Cruise Control Only"
+msgstr ""
+
 msgid "Initializing GLFW..."
 msgstr "正在初始化 GLFW..."
 
@@ -408,14 +419,6 @@ msgstr "3D 渲染器"
 
 msgid "SDK Uninstallation Failed"
 msgstr "SDK 卸载失败"
-
-msgid ""
-"Will toggle ETS2LA's assists on and off. Will not update the speed, use SET "
-"if you want that. You can change how this key (and SET) behave in the "
-"Assistance settings."
-msgstr ""
-"切换 ETS2LA 辅助功能的开启或关闭状态。不会更新速度；若要更新速度，请使用“设"
-"定”按键。你可以在辅助设置中变更此按键与“设定”按键的行为。"
 
 msgid "Max Overlay Framerate"
 msgstr "叠加层最高帧率"
@@ -565,12 +568,6 @@ msgstr "无法判断"
 msgid "meters per second"
 msgstr "米每秒"
 
-msgid ""
-"This key will navigate any ETS2LA menus forward, it will also work as the "
-"cancel key for any confirmations."
-msgstr ""
-"此按键可在 ETS2LA 的任何菜单中前往下一步，也可在任何确认操作中作为取消键。"
-
 msgid "Update check skipped, using already cached result."
 msgstr "已略过更新检查，使用现有的缓存结果。"
 
@@ -668,9 +665,6 @@ msgstr "播放音频文件 {0} 出错：{1}"
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr "控制后端已关闭，所有控件已保存。"
 
-msgid "Lane Keep"
-msgstr "车道保持"
-
 msgid "Anonymous"
 msgstr "匿名"
 
@@ -687,8 +681,9 @@ msgid ""
 "Your system has less than 16GB of RAM. High data fidelity uses significant "
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
-msgstr "你的系统内存少于 16GB。数据精细度设为“高”时会使用大量内存，可能导致系统不稳定"
-"。请选择较低的数据精细度。"
+msgstr ""
+"你的系统内存少于 16GB。数据精细度设为“高”时会使用大量内存，可能导致系统不稳"
+"定。请选择较低的数据精细度。"
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
@@ -713,6 +708,9 @@ msgstr "SDL3 输入后端初始化失败。"
 #, csharp-format
 msgid "{0} not found in supported languages."
 msgstr "在支持的语言中找不到 {0}。"
+
+msgid "Assists Enabled: "
+msgstr ""
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -846,8 +844,8 @@ msgid ""
 "class=\"text-warning\">Warning: Extreme uses significant amounts of RAM, "
 "expect over 10GB of usage.</span>"
 msgstr ""
-"此设置包含所有可用数据，其中大部分是冗余的。<span class=\"text-warning\">警告"
-"：极致模式会占用大量内存，预计内存使用量将超过 10GB。</span>"
+"此设置包含所有可用数据，其中大部分是冗余的。<span class=\"text-warning\">警"
+"告：极致模式会占用大量内存，预计内存使用量将超过 10GB。</span>"
 
 msgid "Restart and Continue"
 msgstr "重启并继续"
@@ -913,7 +911,8 @@ msgstr ""
 msgid ""
 "Adjust the level of detail of the game data we use. Higher values use more "
 "RAM, but include more information. All levels drive the same."
-msgstr "调整我们所使用游戏数据的详细程度。数值越高，占用的内存越多，但包含的信息也越"
+msgstr ""
+"调整我们所使用游戏数据的详细程度。数值越高，占用的内存越多，但包含的信息也越"
 "丰富。所有级别的驾驶效果相同。"
 
 #, csharp-format
@@ -934,12 +933,14 @@ msgstr "正在解析区块 {0}/{1}..."
 msgid "Unbound"
 msgstr "未绑定"
 
+msgid ""
+"ETS2LA uses a control setup that should be similar to real life systems. You "
+"can rebind the default controls on the right side."
+msgstr ""
+
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 为 {0} 的插件最新版本安装失败。"
-
-msgid "I understand, now let me in!"
-msgstr "我明白了，现在让我进入！"
 
 #, csharp-format
 msgid ""
@@ -947,6 +948,9 @@ msgid ""
 "on {2}GitHub{3}."
 msgstr ""
 "如果你认为这是一个错误，请在 {0}Discord 服务器{1} 或 {2}GitHub{3} 报告。"
+
+msgid "I understand, now let me in!"
+msgstr "我明白了，现在让我进入！"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -957,9 +961,6 @@ msgstr "3D 元素的最大渲染距离。降低此设置可提升较低端硬件
 msgid "Fetched {0} plugin from {1}"
 msgid_plural "Fetched {0} plugins from {1}"
 msgstr[0] "已从 {1} 获取 {0} 个插件"
-
-msgid "Full"
-msgstr "完整"
 
 msgid "Metric"
 msgstr "公制"
@@ -990,6 +991,9 @@ msgstr "已停用插件：[bold]{0}[/]"
 
 msgid "Continue"
 msgstr "继续"
+
+msgid "Cancel/MODE"
+msgstr ""
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1037,6 +1041,11 @@ msgstr "升"
 msgid "No valid versions found for plugin with ID {0}."
 msgstr "找不到 ID 为 {0} 的有效插件版本。"
 
+msgid ""
+"Will disable ETS2LA's assists when pressed. If assists are already disabled, "
+"this key will switch between driving modes."
+msgstr ""
+
 msgid "Binding thread started with no control to bind."
 msgstr "绑定线程已启动，但没有指定要绑定的控件。"
 
@@ -1050,9 +1059,6 @@ msgstr "正在下载更新"
 
 msgid "Simplified Graphics"
 msgstr "简化图形"
-
-msgid "Pause Steering Assist: "
-msgstr "暂停转向辅助： "
 
 msgid "Steering Sensitivity"
 msgstr "转向灵敏度"
@@ -1108,14 +1114,6 @@ msgstr "目前以 {0} FPS 运行。"
 #, csharp-format
 msgid "Version {0} not found for plugin with ID {1}."
 msgstr "找不到 ID 为 {1} 的插件版本 {0}。"
-
-msgid ""
-"Decreases the current value (e.g. target speed) by one step. Without any "
-"visual modifier shown in the UI, this will decrease the target speed by 1 km/"
-"h."
-msgstr ""
-"将当前的数值（例如目标速度）降低一个级距。若界面上没有显示其他调整值，则每次"
-"会将目标速度降低 1 km/h。"
 
 msgid "Invalid file"
 msgstr "文件无效"
@@ -1201,6 +1199,12 @@ msgstr "叠加层初始化失败，OpenGL 初始化失败。"
 msgid "Plugin '{0}' is missing its DLL at '{1}' and has been removed."
 msgstr "插件“{0}”在“{1}”找不到 DLL，已将该插件移除。"
 
+msgid ""
+"Increases the current target speed by one step. If assists are disabled, "
+"this key acts like RES. Meaning it will resume the last set target speed. If "
+"a last target speed was not set, this key acts like SET."
+msgstr ""
+
 msgid "Account"
 msgstr "账户"
 
@@ -1232,9 +1236,6 @@ msgstr "卸载插件加载上下文失败：{0}"
 msgid "No download URL found for plugin with ID {0} in region {1}."
 msgstr "在区域 {1} 中找不到 ID 为 {0} 的插件下载地址。"
 
-msgid "Emergency Braking"
-msgstr "紧急制动"
-
 msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
@@ -1249,9 +1250,6 @@ msgstr "正在重新启动 ETS2LA..."
 
 msgid "ETS2LA is running."
 msgstr "ETS2LA 已启动。"
-
-msgid "Desired Steering Level: "
-msgstr "目标转向程度： "
 
 msgid "Restart"
 msgstr "重新启动"
@@ -1268,6 +1266,9 @@ msgstr "lbs"
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "尝试停用 {0}，但在已加载的插件中找不到该插件。"
+
+msgid "Full Self-Driving"
+msgstr ""
 
 msgid "Install"
 msgstr "安装"
@@ -1294,7 +1295,8 @@ msgstr "这可能需要一点时间...（{0}/{1}）"
 msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
-msgstr "请完成这个 <span class=\"text-text-accent font-bold\">简短</span> 的引导流程"
+msgstr ""
+"请完成这个 <span class=\"text-text-accent font-bold\">简短</span> 的引导流程"
 "以开始使用。"
 
 msgid "Remember!"
@@ -1315,8 +1317,8 @@ msgstr "已成功安装插件 {0}（{1}，{2}）"
 msgid "Installation at '{0}' has already been parsed."
 msgstr "游戏安装位置“{0}”已完成解析。"
 
-msgid "Pause Longitudinal Assist: "
-msgstr "暂停纵向辅助： "
+msgid "Increase/RES"
+msgstr ""
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1324,9 +1326,6 @@ msgstr "无法获取摇杆 [gray italic]({0})[/]：{1}"
 
 msgid "Far"
 msgstr "远"
-
-msgid "Decrease"
-msgstr "降低"
 
 msgid "K"
 msgstr "K"
@@ -1413,6 +1412,9 @@ msgstr "psi"
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr "加载文件“{0}”时发生错误：{1}"
 
+msgid "Next/OK"
+msgstr ""
+
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
 "if you use 3rd party plugins. Select Yes to continue anyway and accept the "
@@ -1469,12 +1471,20 @@ msgid "Deleted '{0}'"
 msgstr "已删除“{0}”"
 
 #, csharp-format
+msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
+msgstr ""
+
+#, csharp-format
 msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化内存映射文件时发生错误：{0}"
 
 #, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "从 [gray]{0}[/] 加载插件失败：{1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "查看公开遥测数据"
@@ -1508,14 +1518,14 @@ msgstr "请查看日志文件以获取更多信息。"
 msgid "Binding Timed Out"
 msgstr "绑定超时"
 
-msgid "Adaptive Cruise Control"
-msgstr "自适应巡航控制"
-
 msgid "Changes will take effect after restarting the application."
 msgstr "修改将会在应用重启后生效。"
 
 msgid "Use this button to extend the sidebar."
 msgstr "点击此按钮展开侧边栏。"
+
+msgid "Lane Assist Only"
+msgstr ""
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1523,8 +1533,8 @@ msgid ""
 "font-bold\">Do not leave ETS2LA unattended, especially in multiplayer.</span>"
 msgstr ""
 "这是一个高度实验性的程序。ETS2LA 并不完美，您可能会遇到驾驶和安全方面的问题。"
-"<span class=\"text-text-accent font-bold\">请勿在无人看管的情况下运行 ETS2LA"
-"，尤其是在多人游戏中。</span>"
+"<span class=\"text-text-accent font-bold\">请勿在无人看管的情况下运行 "
+"ETS2LA，尤其是在多人游戏中。</span>"
 
 #, csharp-format
 msgid "Tried to enable {0}, but it was not found among loaded plugins."
@@ -1564,16 +1574,6 @@ msgstr "卸载 SDK（从“{0}”至“{1}”）失败：{2}"
 #, csharp-format
 msgid "Inner Exception: {0}"
 msgstr "内部异常：{0}"
-
-msgid ""
-"ETS2LA will display information on top of the game. You can interact with "
-"these overlay elements using <span class=\"text-text-accent font-"
-"bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-"
-"accent font-bold\">Right-Alt</span> by default. Try it!"
-msgstr ""
-"ETS2LA 会在游戏画面上方显示信息。您可以使用 <span class=\"text-text-accent "
-"font-bold\">叠加层交互</span> 与这些叠加层元素进行交互。默认情况下，此功能绑"
-"定到 <span class=\"text-text-accent font-bold\">右 Alt 键</span>。试试看吧！"
 
 #, csharp-format
 msgid "Plugin with ID {0} not found."
@@ -1641,20 +1641,11 @@ msgstr "正在下载..."
 msgid "High"
 msgstr "高"
 
-msgid "SET/OK"
-msgstr "设定/确定"
-
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "最终免责声明 <span class=\"description\">1/2</span>"
 
 msgid "Map Data Parsed"
 msgstr "地图数据解析完成"
-
-msgid ""
-"Works like Assist, but will act the way you select in the Assistance "
-"settings. This key will additionally be used for confirmations."
-msgstr "其工作方式类似于“辅助”，但会按照您在“辅助设置”中选择的方式执行。此按键还将用"
-"于确认操作。"
 
 msgid ""
 "Adjust the distance ETS2LA will try to maintain from the vehicle in front of "
@@ -1668,7 +1659,8 @@ msgid ""
 "Your system has less than 20GB of RAM. Extreme data fidelity uses "
 "significant amounts of RAM, and may cause your system to become unstable. "
 "Please select a lower fidelity."
-msgstr "你的系统内存少于 20GB。数据精细度设为“极高”时会使用大量内存，可能导致系统不稳"
+msgstr ""
+"你的系统内存少于 20GB。数据精细度设为“极高”时会使用大量内存，可能导致系统不稳"
 "定。请选择较低的数据精细度。"
 
 #, csharp-format
@@ -1677,9 +1669,6 @@ msgstr "已从“{1}”成功卸载 SDK 版本“{0}”"
 
 msgid "Desired Speed: "
 msgstr "目标速度： "
-
-msgid "Next/Cancel"
-msgstr "下一步/取消"
 
 msgid "meters"
 msgstr "米"
@@ -1713,6 +1702,9 @@ msgstr "已完成解析位于“{0}”的游戏安装数据"
 msgid "Playing sound: {0}"
 msgstr "正在播放声音：{0}"
 
+msgid "Assist Level: "
+msgstr ""
+
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
 msgstr "无法启用插件 {0}，因为找不到依赖项 {1}。"
@@ -1738,15 +1730,15 @@ msgid ""
 "your monitor's DPI settings."
 msgstr "ETS2LA 窗口的缩放级别。可用来将窗口调整至与你显示器的 DPI 设置相匹配。"
 
+msgid "Decrease/SET"
+msgstr ""
+
 msgid "Finished loading plugins"
 msgstr "插件加载完成"
 
 #, csharp-format
 msgid "Failed to install dependency {0} for plugin {1}."
 msgstr "插件 {1} 的依赖项 {0} 安装失败。"
-
-msgid "Desired Longitudinal Level: "
-msgstr "目标纵向程度： "
 
 msgid "Error in semaphore update loop."
 msgstr "交通信号灯更新时发生错误。"
@@ -1786,14 +1778,14 @@ msgid "Display Units: "
 msgstr "显示单位： "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr "警告：你的系统内存少于 20GB。你最多只能选择“高”。"
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr "ETS2LA 的显示语言。翻译由社区提供，我们无法保证其准确性。"
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr "警告：你的系统内存少于 20GB。你最多只能选择“高”。"
 
 msgid "Interaction Mode"
 msgstr "互动模式"
@@ -1805,6 +1797,96 @@ msgstr "正在添加模组：{0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依赖项尚未全部安装。"
+
+#~ msgid ""
+#~ "Increases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will increase the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "以一步为单位，增大当前选中的数值。如果没有从界面中选中任何一个数值，将会增"
+#~ "加1km/h的目标速度。"
+
+#~ msgid "None"
+#~ msgstr "无"
+
+#~ msgid "Increase"
+#~ msgstr "增加"
+
+#~ msgid "Assist"
+#~ msgstr "辅助"
+
+#~ msgid ""
+#~ "Will toggle ETS2LA's assists on and off. Will not update the speed, use "
+#~ "SET if you want that. You can change how this key (and SET) behave in the "
+#~ "Assistance settings."
+#~ msgstr ""
+#~ "切换 ETS2LA 辅助功能的开启或关闭状态。不会更新速度；若要更新速度，请使用"
+#~ "“设定”按键。你可以在辅助设置中变更此按键与“设定”按键的行为。"
+
+#~ msgid ""
+#~ "This key will navigate any ETS2LA menus forward, it will also work as the "
+#~ "cancel key for any confirmations."
+#~ msgstr ""
+#~ "此按键可在 ETS2LA 的任何菜单中前往下一步，也可在任何确认操作中作为取消键。"
+
+#~ msgid "Lane Keep"
+#~ msgstr "车道保持"
+
+#~ msgid "Full"
+#~ msgstr "完整"
+
+#~ msgid "Pause Steering Assist: "
+#~ msgstr "暂停转向辅助： "
+
+#~ msgid ""
+#~ "Decreases the current value (e.g. target speed) by one step. Without any "
+#~ "visual modifier shown in the UI, this will decrease the target speed by 1 "
+#~ "km/h."
+#~ msgstr ""
+#~ "将当前的数值（例如目标速度）降低一个级距。若界面上没有显示其他调整值，则每"
+#~ "次会将目标速度降低 1 km/h。"
+
+#~ msgid "Emergency Braking"
+#~ msgstr "紧急制动"
+
+#~ msgid "Desired Steering Level: "
+#~ msgstr "目标转向程度： "
+
+#~ msgid "Pause Longitudinal Assist: "
+#~ msgstr "暂停纵向辅助： "
+
+#~ msgid "Decrease"
+#~ msgstr "降低"
+
+#~ msgid "Adaptive Cruise Control"
+#~ msgstr "自适应巡航控制"
+
+#~ msgid ""
+#~ "ETS2LA will display information on top of the game. You can interact with "
+#~ "these overlay elements using <span class=\"text-text-accent font-"
+#~ "bold\">Overlay Interaction</span>. This is bound to <span class=\"text-"
+#~ "text-accent font-bold\">Right-Alt</span> by default. Try it!"
+#~ msgstr ""
+#~ "ETS2LA 会在游戏画面上方显示信息。您可以使用 <span class=\"text-text-"
+#~ "accent font-bold\">叠加层交互</span> 与这些叠加层元素进行交互。默认情况"
+#~ "下，此功能绑定到 <span class=\"text-text-accent font-bold\">右 Alt 键</"
+#~ "span>。试试看吧！"
+
+#~ msgid "SET/OK"
+#~ msgstr "设定/确定"
+
+#~ msgid ""
+#~ "Works like Assist, but will act the way you select in the Assistance "
+#~ "settings. This key will additionally be used for confirmations."
+#~ msgstr ""
+#~ "其工作方式类似于“辅助”，但会按照您在“辅助设置”中选择的方式执行。此按键还将"
+#~ "用于确认操作。"
+
+#~ msgid "Next/Cancel"
+#~ msgstr "下一步/取消"
+
+#~ msgid "Desired Longitudinal Level: "
+#~ msgstr "目标纵向程度： "
 
 #, csharp-format
 #~ msgid "Ignored DBus exception: {0}"
