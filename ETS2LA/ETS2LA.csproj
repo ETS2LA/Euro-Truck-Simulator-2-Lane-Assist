@@ -40,12 +40,11 @@
       <GitCommitCount Condition="'$(GitCommitCount)' == ''">0</GitCommitCount>
       <_BuildYear>$([System.DateTime]::Now.ToString("yyyy"))</_BuildYear>
       <_BuildMonth>$([System.DateTime]::Now.ToString("MM"))</_BuildMonth>
-      <_BuildDay>$([System.DateTime]::Now.ToString("dd"))</_BuildDay>
-      
-      <Version>$(_BuildYear).$(_BuildMonth).$(_BuildDay).$(GitCommitCount)</Version>
+
+      <Version>$(_BuildYear).$(_BuildMonth).$(GitCommitCount)</Version>
+      <PackageVersion>$(Version)</PackageVersion>
       <AssemblyVersion>$(Version)</AssemblyVersion>
       <FileVersion>$(Version)</FileVersion>
-      <PackageVersion>$(Version)</PackageVersion>
     </PropertyGroup>
   </Target>
 
