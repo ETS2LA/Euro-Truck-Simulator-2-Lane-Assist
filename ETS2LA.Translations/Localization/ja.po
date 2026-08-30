@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
-"PO-Revision-Date: 2026-08-30 08:00+0000\n"
+"PO-Revision-Date: 2026-08-31 03:01+0000\n"
 "Last-Translator: Pastel <pastel@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
 ">\n"
@@ -78,11 +78,12 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
-msgstr ""
+msgstr "現在の目標速度を1段階下げます。速度制御とレーンアシストがオフの場合、このキー"
+"はSETと同じように動作し、現在の速度を制限速度に設定します。"
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr "{0} をインストールしました"
+msgstr "{0} がインストール済み"
 
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
@@ -169,9 +170,12 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"ETS2LAは、ゲーム画面の上に情報を表示します。これらのオーバーレイ要素は、"
+"<span class=\"text-text-accent font-bold\">オーバーレイ操作</span> を使って操"
+"作できます。ぜひ試してみてください！"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "ウィンドウが操作できない場合は CTRL+R キーを押してください。"
 
 msgid "The step size for changing the cruise control speed."
 msgstr "クルーズコントロールの速度を変更する際の刻み幅です。"
@@ -263,9 +267,8 @@ msgstr "曲線の品質"
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
-msgstr ""
-"ETS2LAが必要なステアリング操作にどのように反応するかを調整します。例えば、こ"
-"れによりETS2LAが車線変更を行う速度を制御できます。"
+msgstr "ETS2LAが必要なステアリング操作にどのように反応するかを調整します。これによりE"
+"TS2LAが車線変更を行う速度を制御できます。"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -290,7 +293,7 @@ msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr "ID「{0}」の操作が見つからないため、軸動作を更新できません。"
 
 msgid "Networking"
-msgstr "ネットワーキング"
+msgstr "ネットワーク"
 
 #, csharp-format
 msgid ""
@@ -335,7 +338,7 @@ msgstr "選択したファイルは存在しません。"
 
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "アシスト有効：<span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -360,7 +363,8 @@ msgstr "変更なし / 利用不可"
 msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
-msgstr ""
+msgstr "このキーはUIメニューで項目を選択するために使用します。また、通知の承認キーと"
+"しても機能します。"
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -425,7 +429,7 @@ msgid "You took a wrong turn!"
 msgstr "道を間違えました！"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "アダプティブクルーズコントロールのみ"
 
 msgid "Initializing GLFW..."
 msgstr "GLFWの初期化中..."
@@ -730,7 +734,7 @@ msgid "Manager"
 msgstr "マネージャー"
 
 msgid "Near"
-msgstr "近く"
+msgstr "近い"
 
 msgid "Driving"
 msgstr "運転"
@@ -743,7 +747,7 @@ msgid "{0} not found in supported languages."
 msgstr "{0} は対応言語に含まれていません。"
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "アシスト有効: "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -986,7 +990,8 @@ msgstr "割り当てなし"
 msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
-msgstr ""
+msgstr "ETS2LAは実際のシステムに近い操作方式を採用しています。右側でデフォルトの操作"
+"を再割り当てできます。"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1048,7 +1053,7 @@ msgid "Continue"
 msgstr "続ける"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "キャンセル/ MODE"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1101,7 +1106,8 @@ msgstr "ID {0} のプラグインに対して、有効なバージョンが見�
 msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
-msgstr ""
+msgstr "押すとETS2LAのアシスト機能を無効にします。すでにアシスト機能が無効になってい"
+"る場合は、運転モードを切り替えます。"
 
 msgid "Binding thread started with no control to bind."
 msgstr "割り当てる操作がない状態でバインド処理を開始しました。"
@@ -1272,6 +1278,9 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"現在の目標速度を1段階上げます。アシスト機能が無効になっている場合、このキーは"
+"RESと同じように動作し最後に設定した目標速度を再開します。最後に設定した目標速"
+"度がない場合、このキーはSETと同じように動作します。"
 
 msgid "Account"
 msgstr "アカウント"
@@ -1344,7 +1353,7 @@ msgstr ""
 "んでした。"
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "完全自動運転"
 
 msgid "Install"
 msgstr "インストール"
@@ -1398,7 +1407,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "「{0}」へのインストールはすでに解析済みです。"
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "増加/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1501,7 +1510,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "ファイル「{0}」の読み込み中にエラーが発生しました: {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "次へ/OK"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1569,7 +1578,7 @@ msgstr "「{0}」を削除しました"
 
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
-msgstr ""
+msgstr "目標速度: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1581,7 +1590,7 @@ msgstr "プラグインを [gray]{0}[/] から読み込めませんでした: {1
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "アシストモード: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "公開テレメトリを表示"
@@ -1625,7 +1634,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "このボタンをクリックすると、サイドバーを展開できます。"
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "レーンアシストのみ"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1746,7 +1755,7 @@ msgid "Starting download..."
 msgstr "ダウンロードを開始します..."
 
 msgid "High"
-msgstr "高い"
+msgstr "高"
 
 msgid "Final Disclaimer <span class=\"description\">1/2</span>"
 msgstr "最終免責事項 <span class=\"description\">1/2</span>"
@@ -1813,7 +1822,7 @@ msgid "Playing sound: {0}"
 msgstr "音声を再生: {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "アシストレベル: "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1845,7 +1854,7 @@ msgstr ""
 "わせてウィンドウの拡大・縮小を行うことができます。"
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "減少/SET"
 
 msgid "Finished loading plugins"
 msgstr "プラグインの読み込みが完了しました"
