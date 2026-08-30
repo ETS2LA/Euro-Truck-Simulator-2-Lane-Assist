@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
-"PO-Revision-Date: 2026-08-28 16:13+0000\n"
+"PO-Revision-Date: 2026-08-30 16:59+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
-"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/"
-">\n"
+"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/>"
+"\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.14.3\n"
 
 msgid ""
@@ -82,6 +82,9 @@ msgid ""
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"Zmniejsza aktualną prędkość docelową o jeden stopień. Jeśli kontrola "
+"prędkości i asystent pasa ruchu są wyłączone, ten przycisk działa jak USTAW. "
+"Oznacza to, że ustawi aktualną prędkość na ograniczenie prędkości."
 
 #, csharp-format
 msgid "Installed {0}"
@@ -174,9 +177,12 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"ETS2LA wyświetli informacje na górze gry. Możesz wchodzić w interakcję z "
+"tymi elementami nakładki za pomocą <span class=\"text-text-accent font-bold\""
+">Interakcji nakładki</span>. Spróbuj!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "Jeśli nie możesz wejść w interakcję z oknem, naciśnij CTRL+R."
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Wielkość przeskoku zmiany prędkości tempomatu."
@@ -341,6 +347,7 @@ msgstr "Wybrany plik nie istnieje."
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Wspomaganie właczone: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -366,6 +373,8 @@ msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
 msgstr ""
+"Ten klawisz służy do wybierania opcji w menu interfejsu użytkownika. Działa "
+"również jako klawisz zatwierdzania powiadomień."
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -429,7 +438,7 @@ msgid "You took a wrong turn!"
 msgstr "Skręciłeś w złą stronę!"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "Tylko adaptacyjny tempomat"
 
 msgid "Initializing GLFW..."
 msgstr "Inicjalizacja GLFW..."
@@ -754,7 +763,7 @@ msgid "{0} not found in supported languages."
 msgstr "{0} nie znaleziono w obsługiwanych językach."
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "Włączone wspomaganie: "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -1001,6 +1010,9 @@ msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"ETS2LA korzysta z konfiguracji sterowania, która powinna być podobna do tej "
+"w rzeczywistych systemach. Możesz zmienić domyślne ustawienia sterowania po "
+"prawej stronie."
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1065,7 +1077,7 @@ msgid "Continue"
 msgstr "Kontynuuj"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "Anuluj/TRYB"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1119,6 +1131,8 @@ msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
 msgstr ""
+"Naciśnięcie tego przycisku wyłączy asystenty ETS2LA. Jeśli asystenty są już "
+"wyłączone, ten klawisz będzie przełączał tryby jazdy."
 
 msgid "Binding thread started with no control to bind."
 msgstr "Rozpoczęto wątek wiążący bez wskazania elementu do powiązania."
@@ -1292,6 +1306,10 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"Zwiększa aktualną prędkość docelową o jeden krok. Jeśli wspomaganie jest "
+"wyłączone, ten klawisz działa jak WZNÓW. Oznacza to, że przywróci ostatnio "
+"ustawioną prędkość docelową. Jeśli ostatnia prędkość docelowa nie została "
+"ustawiona, ten klawisz działa jak USTAW."
 
 msgid "Account"
 msgstr "Konto"
@@ -1364,7 +1382,7 @@ msgstr ""
 "Próbowano wyłączyć {0}, ale nie znaleziono go wśród załadowanych pluginów."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "W pełni autonomiczny"
 
 msgid "Install"
 msgstr "Zainstaluj"
@@ -1418,7 +1436,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "Instalacja w '{0}' została już przeanalizowana."
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "Zwiększenie/WZNÓW"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1521,7 +1539,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Wystąpił błąd podczas ładowania pliku '{0}': {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "Dalej/OK"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1589,6 +1607,7 @@ msgstr "Usunięto '{0}'"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
+"Prędkość docelowa: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1600,7 +1619,7 @@ msgstr "Nie udało się załadować pluginu z [gray]{0}[/]: {1}"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "Tryb wspomagania: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Wyświetl telemetrię publiczną"
@@ -1644,7 +1663,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "Użyj tego przycisku, aby rozszerzyć pasek boczny."
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "Tylko asystent pasa ruchu"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
