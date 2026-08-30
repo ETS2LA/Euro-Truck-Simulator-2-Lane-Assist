@@ -49,6 +49,8 @@ jobs:
     needs: check_version
     if: needs.check_version.outputs.should_publish == 'true'
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -133,6 +135,8 @@ jobs:
     needs: check_version
     if: needs.check_version.outputs.should_publish == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
