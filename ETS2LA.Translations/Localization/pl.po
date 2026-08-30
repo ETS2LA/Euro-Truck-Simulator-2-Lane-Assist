@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
 "PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/"
@@ -630,9 +630,6 @@ msgstr ""
 msgid "Display Units"
 msgstr "Wyświetlane jednostki"
 
-msgid "Adjustments"
-msgstr "Korekty"
-
 msgid "State Info"
 msgstr "Informacje o stanie"
 
@@ -1177,11 +1174,11 @@ msgstr "Nie udało się dodać gry"
 msgid "Font file not found at {0}"
 msgstr "Nie znaleziono pliku czcionki w {0}"
 
-msgid "No release notes available."
-msgstr "Brak dostępnych informacji o wydaniu."
-
 msgid "Changelog"
 msgstr "Dziennik zmian"
+
+msgid "No release notes available."
+msgstr "Brak dostępnych informacji o wydaniu."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1537,15 +1534,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Zalecane pluginy"
 
+msgid "Game added"
+msgstr "Gra dodana"
+
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "Maksymalna prędkość, jaką osiągnie ETS2LA. Może jednak nadal przekraczać ten "
 "limit ze względu na pęd."
-
-msgid "Game added"
-msgstr "Gra dodana"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1674,11 +1671,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Wybrany plik nie jest plikiem core.scs ."
 
-msgid "Translated by:"
-msgstr "Przetłumaczone przez:"
-
 msgid "This game was found at"
 msgstr "Tę grę znaleziono pod adresem"
+
+msgid "Translated by:"
+msgstr "Przetłumaczone przez:"
 
 msgid "Data Quality"
 msgstr "Jakość danych"
@@ -1940,6 +1937,9 @@ msgstr "Dodawanie moda: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie wszystkie zależności dla pluginu {0} są zainstalowane."
+
+#~ msgid "Adjustments"
+#~ msgstr "Korekty"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "

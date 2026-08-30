@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
 "PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
@@ -626,9 +626,6 @@ msgstr ""
 msgid "Display Units"
 msgstr "Anzeigeeinheiten"
 
-msgid "Adjustments"
-msgstr "Anpassungen"
-
 msgid "State Info"
 msgstr "Info zum Stand"
 
@@ -1179,11 +1176,11 @@ msgstr "Fehlgeschlagen beim Hinzufügen des Spiels"
 msgid "Font file not found at {0}"
 msgstr "Schriftdatei unter {0} nicht gefunden"
 
-msgid "No release notes available."
-msgstr "Es liegen keine Versionshinweise vor."
-
 msgid "Changelog"
 msgstr "Änderungsprotokoll"
+
+msgid "No release notes available."
+msgstr "Es liegen keine Versionshinweise vor."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1537,15 +1534,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Empfohlene Plugins"
 
+msgid "Game added"
+msgstr "Spiel hinzugefügt"
+
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "Die maximale Geschwindigkeit ETS2LA beschleunigen wird. Es drifte vielleicht "
 "trotzdem über das Limit durch Momentum."
-
-msgid "Game added"
-msgstr "Spiel hinzugefügt"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1668,11 +1665,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Die ausgewählte Datei ist keine core.scs Datei."
 
-msgid "Translated by:"
-msgstr "Übersetzt von:"
-
 msgid "This game was found at"
 msgstr "Dieses Spiel wurde hier gefunden"
+
+msgid "Translated by:"
+msgstr "Übersetzt von:"
 
 msgid "Data Quality"
 msgstr "Datenqualität"
@@ -1938,6 +1935,9 @@ msgstr "Füge Mod hinzu: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nicht alle Abhängigkeiten für das Plugin {0} sind installiert."
+
+#~ msgid "Adjustments"
+#~ msgstr "Anpassungen"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "

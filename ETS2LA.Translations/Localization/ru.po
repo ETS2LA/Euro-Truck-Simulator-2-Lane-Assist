@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
 "PO-Revision-Date: 2026-08-25 18:45+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
@@ -626,9 +626,6 @@ msgstr ""
 msgid "Display Units"
 msgstr "Единицы измерения"
 
-msgid "Adjustments"
-msgstr "Корректировки"
-
 msgid "State Info"
 msgstr "Информация о состоянии"
 
@@ -1170,11 +1167,11 @@ msgstr "Не удалось добавить игру"
 msgid "Font file not found at {0}"
 msgstr "Файл шрифта не найден по пути {0}"
 
-msgid "No release notes available."
-msgstr "Примечания к выпуску недоступны."
-
 msgid "Changelog"
 msgstr "Список изменений"
+
+msgid "No release notes available."
+msgstr "Примечания к выпуску недоступны."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1529,15 +1526,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Рекомендуемые плагины"
 
+msgid "Game added"
+msgstr "Игра добавлена"
+
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "Максимальная скорость, до которой ETS2LA будет разгоняться. Из-за инерции "
 "скорость всё равно может немного превысить этот предел."
-
-msgid "Game added"
-msgstr "Игра добавлена"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1665,11 +1662,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Выбранный файл не является файлом core.scs."
 
-msgid "Translated by:"
-msgstr "Перевод:"
-
 msgid "This game was found at"
 msgstr "Игра найдена по пути"
+
+msgid "Translated by:"
+msgstr "Перевод:"
 
 msgid "Data Quality"
 msgstr "Качество данных"
@@ -1933,6 +1930,9 @@ msgstr "Добавление мода: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Не все зависимости для плагина {0} установлены."
+
+#~ msgid "Adjustments"
+#~ msgstr "Корректировки"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "

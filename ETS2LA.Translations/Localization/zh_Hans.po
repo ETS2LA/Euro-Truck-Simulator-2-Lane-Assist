@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
 "PO-Revision-Date: 2026-08-27 20:59+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -594,9 +594,6 @@ msgstr "调整 ETS2LA 对目标加速度变化的反应速度。紧急制动不�
 msgid "Display Units"
 msgstr "显示单位"
 
-msgid "Adjustments"
-msgstr "插件设置"
-
 msgid "State Info"
 msgstr "状态信息"
 
@@ -1097,11 +1094,11 @@ msgstr "游戏添加失败"
 msgid "Font file not found at {0}"
 msgstr "找不到字体文件：{0}"
 
-msgid "No release notes available."
-msgstr "暂无更新日志。"
-
 msgid "Changelog"
 msgstr "更新日志"
+
+msgid "No release notes available."
+msgstr "暂无更新日志。"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1426,13 +1423,13 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "推荐插件"
 
+msgid "Game added"
+msgstr "游戏已添加"
+
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr "ETS2LA 会加速到的最高速度。由于惯性，速度仍可能略微超过此限制。"
-
-msgid "Game added"
-msgstr "游戏已添加"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1548,11 +1545,11 @@ msgstr "解析仍会继续，但此文件中的信息将无法供 ETS2LA 使用�
 msgid "The selected file is not a core.scs file."
 msgstr "所选的文件不是 core.scs 文件。"
 
-msgid "Translated by:"
-msgstr "译者为："
-
 msgid "This game was found at"
 msgstr "此游戏位于"
+
+msgid "Translated by:"
+msgstr "译者为："
 
 msgid "Data Quality"
 msgstr "数据质量"
@@ -1797,6 +1794,9 @@ msgstr "正在添加模组：{0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "插件 {0} 的依赖项尚未全部安装。"
+
+#~ msgid "Adjustments"
+#~ msgstr "插件设置"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "

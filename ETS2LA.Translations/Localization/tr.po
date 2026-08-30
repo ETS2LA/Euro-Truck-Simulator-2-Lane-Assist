@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
 "PO-Revision-Date: 2026-08-22 12:25+0000\n"
 "Last-Translator: äkv <akvvno@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
@@ -568,9 +568,6 @@ msgstr ""
 msgid "Display Units"
 msgstr ""
 
-msgid "Adjustments"
-msgstr ""
-
 msgid "State Info"
 msgstr ""
 
@@ -1058,10 +1055,10 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "No release notes available."
+msgid "Changelog"
 msgstr ""
 
-msgid "Changelog"
+msgid "No release notes available."
 msgstr ""
 
 #, csharp-format
@@ -1383,12 +1380,12 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr ""
 
+msgid "Game added"
+msgstr ""
+
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
-msgstr ""
-
-msgid "Game added"
 msgstr ""
 
 #, csharp-format
@@ -1497,10 +1494,10 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-msgid "Translated by:"
+msgid "This game was found at"
 msgstr ""
 
-msgid "This game was found at"
+msgid "Translated by:"
 msgstr ""
 
 msgid "Data Quality"

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
 "PO-Revision-Date: 2026-08-25 11:18+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
@@ -620,9 +620,6 @@ msgstr ""
 msgid "Display Units"
 msgstr "Yksiköt"
 
-msgid "Adjustments"
-msgstr "Säädöt"
-
 msgid "State Info"
 msgstr "Sovelluksen Tila"
 
@@ -1158,11 +1155,11 @@ msgstr "Virhe pelin lisäämisessä"
 msgid "Font file not found at {0}"
 msgstr "Fonttia {0} ei löytynyt"
 
-msgid "No release notes available."
-msgstr "Muutoslokia ei saatavilla."
-
 msgid "Changelog"
 msgstr "Muutosloki"
+
+msgid "No release notes available."
+msgstr "Muutoslokia ei saatavilla."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1515,15 +1512,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Suositellut lisäosat"
 
+msgid "Game added"
+msgstr "Peli lisätty"
+
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "Maksiminopeus johon ETS2LA kiihdyttää. Alamäessä nopeus voi nousta tätä "
 "korkeammaksi."
-
-msgid "Game added"
-msgstr "Peli lisätty"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1650,11 +1647,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Valittu tiedosto ei ole core.scs."
 
-msgid "Translated by:"
-msgstr "Kääntäjänä toimi:"
-
 msgid "This game was found at"
 msgstr "Tämä peli löytyi"
+
+msgid "Translated by:"
+msgstr "Kääntäjänä toimi:"
 
 msgid "Data Quality"
 msgstr "Karttadatan Laatu"
@@ -1912,6 +1909,9 @@ msgstr "Lisätään modia: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Lisäosan {0} kaikkia vaatimuksia ei ole ladattu."
+
+#~ msgid "Adjustments"
+#~ msgstr "Säädöt"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "
