@@ -29,7 +29,7 @@ jobs:
         id: get-version
         shell: bash
         run: |
-          VERSION=$(dotnet msbuild ETS2LA/ETS2LA.csproj -getProperty:Version | tr -d '\r\n')
+          VERSION=$(dotnet msbuild ETS2LA/ETS2LA.csproj -target:SetDynamicVersion -getProperty:Version | tr -d '\r\n')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Check whether release tag already exists
