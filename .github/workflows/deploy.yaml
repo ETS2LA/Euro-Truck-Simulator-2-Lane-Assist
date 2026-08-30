@@ -20,10 +20,17 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
       - name: Get Version from Project File
         id: get-version
+        shell: bash
         run: |
-          echo "version=$(grep -oE '<Version>[^<]+' ETS2LA/ETS2LA.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+          VERSION=$(dotnet msbuild ETS2LA/ETS2LA.csproj -getProperty:Version | tr -d '\r\n')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Check whether release tag already exists
         id: check_version
