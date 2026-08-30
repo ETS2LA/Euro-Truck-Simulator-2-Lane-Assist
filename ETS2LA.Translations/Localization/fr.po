@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
-"PO-Revision-Date: 2026-08-30 14:20+0000\n"
+"PO-Revision-Date: 2026-08-30 16:09+0000\n"
 "Last-Translator: retroposition <retroposition@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/>"
 "\n"
@@ -178,7 +178,7 @@ msgid ""
 msgstr ""
 "ETS2LA affichera des informations en surimpression au-dessus du jeu. Vous "
 "pouvez interagir avec ces éléments en surimpression en utilisant <span class"
-"=\"text-text-accent font-bold\">Overlay Interaction</span>. Essayez!"
+"=\"text-text-accent font-bold\">Overlay Interaction</span>. Essayez !"
 
 msgid "If you can't interact with the Window, press CTRL+R."
 msgstr "Si vous ne pouvez pas interagir avec la fenêtre, appuyez sur CTRL+R."
@@ -349,7 +349,7 @@ msgstr "Le fichier sélectionné n'existe pas."
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
-"Assistance Activée: <span class=\"text-text-accent font-bold\">{0}</span>"
+"Assistance Activée : <span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -1313,6 +1313,10 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"Augmente la vitesse cible d'un cran. Si les aides sont désactivées, cette "
+"touche fonctionnera comme RES. Qui veut dire cela rétablira la dernière "
+"vitesse cible définie. Si aucune vitesse n'a été définie avant, elle agit "
+"comme SET."
 
 msgid "Account"
 msgstr "Compte"
@@ -1384,7 +1388,7 @@ msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "Impossible de désactiver {0} : introuvable parmi les plugins chargés."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "Conduite Entièrement Autonome"
 
 msgid "Install"
 msgstr "Installer"
@@ -1438,7 +1442,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "L'installation dans « {0} » a déjà été analysée."
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "Augmentation/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1541,7 +1545,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Une erreur s'est produite lors du chargement du fichier « {0} » : {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "Ensuite/OK"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1612,6 +1616,7 @@ msgstr "« {0} » supprimé"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
+"Vitesse cible : <span class=\"text-text-accent font-bold\">{0}{1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1623,7 +1628,7 @@ msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "Mode assistance : <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Afficher la télémétrie publique"
@@ -1668,7 +1673,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "Utilisez ce bouton pour déployer la barre latérale."
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "Seulement Assistance File"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1860,7 +1865,7 @@ msgid "Playing sound: {0}"
 msgstr "Lecture du son : {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "Niveau d'assiste : "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1891,7 +1896,7 @@ msgstr ""
 "réglages DPI de votre moniteur."
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "Diminué/SET"
 
 msgid "Finished loading plugins"
 msgstr "Chargement des plugins terminé"
