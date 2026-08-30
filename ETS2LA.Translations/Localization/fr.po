@@ -3,11 +3,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
+"POT-Creation-Date: 2026-08-30 19:57:58+0300\n"
 "PO-Revision-Date: 2026-08-30 16:09+0000\n"
 "Last-Translator: retroposition <retroposition@ets2la.com>\n"
-"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/>"
-"\n"
+"Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,8 +177,8 @@ msgid ""
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
 "ETS2LA affichera des informations en surimpression au-dessus du jeu. Vous "
-"pouvez interagir avec ces éléments en surimpression en utilisant <span class"
-"=\"text-text-accent font-bold\">Overlay Interaction</span>. Essayez !"
+"pouvez interagir avec ces éléments en surimpression en utilisant <span "
+"class=\"text-text-accent font-bold\">Overlay Interaction</span>. Essayez !"
 
 msgid "If you can't interact with the Window, press CTRL+R."
 msgstr "Si vous ne pouvez pas interagir avec la fenêtre, appuyez sur CTRL+R."
@@ -642,6 +642,9 @@ msgstr ""
 msgid "Display Units"
 msgstr "Unités d'affichage"
 
+msgid "Adjustments"
+msgstr "Ajustements"
+
 msgid "State Info"
 msgstr "Informations d'état"
 
@@ -790,12 +793,12 @@ msgstr ""
 msgid "SDK Installed"
 msgstr "SDK installé"
 
+msgid "Current Speed"
+msgstr "Vitesse actuelle"
+
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Commande {0} ({1}) associée au périphérique {2} et à la commande {3}"
-
-msgid "Current Speed"
-msgstr "Vitesse actuelle"
 
 msgid "miles per hour"
 msgstr "miles par heure"
@@ -1559,15 +1562,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Plugins recommandés"
 
-msgid "Game added"
-msgstr "Jeu ajouté"
-
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "La vitesse maximale à laquelle ETS2LA accélérera. Elle peut toutefois "
 "légèrement dépasser cette limite à cause de l'inertie."
+
+msgid "Game added"
+msgstr "Jeu ajouté"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1628,7 +1631,8 @@ msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "Mode assistance : <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+"Mode assistance : <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Afficher la télémétrie publique"
@@ -1701,11 +1705,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Le fichier sélectionné n'est pas un fichier core.scs."
 
-msgid "This game was found at"
-msgstr "Ce jeu a été trouvé à"
-
 msgid "Translated by:"
 msgstr "Traduit par :"
+
+msgid "This game was found at"
+msgstr "Ce jeu a été trouvé à"
 
 msgid "Data Quality"
 msgstr "Qualité des données"
@@ -1968,9 +1972,6 @@ msgstr "Ajout du mod : {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Il manque des dépendances pour le plugin {0}."
-
-#~ msgid "Adjustments"
-#~ msgstr "Ajustements"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "

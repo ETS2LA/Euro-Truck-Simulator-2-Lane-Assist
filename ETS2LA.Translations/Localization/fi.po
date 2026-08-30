@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
-"PO-Revision-Date: 2026-08-25 11:18+0000\n"
+"POT-Creation-Date: 2026-08-30 19:57:58+0300\n"
+"PO-Revision-Date: 2026-08-30 16:59+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
 ">\n"
@@ -79,6 +79,9 @@ msgid ""
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"Pienentää tavoitenopeutta yhdellä askeleella. Jos ajotuet ovat pois päältä. "
+"Tämä ohjainmääritys käyttäytyy SET (Aseta) painikkeen tavoin. Eli se asettaa "
+"tavoitenopeuden nopeusrajoitukseen."
 
 #, csharp-format
 msgid "Installed {0}"
@@ -169,9 +172,12 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"Näytämme tietoja pelin päällä. Voit vuorovaikuttaa näiden elementtien (esim. "
+"ikkunoiden) kanssa käyttäen <span class=\"text-text-accent font-"
+"bold\">Peitekuvan Interaktio</span> painiketta. Kokeileppa!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "Jos et voi painaa mitään, käytä CTRL+R ladataksesi sivun uudelleen."
 
 msgid "The step size for changing the cruise control speed."
 msgstr "Vakionopeudensäätimen nopeuden säädön askelkoko."
@@ -336,6 +342,8 @@ msgstr "Valittu tiedosto ei ole olemassa."
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Ajotuet päällä: <span class=\"text-text-accent font-bold\">{0}</span> "
+"(\"True\" päällä, \"False\" pois)"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -361,6 +369,8 @@ msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
 msgstr ""
+"Tätä näppäintä käytetään käyttöliittymässä valitsemiseen. Se myös toimii "
+"hyväksymispainikkeena ilmoituksissa."
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -425,7 +435,7 @@ msgid "You took a wrong turn!"
 msgstr "Käännyit väärään suuntaan!"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "Vain vakionopeudensäädin"
 
 msgid "Initializing GLFW..."
 msgstr "Käynnistetään GLFW ikkunaa..."
@@ -620,6 +630,9 @@ msgstr ""
 msgid "Display Units"
 msgstr "Yksiköt"
 
+msgid "Adjustments"
+msgstr "Säädöt"
+
 msgid "State Info"
 msgstr "Sovelluksen Tila"
 
@@ -743,7 +756,7 @@ msgid "{0} not found in supported languages."
 msgstr "Kieltä {0} ei tueta."
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "Ajotuet: "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -764,12 +777,12 @@ msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
 msgid "SDK Installed"
 msgstr "SDK asennettu"
 
+msgid "Current Speed"
+msgstr "Nykyinen Nopeus"
+
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Ohjäinmääritys {0} ({1}) määritelty laitteen {2} painikkeeseen {3}"
-
-msgid "Current Speed"
-msgstr "Nykyinen Nopeus"
 
 msgid "miles per hour"
 msgstr "mailia tunnissa"
@@ -985,6 +998,8 @@ msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"Sovellus käyttää ohjausmäärittelyitä, jotka muistuttavat oikeita ajoneuvoja. "
+"Voit vaihtaa näiden määritykset ikkunan oikealla puolella."
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1047,7 +1062,7 @@ msgid "Continue"
 msgstr "Jatka"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "Keskeytä/MODE"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1102,6 +1117,8 @@ msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
 msgstr ""
+"Poistaa ajotuet käytöstä. Jos ajotuet ovat jo pois käytöstä, vaihtaa "
+"ajomuotojen välillä."
 
 msgid "Binding thread started with no control to bind."
 msgstr "Kuuntelusäe käynnistettiin ilman ohjainmääritystä."
@@ -1257,7 +1274,7 @@ msgid "SDKs need to be installed."
 msgstr "SDK:t täytyy vielä asentaa ennen käyttöä."
 
 msgid "Hide Installed"
-msgstr ""
+msgstr "Piilota asennetut"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr "Peitekuvan käynnistys epäonnistui, OpenGL ei käynnistynyt."
@@ -1271,6 +1288,9 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"Nostaa tavoitenopeutta yhdellä askeleella. Jos ajotuet ovat pois päältä. "
+"Tämä ohjainmääritys käyttäytyy RES (Jatka) painikkeen tavoin. Eli se jatkaa "
+"aikaisemmin määriteltyä nopeutta."
 
 msgid "Account"
 msgstr "Käyttäjätili"
@@ -1343,7 +1363,7 @@ msgstr ""
 "lisäosista."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "Täysin automaattinen ajo"
 
 msgid "Install"
 msgstr "Asenna"
@@ -1397,7 +1417,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "Peli {0} on jo ladattu."
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "Kasvata/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1498,7 +1518,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Tiedoston '{0}' latauksen yhteydessä ilmeentyi virhe {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "Jatka/OK"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1512,15 +1532,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Suositellut lisäosat"
 
-msgid "Game added"
-msgstr "Peli lisätty"
-
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "Maksiminopeus johon ETS2LA kiihdyttää. Alamäessä nopeus voi nousta tätä "
 "korkeammaksi."
+
+msgid "Game added"
+msgstr "Peli lisätty"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1566,6 +1586,7 @@ msgstr "Poistettiin {0}"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
+"Tavoitenopeus: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1577,7 +1598,7 @@ msgstr "Lisäosan lataus paikasta [gray]{0}[/] epäonnistui: {1}"
 
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "Ajomuoto: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "Katso julkinen telemetria"
@@ -1619,7 +1640,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "Käytä tätä painiketta avaaksesi sivupalkin."
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "Vain kaistavahti"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1647,11 +1668,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Valittu tiedosto ei ole core.scs."
 
-msgid "This game was found at"
-msgstr "Tämä peli löytyi"
-
 msgid "Translated by:"
 msgstr "Kääntäjänä toimi:"
+
+msgid "This game was found at"
+msgstr "Tämä peli löytyi"
 
 msgid "Data Quality"
 msgstr "Karttadatan Laatu"
@@ -1806,7 +1827,7 @@ msgid "Playing sound: {0}"
 msgstr "Soitetaan ääntä: {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "Ajomuoto: "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1837,7 +1858,7 @@ msgstr ""
 "liian pieniä, voit nostaa tätä arvoa."
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "Vähennä/SET"
 
 msgid "Finished loading plugins"
 msgstr "Lisäosien lataus on valmis"
@@ -1909,9 +1930,6 @@ msgstr "Lisätään modia: {0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Lisäosan {0} kaikkia vaatimuksia ei ole ladattu."
-
-#~ msgid "Adjustments"
-#~ msgstr "Säädöt"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "

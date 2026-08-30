@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
+"POT-Creation-Date: 2026-08-30 19:57:58+0300\n"
 "PO-Revision-Date: 2026-08-27 20:59+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
@@ -624,6 +624,9 @@ msgstr ""
 msgid "Display Units"
 msgstr "Displeje"
 
+msgid "Adjustments"
+msgstr "Úpravy"
+
 msgid "State Info"
 msgstr "Informácie o stave"
 
@@ -770,12 +773,12 @@ msgstr ""
 msgid "SDK Installed"
 msgstr "SDK je nainštalované"
 
+msgid "Current Speed"
+msgstr "Aktuálna rýchlosť"
+
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Priradili sme ovládač {0} ({1}) k zariadeniu {2} a ovládanie {3}"
-
-msgid "Current Speed"
-msgstr "Aktuálna rýchlosť"
 
 msgid "miles per hour"
 msgstr "míle za hodinu"
@@ -1528,15 +1531,15 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr "Odporúčané pluginy"
 
-msgid "Game added"
-msgstr "Hra bola pridaná"
-
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
 msgstr ""
 "Maximálna rýchlosť, na ktorú ETS2LA zrýchli. V dôsledku hybnosti sa však "
 "môže stať, že túto hranicu prekročí."
+
+msgid "Game added"
+msgstr "Hra bola pridaná"
 
 #, csharp-format
 msgid "Unloading parsed map data for installation at '{0}'"
@@ -1665,11 +1668,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Vybraný súbor nie je súbor typu core.scs."
 
-msgid "This game was found at"
-msgstr "Túto hru sme našli v"
-
 msgid "Translated by:"
 msgstr "Preložil:"
+
+msgid "This game was found at"
+msgstr "Túto hru sme našli v"
 
 msgid "Data Quality"
 msgstr "Kvalita údajov"
@@ -1930,9 +1933,6 @@ msgstr "Pridávam mód:{0}"
 #, csharp-format
 msgid "Not all dependencies for plugin {0} are installed."
 msgstr "Nie sú nainštalované všetky závislosti pre plugin {0}."
-
-#~ msgid "Adjustments"
-#~ msgstr "Úpravy"
 
 #~ msgid ""
 #~ "Increases the current value (e.g. target speed) by one step. Without any "
