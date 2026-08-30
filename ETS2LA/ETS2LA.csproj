@@ -39,7 +39,7 @@
     <PropertyGroup>
       <GitCommitCount Condition="'$(GitCommitCount)' == ''">0</GitCommitCount>
       <_BuildYear>$([System.DateTime]::Now.ToString("yyyy"))</_BuildYear>
-      <_BuildMonth>$([System.DateTime]::Now.ToString("MM"))</_BuildMonth>
+      <_BuildMonth>$([System.Int32]::Parse($([System.DateTime]::Now.ToString("MM"))))</_BuildMonth>
  
       <Version>$(_BuildYear).$(_BuildMonth).$(GitCommitCount)</Version>
       <PackageVersion>$(Version)</PackageVersion>
