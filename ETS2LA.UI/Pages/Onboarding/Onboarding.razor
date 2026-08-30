@@ -46,15 +46,18 @@
             <OverlayStep OnNext="NextStep" />
             break;
         case 4:
-            <PluginStep OnNext="NextStep" />
+            <ControlsStep OnNext="NextStep" />
             break;
         case 5:
-            <DisclaimerStep1 OnNext="NextStep" />
+            <PluginStep OnNext="NextStep" />
             break;
         case 6:
-            <DisclaimerStep2 OnNext="NextStep" />
+            <DisclaimerStep1 OnNext="NextStep" />
             break;
         case 7:
+            <DisclaimerStep2 OnNext="NextStep" />
+            break;
+        case 8:
             <FinishStep />
             break;
     }

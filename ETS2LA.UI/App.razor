@@ -1,7 +1,30 @@
 @using ETS2LA.UI.Pages
+@using ETS2LA.Backend
 @using Microsoft.AspNetCore.Components.Routing
 
-<Router AppAssembly="@typeof(App).Assembly">
+@code {
+    private int key = 0;
+
+    protected override void OnInitialized()
+    {
+        PluginBackend.Current.OnBackendLoaded += HandlePluginsReloaded;
+    }
+
+    private void HandlePluginsReloaded()
+    {
+        // This causes a rescan of @page from PluginAssemblies,
+        // at least that's the hope...
+        key++;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        PluginBackend.Current.OnBackendLoaded -= HandlePluginsReloaded;
+    }
+}
+
+<Router @key="key" AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@PluginBackend.Current.PluginHandler.PluginAssemblies">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Shared.Layouts.MainLayout)" />
     </Found>

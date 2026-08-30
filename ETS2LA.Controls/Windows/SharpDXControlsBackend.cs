@@ -51,11 +51,10 @@ public class SharpDXControlsBackend : IControlsBackend
         RefreshConnectedJoysticks();
 
         Task.Factory.StartNew(ControlListener, TaskCreationOptions.LongRunning);
-        RegisterControl(DefaultControls.Assist);
-        RegisterControl(DefaultControls.SET);
+        RegisterControl(DefaultControls.Increase); // RES
+        RegisterControl(DefaultControls.Decrease); // SET
+        RegisterControl(DefaultControls.Cancel); // MODE
         RegisterControl(DefaultControls.Next);
-        RegisterControl(DefaultControls.Increase);
-        RegisterControl(DefaultControls.Decrease);
     }
 
     private void RefreshConnectedJoysticks()

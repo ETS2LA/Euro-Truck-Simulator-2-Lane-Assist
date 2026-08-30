@@ -11,6 +11,7 @@ public class StateSettings
     public Language DisplayLanguage = Languages.SupportedLanguages[0];
     public int SpeedControlStepSize = 2;
     public bool SnapTo10s = true;
+    public float FallbackSpeed = UnitConversions.ToScientificUnits(UnitType.Speed, 30, Units.Metric);
 }
 
 public class StateSettingsHandler

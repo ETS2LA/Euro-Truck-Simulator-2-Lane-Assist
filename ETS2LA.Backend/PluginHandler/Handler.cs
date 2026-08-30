@@ -33,6 +33,12 @@ public class PluginHandler
     // possible to detect .dll changes automatically in the future, meaning hot reloading
     // of plugins without requiring a direct reload action from the user.
     // TODO: Implement hot reloading of plugins.
+
+    public IEnumerable<Assembly> PluginAssemblies => 
+        _pluginLoadContexts.Values
+            .SelectMany(ctx => ctx.Assemblies)
+            .Distinct();
+
     private readonly Dictionary<AssemblyLoadContext, string> _contextShadowDirectories = new();
     
     public Action<IPlugin>? PluginEnabled;

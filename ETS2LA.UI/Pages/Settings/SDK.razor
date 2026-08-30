@@ -64,34 +64,30 @@
     }
 }
 
-<div class="flex flex-col w-108 ml-8 m-5 gap-24">
+<div class="flex flex-col ml-8 m-5 gap-24">
     @if (controlInstances.Count > 0)
     {
-        <div class="flex flex-col gap-6">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
             @for(int i = 0; i < controlInstances.Count; i++)
             {
                 var instance = controlInstances[i];
+                var installed = instance.IsSDKInstalled(instance.Version);
 
-                <div class="flex flex-col gap-2">
-                    @if (i > 0) {
-                        <Separator class="mb-3" />
-                    }
-                    
+                <div class="flex flex-col rounded-sm bg-control-bg-dark border p-4 gap-3 border-bg-darker">
                     <div class="flex flex-col gap-1">
                         <p>@(UserInterfaceUtils.ClassnameWithSpaces(@instance.Type.ToString()) + "  -  " + instance.Version.ToString())</p>
+                        @if (!IsOnboarding)
+                        {
+                            <p class="description">@(installed ? _("SDKs are currently installed.") : _("SDKs need to be installed.")) @(_("This game was found at")) @instance.Path</p>
+                        }
+                        else
+                        {
+                            <p class="description">@instance.Path</p>
+                        }
                     </div>
 
-                    @if (!IsOnboarding)
-                    {
-                        <p class="description">@(instance.IsSDKInstalled(instance.Version) ? _("SDKs are currently installed.") : _("SDKs need to be installed.")) @(_("This game was found at")) @instance.Path</p>
-                    }
-                    else 
-                    {
-                        <p class="description">@instance.Path</p>    
-                    }
-                    
-                    <button class="@(instance.IsSDKInstalled(instance.Version) ? "hidden" : "button button-accent w-full!")" @onclick="@(() => { OnOneSDKInstalled.InvokeAsync(); instance.InstallSDK(instance.Version); })">@((_("Install SDKs")))</button>
-                    <button class="@(instance.IsSDKInstalled(instance.Version) ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">@((_("Uninstall SDKs")))</button>
+                    <button class="@(installed ? "hidden" : "button button-accent w-full!")" @onclick="@(() => { OnOneSDKInstalled.InvokeAsync(); instance.InstallSDK(instance.Version); })">@((_("Install SDKs")))</button>
+                    <button class="@(installed ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">@((_("Uninstall SDKs")))</button>
                 </div>
             }
         </div>

@@ -2,6 +2,7 @@
 @using ETS2LA.Logging;
 @using static ETS2LA.Translations.Languages;
 @using ETS2LA.UI.Shared.Components;
+@using ETS2LA.UI.Pages.Settings;
 
 @code {
     [Parameter]
@@ -9,15 +10,25 @@
 
     [Parameter]
     public Action OnPrevious { get; set; }
+
+    private List<string> DisplayOnly { get; set; } = new List<string> { 
+        "ETS2LA.Overlay.Interact" 
+    };
 }
 
-<div class="flex flex-col gap-2 max-w-108">
-    <div class="flex flex-col gap-1">
-        <h3>@((MarkupString)_("Overlay"))</h3>
-        <p>@((MarkupString)(_("ETS2LA will display information on top of the game. You can interact with these overlay elements using <span class=\"text-text-accent font-bold\">Overlay Interaction</span>. This is bound to <span class=\"text-text-accent font-bold\">Right-Alt</span> by default. Try it!")))</p>
+<div class="flex gap-12 text-start items-center justify-center">
+    <div class="flex flex-col gap-2 max-w-108">
+        <div class="flex flex-col gap-1">
+            <h3>@((MarkupString)_("Overlay"))</h3>
+            <p>@((MarkupString)(_("ETS2LA will display information on top of the game. You can interact with these overlay elements using <span class=\"text-text-accent font-bold\">Overlay Interaction</span>. Try it!")))</p>
+        </div>
+
+        <div class="flex gap-2 mt-2">
+            <button class="button w-full!" @onclick="OnNext">@_("Continue")</button>
+        </div>
     </div>
 
-    <div class="flex gap-2 mt-2">
-        <button class="button w-full!" @onclick="OnNext">@_("Continue")</button>
+    <div class="max-w-108">
+        <Controls DisplayOnly="@DisplayOnly" />
     </div>
 </div>

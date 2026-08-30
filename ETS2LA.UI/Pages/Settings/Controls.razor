@@ -6,6 +6,9 @@
 @using ETS2LA.Notifications;
 
 @code {
+    [Parameter]
+    public List<string> DisplayOnly { get; set; } = new();
+
     ControlsBackend controlsBackend = ControlsBackend.Current;
     List<String> axisTypeOptions = Enum.GetNames<AxisType>().ToList();
 
@@ -254,6 +257,9 @@
 <div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
     @foreach (var control in controlInstances)
     {
+        if (DisplayOnly.Count > 0 && !DisplayOnly.Contains(control.Definition.Id))
+            continue;
+
         <div class="flex flex-col gap-2 rounded-sm bg-control-bg-dark border border-bg-darker justify-between">
             <div class="flex flex-col gap-1 p-4">
                 <p class="font-semibold">@control.Definition.Name</p>

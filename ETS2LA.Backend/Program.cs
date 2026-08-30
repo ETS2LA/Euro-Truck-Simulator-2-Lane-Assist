@@ -29,7 +29,7 @@ namespace ETS2LA.Backend
         /// <summary>
         ///  This event is fired when the backend has been loaded.
         /// </summary>
-        public event EventHandler? OnBackendLoaded;
+        public Action OnBackendLoaded;
         /// <summary>
         ///  Is the backing loaded?
         /// </summary>
@@ -45,7 +45,7 @@ namespace ETS2LA.Backend
                 Thread.Sleep(1000);
 
                 Logger.Success(_("ETS2LA is running."));
-                OnBackendLoaded?.Invoke(this, EventArgs.Empty);
+                OnBackendLoaded?.Invoke();
                 IsLoaded = true;
             });
         }

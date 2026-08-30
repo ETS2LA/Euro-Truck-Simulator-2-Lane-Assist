@@ -4,42 +4,12 @@ namespace ETS2LA.Controls.Defaults;
 
 public static class DefaultControls
 {
-    public static ControlDefinition Assist { get; } = new ControlDefinition
-    {
-        Id = "ETS2LA.Controls.Assist",
-        // TRANSLATORS: This is the name of a keybind.
-        Name = _("Assist"),
-        Description = _("Will toggle ETS2LA's assists on and off. Will not update the speed, use SET if you want that. You can change how this key (and SET) behave in the Assistance settings."),
-        DefaultKeybind = "N",
-        Type = ControlType.Boolean
-    };
-
-    public static ControlDefinition SET { get; } = new ControlDefinition
-    {
-        Id = "ETS2LA.Controls.SET",
-        // TRANSLATORS: This is the name of a keybind.
-        Name = _("SET/OK"),
-        Description = _("Works like Assist, but will act the way you select in the Assistance settings. This key will additionally be used for confirmations."),
-        DefaultKeybind = "Left",
-        Type = ControlType.Boolean
-    };
-
-    public static ControlDefinition Next { get; } = new ControlDefinition
-    {
-        Id = "ETS2LA.Controls.Next",
-        // TRANSLATORS: This is the name of a keybind.
-        Name = _("Next/Cancel"),
-        Description = _("This key will navigate any ETS2LA menus forward, it will also work as the cancel key for any confirmations."),
-        DefaultKeybind = "Right",
-        Type = ControlType.Boolean
-    };
-
     public static ControlDefinition Increase { get; } = new ControlDefinition
     {
         Id = "ETS2LA.Controls.Increase",
         // TRANSLATORS: This is the name of a keybind.
-        Name = _("Increase"),
-        Description = _("Increases the current value (e.g. target speed) by one step. Without any visual modifier shown in the UI, this will increase the target speed by 1 km/h."),
+        Name = _("Increase/RES"),
+        Description = _("Increases the current target speed by one step. If assists are disabled, this key acts like RES. Meaning it will resume the last set target speed. If a last target speed was not set, this key acts like SET."),
         DefaultKeybind = "Up",
         Type = ControlType.Boolean
     };
@@ -48,10 +18,29 @@ public static class DefaultControls
     {
         Id = "ETS2LA.Controls.Decrease",
         // TRANSLATORS: This is the name of a keybind.
-        Name = _("Decrease"),
-        Description = _("Decreases the current value (e.g. target speed) by one step. Without any visual modifier shown in the UI, this will decrease the target speed by 1 km/h."),
+        Name = _("Decrease/SET"),
+        Description = _("Decreases the current target speed by one step. If speed control and lane assist are off, this key acts like SET. Meaning it will set the current speed to speedlimit."),
         DefaultKeybind = "Down",
         Type = ControlType.Boolean
     };
 
+    public static ControlDefinition Cancel { get; } = new ControlDefinition
+    {
+        Id = "ETS2LA.Controls.Cancel",
+        // TRANSLATORS: This is the name of a keybind.
+        Name = _("Cancel/MODE"),
+        Description = _("Will disable ETS2LA's assists when pressed. If assists are already disabled, this key will switch between driving modes."),
+        DefaultKeybind = "Left",
+        Type = ControlType.Boolean
+    };
+
+    public static ControlDefinition Next { get; } = new ControlDefinition
+    {
+        Id = "ETS2LA.Controls.Next",
+        // TRANSLATORS: This is the name of a keybind.
+        Name = _("Next/OK"),
+        Description = _("This key is used to select in UI menus. It also acts as the approval key for any notifications."),
+        DefaultKeybind = "Right",
+        Type = ControlType.Boolean
+    };
 }

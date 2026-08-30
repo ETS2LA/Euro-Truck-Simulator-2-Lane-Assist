@@ -12,18 +12,11 @@ using static ETS2LA.Translations.T;
 
 namespace ETS2LA.State;
 
-public enum SteeringAssists
+public enum DrivingMode
 {
-    None,
-    LaneKeep,
-    Full
-}
-
-public enum LongitudinalAssists
-{
-    None,
-    EmergencyBraking,
-    AdaptiveCruiseControl
+    AdaptiveCruiseControlOnly,
+    FullSelfDriving,
+    LaneAssistOnly
 }
 
 /// <summary>
@@ -42,10 +35,9 @@ public class ApplicationState
         Events.Current.Subscribe<GameTelemetryData>(GameTelemetry.Current.EventString, HandleTelemetryUpdate);
         Events.Current.Subscribe<float>("TelemetryEvents.SpeedLimitChanged", HandleSpeedLimitChanged);
 
-        ControlsBackend.Current.On(DefaultControls.SET.Id, HandleSet);
+        ControlsBackend.Current.On(DefaultControls.Cancel.Id, HandleCancel);
         ControlsBackend.Current.On(DefaultControls.Increase.Id, HandleIncrease);
         ControlsBackend.Current.On(DefaultControls.Decrease.Id, HandleDecrease);
-        ControlsBackend.Current.On(DefaultControls.Assist.Id, HandleAssist);
 
         assistanceSettings = AssistanceSettings.Current;
 
@@ -106,43 +98,21 @@ public class ApplicationState
 
 
     /// <summary>
-    ///  Defines the level of steering assistance the user wants.
-    ///  Full is assumed to be everything plugins can provide, however plugins that can only
-    ///  provide Lane Keeping, should be disabled when the user selects a higher
-    ///  level.
+    ///  Defines the level of driving assistance the user wants.
     /// </summary>
-    public SteeringAssists DesiredSteeringLevel { get; set; } = SteeringAssists.Full;
-    public Dictionary<SteeringAssists, string> SteeringLevelTranslation = new Dictionary<SteeringAssists, string>
+    public DrivingMode DrivingMode { get; set; } = DrivingMode.FullSelfDriving;
+    public Dictionary<DrivingMode, string> DrivingModeTranslation = new Dictionary<DrivingMode, string>
     {
-        { SteeringAssists.None, _("None") },
-        { SteeringAssists.LaneKeep, _("Lane Keep") },
-        { SteeringAssists.Full, _("Full") }
+        { DrivingMode.AdaptiveCruiseControlOnly, _("Adaptive Cruise Control Only") },
+        { DrivingMode.FullSelfDriving, _("Full Self-Driving") },
+        { DrivingMode.LaneAssistOnly, _("Lane Assist Only") }
     };
 
     /// <summary>
-    ///  This value will be set to true if the user has temporarily paused the steering assist,
-    ///  e.g. by braking. Once the user resumes assists this value will be set to false again.
+    ///  This value will determine whether assists are enabled or not.
     /// </summary>
-    public bool PauseSteeringAssist { get; set; } = true;
+    public bool EnableAssists { get; set; } = false;
 
-    /// <summary>
-    ///  Defines the level of longitudinal assistance the user wants. It is assumed that lower levels
-    ///  are included in higher levels, e.g. Emergency Braking should still be active even if the user
-    ///  desires Adaptive Cruise Control.
-    /// </summary>
-    public LongitudinalAssists DesiredLongitudinalLevel { get; set; } = LongitudinalAssists.AdaptiveCruiseControl;
-    public Dictionary<LongitudinalAssists, string> LongitudinalLevelTranslation = new Dictionary<LongitudinalAssists, string>
-    {
-        { LongitudinalAssists.None, _("None") },
-        { LongitudinalAssists.EmergencyBraking, _("Emergency Braking") },
-        { LongitudinalAssists.AdaptiveCruiseControl, _("Adaptive Cruise Control") }
-    };
-
-    /// <summary>
-    ///  This value will be set to true if the user has temporarily paused the longitudinal assist,
-    ///  e.g. by braking. Once the user resumes assists this value will be set to false again.
-    /// </summary>
-    public bool PauseLongitudinalAssist { get; set; } = true;
     /// <summary>
     ///  This value will be used by the longitudinal assist to determine the target speed. This value does
     ///  not take into account any environmental factors. That will either be provided by plugins, or the
@@ -195,13 +165,15 @@ public class ApplicationState
             DesiredSpeed = 0;
     }
 
-    private void LimitToMax()
+    private void ApplyLimits()
     {
         float maxSpeed = UnitConversions.ToScientificUnits(UnitType.Speed, AssistanceSettings.Current.MaximumSpeed, DisplayUnits);
         if (DesiredSpeed > maxSpeed && maxSpeed > 0)
             DesiredSpeed = maxSpeed;
+        if (DesiredSpeed < 0)
+            DesiredSpeed = 0;
     }
-    
+
     private float SnapTo10s(float increase)
     {
         if (!stateSettings.SnapTo10s)
@@ -237,12 +209,12 @@ public class ApplicationState
             offset = DesiredSpeed - lastSpeedLimit; 
 
         if (newSpeedLimit == 0)
-            newSpeedLimit = UnitConversions.ToScientificUnits(UnitType.Speed, 30, Units.Metric);
+            newSpeedLimit = stateSettings.FallbackSpeed;
 
         lastSpeedLimit = newSpeedLimit;
         DesiredSpeed = newSpeedLimit + offset;
         RoundToNearestUnit();
-        LimitToMax();
+        ApplyLimits();
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "ApplicationState.SpeedLimitChanged",
@@ -251,36 +223,20 @@ public class ApplicationState
         });
     }
 
-    private void HandleSet(object sender, ControlChangeEventArgs e)
+    private void HandleCancel(object sender, ControlChangeEventArgs e)
     {
         bool b = (bool)e.NewValue;
         if(b == true) return; // key down event
 
-        if (PauseLongitudinalAssist)
+        if (EnableAssists) 
         {
-            PauseLongitudinalAssist = false;
-            PauseSteeringAssist = false;
-            if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.CurrentSpeed)
-                DesiredSpeed = latestTelemetryData.truckFloat.speed;
-            else if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.SpeedLimit)
-                DesiredSpeed = latestTelemetryData.truckFloat.speedLimit != 0 ?
-                               latestTelemetryData.truckFloat.speedLimit :
-                               UnitConversions.ToScientificUnits(UnitType.Speed, 30, Units.Metric);
-
-            Events.Current.Publish<EventArgs>("ETS2LA.State.AssistsUnpaused", new EventArgs());
-            Events.Current.Publish<bool>("ETS2LA.State.SteeringPaused", PauseSteeringAssist);
-            Events.Current.Publish<bool>("ETS2LA.State.LongitudinalPaused", PauseLongitudinalAssist);
-            RoundToNearestUnit();
-            LimitToMax();
+            EnableAssists = false;
         }
         else
         {
-            PauseLongitudinalAssist = true;
-            PauseSteeringAssist = true;
-
-            Events.Current.Publish<EventArgs>("ETS2LA.State.AssistsPaused", new EventArgs());
-            Events.Current.Publish<bool>("ETS2LA.State.SteeringPaused", PauseSteeringAssist);
-            Events.Current.Publish<bool>("ETS2LA.State.LongitudinalPaused", PauseLongitudinalAssist);
+            DrivingMode += 1;
+            if (DrivingMode > DrivingMode.LaneAssistOnly)
+                DrivingMode = DrivingMode.AdaptiveCruiseControlOnly;
         }
     }
 
@@ -289,26 +245,26 @@ public class ApplicationState
         bool b = (bool)e.NewValue;
         if(b == true) return; // key down event
 
-        // Resume after pause
-        if (PauseLongitudinalAssist)
+        // RES
+        if (!EnableAssists)
         {
-            PauseLongitudinalAssist = false;
-            // Reset speed if it's too low compared to current speed
+            // SET if speed too low compared to current speed
             // to avoid an "AEB" like event.
             if (latestTelemetryData.truckFloat.speed > DesiredSpeed + 5 / 3.6f)
             {
                 DesiredSpeed = latestTelemetryData.truckFloat.speed;
             }
-            return;
-        }
+            // SET if speed is 0
+            if (DesiredSpeed == 0)
+            {
+                DesiredSpeed = latestTelemetryData.truckFloat.speedLimit;
+                if (DesiredSpeed == 0) // Game is closed or we're in a menu/depot
+                {
+                    DesiredSpeed = stateSettings.FallbackSpeed;
+                }
+            }
 
-        // We're driving at 40kph with no limit (Desired = 0)
-        // -> Press Increase
-        // -> AEB due to speed now being set to 1kph
-        // -> WTF
-        if (Math.Abs(DesiredSpeed) < 0.01f)
-        {
-            DesiredSpeed = latestTelemetryData.truckFloat.speed;
+            EnableAssists = true;
             return;
         }
 
@@ -328,7 +284,7 @@ public class ApplicationState
         }
 
         RoundToNearestUnit();
-        LimitToMax();
+        ApplyLimits();
     }
 
     private void HandleDecrease(object sender, ControlChangeEventArgs e)
@@ -336,21 +292,17 @@ public class ApplicationState
         bool b = (bool)e.NewValue;
         if(b == true) return; // key down event
 
-        if (PauseLongitudinalAssist)
+        // SET
+        if (!EnableAssists)
         {
-            PauseLongitudinalAssist = false;
-            // Reset speed if it's too low compared to current speed
-            // to avoid an "AEB" like event.
-            if (latestTelemetryData.truckFloat.speed > DesiredSpeed + 5 / 3.6f)
-            {
+            if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.CurrentSpeed)
                 DesiredSpeed = latestTelemetryData.truckFloat.speed;
-            }
-            return;
-        }
+            else if (assistanceSettings.SetSpeedBehaviourOption == SetSpeedBehaviour.SpeedLimit)
+                DesiredSpeed = latestTelemetryData.truckFloat.speedLimit != 0 ?
+                               latestTelemetryData.truckFloat.speedLimit :
+                               stateSettings.FallbackSpeed;
 
-        if (Math.Abs(DesiredSpeed) < 0.01f)
-        {
-            DesiredSpeed = latestTelemetryData.truckFloat.speed;
+            EnableAssists = true;
             return;
         }
 
@@ -370,30 +322,7 @@ public class ApplicationState
         }
 
         RoundToNearestUnit();
-        LimitToMax();
-    }
-
-    private void HandleAssist(object sender, ControlChangeEventArgs e)
-    {
-        bool b = (bool)e.NewValue;
-        if(b == true) return; // key down event
-
-        if (PauseSteeringAssist)
-        {
-            PauseSteeringAssist = false;
-            Events.Current.Publish<bool>("ETS2LA.State.SteeringPaused", PauseSteeringAssist);
-        }
-        else
-        {
-            DesiredSteeringLevel++;
-            if (DesiredSteeringLevel > SteeringAssists.Full)
-            {
-                DesiredSteeringLevel = SteeringAssists.None;
-            }
-
-            Events.Current.Publish<SteeringAssists>("ETS2LA.State.SteeringLevel", DesiredSteeringLevel);
-            Events.Current.Publish<EventArgs>($"ETS2LA.State.SteeringLevel.{DesiredSteeringLevel}", new EventArgs());
-        }
+        ApplyLimits();
     }
 
 

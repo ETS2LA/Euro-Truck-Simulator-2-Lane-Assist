@@ -61,11 +61,10 @@ public class SDL3ControlsBackend : IControlsBackend
             Logger.Warn(_("Failed to initialize SDL3 controls backend: {0}", ex.Message));
         }
 
-        RegisterControl(DefaultControls.Assist);
-        RegisterControl(DefaultControls.SET);
+        RegisterControl(DefaultControls.Increase); // RES
+        RegisterControl(DefaultControls.Decrease); // SET
+        RegisterControl(DefaultControls.Cancel); // MODE
         RegisterControl(DefaultControls.Next);
-        RegisterControl(DefaultControls.Increase);
-        RegisterControl(DefaultControls.Decrease);
 
         UioHookProvider.Instance.KeyTypedEnabled = true;
         _keyboardHook = new EventLoopGlobalHook();
