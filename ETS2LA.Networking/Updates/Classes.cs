@@ -21,7 +21,7 @@ public class UpdaterSettings
 {
     public string? SelectedSource { get; set; }
     public bool IsSourceSelectedByUser { get; set; } = false;
-    public string SelectedChannel { get; set; } = "release";
+    public string SelectedChannel { get; set; } = "nightly";
 
     [NonSerialized]
     private static readonly Lazy<UpdaterSettings> _instance = new(() => new UpdaterSettings(loadSettings: true));

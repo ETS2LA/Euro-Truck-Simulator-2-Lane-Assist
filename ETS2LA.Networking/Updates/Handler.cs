@@ -22,7 +22,7 @@ public class Updater
     private static readonly Lazy<Updater> _instance = new(() => new Updater());
     public static Updater Current => _instance.Value;
 
-    public static string[] AvailableChannels => new string[] { "release" };
+    public static string[] AvailableChannels => new string[] { "release","nightly" };
 
     public UpdateManager UpdateManager;
     private UpdaterSettings settings = new();
@@ -31,7 +31,7 @@ public class Updater
     public List<UpdaterSource> AvailableSources => new()
     {
         new UpdaterSource(
-            new GithubSource("https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", null, false),
+            new GithubSource("https://github.com/ETS2LA/Euro-Truck-Simulator-2-Lane-Assist", null, true),
             "GitHub"
         ),
         new UpdaterSource(
@@ -133,6 +133,7 @@ public class Updater
         {
             Logger.Warn(_("Selected update source '{0}' not found, defaulting to first available source.", selectedSource));
             source = AvailableSources[0];
+            settings.SelectedSource = source.sourceName;
             Logger.Warn($"> '{source.sourceName}'.");
         }
         return source;
@@ -152,17 +153,20 @@ public class Updater
         var sourceFile = Path.Combine(AppContext.BaseDirectory, DistributionSourceFile);
         if (!File.Exists(sourceFile))
         {
+            settings.SelectedSource = FallbackSource;
             return FallbackSource;
         }
 
         try
         {
             var sourceName = File.ReadAllText(sourceFile).Trim();
-            return string.IsNullOrWhiteSpace(sourceName) ? FallbackSource : sourceName;
+            settings.SelectedSource = string.IsNullOrWhiteSpace(sourceName) ? FallbackSource : sourceName;
+            return settings.SelectedSource;
         }
         catch (Exception ex)
         {
             Logger.Warn(_("Failed to read bundled update source marker: {0}", ex.Message));
+            settings.SelectedSource = FallbackSource;
             return FallbackSource;
         }
     }

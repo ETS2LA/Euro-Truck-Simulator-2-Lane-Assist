@@ -20,6 +20,16 @@
     UpdateManager updateManager = Updater.Current.UpdateManager;
     UpdateInfo? latestUpdateInfo = null;
 
+    string[] availableChannels = Updater.AvailableChannels;
+    string selectedChannel {
+        get => UpdaterSettings.Current.SelectedChannel;
+        set {
+            UpdaterSettings.Current.SelectedChannel = value;
+            UpdaterSettings.Current.Save();
+            StateHasChanged();
+        }
+    }
+
     private MarkupString? RenderedContent;
 
     private static readonly MarkdownPipeline Pipeline = 
@@ -123,7 +133,13 @@
     }
 }
 
-<div class="flex flex-col w-108 m-5 ml-8 gap-4">
+<div class="flex flex-col max-w-full m-5 ml-8 mr-8 gap-4">
+    <Dropdown Title="Update Channel"
+              Description="Select the update channel you want to listen to. Nightly contains experimental features and will crash more often."
+              Options=@availableChannels
+              SelectedIndex=@Array.IndexOf(availableChannels, selectedChannel)
+              SelectedIndexChanged="@(index => selectedChannel = availableChannels[index])" />
+
     <div class="flex flex-col gap-2">
         <div class="text-description">
             @_("Current Version: {0}", updateManager.CurrentVersion?.ToString() ?? _("Unknown Version"))
