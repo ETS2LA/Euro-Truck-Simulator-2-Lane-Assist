@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 16:29:24+0300\n"
-"PO-Revision-Date: 2026-08-30 16:29:25+0300\n"
+"POT-Creation-Date: 2026-08-30 19:57:05+0300\n"
+"PO-Revision-Date: 2026-08-30 19:57:06+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,9 +20,9 @@ msgstr ""
 msgid "Unknown Control ID"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
-#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:4
+#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
+#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 msgid "Sorry"
 msgstr ""
 
@@ -99,8 +99,8 @@ msgstr ""
 msgid "Error loading map data from '{0}': {1}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:53
+#: ../../../ETS2LA.UI/Pages/Settings/Data.razor:11
 msgid "Medium"
 msgstr ""
 
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Failed to enable dependency: {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:40
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:42
 msgid "Main"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr[1] ""
 msgid "Binding for control {0} ({1}) timed out."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:41
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:43
 msgid "Dashboard"
 msgstr ""
 
@@ -257,12 +257,12 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
-#: ../../../ETS2LA.Overlay/Window/Console.cs:54
-msgid "Show Fewer Logs"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:55
 msgid "Install Plugins"
+msgstr ""
+
+#: ../../../ETS2LA.Overlay/Window/Console.cs:54
+msgid "Show Fewer Logs"
 msgstr ""
 
 #: ../../../ETS2LA.Networking/Updates/Handler.cs:80
@@ -464,7 +464,7 @@ msgstr ""
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:54
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:56
 msgid "Contact Us"
 msgstr ""
 
@@ -563,7 +563,7 @@ msgstr ""
 msgid "Apparent plugin directory {0} does not exist."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:42
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:44
 msgid "Visualization"
 msgstr ""
 
@@ -730,6 +730,10 @@ msgstr ""
 msgid "Display Units"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:155
+msgid "Adjustments"
+msgstr ""
+
 #: ../../../ETS2LA.Overlay/Window/StateWindow.cs:35
 msgid "State Info"
 msgstr ""
@@ -815,7 +819,7 @@ msgstr ""
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:60
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:62
 msgid "Anonymous"
 msgstr ""
 
@@ -848,7 +852,7 @@ msgstr ""
 msgid "Plugin with ID {0} not found in available plugins."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:47
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:49
 msgid "Manager"
 msgstr ""
 
@@ -916,7 +920,7 @@ msgstr ""
 msgid "Limit Overlay Framerate"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:53
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:55
 msgid "Wiki / FAQ"
 msgstr ""
 
@@ -967,8 +971,8 @@ msgstr ""
 msgid "Download progress: {0}%"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:89
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:108
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:89
 msgid "Search for plugins..."
 msgstr ""
 
@@ -1072,8 +1076,8 @@ msgstr ""
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:102
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:134
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:102
 msgid "No plugins found."
 msgstr ""
 
@@ -1217,10 +1221,10 @@ msgstr ""
 msgid "Disabled plugin: [bold]{0}[/]"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
-#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/ControlsStep.razor:48
 #: ../../../ETS2LA.UI/Pages/Onboarding/Steps/OverlayStep.razor:27
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/PluginStep.razor:56
+#: ../../../ETS2LA.UI/Pages/Onboarding/Steps/SDKStep.razor:17
 msgid "Continue"
 msgstr ""
 
@@ -1323,8 +1327,8 @@ msgstr ""
 msgid "Steering Sensitivity"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
 #: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:130
+#: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
 msgid "Disabled"
 msgstr ""
 
@@ -1373,12 +1377,12 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:158
-msgid "Changelog"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:55
 msgid "No release notes available."
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:158
+msgid "Changelog"
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:67
@@ -1482,8 +1486,8 @@ msgstr ""
 msgid "Responsiveness"
 msgstr ""
 
-#: ../../../ETS2LA.Game/Data/Classes.cs:124
 #: ../../../ETS2LA.Game/Installation.cs:266
+#: ../../../ETS2LA.Game/Data/Classes.cs:124
 msgid "Parsing Map Data"
 msgstr ""
 
@@ -1574,7 +1578,7 @@ msgstr ""
 msgid "Restart"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:46
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:48
 msgid "Plugins"
 msgstr ""
 
@@ -1614,9 +1618,9 @@ msgstr ""
 msgid "Vision Cameras"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
-#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
 #: ../../../ETS2LA.UI/Pages/Visualization.razor:5
+#: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
+#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
 msgstr ""
 
@@ -1676,8 +1680,7 @@ msgstr ""
 msgid "Window"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:155
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:59
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:61
 msgid "Settings"
 msgstr ""
 
@@ -1712,9 +1715,9 @@ msgid "SDKs are currently installed."
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:18
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:32
 #: ../../../ETS2LA.UI/Pages/Settings/Display.razor:151
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:16
 msgid "Restart Required"
 msgstr ""
 
@@ -1799,14 +1802,14 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
+msgid "Game added"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
-msgid "Game added"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:334
@@ -1854,9 +1857,9 @@ msgstr ""
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
 
+#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:122
-#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
@@ -1948,12 +1951,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
-msgid "Translated by:"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:81
 msgid "This game was found at"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
+msgid "Translated by:"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
@@ -2126,7 +2129,7 @@ msgstr[1] ""
 msgid "Checking for updates..."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:48
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:50
 msgid "Catalogue"
 msgstr ""
 
@@ -2170,7 +2173,7 @@ msgstr ""
 msgid "Demo Window"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:52
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:54
 msgid "Help"
 msgstr ""
 
@@ -2227,8 +2230,8 @@ msgid "Enabled plugin: [bold]{0}[/]"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Utils.cs:19
-#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:33
+#: ../../../ETS2LA.UI/Pages/Settings/Telemetry.razor:17
 msgid ""
 "Changing this option requires a restart of ETS2LA to take effect. Restart "
 "now?"

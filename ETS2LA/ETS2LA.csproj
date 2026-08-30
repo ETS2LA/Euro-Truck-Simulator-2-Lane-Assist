@@ -8,7 +8,9 @@
 
     <Title>ETS2LA</Title>
     <Description>Self driving for ETS2 and ATS.</Description>
-    <Version>3.4.37</Version>
+
+    <!-- This is a fallback, if you see it in app, git is broken -->
+    <Version>1970.1.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +30,24 @@
     <ProjectReference Include="..\ETS2LA.UI\ETS2LA.UI.csproj" />
     <ProjectReference Include="..\ETS2LA.Translations\ETS2LA.Translations.csproj" />
   </ItemGroup>
+
+  <Target Name="SetDynamicVersion" BeforeTargets="BeforeCompile;CoreCompile">
+    <Exec Command="git rev-list --count HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low" IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitCount" />
+    </Exec>
+    
+    <PropertyGroup>
+      <GitCommitCount Condition="'$(GitCommitCount)' == ''">0</GitCommitCount>
+      <_BuildYear>$([System.DateTime]::Now.ToString("yyyy"))</_BuildYear>
+      <_BuildMonth>$([System.DateTime]::Now.ToString("MM"))</_BuildMonth>
+      <_BuildDay>$([System.DateTime]::Now.ToString("dd"))</_BuildDay>
+      
+      <Version>$(_BuildYear).$(_BuildMonth).$(_BuildDay).$(GitCommitCount)</Version>
+      <AssemblyVersion>$(Version)</AssemblyVersion>
+      <FileVersion>$(Version)</FileVersion>
+      <PackageVersion>$(Version)</PackageVersion>
+    </PropertyGroup>
+  </Target>
 
   <Target Name="CopyAssets" AfterTargets="Build">
     <ItemGroup>

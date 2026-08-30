@@ -5,6 +5,8 @@
 @inherits LayoutComponentBase
 
 @code {
+  string currentVersion = "v" + System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(4) ?? "unknown";
+
   protected override void OnInitialized()
   {
     base.OnInitialized();
@@ -26,9 +28,9 @@
         <div class=@((WindowState.Current.IsSidebarOpen ? " opacity-100" : " opacity-0") + " transition-opacity duration-100 ease-in-out")>
           <div class="flex items-end gap-0.5">
             <p class="font-bold">ETS2LA</p>
-            <p class="text-[12px] mb-px">Development</p>
+            <p class="text-[12px] mb-px">Nightly</p>
           </div>
-          <p class="description text-[11px] font-medium -my-0.5">v2026.8.3.4079</p>
+          <p class="description text-[11px] font-medium -my-0.5">@currentVersion</p>
         </div>
 
         <div class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center cursor-pointer" @onclick="() => { WindowState.Current.IsSidebarOpen = !WindowState.Current.IsSidebarOpen; WindowState.Current.RequestFullReload(); }">

@@ -4,13 +4,13 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - photino
 
 jobs:
   check_version:
     name: Check version
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, '[release]')
+    if: contains(github.event.head_commit.message, '[nightly]')
     outputs:
       version: ${{ steps.get-version.outputs.version }}
       should_publish: ${{ steps.check_version.outputs.should_publish }}
@@ -66,7 +66,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path .\publish\Assets | Out-Null
           Set-Content -Path .\publish\Assets\DistributionSource.txt -Value "GitHub" -NoNewline
           & $vpk pack `
-            --channel "win-release" `
+            --channel "win-nightly" `
             --packId ETS2LA `
             --packVersion ${{ needs.check_version.outputs.version }} `
             --packDir .\publish `
@@ -81,7 +81,7 @@ jobs:
             --packTitle "ETS2LA" `
             --releaseNotes .\ETS2LA\ReleaseNotes.md
           & $vpk upload github `
-            --channel "win-release" `
+            --channel "win-nightly" `
             --merge `
             --repoUrl "https://github.com/${{ github.repository }}" `
             --publish `
@@ -93,7 +93,7 @@ jobs:
           Remove-Item -Path .\Releases -Recurse -Force
           Set-Content -Path .\publish\Assets\DistributionSource.txt -Value "CNB" -NoNewline
           & $vpk pack `
-            --channel "win-release" `
+            --channel "win-nightly" `
             --packId ETS2LA `
             --packVersion ${{ needs.check_version.outputs.version }} `
             --packDir .\publish `
@@ -144,7 +144,7 @@ jobs:
           mkdir -p ./publish/Assets
           printf "GitHub" > ./publish/Assets/DistributionSource.txt
           $VPK pack \
-            --channel "linux-release" \
+            --channel "linux-nightly" \
             --packId ETS2LA \
             --packVersion ${{ needs.check_version.outputs.version }} \
             --packDir ./publish \
@@ -153,7 +153,7 @@ jobs:
             --packTitle "ETS2LA" \
             --releaseNotes ./ETS2LA/ReleaseNotes.md
           $VPK upload github \
-            --channel "linux-release" \
+            --channel "linux-nightly" \
             --merge \
             --repoUrl "https://github.com/${{ github.repository }}" \
             --publish \
@@ -165,7 +165,7 @@ jobs:
           rm -rf ./Releases
           printf "CNB" > ./publish/Assets/DistributionSource.txt
           $VPK pack \
-            --channel "linux-release" \
+            --channel "linux-nightly" \
             --packId ETS2LA \
             --packVersion ${{ needs.check_version.outputs.version }} \
             --packDir ./publish \
