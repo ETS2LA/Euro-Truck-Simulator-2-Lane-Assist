@@ -33,6 +33,24 @@ internal static class Program
     [STAThread]
     static void Main(string[] args)
     {
+        // Velopack is the installer / update manager
+        // Please don't move this, Velopack has to be initialized before anything else,
+        // otherwise we might end up with weird bugs.
+        VelopackApp.Build()
+            .SetAutoApplyOnStartup(false)
+            #if DEBUG
+            .SetLocator(new TestVelopackLocator(
+                appId: "ETS2LA",
+                version: "2026.8.1",
+                packagesDir: "./Releases/Portable"
+            ))
+            #endif
+            .Run();
+
+        string currentVersion = VelopackLocator.Current?.CurrentlyInstalledVersion?.ToString()
+                             ?? System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) 
+                             ?? "unknown"; 
+
         Utils.InitializeTranslations();
 
         // This is for unobserved exceptions, i.e. plugins and other Task.Run() calls etc..
@@ -49,24 +67,6 @@ internal static class Program
 
         if (Utils.DoesETS2LAProcessExist())
             throw new InvalidOperationException("ETS2LA is already running, please close it from the Task Manager.");
-
-        // Velopack is the installer / update manager
-        // Please don't move this, Velopack has to be initialized before anything else,
-        // otherwise we might end up with weird bugs.
-        VelopackApp.Build()
-            .SetAutoApplyOnStartup(false)
-            #if DEBUG
-            .SetLocator(new TestVelopackLocator(
-                appId: "ETS2LA",
-                version: "1.0.0",
-                packagesDir: "./Releases/Portable"
-            ))
-            #endif
-            .Run();
-
-        string currentVersion = VelopackLocator.Current?.CurrentlyInstalledVersion?.ToString()
-                             ?? System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) 
-                             ?? "unknown"; 
 
         // For OTel (OpenTelemetry)
         var appResource = ResourceBuilder.CreateDefault()

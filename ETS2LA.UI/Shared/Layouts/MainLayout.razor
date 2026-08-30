@@ -5,7 +5,7 @@
 @inherits LayoutComponentBase
 
 @code {
-  string currentVersion = "v" + System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(4) ?? "unknown";
+  string currentVersion = "v" + System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "unknown";
 
   protected override void OnInitialized()
   {

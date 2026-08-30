@@ -10,7 +10,7 @@
     <Description>Self driving for ETS2 and ATS.</Description>
 
     <!-- This is a fallback, if you see it in app, git is broken -->
-    <Version>1970.1.1.1</Version>
+    <Version>1970.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
