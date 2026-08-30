@@ -1,9 +1,6 @@
-### ETS2LA C# 3.4.37
-- Overlay frame limiting is now much more accurate on Windows. On my system at a limit of 30fps, we went from 21fps to 29fps stable.
-- Fix CNB deployment for mainland CN users.
-- **Drk** - Fix prefab pitch being applied in the wrong direction, prefab paths sat metres above the roads they meet.
-- **Drk** - Clamp the road factor converted from a road list factor so the curve isnt extrapolated past its end.
-- **Drk** - Skip projecting points almost on the camera, they stretched AR geometry across the screen.
+### ETS2LA C# 3.4.38
+- Added release channel selector in the settings.
+- Added new release channel, `nightly`.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
