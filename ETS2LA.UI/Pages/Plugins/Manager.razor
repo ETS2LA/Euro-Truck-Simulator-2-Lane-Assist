@@ -2,6 +2,8 @@
 @using ETS2LA.Backend
 @using ETS2LA.Shared
 @using ETS2LA.UI.Shared.Components
+@using Microsoft.AspNetCore.Components;
+@using System.Reflection
 
 @code {
     PluginHandler handler;
@@ -52,6 +54,31 @@
             ).ToList();
         }
     }
+
+    public bool HasRoute(IPlugin plugin, string route)
+    {
+        // Normalize route to ensure leading slash comparison matches
+        string expectedRoute = route.StartsWith("/") ? route : "/" + route;
+
+        foreach (var assembly in handler.PluginAssemblies)
+        {
+            try
+            {
+                var hasMatchingRoute = assembly.GetTypes()
+                    .Where(t => typeof(IComponent).IsAssignableFrom(t))
+                    .SelectMany(t => t.GetCustomAttributes<RouteAttribute>())
+                    .Any(attr => string.Equals(attr.Template, expectedRoute, StringComparison.OrdinalIgnoreCase));
+
+                if (hasMatchingRoute) 
+                    return true;
+            }
+            catch (ReflectionTypeLoadException)
+            {
+            }
+        }
+
+        return false;
+    }
 }
 
 <div class="flex h-full w-full flex-col bg-bg-dark">
@@ -82,6 +109,8 @@
                 {
                     var plugin = FilteredPlugins[i];
                     var enabled = plugin._IsRunning;
+                    var settingsRoute = $"/plugins/adjustments/{plugin.Info.Id}";
+                    var hasSettingsPage = HasRoute(plugin, settingsRoute);
 
                     <div class=@($"flex flex-col rounded-sm bg-control-bg-dark border p-4" + (enabled ? " border-accent-dark" : " border-bg-darker"))>
                         <div class="flex">
@@ -120,6 +149,10 @@
                                 else
                                 {
                                     <button class="button button-small w-full!" @onclick="@(() => handler.EnablePlugin(plugin))">@(_("Enable"))</button>
+                                }
+                                @if (hasSettingsPage)
+                                {
+                                    <a class="button button-small w-full!" href="@settingsRoute">@(_("Adjustments"))</a>
                                 }
                             </div>
                         </div>

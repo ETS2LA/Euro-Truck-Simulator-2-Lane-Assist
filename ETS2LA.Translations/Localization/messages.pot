@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 15:38:30+0300\n"
-"PO-Revision-Date: 2026-08-30 15:38:30+0300\n"
+"POT-Creation-Date: 2026-08-30 16:29:32+0300\n"
+"PO-Revision-Date: 2026-08-30 16:29:32+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,10 +20,9 @@ msgstr ""
 msgid "Unknown Control ID"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
-#: ../../../ETS2LA.UI/Pages/Visualization.razor:4
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:4
-#: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:4
+#: ../../../ETS2LA.UI/Pages/Visualization.razor:4
+#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:4
 msgid "Sorry"
 msgstr ""
 
@@ -48,8 +47,8 @@ msgstr ""
 msgid "Anonymous Telemetry"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:165
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:186
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:165
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
 msgstr ""
@@ -335,8 +334,8 @@ msgstr ""
 msgid "Update to {0}"
 msgstr ""
 
-#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:180
 #: ../../../ETS2LA.Controls/Windows/SharpDXControlsBackend.cs:201
+#: ../../../ETS2LA.Controls/Linux/SDL3ControlsBackend.cs:180
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
 msgstr ""
@@ -368,7 +367,7 @@ msgid ""
 "to temporary overloading or maintenance."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:97
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:126
 msgid "Enabled"
 msgstr ""
 
@@ -465,7 +464,7 @@ msgstr ""
 msgid "Unregistered control: {0} ({1})"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:55
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:54
 msgid "Contact Us"
 msgstr ""
 
@@ -628,7 +627,7 @@ msgstr ""
 msgid "Error in camera update loop."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:122
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:151
 msgid "Enable"
 msgstr ""
 
@@ -731,10 +730,6 @@ msgstr ""
 msgid "Display Units"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:49
-msgid "Adjustments"
-msgstr ""
-
 #: ../../../ETS2LA.Overlay/Window/StateWindow.cs:35
 msgid "State Info"
 msgstr ""
@@ -820,7 +815,7 @@ msgstr ""
 msgid "Controls Backend shutdown complete, all controls saved."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:61
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:60
 msgid "Anonymous"
 msgstr ""
 
@@ -921,7 +916,7 @@ msgstr ""
 msgid "Limit Overlay Framerate"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:54
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:53
 msgid "Wiki / FAQ"
 msgstr ""
 
@@ -947,7 +942,7 @@ msgstr ""
 msgid "Binding Successful"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:118
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:147
 msgid "Disable"
 msgstr ""
 
@@ -972,7 +967,7 @@ msgstr ""
 msgid "Download progress: {0}%"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:62
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:89
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:108
 msgid "Search for plugins..."
 msgstr ""
@@ -1077,7 +1072,7 @@ msgstr ""
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:75
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:102
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:134
 msgid "No plugins found."
 msgstr ""
@@ -1134,7 +1129,7 @@ msgid_plural "found {0} nodes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:76
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:103
 msgid "Did you remember to restart after installing them?"
 msgstr ""
 
@@ -1328,8 +1323,8 @@ msgstr ""
 msgid "Steering Sensitivity"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:101
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:207
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:130
 msgid "Disabled"
 msgstr ""
 
@@ -1378,12 +1373,12 @@ msgstr ""
 msgid "Font file not found at {0}"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:55
-msgid "No release notes available."
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Plugins/Catalogue.razor:158
 msgid "Changelog"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Updates.razor:55
+msgid "No release notes available."
 msgstr ""
 
 #: ../../../ETS2LA.State/Program.cs:67
@@ -1619,10 +1614,9 @@ msgstr ""
 msgid "Vision Cameras"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
-#: ../../../ETS2LA.UI/Pages/Visualization.razor:5
 #: ../../../ETS2LA.UI/Pages/Help/ContactUs.razor:5
-#: ../../../ETS2LA.UI/Pages/Plugins/Adjustments.razor:5
+#: ../../../ETS2LA.UI/Pages/Visualization.razor:5
+#: ../../../ETS2LA.UI/Pages/Help/Wiki.razor:5
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
 msgstr ""
 
@@ -1682,7 +1676,8 @@ msgstr ""
 msgid "Window"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:60
+#: ../../../ETS2LA.UI/Pages/Plugins/Manager.razor:155
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:59
 msgid "Settings"
 msgstr ""
 
@@ -1804,14 +1799,14 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr ""
 
+#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
+msgid "Game added"
+msgstr ""
+
 #: ../../../ETS2LA.UI/Pages/Settings/Assists.razor:206
 msgid ""
 "The maximum speed ETS2LA will accelerate to. It might still drift over this "
 "limit due to momentum."
-msgstr ""
-
-#: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:58
-msgid "Game added"
 msgstr ""
 
 #: ../../../ETS2LA.Game/Installation.cs:334
@@ -1859,10 +1854,10 @@ msgstr ""
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
 
+#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
+#: ../../../ETS2LA.Game/SDK/Camera.cs:130
 #: ../../../ETS2LA.Game/SDK/ParkedVehicles.cs:108
 #: ../../../ETS2LA.Game/SDK/Navigation.cs:122
-#: ../../../ETS2LA.Game/SDK/Camera.cs:130
-#: ../../../ETS2LA.Game/SDK/Semaphores.cs:176
 #: ../../../ETS2LA.Game/SDK/Traffic.cs:159
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1953,12 +1948,12 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
-msgid "Translated by:"
-msgstr ""
-
 #: ../../../ETS2LA.UI/Pages/Settings/SDK.razor:81
 msgid "This game was found at"
+msgstr ""
+
+#: ../../../ETS2LA.UI/Pages/Settings/Display.razor:183
+msgid "Translated by:"
 msgstr ""
 
 #: ../../../ETS2LA.UI/Pages/Settings/Data.razor:69
@@ -2175,7 +2170,7 @@ msgstr ""
 msgid "Demo Window"
 msgstr ""
 
-#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:53
+#: ../../../ETS2LA.UI/Shared/Layouts/MainLayout.razor:52
 msgid "Help"
 msgstr ""
 
