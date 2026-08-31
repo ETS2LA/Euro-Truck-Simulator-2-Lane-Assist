@@ -17,18 +17,22 @@ public static class Languages
 {    
     public static List<Language> SupportedLanguages = new List<Language>
     {
+        new Language { EnglishName = "Finnish", NativeName = "Suomi", Code = "fi" },
         new Language { EnglishName = "English", NativeName = "English", Code = "en" },
         new Language { EnglishName = "Chinese (Simplified)", NativeName = "简体中文", Code = "zh_Hans" },
         new Language { EnglishName = "Chinese (Traditional)", NativeName = "繁體中文", Code = "zh_Hant" },
-        new Language { EnglishName = "Slovak", NativeName = "Slovenčina", Code = "sk" },
-        new Language { EnglishName = "Finnish", NativeName = "Suomi", Code = "fi" },
-        new Language { EnglishName = "Japanese", NativeName = "日本語", Code = "ja" },
-        new Language { EnglishName = "German", NativeName = "Deutsch", Code = "de" },
-        new Language { EnglishName = "Korean", NativeName = "한국어", Code = "ko" },
-        new Language { EnglishName = "Hungarian", NativeName = "Magyar", Code = "hu" },
-        new Language { EnglishName = "Russian", NativeName = "Русский", Code = "ru" },
         new Language { EnglishName = "Estonian", NativeName = "Eesti", Code = "et" },
+        new Language { EnglishName = "French", NativeName = "Français", Code = "fr" },
+        new Language { EnglishName = "German", NativeName = "Deutsch", Code = "de" },
+        new Language { EnglishName = "Hindi (Hinglish)", NativeName = "हिंदी", Code = "hi@hinglish" },
+        new Language { EnglishName = "Hungarian", NativeName = "Magyar", Code = "hu" },
+        new Language { EnglishName = "Japanese", NativeName = "日本語", Code = "ja" },
+        new Language { EnglishName = "Korean", NativeName = "한국어", Code = "ko" },
         new Language { EnglishName = "Polish", NativeName = "Polski", Code = "pl" },
+        new Language { EnglishName = "Russian", NativeName = "Русский", Code = "ru" },
+        new Language { EnglishName = "Slovak", NativeName = "Slovenčina", Code = "sk" },
+        new Language { EnglishName = "Spanish (American)", NativeName = "Español (Estados Unidos)", Code = "es_US" },
+        new Language { EnglishName = "Turkish", NativeName = "Türkçe", Code = "tr" },
         new Language { EnglishName = "Vietnamese", NativeName = "Tiếng Việt", Code = "vi" },
     }.OrderBy(l => l.EnglishName).ToList();
 }
