@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
-"PO-Revision-Date: 2026-08-31 12:21+0000\n"
+"PO-Revision-Date: 2026-08-31 13:17+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -1712,7 +1712,7 @@ msgid "Playing sound: {0}"
 msgstr "正在播放音效：{0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "輔助模式： "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1740,7 +1740,7 @@ msgid ""
 msgstr "ETS2LA 視窗的縮放比例。可用於配合螢幕的 DPI 設定調整視窗大小。"
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "降低/SET"
 
 msgid "Finished loading plugins"
 msgstr "插件載入完成"
