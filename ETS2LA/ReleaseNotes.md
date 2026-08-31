@@ -1,8 +1,8 @@
-### ETS2LA C# 2026.8.4946 [NIGHTLY]
+### ETS2LA C# 2026.8.4968 [NIGHTLY]
 This is the first major ETS2LA release after the initial launch a month ago. The headline feature this release is an **Improved User Interface** and **Translations**.
 
 You might've also noticed that we transitioned to a new versioning system. All ETS2LA versions now use the following format:
-- `YEAR.MONTH.COMMIT` - For example: `2026.8.4933`
+- `YEAR.MONTH.COMMIT`
 
 This simplifies versioning for us, and provides information on how old a specific ETS2LA version is without having to check the Github releases page. You'll also see how many actual updates have happened between each release by comparing the `COMMIT` numbers.
 
