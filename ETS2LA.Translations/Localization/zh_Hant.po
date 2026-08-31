@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
-"PO-Revision-Date: 2026-08-28 09:28+0000\n"
+"PO-Revision-Date: 2026-08-31 03:01+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -75,7 +75,8 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
-msgstr ""
+msgstr "將目前的目標速度降低一個級距。若速度控制與車道輔助皆已關閉，此按鍵的作用會與 "
+"SET 相同，也就是將目前的目標速度設定為速限。"
 
 #, csharp-format
 msgid "Installed {0}"
@@ -160,9 +161,11 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"ETS2LA 會將資訊疊加顯示在遊戲畫面上。你可以使用 <span class=\"text-text-"
+"accent font-bold\">疊加層互動</span> 與這些疊加層元素互動。試試看！"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "如果無法操作視窗，請按 CTRL+R。"
 
 msgid "The step size for changing the cruise control speed."
 msgstr "調整巡航速度時，每次變更的級距。"
@@ -319,7 +322,7 @@ msgstr "所選的檔案不存在。"
 
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
+msgstr "輔助功能啟用狀態：<span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -344,7 +347,7 @@ msgstr "未變更 / 無法取得"
 msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
-msgstr ""
+msgstr "此按鍵用於在 UI 選單中選取項目，也可用來確認任何通知。"
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -405,7 +408,7 @@ msgid "You took a wrong turn!"
 msgstr "你走錯路了！"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "僅主動式巡航控制"
 
 msgid "Initializing GLFW..."
 msgstr "正在初始化 GLFW..."
@@ -706,7 +709,7 @@ msgid "{0} not found in supported languages."
 msgstr "在支援的語言中找不到 {0}。"
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "輔助功能啟用狀態： "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -932,7 +935,7 @@ msgstr "未綁定"
 msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
-msgstr ""
+msgstr "ETS2LA 採用一套與真實系統相似的控制方式。你可以在右側重新綁定預設控制項。"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -989,7 +992,7 @@ msgid "Continue"
 msgstr "繼續"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "取消/模式"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1040,7 +1043,8 @@ msgstr "找不到 ID 為 {0} 的有效插件版本。"
 msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
-msgstr ""
+msgstr "按下此按鍵將停用 ETS2LA 的輔助功能。若輔助功能已停用，則此按鍵會切換駕駛模式"
+"。"
 
 msgid "Binding thread started with no control to bind."
 msgstr "綁定執行緒已啟動，但沒有指定要綁定的控制項。"
@@ -1200,6 +1204,8 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"將目前的目標速度提高一個級距。若輔助功能已停用，此按鍵的作用會與 RES 相同，也"
+"就是恢復至上次設定的目標速度。若先前未設定過目標速度，此按鍵則會如同 SET。"
 
 msgid "Account"
 msgstr "帳號"
@@ -1264,7 +1270,7 @@ msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr "嘗試停用 {0}，但在已載入的插件中找不到該插件。"
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "全自動駕駛"
 
 msgid "Install"
 msgstr "安裝"
