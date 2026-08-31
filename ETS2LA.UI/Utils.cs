@@ -9,7 +9,11 @@ public static class UserInterfaceUtils
 {
     public static string ClassnameWithSpaces(string option)
     {
-        return System.Text.RegularExpressions.Regex.Replace(option, @"(\B[A-Z]|(?<=[a-zA-Z])\d)", " $1");
+        return System.Text.RegularExpressions.Regex.Replace(
+            option, 
+            @"(?<=[a-z])(?=[A-Z])|(?<=[A-Za-z])(?=[0-9])|(?<=[A-Z])(?=[A-Z][a-z])", 
+            " "
+        );
     }
 
     public static void AskForRestart(string title, string message)

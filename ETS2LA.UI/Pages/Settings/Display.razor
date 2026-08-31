@@ -10,7 +10,12 @@
 @using static ETS2LA.Translations.Languages;
 
 @code {
-    List<String> displayUnitOptions = Enum.GetNames<Units>().ToList();
+    Dictionary<Units, string> displayUnitTranslations = new Dictionary<Units, string>
+    {
+        { Units.Metric, _("Metric") },
+        { Units.Imperial, _("Imperial") },
+        { Units.Scientific, _("Scientific") },
+    };
     List<String> displayLanguageOptions = SupportedLanguages.Select(l => l.NativeName + $" - {l.EnglishName}").ToList();
 
     protected override void OnInitialized()
@@ -170,7 +175,7 @@
     <Separator Label=@(_("Units and Language")) />
     <Listbox Title=@(_("Display Units")) 
              Description=@(_("The units ETS2LA will use when displaying information to a user. Scientific has only slight differences to metric."))
-             Options="@displayUnitOptions"
+             Options="@displayUnitTranslations.Values.ToList()"
              SelectedIndex="@CurrentUnits"
              SelectedIndexChanged="OnDisplayUnitChanged"/>
     <div class="flex flex-col gap-2 w-full">
