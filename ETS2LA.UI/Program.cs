@@ -21,10 +21,14 @@ public class UserInterface
     [STAThread]
     public static void Start(string[] args)
     {
+        var iconPath = "wwwroot/favicon.ico";
         #if LINUX
             SetNativeEnv("GDK_BACKEND", "x11", 1);
             SetNativeEnv("WEBKIT_DISABLE_DMABUF_RENDERER", "1", 1);
             SetNativeEnv("WEBKIT_FORCE_COMPOSITING_MODE", "1", 1);
+
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            iconPath = Path.Combine(baseDir, "wwwroot", "favicon.ico");
         #endif
 
         var appBuilder = PhotinoBlazorAppBuilder.CreateDefault(args);
@@ -36,7 +40,7 @@ public class UserInterface
         app.MainWindow
             .SetTitle("ETS2LA")
             .SetUserAgent("ETS2LA/3.X.X")
-            .SetIconFile("wwwroot/favicon.ico")
+            .SetIconFile(iconPath)
             .SetUseOsDefaultSize(false)
             .SetUseOsDefaultLocation(false)
             .SetMinSize(800, 600)
