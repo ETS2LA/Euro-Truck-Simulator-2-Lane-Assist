@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
-"PO-Revision-Date: 2026-08-31 13:17+0000\n"
+"PO-Revision-Date: 2026-08-31 16:46+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -1507,7 +1507,7 @@ msgid ""
 msgstr "找不到所選的更新來源「{0}」，將改用第一個可用的來源。"
 
 msgid "SET Behaviour"
-msgstr "「設定」按鍵行為"
+msgstr "SET 按鍵行為"
 
 #, csharp-format
 msgid "Registered control: {0} [gray italic]({1})[/]"
