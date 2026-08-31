@@ -2,12 +2,21 @@
 @using ETS2LA.Backend
 @using Microsoft.AspNetCore.Components.Routing
 
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
 @code {
     private int key = 0;
+    string currentLang = System.Globalization.CultureInfo.CurrentCulture.Name;
 
     protected override void OnInitialized()
     {
         PluginBackend.Current.OnBackendLoaded += HandlePluginsReloaded;
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("eval", $"document.documentElement.lang = '{currentLang}'");
     }
 
     private void HandlePluginsReloaded()

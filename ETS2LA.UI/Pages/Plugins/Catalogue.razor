@@ -150,7 +150,7 @@
                                         <p class="font-semibold">@plugin.Name</p>
                                         <p class="text-[12px]">By @plugin.Author</p>
                                     </div>
-                                    <div class="flex flex-col gap-0 items-end">
+                                    <div class="flex flex-col gap-0 items-end min-w-fit">
                                         @if (updateVersion != null)
                                         {
                                             <span class="text-text-accent text-[12px]">@(_("Update to {0} from {1}", updateVersion.Version, installedVersion))</span>

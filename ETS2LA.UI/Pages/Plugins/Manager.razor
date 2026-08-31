@@ -112,7 +112,7 @@
                     var settingsRoute = $"/plugins/adjustments/{plugin.Info.Id}";
                     var hasSettingsPage = HasRoute(plugin, settingsRoute);
 
-                    <div class=@($"flex flex-col rounded-sm bg-control-bg-dark border p-4" + (enabled ? " border-accent-dark" : " border-bg-darker"))>
+                    <div class=@($"flex flex-col justify-between rounded-sm bg-control-bg-dark border p-4" + (enabled ? " border-accent-dark" : " border-bg-darker"))>
                         <div class="flex">
                             <div class="flex flex-col gap-1 w-full">
                                 <div class="flex justify-between">
@@ -120,7 +120,7 @@
                                         <p class="font-semibold">@plugin.Info.Name</p>
                                         <p class="text-[12px]">By @plugin.Info.AuthorName</p>
                                     </div>
-                                    <div class="flex flex-col gap-0 items-end">
+                                    <div class="flex flex-col gap-0 items-end min-w-fit">
                                         @if (enabled)
                                         {
                                             <span class="text-text-accent text-[12px]">@(_("Enabled"))</span>
@@ -152,7 +152,7 @@
                                 }
                                 @if (hasSettingsPage)
                                 {
-                                    <a class="button button-small w-full!" href="@settingsRoute">@(_("Adjustments"))</a>
+                                    <a class="button button-small w-full! min-w-fit" href="@settingsRoute">@(_("Adjustments"))</a>
                                 }
                             </div>
                         </div>

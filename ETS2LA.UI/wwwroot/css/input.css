@@ -43,23 +43,25 @@ html {
 
   --color-code-bg: var(--code-bg);
 
-  --font-sans: 
-    Outfit, 
-    /* Other "Western" Languages */ "Noto Sans",
-    /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
-    /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
-    /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
-    /* Korean */ "Noto Sans KR", "Malgun Gothic",
-    /* System */ sans-serif;
-  --font-heading: 
-    Outfit, 
-    /* Other "Western" Languages */ "Noto Sans",
-    /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
-    /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
-    /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
-    /* Korean */ "Noto Sans KR", "Malgun Gothic",
-    /* System */ sans-serif;
+  --font-sans: Outfit, "Noto Sans", sans-serif;
+  --font-heading: Outfit, "Noto Sans", sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
+}
+
+html[lang="zh-CN"] {
+  --font-sans: Outfit, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+html[lang="zh-TW"] {
+  --font-sans: Outfit, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+html[lang="ja-JP"] {
+  --font-sans: Outfit, "Noto Sans JP", Meiryo, sans-serif;
+}
+
+html[lang="ko-KR"] {
+  --font-sans: Outfit, "Noto Sans KR", "Malgun Gothic", sans-serif;
 }
 
 :root {
