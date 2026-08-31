@@ -1,4 +1,4 @@
-### ETS2LA C# 2026.8.4968 [NIGHTLY]
+### ETS2LA C# 2026.8.4972
 This is the first major ETS2LA release after the initial launch a month ago. The headline feature this release is an **Improved User Interface** and **Translations**.
 
 You might've also noticed that we transitioned to a new versioning system. All ETS2LA versions now use the following format:
