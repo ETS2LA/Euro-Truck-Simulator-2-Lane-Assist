@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
+"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
 "PO-Revision-Date: 2026-08-22 12:25+0000\n"
 "Last-Translator: äkv <akvvno@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
@@ -206,17 +206,17 @@ msgstr ""
 msgid "Additional"
 msgstr ""
 
+msgid "Install Plugins"
+msgstr ""
+
 msgid "Show Fewer Logs"
 msgstr ""
 
-msgid "Install Plugins"
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
-
-msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 msgid "Keyboard"
@@ -299,11 +299,11 @@ msgid ""
 "plugins."
 msgstr ""
 
-msgid "The selected file does not exist."
-msgstr ""
-
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+msgid "The selected file does not exist."
 msgstr ""
 
 #, csharp-format
@@ -757,10 +757,10 @@ msgstr ""
 msgid "Search for plugins..."
 msgstr ""
 
-msgid "Assists"
+msgid "SDK Installation"
 msgstr ""
 
-msgid "SDK Installation"
+msgid "Assists"
 msgstr ""
 
 msgid "mph"
@@ -903,13 +903,13 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 
+msgid "I understand, now let me in!"
+msgstr ""
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
-msgstr ""
-
-msgid "I understand, now let me in!"
 msgstr ""
 
 msgid ""
@@ -1286,6 +1286,9 @@ msgstr ""
 msgid "Far"
 msgstr ""
 
+msgid "For now, please contact us on GitHub or Discord."
+msgstr ""
+
 msgid "K"
 msgstr ""
 
@@ -1433,11 +1436,11 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
 msgid "View Public Telemetry"
@@ -1497,10 +1500,10 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr ""
 
-msgid "Translated by:"
+msgid "This game was found at"
 msgstr ""
 
-msgid "This game was found at"
+msgid "Translated by:"
 msgstr ""
 
 msgid "Data Quality"
@@ -1632,10 +1635,10 @@ msgstr[1] "{0} adet elle kurulmuş eklenti bulundu."
 msgid "Checking for updates..."
 msgstr ""
 
-msgid "Catalogue"
+msgid "Starting ETS2LA..."
 msgstr ""
 
-msgid "Starting ETS2LA..."
+msgid "Catalogue"
 msgstr ""
 
 msgid ""
@@ -1726,13 +1729,13 @@ msgid "Display Units: "
 msgstr ""
 
 msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
 msgstr ""
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
 msgstr ""
 
 msgid "Interaction Mode"

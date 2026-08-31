@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
+"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
 "PO-Revision-Date: 2026-08-31 03:01+0000\n"
 "Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -79,7 +79,8 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
-msgstr "将当前目标速度降低一个档位。如果速度控制和车道辅助均已关闭，此按键的作用类似"
+msgstr ""
+"将当前目标速度降低一个档位。如果速度控制和车道辅助均已关闭，此按键的作用类似"
 "于“SET”，即将当前速度设为限速值。"
 
 #, csharp-format
@@ -221,18 +222,18 @@ msgstr "视觉提示"
 msgid "Additional"
 msgstr "其他"
 
+msgid "Install Plugins"
+msgstr "安装插件"
+
 msgid "Show Fewer Logs"
 msgstr "显示更少日志"
 
-msgid "Install Plugins"
-msgstr "安装插件"
+msgid "I won't leave ETS2LA unattended"
+msgstr "我不会在无人看管的情况下运行 ETS2LA"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下载更新时发生错误：{0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "我不会在无人看管的情况下运行 ETS2LA"
 
 msgid "Keyboard"
 msgstr "键盘"
@@ -321,12 +322,13 @@ msgstr ""
 "调整 ETS2LA 对潜在碰撞的反应提前程度。关闭时，无论启用了什么插件，防碰撞功能"
 "都会停用。"
 
-msgid "The selected file does not exist."
-msgstr "选中的文件不存在。"
-
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "已启用的辅助功能：<span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+"已启用的辅助功能：<span class=\"text-text-accent font-bold\">{0}</span>"
+
+msgid "The selected file does not exist."
+msgstr "选中的文件不存在。"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -793,11 +795,11 @@ msgstr "下载进度：{0}%"
 msgid "Search for plugins..."
 msgstr "搜索插件…"
 
-msgid "Assists"
-msgstr "辅助"
-
 msgid "SDK Installation"
 msgstr "安装SDK"
+
+msgid "Assists"
+msgstr "辅助"
 
 msgid "mph"
 msgstr "mph"
@@ -939,11 +941,15 @@ msgstr "未绑定"
 msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
-msgstr "ETS2LA 使用的控制方式与现实中的系统类似。您可以在右侧重新绑定默认按键。"
+msgstr ""
+"ETS2LA 使用的控制方式与现实中的系统类似。您可以在右侧重新绑定默认按键。"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 为 {0} 的插件最新版本安装失败。"
+
+msgid "I understand, now let me in!"
+msgstr "我明白了，现在让我进入！"
 
 #, csharp-format
 msgid ""
@@ -951,9 +957,6 @@ msgid ""
 "on {2}GitHub{3}."
 msgstr ""
 "如果你认为这是一个错误，请在 {0}Discord 服务器{1} 或 {2}GitHub{3} 报告。"
-
-msgid "I understand, now let me in!"
-msgstr "我明白了，现在让我进入！"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1048,7 +1051,8 @@ msgstr "找不到 ID 为 {0} 的有效插件版本。"
 msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
-msgstr "按下此按键将禁用 ETS2LA 的辅助功能。如果辅助功能已被禁用，此按键将用于切换驾"
+msgstr ""
+"按下此按键将禁用 ETS2LA 的辅助功能。如果辅助功能已被禁用，此按键将用于切换驾"
 "驶模式。"
 
 msgid "Binding thread started with no control to bind."
@@ -1335,6 +1339,9 @@ msgstr "无法获取摇杆 [gray italic]({0})[/]：{1}"
 msgid "Far"
 msgstr "远"
 
+msgid "For now, please contact us on GitHub or Discord."
+msgstr ""
+
 msgid "K"
 msgstr "K"
 
@@ -1488,12 +1495,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化内存映射文件时发生错误：{0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "从 [gray]{0}[/] 加载插件失败：{1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "从 [gray]{0}[/] 加载插件失败：{1}"
 
 msgid "View Public Telemetry"
 msgstr "查看公开遥测数据"
@@ -1557,11 +1564,11 @@ msgstr "解析仍会继续，但此文件中的信息将无法供 ETS2LA 使用�
 msgid "The selected file is not a core.scs file."
 msgstr "所选的文件不是 core.scs 文件。"
 
-msgid "Translated by:"
-msgstr "译者为："
-
 msgid "This game was found at"
 msgstr "此游戏位于"
+
+msgid "Translated by:"
+msgstr "译者为："
 
 msgid "Data Quality"
 msgstr "数据质量"
@@ -1693,11 +1700,11 @@ msgstr[0] "发现 {0} 个手动安装的插件。"
 msgid "Checking for updates..."
 msgstr "正在检查更新..."
 
-msgid "Catalogue"
-msgstr "插件库"
-
 msgid "Starting ETS2LA..."
 msgstr "正在启动 ETS2LA..."
+
+msgid "Catalogue"
+msgstr "插件库"
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1788,14 +1795,14 @@ msgid "Display Units: "
 msgstr "显示单位： "
 
 msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
-msgstr "ETS2LA 的显示语言。翻译由社区提供，我们无法保证其准确性。"
-
-msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
 msgstr "警告：你的系统内存少于 20GB。你最多只能选择“高”。"
+
+msgid ""
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
+msgstr "ETS2LA 的显示语言。翻译由社区提供，我们无法保证其准确性。"
 
 msgid "Interaction Mode"
 msgstr "互动模式"

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
+"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
 "PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
@@ -225,19 +225,19 @@ msgstr "Visuell"
 msgid "Additional"
 msgstr "Zusätzlich"
 
-msgid "Show Fewer Logs"
-msgstr "Zeige weniger Logs an"
-
 msgid "Install Plugins"
 msgstr "Plugins installieren"
 
-#, csharp-format
-msgid "Error while downloading update: {0}"
-msgstr "Fehler beim Herunterladen des Updates: {0}"
+msgid "Show Fewer Logs"
+msgstr "Zeige weniger Logs an"
 
 #, fuzzy
 msgid "I won't leave ETS2LA unattended"
 msgstr "Ich werde nicht ETS2LA unbeachtet lassen"
+
+#, csharp-format
+msgid "Error while downloading update: {0}"
+msgstr "Fehler beim Herunterladen des Updates: {0}"
 
 msgid "Keyboard"
 msgstr "Tastatur"
@@ -334,12 +334,12 @@ msgstr ""
 "Sie dies auf „Aus“ stellen, wird die Kollisionsvermeidung unabhängig von "
 "Ihrenaktivierten Plugins deaktiviert."
 
-msgid "The selected file does not exist."
-msgstr "Die ausgewählte Datei existiert nicht."
-
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+
+msgid "The selected file does not exist."
+msgstr "Die ausgewählte Datei existiert nicht."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -837,12 +837,12 @@ msgstr "Download Fortschritt: {0}%"
 msgid "Search for plugins..."
 msgstr "Plugins suchen…"
 
-msgid "Assists"
-msgstr "Assists"
-
 #, fuzzy
 msgid "SDK Installation"
 msgstr "SDK Installation"
+
+msgid "Assists"
+msgstr "Assists"
 
 msgid "mph"
 msgstr "mph"
@@ -1010,6 +1010,9 @@ msgstr ""
 "Die Installation der neuesten Version des Plugins mit der ID {0} ist "
 "fehlgeschlagen."
 
+msgid "I understand, now let me in!"
+msgstr "Ich verstehe, jetzt lass mich rein!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1017,9 +1020,6 @@ msgid ""
 msgstr ""
 "Wenn Sie glauben, dass dies ein Fehler ist, melden Sie ihn bitte auf dem {0}"
 "Discord-Server{1} oder auf {2}GitHub{3}."
-
-msgid "I understand, now let me in!"
-msgstr "Ich verstehe, jetzt lass mich rein!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1429,6 +1429,9 @@ msgstr "Joystick [gray italic]({0})[/] konnte nicht initialisiert werden: {1}"
 msgid "Far"
 msgstr "Weit"
 
+msgid "For now, please contact us on GitHub or Discord."
+msgstr ""
+
 msgid "K"
 msgstr "K"
 
@@ -1598,12 +1601,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Fehler beim Initialisieren der Speicherabbilddatei: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Öffentliche Telemetrie anzeigen"
@@ -1668,11 +1671,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Die ausgewählte Datei ist keine core.scs Datei."
 
-msgid "Translated by:"
-msgstr "Übersetzt von:"
-
 msgid "This game was found at"
 msgstr "Dieses Spiel wurde hier gefunden"
+
+msgid "Translated by:"
+msgstr "Übersetzt von:"
 
 msgid "Data Quality"
 msgstr "Datenqualität"
@@ -1811,11 +1814,11 @@ msgstr[1] "{0} manuell installierte Plugins gefunden."
 msgid "Checking for updates..."
 msgstr "Suche nach Updates..."
 
-msgid "Catalogue"
-msgstr "Katalog"
-
 msgid "Starting ETS2LA..."
 msgstr "ETS2LA startet..."
+
+msgid "Catalogue"
+msgstr "Katalog"
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1915,18 +1918,18 @@ msgid "Display Units: "
 msgstr "Anzeigeeinheiten: "
 
 msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
-msgstr ""
-"Die Sprache, in der ETS2LA angezeigt wird. Übersetzungen werden von der "
-"Community bereitgestellt, wir können deren Genauigkeit nicht garantieren."
-
-msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
 msgstr ""
 "Warnung: Ihr System hat weniger als 20 GB RAM. Sie können nur bis Hoch "
 "wählen."
+
+msgid ""
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
+msgstr ""
+"Die Sprache, in der ETS2LA angezeigt wird. Übersetzungen werden von der "
+"Community bereitgestellt, wir können deren Genauigkeit nicht garantieren."
 
 msgid "Interaction Mode"
 msgstr "Interaktionsmodus"

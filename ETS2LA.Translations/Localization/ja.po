@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
+"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
 "PO-Revision-Date: 2026-08-31 03:01+0000\n"
 "Last-Translator: Pastel <pastel@ets2la.com>\n"
 "Language-Team: Japanese <http://weblate.ets2la.com/projects/ets2la/ets2la/ja/"
@@ -78,7 +78,8 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
-msgstr "現在の目標速度を1段階下げます。速度制御とレーンアシストがオフの場合、このキー"
+msgstr ""
+"現在の目標速度を1段階下げます。速度制御とレーンアシストがオフの場合、このキー"
 "はSETと同じように動作し、現在の速度を制限速度に設定します。"
 
 #, csharp-format
@@ -227,18 +228,18 @@ msgstr "ビジュアル"
 msgid "Additional"
 msgstr "その他"
 
+msgid "Install Plugins"
+msgstr "プラグインのインストール"
+
 msgid "Show Fewer Logs"
 msgstr "ログの表示数を減らす"
 
-msgid "Install Plugins"
-msgstr "プラグインのインストール"
+msgid "I won't leave ETS2LA unattended"
+msgstr "ETS2LAを無人で動作させません"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "アップデートのダウンロード中にエラーが発生しました:{0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "ETS2LAを無人で動作させません"
 
 msgid "Keyboard"
 msgstr "キーボード"
@@ -267,8 +268,9 @@ msgstr "曲線の品質"
 msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
-msgstr "ETS2LAが必要なステアリング操作にどのように反応するかを調整します。これによりE"
-"TS2LAが車線変更を行う速度を制御できます。"
+msgstr ""
+"ETS2LAが必要なステアリング操作にどのように反応するかを調整します。これにより"
+"ETS2LAが車線変更を行う速度を制御できます。"
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
@@ -333,12 +335,12 @@ msgstr ""
 "れを「オフ」に設定すると、有効にしているプラグインに関係なく、衝突回避機能が"
 "無効になります。"
 
-msgid "The selected file does not exist."
-msgstr "選択したファイルは存在しません。"
-
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "アシスト有効：<span class=\"text-text-accent font-bold\">{0}</span>"
+
+msgid "The selected file does not exist."
+msgstr "選択したファイルは存在しません。"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -363,7 +365,8 @@ msgstr "変更なし / 利用不可"
 msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
-msgstr "このキーはUIメニューで項目を選択するために使用します。また、通知の承認キーと"
+msgstr ""
+"このキーはUIメニューで項目を選択するために使用します。また、通知の承認キーと"
 "しても機能します。"
 
 #, csharp-format
@@ -831,11 +834,11 @@ msgstr "ダウンロードの進捗状況: {0}%"
 msgid "Search for plugins..."
 msgstr "プラグインを検索..."
 
-msgid "Assists"
-msgstr "アシスト"
-
 msgid "SDK Installation"
 msgstr "SDKのインストール"
+
+msgid "Assists"
+msgstr "アシスト"
 
 msgid "mph"
 msgstr "mph"
@@ -990,12 +993,16 @@ msgstr "割り当てなし"
 msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
-msgstr "ETS2LAは実際のシステムに近い操作方式を採用しています。右側でデフォルトの操作"
+msgstr ""
+"ETS2LAは実際のシステムに近い操作方式を採用しています。右側でデフォルトの操作"
 "を再割り当てできます。"
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID {0} のプラグインの最新バージョンのインストールに失敗しました。"
+
+msgid "I understand, now let me in!"
+msgstr "理解しました。始めよう!"
 
 #, csharp-format
 msgid ""
@@ -1004,9 +1011,6 @@ msgid ""
 msgstr ""
 "バグだと思われる場合は、{0}Discordサーバー{1}または{2}GitHub{3}で報告してくだ"
 "さい。"
-
-msgid "I understand, now let me in!"
-msgstr "理解しました。始めよう!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1106,7 +1110,8 @@ msgstr "ID {0} のプラグインに対して、有効なバージョンが見�
 msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
-msgstr "押すとETS2LAのアシスト機能を無効にします。すでにアシスト機能が無効になってい"
+msgstr ""
+"押すとETS2LAのアシスト機能を無効にします。すでにアシスト機能が無効になってい"
 "る場合は、運転モードを切り替えます。"
 
 msgid "Binding thread started with no control to bind."
@@ -1416,6 +1421,9 @@ msgstr "ジョイスティック [gray italic]({0})[/] の取得に失敗しま�
 msgid "Far"
 msgstr "遠い"
 
+msgid "For now, please contact us on GitHub or Discord."
+msgstr ""
+
 msgid "K"
 msgstr "K"
 
@@ -1585,12 +1593,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "メモリマップファイルの初期化中にエラーが発生しました: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "プラグインを [gray]{0}[/] から読み込めませんでした: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "アシストモード: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "プラグインを [gray]{0}[/] から読み込めませんでした: {1}"
 
 msgid "View Public Telemetry"
 msgstr "公開テレメトリを表示"
@@ -1660,11 +1668,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "選択されたファイルは core.scs ファイルではありません。"
 
-msgid "Translated by:"
-msgstr "翻訳者:"
-
 msgid "This game was found at"
 msgstr "このゲームが見つかった場所"
+
+msgid "Translated by:"
+msgstr "翻訳者:"
 
 msgid "Data Quality"
 msgstr "データの品質"
@@ -1803,11 +1811,11 @@ msgstr[0] "手動でインストールされたプラグインを {0} 件検出�
 msgid "Checking for updates..."
 msgstr "アップデートを確認中…"
 
-msgid "Catalogue"
-msgstr "カタログ"
-
 msgid "Starting ETS2LA..."
 msgstr "ETS2LAを起動しています..."
+
+msgid "Catalogue"
+msgstr "カタログ"
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1903,17 +1911,17 @@ msgid "Display Units: "
 msgstr "表示単位： "
 
 msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"警告: お使いのシステムのRAM容量が20GB未満です。「高」までしか選択できません。"
+
+msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "ETS2LAで表示される言語です。翻訳はコミュニティによって提供されているため、そ"
 "の正確性を保証することはできません。"
-
-msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"警告: お使いのシステムのRAM容量が20GB未満です。「高」までしか選択できません。"
 
 msgid "Interaction Mode"
 msgstr "インタラクションモード"

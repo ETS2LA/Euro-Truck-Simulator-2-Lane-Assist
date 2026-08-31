@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-30 21:09:40+0300\n"
+"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
 "PO-Revision-Date: 2026-08-30 22:59+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
-"\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
+">\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,8 +177,8 @@ msgid ""
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
 "ETS2LA будет отображать информацию поверх игры. Взаимодействовать с "
-"элементами оверлея можно с помощью <span class=\"text-text-accent font-bold\""
-">режима взаимодействия с оверлеем</span>. Попробуйте!"
+"элементами оверлея можно с помощью <span class=\"text-text-accent font-"
+"bold\">режима взаимодействия с оверлеем</span>. Попробуйте!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
 msgstr "Если вы не можете взаимодействовать с окном, нажмите CTRL+R."
@@ -233,18 +233,18 @@ msgstr "Визуальное"
 msgid "Additional"
 msgstr "Дополнительно"
 
+msgid "Install Plugins"
+msgstr "Установить плагины"
+
 msgid "Show Fewer Logs"
 msgstr "Показать меньше записей журнала"
 
-msgid "Install Plugins"
-msgstr "Установить плагины"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Я не буду оставлять ETS2LA без присмотра"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Ошибка при загрузке обновления: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Я не буду оставлять ETS2LA без присмотра"
 
 msgid "Keyboard"
 msgstr "Клавиатура"
@@ -340,13 +340,13 @@ msgstr ""
 "столкновения. Если отключить этот параметр, предотвращение столкновений "
 "будет выключено независимо от включённых плагинов."
 
-msgid "The selected file does not exist."
-msgstr "Выбранный файл не существует."
-
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Ассистенты включены: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+msgid "The selected file does not exist."
+msgstr "Выбранный файл не существует."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -846,11 +846,11 @@ msgstr "Загрузка: {0}%"
 msgid "Search for plugins..."
 msgstr "Поиск плагинов..."
 
-msgid "Assists"
-msgstr "Ассистенты"
-
 msgid "SDK Installation"
 msgstr "Установка SDK"
+
+msgid "Assists"
+msgstr "Ассистенты"
 
 msgid "mph"
 msgstr "миль/ч"
@@ -1012,6 +1012,9 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Не удалось установить последнюю версию плагина с ID {0}."
 
+msgid "I understand, now let me in!"
+msgstr "Всё понятно, теперь впустите меня!"
+
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1019,9 +1022,6 @@ msgid ""
 msgstr ""
 "Если вы считаете, что это ошибка, сообщите о ней на {0}сервере Discord{1} "
 "или на {2}GitHub{3}."
-
-msgid "I understand, now let me in!"
-msgstr "Всё понятно, теперь впустите меня!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1437,6 +1437,9 @@ msgstr "Не удалось получить доступ к джойстику 
 msgid "Far"
 msgstr "Далеко"
 
+msgid "For now, please contact us on GitHub or Discord."
+msgstr ""
+
 msgid "K"
 msgstr "K"
 
@@ -1608,13 +1611,13 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Ошибка при инициализации файла, отображаемого в память: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Режим ассистентов: <span class=\"text-text-accent font-bold\">{0}</span>"
+
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Просмотреть общедоступную телеметрию"
@@ -1684,11 +1687,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Выбранный файл не является файлом core.scs."
 
-msgid "Translated by:"
-msgstr "Перевод:"
-
 msgid "This game was found at"
 msgstr "Игра найдена по пути"
+
+msgid "Translated by:"
+msgstr "Перевод:"
 
 msgid "Data Quality"
 msgstr "Качество данных"
@@ -1829,11 +1832,11 @@ msgstr[2] "Обнаружено {0} плагинов, установленных
 msgid "Checking for updates..."
 msgstr "Проверка обновлений..."
 
-msgid "Catalogue"
-msgstr "Каталог"
-
 msgid "Starting ETS2LA..."
 msgstr "Запуск ETS2LA..."
+
+msgid "Catalogue"
+msgstr "Каталог"
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1929,18 +1932,18 @@ msgid "Display Units: "
 msgstr "Единицы измерения: "
 
 msgid ""
-"The language ETS2LA will be displayed at. Translations are provided by the "
-"community, we cannot guarantee their accuracy."
-msgstr ""
-"Язык интерфейса ETS2LA. Переводы предоставляются сообществом, поэтому мы не "
-"можем гарантировать их точность."
-
-msgid ""
 "Warning: Your system has less than 20GB of RAM. You can only select up to "
 "High."
 msgstr ""
 "Предупреждение: в вашей системе меньше 20 ГБ оперативной памяти. Можно "
 "выбрать уровень не выше высокого."
+
+msgid ""
+"The language ETS2LA will be displayed at. Translations are provided by the "
+"community, we cannot guarantee their accuracy."
+msgstr ""
+"Язык интерфейса ETS2LA. Переводы предоставляются сообществом, поэтому мы не "
+"можем гарантировать их точность."
 
 msgid "Interaction Mode"
 msgstr "Режим взаимодействия"
