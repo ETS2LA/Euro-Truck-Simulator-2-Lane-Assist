@@ -1,6 +1,8 @@
 using ETS2LA.Controls.Defaults;
 using ETS2LA.Logging;
 using ETS2LA.Settings;
+using static ETS2LA.Translations.T;
+
 using Hexa.NET.SDL3;
 using SharpHook;
 using SharpHook.Providers;
@@ -18,6 +20,7 @@ public class SDL3ControlsBackend : IControlsBackend
     public static SDL3ControlsBackend Current => _instance.Value;
 
     private readonly List<ControlInstance> _registeredControls = new();
+    private readonly Dictionary<string, object> _previousStates = new();
     private readonly SettingsHandler _settingsHandler = new();
     private const string SettingsPath = "Controls/";
 
@@ -33,6 +36,7 @@ public class SDL3ControlsBackend : IControlsBackend
     private bool _changingBindings;
     private Task? _listenerTask;
 
+    public event EventHandler<ControlChangeEventArgs>? ControlValueChanged;
     public event EventHandler<ControlAddedEventArgs>? ControlAdded;
     public event EventHandler<ControlRemovedEventArgs>? ControlRemoved;
 
@@ -44,7 +48,7 @@ public class SDL3ControlsBackend : IControlsBackend
             _sdlInitialized = SDL.Init((uint)flags);
             if (!_sdlInitialized)
             {
-                Logger.Warn("Failed to initialize SDL3 input backend.");
+                Logger.Warn(_("Failed to initialize SDL3 input backend."));
             }
             else
             {
@@ -54,14 +58,13 @@ public class SDL3ControlsBackend : IControlsBackend
         }
         catch (Exception ex)
         {
-            Logger.Warn($"Failed to initialize SDL3 controls backend: {ex.Message}");
+            Logger.Warn(_("Failed to initialize SDL3 controls backend: {0}", ex.Message));
         }
 
-        RegisterControl(DefaultControls.Assist);
-        RegisterControl(DefaultControls.SET);
+        RegisterControl(DefaultControls.Increase); // RES
+        RegisterControl(DefaultControls.Decrease); // SET
+        RegisterControl(DefaultControls.Cancel); // MODE
         RegisterControl(DefaultControls.Next);
-        RegisterControl(DefaultControls.Increase);
-        RegisterControl(DefaultControls.Decrease);
 
         UioHookProvider.Instance.KeyTypedEnabled = true;
         _keyboardHook = new EventLoopGlobalHook();
@@ -107,7 +110,7 @@ public class SDL3ControlsBackend : IControlsBackend
         }
 
         ControlAdded?.Invoke(this, new ControlAddedEventArgs(instance));
-        Logger.Info($"Registered control: {definition.Name} [gray italic]({definition.Id})[/]");
+        Logger.Info(_("Registered control: {0} [gray italic]({1})[/]", definition.Name, definition.Id));
     }
 
     public void On(string controlId, EventHandler<ControlChangeEventArgs> callback)
@@ -115,7 +118,7 @@ public class SDL3ControlsBackend : IControlsBackend
         var control = FindControl(controlId);
         if (control == null)
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for event subscription.");
+            Logger.Warn(_("Control with ID '{0}' not found for event subscription.", controlId));
             return;
         }
 
@@ -127,7 +130,7 @@ public class SDL3ControlsBackend : IControlsBackend
         var control = FindControl(controlId);
         if (control == null)
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for event unsubscription.");
+            Logger.Warn(_("Control with ID '{0}' not found for event unsubscription.", controlId));
             return;
         }
 
@@ -143,14 +146,14 @@ public class SDL3ControlsBackend : IControlsBackend
 
             if (control == null)
             {
-                Logger.Warn($"Control with ID '{controlId}' not found for unregistration.");
+                Logger.Warn(_("Control with ID '{0}' not found for unregistration.", controlId));
                 return;
             }
 
             control.SaveToFile(_settingsHandler, SettingsPath);
             _registeredControls.Remove(control);
             ControlRemoved?.Invoke(this, new ControlRemovedEventArgs(control));
-            Logger.Info($"Unregistered control: {control.Definition.Name} ({control.Definition.Id})");
+            Logger.Info(_("Unregistered control: {0} ({1})", control.Definition.Name, control.Definition.Id));
         }
     }
 
@@ -159,14 +162,14 @@ public class SDL3ControlsBackend : IControlsBackend
         var control = FindControl(controlId);
         if (control == null)
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for updating bindings.");
+            Logger.Warn(_("Control with ID '{0}' not found for updating bindings.", controlId));
             return;
         }
 
         control.DeviceId = deviceId;
         control.ControlId = controlKey;
         control.SaveToFile(_settingsHandler, SettingsPath);
-        Logger.Info($"Updated bindings for control: {control.Definition.Name} ({control.Definition.Id}) to Device: {deviceId}, Control: {controlKey}");
+        Logger.Info(_("Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}", control.Definition.Name, control.Definition.Id, deviceId, controlKey));
     }
 
     public void UpdateAxisBehavior(string controlId, AxisType behavior)
@@ -174,13 +177,13 @@ public class SDL3ControlsBackend : IControlsBackend
         var control = FindControl(controlId);
         if (control == null)
         {
-            Logger.Warn($"Control with ID '{controlId}' not found for updating axis behavior.");
+            Logger.Warn(_("Control with ID '{0}' not found for updating axis behavior.", controlId));
             return;
         }
 
         control.AxisBehavior = behavior;
         control.SaveToFile(_settingsHandler, SettingsPath);
-        Logger.Info($"Updated axis behavior for control: {control.Definition.Name} ({control.Definition.Id}) to {behavior}");
+        Logger.Info(_("Updated axis behavior for control: {0} ({1}) to {2}", control.Definition.Name, control.Definition.Id, behavior));
     }
 
     public List<ControlInstance> GetRegisteredControls()
@@ -284,7 +287,7 @@ public class SDL3ControlsBackend : IControlsBackend
                     InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jbutton.Which) ? _deviceInfos[ev.Jbutton.Which] : default;
                     if (info.Id == null)
                     {
-                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jbutton.Which}.");
+                        Logger.Warn(_("Received input from unknown joystick with instance ID {0}.", ev.Jbutton.Which));
                         continue;
                     }
 
@@ -297,7 +300,7 @@ public class SDL3ControlsBackend : IControlsBackend
                     InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jhat.Which) ? _deviceInfos[ev.Jhat.Which] : default;
                     if (info.Id == null)
                     {
-                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jhat.Which}.");
+                        Logger.Warn(_("Received input from unknown joystick with instance ID {0}.", ev.Jhat.Which));
                         continue;
                     }
 
@@ -310,13 +313,17 @@ public class SDL3ControlsBackend : IControlsBackend
                     InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jaxis.Which) ? _deviceInfos[ev.Jaxis.Which] : default;
                     if (info.Id == null)
                     {
-                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jaxis.Which}.");
+                        Logger.Warn(_("Received input from unknown joystick with instance ID {0}.", ev.Jaxis.Which));
                         continue;
                     }
                     
-                    var normalized = NormalizeSdlAxis(ev.Jaxis.Value);
-                    if (Math.Abs(normalized) > 0.1f)
+                    var previousStateKey = $"{info.Id}:Axis {AxisIdFromIndex(ev.Jaxis.Axis)}";
+                    if (_previousStates.TryGetValue(previousStateKey, out var previousValueObj) && previousValueObj is float previousValue)
                     {
+                        var value = NormalizeSdlAxis(ev.Jaxis.Value);
+                        if (Math.Abs(previousValue - value) < 0.1f)
+                            continue;
+                        
                         _changingBindings = false;
                         return (info.Id, $"Axis {AxisIdFromIndex(ev.Jaxis.Axis)}");
                     }
@@ -327,16 +334,20 @@ public class SDL3ControlsBackend : IControlsBackend
                     InputDeviceInfo info = _deviceInfos.ContainsKey(ev.Jball.Which) ? _deviceInfos[ev.Jball.Which] : default;
                     if (info.Id == null)
                     {
-                        Logger.Warn($"Received input from unknown joystick with instance ID {ev.Jball.Which}.");
+                        Logger.Warn(_("Received input from unknown joystick with instance ID {0}.", ev.Jball.Which));
                         continue;
                     }
 
+                    var previousStateKey = $"{info.Id}:Ball {ev.Jball.Ball}";
                     var movement = Math.Sqrt(ev.Jball.Xrel * ev.Jball.Xrel + ev.Jball.Yrel * ev.Jball.Yrel);
-                    if (movement > 0.1f)
+                    if (_previousStates.TryGetValue(previousStateKey, out var previousValueObj) && previousValueObj is float previousValue)
                     {
-                        _changingBindings = false;
-                        return (info.Id, $"Ball {ev.Jball.Ball}");
+                        if (Math.Abs(previousValue - movement) < 0.1f)
+                            continue;
                     }
+
+                    _changingBindings = false;
+                    return (info.Id, $"Ball {ev.Jball.Ball}");
                 }
 
                 if (type == (uint)SDLEventType.JoystickAdded)
@@ -436,6 +447,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 var deviceId = deviceInfo.Id;
                 var controlId = $"Button {ev.Jbutton.Button}";
                 var pressed = ev.Jbutton.Down != 0;
+                _previousStates[$"{deviceId}:{controlId}"] = pressed;
                 UpdateMatchingControls(deviceId, controlId, pressed);
                 break;
             }
@@ -464,6 +476,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 foreach (var controlId in controlIds)
                 {
                     bool isActive = controlId.EndsWith(ev.Jhat.Value.ToString());
+                    _previousStates[$"{deviceId}:{controlId}"] = isActive;
                     UpdateMatchingControls(deviceId, controlId, isActive);
                 }
                 break;
@@ -479,6 +492,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 var deviceId = deviceInfo.Id;
                 var controlId = $"Axis {AxisIdFromIndex(ev.Jaxis.Axis)}";
                 var raw = NormalizeSdlAxis(ev.Jaxis.Value);
+                _previousStates[$"{deviceId}:{controlId}"] = raw;
                 UpdateMatchingControls(deviceId, controlId, raw, true);
                 break;
             }
@@ -493,6 +507,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 var deviceId = deviceInfo.Id;
                 var controlId = $"Ball {ev.Jball.Ball}";
                 var movement = ev.Jball.Xrel + ev.Jball.Yrel;
+                _previousStates[$"{deviceId}:{controlId}"] = movement;
                 UpdateMatchingControls(deviceId, controlId, movement);
                 break;
             }
@@ -526,10 +541,12 @@ public class SDL3ControlsBackend : IControlsBackend
             {
                 var v = NormalizeAxisValue((float)value, control.AxisBehavior);
                 control.UpdateState(v);
+                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(v, control.Definition));
             }
             else
             {
                 control.UpdateState(value);
+                ControlValueChanged?.Invoke(this, new ControlChangeEventArgs(value, control.Definition));
             }
         }
     }
@@ -572,7 +589,7 @@ public class SDL3ControlsBackend : IControlsBackend
             var joystick = SDL.OpenJoystick(instanceId);
             if (joystick.IsNull)
             {
-                Logger.Warn($"Failed to open joystick {instanceId}.");
+                Logger.Warn(_("Failed to open joystick {0}.", instanceId));
                 return;
             }
 
@@ -602,7 +619,7 @@ public class SDL3ControlsBackend : IControlsBackend
                 Type = deviceType
             };
 
-            Logger.Info($"Connected joystick: [bold]{_deviceInfos[instanceId].Name}[/] [gray italic]({instanceId}, {uid})[/]");
+            Logger.Info(_("Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]", _deviceInfos[instanceId].Name, instanceId, uid));
         }
     }
 
@@ -621,7 +638,7 @@ public class SDL3ControlsBackend : IControlsBackend
             }
 
             _deviceInfos.Remove(instanceId);
-            Logger.Info($"Disconnected joystick: [gray italic]({instanceId})[/]");
+            Logger.Info(_("Disconnected joystick: [gray italic]({0})[/]", instanceId));
         }
     }
 

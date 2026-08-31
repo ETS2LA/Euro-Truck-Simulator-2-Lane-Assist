@@ -1,5 +1,6 @@
 using ETS2LA.Settings;
 using ETS2LA.Logging;
+using static ETS2LA.Translations.T;
 
 namespace ETS2LA.Backend.Plugins;
 
@@ -53,7 +54,7 @@ public class InstalledPluginManifest
                     if (!File.Exists(plugin.DllPath))
                     {
                         InstalledPlugins.RemoveAt(index);
-                        Logger.Warn($"Plugin '{plugin.Id}' is missing its DLL at '{plugin.DllPath}' and has been removed.");
+                        Logger.Warn(_("Plugin '{0}' is missing its DLL at '{1}' and has been removed.", plugin.Id ?? "Unknown", plugin.DllPath ?? "Unknown"));
                         didRemove = true;
                     }
                     else

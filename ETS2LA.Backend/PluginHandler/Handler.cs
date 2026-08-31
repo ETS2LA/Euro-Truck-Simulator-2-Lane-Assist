@@ -3,6 +3,8 @@ using ETS2LA.Logging;
 using ETS2LA.Backend.Events;
 using ETS2LA.Backend.Plugins;
 using ETS2LA.Notifications;
+using static ETS2LA.Translations.T;
+
 using System.Runtime.Loader;
 using System.Reflection;
 
@@ -31,6 +33,12 @@ public class PluginHandler
     // possible to detect .dll changes automatically in the future, meaning hot reloading
     // of plugins without requiring a direct reload action from the user.
     // TODO: Implement hot reloading of plugins.
+
+    public IEnumerable<Assembly> PluginAssemblies => 
+        _pluginLoadContexts.Values
+            .SelectMany(ctx => ctx.Assemblies)
+            .Distinct();
+
     private readonly Dictionary<AssemblyLoadContext, string> _contextShadowDirectories = new();
     
     public Action<IPlugin>? PluginEnabled;
@@ -59,7 +67,7 @@ public class PluginHandler
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
-            Logger.Info($"Created plugin directory: [gray]{path}[/]");
+            Logger.Info(_("Created plugin directory: [gray]{0}[/]", path));
         }
 
         try
@@ -79,7 +87,7 @@ public class PluginHandler
             return pluginFiles;
         } catch (Exception ex)
         {
-            Logger.Error($"Failed to discover Dlls: {ex.Message}");
+            Logger.Error(_("Failed to discover Dlls: {0}", ex.Message));
             return Array.Empty<string>();
         }
     }
@@ -99,7 +107,7 @@ public class PluginHandler
                     .Select(p => p.DllPath)
                     .ToArray();
             default:
-                Logger.Warn($"Unknown manifest type: {type}");
+                Logger.Warn(_("Unknown manifest type: {0}", type));
                 return Array.Empty<string>();
         }
     }
@@ -107,9 +115,9 @@ public class PluginHandler
     public void LoadLibraries()
     {
         string[] libraryFiles = DiscoverManualDlls("Libraries");
-        Logger.Info($"Discovered {libraryFiles.Length} manually installed libraries.");
+        Logger.Info(_n("Discovered {0} manually installed library", "Discovered {0} manually installed libraries.", libraryFiles.Length, libraryFiles.Length));
         libraryFiles = libraryFiles.Concat(DiscoverManifestDlls(PluginType.Library)).ToArray();
-        Logger.Info($"Discovered {libraryFiles.Length} libraries in total.");
+        Logger.Info(_n("Discovered {0} library in total", "Discovered {0} libraries in total.", libraryFiles.Length, libraryFiles.Length));
 
         foreach (string filename in libraryFiles)
         {
@@ -126,12 +134,12 @@ public class PluginHandler
                 {
                     var libraryPlugin = (ILibraryPlugin)Activator.CreateInstance(type)!;
                     LoadedLibraryPlugins.Add(libraryPlugin);
-                    Logger.Info($"Loaded library plugin: [gray]{type.FullName}[/] from [gray]{filename}[/].");
+                    Logger.Info(_("Loaded library plugin: [gray]{0}[/] from [gray]{1}[/].", type.FullName ?? "Unknown", filename));
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to load library plugin from [gray]{filename}[/]: {ex}");
+                Logger.Error(_("Failed to load library plugin from [gray]{0}[/]: {1}", filename, ex));
             }
         }
     }
@@ -140,9 +148,9 @@ public class PluginHandler
     {
         loading = true;
         string[] pluginFiles = DiscoverManualDlls("Plugins");
-        Logger.Info($"Discovered {pluginFiles.Length} manually installed plugins.");
+        Logger.Info(_n("Discovered {0} manually installed plugin.", "Discovered {0} manually installed plugins.", pluginFiles.Length, pluginFiles.Length));
         pluginFiles = pluginFiles.Concat(DiscoverManifestDlls(PluginType.Plugin)).ToArray();
-        Logger.Info($"Discovered {pluginFiles.Length} plugins in total.");
+        Logger.Info(_n("Discovered {0} plugins in total.", "Discovered {0} plugins in total.", pluginFiles.Length, pluginFiles.Length));
 
         foreach (string filename in pluginFiles)
         {
@@ -173,7 +181,7 @@ public class PluginHandler
                     LoadedPlugins.Add(plugin);
                     _pluginLoadContexts[plugin] = loadContext;
                     
-                    Logger.Info($"Loaded plugin: [gray]{type.FullName}[/] from [gray]{filename}[/].");
+                    Logger.Info(_("Loaded plugin: [gray]{0}[/] from [gray]{1}[/].", type.FullName ?? "Unknown", filename));
                 }
             }
             catch (Exception ex)
@@ -182,20 +190,20 @@ public class PluginHandler
                 // (basically we get the full exception info, inside the assembly context)
                 if (ex is System.Reflection.ReflectionTypeLoadException rtle)
                 {
-                    Logger.Error($"Failed to load plugin from [gray]{filename}[/]: {rtle}");
+                    Logger.Error(_("Failed to load plugin from [gray]{0}[/]: {1}", filename, rtle));
                     foreach (var le in rtle.LoaderExceptions)
                     {
-                        Logger.Error(le?.ToString() ?? "LoaderException: null");
+                        Logger.Error(_("LoaderException: {0}", le?.ToString() ?? "null"));
                     }
                 }
                 else if (ex is System.Reflection.TargetInvocationException tie && tie.InnerException != null)
                 {
-                    Logger.Error($"Failed to load plugin from [gray]{filename}[/]: {tie.InnerException}");
-                    Logger.Error(tie.InnerException.ToString());
+                    Logger.Error(_("Failed to load plugin from [gray]{0}[/]: {1}", filename, tie.InnerException));
+                    Logger.Error(_("{0}", tie.InnerException.ToString()));
                 }
                 else
                 {
-                    Logger.Error($"Failed to load plugin from [gray]{filename}[/]: {ex}");
+                    Logger.Error(_("Failed to load plugin from [gray]{0}[/]: {1}", filename, ex));
                 }
             }
         }
@@ -203,8 +211,8 @@ public class PluginHandler
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = "Backend.PluginHandler.Loading",
-            Title = $"Finished loading plugins",
-            Content = $"Loaded {LoadedPlugins.Count} plugins from the Plugins folder.",
+            Title = _("Finished loading plugins"),
+            Content = _n("Loaded {0} plugin from the Plugins folder.", "Loaded {0} plugins from the Plugins folder.", LoadedPlugins.Count, LoadedPlugins.Count),
             CloseAfter = 3,
             Level = NotificationLevel.Success
         });
@@ -229,7 +237,7 @@ public class PluginHandler
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to shutdown plugin {plugin.GetType().FullName}: {ex.Message}");
+                Logger.Error(_("Failed to shutdown plugin {0}: {1}", plugin.GetType().FullName ?? "Unknown", ex.Message));
             }
 
             if (_pluginLoadContexts.TryGetValue(plugin, out var loadContext))
@@ -249,7 +257,7 @@ public class PluginHandler
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to unload plugin load context: {ex.Message}");
+                Logger.Error(_("Failed to unload plugin load context: {0}", ex.Message));
             }
         }
 
@@ -301,7 +309,7 @@ public class PluginHandler
         }
         catch (Exception ex)
         {
-            Logger.Debug($"Failed to clean plugin shadow directory [gray]{shadowDirectory}[/], it will be removed on the next startup: {ex.Message}");
+            Logger.Debug(_("Failed to clean plugin shadow directory [gray]{0}[/], it will be removed on the next startup: {1}", shadowDirectory, ex.Message));
         }
     }
 
@@ -321,7 +329,7 @@ public class PluginHandler
             }
             catch (Exception ex)
             {
-                Logger.Debug($"Skipped stale plugin shadow directory [gray]{directory}[/]: {ex.Message}");
+                Logger.Debug(_("Skipped stale plugin shadow directory [gray]{0}[/]: {1}", directory, ex.Message));
             }
         }
     }
@@ -341,7 +349,7 @@ public class PluginHandler
         plugin ??= GetPluginById(pluginId!);
         if (plugin == null)
         {
-            Logger.Warn($"Tried to enable {pluginId}, but it was not found among loaded plugins.");
+            Logger.Warn(_("Tried to enable {0}, but it was not found among loaded plugins.", pluginId ?? "Unknown"));
             return false;
         }
 
@@ -355,11 +363,11 @@ public class PluginHandler
                     NotificationHandler.Current.SendNotification(new Notification
                     {
                         Id = $"Backend.PluginHandler.MissingDependency.{plugin.Info.Id}",
-                        Title = $"{plugin.Info.Name}",
-                        Content = $"Missing dependency: {dependencyId}",
+                        Title = _("{0}", plugin.Info.Name),
+                        Content = _("Missing dependency: {0}", dependencyId),
                         Level = NotificationLevel.Danger
                     });
-                    Logger.Warn($"Cannot enable plugin {plugin.Info.Name} because dependency {dependencyId} was not found.");
+                    Logger.Warn(_("Cannot enable plugin {0} because dependency {1} was not found.", plugin.Info.Name, dependencyId));
                     return false;
                 }
             }
@@ -370,11 +378,11 @@ public class PluginHandler
                     NotificationHandler.Current.SendNotification(new Notification
                     {
                         Id = $"Backend.PluginHandler.FailedDependency.{dependency.Info.Id}",
-                        Title = $"{plugin.Info.Name}",
-                        Content = $"Failed to enable dependency: {dependency.Info.Name}",
+                        Title = _("{0}", plugin.Info.Name),
+                        Content = _("Failed to enable dependency: {0}", dependency.Info.Name),
                         Level = NotificationLevel.Danger
                     });
-                    Logger.Warn($"Cannot enable plugin {plugin.Info.Name} because dependency {dependency.Info.Name} failed to enable.");
+                    Logger.Warn(_("Cannot enable plugin {0} because dependency {1} failed to enable.", plugin.Info.Name, dependency.Info.Name));
                     return false;
                 }
             }
@@ -384,13 +392,13 @@ public class PluginHandler
         {
             plugin.OnEnable();
 
-            Logger.Info($"Enabled plugin: [bold]{plugin.Info.Id}[/]");
+            Logger.Info(_("Enabled plugin: [bold]{0}[/]", plugin.Info.Id));
             PluginEnabled?.Invoke(plugin);
             NotificationHandler.Current.SendNotification(new Notification
             {
                 Id = $"Backend.PluginHandler.PluginEnabled.{plugin.Info.Id}",
-                Title = $"{plugin.Info.Name}",
-                Content = $"The plugin was enabled successfully.",
+                Title = _("{0}", plugin.Info.Name),
+                Content = _("The plugin was enabled successfully."),
                 Level = NotificationLevel.Success,
                 CloseAfter = 3
             });
@@ -404,20 +412,20 @@ public class PluginHandler
             // (basically we get the full exception info, inside the assembly context)
             if (ex is System.Reflection.ReflectionTypeLoadException rtle)
             {
-                Logger.Error($"Failed enable {plugin.GetType().FullName}: {rtle}");
+                Logger.Error(_("Failed enable {0}: {1}", plugin.GetType().FullName ?? "Unknown", rtle));
                 foreach (var le in rtle.LoaderExceptions)
                 {
-                    Logger.Error(le?.ToString() ?? "LoaderException: null");
+                    Logger.Error(_("LoaderException: {0}", le?.ToString() ?? "null"));
                 }
             }
             else if (ex is System.Reflection.TargetInvocationException tie && tie.InnerException != null)
             {
-                Logger.Error($"Failed enable {plugin.GetType().FullName}: {tie.InnerException}");
-                Logger.Error(tie.InnerException.ToString());
+                Logger.Error(_("Failed enable {0}: {1}", plugin.GetType().FullName ?? "Unknown", tie.InnerException));
+                Logger.Error(_("Inner Exception: {0}", tie.InnerException.ToString()));
             }
             else
             {
-                Logger.Error($"Failed enable {plugin.GetType().FullName}: {ex}");
+                Logger.Error(_("Failed enable {0}: {1}", plugin.GetType().FullName ?? "Unknown", ex));
             }
             return false;
         }
@@ -428,14 +436,14 @@ public class PluginHandler
         plugin ??= GetPluginById(pluginId!);
         if (plugin == null)
         {
-            Logger.Warn($"Tried to disable {pluginId}, but it was not found among loaded plugins.");
+            Logger.Warn(_("Tried to disable {0}, but it was not found among loaded plugins.", pluginId ?? "Unknown"));
             return false;
         }
 
         try
         {
             plugin.OnDisable();
-            Logger.Info($"Disabled plugin: [bold]{plugin.Info.Name}[/]");
+            Logger.Info(_("Disabled plugin: [bold]{0}[/]", plugin.Info.Name));
             PluginDisabled?.Invoke(plugin);
             Events.Events.Current.Publish<string>($"ETS2LA.Backend.Disabled", plugin.Info.Id);
             Events.Events.Current.Publish($"ETS2LA.Backend.Disabled.{plugin.Info.Id}", EventArgs.Empty);
@@ -443,7 +451,7 @@ public class PluginHandler
         }
         catch (Exception ex)
         {
-            Logger.Error($"Failed to disable {plugin.GetType().FullName}: {ex.Message}");
+            Logger.Error(_("Failed to disable {0}: {1}", plugin.GetType().FullName ?? "Unknown", ex.Message));
             return false;
         }
     }

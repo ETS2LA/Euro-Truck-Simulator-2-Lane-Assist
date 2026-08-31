@@ -1,0 +1,291 @@
+@page "/settings/controls"
+@layout Shared.Layouts.SettingsLayout
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.Controls;
+@using ETS2LA.Logging;
+@using ETS2LA.Notifications;
+
+@code {
+    [Parameter]
+    public List<string> DisplayOnly { get; set; } = new();
+
+    ControlsBackend controlsBackend = ControlsBackend.Current;
+    List<String> axisTypeOptions = Enum.GetNames<AxisType>().ToList();
+
+    Thread? bindingThread;
+    ControlInstance? bindingControl;
+    float bindingTimeout = 5f;
+
+    List<ControlInstance> controlInstances {
+        get => controlsBackend.GetRegisteredControls();
+    }
+
+    Dictionary<ControlDefinition, object> controlValues = new Dictionary<ControlDefinition, object>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Task.Factory.StartNew(async () =>
+        {
+            using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
+            while (await timer.WaitForNextTickAsync())
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+        }, TaskCreationOptions.LongRunning);
+
+        controlsBackend.ControlValueChanged += async (s, e) => await HandleControlValueChanged(s, e);
+    }
+
+    private async Task HandleControlValueChanged(object? sender, ControlChangeEventArgs e)
+    {
+        controlValues[e.controlDefinition] = e.NewValue;
+    }
+
+    private string GetControlType(ControlInstance control)
+    {
+        if (!control.IsBound())
+            return _("Unbound");
+        
+        bool isKeyboard = control.DeviceId.ToString().ToLower().StartsWith("keyboard");
+        bool isButton = control.ControlId.ToString()?.StartsWith("Button ") ?? false;
+        bool isHat = control.ControlId.ToString()?.StartsWith("Hat ") ?? false;
+
+        if (isKeyboard)
+            return _("Key");
+        if (isButton)
+            return _("Button");
+        if (isHat)
+            // TRANSLATORS: This is also called a D-Pad on some controllers.
+            return "Hat " + control.ControlId.ToString()?.Split(" ")?.ElementAtOrDefault(1);
+
+        return control.AxisBehavior.ToString();
+    }
+
+    private string GetDeviceName(ControlInstance control)
+    {
+        if (string.IsNullOrEmpty(control.DeviceId))
+        {
+            return _("Unbound");
+        }
+
+        if (control.DeviceId.ToLower().StartsWith("keyboard"))
+        {
+            return _("Keyboard");
+        }
+
+        var joystick = controlsBackend.GetInputDeviceInfoById(control.DeviceId);
+        string name = joystick != null 
+                      ? joystick.Name 
+                      : _("Not Connected");
+
+        if (name.StartsWith("Controller ("))
+        {
+            name = name.Replace("Controller (", "");
+            name = name.EndsWith(")") ? name[..^1] : name;
+        }
+
+        // TODO: Dynamic truncation? (i.e. when the window is resized)
+        if (name.Length > 43)
+        {
+            name = name.Substring(0, 40) + "...";
+        }
+
+        return name;
+    }
+
+    private string GetControlIdName(ControlInstance control)
+    {
+        string type = GetControlType(control);
+        string controlIdStr = control.ControlId.ToString() ?? "Unbound";
+        controlIdStr = controlIdStr.Replace(type, "").Trim();
+        
+        #if LINUX
+        if (type.StartsWith("Hat"))
+        {
+            int dirId = int.Parse(controlIdStr);
+            controlIdStr = dirId switch
+            {
+                1 => "↑",
+                2 => "→",
+                4 => "↓",
+                8 => "←",
+                _ => controlIdStr
+            };
+        }
+        #else
+        if (type.StartsWith("Hat")) 
+        {
+            controlIdStr = controlIdStr switch
+            {
+                "Up" => "↑",
+                "Right" => "→",
+                "Down" => "↓",
+                "Left" => "←",
+                _ => controlIdStr
+            };
+        }
+        #endif
+
+        if (type.StartsWith(_("Key")))
+        {
+            controlIdStr = controlIdStr switch
+            {
+                "Up" => "↑",
+                "Right" => "→",
+                "Down" => "↓",
+                "Left" => "←",
+                _ => controlIdStr
+            };
+        }
+
+        return controlIdStr;
+    }
+
+    private void BindingThreadFunction()
+    {
+
+        if (bindingControl == null)
+        {
+            Logger.Error(_("Binding thread started with no control to bind."));
+            return;
+        }
+
+        NotificationHandler.Current.SendNotification(new Notifications.Notification{
+            Id = "ETS2LA.UI.Settings.Controls.Binding",
+            Title = _("Binding {0}", bindingControl?.Definition.Name ?? _("Unknown Control")),
+            Content = _("Press a button or move an axis on your input device to bind it to this control. This will time out in {0} seconds.", bindingTimeout),
+            IsProgressIndeterminate = true,
+        });
+
+        var input = controlsBackend.WaitForInput(bindingTimeout);
+        if (String.IsNullOrEmpty(input.Item1) || String.IsNullOrEmpty(input.Item2))
+        {
+            Logger.Info(_("Binding for control {0} ({1}) timed out.", bindingControl.Definition.Name, bindingControl.ControlId));
+            NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Controls.Binding");
+            NotificationHandler.Current.SendNotification(new Notifications.Notification{
+                Id = "ETS2LA.UI.Settings.Controls.Binding.Timeout",
+                Title = _("Binding Timed Out"),
+                Content = _("Binding for control {0} ({1}) timed out.", bindingControl.Definition.Name, bindingControl.ControlId),
+                Level = NotificationLevel.Warning
+            });
+            
+            bindingControl = null;
+            bindingThread = null;
+            InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        controlsBackend.UpdateControlBindings(bindingControl.Definition.Id, input.Item1, input.Item2);
+        
+        Logger.Info(_("Bound control {0} ({1}) to device {2} and control {3}", bindingControl.Definition.Name, bindingControl.Definition.Id, input.Item1, input.Item2));
+        NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Controls.Binding");
+        NotificationHandler.Current.SendNotification(new Notifications.Notification{
+            Id = "ETS2LA.UI.Settings.Controls.Binding.Success",
+            Title = _("Binding Successful"),
+            Content = _("Bound control {0} ({1}) to device {2} and control {3}", bindingControl?.Definition.Name ?? _("Unknown Control"), bindingControl?.Definition.Id ?? _("Unknown Control ID"), input.Item1, input.Item2),
+            Level = NotificationLevel.Success
+        });
+        
+        bindingControl = null;
+        bindingThread = null;
+        InvokeAsync(StateHasChanged);
+
+    }
+
+    private void StartBinding(ControlInstance control)
+    {
+        if (bindingThread != null && bindingThread.IsAlive)
+        {
+            bindingThread.Interrupt();
+            bindingThread.Join();
+            bindingThread = null;
+        }
+
+        Logger.Info(_("Starting binding for control {0} ({1})", control.Definition.Name, control.ControlId));
+        bindingControl = control;
+        bindingThread = new Thread(() => BindingThreadFunction());
+        StateHasChanged();
+        bindingThread.Start();
+    }
+
+    private string GetClass(ControlInstance control)
+    {
+        string type = GetControlType(control);
+        string className = "flex w-full bg-bg-dark/70 hover:bg-bg/60 rounded-sm rounded-t-none p-3 px-4 justify-between transition-colors";
+        
+        if (bindingControl == control && bindingThread != null && bindingThread.IsAlive)
+        {
+            className += " border-accent!";
+        }
+
+        if (!IsAxis(control))
+        {
+            bool isPressed = controlValues.TryGetValue(control.Definition, out object? value) && value is bool b && b;
+            if (isPressed)
+            {
+                className += " bg-accent-dark! border-accent!";
+            }
+        }
+        else 
+        {
+            float axisValue = GetAxisValue(control);
+            if (axisValue > 0.6f) // This is hard coded in ETS2LA.Controls.Shared.cs
+            {
+                className += " bg-accent-dark! border-accent!";
+            }
+        }
+
+        return className;
+    }
+
+    private float GetAxisValue(ControlInstance control)
+    {
+        if (controlValues.TryGetValue(control.Definition, out object? value) && value is float f)
+        {
+            return f;
+        }
+        return 0f;
+    }
+
+    private bool IsAxis(ControlInstance control)
+    {
+        return GetControlIdName(control).Contains("Axis") || GetControlType(control).Contains("Axis");
+    }
+}
+
+<div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
+    @foreach (var control in controlInstances)
+    {
+        if (DisplayOnly.Count > 0 && !DisplayOnly.Contains(control.Definition.Id))
+            continue;
+
+        <div class="flex flex-col gap-2 rounded-sm bg-control-bg-dark border border-bg-darker justify-between">
+            <div class="flex flex-col gap-1 p-4">
+                <p class="font-semibold">@control.Definition.Name</p>
+                <p class="description">@control.Definition.Description</p>
+            </div>
+            <div class="w-full flex flex-col justify-self-end">
+                <div class="@(IsAxis(control) ? "w-full mt-1 flex items-center gap-2 px-2" : "hidden")">
+                    <p class="description">-1</p>
+                    <div class="w-full h-2 bg-bg-dark rounded-sm flex justify-between">
+                        <div class="h-2 bg-accent-dark rounded-sm" style="width:@((GetAxisValue(control) + 1) / 2 * 100)%"></div>
+                    </div>
+                    <p class="description">1</p>
+                </div>
+                <div class="flex gap-0">
+                    <button class="@GetClass(control)" @onclick="() => StartBinding(control)">
+                        <p>@GetDeviceName(control)</p>
+                        <p>@GetControlType(control) @GetControlIdName(control)</p>
+                    </button>
+                    <Dropdown Title=""
+                              Description=""
+                              Options="@axisTypeOptions"
+                              SelectedIndex="@((int)control.AxisBehavior)"
+                              SelectedIndexChanged="@(async (int index) => { control.AxisBehavior = (AxisType)index; controlsBackend.UpdateAxisBehavior(control.Definition.Id, control.AxisBehavior); })"
+                              Class="@(IsAxis(control) ? "gap-0! text-[0px] w-10! h-[40px] p-0! bg-bg-dark!" : "hidden")" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

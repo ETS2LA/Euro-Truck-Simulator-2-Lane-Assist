@@ -1,5 +1,6 @@
 using Hexa.NET.ImGui;
 using ETS2LA.Controls;
+using static ETS2LA.Translations.T;
 using ETS2LA.ML.Vision;
 using System.Numerics;
 
@@ -11,7 +12,7 @@ class VisionCamerasWindow : InternalWindow
     {
         Definition = new WindowDefinition
         {
-            Title = "Vision Cameras",
+            Title = _("Vision Cameras"),
             Flags = ImGuiWindowFlags.AlwaysAutoResize,
         };
 
@@ -27,7 +28,7 @@ class VisionCamerasWindow : InternalWindow
                     foreach (var camera in VisionHandler.Current.Cameras)
                     {
                         ImGui.TableNextColumn();
-                        ImGui.Text($"Camera {camera.Name} ({camera.Width}x{camera.Height})");
+                        ImGui.Text(_("Camera {0} ({1}x{2})", camera.Name, camera.Width, camera.Height));
                         var texRef = new ImTextureRef(
                             texId: new ImTextureID((nint)camera.TextureId)
                         );

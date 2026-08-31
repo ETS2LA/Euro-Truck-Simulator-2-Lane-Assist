@@ -15,7 +15,10 @@ public class NotificationHandler
     public event EventHandler<Notification> OnNotificationUpdated;
     public event EventHandler<string> OnNotificationRemoved;
 
-    public NotificationHandler() {}
+    public NotificationHandler()
+    {
+        new Thread(NotificationTimeoutThread) { IsBackground = true }.Start();
+    }
 
     public void UpdateNotification(Notification notification)
     {
@@ -58,6 +61,30 @@ public class NotificationHandler
             ActiveNotifications.Remove(candidate);
             OnNotificationRemoved?.Invoke(this, id);
             return;
+        }
+    }
+
+    public void NotificationTimeoutThread()
+    {
+        while (true)
+        {
+            Thread.Sleep(1000);
+
+            var now = DateTime.UtcNow;
+            var toRemove = new List<string>();
+
+            foreach (var notification in ActiveNotifications)
+            {
+                if (notification.CloseAfter > 0 && (now - notification.CreatedAt).TotalSeconds >= notification.CloseAfter)
+                {
+                    toRemove.Add(notification.Id);
+                }
+            }
+
+            foreach (var id in toRemove)
+            {
+                CloseNotification(id);
+            }
         }
     }
 

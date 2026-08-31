@@ -1,0 +1,91 @@
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public IReadOnlyList<string> Options { get; set; } = Array.Empty<string>();
+
+    [Parameter]
+    public int SelectedIndex { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<int> SelectedIndexChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnSelect { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    private bool isOpen = false;
+
+    private void ToggleOpen()
+    {
+        if (!Disabled)
+        {
+            isOpen = !isOpen;
+        }
+    }
+
+    private async Task SelectOption(int index)
+    {
+        SelectedIndex = index;
+        await SelectedIndexChanged.InvokeAsync(SelectedIndex);
+        await OnSelect.InvokeAsync(SelectedIndex);
+        isOpen = false;
+    }
+
+    private string GetSelectedOptionText()
+    {
+        if (Options.Count > 0 && SelectedIndex >= 0 && SelectedIndex < Options.Count)
+        {
+            return Options[SelectedIndex];
+        }
+        return string.Empty;
+    }
+}
+
+<div class="flex flex-col gap-2 @Class">
+    <div class="flex flex-col">
+        <p>@Title</p>
+        <p class="description">@Description</p>
+    </div>
+
+    <div class="relative w-full h-full">
+        <button type="button"
+                disabled="@Disabled"
+                class="w-full cursor-pointer border border-control-bg bg-control-bg rounded-md items-center flex @(Title != "" ? "h-11 px-4" : "h-full px-2") justify-between @(isOpen ? "border-accent-dark!" : "")"
+                @onclick="ToggleOpen">
+            <p>@GetSelectedOptionText()</p>
+            <svg class="description transition-transform duration-200 @(isOpen ? "rotate-180" : "")" 
+                 xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6" />
+            </svg>
+        </button>
+
+        @if (isOpen)
+        {
+            <div class="absolute top-full left-0 mt-1 w-full min-w-24 max-h-48 bg-control-bg-dark rounded-md z-50 overflow-y-auto flex flex-col shadow-lg" 
+                @onmouseleave="() => isOpen = false">
+                @for (int i = 0; i < Options.Count; i++)
+                {
+                    int index = i;
+                    bool isSelected = index == SelectedIndex;
+
+                    <button type="button"
+                            class="w-full min-w-24 px-4 py-2 text-left description hover:bg-control/50 hover:text-text text-[14px] transition-colors cursor-pointer @(isSelected ? "cursor-default! text-text bg-accent-dark!" : "")"
+                            @onclick="() => SelectOption(index)">
+                        @Options[index]
+                    </button>
+                }
+            </div>
+        }
+    </div>
+</div>

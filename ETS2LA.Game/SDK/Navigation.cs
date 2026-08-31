@@ -1,6 +1,7 @@
 using ETS2LA.Shared;
 using ETS2LA.Logging;
 using ETS2LA.Backend.Events;
+using static ETS2LA.Translations.T;
 
 using System.Diagnostics;
 using System.IO.MemoryMappedFiles;
@@ -88,7 +89,7 @@ public class NavigationProvider
             try { Update(); }
             catch (Exception ex)
             {
-                Logger.Error(ex.ToString(), "Error in navigation update loop.");
+                Logger.Error(ex.ToString(), _("Error in navigation update loop."));
             }
         }
     }
@@ -118,7 +119,7 @@ public class NavigationProvider
         catch (Exception ex)
         {
             CloseMemory();
-            Logger.Error($"Error initializing memory mapped file: {ex.Message}");
+            Logger.Error(_("Error initializing memory mapped file: {0}", ex.Message));
             Thread.Sleep(10000);
             return false;
         }

@@ -1,0 +1,210 @@
+@page "/plugins/catalogue"
+@using ETS2LA.Logging
+@using ETS2LA.Networking;
+@using ETS2LA.Networking.Plugins;
+@using ETS2LA.UI.Shared.Components;
+@using ETS2LA.Backend.Plugins;
+
+@code {
+    private List<NetworkPlugin> plugins = new List<NetworkPlugin>();
+    private List<NetworkPlugin> filteredPlugins = new List<NetworkPlugin>();
+    
+    private string searchQuery = string.Empty;
+    private bool hideInstalled = false;
+
+    private Dictionary<NetworkPlugin, string> selectedVersions = new Dictionary<NetworkPlugin, string>();
+    private bool needsRestart = false;
+
+    private void OnSearchQueryChanged(ChangeEventArgs e)
+    {
+        searchQuery = e.Value?.ToString() ?? string.Empty;
+        FilterPlugins();
+    }
+
+    private void OnHideInstalledChanged(ChangeEventArgs e)
+    {
+        hideInstalled = (bool)e.Value;
+        Logger.Info($"Hide Installed: {hideInstalled}");
+        FilterPlugins();
+    }
+
+    private void FilterPlugins()
+    {
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            filteredPlugins = plugins.Where(p =>
+                p.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                || p.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                || p.Author.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                || p.Tags.Any(tag => tag.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+            ).ToList();
+        }
+        else 
+        {
+            filteredPlugins = plugins;
+        }
+
+        if (hideInstalled)
+        {
+            filteredPlugins = filteredPlugins.Where(p => String.IsNullOrEmpty(GetInstalledVersion(p))).ToList();
+        }
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        plugins = NetworkingClient.Current.Plugins.AvailablePlugins;
+        foreach (var plugin in plugins)
+        {
+            if (!selectedVersions.ContainsKey(plugin))
+            {
+                selectedVersions[plugin] = plugin.Versions.Last().Version;
+            }
+        }
+        FilterPlugins();
+    }
+
+    private async void RefreshPlugins()
+    {
+        await NetworkingClient.Current.Plugins.FetchAvailablePluginsAsync();
+        plugins = NetworkingClient.Current.Plugins.AvailablePlugins;
+        foreach (var plugin in plugins)
+        {
+            if (!selectedVersions.ContainsKey(plugin))
+            {
+                selectedVersions[plugin] = plugin.Versions.Last().Version;
+            }
+        }
+        FilterPlugins();
+    }
+
+    private List<string> VersionsForPlugin(NetworkPlugin plugin)
+    {
+        return plugin.Versions.Select(
+            v => v.Version.ToString() + " " + $"({v.AppVersion})" 
+        ).Reverse().ToList();
+    }
+
+    private string GetInstalledVersion(NetworkPlugin plugin)
+    {
+        var installedPlugin = InstalledPluginManifest.Current.InstalledPlugins.FirstOrDefault(p => p.Id == plugin.Id);
+        return installedPlugin.Version?.ToString() ?? string.Empty;
+    }
+
+    private void Restart()
+    {
+        UserInterfaceUtils.Restart();
+    }
+}
+
+<div class="flex h-full w-full flex-col bg-bg-dark">
+<div class="flex p-1.5 h-full w-full">
+    <!-- Sidebar -->
+    <div class="w-[230px] pl-2 pr-3 pt-2 flex gap-6.5 flex-col h-full">
+        <div class="flex flex-col gap-2">
+            <input type="text"
+                placeholder=@(_("Search for plugins..."))
+                class="w-full p-2 rounded-md bg-control-bg text-text-muted placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+                @oninput="OnSearchQueryChanged" />
+            <div class="flex items-center gap-2">
+                <input type="checkbox" class="checkbox" id="hide-installed" value=@(hideInstalled.ToString()) @oninput="OnHideInstalledChanged" />
+                <label for="hide-installed" class=@(hideInstalled ? "text-[12px] transition-all duration-150" : "description transition-all duration-150")>@(_("Hide Installed"))</label>
+            </div>
+        </div>
+
+        @if (needsRestart)
+        {
+            <div class="flex flex-col gap-2">
+                <p class="text-text-accent text-[12px]">@(_("Changes will take effect after restarting the application."))</p>
+                <button class="button button-small button-accent w-full!" @onclick="@Restart">@(_("Restart Now"))</button>
+            </div>
+        }
+    </div>
+
+    <div class="mt-2 mb-2 bg-control-bg w-0.5 rounded-md"></div>
+
+    <!-- Plugins -->
+    <div class="w-full h-full bg-bg-dark overflow-y-auto">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
+            @if (filteredPlugins.Count == 0) //             w-108 -> min size I designed for with plugin cards
+            {
+                <div class="flex flex-col h-full">
+                    <p class="text-text-muted">@(_("No plugins found."))</p>
+                </div>
+            }
+            else
+            {
+                @for(int i = 0; i < filteredPlugins.Count; i++)
+                {
+                    var plugin = filteredPlugins[i];
+                    var installedVersion = GetInstalledVersion(plugin);
+                    var updateVersion = NetworkingClient.Current.Plugins.GetPluginUpdate(plugin.Id);
+
+                    <div class=@($"flex flex-col rounded-sm bg-control-bg-dark border p-4" + (String.IsNullOrEmpty(installedVersion) ? " border-bg-darker" : " border-accent-dark"))>
+                        <div class="flex">
+                            <div class="flex flex-col gap-1">
+                                <div class="flex justify-between">
+                                    <div class="flex flex-col gap-0">
+                                        <p class="font-semibold">@plugin.Name</p>
+                                        <p class="text-[12px]">By @plugin.Author</p>
+                                    </div>
+                                    <div class="flex flex-col gap-0 items-end">
+                                        @if (updateVersion != null)
+                                        {
+                                            <span class="text-text-accent text-[12px]">@(_("Update to {0} from {1}", updateVersion.Version, installedVersion))</span>
+                                            <Tooltip Content="@updateVersion.Changelog" Origin="auto">
+                                                <span class="text-[12px]">@(_("Changelog"))</span>
+                                            </Tooltip>
+                                        }
+                                        else if (!string.IsNullOrEmpty(installedVersion))
+                                        {
+                                            <span class="text-[12px]">@(_("Installed {0}", installedVersion))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-description text-[12px]">@(_("Not Installed"))</span>
+                                        }
+                                    </div>
+                                </div>
+                                <p class="description">@plugin.Description</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center gap-2">
+                                @foreach (var tag in plugin.Tags)
+                                {
+                                    <span class="bg-control-bg hover:bg-control transition-all duration-300 rounded-sm text-[12px] p-1">@UserInterfaceUtils.ClassnameWithSpaces(tag.ToString())</span>
+                                }
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <Dropdown 
+                                    Title=""
+                                    Description=""
+                                    Options="@VersionsForPlugin(plugin)"
+                                    SelectedIndex="@VersionsForPlugin(plugin).IndexOf(selectedVersions[plugin])"
+                                    OnSelect="@(index => selectedVersions[plugin] = VersionsForPlugin(plugin)[index])"
+                                    Class="text-[12px]!"
+                                />
+                                @if (updateVersion != null)
+                                {
+                                    <button class="button button-small button-accent w-full!" @onclick="@(() => { needsRestart = true; NetworkingClient.Current.Plugins.UpdatePlugin(plugin.Id); })">@(_("Update to {0}", updateVersion.Version))</button>
+                                }
+                                else if (!string.IsNullOrEmpty(installedVersion))
+                                {
+                                    <button class="button button-small w-full!" @onclick="@(() => { needsRestart = true; NetworkingClient.Current.Plugins.UninstallPlugin(plugin.Id); })">@(_("Uninstall"))</button>
+                                }
+                                else
+                                {
+                                    <button class="button button-small w-full!" @onclick="@(() => { needsRestart = true; NetworkingClient.Current.Plugins.InstallPlugin(plugin.Id, selectedVersions[plugin].Split(" ")[0]); })">@(_("Install"))</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+</div>

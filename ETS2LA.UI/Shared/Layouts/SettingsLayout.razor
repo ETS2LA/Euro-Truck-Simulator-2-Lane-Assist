@@ -1,0 +1,50 @@
+@using ETS2LA.UI.Shared.Overlays
+@using ETS2LA.UI.Shared.Components
+@layout Shared.Layouts.MainLayout
+
+@inherits LayoutComponentBase
+
+<main class="flex h-full w-full flex-col bg-bg-dark">
+  <div class="flex p-1.5 h-full w-full">
+    <!-- Sidebar -->
+    <div class="w-[230px] pl-2 pr-3 pt-2 flex gap-6.5 flex-col h-full">
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title=@(_("Driving")) />
+        <SidebarButton Name=@(_("Assists")) Path="/settings/assists" />
+        <SidebarButton Name=@(_("Data Parsing")) Path="/settings/data" />
+      </div>
+
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title=@(_("General")) />
+        <SidebarButton Name=@(_("Display")) Path="/settings/display" />
+        <SidebarButton Name=@(_("Audio")) Path="/settings/audio" />
+        <SidebarButton Name=@(_("Controls")) Path="/settings/controls" />
+      </div>
+
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title=@(_("Additional")) />
+        <SidebarButton Name=@(_("Game SDK")) Path="/settings/sdk" />
+        <SidebarButton Name=@(_("Experiments")) Path="/settings/experiments" />
+      </div>
+
+      <div class="flex flex-col gap-0">
+        <SidebarGroupLabel Title=@(_("Networking")) />
+        <SidebarButton Name=@(_("Account")) Path="/settings/account" />
+        <SidebarButton Name=@(_("Telemetry")) Path="/settings/telemetry" />
+      </div>
+
+      <div class="w-full h-full relative">
+        <div class="flex flex-col w-full gap-0 bottom-4 absolute">
+          <SidebarButton Name=@(_("Check For Updates")) Path="/settings/updates" />
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3 mb-3 bg-control-bg w-0.5 rounded-md"></div>
+
+    <!-- Main Content -->
+    <div class="w-full h-full bg-bg-dark rounded-md rounded-l-lg overflow-y-auto">
+      @Body      
+    </div>
+  </div>
+</main>

@@ -1,0 +1,52 @@
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public IReadOnlyList<string> Options { get; set; } = Array.Empty<string>();
+
+    [Parameter]
+    public int SelectedIndex { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<int> SelectedIndexChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnSelect { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    private async Task SelectOption(int index)
+    {
+        if (Disabled) return;
+
+        SelectedIndex = index;
+        await SelectedIndexChanged.InvokeAsync(SelectedIndex);
+        await OnSelect.InvokeAsync(SelectedIndex);
+    }
+}
+
+<div class="flex flex-col">
+    <div>
+        <p>@Title</p>
+        <p class="description">@Description</p>
+    </div>
+    <div class="flex gap-4 mt-2">
+        @for (int i = 0; i < Options.Count; i++)
+        {
+            int index = i;
+            bool isSelected = index == SelectedIndex;
+
+            <button type="button"
+                    disabled="@Disabled"
+                    class="px-4 py-2 cursor-pointer rounded-sm bg-control-bg-dark description hover:bg-control/50 hover:text-text text-[14px] transition-colors @(isSelected ? "text-text bg-accent-dark!" : "")"
+                    @onclick="() => SelectOption(index)">
+                @UserInterfaceUtils.ClassnameWithSpaces(Options[index])
+            </button>
+        }
+    </div>
+</div>

@@ -1,0 +1,94 @@
+    @using ETS2LA.Notifications;
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Content { get; set; } = string.Empty;
+
+    [Parameter]
+    public NotificationLevel Level { get; set; } = NotificationLevel.Information;
+
+    [Parameter]
+    public float Progress { get; set; } = 0f;
+
+    [Parameter]
+    public bool Indeterminate { get; set; } = false;
+
+    [Parameter]
+    public bool IsExiting { get; set; } = false;
+}
+
+<div key="@Id" class=@($"flex flex-col w-fit min-w-60 max-w-[300px] gap-0 rounded-md shadow-md bg-control-bg-dark border border-border text-text transition-all duration-300 {(IsExiting ? "animate-out fade-out slide-out-to-right-5" : "animate-in fade-in slide-in-from-right-10 zoom-in-80")}")>
+    <div class="flex flex-col gap-1 p-3">
+        <div class="flex items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2">
+
+                @if (Level == NotificationLevel.Success)
+                {
+                    <div class="text-[16px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="none" stroke="currentColor" stroke-dasharray="26" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l6 6l10 -10">
+                                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="26;0" />
+                            </path>
+                        </svg>
+                    </div>
+                }
+                @if (Level == NotificationLevel.Warning)
+                {
+                    <div class="text-[16px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <path stroke-dasharray="60" d="M12 3l9 17h-18l9 -17Z">
+                                    <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="60;0" />
+                                </path>
+                                <path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10v4">
+                                    <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.7s" dur="0.2s" to="0" />
+                                </path>
+                                <path stroke-dasharray="4" stroke-dashoffset="4" d="M12 17v0.01">
+                                    <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.7s" dur="0.2s" to="0" />
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                }
+                @if (Level == NotificationLevel.Danger)
+                {
+                    <div class="text-[16px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="none" stroke="currentColor" stroke-dasharray="12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12l7 7M12 12l-7 -7M12 12l-7 7M12 12l7 -7">
+                                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="12;0" />
+                            </path>
+                        </svg>
+                    </div>
+                }
+
+                <p class="font-semibold">@Title</p>
+            </div>
+            <button type="button" class="text-text/50 hover:text-text" @onclick="@(() => NotificationHandler.Current.CloseNotification(Title))">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <p class="description">@Content</p>
+    </div>
+    @if (Progress > 0f || Indeterminate)
+    {
+        <div class="relative w-full h-1 overflow-hidden rounded-b-md border-l border-r border-border">
+            @if (Indeterminate)
+            {
+                <div class="absolute inset-y-0 bg-accent-dark w-1/3 animate-indeterminate rounded-sm"></div>
+            }
+            else
+            {
+                <div class="h-full bg-accent transition-all duration-300 ease-in-out" style="@($"width: {Progress}%;")"></div>
+            }
+        </div>
+    }
+</div>

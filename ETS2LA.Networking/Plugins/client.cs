@@ -4,6 +4,7 @@ using ETS2LA.Backend;
 using ETS2LA.Backend.Events;
 using ETS2LA.Backend.Plugins;
 using ETS2LA.Notifications;
+using static ETS2LA.Translations.T;
 using ETS2LA.Logging;
 
 using System;
@@ -48,7 +49,7 @@ public class PluginApiClient
         NotificationHandler.Current.SendNotification(new Notification
         {
             Id = Guid.NewGuid().ToString(),
-            Title = "Plugin Installer",
+            Title = _("Plugin Installer"),
             Content = message,
             Level = level
         });
@@ -71,27 +72,27 @@ public class PluginApiClient
             var jsonResponse = await response.Content.ReadAsStringAsync();
             AvailablePlugins = JsonSerializer.Deserialize<List<NetworkPlugin>>(jsonResponse, jsonOptions) ?? new List<NetworkPlugin>();
 
-            Log($"Fetched {AvailablePlugins.Count} plugins from {apiServer.Value.BaseUrl}");
+            Log(_n("Fetched {0} plugin from {1}", "Fetched {0} plugins from {1}", AvailablePlugins.Count, AvailablePlugins.Count, apiServer.Value.BaseUrl));
         }
         catch
         {
-            Log($"Failed to fetch available plugins. Please check your internet connection.", NotificationLevel.Danger);
+            Log(_("Failed to fetch available plugins. Please check your internet connection."), NotificationLevel.Danger);
         }
     }
 
-    public bool PluginHasUpdateAvailable(string pluginId)
+    public NetworkPluginVersion? GetPluginUpdate(string pluginId)
     {
         var plugin = AvailablePlugins.FirstOrDefault(p => p.Id == pluginId);
         if (plugin == null)
         {
-            Log($"Plugin with ID {pluginId} not found in available plugins.", NotificationLevel.Warning);
-            return false;
+            Log(_("Plugin with ID {0} not found in available plugins.", pluginId), NotificationLevel.Warning);
+            return null;
         }
 
         InstalledPlugin? installedPlugin = InstalledPluginManifest.Current.InstalledPlugins.FirstOrDefault(p => p.Id == pluginId);
         if (!installedPlugin.HasValue || string.IsNullOrEmpty(installedPlugin.Value.Version))
         {
-            return false;
+            return null;
         }
 
         var appVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "0.0.0";
@@ -100,60 +101,80 @@ public class PluginApiClient
 
         if (latestVersion == null || string.IsNullOrEmpty(latestVersion.Version))
         {
-            Log($"No valid versions found for plugin with ID {pluginId}.", NotificationLevel.Warning);
-            return false;
+            Log(_("No valid versions found for plugin with ID {0}.", pluginId), NotificationLevel.Warning);
+            return null;
         }
 
-        return new Version(latestVersion.Version) > new Version(installedPlugin.Value.Version);
+        return new Version(latestVersion.Version) > new Version(installedPlugin.Value.Version) ? latestVersion : null;
     }
 
-    public bool InstallPlugin(string pluginId)
+    public bool InstallPlugin(string pluginId, string? version = null)
     {
         var plugin = AvailablePlugins.FirstOrDefault(p => p.Id == pluginId);
         if (plugin == null)
         {
-            Log($"Plugin with ID {pluginId} not found.", NotificationLevel.Warning);
+            Log(_("Plugin with ID {0} not found.", pluginId), NotificationLevel.Warning);
             return false;   
         }
 
         var appVersion = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "0.0.0";
         OperatingSystem currentOS = Environment.OSVersion.Platform != PlatformID.Unix ? OperatingSystem.Windows : OperatingSystem.Linux;
-        var latestVersion = plugin.GetLatestCompatibleVersion(appVersion, currentOS);
-        if (latestVersion == null)
+
+        NetworkPluginVersion targetVersion;
+        if (string.IsNullOrEmpty(version))
         {
-            Log($"No valid versions found for plugin with ID {pluginId}.", NotificationLevel.Warning);
-            return false;
+            var latestVersion = plugin.GetLatestCompatibleVersion(appVersion, currentOS);
+            if (latestVersion == null)
+            {
+                Log(_("No valid versions found for plugin with ID {0}.", pluginId), NotificationLevel.Warning);
+                return false;
+            }
+            targetVersion = latestVersion;
+        }
+        else
+        {
+            targetVersion = plugin.Versions.FirstOrDefault(v => v.Version == version);
+            if (targetVersion == null)
+            {
+                Log(_("Version {0} not found for plugin with ID {1}.", version, pluginId), NotificationLevel.Warning);
+                return false;
+            }
+            if (!plugin.IsCompatible(targetVersion, appVersion, currentOS))
+            {
+                Log(_("Version {0} of plugin with ID {1} is not compatible with the current application version or operating system.", version, pluginId), NotificationLevel.Warning);
+                return false;
+            }
         }
 
         // Downloading is done from whatever region the user is in
         Region currentRegion = NetworkingSettings.Current.CurrentApiServer?.Name == "China" ? Region.China : Region.Global;
-        string downloadUrl = latestVersion.DownloadUrl.FirstOrDefault(d => d.Key == Region.Global).Value;
+        string downloadUrl = targetVersion.DownloadUrl.FirstOrDefault(d => d.Key == Region.Global).Value;
         if (currentRegion == Region.China)
             downloadUrl = downloadUrl.Replace("ets2la.com", "ets2la.cn");
 
         if (string.IsNullOrEmpty(downloadUrl))
         {
-            Log($"No download URL found for plugin with ID {pluginId} in region {currentRegion}.", NotificationLevel.Warning);
+            Log(_("No download URL found for plugin with ID {0} in region {1}.", pluginId, currentRegion), NotificationLevel.Warning);
             return false;
         }
 
-        if (latestVersion.Dependencies.Count > 0)
+        if (targetVersion.Dependencies.Count > 0)
         {
             bool allDependenciesInstalled = true;
-            foreach (var dependencyId in latestVersion.Dependencies)
+            foreach (var dependencyId in targetVersion.Dependencies)
             {
                 if (!InstalledPluginManifest.Current.InstalledPlugins.Any(p => p.Id == dependencyId))
                 {
                     if (!InstallPlugin(dependencyId))
                     {
-                        Log($"Failed to install dependency {dependencyId} for plugin {pluginId}.", NotificationLevel.Warning);
+                        Log(_("Failed to install dependency {0} for plugin {1}.", dependencyId, pluginId), NotificationLevel.Warning);
                         allDependenciesInstalled = false;
                     }
                 }
             }
             if (!allDependenciesInstalled)
             {
-                Log($"Not all dependencies for plugin {pluginId} are installed.", NotificationLevel.Warning);
+                Log(_("Not all dependencies for plugin {0} are installed.", pluginId), NotificationLevel.Warning);
                 return false;
             }
         }
@@ -166,7 +187,7 @@ public class PluginApiClient
             var downloadResponse = downloadTask.Result;
             if (!downloadResponse.IsSuccessStatusCode)
             {
-                Log($"Failed to download plugin with ID {pluginId} from {downloadUrl}. Status code: {downloadResponse.StatusCode}", NotificationLevel.Warning);
+                Log(_("Failed to download plugin with ID {0} from {1}. Status code: {2}", pluginId, downloadUrl, downloadResponse.StatusCode), NotificationLevel.Warning);
                 return false;
             }
             using (var fs = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -192,44 +213,44 @@ public class PluginApiClient
         InstalledPluginManifest.Current.InstalledPlugins.Add(new InstalledPlugin
         {
             Id = plugin.Id,
-            Version = latestVersion.Version,
-            Dependencies = latestVersion.Dependencies,
-            DllPath = Path.Combine(outputPath, latestVersion.DllPath),
+            Version = targetVersion.Version,
+            Dependencies = targetVersion.Dependencies,
+            DllPath = Path.Combine(outputPath, targetVersion.DllPath),
             Type = type == "Plugin" ? PluginType.Plugin : PluginType.Library
         });
         InstalledPluginManifest.Current.Save();
 
         Events.Current.Publish<string>("ETS2LA.Plugins.Installed", pluginId);
         Events.Current.Publish<EventArgs>($"ETS2LA.Plugins.Installed.{pluginId}", EventArgs.Empty);
-        Log($"Successfully installed plugin {plugin.Name} ({plugin.Id}, {latestVersion.Version})", NotificationLevel.Success);
+        Log(_("Successfully installed plugin {0} ({1}, {2})", plugin.Name, plugin.Id, targetVersion.Version), NotificationLevel.Success);
         return true;
     }
 
     public bool UpdatePlugin(string pluginId)
     {
-        if (!PluginHasUpdateAvailable(pluginId))
+        if (GetPluginUpdate(pluginId) == null)
         {
-            Log($"No update available for plugin with ID {pluginId}.", NotificationLevel.Information);
+            Log(_("No update available for plugin with ID {0}.", pluginId), NotificationLevel.Information);
             return false;
         }
 
         // Uninstall the current version first.
         if (!UninstallPlugin(pluginId, overrideDependencyCheck: true))
         {
-            Log($"Failed to uninstall current version of plugin with ID {pluginId}.", NotificationLevel.Warning);
+            Log(_("Failed to uninstall current version of plugin with ID {0}.", pluginId), NotificationLevel.Warning);
             return false;
         }
 
         // Then install the latest version.
         if (!InstallPlugin(pluginId))
         {
-            Log($"Failed to install latest version of plugin with ID {pluginId}.", NotificationLevel.Warning);
+            Log(_("Failed to install latest version of plugin with ID {0}.", pluginId), NotificationLevel.Warning);
             return false;
         }
 
         Events.Current.Publish<string>("ETS2LA.Plugins.Updated", pluginId);
         Events.Current.Publish<EventArgs>($"ETS2LA.Plugins.Updated.{pluginId}", EventArgs.Empty);
-        Log($"Successfully updated plugin with ID {pluginId}.", NotificationLevel.Success);
+        Log(_("Successfully updated plugin with ID {0}.", pluginId), NotificationLevel.Success);
         return true;
     }
 
@@ -238,7 +259,7 @@ public class PluginApiClient
         InstalledPlugin? installedPlugin = InstalledPluginManifest.Current.InstalledPlugins.FirstOrDefault(p => p.Id == pluginId);
         if (installedPlugin == null)
         {
-            Log($"Installed plugin with ID {pluginId} not found.", NotificationLevel.Warning);
+            Log(_("Installed plugin with ID {0} not found.", pluginId), NotificationLevel.Warning);
             return false;
         }
 
@@ -250,7 +271,7 @@ public class PluginApiClient
             if (dependentPlugins.Any())
             {
                 string dependentPluginIds = string.Join(", ", dependentPlugins.Select(p => p.Id));
-                Log($"Cannot uninstall plugin with ID {pluginId} because the following installed plugins depend on it: {dependentPluginIds}", NotificationLevel.Warning);
+                Log(_("Cannot uninstall plugin with ID {0} because the following installed plugins depend on it: {1}", pluginId, dependentPluginIds), NotificationLevel.Warning);
                 return false;
             }
         }
@@ -266,7 +287,7 @@ public class PluginApiClient
         if (Directory.Exists(pluginPath)) Directory.Delete(pluginPath, true);
         else
         {
-            Log($"Apparent plugin directory {pluginPath} does not exist.", NotificationLevel.Warning);
+            Log(_("Apparent plugin directory {0} does not exist.", pluginPath), NotificationLevel.Warning);
             return false;
         }
 
@@ -276,7 +297,7 @@ public class PluginApiClient
 
         Events.Current.Publish<string>("ETS2LA.Plugins.Uninstalled", pluginId);
         Events.Current.Publish<EventArgs>($"ETS2LA.Plugins.Uninstalled.{pluginId}", EventArgs.Empty);
-        Log($"Successfully uninstalled plugin with ID {pluginId}", NotificationLevel.Success);
+        Log(_("Successfully uninstalled plugin with ID {0}.", pluginId), NotificationLevel.Success);
         return true;
     }
 }

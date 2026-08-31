@@ -1,5 +1,6 @@
 using Hexa.NET.ImGui;
 using ETS2LA.Logging;
+using static ETS2LA.Translations.T;
 using System.Numerics;
 
 namespace ETS2LA.Overlay.Window;
@@ -13,7 +14,7 @@ class ConsoleWindow : InternalWindow
     {
         Definition = new WindowDefinition
         {
-            Title = "Console",
+            Title = _("Console"),
             Flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.AlwaysAutoResize,
             X = 10,
             Y = 10,
@@ -42,15 +43,15 @@ class ConsoleWindow : InternalWindow
 
         RenderContextMenu = () =>
         {
-            if (ImGui.MenuItem("Clear Console"))
+            if (ImGui.MenuItem(_("Clear Console")))
             {
                 _consoleMessages.Clear();
             }
-            if (ImGui.MenuItem("Show More Logs"))
+            if (ImGui.MenuItem(_("Show More Logs")))
             {
                 _logLength += 2;
             }
-            if (ImGui.MenuItem("Show Fewer Logs"))
+            if (ImGui.MenuItem(_("Show Fewer Logs")))
             {
                 _logLength = Math.Max(2, _logLength - 2);
             }

@@ -11,6 +11,7 @@ using ETS2LA.Game.SDK;
 using ETS2LA.Game.Steam;
 using ETS2LA.Game.Output;
 using ETS2LA.Shared;
+using static ETS2LA.Translations.T;
 
 using TruckLib.HashFs;
 
@@ -47,13 +48,13 @@ public class GameHandler
 
     private void PopulateInstallations()
     {
-        Dictionary<string, string> games = SteamHandler.FindGamesInLibraries(new List<string>
+        var games = SteamHandler.FindGamesInLibraries(new List<string>
         {
             SteamHandler.EuroTruckSimulator2AppId,
             SteamHandler.AmericanTruckSimulatorAppId
         });
 
-        Logger.Info($"Found {games.Count} game installations.");
+        Logger.Info(_n("Found {0} game installation.", "Found {0} game installations.", games.Count, games.Count));
         foreach ((string appId, string gamePath) in games)
         {
             GameType type = appId == SteamHandler.EuroTruckSimulator2AppId
@@ -68,7 +69,7 @@ public class GameHandler
             GameType? type = DetectGameType(gamePath);
             if (type == null)
             {
-                Logger.Warn($"Manually added game at '{gamePath}' no longer contains a game executable, skipping.");
+                Logger.Warn(_("Manually added game at '{0}' no longer contains a game executable, skipping.", gamePath));
                 continue;
             }
 
@@ -135,7 +136,7 @@ public class GameHandler
             }
             catch (FileNotFoundException ex)
             {
-                Logger.Warn($"Executable not found at '{executablePath}': {ex.Message}");
+                Logger.Warn(_("Executable not found at '{0}': {1}", executablePath, ex.Message));
             }
         # endif
 
@@ -144,7 +145,8 @@ public class GameHandler
                       ?? GetVersionFromLogs(documentsPath)
                       ?? version;
 
-        Logger.Info($"Found {gameName} (version: {version}) at '{gamePath}'");
+        // TRANSLATORS: Example: Found Euro Truck Simulator 2 (version: 1.45) at 'C:\Games\ETS2'
+        Logger.Info(_("Found {0} (version: {1}) at '{2}'", gameName, version, gamePath));
 
         Installation installation = new Installation
         {
@@ -169,7 +171,7 @@ public class GameHandler
         GameType? type = DetectGameType(gamePath);
         if (type == null)
         {
-            Logger.Warn($"No game executable found in '{gamePath}', not adding it as an installation.");
+            Logger.Warn(_("No game executable found in '{0}', not adding it as an installation.", gamePath));
             return null;
         }
 
@@ -190,7 +192,7 @@ public class GameHandler
         if (!installation.IsManuallyAdded)
             return;
 
-        Logger.Info($"Removing manually added installation at '{installation.Path}'");
+        Logger.Info(_("Removing manually added installation at '{0}'", installation.Path));
         Installations = Installations.Where(i => i != installation).ToList();
 
         GameSettings.Current.ManualGamePaths.RemoveAll(
@@ -217,7 +219,7 @@ public class GameHandler
         }
         catch (Exception ex)
         {
-            Logger.Warn($"Failed to read version from '{versionScs}': {ex.Message}");
+            Logger.Warn(_("Failed to read version from '{0}': {1}", versionScs, ex.Message));
             return null;
         }
     }
@@ -247,7 +249,7 @@ public class GameHandler
         }
         catch (IOException ex)
         {
-            Logger.Warn($"Failed to read version from '{logFile}': {ex.Message}");
+            Logger.Warn(_("Failed to read version from '{0}': {1}", logFile, ex.Message));
         }
 
         return null;

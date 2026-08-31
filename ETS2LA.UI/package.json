@@ -1,0 +1,19 @@
+{
+  "name": "ets2la.ui",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "@types/bun": "latest",
+    "tailwindcss": "^4.3.3",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "dev:css": "bun x @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --watch",
+    "build:css": "bun x @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --minify"
+  }
+}

@@ -1,0 +1,33 @@
+@using ETS2LA.Logging;
+
+@code
+{
+    bool isSidebarOpen { get => WindowState.Current.IsSidebarOpen; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        WindowState.Current.NeedsFullReload += (sender, e) => {
+            InvokeAsync(StateHasChanged); 
+        };
+
+        WindowSettings.Current.HasCompletedOnboarding = true;
+        WindowSettings.Current.Save();
+    }
+}
+
+<div class=@("left-2 flex absolute gap-2 transition-all duration-300 ease-in-out" + (isSidebarOpen ? " top-56.5" : " top-2"))>
+    <p class="animate-pulse text-lg">🡐</p>
+    <div class="mt-0.5">
+        @if (isSidebarOpen)
+        {
+            <p>@_("You can enable the plugins we installed in a previous step here.")</p>
+        }
+        else
+        {
+            <p>@_("Use this button to extend the sidebar.")</p>
+        }
+    </div>
+</div>
+
+<p class="description">@(_("Look in the top left corner."))</p>

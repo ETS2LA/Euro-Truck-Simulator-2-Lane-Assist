@@ -1,0 +1,113 @@
+@inject IJSRuntime JSRuntime
+@using Markdig
+
+@code {
+    [Parameter] public string Content { get; set; } = string.Empty;
+    [Parameter] public int Delay { get; set; } = 0;
+    [Parameter] public string Origin { get; set; } = "cursor"; // auto, top, bottom, left, right, cursor
+    [Parameter] public string Class { get; set; } = string.Empty;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private MarkupString RenderedContent => 
+        new MarkupString(Markdown.ToHtml(Content ?? string.Empty, Pipeline));
+
+    private static readonly MarkdownPipeline Pipeline = 
+        new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+
+    private ElementReference tooltipElement;
+    private bool isHovered = false;
+    private double x = 0;
+    private double y = 0;
+    private string autoOrigin = "cursor";
+    private CancellationTokenSource? cts;
+
+    private async Task HandleMouseEnter(MouseEventArgs e)
+    {
+        UpdatePosition(e);
+
+        var origin = Origin.ToLowerInvariant();
+        if (origin.Contains("auto"))
+        {
+            try {
+                autoOrigin = await JSRuntime.InvokeAsync<string>("getTooltipAutoPosition", tooltipElement);
+            } catch {
+                autoOrigin = "top";
+            }
+        }
+        else
+        {
+            autoOrigin = origin;
+        }
+
+        cts?.Cancel();
+        cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                if (Delay > 0)
+                {
+                    await Task.Delay(Delay, token);
+                }
+
+                if (!token.IsCancellationRequested)
+                {
+                    isHovered = true;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch (TaskCanceledException) { }
+        });
+    }
+
+    private void HandleMouseMove(MouseEventArgs e)
+    {
+        if (Origin == "cursor")
+        {
+            UpdatePosition(e);
+            if (isHovered) StateHasChanged();
+        }
+    }
+
+    private void HandleMouseLeave()
+    {
+        cts?.Cancel();
+        isHovered = false;
+    }
+
+    private void UpdatePosition(MouseEventArgs e)
+    {
+        if (Origin == "cursor")
+        {
+            x = e.ClientX + 10;
+            y = e.ClientY + 10;
+        }
+    }
+
+    private string PositionClasses => autoOrigin switch
+    {
+        "top" => "bottom-full left-1/2 -translate-x-1/2 mb-2",
+        "bottom" => "top-full left-1/2 -translate-x-1/2 mt-2",
+        "left" => "right-full top-1/2 -translate-y-1/2 mr-2",
+        "right" => "left-full top-1/2 -translate-y-1/2 ml-2",
+        _ => "" // "cursor"
+    };
+}
+
+<div class="relative inline-block @Class"
+     @ref="tooltipElement"
+     @onmouseenter="HandleMouseEnter"
+     @onmouseleave="HandleMouseLeave"
+     @onmousemove="HandleMouseMove">
+    @ChildContent
+
+    @if (isHovered && !string.IsNullOrEmpty(Content))
+    {
+        <div style="@(autoOrigin == "cursor" ? $"top: {y}px; left: {x}px;" : "")" 
+             class="@(autoOrigin == "cursor" ? "fixed" : "absolute") @PositionClasses p-2 rounded-sm bg-control-bg border border-border z-50 pointer-events-none text-xs [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 whitespace-normal min-w-[max-content]">
+            @RenderedContent
+        </div>
+    }
+</div>

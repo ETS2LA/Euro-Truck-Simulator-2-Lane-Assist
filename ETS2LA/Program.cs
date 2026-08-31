@@ -1,15 +1,18 @@
 ﻿using Velopack;
 using Velopack.Locators;
 
-using ETS2LA.Tutorials;
+// using ETS2LA.Tutorials;
 using ETS2LA.Overlay;
 using ETS2LA.Backend;
+using ETS2LA.Game;
 using ETS2LA.Game.Telemetry;
 using ETS2LA.State;
 using ETS2LA.Logging;
 using ETS2LA.Settings.Global;
 using ETS2LA.Telemetry;
 using ETS2LA.Networking;
+using ETS2LA.UI;
+using static ETS2LA.Translations.T;
 
 using OpenTelemetry;
 using OpenTelemetry.Resources;
@@ -27,39 +30,9 @@ internal static class Program
     /// <summary>
     ///  Main entrypoint for ETS2LA.
     /// </summary>
+    [STAThread]
     static void Main(string[] args)
     {
-        // This handles the main thread crashing (Avalonia)
-        // Nothing else *should* run on the main thread.
-        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-        {
-            Utils.HandleFatalException(e.ExceptionObject as Exception, tracerProvider, meterProvider);
-        };
-
-        // This is for unobserved exceptions, i.e. plugins and other Task.Run() calls etc..
-        TaskScheduler.UnobservedTaskException += (sender, e) =>
-        {
-            e.SetObserved(); // Prevents an immediate crash, we'll handle termination in HandleFatalException instead.
-
-            // Avalonia's IBus integration on linux throws these from DBus calls
-            // that nothing awaits (like when closing the window). They are harmless, can be ignored.
-            if (e.Exception.Flatten().InnerExceptions.All(ex => ex is Tmds.DBus.Protocol.DBusExceptionBase))
-            {
-                Logger.Warn($"Ignored DBus exception: {e.Exception.InnerException?.Message}");
-                return;
-            }
-
-            Utils.HandleFatalException(e.Exception, tracerProvider, meterProvider);
-        };
-
-        args = Utils.WaitForRestartParentProcess(args);
-
-        if (Utils.IsRunningAsRoot())
-            Utils.HandleContinueClose("ETS2LA is running as a system administrator. This puts your system at risk if you use 3rd party plugins. Select Yes to continue anyway and accept the risk.");
-
-        if (Utils.DoesETS2LAProcessExist())
-            throw new InvalidOperationException("ETS2LA is already running, please close it from the Task Manager.");
-
         // Velopack is the installer / update manager
         // Please don't move this, Velopack has to be initialized before anything else,
         // otherwise we might end up with weird bugs.
@@ -68,7 +41,7 @@ internal static class Program
             #if DEBUG
             .SetLocator(new TestVelopackLocator(
                 appId: "ETS2LA",
-                version: "1.0.0",
+                version: "2026.8.1",
                 packagesDir: "./Releases/Portable"
             ))
             #endif
@@ -77,6 +50,23 @@ internal static class Program
         string currentVersion = VelopackLocator.Current?.CurrentlyInstalledVersion?.ToString()
                              ?? System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) 
                              ?? "unknown"; 
+
+        Utils.InitializeTranslations();
+
+        // This is for unobserved exceptions, i.e. plugins and other Task.Run() calls etc..
+        TaskScheduler.UnobservedTaskException += (sender, e) =>
+        {
+            e.SetObserved(); // Prevents an immediate crash, we'll handle termination in HandleFatalException instead.
+            Utils.HandleFatalException(e.Exception, tracerProvider, meterProvider);
+        };
+
+        args = Utils.WaitForRestartParentProcess(args);
+
+        if (Utils.IsRunningAsRoot())
+            Utils.HandleContinueClose(_("ETS2LA is running as a system administrator. This puts your system at risk if you use 3rd party plugins. Select Yes to continue anyway and accept the risk."));
+
+        if (Utils.DoesETS2LAProcessExist())
+            throw new InvalidOperationException("ETS2LA is already running, please close it from the Task Manager.");
 
         // For OTel (OpenTelemetry)
         var appResource = ResourceBuilder.CreateDefault()
@@ -121,8 +111,9 @@ internal static class Program
             var backend = PluginBackend.Current;
             var telemetry = GameTelemetry.Current;
             var state = ApplicationState.Current;
-            var tutorials = TutorialHandler.Current;
             var networking = NetworkingClient.Current;
+            var games = GameHandler.Current;
+            backend.Start();
         });
 
         # if LINUX
@@ -138,14 +129,14 @@ internal static class Program
 
         // Gotta wait for the UI thread to close (i.e. user closed the window)
         // and then tell the backend to shutdown too.
-        UI.Program.Main(args);
+        UserInterface.Start(args);
 
         shutdown = true;
         PluginBackend.Current.Shutdown();
         OverlayHandler.Current.Shutdown();
         GameTelemetry.Current.Shutdown();
         ApplicationState.Current.Shutdown();
-        TutorialHandler.Current.Shutdown();
+        // TutorialHandler.Current.Shutdown();
 
         LogFileWriter.Current.Save();
         meterProvider?.Dispose();

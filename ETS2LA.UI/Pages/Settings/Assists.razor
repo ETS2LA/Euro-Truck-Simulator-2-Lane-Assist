@@ -1,0 +1,213 @@
+@page "/settings/assists"
+@layout Shared.Layouts.SettingsLayout
+
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.State
+@using ETS2LA.Settings.Global
+
+@code{
+    // TODO: Apply units via ApplicationState
+
+    static Dictionary<AccelerationResponseOption, string> TranslateAccelerationOptions = new Dictionary<AccelerationResponseOption, string>
+    {
+        { AccelerationResponseOption.Slow, _("Slow") },
+        { AccelerationResponseOption.Normal, _("Normal") },
+        { AccelerationResponseOption.Fast, _("Fast") }
+    };
+    static List<String> AccelerationOptions = Enum.GetNames<AccelerationResponseOption>().ToList().Select(option => TranslateAccelerationOptions[Enum.Parse<AccelerationResponseOption>(option)]).ToList();
+
+    static Dictionary<SteeringSensitivityOption, string> TranslateSteeringResponseOptions = new Dictionary<SteeringSensitivityOption, string>
+    {
+        { SteeringSensitivityOption.Slow, _("Slow") },
+        { SteeringSensitivityOption.Normal, _("Normal") },
+        { SteeringSensitivityOption.Fast, _("Fast") }
+    };
+    static List<String> SteeringResponseOptions = Enum.GetNames<SteeringSensitivityOption>().ToList().Select(option => TranslateSteeringResponseOptions[Enum.Parse<SteeringSensitivityOption>(option)]).ToList();
+
+    static Dictionary<FollowingDistanceOption, string> TranslateFollowingDistanceOptions = new Dictionary<FollowingDistanceOption, string>
+    {
+        { FollowingDistanceOption.Near, _("Near") },
+        { FollowingDistanceOption.Normal, _("Normal") },
+        { FollowingDistanceOption.Far, _("Far") }
+    };
+    static List<String> FollowingDistanceOptions = Enum.GetNames<FollowingDistanceOption>().ToList().Select(option => TranslateFollowingDistanceOptions[Enum.Parse<FollowingDistanceOption>(option)]).ToList();
+
+    static Dictionary<SetSpeedBehaviour, string> TranslateSetSpeedBehaviourOptions = new Dictionary<SetSpeedBehaviour, string>
+    {
+        { SetSpeedBehaviour.CurrentSpeed, _("Current Speed") },
+        { SetSpeedBehaviour.SpeedLimit, _("Speed Limit") }
+    };
+    static List<String> SetSpeedBehaviourOptions = Enum.GetNames<SetSpeedBehaviour>().ToList().Select(option => TranslateSetSpeedBehaviourOptions[Enum.Parse<SetSpeedBehaviour>(option)]).ToList();
+
+    static Dictionary<SpeedLimitWarning, string> TranslateSpeedLimitWarningOptions = new Dictionary<SpeedLimitWarning, string>
+    {
+        { SpeedLimitWarning.Chime, _("Chime") },
+        { SpeedLimitWarning.Off, _("Off") },
+        { SpeedLimitWarning.Visual, _("Visual") }
+    };
+    static List<String> SpeedLimitWarningOptions = Enum.GetNames<SpeedLimitWarning>().ToList().Select(option => TranslateSpeedLimitWarningOptions[Enum.Parse<SpeedLimitWarning>(option)]).ToList();
+
+    static Dictionary<CollisionAvoidance, string> TranslateCollisionAvoidanceOptions = new Dictionary<CollisionAvoidance, string>
+    {
+        { CollisionAvoidance.Early, _("Early") },
+        { CollisionAvoidance.Medium, _("Medium") },
+        { CollisionAvoidance.Late, _("Late") },
+        { CollisionAvoidance.Off, _("Off") }
+    };
+    static List<String> CollisionAvoidanceOptions = Enum.GetNames<CollisionAvoidance>().ToList().Select(option => TranslateCollisionAvoidanceOptions[Enum.Parse<CollisionAvoidance>(option)]).ToList();
+
+    private bool SnapTo10s {
+        get => StateSettingsHandler.Current.GetSettings().SnapTo10s;
+        set {
+            var settings = StateSettingsHandler.Current.GetSettings();
+            settings.SnapTo10s = value;
+            StateSettingsHandler.Current.Save();
+        }
+    }
+
+    private bool PauseWhenUnstable {
+        get => AssistanceSettings.Current.PauseWhenUnstable;
+        set {
+            var settings = AssistanceSettings.Current;
+            settings.PauseWhenUnstable = value;
+            AssistanceSettings.Current.Save();
+        }
+    }
+
+    private bool IgnoreTrafficRules {
+        get => AssistanceSettings.Current.IgnoreTrafficRules;
+        set {
+            var settings = AssistanceSettings.Current;
+            settings.IgnoreTrafficRules = value;
+            AssistanceSettings.Current.Save();
+        }
+    }
+
+    private float SpeedControlStepSize
+    {
+        get => StateSettingsHandler.Current.GetSettings().SpeedControlStepSize;
+        set {
+            var settings = StateSettingsHandler.Current.GetSettings();
+            settings.SpeedControlStepSize = (int)Math.Round(value);
+            StateSettingsHandler.Current.Save();
+        }
+    }
+
+    private float MaximumSpeedLimit
+    {
+        get => AssistanceSettings.Current.MaximumSpeed;
+        set {
+            var settings = AssistanceSettings.Current;
+            settings.MaximumSpeed = value;
+            AssistanceSettings.Current.Save();
+        }
+    }
+
+    private float ToDisplayUnits(float value)
+    {
+        var units = ApplicationState.Current.DisplayUnits;
+        return (int)Math.Round(UnitConversions.FromScientificUnits(UnitType.Speed, value, units), 0);
+    }
+
+    private float ToScientificUnits(float value)
+    {
+        var units = ApplicationState.Current.DisplayUnits;
+        return UnitConversions.ToScientificUnits(UnitType.Speed, value, units);
+    }
+
+    private string DisplayUnits()
+    {
+        var units = ApplicationState.Current.DisplayUnits;
+        return UnitConversions.GetUnitAbbreviation(UnitType.Speed, units);
+    }
+}
+
+<div class="flex flex-col w-108 m-5 ml-8 gap-6">
+    <Separator Label=@(_("Keybind Behaviour")) />
+    <Listbox Title=@(_("SET Behaviour"))
+             Description=@(_("When pressing the SET keybind, what should ETS2LA set as the current cruise control speed?"))
+             Options="@SetSpeedBehaviourOptions"
+             SelectedIndex="@(Array.IndexOf(SetSpeedBehaviourOptions.ToArray(), TranslateSetSpeedBehaviourOptions[AssistanceSettings.Current.SetSpeedBehaviourOption] ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = AssistanceSettings.Current;
+                settings.SetSpeedBehaviourOption = (SetSpeedBehaviour)index;
+                AssistanceSettings.Current.Save();
+             })" />
+    <Slider Title=@(_("Speed Control Step Size"))
+            Description=@(_("The step size for changing the cruise control speed."))
+            Suffix="@DisplayUnits()"
+            Value="@SpeedControlStepSize"
+            ValueChanged="@((float value) => SpeedControlStepSize = value)"
+            Min="1"
+            Max="10"
+            Step="1" />
+    <Switch Title=@(_("Snap to each 10 {0}", DisplayUnits()))
+            Description=@(_("When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."))
+            Value="@SnapTo10s"
+            ValueChanged="@((bool value) => SnapTo10s = value)" />
+
+    <Separator Label=@(_("Responsiveness")) Class="mt-8" />
+    <Listbox Title=@(_("Steering Sensitivity"))
+             Description=@(_("Adjust how ETS2LA will respond to necessary steering changes. This for example controls how quickly ETS2LA will lane-change."))
+             Options="@SteeringResponseOptions"
+             SelectedIndex="@(Array.IndexOf(SteeringResponseOptions.ToArray(), TranslateSteeringResponseOptions[AssistanceSettings.Current.SteeringSensitivity] ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = AssistanceSettings.Current;
+                settings.SteeringSensitivity = (SteeringSensitivityOption)index;
+                AssistanceSettings.Current.Save();
+             })" />
+    <Listbox Title=@(_("Acceleration Response"))
+             Description=@(_("Adjust how quickly ETS2LA will respond to desired changes in acceleration. Emergency braking is not affected."))
+             Options="@AccelerationOptions"
+             SelectedIndex="@(Array.IndexOf(AccelerationOptions.ToArray(), TranslateAccelerationOptions[AssistanceSettings.Current.AccelerationResponse] ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = AssistanceSettings.Current;
+                settings.AccelerationResponse = (AccelerationResponseOption)index;
+                AssistanceSettings.Current.Save();
+             })" />
+    <Listbox Title=@(_("Following Distance"))
+             Description=@(_("Adjust the distance ETS2LA will try to maintain from the vehicle in front of you when using Adaptive Cruise Control."))
+             Options="@FollowingDistanceOptions"
+             SelectedIndex="@(Array.IndexOf(FollowingDistanceOptions.ToArray(), TranslateFollowingDistanceOptions[AssistanceSettings.Current.FollowingDistance] ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = AssistanceSettings.Current;
+                settings.FollowingDistance = (FollowingDistanceOption)index;
+                AssistanceSettings.Current.Save();
+             })" />
+    <Listbox Title=@(_("Collision Avoidance"))
+             Description=@(_("How early ETS2LA will attempt to respond to possible collisions. Turning this to off will disable collision avoidance regardless of your enabled plugins."))
+             Options="@CollisionAvoidanceOptions"
+             SelectedIndex="@(Array.IndexOf(CollisionAvoidanceOptions.ToArray(), TranslateCollisionAvoidanceOptions[AssistanceSettings.Current.CollisionAvoidanceOption] ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = AssistanceSettings.Current;
+                settings.CollisionAvoidanceOption = (CollisionAvoidance)index;
+                AssistanceSettings.Current.Save();
+             })" />
+
+    <Separator Label=@(_("Warnings & Overrides")) Class="mt-8" />
+    <Listbox Title=@(_("Speed Limit Warning"))
+             Description=@(_("How ETS2LA will warn you about exceeding the speed limit by a major amount."))
+             Options="@SpeedLimitWarningOptions"
+             SelectedIndex="@(Array.IndexOf(SpeedLimitWarningOptions.ToArray(), TranslateSpeedLimitWarningOptions[AssistanceSettings.Current.SpeedLimitWarningOption] ?? string.Empty))"
+             SelectedIndexChanged="@(index => {
+                var settings = AssistanceSettings.Current;
+                settings.SpeedLimitWarningOption = (SpeedLimitWarning)index;
+                AssistanceSettings.Current.Save();
+             })" />
+    <Switch Title=@(_("Pause When Unstable"))
+            Description=@(_("We will pause the game when we detect instability or the steering is unresponsive / disables itself for other reasons."))
+            Value="@PauseWhenUnstable"
+            ValueChanged="@((bool value) => PauseWhenUnstable = value)" />
+    <Switch Title=@(_("Ignore Traffic Rules"))
+            Description=@(_("We will ignore traffic rules and speed limits. Expect damage to your vehicle and others. Why would you enable this?"))
+            Value="@IgnoreTrafficRules"
+            ValueChanged="@((bool value) => IgnoreTrafficRules = value)" />
+    <Slider Title=@(_("Maximum Speed"))
+            Description=@(_("The maximum speed ETS2LA will accelerate to. It might still drift over this limit due to momentum."))
+            Suffix="@(MaximumSpeedLimit == 0 ? $"{@DisplayUnits()} {_("Disabled")}" : @DisplayUnits())"
+            Value="@ToDisplayUnits(MaximumSpeedLimit)"
+            ValueChanged="@((float value) => MaximumSpeedLimit = ToScientificUnits(value))"
+            Min="0"
+            Max="120"
+            Step="1" />
+</div>

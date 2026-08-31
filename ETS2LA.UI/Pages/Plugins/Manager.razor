@@ -1,0 +1,165 @@
+@page "/plugins/manager"
+@using ETS2LA.Backend
+@using ETS2LA.Shared
+@using ETS2LA.UI.Shared.Components
+@using Microsoft.AspNetCore.Components;
+@using System.Reflection
+
+@code {
+    PluginHandler handler;
+    
+    List<IPlugin> Plugins = new List<IPlugin>();
+    List<IPlugin> FilteredPlugins = new List<IPlugin>();
+
+    string searchQuery = "";
+
+    override protected void OnInitialized()
+    {
+        base.OnInitialized();
+        handler = PluginBackend.Current.PluginHandler;
+        RefreshPlugins();
+    }
+
+    private void OnSearchQueryChanged(ChangeEventArgs e)
+    {
+        searchQuery = e.Value?.ToString() ?? string.Empty;
+        FilterPlugins();
+    }
+
+    private void RefreshPlugins()
+    {
+        if (handler == null)
+            handler = PluginBackend.Current.PluginHandler;
+        if (handler == null)
+            return;
+        
+        Plugins = handler.LoadedPlugins;
+        FilterPlugins();
+        StateHasChanged();
+    }
+
+    private void FilterPlugins()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            FilteredPlugins = Plugins;
+        }
+        else
+        {
+            FilteredPlugins = Plugins.Where(p => 
+                p.Info.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                || p.Info.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                || p.Info.AuthorName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                || p.Info.Tags.Any(tag => tag.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+            ).ToList();
+        }
+    }
+
+    public bool HasRoute(IPlugin plugin, string route)
+    {
+        // Normalize route to ensure leading slash comparison matches
+        string expectedRoute = route.StartsWith("/") ? route : "/" + route;
+
+        foreach (var assembly in handler.PluginAssemblies)
+        {
+            try
+            {
+                var hasMatchingRoute = assembly.GetTypes()
+                    .Where(t => typeof(IComponent).IsAssignableFrom(t))
+                    .SelectMany(t => t.GetCustomAttributes<RouteAttribute>())
+                    .Any(attr => string.Equals(attr.Template, expectedRoute, StringComparison.OrdinalIgnoreCase));
+
+                if (hasMatchingRoute) 
+                    return true;
+            }
+            catch (ReflectionTypeLoadException)
+            {
+            }
+        }
+
+        return false;
+    }
+}
+
+<div class="flex h-full w-full flex-col bg-bg-dark">
+<div class="flex p-1.5 h-full w-full">
+    <!-- Sidebar -->
+    <div class="w-[230px] pl-2 pr-3 pt-2 flex gap-6.5 flex-col h-full">
+        <input type="text"
+               placeholder=@(_("Search for plugins..."))
+               class="w-full p-2 rounded-md bg-control-bg text-text-muted placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+               @oninput="OnSearchQueryChanged" />
+    </div>
+
+    <div class="mt-2 mb-2 bg-control-bg w-0.5 rounded-md"></div>
+
+    <!-- Plugins -->
+    <div class="w-full h-full bg-bg-dark overflow-y-auto">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
+            @if (FilteredPlugins.Count == 0) //             w-108 -> min size I designed for with plugin cards
+            {
+                <div class="flex flex-col h-full">
+                    <p>@(_("No plugins found."))</p>
+                    <p class="text-text-accent">@(_("Did you remember to restart after installing them?"))</p>
+                </div>
+            }
+            else
+            {
+                @for(int i = 0; i < FilteredPlugins.Count; i++)
+                {
+                    var plugin = FilteredPlugins[i];
+                    var enabled = plugin._IsRunning;
+                    var settingsRoute = $"/plugins/adjustments/{plugin.Info.Id}";
+                    var hasSettingsPage = HasRoute(plugin, settingsRoute);
+
+                    <div class=@($"flex flex-col rounded-sm bg-control-bg-dark border p-4" + (enabled ? " border-accent-dark" : " border-bg-darker"))>
+                        <div class="flex">
+                            <div class="flex flex-col gap-1 w-full">
+                                <div class="flex justify-between">
+                                    <div class="flex flex-col gap-0 w-full">
+                                        <p class="font-semibold">@plugin.Info.Name</p>
+                                        <p class="text-[12px]">By @plugin.Info.AuthorName</p>
+                                    </div>
+                                    <div class="flex flex-col gap-0 items-end">
+                                        @if (enabled)
+                                        {
+                                            <span class="text-text-accent text-[12px]">@(_("Enabled"))</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-description text-[12px]">@(_("Disabled"))</span>
+                                        }
+                                    </div>
+                                </div>
+                                <p class="description">@plugin.Info.Description</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center gap-2">
+                                @foreach (var tag in plugin.Info.Tags)
+                                {
+                                    <span class="bg-control-bg rounded-sm text-[12px] p-1">@UserInterfaceUtils.ClassnameWithSpaces(tag.ToString())</span>
+                                }
+                            </div>
+                            <div class="flex items-center gap-2">
+                                @if (enabled)
+                                {
+                                    <button class="button button-small button-accent w-full!" @onclick="@(() => handler.DisablePlugin(plugin))">@(_("Disable"))</button>
+                                }
+                                else
+                                {
+                                    <button class="button button-small w-full!" @onclick="@(() => handler.EnablePlugin(plugin))">@(_("Enable"))</button>
+                                }
+                                @if (hasSettingsPage)
+                                {
+                                    <a class="button button-small w-full!" href="@settingsRoute">@(_("Adjustments"))</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+</div>

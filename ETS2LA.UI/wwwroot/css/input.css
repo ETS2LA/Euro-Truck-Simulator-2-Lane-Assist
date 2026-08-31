@@ -1,0 +1,328 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+html {
+  font-feature-settings: "locl";
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@theme {
+  --color-text-h: var(--text-h);
+  --color-text: var(--text);
+  --color-text-l: var(--text-l);
+  --color-description: var(--description);
+
+  --color-bg: var(--bg);
+  --color-bg-dark: var(--bg-dark);
+  --color-bg-darker: var(--bg-darker);
+
+  --color-border: var(--border);
+
+  --color-control: var(--control);
+  --color-control-bg: var(--control-bg);
+  --color-control-bg-dark: var(--control-bg-dark);
+
+  --color-text-accent: var(--text-accent);
+  --color-accent: var(--accent);
+  --color-accent-border: var(--accent-border);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-darker: var(--accent-darker);
+
+  --color-success: var(--success);
+  --color-success-dark: var(--success-dark);
+  --color-success-bg: var(--success-bg);
+
+  --color-warning: var(--warning);
+  --color-warning-dark: var(--warning-dark);
+  --color-warning-bg: var(--warning-bg);
+
+  --color-danger: var(--danger);
+  --color-danger-dark: var(--danger-dark);
+  --color-danger-bg: var(--danger-bg);
+
+  --color-code-bg: var(--code-bg);
+
+  --font-sans: 
+    Outfit, 
+    /* Other "Western" Languages */ "Noto Sans",
+    /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
+    /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
+    /* Korean */ "Noto Sans KR", "Malgun Gothic",
+    /* System */ sans-serif;
+  --font-heading: 
+    Outfit, 
+    /* Other "Western" Languages */ "Noto Sans",
+    /* Japanese */ "Noto Sans JP", "Hiragino Sans", "Meiryo",
+    /* Simplified Cn */ "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    /* Traditional Cn */ "Noto Sans TC", "PingFang TC", "Microsoft JhengHei",
+    /* Korean */ "Noto Sans KR", "Malgun Gothic",
+    /* System */ sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+}
+
+:root {
+  --text-h: #111111;
+  --text: #333333;
+  --text-l: #555555;
+  --description: #767676;
+  
+  --bg: #FFFFFF;
+  --bg-dark: #F7F7F7;
+  --bg-darker: #EFEFEF;
+  
+  --border: #E0E0E0;
+  
+  --control: #CCCCCC;
+  --control-bg: #FFFFFF;
+  --control-bg-dark: #F0F0F0;
+  
+  --text-accent: #90543a;
+  --accent: #9A6A54;
+  --accent-border: #D4B0A0;
+  --accent-dark: #e2c9be;
+  --accent-darker: #f1e0da;
+  
+  --success: #007A32;
+  --success-dark: #124D28;
+  --success-bg: #EAF7ED;
+
+  --warning: #946900;
+  --warning-dark: #5C4100;
+  --warning-bg: #FFF8E6;
+
+  --danger: #B83244;
+  --danger-dark: #701D29;
+  --danger-bg: #FDF0F2;
+
+  --code-bg: #F4F4F4;
+
+  color-scheme: dark light;
+  color: var(--text);
+  background-color: var(--bg);
+  
+  font-size: 14px;
+  letter-spacing: 0.18px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--text-h);
+}
+
+@media (prefers-color-scheme: dark), (prefers-color-scheme: no-preference), (prefers-color-scheme: light) {
+  :root {
+    --text-h: #FFFFFF;
+    --text: #DADADA;
+    --text-l: #BABABA;
+    --description: #797979;
+
+    --bg: #2B2B2B;
+    --bg-dark: #272727;
+    --bg-darker: #242424;
+
+    --border: #474747;
+
+    --control: #474747;
+    --control-bg: #2D2D2D;
+    --control-bg-dark: #2A2A2A;
+
+    --text-accent: #ecaf93;
+    --accent: #9a6a54;
+    --accent-border: #61493C;
+    --accent-dark: #423732;
+    --accent-darker: #322925;
+
+    --success: #01bb4e;
+    --success-dark: #006B2A;
+    --success-bg: #003B1A;
+
+    --warning: #ca9100;
+    --warning-dark: #7F5C00;
+    --warning-bg: #3F2B00;
+
+    --danger: #ca3345;
+    --danger-dark: #8A2D3A;
+    --danger-bg: #2f1418;
+
+    --code-bg: #222222;
+  }
+}
+
+@utility description {
+  color: var(--description);
+  font-size: 12px;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  color: var(--text-h);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+h2 { 
+  color: var(--text-h);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+h3 {
+  color: var(--text-h);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.button {
+  color: var(--text-h);
+  background-color: var(--control-bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.slider {
+    @apply
+    [&::-webkit-slider-runnable-track]:rounded-sm 
+    [&::-webkit-slider-runnable-track]:transition-all
+    [&::-webkit-slider-runnable-track]:duration-150
+    [&::-webkit-slider-runnable-track]:bg-control-bg 
+    [&::-webkit-slider-runnable-track]:hover:bg-control/50 
+    [&::-webkit-slider-thumb]:appearance-none 
+    [&::-webkit-slider-thumb]:h-3.5
+    [&::-webkit-slider-thumb]:w-3.5
+    [&::-webkit-slider-thumb]:rounded-sm 
+    [&::-webkit-slider-thumb]:transition-all
+    [&::-webkit-slider-thumb]:duration-150
+    [&::-webkit-slider-thumb]:bg-accent/80
+    [&::-webkit-slider-thumb]:hover:bg-accent
+    [&::-webkit-slider-thumb]:hover:ring-2
+    [&::-webkit-slider-thumb]:hover:ring-text-accent/60;
+}
+
+.checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: var(--control);
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+}
+
+.checkbox:checked {
+  background-color: var(--accent);
+}
+
+.button:hover {
+  background-color: var(--control-bg);
+}
+
+.button-small {
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.button-accent {
+  color: var(--text-h);
+  background-color: var(--accent-darker);
+  border: 1px solid var(--accent-border);
+}
+
+.button-accent:hover {
+  background-color: var(--accent-dark);
+}
+
+/* Animations */
+/* Most places use tailwindcss-animate, but sometimes it's useful to write
+   them manually for more control. */
+
+.notification-anim-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 0.625rem; /* gap-2.5 (10px) */
+  transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              margin-top 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification-anim-wrapper.exiting {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+}
+
+.notification-anim-wrapper > div {
+  overflow: hidden;
+}
+
+.notification-anim-content {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification-anim-wrapper.exiting .notification-anim-content {
+  transform: scale(0.75);
+  opacity: 0;
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -35%;
+    width: 35%;
+  }
+  60% {
+    left: 100%;
+    width: 70%;
+  }
+  100% {
+    left: 100%;
+    width: 100%;
+  }
+}
+
+.animate-indeterminate {
+  animation: indeterminate 1.5s infinite ease-in-out;
+}
+
+/* Copied from https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap
+   and modified to use a local font file. */
+
+/* latin-ext */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/Outfit.ttf') format('truetype');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/Outfit.ttf') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

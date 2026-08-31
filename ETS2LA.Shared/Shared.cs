@@ -1,7 +1,7 @@
-﻿using Huskui.Avalonia.Controls;
-using Huskui.Avalonia.Models;
+﻿using System.Numerics;
+
 using ETS2LA.Logging;
-using System.Numerics;
+using static ETS2LA.Translations.T;
 
 namespace ETS2LA.Shared;
 
@@ -96,7 +96,7 @@ public abstract class Plugin : IPlugin
     public virtual void OnEnable()
     {
         _IsRunning = true;
-        Task.Factory.StartNew(RunningThread, TaskCreationOptions.LongRunning);
+        Task.Run(RunningThread);
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public abstract class Plugin : IPlugin
             try { Tick(); }
             catch (Exception ex)
             {
-                Logger.Error($"Error in plugin {Info.Name} Tick: {ex}");
+                Logger.Error(_("Error in plugin {0} Tick: {1}", Info.Name, ex.Message));
             }
 
             if (next < sw.Elapsed.TotalMilliseconds)
@@ -373,4 +373,24 @@ public class KalmanFilter3D
         _filterY.Reset();
         _filterZ.Reset();
     }
+}
+
+public readonly struct Optional<T>
+{
+    public T Value { get; }
+    public bool HasValue { get; }
+
+    public Optional(T value)
+    {
+        Value = value;
+        HasValue = true;
+    }
+
+    public static Optional<T> Empty => default;
+
+    public static implicit operator Optional<T>(T value) => new(value);
+
+    public T GetValueOrDefault(T defaultValue = default!) => HasValue ? Value : defaultValue;
+
+    public override string ToString() => HasValue ? Value?.ToString() ?? "null" : "<Empty>";
 }

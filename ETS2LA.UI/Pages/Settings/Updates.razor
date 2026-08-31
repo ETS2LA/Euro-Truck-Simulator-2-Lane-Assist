@@ -1,0 +1,167 @@
+@page "/settings/updates"
+@layout Shared.Layouts.SettingsLayout
+
+@using Markdig
+
+@using Velopack
+@using Velopack.Logging
+@using Velopack.Sources
+
+@using ETS2LA.Logging
+@using ETS2LA.Notifications
+@using ETS2LA.Networking.Updates
+@using ETS2LA.UI.Shared.Components
+@using ETS2LA.Translations
+@using ETS2LA.State
+@using static ETS2LA.Translations.T
+
+@code {
+    IUpdateSource source = Updater.Current.GetSelectedSource().source;
+    UpdateManager updateManager = Updater.Current.UpdateManager;
+    UpdateInfo? latestUpdateInfo = null;
+
+    string[] availableChannels = Updater.AvailableChannels;
+    string selectedChannel {
+        get => UpdaterSettings.Current.SelectedChannel;
+        set {
+            UpdaterSettings.Current.SelectedChannel = value;
+            UpdaterSettings.Current.Save();
+            StateHasChanged();
+        }
+    }
+
+    private MarkupString? RenderedContent;
+
+    private static readonly MarkdownPipeline Pipeline = 
+        new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Task.Run(() => CheckForUpdates());
+    }
+
+    private void CheckForUpdates()
+    {
+        NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification{
+            Id = "ETS2LA.UI.Settings.Updates.CheckingForUpdates",
+            Title = _("Checking for updates..."),
+            Content = _("This might take a while depending on your internet connection and the source."),
+            IsProgressIndeterminate = true,
+        });
+
+        latestUpdateInfo = updateManager.CheckForUpdates();
+
+        if (latestUpdateInfo != null)
+        {
+            NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Updates.CheckingForUpdates");
+            NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification{
+                Id = "ETS2LA.UI.Settings.Updates.UpdateAvailable",
+                Title = _("Update Available"),
+                Content = _("A new update is available: {0}", latestUpdateInfo.TargetFullRelease?.Version.ToString() ?? _("Unknown Version")),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Warning
+            });
+
+            string releaseNotes = latestUpdateInfo.TargetFullRelease?.NotesMarkdown ?? _("No release notes available.");
+            try { releaseNotes = releaseNotes.Split("---")[0]; }
+            catch { }
+
+            Language language = StateSettingsHandler.Current.GetSettings().DisplayLanguage;
+            if (language.Code != "en")
+            {
+                RenderedContent = new MarkupString(Markdown.ToHtml(_("Translating release notes..."), Pipeline));
+                DynamicTranslationTask task = new DynamicTranslationTask(releaseNotes, language.Code.Replace("_", "-"));
+                task.OnTranslationCompleted += (translated) => {
+                    RenderedContent = new MarkupString(Markdown.ToHtml(translated, Pipeline));
+                    InvokeAsync(StateHasChanged);
+                };
+                task.StartTranslationAsync();
+            }
+            else
+            {
+                RenderedContent = new MarkupString(Markdown.ToHtml(releaseNotes, Pipeline));
+            }
+
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Updates.CheckingForUpdates");
+            NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification{
+                Id = "ETS2LA.UI.Settings.Updates.NoUpdateAvailable",
+                Title = _("No Update Available"),
+                Content = _("You are running the latest version."),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Success
+            });
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void DownloadCallback(int progress)
+    {
+        NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification
+        {
+            Id = "ETS2LA.UI.Settings.Updates.DownloadingUpdate",
+            Title = _("Downloading Update"),
+            Content = _("Download progress: {0}%", progress),
+            Progress = progress,
+            CloseAfter = 0
+        });
+    }
+
+    public void OnInstallAndRestartClick()
+    {
+        if (latestUpdateInfo != null)
+        {
+            Task.Run(() => 
+            {
+                NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification
+                {
+                    Id = "ETS2LA.UI.Settings.Updates.DownloadingUpdate",
+                    Title = _("Downloading Update"),
+                    Content = _("Starting download..."),
+                    Level = NotificationLevel.Information,
+                    Progress = 0,
+                    CloseAfter = 0
+                });
+                updateManager.DownloadUpdates(latestUpdateInfo, DownloadCallback);
+                updateManager.ApplyUpdatesAndRestart(latestUpdateInfo);
+                NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Updates.DownloadingUpdate");
+            });
+        }
+    }
+}
+
+<div class="flex flex-col max-w-full m-5 ml-8 mr-8 gap-4">
+    <Dropdown Title="Update Channel"
+              Description="Select the update channel you want to listen to. Nightly contains experimental features and will crash more often."
+              Options=@availableChannels
+              SelectedIndex=@Array.IndexOf(availableChannels, selectedChannel)
+              SelectedIndexChanged="@(index => selectedChannel = availableChannels[index])" />
+
+    <div class="flex flex-col gap-2">
+        <div class="text-description">
+            @_("Current Version: {0}", updateManager.CurrentVersion?.ToString() ?? _("Unknown Version"))
+        </div>
+        <div class="text-description">
+            @_("Latest Version: {0}", latestUpdateInfo?.TargetFullRelease?.Version.ToString() ?? _("Unchanged / Unavailable"))
+        </div>
+    </div>
+
+    @if (latestUpdateInfo != null)
+    {
+        <button class="button button-accent" @onclick="OnInstallAndRestartClick" disabled="@((latestUpdateInfo == null))">
+            @(_("Install Update and Restart"))
+        </button>
+    }
+
+    <div class="flex flex-col gap-1">
+        @if (RenderedContent != null)
+        {
+            <div class="[&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2 [&_h1]:mb-3 [&_h2]:mb-3 [&_h3]:mb-3 [&_h4]:mb-2 [&_li]:mb-1 [&_strong]:text-text-accent [&_code]:text-description [&_code]:bg-control-bg [&_code]:rounded-sm [&_code]:px-1  whitespace-normal">
+                @RenderedContent
+            </div>
+        }
+    </div>
+</div>

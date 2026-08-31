@@ -1,0 +1,67 @@
+@implements IDisposable
+@inject NavigationManager Navigation
+
+@code {
+    [Parameter, EditorRequired] 
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired] 
+    public string Path { get; set; } = string.Empty;
+
+    [Parameter] 
+    public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+
+    [Parameter]
+    public bool PreventDefault { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        // This forces the component to re-render
+        // we need this since otherwise the bg state wont update
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void Navigate()
+    {
+        Navigation.NavigateTo(Path);
+    }
+
+    private string GetButtonClass()
+    {
+        string baseClass = "px-3 py-1 flex hover:bg-control/50 rounded-md transition-colors whitespace-nowrap";
+
+        string relativePath = Navigation.ToBaseRelativePath(Navigation.Uri);
+        string targetPath = Path.TrimStart('/');
+
+        bool isActive = false;
+
+        if (string.IsNullOrEmpty(targetPath))
+        {
+            isActive = string.IsNullOrEmpty(relativePath);
+        }
+        else
+        {
+            isActive = relativePath.Equals(targetPath, StringComparison.OrdinalIgnoreCase) 
+                       || relativePath.StartsWith(targetPath + "/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        return isActive ? $"{baseClass} bg-control/40 text-text-h!" : baseClass;
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+}
+
+<NavLink href="@Path" 
+         class="@GetButtonClass()" 
+         Match="@Match"
+         @onclick="Navigate">
+    <span>@Name</span>
+</NavLink>

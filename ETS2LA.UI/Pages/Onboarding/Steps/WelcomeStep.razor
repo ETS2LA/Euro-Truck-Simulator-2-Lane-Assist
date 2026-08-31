@@ -1,0 +1,73 @@
+@using ETS2LA.State;
+@using ETS2LA.Logging;
+@using ETS2LA.UI.Shared.Components;
+
+@using ETS2LA.Translations;
+@using static ETS2LA.Translations.Languages;
+
+@code {
+    [Parameter]
+    public Action OnNext { get; set; }
+
+    private Language initialLanguage = StateSettingsHandler.Current.GetSettings().DisplayLanguage;
+
+    // Copied from Settings/Display.razor
+    List<String> displayLanguageOptions = SupportedLanguages.Select(l => l.NativeName + $" - {l.EnglishName}").ToList();
+    private int CurrentLanguage
+    {
+        get => SupportedLanguages.FindIndex(l => l.Code == StateSettingsHandler.Current.GetSettings().DisplayLanguage?.Code);
+    }
+    private bool hasChangedLanguage = false;
+
+    private void OnDisplayLanguageChanged(int index)
+    {
+        var selectedLanguageName = displayLanguageOptions[index].Split("-")[1].Trim();
+        Logger.Info($"Selecting language {selectedLanguageName} ({index})");
+        var selectedLanguage = SupportedLanguages.FirstOrDefault(l => l.EnglishName == selectedLanguageName);
+        if (selectedLanguage == null)
+        {
+            Logger.Error(_("{0} not found in supported languages.", selectedLanguageName));
+            return;
+        }
+
+        var settings = StateSettingsHandler.Current.GetSettings();
+        settings.DisplayLanguage = selectedLanguage;
+        StateSettingsHandler.Current.Save();
+
+        if (selectedLanguage.Code == initialLanguage.Code)
+            hasChangedLanguage = false;
+        else
+            hasChangedLanguage = true;
+    }
+
+    private void Restart()
+    {
+        UserInterfaceUtils.Restart();
+    }
+}
+
+<div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-1">
+        <h3>@(_("Welcome to ETS2LA!"))</h3>
+        <p>@((MarkupString)(_("Please complete this <span class=\"text-text-accent font-bold\">short</span> onboarding process to get started.")))</p>
+    </div>
+
+    <div class="flex gap-2">
+        <Dropdown Title=" "
+                Description=""
+                Class="min-w-64 h-6"
+                Options="@displayLanguageOptions"
+                SelectedIndex="@CurrentLanguage"
+                SelectedIndexChanged="OnDisplayLanguageChanged"/>
+        
+        @if (hasChangedLanguage)
+        {
+            <button class="button button-accent mt-2 h-[39px] w-full!" @onclick="Restart">@_("Restart")</button>
+        }
+        else {
+            <button class="button mt-2 h-[39px] w-full!" @onclick="OnNext">@_("Next")</button>
+        }
+    </div>
+
+    <p class="description pt-1">@_("If you can't interact with the Window, press CTRL+R.")</p>
+</div>

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GTranslate" Version="2.3.1" />
+    <PackageReference Include="OrchardCore.Localization" Version="3.0.1" />
+    <PackageReference Include="OrchardCore.Localization.Abstractions" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Localization\*.po">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\*.po" />
+  </ItemGroup>
+
+  <Target Name="ExtractGetTextStrings" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(MSBuildThisFileDirectory)Localization" />
+    <Exec Command="dotnet GetText.Extractor -s . -t &quot;$(MSBuildThisFileDirectory)Localization/messages.pot&quot; -as _ -ap _n -u" 
+          WorkingDirectory="$(MSBuildThisFileDirectory).." />
+  </Target>
+</Project>

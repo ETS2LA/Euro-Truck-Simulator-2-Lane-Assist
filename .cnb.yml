@@ -5,6 +5,6 @@ v*:
           type: git:release
           options:
             latest: true
-            description: Release created from tag.
+            descriptionFromFile: ETS2LA/ReleaseNotes.md
       git:
         submodules: false

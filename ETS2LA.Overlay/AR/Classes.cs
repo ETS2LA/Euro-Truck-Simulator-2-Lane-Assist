@@ -1,6 +1,6 @@
 using Hexa.NET.OpenGL;
-using Avalonia.Data;
 
+using ETS2LA.Shared;
 using ETS2LA.Logging;
 using System.Numerics;
 

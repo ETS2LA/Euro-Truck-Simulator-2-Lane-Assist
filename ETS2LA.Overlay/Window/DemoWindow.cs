@@ -1,5 +1,7 @@
 using Hexa.NET.ImGui;
 
+using static ETS2LA.Translations.T;
+
 namespace ETS2LA.Overlay.Window;
 
 class DemoWindow : InternalWindow
@@ -8,7 +10,7 @@ class DemoWindow : InternalWindow
     {
         Definition = new WindowDefinition
         {
-            Title = "Demo Window",
+            Title = _("Demo Window"),
             NoWindow = true
         };
 

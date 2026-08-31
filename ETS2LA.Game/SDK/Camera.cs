@@ -1,7 +1,7 @@
 using ETS2LA.Shared;
 using ETS2LA.Logging;
 using ETS2LA.Backend.Events;
-using ETS2LA.Game.Telemetry;
+using static ETS2LA.Translations.T;
 
 using System.Numerics;
 using System.IO.MemoryMappedFiles;
@@ -97,7 +97,7 @@ public class CameraProvider
             try { Update(); }
             catch (Exception ex)
             {
-                Logger.Error(ex.ToString(), "Error in camera update loop.");
+                Logger.Error(ex.ToString(), _("Error in camera update loop."));
             }
         }
     }
@@ -127,7 +127,7 @@ public class CameraProvider
         catch (Exception ex)
         {
             CloseMemory();
-            Logger.Error($"Error initializing memory mapped file: {ex.Message}");
+            Logger.Error(_("Error initializing memory mapped file: {0}", ex.Message));
             Thread.Sleep(10000);
             return false;
         }

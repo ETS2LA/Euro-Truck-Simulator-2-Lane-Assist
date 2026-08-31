@@ -1,0 +1,105 @@
+@page "/settings/sdk"
+@layout Shared.Layouts.SettingsLayout
+@using ETS2LA.Game;
+@using ETS2LA.Game.Data;
+@using ETS2LA.UI.Shared.Components;
+
+@code {
+    [Parameter]
+    public bool IsOnboarding { get; set; } = false;
+    [Parameter]
+    public EventCallback OnOneSDKInstalled { get; set; }
+
+    GameHandler gameHandler = GameHandler.Current;
+
+    List<Installation> controlInstances {
+        get => gameHandler.Installations;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        bool foundInstalled = controlInstances.Any(i => i.IsSDKInstalled(i.Version));
+        if (foundInstalled) OnOneSDKInstalled.InvokeAsync();
+    }
+
+    private void AddGameManually()
+    {
+        string[] paths = UserInterface.Current.Window.ShowOpenFile(
+            _("Select core.scs"),
+            filters: new[] { ("core.scs", new[] { ".scs" }) }
+        );
+        
+        string? path = paths.FirstOrDefault();
+        if (path == null)
+            return;
+        
+        if (!File.Exists(path))
+        {
+            UserInterface.Current.Window.ShowMessage(_("Invalid file"), _("The selected file does not exist."));
+            return;
+        }
+        
+        if (!path.EndsWith("core.scs", StringComparison.OrdinalIgnoreCase))
+        {
+            UserInterface.Current.Window.ShowMessage(_("Invalid file"), _("The selected file is not a core.scs file."));
+            return;
+        }
+
+        string installDir = Path.GetDirectoryName(path) ?? "";
+        if (!Directory.Exists(installDir))
+        {
+            UserInterface.Current.Window.ShowMessage(_("Invalid directory"), _("The selected directory does not exist."));
+            return;
+        }
+
+        if (GameHandler.Current.AddManualInstallation(installDir) != null)
+        {
+            UserInterface.Current.Window.ShowMessage(_("Game added"), _("The game has been added successfully."));
+        }
+        else
+        {
+            UserInterface.Current.Window.ShowMessage(_("Failed to add game"), _("Please see the logs for more information."));
+        }
+    }
+}
+
+<div class="flex flex-col ml-8 m-5 gap-24">
+    @if (controlInstances.Count > 0)
+    {
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(27rem,1fr))] gap-4 py-2 px-3">
+            @for(int i = 0; i < controlInstances.Count; i++)
+            {
+                var instance = controlInstances[i];
+                var installed = instance.IsSDKInstalled(instance.Version);
+
+                <div class="flex flex-col rounded-sm bg-control-bg-dark border p-4 gap-3 border-bg-darker">
+                    <div class="flex flex-col gap-1">
+                        <p>@(UserInterfaceUtils.ClassnameWithSpaces(@instance.Type.ToString()) + "  -  " + instance.Version.ToString())</p>
+                        @if (!IsOnboarding)
+                        {
+                            <p class="description">@(installed ? _("SDKs are currently installed.") : _("SDKs need to be installed.")) @(_("This game was found at")) @instance.Path</p>
+                        }
+                        else
+                        {
+                            <p class="description">@instance.Path</p>
+                        }
+                    </div>
+
+                    <button class="@(installed ? "hidden" : "button button-accent w-full!")" @onclick="@(() => { OnOneSDKInstalled.InvokeAsync(); instance.InstallSDK(instance.Version); })">@((_("Install SDKs")))</button>
+                    <button class="@(installed ? "button w-full!" : "hidden")" @onclick="@(() => instance.UninstallSDK(instance.Version))">@((_("Uninstall SDKs")))</button>
+                </div>
+            }
+        </div>
+    }
+    
+    @if ((IsOnboarding && controlInstances.Count == 0) || !IsOnboarding)
+    {
+        <div class=@(IsOnboarding ? " justify-self-center" : " h-full")>
+            <div class=@($"flex flex-col gap-4 w-108" + (IsOnboarding ? "" : " absolute bottom-6"))>
+                <p class="description text-warning">@((_("Cracked games or demos will block our SDK from loading. They do not work, and we don't intend to fix this.")))</p>
+                <button class="button w-full!" @onclick="AddGameManually">@((_("Add Game Manually")))</button>
+            </div>
+        </div>
+    }
+</div>
