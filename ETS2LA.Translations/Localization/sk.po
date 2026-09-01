@@ -2,11 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
+"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
-"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/>"
-"\n"
+"Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
+">\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -231,11 +231,11 @@ msgstr "Vizuál"
 msgid "Additional"
 msgstr "Dodatočné"
 
-msgid "Install Plugins"
-msgstr "Nainštalujte pluginy"
-
 msgid "Show Fewer Logs"
 msgstr "Zobraziť menej záznamov"
+
+msgid "Install Plugins"
+msgstr "Nainštalujte pluginy"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "Nenechám ETS2LA bez dozoru"
@@ -337,13 +337,13 @@ msgstr ""
 "deaktivujete systém zabraňujúci kolíziám bez ohľadu na to, ktoré pluginy "
 "máte zapnuté."
 
+msgid "The selected file does not exist."
+msgstr "Vybraný súbor neexistuje."
+
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Asisnenti zapnutý: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-msgid "The selected file does not exist."
-msgstr "Vybraný súbor neexistuje."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -771,13 +771,13 @@ msgstr[2] "Bolo nájdených {0} prefabov"
 msgid "Pascals"
 msgstr "Pascali"
 
-#, csharp-format
-msgid "Failed to disable {0}: {1}"
-msgstr "Nepodarilo sa vypnúť {0}: {1}"
-
 msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 "Tu môžete aktivovať pluginy, ktoré sme nainštalovali v predchádzajúcom kroku."
+
+#, csharp-format
+msgid "Failed to disable {0}: {1}"
+msgstr "Nepodarilo sa vypnúť {0}: {1}"
 
 msgid "SDK Installed"
 msgstr "SDK je nainštalované"
@@ -844,11 +844,11 @@ msgstr "Prebieha sťahovanie: {0}%"
 msgid "Search for plugins..."
 msgstr "Vyhľadávanie pluginov..."
 
-msgid "SDK Installation"
-msgstr "Inštalácia SDK"
-
 msgid "Assists"
 msgstr "Asistenti"
+
+msgid "SDK Installation"
+msgstr "Inštalácia SDK"
 
 msgid "mph"
 msgstr "mph"
@@ -1016,9 +1016,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Nepodarilo sa nainštalovať najnovšiu verziu pluginu s ID {0}."
 
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, tak ma teraz pusťte dnu!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1026,6 +1023,9 @@ msgid ""
 msgstr ""
 "Ak si myslíte, že ide o chybu, nahláste ju prosím na {0}Discord serveri{1} "
 "alebo na {2}GitHube{3}."
+
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, tak ma teraz pusťte dnu!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1690,11 +1690,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Vybraný súbor nie je súbor typu core.scs."
 
-msgid "This game was found at"
-msgstr "Túto hru sme našli v"
-
 msgid "Translated by:"
 msgstr "Preložil:"
+
+msgid "This game was found at"
+msgstr "Túto hru sme našli v"
 
 msgid "Data Quality"
 msgstr "Kvalita údajov"
@@ -1833,11 +1833,11 @@ msgstr[2] "Našlo sa {0} ručne nainštalovaných pluginov."
 msgid "Checking for updates..."
 msgstr "Hľadám aktualizácie..."
 
-msgid "Starting ETS2LA..."
-msgstr "Spúšťam ETS2LA..."
-
 msgid "Catalogue"
 msgstr "Katalóg"
+
+msgid "Starting ETS2LA..."
+msgstr "Spúšťam ETS2LA..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1932,18 +1932,18 @@ msgid "Display Units: "
 msgstr "Jednotka: "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Upozornenie: Váš systém má menej ako 20 GB pamäte RAM. Môžete zvoliť "
-"maximálne úroveň „Vysoký“."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "Jazyk, v ktorom sa bude zobrazovať ETS2LA. Preklady poskytuje komunita, "
 "nemôžeme zaručiť ich správnosť :)"
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Upozornenie: Váš systém má menej ako 20 GB pamäte RAM. Môžete zvoliť "
+"maximálne úroveň „Vysoký“."
 
 msgid "Interaction Mode"
 msgstr "Režim interakcie"

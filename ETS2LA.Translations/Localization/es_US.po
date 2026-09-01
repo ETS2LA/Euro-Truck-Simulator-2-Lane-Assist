@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
+"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
 "PO-Revision-Date: 2026-08-27 20:59+0000\n"
 "Last-Translator: tsumiguel <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
@@ -224,11 +224,11 @@ msgstr "Visual"
 msgid "Additional"
 msgstr "Adicional"
 
-msgid "Install Plugins"
-msgstr "Instalar plugins"
-
 msgid "Show Fewer Logs"
 msgstr "Mostrar menos registros"
+
+msgid "Install Plugins"
+msgstr "Instalar plugins"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "No dejaré ETS2LA sin supervisión"
@@ -332,12 +332,12 @@ msgstr ""
 "Desactivar esta opción deshabilitará la prevención de colisiones "
 "independientemente de los plugins que tengas activados."
 
+msgid "The selected file does not exist."
+msgstr "El archivo seleccionado no existe."
+
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
-
-msgid "The selected file does not exist."
-msgstr "El archivo seleccionado no existe."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -762,12 +762,12 @@ msgstr[1] "Se encontraron {0} prefabs"
 msgid "Pascals"
 msgstr "Pascales"
 
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr "Aquí puedes habilitar los plugins que instalamos en un paso anterior."
+
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "Error al deshabilitar {0}: {1}"
-
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr "Aquí puedes habilitar los plugins que instalamos en un paso anterior."
 
 msgid "SDK Installed"
 msgstr "SDK instalado"
@@ -835,11 +835,11 @@ msgstr "Progreso de descarga: {0}%"
 msgid "Search for plugins..."
 msgstr "Buscar plugins..."
 
-msgid "SDK Installation"
-msgstr "Instalación del SDK"
-
 msgid "Assists"
 msgstr "Asistencias"
+
+msgid "SDK Installation"
+msgstr "Instalación del SDK"
 
 msgid "mph"
 msgstr "mph"
@@ -1000,9 +1000,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Error al instalar la última versión del plugin con ID {0}."
 
-msgid "I understand, now let me in!"
-msgstr "¡Entiendo, ahora déjame entrar!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1010,6 +1007,9 @@ msgid ""
 msgstr ""
 "Si crees que esto es un error, repórtalo en el {0}Servidor de Discord{1} o "
 "en {2}GitHub{3}."
+
+msgid "I understand, now let me in!"
+msgstr "¡Entiendo, ahora déjame entrar!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1668,11 +1668,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "El archivo seleccionado no es un archivo core.scs."
 
-msgid "This game was found at"
-msgstr "Este juego se encontró en"
-
 msgid "Translated by:"
 msgstr "Traducido por:"
+
+msgid "This game was found at"
+msgstr "Este juego se encontró en"
 
 msgid "Data Quality"
 msgstr "Calidad de los datos"
@@ -1811,11 +1811,11 @@ msgstr[1] "Se descubrieron {0} plugins instalados manualmente."
 msgid "Checking for updates..."
 msgstr "Comprobando actualizaciones..."
 
-msgid "Starting ETS2LA..."
-msgstr "Iniciando ETS2LA..."
-
 msgid "Catalogue"
 msgstr "Catálogo"
+
+msgid "Starting ETS2LA..."
+msgstr "Iniciando ETS2LA..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1912,18 +1912,18 @@ msgid "Display Units: "
 msgstr "Unidades de visualización: "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Advertencia: tu sistema tiene menos de 20 GB de RAM. Solo puedes seleccionar "
-"hasta Alto."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "El idioma en el que se mostrará ETS2LA. Las traducciones son proporcionadas "
 "por la comunidad, no podemos garantizar su precisión."
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Advertencia: tu sistema tiene menos de 20 GB de RAM. Solo puedes seleccionar "
+"hasta Alto."
 
 msgid "Interaction Mode"
 msgstr "Modo de interacción"

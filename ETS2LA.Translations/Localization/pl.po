@@ -3,17 +3,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
+"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
 "PO-Revision-Date: 2026-08-31 16:46+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
-"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/>"
-"\n"
+"Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/"
+">\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.14.3\n"
 
 msgid ""
@@ -234,11 +234,11 @@ msgstr "Wizualne"
 msgid "Additional"
 msgstr "Dodatkowe"
 
-msgid "Install Plugins"
-msgstr "Zainstaluj pluginy"
-
 msgid "Show Fewer Logs"
 msgstr "Pokaż mniej dzienników"
+
+msgid "Install Plugins"
+msgstr "Zainstaluj pluginy"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "Nie zostawie ETS2LA bez nadzoru"
@@ -341,13 +341,13 @@ msgstr ""
 "Jak wcześnie ETS2LA będzie próbowało reagować na możliwe kolizje. Wyłączenie "
 "tej opcji wyłączy unikanie kolizji, niezależnie od włączonych wtyczek."
 
+msgid "The selected file does not exist."
+msgstr "Wybrany plik nie istnieje."
+
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Wspomaganie właczone: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-msgid "The selected file does not exist."
-msgstr "Wybrany plik nie istnieje."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -778,13 +778,13 @@ msgstr[2] "Znaleziono {0} prefabrykaty"
 msgid "Pascals"
 msgstr "Paskale"
 
-#, csharp-format
-msgid "Failed to disable {0}: {1}"
-msgstr "Nie udało się wyłączyć {0}: {1}"
-
 msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 "Tutaj możesz włączyć pluginy, które zainstalowaliśmy w poprzednim kroku."
+
+#, csharp-format
+msgid "Failed to disable {0}: {1}"
+msgstr "Nie udało się wyłączyć {0}: {1}"
 
 msgid "SDK Installed"
 msgstr "Zainstalowano zestaw SDK"
@@ -852,11 +852,11 @@ msgstr "Postęp pobierania: {0}%"
 msgid "Search for plugins..."
 msgstr "Wyszukaj pluginy..."
 
-msgid "SDK Installation"
-msgstr "Instalacja zestawu SDK"
-
 msgid "Assists"
 msgstr "Asysty"
+
+msgid "SDK Installation"
+msgstr "Instalacja zestawu SDK"
 
 msgid "mph"
 msgstr "mph"
@@ -1022,9 +1022,6 @@ msgid "Failed to install latest version of plugin with ID {0}."
 msgstr ""
 "Nie udało się zainstalować najnowszej wersji pluginu o identyfikatorze {0}."
 
-msgid "I understand, now let me in!"
-msgstr "Rozumiem, teraz mnie wpuść!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1032,6 +1029,9 @@ msgid ""
 msgstr ""
 "Jeśli uważasz, że to błąd, zgłoś to na {0}serwerze Discord{1} lub na {2}"
 "GitHubie{3}."
+
+msgid "I understand, now let me in!"
+msgstr "Rozumiem, teraz mnie wpuść!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1697,11 +1697,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Wybrany plik nie jest plikiem core.scs ."
 
-msgid "This game was found at"
-msgstr "Tę grę znaleziono pod adresem"
-
 msgid "Translated by:"
 msgstr "Przetłumaczone przez:"
+
+msgid "This game was found at"
+msgstr "Tę grę znaleziono pod adresem"
 
 msgid "Data Quality"
 msgstr "Jakość danych"
@@ -1840,11 +1840,11 @@ msgstr[2] "Odkryto {0} ręcznie zainstalowanych pluginów."
 msgid "Checking for updates..."
 msgstr "Sprawdzanie aktualizacji..."
 
-msgid "Starting ETS2LA..."
-msgstr "Uruchamianie ETS2LA..."
-
 msgid "Catalogue"
 msgstr "Katalog"
+
+msgid "Starting ETS2LA..."
+msgstr "Uruchamianie ETS2LA..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1940,18 +1940,18 @@ msgid "Display Units: "
 msgstr "Wyświetlane jednostki: "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Ostrzeżenie: Twój system ma mniej niż 20 GB pamięci RAM. Możesz wybrać "
-"maksymalnie opcję Wysoka."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "Język w jakim będzie wyświetlany ETS2LA. Tłumaczenia są tworzone przez "
 "społeczność, nie gwarantujemy ich dokładności."
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Ostrzeżenie: Twój system ma mniej niż 20 GB pamięci RAM. Możesz wybrać "
+"maksymalnie opcję Wysoka."
 
 msgid "Interaction Mode"
 msgstr "Tryb interakcji"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
+"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -223,11 +223,11 @@ msgstr "视觉提示"
 msgid "Additional"
 msgstr "其他"
 
-msgid "Install Plugins"
-msgstr "安装插件"
-
 msgid "Show Fewer Logs"
 msgstr "显示更少日志"
+
+msgid "Install Plugins"
+msgstr "安装插件"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "我不会在无人看管的情况下运行 ETS2LA"
@@ -323,13 +323,13 @@ msgstr ""
 "调整 ETS2LA 对潜在碰撞的反应提前程度。关闭时，无论启用了什么插件，防碰撞功能"
 "都会停用。"
 
+msgid "The selected file does not exist."
+msgstr "选中的文件不存在。"
+
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "已启用的辅助功能：<span class=\"text-text-accent font-bold\">{0}</span>"
-
-msgid "The selected file does not exist."
-msgstr "选中的文件不存在。"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -726,12 +726,12 @@ msgstr[0] "找到 {0} 个预制件"
 msgid "Pascals"
 msgstr "帕斯卡（压力单位）"
 
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr "您可以在此处启用我们在上一步安装的插件。"
+
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "停用 {0} 失败:{1}"
-
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr "您可以在此处启用我们在上一步安装的插件。"
 
 msgid "SDK Installed"
 msgstr "已安装SDK"
@@ -796,11 +796,11 @@ msgstr "下载进度：{0}%"
 msgid "Search for plugins..."
 msgstr "搜索插件…"
 
-msgid "SDK Installation"
-msgstr "安装SDK"
-
 msgid "Assists"
 msgstr "辅助"
+
+msgid "SDK Installation"
+msgstr "安装SDK"
 
 msgid "mph"
 msgstr "mph"
@@ -949,15 +949,15 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "ID 为 {0} 的插件最新版本安装失败。"
 
-msgid "I understand, now let me in!"
-msgstr "我明白了，现在让我进入！"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
 "如果你认为这是一个错误，请在 {0}Discord 服务器{1} 或 {2}GitHub{3} 报告。"
+
+msgid "I understand, now let me in!"
+msgstr "我明白了，现在让我进入！"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1562,11 +1562,11 @@ msgstr "解析仍会继续，但此文件中的信息将无法供 ETS2LA 使用�
 msgid "The selected file is not a core.scs file."
 msgstr "所选的文件不是 core.scs 文件。"
 
-msgid "This game was found at"
-msgstr "此游戏位于"
-
 msgid "Translated by:"
 msgstr "译者为："
+
+msgid "This game was found at"
+msgstr "此游戏位于"
 
 msgid "Data Quality"
 msgstr "数据质量"
@@ -1698,11 +1698,11 @@ msgstr[0] "发现 {0} 个手动安装的插件。"
 msgid "Checking for updates..."
 msgstr "正在检查更新..."
 
-msgid "Starting ETS2LA..."
-msgstr "正在启动 ETS2LA..."
-
 msgid "Catalogue"
 msgstr "插件库"
+
+msgid "Starting ETS2LA..."
+msgstr "正在启动 ETS2LA..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1792,14 +1792,14 @@ msgid "Display Units: "
 msgstr "显示单位： "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr "警告：你的系统内存少于 20GB。你最多只能选择“高”。"
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr "ETS2LA 的显示语言。翻译由社区提供，我们无法保证其准确性。"
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr "警告：你的系统内存少于 20GB。你最多只能选择“高”。"
 
 msgid "Interaction Mode"
 msgstr "互动模式"

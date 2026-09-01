@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
+"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
 "PO-Revision-Date: 2026-08-30 22:59+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
@@ -233,11 +233,11 @@ msgstr "Визуальное"
 msgid "Additional"
 msgstr "Дополнительно"
 
-msgid "Install Plugins"
-msgstr "Установить плагины"
-
 msgid "Show Fewer Logs"
 msgstr "Показать меньше записей журнала"
+
+msgid "Install Plugins"
+msgstr "Установить плагины"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "Я не буду оставлять ETS2LA без присмотра"
@@ -340,13 +340,13 @@ msgstr ""
 "столкновения. Если отключить этот параметр, предотвращение столкновений "
 "будет выключено независимо от включённых плагинов."
 
+msgid "The selected file does not exist."
+msgstr "Выбранный файл не существует."
+
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Ассистенты включены: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-msgid "The selected file does not exist."
-msgstr "Выбранный файл не существует."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -774,12 +774,12 @@ msgstr[2] "Найдено {0} префабов"
 msgid "Pascals"
 msgstr "Паскали"
 
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr "Здесь можно включить плагины, установленные на предыдущем шаге."
+
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "Не удалось отключить {0}: {1}"
-
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr "Здесь можно включить плагины, установленные на предыдущем шаге."
 
 msgid "SDK Installed"
 msgstr "SDK установлен"
@@ -846,11 +846,11 @@ msgstr "Загрузка: {0}%"
 msgid "Search for plugins..."
 msgstr "Поиск плагинов..."
 
-msgid "SDK Installation"
-msgstr "Установка SDK"
-
 msgid "Assists"
 msgstr "Ассистенты"
+
+msgid "SDK Installation"
+msgstr "Установка SDK"
 
 msgid "mph"
 msgstr "миль/ч"
@@ -1012,9 +1012,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Не удалось установить последнюю версию плагина с ID {0}."
 
-msgid "I understand, now let me in!"
-msgstr "Всё понятно, теперь впустите меня!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1022,6 +1019,9 @@ msgid ""
 msgstr ""
 "Если вы считаете, что это ошибка, сообщите о ней на {0}сервере Discord{1} "
 "или на {2}GitHub{3}."
+
+msgid "I understand, now let me in!"
+msgstr "Всё понятно, теперь впустите меня!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1687,11 +1687,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Выбранный файл не является файлом core.scs."
 
-msgid "This game was found at"
-msgstr "Игра найдена по пути"
-
 msgid "Translated by:"
 msgstr "Перевод:"
+
+msgid "This game was found at"
+msgstr "Игра найдена по пути"
 
 msgid "Data Quality"
 msgstr "Качество данных"
@@ -1832,11 +1832,11 @@ msgstr[2] "Обнаружено {0} плагинов, установленных
 msgid "Checking for updates..."
 msgstr "Проверка обновлений..."
 
-msgid "Starting ETS2LA..."
-msgstr "Запуск ETS2LA..."
-
 msgid "Catalogue"
 msgstr "Каталог"
+
+msgid "Starting ETS2LA..."
+msgstr "Запуск ETS2LA..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1932,18 +1932,18 @@ msgid "Display Units: "
 msgstr "Единицы измерения: "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Предупреждение: в вашей системе меньше 20 ГБ оперативной памяти. Можно "
-"выбрать уровень не выше высокого."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "Язык интерфейса ETS2LA. Переводы предоставляются сообществом, поэтому мы не "
 "можем гарантировать их точность."
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Предупреждение: в вашей системе меньше 20 ГБ оперативной памяти. Можно "
+"выбрать уровень не выше высокого."
 
 msgid "Interaction Mode"
 msgstr "Режим взаимодействия"

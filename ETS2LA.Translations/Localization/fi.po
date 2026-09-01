@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
+"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
 "PO-Revision-Date: 2026-08-30 16:59+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
@@ -229,11 +229,11 @@ msgstr "Visuaalinen"
 msgid "Additional"
 msgstr "Lisäasetukset"
 
-msgid "Install Plugins"
-msgstr "Asenna Lisäosat"
-
 msgid "Show Fewer Logs"
 msgstr "Näytä vähemmän lokeja"
+
+msgid "Install Plugins"
+msgstr "Asenna Lisäosat"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr "En jätä sovellusta vahtimatta"
@@ -336,14 +336,14 @@ msgstr ""
 "tämän pois katkaisee törmäyksen eston riippumatta käynnissä olevista "
 "lisäosista."
 
+msgid "The selected file does not exist."
+msgstr "Valittu tiedosto ei ole olemassa."
+
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Ajotuet päällä: <span class=\"text-text-accent font-bold\">{0}</span> "
 "(\"True\" päällä, \"False\" pois)"
-
-msgid "The selected file does not exist."
-msgstr "Valittu tiedosto ei ole olemassa."
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -767,12 +767,12 @@ msgstr[1] "Löydettiin {0} risteystä"
 msgid "Pascals"
 msgstr "Paskalia"
 
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
+
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "Virhe lisäosan {0} sulkemisessa: {1}"
-
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
 
 msgid "SDK Installed"
 msgstr "SDK asennettu"
@@ -838,11 +838,11 @@ msgstr "Latauksen eteneminen: {0}%"
 msgid "Search for plugins..."
 msgstr "Hae lisäosia..."
 
-msgid "SDK Installation"
-msgstr "SDK:n asennus"
-
 msgid "Assists"
 msgstr "Ajotuet"
+
+msgid "SDK Installation"
+msgstr "SDK:n asennus"
 
 msgid "mph"
 msgstr "mph"
@@ -1005,9 +1005,6 @@ msgstr ""
 msgid "Failed to install latest version of plugin with ID {0}."
 msgstr "Virhe lisäosan {0} uusimman version latauksessa."
 
-msgid "I understand, now let me in!"
-msgstr "Ymmärrän, päästä jo sisään!"
-
 #, csharp-format
 msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
@@ -1015,6 +1012,9 @@ msgid ""
 msgstr ""
 "Jos uskot tämän olevan pikku bugi, kerro meille {0}Discordissa{1} tai {2}"
 "GitHubissa{3}, jotta kärpäslätkä ohjataan oikeaan paikkaan."
+
+msgid "I understand, now let me in!"
+msgstr "Ymmärrän, päästä jo sisään!"
 
 msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
@@ -1671,11 +1671,11 @@ msgstr ""
 msgid "The selected file is not a core.scs file."
 msgstr "Valittu tiedosto ei ole core.scs."
 
-msgid "This game was found at"
-msgstr "Tämä peli löytyi"
-
 msgid "Translated by:"
 msgstr "Kääntäjänä toimi:"
+
+msgid "This game was found at"
+msgstr "Tämä peli löytyi"
 
 msgid "Data Quality"
 msgstr "Karttadatan Laatu"
@@ -1810,11 +1810,11 @@ msgstr[1] "Löydettiin {0} manuaalisesti asennettua lisäosaa."
 msgid "Checking for updates..."
 msgstr "Tarkastetaan päivityksiä..."
 
-msgid "Starting ETS2LA..."
-msgstr "Käynnistetään..."
-
 msgid "Catalogue"
 msgstr "Luettelo"
+
+msgid "Starting ETS2LA..."
+msgstr "Käynnistetään..."
 
 msgid ""
 "How ETS2LA will warn you about exceeding the speed limit by a major amount."
@@ -1910,18 +1910,18 @@ msgid "Display Units: "
 msgstr "Yksiköt: "
 
 msgid ""
-"Warning: Your system has less than 20GB of RAM. You can only select up to "
-"High."
-msgstr ""
-"Varoitus: Laitteessasi on vähemmän kuin 20GB muistia. Voit valita "
-"korkeintaan \"Korkea\" asetuksen."
-
-msgid ""
 "The language ETS2LA will be displayed at. Translations are provided by the "
 "community, we cannot guarantee their accuracy."
 msgstr ""
 "Kieli jolla ETS2LA näytetään. Käännökset ovat yhteysön tekemiä, joten emme "
 "takaa niiden laatua. Paitsi suomeksi tietenkin, kirjoitettu by yours truly."
+
+msgid ""
+"Warning: Your system has less than 20GB of RAM. You can only select up to "
+"High."
+msgstr ""
+"Varoitus: Laitteessasi on vähemmän kuin 20GB muistia. Voit valita "
+"korkeintaan \"Korkea\" asetuksen."
 
 msgid "Interaction Mode"
 msgstr "Muokkaustila"
