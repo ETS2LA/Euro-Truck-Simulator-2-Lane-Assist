@@ -1,12 +1,13 @@
 # ShengFan <shengfan@ets2la.com>, 2026.
 # goodnightan <goodnightan@ets2la.com>, 2026.
 # Lun <lun@ets2la.com>, 2026.
+# MRUIAW <mruiaw@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
-"PO-Revision-Date: 2026-08-31 13:17+0000\n"
-"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
+"PO-Revision-Date: 2026-09-01 13:21+0000\n"
+"Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -998,9 +999,8 @@ msgstr "已停用插件：[bold]{0}[/]"
 msgid "Continue"
 msgstr "继续"
 
-#, fuzzy
 msgid "Cancel/MODE"
-msgstr "Cancel/MODE"
+msgstr "取消/MODE - 模式"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1328,9 +1328,8 @@ msgstr "已成功安装插件 {0}（{1}，{2}）"
 msgid "Installation at '{0}' has already been parsed."
 msgstr "游戏安装位置“{0}”已完成解析。"
 
-#, fuzzy
 msgid "Increase/RES"
-msgstr "Increase/RES"
+msgstr "增加/RES - 重置"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1427,9 +1426,8 @@ msgstr "psi"
 msgid "An error occurred while loading file '{0}': {1}"
 msgstr "加载文件“{0}”时发生错误：{1}"
 
-#, fuzzy
 msgid "Next/OK"
-msgstr "Next/OK"
+msgstr "下一个/OK - 确定"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1746,9 +1744,8 @@ msgid ""
 "your monitor's DPI settings."
 msgstr "ETS2LA 窗口的缩放级别。可用来将窗口调整至与你显示器的 DPI 设置相匹配。"
 
-#, fuzzy
 msgid "Decrease/SET"
-msgstr "Decrease/SET"
+msgstr "减少/SET"
 
 msgid "Finished loading plugins"
 msgstr "插件加载完成"
