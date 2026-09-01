@@ -1,12 +1,13 @@
 # äkv <akvvno@ets2la.com>, 2026.
+# Kivanc <kivanc@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
-"PO-Revision-Date: 2026-08-22 12:25+0000\n"
-"Last-Translator: äkv <akvvno@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
-">\n"
+"PO-Revision-Date: 2026-09-01 17:06+0000\n"
+"Last-Translator: Kivanc <kivanc@ets2la.com>\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
+"\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,26 +21,26 @@ msgid ""
 msgstr ""
 
 msgid "Unknown Control ID"
-msgstr ""
+msgstr "Bilinmeyen Kontrol Kimliği"
 
 msgid "Sorry"
-msgstr ""
+msgstr "Üzgünüm"
 
 msgid "Display"
-msgstr ""
+msgstr "Görüntü"
 
 msgid "Overlay Interaction"
 msgstr ""
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "SDK Kurulumu Başarısız Oldu"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
 msgstr ""
 
 msgid "Anonymous Telemetry"
-msgstr ""
+msgstr "Anonim Telemetri"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating bindings."
@@ -49,43 +50,50 @@ msgid ""
 "Force ETS2LA to load the map on game startup. This can resolve issues where "
 "your game.log.txt is not where ETS2LA expects it."
 msgstr ""
+"Oyun başlangıcında ETS2LA'yı haritayı yüklemeye zorlayın. Bu işlem, "
+"game.log.txt dosyanızın ETS2LA'nın beklediği yerde olmamasından kaynaklanan "
+"sorunları çözebilir."
 
 msgid "Game SDK"
 msgstr ""
 
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "Trafik Kurallarını Göz Ardı Et"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
-msgstr ""
+msgstr "'{0}' konumundaki kurulumun ayrıştırılması (sürüm: {1})"
 
 msgid ""
 "When changing the speed, snap to the nearest 10. i.e. 37 -> 39 -> 40 -> 42..."
 msgstr ""
+"Hızı değiştirirken en yakın 10'luk değere sabitleyin. Örn. 37 -> 39 -> 40 -> "
+"42..."
 
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"Mevcut hedef hızı bir kademe düşürür. Hız kontrolü ve şerit takip sistemi "
+"kapalıysa, bu tuş AYARLA işlevi görür. Yani mevcut hızı hız sınırına ayarlar."
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "Yüklendi {0}"
 
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr ""
+msgstr "'{0}' adresinden harita verileri yüklenirken hata oluştu: {1}"
 
 msgid "Medium"
-msgstr ""
+msgstr "Orta"
 
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maksimum Hız"
 
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
@@ -97,7 +105,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
-msgstr ""
+msgstr "{0} ({1}) kontrolü için bağlama işlemi başlatılıyor"
 
 #, csharp-format
 msgid "Failed to enable dependency: {0}"
@@ -122,13 +130,13 @@ msgstr[1] ""
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
-msgstr ""
+msgstr "{0} ({1}) kontrolü için bağlama işlemi zaman aşımına uğradı."
 
 msgid "Dashboard"
-msgstr ""
+msgstr "Gösterge Paneli"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Güncelleme Mevcut"
 
 msgid "Error in navigation update loop."
 msgstr ""
@@ -137,20 +145,24 @@ msgid ""
 "Warning: Your system has less than 16GB of RAM. You can only select up to "
 "Medium."
 msgstr ""
+"Uyarı: Sisteminizde 16GB'tan daha az RAM bulunmaktadır. En fazla \"Orta\" "
+"seviyeyi seçebilirsiniz."
 
 msgid "Window Zoom"
-msgstr ""
+msgstr "Pencere Yakınlaştırma"
 
 msgid "Show More Logs"
-msgstr ""
+msgstr "Daha fazla günlük göster"
 
 msgid ""
 "Cracked games or demos will block our SDK from loading. They do not work, "
 "and we don't intend to fix this."
 msgstr ""
+"Korsan oyunlar veya demolar SDK'mızın yüklenmesini engeller. Bunlar çalışmaz "
+"ve bunu düzeltmeyi planlamıyoruz."
 
 msgid "km/h"
-msgstr ""
+msgstr "km/sa"
 
 msgid ""
 "ETS2LA will display information on top of the game. You can interact with "
@@ -159,13 +171,13 @@ msgid ""
 msgstr ""
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "Pencereyle etkileşim kuramıyorsanız, CTRL+R tuşlarına basın."
 
 msgid "The step size for changing the cruise control speed."
 msgstr ""
 
 msgid "Welcome to ETS2LA!"
-msgstr ""
+msgstr "ETS2LA'ya Hoş Geldiniz!"
 
 msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
@@ -173,11 +185,11 @@ msgid ""
 msgstr ""
 
 msgid "Initializing..."
-msgstr ""
+msgstr "Başlatılıyor..."
 
 #, csharp-format
 msgid "Error rendering window {0}: {1}"
-msgstr ""
+msgstr "{0} penceresinin görüntülenmesi sırasında hata oluştu: {1}"
 
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
@@ -185,20 +197,23 @@ msgstr ""
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
-msgstr ""
+msgstr "'{0}' yüklenirken hata oluştu: {1}"
 
 msgid ""
 "ETS2LA requires you to install our <span class=\"text-text-accent font-"
 "bold\">SDK</span> to get started. Please install the SDK for <span "
 "class=\"text-text-accent font-bold\">at least one game</span> to continue."
 msgstr ""
+"ETS2LA'yı kullanmaya başlamak için <span class=\"text-text-accent font-bold\""
+">SDK'mızı</span>yüklemeniz gerekmektedir. Devam etmek için lütfen <span class"
+"=\"text-text-accent font-bold\">en az bir oyun</span>için SDK'yı yükleyin."
 
 #, csharp-format
 msgid "Successfully updated plugin with ID {0}."
-msgstr ""
+msgstr "{0} ID'li eklenti başarıyla güncellendi."
 
 msgid "Look in the top left corner."
-msgstr ""
+msgstr "Sol üst köşeye bakın."
 
 msgid "Visual"
 msgstr ""
@@ -207,24 +222,26 @@ msgid "Additional"
 msgstr ""
 
 msgid "Install Plugins"
-msgstr ""
+msgstr "Eklentileri Yükle"
 
 msgid "Show Fewer Logs"
-msgstr ""
+msgstr "Daha az günlük göster"
 
 msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
+msgstr "Güncelleme indirilirken hata oluştu: {0}"
 
 msgid "Keyboard"
-msgstr ""
+msgstr "Klavye"
 
 #, csharp-format
 msgid "No game executable found in '{0}', not adding it as an installation."
 msgstr ""
+"'{0}' dizininde çalıştırılabilir oyun dosyası bulunamadı, kurulum olarak "
+"eklenmiyor."
 
 msgid "Chime"
 msgstr ""
