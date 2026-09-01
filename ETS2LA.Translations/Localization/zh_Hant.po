@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-08-31 13:59:03+0300\n"
-"PO-Revision-Date: 2026-08-31 16:46+0000\n"
+"PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hant/>\n"
@@ -929,7 +929,7 @@ msgstr "音量"
 
 #, csharp-format
 msgid "Parsing sector {0} of {1}..."
-msgstr "正在解析區段 {0}/{1}..."
+msgstr "正在解析區塊 {0}/{1}..."
 
 msgid "Unbound"
 msgstr "未綁定"
