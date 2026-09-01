@@ -4,10 +4,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
-"PO-Revision-Date: 2026-09-01 17:06+0000\n"
+"PO-Revision-Date: 2026-09-02 00:15+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
-"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
-">\n"
+"Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
+"\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,6 +19,9 @@ msgid ""
 "This setting drops redundant information while maintaining most detail "
 "objects (such as signs). Includes all hidden and AI only roads."
 msgstr ""
+"Bu ayar, çoğu detay nesnesini (örneğin tabelalar) korurken gereksiz "
+"bilgileri ortadan kaldırır. Gizli ve yalnızca yapay zeka tarafından "
+"kullanılan tüm yolları içerir."
 
 msgid "Unknown Control ID"
 msgstr "Bilinmeyen Kontrol Kimliği"
@@ -263,16 +266,18 @@ msgid ""
 "Adjust how ETS2LA will respond to necessary steering changes. This for "
 "example controls how quickly ETS2LA will lane-change."
 msgstr ""
+"ETS2LA'nın gerekli direksiyon hareketlerine nasıl tepki vereceğini "
+"ayarlayın. Bu ayar, örneğin ETS2LA'nın şerit değiştirme hızını belirler."
 
 #, csharp-format
 msgid "Successfully uninstalled plugin with ID {0}."
 msgstr ""
 
 msgid "No Update Available"
-msgstr ""
+msgstr "Güncelleme Mevcut Değil"
 
 msgid "Performance Overlay"
-msgstr ""
+msgstr "Performans Katmanı"
 
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
@@ -284,7 +289,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for updating axis behavior."
-msgstr ""
+msgstr "Eksen davranışını güncellemek için '{0}' ID'li kontrol bulunamadı."
 
 msgid "Networking"
 msgstr ""
@@ -299,14 +304,19 @@ msgid ""
 "Subscriptions will <span class=\"font-bold text-text-accent\">never</span> "
 "be required for using ETS2LA. They are a way you can support the development."
 msgstr ""
+"ETS2LA'yı kullanmak için abonelik <span class=\"font-bold text-text-accent\""
+">asla</span>zorunlu tutulmayacaktır. Abonelikler, geliştirme sürecine destek "
+"olabilmenizin bir yoludur."
 
 msgid "Data Parsing"
-msgstr ""
+msgstr "Veri Ayrıştırma"
 
 msgid ""
 "Service unavailable. The server is currently unable to handle the request "
 "due to temporary overloading or maintenance."
 msgstr ""
+"Hizmet kullanılamıyor. Sunucu geçici yoğunluk veya bakım çalışması nedeniyle "
+"şu anda isteği işleyemiyor."
 
 msgid "Enabled"
 msgstr ""
@@ -316,9 +326,12 @@ msgid ""
 "this to off will disable collision avoidance regardless of your enabled "
 "plugins."
 msgstr ""
+"ETS2LA'nın olası çarpışmalara ne kadar erken müdahale edeceğini belirler. Bu "
+"ayarı kapalı konuma getirmek, aktif eklentilerinizden bağımsız olarak "
+"çarpışma önleme özelliğini devre dışı bırakır."
 
 msgid "The selected file does not exist."
-msgstr ""
+msgstr "Seçilen dosya mevcut değil."
 
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
@@ -326,17 +339,17 @@ msgstr ""
 
 #, csharp-format
 msgid "Latest Version: {0}"
-msgstr ""
+msgstr "En Son Sürüm: {0}"
 
 msgid "Translating release notes..."
-msgstr ""
+msgstr "Sürüm notları çevriliyor..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
-msgstr ""
+msgstr "'{0}' adresinden sürüm okunamadı: {1}"
 
 msgid "Are you sure?"
-msgstr ""
+msgstr "Emin misin?"
 
 msgid "Render AR Elements"
 msgstr ""
@@ -348,6 +361,8 @@ msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
 msgstr ""
+"Bu tuş, kullanıcı arayüzündeki menülerde seçim yapmak için kullanılır. "
+"Ayrıca, bildirimler için onay tuşu işlevi de görür."
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -367,12 +382,14 @@ msgid ""
 "Bad gateway. The server, while acting as a gateway or proxy, received an "
 "invalid response from an inbound server."
 msgstr ""
+"Geçersiz ağ geçidi. Sunucu, ağ geçidi veya proxy işlevi görürken, gelen "
+"sunucudan geçersiz bir yanıt aldı."
 
 msgid "The server timed out waiting for the request from the client."
-msgstr ""
+msgstr "Sunucu, istemciden gelecek isteği beklerken zaman aşımına uğradı."
 
 msgid "Backend shutdown complete."
-msgstr ""
+msgstr "Backend kapatma işlemi tamamlandı."
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event subscription."
@@ -383,7 +400,7 @@ msgid "Unregistered control: {0} ({1})"
 msgstr ""
 
 msgid "Contact Us"
-msgstr ""
+msgstr "Bize Ulaşın"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
