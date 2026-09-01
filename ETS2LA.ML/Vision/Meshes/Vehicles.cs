@@ -1,6 +1,7 @@
 using Hexa.NET.OpenGL;
 using System.Numerics;
 using ETS2LA.Game.SDK;
+using ETS2LA.Game.Telemetry;
 using ETS2LA.Logging;
 using TruckLib;
 
@@ -135,6 +136,91 @@ public static class VisionVehicleUtils
                         trailer.Rotation,
                         trailer.Size);
                 }
+            }
+        }
+
+        return vertices;
+    }
+
+    public static List<Vector3> BuildCurrentVehicleGeometry()
+    {
+        List<Vector3> vertices = new();
+
+        GameTelemetry.Current.ReadTrailerData = true;
+        var data = GameTelemetry.Current.GetCurrentData();
+
+        if (data != null)
+        {
+            Vector3 rotation = data.truckPlacement.rotation.ToVector3();
+            float angle = (float)rotation.X * 360f;
+            if (angle < 0) angle += 360f;
+            angle = 360f - angle;
+
+            Quaternion truckRot = Quaternion.CreateFromYawPitchRoll(
+                angle * (float)Math.PI / 180f,
+                -(float)data.truckPlacement.rotation.Y * 360 * (float)Math.PI / 180f,
+                -(float)data.truckPlacement.rotation.Z * 360 * (float)Math.PI / 180f
+            );
+
+            Vector3 max = Vector3.Zero;
+            Vector3 min = Vector3.Zero;
+            Vector3 padding = new(0.5f, 0.2f, 0.5f);
+            foreach (var wheel in data.configVector.truckWheelPositions)
+            {
+                Vector3 wheelPos = new(
+                    (float)wheel.X,
+                    (float)wheel.Y,
+                    (float)wheel.Z
+                );
+
+                max = Vector3.Max(max, wheelPos);
+                min = Vector3.Min(min, wheelPos);
+            }
+
+            AddBox(
+                vertices,
+                data.truckPlacement.coordinate.ToVector3(),
+                truckRot,
+                max - min + padding
+            );
+
+            foreach (var trailer in data.trailers)
+            {
+                if (!trailer.comBool.attached)
+                    continue;
+
+                Vector3 trailerRotation = trailer.comDouble.worldRotation;
+                float trailerAngle = (float)trailerRotation.X * 360f;
+                if (trailerAngle < 0) trailerAngle += 360f;
+                trailerAngle = 360f - trailerAngle;
+
+                Quaternion trailerQuaternion = Quaternion.CreateFromYawPitchRoll(
+                    trailerAngle * (float)Math.PI / 180f,
+                    -(float)trailerRotation.Y * 360 * (float)Math.PI / 180f,
+                    -(float)trailerRotation.Z * 360 * (float)Math.PI / 180f
+                );
+
+                Vector3 trailerMax = Vector3.Zero;
+                Vector3 trailerMin = Vector3.Zero;
+                Vector3 trailerPadding = new(0.5f, 0.2f, 0.5f);
+                foreach (var wheel in trailer.comVector.wheelPositions.Concat([trailer.comVector.hookPosition]))
+                {
+                    Vector3 wheelPos = new(
+                        (float)wheel.X,
+                        (float)wheel.Y,
+                        (float)wheel.Z
+                    );
+
+                    trailerMax = Vector3.Max(trailerMax, wheelPos);
+                    trailerMin = Vector3.Min(trailerMin, wheelPos);
+                }
+
+                AddBox(
+                    vertices,
+                    trailer.comDouble.worldPosition,
+                    trailerQuaternion,
+                    trailerMax - trailerMin + trailerPadding
+                );
             }
         }
 

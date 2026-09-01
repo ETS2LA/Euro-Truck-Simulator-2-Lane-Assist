@@ -18,6 +18,12 @@
     {
         InvokeAsync(() =>
         {
+            if (notifications.Any(n => n.Id == notification.Id))
+            {
+                HandleNotificationUpdated(sender, notification);
+                return;
+            }
+
             notificationExitingStates[notification.Id] = false;
             notifications.Insert(0, notification);
             StateHasChanged();

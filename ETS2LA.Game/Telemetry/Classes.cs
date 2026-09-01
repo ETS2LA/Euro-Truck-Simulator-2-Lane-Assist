@@ -75,13 +75,24 @@ namespace ETS2LA.Game.Telemetry
 
     public class TrailerInfo
     {
-        public required ConBool conBool;
-        public required ComBool comBool;
-        public required ComUI comUI;
-        public required ComFloat comFloat;
-        public required ComVector comVector;
-        public required ComDouble comDouble;
-        public required ConString conString;
+        public ConBool conBool;
+        public ComBool comBool;
+        public ComUI comUI;
+        public ComFloat comFloat;
+        public ComVector comVector;
+        public ComDouble comDouble;
+        public ConString conString;
+
+        public TrailerInfo()
+        {
+            conBool = new ConBool();
+            comBool = new ComBool();
+            comUI = new ComUI();
+            comFloat = new ComFloat();
+            comVector = new ComVector();
+            comDouble = new ComDouble();
+            conString = new ConString();
+        }
     }
 
     // MARK: Main

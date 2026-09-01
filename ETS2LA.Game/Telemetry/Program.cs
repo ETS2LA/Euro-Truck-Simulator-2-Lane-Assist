@@ -30,6 +30,7 @@ public class GameTelemetry
     private GameTelemetryData? currentData = new();
     private bool shutdown = false;
 
+    public bool ReadTrailerData { get; set; } = false;
 
     string mmapName = "Local\\SCSTelemetry";
     string mmapNameLinux = "/dev/shm/SCSTelemetry";
@@ -169,6 +170,103 @@ public class GameTelemetry
         accessor = null;
         mmf?.Dispose();
         mmf = null;
+    }
+
+    private void ReadTrailer(int offset, byte[] data, int count, GameTelemetryData telemetryData)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var trailer = telemetryData.trailers[i];
+            
+            // ConBool
+            reader.ReadBool(offset, trailer.conBool.wheelSteerable.AsSpan(0, 16)); offset += 16 * 1;
+            reader.ReadBool(offset, trailer.conBool.wheelSimulated.AsSpan(0, 16)); offset += 16 * 1;
+            reader.ReadBool(offset, trailer.conBool.wheelPowered.AsSpan(0, 16)); offset += 16 * 1;
+            reader.ReadBool(offset, trailer.conBool.wheelLiftable.AsSpan(0, 16)); offset += 16 * 1;
+
+            // ComBool
+            reader.ReadBool(offset, trailer.comBool.wheelOnGround.AsSpan(0, 16)); offset += 16 * 1;
+            trailer.comBool.attached = reader.ReadBool(offset); offset += 1;
+            offset += 3; // Padding
+
+            // ComUI
+            reader.ReadInt(offset, trailer.comUI.wheelSubstance.AsSpan(0, 16)); offset += 16 * 4;
+            trailer.comUI.wheelCount = reader.ReadInt(offset); offset += 4;
+
+            // ComFloat
+            trailer.comFloat.cargoDamage = reader.ReadFloat(offset); offset += 4;
+            trailer.comFloat.wearChassis = reader.ReadFloat(offset); offset += 4;
+            trailer.comFloat.wearWheels = reader.ReadFloat(offset); offset += 4;
+            trailer.comFloat.wearBody = reader.ReadFloat(offset); offset += 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelSuspensionDeflection.AsSpan(0, 16)); offset += 16 * 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelVelocity.AsSpan(0, 16)); offset += 16 * 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelSteering.AsSpan(0, 16)); offset += 16 * 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelRotation.AsSpan(0, 16)); offset += 16 * 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelLift.AsSpan(0, 16)); offset += 16 * 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelLiftOffset.AsSpan(0, 16)); offset += 16 * 4;
+            reader.ReadFloat(offset, trailer.comFloat.wheelRadius.AsSpan(0, 16)); offset += 16 * 4;
+
+            // ComVector
+            trailer.comVector.linearVelocity = new Vector3(
+                reader.ReadFloat(offset),
+                reader.ReadFloat(offset + 4),
+                reader.ReadFloat(offset + 8)
+            ); offset += 12;
+            trailer.comVector.angularVelocity = new Vector3(
+                reader.ReadFloat(offset),
+                reader.ReadFloat(offset + 4),
+                reader.ReadFloat(offset + 8)
+            ); offset += 12;
+            trailer.comVector.linearAcceleration = new Vector3(
+                reader.ReadFloat(offset),
+                reader.ReadFloat(offset + 4),
+                reader.ReadFloat(offset + 8)
+            ); offset += 12;
+            trailer.comVector.angularAcceleration = new Vector3(
+                reader.ReadFloat(offset),
+                reader.ReadFloat(offset + 4),
+                reader.ReadFloat(offset + 8)
+            ); offset += 12;
+            trailer.comVector.hookPosition = new Vector3(
+                reader.ReadFloat(offset),
+                reader.ReadFloat(offset + 4),
+                reader.ReadFloat(offset + 8)
+            ); offset += 12;
+            for (int j = 0; j < 16; j++)
+            {
+                trailer.comVector.wheelPositions[j] = new Vector3(
+                    reader.ReadFloat(offset + j * 4),
+                    reader.ReadFloat(offset + 64 + j * 4),
+                    reader.ReadFloat(offset + 128 + j * 4)
+                );
+            } 
+            offset += 3 * 16 * 4;
+            offset += 4; // Padding
+
+            // ComDouble
+            trailer.comDouble.worldPosition = new Vector3Double(
+                reader.ReadDouble(offset),
+                reader.ReadDouble(offset + 8),
+                reader.ReadDouble(offset + 16)
+            ).ToVector3(); offset += 24;
+            trailer.comDouble.worldRotation = new Vector3Double(
+                reader.ReadDouble(offset),
+                reader.ReadDouble(offset + 8),
+                reader.ReadDouble(offset + 16)
+            ).ToVector3(); offset += 24;
+
+            // ConString
+            trailer.conString.id = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.cargoAccessoryId = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.bodyType = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.brandId = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.brand = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.name = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.chainType = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.licensePlate = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.licensePlateCountry = reader.ReadChar(offset, stringSize); offset += stringSize;
+            trailer.conString.licensePlateCountryId = reader.ReadChar(offset, stringSize); offset += stringSize;
+        }
     }
 
     private void Update()
@@ -531,6 +629,15 @@ public class GameTelemetry
         currentData.specialBool.refuel = reader.ReadBool(offset); offset += 1;
         currentData.specialBool.refuelPaid = reader.ReadBool(offset); offset += 1;
         offset += 90;
+
+        // Substances
+        offset += 25 * stringSize;
+
+        // Trailers
+        if (ReadTrailerData)
+        {
+            ReadTrailer(offset, buffer, 5, currentData);
+        }
 
         // Publish to the event bus
         Events.Current.Publish<GameTelemetryData>(EventString, currentData);

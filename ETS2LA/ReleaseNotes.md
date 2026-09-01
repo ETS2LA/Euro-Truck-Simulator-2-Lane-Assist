@@ -1,18 +1,8 @@
-### ETS2LA C# 2026.8.4972
-This is the first major ETS2LA release after the initial launch a month ago. The headline feature this release is an **Improved User Interface** and **Translations**.
-
-You might've also noticed that we transitioned to a new versioning system. All ETS2LA versions now use the following format:
-- `YEAR.MONTH.COMMIT`
-
-This simplifies versioning for us, and provides information on how old a specific ETS2LA version is without having to check the Github releases page. You'll also see how many actual updates have happened between each release by comparing the `COMMIT` numbers.
-
-### Changelog
-- Implemented new web based UI via `photino` and `blazor`. This runs via your system's default webview provider.
-- Implemented new translations framework at `ETS2LA.Translations`, this allows translation of ETS2LA, as well as our core plugins.
-- Implemented the ability for plugins to create their own UIs in the ETS2LA window. These are called `adjustments`, however plugins can create as many pages as they wish. These pages are accessed through a button in the manager.
-- ETS2LA has now transitioned to a new font called `Outfit`. This will be used on all our websites in the future.
-- You can now change the ETS2LA window zoom, though we automatically scale based on DPI, this could be useful for languages that use complex characters, such as Chinese or Japanese.
-- Added new onboarding process, this replaces the old somewhat confusing tutorial. `ETS2LA.Tutorials` is removed and no longer available for plugins.
+### ETS2LA C# 2026.9.4988
+- Vision cameras now include our vehicle and trailer in blue.
+- Moved @code block in `App.razor`, this seems to lessen the amount of crashes at startup due to Razor.
+- Telemetry can now include trailer information. Plugins will enable this if they need it.
+- Fixed crash when ETS2LA would add a notification that already existed. We now update the existing notification instead.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->

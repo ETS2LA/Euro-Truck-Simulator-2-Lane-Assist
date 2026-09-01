@@ -29,6 +29,7 @@ public class VisionHandler
 
     private SolidColor? solidColor;
     private RoadMesh? roadMesh;
+    private VehicleMesh? trafficMesh;
     private VehicleMesh? vehicleMesh;
 
     private bool shutdown = false;
@@ -62,6 +63,7 @@ public class VisionHandler
 
         solidColor = new SolidColor(gl);
         roadMesh = new RoadMesh(gl);
+        trafficMesh = new VehicleMesh(gl);
         vehicleMesh = new VehicleMesh(gl);
 
         Task.Run(() =>
@@ -113,11 +115,16 @@ public class VisionHandler
 
         // For vehicle rendering
         var vehicleVertices = VisionVehicleUtils.BuildVehicleGeometry(
-                                TrafficProvider.Current.GetCurrentTrafficData(),
-                                ParkedVehiclesProvider.Current.GetCurrentParkedVehicleData());
+                              TrafficProvider.Current.GetCurrentTrafficData(),
+                              ParkedVehiclesProvider.Current.GetCurrentParkedVehicleData());
         for(int i = 0; i < vehicleVertices.Count; i++)
             vehicleVertices[i] -= center;
-        vehicleMesh?.UpdateVertices(vehicleVertices);
+        trafficMesh?.UpdateVertices(vehicleVertices);
+
+        var truckVertices = VisionVehicleUtils.BuildCurrentVehicleGeometry();
+        for(int i = 0; i < truckVertices.Count; i++)
+            truckVertices[i] -= center;
+        vehicleMesh?.UpdateVertices(truckVertices);
 
         solidColor?.Use();
         foreach (var camera in Cameras)
@@ -129,6 +136,9 @@ public class VisionHandler
             roadMesh?.Draw();
 
             solidColor?.SetColor(new Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+            trafficMesh?.Draw();
+
+            solidColor?.SetColor(new Vector4(0.0f, 0.0f, 1.0f, 1.0f));
             vehicleMesh?.Draw();
 
             camera.EndRender();

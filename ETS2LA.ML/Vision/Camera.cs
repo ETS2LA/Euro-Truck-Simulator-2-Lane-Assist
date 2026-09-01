@@ -11,7 +11,7 @@ public class VirtualCamera
     public uint FramebufferId { get; private set; }
     public uint TextureId { get; private set; }
     public uint DepthbufferId { get; private set; }
-    
+
     public int Width { get; private set; }
     public int Height { get; private set; }
 
@@ -20,6 +20,9 @@ public class VirtualCamera
     public Quaternion Rotation { get; set; } = Quaternion.Identity;
     public Vector3 PositionOffset { get; set; } = Vector3.Zero;
     public float FieldOfView { get; set; } = 90f;
+
+    private readonly byte[] _pixelBuffer;
+    private readonly object _pixelLock = new();
 
     public VirtualCamera(string name, int width, int height, GL gl, Quaternion rotation = default, Vector3 positionOffset = default, float fieldOfView = 90f)
     {
@@ -30,6 +33,8 @@ public class VirtualCamera
         PositionOffset = positionOffset;
         FieldOfView = fieldOfView;
         this.gl = gl;
+
+        _pixelBuffer = new byte[Width * Height * 4]; // RGBA
 
         InitGLResources();
     }
@@ -68,7 +73,6 @@ public class VirtualCamera
             0
         );
 
-        // We want to generate a depth buffer too
         DepthbufferId = gl.GenRenderbuffer();
         gl.BindRenderbuffer(GLRenderbufferTarget.Renderbuffer, DepthbufferId);
         gl.RenderbufferStorage(GLRenderbufferTarget.Renderbuffer, GLInternalFormat.DepthComponent24, Width, Height);
@@ -118,7 +122,43 @@ public class VirtualCamera
 
     public void EndRender()
     {
+        // We save the frame data to the buffer before switching back to the
+        // default framebuffer. Plugins will then use this data to perform their own processing.
+        lock (_pixelLock)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = _pixelBuffer)
+                {
+                    gl.ReadPixels(
+                        0, 0, 
+                        Width, Height, 
+                        GLPixelFormat.Rgba, 
+                        GLPixelType.UnsignedByte, 
+                        ptr
+                    );
+                }
+            }
+        }
+
         gl.Disable(GLEnableCap.DepthTest);
         gl.BindFramebuffer(GLFramebufferTarget.Framebuffer, 0);
+    }
+
+    public byte[] GetPixelData(byte[]? targetBuffer = null)
+    {
+        int requiredSize = Width * Height * 4;
+
+        if (targetBuffer == null || targetBuffer.Length < requiredSize)
+        {
+            targetBuffer = new byte[requiredSize];
+        }
+
+        lock (_pixelLock)
+        {
+            Buffer.BlockCopy(_pixelBuffer, 0, targetBuffer, 0, requiredSize);
+        }
+
+        return targetBuffer;
     }
 }
