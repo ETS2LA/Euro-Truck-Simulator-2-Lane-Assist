@@ -167,7 +167,7 @@ public class ApplicationState
 
     private void ApplyLimits()
     {
-        float maxSpeed = UnitConversions.ToScientificUnits(UnitType.Speed, AssistanceSettings.Current.MaximumSpeed, DisplayUnits);
+        float maxSpeed = AssistanceSettings.Current.MaximumSpeed;
         if (DesiredSpeed > maxSpeed && maxSpeed > 0)
             DesiredSpeed = maxSpeed;
         if (DesiredSpeed < 0)
