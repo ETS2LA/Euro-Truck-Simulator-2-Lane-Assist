@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
-"PO-Revision-Date: 2026-09-02 00:15+0000\n"
+"PO-Revision-Date: 2026-09-02 15:03+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
 "\n"
@@ -40,7 +40,7 @@ msgstr "SDK Kurulumu Başarısız Oldu"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
-msgstr ""
+msgstr "{0} joystick'i açılamadı."
 
 msgid "Anonymous Telemetry"
 msgstr "Anonim Telemetri"
@@ -104,7 +104,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "Bağlı joystick: [bold]{0}[/] [gray italic]({1})[/]"
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -186,6 +186,8 @@ msgid ""
 "<span class=\"text-text-accent\"))>Success!</span> You can find more plugins "
 "in the catalogue later."
 msgstr ""
+"<span class=\"text-text-accent\"))>Başarılı!</span>Daha fazla eklentiyi daha "
+"sonra katalogda bulabilirsiniz."
 
 msgid "Initializing..."
 msgstr "Başlatılıyor..."
@@ -196,7 +198,7 @@ msgstr "{0} penceresinin görüntülenmesi sırasında hata oluştu: {1}"
 
 #, csharp-format
 msgid "Failed to refresh joysticks: {0}"
-msgstr ""
+msgstr "Joystick'ler yenilenemedi: {0}"
 
 #, csharp-format
 msgid "Error loading '{0}': {1}"
@@ -257,7 +259,7 @@ msgid "Fast"
 msgstr "Hızlı"
 
 msgid "Install Update and Restart"
-msgstr ""
+msgstr "Güncellemeyi yükleyin ve yeniden başlatın"
 
 msgid "Curve Quality"
 msgstr ""
@@ -281,7 +283,7 @@ msgstr "Performans Katmanı"
 
 #, csharp-format
 msgid "Disconnected joystick: [gray italic]({0})[/]"
-msgstr ""
+msgstr "Bağlantısı kesilen joystick: [gray italic]({0})[/]"
 
 #, csharp-format
 msgid "Update to {0}"
@@ -1236,6 +1238,8 @@ msgid ""
 "Changing the display language requires a restart of ETS2LA to take effect. "
 "Restart now?"
 msgstr ""
+"Görüntüleme dilini değiştirmek için ETS2LA'nın yeniden başlatılması gerekir. "
+"Şimdi yeniden başlatmak ister misiniz?"
 
 #, csharp-format
 msgid "Update to {0} from {1}"
@@ -1245,26 +1249,28 @@ msgid "Restarting ETS2LA..."
 msgstr "ETS2LA yeniden başlatılıyor..."
 
 msgid "ETS2LA is running."
-msgstr ""
+msgstr "ETS2LA çalışıyor."
 
 msgid "Restart"
-msgstr ""
+msgstr "Yeniden Başlat"
 
 msgid "Plugins"
 msgstr "Eklentiler"
 
 msgid "Close"
-msgstr ""
+msgstr "Kapalı"
 
 msgid "lbs"
-msgstr ""
+msgstr "lbs"
 
 #, csharp-format
 msgid "Tried to disable {0}, but it was not found among loaded plugins."
 msgstr ""
+"{0}'ı devre dışı bırakmaya çalıştım, ancak yüklü eklentiler arasında bu "
+"eklenti bulunamadı."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "Tam Otonom Sürüş"
 
 msgid "Install"
 msgstr ""
@@ -1274,15 +1280,17 @@ msgid ""
 "Tried to change update source to '{0}', but it was not found among available "
 "sources."
 msgstr ""
+"Güncelleme kaynağı '{0}' olarak değiştirilmeye çalışıldı, ancak mevcut "
+"kaynaklar arasında bulunamadı."
 
 msgid "Speed Limit"
-msgstr ""
+msgstr "Hız Limiti"
 
 msgid "Vision Cameras"
 msgstr ""
 
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
-msgstr ""
+msgstr "Bu sayfa henüz oluşturulmadı, ancak <i>yakında</i>oluşturulacak."
 
 #, csharp-format
 msgid "This might take a while... ({0}/{1})"
