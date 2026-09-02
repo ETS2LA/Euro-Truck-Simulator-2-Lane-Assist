@@ -57,7 +57,14 @@ public class UserInterface
             .SetChromeless(true);
 
         if (WindowSettings.Current.X != 0 || WindowSettings.Current.Y != 0)
-            app.MainWindow.Location = new System.Drawing.Point(WindowSettings.Current.X, WindowSettings.Current.Y);
+        {
+            // Check if within bounds
+            var point = new System.Drawing.Point(WindowSettings.Current.X, WindowSettings.Current.Y);
+            if (point.X >= 0 && point.Y >= 0 && point.X < app.MainWindow.MainMonitor.MonitorArea.Width && point.Y < app.MainWindow.MainMonitor.MonitorArea.Height)
+                app.MainWindow.SetLocation(point);
+            else
+                app.MainWindow.Center();
+        }
         else 
             app.MainWindow.Center();
 

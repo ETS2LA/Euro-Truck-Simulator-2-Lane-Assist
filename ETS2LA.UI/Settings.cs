@@ -32,6 +32,12 @@ public class WindowSettings
             {
                 X = loadedSettings.X;
                 Y = loadedSettings.Y;
+                if (X < 0 || Y < 0)
+                {
+                    // Reset, clearly wrong
+                    X = 0;
+                    Y = 0;
+                }
                 Width = loadedSettings.Width;
                 Height = loadedSettings.Height;
                 Zoom = loadedSettings.Zoom;

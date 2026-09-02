@@ -1,8 +1,6 @@
-### ETS2LA C# 2026.9.4988
-- Vision cameras now include our vehicle and trailer in blue.
-- Moved @code block in `App.razor`, this seems to lessen the amount of crashes at startup due to Razor.
-- Telemetry can now include trailer information. Plugins will enable this if they need it.
-- Fixed crash when ETS2LA would add a notification that already existed. We now update the existing notification instead.
+### ETS2LA C# 2026.9.4993
+- Fix issues where ETS2LA would startup outside of the screen bounds. We now check the saved values *before* applying them to the window. If the values are outside bounds, we will center the window instead.
+- **Dylan B.** - Fix issue where the target speed would get stuck at 33.33km/h.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
