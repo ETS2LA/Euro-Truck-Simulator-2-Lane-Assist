@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
+"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
 "PO-Revision-Date: 2026-08-30 16:09+0000\n"
 "Last-Translator: retroposition <retroposition@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
@@ -239,12 +239,12 @@ msgstr "Afficher moins de journaux"
 msgid "Install Plugins"
 msgstr "Installer les plugins"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "Je ne laisserai pas ETS2LA sans surveillance"
-
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Erreur lors du téléchargement de la mise à jour : {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "Je ne laisserai pas ETS2LA sans surveillance"
 
 msgid "Keyboard"
 msgstr "Clavier"
@@ -781,14 +781,14 @@ msgstr[1] "{0} prefabs trouvés"
 msgid "Pascals"
 msgstr "Pascals"
 
+#, csharp-format
+msgid "Failed to disable {0}: {1}"
+msgstr "Échec de la désactivation de {0} : {1}"
+
 msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 "Vous pouvez activer ici les plugins que nous avons installés lors d'une "
 "étape précédente."
-
-#, csharp-format
-msgid "Failed to disable {0}: {1}"
-msgstr "Échec de la désactivation de {0} : {1}"
 
 msgid "SDK Installed"
 msgstr "SDK installé"
@@ -1198,11 +1198,11 @@ msgstr "Échec de l'ajout du jeu"
 msgid "Font file not found at {0}"
 msgstr "Fichier de police introuvable à l'emplacement {0}"
 
-msgid "Changelog"
-msgstr "Journal des modifications"
-
 msgid "No release notes available."
 msgstr "Aucune note de version disponible."
+
+msgid "Changelog"
+msgstr "Journal des modifications"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1629,19 +1629,19 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Erreur lors de l'initialisation du fichier mappé en mémoire : {0}"
 
 #, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
+
+#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Mode assistance : <span class=\"text-text-accent font-bold\">{0}</span>"
 
-#, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
+msgid "Adjust the volume of the audio output."
+msgstr "Ajuste le volume de la sortie audio."
 
 msgid "View Public Telemetry"
 msgstr "Afficher la télémétrie publique"
-
-msgid "Adjust the volume of the audio output."
-msgstr "Ajuste le volume de la sortie audio."
 
 #, csharp-format
 msgid ""

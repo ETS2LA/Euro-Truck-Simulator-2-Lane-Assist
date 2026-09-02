@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
+"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -229,12 +229,12 @@ msgstr "显示更少日志"
 msgid "Install Plugins"
 msgstr "安装插件"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "我不会在无人看管的情况下运行 ETS2LA"
-
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下载更新时发生错误：{0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "我不会在无人看管的情况下运行 ETS2LA"
 
 msgid "Keyboard"
 msgstr "键盘"
@@ -726,12 +726,12 @@ msgstr[0] "找到 {0} 个预制件"
 msgid "Pascals"
 msgstr "帕斯卡（压力单位）"
 
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr "您可以在此处启用我们在上一步安装的插件。"
-
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "停用 {0} 失败:{1}"
+
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr "您可以在此处启用我们在上一步安装的插件。"
 
 msgid "SDK Installed"
 msgstr "已安装SDK"
@@ -1106,11 +1106,11 @@ msgstr "游戏添加失败"
 msgid "Font file not found at {0}"
 msgstr "找不到字体文件：{0}"
 
-msgid "Changelog"
-msgstr "更新日志"
-
 msgid "No release notes available."
 msgstr "暂无更新日志。"
+
+msgid "Changelog"
+msgstr "更新日志"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1493,18 +1493,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化内存映射文件时发生错误：{0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "从 [gray]{0}[/] 加载插件失败：{1}"
 
-msgid "View Public Telemetry"
-msgstr "查看公开遥测数据"
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Adjust the volume of the audio output."
 msgstr "调整音频输出的音量。"
+
+msgid "View Public Telemetry"
+msgstr "查看公开遥测数据"
 
 #, csharp-format
 msgid ""

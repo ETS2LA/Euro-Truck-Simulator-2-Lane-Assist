@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
+"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
 "PO-Revision-Date: 2026-08-26 00:24+0000\n"
 "Last-Translator: svllyu <svllyu@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/ets2la/et/"
@@ -214,11 +214,11 @@ msgstr ""
 msgid "Install Plugins"
 msgstr ""
 
-msgid "I won't leave ETS2LA unattended"
-msgstr ""
-
 #, csharp-format
 msgid "Error while downloading update: {0}"
+msgstr ""
+
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 msgid "Keyboard"
@@ -696,11 +696,11 @@ msgstr[1] ""
 msgid "Pascals"
 msgstr ""
 
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
-
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
+msgstr ""
+
+msgid "You can enable the plugins we installed in a previous step here."
 msgstr ""
 
 msgid "SDK Installed"
@@ -1066,10 +1066,10 @@ msgstr "Mängu lisamine ebaõnnestus"
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "Changelog"
+msgid "No release notes available."
 msgstr ""
 
-msgid "No release notes available."
+msgid "Changelog"
 msgstr ""
 
 #, csharp-format
@@ -1448,18 +1448,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
+
+msgid "Adjust the volume of the audio output."
 msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Kuva avalik telemeetria"
-
-msgid "Adjust the volume of the audio output."
-msgstr ""
 
 #, csharp-format
 msgid ""

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
+"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
 "PO-Revision-Date: 2026-08-30 16:59+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
@@ -235,12 +235,12 @@ msgstr "Näytä vähemmän lokeja"
 msgid "Install Plugins"
 msgstr "Asenna Lisäosat"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "En jätä sovellusta vahtimatta"
-
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Virhe päivityksen latauksessa: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "En jätä sovellusta vahtimatta"
 
 msgid "Keyboard"
 msgstr "Näppäimistö"
@@ -767,12 +767,12 @@ msgstr[1] "Löydettiin {0} risteystä"
 msgid "Pascals"
 msgstr "Paskalia"
 
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
-
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "Virhe lisäosan {0} sulkemisessa: {1}"
+
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr "Voit käynnistää aikaisemmin asentamamme lisäosat täältä."
 
 msgid "SDK Installed"
 msgstr "SDK asennettu"
@@ -1172,11 +1172,11 @@ msgstr "Virhe pelin lisäämisessä"
 msgid "Font file not found at {0}"
 msgstr "Fonttia {0} ei löytynyt"
 
-msgid "Changelog"
-msgstr "Muutosloki"
-
 msgid "No release notes available."
 msgstr "Muutoslokia ei saatavilla."
+
+msgid "Changelog"
+msgstr "Muutosloki"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1596,18 +1596,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Virhe muistitiedoston avaamisessa: {0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "Ajomuoto: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Lisäosan lataus paikasta [gray]{0}[/] epäonnistui: {1}"
 
-msgid "View Public Telemetry"
-msgstr "Katso julkinen telemetria"
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "Ajomuoto: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Adjust the volume of the audio output."
 msgstr "Säädä äänenvoimakkuutta."
+
+msgid "View Public Telemetry"
+msgstr "Katso julkinen telemetria"
 
 #, csharp-format
 msgid ""

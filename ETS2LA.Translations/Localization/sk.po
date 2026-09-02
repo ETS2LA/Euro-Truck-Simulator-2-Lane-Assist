@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-01 20:06:00+0300\n"
+"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
@@ -237,12 +237,12 @@ msgstr "Zobraziť menej záznamov"
 msgid "Install Plugins"
 msgstr "Nainštalujte pluginy"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "Nenechám ETS2LA bez dozoru"
-
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Chyba pri sťahovaní aktualizácie: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "Nenechám ETS2LA bez dozoru"
 
 msgid "Keyboard"
 msgstr "Klávesnica"
@@ -771,13 +771,13 @@ msgstr[2] "Bolo nájdených {0} prefabov"
 msgid "Pascals"
 msgstr "Pascali"
 
-msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
-"Tu môžete aktivovať pluginy, ktoré sme nainštalovali v predchádzajúcom kroku."
-
 #, csharp-format
 msgid "Failed to disable {0}: {1}"
 msgstr "Nepodarilo sa vypnúť {0}: {1}"
+
+msgid "You can enable the plugins we installed in a previous step here."
+msgstr ""
+"Tu môžete aktivovať pluginy, ktoré sme nainštalovali v predchádzajúcom kroku."
 
 msgid "SDK Installed"
 msgstr "SDK je nainštalované"
@@ -1184,11 +1184,11 @@ msgstr "Nepodarilo sa pridať hru"
 msgid "Font file not found at {0}"
 msgstr "Súbor s písmom sa nenašiel v {0}"
 
-msgid "Changelog"
-msgstr "Zoznam zmien"
-
 msgid "No release notes available."
 msgstr "Poznámky k verzii nie sú k dispozícii."
+
+msgid "Changelog"
+msgstr "Zoznam zmien"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1614,18 +1614,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 
-msgid "View Public Telemetry"
-msgstr "Zobraziť verejnú telemetriu"
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Adjust the volume of the audio output."
 msgstr "Upravte hlasitosť zvukového výstupu."
+
+msgid "View Public Telemetry"
+msgstr "Zobraziť verejnú telemetriu"
 
 #, csharp-format
 msgid ""
