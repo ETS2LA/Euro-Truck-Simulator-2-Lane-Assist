@@ -56,17 +56,7 @@ public class UserInterface
             #endif
             .SetChromeless(true);
 
-        if (WindowSettings.Current.X != 0 || WindowSettings.Current.Y != 0)
-        {
-            // Check if within bounds
-            var point = new System.Drawing.Point(WindowSettings.Current.X, WindowSettings.Current.Y);
-            if (point.X >= 0 && point.Y >= 0 && point.X < app.MainWindow.MainMonitor.MonitorArea.Width && point.Y < app.MainWindow.MainMonitor.MonitorArea.Height)
-                app.MainWindow.SetLocation(point);
-            else
-                app.MainWindow.Center();
-        }
-        else 
-            app.MainWindow.Center();
+        app.MainWindow.Center();
 
         Current.Window = app.MainWindow;
         Current.Window.WindowSizeChanged += (sender, e) => {
@@ -74,6 +64,7 @@ public class UserInterface
             WindowSettings.Current.Height = e.Height;
         };
         Current.Window.WindowLocationChanged += (sender, e) => {
+            // TODO: Figure out why this saves incorrect values, then .SetLocation() at startup again.
             WindowSettings.Current.X = e.X;
             WindowSettings.Current.Y = e.Y;
         };

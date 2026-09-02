@@ -1,5 +1,5 @@
-### ETS2LA C# 2026.9.4993
-- Fix issues where ETS2LA would startup outside of the screen bounds. We now check the saved values *before* applying them to the window. If the values are outside bounds, we will center the window instead.
+### ETS2LA C# 2026.9.4994
+- Fix issues where ETS2LA would startup outside of the screen bounds. We now always center the window on startup. Expect a fix to saving incorrect coordinates at a later date.
 - **Dylan B.** - Fix issue where the target speed would get stuck at 33.33km/h.
 
 ---
