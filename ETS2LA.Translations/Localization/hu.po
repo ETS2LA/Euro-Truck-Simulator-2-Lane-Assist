@@ -1,10 +1,11 @@
 # H4ck3r_pr0_g4m3r <hpg@ets2la.com>, 2026.
+# delilevente <delilevente@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
-"PO-Revision-Date: 2026-08-22 15:13+0000\n"
-"Last-Translator: H4ck3r_pr0_g4m3r <hpg@ets2la.com>\n"
+"PO-Revision-Date: 2026-09-03 19:03+0000\n"
+"Last-Translator: delilevente <delilevente@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
 "hu/>\n"
 "Language: hu\n"
@@ -23,16 +24,16 @@ msgid "Unknown Control ID"
 msgstr ""
 
 msgid "Sorry"
-msgstr ""
+msgstr "Elnézést"
 
 msgid "Display"
-msgstr ""
+msgstr "Kijelző"
 
 msgid "Overlay Interaction"
-msgstr ""
+msgstr "Felület interakció"
 
 msgid "SDK Installation Failed"
-msgstr ""
+msgstr "SDK telepítése síkertelen"
 
 #, csharp-format
 msgid "Failed to open joystick {0}."
@@ -51,10 +52,10 @@ msgid ""
 msgstr ""
 
 msgid "Game SDK"
-msgstr ""
+msgstr "SDK"
 
 msgid "Ignore Traffic Rules"
-msgstr ""
+msgstr "\"Kresz\" figyelmen kivülhagyása"
 
 #, csharp-format
 msgid "Parsing installation at '{0}' (version: {1})"
@@ -65,7 +66,7 @@ msgid ""
 msgstr ""
 
 msgid "kg"
-msgstr ""
+msgstr "kg"
 
 msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
@@ -75,17 +76,17 @@ msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
-msgstr ""
+msgstr "{0} telepítve"
 
 #, csharp-format
 msgid "Error loading map data from '{0}': {1}"
-msgstr ""
+msgstr "Térkép adatok betöltése síkertelen volt innen '{0}': {1}"
 
 msgid "Medium"
-msgstr ""
+msgstr "Közepes"
 
 msgid "Maximum Speed"
-msgstr ""
+msgstr "Maximum Sebbeség"
 
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
@@ -93,7 +94,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
-msgstr ""
+msgstr "Csatlakoztatott joystick: [bold]{0}[/] [gray italic]({1})[/]"
 
 #, csharp-format
 msgid "Starting binding for control {0} ({1})"
@@ -117,8 +118,8 @@ msgstr ""
 #, csharp-format
 msgid "found {0} road"
 msgid_plural "found {0} roads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{0} utat talált"
+msgstr[1] "{0} utat talált"
 
 #, csharp-format
 msgid "Binding for control {0} ({1}) timed out."
