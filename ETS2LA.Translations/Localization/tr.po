@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
-"PO-Revision-Date: 2026-09-03 00:48+0000\n"
+"PO-Revision-Date: 2026-09-03 19:03+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
 "\n"
@@ -101,6 +101,7 @@ msgstr "Maksimum Hız"
 msgid ""
 "When the game reports itself being paused, ETS2LA won't render AR elements."
 msgstr ""
+"Oyun duraklatıldığını bildirdiğinde ETS2LA, AR ögelerini görüntülemeyecektir."
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1})[/]"
@@ -360,7 +361,7 @@ msgid "Render AR Elements"
 msgstr ""
 
 msgid "Unchanged / Unavailable"
-msgstr ""
+msgstr "Değişmedi / Kullanılamaz"
 
 msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
@@ -371,10 +372,10 @@ msgstr ""
 
 #, csharp-format
 msgid "LoaderException: {0}"
-msgstr ""
+msgstr "LoaderException: {0}"
 
 msgid "Data Fidelity"
-msgstr ""
+msgstr "Veri Sadakati"
 
 #, csharp-format
 msgid "Failed to uninstall current version of plugin with ID {0}."
@@ -409,13 +410,13 @@ msgstr "Bize Ulaşın"
 
 #, csharp-format
 msgid "Copied '{0}' to '{1}'"
-msgstr ""
+msgstr "'{0}', '{1}' dizinine kopyalandı"
 
 msgid "Clear Console"
-msgstr ""
+msgstr "Konsolu Temizle"
 
 msgid "show"
-msgstr ""
+msgstr "göster"
 
 msgid "Select core.scs"
 msgstr ""
@@ -535,7 +536,7 @@ msgid "gal"
 msgstr ""
 
 msgid "Error in camera update loop."
-msgstr ""
+msgstr "Kamera güncelleme döngüsünde hata."
 
 msgid "Enable"
 msgstr ""
@@ -569,12 +570,14 @@ msgid "Speed Control Step Size"
 msgstr ""
 
 msgid "Slow"
-msgstr ""
+msgstr "Yavaş"
 
 msgid ""
 "Authentication is required. The client must authenticate itself to get the "
 "requested response."
 msgstr ""
+"Kimlik doğrulama gereklidir. İstemci, istenen yanıtı alabilmek için "
+"kimliğini doğrulamalıdır."
 
 #, csharp-format
 msgid "Connected joystick: [bold]{0}[/] [gray italic]({1}, {2})[/]"
@@ -606,7 +609,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Received input from unknown joystick with instance ID {0}."
-msgstr ""
+msgstr "{0} ID'li bilinmeyen joystick'ten girdi algılandı."
 
 msgid ""
 "Adjust how quickly ETS2LA will respond to desired changes in acceleration. "
@@ -670,7 +673,7 @@ msgid "Updated bindings for control: {0} ({1}) to Device: {2}, Control: {3}"
 msgstr ""
 
 msgid "Pause When Unstable"
-msgstr ""
+msgstr "Kararsızlık Durumunda Duraklat"
 
 msgid "Stop Rendering When Game is Paused"
 msgstr "Oyun Duraklatıldığında İşlemeyi Durdur"
@@ -710,6 +713,9 @@ msgid ""
 "amounts of RAM, and may cause your system to become unstable. Please select "
 "a lower fidelity."
 msgstr ""
+"Sisteminizde 16 GB'tan az RAM bulunmaktadır. Yüksek veri kalitesi, önemli "
+"miktarda RAM kullanır ve sisteminizin kararsız çalışmasına sebep olabilir. "
+"Lütfen daha düşük bir kalite seviyesi seçin."
 
 #, csharp-format
 msgid "Failed to shutdown plugin {0}: {1}"
@@ -733,7 +739,7 @@ msgstr ""
 
 #, csharp-format
 msgid "{0} not found in supported languages."
-msgstr ""
+msgstr "{0} desteklenen dillerde bulunamadı."
 
 msgid "Assists Enabled: "
 msgstr ""
@@ -771,7 +777,7 @@ msgid "Limit Overlay Framerate"
 msgstr ""
 
 msgid "Wiki / FAQ"
-msgstr ""
+msgstr "Vikipedi / SSS"
 
 #, csharp-format
 msgid "Failed to install SDK from '{0}' to '{1}': {2}"
@@ -787,15 +793,17 @@ msgid ""
 "The request method is recognized by the server but is not supported by the "
 "target resource."
 msgstr ""
+"İstek yöntemi sunucu tarafından tanınmaktadır, ancak hedef kaynak tarafından "
+"desteklenmemektedir."
 
 msgid "Binding Successful"
-msgstr ""
+msgstr "Bağlama İşlemi Başarılı"
 
 msgid "Disable"
-msgstr ""
+msgstr "Devre dışı bırak"
 
 msgid "Controls"
-msgstr ""
+msgstr "Kontroller"
 
 #, csharp-format
 msgid "Unknown manifest type: {0}"
@@ -805,28 +813,30 @@ msgid ""
 "Ensure you don't have any mods installed in the root directory. Those have "
 "to be installed in Documents/Euro Truck Simulator 2/mod."
 msgstr ""
+"Ana dizinde herhangi bir mod yüklü olmadığından emin olun. Modlar "
+"\"Belgeler/Euro Truck Simulator 2/mod\" dizinine yüklenmelidir."
 
 #, csharp-format
 msgid "Download progress: {0}%"
-msgstr ""
+msgstr "İndirme ilerlemesi: %{0}"
 
 msgid "Search for plugins..."
-msgstr ""
+msgstr "Eklentileri ara..."
 
 msgid "Assists"
 msgstr ""
 
 msgid "SDK Installation"
-msgstr ""
+msgstr "SDK Kurulumu"
 
 msgid "mph"
-msgstr ""
+msgstr "mph"
 
 msgid "°F"
-msgstr ""
+msgstr "°F"
 
 msgid "Pa"
-msgstr ""
+msgstr "Pa"
 
 msgid "Game Telemetry"
 msgstr ""
@@ -846,17 +856,20 @@ msgstr "bar"
 msgid ""
 "Couldn't connect to the game. Please open ETS2 or ATS and enable the SDK."
 msgstr ""
+"Oyuna bağlanılamadı. Lütfen ETS2 veya ATS'yi açın ve SDK'yı etkinleştirin."
 
 msgid "Button"
 msgstr ""
 
 msgid "Add Game Manually"
-msgstr ""
+msgstr "Oyunu Manuel Ekle"
 
 msgid ""
 "In most situations, over half of ETS2LA's CPU use is consumed by the "
 "overlay. Limiting the framerate will reduce CPU usage."
 msgstr ""
+"Çoğu durumda, ETS2LA'nın CPU kullanımının yarısından fazlası overlay "
+"tarafından tüketilir. Kare hızını sınırlamak, CPU kullanımını azaltacaktır."
 
 msgid ""
 "This setting includes all available data, most of which is redundant. <span "
@@ -865,32 +878,35 @@ msgid ""
 msgstr ""
 
 msgid "Restart and Continue"
-msgstr ""
+msgstr "Yeniden Başlat ve Devam Et"
 
 msgid ""
 "Using simplified graphics can improve performance on lower-end hardware, or "
 "fix situations in which advanced features like shaders are not supported."
 msgstr ""
+"Sadeleştirilmiş grafikler kullanmak, düşük performanslı donanımlarda "
+"performansı artırabilir veya shader gibi gelişmiş özelliklerin "
+"desteklenmediği durumları çözebilir."
 
 #, csharp-format
 msgid "Failed to load map for installation at '{0}'"
 msgstr ""
 
 msgid "Not Connected"
-msgstr ""
+msgstr "Bağlı Değil"
 
 msgid "This page will be implemented in a future update."
-msgstr ""
+msgstr "Bu sayfa, gelecek bir güncellemede kullanıma sunulacaktır."
 
 msgid "You are running the latest version."
-msgstr ""
+msgstr "En son sürümü kullanıyorsunuz."
 
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 
 msgid "No plugins found."
-msgstr ""
+msgstr "Eklenti bulunamadı."
 
 msgid ""
 "When pressing the SET keybind, what should ETS2LA set as the current cruise "
@@ -898,7 +914,7 @@ msgid ""
 msgstr ""
 
 msgid "The selected directory does not exist."
-msgstr ""
+msgstr "Seçilen dizin mevcut değil."
 
 msgid ""
 "Adjust the quality of the curves used for path planning and visualization. "
@@ -907,13 +923,13 @@ msgstr ""
 
 #, csharp-format
 msgid "Error while applying update: {0}"
-msgstr ""
+msgstr "Güncelleme uygulanırken hata oluştu: {0}"
 
 msgid "Following Distance"
-msgstr ""
+msgstr "Takip Mesafesi"
 
 msgid "Check For Updates"
-msgstr ""
+msgstr "Güncellemeleri Kontrol Et"
 
 msgid "Telemetry"
 msgstr ""
@@ -954,6 +970,8 @@ msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"ETS2LA, gerçek hayattaki sistemlere benzer bir kontrol düzeni kullanır. Sağ "
+"tarafta bulunan varsayılan kontrolleri yeniden atayabilirsiniz."
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -964,6 +982,8 @@ msgid ""
 "If you think this is a bug, please report it in the {0}Discord Server{1} or "
 "on {2}GitHub{3}."
 msgstr ""
+"Bunun bir hata olduğunu düşünüyorsanız, lütfen bunu {0}Discord Sunucusunda{1}"
+" veya {2}GitHub'da{3} bildirin."
 
 msgid "I understand, now let me in!"
 msgstr ""
@@ -972,6 +992,8 @@ msgid ""
 "The maximum distance at which 3D elements will be rendered. Lowering this "
 "can be used to improve performance on lower-end hardware."
 msgstr ""
+"3D ögelerin işleneceği maksimum mesafe. Bu değeri düşürmek, düşük "
+"performanslı donanımlarda performansı artırmak için kullanılabilir."
 
 #, csharp-format
 msgid "Fetched {0} plugin from {1}"
@@ -980,23 +1002,25 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Metric"
-msgstr ""
+msgstr "Metrik"
 
 msgid "Error in telemetry update loop."
-msgstr ""
+msgstr "Telemetri güncelleme döngüsünde hata."
 
 msgid ""
 "Internal server error. The server encountered an unexpected condition that "
 "prevented it from fulfilling the request."
 msgstr ""
+"Dahili sunucu hatası. Sunucu, isteği yerine getirmesini engelleyen "
+"beklenmedik bir durumla karşılaştı."
 
 #, csharp-format
 msgid "Road template for {0} not found in SII file."
-msgstr ""
+msgstr "Sll dosyasında {0} için yol şablonu bulunamadı."
 
 #, csharp-format
 msgid "Failed to read log file at '{0}': {1}"
-msgstr ""
+msgstr "'{0}' konumundaki günlük dosyası okunamadı: {1}"
 
 #, csharp-format
 msgid "Updated axis behavior for control: {0} ({1}) to {2}"
@@ -1014,19 +1038,19 @@ msgstr ""
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
-msgstr ""
+msgstr "{0} etkinleştirilemedi: {1}"
 
 msgid "Acceleration Response"
 msgstr ""
 
 msgid "Error in parked vehicles update loop."
-msgstr ""
+msgstr "Park halindeki araçların güncelleme döngüsünde hata."
 
 msgid "The plugin was enabled successfully."
 msgstr ""
 
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 msgid "Unknown Control"
 msgstr ""
@@ -1042,17 +1066,19 @@ msgid ""
 "The server cannot find the requested resource. The URL may be misspelled, or "
 "the resource has been removed."
 msgstr ""
+"Sunucu istenen kaynağı bulamadı. URL yanlış yazılmış veya kaynak kaldırılmış "
+"olabilir."
 
 #, csharp-format
 msgid "Failed to install SDK version '{0}' to '{1}': {2}"
-msgstr ""
+msgstr "'{0}' SDK sürümünü '{1}' konumuna yükleme işlemi başarısız oldu: {2}"
 
 #, csharp-format
 msgid "Failed to read bundled update source marker: {0}"
 msgstr ""
 
 msgid "liters"
-msgstr ""
+msgstr "litre"
 
 #, csharp-format
 msgid "No valid versions found for plugin with ID {0}."
@@ -1075,10 +1101,10 @@ msgid "Downloading Update"
 msgstr ""
 
 msgid "Simplified Graphics"
-msgstr ""
+msgstr "Sadeleştirilmiş Grafikler"
 
 msgid "Steering Sensitivity"
-msgstr ""
+msgstr "Direksiyon Hassasiyeti"
 
 msgid "Disabled"
 msgstr ""
@@ -1090,6 +1116,8 @@ msgstr "{0}"
 msgid ""
 "This might take a while depending on your internet connection and the source."
 msgstr ""
+"Bu işlem, internet bağlantınızın hızına ve kaynağa bağlı olarak biraz zaman "
+"alabilir."
 
 msgid "No updates available."
 msgstr ""
@@ -1102,17 +1130,17 @@ msgid "Off"
 msgstr ""
 
 msgid "L"
-msgstr ""
+msgstr "L"
 
 msgid "Installing..."
 msgstr ""
 
 msgid "Failed to add game"
-msgstr ""
+msgstr "Oyun eklenemedi"
 
 #, csharp-format
 msgid "Font file not found at {0}"
-msgstr ""
+msgstr "Yazı tipi dosyası şu konumda bulunamadı: {0}"
 
 msgid "No release notes available."
 msgstr ""
@@ -1122,7 +1150,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
-msgstr ""
+msgstr "{0}'a geçiş algılandı, oyun verilerinin ayrıştırılması bekleniyor."
 
 #, csharp-format
 msgid "Currently running at {0} FPS."
@@ -1133,7 +1161,7 @@ msgid "Version {0} not found for plugin with ID {1}."
 msgstr ""
 
 msgid "Invalid file"
-msgstr ""
+msgstr "Geçersiz dosya"
 
 #, csharp-format
 msgid "Discovered {0} library in total"
@@ -1142,10 +1170,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Console"
-msgstr ""
+msgstr "Konsol"
 
 msgid "The game has been added successfully."
-msgstr ""
+msgstr "Oyun başarıyla eklendi."
 
 msgid ""
 "The server could not understand the request due to invalid syntax or "
@@ -1156,12 +1184,14 @@ msgstr ""
 msgid ""
 "Manually added game at '{0}' no longer contains a game executable, skipping."
 msgstr ""
+"'{0}' konumuna elle eklenen oyun artık bir yürütülebilir oyun dosyası "
+"içermediğinden atlanıyor."
 
 #, csharp-format
 msgid "Found {0} game installation."
 msgid_plural "Found {0} game installations."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Toplam {0} oyun kurulumu bulundu."
+msgstr[1] "Toplam {0} oyun kurulumu bulundu."
 
 msgid "Scientific"
 msgstr ""
@@ -1170,11 +1200,11 @@ msgid "Waiting..."
 msgstr ""
 
 msgid "hide"
-msgstr ""
+msgstr "gizle"
 
 #, csharp-format
 msgid "Update available: {0}"
-msgstr ""
+msgstr "Güncelleme mevcut: {0}"
 
 msgid "Error in traffic update loop."
 msgstr ""
@@ -1188,10 +1218,13 @@ msgid ""
 "bold\">recommended</span> plugins. These contain everything you need to get "
 "driving."
 msgstr ""
+"Hızlıca başlamak için, <span class=\"text-text-accent font-bold\">önerilen</"
+"span> eklentilerimizi yükleyebilirsiniz. Bunlar, kullanıma (sürüşe) başlamak "
+"için ihtiyacınız olan her şeyi içerir."
 
 #, csharp-format
 msgid "An error occurred while loading map data: {0}"
-msgstr ""
+msgstr "Harita verileri yüklenirken bir hata meydana geldi: {0}"
 
 #, csharp-format
 msgid "Loaded library plugin: [gray]{0}[/] from [gray]{1}[/]."
@@ -1201,13 +1234,13 @@ msgid "Responsiveness"
 msgstr ""
 
 msgid "Parsing Map Data"
-msgstr ""
+msgstr "Harita Verilerini Ayrıştırma"
 
 msgid "SDKs need to be installed."
 msgstr ""
 
 msgid "Hide Installed"
-msgstr ""
+msgstr "Yüklenenleri Gizle"
 
 msgid "Failed to initialize overlay, OpenGL initialization failed."
 msgstr ""
@@ -1223,7 +1256,7 @@ msgid ""
 msgstr ""
 
 msgid "Account"
-msgstr ""
+msgstr "Hesap"
 
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
@@ -1235,7 +1268,7 @@ msgid ""
 msgstr ""
 
 msgid "kilometers per hour"
-msgstr ""
+msgstr "kilometre/saat"
 
 #, csharp-format
 msgid "Control with ID '{0}' not found for event unsubscription."
