@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
 "PO-Revision-Date: 2026-09-03 19:03+0000\n"
-"Last-Translator: delilevente <delilevente@ets2la.com>\n"
+"Last-Translator: H4ck3r_pr0_g4m3r <hpg@ets2la.com>\n"
 "Language-Team: Hungarian <http://weblate.ets2la.com/projects/ets2la/ets2la/"
 "hu/>\n"
 "Language: hu\n"
@@ -105,7 +105,7 @@ msgid "Failed to enable dependency: {0}"
 msgstr ""
 
 msgid "Main"
-msgstr ""
+msgstr "Fő"
 
 #, csharp-format
 msgid ""
