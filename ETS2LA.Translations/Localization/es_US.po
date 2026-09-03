@@ -1,10 +1,11 @@
 # tsumiguel <tsumiguel@ets2la.com>, 2026.
+# McAs13 <tsumiguel@ets2la.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
-"PO-Revision-Date: 2026-08-27 20:59+0000\n"
-"Last-Translator: tsumiguel <tsumiguel@ets2la.com>\n"
+"PO-Revision-Date: 2026-09-03 19:03+0000\n"
+"Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
 "ets2la/es_US/>\n"
 "Language: es_US\n"
@@ -79,6 +80,9 @@ msgid ""
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
 msgstr ""
+"Disminuye la velocidad objetivo actual en un paso. Si el control de "
+"velocidad y el asistente de carril están desactivados, esta tecla actúa como "
+"SET. Es decir, establecerá la velocidad actual según el límite de velocidad."
 
 #, csharp-format
 msgid "Installed {0}"
@@ -170,9 +174,12 @@ msgid ""
 "these overlay elements using <span class=\"text-text-accent font-"
 "bold\">Overlay Interaction</span>. Try it!"
 msgstr ""
+"ETS2LA mostrará información sobre el juego. Puedes interactuar con estos "
+"elementos de la superposición usando <span class=\"text-text-accent font-"
+"bold\">Interacción con la superposición</span>. ¡Pruébalo!"
 
 msgid "If you can't interact with the Window, press CTRL+R."
-msgstr ""
+msgstr "Si no puedes interactuar con la ventana, pulsa CTRL+R."
 
 msgid "The step size for changing the cruise control speed."
 msgstr "El tamaño del paso para cambiar la velocidad del control de crucero."
@@ -338,6 +345,7 @@ msgstr "El archivo seleccionado no existe."
 #, csharp-format
 msgid "Assists Enabled: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Asistencias activadas: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 #, csharp-format
 msgid "Latest Version: {0}"
@@ -363,6 +371,8 @@ msgid ""
 "This key is used to select in UI menus. It also acts as the approval key for "
 "any notifications."
 msgstr ""
+"Esta tecla se usa para seleccionar en los menús de la interfaz. También "
+"actúa como tecla de aprobación para cualquier notificación."
 
 #, csharp-format
 msgid "LoaderException: {0}"
@@ -425,7 +435,7 @@ msgid "You took a wrong turn!"
 msgstr "¡Tomaste un giro equivocado!"
 
 msgid "Adaptive Cruise Control Only"
-msgstr ""
+msgstr "Solo control de crucero adaptativo"
 
 msgid "Initializing GLFW..."
 msgstr "Inicializando GLFW..."
@@ -751,7 +761,7 @@ msgid "{0} not found in supported languages."
 msgstr "{0} no se encontró en los idiomas admitidos."
 
 msgid "Assists Enabled: "
-msgstr ""
+msgstr "Asistencias activadas: "
 
 #, csharp-format
 msgid "Found {0} prefab"
@@ -995,6 +1005,9 @@ msgid ""
 "ETS2LA uses a control setup that should be similar to real life systems. You "
 "can rebind the default controls on the right side."
 msgstr ""
+"ETS2LA usa una configuración de controles que debería ser similar a los "
+"sistemas de la vida real. Puedes reasignar los controles predeterminados en "
+"el lado derecho."
 
 #, csharp-format
 msgid "Failed to install latest version of plugin with ID {0}."
@@ -1058,7 +1071,7 @@ msgid "Continue"
 msgstr "Continuar"
 
 msgid "Cancel/MODE"
-msgstr ""
+msgstr "Cancelar/MODE"
 
 #, csharp-format
 msgid "Failed enable {0}: {1}"
@@ -1112,6 +1125,8 @@ msgid ""
 "Will disable ETS2LA's assists when pressed. If assists are already disabled, "
 "this key will switch between driving modes."
 msgstr ""
+"Desactivará las asistencias de ETS2LA al pulsarse. Si las asistencias ya "
+"están desactivadas, esta tecla cambiará entre los modos de conducción."
 
 msgid "Binding thread started with no control to bind."
 msgstr "El hilo de enlace se inició sin ningún control para enlazar."
@@ -1284,6 +1299,10 @@ msgid ""
 "this key acts like RES. Meaning it will resume the last set target speed. If "
 "a last target speed was not set, this key acts like SET."
 msgstr ""
+"Aumenta la velocidad objetivo actual en un paso. Si las asistencias están "
+"desactivadas, esta tecla actúa como RES. Es decir, retomará la última "
+"velocidad objetivo establecida. Si no se estableció ninguna velocidad "
+"objetivo anterior, esta tecla actúa como SET."
 
 msgid "Account"
 msgstr "Cuenta"
@@ -1356,7 +1375,7 @@ msgstr ""
 "Se intentó desactivar {0}, pero no se encontró entre los plugins cargados."
 
 msgid "Full Self-Driving"
-msgstr ""
+msgstr "Conducción totalmente autónoma"
 
 msgid "Install"
 msgstr "Instalar"
@@ -1410,7 +1429,7 @@ msgid "Installation at '{0}' has already been parsed."
 msgstr "La instalación en '{0}' ya ha sido analizada."
 
 msgid "Increase/RES"
-msgstr ""
+msgstr "Aumentar/RES"
 
 #, csharp-format
 msgid "Failed to acquire joystick [gray italic]({0})[/]: {1}"
@@ -1420,7 +1439,7 @@ msgid "Far"
 msgstr "Larga"
 
 msgid "For now, please contact us on GitHub or Discord."
-msgstr ""
+msgstr "Por ahora, contáctanos en GitHub o Discord."
 
 msgid "K"
 msgstr "K"
@@ -1517,7 +1536,7 @@ msgid "An error occurred while loading file '{0}': {1}"
 msgstr "Se produjo un error al cargar el archivo '{0}': {1}"
 
 msgid "Next/OK"
-msgstr ""
+msgstr "Siguiente/Aceptar"
 
 msgid ""
 "ETS2LA is running as a system administrator. This puts your system at risk "
@@ -1586,6 +1605,7 @@ msgstr "Se eliminó '{0}'"
 #, csharp-format
 msgid "Target Speed: <span class=\"text-text-accent font-bold\">{0} {1}</span>"
 msgstr ""
+"Velocidad objetivo: <span class=\"text-text-accent font-bold\">{0}{1}</span>"
 
 #, csharp-format
 msgid "Error initializing memory mapped file: {0}"
@@ -1598,6 +1618,7 @@ msgstr "Error al cargar el plugin desde [gray]{0}[/]: {1}"
 #, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
+"Modo de asistencia: <span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "Adjust the volume of the audio output."
 msgstr "Ajusta el volumen de la salida de audio."
@@ -1641,7 +1662,7 @@ msgid "Use this button to extend the sidebar."
 msgstr "Usa este botón para expandir la barra lateral."
 
 msgid "Lane Assist Only"
-msgstr ""
+msgstr "Solo asistente de carril"
 
 msgid ""
 "This is a highly experimental program. ETS2LA is not perfect, and you will "
@@ -1832,7 +1853,7 @@ msgid "Playing sound: {0}"
 msgstr "Reproduciendo sonido: {0}"
 
 msgid "Assist Level: "
-msgstr ""
+msgstr "Nivel de asistencia: "
 
 #, csharp-format
 msgid "Cannot enable plugin {0} because dependency {1} was not found."
@@ -1863,7 +1884,7 @@ msgstr ""
 "ventana según la configuración de PPP de tu monitor."
 
 msgid "Decrease/SET"
-msgstr ""
+msgstr "Disminuir/SET"
 
 msgid "Finished loading plugins"
 msgstr "Finalizó la carga de plugins"
