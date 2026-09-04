@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
-"PO-Revision-Date: 2026-09-03 19:03+0000\n"
+"PO-Revision-Date: 2026-09-04 20:02+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/>"
 "\n"
@@ -758,7 +758,7 @@ msgid "Failed to disable {0}: {1}"
 msgstr "{0} devre dışı bırakılamadı: {1}"
 
 msgid "You can enable the plugins we installed in a previous step here."
-msgstr ""
+msgstr "Bir önceki adımda yüklenen eklentileri buradan etkinleştirebilirsiniz."
 
 msgid "SDK Installed"
 msgstr "SDK Yüklendi"
@@ -1120,14 +1120,14 @@ msgstr ""
 "alabilir."
 
 msgid "No updates available."
-msgstr ""
+msgstr "Güncelleme mevcut değil."
 
 #, csharp-format
 msgid "Error rendering overlay: {0}"
 msgstr ""
 
 msgid "Off"
-msgstr ""
+msgstr "Kapalı"
 
 msgid "L"
 msgstr "L"
@@ -1143,10 +1143,10 @@ msgid "Font file not found at {0}"
 msgstr "Yazı tipi dosyası şu konumda bulunamadı: {0}"
 
 msgid "No release notes available."
-msgstr ""
+msgstr "Sürüm notları mevcut değil."
 
 msgid "Changelog"
-msgstr ""
+msgstr "Değişiklik Günlüğü"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1178,7 +1178,7 @@ msgstr "Oyun başarıyla eklendi."
 msgid ""
 "The server could not understand the request due to invalid syntax or "
 "corrupted request data."
-msgstr ""
+msgstr "Sunucu, geçersiz sözdizimi veya bozuk veri nedeniyle isteği işleyemedi."
 
 #, csharp-format
 msgid ""
@@ -1207,7 +1207,7 @@ msgid "Update available: {0}"
 msgstr "Güncelleme mevcut: {0}"
 
 msgid "Error in traffic update loop."
-msgstr ""
+msgstr "Trafik güncelleme döngüsünde hata oluştu."
 
 #, csharp-format
 msgid "Error in plugin {0} Tick: {1}"
@@ -1237,7 +1237,7 @@ msgid "Parsing Map Data"
 msgstr "Harita Verilerini Ayrıştırma"
 
 msgid "SDKs need to be installed."
-msgstr ""
+msgstr "SDK'ların yüklenmesi gerekiyor."
 
 msgid "Hide Installed"
 msgstr "Yüklenenleri Gizle"
@@ -1260,7 +1260,7 @@ msgstr "Hesap"
 
 #, csharp-format
 msgid "Found {0} (version: {1}) at '{2}'"
-msgstr ""
+msgstr "'{2}' konumunda {0} (sürüm: {1}) bulundu"
 
 msgid ""
 "We can render elements in the game world using the overlay. This will use "
@@ -1295,7 +1295,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Update to {0} from {1}"
-msgstr ""
+msgstr "{1} sürümünden {0} sürümüne güncelle"
 
 msgid "Restarting ETS2LA..."
 msgstr "ETS2LA yeniden başlatılıyor..."
@@ -1339,7 +1339,7 @@ msgid "Speed Limit"
 msgstr "Hız Limiti"
 
 msgid "Vision Cameras"
-msgstr ""
+msgstr "Görüş Kameraları"
 
 msgid "This page hasn't been created yet, but it's coming <i>soon</i>."
 msgstr "Bu sayfa henüz oluşturulmadı, ancak <i>yakında</i>oluşturulacak."
@@ -1352,9 +1352,11 @@ msgid ""
 "Please complete this <span class=\"text-text-accent font-bold\">short</span> "
 "onboarding process to get started."
 msgstr ""
+"Başlamak için lütfen bu <span class=\"text-text-accent font-bold\">kısa</"
+"span>katılım sürecini tamamlayın."
 
 msgid "Remember!"
-msgstr ""
+msgstr "Hatırlatma!"
 
 msgid ""
 "Failed to fetch available plugins. Please check your internet connection."
@@ -1369,7 +1371,7 @@ msgstr "{0} ({1}, {2}) eklentisi başarıyla indirildi"
 
 #, csharp-format
 msgid "Installation at '{0}' has already been parsed."
-msgstr ""
+msgstr "'{0}' konumundaki kurulum zaten ayrıştırıldı."
 
 msgid "Increase/RES"
 msgstr ""
@@ -1382,23 +1384,23 @@ msgid "Far"
 msgstr ""
 
 msgid "For now, please contact us on GitHub or Discord."
-msgstr ""
+msgstr "Şimdilik, lütfen GitHub veya Discord üzerinden bizimle iletişime geçin."
 
 msgid "K"
-msgstr ""
+msgstr "K"
 
 msgid "Window"
-msgstr ""
+msgstr "Pencere"
 
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 msgid "Error Loading File"
-msgstr ""
+msgstr "Dosya Yükleme Hatası"
 
 #, csharp-format
 msgid "A new update is available: {0}"
-msgstr ""
+msgstr "Yeni bir güncelleme mevcut: {0}"
 
 msgid "Force Base Map Name"
 msgstr ""
@@ -1413,10 +1415,10 @@ msgid "m"
 msgstr ""
 
 msgid "SDKs are currently installed."
-msgstr ""
+msgstr "SDK'lar şu anda yüklü durumda."
 
 msgid "Restart Required"
-msgstr ""
+msgstr "Yeniden Başlatma Gerekli"
 
 msgid "I understand"
 msgstr ""
@@ -1424,6 +1426,7 @@ msgstr ""
 #, csharp-format
 msgid "No map data found for installation at '{0}'. Is the installation valid?"
 msgstr ""
+"'{0}' konumundaki kurulum için harita verisi bulunamadı. Kurulum geçerli mi?"
 
 #, csharp-format
 msgid "Error rendering context menu for window {0}: {1}"
