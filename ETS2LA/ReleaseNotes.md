@@ -1,4 +1,4 @@
-### ETS2LA C# 2026.9.5006
+### ETS2LA C# 2026.9.5011
 - Added automatic update checking. You'll get a notification when a new update is available.
 - Added GitHub Sponsors "ad" in the homepage. We'd greatly appreciate it if you supported us.
 - Added a way for ETS2LA to open external links in your default browser across OSs.
