@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-08 12:21:10+0300\n"
-"PO-Revision-Date: 2026-08-30 22:59+0000\n"
+"PO-Revision-Date: 2026-09-09 11:08+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
-"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
-">\n"
+"Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/>"
+"\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +86,7 @@ msgstr ""
 "устанавливает текущую скорость равной ограничению скорости."
 
 msgid "Become a GitHub Sponsor"
-msgstr ""
+msgstr "Стать GitHub-спонсором"
 
 #, csharp-format
 msgid "Installed {0}"
@@ -143,7 +143,7 @@ msgid "Binding for control {0} ({1}) timed out."
 msgstr "Время ожидания привязки элемента управления {0} ({1}) истекло."
 
 msgid "Dashboard"
-msgstr "Панель управления"
+msgstr "Обзор"
 
 msgid "Update Available"
 msgstr "Доступно обновление"
@@ -172,7 +172,7 @@ msgstr ""
 "работают, и мы не планируем это исправлять."
 
 msgid "Contact us on Discord"
-msgstr ""
+msgstr "Связаться с нами в Discord"
 
 msgid "km/h"
 msgstr "км/ч"
@@ -359,7 +359,7 @@ msgid "Latest Version: {0}"
 msgstr "Последняя версия: {0}"
 
 msgid "Translating release notes..."
-msgstr "Перевод примечаний к выпуску..."
+msgstr "Перевод списка изменений..."
 
 #, csharp-format
 msgid "Failed to read version from '{0}': {1}"
@@ -414,7 +414,7 @@ msgstr "Элемент управления с ID '{0}' не найден для
 
 #, csharp-format
 msgid "Unregistered control: {0} ({1})"
-msgstr "Регистрация элемента управления отменена: {0} ({1})"
+msgstr "Элемент управления снят с регистрации: {0} ({1})"
 
 msgid "Contact Us"
 msgstr "Связаться с нами"
@@ -504,7 +504,7 @@ msgstr ""
 
 #, csharp-format
 msgid "Apparent plugin directory {0} does not exist."
-msgstr "Каталог плагина {0}, судя по всему, не существует."
+msgstr "Предполагаемый каталог плагина {0} не существует."
 
 msgid "Visualization"
 msgstr "Визуализация"
@@ -648,7 +648,7 @@ msgid "State Info"
 msgstr "Информация о состоянии"
 
 msgid "Contact us on GitHub"
-msgstr ""
+msgstr "Связаться с нами на GitHub"
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -832,7 +832,7 @@ msgid "Binding Successful"
 msgstr "Привязка выполнена"
 
 msgid "Disable"
-msgstr "Выключить"
+msgstr "Отключить"
 
 msgid "Controls"
 msgstr "Управление"
@@ -1055,6 +1055,9 @@ msgid ""
 "text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
 "operational costs."
 msgstr ""
+"Нравится ETS2LA? Подумайте о поддержке проекта — станьте <span class=\"font-"
+"bold text-text-accent\">GitHub-спонсором</span>, чтобы помочь покрыть "
+"постоянные расходы на разработку и обслуживание."
 
 msgid "Error in telemetry update loop."
 msgstr "Ошибка в цикле обновления телеметрии."
@@ -1202,7 +1205,7 @@ msgid "Changelog"
 msgstr "Список изменений"
 
 msgid "No release notes available."
-msgstr "Примечания к выпуску недоступны."
+msgstr "Список изменений недоступен."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1453,7 +1456,7 @@ msgid "Far"
 msgstr "Далеко"
 
 msgid "For now, please contact us on GitHub or Discord."
-msgstr ""
+msgstr "А пока свяжитесь с нами на GitHub или в Discord."
 
 msgid "K"
 msgstr "K"
@@ -1670,7 +1673,7 @@ msgid "Binding Timed Out"
 msgstr "Время ожидания привязки истекло"
 
 msgid "Thank you to the following people for their ongoing support:"
-msgstr ""
+msgstr "Благодарим за постоянную поддержку:"
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Изменения вступят в силу после перезапуска приложения."
