@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-08 12:21:10+0300\n"
-"PO-Revision-Date: 2026-09-03 19:03+0000\n"
+"PO-Revision-Date: 2026-09-09 11:08+0000\n"
 "Last-Translator: McAs13 <tsumiguel@ets2la.com>\n"
 "Language-Team: Spanish (American) <http://weblate.ets2la.com/projects/ets2la/"
 "ets2la/es_US/>\n"
@@ -85,7 +85,7 @@ msgstr ""
 "SET. Es decir, establecerá la velocidad actual según el límite de velocidad."
 
 msgid "Become a GitHub Sponsor"
-msgstr ""
+msgstr "Conviértete en GitHub Sponsor"
 
 #, csharp-format
 msgid "Installed {0}"
@@ -170,7 +170,7 @@ msgstr ""
 "funcionan, y no tenemos intención de solucionarlo."
 
 msgid "Contact us on Discord"
-msgstr ""
+msgstr "Contáctanos en Discord"
 
 msgid "km/h"
 msgstr "km/h"
@@ -647,7 +647,7 @@ msgid "State Info"
 msgstr "Información de estado"
 
 msgid "Contact us on GitHub"
-msgstr ""
+msgstr "Contáctanos en GitHub"
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1054,6 +1054,9 @@ msgid ""
 "text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
 "operational costs."
 msgstr ""
+"¿Te gusta ETS2LA? Considera apoyarnos convirtiéndote en <span class=\"font-"
+"bold text-text-accent\">GitHub Sponsor</span> para cubrir los costos "
+"continuos de desarrollo y operación."
 
 msgid "Error in telemetry update loop."
 msgstr "Error en el bucle de actualización de telemetría."
@@ -1671,7 +1674,7 @@ msgid "Binding Timed Out"
 msgstr "Tiempo de espera del enlace agotado"
 
 msgid "Thank you to the following people for their ongoing support:"
-msgstr ""
+msgstr "Gracias a las siguientes personas por su apoyo continuo:"
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Los cambios surtirán efecto después de reiniciar la aplicación."
