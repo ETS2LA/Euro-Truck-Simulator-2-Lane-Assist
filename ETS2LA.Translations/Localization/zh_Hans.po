@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
 "POT-Creation-Date: 2026-09-08 12:21:10+0300\n"
-"PO-Revision-Date: 2026-09-01 13:21+0000\n"
-"Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
+"PO-Revision-Date: 2026-09-09 11:08+0000\n"
+"Last-Translator: goodnightan <goodnightan@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
 "projects/ets2la/ets2la/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -85,7 +85,7 @@ msgstr ""
 "于“SET”，即将当前速度设为限速值。"
 
 msgid "Become a GitHub Sponsor"
-msgstr ""
+msgstr "成为 GitHub 赞助者"
 
 #, csharp-format
 msgid "Installed {0}"
@@ -163,7 +163,7 @@ msgstr ""
 "进行适配。"
 
 msgid "Contact us on Discord"
-msgstr ""
+msgstr "通过 Discord 联系我们"
 
 msgid "km/h"
 msgstr "km/h"
@@ -613,7 +613,7 @@ msgid "State Info"
 msgstr "状态信息"
 
 msgid "Contact us on GitHub"
-msgstr ""
+msgstr "通过 GitHub 联系我们"
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -986,6 +986,8 @@ msgid ""
 "text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
 "operational costs."
 msgstr ""
+"喜欢 ETS2LA 吗？欢迎考虑成为 <span class=\"font-bold text-text-accent\""
+">GitHub 赞助者</span>，帮助我们承担持续开发和运营所需的费用。"
 
 msgid "Error in telemetry update loop."
 msgstr "遥测更新时发生错误。"
@@ -1548,7 +1550,7 @@ msgid "Binding Timed Out"
 msgstr "绑定超时"
 
 msgid "Thank you to the following people for their ongoing support:"
-msgstr ""
+msgstr "感谢以下各位一直以来的支持："
 
 msgid "Changes will take effect after restarting the application."
 msgstr "修改将会在应用重启后生效。"
