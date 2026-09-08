@@ -2,6 +2,12 @@
 @inject NavigationManager Navigation
 @using static ETS2LA.Translations.T
 
+@using Velopack
+@using Velopack.Logging
+@using Velopack.Sources
+@using ETS2LA.Networking.Updates
+@using ETS2LA.Notifications
+
 @code {
     List<string> Sponsors = new List<string>
     {
@@ -14,6 +20,44 @@
         if(!WindowSettings.Current.HasCompletedOnboarding)
         {
             Navigation.NavigateTo("/onboarding", true);
+        }
+
+        Task.Run(() => CheckForUpdates());
+    }
+
+    private void CheckForUpdates()
+    {
+        NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification{
+            Id = "ETS2LA.UI.Settings.Updates.CheckingForUpdates",
+            Title = _("Checking for updates..."),
+            Content = _("This might take a while depending on your internet connection and the source."),
+            IsProgressIndeterminate = true,
+        });
+
+        var updateManager = Updater.Current.UpdateManager;
+        var latestUpdateInfo = updateManager.CheckForUpdates();
+
+        if (latestUpdateInfo != null)
+        {
+            NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Updates.CheckingForUpdates");
+            NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification{
+                Id = "ETS2LA.UI.Settings.Updates.UpdateAvailable",
+                Title = _("Update Available"),
+                Content = _("A new update is available: {0}", latestUpdateInfo.TargetFullRelease?.Version.ToString() ?? _("Unknown Version")),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Warning
+            });
+        }
+        else
+        {
+            NotificationHandler.Current.CloseNotification("ETS2LA.UI.Settings.Updates.CheckingForUpdates");
+            NotificationHandler.Current.SendNotification(new ETS2LA.Notifications.Notification{
+                Id = "ETS2LA.UI.Settings.Updates.NoUpdateAvailable",
+                Title = _("No Update Available"),
+                Content = _("You are running the latest version."),
+                IsProgressIndeterminate = false,
+                Level = NotificationLevel.Success
+            });
         }
     }
 
