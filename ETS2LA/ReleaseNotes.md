@@ -1,6 +1,7 @@
-### ETS2LA C# 2026.9.4994
-- Fix issues where ETS2LA would startup outside of the screen bounds. We now always center the window on startup. Expect a fix to saving incorrect coordinates at a later date.
-- **Dylan B.** - Fix issue where the target speed would get stuck at 33.33km/h.
+### ETS2LA C# 2026.9.5006
+- Added automatic update checking. You'll get a notification when a new update is available.
+- Added GitHub Sponsors "ad" in the homepage. We'd greatly appreciate it if you supported us.
+- Added a way for ETS2LA to open external links in your default browser across OSs.
 
 ---
 <!-- Content inside ETS2LA will be cutoff at the line above, do not place lines inside the changelog. -->
