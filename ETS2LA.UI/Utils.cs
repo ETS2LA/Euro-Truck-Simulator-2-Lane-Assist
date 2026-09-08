@@ -2,6 +2,7 @@ using ETS2LA.Logging;
 using System.Diagnostics;
 using Photino.NET;
 using static ETS2LA.Translations.T;
+using System.Runtime.InteropServices;
 
 namespace ETS2LA.UI;
 
@@ -14,6 +15,38 @@ public static class UserInterfaceUtils
             @"(?<=[a-z])(?=[A-Z])|(?<=[A-Za-z])(?=[0-9])|(?<=[A-Z])(?=[A-Z][a-z])", 
             " "
         );
+    }
+
+    // Source - https://stackoverflow.com/a/43232486
+    // Posted by Joel Harkes, modified by community. See post 'Timeline' for change history
+    // Retrieved 2026-09-08, License - CC BY-SA 4.0
+    public static void OpenUrl(string url)
+    {
+        try
+        {
+            Process.Start(url);
+        }
+        catch
+        {
+            // hack because of this: https://github.com/dotnet/corefx/issues/10361
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                url = url.Replace("&", "^&");
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("xdg-open", url);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", url);
+            }
+            else
+            {
+                throw;
+            }
+        }
     }
 
     public static void AskForRestart(string title, string message)

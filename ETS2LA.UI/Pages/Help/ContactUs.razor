@@ -1,7 +1,16 @@
 @page "/help/contact"
 
+@code {
+    void OpenInBrowser(string url)
+    {
+        UserInterfaceUtils.OpenUrl(url);
+    }
+}
+
 <div class="flex flex-col p-6">
     <h3>@(_("Sorry"))</h3>
     <p class="description">@((MarkupString)(_("This page hasn't been created yet, but it's coming <i>soon</i>.")))</p>
     <p class="description">@((MarkupString)(_("For now, please contact us on GitHub or Discord.")))</p>
+    <button class="button mt-2" @onclick=@(() => OpenInBrowser("https://github.com/ETS2LA/ETS2LA/issues"))>@(_("Contact us on GitHub"))</button>
+    <button class="button mt-2" @onclick=@(() => OpenInBrowser("https://ets2la.com/discord"))>@(_("Contact us on Discord"))</button>
 </div>
