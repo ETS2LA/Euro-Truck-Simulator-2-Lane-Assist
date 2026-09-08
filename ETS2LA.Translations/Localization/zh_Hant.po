@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: Lun <lun@ets2la.com>\n"
 "Language-Team: Chinese (Traditional Han script) <http://weblate.ets2la.com/"
@@ -79,6 +79,9 @@ msgstr ""
 "將目前的目標速度降低一個級距。若速度控制與車道輔助皆已關閉，此按鍵的作用會與 "
 "SET 相同，也就是將目前的目標速度設定為速限。"
 
+msgid "Become a GitHub Sponsor"
+msgstr ""
+
 #, csharp-format
 msgid "Installed {0}"
 msgstr "已安裝 {0}"
@@ -154,6 +157,9 @@ msgstr ""
 "破解版遊戲或試玩版會阻止我們的 SDK 載入。這些版本無法運作，我們也不打算修正此"
 "問題。"
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -218,18 +224,18 @@ msgstr "視覺提示"
 msgid "Additional"
 msgstr "其他"
 
+msgid "Install Plugins"
+msgstr "安裝插件"
+
 msgid "Show Fewer Logs"
 msgstr "顯示較少記錄"
 
-msgid "Install Plugins"
-msgstr "安裝插件"
+msgid "I won't leave ETS2LA unattended"
+msgstr "我不會讓 ETS2LA 在無人監督下運行"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下載更新時發生錯誤：{0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "我不會讓 ETS2LA 在無人監督下運行"
 
 msgid "Keyboard"
 msgstr "鍵盤"
@@ -409,11 +415,11 @@ msgstr "支援多螢幕顯示"
 msgid "You took a wrong turn!"
 msgstr "你走錯路了！"
 
-msgid "Adaptive Cruise Control Only"
-msgstr "僅主動式巡航控制"
-
 msgid "Initializing GLFW..."
 msgstr "正在初始化 GLFW..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr "僅主動式巡航控制"
 
 msgid "3D Renderer"
 msgstr "3D 渲染器"
@@ -600,6 +606,9 @@ msgstr "設定"
 
 msgid "State Info"
 msgstr "狀態資訊"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -967,6 +976,12 @@ msgstr[0] "已從 {1} 取得 {0} 個插件"
 msgid "Metric"
 msgstr "公制"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "遙測更新時發生錯誤。"
 
@@ -1101,11 +1116,11 @@ msgstr "遊戲新增失敗"
 msgid "Font file not found at {0}"
 msgstr "找不到字型檔案：{0}"
 
-msgid "No release notes available."
-msgstr "沒有可用的版本說明。"
-
 msgid "Changelog"
 msgstr "更新日誌"
+
+msgid "No release notes available."
+msgstr "沒有可用的版本說明。"
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1488,18 +1503,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化記憶體對應檔案時發生錯誤：{0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "輔助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "Adjust the volume of the audio output."
-msgstr "調整音訊輸出的音量。"
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "從 [gray]{0}[/] 載入插件失敗：{1}"
 
 msgid "View Public Telemetry"
 msgstr "查看公開遙測資料"
+
+msgid "Adjust the volume of the audio output."
+msgstr "調整音訊輸出的音量。"
 
 #, csharp-format
 msgid ""
@@ -1526,6 +1541,9 @@ msgstr "請查看記錄檔以取得更多資訊。"
 
 msgid "Binding Timed Out"
 msgstr "綁定逾時"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr "重新啟動應用程式後，變更才會生效。"

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-30 16:09+0000\n"
 "Last-Translator: retroposition <retroposition@ets2la.com>\n"
 "Language-Team: French <http://weblate.ets2la.com/projects/ets2la/ets2la/fr/"
@@ -85,6 +85,9 @@ msgstr ""
 "l'assistance de maintien dans la file sont désactivés, cette touche "
 "fonctionne comme SET. Elle règle la vitesse actuelle sur la limitation de "
 "vitesse en vigueur."
+
+msgid "Become a GitHub Sponsor"
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -168,6 +171,9 @@ msgstr ""
 "Les jeux piratés ou les démos empêcheront le chargement de notre SDK. Ils ne "
 "fonctionnent pas, et nous ne comptons pas corriger cela."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -233,18 +239,18 @@ msgstr "Visuel"
 msgid "Additional"
 msgstr "Autres"
 
+msgid "Install Plugins"
+msgstr "Installer les plugins"
+
 msgid "Show Fewer Logs"
 msgstr "Afficher moins de journaux"
 
-msgid "Install Plugins"
-msgstr "Installer les plugins"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Je ne laisserai pas ETS2LA sans surveillance"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Erreur lors du téléchargement de la mise à jour : {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Je ne laisserai pas ETS2LA sans surveillance"
 
 msgid "Keyboard"
 msgstr "Clavier"
@@ -440,11 +446,11 @@ msgstr "Prendre en charge plusieurs zones d'affichage"
 msgid "You took a wrong turn!"
 msgstr "Vous avez pris un mauvais virage !"
 
-msgid "Adaptive Cruise Control Only"
-msgstr "Uniquement le régulateur de vitesse adaptatif"
-
 msgid "Initializing GLFW..."
 msgstr "Initialisation de GLFW..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr "Uniquement le régulateur de vitesse adaptatif"
 
 msgid "3D Renderer"
 msgstr "Moteur de rendu 3D"
@@ -647,6 +653,9 @@ msgstr "Ajustements"
 
 msgid "State Info"
 msgstr "Informations d'état"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1055,6 +1064,12 @@ msgstr[1] "{0} plugins récupérés depuis {1}"
 msgid "Metric"
 msgstr "Métrique"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Erreur dans la boucle de mise à jour de la télémétrie."
 
@@ -1198,11 +1213,11 @@ msgstr "Échec de l'ajout du jeu"
 msgid "Font file not found at {0}"
 msgstr "Fichier de police introuvable à l'emplacement {0}"
 
-msgid "No release notes available."
-msgstr "Aucune note de version disponible."
-
 msgid "Changelog"
 msgstr "Journal des modifications"
+
+msgid "No release notes available."
+msgstr "Aucune note de version disponible."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1629,19 +1644,19 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Erreur lors de l'initialisation du fichier mappé en mémoire : {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Mode assistance : <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "Adjust the volume of the audio output."
-msgstr "Ajuste le volume de la sortie audio."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Échec du chargement du plugin depuis [gray]{0}[/] : {1}"
 
 msgid "View Public Telemetry"
 msgstr "Afficher la télémétrie publique"
+
+msgid "Adjust the volume of the audio output."
+msgstr "Ajuste le volume de la sortie audio."
 
 #, csharp-format
 msgid ""
@@ -1671,6 +1686,9 @@ msgstr "Veuillez consulter les journaux pour plus d'informations."
 
 msgid "Binding Timed Out"
 msgstr "Délai d'association dépassé"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr ""

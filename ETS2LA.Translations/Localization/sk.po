@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: Ketchup1812 <ketchup1812@ets2la.com>\n"
 "Language-Team: Slovak <http://weblate.ets2la.com/projects/ets2la/ets2la/sk/"
@@ -82,6 +82,9 @@ msgstr ""
 "rýchlosti a asistenta udržania jazdného pruhu vypnuté, táto klávesa funguje "
 "ako SET. To znamená, že nastaví aktuálnu rýchlosť na hodnotu rýchlostného "
 "obmedzenia."
+
+msgid "Become a GitHub Sponsor"
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -164,6 +167,9 @@ msgstr ""
 "Pirátené hry alebo demo verzie zabránia načítaniu nášho SDK. Nefungujú a "
 "nemáme v úmysle tento problém riešiť."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -231,18 +237,18 @@ msgstr "Vizuál"
 msgid "Additional"
 msgstr "Dodatočné"
 
+msgid "Install Plugins"
+msgstr "Nainštalujte pluginy"
+
 msgid "Show Fewer Logs"
 msgstr "Zobraziť menej záznamov"
 
-msgid "Install Plugins"
-msgstr "Nainštalujte pluginy"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Nenechám ETS2LA bez dozoru"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Chyba pri sťahovaní aktualizácie: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Nenechám ETS2LA bez dozoru"
 
 msgid "Keyboard"
 msgstr "Klávesnica"
@@ -432,11 +438,11 @@ msgstr "Podpora viacerých zobrazení"
 msgid "You took a wrong turn!"
 msgstr "Zabočil si nesprávne!"
 
-msgid "Adaptive Cruise Control Only"
-msgstr "Iba adaptívny tempomat"
-
 msgid "Initializing GLFW..."
 msgstr "Inicializácia GLFW..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr "Iba adaptívny tempomat"
 
 msgid "3D Renderer"
 msgstr "3D renderovanie"
@@ -638,6 +644,9 @@ msgstr "Úpravy"
 
 msgid "State Info"
 msgstr "Informácie o stave"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1044,6 +1053,12 @@ msgstr[2] "Načítal som {0} pluginov z {1}"
 msgid "Metric"
 msgstr "Metrická"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Chyba v cykle aktualizácie telemetrických údajov."
 
@@ -1184,11 +1199,11 @@ msgstr "Nepodarilo sa pridať hru"
 msgid "Font file not found at {0}"
 msgstr "Súbor s písmom sa nenašiel v {0}"
 
-msgid "No release notes available."
-msgstr "Poznámky k verzii nie sú k dispozícii."
-
 msgid "Changelog"
 msgstr "Zoznam zmien"
+
+msgid "No release notes available."
+msgstr "Poznámky k verzii nie sú k dispozícii."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1614,18 +1629,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Chyba pri inicializácii súboru mapovaného v pamäti: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Režim asistenta: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "Adjust the volume of the audio output."
-msgstr "Upravte hlasitosť zvukového výstupu."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nepodarilo sa načítať plugin z [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Zobraziť verejnú telemetriu"
+
+msgid "Adjust the volume of the audio output."
+msgstr "Upravte hlasitosť zvukového výstupu."
 
 #, csharp-format
 msgid ""
@@ -1655,6 +1670,9 @@ msgstr "Ďalšie informácie nájdete v protokoloch."
 
 msgid "Binding Timed Out"
 msgstr "Časový limit pre mapovanie kláves vypršal"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Zmeny sa uplatnia po reštartovaní aplikácie."

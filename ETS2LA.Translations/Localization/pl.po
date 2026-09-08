@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-31 16:46+0000\n"
 "Last-Translator: Kubex70 <kubex70@ets2la.com>\n"
 "Language-Team: Polish <http://weblate.ets2la.com/projects/ets2la/ets2la/pl/"
@@ -85,6 +85,9 @@ msgstr ""
 "Zmniejsza aktualną prędkość docelową o jeden stopień. Jeśli kontrola "
 "prędkości i asystent pasa ruchu są wyłączone, ten przycisk działa jak USTAW. "
 "Oznacza to, że ustawi aktualną prędkość na ograniczenie prędkości."
+
+msgid "Become a GitHub Sponsor"
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -169,6 +172,9 @@ msgstr ""
 "Piracone gry lub wersje demonstracyjne będą blokować ładowanie naszego "
 "pakietu SDK. Nie działają i nie zamierzamy tego naprawiać."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -234,18 +240,18 @@ msgstr "Wizualne"
 msgid "Additional"
 msgstr "Dodatkowe"
 
+msgid "Install Plugins"
+msgstr "Zainstaluj pluginy"
+
 msgid "Show Fewer Logs"
 msgstr "Pokaż mniej dzienników"
 
-msgid "Install Plugins"
-msgstr "Zainstaluj pluginy"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Nie zostawie ETS2LA bez nadzoru"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Błąd podczas pobierania aktualizacji: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Nie zostawie ETS2LA bez nadzoru"
 
 msgid "Keyboard"
 msgstr "Klawiatura"
@@ -437,11 +443,11 @@ msgstr "Obsługa wielu okien widokowych"
 msgid "You took a wrong turn!"
 msgstr "Skręciłeś w złą stronę!"
 
-msgid "Adaptive Cruise Control Only"
-msgstr "Tylko adaptacyjny tempomat"
-
 msgid "Initializing GLFW..."
 msgstr "Inicjalizacja GLFW..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr "Tylko adaptacyjny tempomat"
 
 msgid "3D Renderer"
 msgstr "Renderer 3D"
@@ -644,6 +650,9 @@ msgstr "Dostosowanie"
 
 msgid "State Info"
 msgstr "Informacje o stanie"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1050,6 +1059,12 @@ msgstr[2] "Pobrano {0} pluginów z {1}"
 msgid "Metric"
 msgstr "Metryczne"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Błąd w pętli aktualizacji telemetrii."
 
@@ -1191,11 +1206,11 @@ msgstr "Nie udało się dodać gry"
 msgid "Font file not found at {0}"
 msgstr "Nie znaleziono pliku czcionki w {0}"
 
-msgid "No release notes available."
-msgstr "Brak dostępnych informacji o wydaniu."
-
 msgid "Changelog"
 msgstr "Dziennik zmian"
+
+msgid "No release notes available."
+msgstr "Brak dostępnych informacji o wydaniu."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1620,19 +1635,19 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Błąd inicjalizacji pliku mapowanego w pamięci: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nie udało się załadować pluginu z [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Tryb wspomagania: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "Adjust the volume of the audio output."
-msgstr "Dostosuj głośność wyjścia audio."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nie udało się załadować pluginu z [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Wyświetl telemetrię publiczną"
+
+msgid "Adjust the volume of the audio output."
+msgstr "Dostosuj głośność wyjścia audio."
 
 #, csharp-format
 msgid ""
@@ -1662,6 +1677,9 @@ msgstr "Więcej informacji znajdziesz w logach."
 
 msgid "Binding Timed Out"
 msgstr "Przekroczono limit czasu łączenia"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji."

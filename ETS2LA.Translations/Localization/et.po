@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-26 00:24+0000\n"
 "Last-Translator: svllyu <svllyu@ets2la.com>\n"
 "Language-Team: Estonian <http://weblate.ets2la.com/projects/ets2la/ets2la/et/"
@@ -71,6 +71,9 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
+msgstr ""
+
+msgid "Become a GitHub Sponsor"
 msgstr ""
 
 #, csharp-format
@@ -151,6 +154,9 @@ msgid ""
 "and we don't intend to fix this."
 msgstr ""
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr ""
 
@@ -208,17 +214,17 @@ msgstr "Visuaalne"
 msgid "Additional"
 msgstr "Täiendav"
 
+msgid "Install Plugins"
+msgstr ""
+
 msgid "Show Fewer Logs"
 msgstr ""
 
-msgid "Install Plugins"
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
-msgstr ""
-
-msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 msgid "Keyboard"
@@ -391,10 +397,10 @@ msgstr ""
 msgid "You took a wrong turn!"
 msgstr ""
 
-msgid "Adaptive Cruise Control Only"
+msgid "Initializing GLFW..."
 msgstr ""
 
-msgid "Initializing GLFW..."
+msgid "Adaptive Cruise Control Only"
 msgstr ""
 
 msgid "3D Renderer"
@@ -577,6 +583,9 @@ msgid "Adjustments"
 msgstr ""
 
 msgid "State Info"
+msgstr ""
+
+msgid "Contact us on GitHub"
 msgstr ""
 
 #, csharp-format
@@ -934,6 +943,12 @@ msgstr[1] ""
 msgid "Metric"
 msgstr ""
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr ""
 
@@ -1066,10 +1081,10 @@ msgstr "Mängu lisamine ebaõnnestus"
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "No release notes available."
+msgid "Changelog"
 msgstr ""
 
-msgid "Changelog"
+msgid "No release notes available."
 msgstr ""
 
 #, csharp-format
@@ -1448,18 +1463,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr ""
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-msgid "Adjust the volume of the audio output."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Kuva avalik telemeetria"
+
+msgid "Adjust the volume of the audio output."
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -1483,6 +1498,9 @@ msgid "Please see the logs for more information."
 msgstr ""
 
 msgid "Binding Timed Out"
+msgstr ""
+
+msgid "Thank you to the following people for their ongoing support:"
 msgstr ""
 
 msgid "Changes will take effect after restarting the application."

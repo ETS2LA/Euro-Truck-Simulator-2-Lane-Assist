@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-30 22:59+0000\n"
 "Last-Translator: Tema <tema@ets2la.com>\n"
 "Language-Team: Russian <http://weblate.ets2la.com/projects/ets2la/ets2la/ru/"
@@ -84,6 +84,9 @@ msgstr ""
 "Уменьшает текущую целевую скорость на один шаг. Если управление скоростью и "
 "удержание в полосе отключены, эта клавиша работает как SET: она "
 "устанавливает текущую скорость равной ограничению скорости."
+
+msgid "Become a GitHub Sponsor"
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -168,6 +171,9 @@ msgstr ""
 "Взломанные версии игр и демоверсии блокируют загрузку нашего SDK. Они не "
 "работают, и мы не планируем это исправлять."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "км/ч"
 
@@ -233,18 +239,18 @@ msgstr "Визуальное"
 msgid "Additional"
 msgstr "Дополнительно"
 
+msgid "Install Plugins"
+msgstr "Установить плагины"
+
 msgid "Show Fewer Logs"
 msgstr "Показать меньше записей журнала"
 
-msgid "Install Plugins"
-msgstr "Установить плагины"
+msgid "I won't leave ETS2LA unattended"
+msgstr "Я не буду оставлять ETS2LA без присмотра"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Ошибка при загрузке обновления: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "Я не буду оставлять ETS2LA без присмотра"
 
 msgid "Keyboard"
 msgstr "Клавиатура"
@@ -435,11 +441,11 @@ msgstr "Поддержка нескольких окон"
 msgid "You took a wrong turn!"
 msgstr "Вы свернули не туда!"
 
-msgid "Adaptive Cruise Control Only"
-msgstr "Только адаптивный круиз-контроль"
-
 msgid "Initializing GLFW..."
 msgstr "Инициализация GLFW..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr "Только адаптивный круиз-контроль"
 
 msgid "3D Renderer"
 msgstr "3D-рендер"
@@ -640,6 +646,9 @@ msgstr "Корректировки"
 
 msgid "State Info"
 msgstr "Информация о состоянии"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1041,6 +1050,12 @@ msgstr[2] "Получено {0} плагинов с {1}"
 msgid "Metric"
 msgstr "Метрическая система"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Ошибка в цикле обновления телеметрии."
 
@@ -1183,11 +1198,11 @@ msgstr "Не удалось добавить игру"
 msgid "Font file not found at {0}"
 msgstr "Файл шрифта не найден по пути {0}"
 
-msgid "No release notes available."
-msgstr "Примечания к выпуску недоступны."
-
 msgid "Changelog"
 msgstr "Список изменений"
+
+msgid "No release notes available."
+msgstr "Примечания к выпуску недоступны."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1611,19 +1626,19 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Ошибка при инициализации файла, отображаемого в память: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 "Режим ассистентов: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "Adjust the volume of the audio output."
-msgstr "Настройте громкость аудиовыхода."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Не удалось загрузить плагин из [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Просмотреть общедоступную телеметрию"
+
+msgid "Adjust the volume of the audio output."
+msgstr "Настройте громкость аудиовыхода."
 
 #, csharp-format
 msgid ""
@@ -1653,6 +1668,9 @@ msgstr "Дополнительную информацию можно найти 
 
 msgid "Binding Timed Out"
 msgstr "Время ожидания привязки истекло"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Изменения вступят в силу после перезапуска приложения."

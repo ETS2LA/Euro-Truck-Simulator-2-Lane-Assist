@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-30 16:59+0000\n"
 "Last-Translator: Tumppi066 <contact@ets2la.com>\n"
 "Language-Team: Finnish <http://weblate.ets2la.com/projects/ets2la/ets2la/fi/"
@@ -82,6 +82,9 @@ msgstr ""
 "Pienentää tavoitenopeutta yhdellä askeleella. Jos ajotuet ovat pois päältä. "
 "Tämä ohjainmääritys käyttäytyy SET (Aseta) painikkeen tavoin. Eli se asettaa "
 "tavoitenopeuden nopeusrajoitukseen."
+
+msgid "Become a GitHub Sponsor"
+msgstr ""
 
 #, csharp-format
 msgid "Installed {0}"
@@ -164,6 +167,9 @@ msgstr ""
 "Murretut pelit ja demot estävät SDK:n latauksen. Ne siis eivät usein toimi, "
 "ja emme aio korjata tätä."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -229,18 +235,18 @@ msgstr "Visuaalinen"
 msgid "Additional"
 msgstr "Lisäasetukset"
 
+msgid "Install Plugins"
+msgstr "Asenna Lisäosat"
+
 msgid "Show Fewer Logs"
 msgstr "Näytä vähemmän lokeja"
 
-msgid "Install Plugins"
-msgstr "Asenna Lisäosat"
+msgid "I won't leave ETS2LA unattended"
+msgstr "En jätä sovellusta vahtimatta"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Virhe päivityksen latauksessa: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr "En jätä sovellusta vahtimatta"
 
 msgid "Keyboard"
 msgstr "Näppäimistö"
@@ -434,11 +440,11 @@ msgstr "Tue montaa ikkunaa"
 msgid "You took a wrong turn!"
 msgstr "Käännyit väärään suuntaan!"
 
-msgid "Adaptive Cruise Control Only"
-msgstr "Vain vakionopeudensäädin"
-
 msgid "Initializing GLFW..."
 msgstr "Käynnistetään GLFW ikkunaa..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr "Vain vakionopeudensäädin"
 
 msgid "3D Renderer"
 msgstr "3D Renderöinti"
@@ -635,6 +641,9 @@ msgstr "Säädöt"
 
 msgid "State Info"
 msgstr "Sovelluksen Tila"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1032,6 +1041,12 @@ msgstr[1] "Löydettiin {0} lisäosaa osoitteesta {1}"
 msgid "Metric"
 msgstr "Metrinen"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Virhe pelin telemetrian päivityksessä."
 
@@ -1172,11 +1187,11 @@ msgstr "Virhe pelin lisäämisessä"
 msgid "Font file not found at {0}"
 msgstr "Fonttia {0} ei löytynyt"
 
-msgid "No release notes available."
-msgstr "Muutoslokia ei saatavilla."
-
 msgid "Changelog"
 msgstr "Muutosloki"
+
+msgid "No release notes available."
+msgstr "Muutoslokia ei saatavilla."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1596,18 +1611,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Virhe muistitiedoston avaamisessa: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Lisäosan lataus paikasta [gray]{0}[/] epäonnistui: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr "Ajomuoto: <span class=\"text-text-accent font-bold\">{0}</span>"
 
-msgid "Adjust the volume of the audio output."
-msgstr "Säädä äänenvoimakkuutta."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Lisäosan lataus paikasta [gray]{0}[/] epäonnistui: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Katso julkinen telemetria"
+
+msgid "Adjust the volume of the audio output."
+msgstr "Säädä äänenvoimakkuutta."
 
 #, csharp-format
 msgid ""
@@ -1634,6 +1649,9 @@ msgstr "Katso lokitiedosto."
 
 msgid "Binding Timed Out"
 msgstr "Määrittäminen aikakatkaistiin"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr ""

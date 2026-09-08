@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
@@ -82,6 +82,9 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
+msgstr ""
+
+msgid "Become a GitHub Sponsor"
 msgstr ""
 
 #, csharp-format
@@ -166,6 +169,9 @@ msgstr ""
 "Raubkopierte Spiele oder Demos verhindern das Laden unseres SDKs. Sie "
 "funktionieren nicht, und wir haben nicht vor, dies zu beheben."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -225,19 +231,19 @@ msgstr "Visuell"
 msgid "Additional"
 msgstr "Zusätzlich"
 
-msgid "Show Fewer Logs"
-msgstr "Zeige weniger Logs an"
-
 msgid "Install Plugins"
 msgstr "Plugins installieren"
 
-#, csharp-format
-msgid "Error while downloading update: {0}"
-msgstr "Fehler beim Herunterladen des Updates: {0}"
+msgid "Show Fewer Logs"
+msgstr "Zeige weniger Logs an"
 
 #, fuzzy
 msgid "I won't leave ETS2LA unattended"
 msgstr "Ich werde nicht ETS2LA unbeachtet lassen"
+
+#, csharp-format
+msgid "Error while downloading update: {0}"
+msgstr "Fehler beim Herunterladen des Updates: {0}"
 
 msgid "Keyboard"
 msgstr "Tastatur"
@@ -427,11 +433,11 @@ msgstr "Mehrere Ansichten unterstützen"
 msgid "You took a wrong turn!"
 msgstr "Du hast die falsche Abbiegung genommen!"
 
-msgid "Adaptive Cruise Control Only"
-msgstr ""
-
 msgid "Initializing GLFW..."
 msgstr "GLFW wird initialisiert…"
+
+msgid "Adaptive Cruise Control Only"
+msgstr ""
 
 msgid "3D Renderer"
 msgstr "3D Renderer"
@@ -631,6 +637,9 @@ msgstr "Anpassungen"
 
 msgid "State Info"
 msgstr "Info zum Stand"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -1038,6 +1047,12 @@ msgstr[1] "{0} Plugins von {1} abgerufen"
 msgid "Metric"
 msgstr "Metrisch"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Fehler im Telemetrie-Aktualisierungsloop."
 
@@ -1179,11 +1194,11 @@ msgstr "Fehlgeschlagen beim Hinzufügen des Spiels"
 msgid "Font file not found at {0}"
 msgstr "Schriftdatei unter {0} nicht gefunden"
 
-msgid "No release notes available."
-msgstr "Es liegen keine Versionshinweise vor."
-
 msgid "Changelog"
 msgstr "Änderungsprotokoll"
+
+msgid "No release notes available."
+msgstr "Es liegen keine Versionshinweise vor."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1601,18 +1616,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Fehler beim Initialisieren der Speicherabbilddatei: {0}"
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-msgid "Adjust the volume of the audio output."
-msgstr "Passen Sie das Audioausgabeverhältnis an."
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Öffentliche Telemetrie anzeigen"
+
+msgid "Adjust the volume of the audio output."
+msgstr "Passen Sie das Audioausgabeverhältnis an."
 
 #, csharp-format
 msgid ""
@@ -1639,6 +1654,9 @@ msgstr "Bitte sehen Sie sich die Protokolle für weitere Informationen an."
 
 msgid "Binding Timed Out"
 msgstr "Zuordnung abgelaufen"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Änderung werden nach einem Neustart angewendet."

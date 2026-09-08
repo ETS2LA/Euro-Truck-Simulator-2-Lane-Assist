@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-02 18:02:39+0300\n"
+"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
 "PO-Revision-Date: 2026-08-26 18:07+0000\n"
 "Last-Translator: phucc <phucc@ets2la.com>\n"
 "Language-Team: Vietnamese <http://weblate.ets2la.com/projects/ets2la/ets2la/"
@@ -78,6 +78,9 @@ msgid ""
 "Decreases the current target speed by one step. If speed control and lane "
 "assist are off, this key acts like SET. Meaning it will set the current "
 "speed to speedlimit."
+msgstr ""
+
+msgid "Become a GitHub Sponsor"
 msgstr ""
 
 #, csharp-format
@@ -160,6 +163,9 @@ msgstr ""
 "Các phiên bản lậu hoặc thử nghiệm sẽ chặn SDK của chúng tôi tải lên. Chúng "
 "không hoạt động và chúng tôi không có ý định khắc phục điều này."
 
+msgid "Contact us on Discord"
+msgstr ""
+
 msgid "km/h"
 msgstr "km/h"
 
@@ -220,18 +226,18 @@ msgstr "Giao diện"
 msgid "Additional"
 msgstr "Bổ sung"
 
+msgid "Install Plugins"
+msgstr ""
+
 msgid "Show Fewer Logs"
 msgstr ""
 
-msgid "Install Plugins"
+msgid "I won't leave ETS2LA unattended"
 msgstr ""
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Lỗi khi đang tải bản cập nhật: {0}"
-
-msgid "I won't leave ETS2LA unattended"
-msgstr ""
 
 msgid "Keyboard"
 msgstr "Bàn phím"
@@ -418,11 +424,11 @@ msgstr "Hỗ trợ nhiều khung hình (Multiple Viewports)"
 msgid "You took a wrong turn!"
 msgstr "Bạn đã đi sai hướng!"
 
-msgid "Adaptive Cruise Control Only"
-msgstr ""
-
 msgid "Initializing GLFW..."
 msgstr "Đang khởi tạo GLFW..."
+
+msgid "Adaptive Cruise Control Only"
+msgstr ""
 
 msgid "3D Renderer"
 msgstr ""
@@ -612,6 +618,9 @@ msgstr "Tùy chỉnh"
 
 msgid "State Info"
 msgstr "Thông tin trạng thái"
+
+msgid "Contact us on GitHub"
+msgstr ""
 
 #, csharp-format
 msgid "Error in AR rendering: {0}"
@@ -983,6 +992,12 @@ msgstr[0] "Đã lấy plugin {0} từ {1}"
 msgid "Metric"
 msgstr "Hệ mét (km)"
 
+msgid ""
+"Like ETS2LA? Consider supporting us by becoming a <span class=\"font-bold "
+"text-text-accent\">GitHub Sponsor</span> to cover ongoing development and "
+"operational costs."
+msgstr ""
+
 msgid "Error in telemetry update loop."
 msgstr "Lỗi trong vòng lặp cập nhật Telemetry."
 
@@ -1116,11 +1131,11 @@ msgstr "Thêm trò chơi không thành công"
 msgid "Font file not found at {0}"
 msgstr ""
 
-msgid "No release notes available."
-msgstr "Hiện không có ghi chú cập nhật nào."
-
 msgid "Changelog"
 msgstr ""
+
+msgid "No release notes available."
+msgstr "Hiện không có ghi chú cập nhật nào."
 
 #, csharp-format
 msgid "Detected a switch to {0}, waiting for its game data to be parsed."
@@ -1505,18 +1520,18 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
-msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
-
-#, csharp-format
 msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
-msgid "Adjust the volume of the audio output."
-msgstr ""
+#, csharp-format
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgstr "Nạp plugin không thành công từ [gray]{0}[/]: {1}"
 
 msgid "View Public Telemetry"
 msgstr "Xem dữ liệu thu thập từ xa công khai"
+
+msgid "Adjust the volume of the audio output."
+msgstr ""
 
 #, csharp-format
 msgid ""
@@ -1541,6 +1556,9 @@ msgstr "Vui lòng xem nhật kí (log) để có nhiều thông tin hơn."
 
 msgid "Binding Timed Out"
 msgstr "Hết thời gian gán phím"
+
+msgid "Thank you to the following people for their ongoing support:"
+msgstr ""
 
 msgid "Changes will take effect after restarting the application."
 msgstr "Các thay đổi sẽ hoạt động sau khi khời động lại ứng dụng."
