@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
+"POT-Creation-Date: 2026-09-08 12:21:10+0300\n"
 "PO-Revision-Date: 2026-09-04 20:02+0000\n"
 "Last-Translator: Kivanc <kivanc@ets2la.com>\n"
 "Language-Team: Turkish <http://weblate.ets2la.com/projects/ets2la/ets2la/tr/"
@@ -234,18 +234,18 @@ msgstr "Görsel"
 msgid "Additional"
 msgstr "Ek olarak"
 
-msgid "Install Plugins"
-msgstr "Eklentileri Yükle"
-
 msgid "Show Fewer Logs"
 msgstr "Daha az günlük göster"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr ""
+msgid "Install Plugins"
+msgstr "Eklentileri Yükle"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Güncelleme indirilirken hata oluştu: {0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr ""
 
 msgid "Keyboard"
 msgstr "Klavye"
@@ -436,11 +436,11 @@ msgstr ""
 msgid "You took a wrong turn!"
 msgstr "Yanlış yola saptınız!"
 
-msgid "Initializing GLFW..."
-msgstr "GLFW başlatılıyor..."
-
 msgid "Adaptive Cruise Control Only"
 msgstr ""
+
+msgid "Initializing GLFW..."
+msgstr "GLFW başlatılıyor..."
 
 msgid "3D Renderer"
 msgstr ""
@@ -772,12 +772,12 @@ msgstr "Bir önceki adımda yüklenen eklentileri buradan etkinleştirebilirsini
 msgid "SDK Installed"
 msgstr "SDK Yüklendi"
 
-msgid "Current Speed"
-msgstr "Mevcut Hız"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr ""
+
+msgid "Current Speed"
+msgstr "Mevcut Hız"
 
 msgid "miles per hour"
 msgstr "mil/saat"
@@ -907,12 +907,12 @@ msgstr "Bağlı Değil"
 msgid "This page will be implemented in a future update."
 msgstr "Bu sayfa, gelecek bir güncellemede kullanıma sunulacaktır."
 
-msgid "You are running the latest version."
-msgstr "En son sürümü kullanıyorsunuz."
-
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
+
+msgid "You are running the latest version."
+msgstr "En son sürümü kullanıyorsunuz."
 
 msgid "No plugins found."
 msgstr "Eklenti bulunamadı."
@@ -1553,11 +1553,11 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr ""
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr ""
 
 #, csharp-format
-msgid "Failed to load plugin from [gray]{0}[/]: {1}"
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
 msgstr ""
 
 msgid "View Public Telemetry"

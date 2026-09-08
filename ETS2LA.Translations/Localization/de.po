@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
+"POT-Creation-Date: 2026-09-08 12:21:10+0300\n"
 "PO-Revision-Date: 2026-08-28 16:13+0000\n"
 "Last-Translator: ABOY <aboy@ets2la.com>\n"
 "Language-Team: German <http://weblate.ets2la.com/projects/ets2la/ets2la/de/"
@@ -231,19 +231,19 @@ msgstr "Visuell"
 msgid "Additional"
 msgstr "Zusätzlich"
 
-msgid "Install Plugins"
-msgstr "Plugins installieren"
-
 msgid "Show Fewer Logs"
 msgstr "Zeige weniger Logs an"
 
-#, fuzzy
-msgid "I won't leave ETS2LA unattended"
-msgstr "Ich werde nicht ETS2LA unbeachtet lassen"
+msgid "Install Plugins"
+msgstr "Plugins installieren"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "Fehler beim Herunterladen des Updates: {0}"
+
+#, fuzzy
+msgid "I won't leave ETS2LA unattended"
+msgstr "Ich werde nicht ETS2LA unbeachtet lassen"
 
 msgid "Keyboard"
 msgstr "Tastatur"
@@ -433,11 +433,11 @@ msgstr "Mehrere Ansichten unterstützen"
 msgid "You took a wrong turn!"
 msgstr "Du hast die falsche Abbiegung genommen!"
 
-msgid "Initializing GLFW..."
-msgstr "GLFW wird initialisiert…"
-
 msgid "Adaptive Cruise Control Only"
 msgstr ""
+
+msgid "Initializing GLFW..."
+msgstr "GLFW wird initialisiert…"
 
 msgid "3D Renderer"
 msgstr "3D Renderer"
@@ -782,12 +782,12 @@ msgstr "Hier kannst du die Plugins von vorher aktivieren."
 msgid "SDK Installed"
 msgstr "SDK installiert"
 
-msgid "Current Speed"
-msgstr "Aktuelle Geschwindigkeit"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "Steuerung {0} ({1}) wurde an Gerät {2} und Steuerung {3} gebunden"
+
+msgid "Current Speed"
+msgstr "Aktuelle Geschwindigkeit"
 
 msgid "miles per hour"
 msgstr "Meilen pro Stunde"
@@ -932,14 +932,14 @@ msgstr "Nicht verbunden"
 msgid "This page will be implemented in a future update."
 msgstr "Diese Seite wird in einem zukünftigen Update implementiert."
 
-msgid "You are running the latest version."
-msgstr "Du hast bereits die aktuellste Version."
-
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr ""
 "Fehlgeschlagenes Herunterladen des Plugins mit der ID {0} von {1}. "
 "Statuscode: {2}"
+
+msgid "You are running the latest version."
+msgstr "Du hast bereits die aktuellste Version."
 
 msgid "No plugins found."
 msgstr "Keine Plugins gefunden."
@@ -1616,12 +1616,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "Fehler beim Initialisieren der Speicherabbilddatei: {0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr ""
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "Fehler beim Laden des Plugins von [gray]{0}[/]: {1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr ""
 
 msgid "View Public Telemetry"
 msgstr "Öffentliche Telemetrie anzeigen"

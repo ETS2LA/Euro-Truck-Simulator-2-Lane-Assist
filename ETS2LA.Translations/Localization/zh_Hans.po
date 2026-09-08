@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ETS2LA\n"
-"POT-Creation-Date: 2026-09-08 11:40:14+0300\n"
+"POT-Creation-Date: 2026-09-08 12:21:10+0300\n"
 "PO-Revision-Date: 2026-09-01 13:21+0000\n"
 "Last-Translator: MRUIAW <mruiaw@ets2la.com>\n"
 "Language-Team: Chinese (Simplified Han script) <http://weblate.ets2la.com/"
@@ -229,18 +229,18 @@ msgstr "视觉提示"
 msgid "Additional"
 msgstr "其他"
 
-msgid "Install Plugins"
-msgstr "安装插件"
-
 msgid "Show Fewer Logs"
 msgstr "显示更少日志"
 
-msgid "I won't leave ETS2LA unattended"
-msgstr "我不会在无人看管的情况下运行 ETS2LA"
+msgid "Install Plugins"
+msgstr "安装插件"
 
 #, csharp-format
 msgid "Error while downloading update: {0}"
 msgstr "下载更新时发生错误：{0}"
+
+msgid "I won't leave ETS2LA unattended"
+msgstr "我不会在无人看管的情况下运行 ETS2LA"
 
 msgid "Keyboard"
 msgstr "键盘"
@@ -420,11 +420,11 @@ msgstr "支持多屏幕显示"
 msgid "You took a wrong turn!"
 msgstr "你走错路了！"
 
-msgid "Initializing GLFW..."
-msgstr "正在初始化 GLFW..."
-
 msgid "Adaptive Cruise Control Only"
 msgstr "仅启用自适应巡航控制"
+
+msgid "Initializing GLFW..."
+msgstr "正在初始化 GLFW..."
 
 msgid "3D Renderer"
 msgstr "3D 渲染器"
@@ -745,12 +745,12 @@ msgstr "您可以在此处启用我们在上一步安装的插件。"
 msgid "SDK Installed"
 msgstr "已安装SDK"
 
-msgid "Current Speed"
-msgstr "当前速度"
-
 #, csharp-format
 msgid "Bound control {0} ({1}) to device {2} and control {3}"
 msgstr "已将控件 {0}（{1}）绑定至设备 {2} 的控件 {3}"
+
+msgid "Current Speed"
+msgstr "当前速度"
 
 msgid "miles per hour"
 msgstr "英里每小时"
@@ -881,12 +881,12 @@ msgstr "未连接"
 msgid "This page will be implemented in a future update."
 msgstr "此页面将于后续更新中实现。"
 
-msgid "You are running the latest version."
-msgstr "你正在使用最新版本。"
-
 #, csharp-format
 msgid "Failed to download plugin with ID {0} from {1}. Status code: {2}"
 msgstr "从 {1} 下载 ID 为 {0} 的插件失败。状态码：{2}"
+
+msgid "You are running the latest version."
+msgstr "你正在使用最新版本。"
 
 msgid "No plugins found."
 msgstr "找不到任何插件。"
@@ -1508,12 +1508,12 @@ msgid "Error initializing memory mapped file: {0}"
 msgstr "初始化内存映射文件时发生错误：{0}"
 
 #, csharp-format
-msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
-msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
-
-#, csharp-format
 msgid "Failed to load plugin from [gray]{0}[/]: {1}"
 msgstr "从 [gray]{0}[/] 加载插件失败：{1}"
+
+#, csharp-format
+msgid "Assist Mode: <span class=\"text-text-accent font-bold\">{0}</span>"
+msgstr "辅助模式：<span class=\"text-text-accent font-bold\">{0}</span>"
 
 msgid "View Public Telemetry"
 msgstr "查看公开遥测数据"
